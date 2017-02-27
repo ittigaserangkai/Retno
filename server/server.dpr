@@ -10,7 +10,10 @@ uses
   ufrmMain in 'ufrmMain.pas' {frmMain},
   ServerMethodsUnit in 'ServerMethodsUnit.pas' {ServerMethods: TDataModule},
   ServerContainerUnit in 'ServerContainerUnit.pas' {ServerContainer: TDataModule},
-  WebModuleRetnoUnit in 'WebModuleRetnoUnit.pas' {WebModuleRetno: TWebModule};
+  WebModuleRetnoUnit in 'WebModuleRetnoUnit.pas' {WebModuleRetno: TWebModule},
+  uDBUtils in '..\lib\uDBUtils.pas',
+  uModApp in '..\model\uModApp.pas',
+  uAppUtils in '..\lib\uAppUtils.pas';
 
 {$R *.res}
 
