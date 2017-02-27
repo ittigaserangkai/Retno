@@ -1,0 +1,4 @@
+1. Buat project Server, Client
+2. Buat Master Business Partnert (Supplier, Customer/Member, Trader, dll)
+3. Buat Master Barang
+4. Dll
