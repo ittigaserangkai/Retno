@@ -242,15 +242,20 @@ type
     lbl2: TLabel;
     cbbUnit: TComboBox;
     cbbCompCode: TComboBox;
+    procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
+    procedure actOnLoginExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
+    FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
     FGlobalProperty: TGlobalProperty;
     procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
+    procedure SetStatusHOSTORE;
     //FIsStore: Integer;
     //FLoginFullname: string;
     //FLoginId: Integer;
@@ -265,8 +270,13 @@ type
   public
     Host, IP: string;
     Port: integer;
+    procedure LoginExecute;
     { Public declarations }
   end;
+
+procedure OpenLoading(AMessage: string);
+
+procedure CloseLoading;
 
 var
   frmMain: TfrmMain;
@@ -274,9 +284,89 @@ var
 implementation
 
 uses
-    uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils;
+    uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
+    ufrmLogin, ufraLoading;
 
 {$R *.dfm}
+
+procedure OpenLoading(AMessage: string);
+var
+  FfraLoading: TfraLoading;
+begin
+  Application.ProcessMessages;
+  // if not assigned(frmMain.FPanelLoading) then
+    frmMain.FPanelLoading := TPanel.Create(Application);
+  with frmMain.FPanelLoading do
+  begin
+    AutoSize := true;
+    BorderStyle := bsNone;
+    BorderWidth := 10;
+    Parent := Application.MainForm;
+
+    FfraLoading := TfraLoading.Create(frmMain.FPanelLoading);
+    FfraLoading.LoadingMessage := AMessage;
+    FfraLoading.Parent := frmMain.FPanelLoading;
+    Top := (frmMain.Height-frmMain.FPanelLoading.Height) div 2;
+    Left := (frmMain.Width-frmMain.FPanelLoading.Width) div 2;
+  end;
+
+  frmMain.FPanelLoading.Align := alNone;
+  Application.ProcessMessages;
+end;
+
+procedure CloseLoading;
+begin
+  if assigned(frmMain.FPanelLoading) then
+  begin
+    frmMain.FPanelLoading.Free;
+    frmMain.FPanelLoading := nil;
+  end;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+var
+  iTemp: Integer;
+  erMsg: string;
+begin
+  FFormProperty   := TFormProperty.Create;
+  FGlobalProperty := TGlobalProperty.Create;
+
+  // Init locale settings
+  with FormatSettings do
+  begin
+    DateSeparator     := '-';
+    DecimalSeparator  := '.';
+    ThousandSeparator := ',';
+    CurrencyString    := 'Rp';
+    CurrencyFormat    := 2;
+    CurrencyDecimals  := 2;
+    ShortDateFormat   := 'dd-MM-yyyy';
+    LongDateFormat    := 'd MMMM yyyy';
+  end;
+  GetIPFromHost(Host,IP,erMsg);
+  _INIWriteString(CONFIG_FILE, LOCAL_CLIENT, 'Localhost', IP);
+  Port := _INIReadInteger(CONFIG_FILE, LOCAL_CLIENT, 'LocalPort'); // must: 49515
+
+//  FFilePathReport := GetFilePathReport;
+
+  frmMain.Height  := 640;
+  frmMain.Width   := 800;
+  frmMain.Caption := ExtractFileName(ParamStr(0)) + ' ver ' + GetAppVersionStr;
+
+  // set menu on user nobody
+  actOnLogin.Enabled := true;
+  actOnLogout.Enabled := false;
+  SettingMainMenu(rNobody);
+
+  //Get global Variable
+  if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
+     igProd_Code_Length := iTemp;
+  if TryStrToInt(getGlobalVar('PRICEPRECISION'), iTemp) then
+     igPrice_Precision := iTemp;
+
+  // setting invisible panel unit
+  pnlUnit.Visible := false;
+end;
 
 procedure TfrmMain.actCloseAllExecute(Sender: TObject);
 var i: integer;
@@ -328,6 +418,57 @@ begin
 
   // setting invisible panel unit
   pnlUnit.Visible := false;
+end;
+
+procedure TfrmMain.actOnLoginExecute(Sender: TObject);
+var
+  FdefUnitId: Integer;
+begin
+  // if not assigned(frmLogin) then
+  frmLogin := TfrmLogin.Create(Application);
+  frmLogin.ShowFormLogin(LOGIN_PAGE);
+
+  if (LoginSuccessfull) then
+  begin
+
+//    FdefUnitId  := GetHOUnitID;  //khusus HO, mengakomodir jika DB HO &WH di jadikan 1.
+//    if FdefUnitId = 0 then
+           FdefUnitId  := StrToInt(getGlobalVar('UNITID')); //unit dan db untuk wh dan ho dijadikan 1
+
+    FFormProperty.FMasterIsStore := GetIsStoreUnitID(FdefUnitId);
+
+//    FGlobalProperty.LIstMerID     := GetListMerchanID(frmLogin.LoginID, frmLogin.LoginUntID);
+//    aListMerID                    := FGlobalProperty.LIstMerID;
+    FFormProperty.FLoginId        := frmLogin.LoginID;
+    FFormProperty.FLoginUnitId    := frmLogin.LoginUntID;
+    FFormProperty.FLoginRole      := frmLogin.LoginUserName;
+    FFormProperty.FLoginUsername  := frmLogin.LoginUserName;
+    FFormProperty.FFilePathReport := GetReportPath;
+    FFormProperty.FSelfUnitId     := FdefUnitId;
+    FFormProperty.FIpClient       := IP;
+    FFormProperty.FHostClient     := Host;
+    FFormProperty.FTipeApp        := THO;
+
+//    with cOpenQuery(GetSQLisHOisStore(frmLogin.LoginUntID)) do
+//    begin
+//      try
+//        FFormProperty.FLoginIsStore   := FieldByName('UNT_IS_STORE').AsInteger;
+//      finally
+//        Free;
+//      end;
+//    end;
+
+    SetStatusHOSTORE;
+
+    lUnitId := FFormProperty.FSelfUnitId;
+
+    OpenLoading(USER_LOGIN_LOADING);
+    LoginExecute;
+    CloseLoading;
+  end; // end if
+
+  frmLogin := nil;
+  frmLogin.Free;
 end;
 
 procedure TfrmMain.actOnLogoutExecute(Sender: TObject);
@@ -388,6 +529,64 @@ begin
   end
   else
     CanClose := false;
+end;
+
+procedure TfrmMain.FormShow(Sender: TObject);
+begin
+  if IsHODeveloperMode then
+  begin
+    if _INIReadString(CONFIG_FILE, 'LOGIN', 'islangsung') = '1' then
+      actOnLoginExecute(nil);
+  end;
+end;
+
+procedure TfrmMain.LoginExecute;
+begin
+    with sbMain do
+    begin
+      Panels[0].Text := 'User Login: ' + FFormProperty.FLoginFullname;
+      Panels[1].Text := 'Role: ' + FFormProperty.FLoginRole;
+      Panels[2].Text := 'Database: ';// + ADConn.DBHost + ':' + ADConn.DBPath;
+    end; // end with
+
+    actOnLogin.Enabled := false;
+    actOnLogout.Enabled := true;
+    EnableSubMenu(mmWindow, true);
+    if not assigned(MenuManagement) then
+      MenuManagement := TMenuManagement.Create;
+
+    with MenuManagement do
+    begin
+      UserId   := FFormProperty.FLoginId;
+      UserUnt  := FFormProperty.FLoginUnitId;
+      try
+        setMenuUser;
+      except
+      end;
+    end;
+
+    // setting visible panel unit
+    pnlUnit.Visible := true;
+//    ParseCompanyToCombo;
+//    ParseUnitToCombo;
+
+    // send message to refresh server: user_online on HO
+//    SendRefreshServerMessage(Format('REGISTER$HO$%s:%d$%s$as$%s', [IP,Port,FFormProperty.FLoginFullname,FFormProperty.FLoginRole]));
+
+end;
+
+procedure TfrmMain.SetStatusHOSTORE;
+begin
+//  with cOpenQuery(GetSQLisHOisStore(StrToInt(getGlobalVar('UNITID')))) do
+//  with cOpenQuery(GetSQLisHOisStore(FFormProperty.FSelfUnitId)) do
+//  begin
+//    try
+//      FFormProperty.FMasterIsStore := FieldByName('UNT_IS_STORE').AsInteger;
+//      FFormProperty.FMasterIsHo    := FieldByName('UNT_IS_HO').AsInteger;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 procedure TfrmMain.SettingMainMenu(ARole: TRole);

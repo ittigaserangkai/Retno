@@ -22,7 +22,8 @@ uses
   uGlobalProperty in '..\system\uGlobalProperty.pas',
   uNetUtils in '..\system\uNetUtils.pas',
   uTSINIFile in '..\system\uTSINIFile.pas',
-  uAppUtils in '..\system\uAppUtils.pas';
+  uAppUtils in '..\system\uAppUtils.pas',
+  uRetnoUnit in '..\system\uRetnoUnit.pas';
 
 {$R *.res}
 
@@ -30,10 +31,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TfrmSplash, frmSplash);
-  Application.CreateForm(TfrmMasterDialog, frmMasterDialog);
-  Application.CreateForm(TfrmMaster, frmMaster);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TfrmAbout, frmAbout);
   Application.Run;
 end.

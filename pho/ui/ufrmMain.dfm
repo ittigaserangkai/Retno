@@ -15,6 +15,8 @@ object frmMain: TfrmMain
   OldCreateOrder = False
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
   object pnlHeader: TPanel
@@ -77,9 +79,6 @@ object frmMain: TfrmMain
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 2
-    ExplicitLeft = -10
-    ExplicitTop = 139
-    ExplicitWidth = 810
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -124,8 +123,8 @@ object frmMain: TfrmMain
     end
   end
   object mmMainMenu: TMainMenu
-    Left = 520
-    Top = 224
+    Left = 456
+    Top = 216
     object mmSistem: TMenuItem
       Caption = '&System'
       object miLogin: TMenuItem
@@ -206,6 +205,7 @@ object frmMain: TfrmMain
       Category = 'Sistem'
       Caption = 'Login'
       ShortCut = 16460
+      OnExecute = actOnLoginExecute
     end
     object actOnExit: TAction
       Category = 'Sistem'
