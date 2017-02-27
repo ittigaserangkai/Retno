@@ -1,3 +1,11 @@
+First
+=======
+1. Buat project Server, Client
+2. Buat Master Business Partnert (Supplier, Customer/Member, Trader, dll)
+3. Buat Master Barang
+4. Dll
+
+
 2017-0224
 ---------
 - menambahkan git Retno di server github
@@ -6,3 +14,4 @@
 ---------
 - menambahkan modul-modul fungsi di project ho
 - membuat project server HO
+
