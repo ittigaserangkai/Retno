@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
+  uCompany;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -247,7 +248,9 @@ type
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
+    procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
+    procedure actPajakExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
   private
@@ -285,7 +288,7 @@ implementation
 
 uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-    ufrmLogin, ufraLoading;
+    ufrmLogin, ufraLoading, ufrmPajak;
 
 {$R *.dfm}
 
@@ -420,6 +423,11 @@ begin
   pnlUnit.Visible := false;
 end;
 
+procedure TfrmMain.actOnExitExecute(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);
 var
   FdefUnitId: Integer;
@@ -500,6 +508,11 @@ begin
 
   // send message to refresh server: user_online on HO
 //  SendRefreshServerMessage(Format('UNREGISTER$HO$%s:%d$%s$as$%s', [IP,Port,FFormProperty.FLoginFullname,FFormProperty.FLoginRole]));
+end;
+
+procedure TfrmMain.actPajakExecute(Sender: TObject);
+begin
+    frmPajak := TfrmPajak.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

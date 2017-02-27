@@ -31,7 +31,6 @@ object frmMaster: TfrmMaster
     Align = alClient
     BevelOuter = bvLowered
     BorderWidth = 10
-    Caption = 'pnlBody'
     Color = 15198183
     TabOrder = 0
   end

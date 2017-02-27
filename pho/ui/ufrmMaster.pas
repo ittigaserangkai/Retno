@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridTableView, cxGridDBTableView, cxGrid, uFormProperty, uCompany, uUnit;
 
 type
   TfrmMaster = class(TForm)
@@ -23,13 +23,35 @@ type
       Shift: TShiftState);
     procedure FormActivate(Sender: TObject);
   private
+    FMasterCompany: TCompany;
+    FMasterNewUnit: TUnit;
     TList: TStrings;
+    function GetMasterCompany: TCompany;
+    function GetMasterNewUnit: TUnit;
     procedure GetUserModule;
   protected
     procedure DecorateFooter(var grid: TcxGridDBTableView; c, r: integer);
   public
+    FLoginFullname  : string;
+    FLoginRole      : string;
+    FLoginUsername  : string;
+    FLoginId        : Integer;
+    FLoginUnitId    : Integer;
+    FMasterIsStore  : Integer;
+    FMasterIsHO     : Integer;
+    FFilePathReport : String;
+    FHostClient     : string;
+    FIpClient       : string;
+    FLoginIsStore   : Integer;
+    FTipeApp        : TTipeApp;
+
+    constructor Create(AOwner: TComponent); override;
+    constructor CreateWithUser(aOwner: TComponent; aFormProperty : TFormProperty);
+        overload;
     procedure Authenticate;
     procedure GetAndRunButton(AButtonName: string);
+    property MasterCompany: TCompany read GetMasterCompany write FMasterCompany;
+    property MasterNewUnit: TUnit read GetMasterNewUnit write FMasterNewUnit;
   end;
 
 var
@@ -37,9 +59,62 @@ var
 
 implementation
 
-uses udmMain, ufrmMain, ufraFooter5Button;
+uses udmMain, ufrmMain, ufraFooter5Button, uTSCommonDlg;
 
 {$R *.dfm}
+
+constructor TfrmMaster.Create(AOwner: TComponent);
+begin
+  KeyPreview        := true;
+  TList             := TStringList.Create;
+  with FormatSettings do
+  begin
+    CurrencyString    := 'Rp. ';
+    CurrencyFormat    := 2;
+    CurrencyDecimals  := 2;
+    DecimalSeparator  := '.';
+    ThousandSeparator := ',';
+  end;
+
+  inherited Create(AOwner);
+end;
+
+constructor TfrmMaster.CreateWithUser(aOwner: TComponent; aFormProperty :
+    TFormProperty);
+begin
+  MasterCompany    := TCompany.Create(Self);
+  MasterNewUnit    := TUnit.Create(Self);
+
+  FMasterIsStore   := aFormProperty.FMasterIsStore;
+  FMasterIsHO      := aFormProperty.FMasterIsHo;
+  FLoginFullname   := aFormProperty.FLoginFullname;
+  FLoginRole       := aFormProperty.FLoginRole;
+  FLoginUsername   := aFormProperty.FLoginUsername;
+  FLoginId         := aFormProperty.FLoginId;
+  FLoginUnitId     := aFormProperty.FLoginUnitId;
+  FLoginIsStore    := aFormProperty.FLoginIsStore;
+  FTipeApp         := aFormProperty.FTipeApp;
+
+  FFilePathReport  := aFormProperty.FFilePathReport;
+  FHostClient      := aFormProperty.FHostClient;
+  FIpClient        := aFormProperty.FIpClient;
+
+  if MasterCompany.LoadByID(aFormProperty.FSelfCompanyID) then
+  begin
+    if not MasterNewUnit.LoadByID(aFormProperty.FSelfUnitID) then
+    begin
+      CommonDlg.ShowError('Unit Belum Dipilih');
+      //Self := nil;
+      Exit;
+    end;
+  end else begin
+    CommonDlg.ShowError('Company Belum Dipilih');
+    //Self := nil;
+    Exit;
+  end;
+
+  Create(aOwner);
+end;
 
 procedure TfrmMaster.FormDestroy(Sender: TObject);
 begin
@@ -100,8 +175,7 @@ end;
 
 procedure TfrmMaster.FormCreate(Sender: TObject);
 begin
-  KeyPreview := true;
-  TList := TStringList.Create;
+// jangan dihilangkan. tq
 end;
 
 procedure TfrmMaster.FormShow(Sender: TObject);
@@ -166,6 +240,37 @@ begin
     Alignments[c, r] := taRightJustify;
 }
   end;
+end;
+
+function TfrmMaster.GetMasterCompany: TCompany;
+begin
+  Result := FMasterCompany;
+  if not Assigned(FMasterCompany) then
+  begin
+    CommonDlg.ShowError('Company Belum Dipilih');
+    Application.Terminate;
+  end{ else if FMasterCompany.ID = 0 then
+  begin
+    CommonDlg.ShowError('Company Belum Dipilih');
+    Application.Terminate;
+  end};
+
+end;
+
+function TfrmMaster.GetMasterNewUnit: TUnit;
+begin
+  Result := FMasterNewUnit;
+
+  if not Assigned(FMasterNewUnit) then
+  begin
+    CommonDlg.ShowError('Unit Belum Dipilih');
+    Application.Terminate;
+  end{ else if FMasterNewUnit.ID = 0 then
+  begin
+    CommonDlg.ShowError('Unit Belum Dipilih');
+    Application.Terminate;
+  end};
+
 end;
 
 end.

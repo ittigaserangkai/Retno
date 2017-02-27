@@ -23,7 +23,13 @@ uses
   uNetUtils in '..\system\uNetUtils.pas',
   uTSINIFile in '..\system\uTSINIFile.pas',
   uAppUtils in '..\system\uAppUtils.pas',
-  uRetnoUnit in '..\system\uRetnoUnit.pas';
+  uRetnoUnit in '..\system\uRetnoUnit.pas',
+  ufrmPajak in 'module\references\ufrmPajak.pas' {frmPajak},
+  ufrmDialogPajak in 'module\references\ufrmDialogPajak.pas' {frmDialogPajak},
+  uTSCommonDlg in '..\system\uTSCommonDlg.pas',
+  uCompany in '..\classes\uCompany.pas',
+  uTSBaseClass in '..\classes\uTSBaseClass.pas',
+  uUnit in '..\classes\uUnit.pas';
 
 {$R *.res}
 
@@ -32,5 +38,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
+  Application.CreateForm(TfrmPajak, frmPajak);
+  Application.CreateForm(TfrmDialogPajak, frmDialogPajak);
   Application.Run;
 end.

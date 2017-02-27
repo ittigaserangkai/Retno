@@ -15,7 +15,7 @@ object frmMain: TfrmMain
   OldCreateOrder = False
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
-  OnCreate = FormCreate
+  OnCreate = actOnCreateFormExecute
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -211,6 +211,7 @@ object frmMain: TfrmMain
       Category = 'Sistem'
       Caption = 'Exit'
       ShortCut = 32883
+      OnExecute = actOnExitExecute
     end
     object actModule1: TAction
       Category = 'Contoh'
@@ -240,6 +241,7 @@ object frmMain: TfrmMain
     object actPajak: TAction
       Category = 'References'
       Caption = 'Pajak'
+      OnExecute = actPajakExecute
     end
     object actSupplierType: TAction
       Category = 'References'

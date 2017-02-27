@@ -164,6 +164,18 @@
         <DCCReference Include="..\system\uTSINIFile.pas"/>
         <DCCReference Include="..\system\uAppUtils.pas"/>
         <DCCReference Include="..\system\uRetnoUnit.pas"/>
+        <DCCReference Include="module\references\ufrmPajak.pas">
+            <Form>frmPajak</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogPajak.pas">
+            <Form>frmDialogPajak</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\uTSCommonDlg.pas"/>
+        <DCCReference Include="..\classes\uCompany.pas"/>
+        <DCCReference Include="..\classes\uTSBaseClass.pas"/>
+        <DCCReference Include="..\classes\uUnit.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

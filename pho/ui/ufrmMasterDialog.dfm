@@ -34,25 +34,25 @@ object frmMasterDialog: TfrmMasterDialog
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitTop = 258
-    ExplicitWidth = 568
+    ExplicitTop = 232
+    ExplicitWidth = 566
     inherited pnlFooter: TPanel
       Width = 566
-      ExplicitWidth = 568
+      ExplicitWidth = 566
       inherited btnClose: TcxButton
         Left = 484
         Cancel = False
-        ExplicitLeft = 486
+        ExplicitLeft = 484
       end
       inherited btnSave: TcxButton
         Left = 397
         Default = False
-        ExplicitLeft = 399
+        ExplicitLeft = 397
       end
     end
     inherited pnlSortCut: TPanel
       Width = 566
-      ExplicitWidth = 568
+      ExplicitWidth = 566
       inherited lbl4: TLabel
         Left = 381
         Width = 91
@@ -74,11 +74,7 @@ object frmMasterDialog: TfrmMasterDialog
     Align = alClient
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    Caption = 'pnlBody'
     Color = 15198183
     TabOrder = 1
-    ExplicitTop = 30
-    ExplicitWidth = 568
-    ExplicitHeight = 228
   end
 end
