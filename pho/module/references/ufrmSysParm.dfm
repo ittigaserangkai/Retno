@@ -12,8 +12,8 @@ inherited frmSysParm: TfrmSysParm
   inherited pnlBody: TPanel
     Width = 627
     Height = 393
-    ExplicitWidth = 120
-    ExplicitHeight = 385
+    ExplicitWidth = 627
+    ExplicitHeight = 393
     object pnlMain: TPanel
       Left = 11
       Top = 89
@@ -23,105 +23,26 @@ inherited frmSysParm: TfrmSysParm
       BorderWidth = 10
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 98
-      ExplicitHeight = 285
-      object strgGrid: TAdvStringGrid
+      object cxGrid: TcxGrid
         Left = 11
         Top = 11
         Width = 583
         Height = 271
-        Cursor = crDefault
         Align = alClient
-        ColCount = 6
-        Ctl3D = True
-        DefaultRowHeight = 21
-        DrawingStyle = gdsClassic
-        FixedCols = 0
-        RowCount = 5
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Trebuchet MS'
-        Font.Style = []
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSelect]
-        ParentCtl3D = False
-        ParentFont = False
-        ScrollBars = ssBoth
         TabOrder = 0
-        OnGetAlignment = strgGridGetAlignment
-        OnRowChanging = strgGridRowChanging
-        ActiveCellFont.Charset = DEFAULT_CHARSET
-        ActiveCellFont.Color = clWindowText
-        ActiveCellFont.Height = -11
-        ActiveCellFont.Name = 'Tahoma'
-        ActiveCellFont.Style = [fsBold]
-        Bands.Active = True
-        Bands.PrimaryColor = 14935011
-        CellNode.TreeColor = clSilver
-        ControlLook.FixedGradientHoverFrom = clGray
-        ControlLook.FixedGradientHoverTo = clWhite
-        ControlLook.FixedGradientDownFrom = clGray
-        ControlLook.FixedGradientDownTo = clSilver
-        ControlLook.ControlStyle = csWinXP
-        ControlLook.DropDownHeader.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownHeader.Font.Color = clWindowText
-        ControlLook.DropDownHeader.Font.Height = -11
-        ControlLook.DropDownHeader.Font.Name = 'Tahoma'
-        ControlLook.DropDownHeader.Font.Style = []
-        ControlLook.DropDownHeader.Visible = True
-        ControlLook.DropDownHeader.Buttons = <>
-        ControlLook.DropDownFooter.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownFooter.Font.Color = clWindowText
-        ControlLook.DropDownFooter.Font.Height = -11
-        ControlLook.DropDownFooter.Font.Name = 'Tahoma'
-        ControlLook.DropDownFooter.Font.Style = []
-        ControlLook.DropDownFooter.Visible = True
-        ControlLook.DropDownFooter.Buttons = <>
-        Filter = <>
-        FilterDropDown.Font.Charset = DEFAULT_CHARSET
-        FilterDropDown.Font.Color = clWindowText
-        FilterDropDown.Font.Height = -11
-        FilterDropDown.Font.Name = 'Tahoma'
-        FilterDropDown.Font.Style = []
-        FilterDropDownClear = '(All)'
-        FixedFont.Charset = DEFAULT_CHARSET
-        FixedFont.Color = clWindowText
-        FixedFont.Height = -11
-        FixedFont.Name = 'Tahoma'
-        FixedFont.Style = [fsBold]
-        FloatFormat = '%.2f'
-        PrintSettings.DateFormat = 'dd/mm/yyyy'
-        PrintSettings.Font.Charset = DEFAULT_CHARSET
-        PrintSettings.Font.Color = clWindowText
-        PrintSettings.Font.Height = -11
-        PrintSettings.Font.Name = 'MS Sans Serif'
-        PrintSettings.Font.Style = []
-        PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FixedFont.Color = clWindowText
-        PrintSettings.FixedFont.Height = -11
-        PrintSettings.FixedFont.Name = 'MS Sans Serif'
-        PrintSettings.FixedFont.Style = []
-        PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-        PrintSettings.HeaderFont.Color = clWindowText
-        PrintSettings.HeaderFont.Height = -11
-        PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-        PrintSettings.HeaderFont.Style = []
-        PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FooterFont.Color = clWindowText
-        PrintSettings.FooterFont.Height = -11
-        PrintSettings.FooterFont.Name = 'MS Sans Serif'
-        PrintSettings.FooterFont.Style = []
-        PrintSettings.PageNumSep = '/'
-        ScrollWidth = 16
-        SearchFooter.Font.Charset = DEFAULT_CHARSET
-        SearchFooter.Font.Color = clWindowText
-        SearchFooter.Font.Height = -11
-        SearchFooter.Font.Name = 'Tahoma'
-        SearchFooter.Font.Style = []
-        SortSettings.Column = 0
-        Version = '5.8.0.2'
-        ExplicitWidth = 76
-        ExplicitHeight = 263
+        ExplicitLeft = 128
+        ExplicitTop = 25
+        ExplicitWidth = 329
+        ExplicitHeight = 119
+        object cxGridViewSysParam: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+        end
+        object cxGridLevel1: TcxGridLevel
+          GridView = cxGridViewSysParam
+        end
       end
     end
     object pnlTop: TPanel
@@ -132,31 +53,60 @@ inherited frmSysParm: TfrmSysParm
       Align = alTop
       Color = 15198183
       TabOrder = 1
-      ExplicitWidth = 98
-      object btnShow: TsuiButton
-        Left = 270
-        Top = 46
-        Width = 72
-        Height = 27
-        Cursor = crHandPoint
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        Caption = 'Show'
-        AutoSize = False
-        ParentFont = False
-        OnEnter = btnShowEnter
-        OnExit = btnShowExit
-        UIStyle = BlueGlass
+      object grp1: TGroupBox
+        Left = 1
+        Top = 1
+        Width = 265
+        Height = 73
+        Caption = 'Pencarian'
         TabOrder = 0
-        Transparent = True
-        ModalResult = 0
-        FocusedRectMargin = 2
-        Glyph.Data = {
+        object edtSearchKode: TEdit
+          Left = 72
+          Top = 21
+          Width = 161
+          Height = 20
+          BevelInner = bvNone
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 2
+        end
+        object edtSearchNama: TEdit
+          Left = 72
+          Top = 45
+          Width = 161
+          Height = 20
+          BevelInner = bvNone
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 3
+        end
+        object chkKode: TCheckBox
+          Left = 16
+          Top = 23
+          Width = 41
+          Height = 17
+          Caption = 'Kode'
+          TabOrder = 0
+        end
+        object chkNama: TCheckBox
+          Left = 16
+          Top = 47
+          Width = 49
+          Height = 17
+          Caption = 'Nama'
+          TabOrder = 1
+        end
+      end
+      object btnShow: TcxButton
+        Left = 272
+        Top = 48
+        Width = 75
+        Height = 25
+        Cursor = crHandPoint
+        Caption = 'Show'
+        OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
-          18000000000000060000C30E0000C30E00000000000000000000FF00FFFF00FF
+          1800000000000006000000000000000000000000000000000000FF00FFFF00FF
           FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           FFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
@@ -205,61 +155,15 @@ inherited frmSysParm: TfrmSysParm
           FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-        Layout = blGlyphLeft
-        Spacing = 4
-        MouseContinuouslyDownInterval = 100
-        OnClick = btnShowClick
-        ResHandle = 0
-      end
-      object grp1: TGroupBox
-        Left = 1
-        Top = 1
-        Width = 265
-        Height = 73
-        Caption = 'Pencarian'
+        OptionsImage.NumGlyphs = 2
         TabOrder = 1
-        object edtSearchKode: TEdit
-          Left = 72
-          Top = 21
-          Width = 161
-          Height = 20
-          BevelInner = bvNone
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 2
-        end
-        object edtSearchNama: TEdit
-          Left = 72
-          Top = 45
-          Width = 161
-          Height = 20
-          BevelInner = bvNone
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 3
-        end
-        object chkKode: TCheckBox
-          Left = 16
-          Top = 23
-          Width = 41
-          Height = 17
-          Caption = 'Kode'
-          TabOrder = 0
-        end
-        object chkNama: TCheckBox
-          Left = 16
-          Top = 47
-          Width = 49
-          Height = 17
-          Caption = 'Nama'
-          TabOrder = 1
-        end
+        OnClick = btnShowClick
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 627
-    ExplicitWidth = 120
+    ExplicitWidth = 627
     inherited lblHeader: TLabel
       Width = 112
       Caption = 'SYSTEM PARAMETER'
@@ -279,37 +183,37 @@ inherited frmSysParm: TfrmSysParm
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -54
-    ExplicitWidth = 120
+    ExplicitTop = 423
+    ExplicitWidth = 627
     ExplicitHeight = 54
     inherited pnlFooter: TPanel
       Top = 19
       Width = 627
       ExplicitTop = 19
-      ExplicitWidth = 120
-      inherited btnClose: TsuiButton
+      ExplicitWidth = 627
+      inherited btnClose: TcxButton
         Left = 545
-        ExplicitLeft = 38
+        ExplicitLeft = 545
       end
-      inherited btnAdd: TsuiButton
+      inherited btnAdd: TcxButton
         Caption = 'Add'
         OnClick = fraFooter5Button1btnAddClick
       end
-      inherited btnUpdate: TsuiButton
+      inherited btnUpdate: TcxButton
         Caption = 'Edit'
         OnClick = fraFooter5Button1btnUpdateClick
       end
-      inherited btnDelete: TsuiButton
+      inherited btnDelete: TcxButton
         OnClick = fraFooter5Button1btnDeleteClick
       end
-      inherited btnRefresh: TsuiButton
+      inherited btnRefresh: TcxButton
         OnClick = fraFooter5Button1btnRefreshClick
       end
     end
     inherited pnlSortCut: TPanel
       Width = 627
       Height = 19
-      ExplicitWidth = 120
+      ExplicitWidth = 627
       ExplicitHeight = 19
       inherited lbl1: TLabel
         Top = 1

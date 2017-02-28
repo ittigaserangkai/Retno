@@ -4,19 +4,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, Grids, BaseGrid, AdvGrid,
-  AdvCGrid, ufraFooter5Button, ActnList, uRetnoUnit, ufrmDialogSysParmCompTemp,
-  uSysParameterCompanyTemplate, uTSCommonDlg, uConstanta;
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, ActnList,
+  uRetnoUnit, ufrmDialogSysParmCompTemp, uTSCommonDlg, uConstanta, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData,
+  cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions;
 
 type
   TfrmSysParmCompTemp1 = class(TfrmMaster)
     frftr5btn1: TfraFooter5Button;
-    advclmngrd1: TAdvColumnGrid;
     actlst1: TActionList;
     actadd: TAction;
     actedit: TAction;
     actdel: TAction;
     actrefresh: TAction;
+    cxGridViewSysParamComp: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actaddExecute(Sender: TObject);
@@ -28,7 +33,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
-    FSysParmCompTemp : TSysParameterCompanyTemplate;
+//    FSysParmCompTemp : TSysParameterCompanyTemplate;
   public
     { Public declarations }
   end;
@@ -49,21 +54,23 @@ end;
 procedure TfrmSysParmCompTemp1.FormCreate(Sender: TObject);
 begin
   inherited;
-  FSysParmCompTemp := TSysParameterCompanyTemplate.Create(Self);
+//  FSysParmCompTemp := TSysParameterCompanyTemplate.Create(Self);
 end;
 
 procedure TfrmSysParmCompTemp1.actaddExecute(Sender: TObject);
 begin
   inherited;
-  if (MasterNewUnit.ID = 0) then
+//  if (MasterNewUnit.ID = 0) then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     Exit;
-  end else begin
+  end
+;//  else
+  begin
     if not Assigned(frmDialogSysParmCompTemp) then
       Application.CreateForm(TfrmDialogSysParmCompTemp, frmDialogSysParmCompTemp);
 
-      frmDialogSysParmCompTemp.frmSuiMasterDialog.Caption := 'Add Parameter Company Template';
+      frmDialogSysParmCompTemp.Caption := 'Add Parameter Company Template';
       frmDialogSysParmCompTemp.FIDBaru := 0;
 
       SetFormPropertyAndShowDialog(frmDialogSysParmCompTemp);
@@ -80,6 +87,7 @@ procedure TfrmSysParmCompTemp1.actdelExecute(Sender: TObject);
 var iID : Integer;
 begin
   inherited;
+{
   iID := advclmngrd1.Ints[1,advclmngrd1.row];
   FSysParmCompTemp.LoadByID(iID);
 
@@ -100,22 +108,24 @@ begin
     finally
       cRollbackTrans;
     end;
-  end;
+  end; }
 end;
 
 procedure TfrmSysParmCompTemp1.acteditExecute(Sender: TObject);
 begin
   inherited;
-    if (MasterNewUnit.ID = 0) then
+//    if (MasterNewUnit.ID = 0) then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     Exit;
-  end else begin
+  end
+;//  else
+  begin
     if not Assigned(frmDialogSysParmCompTemp) then
       Application.CreateForm(TfrmDialogSysParmCompTemp, frmDialogSysParmCompTemp);
 
-      frmDialogSysParmCompTemp.frmSuiMasterDialog.Caption := 'Add Parameter Company Template';
-      frmDialogSysParmCompTemp.FIDBaru := advclmngrd1.Ints[1,advclmngrd1.Row];
+      frmDialogSysParmCompTemp.Caption := 'Add Parameter Company Template';
+//      frmDialogSysParmCompTemp.FIDBaru := advclmngrd1.Ints[1,advclmngrd1.Row];
 
       SetFormPropertyAndShowDialog(frmDialogSysParmCompTemp);
       if (frmDialogSysParmCompTemp.isProcessSuccess) then
@@ -135,8 +145,8 @@ begin
           + 'FROM SYS$PARAMETER_COMP_TEMPLATE '
           + 'ORDER BY PARCT_ID ';
 
-  cQueryToGrid(sSQL,advclmngrd1);
-  advclmngrd1.AutoSizeColumns(True,1);
+//  cQueryToGrid(sSQL,advclmngrd1);
+//  advclmngrd1.AutoSizeColumns(True,1);
 end;
 
 procedure TfrmSysParmCompTemp1.advclmngrd1CanEditCell(Sender: TObject; ARow,

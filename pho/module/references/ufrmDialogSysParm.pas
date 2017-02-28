@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  uSysParm, StdCtrls;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, StdCtrls;
 
 type
   TfrmDialogSysParm = class(TfrmMasterDialog)
@@ -25,7 +24,7 @@ type
   private
     { Private declarations }
     Fid       : Integer;
-    FSysParm  : TSysParm;
+//    FSysParm  : TSysParm;
 
     procedure SetData;
     procedure ClearData;
@@ -46,7 +45,7 @@ procedure TfrmDialogSysParm.SetData;
 begin
   if FId <> 0 then
   begin
-    if FSysParm.LoadById(FId) then
+  {  if FSysParm.LoadById(FId) then
     begin
       edtId.Text    := IntToStr(FSysParm.ParId);
       edtNm.Text    := FSysParm.ParNm;
@@ -54,6 +53,7 @@ begin
       edtGroup.Text := FSysParm.ParGroup;
       edtDesc.Text  := FSysParm.ParDesc;
     end;
+    }
   end
   else
   begin
@@ -73,7 +73,7 @@ end;
 procedure TfrmDialogSysParm.ShowWithId(aId: integer = 0);
 begin
   FId := aId;
-  FSysParm := TSysParm.Create(nil);
+//  FSysParm := TSysParm.Create(nil);
   SetData;
   Self.ShowModal;
 end;
@@ -82,8 +82,8 @@ procedure TfrmDialogSysParm.footerDialogMasterbtnSaveClick(
   Sender: TObject);
 begin
   inherited;
-
-    try
+  {
+  try
     with FSysParm do
     begin
       UpdateData(edtDesc.Text, edtGroup.Text, Fid,
@@ -102,10 +102,11 @@ begin
       end;
 
     end;
+
   finally
     cRollbackTrans;
   end;
-
+  }
 end;
 
 procedure TfrmDialogSysParm.FormClose(Sender: TObject;
@@ -117,7 +118,7 @@ end;
 
 procedure TfrmDialogSysParm.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FSysParm);
+//  FreeAndNil(FSysParm);
   frmDialogSysParm  := nil;
   inherited;
 

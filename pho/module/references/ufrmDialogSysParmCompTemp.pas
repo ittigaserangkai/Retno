@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, uRetnoUnit, uSysParameterCompanyTemplate, uTSCommonDlg;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  StdCtrls, uRetnoUnit, uTSCommonDlg;
 
 type
     TFormMode = (fmAdd,fmEdit);
@@ -27,7 +27,7 @@ type
 
   private
     FisProcessSuccess: Boolean;
-    FSysParmCompTemp : TSysParameterCompanyTemplate;
+//    FSysParmCompTemp : TSysParameterCompanyTemplate;
     procedure SetisProcessSuccess(const Value: Boolean);
   public
     { Public declarations }
@@ -55,7 +55,7 @@ begin
     edtNama.SetFocus;
     Exit;
   end;
-
+  {
   FSysParmCompTemp.UpdateData(FIDBaru,edtNama.Text,edtDefault.Text,edtGroup.Text,edtDescription.Text);
   try
     if FSysParmCompTemp.SaveToDB then
@@ -72,7 +72,7 @@ begin
   finally
     cRollbackTrans;
   end;
-
+  }
 end;
 
 procedure TfrmDialogSysParmCompTemp.FormDestroy(Sender: TObject);
@@ -84,7 +84,7 @@ end;
 procedure TfrmDialogSysParmCompTemp.FormCreate(Sender: TObject);
 begin
   inherited;
-  FSysParmCompTemp := TSysParameterCompanyTemplate.Create(Self);
+//  FSysParmCompTemp := TSysParameterCompanyTemplate.Create(Self);
 end;
 
 procedure TfrmDialogSysParmCompTemp.FormShow(Sender: TObject);
@@ -98,13 +98,13 @@ begin
 
   if (FIDBaru <> 0) then
   begin
-    if FSysParmCompTemp.LoadByID(FIDBaru) then
-    begin
-      edtNama.Text        := FSysParmCompTemp.Name;
-      edtDefault.Text     := FSysParmCompTemp.Defaul;
-      edtGroup.Text       := FSysParmCompTemp.Group;
-      edtDescription.Text := FSysParmCompTemp.Description;
-    end;
+//    if FSysParmCompTemp.LoadByID(FIDBaru) then
+//    begin
+//      edtNama.Text        := FSysParmCompTemp.Name;
+//      edtDefault.Text     := FSysParmCompTemp.Defaul;
+//      edtGroup.Text       := FSysParmCompTemp.Group;
+//      edtDescription.Text := FSysParmCompTemp.Description;
+//    end;
   end;
 end;
 

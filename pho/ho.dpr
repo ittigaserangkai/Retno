@@ -37,7 +37,11 @@ uses
   ufrmDialogLokasi in 'module\references\ufrmDialogLokasi.pas' {frmDialogLokasi},
   ufrmLokasi in 'module\references\ufrmLokasi.pas' {frmLokasi},
   ufrmSatuan in 'module\references\ufrmSatuan.pas' {frmSatuan},
-  ufrmDialogSatuan in 'module\references\ufrmDialogSatuan.pas' {frmDialogSatuan};
+  ufrmDialogSatuan in 'module\references\ufrmDialogSatuan.pas' {frmDialogSatuan},
+  ufrmDialogSysParm in 'module\references\ufrmDialogSysParm.pas' {frmDialogSysParm},
+  ufrmDialogSysParmCompTemp in 'module\references\ufrmDialogSysParmCompTemp.pas' {frmDialogSysParmCompTemp},
+  ufrmSysParm in 'module\references\ufrmSysParm.pas' {frmSysParm},
+  ufrmSysParmCompTemp1 in 'module\references\ufrmSysParmCompTemp1.pas' {frmSysParmCompTemp1};
 
 {$R *.res}
 
