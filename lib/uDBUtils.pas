@@ -192,7 +192,7 @@ begin
   else
     SS.Add(TDBUtils.GetSQLUpdate(AObject));
 
-  for prop in rt.GetDeclaredProperties do
+  for prop in rt.GetProperties do
   begin
     If not Assigned(prop) then continue;
     If prop.PropertyType.TypeKind = tkClass then
@@ -248,7 +248,7 @@ begin
   rt      := ctx.GetType(AObject.ClassType);
   SS.Add(TDBUtils.GetSQLDelete(AObject));
 
-  for prop in rt.GetDeclaredProperties do
+  for prop in rt.GetProperties do
   begin
     If not Assigned(prop) then continue;
     If prop.PropertyType.TypeKind = tkClass then
@@ -549,7 +549,7 @@ begin
   ctx := TRttiContext.Create();
   try
     rt := ctx.GetType(AObject.ClassType);
-    for prop in rt.GetDeclaredProperties do
+    for prop in rt.GetProperties do
     begin
       If prop.Visibility <> mvPublished then continue;
       Field := rt.GetField('dbf_' + prop.Name);
@@ -581,7 +581,7 @@ begin
   ctx       := TRttiContext.Create();
   try
     rt := ctx.GetType(AObject.ClassType);
-    for prop in rt.GetDeclaredProperties do
+    for prop in rt.GetProperties do
     begin
       if UpperCase(prop.Name) = 'ID' then continue;
       If prop.Visibility <> mvPublished then continue;
