@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
-  Dialogs, SUIProgressBar, StdCtrls, ExtCtrls, cxGraphics, cxControls,
+  Dialogs, StdCtrls, ExtCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxProgressBar;
 
 type

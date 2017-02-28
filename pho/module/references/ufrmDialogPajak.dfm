@@ -9,36 +9,6 @@ inherited frmDialogPajak: TfrmDialogPajak
   ExplicitHeight = 236
   PixelsPerInch = 96
   TextHeight = 16
-  inherited footerDialogMaster: TfraFooterDialog2Button
-    Top = 141
-    Width = 400
-    ExplicitTop = 141
-    ExplicitWidth = 400
-    inherited pnlFooter: TPanel
-      Width = 400
-      ExplicitWidth = 400
-      inherited btnClose: TcxButton
-        Left = 318
-        ExplicitLeft = 318
-      end
-      inherited btnSave: TcxButton
-        Left = 231
-        ExplicitLeft = 231
-      end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 400
-      ExplicitWidth = 400
-      inherited lbl4: TLabel
-        Left = 215
-        ExplicitLeft = 215
-      end
-      inherited lbl5: TLabel
-        Left = 310
-        ExplicitLeft = 310
-      end
-    end
-  end
   inherited pnlBody: TPanel
     Width = 400
     Height = 141
@@ -129,6 +99,36 @@ inherited frmDialogPajak: TfrmDialogPajak
       MaxLength = 4
       ParentCtl3D = False
       TabOrder = 3
+    end
+  end
+  inherited footerDialogMaster: TfraFooterDialog2Button
+    Top = 141
+    Width = 400
+    ExplicitTop = 141
+    ExplicitWidth = 400
+    inherited pnlFooter: TPanel
+      Width = 400
+      ExplicitWidth = 400
+      inherited btnClose: TcxButton
+        Left = 318
+        ExplicitLeft = 318
+      end
+      inherited btnSave: TcxButton
+        Left = 231
+        ExplicitLeft = 231
+      end
+    end
+    inherited pnlSortCut: TPanel
+      Width = 400
+      ExplicitWidth = 400
+      inherited lbl4: TLabel
+        Left = 215
+        ExplicitLeft = 215
+      end
+      inherited lbl5: TLabel
+        Left = 310
+        ExplicitLeft = 310
+      end
     end
   end
 end

@@ -186,11 +186,11 @@ object frmMain: TfrmMain
   end
   object AE: TApplicationEvents
     OnIdle = AEIdle
-    Left = 184
-    Top = 8
+    Left = 136
+    Top = 65528
   end
   object ImageList1: TImageList
-    Left = 224
-    Top = 8
+    Left = 160
+    Top = 65528
   end
 end

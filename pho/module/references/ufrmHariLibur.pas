@@ -5,12 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, Grids, DB,
-  BaseGrid, AdvGrid, uConn, ActnList, AdvUtil, System.Actions, AdvObj;
+  uConn, ActnList, System.Actions;
 
 type
   TfrmHariLibur = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstHariLibur: TActionList;
     actAddHariLibur: TAction;
     actEditHariLibur: TAction;
@@ -112,7 +111,7 @@ begin
 
       frmDialogHariLibur.Caption := 'Edit Day Off';
       frmDialogHariLibur.FormMode := fmEdit;
-      frmDialogHariLibur.HariLiburId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//      frmDialogHariLibur.HariLiburId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
       SetFormPropertyAndShowDialog(frmDialogHariLibur);
    // if (frmDialogHariLibur.IsProcessSuccessfull) then
     //begin
@@ -130,7 +129,7 @@ procedure TfrmHariLibur.actDeleteHariLiburExecute(Sender: TObject);
 begin
   inherited;
   try
-    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
 //    if MasterNewUnit.ID=0 then
     begin
@@ -138,7 +137,7 @@ begin
       //frmMain.cbbUnit.SetFocus;
       Exit;
     end;
-    if (CommonDlg.Confirm('Are you sure you wish to delete Day Off (Name: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
+//    if (CommonDlg.Confirm('Are you sure you wish to delete Day Off (Name: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
     begin
       // todo: put your code to delete data here..
       // code goes here..
@@ -169,38 +168,38 @@ begin
   inherited;
   dataHariLibur := GetData();
   countData := dataHariLibur.RecordCount;
-  with strgGrid do
-  begin
-    Clear;
-    RowCount := countData+1;
-    ColCount := 2;
-
-    Cells[0, 0] := 'DATE';
-    Cells[1, 0] := 'NAME';
-
-    if (RowCount > 1) then
-    begin
-      i := 1;
-      while not dataHariLibur.Eof do
-      begin
-        Cells[0, i] := dataHariLibur.FieldByName('LBR_DATE').AsString;
-        Cells[1, i] := dataHariLibur.FieldByName('LBR_NAME').AsString;
-        Cells[2, i] := dataHariLibur.FieldByName('LBR_ID').AsString;
-
-        Inc(i);
-        dataHariLibur.Next;
-      end;
-    end
-    else
-    begin
-      RowCount := 2;
-      Cells[0, 1] := ' ';
-      Cells[1, 1] := ' ';
-    end;
-
-    FixedRows := 1;
-    AutoSize := true;
-  end;
+//  with strgGrid do
+//  begin
+//    Clear;
+//    RowCount := countData+1;
+//    ColCount := 2;
+//
+//    Cells[0, 0] := 'DATE';
+//    Cells[1, 0] := 'NAME';
+//
+//    if (RowCount > 1) then
+//    begin
+//      i := 1;
+//      while not dataHariLibur.Eof do
+//      begin
+//        Cells[0, i] := dataHariLibur.FieldByName('LBR_DATE').AsString;
+//        Cells[1, i] := dataHariLibur.FieldByName('LBR_NAME').AsString;
+//        Cells[2, i] := dataHariLibur.FieldByName('LBR_ID').AsString;
+//
+//        Inc(i);
+//        dataHariLibur.Next;
+//      end;
+//    end
+//    else
+//    begin
+//      RowCount := 2;
+//      Cells[0, 1] := ' ';
+//      Cells[1, 1] := ' ';
+//    end;
+//
+//    FixedRows := 1;
+//    AutoSize := true;
+//  end;
 end;
 
 procedure TfrmHariLibur.FormDestroy(Sender: TObject);

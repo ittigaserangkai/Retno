@@ -5,13 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  BaseGrid, AdvGrid, ActnList, uConn, uRetnoUnit, uTSBaseClass, AdvUtil,
-  System.Actions, AdvObj, DB;
+  ActnList, uConn, uRetnoUnit, uTSBaseClass,  System.Actions, DB;
 
 type
   TfrmBank = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstBank: TActionList;
     actAddBank: TAction;
     actEditBank: TAction;
@@ -108,14 +106,14 @@ begin
   end;
 //  if(MasterNewUnit.ID <> 0) then
   begin
-    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
     if not Assigned(frmDialogBank) then
       Application.CreateForm(TfrmDialogBank, frmDialogBank);
 
     frmDialogBank.Caption := 'Edit Bank';
     frmDialogBank.FormMode := fmEdit;
-    frmDialogBank.BankId := StrToInt(strgGrid.Cells[4,strgGrid.row]);
+//    frmDialogBank.BankId := StrToInt(strgGrid.Cells[4,strgGrid.row]);
 
     SetFormPropertyAndShowDialog(frmDialogBank);
     if (frmDialogBank.IsProcessSuccessfull) then
@@ -133,7 +131,7 @@ end;
 procedure TfrmBank.actDeleteBankExecute(Sender: TObject);
 begin
   inherited;
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
   // check is Unit Id is specified?
 //  if MasterNewUnit.ID=0 then
   begin
@@ -141,7 +139,7 @@ begin
     ////frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Bank (Name: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
+//  if (CommonDlg.Confirm('Are you sure you wish to delete Bank (Name: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
   begin
     // todo: put your code to delete data here..
     // code goes here..
@@ -153,7 +151,7 @@ begin
       actRefreshBankExecute(Self);
       CommonDlg.ShowConfirm(atDelete);
     end;}
-    IDLokal := StrToInt(strgGrid.Cells[4,strgGrid.Row]);
+//    IDLokal := StrToInt(strgGrid.Cells[4,strgGrid.Row]);
 {    if FBank.LoadByID(IDLokal) then
     begin
       try
@@ -193,44 +191,44 @@ var
 begin
   dataBank := GetData();
   countData := dataBank.RecordCount;
-  with strgGrid do
-  begin
-    Clear;
-    RowCount := countData+1;
-    ColCount := 4;
-
-    Cells[0, 0] := 'CODE';
-    Cells[1, 0] := 'NAME';
-    Cells[2, 0] := 'BRANCH';
-    Cells[3, 0] := 'ADDRESS';
-
-    if (RowCount > 1) then
-    begin
-      i := 1;
-      while not dataBank.Eof do
-      begin
-        Cells[0, i] := dataBank.FieldByName('BANK_CODE').AsString;
-        Cells[1, i] := dataBank.FieldByName('BANK_NAME').AsString;
-        Cells[2, i] := dataBank.FieldByName('BANK_BRANCH').AsString;
-        Cells[3, i] := dataBank.FieldByName('BANK_ADDRESS').AsString;
-        Cells[4, i] := dataBank.FieldByName('BANK_ID').AsString;
-
-        Inc(i);
-        dataBank.Next;
-      end;
-    end
-    else
-    begin
-      RowCount := 2;
-      Cells[0, 1] := ' ';
-      Cells[1, 1] := ' ';
-      Cells[2, 1] := ' ';
-      Cells[3, 1] := ' ';
-    end;
-
-    FixedRows := 1;
-    AutoSize := true;
-  end;
+//  with strgGrid do
+//  begin
+//    Clear;
+//    RowCount := countData+1;
+//    ColCount := 4;
+//
+//    Cells[0, 0] := 'CODE';
+//    Cells[1, 0] := 'NAME';
+//    Cells[2, 0] := 'BRANCH';
+//    Cells[3, 0] := 'ADDRESS';
+//
+//    if (RowCount > 1) then
+//    begin
+//      i := 1;
+//      while not dataBank.Eof do
+//      begin
+//        Cells[0, i] := dataBank.FieldByName('BANK_CODE').AsString;
+//        Cells[1, i] := dataBank.FieldByName('BANK_NAME').AsString;
+//        Cells[2, i] := dataBank.FieldByName('BANK_BRANCH').AsString;
+//        Cells[3, i] := dataBank.FieldByName('BANK_ADDRESS').AsString;
+//        Cells[4, i] := dataBank.FieldByName('BANK_ID').AsString;
+//
+//        Inc(i);
+//        dataBank.Next;
+//      end;
+//    end
+//    else
+//    begin
+//      RowCount := 2;
+//      Cells[0, 1] := ' ';
+//      Cells[1, 1] := ' ';
+//      Cells[2, 1] := ' ';
+//      Cells[3, 1] := ' ';
+//    end;
+//
+//    FixedRows := 1;
+//    AutoSize := true;
+//  end;
 end;
 
 procedure TfrmBank.FormActivate(Sender: TObject);
@@ -254,18 +252,18 @@ end;
 procedure TfrmBank.edtPencarianKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  if Key = Chr(VK_RETURN) then
-  begin
-    if edtPencarian.Text <> '' then
-    begin
-      resPoint := strgGrid.FindNext;
-      if (resPoint.Y <> -1) then
-      begin
-        strgGrid.ScrollInView(resPoint.X, resPoint.Y);
-        strgGrid.SelectRows(resPoint.Y, 1);
-      end;
-    end;
-  end;
+//  if Key = Chr(VK_RETURN) then
+//  begin
+//    if edtPencarian.Text <> '' then
+//    begin
+//      resPoint := strgGrid.FindNext;
+//      if (resPoint.Y <> -1) then
+//      begin
+//        strgGrid.ScrollInView(resPoint.X, resPoint.Y);
+//        strgGrid.SelectRows(resPoint.Y, 1);
+//      end;
+//    end;
+//  end;
 end;
 
 procedure TfrmBank.edtPencarianChange(Sender: TObject);
@@ -276,15 +274,15 @@ end;
 
 procedure TfrmBank.FindDataOnGrid(aText:String);
 begin
-  if (aText <> '') then
-  begin
-    resPoint := strgGrid.Find(Point(0,0),aText,[fnIncludeFixed]);
-    if (resPoint.Y <> -1) then
-    begin
-      strgGrid.ScrollInView(resPoint.X, resPoint.Y);
-      strgGrid.SelectRows(resPoint.Y, 1);
-    end;
-  end;
+//  if (aText <> '') then
+//  begin
+//    resPoint := strgGrid.Find(Point(0,0),aText,[fnIncludeFixed]);
+//    if (resPoint.Y <> -1) then
+//    begin
+//      strgGrid.ScrollInView(resPoint.X, resPoint.Y);
+//      strgGrid.SelectRows(resPoint.Y, 1);
+//    end;
+//  end;
 end;
 
 end.

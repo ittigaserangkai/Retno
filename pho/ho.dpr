@@ -33,9 +33,9 @@ uses
   ufrmBank in 'module\references\ufrmBank.pas' {frmBank},
   ufrmDialogBank in 'module\references\ufrmDialogBank.pas' {frmDialogBank},
   ufrmDialogHariLibur in 'module\references\ufrmDialogHariLibur.pas' {frmDialogHariLibur},
-  ufrmHariLibur in 'module\references\ufrmHariLibur.pas' {frmHariLibur},
-  ufrmDialogLokasi in 'module\references\ufrmDialogLokasi.pas' {frmDialogLokasi},
-  ufrmLokasi in 'module\references\ufrmLokasi.pas' {frmLokasi};
+  ufrmHariLibur in 'module\references\ufrmHariLibur.pas' {frmHariLibur};
+//  ufrmDialogLokasi in 'module\references\ufrmDialogLokasi.pas' {frmDialogLokasi};
+//  ufrmLokasi in 'module\references\ufrmLokasi.pas' {frmLokasi};
 
 {$R *.res}
 
