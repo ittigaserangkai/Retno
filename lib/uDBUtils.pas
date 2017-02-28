@@ -2,7 +2,7 @@ unit uDBUtils;
 
 interface
 uses
-  Rtti, typinfo, SysUtils, StrUtils,
+  System.Rtti, typinfo, SysUtils, StrUtils,
   Forms, DBClient,
   Provider, uAppUtils, Generics.Collections, Classes, StdCtrls,
   FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
@@ -11,13 +11,14 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDac.Dapt,
-  uModApp;
+  uModApp, uModTest;
 
 type
   TDBUtils = class(TObject)
   private
     class function GenerateSQLInsert(AObject : TModApp): string; overload;
     class function GenerateSQLUpdate(AObject : TModApp): string; overload;
+    class function GetMappedFieldName(AObject: TModApp; PropName: String): String;
     class function GetSQLInsert(AObject: TModApp): String;
     class function GetSQLUpdate(AObject: TModApp): String;
     class function GetSQLDelete(AObject: TModApp): String; overload;
@@ -59,7 +60,6 @@ const
   SQL_Select  : String = 'Select %s from %s where %s';
 
 implementation
-
 
 class procedure TDBUtils.Commit;
 begin
@@ -210,14 +210,17 @@ begin
           lModItem := TModAppItem(lObj);
 
           if i = 0 then
-            SS.Add( Format(SQL_Delete,[lModItem.GetTableName,lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID) ]) );
+            SS.Add( Format(SQL_Delete,[lModItem.GetTableName,
+              GetMappedFieldName(lModItem,lModItem.GetHeaderField) + '=' + QuotedStr(AObject.ID) ]) );
 
           //dengan method dibawah, client tidak wajib menset moditem.header := modheader
           rtItem := ctx.GetType(lModItem.ClassType);
           propItem := rtItem.GetProperty(lModItem.GetHeaderField);
           if propItem = nil then
             raise Exception.Create(lObj.ClassName + ' tidak memiliki property ' +lModItem.GetHeaderField );
-          propItem.SetValue(lModItem, AObject.ID);
+
+          if propItem.PropertyType.TypeKind = tkClass then
+            propItem.SetValue(lModItem, AObject);
 
 
           GenerateSQL(lModItem,SS);
@@ -266,8 +269,9 @@ begin
           lModItem := TModAppItem(lObj);
           if i = 0 then
             SS.Add(
-              Format(SQL_Delete,[lModItem.GetTableName,lModItem.GetHeaderField
-               + '=' + QuotedStr(AObject.ID) ])
+              Format(SQL_Delete,[lModItem.GetTableName,
+                GetMappedFieldName(lModItem,lModItem.GetHeaderField)
+                + '=' + QuotedStr(AObject.ID) ])
             );
           GenerateSQLDelete(lModItem,SS);
         end;
@@ -500,6 +504,27 @@ begin
   end;
 end;
 
+class function TDBUtils.GetMappedFieldName(AObject: TModApp; PropName: String):
+    String;
+var
+  ctx: TRttiContext;
+  Field: TRttiField;
+  rt: TRttiType;
+begin
+  Result := PropName;
+  ctx := TRttiContext.Create();
+  Try
+    rt := ctx.GetType(AObject.ClassType);
+    Field := rt.GetField('dbf_' + PropName);
+    if Field <> nil then
+      Result  := Field.GetValue(AObject).AsString
+    else
+      Result  := PropName;
+  Finally
+    ctx.Free;
+  End;
+end;
+
 class function TDBUtils.GetNextID(AOBject : TModApp): Integer;
 var
   Q: TFDQuery;
@@ -629,7 +654,7 @@ var
 //  sGenericItemClassName: string;
 ////  sX: string;
 begin
-  sSQL := 'select * from ' + AOBject.ClassName + ' where id = ' + QuotedStr(AID);
+  sSQL := 'select * from ' + AOBject.GetTableName + ' where id = ' + QuotedStr(AID);
   Q := TDBUtils.OpenQuery(sSQL);
   SetFromDatast(AObject, Q);
 
@@ -721,7 +746,9 @@ var
   Field : TRttiField;
   FieldName : string;
   lAppObject : TModApp;
-  lAppClass : TModAppClass;
+  lAppObjectItem : TModAppItem;
+  lAppClass : TModAppClassItem;
+//  lAppClass2 : TModAppClass;
   lObjectList: TObject;
   rt, rtItem : TRttiType;
   prop : TRttiProperty;
@@ -734,6 +761,8 @@ begin
   begin
     for prop in rt.GetProperties() do
     begin
+      if prop.Visibility <> mvPublished then continue;
+
       if (not prop.IsWritable) then Continue;
       Field := rt.GetField('dbf_' + prop.Name);
 
@@ -742,54 +771,66 @@ begin
       else
         FieldName := prop.Name;
 
-      case prop.PropertyType.TypeKind of
-        tkInteger : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsInteger );
-        tkFloat   : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsFloat );
-        tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
-        tkClass   :
-        begin
-          meth := prop.PropertyType.GetMethod('ToArray');
-          if Assigned(meth) then
+      If ADataSet.FieldByName(FieldName).DataType in [ftDate,ftDateTime,ftTimeStamp] then
+      begin
+        prop.SetValue(
+          AObject,
+          TValue.From<TDateTime>(ADataSet.FieldByName(FieldName).AsDateTime)
+        );
+      end else
+      begin
+        case prop.PropertyType.TypeKind of
+          tkInteger : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsInteger );
+          tkFloat   : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsFloat );
+          tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
+          tkClass   :
           begin
-            lObjectList := prop.GetValue(AOBject).AsObject;
-            sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
-            sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
-
-            rtItem := ctx.FindType(sGenericItemClassName);
-            meth := prop.PropertyType.GetMethod('Add');
-
-            if Assigned(meth) and Assigned(rtItem) then
+            meth := prop.PropertyType.GetMethod('ToArray');
+            if Assigned(meth) then
             begin
-              lAppClass      := TModAppClass( rtItem.AsInstance.MetaclassType );
-              sSQL := 'select * from ' + lAppClass.ClassName
-                      + ' where ' + TModAppItem(lAppClass).GetHeaderField
-                      + ' = ' + QuotedStr(ADataSet.FieldByName('ID').AsString);
+              lObjectList := prop.GetValue(AOBject).AsObject;
+              sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+              sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
 
-              QQ := TDBUtils.OpenQuery(sSQL);
-              try
-                while not QQ.Eof do
-                begin
-                  lAppObject := TModApp((ctx.FindType(sGenericItemClassName) as TRttiInstanceType).MetaClassType.Create);
-                  SetFromDatast(lAppObject, QQ);
-                  meth.Invoke(lObjectList,[lAppObject]);
-                  QQ.Next;
+              rtItem := ctx.FindType(sGenericItemClassName);
+              meth := prop.PropertyType.GetMethod('Add');
+
+              if Assigned(meth) and Assigned(rtItem) then
+              begin
+                //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+                lAppClass   := TModAppClassItem( rtItem.AsInstance.MetaclassType );
+                lAppObjectItem  := lAppClass.Create;
+                sSQL := 'select * from ' + lAppObjectItem.GetTableName
+                        + ' where ' + GetMappedFieldName(lAppObjectItem,lAppObjectItem.GetHeaderField)
+                        + ' = ' + QuotedStr(ADataSet.FieldByName('ID').AsString);
+                lAppObjectItem.Free;
+                //
+
+                QQ := TDBUtils.OpenQuery(sSQL);
+                try
+                  while not QQ.Eof do
+                  begin
+                    lAppObjectItem := lAppClass.Create;
+                    SetFromDatast(lAppObjectItem, QQ);
+                    meth.Invoke(lObjectList,[lAppObjectItem]);
+                    QQ.Next;
+                  end;
+                finally
+                  QQ.Free;
                 end;
-              finally
-                QQ.Free;
+
               end;
+            end else begin
+              meth          := prop.PropertyType.GetMethod('Create');
+              lAppObject    := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
 
+              lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
+              prop.SetValue(AOBject, lAppObject);
             end;
-          end else begin
-
-            meth          := prop.PropertyType.GetMethod('Create');
-            lAppObject    := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-            lAppObject.ID := ADataSet.FieldByName(prop.Name).AsString;
-
-            prop.SetValue(AOBject, lAppObject);
           end;
+        else
+          prop.SetValue(AObject,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
         end;
-      else
-        prop.SetValue(AObject,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
       end;
     end;
   end;
@@ -847,6 +888,7 @@ class function TDBUtils.QuotValue(AObject: TModApp; AProp: TRttiProperty):
     String;
 var
   lDate: TDateTime;
+  lObj: TObject;
 begin
   If LowerCase(AProp.PropertyType.Name) = LowerCase('TDateTime') then
   begin
@@ -862,6 +904,14 @@ begin
         Result := QuotedStr(AProp.GetValue(AObject).AsString);
       tkEnumeration:
         Result := BoolToStr(AProp.GetValue(AObject).AsBoolean);
+      tkClass:
+        begin
+          lObj := AProp.GetValue(AObject).AsObject;
+          if lObj.InheritsFrom(TModApp) then
+          begin
+            Result := QuotedStr(TModApp(lObj).ID);
+          end;
+        end
     else
       Raise Exception.Create(
         'Property Type tidak terdaftar atas ' + AObject.ClassName + ',' + AProp.Name);

@@ -23,18 +23,17 @@ type
 
   TModTestItem = class(TModAppItem)
   private
-    dbf_ItemCode, dbf_ItemName : String;
+    dbf_Header, dbf_ItemCode, dbf_ItemName : String;
     FHeader: TModTest;
-    FHeader_ID: string;
     FItemCode: string;
     FItemName: string;
     FQTY: Double;
   public
     constructor Create;
-    function GetHeaderField: string; override;
-    property Header: TModTest read FHeader write FHeader;
+    class function GetHeaderField: string; override;
+    procedure MappingDBField; override;
   published
-    property Header_ID: string read FHeader_ID write FHeader_ID;
+    property Header: TModTest read FHeader write FHeader;
     property ItemCode: string read FItemCode write FItemCode;
     property ItemName: string read FItemName write FItemName;
     property QTY: Double read FQTY write FQTY;
@@ -45,13 +44,20 @@ implementation
 constructor TModTestItem.Create;
 begin
   inherited;
-  dbf_ItemCode := 'SKU';
-  dbf_ItemName := 'NamaBarang';
+  
 end;
 
-function TModTestItem.GetHeaderField: string;
+class function TModTestItem.GetHeaderField: string;
 begin
-  Result := 'Header_ID';
+  Result := 'Header';
+end;
+
+procedure TModTestItem.MappingDBField;
+begin
+  inherited;
+  dbf_Header    := 'Header_ID';
+  dbf_ItemCode  := 'SKU';
+  dbf_ItemName  := 'NamaBarang';
 end;
 
 function TModTest.GetItems: TObjectList<TModTestItem>;

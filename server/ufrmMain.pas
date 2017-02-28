@@ -109,26 +109,29 @@ end;
 procedure TfrmMain.Button1Click(Sender: TObject);
 var
   lTest: TModTest;
-  i: Integer;
-  lTestItem: TModTestItem;
+//  i: Integer;
+//  lTestItem: TModTestItem;
 begin
   lTest := TModTest.Create;
-  lTest.RefNo := 'Halo';
-  lTest.RefDate := Now();
+//  lTest.RefNo := 'Halo';
+//  lTest.RefDate := Now();
+//
+//  for i := 0 to 5 do
+//  begin
+//    lTestItem := TModTestItem.Create;
+//    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
+//    lTestItem.ItemName := 'ItemName_' + inttostr(i);
+//    lTestItem.QTY := i;
+//    lTest.Items.Add(lTestItem);
+//  end;
+//
+//  With TDBUtils.GenerateSQL(lTest) do
+//  begin
+//    SaveToFile('D:\GenerateSQL.txt');
+//  end;
 
-  for i := 0 to 5 do
-  begin
-    lTestItem := TModTestItem.Create;
-    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
-    lTestItem.ItemName := 'ItemName_' + inttostr(i);
-    lTestItem.QTY := i;
-    lTest.Items.Add(lTestItem);
-  end;
-
-  With TDBUtils.GenerateSQL(lTest) do
-  begin
-    SaveToFile('D:\GenerateSQL.txt');
-  end;
+  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
+  showmessage(lTest.RefNo);
 
 end;
 
