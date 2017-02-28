@@ -1,6 +1,5 @@
-﻿// 
+// 
 // Created by the DataSnap proxy generator.
-// 2/28/2017 9:02:20 AM
 // 
 
 function DSAdmin(connectionInfo)
@@ -616,16 +615,16 @@ function DSAdmin(connectionInfo)
   };
 }
 
-function TServerMethods(connectionInfo)
+function TServerMethods1(connectionInfo)
 {
-  this.executor = new ServerFunctionExecutor("TServerMethods",connectionInfo);
+  this.executor = new ServerFunctionExecutor("TServerMethods1",connectionInfo);
 
   /*
    * @param Value [in] - Type on server: string
    * @return result - Type on server: string
    */
   this.EchoString = function(Value) {
-    var returnObject = this.executor.executeMethod('EchoString', "GET", [Value], arguments[1], true, arguments[2], arguments[3]);
+    var returnObject = this.executor.executeMethod("EchoString", "GET", [Value], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -647,7 +646,7 @@ function TServerMethods(connectionInfo)
    * @return result - Type on server: string
    */
   this.ReverseString = function(Value) {
-    var returnObject = this.executor.executeMethod('ReverseString', "GET", [Value], arguments[1], true, arguments[2], arguments[3]);
+    var returnObject = this.executor.executeMethod("ReverseString", "GET", [Value], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -667,6 +666,6 @@ function TServerMethods(connectionInfo)
 
 var JSProxyClassList = {
   "DSAdmin": ["GetPlatformName","ClearResources","FindPackages","FindClasses","FindMethods","CreateServerClasses","DropServerClasses","CreateServerMethods","DropServerMethods","GetServerClasses","ListClasses","DescribeClass","ListMethods","DescribeMethod","GetServerMethods","GetServerMethodParameters","GetDatabaseConnectionProperties","GetDSServerName","ConsumeClientChannel","ConsumeClientChannelTimeout","CloseClientChannel","RegisterClientCallbackServer","UnregisterClientCallback","BroadcastToChannel","BroadcastObjectToChannel","NotifyCallback","NotifyObject"],
-  "TServerMethods": ["EchoString","ReverseString"]
+  "TServerMethods1": ["EchoString","ReverseString"]
 };
 
