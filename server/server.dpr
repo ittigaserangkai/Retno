@@ -13,7 +13,8 @@ uses
   WebModuleRetnoUnit in 'WebModuleRetnoUnit.pas' {WebModuleRetno: TWebModule},
   uDBUtils in '..\lib\uDBUtils.pas',
   uModApp in '..\model\uModApp.pas',
-  uAppUtils in '..\lib\uAppUtils.pas';
+  uAppUtils in '..\lib\uAppUtils.pas',
+  uModAccount in '..\model\uModAccount.pas';
 
 {$R *.res}
 
