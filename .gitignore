@@ -26,6 +26,9 @@
 #*.obj
 #
 
+# Debug/Release Folder
+Win32/
+
 # Delphi compiler-generated binaries (safe to delete)
 *.exe
 *.dll
