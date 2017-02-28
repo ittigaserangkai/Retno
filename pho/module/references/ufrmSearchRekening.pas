@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufraFooterDialog2Button, ExtCtrls, DB,
   StdCtrls, uConn, ufrmMasterDialog,
-  AdvUtil, AdvObj, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus,
+   cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus,
   cxButtons, cxControls, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView,

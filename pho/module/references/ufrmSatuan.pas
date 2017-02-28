@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  BaseGrid, ActnList, uConn, uRetnoUnit, DB, System.Actions,
+  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls,
+   ActnList, uConn, uRetnoUnit, DB, System.Actions,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,

@@ -14,7 +14,8 @@ uses
   uDBUtils in '..\lib\uDBUtils.pas',
   uModApp in '..\model\uModApp.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
-  uModAccount in '..\model\uModAccount.pas';
+  uModAccount in '..\model\uModAccount.pas',
+  uModBank in '..\model\uModBank.pas';
 
 {$R *.res}
 

@@ -116,6 +116,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\lib\uAppUtils.pas"/>
         <DCCReference Include="..\model\uModAccount.pas"/>
+        <DCCReference Include="..\model\uModBank.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>
