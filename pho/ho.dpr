@@ -22,7 +22,6 @@ uses
   uGlobalProperty in '..\system\uGlobalProperty.pas',
   uNetUtils in '..\system\uNetUtils.pas',
   uTSINIFile in '..\system\uTSINIFile.pas',
-  uAppUtils in '..\system\uAppUtils.pas',
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmPajak in 'module\references\ufrmPajak.pas' {frmPajak},
   ufrmDialogPajak in 'module\references\ufrmDialogPajak.pas' {frmDialogPajak},
@@ -59,7 +58,9 @@ uses
   uClientClasses in 'unit\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   uModApp in '..\model\uModApp.pas',
-  uModTest in '..\model\uModTest.pas';
+  uModTest in '..\model\uModTest.pas',
+  uDBUtils in '..\lib\uDBUtils.pas',
+  uAppUtils in '..\system\uAppUtils.pas';
 
 {$R *.res}
 

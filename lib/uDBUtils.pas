@@ -27,7 +27,9 @@ type
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
-    class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset);
+    class function DSToCDS(aDataset: TDataSet; aOwner: TComponent): TClientDataset;
+        overload;
+    class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
     class procedure TemporaryForHideWarning;
     class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
         overload;
@@ -107,6 +109,18 @@ begin
     Result := True;
   end;
 
+end;
+
+class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent):
+    TClientDataset;
+var
+  ADSP: TDataSetProvider;
+begin
+  Result:= TClientDataSet.Create(aOwner);
+  ADSP := TDataSetProvider.Create(Result);
+  ADSP.DataSet:= aDataset;
+  Result.SetProvider(ADSP);
+  Result.Open;
 end;
 
 class procedure TDBUtils.DSToCDS(ADataset : TDataset; ACDS : TClientDataset);
