@@ -69,13 +69,13 @@ procedure TfrmBank.actAddBankExecute(Sender: TObject);
 begin
   inherited;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     ////frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogBank) then
       Application.CreateForm(TfrmDialogBank, frmDialogBank);
@@ -90,8 +90,8 @@ begin
       CommonDlg.ShowConfirm(atAdd);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogBank.Free;
 end;
@@ -100,13 +100,13 @@ procedure TfrmBank.actEditBankExecute(Sender: TObject);
 begin
   inherited;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     ////frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
     if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
@@ -124,8 +124,8 @@ begin
       CommonDlg.ShowConfirm(atEdit);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogBank.Free;
 end;
@@ -135,7 +135,7 @@ begin
   inherited;
   if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     ////frmMain.cbbUnit.SetFocus;
@@ -154,7 +154,7 @@ begin
       CommonDlg.ShowConfirm(atDelete);
     end;}
     IDLokal := StrToInt(strgGrid.Cells[4,strgGrid.Row]);
-    if FBank.LoadByID(IDLokal) then
+{    if FBank.LoadByID(IDLokal) then
     begin
       try
         if FBank.RemoveFromDB then
@@ -172,7 +172,7 @@ begin
       finally
         cRollbackTrans;
       end;
-    end;
+    end; }
   end;
 end;
 
@@ -180,17 +180,15 @@ function TfrmBank.GetData(): TDataSet;
 
 begin
   // inisiate business model
-  if not assigned(Bank) then
-    Bank := TBank.Create;
-
-
-
-  Result := Bank.GetListDataBank();
+//  if not assigned(Bank) then
+//    Bank := TBank.Create;
+//
+//  Result := Bank.GetListDataBank();
 end;
 
 procedure TfrmBank.actRefreshBankExecute(Sender: TObject);
 var
-    dataBank: TResultDataSet;
+    dataBank: TDataSet;
     i,countData: Integer;
 begin
   dataBank := GetData();
@@ -250,7 +248,7 @@ end;
 procedure TfrmBank.FormCreate(Sender: TObject);
 begin
   inherited;
-  FBank := uNewBank.TBank.Create(Self);
+//  FBank := uNewBank.TBank.Create(Self);
 end;
 
 procedure TfrmBank.edtPencarianKeyPress(Sender: TObject; var Key: Char);

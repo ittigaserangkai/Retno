@@ -31,7 +31,9 @@ uses
   uTSBaseClass in '..\classes\uTSBaseClass.pas',
   uUnit in '..\classes\uUnit.pas',
   ufrmBank in 'module\references\ufrmBank.pas' {frmBank},
-  ufrmDialogBank in 'module\references\ufrmDialogBank.pas' {frmDialogBank};
+  ufrmDialogBank in 'module\references\ufrmDialogBank.pas' {frmDialogBank},
+  ufrmDialogHariLibur in 'module\references\ufrmDialogHariLibur.pas' {frmDialogHariLibur},
+  ufrmHariLibur in 'module\references\ufrmHariLibur.pas' {frmHariLibur};
 
 {$R *.res}
 
@@ -40,6 +42,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TfrmDialogBank, frmDialogBank);
+  Application.CreateForm(TfrmDialogHariLibur, frmDialogHariLibur);
+  Application.CreateForm(TfrmHariLibur, frmHariLibur);
   Application.Run;
 end.

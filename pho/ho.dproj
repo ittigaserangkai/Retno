@@ -184,6 +184,14 @@
             <Form>frmDialogBank</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogHariLibur.pas">
+            <Form>frmDialogHariLibur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmHariLibur.pas">
+            <Form>frmHariLibur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -109,42 +109,35 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit\uConstanta.pas"/>
-        <DCCReference Include="ui\ufraFooter1Button.pas">
+        <DCCReference Include="..\system\ufraFooter1Button.pas">
             <Form>fraFooter1Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufraFooter5Button.pas">
+        <DCCReference Include="..\system\ufraFooter5Button.pas">
             <Form>fraFooter5Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufraLoading.pas">
+        <DCCReference Include="..\system\ufraLoading.pas">
             <Form>fraLoading</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufraProgressBar.pas">
+        <DCCReference Include="..\system\ufraProgressBar.pas">
             <Form>fraProgressBar</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="ui\ufrmSplash.pas">
             <Form>frmSplash</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ui\ufraFooterDialog2Button.pas">
+        <DCCReference Include="..\system\ufraFooterDialog2Button.pas">
             <Form>fraFooterDialog2Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufrmMasterDialog.pas">
+        <DCCReference Include="..\system\ufrmMasterDialog.pas">
             <Form>frmMasterDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ui\ufrmMaster.pas">
+        <DCCReference Include="..\system\ufrmMaster.pas">
             <Form>frmMaster</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ui\udmMain.pas">
             <Form>dmMain</Form>
@@ -155,7 +148,7 @@
             <Form>frmAbout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="unit\uInfo.pas"/>
+        <DCCReference Include="..\system\uInfo.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -188,27 +181,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -562,12 +540,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
