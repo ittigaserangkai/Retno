@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, Mask, JvToolEdit, uRetnoUnit, ufrmHariLibur, Vcl.ComCtrls;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  StdCtrls, Mask, uRetnoUnit, ufrmHariLibur, Vcl.ComCtrls;
 
 type
   TFormMode = (fmAdd, fmEdit);

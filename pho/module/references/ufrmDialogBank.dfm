@@ -9,31 +9,12 @@ inherited frmDialogBank: TfrmDialogBank
   ExplicitHeight = 278
   PixelsPerInch = 96
   TextHeight = 16
-  inherited footerDialogMaster: TfraFooterDialog2Button
-    Top = 183
-    Width = 403
-    inherited pnlFooter: TPanel
-      Width = 403
-      inherited btnClose: TcxButton
-        Left = 321
-      end
-      inherited btnSave: TcxButton
-        Left = 234
-      end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 403
-      inherited lbl4: TLabel
-        Left = 218
-      end
-      inherited lbl5: TLabel
-        Left = 313
-      end
-    end
-  end
   inherited pnlBody: TPanel
     Width = 403
     Height = 183
+    ExplicitTop = 0
+    ExplicitWidth = 403
+    ExplicitHeight = 183
     object lbl1: TLabel
       Left = 32
       Top = 41
@@ -111,26 +92,13 @@ inherited frmDialogBank: TfrmDialogBank
       ParentCtl3D = False
       TabOrder = 3
     end
-    object chkAllUnit: TsuiCheckBox
-      Left = 80
-      Top = 128
-      Width = 55
-      Height = 22
-      UIStyle = BlueGlass
-      AutoSize = True
-      Checked = True
-      Caption = 'All Unit'
-      TabOrder = 4
-      State = cbChecked
-      Transparent = False
-    end
     object gbRekening: TGroupBox
       Left = 141
       Top = 0
       Width = 262
       Height = 177
       Caption = 'Rekening'
-      TabOrder = 5
+      TabOrder = 4
       object lbl4: TLabel
         Left = 13
         Top = 29
@@ -168,6 +136,44 @@ inherited frmDialogBank: TfrmDialogBank
         MaxLength = 128
         ParentCtl3D = False
         TabOrder = 1
+      end
+    end
+    object chkAllUnit: TCheckBox
+      Left = 80
+      Top = 128
+      Width = 57
+      Height = 17
+      Caption = 'All Unit'
+      TabOrder = 5
+    end
+  end
+  inherited footerDialogMaster: TfraFooterDialog2Button
+    Top = 183
+    Width = 403
+    ExplicitTop = 183
+    ExplicitWidth = 403
+    inherited pnlFooter: TPanel
+      Width = 403
+      ExplicitWidth = 403
+      inherited btnClose: TcxButton
+        Left = 321
+        ExplicitLeft = 321
+      end
+      inherited btnSave: TcxButton
+        Left = 234
+        ExplicitLeft = 234
+      end
+    end
+    inherited pnlSortCut: TPanel
+      Width = 403
+      ExplicitWidth = 403
+      inherited lbl4: TLabel
+        Left = 218
+        ExplicitLeft = 218
+      end
+      inherited lbl5: TLabel
+        Left = 313
+        ExplicitLeft = 313
       end
     end
   end

@@ -33,7 +33,9 @@ uses
   ufrmBank in 'module\references\ufrmBank.pas' {frmBank},
   ufrmDialogBank in 'module\references\ufrmDialogBank.pas' {frmDialogBank},
   ufrmDialogHariLibur in 'module\references\ufrmDialogHariLibur.pas' {frmDialogHariLibur},
-  ufrmHariLibur in 'module\references\ufrmHariLibur.pas' {frmHariLibur};
+  ufrmHariLibur in 'module\references\ufrmHariLibur.pas' {frmHariLibur},
+  ufrmDialogLokasi in 'module\references\ufrmDialogLokasi.pas' {frmDialogLokasi},
+  ufrmLokasi in 'module\references\ufrmLokasi.pas' {frmLokasi};
 
 {$R *.res}
 
@@ -42,7 +44,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TfrmDialogHariLibur, frmDialogHariLibur);
-  Application.CreateForm(TfrmHariLibur, frmHariLibur);
   Application.Run;
 end.

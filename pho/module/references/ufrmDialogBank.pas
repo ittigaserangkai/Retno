@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, uRetnoUnit, uTSBaseClass, SUIButton;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  StdCtrls, uRetnoUnit, uTSBaseClass;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -19,12 +19,12 @@ type
     edtBranch: TEdit;
     edtAddress: TEdit;
     edtCode: TEdit;
-    chkAllUnit: TsuiCheckBox;
     gbRekening: TGroupBox;
     lbl4: TLabel;
     lbl5: TLabel;
     edtRekKode: TEdit;
     edtDescription: TEdit;
+    chkAllUnit: TCheckBox;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
