@@ -54,7 +54,12 @@ uses
   ufrmProductType in 'module\references\ufrmProductType.pas' {frmProductType},
   ufrmProductTypeNBD in 'module\references\ufrmProductTypeNBD.pas' {frmProductTypeNBD},
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
-  ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening};
+  ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
+  uDMClient in 'module\system\uDMClient.pas' {DMClient: TDataModule},
+  uClientClasses in 'unit\uClientClasses.pas',
+  ufrmTest in 'ui\ufrmTest.pas' {frmTest},
+  uModApp in '..\model\uModApp.pas',
+  uModTest in '..\model\uModTest.pas';
 
 {$R *.res}
 
@@ -63,5 +68,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
+  Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmTest, frmTest);
   Application.Run;
 end.

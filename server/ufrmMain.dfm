@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 271
   Top = 114
   Caption = 'Retno - Retail And Online System'
-  ClientHeight = 264
-  ClientWidth = 267
+  ClientHeight = 351
+  ClientWidth = 272
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,11 +17,13 @@ object frmMain: TfrmMain
   object grpRestServer: TGroupBox
     Left = 0
     Top = 181
-    Width = 267
-    Height = 83
+    Width = 272
+    Height = 170
     Align = alClient
     Caption = 'Rest Server'
     TabOrder = 0
+    ExplicitWidth = 267
+    ExplicitHeight = 83
     object Label1: TLabel
       Left = 10
       Top = 51
@@ -64,15 +66,25 @@ object frmMain: TfrmMain
       TabOrder = 3
       OnClick = ButtonOpenBrowserClick
     end
+    object Button1: TButton
+      Left = 10
+      Top = 88
+      Width = 75
+      Height = 25
+      Caption = 'Test'
+      TabOrder = 4
+      OnClick = Button1Click
+    end
   end
   object grpDB: TGroupBox
     Left = 0
     Top = 0
-    Width = 267
+    Width = 272
     Height = 181
     Align = alTop
     Caption = 'Koneksi Database'
     TabOrder = 1
+    ExplicitWidth = 267
     object lblServer: TLabel
       Left = 29
       Top = 51
@@ -186,11 +198,11 @@ object frmMain: TfrmMain
   end
   object AE: TApplicationEvents
     OnIdle = AEIdle
-    Left = 136
-    Top = 65528
+    Left = 200
+    Top = 32
   end
   object ImageList1: TImageList
-    Left = 160
-    Top = 65528
+    Left = 168
+    Top = 24
   end
 end

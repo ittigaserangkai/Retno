@@ -34,6 +34,8 @@ type
     procedure SetHeaderProperty(AHeaderProperty : TModApp); dynamic; abstract;
   end;
 
+  TModAppClass = class of TModApp;
+
 implementation
 
 uses

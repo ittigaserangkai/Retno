@@ -23,7 +23,7 @@ implementation
 {$R *.dfm}
 
 
-uses System.StrUtils;
+uses System.StrUtils, uDSUtils;
 
 function TServerMethods.EchoString(Value: string): string;
 begin

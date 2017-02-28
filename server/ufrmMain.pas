@@ -33,9 +33,11 @@ type
     edDatabase: TcxTextEdit;
     edPort: TcxTextEdit;
     btnKonekDB: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
@@ -54,7 +56,8 @@ implementation
 {$R *.dfm}
 
 uses
-  WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils;
+  WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
+  ServerContainerUnit, uModTest;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -103,10 +106,37 @@ begin
   end;
 end;
 
+procedure TfrmMain.Button1Click(Sender: TObject);
+var
+  lTest: TModTest;
+  i: Integer;
+  lTestItem: TModTestItem;
+begin
+  lTest := TModTest.Create;
+  lTest.RefNo := 'Halo';
+  lTest.RefDate := Now();
+
+  for i := 0 to 5 do
+  begin
+    lTestItem := TModTestItem.Create;
+    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
+    lTestItem.ItemName := 'ItemName_' + inttostr(i);
+    lTestItem.QTY := i;
+    lTest.Items.Add(lTestItem);
+  end;
+
+  With TDBUtils.GenerateSQL(lTest) do
+  begin
+    SaveToFile('D:\GenerateSQL.txt');
+  end;
+
+end;
+
 procedure TfrmMain.ButtonStopClick(Sender: TObject);
 begin
   TerminateThreads;
   FServer.Active := False;
+  DSServer.Stop;
   FServer.Bindings.Clear;
 end;
 
@@ -124,6 +154,8 @@ begin
     edPort.Text := TAppUtils.BacaRegistry('Port');
   end;
 
+  StartServer;
+
 end;
 
 procedure TfrmMain.StartServer;
@@ -133,6 +165,7 @@ begin
     FServer.Bindings.Clear;
     FServer.DefaultPort := StrToInt(EditPort.Text);
     FServer.Active := True;
+    DSServer.Start;
   end;
 end;
 

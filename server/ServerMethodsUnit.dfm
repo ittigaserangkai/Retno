@@ -1,5 +1,5 @@
 object ServerMethods: TServerMethods
   OldCreateOrder = False
-  Height = 150
-  Width = 215
+  Height = 193
+  Width = 251
 end

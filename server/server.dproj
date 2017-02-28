@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>server.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -72,6 +72,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -118,6 +120,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModAccount.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
+        <DCCReference Include="..\lib\uDSUtils.pas"/>
+        <DCCReference Include="unit\uServerClasses.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>
