@@ -1,12 +1,13 @@
 object frmMasterDialog: TfrmMasterDialog
-  Left = 230
-  Top = 169
+  Left = 561
+  Top = 158
   Caption = 'Form Master Dialog'
   ClientHeight = 288
   ClientWidth = 566
-  Color = clBtnFace
+  Color = clWindow
   Constraints.MinHeight = 33
   Constraints.MinWidth = 270
+  Ctl3D = False
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -17,10 +18,26 @@ object frmMasterDialog: TfrmMasterDialog
   Position = poMainFormCenter
   Scaled = False
   OnClose = FormClose
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyUp = FormKeyUp
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
+  object pnlBody: TPanel
+    Left = 0
+    Top = 0
+    Width = 566
+    Height = 232
+    Align = alClient
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    Color = 15198183
+    TabOrder = 0
+    ExplicitTop = 30
+    ExplicitWidth = 568
+    ExplicitHeight = 228
+  end
   inline footerDialogMaster: TfraFooterDialog2Button
     Left = 0
     Top = 232
@@ -33,48 +50,34 @@ object frmMasterDialog: TfrmMasterDialog
     Font.Name = 'Trebuchet MS'
     Font.Style = []
     ParentFont = False
-    TabOrder = 0
-    ExplicitTop = 232
-    ExplicitWidth = 566
+    TabOrder = 1
+    ExplicitTop = 258
+    ExplicitWidth = 568
     inherited pnlFooter: TPanel
       Width = 566
-      ExplicitWidth = 566
+      ExplicitWidth = 568
       inherited btnClose: TcxButton
         Left = 484
         Cancel = False
-        ExplicitLeft = 484
+        ExplicitLeft = 486
       end
       inherited btnSave: TcxButton
-        Left = 397
+        Left = 357
         Default = False
-        ExplicitLeft = 397
+        ExplicitLeft = 359
       end
     end
     inherited pnlSortCut: TPanel
       Width = 566
-      ExplicitWidth = 566
+      ExplicitWidth = 568
       inherited lbl4: TLabel
-        Left = 381
-        Width = 91
-        Caption = 'Ctrl - Enter [Save]'
-        ExplicitLeft = 383
-        ExplicitWidth = 91
+        Left = 353
+        ExplicitLeft = 355
       end
       inherited lbl5: TLabel
-        Left = 476
-        ExplicitLeft = 478
+        Left = 454
+        ExplicitLeft = 456
       end
     end
-  end
-  object pnlBody: TPanel
-    Left = 0
-    Top = 0
-    Width = 566
-    Height = 232
-    Align = alClient
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    Color = 15198183
-    TabOrder = 1
   end
 end

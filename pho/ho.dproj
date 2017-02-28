@@ -109,22 +109,22 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit\uConstanta.pas"/>
-        <DCCReference Include="ui\ufraFooter1Button.pas">
+        <DCCReference Include="..\system\ufraFooter1Button.pas">
             <Form>fraFooter1Button</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufraFooter5Button.pas">
+        <DCCReference Include="..\system\ufraFooter5Button.pas">
             <Form>fraFooter5Button</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufraLoading.pas">
+        <DCCReference Include="..\system\ufraLoading.pas">
             <Form>fraLoading</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufraProgressBar.pas">
+        <DCCReference Include="..\system\ufraProgressBar.pas">
             <Form>fraProgressBar</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
@@ -133,16 +133,16 @@
             <Form>frmSplash</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ui\ufraFooterDialog2Button.pas">
+        <DCCReference Include="..\system\ufraFooterDialog2Button.pas">
             <Form>fraFooterDialog2Button</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\ufrmMasterDialog.pas">
+        <DCCReference Include="..\system\ufrmMasterDialog.pas">
             <Form>frmMasterDialog</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ui\ufrmMaster.pas">
+        <DCCReference Include="..\system\ufrmMaster.pas">
             <Form>frmMaster</Form>
             <FormType>dfm</FormType>
         </DCCReference>
@@ -155,7 +155,7 @@
             <Form>frmAbout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="unit\uInfo.pas"/>
+        <DCCReference Include="..\system\uInfo.pas"/>
         <DCCReference Include="..\system\uMenuManagement.pas"/>
         <DCCReference Include="..\lib\uConn.pas"/>
         <DCCReference Include="..\system\uFormProperty.pas"/>
@@ -176,6 +176,22 @@
         <DCCReference Include="..\classes\uCompany.pas"/>
         <DCCReference Include="..\classes\uTSBaseClass.pas"/>
         <DCCReference Include="..\classes\uUnit.pas"/>
+        <DCCReference Include="module\references\ufrmBank.pas">
+            <Form>frmBank</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogBank.pas">
+            <Form>frmDialogBank</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogHariLibur.pas">
+            <Form>frmDialogHariLibur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmHariLibur.pas">
+            <Form>frmHariLibur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
