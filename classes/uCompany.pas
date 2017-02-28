@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, EditBtn, uTSBaseClass;
+  StdCtrls, cxButtonEdit, uTSBaseClass;
 
 type
   TCompany = class(TSBaseClass)
@@ -22,7 +22,7 @@ type
     function CustomTableName: string;
     function GenerateInterbaseMetaData: Tstrings;
     function ExecuteGenerateSQL: Boolean;
-    procedure GetCurCompany(var Code: TEditBtn; var Nm: TEdit);
+    procedure GetCurCompany(var Code: TcxButtonEdit; var Nm: TEdit);
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_Kode: string; dynamic;
     function GetFieldNameFor_Nama: string; dynamic;
@@ -152,7 +152,7 @@ begin
   end;
 end;
 
-procedure TCompany.GetCurCompany(var Code: TEditBtn; var Nm: TEdit);
+procedure TCompany.GetCurCompany(var Code: TcxButtonEdit; var Nm: TEdit);
 var
   sSQL  : string;
 begin

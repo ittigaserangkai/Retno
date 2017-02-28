@@ -3,10 +3,10 @@
         <ProjectGuid>{DC05415F-14AF-4BB5-BA2F-2F28BD0A358C}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="pstore\store.dproj">
+        <Projects Include="pho\ho.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="pho\ho.dproj">
+        <Projects Include="pstore\store.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="server\server.dproj">
@@ -20,15 +20,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="store">
-        <MSBuild Projects="pstore\store.dproj"/>
-    </Target>
-    <Target Name="store:Clean">
-        <MSBuild Projects="pstore\store.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="store:Make">
-        <MSBuild Projects="pstore\store.dproj" Targets="Make"/>
-    </Target>
     <Target Name="ho">
         <MSBuild Projects="pho\ho.dproj"/>
     </Target>
@@ -37,6 +28,15 @@
     </Target>
     <Target Name="ho:Make">
         <MSBuild Projects="pho\ho.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="store">
+        <MSBuild Projects="pstore\store.dproj"/>
+    </Target>
+    <Target Name="store:Clean">
+        <MSBuild Projects="pstore\store.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="store:Make">
+        <MSBuild Projects="pstore\store.dproj" Targets="Make"/>
     </Target>
     <Target Name="server">
         <MSBuild Projects="server\server.dproj"/>
@@ -48,13 +48,13 @@
         <MSBuild Projects="server\server.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="store;ho;server"/>
+        <CallTarget Targets="ho;store;server"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="store:Clean;ho:Clean;server:Clean"/>
+        <CallTarget Targets="ho:Clean;store:Clean;server:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="store:Make;ho:Make;server:Make"/>
+        <CallTarget Targets="ho:Make;store:Make;server:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

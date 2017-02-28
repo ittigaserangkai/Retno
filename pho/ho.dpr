@@ -35,7 +35,9 @@ uses
   ufrmDialogHariLibur in 'module\references\ufrmDialogHariLibur.pas' {frmDialogHariLibur},
   ufrmHariLibur in 'module\references\ufrmHariLibur.pas' {frmHariLibur},
   ufrmDialogLokasi in 'module\references\ufrmDialogLokasi.pas' {frmDialogLokasi},
-  ufrmLokasi in 'module\references\ufrmLokasi.pas' {frmLokasi};
+  ufrmLokasi in 'module\references\ufrmLokasi.pas' {frmLokasi},
+  ufrmSatuan in 'module\references\ufrmSatuan.pas' {frmSatuan},
+  ufrmDialogSatuan in 'module\references\ufrmDialogSatuan.pas' {frmDialogSatuan};
 
 {$R *.res}
 

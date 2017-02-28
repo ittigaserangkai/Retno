@@ -5,17 +5,23 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, Grids, DB,
-  BaseGrid, AdvGrid, uConn, ActnList, AdvUtil, System.Actions, AdvObj;
+  BaseGrid, uConn, ActnList, System.Actions,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData,
+  cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
   TfrmHariLibur = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstHariLibur: TActionList;
     actAddHariLibur: TAction;
     actEditHariLibur: TAction;
     actDeleteHariLibur: TAction;
     actRefreshHariLibur: TAction;
+    cxGridViewHariLibur: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
     procedure actAddHariLiburExecute(Sender: TObject);
     procedure actEditHariLiburExecute(Sender: TObject);
     procedure actDeleteHariLiburExecute(Sender: TObject);
@@ -112,7 +118,7 @@ begin
 
       frmDialogHariLibur.Caption := 'Edit Day Off';
       frmDialogHariLibur.FormMode := fmEdit;
-      frmDialogHariLibur.HariLiburId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//      frmDialogHariLibur.HariLiburId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
       SetFormPropertyAndShowDialog(frmDialogHariLibur);
    // if (frmDialogHariLibur.IsProcessSuccessfull) then
     //begin
@@ -130,7 +136,7 @@ procedure TfrmHariLibur.actDeleteHariLiburExecute(Sender: TObject);
 begin
   inherited;
   try
-    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
 //    if MasterNewUnit.ID=0 then
     begin
@@ -138,7 +144,7 @@ begin
       //frmMain.cbbUnit.SetFocus;
       Exit;
     end;
-    if (CommonDlg.Confirm('Are you sure you wish to delete Day Off (Name: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
+//    if (CommonDlg.Confirm('Are you sure you wish to delete Day Off (Name: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
     begin
       // todo: put your code to delete data here..
       // code goes here..
@@ -169,7 +175,7 @@ begin
   inherited;
   dataHariLibur := GetData();
   countData := dataHariLibur.RecordCount;
-  with strgGrid do
+{  with strgGrid do
   begin
     Clear;
     RowCount := countData+1;
@@ -201,6 +207,7 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
 procedure TfrmHariLibur.FormDestroy(Sender: TObject);

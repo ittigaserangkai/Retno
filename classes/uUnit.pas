@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
-  uCompany, uRetnoUnit, UTSBaseClass, StdCtrls, EditBtn;
+  uCompany, uRetnoUnit, UTSBaseClass, StdCtrls, cxButtonEdit;
 
 type
 
@@ -159,14 +159,14 @@ type
     function LoadByID( aID : Integer ): Boolean;
     function LoadByKode( aKode : string): Boolean;
 //    class function GetRec(acOMpId: Integer; aUnitID : Integer = 0): TFDQuery;
-    procedure GetRecCompany(var Code: TEditBtn; var Nm: TEdit);
-    procedure GetRecApp(var Code: TEditBtn; var Nm: TEdit);
-    procedure GetRecPrshType(var Code: TEditBtn; var Nm: TEdit);
-    procedure GetRecKab(var Code: TEditBtn; var Nm: TEdit; APropId: Integer); overload;
-    procedure GetRecKab(APropId: Integer; var Code: TEditBtn; var Nm: TEdit); overload;
-    procedure GetRecProp(var Code: TEditBtn; var Nm: TEdit);
-    procedure GetRecRegn(var Code: TEditBtn; var Nm: TEdit);
-    procedure GetRecUnitType(var Code: TEditBtn; var Nm: TEdit);
+    procedure GetRecCompany(var Code: TcxButtonEdit; var Nm: TEdit);
+    procedure GetRecApp(var Code: TcxButtonEdit; var Nm: TEdit);
+    procedure GetRecPrshType(var Code: TcxButtonEdit; var Nm: TEdit);
+    procedure GetRecKab(var Code: TcxButtonEdit; var Nm: TEdit; APropId: Integer); overload;
+    procedure GetRecKab(APropId: Integer; var Code: TcxButtonEdit; var Nm: TEdit); overload;
+    procedure GetRecProp(var Code: TcxButtonEdit; var Nm: TEdit);
+    procedure GetRecRegn(var Code: TcxButtonEdit; var Nm: TEdit);
+    procedure GetRecUnitType(var Code: TcxButtonEdit; var Nm: TEdit);
 
     function SaveToDB: Boolean;
 
@@ -796,43 +796,43 @@ begin
 end;
 
 
-procedure TUnit.GetRecCompany(var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecCompany(var Code: TcxButtonEdit; var Nm: TEdit);
 begin
   Company.GetCurCompany(Code, Nm);
 end;
 
-procedure TUnit.GetRecApp(var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecApp(var Code: TcxButtonEdit; var Nm: TEdit);
 begin
 //  App.GetCurApp(Code, Nm);
 end;
 
-procedure TUnit.GetRecRegn(var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecRegn(var Code: TcxButtonEdit; var Nm: TEdit);
 begin
 //  Regn.GetCurRegn(Code, Nm);
 end;
 
-procedure TUnit.GetRecProp(var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecProp(var Code: TcxButtonEdit; var Nm: TEdit);
 begin
 //  Prop.GetCurProp(Code, Nm);
 end;
 
-procedure TUnit.GetRecKab(var Code: TEditBtn; var Nm: TEdit; APropId: Integer);
+procedure TUnit.GetRecKab(var Code: TcxButtonEdit; var Nm: TEdit; APropId: Integer);
 begin
 //  Kab.GetCurKab(Code, Nm, APropId);
 end;
 
-procedure TUnit.GetRecKab(APropId: Integer; var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecKab(APropId: Integer; var Code: TcxButtonEdit; var Nm: TEdit);
 begin
   inherited;
 //    Kab.GetCurKab(APropId, Code, Nm);
 end;
 
-procedure TUnit.GetRecPrshType(var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecPrshType(var Code: TcxButtonEdit; var Nm: TEdit);
 begin
 //  UnitInfo.PrshType.GetCurPrshTipe(Code, Nm);
 end;
 
-procedure TUnit.GetRecUnitType(var Code: TEditBtn; var Nm: TEdit);
+procedure TUnit.GetRecUnitType(var Code: TcxButtonEdit; var Nm: TEdit);
 begin
 //  UnitType.GetCurUnitType(Code, Nm);
 end;
