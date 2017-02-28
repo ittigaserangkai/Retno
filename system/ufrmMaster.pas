@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, ufraFooter5Button, StdCtrls, ActnList, BaseGrid,
+  Dialogs, ExtCtrls, ufraFooter5Button, StdCtrls, ActnList,
   uCompany, ufrmMasterDialog, uFormProperty, Grids, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel,

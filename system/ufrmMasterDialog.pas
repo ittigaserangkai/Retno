@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufraFooterDialog2Button, ExtCtrls, SUIForm, SUIButton, ActnList;
+  Dialogs, ufraFooterDialog2Button, ExtCtrls, ActnList;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -88,7 +88,7 @@ end;
 procedure TfrmMasterDialog.GetAndRunButton(AButtonName: string);
 var
   i,j: word;
-  btnFoo: TsuiButton;
+//  btnFoo: TsuiButton;
 begin
   for i:=0 to ComponentCount-1 do
     if (Components[i] is TfraFooterDialog2Button) then
@@ -96,8 +96,8 @@ begin
       for j:=0 to components[i].ComponentCount-1 do
         if (components[i].Components[j].Name = AButtonName) then
         begin
-          btnFoo := components[i].Components[j] as TsuiButton;
-          btnFoo.Click;
+//          btnFoo := components[i].Components[j] as TsuiButton;
+//          btnFoo.Click;
           exit;
         end;
     end;

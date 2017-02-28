@@ -94,7 +94,7 @@ begin
     IDLokal := 0;
   end else
   begin
-    IDLokal := StrToInt(frmPajak.strgGrid.Cells[6,frmPajak.strgGrid.Row]);
+//    IDLokal := StrToInt(frmPajak.strgGrid.Cells[6,frmPajak.strgGrid.Row]);
   end;
 
   if edtCodePajak.Text = '' then
@@ -186,7 +186,7 @@ begin
   if (FFormMode = fmEdit) then
   begin
     //showDataEdit(PajakId)
-    IDLama := StrToInt(frmPajak.strgGrid.Cells[6,frmPajak.strgGrid.Row]);
+//    IDLama := StrToInt(frmPajak.strgGrid.Cells[6,frmPajak.strgGrid.Row]);
 //    if FPajak.LoadByID(IDLama) then
 //    begin
 //      edtCodePajak.Text := FPajak.Kode;

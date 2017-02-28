@@ -31,7 +31,7 @@ type
 
 implementation
 
-uses TypInfo,suithemes;
+uses TypInfo;
 
 {$R *.dfm}
 

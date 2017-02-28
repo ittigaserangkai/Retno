@@ -92,8 +92,8 @@ begin
   inherited;
   if (FFormMode = fmEdit) then
   begin
-    FKodeLama := frmBank.strgGrid.Cells[0,frmBank.strgGrid.Row];
-    IDLokal := StrToInt(frmBank.strgGrid.Cells[4,frmBank.strgGrid.Row]);
+//    FKodeLama := frmBank.strgGrid.Cells[0,frmBank.strgGrid.Row];
+//    IDLokal := StrToInt(frmBank.strgGrid.Cells[4,frmBank.strgGrid.Row]);
 //    if FBank.LoadByID(IDLokal) then
     begin
 //      edtCode.text := FBank.Kode;
@@ -124,7 +124,7 @@ begin
    // FIsProcessSuccessfull := UpdateBank;
     //if FIsProcessSuccessfull then
     //  Close;
-    IDLokal := StrToInt(frmBank.strgGrid.Cells[4,frmBank.strgGrid.Row]);
+//    IDLokal := StrToInt(frmBank.strgGrid.Cells[4,frmBank.strgGrid.Row]);
   end; // end if
 
   if edtCode.Text = '' then
