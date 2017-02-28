@@ -5,8 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids, DB,
-  BaseGrid, AdvGrid, ActnList, uConn, uRetnoUnit, AdvUtil, System.Actions,
-  AdvObj;
+  ActnList, uConn, uRetnoUnit, System.Actions, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridLevel, cxClasses,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
+  cxGrid;
 
 type
   TfrmLokasi = class(TfrmMaster)
@@ -16,6 +19,9 @@ type
     actEditLokasi: TAction;
     actDeleteLokasi: TAction;
     actRefreshLokasi: TAction;
+    cxGridViewLocation: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
 
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -69,7 +75,7 @@ begin
   end;
 //  if(MasterNewUnit.ID <> 0) then
   begin
-   if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//   if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
     if not Assigned(frmDialogLokasi) then
       Application.CreateForm(TfrmDialogLokasi, frmDialogLokasi);
 
@@ -143,10 +149,10 @@ end;
 
 procedure TfrmLokasi.actDeleteLokasiExecute(Sender: TObject);
 begin
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Location ('+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//  if (CommonDlg.Confirm('Are you sure you wish to delete Location ('+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
   begin
-  aKodeLama := strgGrid.Cells[0,strgGrid.row];
+//  aKodeLama := strgGrid.Cells[0,strgGrid.row];
 //  if FNewLocation.LoadByKode(aKodeLama) then
   begin
    { if FNewLocation.RemoveFromDB then
@@ -195,6 +201,7 @@ var
 begin
   dataLokasi := GetData();
   countData := dataLokasi.RecordCount;
+  {
   with strgGrid do
   begin
     Clear;
@@ -250,7 +257,7 @@ begin
 
     FixedRows := 1;
     AutoSize := true;
-  end;
+  end; }
   //=== R ====
 end;
 

@@ -2,17 +2,48 @@ inherited frmLokasi: TfrmLokasi
   Left = 336
   Top = 287
   Caption = 'Location'
+  ClientHeight = 341
+  ClientWidth = 540
   OldCreateOrder = True
+  ExplicitWidth = 556
+  ExplicitHeight = 380
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Height = 247
+    Width = 540
+    Height = 255
+    ExplicitWidth = 120
     ExplicitHeight = 247
+    object cxGrid: TcxGrid
+      Left = 11
+      Top = 11
+      Width = 518
+      Height = 233
+      Align = alClient
+      TabOrder = 0
+      ExplicitLeft = 112
+      ExplicitTop = 120
+      ExplicitWidth = 250
+      ExplicitHeight = 200
+      object cxGridViewLocation: TcxGridDBTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+      end
+      object cxGridLevel1: TcxGridLevel
+        GridView = cxGridViewLocation
+      end
+    end
+  end
+  inherited pnlHeader: TPanel
+    Width = 540
+    ExplicitWidth = 120
   end
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0
-    Top = 277
-    Width = 534
+    Top = 285
+    Width = 540
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -22,14 +53,14 @@ inherited frmLokasi: TfrmLokasi
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 277
-    ExplicitWidth = 542
+    ExplicitTop = -56
+    ExplicitWidth = 120
     inherited pnlFooter: TPanel
-      Width = 542
-      ExplicitWidth = 542
+      Width = 540
+      ExplicitWidth = 120
       inherited btnClose: TcxButton
-        Left = 460
-        ExplicitLeft = 460
+        Left = 458
+        ExplicitLeft = 38
       end
       inherited btnAdd: TcxButton
         Action = actAddLokasi
@@ -47,10 +78,10 @@ inherited frmLokasi: TfrmLokasi
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 542
-      ExplicitWidth = 542
+      Width = 540
+      ExplicitWidth = 120
       inherited lbl5: TLabel
-        Left = 452
+        Left = 450
         ExplicitLeft = 452
       end
     end

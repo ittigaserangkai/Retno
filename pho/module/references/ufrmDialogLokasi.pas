@@ -204,7 +204,7 @@ begin
 
   if (FFormMode = fmEdit) then
   begin
-    aKodeLama := frmLokasi.strgGrid.Cells[0,frmLokasi.strgGrid.Row];
+//    aKodeLama := frmLokasi.strgGrid.Cells[0,frmLokasi.strgGrid.Row];
     //ShowMessage(aKodeLama);
 {    if FNewLocation.LoadByKode(aKodeLama) then
     begin
