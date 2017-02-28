@@ -11,7 +11,6 @@ uses
 type
   TfrmLokasi = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstLokasi: TActionList;
     actAddLokasi: TAction;
     actEditLokasi: TAction;
