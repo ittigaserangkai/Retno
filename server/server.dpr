@@ -18,6 +18,7 @@ uses
 
 {$R *.res}
 
+
 begin
   if WebRequestHandler <> nil then
     WebRequestHandler.WebModuleClass := WebModuleClass;

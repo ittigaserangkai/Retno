@@ -22,9 +22,6 @@ object frmMain: TfrmMain
     Align = alClient
     Caption = 'Rest Server'
     TabOrder = 0
-    ExplicitTop = 187
-    ExplicitWidth = 276
-    ExplicitHeight = 113
     object Label1: TLabel
       Left = 10
       Top = 51
@@ -76,10 +73,6 @@ object frmMain: TfrmMain
     Align = alTop
     Caption = 'Koneksi Database'
     TabOrder = 1
-    ExplicitLeft = 1
-    ExplicitTop = -21
-    ExplicitWidth = 271
-    ExplicitHeight = 185
     object lblServer: TLabel
       Left = 29
       Top = 51

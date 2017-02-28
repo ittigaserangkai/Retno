@@ -66,6 +66,7 @@ end;
   @param msg: string
   @return None
   @version 12-04-2006 didit (change to use TsuiMessageDialog)
+  @version 12-02-2017 didit (change to use TMessageDialog- NativeDelphi)
 *}
 procedure TCommonDlg.ShowError(msg: string);
 begin

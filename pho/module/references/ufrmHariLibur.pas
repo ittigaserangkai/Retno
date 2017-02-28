@@ -44,39 +44,39 @@ uses uConstanta,  uTSCommonDlg, ufrmDialogHariLibur;//, uHariLibur;
 
 { TfrmHariLibur }
 
-function TfrmHariLibur.GetData: TResultDataSet;
+function TfrmHariLibur.GetData: TDataSet;
 var IdUnt : Integer;
 begin
   // inisiate business model
-  if not assigned(HariLibur) then
-    HariLibur := THariLibur.Create;
+//  if not assigned(HariLibur) then
+//    HariLibur := THariLibur.Create;
 
   // check is Unit Id specified?
-  if MasterNewUnit.ID <> 0 then
+{  if MasterNewUnit.ID <> 0 then
   begin
     IdUnt := MasterNewUnit.ID;
   end
   else
     IdUnt := 0;
-
-  Result := HariLibur.GetListDataHariLibur(IdUnt);
+ }
+//  Result := HariLibur.GetListDataHariLibur(IdUnt);
 end;
 
 procedure TfrmHariLibur.actAddHariLiburExecute(Sender: TObject);
 begin
   inherited;
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogHariLibur) then
       Application.CreateForm(TfrmDialogHariLibur, frmDialogHariLibur);
 
-    frmDialogHariLibur.frmSuiMasterDialog.Caption := 'Add Day Off';
+    frmDialogHariLibur.Caption := 'Add Day Off';
     frmDialogHariLibur.FormMode := fmAdd;
 
     SetFormPropertyAndShowDialog(frmDialogHariLibur);
@@ -86,8 +86,8 @@ begin
       CommonDlg.ShowConfirm(atAdd);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogHariLibur.Free;
 end;
@@ -96,21 +96,21 @@ procedure TfrmHariLibur.actEditHariLiburExecute(Sender: TObject);
 begin
   inherited;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
 
-  if (MasterNewUnit.ID <> 0) then
+//  if (MasterNewUnit.ID <> 0) then
   begin
   // if strgGrid.Cells[0,strgGrid.row]= '' then Exit;
 
     if not Assigned(frmDialogHariLibur) then
       Application.CreateForm(TfrmDialogHariLibur, frmDialogHariLibur);
 
-      frmDialogHariLibur.frmSuiMasterDialog.Caption := 'Edit Day Off';
+      frmDialogHariLibur.Caption := 'Edit Day Off';
       frmDialogHariLibur.FormMode := fmEdit;
       frmDialogHariLibur.HariLiburId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
       SetFormPropertyAndShowDialog(frmDialogHariLibur);
@@ -132,7 +132,7 @@ begin
   try
     if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
-    if MasterNewUnit.ID=0 then
+//    if MasterNewUnit.ID=0 then
     begin
       CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
       //frmMain.cbbUnit.SetFocus;
@@ -142,14 +142,11 @@ begin
     begin
       // todo: put your code to delete data here..
       // code goes here..
-      if not assigned(HariLibur) then
+{      if not assigned(HariLibur) then
         HariLibur := THariLibur.Create;
 
       if HariLibur.DeleteDataHariLibur(StrToInt(strgGrid.Cells[2,strgGrid.row])) then
       begin
-     {   actRefreshHariLiburExecute(Self);
-        CommonDlg.ShowConfirm(atDelete);
-      end; }
       if FNewDayyOff.RemoveFromDB then
       begin
         CommonDlg.ShowMessage('Data Berhasil DiHapus');
@@ -158,7 +155,7 @@ begin
         CommonDlg.ShowError('Data Gagal DiHapus');
       end;
      end;
-    end;
+ }   end;
   finally
     frmHariLibur.fraFooter5Button1.btnRefresh.Click;
   end;
@@ -166,7 +163,7 @@ end;
 
 procedure TfrmHariLibur.actRefreshHariLiburExecute(Sender: TObject);
 var
-    dataHariLibur: TResultDataSet;
+    dataHariLibur: TDataSet;
     i,countData: Integer;
 begin
   inherited;
@@ -236,7 +233,7 @@ end;
 procedure TfrmHariLibur.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewDayyOff := TNewDayOff.Create(self);
+//  FNewDayyOff := TNewDayOff.Create(self);
 
 end;
 

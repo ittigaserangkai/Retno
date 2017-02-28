@@ -47,7 +47,7 @@ var
 implementation
 
 uses
-  uGTSUICommonDlg;
+  uTSCommonDlg;
 
 {$R *.dfm}
 
