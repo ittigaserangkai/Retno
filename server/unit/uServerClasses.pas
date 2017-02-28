@@ -3,7 +3,7 @@ unit uServerClasses;
 interface
 
 uses
-  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils;
+  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils;
 
 type
   {$METHODINFO ON}
@@ -80,7 +80,7 @@ end;
 
 function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String): TModApp;
 begin
-  Result := TModAppClass.Create;
+  Result := ModAppClass.Create;
   TDBUtils.LoadFromDB(Result, AID);
 end;
 
@@ -97,19 +97,21 @@ end;
 function TCrud.StringToClass(ModClassName: string): TModAppClass;
 var
   ctx: TRttiContext;
-  rt: TRttiType;
+  typ: TRttiType;
+  list: TArray<TRttiType>;
 begin
-  Result  := nil;
-  ctx     := TRttiContext.Create;
-  Try
-    rt    := ctx.FindType(ModClassName);
-    If Assigned(rt) and (rt.IsInstance) then
+  Result := nil;
+  ctx := TRttiContext.Create;
+  list := ctx.GetTypes;
+  for typ in list do
     begin
-      Result  := TModAppClass( rt.AsInstance.MetaclassType );
+      if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
+        begin
+          Result := TModAppClass(typ.AsInstance.MetaClassType);
+          break;
+        end;
     end;
-  Finally
-    ctx.Free;
-  End;
+  ctx.Free;
 end;
 
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
