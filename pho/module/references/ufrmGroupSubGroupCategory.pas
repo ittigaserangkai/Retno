@@ -90,7 +90,7 @@ begin
 end;
 
 procedure TfrmGroupSubGroupCategory.ShowGroup;
-var data: TResultDataSet;
+var data: TDataSet;
     i: Integer;
 begin
   if not assigned(Groups) then
@@ -141,7 +141,7 @@ begin
 end;
 
 procedure TfrmGroupSubGroupCategory.ShowSubGroup;
-var dataSubGroup: TResultDataSet;
+var dataSubGroup: TDataSet;
     i: Integer;
 begin
   if not assigned(Groups) then
@@ -185,7 +185,7 @@ begin
 end;
 
 procedure TfrmGroupSubGroupCategory.ShowCategory;
-var dataKategori: TResultDataSet;
+var dataKategori: TDataSet;
     i: Integer;
 begin
   if not assigned(Groups) then

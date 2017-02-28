@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  SUIForm, JvLabel, JvEdit,  cbxbase, dblup1a, uConn, uNewCustomer,
+    JvEdit,  cbxbase, dblup1a, uConn, uNewCustomer,
   EditBtn;
 
 type
@@ -65,8 +65,8 @@ type
       Shift: TShiftState);
   private
     FMasterCustomerId : Integer;
-//    dataTypePay: TResultDataSet;
-//    dataSUPMG: TResultDataSet;
+//    dataTypePay: TDataSet;
+//    dataSUPMG: TDataSet;
     FNewCustomer: TNewCustomer;
 //    isDataSUPMGLoaded: Boolean;
 

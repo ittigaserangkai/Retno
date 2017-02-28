@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, uNewTipePembayaran, uRetnoUnit, uRMSBaseClass;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  StdCtrls, uRetnoUnit;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -22,7 +22,7 @@ type
     FIsProcessSuccessfull: Boolean;
     FTipePembayaranId: Integer;
     FFormMode: TFormMode;
-    FTipeBayar : TNewTipePembayaran;
+//    FTipeBayar : TNewTipePembayaran;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetTipePembayaranId(const Value: Integer);
@@ -83,7 +83,7 @@ begin
    IDLokal := 0;
   end else
   begin
-    IDLokal := StrToInt(frmTipePembayaran.strgGrid.Cells[2,frmTipePembayaran.strgGrid.Row])
+//    IDLokal := StrToInt(frmTipePembayaran.strgGrid.Cells[2,frmTipePembayaran.strgGrid.Row])
     //FIsProcessSuccessfull := UpdateTipePembayaran;
     //if FIsProcessSuccessfull then
     //  Close;
@@ -102,12 +102,12 @@ begin
     edtTipePembayaran.SetFocus;
     Exit;
   end;
-
+  {
   FTipeBayar.UpdateData(IDLokal,
                         edtKodeTipePembayaran.Text,
                         edtTipePembayaran.Text
                         );
-                        
+
   try
     if FTipeBayar.ExecuteGenerateSQL then
     begin
@@ -124,6 +124,7 @@ begin
   finally
     cRollbackTrans;
   end;
+  }
 end;
 
 procedure TfrmDialogTipePembayaran.FormShow(Sender: TObject);
@@ -131,12 +132,12 @@ begin
   inherited;
   if (FFormMode = fmEdit) then
   begin
-    IDLokal := StrToInt(frmTipePembayaran.strgGrid.Cells[2,frmTipePembayaran.strgGrid.Row]);
-    if FTipeBayar.LoadByID(IDLokal) then
-    begin
-      edtKodeTipePembayaran.Text := FTipeBayar.Kode;
-      edtTipePembayaran.Text := FTipeBayar.Nama;
-    end;
+//    IDLokal := StrToInt(frmTipePembayaran.strgGrid.Cells[2,frmTipePembayaran.strgGrid.Row]);
+//    if FTipeBayar.LoadByID(IDLokal) then
+//    begin
+//      edtKodeTipePembayaran.Text := FTipeBayar.Kode;
+//      edtTipePembayaran.Text := FTipeBayar.Nama;
+//    end;
   end else
   begin
     prepareAddData();
@@ -152,7 +153,7 @@ end;
 procedure TfrmDialogTipePembayaran.FormCreate(Sender: TObject);
 begin
   inherited;
-  FTipeBayar := TNewTipePembayaran.Create(Self);
+//  FTipeBayar := TNewTipePembayaran.Create(Self);
 end;
 
 end.

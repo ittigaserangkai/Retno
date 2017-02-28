@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
   StdCtrls, uNewSalesOutlet, uRetnoUnit;
 
 type

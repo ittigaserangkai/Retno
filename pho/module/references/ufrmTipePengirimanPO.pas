@@ -4,18 +4,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, Grids, BaseGrid, AdvGrid,
-  ufraFooter5Button, ActnList, uConn, uTipeKirimPO,uRetnoUnit;
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls,
+  ufraFooter5Button, ActnList, uConn, uRetnoUnit, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel,
+  cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, System.Actions;
 
 type
   TfrmTipePengirimanPO = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstTipePengirimanPO: TActionList;
     actAddTipePengirimanPO: TAction;
     actEditTipePengirimanPO: TAction;
     actDeleteTipePengirimanPO: TAction;
     actRefreshTipePengirimanPO: TAction;
+    cxGridViewTipePengiriman: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
     procedure FormShow(Sender: TObject);
     procedure actAddTipePengirimanPOExecute(Sender: TObject);
     procedure actEditTipePengirimanPOExecute(Sender: TObject);
@@ -26,10 +32,10 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
-    FNewTipeKirimPO : TTipeKirimPO;
+//    FNewTipeKirimPO : TTipeKirimPO;
     IDLokal : Integer;
     { Private declarations }
-    function GetData(): TResultDataSet;
+    function GetData(): TDataSet;
   public
     { Public declarations }
   end;
@@ -39,7 +45,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, uTipePengirimanPO, ufrmDialogTipePengirimanPO,  uConstanta;
+uses uTSCommonDlg, ufrmDialogTipePengirimanPO,  uConstanta;
 
 {$R *.dfm}
 
@@ -54,18 +60,18 @@ procedure TfrmTipePengirimanPO.actAddTipePengirimanPOExecute(
   Sender: TObject);
 begin
   inherited;
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogTipePengirimanPO) then
       Application.CreateForm(TfrmDialogTipePengirimanPO, frmDialogTipePengirimanPO);
 
-    frmDialogTipePengirimanPO.frmSuiMasterDialog.Caption := 'Add PO Delivery Type';
+    frmDialogTipePengirimanPO.Caption := 'Add PO Delivery Type';
     frmDialogTipePengirimanPO.FormMode := fmAdd;
 
     SetFormPropertyAndShowDialog(frmDialogTipePengirimanPO);
@@ -75,8 +81,8 @@ begin
       CommonDlg.ShowConfirm(atAdd);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePengirimanPO.Free;
 end;
@@ -86,22 +92,22 @@ procedure TfrmTipePengirimanPO.actEditTipePengirimanPOExecute(
 begin
   inherited;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
-    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
     if not Assigned(frmDialogTipePengirimanPO) then
       Application.CreateForm(TfrmDialogTipePengirimanPO, frmDialogTipePengirimanPO);
 
-    frmDialogTipePengirimanPO.frmSuiMasterDialog.Caption := 'Edit PO Delivery Type';
+    frmDialogTipePengirimanPO.Caption := 'Edit PO Delivery Type';
     frmDialogTipePengirimanPO.FormMode := fmEdit;
-    frmDialogTipePengirimanPO.TipePengirimanPOId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//    frmDialogTipePengirimanPO.TipePengirimanPOId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
     SetFormPropertyAndShowDialog(frmDialogTipePengirimanPO);
     if (frmDialogTipePengirimanPO.IsProcessSuccessfull) then
@@ -110,8 +116,8 @@ begin
       CommonDlg.ShowConfirm(atEdit);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePengirimanPO.Free;
 end;
@@ -120,17 +126,17 @@ procedure TfrmTipePengirimanPO.actDeleteTipePengirimanPOExecute(
   Sender: TObject);
 begin
   inherited;
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if (CommonDlg.Confirm('Are you sure you wish to delete PO Delivery Type (Type: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[0,strgGrid.row]+') ?') = mrYes) then
+//  if (CommonDlg.Confirm('Are you sure you wish to delete PO Delivery Type (Type: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[0,strgGrid.row]+') ?') = mrYes) then
   begin
-
+    {
     iDLokal := strgGrid.Ints[2,strgGrid.row];
 
     if FNewTipeKirimPO.LoadByID(IDLokal) then
@@ -148,18 +154,20 @@ begin
         CommonDlg.ShowError('Data Gagal Dihapus');
       end;
     end;
+    }
   end;
 end;
 
 procedure TfrmTipePengirimanPO.actRefreshTipePengirimanPOExecute(
   Sender: TObject);
 var
-    dataTipePengirimanPO: TResultDataSet;
+    dataTipePengirimanPO: TDataSet;
     i,countData: Integer;
 begin
   inherited;
   dataTipePengirimanPO := GetData();
   countData := dataTipePengirimanPO.RecordCount;
+  {
   with strgGrid do
   begin
     Clear;
@@ -192,17 +200,16 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
-function TfrmTipePengirimanPO.GetData: TResultDataSet;
+function TfrmTipePengirimanPO.GetData: TDataSet;
 begin
   // inisiate business model
-  if not assigned(TipePengirimanPO) then
-    TipePengirimanPO := TTipePengirimanPO.Create;
+//  if not assigned(TipePengirimanPO) then
+//    TipePengirimanPO := TTipePengirimanPO.Create;
 
-
-
-  Result := TipePengirimanPO.GetListDataTipePengirimanPO();
+//  Result := TipePengirimanPO.GetListDataTipePengirimanPO();
 end;
 
 procedure TfrmTipePengirimanPO.FormDestroy(Sender: TObject);
@@ -227,7 +234,7 @@ end;
 procedure TfrmTipePengirimanPO.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewTipeKirimPO := TTipeKirimPO.Create(Self)
+//  FNewTipeKirimPO := TTipeKirimPO.Create(Self)
 end;
 
 end.

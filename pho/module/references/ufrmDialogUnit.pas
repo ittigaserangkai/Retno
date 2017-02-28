@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
   StdCtrls, cbxbase, dblup1a, JclStrings, uNewUnit, EditBtn;
 
 type
@@ -157,7 +157,7 @@ uses  uTSCommonDlg, uRetnoUnit, Math;
 {$R *.dfm}
 
 //procedure TfrmDialogUnit.showDataEdit(intIdUnit:Integer);
-//var data: TResultDataSet;
+//var data: TDataSet;
 //    intI: Integer;
 //    strR, strDataType: string;
 //begin
@@ -322,7 +322,7 @@ begin
 end;
 
 procedure TfrmDialogUnit.FormShow(Sender: TObject);
-//var data: TResultDataSet;
+//var data: TDataSet;
 begin
 //  inherited;
 //  FIdType := TStringList.Create;

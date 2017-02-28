@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  SUIForm, JvLabel, JvEdit,  cbxbase, dblup1a, uConn, uNewProduk_Jasa,
+    JvEdit,  cbxbase, dblup1a, uConn, uNewProduk_Jasa,
   JvValidateEdit, JvExStdCtrls;
 
 type
@@ -46,8 +46,8 @@ type
     FIsProcessSuccessfull: boolean;
     FMasterProductNBDId: string;
     FFormMode: TFormMode;
-    dataProdType,dataUOMNBD: TResultDataSet;
-    dataPajak,dataPeriode: TResultDataSet;
+    dataProdType,dataUOMNBD: TDataSet;
+    dataPajak,dataPeriode: TDataSet;
     idTPPRO,idPeriode,idPajak: Integer;
 
     FNewProduk_Jasa : TNewProduk_Jasa;
@@ -167,7 +167,7 @@ end;
 
 procedure TfrmDialogMasterProductNBD.ShowDataEdit(AMasterProductNBDId: string);
 //var
-//  data: TResultDataSet;
+//  data: TDataSet;
 begin
 {  if not assigned(MasterProductNBD) then
     MasterProductNBD := TMasterProductNBD.Create;

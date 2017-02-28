@@ -29,7 +29,7 @@ type
   private
   FNewOutlet : TNewSalesOutlet;
     { Private declarations }
-    function GetData(): TResultDataSet;
+    function GetData(): TDataSet;
   public
     { Public declarations }
   end;
@@ -150,7 +150,7 @@ begin
   end;
 end;
 
-function TfrmOutlet.GetData(): TResultDataSet;
+function TfrmOutlet.GetData(): TDataSet;
 var 
   arrParam: TArr;
 begin
@@ -172,7 +172,7 @@ end;
 
 procedure TfrmOutlet.actRefreshOutletExecute(Sender: TObject);
 var
-  dataOutlet: TResultDataSet;
+  dataOutlet: TDataSet;
   i, countData:Integer;
 begin
   dataOutlet := GetData();

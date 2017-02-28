@@ -41,7 +41,20 @@ uses
   ufrmDialogSysParm in 'module\references\ufrmDialogSysParm.pas' {frmDialogSysParm},
   ufrmDialogSysParmCompTemp in 'module\references\ufrmDialogSysParmCompTemp.pas' {frmDialogSysParmCompTemp},
   ufrmSysParm in 'module\references\ufrmSysParm.pas' {frmSysParm},
-  ufrmSysParmCompTemp1 in 'module\references\ufrmSysParmCompTemp1.pas' {frmSysParmCompTemp1};
+  ufrmSysParmCompTemp1 in 'module\references\ufrmSysParmCompTemp1.pas' {frmSysParmCompTemp1},
+  ufrmTipePerusahaan in 'module\references\ufrmTipePerusahaan.pas' {frmTipePerusahaan},
+  ufrmDialogTipePerusahaan in 'module\references\ufrmDialogTipePerusahaan.pas' {frmDialogTipePerusahaan},
+  ufrmDialogTipePembayaran in 'module\references\ufrmDialogTipePembayaran.pas' {frmDialogTipePembayaran},
+  ufrmTipePembayaran in 'module\references\ufrmTipePembayaran.pas' {frmTipePembayaran},
+  ufrmTipePengirimanPO in 'module\references\ufrmTipePengirimanPO.pas' {frmTipePengirimanPO},
+  ufrmDialogTipePengirimanPO in 'module\references\ufrmDialogTipePengirimanPO.pas' {frmDialogTipePengirimanPO},
+  ufrmDialogProductType in 'module\references\ufrmDialogProductType.pas' {frmDialogProductType},
+  ufrmDialogProductTypeNBD in 'module\references\ufrmDialogProductTypeNBD.pas' {frmDialogProductTypeNBD},
+  ufrmDialogSupplierType in 'module\references\ufrmDialogSupplierType.pas' {frmDialogSupplierType},
+  ufrmProductType in 'module\references\ufrmProductType.pas' {frmProductType},
+  ufrmProductTypeNBD in 'module\references\ufrmProductTypeNBD.pas' {frmProductTypeNBD},
+  ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
+  ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening};
 
 {$R *.res}
 

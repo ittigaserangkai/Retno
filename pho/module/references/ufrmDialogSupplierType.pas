@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, uRetnoUnit, uNewTipeSupplier;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
+  StdCtrls, uRetnoUnit, SUIForm;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -24,7 +24,7 @@ type
     FIsProcessSuccessfull: Boolean;
     FSupplierTypeId: Integer;
     FFormMode: TFormMode;
-    FNewSupplierType : TNewTipeSupplier;
+//    FNewSupplierType : TNewTipeSupplier;
     IDLokal : Integer;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -93,7 +93,7 @@ begin
     edtName.SetFocus;
     Exit;
   end;
-
+  {
   if FNewSupplierType.isKodeExits(edtCode.Text,FNewSupplierType.ID) then
   begin
     CommonDlg.ShowError('Code ' + edtCode.Text + ' Sudah Ada');
@@ -123,7 +123,7 @@ begin
   Finally;
     cRollbackTrans;
   end;
-
+  }
 end;
 
 procedure TfrmDialogSupplierType.SetFormMode(const Value: TFormMode);
@@ -148,7 +148,7 @@ begin
  if (FFormMode = fmEdit) then
   begin
     IDLokal := FSupplierTypeId;
-    if FNewSupplierType.LoadByID(IDLokal) then
+    {if FNewSupplierType.LoadByID(IDLokal) then
     begin
       edtCode.Text := FNewSupplierType.Kode;
       edtName.Text := FNewSupplierType.Nama;
@@ -156,13 +156,14 @@ begin
     end else begin
       IDLokal := 0;
       prepareAddData();
-  end;  
+      }
+  end;
 end;
 
 procedure TfrmDialogSupplierType.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewSupplierType := TNewTipeSupplier.create(self);
+//  FNewSupplierType := TNewTipeSupplier.create(self);
 end;
 
 end.

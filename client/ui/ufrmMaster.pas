@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ActnList, SUIButton, AdvGrid, BaseGrid,
+  Dialogs, ExtCtrls, StdCtrls, ActnList,  AdvGrid, BaseGrid,
   uConstanta;
 
 type

@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, JvEdit, uRetnoUnit,uRMSBaseClass, uNewTipePerusahaan;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  StdCtrls, uRetnoUnit;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -23,7 +23,7 @@ type
     FIsProcessSuccessfull: boolean;
     FTipePerusahaanId: Integer;
     FFormMode: TFormMode;
-    FPerusahaan : TnewTipePerusahaan;
+//    FPerusahaan : TnewTipePerusahaan;
     IDLokal : Integer;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -42,7 +42,7 @@ var
 
 implementation
 
-uses uTipePerusahaan, uTSCommonDlg, uConn,  ufrmTipePerusahaan;
+uses  uTSCommonDlg, uConn,  ufrmTipePerusahaan;
 
 {$R *.dfm}
 
@@ -78,7 +78,7 @@ begin
 
   end else
   begin
-    IDLokal := StrToInt(frmTipePerusahaan.strgGrid.Cells[2,frmTipePerusahaan.strgGrid.row]);
+//    IDLokal := StrToInt(frmTipePerusahaan.strgGrid.Cells[2,frmTipePerusahaan.strgGrid.row]);
  // end;
  //    FIsProcessSuccessfull := UpdateTipePerusahaan;
   //   if FIsProcessSuccessfull then
@@ -98,7 +98,7 @@ begin
       edtName.Text;
       Exit;
     end;
-
+    {
     FPerusahaan.UpdateData(IDLokal,edtCode.Text,edtName.Text,DialogUnit);
     try
       if FPerusahaan.ExecuteGenerateSQL then
@@ -116,6 +116,7 @@ begin
      finally
        cRollbackTrans;
      end;
+     }
 end;
 
 procedure TfrmDialogTipePerusahaan.prepareAddData;
@@ -129,12 +130,13 @@ begin
   inherited;
   if (FFormMode = fmEdit) then
   begin
+    {
     IDLokal := StrToInt(frmTipePerusahaan.strgGrid.Cells[2,frmTipePerusahaan.strgGrid.row]);
     if FPerusahaan.LoadByID(IDLokal,DialogUnit) then
     begin
       edtCode.Text := FPerusahaan.Kode;
       edtName.Text := FPerusahaan.Nama;
-    end;
+    end;}
     // showDataEdit(TipePerusahaanId)
   end else
     prepareAddData();
@@ -143,7 +145,7 @@ end;
 procedure TfrmDialogTipePerusahaan.FormCreate(Sender: TObject);
 begin
   inherited;
-  FPerusahaan := TnewTipePerusahaan.Create(Self);
+//  FPerusahaan := TnewTipePerusahaan.Create(Self);
 end;
 
 end.

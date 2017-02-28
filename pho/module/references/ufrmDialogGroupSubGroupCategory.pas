@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, SUITabControl, ufraFooterDialog2Button,
-  ExtCtrls, SUIForm, JvEdit, StdCtrls, SUIPageControl,
+  ExtCtrls,  JvEdit, StdCtrls, SUIPageControl,
   cbxbase, dblup1a, uConn, uGroup, uSubGroup, uKategori, JvExStdCtrls,
   JvValidateEdit;
 
@@ -65,7 +65,7 @@ type
     procedure SetIsProcessSuccessfull(const Value: boolean);
     function SaveData: boolean;
     function UpdateData: boolean;
-    function GetListRekening: TResultDataSet;
+    function GetListRekening: TDataSet;
     procedure prepareAddData;
     procedure showDataEdit;
     procedure ParseDataRekening;
@@ -301,7 +301,7 @@ end;
 
 procedure TfrmDialogGroupSubGroupCategory.FormShow(Sender: TObject);
 var i: Integer;
-    data: TResultDataSet;
+    data: TDataSet;
 begin
   inherited;
   if not assigned(Groups) then
@@ -353,7 +353,7 @@ end;
 
 procedure TfrmDialogGroupSubGroupCategory.cbbGroup1Change(Sender: TObject);
 var i: Integer;
-    data: TResultDataSet;
+    data: TDataSet;
 begin
   inherited;
   {Set cbbSubGroup}
@@ -374,7 +374,7 @@ begin
   cbbSubGroup.ItemIndex:=0;
 end;
 
-function TfrmDialogGroupSubGroupCategory.GetListRekening: TResultDataSet;
+function TfrmDialogGroupSubGroupCategory.GetListRekening: TDataSet;
 var arrParam: TArr;
 begin
   SetLength(arrParam, 2);
@@ -390,7 +390,7 @@ begin
 end;
 
 procedure TfrmDialogGroupSubGroupCategory.ParseDataRekening;
-var dataRekening: TResultDataSet;
+var dataRekening: TDataSet;
 begin
   dataRekening := GetListRekening;
 

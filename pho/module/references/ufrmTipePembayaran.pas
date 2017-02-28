@@ -4,18 +4,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, Grids, BaseGrid, AdvGrid,
-  ufraFooter5Button, ActnList, uConn, uNewTipePembayaran, uRetnoUnit,uRMSBaseClass;
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls,
+  ufraFooter5Button, ActnList, uConn, uRetnoUnit, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel,
+  cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, System.Actions;
 
 type
   TfrmTipePembayaran = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstTipePembayaran: TActionList;
     actAddTipePembayaran: TAction;
     actEditTipePembayaran: TAction;
     actDeleteTipePembayaran: TAction;
     actRefreshTipePembayaran: TAction;
+    cxGridViewTipePembayaran: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
     procedure actAddTipePembayaranExecute(Sender: TObject);
     procedure actRefreshTipePembayaranExecute(Sender: TObject);
     procedure actEditTipePembayaranExecute(Sender: TObject);
@@ -26,9 +32,9 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
-    FTipePembayaran : TNewTipePembayaran;
+//    FTipePembayaran : TNewTipePembayaran;
     { Private declarations }
-    function GetData(): TResultDataSet;
+    function GetData(): TDataSet;
   public
     { Public declarations }
   end;
@@ -38,38 +44,36 @@ var
 
 implementation
 
-uses uTSCommonDlg, uTipePembayaran, ufrmDialogTipePembayaran,  uConstanta;
+uses uTSCommonDlg, ufrmDialogTipePembayaran,  uConstanta;
 
 {$R *.dfm}
 
 { TfrmTipePembayaran }
 
-function TfrmTipePembayaran.GetData: TResultDataSet;
+function TfrmTipePembayaran.GetData: TDataSet;
 begin
   // inisiate business model
-  if not assigned(TipePembayaran) then
-    TipePembayaran := TTipePembayaran.Create;
+//  if not assigned(TipePembayaran) then
+//    TipePembayaran := TTipePembayaran.Create;
 
-
-
-  Result := TipePembayaran.GetListDataTipePembayaran();
+//  Result := TipePembayaran.GetListDataTipePembayaran();
 end;
 
 procedure TfrmTipePembayaran.actAddTipePembayaranExecute(Sender: TObject);
 begin
   inherited;
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogTipePembayaran) then
       Application.CreateForm(TfrmDialogTipePembayaran, frmDialogTipePembayaran);
 
-    frmDialogTipePembayaran.frmSuiMasterDialog.Caption := 'Add Payment Type';
+    frmDialogTipePembayaran.Caption := 'Add Payment Type';
     frmDialogTipePembayaran.FormMode := fmAdd;
 
     SetFormPropertyAndShowDialog(frmDialogTipePembayaran);
@@ -79,8 +83,8 @@ begin
       CommonDlg.ShowConfirm(atAdd);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePembayaran.Free;
 end;
@@ -88,13 +92,13 @@ end;
 procedure TfrmTipePembayaran.actRefreshTipePembayaranExecute(
   Sender: TObject);
 var
-    dataTipePembayaran: TResultDataSet;
+    dataTipePembayaran: TDataSet;
     i,countData: Integer;
 begin
   inherited;
   dataTipePembayaran := GetData();
   countData := dataTipePembayaran.RecordCount;
-  with strgGrid do
+  {with strgGrid do
   begin
     Clear;
     RowCount := countData+1;
@@ -126,28 +130,29 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
 procedure TfrmTipePembayaran.actEditTipePembayaranExecute(Sender: TObject);
 begin
   inherited;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if(MasterNewUnit.ID <> 0) then
+//  if(MasterNewUnit.ID <> 0) then
   begin
-    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
     if not Assigned(frmDialogTipePembayaran) then
       Application.CreateForm(TfrmDialogTipePembayaran, frmDialogTipePembayaran);
 
-    frmDialogTipePembayaran.frmSuiMasterDialog.Caption := 'Edit Payment Type';
+    frmDialogTipePembayaran.Caption := 'Edit Payment Type';
     frmDialogTipePembayaran.FormMode := fmEdit;
-    frmDialogTipePembayaran.TipePembayaranId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//    frmDialogTipePembayaran.TipePembayaranId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
     SetFormPropertyAndShowDialog(frmDialogTipePembayaran);
     if (frmDialogTipePembayaran.IsProcessSuccessfull) then
@@ -156,8 +161,8 @@ begin
       CommonDlg.ShowConfirm(atEdit);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePembayaran.Free;
 end;
@@ -166,11 +171,11 @@ procedure TfrmTipePembayaran.actDeleteTipePembayaranExecute(
   Sender: TObject);
 begin
   inherited;
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
-  if (CommonDlg.Confirm('Are you sure you wish to delete Payment Type (Type: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
+//  if (CommonDlg.Confirm('Are you sure you wish to delete Payment Type (Type: '+strgGrid.Cells[1,strgGrid.row]+ ' : ' +strgGrid.Cells[2,strgGrid.row]+') ?') = mrYes) then
   begin
-
+    {
     IDLokal := StrToInt(frmTipePembayaran.strgGrid.Cells[2,frmTipePembayaran.strgGrid.Row]);
     if FTipePembayaran.LoadByID(IDLokal) then
     begin
@@ -187,6 +192,7 @@ begin
         Exit;
       end;
     end;
+    }
   end;
   
 end;
@@ -220,7 +226,7 @@ end;
 procedure TfrmTipePembayaran.FormCreate(Sender: TObject);
 begin
   inherited;
-  FTipePembayaran := TNewTipePembayaran.Create(Self);
+//  FTipePembayaran := TNewTipePembayaran.Create(Self);
 end;
 
 end.

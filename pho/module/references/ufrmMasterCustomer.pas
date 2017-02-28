@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, Grids, BaseGrid, AdvGrid, ufraFooter5Button,
+  Dialogs, ufrmMaster,  ufraFooter5Button,
   StdCtrls, ExtCtrls, ActnList, jpeg, IB, AdvObj;
 
 type

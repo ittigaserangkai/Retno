@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, Grids, BaseGrid, AdvGrid,
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, 
   ufraFooter5Button, ActnList, SUIDlg, uNewMerchandize, uRetnoUnit;
 
 type
@@ -145,7 +145,7 @@ end;
 
 procedure TfrmMerchandiseGroup.actRefreshMerchanGroupExecute(
   Sender: TObject);
-var data: TResultDataSet;
+var data: TDataSet;
     i: Integer;
 begin
   inherited;

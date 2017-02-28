@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  SUIForm, uTipeProduct, ufrmProductType, uRetnoUnit;
+  ufrmProductType, uRetnoUnit;
 
 type     
   TFormMode = (fmAdd, fmEdit);
@@ -24,7 +24,7 @@ type
     FIsProcessSuccessfull: boolean;
     FProductTypeId: Integer;
     FFormMode: TFormMode;
-    FTipeProduct : TTipeProduk;
+//    FTipeProduct : TTipeProduk;
     aIDLokal : Integer;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
@@ -48,7 +48,7 @@ var
 
 implementation
 
-uses uProductType, uTSCommonDlg, uConn;
+uses uTSCommonDlg, uConn, DB;
 
 {$R *.dfm}
 
@@ -58,7 +58,7 @@ var
   i: Integer;
 begin
   Result := False ;
-  for i := 1 to frmProductType.strgGrid.RowCount - 1 do
+  {for i := 1 to frmProductType.strgGrid.RowCount - 1 do
   begin
      sKodeLama := frmProductType.strgGrid.Cells[0, i];
      if aKodeBaru = sKodeLama then
@@ -67,6 +67,7 @@ begin
        Break;
      end;
   end;
+  }
 end;
 
 { TfrmDialogProductType }
@@ -101,8 +102,8 @@ begin
   end
   else
   begin
-    IDLama := StrToInt(frmProductType.strgGrid.cells[2,frmProductType.strgGrid.Row]);
-    FTipeProduct.LoadByID(IDLama) ;
+//    IDLama := StrToInt(frmProductType.strgGrid.cells[2,frmProductType.strgGrid.Row]);
+//    FTipeProduct.LoadByID(IDLama) ;
     FIsProcessSuccessfull := UpdateProductType;
     if FIsProcessSuccessfull then
       Close;
@@ -139,7 +140,7 @@ begin
   aIDLokal := 0;
   aKode := UpperCase(edtCode.Text);
   ANama := UpperCase(edtName.Text);
-
+  {
   FTipeProduct.UpdateData(aIDLokal,aKode,ANama);
 
   if FTipeProduct.ExecuteGenerateSQL then
@@ -153,7 +154,7 @@ begin
     Result := False;
     CommonDlg.ShowMessage('Pengisian tipe barang gagal');
   end
-
+   }
 
 end;
 
@@ -177,15 +178,15 @@ begin
     Exit;
   end;
 
-  aIDLokal := FTipeProduct.ID ;
+//  aIDLokal := FTipeProduct.ID ;
   aKode := UpperCase(edtCode.Text);
   ANama := UpperCase(edtName.Text);
 
-  FTipeProduct.UpdateData(aIDLokal,aKode,ANama);
+//  FTipeProduct.UpdateData(aIDLokal,aKode,ANama);
 
-  if FTipeProduct.ExecuteGenerateSQL then
-    Result := True
-  else
+//  if FTipeProduct.ExecuteGenerateSQL then
+    Result := True;
+//  else
   begin
     Result := False;
     CommonDlg.ShowMessage('Update data gagal');
@@ -206,12 +207,12 @@ end;
 
 procedure TfrmDialogProductType.ShowDataEdit(AProductTypeId: integer);
 var
-  data: TResultDataSet;
+  data: TDataSet;
 begin
-  if not assigned(ProductType) then
-    ProductType := TProductType.Create;
-
-  data:= ProductType.SearchDataProductType(AProductTypeId);
+//  if not assigned(ProductType) then
+//    ProductType := TProductType.Create;
+//
+//  data:= ProductType.SearchDataProductType(AProductTypeId);
   edtCode.Text := data.Fields[0].AsString;
   edtName.Text := data.Fields[1].AsString;
 
@@ -239,7 +240,7 @@ end;
 procedure TfrmDialogProductType.FormCreate(Sender: TObject);
 begin
   inherited;
-  FTipeProduct := TTipeProduk.Create(self);
+//  FTipeProduct := TTipeProduk.Create(self);
 end;
 
 end.

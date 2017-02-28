@@ -4,18 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, Grids, BaseGrid, AdvGrid,
-  ufraFooter5Button, ActnList, uConn, uNewTipePerusahaan;
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, ActnList, uConn,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions;
 
 type
   TfrmTipePerusahaan = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlstTipeSupplier: TActionList;
     actAddTipePerusahaan: TAction;
     actEditTipePerusahaan: TAction;
     actDeleteTipePerusahaan: TAction;
     actRefreshTipePerusahaan: TAction;
+    cxGridViewTipePerusahaan: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actAddTipePerusahaanExecute(Sender: TObject);
@@ -26,7 +31,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
   private
-    function GetData(): TResultDataSet;
+    function GetData(): TDataSet;
 
   public
     { Public declarations }
@@ -37,7 +42,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, uTipePerusahaan, ufrmDialogTipePerusahaan;
+uses uTSCommonDlg, ufrmDialogTipePerusahaan;
 
 {$R *.dfm}
 
@@ -64,7 +69,7 @@ begin
   if not Assigned(frmDialogTipePerusahaan) then
     Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
 
-  frmDialogTipePerusahaan.frmSuiMasterDialog.Caption := 'Add Company Type';
+  frmDialogTipePerusahaan.Caption := 'Add Company Type';
   frmDialogTipePerusahaan.FormMode := fmAdd;
 
   SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
@@ -81,14 +86,14 @@ procedure TfrmTipePerusahaan.actEditTipePerusahaanExecute(Sender: TObject);
 begin
   inherited;
   // check is data available
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-  
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+
   if not Assigned(frmDialogTipePerusahaan) then
     Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
 
-  frmDialogTipePerusahaan.frmSuiMasterDialog.Caption := 'Edit Company Type';
+  frmDialogTipePerusahaan.Caption := 'Edit Company Type';
   frmDialogTipePerusahaan.FormMode := fmEdit;
-  frmDialogTipePerusahaan.TipePerusahaanId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//  frmDialogTipePerusahaan.TipePerusahaanId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
   SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
   if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
@@ -104,8 +109,8 @@ procedure TfrmTipePerusahaan.actDeleteTipePerusahaanExecute(
   Sender: TObject);
 begin
   inherited;
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+  {
   if (CommonDlg.Confirm('Are you sure you wish to delete Company Type (Name: '+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
   begin
     // todo: put your code to delete data here..
@@ -119,23 +124,24 @@ begin
       CommonDlg.ShowConfirm(atDelete);
     end;
   end;
+  }
 end;
 
-function TfrmTipePerusahaan.GetData(): TResultDataSet;
+function TfrmTipePerusahaan.GetData(): TDataSet;
 var
   arrParam: TArr;
 begin
   arrParam := nil;
-  Result := TipePerusahaan.GetDataTipePerusahaan(arrParam);
+//  Result := TipePerusahaan.GetDataTipePerusahaan(arrParam);
 end;
 
 procedure TfrmTipePerusahaan.actRefreshTipePerusahaanExecute(Sender: TObject);
-var dataTipePerusahaan: TResultDataSet;
+var dataTipePerusahaan: TDataSet;
     i, countData: Integer;
 begin
   dataTipePerusahaan := GetData();
   countData := dataTipePerusahaan.RecordCount;
-
+  {
   with strgGrid do
   begin
     Clear;
@@ -168,6 +174,7 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
 procedure TfrmTipePerusahaan.FormClose(Sender: TObject;

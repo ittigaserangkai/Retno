@@ -5,7 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, ActnList,
-  Grids, BaseGrid, AdvGrid, uConn, uNewTipeSupplier, uRetnoUnit;
+  uConn, uRetnoUnit, DB, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridLevel, cxClasses,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
+  cxGrid, System.Actions;
 
 type
   TfrmSupplierType = class(TfrmMaster)
@@ -15,7 +19,9 @@ type
     actEditSupplierType: TAction;
     actDeleteSupplierType: TAction;
     actRefreshSupplierType: TAction;
-    strgGrid: TAdvStringGrid;
+    cxGrid: TcxGrid;
+    cxGridViewTipeSupplier: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
     procedure FormShow(Sender: TObject);
     procedure actAddSupplierTypeExecute(Sender: TObject);
     procedure actEditSupplierTypeExecute(Sender: TObject);
@@ -28,8 +34,8 @@ type
     procedure fraFooter5Button1btnCloseClick(Sender: TObject);
   private
     { Private declarations }
-    FNewSupplierType : TNewTipeSupplier;
-    function GetData(): TResultDataSet;
+//    FNewSupplierType : TNewTipeSupplier;
+    function GetData(): TDataSet;
   public
     { Public declarations }
   end;
@@ -39,7 +45,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogSupplierType, uSuplierType, Math,  uConstanta;
+uses uTSCommonDlg, ufrmDialogSupplierType, Math,  uConstanta;
 
 {$R *.dfm}
 procedure TfrmSupplierType.FormDestroy(Sender: TObject);
@@ -58,18 +64,18 @@ end;
 procedure TfrmSupplierType.actAddSupplierTypeExecute(Sender: TObject);
 begin
   //check is Unit ID is specified
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if (MasterNewUnit.ID <> 0) then
+//  if (MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogSupplierType) then
       Application.CreateForm(TfrmDialogSupplierType, frmDialogSupplierType);
 
-    frmDialogSupplierType.frmSuiMasterDialog.Caption := 'Add Supplier Type';
+    frmDialogSupplierType.Caption := 'Add Supplier Type';
     frmDialogSupplierType.FormMode := fmAdd;
 
     SetFormPropertyAndShowDialog(frmDialogSupplierType);
@@ -79,32 +85,32 @@ begin
       CommonDlg.ShowConfirm(atAdd);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     
-  frmDialogSupplierType.Free;
+//  frmDialogSupplierType.Free;
 end;
 
 procedure TfrmSupplierType.actEditSupplierTypeExecute(Sender: TObject);
 begin
   // check is Unit ID Specified
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if (MasterNewUnit.ID <> 0) then
+//  if (MasterNewUnit.ID <> 0) then
   begin
     // check is there any data available to delete
-    if(strgGrid.Cells[0, strgGrid.Row] = ' ') then Exit;
+//    if(strgGrid.Cells[0, strgGrid.Row] = ' ') then Exit;
 
     if not Assigned(frmDialogSupplierType) then
       Application.CreateForm(TfrmDialogSupplierType, frmDialogSupplierType);
 
-    frmDialogSupplierType.frmSuiMasterDialog.Caption := 'Edit Supplier Type';
+    frmDialogSupplierType.Caption := 'Edit Supplier Type';
     frmDialogSupplierType.FormMode := fmEdit;
-    frmDialogSupplierType.SupplierTypeId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//    frmDialogSupplierType.SupplierTypeId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
     SetFormPropertyAndShowDialog(frmDialogSupplierType);
     if (frmDialogSupplierType.IsProcessSuccessfull) then
@@ -113,18 +119,18 @@ begin
       CommonDlg.ShowConfirm(atEdit);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     
   frmDialogSupplierType.Free;
 end;
 
 procedure TfrmSupplierType.actDeleteSupplierTypeExecute(Sender: TObject);
 begin
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Supplier Type (Name: '+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+//  if (CommonDlg.Confirm('Are you sure you wish to delete Supplier Type (Name: '+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
   begin
-
+   {
    if FNewSupplierType.LoadByID(StrToInt(strgGrid.Cells[2,strgGrid.row])) then
     begin
       if FNewSupplierType.RemoveFromDB then
@@ -140,16 +146,17 @@ begin
         CommonDlg.ShowMessage('Data gagal dihapus');
       end;
     end;
+    }
   end;
 end;
 
-function TfrmSupplierType.GetData(): TResultDataSet;
+function TfrmSupplierType.GetData(): TDataSet;
 //var
 //  IdUnt: Integer;
 begin
   // inisiate business model
-  if not assigned(Supliertipe) then
-    Supliertipe := TSuplierTipe.Create;
+//  if not assigned(Supliertipe) then
+//    Supliertipe := TSuplierTipe.Create;
 
   // check is Unit Id specified?
 //  if MasterNewUnit.ID <> 0 then
@@ -159,16 +166,17 @@ begin
 //  else
 //    IdUnt := 0;
 
-  Result := Supliertipe.GetListDataSupplierTipe();
+//  Result := Supliertipe.GetListDataSupplierTipe();
 end;
 
 procedure TfrmSupplierType.actRefreshSupplierTypeExecute(Sender: TObject);
 var
-  dataTPSupplier: TResultDataSet;
+  dataTPSupplier: TDataSet;
   i, countData: Integer;
 begin
   dataTPSupplier := GetData();
   countData := dataTPSupplier.RecordCount;
+  {
   with strgGrid do
   begin
     Clear;
@@ -201,6 +209,7 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
 procedure TfrmSupplierType.FormActivate(Sender: TObject);
@@ -219,7 +228,7 @@ end;
 procedure TfrmSupplierType.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewSupplierType := TNewTipeSupplier.Create(self);
+//  FNewSupplierType := TNewTipeSupplier.Create(self);
 end;
 
 procedure TfrmSupplierType.fraFooter5Button1btnCloseClick(Sender: TObject);

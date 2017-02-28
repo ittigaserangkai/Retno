@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm, uTipeKirimPO,
-  StdCtrls;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, StdCtrls;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -22,7 +21,7 @@ type
     FIsProcessSuccessfull: Boolean;
     FTipePengirimanPOId: Integer;
     FFormMode: TFormMode;
-    FNewTipeKirimPO : TTipeKirimPO;
+//    FNewTipeKirimPO : TTipeKirimPO;
     IDLokal : Integer;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -64,7 +63,7 @@ procedure TfrmDialogTipePengirimanPO.footerDialogMasterbtnSaveClick(
 begin
   inherited;
 
-
+  {
   FNewTipeKirimPO.UpdateData(IDLokal,
                               edtKodeTipePengirimanPO.Text,
                               edtTipePengirimanPO.Text
@@ -84,7 +83,7 @@ begin
   finally
     cRollbackTrans;
   end;
-
+  }
 end;
 
 procedure TfrmDialogTipePengirimanPO.FormShow(Sender: TObject);
@@ -93,12 +92,13 @@ begin
   if (FFormMode = fmEdit) then
   begin
     IDLokal := TipePengirimanPOId;
-    if FNewTipeKirimPO.LoadByID(IDLokal) then
+//    if FNewTipeKirimPO.LoadByID(IDLokal) then
+//    begin
+//      edtKodeTipePengirimanPO.Text := FNewTipeKirimPO.Kode;
+//      edtTipePengirimanPO.Text := FNewTipeKirimPO.Name;
+//    end
+//    else
     begin
-      edtKodeTipePengirimanPO.Text := FNewTipeKirimPO.Kode;
-      edtTipePengirimanPO.Text := FNewTipeKirimPO.Name;
-    end
-    else begin
       IDLokal := 0;
       edtKodeTipePengirimanPO.Text := '';
       edtTipePengirimanPO.Text := '';
@@ -115,7 +115,7 @@ end;
 procedure TfrmDialogTipePengirimanPO.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewTipeKirimPO := TTipeKirimPO.Create(Self);
+//  FNewTipeKirimPO := TTipeKirimPO.Create(Self);
 end;
 
 end.

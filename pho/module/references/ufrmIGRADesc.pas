@@ -26,7 +26,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
-    function GetData(): TResultDataSet;
+    function GetData(): TDataSet;
   public
     { Public declarations }
   end;
@@ -136,7 +136,7 @@ begin
   end;
 end;
 
-function TfrmIGRADesc.GetData(): TResultDataSet;
+function TfrmIGRADesc.GetData(): TDataSet;
 begin
   // inisiate the business model
   if not assigned(IGRADesc) then
@@ -147,7 +147,7 @@ end;
 
 procedure TfrmIGRADesc.actRefreshIGRADescExecute(Sender: TObject);
 var
-  dataIGRADesc: TResultDataSet;
+  dataIGRADesc: TDataSet;
   i, countData:Integer;
 begin
   dataIGRADesc := GetData();

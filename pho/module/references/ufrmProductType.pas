@@ -4,18 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, Grids, BaseGrid, AdvGrid, ufraFooter5Button,
-  StdCtrls, ExtCtrls, ActnList, uTipeProduct;
+  Dialogs, ufrmMaster,  ufraFooter5Button, StdCtrls, ExtCtrls, ActnList,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions;
 
 type
   TfrmProductType = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
     actlst1: TActionList;
     actAddProductType: TAction;
     actEditProductType: TAction;
     actDeleteProductType: TAction;
     actRefreshProductType: TAction;
+    cxGridViewTipeProduk: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure actAddProductTypeExecute(Sender: TObject);
@@ -31,7 +36,7 @@ type
   private
     IdProductType: integer;
     strnama: string;
-    FTipeProduct : TTipeProduk;
+//    FTipeProduct : TTipeProduk;
     procedure RefreshData();
   public
     { Public declarations }
@@ -42,8 +47,7 @@ var
 
 implementation
 
-uses ufrmDialogProductType, uTSCommonDlg, uProductType, Math, uConn,
-      uConstanta;
+uses ufrmDialogProductType, uTSCommonDlg, Math, uConn, uConstanta;
 
 {$R *.dfm}
 
@@ -65,7 +69,7 @@ begin
   if not Assigned(frmDialogProductType) then
     Application.CreateForm(TfrmDialogProductType, frmDialogProductType);
 
-  frmDialogProductType.frmSuiMasterDialog.Caption := 'Add Product Type';
+  frmDialogProductType.Caption := 'Add Product Type';
   frmDialogProductType.FormMode := fmAdd;
 
   SetFormPropertyAndShowDialog(frmDialogProductType);
@@ -80,8 +84,8 @@ end;
 
 procedure TfrmProductType.actEditProductTypeExecute(Sender: TObject);
 begin
-  if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
-  if MasterNewUnit.ID=0 then
+//  if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
@@ -89,9 +93,9 @@ begin
   end;
   if not Assigned(frmDialogProductType) then
     Application.CreateForm(TfrmDialogProductType, frmDialogProductType);
-  frmDialogProductType.frmSuiMasterDialog.Caption := 'Edit Product Type';
+  frmDialogProductType.Caption := 'Edit Product Type';
   frmDialogProductType.FormMode := fmEdit;
-  frmDialogProductType.ProductTypeId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//  frmDialogProductType.ProductTypeId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
   SetFormPropertyAndShowDialog(frmDialogProductType);
   if (frmDialogProductType.IsProcessSuccessfull) then
@@ -108,27 +112,27 @@ var
   aID: Integer;
 begin
   try
-    if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
-    if MasterNewUnit.ID=0 then
+//    if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
+//    if MasterNewUnit.ID=0 then
     begin
       CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
       //frmMain.cbbUnit.SetFocus;
       Exit;
     end;
-    if (CommonDlg.Confirm('Are you sure you wish to delete Product Type (Code : '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
+//    if (CommonDlg.Confirm('Are you sure you wish to delete Product Type (Code : '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
     begin
-      if not assigned(ProductType) then
-        ProductType := TProductType.Create;
-
-      aID := StrToInt(strgGrid.Cells[2,strgGrid.row]);
-
-      if FtipeProduct.LoadByID(aID) then
+//      if not assigned(ProductType) then
+//        ProductType := TProductType.Create;
+//
+//      aID := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//
+//      if FtipeProduct.LoadByID(aID) then
       begin
-        if FTipeProduct.RemoveFromDB then
+//        if FTipeProduct.RemoveFromDB then
         begin
           actRefreshProductTypeExecute(Self);
           CommonDlg.ShowConfirm(atDelete);
-        end else CommonDlg.ShowMessage('Load data gagal');
+        end// else CommonDlg.ShowMessage('Load data gagal');
       end;
     end;
   finally
@@ -138,10 +142,10 @@ end;
 
 procedure TfrmProductType.RefreshData;
 var
-  data:TResultDataSet;
+  data:TDataSet;
   i:Integer;
 begin
-  if not assigned(ProductType) then
+  {if not assigned(ProductType) then
     ProductType := TProductType.Create;
 
   data := ProductType.GetDataProductType();
@@ -179,7 +183,7 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
-  strgGrid.SetFocus;
+  strgGrid.SetFocus;}
 end;
 
 procedure TfrmProductType.actRefreshProductTypeExecute(Sender: TObject);
@@ -198,8 +202,8 @@ procedure TfrmProductType.strgGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
   inherited;
-  IdProductType:= StrToInt(strgGrid.Cells[2,arow]);
-  strNama:= strgGrid.Cells[1,arow];
+//  IdProductType:= StrToInt(strgGrid.Cells[2,arow]);
+//  strNama:= strgGrid.Cells[1,arow];
 end;
 
 procedure TfrmProductType.FormActivate(Sender: TObject);
@@ -211,7 +215,7 @@ end;
 procedure TfrmProductType.FormCreate(Sender: TObject);
 begin
   inherited;
-  FTipeProduct := TTipeProduk.Create(Self);
+//  FTipeProduct := TTipeProduk.Create(Self);
 end;
 
 procedure TfrmProductType.fraFooter5Button1btnCloseClick(Sender: TObject);

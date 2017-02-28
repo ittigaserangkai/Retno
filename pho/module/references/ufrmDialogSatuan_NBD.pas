@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
   StdCtrls, uNewRefSatuan_NBD;
 
 type
@@ -141,7 +141,7 @@ end;
 }
 
 procedure TfrmDialogSatuan_NBD.showDataEdit(strUomCode: string);
-//var //dataSatuan_NBD: TResultDataSet;
+//var //dataSatuan_NBD: TDataSet;
     //arrParam: TArr;
 begin
   // set params

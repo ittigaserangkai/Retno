@@ -77,6 +77,12 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.1;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <VerInfo_Debug>true</VerInfo_Debug>
+        <VerInfo_MajorVer>2017</VerInfo_MajorVer>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_DcuOutput>D:\SharedProjects\Projects\Retno\pho\dcu</DCC_DcuOutput>
         <DCC_ExeOutput>D:\SharedProjects\Projects\Retno\bin</DCC_ExeOutput>
@@ -222,6 +228,58 @@
         </DCCReference>
         <DCCReference Include="module\references\ufrmSysParmCompTemp1.pas">
             <Form>frmSysParmCompTemp1</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmTipePerusahaan.pas">
+            <Form>frmTipePerusahaan</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogTipePerusahaan.pas">
+            <Form>frmDialogTipePerusahaan</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogTipePembayaran.pas">
+            <Form>frmDialogTipePembayaran</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmTipePembayaran.pas">
+            <Form>frmTipePembayaran</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmTipePengirimanPO.pas">
+            <Form>frmTipePengirimanPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogTipePengirimanPO.pas">
+            <Form>frmDialogTipePengirimanPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogProductType.pas">
+            <Form>frmDialogProductType</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogProductTypeNBD.pas">
+            <Form>frmDialogProductTypeNBD</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogSupplierType.pas">
+            <Form>frmDialogSupplierType</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmProductType.pas">
+            <Form>frmProductType</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmProductTypeNBD.pas">
+            <Form>frmProductTypeNBD</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmSupplierType.pas">
+            <Form>frmSupplierType</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmSearchRekening.pas">
+            <Form>frmDialogSearchRekening</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

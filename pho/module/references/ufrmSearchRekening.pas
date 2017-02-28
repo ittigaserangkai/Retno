@@ -4,8 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  Grids, BaseGrid, AdvGrid, SUIButton, StdCtrls, uConn, ufrmMasterDialog;
+  Dialogs, ufraFooterDialog2Button, ExtCtrls, DB,
+  StdCtrls, uConn, ufrmMasterDialog,
+  AdvUtil, AdvObj, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus,
+  cxButtons, cxControls, cxStyles, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGrid;
 
 type
   TsearchRekMode = (mDebet,mCredit,mDisburstment,mReceipt,mJournalEntry,
@@ -17,9 +22,13 @@ type
     lbl2: TLabel;
     edtRekeningCode: TEdit;
     edtRekeningName: TEdit;
-    btnSearch: TsuiButton;
     pnl2: TPanel;
-    strgGrid: TAdvStringGrid;
+    btnSearch: TcxButton;
+    cxGridViewSearchRekening: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
+    cxColRekeningCode: TcxGridDBColumn;
+    cxColRekeningName: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -37,8 +46,6 @@ type
     procedure strgGridKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure strgGridDblClick(Sender: TObject);
-    procedure btnSearchEnter(Sender: TObject);
-    procedure btnSearchExit(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FCol: Integer;
@@ -46,10 +53,10 @@ type
     FKodeJurnalId: string;
     procedure SetIsProcessSuccessfull(const Value: boolean);
     procedure FindDataOnGrid(AText: String);
-    function GetDataRekeningByCompanyID(aCompanyID: Integer; aRekType: Smallint): TResultDataSet;
-    function GetDataAllRekeningByKdJurId: TResultDataSet;
-    function GetDataRekeningKasDanBank(ACode: string): TResultDataSet;
-    function LoadData(): TResultDataSet;
+    function GetDataRekeningByCompanyID(aCompanyID: Integer; aRekType: Smallint): TDataSet;
+    function GetDataAllRekeningByKdJurId: TDataSet;
+    function GetDataRekeningKasDanBank(ACode: string): TDataSet;
+    function LoadData(): TDataSet;
     procedure SetCol(const Value: Integer);
     procedure SetRow(const Value: Integer);
     procedure SetKodeJurnalId(const Value: string);
@@ -70,7 +77,7 @@ var
 
 implementation
 
-uses uSearchRekening,suithemes, uBarangCompetitor;
+//uses uSearchRekening,suithemes, uBarangCompetitor;
 
 {$R *.dfm}
 
@@ -88,7 +95,7 @@ begin
 end;
 
 procedure TfrmDialogSearchRekening.FormShow(Sender: TObject);
-var data : TResultDataSet;
+var data : TDataSet;
     i, countData : integer;
     isDebet: SmallInt;
 begin
@@ -106,7 +113,7 @@ begin
     data := LoadData;
 
   countData := data.RecordCount;
-
+  {
   with strgGrid do
   begin
     Clear;
@@ -136,6 +143,7 @@ begin
     AutoSize := true;
     FixedRows := 1;
   end;
+  }
   edtRekeningCode.SetFocus;
 end;
 
@@ -157,7 +165,7 @@ begin
   RekeningCode := '';
   RekeningName := '';
   IsProcessSuccessfull := False;
-
+  {
   if(strgGrid.Cells[0,strgGrid.Row])='' then Exit
   else
   begin
@@ -165,7 +173,7 @@ begin
     RekeningName := strgGrid.Cells[1,strgGrid.Row];
     IsProcessSuccessfull := True;
   end;
-
+  }
   Close;
 end;
 
@@ -175,12 +183,14 @@ var
 begin
   if (AText <> '') then
   begin
+    {
     resPoint := strgGrid.Find(Point(0,0),AText,[fnIncludeFixed]);
     if (resPoint.Y <> -1) then
     begin
       strgGrid.ScrollInView(resPoint.X, resPoint.Y);
       strgGrid.SelectRows(resPoint.Y, 1);
     end;
+    }
   end;
 end;
 
@@ -189,11 +199,11 @@ begin
   FindDataOnGrid(edtRekeningName.Text);
 end;
 
-function TfrmDialogSearchRekening.GetDataRekeningByCompanyID(aCompanyID: Integer; aRekType: SmallInt): TResultDataSet;
+function TfrmDialogSearchRekening.GetDataRekeningByCompanyID(aCompanyID: Integer; aRekType: SmallInt): TDataSet;
 var arrParam : TArr;
 begin
-  if not Assigned(SearchRekening) then
-    SearchRekening := TSearchRekening.Create;
+//  if not Assigned(SearchRekening) then
+//    SearchRekening := TSearchRekening.Create;
 
   SetLength(arrParam,2);
   arrParam[0].tipe := ptInteger;
@@ -201,7 +211,7 @@ begin
   arrParam[1].tipe := ptInteger;
   arrParam[1].data := aCompanyID;
 
-  Result := SearchRekening.GetListRekening(arrParam);
+//  Result := SearchRekening.GetListRekening(arrParam);
 end;
 
 procedure TfrmDialogSearchRekening.SetCol(const Value: Integer);
@@ -226,7 +236,7 @@ procedure TfrmDialogSearchRekening.edtRekeningCodeKeyDown(Sender: TObject;
 begin
   {add by didit: 19112007}
   if (Key = VK_DOWN) then
-    strgGrid.SetFocus;
+    cxGrid.SetFocus;
 end;
 
 procedure TfrmDialogSearchRekening.strgGridKeyDown(Sender: TObject;
@@ -234,7 +244,7 @@ procedure TfrmDialogSearchRekening.strgGridKeyDown(Sender: TObject;
 begin
   {add by didit: 19112007}
   if (Key = VK_UP) then
-    if (strgGrid.Row = 1) then
+    if (cxGridViewSearchRekening.DataController.RecNo = 1) then
     begin
       edtRekeningCode.SetFocus;
       edtRekeningCode.SelectAll;
@@ -246,7 +256,7 @@ procedure TfrmDialogSearchRekening.edtRekeningNameKeyDown(Sender: TObject;
 begin
   {add by didit: 19112007}
   if (Key = VK_DOWN) then
-    strgGrid.SetFocus;
+    cxGrid.SetFocus;
 end;
 
 procedure TfrmDialogSearchRekening.SetKodeJurnalId(const Value: string);
@@ -254,10 +264,10 @@ begin
   FKodeJurnalId := Value;
 end;
 
-function TfrmDialogSearchRekening.LoadData: TResultDataSet;
+function TfrmDialogSearchRekening.LoadData: TDataSet;
 var arrParam: TArr;
 begin
-  Result := TResultDataSet.Create(Self);
+  Result := TDataSet.Create(Self);
   if searcMode in [mDisburstment, mReceipt, mJournalEntry, mARPayments, mAPPayment] then
   begin
     SetLength(arrParam, 2);
@@ -266,11 +276,11 @@ begin
     arrParam[1].tipe := ptInteger;
     arrParam[1].data := DialogCompany;
 
-    Result := SearchRekening.GetListRekeningByKodeJurnalId(arrParam);
+//    Result := SearchRekening.GetListRekeningByKodeJurnalId(arrParam);
   end;
 end;
 
-function TfrmDialogSearchRekening.GetDataAllRekeningByKdJurId: TResultDataSet;
+function TfrmDialogSearchRekening.GetDataAllRekeningByKdJurId: TDataSet;
 var arrParam: TArr;
 begin
   SetLength(arrParam, 2);
@@ -279,10 +289,10 @@ begin
   arrParam[1].tipe := ptInteger;
   arrParam[1].data := DialogCompany;
 
-  if not Assigned(SearchRekening) then
-    SearchRekening := TSearchRekening.Create;
-
-  Result := SearchRekening.GetListAllRekeningByKodeJurnalId(arrParam);
+//  if not Assigned(SearchRekening) then
+//    SearchRekening := TSearchRekening.Create;
+//
+//  Result := SearchRekening.GetListAllRekeningByKodeJurnalId(arrParam);
 end;
 
 procedure TfrmDialogSearchRekening.strgGridKeyUp(Sender: TObject;
@@ -300,7 +310,7 @@ begin
 end;
 
 function TfrmDialogSearchRekening.GetDataRekeningKasDanBank(
-  ACode: string): TResultDataSet;
+  ACode: string): TDataSet;
 var arrParam: TArr;
 begin
   SetLength(arrParam, 2);
@@ -309,19 +319,7 @@ begin
   arrParam[1].tipe := ptInteger;
   arrParam[1].data := DialogCompany;
 
-  Result := SearchRekening.GetListRekeningKasDanBank(arrParam);
-end;
-
-procedure TfrmDialogSearchRekening.btnSearchEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmDialogSearchRekening.btnSearchExit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+//  Result := SearchRekening.GetListRekeningKasDanBank(arrParam);
 end;
 
 end.

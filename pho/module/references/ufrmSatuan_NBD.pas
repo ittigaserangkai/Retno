@@ -26,7 +26,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
-    //function GetData(): TResultDataSet;
+    //function GetData(): TDataSet;
   public
     { Public declarations }
   end;
@@ -145,7 +145,7 @@ begin
   end;
 end;
 
-{function TfrmSatuan_NBD.GetData(): TResultDataSet;
+{function TfrmSatuan_NBD.GetData(): TDataSet;
 var
   arrParam: TArr;
 begin
@@ -169,7 +169,7 @@ end;
 
 procedure TfrmSatuan_NBD.actRefreshSatuan_NBDExecute(Sender: TObject);
 var i, countData: Integer;
-    dataSatuan_NBD: TResultDataSet;
+    dataSatuan_NBD: TDataSet;
 begin
   dataSatuan_NBD := GetListSatuan_NBD(MasterNewUnit.ID);
   dataSatuan_NBD.Last;

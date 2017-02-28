@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  SUIForm, JvLabel,uNewProductTypeNBD;
+  Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls;
 
 type     
   TFormMode = (fmAdd, fmEdit);
@@ -23,7 +22,7 @@ type
     lbl4: TLabel;
     lbl5: TLabel;
     edtRekCredit: TEdit;
-    lbl22: TJvLabel;
+    lblSearchRek: TLinkLabel;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -37,7 +36,7 @@ type
     FIsProcessSuccessfull: boolean;
     FProductTypeNBDId: Integer;
     FFormMode: TFormMode;
-    FProductTypeNBD: TProductTypeNBD;
+//    FProductTypeNBD: TProductTypeNBD;
     FProdukID: Integer;
 //    FProdukIDLama: Integer;
     procedure SetFormMode(const Value: TFormMode);
@@ -59,8 +58,7 @@ var
   frmDialogProductTypeNBD: TfrmDialogProductTypeNBD;
 implementation
 
-uses uTSCommonDlg, uConn, 
-  ufrmSearchRekening, DB, uRetnoUnit, uConstanta, ufrmDialogListNp;
+uses uTSCommonDlg, uConn, ufrmSearchRekening, DB, uRetnoUnit, uConstanta;
 
 {$R *.dfm}
 
@@ -120,13 +118,13 @@ begin
   else
   sOwner := 'STORE';
 
-  if FProductTypeNBD.LoadByTPPRO_CODE(edtCode.Text) then
+//  if FProductTypeNBD.LoadByTPPRO_CODE(edtCode.Text) then
   begin
     CommonDlg.ShowMessage('Tidak Dapat Menyimpan Data' + #13 + 'Kode Sudah Dipakai');
     edtCode.SetFocus;
     Exit;
   end;
-
+  {
   FProductTypeNBD.UpdateData(edtCode.Text,FProdukID,edtName.Text,
                              sOwner,edtRekCredit.Text,DialogUnit,
                              edtRekDebet.Text,DialogUnit);
@@ -146,7 +144,7 @@ begin
   finally
     cRollbackTrans;
   end;
-
+ }
 
 
 end;
@@ -154,8 +152,8 @@ end;
 procedure TfrmDialogProductTypeNBD.FormShow(Sender: TObject);
 begin
   inherited;
-  if not Assigned(FProductTypeNBD) then
-  FProductTypeNBD := TProductTypeNBD.Create(Self);
+//  if not Assigned(FProductTypeNBD) then
+//  FProductTypeNBD := TProductTypeNBD.Create(Self);
   if (FFormMode = fmEdit) then
   begin
      FProdukID := ProductTypeNBDId ;
@@ -167,15 +165,15 @@ begin
 
   if FProdukID <> 0 then
   begin
-    if FProductTypeNBD.LoadByID(FProdukID) then
+//    if FProductTypeNBD.LoadByID(FProdukID) then
     begin
       prepareAddData();
-      edtCode.Text          := FProductTypeNBD.TPPRO_CODE;
-      edtName.Text          := FProductTypeNBD.TPPRO_NAME;
-      if FProductTypeNBD.TPPRO_OWNER = 'MARKETING' then
-      rbMarketing.Checked := True
-      else if FProductTypeNBD.TPPRO_OWNER = 'STORE' then
-      rbStore.Checked := True;
+//      edtCode.Text          := FProductTypeNBD.TPPRO_CODE;
+//      edtName.Text          := FProductTypeNBD.TPPRO_NAME;
+//      if FProductTypeNBD.TPPRO_OWNER = 'MARKETING' then
+//      rbMarketing.Checked := True
+//      else if FProductTypeNBD.TPPRO_OWNER = 'STORE' then
+//      rbStore.Checked := True;
       ShowDataEdit;
     end;
   end;
@@ -183,6 +181,7 @@ end;
 
 procedure TfrmDialogProductTypeNBD.ShowDataEdit();
 begin
+  {
   with cOpenQuery('Select * from Ref$Tipe_Produk '
         + ' where TPPRO_ID = ' + IntToStr(FProdukID)) do
   begin
@@ -193,7 +192,7 @@ begin
       Free;
     end;
   end;
-
+    }
 end;
 
 procedure TfrmDialogProductTypeNBD.PrepareAddData;
@@ -225,8 +224,8 @@ inherited;
       frmDialogSearchRekening := TfrmDialogSearchRekening.Create(Application);
 
     frmDialogSearchRekening.searcMode := mDebet;
-    frmDialogListNp.DialogCompany := DialogCompany;
-    frmDialogListNp.DialogUnit    := DialogUnit;
+//    frmDialogListNp.DialogCompany := DialogCompany;
+//    frmDialogListNp.DialogUnit    := DialogUnit;
     frmDialogSearchRekening.ShowModal;
 
     if frmDialogSearchRekening.IsProcessSuccessfull = True then

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SUIButton, StdCtrls, ExtCtrls, ActnList,
+  Dialogs,  StdCtrls, ExtCtrls, ActnList,
   AppEvnts, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus,
   cxControls, cxContainer, cxEdit, cxLabel, cxButtons, System.Actions;
 
