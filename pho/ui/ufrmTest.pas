@@ -38,6 +38,7 @@ end;
 
 procedure TfrmTest.cxButton1Click(Sender: TObject);
 var
+  Crud: TCrudClient;
   lTest: TModTest;
   i: Integer;
   lTestItem: TModTestItem;
@@ -54,6 +55,15 @@ begin
     lTestItem.QTY := i;
     lTest.Items.Add(lTestItem);
   end;
+
+  Crud := TCrudClient.Create(DMCLient.RestConn);
+  Try
+    Crud.SaveToDB(lTest);
+  Finally
+    Crud.Free;
+  End;
+
+
 
 end;
 

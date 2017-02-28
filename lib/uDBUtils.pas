@@ -10,7 +10,8 @@ uses
   FireDAC.Phys.MSSQL, Data.DB, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, uModApp;
+  FireDAC.Comp.DataSet, FireDac.Dapt,
+  uModApp;
 
 type
   TDBUtils = class(TObject)
@@ -548,6 +549,7 @@ begin
   FieldNames  := '';
   ctx := TRttiContext.Create();
   try
+    if AObject.ID = '' then AObject.ID := TDBUtils.GetNextIDGUIDToString();
     rt := ctx.GetType(AObject.ClassType);
     for prop in rt.GetProperties do
     begin

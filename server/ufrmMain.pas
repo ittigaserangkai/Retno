@@ -160,6 +160,7 @@ end;
 
 procedure TfrmMain.StartServer;
 begin
+  btnKonekDB.Click;
   if not FServer.Active then
   begin
     FServer.Bindings.Clear;

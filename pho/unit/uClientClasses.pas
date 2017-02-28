@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 02/28/17 11:30:15 PM
+// 03/01/17 12:09:47 AM
 //
 
 unit uClientClasses;
@@ -10,6 +10,9 @@ interface
 uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, Data.DBXJSONReflect;
 
 type
+
+  IDSRestCachedTStrings = interface;
+
   TServerMethodsClient = class(TDSAdminRestClient)
   private
     FEchoStringCommand: TDSRestCommand;
@@ -36,12 +39,22 @@ type
   private
     FSaveToDBCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
+    FTestGenerateSQLCommand: TDSRestCommand;
+    FTestGenerateSQLCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function SaveToDB(AObject: TModApp; DoCommit: Boolean; const ARequestFilter: string = ''): Boolean;
-    function DeleteFromDB(AObject: TModApp; DoCommit: Boolean; const ARequestFilter: string = ''): Boolean;
+    function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
+    function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+  end;
+
+  IDSRestCachedTStrings = interface(IDSRestCachedObject<TStrings>)
+  end;
+
+  TDSRestCachedTStrings = class(TDSRestCachedObject<TStrings>, IDSRestCachedTStrings, IDSRestCachedCommand)
   end;
 
 const
@@ -62,18 +75,28 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TCrud_SaveToDB: array [0..2] of TDSRestParameterMetaData =
+  TCrud_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
-    (Name: 'DoCommit'; Direction: 1; DBXType: 4; TypeName: 'Boolean'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TCrud_DeleteFromDB: array [0..2] of TDSRestParameterMetaData =
+  TCrud_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
-    (Name: 'DoCommit'; Direction: 1; DBXType: 4; TypeName: 'Boolean'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrud_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrud_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
 implementation
@@ -152,7 +175,7 @@ begin
   inherited;
 end;
 
-function TCrudClient.SaveToDB(AObject: TModApp; DoCommit: Boolean; const ARequestFilter: string): Boolean;
+function TCrudClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
   begin
@@ -174,12 +197,11 @@ begin
       FreeAndNil(FMarshal)
     end
     end;
-  FSaveToDBCommand.Parameters[1].Value.SetBoolean(DoCommit);
   FSaveToDBCommand.Execute(ARequestFilter);
-  Result := FSaveToDBCommand.Parameters[2].Value.GetBoolean;
+  Result := FSaveToDBCommand.Parameters[1].Value.GetBoolean;
 end;
 
-function TCrudClient.DeleteFromDB(AObject: TModApp; DoCommit: Boolean; const ARequestFilter: string): Boolean;
+function TCrudClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FDeleteFromDBCommand = nil then
   begin
@@ -201,9 +223,72 @@ begin
       FreeAndNil(FMarshal)
     end
     end;
-  FDeleteFromDBCommand.Parameters[1].Value.SetBoolean(DoCommit);
   FDeleteFromDBCommand.Execute(ARequestFilter);
-  Result := FDeleteFromDBCommand.Parameters[2].Value.GetBoolean;
+  Result := FDeleteFromDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
+begin
+  if FTestGenerateSQLCommand = nil then
+  begin
+    FTestGenerateSQLCommand := FConnection.CreateCommand;
+    FTestGenerateSQLCommand.RequestType := 'POST';
+    FTestGenerateSQLCommand.Text := 'TCrud."TestGenerateSQL"';
+    FTestGenerateSQLCommand.Prepare(TCrud_TestGenerateSQL);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand.Execute(ARequestFilter);
+  if not FTestGenerateSQLCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FTestGenerateSQLCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTestGenerateSQLCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FTestGenerateSQLCommand_Cache = nil then
+  begin
+    FTestGenerateSQLCommand_Cache := FConnection.CreateCommand;
+    FTestGenerateSQLCommand_Cache.RequestType := 'POST';
+    FTestGenerateSQLCommand_Cache.Text := 'TCrud."TestGenerateSQL"';
+    FTestGenerateSQLCommand_Cache.Prepare(TCrud_TestGenerateSQL_Cache);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand_Cache.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
 constructor TCrudClient.Create(ARestConnection: TDSRestConnection);
@@ -220,6 +305,8 @@ destructor TCrudClient.Destroy;
 begin
   FSaveToDBCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;
+  FTestGenerateSQLCommand.DisposeOf;
+  FTestGenerateSQLCommand_Cache.DisposeOf;
   inherited;
 end;
 

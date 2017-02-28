@@ -15,8 +15,8 @@ type
   TCrud = class(TComponent)
   private
   public
-    function SaveToDB(AObject: TModApp; DoCommit: Boolean = True): Boolean;
-    function DeleteFromDB(AObject: TModApp; DoCommit: Boolean = True): Boolean;
+    function SaveToDB(AObject: TModApp): Boolean;
+    function DeleteFromDB(AObject: TModApp): Boolean;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
@@ -30,7 +30,7 @@ begin
   Result := 'Hello Word';
 end;
 
-function TCrud.SaveToDB(AObject: TModApp; DoCommit: Boolean = True): Boolean;
+function TCrud.SaveToDB(AObject: TModApp): Boolean;
 var
   lSS: TStrings;
 begin
@@ -50,8 +50,7 @@ begin
   End;
 end;
 
-function TCrud.DeleteFromDB(AObject: TModApp; DoCommit: Boolean = True):
-    Boolean;
+function TCrud.DeleteFromDB(AObject: TModApp): Boolean;
 var
   lSS: TStrings;
 begin

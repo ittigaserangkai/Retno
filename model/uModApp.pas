@@ -57,7 +57,7 @@ end;
 
 class function TModApp.GetTableName: String;
 begin
-  Result := 'T' + AnsiRightStr( Self.ClassName , Length(Self.ClassName)-3);
+  Result := 'T' + AnsiRightStr( Self.ClassName , Length(Self.ClassName)-4);
 end;
 
 end.
