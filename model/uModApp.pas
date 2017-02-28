@@ -12,8 +12,9 @@ type
     constructor Create; reintroduce;
     constructor CreateID(AID : String);
 
-    property ID: string read FID write FID;
     property ObjectState: Integer read FObjectState write FObjectState;   // 1 Baru, 3 Edit, 5 Hapus
+  published
+    property ID: string read FID write FID;
   end;
 
   TModAppItem = class(TModApp)
