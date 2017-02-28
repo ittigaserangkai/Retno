@@ -8,7 +8,8 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, uFormProperty, uCompany, uUnit;
+  cxGridTableView, cxGridDBTableView, cxGrid, uFormProperty, uCompany, uUnit,
+  ufrmMasterDialog;
 
 type
   TfrmMaster = class(TForm)
