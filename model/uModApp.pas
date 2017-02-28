@@ -3,6 +3,11 @@ unit uModApp;
 interface
 
 type
+
+{$TYPEINFO ON}
+  TModApp = class;
+{$TYPEINFO OFF}
+
   TModApp = class(TObject)
   private
     FDate_Create: TDatetime;
@@ -14,6 +19,7 @@ type
   public
     constructor Create; reintroduce;
     constructor CreateID(AID : String);
+    class function GetTableName: String; dynamic;
 
     property ObjectState: Integer read FObjectState write FObjectState;   // 1 Baru, 3 Edit, 5 Hapus
   published
@@ -24,11 +30,14 @@ type
 
   TModAppItem = class(TModApp)
   public
-    function GetHeaderField: string; virtual; abstract;
-    procedure SetHeaderProperty(AHeaderProperty : TModApp); virtual; abstract;
+    function GetHeaderField: string; dynamic; abstract;
+    procedure SetHeaderProperty(AHeaderProperty : TModApp); dynamic; abstract;
   end;
 
 implementation
+
+uses
+  StrUtils;
 
 constructor TModApp.Create;
 begin
@@ -36,15 +45,17 @@ begin
   ObjectState := 1;
 end;
 
-//initialization
-//  RegisterClass(TBarangSatuanItem);
-
 
 constructor TModApp.CreateID(AID: String);
 begin
   Self    := inherited Create;
   Self.ID := AID;
 
+end;
+
+class function TModApp.GetTableName: String;
+begin
+  Result := 'T' + AnsiRightStr( Self.ClassName , Length(Self.ClassName)-3);
 end;
 
 end.

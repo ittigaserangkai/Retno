@@ -18,10 +18,14 @@ type
     class function GenerateSQLInsert(AObject : TModApp): string;
     class function GenerateSQLUpdate(AObject : TModApp): string;
   public
+    class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
     class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset);
-    class function ExecuteSQL(ASQL : String): LongInt;
+    class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
+        overload;
+    class function ExecuteSQL(ASQLs: TStrings; DoCommit: Boolean = True): Boolean;
+        overload;
     class function GenerateSQL(AObject : TModApp): string;
     class function GenerateSQLDelete(AObject : TModApp; AID : String): string;
     class function GenerateSQLSelect(AObject : TModApp): string;
@@ -32,6 +36,7 @@ type
     class function OpenDataset(ASQL : String): TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
     class function OpenQuery(ASQL : String): TFDQuery;
+    class procedure RollBack;
   end;
 
 var
@@ -39,6 +44,15 @@ var
   FDTransaction : TFDTransaction;
 
 implementation
+
+class procedure TDBUtils.Commit;
+begin
+  if FDTransaction = nil then
+    exit;
+
+  if FDTransaction.Active then
+    FDTransaction.Commit;
+end;
 
 class function TDBUtils.ConnectDB(ADBEngine, AServer, ADatabase, AUser ,
     APassword, APort : String): Boolean;
@@ -48,7 +62,10 @@ begin
   FDConnection := TFDConnection.Create(Application);
   FDTransaction:= TFDTransaction.Create(Application);
 
-  FDConnection.Transaction := FDTransaction;
+  FDConnection.Transaction                := FDTransaction;
+  FDTransaction.Options.Isolation         := xiReadCommitted;
+  FDTransaction.Options.DisconnectAction  := xdRollback;
+  FDTransaction.Options.ReadOnly          := false;
 
   FDConnection.DriverName := ADBEngine;
   FDConnection.LoginPrompt:= False;
@@ -93,12 +110,45 @@ begin
   end;
 end;
 
-class function TDBUtils.ExecuteSQL(ASQL : String): LongInt;
+class function TDBUtils.ExecuteSQL(ASQL: String; DoCommit: Boolean = True):
+    LongInt;
 begin
-//  if mmoLogs <> nil then
-//    mmoLogs.Lines.Add(ASQL);
-//
-  Result := FDConnection.ExecSQL(ASQL);
+  if not FDTransaction.Active then
+    FDTransaction.StartTransaction;
+  Try
+    Result := FDConnection.ExecSQL(ASQL);
+    if DoCommit then Self.Commit;
+  except
+    Self.RollBack;
+    Raise;
+  End;
+end;
+
+class function TDBUtils.ExecuteSQL(ASQLs: TStrings; DoCommit: Boolean = True):
+    Boolean;
+var
+  Q: TFDQuery;
+begin
+  Result := false;
+  Q := TFDQuery.Create(Application);
+  try
+    application.ProcessMessages;
+    Q.Connection  := FDConnection;
+    Q.Transaction := FDTransaction;
+    Q.SQL.Clear;
+    Q.SQL.AddStrings(aSQLS);
+
+    Application.ProcessMessages;
+    if not FDTransaction.Active then   FDTransaction.StartTransaction;
+    Q.ExecSQL;
+    if DoCommit then Self.Commit;
+    If not Result then Result := True;
+  except
+    Self.RollBack;
+    Q.SQL.SaveToFile(TAppUtils.GetAppPath + '\FailedExecution.log');
+    raise;
+  end;
+  FreeAndNIl(Q);
 end;
 
 class function TDBUtils.GenerateSQL(AObject : TModApp): string;
@@ -563,6 +613,15 @@ begin
   Result := TFDQuery.Create(nil);
   Result.Connection := FDConnection;
   Result.Open(ASQL);
+end;
+
+class procedure TDBUtils.RollBack;
+begin
+  if FDTransaction = nil then
+    exit;
+
+  if FDTransaction.Active then
+    FDTransaction.RollBack;
 end;
 
 end.
