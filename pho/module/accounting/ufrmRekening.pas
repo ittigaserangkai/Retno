@@ -8,14 +8,14 @@ uses
   ActnList, uConn, ComCtrls, System.Actions, ColCombo, cxStyles,
   cxClasses, Vcl.Grids, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxCustomData, cxTL,
-  cxTextEdit, cxTLdxBarBuiltInMenu, cxInplaceContainer, AdvCombo;
+  cxTextEdit, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxContainer, cxEdit,
+  cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
 
 type
   TfrmRekening = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
     pnlTop: TPanel;
     lbl1: TLabel;
-    cbpRekGroup: TColumnComboBox;
     pnlAll: TPanel;
     actlstRekening: TActionList;
     actAddRekening: TAction;
@@ -31,6 +31,7 @@ type
     cxTreeList1Column5: TcxTreeListColumn;
     cxTreeList1Column6: TcxTreeListColumn;
     cxTreeList1Column7: TcxTreeListColumn;
+    cbpRekGroup: TcxLookupComboBox;
     procedure FormDestroy(Sender: TObject);
     procedure actAddRekeningExecute(Sender: TObject);
     procedure actEditRekeningExecute(Sender: TObject);

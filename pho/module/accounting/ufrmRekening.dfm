@@ -12,8 +12,8 @@ inherited frmRekening: TfrmRekening
   inherited pnlBody: TPanel
     Width = 741
     Height = 425
-    ExplicitWidth = 120
-    ExplicitHeight = 453
+    ExplicitWidth = 741
+    ExplicitHeight = 425
     object pnlTop: TPanel
       Left = 11
       Top = 11
@@ -22,7 +22,6 @@ inherited frmRekening: TfrmRekening
       Align = alTop
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 98
       object lbl1: TLabel
         Left = 8
         Top = 16
@@ -30,38 +29,12 @@ inherited frmRekening: TfrmRekening
         Height = 16
         Caption = 'Account Type'
       end
-      object cbpRekGroup: TColumnComboBox
+      object cbpRekGroup: TcxLookupComboBox
         Left = 96
         Top = 12
-        Width = 121
-        Height = 24
-        Color = clWindow
-        Version = '1.5.0.1'
-        Visible = True
-        Ctl3D = False
-        Columns = <>
-        ComboItems = <>
-        EditColumn = -1
-        EditHeight = 18
-        EmptyText = ''
-        EmptyTextStyle = []
-        DropWidth = 0
-        DropHeight = 200
-        Enabled = True
-        GridLines = False
-        ItemIndex = -1
-        LookupColumn = 0
-        LabelCaption = ''
-        LabelFont.Charset = DEFAULT_CHARSET
-        LabelFont.Color = clWindowText
-        LabelFont.Height = -11
-        LabelFont.Name = 'Tahoma'
-        LabelFont.Style = []
-        ParentCtl3D = False
-        SortColumn = 0
+        Properties.ListColumns = <>
         TabOrder = 0
-        OnChange = cbpRekGroupChange
-        OnKeyUp = cbpRekGroupKeyUp
+        Width = 121
       end
     end
     object pnlAll: TPanel
@@ -73,8 +46,6 @@ inherited frmRekening: TfrmRekening
       BorderWidth = 10
       Color = 15198183
       TabOrder = 1
-      ExplicitWidth = 98
-      ExplicitHeight = 385
       object strgGrid: TStringGrid
         Left = 584
         Top = 88
@@ -82,6 +53,15 @@ inherited frmRekening: TfrmRekening
         Height = 233
         ColCount = 2
         TabOrder = 0
+        ColWidths = (
+          64
+          64)
+        RowHeights = (
+          24
+          24
+          24
+          24
+          24)
       end
       object TlistRekening: TcxTreeList
         Left = 11
@@ -94,10 +74,6 @@ inherited frmRekening: TfrmRekening
           end>
         Navigator.Buttons.CustomButtons = <>
         TabOrder = 1
-        ExplicitLeft = 328
-        ExplicitTop = 64
-        ExplicitWidth = 250
-        ExplicitHeight = 150
         object cxTreeList1Column1: TcxTreeListColumn
           Caption.Text = 'ACCOUNT CODE'
           DataBinding.ValueType = 'String'
@@ -166,7 +142,7 @@ inherited frmRekening: TfrmRekening
   end
   inherited pnlHeader: TPanel
     Width = 741
-    ExplicitWidth = 120
+    ExplicitWidth = 741
     inherited lblHeader: TLabel
       Width = 53
       Caption = 'ACCOUNT'
@@ -186,14 +162,14 @@ inherited frmRekening: TfrmRekening
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 455
+    ExplicitWidth = 741
     inherited pnlFooter: TPanel
       Width = 741
-      ExplicitWidth = 120
+      ExplicitWidth = 741
       inherited btnClose: TcxButton
         Left = 659
-        ExplicitLeft = 38
+        ExplicitLeft = 659
       end
       inherited btnAdd: TcxButton
         Action = actAddRekening
@@ -210,7 +186,7 @@ inherited frmRekening: TfrmRekening
     end
     inherited pnlSortCut: TPanel
       Width = 741
-      ExplicitWidth = 120
+      ExplicitWidth = 741
       inherited lbl5: TLabel
         Left = 651
         ExplicitLeft = 644
