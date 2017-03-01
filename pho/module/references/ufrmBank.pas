@@ -48,7 +48,6 @@ type
 
     function GetData(): TDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
-
   public
     procedure RefreshData;
     property Crud: TCrudClient read GetCrud write FCrud;
@@ -84,13 +83,13 @@ begin
   inherited;
   // check is Unit Id is specified?
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    ////frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
 //  if(MasterNewUnit.ID <> 0) then
-  begin
+//  begin
     if not Assigned(frmDialogBank) then
       Application.CreateForm(TfrmDialogBank, frmDialogBank);
 
@@ -103,7 +102,7 @@ begin
       actRefreshBankExecute(Self);
       CommonDlg.ShowConfirm(atAdd);
     end;
-  end
+//  end
 ;//  else
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
@@ -320,7 +319,7 @@ begin
 
   if Assigned(FCDS) then FCDS.Free;
   FCDS := TDBUtils.DSToCDS( Crud.OpenQuery(S), Self );
-  cxGrdBrowse.LoadFromCDS(FCDS);
+  cxGrdBrowse.LoadFromCDS(CDS);
   cxGrdBrowse.SetVisibleColumns(['ID'],False);
 end;
 

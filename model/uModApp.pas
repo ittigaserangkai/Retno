@@ -2,6 +2,9 @@ unit uModApp;
 
 interface
 
+uses
+  SysUtils;
+
 type
 
 {$TYPEINFO ON}
@@ -21,6 +24,7 @@ type
     constructor CreateID(AID : String);
     class function GetTableName: String; dynamic;
     procedure MappingDBField; dynamic;
+    class procedure RegisterRTTI;
 
     property ObjectState: Integer read FObjectState write FObjectState;   // 1 Baru, 3 Edit, 5 Hapus
   published
@@ -48,6 +52,8 @@ begin
   inherited;
   MappingDBField;
   ObjectState := 1;
+  Date_Create := Now();
+  Date_Modify := Now();
 end;
 
 
@@ -66,6 +72,13 @@ end;
 procedure TModApp.MappingDBField;
 begin
 
+end;
+
+class procedure TModApp.RegisterRTTI;
+begin
+  //dummy method agar rtti diregister secara full
+  //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
+  //jalankan di inizialitation .section
 end;
 
 end.

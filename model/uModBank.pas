@@ -13,6 +13,8 @@ type
     FBANK_DESCRIPTION: string;
     FBANK_NAME: string;
     FBANK_REKENING: TModRekening;
+  public
+    class function GetTableName: String; override;
   published
     property BANK_ADDRESS: string read FBANK_ADDRESS write FBANK_ADDRESS;
     property BANK_BRANCH: string read FBANK_BRANCH write FBANK_BRANCH;
@@ -24,5 +26,16 @@ type
   end;
 
 implementation
+
+class function TModBank.GetTableName: String;
+begin
+  Result := 'Bank';
+end;
+
+initialization
+  //if error "can not instantiate type of uModel.xxxx" occured, register here
+  TModBank.RegisterRTTI;
+
+
 
 end.

@@ -61,7 +61,9 @@ uses
   uModTest in '..\model\uModTest.pas',
   uDBUtils in '..\lib\uDBUtils.pas',
   uAppUtils in '..\system\uAppUtils.pas',
-  uDXUtils in '..\lib\uDXUtils.pas';
+  uDXUtils in '..\lib\uDXUtils.pas',
+  uModBank in '..\model\uModBank.pas',
+  uModAccount in '..\model\uModAccount.pas';
 
 {$R *.res}
 

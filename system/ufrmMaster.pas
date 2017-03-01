@@ -211,7 +211,7 @@ begin
     aFrmMasterDialog.FLoginIsStore    := FLoginIsStore;
     aFrmMasterDialog.FFilePathReport  := FFilePathReport;
 
-    aFrmMasterDialog.DialogCompany :=MasterCompany.ID;
+//    aFrmMasterDialog.DialogCompany    :=  MasterCompany.ID;
     aFrmMasterDialog.DialogUnit := 0;//MasterNewUnit.ID;
 
     aFrmMasterDialog.FDialogUnitCOde  := '';//MasterNewUnit.Kode;

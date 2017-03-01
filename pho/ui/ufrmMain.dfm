@@ -13,6 +13,7 @@ object frmMain: TfrmMain
   FormStyle = fsMDIForm
   Menu = mmMainMenu
   OldCreateOrder = False
+  WindowState = wsMaximized
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = actOnCreateFormExecute

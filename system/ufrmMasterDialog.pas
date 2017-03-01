@@ -170,7 +170,7 @@ end;
 
 procedure TfrmMasterDialog.FormShow(Sender: TObject);
 begin
-    Authenticate;
+//    Authenticate;
 end;
 
 end.

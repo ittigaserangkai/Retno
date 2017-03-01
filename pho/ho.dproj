@@ -267,6 +267,8 @@
         <DCCReference Include="..\lib\uDBUtils.pas"/>
         <DCCReference Include="..\system\uAppUtils.pas"/>
         <DCCReference Include="..\lib\uDXUtils.pas"/>
+        <DCCReference Include="..\model\uModBank.pas"/>
+        <DCCReference Include="..\model\uModAccount.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

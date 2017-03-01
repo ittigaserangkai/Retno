@@ -2,21 +2,20 @@ inherited frmDialogBank: TfrmDialogBank
   Left = 289
   Top = 243
   Caption = 'frmDialogBank'
-  ClientHeight = 239
-  ClientWidth = 648
+  ClientHeight = 333
+  ClientWidth = 505
   OldCreateOrder = True
-  ExplicitWidth = 664
-  ExplicitHeight = 278
+  ExplicitWidth = 521
+  ExplicitHeight = 372
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 648
-    Height = 183
-    ExplicitTop = 0
+    Width = 505
+    Height = 277
     ExplicitWidth = 403
     ExplicitHeight = 183
     object lbl1: TLabel
-      Left = 32
+      Left = 48
       Top = 41
       Width = 33
       Height = 16
@@ -25,7 +24,7 @@ inherited frmDialogBank: TfrmDialogBank
       Caption = 'Name'
     end
     object Lbl2: TLabel
-      Left = 30
+      Left = 46
       Top = 69
       Width = 35
       Height = 16
@@ -33,7 +32,7 @@ inherited frmDialogBank: TfrmDialogBank
       Caption = 'Branch'
     end
     object lbl3: TLabel
-      Left = 27
+      Left = 43
       Top = 98
       Width = 39
       Height = 16
@@ -41,7 +40,7 @@ inherited frmDialogBank: TfrmDialogBank
       Caption = 'Address'
     end
     object Label1: TLabel
-      Left = 39
+      Left = 55
       Top = 13
       Width = 25
       Height = 16
@@ -49,7 +48,7 @@ inherited frmDialogBank: TfrmDialogBank
       Caption = 'Code'
     end
     object edtName: TEdit
-      Left = 76
+      Left = 92
       Top = 40
       Width = 174
       Height = 22
@@ -60,7 +59,7 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 0
     end
     object edtBranch: TEdit
-      Left = 76
+      Left = 92
       Top = 68
       Width = 174
       Height = 22
@@ -71,7 +70,7 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 1
     end
     object edtAddress: TEdit
-      Left = 76
+      Left = 92
       Top = 97
       Width = 277
       Height = 22
@@ -82,7 +81,7 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 2
     end
     object edtCode: TEdit
-      Left = 76
+      Left = 92
       Top = 12
       Width = 101
       Height = 22
@@ -93,30 +92,35 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 3
     end
     object gbRekening: TGroupBox
-      Left = 384
-      Top = 0
-      Width = 249
-      Height = 177
+      Left = 2
+      Top = 152
+      Width = 501
+      Height = 123
+      Align = alBottom
       Caption = 'Rekening'
       TabOrder = 4
+      ExplicitTop = 128
       object lbl4: TLabel
-        Left = 13
+        Left = 33
         Top = 29
-        Width = 69
+        Width = 45
         Height = 16
-        Caption = 'Account Code'
+        Alignment = taRightJustify
+        Caption = 'Rekening'
       end
       object lbl5: TLabel
-        Left = 16
+        Left = 47
         Top = 57
-        Width = 33
+        Width = 32
         Height = 16
+        Alignment = taRightJustify
         AutoSize = False
         Caption = 'Desc'
+        Visible = False
       end
       object edtRekKode: TEdit
-        Left = 90
-        Top = 28
+        Left = 74
+        Top = 84
         Width = 117
         Height = 22
         CharCase = ecUpperCase
@@ -125,21 +129,33 @@ inherited frmDialogBank: TfrmDialogBank
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 0
+        Visible = False
       end
       object edtDescription: TEdit
         Left = 90
         Top = 56
-        Width = 154
+        Width = 303
         Height = 22
         CharCase = ecUpperCase
         Ctl3D = False
         MaxLength = 128
         ParentCtl3D = False
         TabOrder = 1
+        Visible = False
+      end
+      object cxLookupAccount: TcxExtLookupComboBox
+        Left = 90
+        Top = 26
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
+        TabOrder = 2
+        Width = 302
       end
     end
     object chkAllUnit: TCheckBox
-      Left = 80
+      Left = 96
       Top = 128
       Width = 57
       Height = 17
@@ -148,31 +164,32 @@ inherited frmDialogBank: TfrmDialogBank
     end
   end
   inherited footerDialogMaster: TfraFooterDialog2Button
-    Top = 183
-    Width = 648
+    Top = 277
+    Width = 505
     ExplicitTop = 183
     ExplicitWidth = 403
     inherited pnlFooter: TPanel
-      Width = 648
+      Width = 505
       ExplicitWidth = 403
       inherited btnClose: TcxButton
-        Left = 566
+        Left = 423
         ExplicitLeft = 321
       end
       inherited btnSave: TcxButton
-        Left = 479
+        Left = 336
+        OnClick = btnSaveClick
         ExplicitLeft = 234
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 648
+      Width = 505
       ExplicitWidth = 403
       inherited lbl4: TLabel
-        Left = 463
+        Left = 320
         ExplicitLeft = 218
       end
       inherited lbl5: TLabel
-        Left = 558
+        Left = 415
         ExplicitLeft = 313
       end
     end

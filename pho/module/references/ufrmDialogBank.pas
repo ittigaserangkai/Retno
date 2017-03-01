@@ -5,7 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, uRetnoUnit, uTSBaseClass;
+  StdCtrls, uRetnoUnit, uTSBaseClass, uModBank, uDMClient, uClientClasses,
+  uDXUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -25,22 +28,35 @@ type
     edtRekKode: TEdit;
     edtDescription: TEdit;
     chkAllUnit: TCheckBox;
+    cxLookupAccount: TcxExtLookupComboBox;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edtRekKodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure btnSaveClick(Sender: TObject);
   private
     FIsProcessSuccessfull: Boolean;
     FBankId: Integer;
+    FCDSRekening: TClientDataSet;
+    FCrud: TCrudClient;
     FFormMode: TFormMode;
 //    FBank : TBank;
     FKodeLama : string;
+    FModBank: TModBank;
+    function GetCDSRekening: TClientDataSet;
+    function GetCrud: TCrudClient;
+    function GetModBank: TModBank;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetBankId(const Value: Integer);
     procedure prepareAddData;
+    procedure SimpanData;
+    function ValidateData: Boolean;
+    property CDSRekening: TClientDataSet read GetCDSRekening write FCDSRekening;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property ModBank: TModBank read GetModBank write FModBank;
   public
     { Public declarations }
   published
@@ -54,7 +70,7 @@ var
   IDLokal : Integer;
 implementation
 
-uses uTSCommonDlg, ufrmBank;
+uses uTSCommonDlg, ufrmBank, uModAccount;
 
 {$R *.dfm}
 
@@ -195,6 +211,15 @@ procedure TfrmDialogBank.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FBank := uNewBank.TBank.Create(self);
+  cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'ID','Rek_Name',['ID'],Self);
+  cxLookupAccount.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogBank.btnSaveClick(Sender: TObject);
+begin
+  inherited;
+  if ValidateData then SimpanData;
+
 end;
 
 procedure TfrmDialogBank.edtRekKodeKeyDown(Sender: TObject; var Key: Word;
@@ -221,6 +246,84 @@ begin
       end;
     end;}
   end;
+
+end;
+
+function TfrmDialogBank.GetCDSRekening: TClientDataSet;
+var
+  S: string;
+begin
+  if not Assigned(FCDSRekening) then
+  begin
+    S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+    FCDSRekening := TDBUtils.DSToCDS(Crud.OpenQuery(S) , Self);
+  end;
+  Result := FCDSRekening;
+end;
+
+function TfrmDialogBank.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    FCrud := TCrudClient.Create(DMClient.RestConn);
+  Result := FCrud;
+end;
+
+function TfrmDialogBank.GetModBank: TModBank;
+begin
+  if not Assigned(FModBank) then
+    FModBank := TModBank.Create;
+  Result := FModBank;
+end;
+
+procedure TfrmDialogBank.SimpanData;
+var
+  lModRekening: TModRekening;
+begin
+  ModBank.BANK_CODE := edtCode.Text;
+  ModBank.BANK_NAME := edtName.Text;
+  ModBank.BANK_BRANCH := edtBranch.Text;
+  ModBank.BANK_DESCRIPTION := edtDescription.Text;
+  ModBank.BANK_ADDRESS := edtAddress.Text;
+
+  if not VarIsNull(cxLookupAccount.EditValue) then
+  begin
+    lModRekening := TModRekening.Create;
+    lModRekening.ID := cxLookupAccount.EditValue;
+    ModBank.BANK_REKENING := lModRekening;
+  end;
+
+  Try
+    Crud.SaveToDB(ModBank);
+    TAppUtils.Information('Data Bank Berhasil Disimpan');
+
+
+  except
+    TAppUtils.Error('Gagal Menyimpan Data Bank');
+    Raise;
+  End;
+
+
+end;
+
+function TfrmDialogBank.ValidateData: Boolean;
+begin
+  Result := False;
+  if edtCode.Text = '' then
+  begin
+    TAppUtils.Warning('Kode Bank Belum Diset');
+    exit;
+  end;
+  if edtName.Text = '' then
+  begin
+    TAppUtils.Warning('Nama Bank Belum Diset');
+    exit;
+  end;
+  if VarIsNull(cxLookupAccount.EditValue) then
+  begin
+    TAppUtils.Warning('Rekening Bank Belum Diset');
+    exit;
+  end;
+  if not Result then Result := True;
 
 end;
 
