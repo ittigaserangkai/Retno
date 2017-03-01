@@ -64,7 +64,8 @@ uses
   uDXUtils in '..\lib\uDXUtils.pas',
   uModBank in '..\model\uModBank.pas',
   uModAccount in '..\model\uModAccount.pas',
-  uModRefPajak in '..\model\uModRefPajak.pas';
+  ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
+  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening};
 
 {$R *.res}
 
@@ -74,6 +75,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmPajak, frmPajak);
   Application.Run;
 end.
