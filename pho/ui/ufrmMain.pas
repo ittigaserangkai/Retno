@@ -245,6 +245,7 @@ type
     cbbCompCode: TComboBox;
     Referensi1: TMenuItem;
     Bank1: TMenuItem;
+    Pajak1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
