@@ -114,21 +114,22 @@ begin
   inherited;
   // check is Unit Id is specified?
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    ////frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    ////frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
 //  if(MasterNewUnit.ID <> 0) then
-  begin
+//  begin
 //    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+    if CDS.Eof then exit;
 
     if not Assigned(frmDialogBank) then
       Application.CreateForm(TfrmDialogBank, frmDialogBank);
 
     frmDialogBank.Caption := 'Edit Bank';
     frmDialogBank.FormMode := fmEdit;
-//    frmDialogBank.BankId := StrToInt(strgGrid.Cells[4,strgGrid.row]);
+    frmDialogBank.LoadData(CDS.FieldByName('ID').AsString);
 
     SetFormPropertyAndShowDialog(frmDialogBank);
     if (frmDialogBank.IsProcessSuccessfull) then
@@ -136,7 +137,7 @@ begin
       actRefreshBankExecute(Self);
       CommonDlg.ShowConfirm(atEdit);
     end;
-  end
+//  end
 ;//  else
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 

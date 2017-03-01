@@ -58,6 +58,7 @@ type
     property Crud: TCrudClient read GetCrud write FCrud;
     property ModBank: TModBank read GetModBank write FModBank;
   public
+    procedure LoadData(ID: string);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -273,6 +274,22 @@ begin
   if not Assigned(FModBank) then
     FModBank := TModBank.Create;
   Result := FModBank;
+end;
+
+procedure TfrmDialogBank.LoadData(ID: string);
+begin
+  if Assigned(FModBank) then FreeAndNil(FModBank);
+  FModBank := Crud.Retrieve(TModBank.ClassName, ID) as TModBank;
+
+  edtCode.Text := ModBank.BANK_CODE;
+  edtName.Text := ModBank.BANK_NAME;
+  edtBranch.Text := ModBank.BANK_BRANCH;
+  edtDescription.Text := ModBank.BANK_DESCRIPTION;
+  edtAddress.Text := ModBank.BANK_ADDRESS;
+
+  if Assigned(ModBank.BANK_REKENING) then
+    cxLookupAccount.EditValue := ModBank.BANK_REKENING.ID;
+
 end;
 
 procedure TfrmDialogBank.SimpanData;
