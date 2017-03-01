@@ -99,6 +99,7 @@ end;
 function TCompany.GenerateInterbaseMetaData: Tstrings;
 begin
   result := TstringList.create;
+  // ini tdk perlu
   result.Append( '' );
   result.Append( 'Create Table TCompany ( ' );
   result.Append( 'TSBaseClass_ID Integer not null, ' );

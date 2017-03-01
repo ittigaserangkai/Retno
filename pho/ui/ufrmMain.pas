@@ -14,6 +14,7 @@ type
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
     pnlHeader: TPanel;
+    imgHeader: TImage;
     actlstMain: TActionList;
     actOnCreateForm: TAction;
     actOnLogout: TAction;
@@ -242,7 +243,10 @@ type
     lbl2: TLabel;
     cbbUnit: TComboBox;
     cbbCompCode: TComboBox;
-    imgHeader: TImage;
+    Referensi1: TMenuItem;
+    Bank1: TMenuItem;
+    Pajak1: TMenuItem;
+    procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
@@ -324,6 +328,11 @@ begin
     frmMain.FPanelLoading.Free;
     frmMain.FPanelLoading := nil;
   end;
+end;
+
+procedure TfrmMain.actBankExecute(Sender: TObject);
+begin
+  frmBank := tfrmBank.Create(Self);
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
