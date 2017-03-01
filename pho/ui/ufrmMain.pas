@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank;
+  uCompany, ufrmBank, System.UITypes;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -521,7 +521,7 @@ end;
 
 procedure TfrmMain.actPajakExecute(Sender: TObject);
 begin
-    frmPajak := TfrmPajak.CreateWithUser(Application, FFormProperty);
+  frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
