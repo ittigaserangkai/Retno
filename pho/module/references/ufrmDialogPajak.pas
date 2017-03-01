@@ -4,10 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, StdCtrls, uModRefPajak,
-  uDMClient, uDBUtils, uAppUtils, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
-  cxDropDownEdit, cxCalc, uClientClasses;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, StdCtrls,
+  uModRefPajak,  uDMClient, uDBUtils, uAppUtils, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
+  cxMaskEdit, cxDropDownEdit, cxCalc, uClientClasses;
 
 type
   TFormMode = (fmAdd, fmEdit);

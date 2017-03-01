@@ -65,7 +65,8 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModAccount in '..\model\uModAccount.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
-  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening};
+  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
+  uModRefPajak in '..\model\uModRefPajak.pas';
 
 {$R *.res}
 
