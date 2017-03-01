@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany;
+  uCompany, ufrmBank, System.UITypes;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -243,6 +243,10 @@ type
     lbl2: TLabel;
     cbbUnit: TComboBox;
     cbbCompCode: TComboBox;
+    Referensi1: TMenuItem;
+    Bank1: TMenuItem;
+    Pajak1: TMenuItem;
+    procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
@@ -324,6 +328,11 @@ begin
     frmMain.FPanelLoading.Free;
     frmMain.FPanelLoading := nil;
   end;
+end;
+
+procedure TfrmMain.actBankExecute(Sender: TObject);
+begin
+  frmBank := tfrmBank.Create(Self);
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -512,7 +521,7 @@ end;
 
 procedure TfrmMain.actPajakExecute(Sender: TObject);
 begin
-    frmPajak := TfrmPajak.CreateWithUser(Application, FFormProperty);
+  frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
