@@ -292,7 +292,7 @@ implementation
 
 uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-    ufrmLogin, ufraLoading, ufrmPajak;
+    ufrmLogin, ufraLoading, ufrmPajak, ufrmBank;
 
 {$R *.dfm}
 
