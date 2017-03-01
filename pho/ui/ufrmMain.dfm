@@ -141,6 +141,12 @@ object frmMain: TfrmMain
         Action = actOnExit
       end
     end
+    object Referensi1: TMenuItem
+      Caption = 'Referensi'
+      object Bank1: TMenuItem
+        Action = actBank
+      end
+    end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
       object miConnectionDatabase: TMenuItem
@@ -275,6 +281,7 @@ object frmMain: TfrmMain
     object actBank: TAction
       Category = 'References'
       Caption = 'Bank'
+      OnExecute = actBankExecute
     end
     object actProductType: TAction
       Category = 'References'

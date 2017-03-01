@@ -64,6 +64,7 @@ uses
   uDXUtils in '..\lib\uDXUtils.pas',
   uModBank in '..\model\uModBank.pas',
   uModAccount in '..\model\uModAccount.pas';
+
 {$R *.res}
 
 begin
@@ -72,6 +73,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmBank, frmBank);
   Application.Run;
 end.
