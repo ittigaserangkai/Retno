@@ -19,6 +19,7 @@ type
     lblHeader: TLabel;
     cxStyle: TcxStyleRepository;
     styleGridEven: TcxStyle;
+    styleGridHeader: TcxStyle;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     //procedure FormCreate(Sender: TObject);

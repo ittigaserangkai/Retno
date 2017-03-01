@@ -40,17 +40,17 @@ type
     procedure edtPencarianChange(Sender: TObject);
   private
     FCDS: TClientDataSet;
-    FCrud: TCrudClient;
+    FDSClient: TDSProviderClient;
   resPoint: TPoint;
     procedure FindDataOnGrid(aText:String);
-    function GetCrud: TCrudClient;
+    function GetDSClient: TDSProviderClient;
     { Private declarations }
 
     function GetData(): TDataSet;
-    property CDS: TClientDataSet read FCDS write FCDS;
-  public
     procedure RefreshData;
-    property Crud: TCrudClient read GetCrud write FCrud;
+    property CDS: TClientDataSet read FCDS write FCDS;
+    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
+  public
 //     FBank : TBank;
     { Public declarations }
   end;
@@ -74,7 +74,6 @@ end;
 procedure TfrmBank.FormShow(Sender: TObject);
 begin
   inherited;
-  lblHeader.Caption := 'BANK';
   actRefreshBankExecute(Self);
 end;
 
@@ -302,24 +301,18 @@ begin
 //  end;
 end;
 
-function TfrmBank.GetCrud: TCrudClient;
+function TfrmBank.GetDSClient: TDSProviderClient;
 begin
-  if not Assigned(FCrud) then
-    FCrud := TCrudClient.Create(DMClient.RestConn);
-  Result := FCrud;
+  if not Assigned(FDSClient) then
+    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+  Result := FDSClient;
 end;
 
 procedure TfrmBank.RefreshData;
-var
-  S: string;
 begin
-  S := 'SELECT ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
-      +' BANK_REK_CODE, BANK_DESCRIPTION,'
-      +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
-      +' FROM BANK';
 
   if Assigned(FCDS) then FCDS.Free;
-  FCDS := TDBUtils.DSToCDS( Crud.OpenQuery(S), Self );
+  FCDS := TDBUtils.DSToCDS( DSClient.Bank_GetDSOverview ,Self );
   cxGrdBrowse.LoadFromCDS(CDS);
   cxGrdBrowse.SetVisibleColumns(['ID'],False);
 end;

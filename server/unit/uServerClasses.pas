@@ -24,6 +24,13 @@ type
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
 
+  TDSProvider = class(TComponent)
+  private
+  public
+    function Bank_GetDSOverview: TDataSet;
+    function Rekening_GetDSLookup: TDataSet;
+  end;
+
   {$METHODINFO OFF}
 
 implementation
@@ -117,6 +124,26 @@ end;
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
 begin
   Result := TDBUtils.GenerateSQL(AObject);
+end;
+
+function TDSProvider.Bank_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
+      +' BANK_REK_CODE, BANK_DESCRIPTION,'
+      +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
+      +' FROM BANK';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Rekening_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 end.

@@ -41,12 +41,14 @@ type
     FBankId: Integer;
     FCDSRekening: TClientDataSet;
     FCrud: TCrudClient;
+    FDSClient: TDSProviderClient;
     FFormMode: TFormMode;
 //    FBank : TBank;
     FKodeLama : string;
     FModBank: TModBank;
     function GetCDSRekening: TClientDataSet;
     function GetCrud: TCrudClient;
+    function GetDSClient: TDSProviderClient;
     function GetModBank: TModBank;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -56,6 +58,7 @@ type
     function ValidateData: Boolean;
     property CDSRekening: TClientDataSet read GetCDSRekening write FCDSRekening;
     property Crud: TCrudClient read GetCrud write FCrud;
+    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
     property ModBank: TModBank read GetModBank write FModBank;
   public
     procedure LoadData(ID: string);
@@ -251,13 +254,10 @@ begin
 end;
 
 function TfrmDialogBank.GetCDSRekening: TClientDataSet;
-var
-  S: string;
 begin
   if not Assigned(FCDSRekening) then
   begin
-    S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
-    FCDSRekening := TDBUtils.DSToCDS(Crud.OpenQuery(S) , Self);
+    FCDSRekening := TDBUtils.DSToCDS( DSClient.Rekening_GetDSLookup, Self );
   end;
   Result := FCDSRekening;
 end;
@@ -267,6 +267,13 @@ begin
   if not Assigned(FCrud) then
     FCrud := TCrudClient.Create(DMClient.RestConn);
   Result := FCrud;
+end;
+
+function TfrmDialogBank.GetDSClient: TDSProviderClient;
+begin
+  if not Assigned(FDSClient) then
+    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+  Result := FDSClient;
 end;
 
 function TfrmDialogBank.GetModBank: TModBank;
@@ -304,9 +311,7 @@ begin
 
   if not VarIsNull(cxLookupAccount.EditValue) then
   begin
-    lModRekening := TModRekening.Create;
-    lModRekening.ID := cxLookupAccount.EditValue;
-    ModBank.BANK_REKENING := lModRekening;
+    ModBank.BANK_REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
   end;
 
   Try

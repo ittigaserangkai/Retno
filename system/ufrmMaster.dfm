@@ -63,8 +63,21 @@ object frmMaster: TfrmMaster
     Top = 16
     PixelsPerInch = 96
     object styleGridEven: TcxStyle
-      AssignedValues = [svColor]
+      AssignedValues = [svColor, svFont]
       Color = cl3DLight
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+    end
+    object styleGridHeader: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
     end
   end
 end

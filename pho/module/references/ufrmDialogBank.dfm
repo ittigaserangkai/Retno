@@ -1,7 +1,7 @@
 inherited frmDialogBank: TfrmDialogBank
   Left = 289
   Top = 243
-  Caption = 'frmDialogBank'
+  Caption = 'Update Data Bank'
   ClientHeight = 333
   ClientWidth = 505
   OldCreateOrder = True

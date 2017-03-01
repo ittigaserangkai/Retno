@@ -50,16 +50,19 @@ inherited frmBank: TfrmBank
       Width = 601
       Height = 292
       Align = alClient
-      Font.Charset = ANSI_CHARSET
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Tahoma'
+      Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
       TabOrder = 1
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
-      ExplicitLeft = 0
+      ExplicitLeft = 16
+      ExplicitTop = 55
+      ExplicitWidth = 595
+      ExplicitHeight = 286
       object cxGrdBrowse: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Filter.Options = [fcoCaseInsensitive]
@@ -77,7 +80,9 @@ inherited frmBank: TfrmBank
         OptionsData.DeletingConfirmation = False
         OptionsData.Editing = False
         OptionsData.Inserting = False
+        OptionsView.GroupByBox = False
         Styles.ContentEven = styleGridEven
+        Styles.Group = styleGridHeader
       end
       object cxGrdDetail: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 03/01/17 2:25:15 AM
+// 03/01/17 11:28:19 AM
 //
 
 unit uClientClasses;
@@ -58,6 +58,22 @@ type
     function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+  end;
+
+  TDSProviderClient = class(TDSAdminRestClient)
+  private
+    FBank_GetDSOverviewCommand: TDSRestCommand;
+    FBank_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRekening_GetDSLookupCommand: TDSRestCommand;
+    FRekening_GetDSLookupCommand_Cache: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function Bank_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Bank_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Rekening_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function Rekening_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -136,6 +152,26 @@ const
   TCrud_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Bank_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Bank_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Rekening_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Rekening_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -424,6 +460,83 @@ begin
   FRetrieveCommand_Cache.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  inherited;
+end;
+
+function TDSProviderClient.Bank_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FBank_GetDSOverviewCommand = nil then
+  begin
+    FBank_GetDSOverviewCommand := FConnection.CreateCommand;
+    FBank_GetDSOverviewCommand.RequestType := 'GET';
+    FBank_GetDSOverviewCommand.Text := 'TDSProvider.Bank_GetDSOverview';
+    FBank_GetDSOverviewCommand.Prepare(TDSProvider_Bank_GetDSOverview);
+  end;
+  FBank_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBank_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBank_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Bank_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBank_GetDSOverviewCommand_Cache = nil then
+  begin
+    FBank_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FBank_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FBank_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Bank_GetDSOverview';
+    FBank_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Bank_GetDSOverview_Cache);
+  end;
+  FBank_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBank_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.Rekening_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FRekening_GetDSLookupCommand = nil then
+  begin
+    FRekening_GetDSLookupCommand := FConnection.CreateCommand;
+    FRekening_GetDSLookupCommand.RequestType := 'GET';
+    FRekening_GetDSLookupCommand.Text := 'TDSProvider.Rekening_GetDSLookup';
+    FRekening_GetDSLookupCommand.Prepare(TDSProvider_Rekening_GetDSLookup);
+  end;
+  FRekening_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekening_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekening_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Rekening_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekening_GetDSLookupCommand_Cache = nil then
+  begin
+    FRekening_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FRekening_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FRekening_GetDSLookupCommand_Cache.Text := 'TDSProvider.Rekening_GetDSLookup';
+    FRekening_GetDSLookupCommand_Cache.Prepare(TDSProvider_Rekening_GetDSLookup_Cache);
+  end;
+  FRekening_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekening_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TDSProviderClient.Destroy;
+begin
+  FBank_GetDSOverviewCommand.DisposeOf;
+  FBank_GetDSOverviewCommand_Cache.DisposeOf;
+  FRekening_GetDSLookupCommand.DisposeOf;
+  FRekening_GetDSLookupCommand_Cache.DisposeOf;
   inherited;
 end;
 
