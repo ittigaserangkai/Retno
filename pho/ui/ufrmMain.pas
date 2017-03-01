@@ -14,7 +14,6 @@ type
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
     pnlHeader: TPanel;
-    imgHeader: TImage;
     actlstMain: TActionList;
     actOnCreateForm: TAction;
     actOnLogout: TAction;
@@ -243,6 +242,7 @@ type
     lbl2: TLabel;
     cbbUnit: TComboBox;
     cbbCompCode: TComboBox;
+    imgHeader: TImage;
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
