@@ -4,7 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, StdCtrls;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, StdCtrls, uModRefPajak,
+  uDMClient, uDBUtils, uAppUtils, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalc, uClientClasses;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -17,24 +20,32 @@ type
     lbl4: TLabel;
     lbl5: TLabel;
     edtNamaPajak: TEdit;
-    edtPPN: TEdit;
-    edtPPNBM: TEdit;
     edtCodePajak: TEdit;
+    edtPPN: TcxCalcEdit;
+    edtPPNBM: TcxCalcEdit;
     procedure FormDestroy(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure edtPPNKeyPress(Sender: TObject; var Key: Char);
     procedure edtPPNChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
   private
+    FCrud: TCrudClient;
     FIsProcessSuccessfull: boolean;
     FPajakId: integer;
     FFormMode: TFormMode;
+    FModRefPajak: TModRefPajak;
+    function GetCrud: TCrudClient;
+    function GetModRefPajak: TModRefPajak;
 //    FPajak : TNewPajak;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
     procedure SetPajakId(const Value: integer);
     procedure prepareAddData;
+    procedure SimpanData;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property ModRefPajak: TModRefPajak read GetModRefPajak write FModRefPajak;
   public
     { Public declarations }
   published
@@ -167,6 +178,12 @@ begin
     Key:=#0;
 end;
 
+procedure TfrmDialogPajak.btnSaveClick(Sender: TObject);
+begin
+  inherited;
+  SimpanData;
+end;
+
 procedure TfrmDialogPajak.edtPPNChange(Sender: TObject);
 begin
   inherited;
@@ -203,6 +220,29 @@ procedure TfrmDialogPajak.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FPajak := TNewPajak.Create(Self);
+end;
+
+function TfrmDialogPajak.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    FCrud := TCrudClient.Create(DMClient.RestConn);
+  Result := FCrud;
+end;
+
+function TfrmDialogPajak.GetModRefPajak: TModRefPajak;
+begin
+  if not Assigned(FModRefPajak) then
+    FModRefPajak := TModRefPajak.Create;
+  Result := FModRefPajak;
+end;
+
+procedure TfrmDialogPajak.SimpanData;
+begin
+  ModRefPajak.PJK_NAME := edtNamaPajak.Text;
+  ModRefPajak.PJK_CODE := edtCodePajak.Text;
+  ModRefPajak.PJK_PPN  := edtPPN.Value;
+  ModRefPajak.PJK_PPNBM := edtPPNBM.Value;
+  Crud.SaveToDB(ModRefPajak)
 end;
 
 end.

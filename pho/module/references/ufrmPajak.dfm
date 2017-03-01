@@ -19,7 +19,7 @@ inherited frmPajak: TfrmPajak
     Width = 532
     ExplicitWidth = 532
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
     Top = 258
     Width = 532
@@ -62,6 +62,9 @@ inherited frmPajak: TfrmPajak
         ExplicitLeft = 452
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlstPajak: TActionList
     Left = 440

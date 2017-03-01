@@ -18,7 +18,8 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModTest in '..\model\uModTest.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
-  uServerClasses in 'unit\uServerClasses.pas';
+  uServerClasses in 'unit\uServerClasses.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas';
 
 {$R *.res}
 

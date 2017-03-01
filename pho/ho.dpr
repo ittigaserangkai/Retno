@@ -63,7 +63,9 @@ uses
   uAppUtils in '..\system\uAppUtils.pas',
   uDXUtils in '..\lib\uDXUtils.pas',
   uModBank in '..\model\uModBank.pas',
-  uModAccount in '..\model\uModAccount.pas';
+  uModAccount in '..\model\uModAccount.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas';
+
 {$R *.res}
 
 begin
@@ -72,6 +74,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmBank, frmBank);
+  Application.CreateForm(TfrmPajak, frmPajak);
   Application.Run;
 end.
