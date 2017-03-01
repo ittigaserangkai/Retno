@@ -252,12 +252,11 @@
         <DCCReference Include="module\references\ufrmSearchRekening.pas">
             <Form>frmDialogSearchRekening</Form>
         </DCCReference>
-        <DCCReference Include="module\system\uDMClient.pas">
+        <DCCReference Include="..\module\uDMClient.pas">
             <Form>DMClient</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="unit\uClientClasses.pas"/>
         <DCCReference Include="ui\ufrmTest.pas">
             <Form>frmTest</Form>
             <FormType>dfm</FormType>
@@ -269,6 +268,14 @@
         <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModAccount.pas"/>
+        <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
+            <Form>frmDialogRekening</Form>
+        </DCCReference>
+        <DCCReference Include="module\accounting\ufrmRekening.pas">
+            <Form>frmRekening</Form>
+        </DCCReference>
+        <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="..\classes\uClientClasses.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

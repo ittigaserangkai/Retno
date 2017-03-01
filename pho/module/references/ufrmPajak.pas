@@ -47,7 +47,7 @@ begin
 //  if MasterNewUnit.ID=0 then
 //  begin
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
+//    //frmMain.cbbUnit.SetFocus;
 //    Exit;
 //  end;
   if not Assigned(frmDialogPajak) then
@@ -55,13 +55,13 @@ begin
   frmDialogPajak.Caption := 'Add Tax (Pajak)';
   frmDialogPajak.FormMode := fmAdd;
 
-//  SetFormPropertyAndShowDialog(frmDialogPajak);
+  SetFormPropertyAndShowDialog(frmDialogPajak);
   if (frmDialogPajak.IsProcessSuccessfull) then
   begin
     actRefreshPajakExecute(Self);
     CommonDlg.ShowConfirm(atAdd);
   end;
-    
+
   frmDialogPajak.Free;
 end;
 

@@ -54,8 +54,7 @@ uses
   ufrmProductTypeNBD in 'module\references\ufrmProductTypeNBD.pas' {frmProductTypeNBD},
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
   ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
-  uDMClient in 'module\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in 'unit\uClientClasses.pas',
+  uDMClient in '..\module\uDMClient.pas' {DMClient: TDataModule},
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   uModApp in '..\model\uModApp.pas',
   uModTest in '..\model\uModTest.pas',
@@ -65,7 +64,9 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModAccount in '..\model\uModAccount.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
-  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening};
+  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

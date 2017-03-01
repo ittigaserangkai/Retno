@@ -21,7 +21,7 @@ uses
   uServerClasses in 'unit\uServerClasses.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModAuthApp in '..\model\uModAuthApp.pas';
-
+ uModRefPajak in '..\model\uModRefPajak.pas';
 {$R *.res}
 
 
