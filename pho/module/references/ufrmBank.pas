@@ -5,7 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  ActnList, uConn, uRetnoUnit, uTSBaseClass,  System.Actions, DB;
+  ActnList, uConn, uRetnoUnit, uTSBaseClass,  System.Actions, DB, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridLevel,
+  cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, DBClient, uDMCLient, uClientClasses;
 
 type
   TfrmBank = class(TfrmMaster)
@@ -18,6 +22,11 @@ type
     pnlBodyUp: TPanel;
     Label1: TLabel;
     edtPencarian: TEdit;
+    cxGrid: TcxGrid;
+    cxGrdBrowse: TcxGridDBTableView;
+    cxGrdDetail: TcxGridDBTableView;
+    lvMaster: TcxGridLevel;
+    lvDetail: TcxGridLevel;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actAddBankExecute(Sender: TObject);
@@ -30,13 +39,19 @@ type
     procedure edtPencarianKeyPress(Sender: TObject; var Key: Char);
     procedure edtPencarianChange(Sender: TObject);
   private
+    FCDS: TClientDataSet;
+    FCrud: TCrudClient;
   resPoint: TPoint;
     procedure FindDataOnGrid(aText:String);
+    function GetCrud: TCrudClient;
     { Private declarations }
 
     function GetData(): TDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
 
   public
+    procedure RefreshData;
+    property Crud: TCrudClient read GetCrud write FCrud;
 //     FBank : TBank;
     { Public declarations }
   end;
@@ -46,7 +61,8 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogBank,  uConstanta;
+uses
+  uTSCommonDlg, ufrmDialogBank,  uConstanta, uDXUtils, uDBUtils;
 
 {$R *.dfm}
 
@@ -185,12 +201,13 @@ begin
 end;
 
 procedure TfrmBank.actRefreshBankExecute(Sender: TObject);
-var
-    dataBank: TDataSet;
-    i,countData: Integer;
+//var
+//    dataBank: TDataSet;
+//    i,countData: Integer;
 begin
-  dataBank := GetData();
-  countData := dataBank.RecordCount;
+  RefreshData;
+//  dataBank := GetData();
+//  countData := dataBank.RecordCount;
 //  with strgGrid do
 //  begin
 //    Clear;
@@ -283,6 +300,28 @@ begin
 //      strgGrid.SelectRows(resPoint.Y, 1);
 //    end;
 //  end;
+end;
+
+function TfrmBank.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    FCrud := TCrudClient.Create(DMClient.RestConn);
+  Result := FCrud;
+end;
+
+procedure TfrmBank.RefreshData;
+var
+  S: string;
+begin
+  S := 'SELECT ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
+      +' BANK_REK_CODE, BANK_DESCRIPTION,'
+      +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
+      +' FROM BANK';
+
+  if Assigned(FCDS) then FCDS.Free;
+  FCDS := TDBUtils.DSToCDS( Crud.OpenQuery(S), Self );
+  cxGrdBrowse.LoadFromCDS(FCDS);
+  cxGrdBrowse.SetVisibleColumns(['ID'],False);
 end;
 
 end.

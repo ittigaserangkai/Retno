@@ -17,6 +17,8 @@ type
     pnlBody: TPanel;
     pnlHeader: TPanel;
     lblHeader: TLabel;
+    cxStyle: TcxStyleRepository;
+    styleGridEven: TcxStyle;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     //procedure FormCreate(Sender: TObject);
@@ -306,7 +308,7 @@ end;
 
 procedure TfrmMaster.FormShow(Sender: TObject);
 begin
-  Authenticate;
+//  Authenticate;
 //  frmMain.pnlHeader.Hide;
 end;
 

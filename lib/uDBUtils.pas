@@ -4,7 +4,7 @@ interface
 uses
   System.Rtti, typinfo, SysUtils, StrUtils,
   Forms, DBClient,
-  Provider, uAppUtils, Generics.Collections, Classes, StdCtrls,
+  Provider, uAppUtils, Generics.Collections, System.Classes, StdCtrls,
   FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
   FireDAC.Phys.PG, FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.ODBCBase,
   FireDAC.Phys.MSSQL, Data.DB, FireDAC.Stan.Option, FireDAC.Stan.Error,
@@ -45,7 +45,8 @@ type
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject : TModApp; AID : String);
     class procedure SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
-    class function OpenDataset(ASQL : String): TClientDataSet; overload;
+    class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
+        TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
     class function OpenQuery(ASQL : String): TFDQuery;
     class procedure RollBack;
@@ -853,12 +854,13 @@ begin
 
 end;
 
-class function TDBUtils.OpenDataset(ASQL : String): TClientDataSet;
+class function TDBUtils.OpenDataset(ASQL: String; AOwner: TComponent = nil):
+    TClientDataSet;
 var
   LDSP: TDataSetProvider;
   LSQLQuery: TFDQuery;
 begin
-  Result      := TClientDataSet.Create(Application);
+  Result      := TClientDataSet.Create(AOwner);
   LDSP        := TDataSetProvider.Create(Result);
   LSQLQuery   := TFDQuery.Create(LDSP);
   LSQLQuery.FetchOptions.Unidirectional := False;

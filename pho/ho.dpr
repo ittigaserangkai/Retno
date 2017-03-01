@@ -60,7 +60,8 @@ uses
   uModApp in '..\model\uModApp.pas',
   uModTest in '..\model\uModTest.pas',
   uDBUtils in '..\lib\uDBUtils.pas',
-  uAppUtils in '..\system\uAppUtils.pas';
+  uAppUtils in '..\system\uAppUtils.pas',
+  uDXUtils in '..\lib\uDXUtils.pas';
 
 {$R *.res}
 
@@ -70,6 +71,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmTest, frmTest);
+  Application.CreateForm(TfrmBank, frmBank);
   Application.Run;
 end.

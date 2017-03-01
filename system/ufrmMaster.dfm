@@ -58,4 +58,13 @@ object frmMaster: TfrmMaster
       ParentFont = False
     end
   end
+  object cxStyle: TcxStyleRepository
+    Left = 376
+    Top = 16
+    PixelsPerInch = 96
+    object styleGridEven: TcxStyle
+      AssignedValues = [svColor]
+      Color = cl3DLight
+    end
+  end
 end

@@ -3,14 +3,14 @@ inherited frmDialogBank: TfrmDialogBank
   Top = 243
   Caption = 'frmDialogBank'
   ClientHeight = 239
-  ClientWidth = 403
+  ClientWidth = 648
   OldCreateOrder = True
-  ExplicitWidth = 419
+  ExplicitWidth = 664
   ExplicitHeight = 278
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 403
+    Width = 648
     Height = 183
     ExplicitTop = 0
     ExplicitWidth = 403
@@ -93,9 +93,9 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 3
     end
     object gbRekening: TGroupBox
-      Left = 141
+      Left = 384
       Top = 0
-      Width = 262
+      Width = 249
       Height = 177
       Caption = 'Rekening'
       TabOrder = 4
@@ -149,30 +149,30 @@ inherited frmDialogBank: TfrmDialogBank
   end
   inherited footerDialogMaster: TfraFooterDialog2Button
     Top = 183
-    Width = 403
+    Width = 648
     ExplicitTop = 183
     ExplicitWidth = 403
     inherited pnlFooter: TPanel
-      Width = 403
+      Width = 648
       ExplicitWidth = 403
       inherited btnClose: TcxButton
-        Left = 321
+        Left = 566
         ExplicitLeft = 321
       end
       inherited btnSave: TcxButton
-        Left = 234
+        Left = 479
         ExplicitLeft = 234
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 403
+      Width = 648
       ExplicitWidth = 403
       inherited lbl4: TLabel
-        Left = 218
+        Left = 463
         ExplicitLeft = 218
       end
       inherited lbl5: TLabel
-        Left = 313
+        Left = 558
         ExplicitLeft = 313
       end
     end

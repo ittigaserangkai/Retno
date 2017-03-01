@@ -2,26 +2,28 @@ inherited frmBank: TfrmBank
   Left = 284
   Top = 210
   Caption = 'Bank'
-  ClientHeight = 343
-  ClientWidth = 539
+  ClientHeight = 438
+  ClientWidth = 623
   OldCreateOrder = True
-  ExplicitWidth = 555
-  ExplicitHeight = 382
+  ExplicitWidth = 639
+  ExplicitHeight = 477
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 539
-    Height = 257
+    Width = 623
+    Height = 352
     ExplicitWidth = 539
     ExplicitHeight = 257
     object pnlBodyUp: TPanel
       Left = 11
       Top = 11
-      Width = 517
+      Width = 601
       Height = 38
       Align = alTop
       Color = 15198183
       TabOrder = 0
+      Visible = False
+      ExplicitWidth = 517
       object Label1: TLabel
         Left = 8
         Top = 12
@@ -42,15 +44,76 @@ inherited frmBank: TfrmBank
         OnKeyPress = edtPencarianKeyPress
       end
     end
+    object cxGrid: TcxGrid
+      Left = 11
+      Top = 49
+      Width = 601
+      Height = 292
+      Align = alClient
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      LookAndFeel.Kind = lfUltraFlat
+      LookAndFeel.NativeStyle = False
+      ExplicitLeft = 0
+      object cxGrdBrowse: TcxGridDBTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Filter.Options = [fcoCaseInsensitive]
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+          end>
+        DataController.Summary.SummaryGroups = <>
+        FilterRow.Visible = True
+        FilterRow.ApplyChanges = fracImmediately
+        OptionsCustomize.ColumnHiding = True
+        OptionsCustomize.ColumnsQuickCustomization = True
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
+        Styles.ContentEven = styleGridEven
+      end
+      object cxGrdDetail: TcxGridDBTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
+        OptionsView.GroupByBox = False
+      end
+      object lvMaster: TcxGridLevel
+        Caption = 'Master Data'
+        GridView = cxGrdBrowse
+        object lvDetail: TcxGridLevel
+          Caption = 'Detail Data'
+          Visible = False
+        end
+      end
+    end
   end
   inherited pnlHeader: TPanel
-    Width = 539
+    Width = 623
     ExplicitWidth = 539
+    inherited lblHeader: TLabel
+      Width = 69
+      Caption = 'Master Bank'
+      ExplicitWidth = 69
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
-    Top = 287
-    Width = 539
+    Top = 382
+    Width = 623
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -63,10 +126,10 @@ inherited frmBank: TfrmBank
     ExplicitTop = 287
     ExplicitWidth = 539
     inherited pnlFooter: TPanel
-      Width = 539
+      Width = 623
       ExplicitWidth = 539
       inherited btnClose: TcxButton
-        Left = 457
+        Left = 541
         ExplicitLeft = 457
       end
       inherited btnAdd: TcxButton
@@ -83,16 +146,16 @@ inherited frmBank: TfrmBank
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 539
+      Width = 623
       ExplicitWidth = 539
       inherited lbl5: TLabel
-        Left = 449
+        Left = 533
         ExplicitLeft = 452
       end
     end
   end
   object actlstBank: TActionList
-    Left = 440
+    Left = 544
     Top = 8
     object actAddBank: TAction
       Caption = 'Add'
@@ -110,5 +173,8 @@ inherited frmBank: TfrmBank
       Caption = 'Refresh'
       OnExecute = actRefreshBankExecute
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end
