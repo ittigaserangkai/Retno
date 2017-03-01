@@ -82,7 +82,7 @@ inherited frmBank: TfrmBank
         OptionsData.Inserting = False
         OptionsView.GroupByBox = False
         Styles.ContentEven = styleGridEven
-        Styles.Group = styleGridHeader
+        Styles.Header = styleGridHeader
       end
       object cxGrdDetail: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>

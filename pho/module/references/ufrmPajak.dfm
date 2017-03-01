@@ -42,7 +42,9 @@ inherited frmPajak: TfrmPajak
         ExplicitLeft = 450
       end
       inherited btnAdd: TcxButton
+        Top = 4
         Action = actAddPajak
+        ExplicitTop = 4
       end
       inherited btnUpdate: TcxButton
         Action = actEditPajak

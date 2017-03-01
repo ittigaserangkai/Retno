@@ -53,15 +53,6 @@ inherited frmRekening: TfrmRekening
         Height = 233
         ColCount = 2
         TabOrder = 0
-        ColWidths = (
-          64
-          64)
-        RowHeights = (
-          24
-          24
-          24
-          24
-          24)
       end
       object TlistRekening: TcxTreeList
         Left = 11
