@@ -18,7 +18,9 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModTest in '..\model\uModTest.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
-  uServerClasses in 'unit\uServerClasses.pas';
+  uServerClasses in 'unit\uServerClasses.pas',
+  uModCompany in '..\model\uModCompany.pas',
+  uModAuthApp in '..\model\uModAuthApp.pas';
 
 {$R *.res}
 
