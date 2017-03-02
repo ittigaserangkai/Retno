@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 03/01/17 4:41:38 PM
+// 3/2/2017 2:42:17 PM
 //
 
 unit uClientClasses;
@@ -66,6 +66,8 @@ type
     FBank_GetDSOverviewCommand_Cache: TDSRestCommand;
     FRekening_GetDSLookupCommand: TDSRestCommand;
     FRekening_GetDSLookupCommand_Cache: TDSRestCommand;
+    FRefPajak_GetDSOverviewCommand: TDSRestCommand;
+    FRefPajak_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -74,6 +76,8 @@ type
     function Bank_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Rekening_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RefPajak_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function RefPajak_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -171,6 +175,16 @@ const
   );
 
   TDSProvider_Rekening_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RefPajak_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RefPajak_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -521,6 +535,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekening_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.RefPajak_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FRefPajak_GetDSOverviewCommand = nil then
+  begin
+    FRefPajak_GetDSOverviewCommand := FConnection.CreateCommand;
+    FRefPajak_GetDSOverviewCommand.RequestType := 'GET';
+    FRefPajak_GetDSOverviewCommand.Text := 'TDSProvider.RefPajak_GetDSOverview';
+    FRefPajak_GetDSOverviewCommand.Prepare(TDSProvider_RefPajak_GetDSOverview);
+  end;
+  FRefPajak_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRefPajak_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRefPajak_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RefPajak_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRefPajak_GetDSOverviewCommand_Cache = nil then
+  begin
+    FRefPajak_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FRefPajak_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FRefPajak_GetDSOverviewCommand_Cache.Text := 'TDSProvider.RefPajak_GetDSOverview';
+    FRefPajak_GetDSOverviewCommand_Cache.Prepare(TDSProvider_RefPajak_GetDSOverview_Cache);
+  end;
+  FRefPajak_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRefPajak_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -537,6 +580,8 @@ begin
   FBank_GetDSOverviewCommand_Cache.DisposeOf;
   FRekening_GetDSLookupCommand.DisposeOf;
   FRekening_GetDSLookupCommand_Cache.DisposeOf;
+  FRefPajak_GetDSOverviewCommand.DisposeOf;
+  FRefPajak_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

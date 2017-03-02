@@ -47,6 +47,7 @@ type
     property Crud: TCrudClient read GetCrud write FCrud;
     property ModRefPajak: TModRefPajak read GetModRefPajak write FModRefPajak;
   public
+    procedure LoadData(ID: String);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -181,7 +182,13 @@ end;
 procedure TfrmDialogPajak.btnSaveClick(Sender: TObject);
 begin
   inherited;
-  SimpanData;
+  try
+    SimpanData;
+    tAppUtils.Information('Simpan Berhasil.');
+  except
+    tAppUtils.Error('Gagal Simpan.');
+    Raise;
+  end;
 end;
 
 procedure TfrmDialogPajak.edtPPNChange(Sender: TObject);
@@ -225,7 +232,7 @@ end;
 function TfrmDialogPajak.GetCrud: TCrudClient;
 begin
   if not Assigned(FCrud) then
-    FCrud := TCrudClient.Create(DMClient.RestConn);
+    FCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
   Result := FCrud;
 end;
 
@@ -234,6 +241,17 @@ begin
   if not Assigned(FModRefPajak) then
     FModRefPajak := TModRefPajak.Create;
   Result := FModRefPajak;
+end;
+
+procedure TfrmDialogPajak.LoadData(ID: String);
+begin
+  if Assigned(fModRefPajak) then FreeAndNil(fModRefPajak);
+  fModRefPajak := Crud.Retrieve(TModRefPajak.ClassName, ID) as TModRefPajak;
+
+  edtCodePajak.Text := ModRefPajak.PJK_CODE;
+  edtNamaPajak.Text := ModRefPajak.PJK_NAME;
+  edtPPN.Value := ModRefPajak.PJK_PPN;
+  edtPPNBM.Value := ModRefPajak.PJK_PPNBM;
 end;
 
 procedure TfrmDialogPajak.SimpanData;
