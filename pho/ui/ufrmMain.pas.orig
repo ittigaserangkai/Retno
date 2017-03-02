@@ -309,7 +309,7 @@ implementation
 
 uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-    ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
+  ufrmLogin, ufraLoading, ufrmPajak, ufrmBank, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup;
@@ -556,7 +556,7 @@ end;
 
 procedure TfrmMain.actPajakExecute(Sender: TObject);
 begin
-  frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
+    frmPajak := TfrmPajak.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);

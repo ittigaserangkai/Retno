@@ -122,6 +122,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
         <DCCReference Include="unit\uServerClasses.pas"/>
+        <DCCReference Include="..\model\uModCompany.pas"/>
+        <DCCReference Include="..\model\uModAuthApp.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>

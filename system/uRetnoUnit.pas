@@ -2,7 +2,8 @@ unit uRetnoUnit;
 
 interface
 uses
-  uConstanta, udmMain, Windows, Classes, SysUtils, Forms, uTSINIFile;
+  ExtCtrls, Controls, Graphics, uConstanta, udmMain, Windows, Classes, SysUtils,
+  Forms, uTSINIFile;
 
 type
   TTag = set of byte;
@@ -23,6 +24,13 @@ function GetReportPath: string;
 function cGetAppPath: String;
 
 function GetIsStoreUnitID(aUnit_ID : Integer): Integer;
+
+procedure cShowWaitWindow(aCaption : String = 'Mohon Ditunggu ...'; aOwner :
+    TComponent = nil);
+
+procedure cSetShowWaitWindowCaption(aCaption : String = 'Mohon Ditunggu ...');
+
+procedure cCloseWaitWindow;
 
 const
   _add = 5;
@@ -130,6 +138,67 @@ begin
 //      Free;
 //    end;
 //  end;
+end;
+
+procedure cShowWaitWindow(aCaption : String = 'Mohon Ditunggu ...'; aOwner :
+    TComponent = nil);
+begin
+    // TODO -cMM: cShowWaitWindow default body inserted
+    if FWaitForm = nil then
+    begin
+        if aOwner = nil then
+          FWaitForm := TForm.Create(Application)
+        else
+          FWaitForm := TForm.Create(aowner);
+
+        FWaitForm.BorderStyle := bsNone;
+        FWaitForm.Width := Screen.Width div 3;
+        FWaitForm.Height := Screen.Height div 10;
+        FWaitForm.Position := poScreenCenter;
+        FWaitForm.FormStyle := fsStayOnTop;
+
+        with TPanel.Create(FWaitForm) do
+        begin
+            Parent := FWaitForm;
+            Align := alClient;
+            Font.Name := 'Verdana';
+            Font.Size := 10;
+            Font.Style := [fsBold];
+            Font.Color := clBlue;
+            Caption := aCaption;
+            BevelInner := bvLowered;
+            //Color := clYellow;
+            Color := clGradientActiveCaption;
+        end;
+    end else
+    begin
+        cSetShowWaitWindowCaption(aCaption);
+    end;
+    FWaitForm.Show;
+    screen.Cursor := crDefault;
+end;
+
+procedure cSetShowWaitWindowCaption(aCaption : String = 'Mohon Ditunggu ...');
+begin
+    if FWaitForm <> nil then
+    begin
+        (FWaitForm.Components[0] as TPanel).Caption := aCaption;
+    end;
+end;
+
+procedure cCloseWaitWindow;
+begin
+    // TODO -cMM: cCloseWaitWindow default body inserted
+    {if FWaitForm <> nil then
+    begin
+      FWaitForm.Release;
+      FWaitForm := nil;
+      Screen.Cursor := crDefault;
+    end;
+    }
+
+    FreeAndNil(FWaitForm);
+    Screen.Cursor := crDefault;
 end;
 
 end.
