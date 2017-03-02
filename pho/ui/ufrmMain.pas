@@ -246,17 +246,34 @@ type
     Referensi1: TMenuItem;
     Bank1: TMenuItem;
     Pajak1: TMenuItem;
+    actSysParm: TAction;
+    actSysParmComp: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
+    procedure actCompanyTypeExecute(Sender: TObject);
+    procedure actHariLiburExecute(Sender: TObject);
+    procedure actLokasiExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actPajakExecute(Sender: TObject);
+    procedure actProductTypeExecute(Sender: TObject);
+    procedure actProductTypeNBDExecute(Sender: TObject);
+    procedure actRekeningExecute(Sender: TObject);
+    procedure actSupplierTypeExecute(Sender: TObject);
+    procedure actSysParmCompExecute(Sender: TObject);
+    procedure actSysParmExecute(Sender: TObject);
+    procedure actTipePengirimanPOExecute(Sender: TObject);
+    procedure actUOMExecute(Sender: TObject);
+    procedure actUOMNBDExecute(Sender: TObject);
+    procedure actUserExecute(Sender: TObject);
+    procedure actUserGroupExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
+    procedure miConnectionDatabaseClick(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -292,7 +309,10 @@ implementation
 
 uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-    ufrmLogin, ufraLoading, ufrmPajak;
+    ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
+  ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
+  ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
+  ufrmUserGroup;
 
 {$R *.dfm}
 
@@ -385,6 +405,21 @@ var i: integer;
 begin
   for i := Self.MDIChildCount-1 downto 0 do
     MDIChildren[i].Close;
+end;
+
+procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
+begin
+    frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actHariLiburExecute(Sender: TObject);
+begin
+    frmHariLibur := TfrmHariLibur.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actLokasiExecute(Sender: TObject);
+begin
+    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -524,6 +559,64 @@ begin
   frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actProductTypeExecute(Sender: TObject);
+begin
+    frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actProductTypeNBDExecute(Sender: TObject);
+begin
+    frmProductTypeNBD := TfrmProductTypeNBD.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actRekeningExecute(Sender: TObject);
+begin
+    frmRekening := TfrmRekening.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSupplierTypeExecute(Sender: TObject);
+begin
+    frmSupplierType := TfrmSupplierType.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSysParmCompExecute(Sender: TObject);
+begin
+    frmSysParm := TfrmSysParm.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSysParmExecute(Sender: TObject);
+begin
+  if not Assigned(frmSysParm) then
+    frmSysParm := TfrmSysParm.Create(Application);
+
+  frmSysParm.Show;
+end;
+
+procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
+begin
+    frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUOMExecute(Sender: TObject);
+begin
+    frmSatuan := TfrmSatuan.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUOMNBDExecute(Sender: TObject);
+begin
+    //frmSatuan_NBD := TfrmSatuan_NBD.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUserExecute(Sender: TObject);
+begin
+    frmUser := TfrmUser.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUserGroupExecute(Sender: TObject);
+begin
+    frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
 var
   i: integer;
@@ -595,6 +688,14 @@ begin
     // send message to refresh server: user_online on HO
 //    SendRefreshServerMessage(Format('REGISTER$HO$%s:%d$%s$as$%s', [IP,Port,FFormProperty.FLoginFullname,FFormProperty.FLoginRole]));
 
+end;
+
+procedure TfrmMain.miConnectionDatabaseClick(Sender: TObject);
+begin
+  frmLogin := TfrmLogin.Create(Application);
+  frmLogin.IsForSetting := true;
+  frmLogin.Caption := 'Setting Connection';
+  frmLogin.ShowFormLogin(CONNECTION_PAGE);
 end;
 
 procedure TfrmMain.SetStatusHOSTORE;

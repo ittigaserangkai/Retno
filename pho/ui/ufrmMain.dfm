@@ -154,6 +154,7 @@ object frmMain: TfrmMain
       Caption = 'Se&tting'
       object miConnectionDatabase: TMenuItem
         Caption = 'Connection Database'
+        OnClick = miConnectionDatabaseClick
       end
       object MenuItem2: TMenuItem
         Caption = '-'
@@ -256,10 +257,12 @@ object frmMain: TfrmMain
     object actSupplierType: TAction
       Category = 'References'
       Caption = 'Supplier Type'
+      OnExecute = actSupplierTypeExecute
     end
     object actUOM: TAction
       Category = 'References'
       Caption = 'Unit Of Measure'
+      OnExecute = actUOMExecute
     end
     object actGroupSubGroupCat: TAction
       Category = 'References'
@@ -280,6 +283,7 @@ object frmMain: TfrmMain
     object actCompanyType: TAction
       Category = 'References'
       Caption = 'Company Type'
+      OnExecute = actCompanyTypeExecute
     end
     object actBank: TAction
       Category = 'References'
@@ -289,6 +293,7 @@ object frmMain: TfrmMain
     object actProductType: TAction
       Category = 'References'
       Caption = 'Product Type'
+      OnExecute = actProductTypeExecute
     end
     object actDataSupplier: TAction
       Category = 'Merchandise'
@@ -317,10 +322,12 @@ object frmMain: TfrmMain
     object actTipePengirimanPO: TAction
       Category = 'Merchandise'
       Caption = 'actTipePengirimanPO'
+      OnExecute = actTipePengirimanPOExecute
     end
     object actHariLibur: TAction
       Category = 'References'
       Caption = 'Day Off'
+      OnExecute = actHariLiburExecute
     end
     object actClaimFaktur: TAction
       Category = 'Finance'
@@ -345,6 +352,7 @@ object frmMain: TfrmMain
     object actLokasi: TAction
       Category = 'References'
       Caption = 'Lokasi'
+      OnExecute = actLokasiExecute
     end
     object actListAPBalance: TAction
       Category = 'Finance'
@@ -417,10 +425,12 @@ object frmMain: TfrmMain
     object actUOMNBD: TAction
       Category = 'References'
       Caption = 'Unit Of Measure NBD'
+      OnExecute = actUOMNBDExecute
     end
     object actProductTypeNBD: TAction
       Category = 'References'
       Caption = 'Product Type NBD'
+      OnExecute = actProductTypeNBDExecute
     end
     object actMasterProductNBD: TAction
       Category = 'References'
@@ -429,10 +439,12 @@ object frmMain: TfrmMain
     object actUserGroup: TAction
       Category = 'Management User'
       Caption = 'User &Group'
+      OnExecute = actUserGroupExecute
     end
     object actUser: TAction
       Category = 'Management User'
       Caption = '&User'
+      OnExecute = actUserExecute
     end
     object actMasterCustomer: TAction
       Category = 'References'
@@ -545,6 +557,7 @@ object frmMain: TfrmMain
     object actRekening: TAction
       Category = 'Accounting'
       Caption = 'Rekening'
+      OnExecute = actRekeningExecute
     end
     object actBalanceSheet: TAction
       Category = 'Accounting'
@@ -1001,6 +1014,16 @@ object frmMain: TfrmMain
     object actPOBonus: TAction
       Category = 'Merchandise'
       Caption = 'actPOBonus'
+    end
+    object actSysParm: TAction
+      Category = 'Sistem'
+      Caption = 'System Parameter'
+      OnExecute = actSysParmExecute
+    end
+    object actSysParmComp: TAction
+      Category = 'Sistem'
+      Caption = 'System Parameter Company'
+      OnExecute = actSysParmCompExecute
     end
   end
 end

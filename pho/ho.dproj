@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.6;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>6</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.9;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>9</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -269,6 +269,48 @@
         <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModAccount.pas"/>
+        <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
+            <Form>frmDialogRekening</Form>
+        </DCCReference>
+        <DCCReference Include="module\accounting\ufrmRekening.pas">
+            <Form>frmRekening</Form>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmUser.pas">
+            <Form>frmUser</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmUserGroup.pas">
+            <Form>frmUserGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmDialogUser.pas">
+            <Form>frmDialogUser</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmDialogUserGroup.pas">
+            <Form>frmDialogUserGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmAddNewMenu.pas">
+            <Form>frmAddNewMenu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmDialogMenu.pas">
+            <Form>frmDialogMenu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmModule.pas">
+            <Form>frmModule</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmDialogModule.pas">
+            <Form>frmDialogModule</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\management user\ufrmDialogAddNewMenu.pas">
+            <Form>frmDialogAddNewMenu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

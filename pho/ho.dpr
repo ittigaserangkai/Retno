@@ -65,7 +65,16 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModAccount in '..\model\uModAccount.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
-  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening};
+  ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
+  ufrmUser in 'module\management user\ufrmUser.pas' {frmUser},
+  ufrmUserGroup in 'module\management user\ufrmUserGroup.pas' {frmUserGroup},
+  ufrmDialogUser in 'module\management user\ufrmDialogUser.pas' {frmDialogUser},
+  ufrmDialogUserGroup in 'module\management user\ufrmDialogUserGroup.pas' {frmDialogUserGroup},
+  ufrmAddNewMenu in 'module\management user\ufrmAddNewMenu.pas' {frmAddNewMenu},
+  ufrmDialogMenu in 'module\management user\ufrmDialogMenu.pas' {frmDialogMenu},
+  ufrmModule in 'module\management user\ufrmModule.pas' {frmModule},
+  ufrmDialogModule in 'module\management user\ufrmDialogModule.pas' {frmDialogModule},
+  ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu};
 
 {$R *.res}
 
