@@ -54,7 +54,7 @@ uses
   ufrmProductTypeNBD in 'module\references\ufrmProductTypeNBD.pas' {frmProductTypeNBD},
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
   ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
-  uDMClient in '..\module\uDMClient.pas' {DMClient: TDataModule},
+  uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   uModApp in '..\model\uModApp.pas',
   uModTest in '..\model\uModTest.pas',
