@@ -20,8 +20,8 @@ uses
   uDSUtils in '..\lib\uDSUtils.pas',
   uServerClasses in 'unit\uServerClasses.pas',
   uModCompany in '..\model\uModCompany.pas',
-  uModAuthApp in '..\model\uModAuthApp.pas';
- uModRefPajak in '..\model\uModRefPajak.pas';
+  uModAuthApp in '..\model\uModAuthApp.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas';
 {$R *.res}
 
 
