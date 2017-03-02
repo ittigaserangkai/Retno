@@ -55,7 +55,7 @@ uses
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
   ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in 'unit\uClientClasses.pas',
+  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   uModApp in '..\model\uModApp.pas',
   uModTest in '..\model\uModTest.pas',
@@ -74,7 +74,8 @@ uses
   ufrmDialogMenu in 'module\management user\ufrmDialogMenu.pas' {frmDialogMenu},
   ufrmModule in 'module\management user\ufrmModule.pas' {frmModule},
   ufrmDialogModule in 'module\management user\ufrmDialogModule.pas' {frmDialogModule},
-  ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu};
+  ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
+  uModRefPajak in '..\model\uModRefPajak.pas';
 
 {$R *.res}
 
