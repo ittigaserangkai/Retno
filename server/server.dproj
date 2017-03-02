@@ -125,6 +125,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="unit\ufrmGenerateModel.pas">
+            <Form>frmGenerateModel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\uDXUtils.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>

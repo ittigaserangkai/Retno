@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit;
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
+  System.Actions, Vcl.ActnList;
 
 type
   TfrmMain = class(TForm)
@@ -34,6 +35,15 @@ type
     edPort: TcxTextEdit;
     btnKonekDB: TButton;
     Button1: TButton;
+    mmMainMenu: TMainMenu;
+    File1: TMenuItem;
+    Exit1: TMenuItem;
+    ools1: TMenuItem;
+    ModelGenerator1: TMenuItem;
+    actlstMenu: TActionList;
+    actFileExit: TAction;
+    actToolsGenerateModel: TAction;
+    procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
@@ -57,7 +67,7 @@ implementation
 
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
-  ServerContainerUnit, uModTest;
+  ServerContainerUnit, uModTest, ufrmGenerateModel;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -86,6 +96,12 @@ procedure TerminateThreads;
 begin
   if TDSSessionManager.Instance <> nil then
     TDSSessionManager.Instance.TerminateAllSessions;
+end;
+
+procedure TfrmMain.actToolsGenerateModelExecute(Sender: TObject);
+begin
+  frmGenerateModel := TfrmGenerateModel.Create(Self);
+  frmGenerateModel.ShowModal;
 end;
 
 procedure TfrmMain.btnKonekDBClick(Sender: TObject);

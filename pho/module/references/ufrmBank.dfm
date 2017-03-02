@@ -12,8 +12,8 @@ inherited frmBank: TfrmBank
   inherited pnlBody: TPanel
     Width = 623
     Height = 352
-    ExplicitWidth = 539
-    ExplicitHeight = 257
+    ExplicitWidth = 623
+    ExplicitHeight = 352
     object pnlBodyUp: TPanel
       Left = 11
       Top = 11
@@ -23,7 +23,6 @@ inherited frmBank: TfrmBank
       Color = 15198183
       TabOrder = 0
       Visible = False
-      ExplicitWidth = 517
       object Label1: TLabel
         Left = 8
         Top = 12
@@ -59,10 +58,6 @@ inherited frmBank: TfrmBank
       TabOrder = 1
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
-      ExplicitLeft = 16
-      ExplicitTop = 55
-      ExplicitWidth = 595
-      ExplicitHeight = 286
       object cxGrdBrowse: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Filter.Options = [fcoCaseInsensitive]
@@ -108,7 +103,7 @@ inherited frmBank: TfrmBank
   end
   inherited pnlHeader: TPanel
     Width = 623
-    ExplicitWidth = 539
+    ExplicitWidth = 623
     inherited lblHeader: TLabel
       Width = 69
       Caption = 'Master Bank'
@@ -128,14 +123,14 @@ inherited frmBank: TfrmBank
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 287
-    ExplicitWidth = 539
+    ExplicitTop = 382
+    ExplicitWidth = 623
     inherited pnlFooter: TPanel
       Width = 623
-      ExplicitWidth = 539
+      ExplicitWidth = 623
       inherited btnClose: TcxButton
         Left = 541
-        ExplicitLeft = 457
+        ExplicitLeft = 541
       end
       inherited btnAdd: TcxButton
         Action = actAddBank
@@ -152,12 +147,15 @@ inherited frmBank: TfrmBank
     end
     inherited pnlSortCut: TPanel
       Width = 623
-      ExplicitWidth = 539
+      ExplicitWidth = 623
       inherited lbl5: TLabel
         Left = 533
         ExplicitLeft = 452
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlstBank: TActionList
     Left = 544
@@ -178,8 +176,5 @@ inherited frmBank: TfrmBank
       Caption = 'Refresh'
       OnExecute = actRefreshBankExecute
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
 end

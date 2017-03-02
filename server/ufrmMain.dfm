@@ -10,6 +10,7 @@ object frmMain: TfrmMain
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = mmMainMenu
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -201,5 +202,32 @@ object frmMain: TfrmMain
   object ImageList1: TImageList
     Left = 168
     Top = 24
+  end
+  object mmMainMenu: TMainMenu
+    Left = 112
+    Top = 264
+    object File1: TMenuItem
+      Caption = 'File'
+      object Exit1: TMenuItem
+        Action = actFileExit
+      end
+    end
+    object ools1: TMenuItem
+      Caption = 'Tools'
+      object ModelGenerator1: TMenuItem
+        Action = actToolsGenerateModel
+      end
+    end
+  end
+  object actlstMenu: TActionList
+    Left = 128
+    Top = 192
+    object actFileExit: TAction
+      Caption = 'Exit'
+    end
+    object actToolsGenerateModel: TAction
+      Caption = 'Generate Model'
+      OnExecute = actToolsGenerateModelExecute
+    end
   end
 end
