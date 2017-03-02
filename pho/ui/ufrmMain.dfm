@@ -37,8 +37,8 @@ object frmMain: TfrmMain
       Height = 76
       Align = alClient
       Transparent = True
-      ExplicitLeft = 4
-      ExplicitTop = 4
+      ExplicitLeft = 42
+      ExplicitTop = 6
     end
   end
   object sbMain: TdxStatusBar

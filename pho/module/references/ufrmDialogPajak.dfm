@@ -12,6 +12,7 @@ inherited frmDialogPajak: TfrmDialogPajak
   inherited pnlBody: TPanel
     Width = 400
     Height = 141
+    ExplicitTop = -3
     ExplicitWidth = 400
     ExplicitHeight = 141
     object lbl1: TLabel
@@ -70,26 +71,6 @@ inherited frmDialogPajak: TfrmDialogPajak
       ParentCtl3D = False
       TabOrder = 0
     end
-    object edtPPN: TEdit
-      Left = 69
-      Top = 68
-      Width = 49
-      Height = 22
-      Ctl3D = False
-      MaxLength = 5
-      ParentCtl3D = False
-      TabOrder = 1
-    end
-    object edtPPNBM: TEdit
-      Left = 69
-      Top = 96
-      Width = 49
-      Height = 22
-      Ctl3D = False
-      MaxLength = 5
-      ParentCtl3D = False
-      TabOrder = 2
-    end
     object edtCodePajak: TEdit
       Left = 69
       Top = 12
@@ -98,7 +79,21 @@ inherited frmDialogPajak: TfrmDialogPajak
       Ctl3D = False
       MaxLength = 4
       ParentCtl3D = False
+      TabOrder = 1
+    end
+    object edtPPN: TcxCalcEdit
+      Left = 69
+      Top = 68
+      EditValue = 0.000000000000000000
+      TabOrder = 2
+      Width = 33
+    end
+    object edtPPNBM: TcxCalcEdit
+      Left = 69
+      Top = 98
+      EditValue = 0.000000000000000000
       TabOrder = 3
+      Width = 33
     end
   end
   inherited footerDialogMaster: TfraFooterDialog2Button
@@ -114,12 +109,17 @@ inherited frmDialogPajak: TfrmDialogPajak
         ExplicitLeft = 318
       end
       inherited btnSave: TcxButton
-        Left = 231
-        ExplicitLeft = 231
+        Left = 232
+        Top = 4
+        OnClick = btnSaveClick
+        ExplicitLeft = 232
+        ExplicitTop = 4
       end
     end
     inherited pnlSortCut: TPanel
       Width = 400
+      ExplicitLeft = 3
+      ExplicitTop = -3
       ExplicitWidth = 400
       inherited lbl4: TLabel
         Left = 215

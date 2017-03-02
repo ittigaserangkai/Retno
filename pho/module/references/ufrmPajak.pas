@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, ActnList, Grids,
-  ufraFooter5Button, StdCtrls, ExtCtrls, System.Actions;
+  ufraFooter5Button, StdCtrls, ExtCtrls, System.Actions, cxStyles, cxClasses;
 
 type
   TfrmPajak = class(TfrmMaster)
@@ -45,23 +45,23 @@ uses ufrmDialogPajak, uConn, DB, uConstanta, uTSCommonDlg;
 procedure TfrmPajak.actAddPajakExecute(Sender: TObject);
 begin
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    //frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
   if not Assigned(frmDialogPajak) then
     Application.CreateForm(TfrmDialogPajak, frmDialogPajak);
   frmDialogPajak.Caption := 'Add Tax (Pajak)';
   frmDialogPajak.FormMode := fmAdd;
 
-//  SetFormPropertyAndShowDialog(frmDialogPajak);
+  SetFormPropertyAndShowDialog(frmDialogPajak);
   if (frmDialogPajak.IsProcessSuccessfull) then
   begin
     actRefreshPajakExecute(Self);
     CommonDlg.ShowConfirm(atAdd);
   end;
-    
+
   frmDialogPajak.Free;
 end;
 
