@@ -12,7 +12,6 @@ inherited frmDialogPajak: TfrmDialogPajak
   inherited pnlBody: TPanel
     Width = 400
     Height = 141
-    ExplicitTop = -3
     ExplicitWidth = 400
     ExplicitHeight = 141
     object lbl1: TLabel
@@ -118,8 +117,6 @@ inherited frmDialogPajak: TfrmDialogPajak
     end
     inherited pnlSortCut: TPanel
       Width = 400
-      ExplicitLeft = 3
-      ExplicitTop = -3
       ExplicitWidth = 400
       inherited lbl4: TLabel
         Left = 215

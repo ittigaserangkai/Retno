@@ -29,6 +29,7 @@ type
   public
     function Bank_GetDSOverview: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
+    function RefPajak_GetDSOverview: TDataSet;
   end;
 
   {$METHODINFO OFF}
@@ -143,6 +144,14 @@ var
   S: string;
 begin
   S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefPajak_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from REF$PAJAK';
   Result := TDBUtils.OpenQuery(S);
 end;
 

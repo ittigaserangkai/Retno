@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ComCtrls,
-  DB, ActnList, AsgFindDialog, cxGraphics, cxControls, cxLookAndFeels,
+  DB, ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid,
