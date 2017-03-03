@@ -102,7 +102,11 @@ inherited frmDialogPajak: TfrmDialogPajak
     ExplicitWidth = 400
     inherited pnlFooter: TPanel
       Width = 400
+      ExplicitTop = 25
       ExplicitWidth = 400
+      DesignSize = (
+        400
+        35)
       inherited btnClose: TcxButton
         Left = 318
         ExplicitLeft = 318
