@@ -8,7 +8,9 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions;
+  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions, uDMClient,
+  uClientClasses, uDBUtils, uDXUtils, DBClient, uAppUtils,
+  uModTipeBarang;
 
 type
   TfrmProductType = class(TfrmMaster)
@@ -34,10 +36,23 @@ type
     procedure FormCreate(Sender: TObject);
     procedure fraFooter5Button1btnCloseClick(Sender: TObject);
   private
+    FCDS: TClientDataset;
+    FCrud: TCrudClient;
+    FDSProvider: TDSProviderClient;
+    FModTipeBarang: TModTipeBarang;
     IdProductType: integer;
     strnama: string;
+    function GetCrud: TCrudClient;
+    function GetDSProvider: TDSProviderClient;
+    function GetModTipeBarang: TModTipeBarang;
+    procedure LoadData;
 //    FTipeProduct : TTipeProduk;
     procedure RefreshData();
+    property CDS: TClientDataset read FCDS write FCDS;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property DSProvider: TDSProviderClient read GetDSProvider write FDSProvider;
+    property ModTipeBarang: TModTipeBarang read GetModTipeBarang write
+        FModTipeBarang;
   public
     { Public declarations }
   end;
@@ -80,21 +95,23 @@ begin
   end;
 
   frmDialogProductType.Free;
+  LoadData();
 end;
 
 procedure TfrmProductType.actEditProductTypeExecute(Sender: TObject);
 begin
 //  if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    //frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
   if not Assigned(frmDialogProductType) then
     Application.CreateForm(TfrmDialogProductType, frmDialogProductType);
   frmDialogProductType.Caption := 'Edit Product Type';
   frmDialogProductType.FormMode := fmEdit;
+  frmDialogProductType.LoadData(CDS.FieldByName('ID').AsString);
 //  frmDialogProductType.ProductTypeId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
   SetFormPropertyAndShowDialog(frmDialogProductType);
@@ -105,39 +122,49 @@ begin
   end;
 
   frmDialogProductType.Free;
+  LoadData();
 end;
 
 procedure TfrmProductType.actDeleteProductTypeExecute(Sender: TObject);
-var
-  aID: Integer;
+//var
+//  aID: Integer;
 begin
-  try
-//    if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
-//    if MasterNewUnit.ID=0 then
+//  try
+////    if strgGrid.Cells[2,strgGrid.row]='0' then Exit;
+////    if MasterNewUnit.ID=0 then
+//    begin
+//      CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//      //frmMain.cbbUnit.SetFocus;
+//      Exit;
+//    end;
+////    if (CommonDlg.Confirm('Are you sure you wish to delete Product Type (Code : '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
+
     begin
-      CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-      //frmMain.cbbUnit.SetFocus;
-      Exit;
+    if tAppUtils.Confirm('Apakah Yakin Menghapus Data Ini ['+CDS.FieldByName('TPBRG_NAME').AsString+'] ?') then
+      Begin
+        if Assigned(fModTipeBarang) then FreeAndNil(fModTipeBarang);
+        fModTipeBarang := Crud.Retrieve(TModTipeBarang.ClassName, CDS.FieldByName('ID').AsString) as TModTipeBarang;
+        if Crud.DeleteFromDB(ModTipeBarang) then LoadData;
+      End;
     end;
-//    if (CommonDlg.Confirm('Are you sure you wish to delete Product Type (Code : '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
-    begin
-//      if not assigned(ProductType) then
-//        ProductType := TProductType.Create;
-//
-//      aID := StrToInt(strgGrid.Cells[2,strgGrid.row]);
-//
-//      if FtipeProduct.LoadByID(aID) then
-      begin
-//        if FTipeProduct.RemoveFromDB then
-        begin
-          actRefreshProductTypeExecute(Self);
-          CommonDlg.ShowConfirm(atDelete);
-        end// else CommonDlg.ShowMessage('Load data gagal');
-      end;
-    end;
-  finally
-    frmProductType.fraFooter5Button1.btnRefresh.Click;
-  end;
+//    begin
+////      if not assigned(ProductType) then
+////        ProductType := TProductType.Create;
+////
+////      aID := StrToInt(strgGrid.Cells[2,strgGrid.row]);
+////
+////      if FtipeProduct.LoadByID(aID) then
+//      begin
+////        if FTipeProduct.RemoveFromDB then
+//        begin
+//          actRefreshProductTypeExecute(Self);
+//          CommonDlg.ShowConfirm(atDelete);
+//        end// else CommonDlg.ShowMessage('Load data gagal');
+//      end;
+//    end;
+//  finally
+//    frmProductType.fraFooter5Button1.btnRefresh.Click;
+//  end;
 end;
 
 procedure TfrmProductType.RefreshData;
@@ -188,7 +215,8 @@ end;
 
 procedure TfrmProductType.actRefreshProductTypeExecute(Sender: TObject);
 begin
-  RefreshData();
+//  RefreshData();
+  LoadData();
 end;
 
 procedure TfrmProductType.FormShow(Sender: TObject);
@@ -223,6 +251,35 @@ begin
   inherited;
   fraFooter5Button1.btnCloseClick(Sender);
 
+end;
+
+function TfrmProductType.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
+end;
+
+function TfrmProductType.GetDSProvider: TDSProviderClient;
+begin
+  if not Assigned(FDSProvider) then
+    FDSProvider := TDSProviderClient.Create(DMClient.RestConn, FALSE);
+  Result := FDSProvider;
+end;
+
+function TfrmProductType.GetModTipeBarang: TModTipeBarang;
+begin
+  if not Assigned(FModTipeBarang) then
+    fModTipeBarang := TModTipeBarang.Create();
+  Result := FModTipeBarang;
+end;
+
+procedure TfrmProductType.LoadData;
+begin
+  CDS := tDBUtils.DSToCDS(DSProvider.RefTipeBarang_GetDSOverview(), SELF);
+  cxGridViewTipeProduk.LoadFromCDS(CDS);
+  cxGridViewTipeProduk.SetColumnsCaption(['TPBRG_CODE','TPBRG_NAME'],['KODE TIPE BARANG','NAMA TIPE BARANG']);
+  cxGridViewTipeProduk.SetVisibleColumns(['ID'], FALSE);
 end;
 
 end.

@@ -111,6 +111,7 @@ begin
   end;
 
   frmDialogPajak.Free;
+  LoadData();
 end;
 
 procedure TfrmPajak.actDeletePajakExecute(Sender: TObject);
@@ -131,7 +132,7 @@ begin
       Begin
         if Assigned(fModRefPajak) then FreeAndNil(fModRefPajak);
         fModRefPajak := Crud.Retrieve(TModRefPajak.ClassName, CDSOverView.FieldByName('ID').AsString) as TModRefPajak;
-        if Crud.DeleteFromDB(fModRefPajak) then LoadData;
+        if Crud.DeleteFromDB(ModRefPajak) then LoadData;
       End;
 
    { if not assigned(Pajak) then

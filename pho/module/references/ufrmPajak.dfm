@@ -2,23 +2,23 @@ inherited frmPajak: TfrmPajak
   Left = 261
   Top = 178
   Caption = 'Tax'
-  ClientHeight = 410
+  ClientHeight = 372
   ClientWidth = 740
   OldCreateOrder = True
   ExplicitWidth = 756
-  ExplicitHeight = 449
+  ExplicitHeight = 411
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 740
-    Height = 324
-    ExplicitWidth = 532
-    ExplicitHeight = 228
+    Height = 286
+    ExplicitWidth = 740
+    ExplicitHeight = 324
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
       Width = 718
-      Height = 302
+      Height = 264
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -29,9 +29,7 @@ inherited frmPajak: TfrmPajak
       TabOrder = 0
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
-      ExplicitTop = 49
-      ExplicitWidth = 601
-      ExplicitHeight = 292
+      ExplicitHeight = 302
       object cxGridBrowse: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Filter.Options = [fcoCaseInsensitive]
@@ -77,11 +75,11 @@ inherited frmPajak: TfrmPajak
   end
   inherited pnlHeader: TPanel
     Width = 740
-    ExplicitWidth = 532
+    ExplicitWidth = 740
   end
   inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
-    Top = 354
+    Top = 316
     Width = 740
     Height = 56
     Align = alBottom
@@ -92,14 +90,14 @@ inherited frmPajak: TfrmPajak
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 258
-    ExplicitWidth = 532
+    ExplicitTop = 354
+    ExplicitWidth = 740
     inherited pnlFooter: TPanel
       Width = 740
-      ExplicitWidth = 532
+      ExplicitWidth = 740
       inherited btnClose: TcxButton
         Left = 658
-        ExplicitLeft = 450
+        ExplicitLeft = 658
       end
       inherited btnAdd: TcxButton
         Top = 4
@@ -118,7 +116,7 @@ inherited frmPajak: TfrmPajak
     end
     inherited pnlSortCut: TPanel
       Width = 740
-      ExplicitWidth = 532
+      ExplicitWidth = 740
       inherited lbl5: TLabel
         Left = 650
         ExplicitLeft = 452

@@ -111,19 +111,19 @@ begin
   FHostClient      := aFormProperty.FHostClient;
   FIpClient        := aFormProperty.FIpClient;
 
-  if MasterCompany.LoadByID(aFormProperty.FSelfCompanyID) then
-  begin
-//    if not MasterNewUnit.LoadByID(aFormProperty.FSelfUnitID) then
-    begin
-      CommonDlg.ShowError('Unit Belum Dipilih');
-      //Self := nil;
-      Exit;
-    end;
-  end else begin
-    CommonDlg.ShowError('Company Belum Dipilih');
-    //Self := nil;
-    Exit;
-  end;
+//  if MasterCompany.LoadByID(aFormProperty.FSelfCompanyID) then
+//  begin
+////    if not MasterNewUnit.LoadByID(aFormProperty.FSelfUnitID) then
+//    begin
+//      CommonDlg.ShowError('Unit Belum Dipilih');
+//      //Self := nil;
+//      Exit;
+//    end;
+//  end else begin
+//    CommonDlg.ShowError('Company Belum Dipilih');
+//    //Self := nil;
+//    Exit;
+//  end;
 
   Create(aOwner);
 end;

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/3/2017 3:25:51 PM
+// 3/6/2017 10:44:51 AM
 //
 
 unit uClientClasses;
@@ -68,6 +68,8 @@ type
     FRekening_GetDSLookupCommand_Cache: TDSRestCommand;
     FRefPajak_GetDSOverviewCommand: TDSRestCommand;
     FRefPajak_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRefTipeBarang_GetDSOverviewCommand: TDSRestCommand;
+    FRefTipeBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FRekening_GetDSOverviewCommand: TDSRestCommand;
     FRekening_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
@@ -80,6 +82,8 @@ type
     function Rekening_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RefPajak_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function RefPajak_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RefTipeBarang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function RefTipeBarang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Rekening_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
@@ -189,6 +193,16 @@ const
   );
 
   TDSProvider_RefPajak_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RefTipeBarang_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RefTipeBarang_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -578,6 +592,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FRefPajak_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.RefTipeBarang_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FRefTipeBarang_GetDSOverviewCommand = nil then
+  begin
+    FRefTipeBarang_GetDSOverviewCommand := FConnection.CreateCommand;
+    FRefTipeBarang_GetDSOverviewCommand.RequestType := 'GET';
+    FRefTipeBarang_GetDSOverviewCommand.Text := 'TDSProvider.RefTipeBarang_GetDSOverview';
+    FRefTipeBarang_GetDSOverviewCommand.Prepare(TDSProvider_RefTipeBarang_GetDSOverview);
+  end;
+  FRefTipeBarang_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRefTipeBarang_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRefTipeBarang_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RefTipeBarang_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRefTipeBarang_GetDSOverviewCommand_Cache = nil then
+  begin
+    FRefTipeBarang_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FRefTipeBarang_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FRefTipeBarang_GetDSOverviewCommand_Cache.Text := 'TDSProvider.RefTipeBarang_GetDSOverview';
+    FRefTipeBarang_GetDSOverviewCommand_Cache.Prepare(TDSProvider_RefTipeBarang_GetDSOverview_Cache);
+  end;
+  FRefTipeBarang_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRefTipeBarang_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.Rekening_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FRekening_GetDSOverviewCommand = nil then
@@ -625,6 +668,8 @@ begin
   FRekening_GetDSLookupCommand_Cache.DisposeOf;
   FRefPajak_GetDSOverviewCommand.DisposeOf;
   FRefPajak_GetDSOverviewCommand_Cache.DisposeOf;
+  FRefTipeBarang_GetDSOverviewCommand.DisposeOf;
+  FRefTipeBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FRekening_GetDSOverviewCommand.DisposeOf;
   FRekening_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
