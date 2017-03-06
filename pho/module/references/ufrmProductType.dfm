@@ -12,8 +12,8 @@ inherited frmProductType: TfrmProductType
   inherited pnlBody: TPanel
     Width = 723
     Height = 279
-    ExplicitWidth = 546
-    ExplicitHeight = 256
+    ExplicitWidth = 723
+    ExplicitHeight = 279
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
@@ -21,8 +21,6 @@ inherited frmProductType: TfrmProductType
       Height = 257
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 524
-      ExplicitHeight = 234
       object cxGridViewTipeProduk: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -36,7 +34,7 @@ inherited frmProductType: TfrmProductType
   end
   inherited pnlHeader: TPanel
     Width = 723
-    ExplicitWidth = 546
+    ExplicitWidth = 723
   end
   inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
@@ -51,15 +49,15 @@ inherited frmProductType: TfrmProductType
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 286
-    ExplicitWidth = 546
+    ExplicitTop = 309
+    ExplicitWidth = 723
     inherited pnlFooter: TPanel
       Width = 723
-      ExplicitWidth = 546
+      ExplicitWidth = 723
       inherited btnClose: TcxButton
         Left = 641
         OnClick = fraFooter5Button1btnCloseClick
-        ExplicitLeft = 464
+        ExplicitLeft = 641
       end
       inherited btnAdd: TcxButton
         Action = actAddProductType
@@ -76,7 +74,7 @@ inherited frmProductType: TfrmProductType
     end
     inherited pnlSortCut: TPanel
       Width = 723
-      ExplicitWidth = 546
+      ExplicitWidth = 723
       inherited lbl5: TLabel
         Left = 633
         ExplicitLeft = 452

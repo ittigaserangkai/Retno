@@ -249,6 +249,8 @@ type
     actSysParm: TAction;
     actSysParmComp: TAction;
     ProductType1: TMenuItem;
+    Finance1: TMenuItem;
+    Rekening1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);

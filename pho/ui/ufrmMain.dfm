@@ -153,6 +153,12 @@ object frmMain: TfrmMain
         Action = actProductType
       end
     end
+    object Finance1: TMenuItem
+      Caption = 'Finance'
+      object Rekening1: TMenuItem
+        Action = actRekening
+      end
+    end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
       object miConnectionDatabase: TMenuItem

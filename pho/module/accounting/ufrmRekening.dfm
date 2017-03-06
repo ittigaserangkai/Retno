@@ -2,26 +2,27 @@ inherited frmRekening: TfrmRekening
   Left = 204
   Top = 121
   Caption = 'Account'
-  ClientHeight = 511
-  ClientWidth = 741
+  ClientHeight = 377
+  ClientWidth = 756
   OldCreateOrder = True
-  ExplicitWidth = 757
-  ExplicitHeight = 550
+  ExplicitWidth = 772
+  ExplicitHeight = 416
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 741
-    Height = 425
+    Width = 756
+    Height = 291
     ExplicitWidth = 741
     ExplicitHeight = 425
     object pnlTop: TPanel
       Left = 11
       Top = 11
-      Width = 719
+      Width = 734
       Height = 46
       Align = alTop
       Color = 15198183
       TabOrder = 0
+      ExplicitWidth = 719
       object lbl1: TLabel
         Left = 8
         Top = 16
@@ -40,12 +41,14 @@ inherited frmRekening: TfrmRekening
     object pnlAll: TPanel
       Left = 11
       Top = 57
-      Width = 719
-      Height = 357
+      Width = 734
+      Height = 223
       Align = alClient
       BorderWidth = 10
       Color = 15198183
       TabOrder = 1
+      ExplicitWidth = 719
+      ExplicitHeight = 357
       object strgGrid: TStringGrid
         Left = 584
         Top = 88
@@ -54,75 +57,42 @@ inherited frmRekening: TfrmRekening
         ColCount = 2
         TabOrder = 0
       end
-      object TlistRekening: TcxTreeList
+      object cxDBTreeList: TcxDBTreeList
         Left = 11
         Top = 11
-        Width = 697
-        Height = 335
+        Width = 712
+        Height = 201
         Align = alClient
         Bands = <
           item
           end>
         Navigator.Buttons.CustomButtons = <>
+        RootValue = -1
         TabOrder = 1
-        object cxTreeList1Column1: TcxTreeListColumn
-          Caption.Text = 'ACCOUNT CODE'
-          DataBinding.ValueType = 'String'
+        ExplicitLeft = 30
+        ExplicitTop = 16
+        ExplicitWidth = 250
+        ExplicitHeight = 150
+        object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
+          DataBinding.FieldName = 'REK_CODE'
           Position.ColIndex = 0
           Position.RowIndex = 0
           Position.BandIndex = 0
           Summary.FooterSummaryItems = <>
           Summary.GroupFooterSummaryItems = <>
         end
-        object cxTreeList1Column2: TcxTreeListColumn
-          Caption.Text = 'ACCOUNT NAME'
-          DataBinding.ValueType = 'String'
+        object cxDBTreeListcxDBTreeListColumn2: TcxDBTreeListColumn
+          DataBinding.FieldName = 'REK_NAME'
           Position.ColIndex = 1
           Position.RowIndex = 0
           Position.BandIndex = 0
           Summary.FooterSummaryItems = <>
           Summary.GroupFooterSummaryItems = <>
         end
-        object cxTreeList1Column3: TcxTreeListColumn
-          Caption.Text = 'ACCOUNT LEVEL'
-          DataBinding.ValueType = 'String'
+        object cxDBTreeListcxDBTreeListColumn3: TcxDBTreeListColumn
+          Visible = False
+          DataBinding.FieldName = 'REK_PARENT_CODE'
           Position.ColIndex = 2
-          Position.RowIndex = 0
-          Position.BandIndex = 0
-          Summary.FooterSummaryItems = <>
-          Summary.GroupFooterSummaryItems = <>
-        end
-        object cxTreeList1Column4: TcxTreeListColumn
-          Caption.Text = 'ACCOUNT DESCRIPTION'
-          DataBinding.ValueType = 'String'
-          Position.ColIndex = 3
-          Position.RowIndex = 0
-          Position.BandIndex = 0
-          Summary.FooterSummaryItems = <>
-          Summary.GroupFooterSummaryItems = <>
-        end
-        object cxTreeList1Column5: TcxTreeListColumn
-          Caption.Text = 'PARENT CODE'
-          DataBinding.ValueType = 'String'
-          Position.ColIndex = 4
-          Position.RowIndex = 0
-          Position.BandIndex = 0
-          Summary.FooterSummaryItems = <>
-          Summary.GroupFooterSummaryItems = <>
-        end
-        object cxTreeList1Column6: TcxTreeListColumn
-          Caption.Text = 'NORMAL BALANCE'
-          DataBinding.ValueType = 'String'
-          Position.ColIndex = 5
-          Position.RowIndex = 0
-          Position.BandIndex = 0
-          Summary.FooterSummaryItems = <>
-          Summary.GroupFooterSummaryItems = <>
-        end
-        object cxTreeList1Column7: TcxTreeListColumn
-          Caption.Text = 'H / D'
-          DataBinding.ValueType = 'String'
-          Position.ColIndex = 6
           Position.RowIndex = 0
           Position.BandIndex = 0
           Summary.FooterSummaryItems = <>
@@ -132,7 +102,7 @@ inherited frmRekening: TfrmRekening
     end
   end
   inherited pnlHeader: TPanel
-    Width = 741
+    Width = 756
     ExplicitWidth = 741
     inherited lblHeader: TLabel
       Width = 53
@@ -142,8 +112,8 @@ inherited frmRekening: TfrmRekening
   end
   inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
-    Top = 455
-    Width = 741
+    Top = 321
+    Width = 756
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -156,10 +126,10 @@ inherited frmRekening: TfrmRekening
     ExplicitTop = 455
     ExplicitWidth = 741
     inherited pnlFooter: TPanel
-      Width = 741
+      Width = 756
       ExplicitWidth = 741
       inherited btnClose: TcxButton
-        Left = 659
+        Left = 674
         ExplicitLeft = 659
       end
       inherited btnAdd: TcxButton
@@ -176,10 +146,10 @@ inherited frmRekening: TfrmRekening
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 741
+      Width = 756
       ExplicitWidth = 741
       inherited lbl5: TLabel
-        Left = 651
+        Left = 666
         ExplicitLeft = 644
       end
     end

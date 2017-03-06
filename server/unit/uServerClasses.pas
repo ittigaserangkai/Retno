@@ -169,7 +169,7 @@ function TDSProvider.Rekening_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  S := 'select REKENING_ID, REK_CODE, REK_PARENT_CODE, REK_LEVEL, REK_NAME, REK_DESCRIPTION from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 

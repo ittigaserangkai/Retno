@@ -77,9 +77,10 @@ uses
   ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
   uModRefPajak in '..\model\uModRefPajak.pas',
   ufrmInputRekening in 'module\references\ufrmInputRekening.pas' {frmInputRekening},
-  uModRekening in '..\model\uModRekening.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
-  uModTipePembeli in '..\model\uModTipePembeli.pas';
+  uModOutlet in '..\model\uModOutlet.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  uModTipeKupon in '..\model\uModTipeKupon.pas';
 
 {$R *.res}
 

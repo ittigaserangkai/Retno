@@ -26,7 +26,7 @@ uses
   uDXUtils in '..\lib\uDXUtils.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
-  uModTipePembeli in '..\model\uModTipePembeli.pas';
+  uModOutlet in '..\model\uModOutlet.pas';
 
 {$R *.res}
 
