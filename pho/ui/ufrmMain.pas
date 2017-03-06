@@ -248,6 +248,7 @@ type
     Pajak1: TMenuItem;
     actSysParm: TAction;
     actSysParmComp: TAction;
+    ProductType1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);

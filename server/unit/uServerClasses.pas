@@ -30,6 +30,7 @@ type
     function Bank_GetDSOverview: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
     function RefPajak_GetDSOverview: TDataSet;
+    function RefTipeBarang_GetDSOverview: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
   end;
 
@@ -152,7 +153,15 @@ function TDSProvider.RefPajak_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select * from REF$PAJAK';
+  S := 'SELECT * from REF$PAJAK';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeBarang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT ID, TPBRG_CODE, TPBRG_NAME from REF$TIPE_BARANG';
   Result := TDBUtils.OpenQuery(S);
 end;
 

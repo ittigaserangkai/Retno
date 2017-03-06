@@ -149,6 +149,9 @@ object frmMain: TfrmMain
       object Pajak1: TMenuItem
         Action = actPajak
       end
+      object ProductType1: TMenuItem
+        Action = actProductType
+      end
     end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
