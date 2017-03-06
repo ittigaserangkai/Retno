@@ -295,8 +295,8 @@ begin
   edtDescription.Text := ModBank.BANK_DESCRIPTION;
   edtAddress.Text := ModBank.BANK_ADDRESS;
 
-  if Assigned(ModBank.BANK_REKENING) then
-    cxLookupAccount.EditValue := ModBank.BANK_REKENING.ID;
+  if Assigned(ModBank.REKENING) then
+    cxLookupAccount.EditValue := ModBank.REKENING.ID;
 
 end;
 
@@ -312,7 +312,7 @@ begin
 
   if not VarIsNull(cxLookupAccount.EditValue) then
   begin
-    ModBank.BANK_REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
+    ModBank.REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
   end;
 
   Try
