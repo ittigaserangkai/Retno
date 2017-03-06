@@ -24,8 +24,8 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   ufrmGenerateModel in 'unit\ufrmGenerateModel.pas' {frmGenerateModel},
   uDXUtils in '..\lib\uDXUtils.pas',
-  uModRekening in '..\model\uModRekening.pas';
-
+  uModRekening in '..\model\uModRekening.pas',
+  uModAppHelper in '..\model\uModAppHelper.pas';
 
 {$R *.res}
 
