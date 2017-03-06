@@ -128,7 +128,7 @@ begin
 
     frmDialogBank.Caption := 'Edit Bank';
     frmDialogBank.FormMode := fmEdit;
-    frmDialogBank.LoadData(CDS.FieldByName('ID').AsString);
+    frmDialogBank.LoadData(CDS.FieldByName('Bank_ID').AsString);
 
     SetFormPropertyAndShowDialog(frmDialogBank);
     if (frmDialogBank.IsProcessSuccessfull) then

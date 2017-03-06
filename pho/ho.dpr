@@ -79,7 +79,8 @@ uses
   ufrmInputRekening in 'module\references\ufrmInputRekening.pas' {frmInputRekening},
   uModRekening in '..\model\uModRekening.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
-  uModTipePembeli in '..\model\uModTipePembeli.pas';
+  uModTipePembeli in '..\model\uModTipePembeli.pas',
+  uModAppHelper in '..\model\uModAppHelper.pas';
 
 {$R *.res}
 

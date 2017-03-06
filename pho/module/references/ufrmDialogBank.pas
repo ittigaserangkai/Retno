@@ -215,7 +215,7 @@ procedure TfrmDialogBank.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FBank := uNewBank.TBank.Create(self);
-  cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'ID','Rek_Name',['ID'],Self);
+  cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
   cxLookupAccount.Properties.SetMultiPurposeLookup;
 end;
 
@@ -223,6 +223,7 @@ procedure TfrmDialogBank.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if ValidateData then SimpanData;
+  Self.Close;
 
 end;
 

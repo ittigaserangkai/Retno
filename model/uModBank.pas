@@ -12,7 +12,7 @@ type
     FBANK_CODE: string;
     FBANK_DESCRIPTION: string;
     FBANK_NAME: string;
-    FBANK_REKENING: TModRekening;
+    FREKENING: TModRekening;
   public
     class function GetTableName: String; override;
   published
@@ -22,7 +22,7 @@ type
     property BANK_DESCRIPTION: string read FBANK_DESCRIPTION write
         FBANK_DESCRIPTION;
     property BANK_NAME: string read FBANK_NAME write FBANK_NAME;
-    property BANK_REKENING: TModRekening read FBANK_REKENING write FBANK_REKENING;
+    property REKENING: TModRekening read FREKENING write FREKENING;
   end;
 
 implementation

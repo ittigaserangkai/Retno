@@ -133,7 +133,7 @@ function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
+  S := 'SELECT Bank_ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
       +' BANK_REK_CODE, BANK_DESCRIPTION,'
       +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
       +' FROM BANK';
@@ -145,7 +145,7 @@ function TDSProvider.Rekening_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  S := 'select REKENIBNG_ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -161,7 +161,7 @@ function TDSProvider.RefTipeBarang_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT ID, TPBRG_CODE, TPBRG_NAME from REF$TIPE_BARANG';
+  S := 'SELECT * from REF$TIPE_BARANG';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -169,7 +169,7 @@ function TDSProvider.Rekening_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  S := 'select * from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 
