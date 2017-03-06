@@ -13,8 +13,9 @@ inherited frmDialogRekening: TfrmDialogRekening
   inherited pnlBody: TPanel
     Width = 476
     Height = 257
-    ExplicitWidth = 478
-    ExplicitHeight = 283
+    ExplicitTop = -3
+    ExplicitWidth = 476
+    ExplicitHeight = 257
     object lbl1: TLabel
       Left = 16
       Top = 16
@@ -121,6 +122,9 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 145
       Height = 24
       TabOrder = 3
+      Items.Strings = (
+        'DEBET'
+        'KREDIT')
     end
     object chkbs: TRadioButton
       Left = 152
@@ -138,49 +142,42 @@ inherited frmDialogRekening: TfrmDialogRekening
       Caption = 'Profit Loss'
       TabOrder = 7
     end
-    object intedtLevel: TcxCurrencyEdit
-      Left = 144
-      Top = 63
-      EditValue = 0
-      Properties.Alignment.Horz = taRightJustify
-      Properties.DecimalPlaces = 0
-      Properties.DisplayFormat = ',0;(,0)'
-      TabOrder = 8
-      Width = 57
-    end
-    object edbParentCode: TcxButtonEdit
+    object dbParentCode: TcxExtLookupComboBox
       Left = 144
       Top = 138
-      Properties.Buttons = <
-        item
-          Default = True
-          Kind = bkEllipsis
-        end>
-      TabOrder = 9
+      TabOrder = 8
       Width = 145
+    end
+    object intedtLevel: TcxSpinEdit
+      Left = 144
+      Top = 63
+      TabOrder = 9
+      Width = 52
     end
   end
   inherited footerDialogMaster: TfraFooterDialog2Button
     Top = 257
     Width = 476
-    ExplicitTop = 283
-    ExplicitWidth = 478
+    ExplicitTop = 257
+    ExplicitWidth = 476
     inherited pnlFooter: TPanel
       Width = 476
-      ExplicitWidth = 478
+      ExplicitWidth = 476
       inherited btnClose: TcxButton
         Left = 394
-        ExplicitLeft = 396
+        ExplicitLeft = 394
       end
       inherited btnSave: TcxButton
-        Left = 307
+        Left = 308
+        Top = 4
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 309
+        ExplicitLeft = 308
+        ExplicitTop = 4
       end
     end
     inherited pnlSortCut: TPanel
       Width = 476
-      ExplicitWidth = 478
+      ExplicitWidth = 476
       inherited lbl4: TLabel
         Left = 311
         ExplicitLeft = 313
