@@ -132,6 +132,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
+        <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <None Include="js\base64.js"/>

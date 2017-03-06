@@ -23,7 +23,6 @@ inherited frmBank: TfrmBank
       Color = 15198183
       TabOrder = 0
       Visible = False
-      ExplicitWidth = 517
       object Label1: TLabel
         Left = 8
         Top = 12
@@ -59,10 +58,6 @@ inherited frmBank: TfrmBank
       TabOrder = 1
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
-      ExplicitLeft = 16
-      ExplicitTop = 55
-      ExplicitWidth = 595
-      ExplicitHeight = 286
       object cxGrdBrowse: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Filter.Options = [fcoCaseInsensitive]
@@ -108,7 +103,6 @@ inherited frmBank: TfrmBank
   end
   inherited pnlHeader: TPanel
     Width = 623
-    ExplicitTop = 5
     ExplicitWidth = 623
     inherited lblHeader: TLabel
       Width = 69
@@ -160,6 +154,9 @@ inherited frmBank: TfrmBank
       end
     end
   end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
+  end
   object actlstBank: TActionList
     Left = 544
     Top = 8
@@ -179,8 +176,5 @@ inherited frmBank: TfrmBank
       Caption = 'Refresh'
       OnExecute = actRefreshBankExecute
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
 end

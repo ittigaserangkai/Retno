@@ -67,7 +67,7 @@ implementation
 
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
-  ServerContainerUnit, uModTest, ufrmGenerateModel;
+  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -125,29 +125,31 @@ end;
 procedure TfrmMain.Button1Click(Sender: TObject);
 var
   lTest: TModTest;
-//  i: Integer;
-//  lTestItem: TModTestItem;
+  i: Integer;
+  lTestItem: TModTestItem;
 begin
-  lTest := TModTest.Create;
-//  lTest.RefNo := 'Halo';
-//  lTest.RefDate := Now();
-//
-//  for i := 0 to 5 do
-//  begin
-//    lTestItem := TModTestItem.Create;
-//    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
-//    lTestItem.ItemName := 'ItemName_' + inttostr(i);
-//    lTestItem.QTY := i;
-//    lTest.Items.Add(lTestItem);
-//  end;
-//
-//  With TDBUtils.GenerateSQL(lTest) do
-//  begin
-//    SaveToFile('D:\GenerateSQL.txt');
-//  end;
+  lTest         := TModTest.Create;
+  lTest.RefNo   := 'Halo';
+  lTest.Bank    := TModBank.Create;
+  lTest.Bank.ID := TDBUtils.GetNextIDGUIDToString;
+  lTest.RefDate := Now();
 
-  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
-  showmessage(lTest.RefNo);
+  for i := 0 to 5 do
+  begin
+    lTestItem := TModTestItem.Create;
+    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
+    lTestItem.ItemName := 'ItemName_' + inttostr(i);
+    lTestItem.QTY := i;
+    lTest.Items.Add(lTestItem);
+  end;
+
+  With TDBUtils.GenerateSQL(lTest) do
+  begin
+    SaveToFile('D:\GenerateSQL.txt');
+  end;
+
+//  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
+//  showmessage(lTest.RefNo);
 
 end;
 

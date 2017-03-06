@@ -315,10 +315,10 @@
             <Form>frmInputRekening</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModTipeBarang.pas"/>
-        <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
-        <DCCReference Include="..\model\uModTipeKupon.pas"/>
+        <DCCReference Include="..\model\uModTipeBarang.pas"/>
+        <DCCReference Include="..\model\uModTipePembeli.pas"/>
+        <DCCReference Include="..\model\uModAppHelper.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
