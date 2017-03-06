@@ -12,8 +12,8 @@ inherited frmBank: TfrmBank
   inherited pnlBody: TPanel
     Width = 623
     Height = 352
-    ExplicitWidth = 539
-    ExplicitHeight = 257
+    ExplicitWidth = 623
+    ExplicitHeight = 352
     object pnlBodyUp: TPanel
       Left = 11
       Top = 11
@@ -108,7 +108,8 @@ inherited frmBank: TfrmBank
   end
   inherited pnlHeader: TPanel
     Width = 623
-    ExplicitWidth = 539
+    ExplicitTop = 5
+    ExplicitWidth = 623
     inherited lblHeader: TLabel
       Width = 69
       Caption = 'Master Bank'
@@ -128,14 +129,14 @@ inherited frmBank: TfrmBank
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 287
-    ExplicitWidth = 539
+    ExplicitTop = 382
+    ExplicitWidth = 623
     inherited pnlFooter: TPanel
       Width = 623
-      ExplicitWidth = 539
+      ExplicitWidth = 623
       inherited btnClose: TcxButton
         Left = 541
-        ExplicitLeft = 457
+        ExplicitLeft = 541
       end
       inherited btnAdd: TcxButton
         Action = actAddBank
@@ -152,7 +153,7 @@ inherited frmBank: TfrmBank
     end
     inherited pnlSortCut: TPanel
       Width = 623
-      ExplicitWidth = 539
+      ExplicitWidth = 623
       inherited lbl5: TLabel
         Left = 533
         ExplicitLeft = 452

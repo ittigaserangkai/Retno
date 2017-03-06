@@ -75,7 +75,9 @@ uses
   ufrmModule in 'module\management user\ufrmModule.pas' {frmModule},
   ufrmDialogModule in 'module\management user\ufrmDialogModule.pas' {frmDialogModule},
   ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
-  uModRefPajak in '..\model\uModRefPajak.pas';
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  ufrmInputRekening in 'module\references\ufrmInputRekening.pas' {frmInputRekening},
+  uModRekening in '..\model\uModRekening.pas';
 
 {$R *.res}
 
@@ -85,5 +87,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmInputRekening, frmInputRekening);
   Application.Run;
 end.

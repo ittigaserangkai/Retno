@@ -12,7 +12,7 @@ type
     FCOMP_CODE: string;
     FCOMP_NAME: string;
   public
-    class function GetTableName: String; dynamic;
+    class function GetTableName: String; override;
     property COMP_CODE: string read FCOMP_CODE write FCOMP_CODE;
     property COMP_NAME: string read FCOMP_NAME write FCOMP_NAME;
   end;
