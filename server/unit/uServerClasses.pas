@@ -145,7 +145,7 @@ function TDSProvider.Rekening_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select REKENIBNG_ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 
