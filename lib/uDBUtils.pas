@@ -614,7 +614,8 @@ var
 //  sGenericItemClassName: string;
 ////  sX: string;
 begin
-  sSQL := Format(SQL_Select,[AOBject.GetTableName, AOBject.GetPrimaryField , QuotedStr(AObject.ID) ]);
+  sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
+    AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
 
   Q := TDBUtils.OpenQuery(sSQL);
   SetFromDatast(AObject, Q);
