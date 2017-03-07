@@ -162,7 +162,7 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 5
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 277
     Width = 505
     ExplicitTop = 277

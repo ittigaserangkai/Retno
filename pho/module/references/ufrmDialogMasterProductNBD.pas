@@ -5,8 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-    JvEdit,  cbxbase, dblup1a, uConn, uNewProduk_Jasa,
-  JvValidateEdit, JvExStdCtrls;
+  uConn, ufraFooterDialog3Button, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxCurrencyEdit, cxTextEdit,
+  cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, DB,
+  cxDBExtLookupComboBox;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -22,15 +24,15 @@ type
     lbl5: TLabel;
     lbl6: TLabel;
     cbbBKP: TComboBox;
-    cbpUOMNBD: TColumnComboBox;
-    cbpProdType: TColumnComboBox;
-    edtPrice: TJvValidateEdit;
+    cbpUOMNBD: TcxExtLookupComboBox;
+    cbpProdType: TcxExtLookupComboBox;
+    edtPrice: TcxCurrencyEdit;
     lbl7: TLabel;
-    cbpPeriode: TColumnComboBox;
+    cbpPeriode: TcxExtLookupComboBox;
     lbl8: TLabel;
-    cbpPajak: TColumnComboBox;
+    cbpPajak: TcxExtLookupComboBox;
     edtUOMDesc: TEdit;
-    edJml: TJvValidateEdit;
+    edJml: TcxCurrencyEdit;
     Label1: TLabel;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -50,8 +52,8 @@ type
     dataPajak,dataPeriode: TDataSet;
     idTPPRO,idPeriode,idPajak: Integer;
 
-    FNewProduk_Jasa : TNewProduk_Jasa;
-    procedure LoadDropDownData(ACombo: TColumnComboBox; AColsOfData: Integer);
+//    FNewProduk_Jasa : TNewProduk_Jasa;
+    procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
     procedure SetMasterProductNBDId(const Value: string);
@@ -72,8 +74,7 @@ var
 
 implementation
 
-uses uTSCommonDlg,  uRetnoUnit, uNewTipeProduk, uNewPeriode, uNewPajak,
-     uNewRefSatuan_NBD, math;
+uses uTSCommonDlg,  uRetnoUnit, math;
 
 {$R *.dfm}
 
@@ -100,7 +101,7 @@ procedure TfrmDialogMasterProductNBD.footerDialogMasterbtnSaveClick(
 begin
   inherited;
   if checkEmpty = False then Exit;
-
+  {
   try
     FIsProcessSuccessfull := SaveMasterProductNBDNewClass;
     if FIsProcessSuccessfull then
@@ -115,32 +116,14 @@ begin
   except
 
   end;
-
-{  if (FormMode = fmAdd) then
-  begin
-    FIsProcessSuccessfull := SaveMasterProductNBDNewClass;
-    if FIsProcessSuccessfull then
-      Close;
-  end;
-  else
-  begin
-    FIsProcessSuccessfull := UpdateMasterProductNBD;
-    if FIsProcessSuccessfull then
-      Close;
-  end; // end if
 }
 end;
 
 procedure TfrmDialogMasterProductNBD.FormShow(Sender: TObject);
-//var
-//   arrParam: TArr;
+
 begin
   inherited;
-{  if not Assigned(ProductTypeNBD) then ProductTypeNBD := TProductTypeNBD.Create;
-  if not Assigned(Satuan_NBD) then Satuan_NBD := TSatuan_NBD.Create;
-  if not Assigned(Periode) then Periode := TPeriode.Create;
-  if not Assigned(Pajak) then Pajak := TPajak.Create;
-}
+  {
   FNewProduk_Jasa := TNewProduk_Jasa.CreateWithUser(self, FLoginId, FLoginUnitId);
                   //ProductTypeNBD
   dataProdType := GetDataProductTypeNBD(DialogUnit);
@@ -163,18 +146,13 @@ begin
     ShowDataEdit(MasterProductNBDId)
   else
     PrepareAddData();
+  }
 end;
 
 procedure TfrmDialogMasterProductNBD.ShowDataEdit(AMasterProductNBDId: string);
-//var
-//  data: TDataSet;
-begin
-{  if not assigned(MasterProductNBD) then
-    MasterProductNBD := TMasterProductNBD.Create;
-  data:= MasterProductNBD.SearchDataMasterProductNBD(AMasterProductNBDId);
-}
 
-  //if data.RecordCount > 0 then
+begin
+  {
   if FNewProduk_Jasa.LoadByCODE(AMasterProductNBDId, DialogUnit) then
   begin
     edJml.Value   := FNewProduk_Jasa.Qty;
@@ -201,7 +179,7 @@ begin
     cbpPeriode.Value := FNewProduk_Jasa.PER.Per_Name;// data.Fieldbyname('PER_NAME').AsString;
     cbpPeriode.CloseUp;
   end;
-
+  }
 end;
 
 procedure TfrmDialogMasterProductNBD.PrepareAddData;
@@ -221,45 +199,45 @@ procedure TfrmDialogMasterProductNBD.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmDialogMasterProductNBD := nil;
-  FNewProduk_Jasa.Free;
+//  FNewProduk_Jasa.Free;
 end;
 
-procedure TfrmDialogMasterProductNBD.LoadDropDownData(ACombo: TColumnComboBox;
+procedure TfrmDialogMasterProductNBD.LoadDropDownData(ACombo: TcxExtLookupComboBox;
   AColsOfData: Integer);
 begin
   {Flush the old data}
-  ACombo.ClearGridData;
+//  ACombo.ClearGridData;
 
   {Make sure the allocated storage is big enough}
-  if AColsOfData > 0 then ACombo.RowCount := AColsOfData+1
-  else ACombo.RowCount := 2;
-  ACombo.ColCount := 3;
+//  if AColsOfData > 0 then ACombo.RowCount := AColsOfData+1
+//  else ACombo.RowCount := 2;
+//  ACombo.ColCount := 3;
 
   {Load the data}
   if Acombo = cbpProdType then
   begin
-    ACombo.AddRow(['0','CODE','NAME']);
+//    ACombo.AddRow(['0','CODE','NAME']);
     if dataProdType.RecordCount > 0 then
     begin
       dataProdType.First;
       while not dataProdType.Eof do
       begin
         try
-          ACombo.AddRow([dataProdType.FieldByName('TPPRO_ID').AsString,
-                         dataProdType.FieldByName('TPPRO_CODE').AsString,
-                         dataProdType.FieldByName('TPPRO_NAME').AsString]);
+//          ACombo.AddRow([dataProdType.FieldByName('TPPRO_ID').AsString,
+//                         dataProdType.FieldByName('TPPRO_CODE').AsString,
+//                         dataProdType.FieldByName('TPPRO_NAME').AsString]);
         except
         end;
         dataProdType.Next;
       end; //END WHILE
     end //END <> NIL
     else
-      ACombo.AddRow(['0','','']);
+//      ACombo.AddRow(['0','','']);
   end;
 
   if ACombo = cbpUOMNBD then
   begin
-    ACombo.AddRow(['','CODE','NAME']);
+//    ACombo.AddRow(['','CODE','NAME']);
 
     if dataUOMNBD.RecordCount > 0 then
     begin
@@ -267,21 +245,21 @@ begin
       while not dataUOMNBD.Eof do
       begin
         try
-          ACombo.AddRow(['',dataUOMNBD.FieldByName('SATNBD_CODE').AsString,
-                         dataUOMNBD.FieldByName('SATNBD_NAME').AsString]);
+//          ACombo.AddRow(['',dataUOMNBD.FieldByName('SATNBD_CODE').AsString,
+//                         dataUOMNBD.FieldByName('SATNBD_NAME').AsString]);
         except
         end;
         dataUOMNBD.Next;
       end;//while
     end//END <> NIL
     else
-      ACombo.AddRow(['','','']);
+//      ACombo.AddRow(['','','']);
 
   end; //if acombo =cbp1
 
   if ACombo = cbpPeriode then
   begin
-    ACombo.AddRow(['0','NAME']);
+//    ACombo.AddRow(['0','NAME']);
 
     if dataPeriode.RecordCount > 0 then
     begin
@@ -289,20 +267,20 @@ begin
       while not dataPeriode.Eof do
       begin
         try
-          ACombo.AddRow([dataPeriode.FieldByName('PER_ID').AsString,dataPeriode.FieldByName('PER_NAME').AsString]);
+//          ACombo.AddRow([dataPeriode.FieldByName('PER_ID').AsString,dataPeriode.FieldByName('PER_NAME').AsString]);
         except
         end;
         dataPeriode.Next;
       end;//while
     end//END <> NIL
     else
-      ACombo.AddRow(['0','']);
+//      ACombo.AddRow(['0','']);
 
   end; //if acombo =cbp1
 
   if ACombo = cbpPajak then
   begin
-    ACombo.AddRow(['0','NAME']);
+//    ACombo.AddRow(['0','NAME']);
 
     if dataPajak.RecordCount > 0 then
     begin
@@ -310,50 +288,50 @@ begin
       while not dataPajak.Eof do
       begin
         try
-          ACombo.AddRow([dataPajak.FieldByName('PJK_ID').AsString,dataPajak.FieldByName('PJK_NAME').AsString]);
+//          ACombo.AddRow([dataPajak.FieldByName('PJK_ID').AsString,dataPajak.FieldByName('PJK_NAME').AsString]);
         except
         end;
         dataPajak.Next;
       end;//while
     end//END <> NIL
     else
-      ACombo.AddRow(['0','']);
+//      ACombo.AddRow(['0','']);
 
   end; //if acombo =cbp1
 
   {Now shring the grid so its just big enough for the data}
-  ACombo.SizeGridToData;
+//  ACombo.SizeGridToData;
   //trik to activate acombo
-  ACombo.FixedRows := 1;
+//  ACombo.FixedRows := 1;
 end;
 
 procedure TfrmDialogMasterProductNBD.cbpProdTypeCloseUp(Sender: TObject);
 begin
   inherited;
-  edtProdTypeName.Text := cbpProdType.Cells[2,cbpProdType.Row];
-  try
-    idTPPRO := StrToInt(cbpProdType.Cells[0,cbpProdType.Row]);
-  except
-    idTPPRO := 0;
-  end;
+//  edtProdTypeName.Text := cbpProdType.Cells[2,cbpProdType.Row];
+//  try
+//    idTPPRO := StrToInt(cbpProdType.Cells[0,cbpProdType.Row]);
+//  except
+//    idTPPRO := 0;
+//  end;
 end;
 
 procedure TfrmDialogMasterProductNBD.cbpUOMNBDCloseUp(Sender: TObject);
 begin
   inherited;
-  edtUOMDesc.Text := cbpUOMNBD.Cells[2,cbpUOMNBD.Row];
+//  edtUOMDesc.Text := cbpUOMNBD.Cells[2,cbpUOMNBD.Row];
 end;
 
 procedure TfrmDialogMasterProductNBD.cbpPeriodeCloseUp(Sender: TObject);
 begin
   inherited;
-  idPeriode := StrToInt(cbpPeriode.Cells[0,cbpPeriode.Row]);
+//  idPeriode := StrToInt(cbpPeriode.Cells[0,cbpPeriode.Row]);
 end;
 
 procedure TfrmDialogMasterProductNBD.cbpPajakCloseUp(Sender: TObject);
 begin
   inherited;
-  idPajak := StrToInt(cbpPajak.Cells[0,cbpPajak.Row]);
+//  idPajak := StrToInt(cbpPajak.Cells[0,cbpPajak.Row]);
 end;
 
 procedure TfrmDialogMasterProductNBD.cbbBKPChange(Sender: TObject);
@@ -440,7 +418,7 @@ begin
      idPajak := 0;
      UntIDPajak := 0;
   end;
-
+  {
   FNewProduk_Jasa.UpdateData(edtCode.Text, now(), now(), 0, iBKP, edtName.Text,
             FLoginUnitId, 0, FLoginId, 0, idPeriode, DialogUnit, idPajak,
             edtPrice.Value, cbpUOMNBD.Value, DialogUnit, idTPPRO, DialogUnit,
@@ -460,7 +438,7 @@ begin
   finally
     cRollBackTrans;
   end;
-
+  }
 end;
 
 end.

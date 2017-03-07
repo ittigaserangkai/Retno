@@ -444,6 +444,7 @@ object frmMain: TfrmMain
     object actMasterProductNBD: TAction
       Category = 'References'
       Caption = 'Master Product NBD'
+      OnExecute = actMasterProductNBDExecute
     end
     object actUserGroup: TAction
       Category = 'Management User'

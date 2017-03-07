@@ -8,7 +8,8 @@ uses
   StdCtrls, uRetnoUnit, uTSBaseClass, uModBank, uDMClient, uClientClasses,
   uDXUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils;
+  cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils,
+  ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);

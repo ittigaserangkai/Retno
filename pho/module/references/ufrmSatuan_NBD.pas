@@ -4,13 +4,17 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  BaseGrid, AdvGrid, ActnList, uConn;
+  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, ActnList,
+  uConn, ufrmMasterBrowse, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
+  Vcl.ComCtrls, dxCore, cxDateUtils, System.Actions, cxClasses,
+  ufraFooter4Button, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
+  cxLabel, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
-  TfrmSatuan_NBD = class(TfrmMaster)
-    strgGrid: TAdvStringGrid;
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmSatuan_NBD = class(TfrmMasterBrowse)
     actlstSatuan_NBD: TActionList;
     actAddSatuan_NBD: TAction;
     actEditSatuan_NBD: TAction;
@@ -36,8 +40,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogSatuan_NBD, uSatuan_NBD,  uConstanta,
-     uNewRefSatuan_NBD;
+uses uTSCommonDlg, ufrmDialogSatuan_NBD,  uConstanta;
 
 {$R *.dfm}
 
@@ -52,18 +55,18 @@ procedure TfrmSatuan_NBD.actAddSatuan_NBDExecute(Sender: TObject);
 begin
   inherited;
   //check is unit id specified
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if (MasterNewUnit.ID <> 0) then
+//  if (MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogSatuan_NBD) then
       Application.CreateForm(TfrmDialogSatuan_NBD, frmDialogSatuan_NBD);
 
-    frmDialogSatuan_NBD.frmSuiMasterDialog.Caption := 'Add NBD UOM';
+    frmDialogSatuan_NBD.Caption := 'Add NBD UOM';
     frmDialogSatuan_NBD.FormMode := fmAdd;
 
     SetFormPropertyAndShowDialog(frmDialogSatuan_NBD);
@@ -73,8 +76,8 @@ begin
       CommonDlg.ShowConfirm(atAdd);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogSatuan_NBD.Free;
 end;
@@ -83,22 +86,22 @@ procedure TfrmSatuan_NBD.actEditSatuan_NBDExecute(Sender: TObject);
 begin
   inherited;
   //check is unit id specified
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
     Exit;
   end;
-  if (MasterNewUnit.ID <> 0) then
+//  if (MasterNewUnit.ID <> 0) then
   begin
-    if (strgGrid.Cells[0,strgGrid.Row] = ' ') then Exit;
+    if (cxGridView.DataController.Values[0,cxGridView.DataController.RecNo] = ' ') then Exit;
 
     if not Assigned(frmDialogSatuan_NBD) then
       Application.CreateForm(TfrmDialogSatuan_NBD, frmDialogSatuan_NBD);
 
-    frmDialogSatuan_NBD.frmSuiMasterDialog.Caption := 'Edit NBD UOM';
+    frmDialogSatuan_NBD.Caption := 'Edit NBD UOM';
     frmDialogSatuan_NBD.FormMode := fmEdit;
-    frmDialogSatuan_NBD.Satuan_NBDId := strgGrid.Cells[0,strgGrid.Row]; // R // put your Satuan_NBD id that won be edit
+    frmDialogSatuan_NBD.Satuan_NBDId := cxGridView.DataController.Values[0,cxGridView.DataController.RecNo]; // R // put your Satuan_NBD id that won be edit
 
     SetFormPropertyAndShowDialog(frmDialogSatuan_NBD);
     if (frmDialogSatuan_NBD.IsProcessSuccessfull) then
@@ -107,23 +110,23 @@ begin
       CommonDlg.ShowConfirm(atEdit);
     end;
   end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+;//  else
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogSatuan_NBD.Free;
 end;
 
 procedure TfrmSatuan_NBD.actDeleteSatuan_NBDExecute(Sender: TObject);
-var
-    FNewSatuan_NBD: TNewSatuan_NBD;
+//var
+//    FNewSatuan_NBD: TNewSatuan_NBD;
 begin
   inherited;
-  if (strgGrid.Cells[0,strgGrid.Row] = ' ') then Exit;
-  if (CommonDlg.Confirm('Are you sure you wish to delete UOM (Code: '+strgGrid.Cells[0,strgGrid.Row]+')?') = mrYes) then
+  if (cxGridView.DataController.Values[0,cxGridView.DataController.RecNo] = ' ') then Exit;
+  if (CommonDlg.Confirm('Are you sure you wish to delete UOM (Code: '+cxGridView.DataController.Values[0,cxGridView.DataController.RecNo]+')?') = mrYes) then
   begin
-    FNewSatuan_NBD := TNewSatuan_NBD.Create(self);
+//    FNewSatuan_NBD := TNewSatuan_NBD.Create(self);
     try
-       if  FNewSatuan_NBD.RemoveFromDB(strgGrid.Cells[0,strgGrid.Row], MasterNewUnit.ID) then
+//       if  FNewSatuan_NBD.RemoveFromDB(cxGridView.DataController.Values[0,strgGrid.Row], MasterNewUnit.ID) then
         begin
           actRefreshSatuan_NBDExecute(Self);
           CommonDlg.ShowConfirm(atDelete);
@@ -131,47 +134,14 @@ begin
     except
           CommonDlg.ShowError(ER_DELETE_FAILED);
     end;
-    FNewSatuan_NBD.Free;
-{    if not assigned(Satuan_NBD) then
-      Satuan_NBD := TSatuan_NBD.Create;
-
-
-    if Satuan_NBD.DeleteDataSatuan_NBD(strgGrid.Cells[0,strgGrid.Row]) then
-    begin
-      actRefreshSatuan_NBDExecute(Self);
-      CommonDlg.ShowConfirm(atDelete);
-    end;
-}
   end;
 end;
-
-{function TfrmSatuan_NBD.GetData(): TDataSet;
-var
-  arrParam: TArr;
-begin
-  // inisiate business model
-  if not assigned(Satuan_NBD) then
-    Satuan_NBD := TSatuan_NBD.Create;
-
-  // check is Unit Id specified?
-  if MasterNewUnit.ID <> 0 then
-  begin
-    SetLength(arrParam,1);
-    arrParam[0].tipe := ptString;
-    arrParam[0].data := MasterNewUnit.ID;
-  end
-  else
-    arrParam := nil;
-
-  Result := Satuan_NBD.GetListSatuan_NBD(arrParam);
-end;
-}
 
 procedure TfrmSatuan_NBD.actRefreshSatuan_NBDExecute(Sender: TObject);
 var i, countData: Integer;
     dataSatuan_NBD: TDataSet;
 begin
-  dataSatuan_NBD := GetListSatuan_NBD(MasterNewUnit.ID);
+  {dataSatuan_NBD := GetListSatuan_NBD(MasterNewUnit.ID);
   dataSatuan_NBD.Last;
   countData := dataSatuan_NBD.RecordCount;
   with strgGrid do
@@ -208,7 +178,7 @@ begin
 
     FixedRows := 1;
     AutoSize := true;
-  end;
+  end; }
 end;
 
 procedure TfrmSatuan_NBD.FormDestroy(Sender: TObject);

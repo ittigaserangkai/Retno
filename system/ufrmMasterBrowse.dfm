@@ -43,6 +43,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Height = 33
     ExplicitWidth = 540
     ExplicitHeight = 33
+    DesignSize = (
+      540
+      33)
     object lblFilterData: TcxLabel
       Left = 246
       Top = 13

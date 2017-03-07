@@ -44,10 +44,8 @@ uses
   ufrmTipePengirimanPO in 'module\references\ufrmTipePengirimanPO.pas' {frmTipePengirimanPO},
   ufrmDialogTipePengirimanPO in 'module\references\ufrmDialogTipePengirimanPO.pas' {frmDialogTipePengirimanPO},
   ufrmDialogProductType in 'module\references\ufrmDialogProductType.pas' {frmDialogProductType},
-  ufrmDialogProductTypeNBD in 'module\references\ufrmDialogProductTypeNBD.pas' {frmDialogProductTypeNBD},
   ufrmDialogSupplierType in 'module\references\ufrmDialogSupplierType.pas' {frmDialogSupplierType},
   ufrmProductType in 'module\references\ufrmProductType.pas' {frmProductType},
-  ufrmProductTypeNBD in 'module\references\ufrmProductTypeNBD.pas' {frmProductTypeNBD},
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
   ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
@@ -103,7 +101,13 @@ uses
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
-  ufraFooterDialog3Button in '..\system\ufraFooterDialog3Button.pas' {fraFooterDialog3Button: TFrame};
+  ufraFooterDialog3Button in '..\system\ufraFooterDialog3Button.pas' {fraFooterDialog3Button: TFrame},
+  ufrmProductTypeNBD in 'module\references\ufrmProductTypeNBD.pas' {frmProductTypeNBD},
+  ufrmDialogProductTypeNBD in 'module\references\ufrmDialogProductTypeNBD.pas' {frmDialogProductTypeNBD},
+  ufrmMasterProductNBD in 'module\references\ufrmMasterProductNBD.pas' {frmMasterProductNBD},
+  ufrmDialogMasterProductNBD in 'module\references\ufrmDialogMasterProductNBD.pas' {frmDialogMasterProductNBD},
+  ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
+  ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD};
 
 {$R *.res}
 
@@ -113,6 +117,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmMasterBrowse, frmMasterBrowse);
   Application.Run;
 end.
