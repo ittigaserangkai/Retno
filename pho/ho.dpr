@@ -80,7 +80,8 @@ uses
   uModRekening in '..\model\uModRekening.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
-  uModAppHelper in '..\model\uModAppHelper.pas';
+  uModAppHelper in '..\model\uModAppHelper.pas',
+  uModSatuan in '..\model\uModSatuan.pas';
 
 {$R *.res}
 
