@@ -179,6 +179,9 @@ inherited frmDialogBank: TfrmDialogBank
         OnClick = btnSaveClick
         ExplicitLeft = 336
       end
+      inherited btnDelete: TcxButton
+        OnClick = btnDeleteClick
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 505

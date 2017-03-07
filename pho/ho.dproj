@@ -230,17 +230,11 @@
         <DCCReference Include="module\references\ufrmDialogProductType.pas">
             <Form>frmDialogProductType</Form>
         </DCCReference>
-        <DCCReference Include="module\references\ufrmDialogProductTypeNBD.pas">
-            <Form>frmDialogProductTypeNBD</Form>
-        </DCCReference>
         <DCCReference Include="module\references\ufrmDialogSupplierType.pas">
             <Form>frmDialogSupplierType</Form>
         </DCCReference>
         <DCCReference Include="module\references\ufrmProductType.pas">
             <Form>frmProductType</Form>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmProductTypeNBD.pas">
-            <Form>frmProductTypeNBD</Form>
         </DCCReference>
         <DCCReference Include="module\references\ufrmSupplierType.pas">
             <Form>frmSupplierType</Form>
@@ -260,7 +254,7 @@
         <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\lib\uDBUtils.pas"/>
-        <DCCReference Include="..\system\uAppUtils.pas"/>
+        <DCCReference Include="..\lib\uAppUtils.pas"/>
         <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
@@ -371,7 +365,6 @@
         </DCCReference>
         <DCCReference Include="..\lib\uConn.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
-        <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\lib\uInfo.pas"/>
         <DCCReference Include="..\lib\uNetUtils.pas"/>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
@@ -390,15 +383,12 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\model\uModAccount.pas"/>
-        <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
-        <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
-        <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>
         <DCCReference Include="..\model\uModTipePembeli.pas"/>
@@ -406,6 +396,24 @@
             <Form>fraFooterDialog3Button</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmProductTypeNBD.pas">
+            <Form>frmProductTypeNBD</Form>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogProductTypeNBD.pas">
+            <Form>frmDialogProductTypeNBD</Form>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmMasterProductNBD.pas">
+            <Form>frmMasterProductNBD</Form>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogMasterProductNBD.pas">
+            <Form>frmDialogMasterProductNBD</Form>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogSatuan_NBD.pas">
+            <Form>frmDialogSatuan_NBD</Form>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmSatuan_NBD.pas">
+            <Form>frmSatuan_NBD</Form>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -439,27 +447,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -813,12 +806,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
