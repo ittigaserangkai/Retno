@@ -15,13 +15,9 @@ uses
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
   udmMain in 'ui\udmMain.pas' {dmMain: TDataModule},
   ufrmAbout in 'ui\ufrmAbout.pas' {frmAbout},
-  uInfo in '..\system\uInfo.pas',
   uMenuManagement in '..\system\uMenuManagement.pas',
-  uConn in '..\lib\uConn.pas',
   uFormProperty in '..\system\uFormProperty.pas',
   uGlobalProperty in '..\system\uGlobalProperty.pas',
-  uNetUtils in '..\system\uNetUtils.pas',
-  uTSINIFile in '..\system\uTSINIFile.pas',
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmPajak in 'module\references\ufrmPajak.pas' {frmPajak},
   ufrmDialogPajak in 'module\references\ufrmDialogPajak.pas' {frmDialogPajak},
@@ -59,9 +55,6 @@ uses
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   uModApp in '..\model\uModApp.pas',
   uModTest in '..\model\uModTest.pas',
-  uDBUtils in '..\lib\uDBUtils.pas',
-  uAppUtils in '..\system\uAppUtils.pas',
-  uDXUtils in '..\lib\uDXUtils.pas',
   uModBank in '..\model\uModBank.pas',
   uModAccount in '..\model\uModAccount.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
@@ -75,7 +68,33 @@ uses
   ufrmModule in 'module\management user\ufrmModule.pas' {frmModule},
   ufrmDialogModule in 'module\management user\ufrmDialogModule.pas' {frmDialogModule},
   ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
-  uModRefPajak in '..\model\uModRefPajak.pas';
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  ufrmMasterCustomer in 'module\references\ufrmMasterCustomer.pas' {frmMasterCustomer},
+  ufrmDialogMasterCustomer in 'module\references\ufrmDialogMasterCustomer.pas' {frmDialogMasterCustomer},
+  ufraAlokasiStock in 'module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
+  ufraBonusProduct in 'module\product\ufraBonusProduct.pas' {fraBonusProduct: TFrame},
+  ufraProductSupplier in 'module\product\ufraProductSupplier.pas' {fraProductSupplier: TFrame},
+  ufraProductTurunan in 'module\product\ufraProductTurunan.pas' {fraProductTurunan: TFrame},
+  ufraSellingPrice in 'module\product\ufraSellingPrice.pas' {fraSellingPrice: TFrame},
+  ufraStockCard in 'module\product\ufraStockCard.pas' {fraStockCard: TFrame},
+  ufraUOMConvertion in 'module\product\ufraUOMConvertion.pas' {fraUOMConvertion: TFrame},
+  ufrmDialogProdSupplier in 'module\product\ufrmDialogProdSupplier.pas' {frmDialogProdSupplier},
+  ufrmDialogProduct in 'module\product\ufrmDialogProduct.pas' {frmDialogProduct},
+  ufrmProduct in 'module\product\ufrmProduct.pas' {frmProduct},
+  uSpecialKey in '..\classes\uSpecialKey.pas',
+  ufrmSearchProduct in 'module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
+  ufrmSearchSupplier in 'module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
+  uAppUtils in '..\lib\uAppUtils.pas',
+  uConn in '..\lib\uConn.pas',
+  uDBUtils in '..\lib\uDBUtils.pas',
+  uDSUtils in '..\lib\uDSUtils.pas',
+  uDXUtils in '..\lib\uDXUtils.pas',
+  uInfo in '..\lib\uInfo.pas',
+  uNetUtils in '..\lib\uNetUtils.pas',
+  uTSINIFile in '..\lib\uTSINIFile.pas',
+  ufraHistoriPOByProduct in 'module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
+  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
+  ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame};
 
 {$R *.res}
 
@@ -85,5 +104,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmMasterBrowse, frmMasterBrowse);
   Application.Run;
 end.

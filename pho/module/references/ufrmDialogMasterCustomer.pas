@@ -5,8 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-    JvEdit,  cbxbase, dblup1a, uConn, uNewCustomer,
-  EditBtn;
+  uConn, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxButtonEdit;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -51,38 +51,36 @@ type
     edtCustDesc: TEdit;
     chkPrincipal: TCheckBox;
     lblSubCode: TLabel;
-    edtSupMGCode: TEditBtn;
     edtSupName: TEdit;
+    edtSupMGCode: TcxButtonEdit;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure chkPrincipalClick(Sender: TObject);
     procedure edtSupMGCodeKeyPress(Sender: TObject; var Key: Char);
-    procedure edtSupMGCodeClickBtn(Sender: TObject);
     procedure edtSupMGCodeExit(Sender: TObject);
     procedure edtSupMGCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure edtSupMGCodePropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     FMasterCustomerId : Integer;
-//    dataTypePay: TDataSet;
-//    dataSUPMG: TDataSet;
-    FNewCustomer: TNewCustomer;
-//    isDataSUPMGLoaded: Boolean;
+
+//    FNewCustomer: TNewCustomer;
 
     function GetIsBKP: Integer;
     function GetIsPPH: Integer;
     function IsBisaLanjut: Boolean;
-//    procedure LoadDropDownData(ACombo: TColumnComboBox; AColsOfData: Integer);
     procedure ShowDataEdit(AMasterCustomerId: Integer);
     procedure PrepareAddData();
     function SaveMasterCustomer(aCustomer_ID: integer = 0): boolean;
-    procedure SetDataAlamat(aCustomerSewa : TNewCustomer);
-    procedure SetDataKodeDanNamaCustomer(aCustomerSewa : TNewCustomer);
-    procedure SetDataKontakPerson(aCustomerSewa : TNewCustomer);
-    procedure SetDataPajak(aCustomerSewa : TNewCustomer);
-    procedure SetDataPrincipal(aCustomerSewa : TNewCustomer);
-    procedure SetDataTipeBayar(aCustomerSewa : TNewCustomer);
+    procedure SetDataAlamat(aCustomerSewa: Integer);
+    procedure SetDataKodeDanNamaCustomer(aCustomerSewa: Integer);
+    procedure SetDataKontakPerson(aCustomerSewa: Integer);
+    procedure SetDataPajak(aCustomerSewa: Integer);
+    procedure SetDataPrincipal(aCustomerSewa: Integer);
+    procedure SetDataTipeBayar(aCustomerSewa: Integer);
   public
     function GetIsPrincipal: Integer;
     function GetMasterCustomerId: Integer;
@@ -101,9 +99,7 @@ var
 
 implementation
 
-uses uTSCommonDlg,  uRetnoUnit,
-  ufrmSearchRekening, uNewTipePembayaran, uNewSupplier,
-  uNewSupplierMerGroup;
+uses uTSCommonDlg, uRetnoUnit, ufrmSearchRekening;
 
 {$R *.dfm}    
 
@@ -125,7 +121,7 @@ function TfrmDialogMasterCustomer.SaveMasterCustomer(aCustomer_ID: integer =
 //  idTPPAY: Integer;
 begin
   Result := False;
-  FNewCustomer.UpdateData(
+  {FNewCustomer.UpdateData(
                edtAddress.Text,
                edtCustDesc.Text,
                edtFaxNo.Text,
@@ -161,13 +157,13 @@ begin
   finally
     cRollbackTrans;
   end;
-
+   }
 end;
 
 procedure TfrmDialogMasterCustomer.FormShow(Sender: TObject);
 begin
   inherited;
-  FNewCustomer := TNewCustomer.CreateWithUser(Self, FLoginId, FLoginUnitId);
+//  FNewCustomer := TNewCustomer.CreateWithUser(Self, FLoginId, FLoginUnitId);
   LoadDataTipePembayaran(DialogUnit);
 
   if FMasterCustomerId > 0 then
@@ -180,19 +176,19 @@ end;
 
 procedure TfrmDialogMasterCustomer.ShowDataEdit(AMasterCustomerId: Integer);
 begin
-  if FNewCustomer.LoadByID(FMasterCustomerId, DialogUnit) then
-  begin
-    SetDataKodeDanNamaCustomer(FNewCustomer);
-    SetDataPajak(FNewCustomer);
-    SetDataTipeBayar(FNewCustomer);
-
-    edtTermOP.Text        := IntToStr(FNewCustomer.TOP);
-    edtCustDesc.Text      := FNewCustomer.Deskripsi;
-
-    SetDataAlamat(FNewCustomer);
-    SetDataKontakPerson(FNewCustomer);
-    SetDataPrincipal(FNewCustomer);
-  end;
+//  if FNewCustomer.LoadByID(FMasterCustomerId, DialogUnit) then
+//  begin
+//    SetDataKodeDanNamaCustomer(FNewCustomer);
+//    SetDataPajak(FNewCustomer);
+//    SetDataTipeBayar(FNewCustomer);
+//
+//    edtTermOP.Text        := IntToStr(FNewCustomer.TOP);
+//    edtCustDesc.Text      := FNewCustomer.Deskripsi;
+//
+//    SetDataAlamat(FNewCustomer);
+//    SetDataKontakPerson(FNewCustomer);
+//    SetDataPrincipal(FNewCustomer);
+//  end;
 end;
 
 procedure TfrmDialogMasterCustomer.PrepareAddData;
@@ -210,7 +206,7 @@ end;
 procedure TfrmDialogMasterCustomer.FormDestroy(Sender: TObject);
 begin
   inherited;
-  FNewCustomer.Free;
+//  FNewCustomer.Free;
   frmDialogMasterCustomer := nil;
 end;
 
@@ -242,45 +238,22 @@ begin
 
 end;
 
-procedure TfrmDialogMasterCustomer.edtSupMGCodeClickBtn(Sender: TObject);
-var
-   sSQL : String;
-begin
-  inherited;
-  sSQL := 'select supmg_sub_code, supmg_name'
-          + ' from suplier_merchan_grup';
-  with cLookUp('Daftar Supplier', sSQL) do
-  begin
-    try
-      if Strings[0] <> '' then
-      begin
-        edtSupMGCode.Text := Strings[0];
-        edtSupName.Text := Strings[1];
-        edtSupMGCode.SetFocus;
-      end;
-    finally
-      Free;
-    end;
-  end;
-
-end;
-
 procedure TfrmDialogMasterCustomer.edtSupMGCodeExit(Sender: TObject);
 begin
   inherited;
-  with TNewSupplierMerGroup.Create(Self) do
-  begin
-    try
-      if LoadByKode(edtSupMGCode.Text) then
-      begin
-        edtSupName.Text := Nama;
-      end else begin
-        edtSupName.Text := '';
-      end;
-    finally
-      Free;
-    end;
-  end;
+//  with TNewSupplierMerGroup.Create(Self) do
+//  begin
+//    try
+//      if LoadByKode(edtSupMGCode.Text) then
+//      begin
+//        edtSupName.Text := Nama;
+//      end else begin
+//        edtSupName.Text := '';
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 procedure TfrmDialogMasterCustomer.edtSupMGCodeKeyUp(Sender: TObject;
@@ -294,20 +267,43 @@ begin
     sSQL := 'select supmg_sub_code, supmg_name'
           + ' from suplier_merchan_grup';
           
-    with cLookUp('Daftar Sub Supplier', sSQL) do
-    begin
-      try
-        if Strings[0] <> '' then
-        begin
-          edtSupMGCode.Text := Strings[0];
-          edtSupName.Text := Strings[1];
-          edtSupMGCode.SetFocus;
-        end;
-      finally
-        Free;
-      end;
-    end;
+//    with cLookUp('Daftar Sub Supplier', sSQL) do
+//    begin
+//      try
+//        if Strings[0] <> '' then
+//        begin
+//          edtSupMGCode.Text := Strings[0];
+//          edtSupName.Text := Strings[1];
+//          edtSupMGCode.SetFocus;
+//        end;
+//      finally
+//        Free;
+//      end;
+//    end;
   end; 
+end;
+
+procedure TfrmDialogMasterCustomer.edtSupMGCodePropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+var
+   sSQL : String;
+begin
+  inherited;
+  sSQL := 'select supmg_sub_code, supmg_name'
+          + ' from suplier_merchan_grup';
+//  with cLookUp('Daftar Supplier', sSQL) do
+//  begin
+//    try
+//      if Strings[0] <> '' then
+//      begin
+//        edtSupMGCode.Text := Strings[0];
+//        edtSupName.Text := Strings[1];
+//        edtSupMGCode.SetFocus;
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 function TfrmDialogMasterCustomer.GetIsBKP: Integer;
@@ -396,17 +392,17 @@ function TfrmDialogMasterCustomer.IsDataSubMGValid(aSubSupCode : String;
     aUnitID : Integer): Boolean;
 begin
   Result := False;
-  with TNewSupplierMerGroup.Create(Self) do
-  begin
-    try
-      if LoadByKode(edtSupMGCode.Text) then
-      begin
-        Result := True;
-      end;
-    finally
-      Free;
-    end;
-  end;
+//  with TNewSupplierMerGroup.Create(Self) do
+//  begin
+//    try
+//      if LoadByKode(edtSupMGCode.Text) then
+//      begin
+//        Result := True;
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 function TfrmDialogMasterCustomer.IsKodeCustomerDouble(aSubSupCode : String;
@@ -418,26 +414,26 @@ begin
   sSQL := 'select count(cust_id)'
           + ' from customer'
           + ' where cust_unt_id = ' + IntToStr(aUnitID)
-          + ' and cust_code = ' + Quot(aSubSupCode)
+          + ' and cust_code = ' + QuotedStr(aSubSupCode)
           + ' and cust_id <> ' + IntToStr(aExSubSupId);
 
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      while not EOF do
-      begin
-        if Fields[0].AsInteger > 0 then
-        begin
-          Result := True;
-          Exit;
-        end;
-
-        Next;
-      end;
-    finally
-      Free;
-    end;
-  end;
+//  with cOpenQuery(sSQL) do
+//  begin
+//    try
+//      while not EOF do
+//      begin
+//        if Fields[0].AsInteger > 0 then
+//        begin
+//          Result := True;
+//          Exit;
+//        end;
+//
+//        Next;
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end;
 
 
 end;
@@ -450,54 +446,52 @@ begin
           + ' from REF$TIPE_PEMBAYARAN'
           + ' order by tpbyr_name';
 
-  cQueryToComboObject(cbpTypeOfPay, sSQL);
+//  cQueryToComboObject(cbpTypeOfPay, sSQL);
 end;
 
-procedure TfrmDialogMasterCustomer.SetDataAlamat(aCustomerSewa : TNewCustomer);
+procedure TfrmDialogMasterCustomer.SetDataAlamat(aCustomerSewa: Integer);
 begin
-  edtAddress.Text       := aCustomerSewa.Alamat;
-  edtCity.Text          := aCustomerSewa.Kota;
-  edtTelephone.Text     := aCustomerSewa.Telepon;
-  edtPostCode.Text      := aCustomerSewa.KodePos;
-  edtFaxNo.Text         := aCustomerSewa.Fax;
+//  edtAddress.Text       := aCustomerSewa.Alamat;
+//  edtCity.Text          := aCustomerSewa.Kota;
+//  edtTelephone.Text     := aCustomerSewa.Telepon;
+//  edtPostCode.Text      := aCustomerSewa.KodePos;
+//  edtFaxNo.Text         := aCustomerSewa.Fax;
 end;
 
-procedure TfrmDialogMasterCustomer.SetDataKodeDanNamaCustomer(aCustomerSewa :
-    TNewCustomer);
+procedure TfrmDialogMasterCustomer.SetDataKodeDanNamaCustomer(aCustomerSewa:
+    Integer);
 begin
-  edtCustCode.Text := aCustomerSewa.Kode;
-  edtCustName.Text := aCustomerSewa.Nama;
+//  edtCustCode.Text := aCustomerSewa.Kode;
+//  edtCustName.Text := aCustomerSewa.Nama;
 end;
 
-procedure TfrmDialogMasterCustomer.SetDataKontakPerson(aCustomerSewa :
-    TNewCustomer);
+procedure TfrmDialogMasterCustomer.SetDataKontakPerson(aCustomerSewa: Integer);
 begin
-  edtContactPerson.Text := aCustomerSewa.KontakPerson;
-  edtTitle.Text         := aCustomerSewa.Title;
+//  edtContactPerson.Text := aCustomerSewa.KontakPerson;
+//  edtTitle.Text         := aCustomerSewa.Title;
 end;
 
-procedure TfrmDialogMasterCustomer.SetDataPajak(aCustomerSewa : TNewCustomer);
+procedure TfrmDialogMasterCustomer.SetDataPajak(aCustomerSewa: Integer);
 begin
-  cbbPKP.ItemIndex := aCustomerSewa.IsPKP;
-  edtTaxNo.Text    := aCustomerSewa.LRTax;
-  cbbPPH.ItemIndex := aCustomerSewa.ISPPH23;
-  edtNPWP.Text     := aCustomerSewa.NPWP;
+//  cbbPKP.ItemIndex := aCustomerSewa.IsPKP;
+//  edtTaxNo.Text    := aCustomerSewa.LRTax;
+//  cbbPPH.ItemIndex := aCustomerSewa.ISPPH23;
+//  edtNPWP.Text     := aCustomerSewa.NPWP;
 end;
 
-procedure TfrmDialogMasterCustomer.SetDataPrincipal(aCustomerSewa :
-    TNewCustomer);
+procedure TfrmDialogMasterCustomer.SetDataPrincipal(aCustomerSewa: Integer);
 begin
-  if (FNewCustomer.ISPRINCIPAL = 1) then
-  begin
-    chkPrincipal.Checked := True;
-    lblSubCode.Visible   := True;
-    edtSupMGCode.Visible := True;
-    edtSupName.Visible   := True;
-
-    edtSupMGCode.Text    := FNewCustomer.SUPMGSUBCODE.Kode;
-    edtSupName.Text      := FNewCustomer.SUPMGSUBCODE.Nama;
-  end
-  else
+//  if (FNewCustomer.ISPRINCIPAL = 1) then
+//  begin
+//    chkPrincipal.Checked := True;
+//    lblSubCode.Visible   := True;
+//    edtSupMGCode.Visible := True;
+//    edtSupName.Visible   := True;
+//
+//    edtSupMGCode.Text    := FNewCustomer.SUPMGSUBCODE.Kode;
+//    edtSupName.Text      := FNewCustomer.SUPMGSUBCODE.Nama;
+//  end
+//  else
   begin
     chkPrincipal.Checked := False;
     lblSubCode.Visible   := False;
@@ -506,10 +500,9 @@ begin
   end;
 end;
 
-procedure TfrmDialogMasterCustomer.SetDataTipeBayar(aCustomerSewa :
-    TNewCustomer);
+procedure TfrmDialogMasterCustomer.SetDataTipeBayar(aCustomerSewa: Integer);
 begin
-  cSetItemAtComboObject(cbpTypeOfPay,aCustomerSewa.TipeBayar.ID);
+//  cSetItemAtComboObject(cbpTypeOfPay,aCustomerSewa.TipeBayar.ID);
 end;
 
 procedure TfrmDialogMasterCustomer.SetMasterCustomerId(const Value: Integer);

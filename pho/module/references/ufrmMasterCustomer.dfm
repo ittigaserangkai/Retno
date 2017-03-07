@@ -13,8 +13,8 @@ inherited frmMasterCustomer: TfrmMasterCustomer
     Width = 711
     Height = 358
     BorderWidth = 0
-    ExplicitWidth = 120
-    ExplicitHeight = 352
+    ExplicitWidth = 711
+    ExplicitHeight = 358
     object pnl1: TPanel
       Left = 1
       Top = 166
@@ -25,8 +25,6 @@ inherited frmMasterCustomer: TfrmMasterCustomer
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 118
-      ExplicitHeight = 185
       object lbl1: TLabel
         Left = 17
         Top = 11
@@ -248,7 +246,6 @@ inherited frmMasterCustomer: TfrmMasterCustomer
       Align = alTop
       Color = 15198183
       TabOrder = 1
-      ExplicitWidth = 118
       object Image1: TImage
         Left = 1
         Top = 36
@@ -739,107 +736,6 @@ inherited frmMasterCustomer: TfrmMasterCustomer
           E5D4B450045E5D38253E8A004029D451401FFFD9}
         Stretch = True
       end
-      object strgGrid: TAdvStringGrid
-        Left = 170
-        Top = 36
-        Width = 538
-        Height = 128
-        Cursor = crDefault
-        Align = alClient
-        Ctl3D = True
-        DefaultRowHeight = 21
-        DrawingStyle = gdsClassic
-        FixedCols = 0
-        RowCount = 2
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Trebuchet MS'
-        Font.Style = []
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goRowSelect]
-        ParentCtl3D = False
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-        OnRowChanging = strgGridRowChanging
-        ActiveCellFont.Charset = DEFAULT_CHARSET
-        ActiveCellFont.Color = clWindowText
-        ActiveCellFont.Height = -11
-        ActiveCellFont.Name = 'Tahoma'
-        ActiveCellFont.Style = [fsBold]
-        Bands.Active = True
-        Bands.PrimaryColor = 14935011
-        CellNode.TreeColor = clSilver
-        ControlLook.FixedGradientHoverFrom = clGray
-        ControlLook.FixedGradientHoverTo = clWhite
-        ControlLook.FixedGradientDownFrom = clGray
-        ControlLook.FixedGradientDownTo = clSilver
-        ControlLook.ControlStyle = csWinXP
-        ControlLook.DropDownHeader.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownHeader.Font.Color = clWindowText
-        ControlLook.DropDownHeader.Font.Height = -11
-        ControlLook.DropDownHeader.Font.Name = 'Tahoma'
-        ControlLook.DropDownHeader.Font.Style = []
-        ControlLook.DropDownHeader.Visible = True
-        ControlLook.DropDownHeader.Buttons = <>
-        ControlLook.DropDownFooter.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownFooter.Font.Color = clWindowText
-        ControlLook.DropDownFooter.Font.Height = -11
-        ControlLook.DropDownFooter.Font.Name = 'Tahoma'
-        ControlLook.DropDownFooter.Font.Style = []
-        ControlLook.DropDownFooter.Visible = True
-        ControlLook.DropDownFooter.Buttons = <>
-        Filter = <>
-        FilterDropDown.Font.Charset = DEFAULT_CHARSET
-        FilterDropDown.Font.Color = clWindowText
-        FilterDropDown.Font.Height = -11
-        FilterDropDown.Font.Name = 'Tahoma'
-        FilterDropDown.Font.Style = []
-        FilterDropDownClear = '(All)'
-        FixedFont.Charset = DEFAULT_CHARSET
-        FixedFont.Color = clWindowText
-        FixedFont.Height = -11
-        FixedFont.Name = 'Tahoma'
-        FixedFont.Style = [fsBold]
-        FloatFormat = '%.2f'
-        PrintSettings.DateFormat = 'dd/mm/yyyy'
-        PrintSettings.Font.Charset = DEFAULT_CHARSET
-        PrintSettings.Font.Color = clWindowText
-        PrintSettings.Font.Height = -11
-        PrintSettings.Font.Name = 'MS Sans Serif'
-        PrintSettings.Font.Style = []
-        PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FixedFont.Color = clWindowText
-        PrintSettings.FixedFont.Height = -11
-        PrintSettings.FixedFont.Name = 'MS Sans Serif'
-        PrintSettings.FixedFont.Style = []
-        PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-        PrintSettings.HeaderFont.Color = clWindowText
-        PrintSettings.HeaderFont.Height = -11
-        PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-        PrintSettings.HeaderFont.Style = []
-        PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FooterFont.Color = clWindowText
-        PrintSettings.FooterFont.Height = -11
-        PrintSettings.FooterFont.Name = 'MS Sans Serif'
-        PrintSettings.FooterFont.Style = []
-        PrintSettings.PageNumSep = '/'
-        ScrollWidth = 16
-        SearchFooter.Font.Charset = DEFAULT_CHARSET
-        SearchFooter.Font.Color = clWindowText
-        SearchFooter.Font.Height = -11
-        SearchFooter.Font.Name = 'Tahoma'
-        SearchFooter.Font.Style = []
-        SortSettings.Column = 0
-        Version = '5.8.0.2'
-        ExplicitWidth = 470
-        ColWidths = (
-          64
-          64
-          64
-          64
-          64)
-      end
       object pnl3: TPanel
         Left = 1
         Top = 1
@@ -847,8 +743,7 @@ inherited frmMasterCustomer: TfrmMasterCustomer
         Height = 35
         Align = alTop
         Color = 15198183
-        TabOrder = 1
-        ExplicitWidth = 116
+        TabOrder = 0
         object lbl11: TLabel
           Left = 8
           Top = 8
@@ -886,13 +781,34 @@ inherited frmMasterCustomer: TfrmMasterCustomer
           OnChange = edtSearchCustomerNameChange
         end
       end
+      object cxGrid: TcxGrid
+        Left = 170
+        Top = 36
+        Width = 538
+        Height = 128
+        Align = alClient
+        TabOrder = 1
+        ExplicitLeft = 256
+        ExplicitTop = 64
+        ExplicitWidth = 250
+        ExplicitHeight = 200
+        object cxGridDBTableView1: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+        end
+        object cxGridLevel1: TcxGridLevel
+          GridView = cxGridDBTableView1
+        end
+      end
     end
   end
   inherited pnlHeader: TPanel
     Width = 711
-    ExplicitWidth = 120
+    ExplicitWidth = 711
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
     Top = 388
     Width = 711
@@ -905,39 +821,40 @@ inherited frmMasterCustomer: TfrmMasterCustomer
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 388
+    ExplicitWidth = 711
     inherited pnlFooter: TPanel
       Width = 711
-      ExplicitWidth = 120
-      inherited btnClose: TsuiButton
+      ExplicitWidth = 711
+      inherited btnClose: TcxButton
         Left = 629
         OnClick = fraFooter5Button1btnCloseClick
-        ExplicitLeft = 38
+        ExplicitLeft = 629
       end
-      inherited btnAdd: TsuiButton
-        Caption = 'Add'
+      inherited btnAdd: TcxButton
         Action = actAddMasterCustomer
       end
-      inherited btnUpdate: TsuiButton
-        Caption = 'Edit'
+      inherited btnUpdate: TcxButton
         Action = actEditMasterCustomer
       end
-      inherited btnDelete: TsuiButton
+      inherited btnDelete: TcxButton
         Action = actDeleteMasterCustomer
       end
-      inherited btnRefresh: TsuiButton
+      inherited btnRefresh: TcxButton
         Action = actRefreshMasterCustomer
       end
     end
     inherited pnlSortCut: TPanel
       Width = 711
-      ExplicitWidth = 120
+      ExplicitWidth = 711
       inherited lbl5: TLabel
         Left = 621
         ExplicitLeft = 553
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 504
