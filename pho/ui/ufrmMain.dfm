@@ -458,6 +458,7 @@ object frmMain: TfrmMain
     object actMasterCustomer: TAction
       Category = 'References'
       Caption = 'Master Customer'
+      OnExecute = actMasterCustomerExecute
     end
     object actValidateContrabon: TAction
       Category = 'Finance'

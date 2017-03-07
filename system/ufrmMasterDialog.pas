@@ -4,12 +4,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufraFooterDialog2Button, ExtCtrls, ActnList;
+  Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList;
 
 type
   TfrmMasterDialog = class(TForm)
     pnlBody: TPanel;
-    footerDialogMaster: TfraFooterDialog2Button;
+    footerDialogMaster: TfraFooterDialog3Button;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
@@ -91,7 +91,7 @@ var
 //  btnFoo: TsuiButton;
 begin
   for i:=0 to ComponentCount-1 do
-    if (Components[i] is TfraFooterDialog2Button) then
+    if (Components[i] is TfraFooterDialog3Button) then
     begin
       for j:=0 to components[i].ComponentCount-1 do
         if (components[i].Components[j].Name = AButtonName) then

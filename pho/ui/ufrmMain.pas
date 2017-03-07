@@ -259,6 +259,7 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
+    procedure actMasterCustomerExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
@@ -315,7 +316,7 @@ uses
     ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
-  ufrmUserGroup;
+  ufrmUserGroup, ufrmMasterCustomer;
 
 {$R *.dfm}
 
@@ -423,6 +424,11 @@ end;
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
     frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
+begin
+    frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
