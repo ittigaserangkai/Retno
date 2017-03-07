@@ -25,12 +25,12 @@ type
     edtRekName: TEdit;
     edtDescription: TEdit;
     lbl6: TLabel;
-    cmbAccountType: TComboBox;
     lblGroup: TLabel;
     chkbs: TRadioButton;
     chkpl: TRadioButton;
     dbParentCode: TcxExtLookupComboBox;
     intedtLevel: TcxSpinEdit;
+    dbAccountGroup: TcxExtLookupComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -51,8 +51,10 @@ type
     procedure edbParentCodeClickBtn(Sender: TObject);
   private
     FCDSRekening: tclientDataset;
+    FCDSRekeningGroup: tclientDataset;
     FCrud: TCrudClient;
     FDsProvider: TDSProviderClient;
+    FFormMode: TFormMode;
     FIsProcessSuccesfull: Boolean;
     FStatusForm: TStatusForm;
     FKodeGrupRekId: Integer;
@@ -61,6 +63,7 @@ type
     FParentCode: string;
     procedure ChekEmptyValue;
     function GetCDSRekening: tclientDataset;
+    function GetCDSRekeningGroup: tclientDataset;
     function GetCrud: TCrudClient;
     function GetDsProvider: TDSProviderClient;
     function GetModRekening: TModRekening;
@@ -68,6 +71,7 @@ type
 //    function UpdateDataRekening: Boolean;
     procedure ParseDataRekening;
     procedure ParseComboGrupRekening;
+    procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccesfull(const Value: Boolean);
     procedure SetStatusForm(const Value: TStatusForm);
     procedure SetKodeGrupRekId(const Value: Integer);
@@ -75,16 +79,21 @@ type
     procedure SetParentCode(const Value: string);
     procedure SimpanData;
     property CDSRekening: tclientDataset read GetCDSRekening write FCDSRekening;
+    property CDSRekeningGroup: tclientDataset read GetCDSRekeningGroup write
+        FCDSRekeningGroup;
     property Crud: TCrudClient read GetCrud write FCrud;
     property DsProvider: TDSProviderClient read GetDsProvider write FDsProvider;
     property ModRekening: TModRekening read GetModRekening write FModRekening;
   public
     procedure HapusRekIfada(jenis : string; aheaderid : Integer);
+    procedure LoadData(ID: String);
     property IsProcessSuccesfull: Boolean read FIsProcessSuccesfull write SetIsProcessSuccesfull;
     property StatusForm: TStatusForm read FStatusForm write SetStatusForm;
     property KodeGrupRekId: Integer read FKodeGrupRekId write SetKodeGrupRekId;
     property RekCode: string read FRekCode write SetRekCode;
     property ParentCode: string read FParentCode write SetParentCode;
+  published
+    property FormMode: TFormMode read FFormMode write SetFormMode;
   end;
 
 var
@@ -99,8 +108,10 @@ uses  uConstanta, uTSCommonDlg, uRetnoUnit, DB, StrUtils, uAppUtils, uDXUtils;
 procedure TfrmDialogRekening.FormCreate(Sender: TObject);
 begin
   inherited;
-  dbParentCode.Properties.LoadFromCDS(cdsrekening,'REK_CODE', 'REK_NAME', ['ID'] , self);
+  dbParentCode.Properties.LoadFromCDS(CDSRekening,'REK_CODE', 'REK_NAME', ['REKENING_ID'] , self);
   dbParentCode.Properties.SetMultiPurposeLookup;
+  dbAccountGroup.Properties.LoadFromCDS(CDSRekeningGroup,'GROREK_NAME', 'GROREK_DESCRIPTIOn', ['REF$GRUP_REKENING_ID'] , self);
+  dbAccountGroup.Properties.SetMultiPurposeLookup;
 end;
 
 procedure TfrmDialogRekening.FormClose(Sender: TObject;
@@ -244,7 +255,7 @@ procedure TfrmDialogRekening.edtDescriptionKeyUp(Sender: TObject;
 begin
   inherited;
   if (Key = VK_RETURN) then
-    cmbAccountType.SetFocus;
+    dbAccountGroup.SetFocus;
 end;
 
 procedure TfrmDialogRekening.chkIsDebetKeyUp(Sender: TObject;
@@ -435,10 +446,10 @@ begin
   end;
 
 
-  if cmbAccountType.Text = '' then
+  if dbAccountGroup.Text = '' then
   begin
     CommonDlg.ShowError('Rekening Group Is Empty');
-    cmbAccountType.SetFocus;
+    dbAccountGroup.SetFocus;
     Exit;
   end;  
 end;
@@ -490,6 +501,13 @@ begin
   Result := FCDSRekening;
 end;
 
+function TfrmDialogRekening.GetCDSRekeningGroup: tclientDataset;
+begin
+  if not assigned(FCDSRekeningGroup) then
+    FCDSRekeningGroup := Tdbutils.DSToCDS(DsProvider.Rekening_GetDSLookup, self);
+  Result := FCDSRekeningGroup;
+end;
+
 function TfrmDialogRekening.GetCrud: TCrudClient;
 begin
   if not Assigned(FCrud) then
@@ -536,6 +554,30 @@ begin
 
 end;
 
+procedure TfrmDialogRekening.LoadData(ID: String);
+begin
+  if Assigned(fModRekening) then FreeAndNil(fModRekening);
+  fModRekening := Crud.Retrieve(TModRekening.ClassName, ID) as TModRekening;
+
+  edtRekCode.Text := ModRekening.REK_CODE;
+  edtRekName.Text := ModRekening.REK_NAME;
+  intedtLevel.Value := ModRekening.REK_CODE;
+  edtDescription.Text := ModRekening.REK_DESCRIPTION;
+  if Assigned(ModRekening.RekeningGroup) then
+    dbAccountGroup.EditValue := ModRekening.RekeningGroup.ID;
+  dbParentCode.EditValue := ModRekening.REK_PARENT_CODE;
+  if ModRekening.REK_IS_GROUP = 1 then chkbs.Checked := true else chkpl.Checked := true;
+  if ModRekening.REK_IS_DEBET = 1 then cHKisDebet.Checked := true else cHKisDebet.Checked := false;
+  if ModRekening.REK_IS_LEAF = 1 then cHKisLeaf.Checked := true else cHKisLeaf.Checked := false;
+end;
+
+{ TfrmDialogRekening }
+
+procedure TfrmDialogRekening.SetFormMode(const Value: TFormMode);
+begin
+  FFormMode := Value;
+end;
+
 procedure TfrmDialogRekening.SimpanData;
 var
   isLeaf  : Integer;
@@ -566,6 +608,7 @@ begin
   ModRekening.REK_NAME := edtRekName.Text;
   ModRekening.REK_LEVEL := intedtLevel.Value;
   ModRekening.REK_DESCRIPTION := edtDescription.Text;
+  ModRekening.RekeningGroup := TModRekeningGroup.CreateID(dbAccountGroup.EditValue);
   ModRekening.REK_PARENT_CODE := dbParentCode.EditValue;
   ModRekening.REK_IS_DEBET := isDebet;
   ModRekening.REK_IS_LEAF := isLeaf;

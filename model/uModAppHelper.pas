@@ -65,20 +65,23 @@ begin
   Result := '';
   if  UpperCase(aProp.Name) = 'ID' then
     Result := Self.GetPrimaryField // attribute tidak diset
-  else if (aProp.PropertyType.TypeKind = tkClass) then
-    Result := aProp.Name + '_ID'
+//  else if (aProp.PropertyType.TypeKind = tkClass) then
+//    Result := aProp.Name + '_ID'
   else begin
     for a in aprop.GetAttributes do
     begin
       if a.InheritsFrom(AttributeOfCustom) then
       begin
         if AttributeOfCustom(a).CustomField <> '' then
-          Result := AttributeOfCustom(a).CustomField
-        else if (a.InheritsFrom(AttributeOfForeign)) then  // Bank.Rekening : TModRekning -> Rekening_ID
-          Result := aProp.Name + '_ID';
+          Result := AttributeOfCustom(a).CustomField;
+//        else if (a.InheritsFrom(AttributeOfForeign)) then  // Bank.Rekening : TModRekning -> Rekening_ID
+//          Result := aProp.Name + '_ID';
         Break;
       end;
     end;
+    if (Result = '') and (aProp.PropertyType.TypeKind = tkClass) then
+      Result := aProp.Name + '_ID';
+
     if Result = '' then Result := aProp.Name;
   end;
 end;

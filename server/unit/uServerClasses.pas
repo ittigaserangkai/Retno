@@ -31,6 +31,7 @@ type
     function Rekening_GetDSLookup: TDataSet;
     function RefPajak_GetDSOverview: TDataSet;
     function RefTipeBarang_GetDSOverview: TDataSet;
+    function GroupRekening_GetDSLookup: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
   end;
 
@@ -145,7 +146,7 @@ function TDSProvider.Rekening_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION, REF$GRUP_REKENING_ID from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -165,11 +166,19 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.GroupRekening_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$GRUP_REKENING_ID, GROREK_NAME, GROREK_DESCRIPTION from REF$GRUP_REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Rekening_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select * from REKENING';
+  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REK_PARENT_CODE, REF$GRUP_REKENING_ID from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -6,12 +6,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, DB,
   ActnList, uConn, ComCtrls, System.Actions,  cxStyles,
-  cxClasses, Vcl.Grids, cxGraphics,
+  cxClasses, Vcl.Grids, cxGraphics, ufrmDialogRekening,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxCustomData, cxTL,
   cxTextEdit, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxContainer, cxEdit,
   cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
   uClientClasses, uModTipeBarang, uDMClient,
-  uDBUtils, uDXUtils, DBClient, uAppUtils, cxTLData, cxDBTL;
+  uDBUtils, uDXUtils, DBClient, uAppUtils, cxTLData, cxDBTL, cxFilter, cxData,
+  cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
   TfrmRekening = class(TfrmMaster)
@@ -30,6 +32,8 @@ type
     cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn;
     cxDBTreeListcxDBTreeListColumn2: TcxDBTreeListColumn;
     cxDBTreeListcxDBTreeListColumn3: TcxDBTreeListColumn;
+    cxDBTreeListcxDBTreeListColumn4: TcxDBTreeListColumn;
+    cxDBTreeListcxDBTreeListColumn5: TcxDBTreeListColumn;
     procedure FormDestroy(Sender: TObject);
     procedure actAddRekeningExecute(Sender: TObject);
     procedure actEditRekeningExecute(Sender: TObject);
@@ -71,7 +75,7 @@ var
 
 implementation
 
-uses ufrmDialogRekening,  uTSCommonDlg, uConstanta, uRetnoUnit;
+uses uTSCommonDlg, uConstanta, uRetnoUnit;
 
 {$R *.dfm}
 
@@ -112,6 +116,8 @@ begin
 
   frmDialogRekening.Caption := 'Edit Rekening';
   frmDialogRekening.StatusForm := frEdit;
+  frmDialogRekening.FormMode := fmEdited;
+  frmDialogRekening.LoadData(CDS.FieldByName('REKENING_ID').AsString);
 //  TTNode := TlistRekening.Selected;
 
 //  frmDialogRekening.RekCode := TlistRekening.GetNodeColumn(TTNode, 0);
@@ -465,11 +471,9 @@ end;
 
 procedure TfrmRekening.LoadData;
 begin
-  CDS := tDBUtils.DSToCDS(DSProvider.Rekening_GetDSOverview(), SELF);
+  CDS := TDBUtils.DSToCDS( DSProvider.Rekening_GetDSOverview() , SELF);
   cxDBTreeList.LoadFromCDS(CDS, 'REK_CODE', 'REK_PARENT_CODE', FALSE);
-//  cxDBTreeList.SetColumnsCaption(['REK_CODE','REK_NAME','REK_PARENT_CODE','REK_DESCRIPTION','REK_LEVEL']
-//  ,['KODE TIPE BARANG','NAMA TIPE BARANG']);
-  cxDBTreeList.SetVisibleColumns(['ID'], FALSE);
+//  cxDBTreeList.SetVisibleColumns(['REKENING_ID'], FALSE);
   cxDBTreeList.ApplyBestFit;
 end;
 

@@ -80,7 +80,6 @@ end;
 
 procedure TfrmProductType.actAddProductTypeExecute(Sender: TObject);
 begin
-
   if not Assigned(frmDialogProductType) then
     Application.CreateForm(TfrmDialogProductType, frmDialogProductType);
 

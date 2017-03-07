@@ -64,10 +64,15 @@ inherited frmRekening: TfrmRekening
           item
           end>
         Navigator.Buttons.CustomButtons = <>
+        OptionsData.Editing = False
         RootValue = -1
         TabOrder = 1
-        OnExpanded = cxDBTreeListExpanded
+        ExplicitLeft = 55
+        ExplicitTop = 25
+        ExplicitWidth = 250
+        ExplicitHeight = 150
         object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
+          Visible = False
           DataBinding.FieldName = 'REK_CODE'
           Position.ColIndex = 0
           Position.RowIndex = 0
@@ -76,6 +81,7 @@ inherited frmRekening: TfrmRekening
           Summary.GroupFooterSummaryItems = <>
         end
         object cxDBTreeListcxDBTreeListColumn2: TcxDBTreeListColumn
+          Visible = False
           DataBinding.FieldName = 'REK_NAME'
           Position.ColIndex = 1
           Position.RowIndex = 0
@@ -85,8 +91,25 @@ inherited frmRekening: TfrmRekening
         end
         object cxDBTreeListcxDBTreeListColumn3: TcxDBTreeListColumn
           Visible = False
-          DataBinding.FieldName = 'REK_PARENT_CODE'
+          DataBinding.FieldName = 'REK_DESCRIPTION'
           Position.ColIndex = 2
+          Position.RowIndex = 0
+          Position.BandIndex = 0
+          Summary.FooterSummaryItems = <>
+          Summary.GroupFooterSummaryItems = <>
+        end
+        object cxDBTreeListcxDBTreeListColumn4: TcxDBTreeListColumn
+          Visible = False
+          DataBinding.FieldName = 'REKENING_ID'
+          Position.ColIndex = 3
+          Position.RowIndex = 0
+          Position.BandIndex = 0
+          Summary.FooterSummaryItems = <>
+          Summary.GroupFooterSummaryItems = <>
+        end
+        object cxDBTreeListcxDBTreeListColumn5: TcxDBTreeListColumn
+          DataBinding.FieldName = 'REKENING'
+          Position.ColIndex = 4
           Position.RowIndex = 0
           Position.BandIndex = 0
           Summary.FooterSummaryItems = <>

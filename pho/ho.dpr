@@ -63,7 +63,6 @@ uses
   uAppUtils in '..\system\uAppUtils.pas',
   uDXUtils in '..\lib\uDXUtils.pas',
   uModBank in '..\model\uModBank.pas',
-  uModAccount in '..\model\uModAccount.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
   ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
   ufrmUser in 'module\management user\ufrmUser.pas' {frmUser},
