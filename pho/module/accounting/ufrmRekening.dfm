@@ -12,8 +12,8 @@ inherited frmRekening: TfrmRekening
   inherited pnlBody: TPanel
     Width = 756
     Height = 291
-    ExplicitWidth = 741
-    ExplicitHeight = 425
+    ExplicitWidth = 756
+    ExplicitHeight = 291
     object pnlTop: TPanel
       Left = 11
       Top = 11
@@ -22,7 +22,6 @@ inherited frmRekening: TfrmRekening
       Align = alTop
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 719
       object lbl1: TLabel
         Left = 8
         Top = 16
@@ -47,8 +46,6 @@ inherited frmRekening: TfrmRekening
       BorderWidth = 10
       Color = 15198183
       TabOrder = 1
-      ExplicitWidth = 719
-      ExplicitHeight = 357
       object strgGrid: TStringGrid
         Left = 584
         Top = 88
@@ -69,10 +66,7 @@ inherited frmRekening: TfrmRekening
         Navigator.Buttons.CustomButtons = <>
         RootValue = -1
         TabOrder = 1
-        ExplicitLeft = 30
-        ExplicitTop = 16
-        ExplicitWidth = 250
-        ExplicitHeight = 150
+        OnExpanded = cxDBTreeListExpanded
         object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
           DataBinding.FieldName = 'REK_CODE'
           Position.ColIndex = 0
@@ -103,7 +97,7 @@ inherited frmRekening: TfrmRekening
   end
   inherited pnlHeader: TPanel
     Width = 756
-    ExplicitWidth = 741
+    ExplicitWidth = 756
     inherited lblHeader: TLabel
       Width = 53
       Caption = 'ACCOUNT'
@@ -123,14 +117,14 @@ inherited frmRekening: TfrmRekening
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 455
-    ExplicitWidth = 741
+    ExplicitTop = 321
+    ExplicitWidth = 756
     inherited pnlFooter: TPanel
       Width = 756
-      ExplicitWidth = 741
+      ExplicitWidth = 756
       inherited btnClose: TcxButton
         Left = 674
-        ExplicitLeft = 659
+        ExplicitLeft = 674
       end
       inherited btnAdd: TcxButton
         Action = actAddRekening
@@ -147,7 +141,7 @@ inherited frmRekening: TfrmRekening
     end
     inherited pnlSortCut: TPanel
       Width = 756
-      ExplicitWidth = 741
+      ExplicitWidth = 756
       inherited lbl5: TLabel
         Left = 666
         ExplicitLeft = 644

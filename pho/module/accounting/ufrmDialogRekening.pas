@@ -6,7 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, uConn, StdCtrls,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
-  cxEdit, cxMaskEdit, cxButtonEdit, cxTextEdit, cxCurrencyEdit;
+  cxEdit, cxMaskEdit, cxButtonEdit, cxTextEdit, cxCurrencyEdit, uClientClasses,
+  uModRekening,  uDMClient, cxDropDownEdit, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox, uDbutils, DBClient, Vcl.Samples.Spin,
+  cxSpinEdit;
 
 type
   TStatusForm = (frNew, frEdit);
@@ -26,8 +29,9 @@ type
     lblGroup: TLabel;
     chkbs: TRadioButton;
     chkpl: TRadioButton;
-    intedtLevel: TcxCurrencyEdit;
-    edbParentCode: TcxButtonEdit;
+    dbParentCode: TcxExtLookupComboBox;
+    intedtLevel: TcxSpinEdit;
+    procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -42,17 +46,24 @@ type
     procedure chkIsDebetKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
-    procedure intedtLevelChange(Sender: TObject);
     procedure edbParentCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edbParentCodeClickBtn(Sender: TObject);
   private
+    FCDSRekening: tclientDataset;
+    FCrud: TCrudClient;
+    FDsProvider: TDSProviderClient;
     FIsProcessSuccesfull: Boolean;
     FStatusForm: TStatusForm;
     FKodeGrupRekId: Integer;
+    FModRekening: TModRekening;
     FRekCode: string;
     FParentCode: string;
     procedure ChekEmptyValue;
+    function GetCDSRekening: tclientDataset;
+    function GetCrud: TCrudClient;
+    function GetDsProvider: TDSProviderClient;
+    function GetModRekening: TModRekening;
 //    function SaveDataRekening: Boolean;
 //    function UpdateDataRekening: Boolean;
     procedure ParseDataRekening;
@@ -62,6 +73,11 @@ type
     procedure SetKodeGrupRekId(const Value: Integer);
     procedure SetRekCode(const Value: string);
     procedure SetParentCode(const Value: string);
+    procedure SimpanData;
+    property CDSRekening: tclientDataset read GetCDSRekening write FCDSRekening;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property DsProvider: TDSProviderClient read GetDsProvider write FDsProvider;
+    property ModRekening: TModRekening read GetModRekening write FModRekening;
   public
     procedure HapusRekIfada(jenis : string; aheaderid : Integer);
     property IsProcessSuccesfull: Boolean read FIsProcessSuccesfull write SetIsProcessSuccesfull;
@@ -76,9 +92,16 @@ var
 
 implementation
 
-uses  uConstanta, uTSCommonDlg, uRetnoUnit, DB, StrUtils;
+uses  uConstanta, uTSCommonDlg, uRetnoUnit, DB, StrUtils, uAppUtils, uDXUtils;
 
 {$R *.dfm}
+
+procedure TfrmDialogRekening.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dbParentCode.Properties.LoadFromCDS(cdsrekening,'REK_CODE', 'REK_NAME', ['ID'] , self);
+  dbParentCode.Properties.SetMultiPurposeLookup;
+end;
 
 procedure TfrmDialogRekening.FormClose(Sender: TObject;
   var Action: TCloseAction);
@@ -174,8 +197,7 @@ procedure TfrmDialogRekening.FormShow(Sender: TObject);
 begin
   inherited;
   ParseComboGrupRekening;
-  edbParentCode.Text := '';
-  
+
   case StatusForm of
     frNew:
     begin
@@ -235,64 +257,65 @@ end;
 
 procedure TfrmDialogRekening.footerDialogMasterbtnSaveClick(
   Sender: TObject);
-var
-  iRekParentCompID: Integer;
-  isLeaf  : Integer;
-  IsDebet : Integer;
-  IsGroup : Integer;
+//var
+//  iRekParentCompID: Integer;
+//  isLeaf  : Integer;
+//  IsDebet : Integer;
+//  IsGroup : Integer;
 //  Rekening: TMasterRekening;
-  S      : string;
-  pDiv   : Integer;
-  pDetail: Integer;
-  sSql   : string;
+//  S      : string;
+//  pDiv   : Integer;
+//  pDetail: Integer;
+//  sSql   : string;
 begin
   inherited;
-
-  {case StatusForm of
-    frNew:
-    begin
-      IsProcessSuccesfull := SaveDataRekening;
-
-      if IsProcessSuccesfull then
-        Close
-      else
-        CommonDlg.ShowError(ER_INSERT_FAILED);
-    end;
-    frEdit:
-    begin
-      IsProcessSuccesfull := UpdateDataRekening;
-
-      if IsProcessSuccesfull then
-        Close
-      else
-        CommonDlg.ShowError(ER_UPDATE_FAILED);
-    end;
-  end; }
-
-  try
-    ChekEmptyValue;
-    IsProcessSuccesfull := False;
-
-    Self.Enabled := False;
-
-//    Rekening := TMasterRekening.Create(nil);
-
-//    KodeGrupRekId := cGetIDfromCombo(cmbAccountType, cmbAccountType.ItemIndex);
-
-    if chkIsDebet.Checked then IsDebet := 1
-    else IsDebet := 0;
-
-    if chkIsLeaf.Checked then isLeaf := 1
-    else isLeaf := 0;
-
-    IsGroup := 0 ;
-    if chkBS.Checked then IsGroup := 1;
-    if chkPL.Checked then IsGroup := 2;
-
-
-
-    if intedtLevel.Value = 0 then iRekParentCompID := 0
-    else iRekParentCompID := DialogCompany;
+  SimpanData();
+  Self.Close;
+//  {case StatusForm of
+//    frNew:
+//    begin
+//      IsProcessSuccesfull := SaveDataRekening;
+//
+//      if IsProcessSuccesfull then
+//        Close
+//      else
+//        CommonDlg.ShowError(ER_INSERT_FAILED);
+//    end;
+//    frEdit:
+//    begin
+//      IsProcessSuccesfull := UpdateDataRekening;
+//
+//      if IsProcessSuccesfull then
+//        Close
+//      else
+//        CommonDlg.ShowError(ER_UPDATE_FAILED);
+//    end;
+//  end; }
+//
+//  try
+//    ChekEmptyValue;
+//    IsProcessSuccesfull := False;
+//
+//    Self.Enabled := False;
+//
+////    Rekening := TMasterRekening.Create(nil);
+//
+////    KodeGrupRekId := cGetIDfromCombo(cmbAccountType, cmbAccountType.ItemIndex);
+//
+//    if chkIsDebet.Checked then IsDebet := 1
+//    else IsDebet := 0;
+//
+//    if chkIsLeaf.Checked then isLeaf := 1
+//    else isLeaf := 0;
+//
+//    IsGroup := 0 ;
+//    if chkBS.Checked then IsGroup := 1;
+//    if chkPL.Checked then IsGroup := 2;
+//
+//
+//
+//    if intedtLevel.Value = 0 then iRekParentCompID := 0
+//    else iRekParentCompID := DialogCompany;
 
 //    Rekening.UpdateData(FLoginId, FLoginId,
 //                        edtRekCode.Text, DialogCompany,
@@ -310,18 +333,18 @@ begin
 //      cRollbackTrans;
 //      FIsProcessSuccesfull := False;
 //    end;
-
-    if (LeftStr(edtRekCode.Text,1) = '1') or (LeftStr(edtRekCode.Text,1) = '4') or (LeftStr(edtRekCode.Text,1) = '7') then
-        pDiv := 0
-    else
-        pDiv := 1;
-
-    if isLeaf = 1 then
-        pDetail := 0
-    else
-        pDetail := 1;
-
 //
+//    if (LeftStr(edtRekCode.Text,1) = '1') or (LeftStr(edtRekCode.Text,1) = '4') or (LeftStr(edtRekCode.Text,1) = '7') then
+//        pDiv := 0
+//    else
+//        pDiv := 1;
+//
+//    if isLeaf = 1 then
+//        pDetail := 0
+//    else
+//        pDetail := 1;
+//
+////
 //    IF IsGroup = 1 then
 //      begin
 //        sSql := 'SELECT * FROM REKENING_BS WHERE REKBS_CODE = ' + Quot(Rekening.REK_CODE) + ' AND  REKBS_COMP_ID = ' + IntToStr( Rekening.REK_COMP_ID);
@@ -389,17 +412,17 @@ begin
 //    begin
 //      CommonDlg.ShowError('Data BS / PL Gagal Disimpan');
 //      cRollbackTrans;
-//      Exit;
-//    end
-//    else
-//      cCommitTrans;
-
-
-  finally
-    Self.Enabled := True;
-//    if Rekening <> Nil Then FreeAndNil(Rekening);
-    if FIsProcessSuccesfull then Close;
-  end;
+////      Exit;
+////    end
+////    else
+////      cCommitTrans;
+//
+//
+//  finally
+//    Self.Enabled := True;
+////    if Rekening <> Nil Then FreeAndNil(Rekening);
+//    if FIsProcessSuccesfull then Close;
+//  end;
 end;
 
 procedure TfrmDialogRekening.ChekEmptyValue;
@@ -423,13 +446,6 @@ end;
 procedure TfrmDialogRekening.SetParentCode(const Value: string);
 begin
   FParentCode := Value;
-end;
-
-procedure TfrmDialogRekening.intedtLevelChange(Sender: TObject);
-begin
-  inherited;
-  edbParentCode.Text := '';
-  
 end;
 
 procedure TfrmDialogRekening.edbParentCodeKeyUp(Sender: TObject;
@@ -467,6 +483,34 @@ begin
 //  end;
 end;
 
+function TfrmDialogRekening.GetCDSRekening: tclientDataset;
+begin
+  if not assigned(FCDSRekening) then
+    fCDSRekening := Tdbutils.DSToCDS(DsProvider.Rekening_GetDSLookup, self);
+  Result := FCDSRekening;
+end;
+
+function TfrmDialogRekening.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
+end;
+
+function TfrmDialogRekening.GetDsProvider: TDSProviderClient;
+begin
+  if not assigned(FDsProvider) then
+    FDsProvider := TDSProviderClient.Create(DmClient.RestConn,False);
+  Result := FDsProvider;
+end;
+
+function TfrmDialogRekening.GetModRekening: TModRekening;
+begin
+  if not Assigned(FModRekening) then
+    FModRekening := TModRekening.Create();
+  Result := FModRekening;
+end;
+
 procedure TfrmDialogRekening.HapusRekIfada(jenis : string; aheaderid : Integer);
 var
   sSql : string;
@@ -490,6 +534,49 @@ begin
 //      Exit;
 //    end;
 
+end;
+
+procedure TfrmDialogRekening.SimpanData;
+var
+  isLeaf  : Integer;
+  IsDebet : Integer;
+  IsGroup : Integer;
+begin
+  try
+    ChekEmptyValue;
+    IsProcessSuccesfull := False;
+
+    Self.Enabled := False;
+
+    if chkIsDebet.Checked then IsDebet := 1
+    else IsDebet := 0;
+
+    if chkIsLeaf.Checked then isLeaf := 1
+    else isLeaf := 0;
+
+    IsGroup := 0 ;
+    if chkBS.Checked then IsGroup := 1;
+    if chkPL.Checked then IsGroup := 2;
+
+  finally
+    Self.Enabled := True;
+    if FIsProcessSuccesfull then Close;
+  end;
+  ModRekening.REK_CODE := edtRekCode.Text;
+  ModRekening.REK_NAME := edtRekName.Text;
+  ModRekening.REK_LEVEL := intedtLevel.Value;
+  ModRekening.REK_DESCRIPTION := edtDescription.Text;
+  ModRekening.REK_PARENT_CODE := dbParentCode.EditValue;
+  ModRekening.REK_IS_DEBET := isDebet;
+  ModRekening.REK_IS_LEAF := isLeaf;
+  ModRekening.REK_IS_GROUP := isGroup;
+  try
+    Crud.SaveToDB(MODRekening);
+    TAppUtils.Information('Simpan Berhasil.');
+  except
+    TAppUtils.Error('Gagal Menyimpan Data.');
+    Raise
+  end;
 end;
 
 end.

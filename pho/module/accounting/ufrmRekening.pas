@@ -39,6 +39,8 @@ type
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure cbpRekGroupChange(Sender: TObject);
+    procedure cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
+        TcxTreeListNode);
   private
     FCDS: TClientDataset;
     FCrud: TCrudClient;
@@ -97,6 +99,7 @@ begin
   end;
 
   frmDialogRekening.Free;
+  LoadData();
 end;
 
 procedure TfrmRekening.actEditRekeningExecute(Sender: TObject);
@@ -432,6 +435,13 @@ begin
     GrupRekeningId := '';
 end;
 
+procedure TfrmRekening.cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
+    TcxTreeListNode);
+begin
+  inherited;
+  cxDBTreeList.ApplyBestFit;
+end;
+
 function TfrmRekening.GetCrud: TCrudClient;
 begin
   if not Assigned(FCrud) then
@@ -460,6 +470,7 @@ begin
 //  cxDBTreeList.SetColumnsCaption(['REK_CODE','REK_NAME','REK_PARENT_CODE','REK_DESCRIPTION','REK_LEVEL']
 //  ,['KODE TIPE BARANG','NAMA TIPE BARANG']);
   cxDBTreeList.SetVisibleColumns(['ID'], FALSE);
+  cxDBTreeList.ApplyBestFit;
 end;
 
 end.
