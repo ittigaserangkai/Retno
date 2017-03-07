@@ -69,6 +69,7 @@ uses
   ufrmDialogModule in 'module\management user\ufrmDialogModule.pas' {frmDialogModule},
   ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
   uModRefPajak in '..\model\uModRefPajak.pas',
+<<<<<<< HEAD
   ufrmMasterCustomer in 'module\references\ufrmMasterCustomer.pas' {frmMasterCustomer},
   ufrmDialogMasterCustomer in 'module\references\ufrmDialogMasterCustomer.pas' {frmDialogMasterCustomer},
   ufraAlokasiStock in 'module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
@@ -94,12 +95,15 @@ uses
   uTSINIFile in '..\lib\uTSINIFile.pas',
   ufraHistoriPOByProduct in 'module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
-  ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
+  ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame};
+=======
   ufrmInputRekening in 'module\references\ufrmInputRekening.pas' {frmInputRekening},
   uModRekening in '..\model\uModRekening.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
-  uModAppHelper in '..\model\uModAppHelper.pas';
+  uModAppHelper in '..\model\uModAppHelper.pas',
+  uModSatuan in '..\model\uModSatuan.pas';
+>>>>>>> c549d62996025103396c32413634acca5769ec0c
 
 {$R *.res}
 
@@ -109,5 +113,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmMasterBrowse, frmMasterBrowse);
   Application.Run;
 end.

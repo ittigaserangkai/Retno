@@ -70,8 +70,13 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.18;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>18</VerInfo_Build>
+<<<<<<< HEAD
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.17;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>17</VerInfo_Build>
+=======
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.11;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>11</VerInfo_Build>
+>>>>>>> c549d62996025103396c32413634acca5769ec0c
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -390,14 +395,14 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="module\references\ufrmInputRekening.pas">
-            <Form>frmInputRekening</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
+<<<<<<< HEAD
+=======
         <DCCReference Include="..\model\uModRekening.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModTipePembeli.pas"/>
         <DCCReference Include="..\model\uModAppHelper.pas"/>
+        <DCCReference Include="..\model\uModSatuan.pas"/>
+>>>>>>> c549d62996025103396c32413634acca5769ec0c
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
