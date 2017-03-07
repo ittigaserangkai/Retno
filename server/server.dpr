@@ -14,7 +14,6 @@ uses
   uDBUtils in '..\lib\uDBUtils.pas',
   uModApp in '..\model\uModApp.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
-  uModAccount in '..\model\uModAccount.pas',
   uModBank in '..\model\uModBank.pas',
   uModTest in '..\model\uModTest.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
@@ -23,11 +22,11 @@ uses
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
   ufrmGenerateModel in 'unit\ufrmGenerateModel.pas' {frmGenerateModel},
-  uDXUtils in '..\lib\uDXUtils.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModAppHelper in '..\model\uModAppHelper.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
-  uModOutlet in '..\model\uModOutlet.pas';
+  uModOutlet in '..\model\uModOutlet.pas',
+  uDXUtils in '..\lib\uDXUtils.pas';
 
 {$R *.res}
 

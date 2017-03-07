@@ -13,7 +13,6 @@ inherited frmDialogRekening: TfrmDialogRekening
   inherited pnlBody: TPanel
     Width = 476
     Height = 257
-    ExplicitTop = -3
     ExplicitWidth = 476
     ExplicitHeight = 257
     object lbl1: TLabel
@@ -54,9 +53,9 @@ inherited frmDialogRekening: TfrmDialogRekening
     object lbl6: TLabel
       Left = 16
       Top = 112
-      Width = 67
+      Width = 74
       Height = 16
-      Caption = 'Account Type'
+      Caption = 'Account Group'
     end
     object lblGroup: TLabel
       Left = 16
@@ -71,7 +70,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 145
       Height = 17
       Caption = 'Normal Balance Is Debet'
-      TabOrder = 4
+      TabOrder = 3
       OnKeyUp = chkIsDebetKeyUp
     end
     object chkIsLeaf: TCheckBox
@@ -80,7 +79,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 97
       Height = 17
       Caption = 'Is Detail'
-      TabOrder = 5
+      TabOrder = 4
     end
     object edtRekCode: TEdit
       Left = 144
@@ -116,43 +115,41 @@ inherited frmDialogRekening: TfrmDialogRekening
       TabOrder = 2
       OnKeyUp = edtDescriptionKeyUp
     end
-    object cmbAccountType: TComboBox
-      Left = 144
-      Top = 112
-      Width = 145
-      Height = 24
-      TabOrder = 3
-      Items.Strings = (
-        'DEBET'
-        'KREDIT')
-    end
     object chkbs: TRadioButton
-      Left = 152
+      Left = 144
       Top = 168
       Width = 113
       Height = 25
       Caption = 'Balance sheet'
-      TabOrder = 6
+      Checked = True
+      TabOrder = 5
+      TabStop = True
     end
     object chkpl: TRadioButton
-      Left = 280
-      Top = 173
+      Left = 275
+      Top = 172
       Width = 113
       Height = 17
       Caption = 'Profit Loss'
-      TabOrder = 7
+      TabOrder = 6
     end
     object dbParentCode: TcxExtLookupComboBox
       Left = 144
       Top = 138
-      TabOrder = 8
+      TabOrder = 7
       Width = 145
     end
     object intedtLevel: TcxSpinEdit
       Left = 144
       Top = 63
-      TabOrder = 9
+      TabOrder = 8
       Width = 52
+    end
+    object dbAccountGroup: TcxExtLookupComboBox
+      Left = 144
+      Top = 112
+      TabOrder = 9
+      Width = 145
     end
   end
   inherited footerDialogMaster: TfraFooterDialog2Button

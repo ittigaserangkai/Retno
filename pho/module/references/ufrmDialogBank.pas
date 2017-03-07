@@ -75,7 +75,7 @@ var
   IDLokal : Integer;
 implementation
 
-uses uTSCommonDlg, ufrmBank, uModAccount;
+uses uTSCommonDlg, ufrmBank, uModRekening;
 
 {$R *.dfm}
 

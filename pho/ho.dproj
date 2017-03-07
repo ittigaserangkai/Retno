@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.18;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>18</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.19;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>19</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -230,11 +230,17 @@
         <DCCReference Include="module\references\ufrmDialogProductType.pas">
             <Form>frmDialogProductType</Form>
         </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogProductTypeNBD.pas">
+            <Form>frmDialogProductTypeNBD</Form>
+        </DCCReference>
         <DCCReference Include="module\references\ufrmDialogSupplierType.pas">
             <Form>frmDialogSupplierType</Form>
         </DCCReference>
         <DCCReference Include="module\references\ufrmProductType.pas">
             <Form>frmProductType</Form>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmProductTypeNBD.pas">
+            <Form>frmProductTypeNBD</Form>
         </DCCReference>
         <DCCReference Include="module\references\ufrmSupplierType.pas">
             <Form>frmSupplierType</Form>
@@ -251,6 +257,12 @@
             <Form>frmTest</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\model\uModApp.pas"/>
+        <DCCReference Include="..\model\uModTest.pas"/>
+        <DCCReference Include="..\lib\uDBUtils.pas"/>
+        <DCCReference Include="..\system\uAppUtils.pas"/>
+        <DCCReference Include="..\lib\uDXUtils.pas"/>
+        <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
             <Form>frmDialogRekening</Form>
         </DCCReference>
@@ -397,30 +409,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="module\references\ufrmProductTypeNBD.pas">
-            <Form>frmProductTypeNBD</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmDialogProductTypeNBD.pas">
-            <Form>frmDialogProductTypeNBD</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmMasterProductNBD.pas">
-            <Form>frmMasterProductNBD</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmDialogMasterProductNBD.pas">
-            <Form>frmDialogMasterProductNBD</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmDialogSatuan_NBD.pas">
-            <Form>frmDialogSatuan_NBD</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmSatuan_NBD.pas">
-            <Form>frmSatuan_NBD</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -453,27 +441,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -827,12 +800,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
