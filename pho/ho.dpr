@@ -113,6 +113,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmMasterBrowse, frmMasterBrowse);
   Application.Run;
 end.
