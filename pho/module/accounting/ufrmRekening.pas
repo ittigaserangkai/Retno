@@ -9,7 +9,9 @@ uses
   cxClasses, Vcl.Grids, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxCustomData, cxTL,
   cxTextEdit, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxContainer, cxEdit,
-  cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
+  cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
+  uClientClasses, uModTipeBarang, uDMClient,
+  uDBUtils, uDXUtils, DBClient, uAppUtils, cxTLData, cxDBTL;
 
 type
   TfrmRekening = class(TfrmMaster)
@@ -22,16 +24,12 @@ type
     actEditRekening: TAction;
     actDeleteRekening: TAction;
     actRefreshRekening: TAction;
-    strgGrid: TStringGrid;
-    TlistRekening: TcxTreeList;
-    cxTreeList1Column1: TcxTreeListColumn;
-    cxTreeList1Column2: TcxTreeListColumn;
-    cxTreeList1Column3: TcxTreeListColumn;
-    cxTreeList1Column4: TcxTreeListColumn;
-    cxTreeList1Column5: TcxTreeListColumn;
-    cxTreeList1Column6: TcxTreeListColumn;
-    cxTreeList1Column7: TcxTreeListColumn;
     cbpRekGroup: TcxLookupComboBox;
+    strgGrid: TStringGrid;
+    cxDBTreeList: TcxDBTreeList;
+    cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn;
+    cxDBTreeListcxDBTreeListColumn2: TcxDBTreeListColumn;
+    cxDBTreeListcxDBTreeListColumn3: TcxDBTreeListColumn;
     procedure FormDestroy(Sender: TObject);
     procedure actAddRekeningExecute(Sender: TObject);
     procedure actEditRekeningExecute(Sender: TObject);
@@ -41,14 +39,28 @@ type
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure cbpRekGroupChange(Sender: TObject);
+    procedure cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
+        TcxTreeListNode);
   private
+    FCDS: TClientDataset;
+    FCrud: TCrudClient;
+    FDSProvider: TDSProviderClient;
     FGrupRekeningId: string;
+    FModRekening: TModTipeBarang;
+    function GetCrud: TCrudClient;
+    function GetDSProvider: TDSProviderClient;
     function GetListGrupRekeningByCompanyId(AId: Integer): TDataSet;
+    function GetModRekening: TModTipeBarang;
+    procedure LoadData;
 //    function GetListRekeningByCompanyId(AId: Integer): TDataSet;
 //    function GetListRekeningByGrupRekeningId(AId: string): TDataSet;
     procedure ParseComboGrupRekening;
     procedure ParseDataRekening(aParentCode : String; aNode : TTreeNode);
     procedure SetGrupRekeningId(const Value: string);
+    property CDS: TClientDataset read FCDS write FCDS;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property DSProvider: TDSProviderClient read GetDSProvider write FDSProvider;
+    property ModRekening: TModTipeBarang read GetModRekening write FModRekening;
   public
     function IsRekeningExist(aKode : String): Boolean;
     property GrupRekeningId: string read FGrupRekeningId write SetGrupRekeningId;
@@ -87,6 +99,7 @@ begin
   end;
 
   frmDialogRekening.Free;
+  LoadData();
 end;
 
 procedure TfrmRekening.actEditRekeningExecute(Sender: TObject);
@@ -155,22 +168,24 @@ end;
 procedure TfrmRekening.actRefreshRekeningExecute(Sender: TObject);
 begin
   inherited;
-  try
-    Self.Enabled := False;
 
-    if Mastercompany.ID = 0 then
-    begin
-      CommonDlg.ShowError(ER_COMPANY_NOT_SPECIFIC);
-      //frmMain.cbbCompCode.SetFocus;
-      Exit;
-    end;
-
-    TlistRekening.Clear;
-    ParseDataRekening('', nil);
-
-  finally
-    Self.Enabled := True;
-  end;
+  LoadData();
+//  try
+//    Self.Enabled := False;
+//
+//    if Mastercompany.ID = 0 then
+//    begin
+//      CommonDlg.ShowError(ER_COMPANY_NOT_SPECIFIC);
+//      //frmMain.cbbCompCode.SetFocus;
+//      Exit;
+//    end;
+//
+////    TlistRekening.Clear;
+////    ParseDataRekening('', nil);
+//
+//  finally
+//    Self.Enabled := True;
+//  end;
 
 end;
 
@@ -418,6 +433,44 @@ begin
 //    GrupRekeningId := cbpRekGroup.Cells[0, cbpRekGroup.Row]
 //  else
     GrupRekeningId := '';
+end;
+
+procedure TfrmRekening.cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
+    TcxTreeListNode);
+begin
+  inherited;
+  cxDBTreeList.ApplyBestFit;
+end;
+
+function TfrmRekening.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
+end;
+
+function TfrmRekening.GetDSProvider: TDSProviderClient;
+begin
+  if not Assigned(FDSProvider) then
+    FDSProvider := TDSProviderClient.Create(DMClient.RestConn, FALSE);
+  Result := FDSProvider;
+end;
+
+function TfrmRekening.GetModRekening: TModTipeBarang;
+begin
+  if not Assigned(FModRekening) then
+    FModRekening := TModTipeBarang.Create();
+  Result := FModRekening;
+end;
+
+procedure TfrmRekening.LoadData;
+begin
+  CDS := tDBUtils.DSToCDS(DSProvider.Rekening_GetDSOverview(), SELF);
+  cxDBTreeList.LoadFromCDS(CDS, 'REK_CODE', 'REK_PARENT_CODE', FALSE);
+//  cxDBTreeList.SetColumnsCaption(['REK_CODE','REK_NAME','REK_PARENT_CODE','REK_DESCRIPTION','REK_LEVEL']
+//  ,['KODE TIPE BARANG','NAMA TIPE BARANG']);
+  cxDBTreeList.SetVisibleColumns(['ID'], FALSE);
+  cxDBTreeList.ApplyBestFit;
 end;
 
 end.

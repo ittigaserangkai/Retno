@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit;
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
+  System.Actions, Vcl.ActnList;
 
 type
   TfrmMain = class(TForm)
@@ -34,6 +35,15 @@ type
     edPort: TcxTextEdit;
     btnKonekDB: TButton;
     Button1: TButton;
+    mmMainMenu: TMainMenu;
+    File1: TMenuItem;
+    Exit1: TMenuItem;
+    ools1: TMenuItem;
+    ModelGenerator1: TMenuItem;
+    actlstMenu: TActionList;
+    actFileExit: TAction;
+    actToolsGenerateModel: TAction;
+    procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
@@ -57,7 +67,7 @@ implementation
 
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
-  ServerContainerUnit, uModTest;
+  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -88,6 +98,12 @@ begin
     TDSSessionManager.Instance.TerminateAllSessions;
 end;
 
+procedure TfrmMain.actToolsGenerateModelExecute(Sender: TObject);
+begin
+  frmGenerateModel := TfrmGenerateModel.Create(Self);
+  frmGenerateModel.ShowModal;
+end;
+
 procedure TfrmMain.btnKonekDBClick(Sender: TObject);
 begin
   if btnKonekDB.Caption = 'Connect' then
@@ -109,29 +125,31 @@ end;
 procedure TfrmMain.Button1Click(Sender: TObject);
 var
   lTest: TModTest;
-//  i: Integer;
-//  lTestItem: TModTestItem;
+  i: Integer;
+  lTestItem: TModTestItem;
 begin
-  lTest := TModTest.Create;
-//  lTest.RefNo := 'Halo';
-//  lTest.RefDate := Now();
-//
-//  for i := 0 to 5 do
-//  begin
-//    lTestItem := TModTestItem.Create;
-//    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
-//    lTestItem.ItemName := 'ItemName_' + inttostr(i);
-//    lTestItem.QTY := i;
-//    lTest.Items.Add(lTestItem);
-//  end;
-//
-//  With TDBUtils.GenerateSQL(lTest) do
-//  begin
-//    SaveToFile('D:\GenerateSQL.txt');
-//  end;
+  lTest         := TModTest.Create;
+  lTest.RefNo   := 'Halo';
+  lTest.Bank    := TModBank.Create;
+  lTest.Bank.ID := TDBUtils.GetNextIDGUIDToString;
+  lTest.RefDate := Now();
 
-  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
-  showmessage(lTest.RefNo);
+  for i := 0 to 5 do
+  begin
+    lTestItem := TModTestItem.Create;
+    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
+    lTestItem.ItemName := 'ItemName_' + inttostr(i);
+    lTestItem.QTY := i;
+    lTest.Items.Add(lTestItem);
+  end;
+
+  With TDBUtils.GenerateSQL(lTest) do
+  begin
+    SaveToFile('D:\GenerateSQL.txt');
+  end;
+
+//  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
+//  showmessage(lTest.RefNo);
 
 end;
 

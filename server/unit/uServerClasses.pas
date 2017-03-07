@@ -29,6 +29,9 @@ type
   public
     function Bank_GetDSOverview: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
+    function RefPajak_GetDSOverview: TDataSet;
+    function RefTipeBarang_GetDSOverview: TDataSet;
+    function Rekening_GetDSOverview: TDataSet;
   end;
 
   {$METHODINFO OFF}
@@ -130,7 +133,7 @@ function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
+  S := 'SELECT Bank_ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
       +' BANK_REK_CODE, BANK_DESCRIPTION,'
       +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
       +' FROM BANK';
@@ -142,7 +145,31 @@ function TDSProvider.Rekening_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION from REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefPajak_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * from REF$PAJAK';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeBarang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * from REF$TIPE_BARANG';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Rekening_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from REKENING';
   Result := TDBUtils.OpenQuery(S);
 end;
 

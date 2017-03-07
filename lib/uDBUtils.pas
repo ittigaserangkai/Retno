@@ -11,18 +11,16 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDac.Dapt,
-  uModApp, uModTest;
+  uModApp, uModAppHelper, uModTest;
 
 type
   TDBUtils = class(TObject)
   private
     class function GenerateSQLInsert(AObject : TModApp): string; overload;
     class function GenerateSQLUpdate(AObject : TModApp): string; overload;
-    class function GetMappedFieldName(AObject: TModApp; PropName: String): String;
     class function GetSQLInsert(AObject: TModApp): String;
     class function GetSQLUpdate(AObject: TModApp): String;
     class function GetSQLDelete(AObject: TModApp): String; overload;
-    class function QuotValue(AObject: TModApp; AProp: TRttiProperty): String;
   public
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
@@ -194,14 +192,13 @@ var
   ctx : TRttiContext;
   meth : TRttiMethod;
   prop, propItem : TRttiProperty;
-  rt, rtItem : TRttiType;
+  rt : TRttiType;
   i : Integer;
   lObj : TObject;
-  lModItem : TModAppItem;
+  lModItem : TModApp;
   value : TValue;
 begin
-  ctx     := TRttiContext.Create();
-  rt      := ctx.GetType(AObject.ClassType);
+  rt := ctx.GetType(AObject.ClassType);
 
   if (AObject.ID = '') or (AObject.ObjectState = 1) then
     SS.Add(TDBUtils.GetSQLInsert(AObject))
@@ -221,22 +218,18 @@ begin
         for i := 0 to value.GetArrayLength - 1 do
         begin
           lObj := value.GetArrayElement(i).AsObject;
-          If not lObj.ClassType.InheritsFrom(TModAppItem) then continue;  //bila ada generic selain class ini
-          lModItem := TModAppItem(lObj);
+          If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+          lModItem := TModApp(lObj);
 
           if i = 0 then
             SS.Add( Format(SQL_Delete,[lModItem.GetTableName,
-              GetMappedFieldName(lModItem,lModItem.GetHeaderField) + '=' + QuotedStr(AObject.ID) ]) );
+              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID) ]) );
 
           //dengan method dibawah, client tidak wajib menset moditem.header := modheader
-          rtItem := ctx.GetType(lModItem.ClassType);
-          propItem := rtItem.GetProperty(lModItem.GetHeaderField);
-          if propItem = nil then
-            raise Exception.Create(lObj.ClassName + ' tidak memiliki property ' +lModItem.GetHeaderField );
+          propItem := lModItem.PropFromAttr(AttributeOfHeader);
 
           if propItem.PropertyType.TypeKind = tkClass then
             propItem.SetValue(lModItem, AObject);
-
 
           GenerateSQL(lModItem,SS);
         end;
@@ -260,7 +253,7 @@ var
   rt : TRttiType;
   i : Integer;
   lObj : TObject;
-  lModItem : TModAppItem;
+  lModItem : TModApp;
   value : TValue;
 begin
   ctx     := TRttiContext.Create();
@@ -280,13 +273,12 @@ begin
         for i := 0 to value.GetArrayLength - 1 do
         begin
           lObj := value.GetArrayElement(i).AsObject;
-          If not lObj.ClassType.InheritsFrom(TModAppItem) then continue;  //bila ada generic selain class ini
-          lModItem := TModAppItem(lObj);
+          If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+          lModItem := TModApp(lObj);
           if i = 0 then
             SS.Add(
               Format(SQL_Delete,[lModItem.GetTableName,
-                GetMappedFieldName(lModItem,lModItem.GetHeaderField)
-                + '=' + QuotedStr(AObject.ID) ])
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID) ])
             );
           GenerateSQLDelete(lModItem,SS);
         end;
@@ -316,83 +308,79 @@ begin
   Result := '';
   ResultObjectList := '';
 
-  ctx := TRttiContext.Create();
-  try
-      rt := ctx.GetType(AObject.ClassType);
+  rt := ctx.GetType(AObject.ClassType);
 
-      if AObject.ID = '' then
-        AObject.ID := TDBUtils.GetNextIDGUIDToString();
+  if AObject.ID = '' then
+    AObject.ID := TDBUtils.GetNextIDGUIDToString();
 
-      Result := 'insert into ' + AObject.ClassName + '(';
-      for prop in rt.GetProperties() do begin
-          meth := prop.PropertyType.GetMethod('ToArray');
-          if Assigned(meth) then
-            Continue;
+  Result := 'insert into ' + AObject.ClassName + '(';
+  for prop in rt.GetProperties() do begin
+      meth := prop.PropertyType.GetMethod('ToArray');
+      if Assigned(meth) then
+        Continue;
 
-          if prop.Name = 'ObjectState' then
-            Continue;
+      if prop.Name = 'ObjectState' then
+        Continue;
 
-          if not prop.IsWritable then continue;
+      if not prop.IsWritable then continue;
 
-          if Result = 'insert into ' + AObject.ClassName + '(' then
-            Result := Result + prop.Name
-          else
-            Result := Result + ',' + prop.Name;
-      end;
-
-      Result := Result + ') values(';
-
-
-      for prop in rt.GetProperties() do begin
-        if not prop.IsWritable then continue;
-        if prop.Name = 'ObjectState' then Continue;
-
-        case prop.PropertyType.TypeKind of
-          tkClass   : begin
-                        meth := prop.PropertyType.GetMethod('ToArray');
-                        if Assigned(meth) then
-                        begin
-                          with meth.Invoke(prop.GetValue(AObject),[]) do
-                          begin
-                            for i := 0 to GetArrayLength - 1 do
-                            begin
-                              if i = 0 then
-                              begin
-                                ResultObjectList := 'delete from ' + GetArrayElement(i).AsObject.ClassName
-                                                    + ' where ' + TModAppItem(GetArrayElement(i).AsObject).GetHeaderField + ' = ' + QuotedStr(AObject.ID) + ';';
-
-                              end;
-
-                              TModAppItem(GetArrayElement(i).AsObject).SetHeaderProperty(AObject);
-                              ResultObjectList := ResultObjectList + GenerateSQLInsert(TModApp(GetArrayElement(i).AsObject));
-                            end;
-                          end;
-                        end else begin
-                          sNama := prop.Name;
-                          Result := Result + QuotedStr(TModApp(prop.GetValue(AObject).AsObject).ID) + ',';
-                        end;
-
-
-                      end;
-          tkInteger : Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',';
-
-          tkFloat   : if CompareText('TDateTime',prop.PropertyType.Name)=0 then
-                        Result := Result + QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm:ss',prop.GetValue(AObject).AsExtended)) + ','
-                      else
-                        Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',' ;
-
-          tkUString : Result := Result + QuotedStr(prop.GetValue(AObject).AsString) + ',';
-        end;
-      end;
-
-      Result := LeftStr(Result, Length(Result)-1) + ');';
-      if ResultObjectList <> '' then
-      begin
-        Result := Result + ResultObjectList;
-      end;
-  finally
-      ctx.Free();
+      if Result = 'insert into ' + AObject.ClassName + '(' then
+        Result := Result + prop.Name
+      else
+        Result := Result + ',' + prop.Name;
   end;
+
+  Result := Result + ') values(';
+
+
+  for prop in rt.GetProperties() do begin
+    if not prop.IsWritable then continue;
+    if prop.Name = 'ObjectState' then Continue;
+
+    case prop.PropertyType.TypeKind of
+      tkClass   : begin
+                    meth := prop.PropertyType.GetMethod('ToArray');
+                    if Assigned(meth) then
+                    begin
+                      with meth.Invoke(prop.GetValue(AObject),[]) do
+                      begin
+                        for i := 0 to GetArrayLength - 1 do
+                        begin
+                          if i = 0 then
+                          begin
+                            ResultObjectList := 'delete from ' + GetArrayElement(i).AsObject.ClassName
+                                                + ' where ' + TModApp(GetArrayElement(i).AsObject).GetHeaderField + ' = ' + QuotedStr(AObject.ID) + ';';
+
+                          end;
+
+//                          TModApp(GetArrayElement(i).AsObject).SetHeaderProperty(AObject);
+//                          ResultObjectList := ResultObjectList + GenerateSQLInsert(TModApp(GetArrayElement(i).AsObject));
+                        end;
+                      end;
+                    end else begin
+                      sNama := prop.Name;
+                      Result := Result + QuotedStr(TModApp(prop.GetValue(AObject).AsObject).ID) + ',';
+                    end;
+
+
+                  end;
+      tkInteger : Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',';
+
+      tkFloat   : if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+                    Result := Result + QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm:ss',prop.GetValue(AObject).AsExtended)) + ','
+                  else
+                    Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',' ;
+
+      tkUString : Result := Result + QuotedStr(prop.GetValue(AObject).AsString) + ',';
+    end;
+  end;
+
+  Result := LeftStr(Result, Length(Result)-1) + ');';
+  if ResultObjectList <> '' then
+  begin
+    Result := Result + ResultObjectList;
+  end;
+
 end;
 
 class function TDBUtils.GenerateSQLSelect(AObject : TModApp): string;
@@ -409,43 +397,38 @@ begin
   Result := '';
   ResultObjectList := '';
 
-  ctx := TRttiContext.Create();
-  try
-      rt := ctx.GetType(AObject.ClassType);
+  rt := ctx.GetType(AObject.ClassType);
 
-      if AObject.ID = '' then
-        AObject.ID := TDBUtils.GetNextIDGUIDToString();
+  if AObject.ID = '' then
+    AObject.ID := TDBUtils.GetNextIDGUIDToString();
 
-      Result := 'select ' ;
-      for prop in rt.GetProperties() do begin
-          meth := prop.PropertyType.GetMethod('ToArray');
-          if Assigned(meth) then
-            Continue;
+  Result := 'select ' ;
+  for prop in rt.GetProperties() do begin
+      meth := prop.PropertyType.GetMethod('ToArray');
+      if Assigned(meth) then
+        Continue;
 
-          if prop.Name = 'ObjectState' then
-            Continue;
+      if prop.Name = 'ObjectState' then
+        Continue;
 
-          if not prop.IsWritable then continue;
+      if not prop.IsWritable then continue;
 
-          sFieldName := prop.Name;
-          if CompareText('TDateTime',prop.PropertyType.Name)=0 then
-            sFieldName := 'cast(' + sFieldName + ' as character varying(40)) as ' + sFieldName;
+      sFieldName := prop.Name;
+      if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+        sFieldName := 'cast(' + sFieldName + ' as character varying(40)) as ' + sFieldName;
 
-          if prop.PropertyType.TypeKind = tkUString then
-            sFieldName := 'cast(' + sFieldName + ' as character(140)) as ' + sFieldName;
+      if prop.PropertyType.TypeKind = tkUString then
+        sFieldName := 'cast(' + sFieldName + ' as character(140)) as ' + sFieldName;
 
-          if Result = 'select ' then
-            Result := Result + sFieldName
-          else
-            Result := Result + ',' + sFieldName;
-      end;
-
-      Result := 'Select a.* from ( ' + Result + ' from ' + AObject.ClassName + ') a ';
-
-
-  finally
-      ctx.Free();
+      if Result = 'select ' then
+        Result := Result + sFieldName
+      else
+        Result := Result + ',' + sFieldName;
   end;
+
+  Result := 'Select a.* from ( ' + Result + ' from ' + AObject.ClassName + ') a ';
+
+
 end;
 
 class function TDBUtils.GenerateSQLUpdate(AObject : TModApp): string;
@@ -459,85 +442,61 @@ var
 begin
 
   Result := '';
-  ctx := TRttiContext.Create();
-  try
-      rt := ctx.GetType(AObject.ClassType);
-      Result := 'update ' + AObject.ClassName + ' set ';
 
-      for prop in rt.GetProperties() do begin
-        meth := prop.PropertyType.GetMethod('ToArray');
-        if (not prop.IsWritable) or
-           (UpperCase(prop.Name) = 'ID')  or
-           (prop.Name = 'ObjectState') then continue;
+  rt := ctx.GetType(AObject.ClassType);
+  Result := 'update ' + AObject.ClassName + ' set ';
 
-        if not Assigned(meth) then
-          Result := Result + prop.Name + ' = ';
+  for prop in rt.GetProperties() do begin
+    meth := prop.PropertyType.GetMethod('ToArray');
+    if (not prop.IsWritable) or
+       (UpperCase(prop.Name) = 'ID')  or
+       (prop.Name = 'ObjectState') then continue;
 
-        case prop.PropertyType.TypeKind of
+    if not Assigned(meth) then
+      Result := Result + prop.Name + ' = ';
+
+    case prop.PropertyType.TypeKind of
 //          tkArray     :
-          tkClass     : begin
-                          meth := prop.PropertyType.GetMethod('ToArray');
-                          if Assigned(meth) then
+      tkClass     : begin
+                      meth := prop.PropertyType.GetMethod('ToArray');
+                      if Assigned(meth) then
+                      begin
+                        with meth.Invoke(prop.GetValue(AObject),[]) do
+                        begin
+                          for i := 0 to GetArrayLength - 1 do
                           begin
-                            with meth.Invoke(prop.GetValue(AObject),[]) do
+                            if i = 0 then
                             begin
-                              for i := 0 to GetArrayLength - 1 do
-                              begin
-                                if i = 0 then
-                                begin
-                                  ResultObjectList := 'delete from ' + GetArrayElement(i).AsObject.ClassName
-                                                      + ' where ' + TModAppItem(GetArrayElement(i).AsObject).GetHeaderField + ' = ' + QuotedStr(AObject.ID) + ';';
+                              ResultObjectList := 'delete from ' + GetArrayElement(i).AsObject.ClassName
+                                                  + ' where ' + TModApp(GetArrayElement(i).AsObject).GetHeaderField + ' = ' + QuotedStr(AObject.ID) + ';';
 
-                                end;
-
-                                TModAppItem(GetArrayElement(i).AsObject).SetHeaderProperty(AObject);
-                                ResultObjectList := ResultObjectList + GenerateSQLInsert(TModApp(GetArrayElement(i).AsObject));
-                              end;
                             end;
-                          end else begin
-                            Result := Result + QuotedStr(TModApp(prop.GetValue(AObject).AsObject).ID) + ',';
+
+//                            TModApp(GetArrayElement(i).AsObject).SetHeaderProperty(AObject);
+                            ResultObjectList := ResultObjectList + GenerateSQLInsert(TModApp(GetArrayElement(i).AsObject));
                           end;
                         end;
-          tkInteger   : Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',';
+                      end else begin
+                        Result := Result + QuotedStr(TModApp(prop.GetValue(AObject).AsObject).ID) + ',';
+                      end;
+                    end;
+      tkInteger   : Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',';
 
-          tkFloat     : if CompareText('TDateTime',prop.PropertyType.Name)=0 then
-                          Result := Result + QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm:ss',prop.GetValue(AObject).AsExtended)) + ','
-                        else
-                          Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',';
+      tkFloat     : if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+                      Result := Result + QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm:ss',prop.GetValue(AObject).AsExtended)) + ','
+                    else
+                      Result := Result + FloatToStr(prop.GetValue(AObject).AsExtended) + ',';
 
-          tkUString   : Result := Result + QuotedStr(prop.GetValue(AObject).AsString) + ',';
-        end;
-      end;
-
-      Result := LeftStr(Result, Length(Result)-1) + ' where id = ' + QuotedStr(AObject.ID) + ';';
-      if ResultObjectList <> '' then
-      begin
-        Result := Result + ResultObjectList;
-      end;
-  finally
-      ctx.Free();
+      tkUString   : Result := Result + QuotedStr(prop.GetValue(AObject).AsString) + ',';
+    end;
   end;
-end;
 
-class function TDBUtils.GetMappedFieldName(AObject: TModApp; PropName: String):
-    String;
-var
-  ctx: TRttiContext;
-  Field: TRttiField;
-  rt: TRttiType;
-begin
-  Result := PropName;
-  ctx := TRttiContext.Create();
-  Try
-    rt := ctx.GetType(AObject.ClassType);
-    Field := rt.GetField('dbf_' + PropName);
-    if Field <> nil then
-      Result  := Field.GetValue(AObject).AsString
-    else
-      Result  := PropName;
-  Finally
-    ctx.Free;
-  End;
+  Result := LeftStr(Result, Length(Result)-1) + ' where id = ' + QuotedStr(AObject.ID) + ';';
+  if ResultObjectList <> '' then
+  begin
+    Result := Result + ResultObjectList;
+  end;
+
 end;
 
 class function TDBUtils.GetNextID(AOBject : TModApp): Integer;
@@ -581,31 +540,25 @@ var
   ctx : TRttiContext;
   rt : TRttiType;
   prop : TRttiProperty;
-  Field : TRttiField;
   FieldValues : string;
   FieldNames: String;
 begin
   FieldValues := '';
   FieldNames  := '';
-  ctx := TRttiContext.Create();
-  try
-    if AObject.ID = '' then AObject.ID := TDBUtils.GetNextIDGUIDToString();
-    rt := ctx.GetType(AObject.ClassType);
-    for prop in rt.GetProperties do
-    begin
-      If prop.Visibility <> mvPublished then continue;
-      Field := rt.GetField('dbf_' + prop.Name);
-      If FieldNames <> '' then FieldNames := FieldNames + ',';
-      If FieldValues <> '' then FieldValues := FieldValues + ',';
-      if Field <> nil then
-        FieldNames  := FieldNames + Field.GetValue(AObject).AsString
-      else
-        FieldNames  := FieldNames + prop.Name;
-      FieldValues   := FieldValues + QuotValue(AObject, prop);
-    end;
-  finally
-    ctx.Free();
+ 
+  if AObject.ID = '' then AObject.ID := TDBUtils.GetNextIDGUIDToString();
+  rt := ctx.GetType(AObject.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+
+    If FieldNames <> '' then FieldNames := FieldNames + ',';
+    If FieldValues <> '' then FieldValues := FieldValues + ',';
+
+    FieldNames  := FieldNames + AObject.FieldNameOf(prop);
+    FieldValues   := FieldValues + AObject.QuotValue(prop);
   end;
+
   Result :=  Format(SQL_Insert,[AObject.GetTableName,FieldNames, FieldValues]);
 end;
 
@@ -614,35 +567,27 @@ var
   ctx : TRttiContext;
   rt : TRttiType;
   prop : TRttiProperty;
-  Field : TRttiField;
   UpdateVal : string;
   FieldName : String;
   sFilter : String;
 begin
   UpdateVal := '';
-  ctx       := TRttiContext.Create();
-  try
-    rt := ctx.GetType(AObject.ClassType);
-    for prop in rt.GetProperties do
-    begin
-      if UpperCase(prop.Name) = 'ID' then continue;
-      If prop.Visibility <> mvPublished then continue;
-      Field := rt.GetField('dbf_' + prop.Name);
 
-      if Field <> nil then
-        FieldName := Field.GetValue(AObject).AsString
-      else
-        FieldName := prop.Name;
+  rt := ctx.GetType(AObject.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    if UpperCase(prop.Name) = 'ID' then continue;
+    If prop.Visibility <> mvPublished then continue;
 
-      If UpdateVal <> '' then UpdateVal := UpdateVal + ',';
-      UpdateVal := UpdateVal + FieldName + ' = ' + QuotValue(AObject,prop)
-    end;
+    FieldName  := AObject.FieldNameOf(prop);
 
-    sFilter   := '';
-  finally
-    ctx.Free();
+    If UpdateVal <> '' then UpdateVal := UpdateVal + ',';
+    UpdateVal := UpdateVal + FieldName + ' = ' + AObject.QuotValue(prop)
   end;
-  sFilter := 'ID = ' + QuotedStr(AObject.ID);
+
+  sFilter   := '';
+
+  sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
   Result := Format(SQL_Update,[AObject.GetTableName,UpdateVal,sFilter]);
 end;
 
@@ -650,7 +595,7 @@ class function TDBUtils.GetSQLDelete(AObject: TModApp): String;
 var
   sFilter : String;
 begin
-  sFilter := 'ID = ' + QuotedStr(AObject.ID);
+  sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
   Result  := Format(SQL_Delete,[AObject.GetTableName,sFilter]);
 end;
 
@@ -669,7 +614,9 @@ var
 //  sGenericItemClassName: string;
 ////  sX: string;
 begin
-  sSQL := 'select * from ' + AOBject.GetTableName + ' where id = ' + QuotedStr(AID);
+  sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
+    AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
+
   Q := TDBUtils.OpenQuery(sSQL);
   SetFromDatast(AObject, Q);
 
@@ -758,12 +705,10 @@ class procedure TDBUtils.SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
 var
   sSQL: string;
   ctx : TRttiContext;
-  Field : TRttiField;
   FieldName : string;
   lAppObject : TModApp;
-  lAppObjectItem : TModAppItem;
-  lAppClass : TModAppClassItem;
-//  lAppClass2 : TModAppClass;
+  lAppObjectItem : TModApp;
+  lAppClass : TModAppClass;
   lObjectList: TObject;
   rt, rtItem : TRttiType;
   prop : TRttiProperty;
@@ -779,12 +724,9 @@ begin
       if prop.Visibility <> mvPublished then continue;
 
       if (not prop.IsWritable) then Continue;
-      Field := rt.GetField('dbf_' + prop.Name);
 
-      if Field <> nil then
-        FieldName := Field.GetValue(AObject).AsString
-      else
-        FieldName := prop.Name;
+
+      FieldName := AObject.FieldNameOf(prop);
 
       If ADataSet.FieldByName(FieldName).DataType in [ftDate,ftDateTime,ftTimeStamp] then
       begin
@@ -813,10 +755,10 @@ begin
               if Assigned(meth) and Assigned(rtItem) then
               begin
                 //sayangny utk akses rtti object harus ada dulu, jadi create dulu
-                lAppClass   := TModAppClassItem( rtItem.AsInstance.MetaclassType );
+                lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
                 lAppObjectItem  := lAppClass.Create;
                 sSQL := 'select * from ' + lAppObjectItem.GetTableName
-                        + ' where ' + GetMappedFieldName(lAppObjectItem,lAppObjectItem.GetHeaderField)
+                        + ' where ' + lAppObjectItem.GetHeaderField
                         + ' = ' + QuotedStr(ADataSet.FieldByName('ID').AsString);
                 lAppObjectItem.Free;
                 //
@@ -898,41 +840,6 @@ begin
   Result := TFDQuery.Create(nil);
   Result.Connection := FDConnection;
   Result.Open(ASQL);
-end;
-
-class function TDBUtils.QuotValue(AObject: TModApp; AProp: TRttiProperty):
-    String;
-var
-  lDate: TDateTime;
-  lObj: TObject;
-begin
-  If LowerCase(AProp.PropertyType.Name) = LowerCase('TDateTime') then
-  begin
-    lDate := AProp.GetValue(AObject).AsExtended;
-    Result := QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',lDate));
-  end else begin
-    case AProp.PropertyType.TypeKind of
-      tkInteger, tkInt64:
-        Result := InttoStr(AProp.GetValue(AObject).AsInteger);
-      tkFloat:
-        Result := FloatToStr(AProp.GetValue(AObject).AsExtended);
-      tkString, tkLString, tkUString, tkChar, tkWString, tkVariant:
-        Result := QuotedStr(AProp.GetValue(AObject).AsString);
-      tkEnumeration:
-        Result := BoolToStr(AProp.GetValue(AObject).AsBoolean);
-      tkClass:
-        begin
-          lObj := AProp.GetValue(AObject).AsObject;
-          if lObj.InheritsFrom(TModApp) then
-          begin
-            Result := QuotedStr(TModApp(lObj).ID);
-          end;
-        end
-    else
-      Raise Exception.Create(
-        'Property Type tidak terdaftar atas ' + AObject.ClassName + ',' + AProp.Name);
-    end;
-  end;
 end;
 
 class procedure TDBUtils.RollBack;

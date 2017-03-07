@@ -2,29 +2,25 @@ inherited frmProductType: TfrmProductType
   Left = 190
   Top = 168
   Caption = 'Product Type'
-  ClientHeight = 342
-  ClientWidth = 546
+  ClientHeight = 365
+  ClientWidth = 723
   OldCreateOrder = True
-  ExplicitWidth = 562
-  ExplicitHeight = 381
+  ExplicitWidth = 739
+  ExplicitHeight = 404
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 546
-    Height = 256
-    ExplicitWidth = 120
-    ExplicitHeight = 247
+    Width = 723
+    Height = 279
+    ExplicitWidth = 723
+    ExplicitHeight = 279
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
-      Width = 524
-      Height = 234
+      Width = 701
+      Height = 257
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 64
-      ExplicitTop = 56
-      ExplicitWidth = 250
-      ExplicitHeight = 200
       object cxGridViewTipeProduk: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -37,13 +33,13 @@ inherited frmProductType: TfrmProductType
     end
   end
   inherited pnlHeader: TPanel
-    Width = 546
-    ExplicitWidth = 120
+    Width = 723
+    ExplicitWidth = 723
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
-    Top = 286
-    Width = 546
+    Top = 309
+    Width = 723
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -53,15 +49,15 @@ inherited frmProductType: TfrmProductType
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 309
+    ExplicitWidth = 723
     inherited pnlFooter: TPanel
-      Width = 546
-      ExplicitWidth = 120
+      Width = 723
+      ExplicitWidth = 723
       inherited btnClose: TcxButton
-        Left = 464
+        Left = 641
         OnClick = fraFooter5Button1btnCloseClick
-        ExplicitLeft = 38
+        ExplicitLeft = 641
       end
       inherited btnAdd: TcxButton
         Action = actAddProductType
@@ -77,13 +73,16 @@ inherited frmProductType: TfrmProductType
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 546
-      ExplicitWidth = 120
+      Width = 723
+      ExplicitWidth = 723
       inherited lbl5: TLabel
-        Left = 456
+        Left = 633
         ExplicitLeft = 452
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 504

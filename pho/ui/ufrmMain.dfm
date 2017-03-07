@@ -124,8 +124,8 @@ object frmMain: TfrmMain
     end
   end
   object mmMainMenu: TMainMenu
-    Left = 456
-    Top = 216
+    Left = 408
+    Top = 136
     object mmSistem: TMenuItem
       Caption = '&System'
       object miLogin: TMenuItem
@@ -148,6 +148,15 @@ object frmMain: TfrmMain
       end
       object Pajak1: TMenuItem
         Action = actPajak
+      end
+      object ProductType1: TMenuItem
+        Action = actProductType
+      end
+    end
+    object Finance1: TMenuItem
+      Caption = 'Finance'
+      object Rekening1: TMenuItem
+        Action = actRekening
       end
     end
     object mmSetting1: TMenuItem
@@ -199,8 +208,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 399
-    Top = 216
+    Left = 375
+    Top = 136
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'

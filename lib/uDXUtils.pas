@@ -8,7 +8,7 @@ uses
   cxGridBandedTableView, cxDBExtLookupComboBox, cxCustomData, cxFilter,
   cxGridCustomTableView, cxDBTL, cxTLExportLink,cxCalendar, Dialogs, SysUtils,
   cxGridDBDataDefinitions, System.Classes,DB, DBClient, uAppUtils, uDBUtils,
-  cxDropDownEdit, cxGridTableView, StrUtils;
+  cxDropDownEdit, cxGridTableView, StrUtils, System.Contnrs, Vcl.Controls, Vcl.Forms;
 
 type
   DataControllerHelper = class helper for TcxGridDataController
@@ -96,7 +96,8 @@ type
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
     procedure LoadFromCDS(ACDS: TClientDataSet; AutoFormat: Boolean = True;
         DoBestFit: Boolean = True);
-    procedure LoadFromSQL(aSQL: String; aOwner: TComponent);
+    procedure LoadFromSQL(aSQL: String; aOwner: TComponent); overload;
+    procedure LoadFromSQL(aSQL: String); overload;
     procedure SetAllUpperCaseColumn;
     procedure SetColumnsCaption(ColumnSets, ColumnCaption: Array Of String);
     procedure SetSummaryByColumns(ColumnSets: Array Of String; SummaryKind:
@@ -124,7 +125,34 @@ type
 
   end;
 
+function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
+    TWinControl): TcxGrid;
+
+
+
 implementation
+
+uses
+  cxGridLevel;
+
+function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
+    TWinControl): TcxGrid;
+var
+  cxGridLevel: TcxGridLevel;
+  cxGridDBTableView: TcxGridDBTableView;
+begin
+  Result               := TcxGrid.Create(Application);
+  Result.Parent        := AParent;
+  Result.Left          := ALeft;
+  Result.Top           := ATop;
+  Result.Height        := AHeight;
+  Result.Width         := AWidth;
+  Result.Visible       := True;
+
+  cxGridLevel          := Result.Levels.Add;
+  cxGridDBTableView    := Result.CreateView(TcxGridDBTableView) as TcxGridDBTableView;
+  cxGridLevel.GridView := cxGridDBTableView;
+end;
 
 function DataControllerHelper.GetFooterSummary(ASummaryIndex: Integer): Variant;
 begin
@@ -779,6 +807,11 @@ begin
 
   lCDS := TDBUtils.OpenDataset(aSQL, aOwner);
   Self.LoadFromCDS(lCDS);
+end;
+
+procedure TcxDBGridHelper.LoadFromSQL(aSQL: String);
+begin
+  Self.LoadFromSQL(aSQL, Self);
 end;
 
 procedure TcxDBGridHelper.SetAllUpperCaseColumn;

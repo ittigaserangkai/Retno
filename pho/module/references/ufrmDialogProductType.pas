@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  ufrmProductType, uRetnoUnit;
+  ufrmProductType, uRetnoUnit, uModTipeBarang,  uDMClient, uClientClasses;
 
 type     
   TFormMode = (fmAdd, fmEdit);
@@ -15,27 +15,36 @@ type
     lbl2: TLabel;
     edtCode: TEdit;
     edtName: TEdit;
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FProductTypeId: Integer;
     FFormMode: TFormMode;
 //    FTipeProduct : TTipeProduk;
     aIDLokal : Integer;
+    FCrud: TCrudClient;
+    FModTipeBarang: TModTipeBarang;
+    function GetCrud: TCrudClient;
+    function GetModTipeBarang: TModTipeBarang;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
     procedure SetProductTypeId(const Value: Integer);
     procedure ShowDataEdit(AProductTypeId: integer);
     procedure PrepareAddData();
     function SaveProductType: boolean;
+    procedure SimpanData;
     function UpdateProductType: boolean;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property ModTipeBarang: TModTipeBarang read GetModTipeBarang write
+        FModTipeBarang;
 
   public
     function cekProduk(aKodeBaru : string): Boolean;
+    procedure LoadData(ID: String);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -48,9 +57,16 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConn, DB;
+uses uTSCommonDlg, uConn, DB, uApputils;
 
 {$R *.dfm}
+
+procedure TfrmDialogProductType.btnSaveClick(Sender: TObject);
+begin
+  inherited;
+  SimpanData();
+  Self.Close;
+end;
 
 function TfrmDialogProductType.cekProduk(aKodeBaru : string): Boolean;
 var
@@ -86,28 +102,6 @@ end;
 procedure TfrmDialogProductType.SetProductTypeId(const Value: Integer);
 begin
   FProductTypeId := Value;
-end;
-
-procedure TfrmDialogProductType.footerDialogMasterbtnSaveClick(
-  Sender: TObject);
-var
-  IDLama: Integer;
-begin
-  inherited;
-  if (FormMode = fmAdd) then
-  begin
-    FIsProcessSuccessfull := SaveProductType;
-    if FIsProcessSuccessfull then
-      Close;
-  end
-  else
-  begin
-//    IDLama := StrToInt(frmProductType.strgGrid.cells[2,frmProductType.strgGrid.Row]);
-//    FTipeProduct.LoadByID(IDLama) ;
-    FIsProcessSuccessfull := UpdateProductType;
-    if FIsProcessSuccessfull then
-      Close;
-  end; // end if
 end;
 
 function TfrmDialogProductType.SaveProductType: boolean;
@@ -241,6 +235,43 @@ procedure TfrmDialogProductType.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FTipeProduct := TTipeProduk.Create(self);
+end;
+
+function TfrmDialogProductType.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
+end;
+
+function TfrmDialogProductType.GetModTipeBarang: TModTipeBarang;
+begin
+  if not Assigned(FModTipeBarang) then
+    fModTipeBarang := TModTipeBarang.Create();
+  Result := FModTipeBarang;
+end;
+
+procedure TfrmDialogProductType.LoadData(ID: String);
+begin
+  if Assigned(fModTipeBarang) then FreeAndNil(fModTipeBarang);
+  fModTipeBarang := Crud.Retrieve(TModTipeBarang.ClassName, ID) as TModTipeBarang;
+
+  edtCode.Text := ModTipeBarang.TPBRG_CODE;
+  edtName.Text := ModTipeBarang.TPBRG_NAME;
+end;
+
+procedure TfrmDialogProductType.SimpanData;
+begin
+  MODTipeBarang.TPBRG_CODE := edtCode.Text;
+  MODTipeBarang.TPBRG_NAME := edtName.Text;
+
+  try
+    Crud.SaveToDB(MODTipeBarang);
+    TAppUtils.Information('Simpan Berhasil.');
+  except
+    TAppUtils.Error('Gagal Menyimpan Data.');
+    Raise
+  end;
 end;
 
 end.

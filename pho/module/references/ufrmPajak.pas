@@ -4,8 +4,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ActnList, Grids,
-  ufraFooter5Button, StdCtrls, ExtCtrls, System.Actions, cxStyles, cxClasses;
+  Dialogs, ufrmMaster, ActnList, Grids, uModRefPajak,
+  ufraFooter5Button, StdCtrls, ExtCtrls, System.Actions, cxStyles, cxClasses,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData,
+  cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, uAppUtils,
+  cxGridDBTableView, cxGrid, DBClient, uDBUtils, UDXUtils, uClientClasses, uDMClient;
 
 type
   TfrmPajak = class(TfrmMaster)
@@ -15,6 +19,12 @@ type
     actEditPajak: TAction;
     actDeletePajak: TAction;
     actRefreshPajak: TAction;
+    DataSource1: TDataSource;
+    cxGrid: TcxGrid;
+    cxGridBrowse: TcxGridDBTableView;
+    cxGrdDetail: TcxGridDBTableView;
+    lvMaster: TcxGridLevel;
+    lvDetail: TcxGridLevel;
     procedure actAddPajakExecute(Sender: TObject);
     procedure actEditPajakExecute(Sender: TObject);
     procedure actDeletePajakExecute(Sender: TObject);
@@ -25,9 +35,21 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
+    FcDSOverview: TClientDataset;
+    FCrud: TCrudClient;
+    FdsProvider: TDSProviderClient;
+    FModRefPajak: TModRefPajak;
     { Private declarations }
     intIdPajak: Integer;
     strNama: string;
+    function GetCrud: TCrudClient;
+    function GetdsProvider: TDSProviderClient;
+    function GetModRefPajak: TModRefPajak;
+    procedure LoadData;
+    property cDSOverview: TClientDataset read FcDSOverview write FcDSOverview;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property dsProvider: TDSProviderClient read GetdsProvider write FdsProvider;
+    property ModRefPajak: TModRefPajak read GetModRefPajak write FModRefPajak;
 //    FPajak : TNewPajak;
   public
     { Public declarations }
@@ -38,7 +60,7 @@ var
 
 implementation
 
-uses ufrmDialogPajak, uConn, DB, uConstanta, uTSCommonDlg;
+uses ufrmDialogPajak, uConn, uConstanta, uTSCommonDlg;
 
 {$R *.dfm}
 
@@ -69,18 +91,19 @@ procedure TfrmPajak.actEditPajakExecute(Sender: TObject);
 begin
 //  if strgGrid.Cells[6,strgGrid.row]='0' then Exit;
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    //frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
   if not Assigned(frmDialogPajak) then
     Application.CreateForm(TfrmDialogPajak, frmDialogPajak);
   frmDialogPajak.Caption := 'Edit Tax (Pajak)';
   frmDialogPajak.FormMode := fmEdit;
+  frmDialogPajak.LoadData(cDSOverview.FieldByName('ID').AsString);
 //  frmDialogPajak.PajakId := StrToInt(strgGrid.Cells[6,strgGrid.row]);
 
-//  SetFormPropertyAndShowDialog(frmDialogPajak);
+  SetFormPropertyAndShowDialog(frmDialogPajak);
   if (frmDialogPajak.IsProcessSuccessfull) then
   begin
     actRefreshPajakExecute(Self);
@@ -88,6 +111,7 @@ begin
   end;
 
   frmDialogPajak.Free;
+  LoadData();
 end;
 
 procedure TfrmPajak.actDeletePajakExecute(Sender: TObject);
@@ -96,14 +120,21 @@ procedure TfrmPajak.actDeletePajakExecute(Sender: TObject);
 begin
 //  if strgGrid.Cells[6,strgGrid.row]='0' then Exit;
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    //frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
 
 //  if (CommonDlg.Confirm('Are you sure you wish to delete Tax (Name: '+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
   begin
+    if tAppUtils.Confirm('Apakah Yakin Menghapus Data Ini ['+cDSOverview.FieldByName('PJK_NAME').AsString+'] ?') then
+      Begin
+        if Assigned(fModRefPajak) then FreeAndNil(fModRefPajak);
+        fModRefPajak := Crud.Retrieve(TModRefPajak.ClassName, CDSOverView.FieldByName('ID').AsString) as TModRefPajak;
+        if Crud.DeleteFromDB(ModRefPajak) then LoadData;
+      End;
+
    { if not assigned(Pajak) then
       Pajak := TPajak.Create;
 
@@ -140,6 +171,7 @@ procedure TfrmPajak.actRefreshPajakExecute(Sender: TObject);
 var data:TDataSet;
     i:Integer;
 begin
+  LoadData;
 {  if not assigned(Pajak) then
     Pajak := TPajak.Create;
 
@@ -217,6 +249,34 @@ procedure TfrmPajak.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FPajak := TNewPajak.Create(Self);
+end;
+
+function TfrmPajak.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    FCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
+end;
+
+function TfrmPajak.GetdsProvider: TDSProviderClient;
+begin
+  if not Assigned(FdsProvider) then
+    FdsProvider := TdsProviderClient.Create(DMClient.Restconn);
+  Result := FdsProvider;
+end;
+
+function TfrmPajak.GetModRefPajak: TModRefPajak;
+begin
+  if not Assigned(FModRefPajak) then
+    FModRefPajak := TModRefPajak.Create;
+  Result := FModRefPajak;
+end;
+
+procedure TfrmPajak.LoadData;
+begin
+  cDSOverview := tDBUtils.DSToCDS(dsProvider.RefPajak_GetDSOverview(), SELF);
+  cxGridBrowse.LoadFromCDS(cDSOverview);
+  cxGridBrowse.SetVisibleColumns(['ID','DATE_Create','Date_Modify'], FALSE);
 end;
 
 end.
