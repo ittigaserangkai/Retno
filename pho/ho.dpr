@@ -102,7 +102,8 @@ uses
   uModTest in '..\model\uModTest.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
-  uModTipePembeli in '..\model\uModTipePembeli.pas';
+  uModTipePembeli in '..\model\uModTipePembeli.pas',
+  ufraFooterDialog3Button in '..\system\ufraFooterDialog3Button.pas' {fraFooterDialog3Button: TFrame};
 
 {$R *.res}
 

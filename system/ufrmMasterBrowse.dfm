@@ -1,22 +1,26 @@
 inherited frmMasterBrowse: TfrmMasterBrowse
   Caption = 'form Master Browse Data'
+  ClientHeight = 338
+  ClientWidth = 540
+  ExplicitWidth = 556
+  ExplicitHeight = 377
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Top = 33
-    Height = 244
+    Width = 540
+    Height = 249
+    ExplicitTop = 33
+    ExplicitWidth = 540
+    ExplicitHeight = 249
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
-      Width = 512
-      Height = 222
+      Width = 518
+      Height = 227
       Align = alClient
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitLeft = 64
-      ExplicitTop = 32
-      ExplicitWidth = 250
-      ExplicitHeight = 200
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -27,23 +31,26 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         FilterRow.Visible = True
         NewItemRow.InfoText = 'Baris baru'
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+        OptionsView.GroupByBox = False
       end
-      object cxGridLevel1: TcxGridLevel
+      object cxlvMaster: TcxGridLevel
         GridView = cxGridView
       end
     end
   end
   inherited pnlHeader: TPanel
+    Width = 540
     Height = 33
+    ExplicitWidth = 540
     ExplicitHeight = 33
     object lblFilterData: TcxLabel
-      Left = 240
+      Left = 246
       Top = 13
       Anchors = [akTop, akRight]
       Caption = 'Filter Data'
     end
     object dtAwalFilter: TcxDateEdit
-      Left = 304
+      Left = 310
       Top = 9
       Anchors = [akTop, akRight]
       EditValue = 0d
@@ -54,13 +61,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Width = 89
     end
     object lblsdFilter: TcxLabel
-      Left = 400
+      Left = 406
       Top = 13
       Anchors = [akTop, akRight]
       Caption = 's.d.'
     end
     object dtAkhirFilter: TcxDateEdit
-      Left = 432
+      Left = 438
       Top = 9
       Anchors = [akTop, akRight]
       EditValue = 0d
@@ -73,8 +80,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   end
   inline fraFooter4Button1: TfraFooter4Button [2]
     Left = 0
-    Top = 277
-    Width = 534
+    Top = 282
+    Width = 540
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -84,18 +91,22 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitLeft = -42
-    ExplicitTop = 247
+    ExplicitTop = 282
+    ExplicitWidth = 540
     inherited pnlFooter: TPanel
-      Width = 534
+      Width = 540
+      ExplicitWidth = 540
       inherited btnClose: TcxButton
-        Left = 452
+        Left = 458
+        ExplicitLeft = 458
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 534
+      Width = 540
+      ExplicitWidth = 540
       inherited lbl5: TLabel
-        Left = 444
+        Left = 450
+        ExplicitLeft = 444
       end
     end
   end

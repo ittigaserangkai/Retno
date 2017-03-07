@@ -20,7 +20,7 @@ type
     lblsdFilter: TcxLabel;
     dtAkhirFilter: TcxDateEdit;
     cxGridView: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
+    cxlvMaster: TcxGridLevel;
     cxGrid: TcxGrid;
   private
     { Private declarations }

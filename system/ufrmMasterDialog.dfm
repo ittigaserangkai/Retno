@@ -35,7 +35,7 @@ object frmMasterDialog: TfrmMasterDialog
     Color = 15198183
     TabOrder = 0
   end
-  inline footerDialogMaster: TfraFooterDialog2Button
+  inline footerDialogMaster: TfraFooterDialog3Button
     Left = 0
     Top = 232
     Width = 566
