@@ -36,9 +36,9 @@ type
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
-    FConnectionGuardian: TIBConnectionGuardian;
+//    FConnectionGuardian: TIBConnectionGuardian;
   public
-    property ConnectionGuardian: TIBConnectionGuardian read FConnectionGuardian;
+//    property ConnectionGuardian: TIBConnectionGuardian read FConnectionGuardian;
   end;
 
 var
@@ -58,13 +58,12 @@ end;
 
 procedure TdmMain.DataModuleCreate(Sender: TObject);
 begin
-  FConnectionGuardian := TIBConnectionGuardian.Create;
-//  FConnectionGuardian.Database := dbPOS;
+//  FConnectionGuardian := TIBConnectionGuardian.Create;
 end;
 
 procedure TdmMain.DataModuleDestroy(Sender: TObject);
 begin
-  FConnectionGuardian.Free;
+//  FConnectionGuardian.Free;
 end;
 
 end.

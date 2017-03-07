@@ -15,7 +15,8 @@ uses
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
   udmMain in 'ui\udmMain.pas' {dmMain: TDataModule},
   ufrmAbout in 'ui\ufrmAbout.pas' {frmAbout},
-  uInfo in '..\system\uInfo.pas';
+  uInfo in '..\system\uInfo.pas',
+  uTSCommonDlg in '..\system\uTSCommonDlg.pas';
 
 {$R *.res}
 
@@ -23,10 +24,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TfrmSplash, frmSplash);
-  Application.CreateForm(TfrmMasterDialog, frmMasterDialog);
-  Application.CreateForm(TfrmMaster, frmMaster);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TfrmAbout, frmAbout);
   Application.Run;
 end.
