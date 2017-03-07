@@ -53,10 +53,6 @@ uses
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
-  uModApp in '..\model\uModApp.pas',
-  uModTest in '..\model\uModTest.pas',
-  uModBank in '..\model\uModBank.pas',
-  uModAccount in '..\model\uModAccount.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
   ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
   ufrmUser in 'module\management user\ufrmUser.pas' {frmUser},
@@ -68,7 +64,6 @@ uses
   ufrmModule in 'module\management user\ufrmModule.pas' {frmModule},
   ufrmDialogModule in 'module\management user\ufrmDialogModule.pas' {frmDialogModule},
   ufrmDialogAddNewMenu in 'module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
-  uModRefPajak in '..\model\uModRefPajak.pas',
   ufrmMasterCustomer in 'module\references\ufrmMasterCustomer.pas' {frmMasterCustomer},
   ufrmDialogMasterCustomer in 'module\references\ufrmDialogMasterCustomer.pas' {frmDialogMasterCustomer},
   ufraAlokasiStock in 'module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
@@ -94,7 +89,20 @@ uses
   uTSINIFile in '..\lib\uTSINIFile.pas',
   ufraHistoriPOByProduct in 'module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
-  ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame};
+  ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
+  uModAccount in '..\model\uModAccount.pas',
+  uModApp in '..\model\uModApp.pas',
+  uModAppHelper in '..\model\uModAppHelper.pas',
+  uModAuthApp in '..\model\uModAuthApp.pas',
+  uModBank in '..\model\uModBank.pas',
+  uModCompany in '..\model\uModCompany.pas',
+  uModOutlet in '..\model\uModOutlet.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  uModTest in '..\model\uModTest.pas',
+  uModTipeBarang in '..\model\uModTipeBarang.pas',
+  uModTipeKupon in '..\model\uModTipeKupon.pas',
+  uModTipePembeli in '..\model\uModTipePembeli.pas';
 
 {$R *.res}
 
