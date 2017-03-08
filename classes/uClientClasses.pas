@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2017-03-07 11:56:00 AM
+// 3/8/2017 8:38:00 AM
 //
 
 unit uClientClasses;
@@ -74,6 +74,10 @@ type
     FGroupRekening_GetDSLookupCommand_Cache: TDSRestCommand;
     FRekening_GetDSOverviewCommand: TDSRestCommand;
     FRekening_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FSatuan_GetDSOverviewCommand: TDSRestCommand;
+    FSatuan_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FSatuan_GetDSLookupCommand: TDSRestCommand;
+    FSatuan_GetDSLookupCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -90,6 +94,10 @@ type
     function GroupRekening_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Rekening_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Satuan_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Satuan_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Satuan_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function Satuan_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -227,6 +235,26 @@ const
   );
 
   TDSProvider_Rekening_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Satuan_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Satuan_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Satuan_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Satuan_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -693,6 +721,64 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekening_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Satuan_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FSatuan_GetDSOverviewCommand = nil then
+  begin
+    FSatuan_GetDSOverviewCommand := FConnection.CreateCommand;
+    FSatuan_GetDSOverviewCommand.RequestType := 'GET';
+    FSatuan_GetDSOverviewCommand.Text := 'TDSProvider.Satuan_GetDSOverview';
+    FSatuan_GetDSOverviewCommand.Prepare(TDSProvider_Satuan_GetDSOverview);
+  end;
+  FSatuan_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FSatuan_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FSatuan_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Satuan_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FSatuan_GetDSOverviewCommand_Cache = nil then
+  begin
+    FSatuan_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FSatuan_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FSatuan_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Satuan_GetDSOverview';
+    FSatuan_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Satuan_GetDSOverview_Cache);
+  end;
+  FSatuan_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FSatuan_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.Satuan_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FSatuan_GetDSLookupCommand = nil then
+  begin
+    FSatuan_GetDSLookupCommand := FConnection.CreateCommand;
+    FSatuan_GetDSLookupCommand.RequestType := 'GET';
+    FSatuan_GetDSLookupCommand.Text := 'TDSProvider.Satuan_GetDSLookup';
+    FSatuan_GetDSLookupCommand.Prepare(TDSProvider_Satuan_GetDSLookup);
+  end;
+  FSatuan_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FSatuan_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FSatuan_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Satuan_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FSatuan_GetDSLookupCommand_Cache = nil then
+  begin
+    FSatuan_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FSatuan_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FSatuan_GetDSLookupCommand_Cache.Text := 'TDSProvider.Satuan_GetDSLookup';
+    FSatuan_GetDSLookupCommand_Cache.Prepare(TDSProvider_Satuan_GetDSLookup_Cache);
+  end;
+  FSatuan_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FSatuan_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -717,6 +803,10 @@ begin
   FGroupRekening_GetDSLookupCommand_Cache.DisposeOf;
   FRekening_GetDSOverviewCommand.DisposeOf;
   FRekening_GetDSOverviewCommand_Cache.DisposeOf;
+  FSatuan_GetDSOverviewCommand.DisposeOf;
+  FSatuan_GetDSOverviewCommand_Cache.DisposeOf;
+  FSatuan_GetDSLookupCommand.DisposeOf;
+  FSatuan_GetDSLookupCommand_Cache.DisposeOf;
   inherited;
 end;
 

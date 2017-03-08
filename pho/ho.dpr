@@ -107,7 +107,8 @@ uses
   ufrmMasterProductNBD in 'module\references\ufrmMasterProductNBD.pas' {frmMasterProductNBD},
   ufrmDialogMasterProductNBD in 'module\references\ufrmDialogMasterProductNBD.pas' {frmDialogMasterProductNBD},
   ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
-  ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD};
+  ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
+  uModSatuan in '..\model\uModSatuan.pas';
 
 {$R *.res}
 
