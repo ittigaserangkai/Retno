@@ -4,24 +4,26 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls,
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls,
   ufraFooter5Button, ActnList, uConn, uRetnoUnit, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, System.Actions;
+  cxGridDBTableView, cxGrid, System.Actions, ufrmMaster, cxContainer,
+  Vcl.ComCtrls, dxCore, cxDateUtils, ufraFooter4Button, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalendar, cxLabel, DBClient, uClientClasses, uDMClient,
+  uDBUtils, uDXUtils;
 
 type
-  TfrmTipePembayaran = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmTipePembayaran = class(TfrmMasterBrowse)
     actlstTipePembayaran: TActionList;
     actAddTipePembayaran: TAction;
     actEditTipePembayaran: TAction;
     actDeleteTipePembayaran: TAction;
     actRefreshTipePembayaran: TAction;
-    cxGridViewTipePembayaran: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
-    cxGrid: TcxGrid;
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
     procedure actAddTipePembayaranExecute(Sender: TObject);
     procedure actRefreshTipePembayaranExecute(Sender: TObject);
     procedure actEditTipePembayaranExecute(Sender: TObject);
@@ -32,9 +34,15 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
+    FCDS: tClientDataset;
+    FDSP: TDSProviderClient;
 //    FTipePembayaran : TNewTipePembayaran;
     { Private declarations }
     function GetData(): TDataSet;
+    function GetDSP: TDSProviderClient;
+    procedure RefreshData;
+    property CDS: tClientDataset read FCDS write FCDS;
+    property DSP: TDSProviderClient read GetDSP write FDSP;
   public
     { Public declarations }
   end;
@@ -63,11 +71,11 @@ procedure TfrmTipePembayaran.actAddTipePembayaranExecute(Sender: TObject);
 begin
   inherited;
 //  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
+//  begin
+//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+//    //frmMain.cbbUnit.SetFocus;
+//    Exit;
+//  end;
 //  if(MasterNewUnit.ID <> 0) then
   begin
     if not Assigned(frmDialogTipePembayaran) then
@@ -87,6 +95,7 @@ begin
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePembayaran.Free;
+  RefreshData;
 end;
 
 procedure TfrmTipePembayaran.actRefreshTipePembayaranExecute(
@@ -136,14 +145,7 @@ end;
 procedure TfrmTipePembayaran.actEditTipePembayaranExecute(Sender: TObject);
 begin
   inherited;
-  // check is Unit Id is specified?
-//  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
-//  if(MasterNewUnit.ID <> 0) then
+
   begin
 //    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
@@ -153,7 +155,7 @@ begin
     frmDialogTipePembayaran.Caption := 'Edit Payment Type';
     frmDialogTipePembayaran.FormMode := fmEdit;
 //    frmDialogTipePembayaran.TipePembayaranId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
-
+    frmDialogTipePembayaran.LoadData(CDS.FieldByName('REF$TIPE_PEMBAYARAN_ID').AsString);
     SetFormPropertyAndShowDialog(frmDialogTipePembayaran);
     if (frmDialogTipePembayaran.IsProcessSuccessfull) then
     begin
@@ -165,6 +167,7 @@ begin
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePembayaran.Free;
+  RefreshData;
 end;
 
 procedure TfrmTipePembayaran.actDeleteTipePembayaranExecute(
@@ -226,7 +229,23 @@ end;
 procedure TfrmTipePembayaran.FormCreate(Sender: TObject);
 begin
   inherited;
+  RefreshData;
 //  FTipePembayaran := TNewTipePembayaran.Create(Self);
+end;
+
+function TfrmTipePembayaran.GetDSP: TDSProviderClient;
+begin
+  if not assigned(FDSP) then
+    FDSP := TDSProviderClient.Create(DMClient.RestConn,False);
+  Result := FDSP;
+end;
+
+procedure TfrmTipePembayaran.RefreshData;
+begin
+  CDS := TDBUtils.DSToCDS(DSP.TipePembayaran_GetDSOverview(),self);
+  CXGridview.LoadFromCDS(CDS);
+//  cxGridView.SetVisibleColumns(['REF$TIPE_PEMBAYARAN_ID'],false);
+//  cxGridView.SetColumnsCaption(['TPBYR_CODE', 'TPBYR_NAME'],['Kode', 'Nama']);
 end;
 
 end.

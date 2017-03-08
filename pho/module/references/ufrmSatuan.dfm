@@ -20,19 +20,55 @@ inherited frmSatuan: TfrmSatuan
       Width = 520
       Height = 226
       Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
-      ExplicitLeft = 8
-      ExplicitTop = 8
-      ExplicitWidth = 521
-      ExplicitHeight = 233
-      object cxGridViewSatuan: TcxGridDBTableView
+      LookAndFeel.Kind = lfUltraFlat
+      LookAndFeel.NativeStyle = False
+      object cxGrdBrowse: TcxGridDBTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Filter.Options = [fcoCaseInsensitive]
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+          end>
+        DataController.Summary.SummaryGroups = <>
+        FilterRow.Visible = True
+        FilterRow.ApplyChanges = fracImmediately
+        OptionsCustomize.ColumnHiding = True
+        OptionsCustomize.ColumnsQuickCustomization = True
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
+        OptionsView.GroupByBox = False
+        Styles.ContentEven = styleGridEven
+        Styles.Header = styleGridHeader
+      end
+      object cxGrdDetail: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
+        OptionsView.GroupByBox = False
       end
-      object cxGridLevel1: TcxGridLevel
-        GridView = cxGridViewSatuan
+      object lvMaster: TcxGridLevel
+        Caption = 'Master Data'
+        GridView = cxGrdBrowse
+        object lvDetail: TcxGridLevel
+          Caption = 'Detail Data'
+          Visible = False
+        end
       end
     end
   end
@@ -40,7 +76,7 @@ inherited frmSatuan: TfrmSatuan
     Width = 542
     ExplicitWidth = 542
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
     Top = 278
     Width = 542
@@ -83,6 +119,9 @@ inherited frmSatuan: TfrmSatuan
         ExplicitLeft = 452
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlstSatuan: TActionList
     Left = 488

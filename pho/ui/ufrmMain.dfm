@@ -142,7 +142,7 @@ object frmMain: TfrmMain
       end
     end
     object Referensi1: TMenuItem
-      Caption = 'Referensi'
+      Caption = 'Reference'
       object Bank1: TMenuItem
         Action = actBank
       end
@@ -151,6 +151,13 @@ object frmMain: TfrmMain
       end
       object ProductType1: TMenuItem
         Action = actProductType
+      end
+      object UnitOfMeasure1: TMenuItem
+        Action = actUOM
+      end
+      object actTipePembayaran1: TMenuItem
+        Action = actTipePembayaran
+        Caption = 'Tipe Pembayaran'
       end
     end
     object Finance1: TMenuItem
@@ -260,7 +267,7 @@ object frmMain: TfrmMain
     end
     object actPajak: TAction
       Category = 'References'
-      Caption = 'Pajak'
+      Caption = 'Tax'
       OnExecute = actPajakExecute
     end
     object actSupplierType: TAction
@@ -327,6 +334,7 @@ object frmMain: TfrmMain
     object actTipePembayaran: TAction
       Category = 'Merchandise'
       Caption = 'actTipePembayaran'
+      OnExecute = actTipePembayaranExecute
     end
     object actTipePengirimanPO: TAction
       Category = 'Merchandise'

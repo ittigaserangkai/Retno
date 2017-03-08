@@ -14,9 +14,8 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
   inherited pnlBody: TPanel
     Width = 353
     Height = 82
-    ExplicitTop = 0
-    ExplicitWidth = 355
-    ExplicitHeight = 108
+    ExplicitWidth = 353
+    ExplicitHeight = 82
     object lbl1: TLabel
       Left = 40
       Top = 13
@@ -54,27 +53,30 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
       TabOrder = 1
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 82
     Width = 353
-    ExplicitTop = 108
-    ExplicitWidth = 355
+    ExplicitTop = 82
+    ExplicitWidth = 353
     inherited pnlFooter: TPanel
       Width = 353
-      ExplicitWidth = 355
+      ExplicitWidth = 353
       inherited btnClose: TcxButton
         Left = 271
-        ExplicitLeft = 273
+        ExplicitLeft = 271
       end
       inherited btnSave: TcxButton
         Left = 184
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 186
+        ExplicitLeft = 184
+      end
+      inherited btnDelete: TcxButton
+        OnClick = btnDeleteClick
       end
     end
     inherited pnlSortCut: TPanel
       Width = 353
-      ExplicitWidth = 355
+      ExplicitWidth = 353
       inherited lbl4: TLabel
         Left = 169
         ExplicitLeft = 171

@@ -1,5 +1,6 @@
 object DMClient: TDMClient
   OldCreateOrder = False
+  OnCreate = DataModuleCreate
   Height = 123
   Width = 147
   object RestConn: TDSRestConnection

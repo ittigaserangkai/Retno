@@ -72,8 +72,8 @@ uses
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
   ButtonStart.Enabled := not FServer.Active;
-  ButtonStop.Enabled := FServer.Active;
-  EditPort.Enabled := not FServer.Active;
+  ButtonStop.Enabled  := FServer.Active;
+  EditPort.Enabled    := not FServer.Active;
 end;
 
 procedure TfrmMain.ButtonOpenBrowserClick(Sender: TObject);
@@ -136,10 +136,11 @@ begin
 
   for i := 0 to 5 do
   begin
-    lTestItem := TModTestItem.Create;
+    lTestItem          := TModTestItem.Create;
     lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
     lTestItem.ItemName := 'ItemName_' + inttostr(i);
-    lTestItem.QTY := i;
+    lTestItem.QTY      := i;
+
     lTest.Items.Add(lTestItem);
   end;
 
@@ -168,11 +169,11 @@ begin
   if TAppUtils.BacaRegistry('Server') <> '' then
   begin
     cbbEngine.ItemIndex := cbbEngine.Items.IndexOf(TAppUtils.BacaRegistry('Engine'));
-    edServer.Text := TAppUtils.BacaRegistry('Server');
-    edDatabase.Text := TAppUtils.BacaRegistry('Database');
-    edUser.Text := TAppUtils.BacaRegistry('User_Name');
-    edPassword.Text := TAppUtils.BacaRegistry('Password');
-    edPort.Text := TAppUtils.BacaRegistry('Port');
+    edServer.Text       := TAppUtils.BacaRegistry('Server');
+    edDatabase.Text     := TAppUtils.BacaRegistry('Database');
+    edUser.Text         := TAppUtils.BacaRegistry('User_Name');
+    edPassword.Text     := TAppUtils.BacaRegistry('Password');
+    edPort.Text         := TAppUtils.BacaRegistry('Port');
   end;
 
   StartServer;
@@ -186,7 +187,7 @@ begin
   begin
     FServer.Bindings.Clear;
     FServer.DefaultPort := StrToInt(EditPort.Text);
-    FServer.Active := True;
+    FServer.Active      := True;
     DSServer.Start;
   end;
 end;

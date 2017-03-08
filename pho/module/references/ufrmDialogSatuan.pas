@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, uRetnoUnit;
+  StdCtrls, uRetnoUnit, ufraFooterDialog3Button, uModSatuan, uDMClient, uAppUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -17,28 +17,27 @@ type
     edtName: TEdit;
     lbl3: TLabel;
     cbbGroup: TComboBox;
-    Label1: TLabel;
-    cbbUrutan: TComboBox;
     procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
-    FSatuanId: string;
     FFormMode: TFormMode;
+    FSatuan: TModSatuan;
 //    FNewUOM : TNewUOM;
-    FUOMLama : String;
+//    FUOMLama : String;
+    function GetSatuan: TModSatuan;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
-    procedure SetSatuanId(const Value: string);
-    procedure prepareAddData;
-    procedure SetUrutanUOM;
+  protected
+    FID: string;
   public
+    procedure LoadData(AID : String);
+    property Satuan: TModSatuan read GetSatuan write FSatuan;
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
-    property SatuanId: string read FSatuanId write SetSatuanId;
     property IsProcessSuccessfull: Boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
@@ -47,7 +46,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConn, DB, ufrmsatuan;
+uses uTSCommonDlg, uConn, DB;
 
 {$R *.dfm}
 
@@ -61,48 +60,34 @@ begin
   FIsProcessSuccessfull := Value;
 end;
 
-procedure TfrmDialogSatuan.SetSatuanId(const Value: string);
-begin
-  FSatuanId := Value;
-end;
-
-procedure TfrmDialogSatuan.prepareAddData;
-begin
-  edtCode.Clear;
-  edtName.Clear;
-  cbbGroup.ItemIndex := 0;
-  cbbUrutan.Items.Clear;
-
-end;
-
 procedure TfrmDialogSatuan.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmDialogSatuan := nil;
 end;
 
-procedure TfrmDialogSatuan.FormShow(Sender: TObject);
+procedure TfrmDialogSatuan.btnDeleteClick(Sender: TObject);
 begin
   inherited;
-  if (FFormMode = fmEdit) then
-  begin
-    FUOMLama := SatuanId;
-  end
-  else
-  begin
-    FUOMLama := '';
+  FIsProcessSuccessfull := False;
+
+  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
+    Exit;
+
+  try
+    FIsProcessSuccessfull := DMClient.CrudClient.DeleteFromDB(Satuan);
+    TAppUtils.Information('Berhasil Hapus Data');
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
   end;
-
-  prepareAddData();
-  SetUrutanUOM;
-
 end;
 
 procedure TfrmDialogSatuan.footerDialogMasterbtnSaveClick(Sender: TObject);
-//var
-//  TUom: TNewUOM;
 begin
   inherited;
+  FIsProcessSuccessfull := False;
+
   if edtCode.Text='' then
   begin
     CommonDlg.ShowErrorEmpty('CODE');
@@ -116,115 +101,54 @@ begin
     Exit;
   end;
 
-  {
-  TUom := TNewUOM.Create(Self);
-  try
-
-    if (FUOMLama <> edtCode.Text) then
-    begin
-      if TUom.LoadByUOM(edtCode.Text) then
-      begin
-        CommonDlg.ShowErrorExist('CODE',edtCode.Text);
-        edtCode.SetFocus;
-        Exit;
-      end;
-    end;
-  finally
-    FreeAndNil(TUom);
-  end;
-
-  FNewUOM.UpdateData(
-    cbbGroup.Text,
-    edtName.Text,
-    edtCode.Text,
-    StrToInt(cbbUrutan.Text));
+  Satuan.SAT_CODE := edtCode.Text;
+  Satuan.SAT_GROUP := cbbGroup.Text;
+  Satuan.SAT_NAME := edtName.Text;
 
   try
-    if FNewUOM.ExecuteGenerateSQL(FUOMLama) then
-    begin
-      cCommitTrans;
-      CommonDlg.ShowMessage('Berhasil Menyimpan Data');
-      Close;
-    end
-    else
-    begin
-      cRollbackTrans;
-      CommonDlg.ShowMessage('Data Gagal disimpan');
-    end;
-  finally
-    cRollbackTrans;
+    FIsProcessSuccessfull := DMClient.CrudClient.SaveToDB(Satuan);
+    TAppUtils.Information('Berhasil Simpan Data');
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
   end;
-   }
-  frmSatuan.actRefreshSatuanExecute(sender);
+
+
 end;
 
 procedure TfrmDialogSatuan.FormCreate(Sender: TObject);
 begin
   inherited;
-//  FNewUOM := TNewUOM.Create(self);
-  FUOMLama := '';
+  FID := '';
 end;
 
-procedure TfrmDialogSatuan.SetUrutanUOM;
-var
-  iData: Integer;
-  isFound : Boolean;
-  i, m, j : Integer;
+function TfrmDialogSatuan.GetSatuan: TModSatuan;
 begin
-//  iData :=   FNewUOM.GetUrutanTerakhir();
+  if not Assigned(FSatuan) then
+    FSatuan := TModSatuan.Create;
 
-  for i := 1 to iData do
+  Result := FSatuan;
+end;
+
+procedure TfrmDialogSatuan.LoadData(AID : String);
+begin
+  FreeAndNil(FSatuan);
+  FID := '';
+
+  if AID = '' then
   begin
-    isFound := False;
-    for j := 1 to frmSatuan.cxGridViewSatuan.datacontroller.RowCount - 1 do
-    begin
-//      if IntToStr(i) = frmSatuan.strgGrid.Cells[3,j] then
-      begin
-        isFound := True;
-        Continue;
-      end;
-    end ;
+    edtCode.Text := '';
+    edtName.Text := '';
+    cbbGroup.ItemIndex := 0;
+  end else begin
+    FID := AID;
 
-    if not isFound then
-    begin
-      cbbUrutan.Items.Add(IntToStr(i));
-    end;
+    FSatuan := DMClient.CrudClient.Retrieve(TModSatuan.ClassName,FID) as TModSatuan;
+
+    edtCode.Text := FSatuan.SAT_CODE;
+    edtName.Text := FSatuan.SAT_NAME;
+    cbbGroup.ItemIndex := cbbGroup.Items.IndexOf(FSatuan.SAT_GROUP);
   end;
-
-  cbbUrutan.Items.Add(IntToStr(iData + 1));
-
-
-  if FUOMLama <> '' then
-  begin
-{    if FNewUOM.LoadByUOM(FUOMLama) then
-    begin
-      edtCode.Text          := FNewUOM.UOM;
-      edtName.Text          := FNewUOM.Nama;
-
-      cbbGroup.ItemIndex    := cbbGroup.Items.IndexOf(FNewUOM.Group);
-      i := 0;
-      while i < cbbUrutan.Items.Count  do
-      begin
-        if TryStrToInt(Trim(cbbUrutan.Items.Strings[i]), j) then
-        begin
-          if (j > FNewUOM.Urutan) then
-          begin
-            if i > 0 then
-              m := i - 1
-            else
-              m := i;
-  
-            cbbUrutan.Items.Insert(m, IntToStr(FNewUOM.Urutan));
-            cbbUrutan.ItemIndex   := m;
-            Break;
-          end;
-        end;
-        Inc(i);
-      end;//
-    end;   }
-  end;
-
-
 end;
 
 end.

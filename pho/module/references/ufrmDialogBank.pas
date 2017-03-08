@@ -37,6 +37,7 @@ type
     procedure edtRekKodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: Boolean;
     FBankId: Integer;
@@ -218,6 +219,17 @@ begin
 //  FBank := uNewBank.TBank.Create(self);
   cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
   cxLookupAccount.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogBank.btnDeleteClick(Sender: TObject);
+begin
+  inherited;
+  if TAppUtils.Confirm('Yakin hapus data?') then
+  begin
+    Crud.DeleteFromDB(ModBank);
+    TAppUtils.Information('Terhapus');
+    Self.Close;
+  end;
 end;
 
 procedure TfrmDialogBank.btnSaveClick(Sender: TObject);
