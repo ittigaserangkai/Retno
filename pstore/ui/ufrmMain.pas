@@ -5,25 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
-  System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar, dxSkinsCore, dxSkinBlack, dxSkinBlue,
-  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
-  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
-  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
-  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter;
+  System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxStatusBar;
 
 type
+  TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
     pnlHeader: TPanel;
@@ -34,10 +20,10 @@ type
     MenuItem1: TMenuItem;
     miExit1: TMenuItem;
     mmSetting1: TMenuItem;
-    miConnectionDatabase1: TMenuItem;
+    miConnectionDatabase: TMenuItem;
     MenuItem2: TMenuItem;
     miGlobalParameter1: TMenuItem;
-    mmWindow1: TMenuItem;
+    mmWindow: TMenuItem;
     miCascade1: TMenuItem;
     miTile1: TMenuItem;
     miArrange1: TMenuItem;
@@ -48,7 +34,7 @@ type
     miHeadOfficeHelp1: TMenuItem;
     MenuItem4: TMenuItem;
     miAbout1: TMenuItem;
-    dxStatusBar1: TdxStatusBar;
+    sbMain: TdxStatusBar;
     actlstMain: TActionList;
     actOnCreateForm: TAction;
     actOnLogout: TAction;
@@ -196,13 +182,47 @@ type
     actLPKAll: TAction;
     actEodLpk: TAction;
     actUser: TAction;
+    procedure actCloseAllExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnCreateFormExecute(Sender: TObject);
+    procedure actOnLogoutExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
+//    FNewUnit: TUnit;
+    //FUnitName: string;
+    FFormProperty: TFormProperty;
+    FIsConnectedRefreshServer: boolean;
+    FIsRegisteredUserToRefreshServer: boolean;
+//    FIsStore: Integer;
+    FIsTesting: Boolean;
+    procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
+    procedure SetAclstExim(aEnable : Boolean);
+    procedure SetIsConnectedRefreshServer(const Value: boolean);
+    procedure SetIsRegisteredUserToRefreshServer(const Value: boolean);
+//    procedure SetLoginFullname(const Value: string);
+//    procedure SetLoginRole(const Value: string);
+    procedure SettingMainMenu(ARole: TRole);
     { Private declarations }
   public
+    Host, IP: string;
+    Port: integer;
+//    property IsStore: Integer read FIsStore write FIsStore;
+    property IsTesting: Boolean read FIsTesting write FIsTesting;
     { Public declarations }
+  published
+//    property LoginFullname: string read FLoginFullname write SetLoginFullname;
+//    property LoginRole: string read FLoginRole write SetLoginRole;
+//    property LoginUsername: string read FLoginUsername write SetLoginUsername;
+//    property LoginId: Integer read FLoginId write SetLoginId;
+//    property LoginUnitId: Integer read FUnitId write SetLoginUnitID;
+//    property UnitId: Integer read FUnitId;
+//    property LoginUnitName: string read FUnitName write SetUnitName;
+//    property UnitName: string read FUnitName;
+//
+    property IsConnectedRefreshServer: boolean read FIsConnectedRefreshServer write
+        SetIsConnectedRefreshServer;
+    property IsRegisteredUserToRefreshServer: boolean read
+        FIsRegisteredUserToRefreshServer write SetIsRegisteredUserToRefreshServer;
   end;
 
 var
@@ -212,7 +232,14 @@ implementation
 
 {$R *.dfm}
 
-uses udmMain;
+uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg;
+
+procedure TfrmMain.actCloseAllExecute(Sender: TObject);
+var i: integer;
+begin
+  for i := Self.MDIChildCount-1 downto 0 do
+    MDIChildren[i].Close;
+end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
@@ -228,8 +255,8 @@ begin
   end;
 
   FFormProperty := TFormProperty.Create;
-  FDbEventListener := TDbEventListener.Create;
-  FDbEventListener.OnEvent := DbEventListenerOnEvent;
+//  FDbEventListener := TDbEventListener.Create;
+//  FDbEventListener.OnEvent := DbEventListenerOnEvent;
 
   IsConnectedRefreshServer := false;
   IsRegisteredUserToRefreshServer := false;
@@ -247,25 +274,20 @@ begin
     LongDateFormat := 'd MMMM yyyy';
   end;
 
-//  FFilePathReport := GetFilePathReport;
-
-  suifrmMain.Menu := mmMainMenu;
   frmMain.Height := 600;
   frmMain.Width := 800;
-//  FMainCaption  := frmMain.Caption;
-//  suifrmMain.Caption := frmMain.Caption  + ' v ' + ExeInfo.FileVersion + ' '
-//                    + FUnitName + ' [ Trial Decimal Separator ]';
+
   // set menu on user nobody
   actOnLogin.Enabled := true;
   actOnLogout.Enabled := false;
   SettingMainMenu(rNobody);
 
   // setting store - refresh server
-  uXML.GetIPFromHost(Host,IP,erMsg);
+  GetIPFromHost(Host,IP,erMsg);
   _INIWriteString(CONFIG_FILE, LOCAL_CLIENT, 'Localhost', IP);
   Port := _INIReadInteger(CONFIG_FILE, LOCAL_CLIENT, 'LocalPort'); // must: 49516
 
-  dmMain.tcpServerStore.Active := false;
+  {dmMain.tcpServerStore.Active := false;
   dmMain.tcpServerStore.Bindings.Clear;
   with dmMain.tcpServerStore.Bindings.Add do
   begin
@@ -279,14 +301,50 @@ begin
     Host := _INIReadString(CONFIG_FILE, REFRESH_SERVER, 'RemoteHost');
     Port := _INIReadInteger(CONFIG_FILE, REFRESH_SERVER, 'RemotePort');
   end;
-
-  //TryToConnectRefreshServer();
+  }
 
   //Get global Variable
   if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
      igProd_Code_Length := iTemp;
   if TryStrToInt(getGlobalVar('PRICEPRECISION'), iTemp) then
      igPrice_Precision := iTemp;
+end;
+
+procedure TfrmMain.actOnLogoutExecute(Sender: TObject);
+begin
+  actCloseAllExecute(self);
+
+  actOnLogin.Enabled := true;
+  actOnLogout.Enabled := false;
+
+  //drop menu user
+  try
+//    if not assigned(MenuManagement) then
+//      MenuManagement := TMenuManagement.Create;
+//    MenuManagement.dropMenuUser;
+  except
+  end;
+
+  SettingMainMenu(rNobody);
+  SetAclstExim(True);
+  with sbMain do
+  begin
+    Panels[0].Text := 'User Login: ';
+    Panels[1].Text := 'Role: ';
+    Panels[2].Text := 'Database: ';
+    Panels[3].Text := 'EOD : ' + FormatDateTime('DD/MM/YYYY', GetLastEODDate(FFormProperty.FSelfUnitId));
+  end; // end with
+end;
+
+procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
+var
+  i: integer;
+begin
+  for i:=0 to AMenu.Count-1 do
+    AMenu.Items[i].Enabled := AValue;
+
+  // set invisible to menu
+  AMenu.Visible := AValue;
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -303,11 +361,36 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
-  ADConn.Free;
-  ADConn := nil;
-
-  FDbEventListener.Free;
+//  ADConn.Free;
+//  ADConn := nil;
+//
+//  FDbEventListener.Free;
   frmMain := nil;
+end;
+
+procedure TfrmMain.SetAclstExim(aEnable : Boolean);
+begin
+  actImportSync.Enabled       := aEnable;
+  actExportSync.Enabled       := aEnable;
+  actExportDataStore.Enabled  := aEnable;
+  actImportFromPOS.Enabled    := aEnable;
+end;
+
+procedure TfrmMain.SetIsConnectedRefreshServer(const Value: boolean);
+begin
+  FIsConnectedRefreshServer := Value;
+end;
+
+procedure TfrmMain.SetIsRegisteredUserToRefreshServer(const Value: boolean);
+begin
+  FIsRegisteredUserToRefreshServer := Value;
+end;
+
+procedure TfrmMain.SettingMainMenu(ARole: TRole);
+begin
+  EnableSubMenu(mmWindow, false);
+  EnableSubMenu(miConnectionDatabase, true);
+
 end;
 
 end.

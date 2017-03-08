@@ -1,20 +1,110 @@
 inherited frmAbout: TfrmAbout
-  Left = 357
-  Top = 260
-  Caption = 'About Head Office'
+  Caption = 'About Store'
   ClientHeight = 269
   ClientWidth = 272
   Constraints.MaxHeight = 308
   Constraints.MaxWidth = 288
-  Constraints.MinHeight = 308
+  Constraints.MinHeight = 32
   Constraints.MinWidth = 288
   OldCreateOrder = True
-  OnShow = FormShow
   ExplicitWidth = 288
   ExplicitHeight = 308
   PixelsPerInch = 96
   TextHeight = 16
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited pnlBody: TPanel
+    Width = 272
+    Height = 213
+    ExplicitWidth = 272
+    ExplicitHeight = 213
+    object bvl1: TBevel
+      Left = 16
+      Top = 184
+      Width = 249
+      Height = 2
+    end
+    object lbl1: TLabel
+      Left = 16
+      Top = 192
+      Width = 229
+      Height = 16
+      Caption = 'Copyright '#169' 2017 @ PT. Assalaam Niaga Utama'
+    end
+    object lbl3: TLabel
+      Left = 16
+      Top = 24
+      Width = 95
+      Height = 40
+      Caption = 'STORE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -32
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl2: TLabel
+      Left = 16
+      Top = 8
+      Width = 130
+      Height = 22
+      Caption = 'Store Application'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl4: TLabel
+      Left = 16
+      Top = 64
+      Width = 53
+      Height = 18
+      Caption = 'Version 1'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl5: TLabel
+      Left = 72
+      Top = 64
+      Width = 112
+      Height = 18
+      Caption = '(Build no. 111.111)'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl6: TLabel
+      Left = 16
+      Top = 88
+      Width = 88
+      Height = 16
+      Caption = 'Copyright '#169' 2017'
+    end
+    object lbx1: TcxLabel
+      Left = 16
+      Top = 144
+      AutoSize = False
+      Caption = '-'
+      ParentFont = False
+      Height = 33
+      Width = 249
+    end
+    object lbx2: TcxLabel
+      Left = 16
+      Top = 128
+      Caption = '-'
+      ParentFont = False
+    end
+  end
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 213
     Width = 272
     ExplicitTop = 213
@@ -24,29 +114,85 @@ inherited frmAbout: TfrmAbout
       ExplicitWidth = 272
       inherited btnClose: TcxButton
         Left = 190
+        Caption = 'Close'
+        OptionsImage.Glyph.Data = {
+          36060000424D3606000000000000360000002800000020000000100000000100
+          18000000000000060000C40E0000C40E00000000000000000000FF00FF001950
+          001950001950001950001950001950001950001950001950001950001950FF00
+          FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FF007373009696
+          66CCFF66CCFF66CCFF66CCFF66CCFF66CCFF66CCFF66CCFF66CCFF66CCFF0019
+          50FF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FF007373009696
+          99FFFF9DDBFF99FFFF9DDBFF99FFFF9DDBFF9DDBFF9DDBFF9DDBFF66CCFF0019
+          50FF00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF007373FFFFFF
+          00969699FFFF99FFFFFFFFFF99FFFF9DDBFF99FFFF9DDBFF9DDBFF9DDBFF66CC
+          FF001950FF00FFFF00FF7F7F7FFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF007373FFFFFF
+          00969699FFFFFFFFFF99FFFFFFFFFF99FFFF9DDBFF99FFFF99FFFF9DDBFF9DDB
+          FF001950FF00FFFF00FF7F7F7FFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF007373FFFFFF
+          99FFFF0096969DDBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9DDBFF99FFFF9DDB
+          FF66CCFF001950FF00FF7F7F7FFFFFFFFF00FF7F7F7FFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFF007373FFFFFF
+          99FFFF0096960050500050500050500050500050500050500050500050500050
+          50005050001950FF00FF7F7F7FFFFFFFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF007373FFFFFF
+          99FFFF99FFFF99FFFF99FFFF9DDBFF99FFFF9DDBFF9DDBFF66CCFF007373FF00
+          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FF007373FFFFFF
+          99FFFF99FFFF99FFFFFFFFFF007373007373007373007373007373001950FF00
+          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFFFFFF7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF007373FFFFFF
+          FFFFFFFFFFFFFFFFFF007373FF00FFFF00FFFF00FFFF00FF0000990000FF0019
+          50FF00FFFF00FFFF00FF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFF00FFFF
+          00FFFF00FFFFFFFF7F7F7FFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF007373
+          007373007373007373FF00FFFF00FFFF00FFFF00FF0000994848FF4848FF0000
+          FF001950FF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FFFF
+          00FFFFFFFF7F7F7FFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000996B8FFF4873FF4848FF4848
+          FF0000FF001950FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FF7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000990000996B8FFF4873FF4848
+          FF001950001950FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000996B8FFF4848FF4873
+          FF001950FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF7F7F7FFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000996B8FFF6B8FFF6B8F
+          FF001950FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FF7F7F7FFFFFFFFFFFFFFFFFFF7F7F7FFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000990000990000990000
+          99001950FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FF}
+        OnEnter = footerDialogMasterbtnCloseEnter
+        OnExit = footerDialogMasterbtnCloseExit
         ExplicitLeft = 190
       end
       inherited btnSave: TcxButton
         Left = 103
+        Enabled = False
+        Visible = False
         ExplicitLeft = 103
+      end
+      inherited btnDelete: TcxButton
+        Visible = False
       end
     end
     inherited pnlSortCut: TPanel
       Width = 272
       ExplicitWidth = 272
       inherited lbl4: TLabel
-        Left = 87
+        Left = 107
+        Visible = False
+        ExplicitLeft = 117
       end
       inherited lbl5: TLabel
         Left = 182
+        Visible = False
+        ExplicitLeft = 192
       end
     end
-  end
-  inherited pnlBody: TPanel
-    Width = 272
-    Height = 213
-    ExplicitTop = 0
-    ExplicitWidth = 272
-    ExplicitHeight = 213
   end
 end

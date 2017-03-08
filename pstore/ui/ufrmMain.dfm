@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Store :: ASSALAAM HYPERMARKET'
-  ClientHeight = 507
+  ClientHeight = 488
   ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -39,9 +39,9 @@ object frmMain: TfrmMain
       ExplicitTop = 4
     end
   end
-  object dxStatusBar1: TdxStatusBar
+  object sbMain: TdxStatusBar
     Left = 0
-    Top = 487
+    Top = 468
     Width = 800
     Height = 20
     Panels = <
@@ -68,6 +68,7 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 487
   end
   object mmMainMenu: TMainMenu
     Left = 520
@@ -92,7 +93,7 @@ object frmMain: TfrmMain
     end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
-      object miConnectionDatabase1: TMenuItem
+      object miConnectionDatabase: TMenuItem
         Caption = 'Connection Database'
       end
       object MenuItem2: TMenuItem
@@ -102,7 +103,7 @@ object frmMain: TfrmMain
         Caption = 'Global Parameter'
       end
     end
-    object mmWindow1: TMenuItem
+    object mmWindow: TMenuItem
       Caption = '&Window'
       object miCascade1: TMenuItem
         Caption = '&Cascade'
@@ -148,6 +149,7 @@ object frmMain: TfrmMain
       Category = 'Sistem'
       Caption = 'Logout'
       ShortCut = 24652
+      OnExecute = actOnLogoutExecute
     end
     object actOnLogin: TAction
       Category = 'Sistem'
@@ -178,6 +180,7 @@ object frmMain: TfrmMain
     object actCloseAll: TAction
       Category = 'Window'
       Caption = 'Clo&se All'
+      OnExecute = actCloseAllExecute
     end
     object actInputSupplierNotForSO: TAction
       Category = 'SO'
