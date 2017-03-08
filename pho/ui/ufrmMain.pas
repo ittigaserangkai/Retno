@@ -253,6 +253,7 @@ type
     Rekening1: TMenuItem;
     UnitOfMeasure1: TMenuItem;
     actTipePembayaran1: TMenuItem;
+    CompanyType1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);

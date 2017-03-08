@@ -8,7 +8,8 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions;
+  cxGridTableView, cxGridDBTableView, cxGrid, System.Actions, DBClient,
+  uDMClient, uDBUtils, uDXUtils;
 
 type
   TfrmTipePerusahaan = class(TfrmMaster)
@@ -21,6 +22,9 @@ type
     cxGridViewTipePerusahaan: TcxGridDBTableView;
     cxGridLevel1: TcxGridLevel;
     cxGrid: TcxGrid;
+    cxGridViewTipePerusahaanColumn1: TcxGridDBColumn;
+    cxGridViewTipePerusahaanColumn2: TcxGridDBColumn;
+    cxGridViewTipePerusahaanColumn3: TcxGridDBColumn;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actAddTipePerusahaanExecute(Sender: TObject);
@@ -31,7 +35,10 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
   private
+    FCDSBrowse: tClientDataset;
     function GetData(): TDataSet;
+    procedure RefreshData;
+    property CDSBrowse: tClientDataset read FCDSBrowse write FCDSBrowse;
 
   public
     { Public declarations }
@@ -94,7 +101,7 @@ begin
   frmDialogTipePerusahaan.Caption := 'Edit Company Type';
   frmDialogTipePerusahaan.FormMode := fmEdit;
 //  frmDialogTipePerusahaan.TipePerusahaanId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
-
+  frmDialogTipePerusahaan.loaddata(CDSBrowse.FieldByName('REF$TIPE_PERUSAHAAN_ID').AsString);
   SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
   if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
   begin
@@ -136,45 +143,8 @@ begin
 end;
 
 procedure TfrmTipePerusahaan.actRefreshTipePerusahaanExecute(Sender: TObject);
-var dataTipePerusahaan: TDataSet;
-    i, countData: Integer;
 begin
-  dataTipePerusahaan := GetData();
-  countData := dataTipePerusahaan.RecordCount;
-  {
-  with strgGrid do
-  begin
-    Clear;
-    RowCount := countData+1;
-    ColCount := 2;
-
-    Cells[0, 0] := 'CODE';
-    Cells[1, 0] := 'NAME';
-
-    if (RowCount > 1) then
-    begin
-      i := 1;
-      while not dataTipePerusahaan.Eof do
-      begin
-        Cells[0, i] := dataTipePerusahaan.FieldByName('TPPERSH_CODE').AsString;
-        Cells[1, i] := dataTipePerusahaan.FieldByName('TPPERSH_NAME').AsString;
-        Cells[2, i] := dataTipePerusahaan.FieldByName('TPPERSH_ID').AsString;
-
-        Inc(i);
-        dataTipePerusahaan.Next;
-      end;
-    end
-    else
-    begin
-      RowCount := 2;
-      Cells[0, 1] := ' ';
-      Cells[1, 1] := ' ';
-    end;
-
-    FixedRows := 1;
-    AutoSize := true;
-  end;
-  }
+  RefreshData;
 end;
 
 procedure TfrmTipePerusahaan.FormClose(Sender: TObject;
@@ -205,6 +175,14 @@ begin
   //frmMain.cbbUnit.Visible := True;
   //frmMain.cbbCompCode.Visible := True;
   //frmMain.lbl2.Visible := True;
+end;
+
+procedure TfrmTipePerusahaan.RefreshData;
+begin
+  CDSBrowse := TDbUtils.DSToCDS(DMClient.DSProviderClient.TipePerusahaan_GetDSOverview, self);
+  cxGridViewTipePerusahaan.LoadFromCDS(CDSBrowse);
+//  cxGridViewTipePerusahaan.SetVisibleColumns(['REF$TIPE_PERUSAHAAN_ID'], False);
+//  cxGridViewTipePerusahaan.SetColumnsCaption(['TPPERSH_CODE','TPPERSH_NAME'],['KODE','NAMA']);
 end;
 
 end.
