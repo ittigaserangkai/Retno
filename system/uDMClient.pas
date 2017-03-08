@@ -42,7 +42,7 @@ var
 implementation
 
 uses
-  Datasnap.DSHTTPClient;
+  Datasnap.DSHTTPClient, Dialogs;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -66,7 +66,8 @@ end;
 
 procedure TDMClient.DataModuleCreate(Sender: TObject);
 begin
-  //
+  RestConn.PreserveSessionID := False;
+  //set true akan menyebabkan ada expired time di client
 end;
 
 function TDMClient.GetCrudClient: TCrudClient;
