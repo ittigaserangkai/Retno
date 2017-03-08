@@ -23,6 +23,8 @@ type
   published
   end;
 
+procedure RestClientError(E: Exception);
+
 var
   DMClient: TDMClient;
 
@@ -34,6 +36,11 @@ uses
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure RestClientError(E: Exception);
+begin
+  Raise ERestClientError.Create(E);
+end;
 
 constructor ERestClientError.Create(E: Exception);
 var
