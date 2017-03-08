@@ -37,6 +37,7 @@ uses
 begin
   if WebRequestHandler <> nil then
     WebRequestHandler.WebModuleClass := WebModuleClass;
+
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.Run;

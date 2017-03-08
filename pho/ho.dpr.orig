@@ -51,12 +51,15 @@ uses
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
+<<<<<<< HEAD
+=======
   uModApp in '..\model\uModApp.pas',
   uModTest in '..\model\uModTest.pas',
   uDBUtils in '..\lib\uDBUtils.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
   uDXUtils in '..\lib\uDXUtils.pas',
   uModBank in '..\model\uModBank.pas',
+>>>>>>> 97c945268c08cad4e5c3a279864e0d63ac36ea72
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
   ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
   ufrmUser in 'module\management user\ufrmUser.pas' {frmUser},
@@ -108,11 +111,8 @@ uses
   ufrmDialogMasterProductNBD in 'module\references\ufrmDialogMasterProductNBD.pas' {frmDialogMasterProductNBD},
   ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
   ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
-<<<<<<< HEAD
-  uModSatuan in '..\model\uModSatuan.pas';
-=======
+  uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas';
->>>>>>> 6d26a400f5331e9dd95cfd511455a72fd2a887bd
 
 {$R *.res}
 

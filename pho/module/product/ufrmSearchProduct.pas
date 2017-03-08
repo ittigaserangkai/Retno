@@ -11,7 +11,7 @@ uses
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
-  cxDBExtLookupComboBox;
+  cxDBExtLookupComboBox, ufraFooterDialog3Button;
 
 type
   TModul = (mAdjustmentFaktur, mMarkUpSellingPrice, mHistoryPrice,
