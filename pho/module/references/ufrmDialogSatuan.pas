@@ -71,7 +71,7 @@ begin
   inherited;
   FIsProcessSuccessfull := False;
 
-  if TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
+  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
     Exit;
 
   try
