@@ -95,6 +95,7 @@ begin
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePembayaran.Free;
+  RefreshData;
 end;
 
 procedure TfrmTipePembayaran.actRefreshTipePembayaranExecute(
@@ -144,14 +145,7 @@ end;
 procedure TfrmTipePembayaran.actEditTipePembayaranExecute(Sender: TObject);
 begin
   inherited;
-  // check is Unit Id is specified?
-//  if MasterNewUnit.ID=0 then
-//  begin
-//    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-//    //frmMain.cbbUnit.SetFocus;
-//    Exit;
-//  end;
-//  if(MasterNewUnit.ID <> 0) then
+
   begin
 //    if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
 
@@ -161,7 +155,7 @@ begin
     frmDialogTipePembayaran.Caption := 'Edit Payment Type';
     frmDialogTipePembayaran.FormMode := fmEdit;
 //    frmDialogTipePembayaran.TipePembayaranId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
-
+    frmDialogTipePembayaran.LoadData(CDS.FieldByName('REF$TIPE_PEMBAYARAN_ID').AsString);
     SetFormPropertyAndShowDialog(frmDialogTipePembayaran);
     if (frmDialogTipePembayaran.IsProcessSuccessfull) then
     begin
@@ -173,6 +167,7 @@ begin
 //    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
 
   frmDialogTipePembayaran.Free;
+  RefreshData;
 end;
 
 procedure TfrmTipePembayaran.actDeleteTipePembayaranExecute(

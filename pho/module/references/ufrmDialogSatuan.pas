@@ -141,7 +141,7 @@ begin
     cbbGroup.ItemIndex := 0;
   end else begin
     FID := AID;
-    DMClient.
+    //DMClient.
 
     edtCode.Text := '';
     edtName.Text := '';
