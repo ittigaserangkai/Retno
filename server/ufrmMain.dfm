@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Top = 114
   Caption = 'Retno - Retail And Online System'
   ClientHeight = 403
-  ClientWidth = 585
+  ClientWidth = 572
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,12 +18,12 @@ object frmMain: TfrmMain
   object grpDB: TGroupBox
     Left = 0
     Top = 0
-    Width = 585
+    Width = 572
     Height = 153
     Align = alTop
     Caption = 'Koneksi Database'
     TabOrder = 0
-    ExplicitWidth = 557
+    ExplicitWidth = 585
     object lblServer: TLabel
       Left = 36
       Top = 51
@@ -202,7 +202,7 @@ object frmMain: TfrmMain
   object mmLog: TMemo
     Left = 0
     Top = 153
-    Width = 585
+    Width = 572
     Height = 250
     Align = alClient
     BorderStyle = bsNone
@@ -219,6 +219,7 @@ object frmMain: TfrmMain
     ScrollBars = ssBoth
     TabOrder = 1
     WordWrap = False
+    ExplicitWidth = 585
   end
   object AE: TApplicationEvents
     OnIdle = AEIdle
