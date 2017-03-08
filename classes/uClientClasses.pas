@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2017-03-07 11:56:00 AM
+// 3/8/2017 9:39:42 AM
 //
 
 unit uClientClasses;
@@ -74,6 +74,8 @@ type
     FGroupRekening_GetDSLookupCommand_Cache: TDSRestCommand;
     FRekening_GetDSOverviewCommand: TDSRestCommand;
     FRekening_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FTipePembayaran_GetDSOverviewCommand: TDSRestCommand;
+    FTipePembayaran_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -90,6 +92,8 @@ type
     function GroupRekening_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Rekening_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function TipePembayaran_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function TipePembayaran_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -227,6 +231,16 @@ const
   );
 
   TDSProvider_Rekening_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_TipePembayaran_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_TipePembayaran_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -693,6 +707,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekening_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.TipePembayaran_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FTipePembayaran_GetDSOverviewCommand = nil then
+  begin
+    FTipePembayaran_GetDSOverviewCommand := FConnection.CreateCommand;
+    FTipePembayaran_GetDSOverviewCommand.RequestType := 'GET';
+    FTipePembayaran_GetDSOverviewCommand.Text := 'TDSProvider.TipePembayaran_GetDSOverview';
+    FTipePembayaran_GetDSOverviewCommand.Prepare(TDSProvider_TipePembayaran_GetDSOverview);
+  end;
+  FTipePembayaran_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FTipePembayaran_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FTipePembayaran_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.TipePembayaran_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FTipePembayaran_GetDSOverviewCommand_Cache = nil then
+  begin
+    FTipePembayaran_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FTipePembayaran_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FTipePembayaran_GetDSOverviewCommand_Cache.Text := 'TDSProvider.TipePembayaran_GetDSOverview';
+    FTipePembayaran_GetDSOverviewCommand_Cache.Prepare(TDSProvider_TipePembayaran_GetDSOverview_Cache);
+  end;
+  FTipePembayaran_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FTipePembayaran_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -717,6 +760,8 @@ begin
   FGroupRekening_GetDSLookupCommand_Cache.DisposeOf;
   FRekening_GetDSOverviewCommand.DisposeOf;
   FRekening_GetDSOverviewCommand_Cache.DisposeOf;
+  FTipePembayaran_GetDSOverviewCommand.DisposeOf;
+  FTipePembayaran_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

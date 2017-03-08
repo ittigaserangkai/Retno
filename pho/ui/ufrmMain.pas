@@ -251,6 +251,7 @@ type
     ProductType1: TMenuItem;
     Finance1: TMenuItem;
     Rekening1: TMenuItem;
+    actTipePembayaran1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -279,6 +280,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
+    procedure actTipePembayaranExecute(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -317,7 +319,8 @@ uses
     ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
-  ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD;
+  ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
+  ufrmTipePembayaran;
 
 {$R *.dfm}
 
@@ -605,6 +608,11 @@ begin
     frmSysParm := TfrmSysParm.Create(Application);
 
   frmSysParm.Show;
+end;
+
+procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);
+begin
+  frmTipePembayaran := TfrmTipePembayaran.CreateWithUser (Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);

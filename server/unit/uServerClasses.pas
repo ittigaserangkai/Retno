@@ -33,6 +33,8 @@ type
     function RefTipeBarang_GetDSOverview: TDataSet;
     function GroupRekening_GetDSLookup: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
+    function TipePembayaran_GetDSOverview: TDataSet;
+
   end;
 
   {$METHODINFO OFF}
@@ -179,6 +181,14 @@ var
   S: string;
 begin
   S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REK_PARENT_CODE, REF$GRUP_REKENING_ID from REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipePembayaran_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_PEMBAYARAN_ID, TPBYR_CODE, TPBYR_NAME from REF$TIPE_PEMBAYARAN';
   Result := TDBUtils.OpenQuery(S);
 end;
 
