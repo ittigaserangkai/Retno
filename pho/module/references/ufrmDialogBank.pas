@@ -8,7 +8,8 @@ uses
   StdCtrls, uRetnoUnit, uTSBaseClass, uModBank, uDMClient, uClientClasses,
   uDXUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils;
+  cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils,
+  ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -36,6 +37,7 @@ type
     procedure edtRekKodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: Boolean;
     FBankId: Integer;
@@ -74,7 +76,7 @@ var
   IDLokal : Integer;
 implementation
 
-uses uTSCommonDlg, ufrmBank, uModAccount;
+uses uTSCommonDlg, ufrmBank, uModRekening;
 
 {$R *.dfm}
 
@@ -217,6 +219,17 @@ begin
 //  FBank := uNewBank.TBank.Create(self);
   cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
   cxLookupAccount.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogBank.btnDeleteClick(Sender: TObject);
+begin
+  inherited;
+  if TAppUtils.Confirm('Yakin hapus data?') then
+  begin
+    Crud.DeleteFromDB(ModBank);
+    TAppUtils.Information('Terhapus');
+    Self.Close;
+  end;
 end;
 
 procedure TfrmDialogBank.btnSaveClick(Sender: TObject);

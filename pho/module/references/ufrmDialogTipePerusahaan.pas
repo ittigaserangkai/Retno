@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, uRetnoUnit;
+  StdCtrls, uRetnoUnit, uModTipePerusahaan, ufraFooterDialog3Button,
+  uDMClient, uAppUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -19,17 +20,24 @@ type
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FTipePerusahaanId: Integer;
     FFormMode: TFormMode;
+    FModTipePerusahaan: TModTipePerusahaan;
 //    FPerusahaan : TnewTipePerusahaan;
     IDLokal : Integer;
+    function GetModTipePerusahaan: TModTipePerusahaan;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetTipePerusahaanId(const Value: Integer);
     procedure prepareAddData;
+    procedure SimpanData;
+    property ModTipePerusahaan: TModTipePerusahaan read GetModTipePerusahaan write
+        FModTipePerusahaan;
   public
+    procedure LoadData(aID: string);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -42,7 +50,7 @@ var
 
 implementation
 
-uses  uTSCommonDlg, uConn,  ufrmTipePerusahaan;
+uses  uTSCommonDlg, uConn;
 
 {$R *.dfm}
 
@@ -67,23 +75,25 @@ begin
   FTipePerusahaanId := Value;
 end;
 
+procedure TfrmDialogTipePerusahaan.btnDeleteClick(Sender: TObject);
+begin
+  inherited;
+  if ModTipePerusahaan.ID = '' then exit;
+  if TAppUtils.Confirm('Anda Yakin Hapus Data?') = False then exit;
+
+  try
+    DMClient.CrudClient.DeleteFromDB(ModTipePerusahaan);
+    TAppUtils.Information('Data Berhasil Dihapus');
+  except
+    TAppUtils.Error('Gagal Hapus Data');
+    raise
+
+  end;
+end;
+
 procedure TfrmDialogTipePerusahaan.footerDialogMasterbtnSaveClick(Sender: TObject);
 begin
-  if (FormMode = fmAdd) then
-  begin
-  IDLokal := 0;
- //   FIsProcessSuccessfull := SaveTipePerusahaan;
-  //  if FIsProcessSuccessfull then
-   //  Close;
 
-  end else
-  begin
-//    IDLokal := StrToInt(frmTipePerusahaan.strgGrid.Cells[2,frmTipePerusahaan.strgGrid.row]);
- // end;
- //    FIsProcessSuccessfull := UpdateTipePerusahaan;
-  //   if FIsProcessSuccessfull then
-  //   Close;
-  end;
 
     if edtCode.Text = '' then
     begin
@@ -98,6 +108,7 @@ begin
       edtName.Text;
       Exit;
     end;
+    SimpanData;
     {
     FPerusahaan.UpdateData(IDLokal,edtCode.Text,edtName.Text,DialogUnit);
     try
@@ -146,6 +157,35 @@ procedure TfrmDialogTipePerusahaan.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FPerusahaan := TnewTipePerusahaan.Create(Self);
+end;
+
+function TfrmDialogTipePerusahaan.GetModTipePerusahaan: TModTipePerusahaan;
+begin
+  if not assigned(FModTipePerusahaan) then
+    FModTipePerusahaan := TModTipePerusahaan.Create;
+  Result := FModTipePerusahaan;
+end;
+
+procedure TfrmDialogTipePerusahaan.LoadData(aID: string);
+begin
+  ModTipePerusahaan := DmClient.CrudClient.Retrieve(TModTipePerusahaan.ClassName, aID) as TModTipePerusahaan;
+  edtCode.Text := ModTipePerusahaan.TPPERSH_CODE;
+  edtName.Text := ModTipePerusahaan.TPPERSH_NAME;
+end;
+
+procedure TfrmDialogTipePerusahaan.SimpanData;
+begin
+  ModTipePerusahaan.TPPERSH_CODE := edtCode.Text;
+  ModTipePerusahaan.TPPERSH_NAME := edtName.Text;
+
+  try
+    DMClient.CrudClient.SaveToDB(ModTipePerusahaan);
+    TAppUtils.Information('Data Berhasil Disimpan');
+  except
+    TAppUtils.Error('Gagal Simpan Data');
+    raise
+
+  end;
 end;
 
 end.

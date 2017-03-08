@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, uRetnoUnit;
+  StdCtrls, uRetnoUnit, uModTipePembayaran, ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -18,16 +18,23 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: Boolean;
     FTipePembayaranId: Integer;
     FFormMode: TFormMode;
+    FModTipePembayaran: TModTipePembayaran;
+    function GetModTipePembayaran: TModTipePembayaran;
 //    FTipeBayar : TNewTipePembayaran;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetTipePembayaranId(const Value: Integer);
     procedure prepareAddData;
+    procedure SimpanData;
+    property ModTipePembayaran: TModTipePembayaran read GetModTipePembayaran write
+        FModTipePembayaran;
   public
+    procedure LoadData(aID: string);
     property FormMode: TFormMode read FFormMode write SetFormMode;
     property TipePembayaranId: Integer read FTipePembayaranId write SetTipePembayaranId;
     property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
@@ -38,7 +45,7 @@ var
   IDLokal : Integer;
 implementation
 
-uses uTSCommonDlg,  ufrmTipePembayaran;
+uses uTSCommonDlg,  ufrmTipePembayaran, uDMClient, uAppUtils;
 
 {$R *.dfm}
 
@@ -71,23 +78,27 @@ begin
   FTipePembayaranId := Value;
 end;
 
+procedure TfrmDialogTipePembayaran.btnDeleteClick(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm('Yakin menghapus?') then exit;
+
+  if ModTipePembayaran.ID <> '' then
+  begin
+    try
+      DMClient.CrudClient.DeleteFromDB(ModTipePembayaran);
+      TAppUtils.Information('Berhasil Hapus');
+    except
+      TAppUtils.Error('Gagal Hapus Data');
+      raise
+    end;
+  end;
+end;
+
 procedure TfrmDialogTipePembayaran.footerDialogMasterbtnSaveClick(
   Sender: TObject);
 begin
   inherited;
-  if (FormMode = fmAdd) then
-  begin
-   // FIsProcessSuccessfull := SaveTipePembayaran;
-   // if FIsProcessSuccessfull then
-   //   Close;
-   IDLokal := 0;
-  end else
-  begin
-//    IDLokal := StrToInt(frmTipePembayaran.strgGrid.Cells[2,frmTipePembayaran.strgGrid.Row])
-    //FIsProcessSuccessfull := UpdateTipePembayaran;
-    //if FIsProcessSuccessfull then
-    //  Close;
-  end; // end if
 
   if edtKodeTipePembayaran.Text = '' then
   begin
@@ -102,29 +113,7 @@ begin
     edtTipePembayaran.SetFocus;
     Exit;
   end;
-  {
-  FTipeBayar.UpdateData(IDLokal,
-                        edtKodeTipePembayaran.Text,
-                        edtTipePembayaran.Text
-                        );
-
-  try
-    if FTipeBayar.ExecuteGenerateSQL then
-    begin
-      cCommitTrans;
-      CommonDlg.ShowMessage('Data Berhasil Disimpan');
-      frmTipePembayaran.actRefreshTipePembayaranExecute(Self);;
-      Close;
-    end else
-    begin
-      cRollbackTrans;
-      CommonDlg.ShowMessage('Data Gagal Disimpan');
-      Exit;
-    end;
-  finally
-    cRollbackTrans;
-  end;
-  }
+  SimpanData;
 end;
 
 procedure TfrmDialogTipePembayaran.FormShow(Sender: TObject);
@@ -154,6 +143,35 @@ procedure TfrmDialogTipePembayaran.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FTipeBayar := TNewTipePembayaran.Create(Self);
+end;
+
+function TfrmDialogTipePembayaran.GetModTipePembayaran: TModTipePembayaran;
+begin
+  if not assigned(FModTipePembayaran) then
+    FModTipePembayaran := TModTipePembayaran.Create;
+  Result := FModTipePembayaran;
+end;
+
+procedure TfrmDialogTipePembayaran.LoadData(aID: string);
+begin
+  FModTipePembayaran := DMClient.CrudClient.Retrieve(
+    TModTipePembayaran.ClassName,aID) as TModTipePembayaran;
+  edtKodeTipePembayaran.Text := ModTipePembayaran.TPBYR_CODE;
+  edtTipePembayaran.Text := ModTipePembayaran.TPBYR_NAME;
+ end;
+
+procedure TfrmDialogTipePembayaran.SimpanData;
+begin
+  ModTipePembayaran.TPBYR_CODE := edtKodeTipePembayaran.Text;
+  ModTipePembayaran.TPBYR_NAME := edtTipePembayaran.Text;
+
+  try
+    DMClient.CrudClient.SaveToDB(ModTipePembayaran);
+    TAppUtils.Information('Berhasil Simpan');
+  except
+    TAppUtils.Error('Gagal Simpan Data');
+    raise
+  end;
 end;
 
 end.

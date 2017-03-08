@@ -8,12 +8,18 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
-  System.Actions, Vcl.ActnList, Vcl.ExtCtrls;
+  System.Actions, Vcl.ActnList;
 
 type
   TfrmMain = class(TForm)
     AE: TApplicationEvents;
     ImageList1: TImageList;
+    grpRestServer: TGroupBox;
+    Label1: TLabel;
+    ButtonStart: TButton;
+    ButtonStop: TButton;
+    EditPort: TEdit;
+    ButtonOpenBrowser: TButton;
     grpDB: TGroupBox;
     lblServer: TLabel;
     lblUser: TLabel;
@@ -28,6 +34,7 @@ type
     edDatabase: TcxTextEdit;
     edPort: TcxTextEdit;
     btnKonekDB: TButton;
+    Button1: TButton;
     mmMainMenu: TMainMenu;
     File1: TMenuItem;
     Exit1: TMenuItem;
@@ -36,22 +43,14 @@ type
     actlstMenu: TActionList;
     actFileExit: TAction;
     actToolsGenerateModel: TAction;
-    grpRestServer: TGroupBox;
-    Label1: TLabel;
-    ButtonStart: TButton;
-    ButtonStop: TButton;
-    EditPort: TEdit;
-    ButtonOpenBrowser: TButton;
-    mmLog: TMemo;
-    rbTrace: TRadioGroup;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
-    procedure rbTraceClick(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
     procedure StartServer;
@@ -68,14 +67,13 @@ implementation
 
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
-  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel,
-  WebModuleRetnoUnit;
+  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
   ButtonStart.Enabled := not FServer.Active;
-  ButtonStop.Enabled := FServer.Active;
-  EditPort.Enabled := not FServer.Active;
+  ButtonStop.Enabled  := FServer.Active;
+  EditPort.Enabled    := not FServer.Active;
 end;
 
 procedure TfrmMain.ButtonOpenBrowserClick(Sender: TObject);
@@ -124,61 +122,73 @@ begin
   end;
 end;
 
+procedure TfrmMain.Button1Click(Sender: TObject);
+var
+  lTest: TModTest;
+  i: Integer;
+  lTestItem: TModTestItem;
+begin
+  lTest         := TModTest.Create;
+  lTest.RefNo   := 'Halo';
+  lTest.Bank    := TModBank.Create;
+  lTest.Bank.ID := TDBUtils.GetNextIDGUIDToString;
+  lTest.RefDate := Now();
+
+  for i := 0 to 5 do
+  begin
+    lTestItem          := TModTestItem.Create;
+    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
+    lTestItem.ItemName := 'ItemName_' + inttostr(i);
+    lTestItem.QTY      := i;
+
+    lTest.Items.Add(lTestItem);
+  end;
+
+  With TDBUtils.GenerateSQL(lTest) do
+  begin
+    SaveToFile('D:\GenerateSQL.txt');
+  end;
+
+//  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
+//  showmessage(lTest.RefNo);
+
+end;
+
 procedure TfrmMain.ButtonStopClick(Sender: TObject);
 begin
   TerminateThreads;
   FServer.Active := False;
   DSServer.Stop;
   FServer.Bindings.Clear;
-  HTTPMemo.Lines.Add('Server Stopped');
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  HTTPMemo := mmLog;
   FServer := TIdHTTPWebBrokerBridge.Create(Self);
+
   if TAppUtils.BacaRegistry('Server') <> '' then
   begin
     cbbEngine.ItemIndex := cbbEngine.Items.IndexOf(TAppUtils.BacaRegistry('Engine'));
-    edServer.Text := TAppUtils.BacaRegistry('Server');
-    edDatabase.Text := TAppUtils.BacaRegistry('Database');
-    edUser.Text := TAppUtils.BacaRegistry('User_Name');
-    edPassword.Text := TAppUtils.BacaRegistry('Password');
-    edPort.Text := TAppUtils.BacaRegistry('Port');
+    edServer.Text       := TAppUtils.BacaRegistry('Server');
+    edDatabase.Text     := TAppUtils.BacaRegistry('Database');
+    edUser.Text         := TAppUtils.BacaRegistry('User_Name');
+    edPassword.Text     := TAppUtils.BacaRegistry('Password');
+    edPort.Text         := TAppUtils.BacaRegistry('Port');
   end;
-  StartServer;
-end;
 
-procedure TfrmMain.rbTraceClick(Sender: TObject);
-begin
-  if not FServer.Active then
-  begin
-    HTTPMemo.Lines.Add('Server not active yet');
-    exit;
-  end;
-  if not Assigned(WebModule) then
-  begin
-    HTTPMemo.Lines.Add('There is no Client Connected Yet');
-    rbTrace.ItemIndex := -1;
-    exit;
-  end;
-  case rbTrace.ItemIndex of
-    0 : WebModule.DSHTTPWebDispatcher.OnHTTPTrace := nil;
-    1 : WebModule.DSHTTPWebDispatcher.OnHTTPTrace := WebModule.HTTPTraceErrorOnly;
-    2 : WebModule.DSHTTPWebDispatcher.OnHTTPTrace := WebModule.HTTPTraceAll;
-  end;
+  StartServer;
+
 end;
 
 procedure TfrmMain.StartServer;
 begin
+  btnKonekDB.Click;
   if not FServer.Active then
   begin
-    btnKonekDBClick(Self);
     FServer.Bindings.Clear;
     FServer.DefaultPort := StrToInt(EditPort.Text);
-    FServer.Active := True;
+    FServer.Active      := True;
     DSServer.Start;
-    HTTPMemo.Lines.Add('Server Started');
   end;
 end;
 

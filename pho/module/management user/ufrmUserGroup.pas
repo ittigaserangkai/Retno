@@ -127,7 +127,7 @@ begin
   frmDialogUserGroup.FormMode := fmEdit;
 //  frmDialogUserGroup.GroupId  := strgGrid.Ints[_kolGrpID,strgGrid.Row];
 //  frmDialogUserGroup.ShowWithID(strgGrid.Cells[_kolName ,strgGrid.Row],
-//              strgGrid.Cells[_kolDesc ,strgGrid.Row], jvtvModul);
+//              strgGrid.Cells[_kolDesc ,strgGrid.Row],jvtvModul);
   SetFormPropertyAndShowDialog(frmDialogUserGroup);
 
   if (frmDialogUserGroup.IsProcessSuccessfull) then

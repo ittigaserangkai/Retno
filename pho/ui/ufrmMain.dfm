@@ -142,7 +142,7 @@ object frmMain: TfrmMain
       end
     end
     object Referensi1: TMenuItem
-      Caption = 'Referensi'
+      Caption = 'Reference'
       object Bank1: TMenuItem
         Action = actBank
       end
@@ -151,6 +151,16 @@ object frmMain: TfrmMain
       end
       object ProductType1: TMenuItem
         Action = actProductType
+      end
+      object UnitOfMeasure1: TMenuItem
+        Action = actUOM
+      end
+      object actTipePembayaran1: TMenuItem
+        Action = actTipePembayaran
+        Caption = 'Tipe Pembayaran'
+      end
+      object CompanyType1: TMenuItem
+        Action = actCompanyType
       end
     end
     object Finance1: TMenuItem
@@ -260,7 +270,7 @@ object frmMain: TfrmMain
     end
     object actPajak: TAction
       Category = 'References'
-      Caption = 'Pajak'
+      Caption = 'Tax'
       OnExecute = actPajakExecute
     end
     object actSupplierType: TAction
@@ -291,7 +301,7 @@ object frmMain: TfrmMain
     end
     object actCompanyType: TAction
       Category = 'References'
-      Caption = 'Company Type'
+      Caption = 'Tipe Perusahaan'
       OnExecute = actCompanyTypeExecute
     end
     object actBank: TAction
@@ -327,6 +337,7 @@ object frmMain: TfrmMain
     object actTipePembayaran: TAction
       Category = 'Merchandise'
       Caption = 'actTipePembayaran'
+      OnExecute = actTipePembayaranExecute
     end
     object actTipePengirimanPO: TAction
       Category = 'Merchandise'
@@ -444,6 +455,7 @@ object frmMain: TfrmMain
     object actMasterProductNBD: TAction
       Category = 'References'
       Caption = 'Master Product NBD'
+      OnExecute = actMasterProductNBDExecute
     end
     object actUserGroup: TAction
       Category = 'Management User'
@@ -458,6 +470,7 @@ object frmMain: TfrmMain
     object actMasterCustomer: TAction
       Category = 'References'
       Caption = 'Master Customer'
+      OnExecute = actMasterCustomerExecute
     end
     object actValidateContrabon: TAction
       Category = 'Finance'

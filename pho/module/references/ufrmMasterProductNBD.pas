@@ -5,23 +5,26 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster,  ufraFooter5Button,
-  StdCtrls, ExtCtrls, ActnList, uConn;
+  StdCtrls, ExtCtrls, ActnList, uConn, ufrmMasterBrowse, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
+  Vcl.ComCtrls, dxCore, cxDateUtils, System.Actions, cxClasses,
+  ufraFooter4Button, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
+  cxLabel, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
-  TfrmMasterProductNBD = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmMasterProductNBD = class(TfrmMasterBrowse)
     actlst1: TActionList;
     actAddMasterProductNBD: TAction;
     actEditMasterProductNBD: TAction;
     actDeleteMasterProductNBD: TAction;
     actRefreshMasterProductNBD: TAction;
     pnl1: TPanel;
-    pnl2: TPanel;
     edtProductDesc: TEdit;
     lbl1: TLabel;
     lbl2: TLabel;
     edtProductType: TEdit;
-    strgGrid: TAdvStringGrid;
     lbl3: TLabel;
     lbl4: TLabel;
     edtProductTypeName: TEdit;
@@ -63,8 +66,8 @@ var
 
 implementation
 
-uses ufrmDialogMasterProductNBD, uTSCommonDlg, Math, DB, uLogin,  uConstanta,
-  uRetnoUnit, uNewProduk_Jasa;
+uses ufrmDialogMasterProductNBD, uTSCommonDlg, Math, uConstanta,
+  uRetnoUnit;
 
 const
     _KolCODE             = 0;
@@ -101,7 +104,7 @@ end;
 
 procedure TfrmMasterProductNBD.actAddMasterProductNBDExecute(Sender: TObject);
 begin
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
@@ -109,7 +112,7 @@ begin
   end;
   if not Assigned(frmDialogMasterProductNBD) then
     Application.CreateForm(TfrmDialogMasterProductNBD, frmDialogMasterProductNBD);
-  frmDialogMasterProductNBD.frmSuiMasterDialog.Caption := 'Add NBD Product Master';
+  frmDialogMasterProductNBD.Caption := 'Add NBD Product Master';
   frmDialogMasterProductNBD.FormMode                   := fmAdd;
 
   SetFormPropertyAndShowDialog(frmDialogMasterProductNBD);
@@ -124,8 +127,8 @@ end;
 
 procedure TfrmMasterProductNBD.actEditMasterProductNBDExecute(Sender: TObject);
 begin
-  if strgGrid.Cells[0,strgGrid.row]='' then Exit;
-  if MasterNewUnit.ID=0 then
+//  if cxGridView.DataController.Values[0,strgGrid.row]='' then Exit;
+//  if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
@@ -133,9 +136,9 @@ begin
   end;
   if not Assigned(frmDialogMasterProductNBD) then
     Application.CreateForm(TfrmDialogMasterProductNBD, frmDialogMasterProductNBD);
-  frmDialogMasterProductNBD.frmSuiMasterDialog.Caption := 'Edit NBD Product Master';
+  frmDialogMasterProductNBD.Caption := 'Edit NBD Product Master';
   frmDialogMasterProductNBD.FormMode                   := fmEdit;
-  frmDialogMasterProductNBD.MasterProductNBDId         := strgGrid.Cells[0,strgGrid.row];
+//  frmDialogMasterProductNBD.MasterProductNBDId         := cxGridView.DataController.Values[0,strgGrid.row];
 
   SetFormPropertyAndShowDialog(frmDialogMasterProductNBD);
   if (frmDialogMasterProductNBD.IsProcessSuccessfull) then
@@ -148,16 +151,17 @@ begin
 end;
 
 procedure TfrmMasterProductNBD.actDeleteMasterProductNBDExecute(Sender: TObject);
-var
-    FNewProduk_Jasa : TNewProduk_Jasa;
+//var
+//    FNewProduk_Jasa : TNewProduk_Jasa;
 begin
-  if strgGrid.Cells[0,strgGrid.row]='' then Exit;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Product (Code : '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
+  {
+  if cxGridView.DataController.Values[0,strgGrid.row]='' then Exit;
+  if (CommonDlg.Confirm('Are you sure you wish to delete Product (Code : '+cxGridView.DataController.Values[0,strgGrid.row]+')?') = mrYes) then
   begin
     FNewProduk_Jasa := TNewProduk_Jasa.CreateWithUser(self, FLoginId, FLoginUnitId);
-    //FNewProduk_Jasa.LoadByCODE(strgGrid.Cells[0,strgGrid.row], MasterNewUnit.ID);
-    //    if MasterProductNBD.DeleteMasterProductNBD(strgGrid.Cells[0,strgGrid.row]) then
-    if FNewProduk_Jasa.RemoveFromDB(strgGrid.Cells[0,strgGrid.row], MasterNewUnit.ID) then
+    //FNewProduk_Jasa.LoadByCODE(cxGridView.DataController.Values[0,strgGrid.row], MasterNewUnit.ID);
+    //    if MasterProductNBD.DeleteMasterProductNBD(cxGridView.DataController.Values[0,strgGrid.row]) then
+    if FNewProduk_Jasa.RemoveFromDB(cxGridView.DataController.Values[0,strgGrid.row], MasterNewUnit.ID) then
     begin
       cCommitTrans;
       actRefreshMasterProductNBDExecute(Self);
@@ -170,7 +174,7 @@ begin
       CommonDlg.ShowError(ER_DELETE_FAILED);
       FNewProduk_Jasa.Free;
     end;
-  end;
+  end; }
 end;
 
 procedure TfrmMasterProductNBD.RefreshData;
@@ -180,7 +184,7 @@ var
   i: Integer;
   tempBool: Boolean;
 begin
-
+  {
   data := GetDataMasterProductNBD(MasterNewUnit.ID, Mastercompany.ID);
   data.Last;
   with strgGrid do
@@ -244,6 +248,7 @@ begin
 
   strgGridRowChanging(Self,0,1,tempBool);
   strgGrid.SetFocus;
+  }
 end;
 
 procedure TfrmMasterProductNBD.actRefreshMasterProductNBDExecute(Sender: TObject);
@@ -262,8 +267,8 @@ procedure TfrmMasterProductNBD.stringgridGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
   inherited;
-  IdMasterProductNBD:= StrToInt(strgGrid.Cells[2,arow]);
-  strNama:= strgGrid.Cells[1,arow];
+//  IdMasterProductNBD:= StrToInt(cxGridView.DataController.Values[2,arow]);
+//  strNama:= cxGridView.DataController.Values[1,arow];
 end;
 
 procedure TfrmMasterProductNBD.FormActivate(Sender: TObject);
@@ -276,26 +281,26 @@ procedure TfrmMasterProductNBD.strgGridRowChanging(Sender: TObject; OldRow,
   NewRow: Integer; var Allow: Boolean);
 begin
   inherited;
-  edtProductDesc.Text     := strgGrid.Cells[_KolPROJAS_NAME ,NewRow];
-  edtProductType.Text     := strgGrid.Cells[_KolTPPRO_CODE ,NewRow];
-  edtProductTypeName.Text := strgGrid.Cells[_KolTPPRO_NAME ,NewRow];
-  edtAccountDB.Text       := strgGrid.Cells[_KolTPPRO_REK_DEBET ,NewRow];
-  edtAccountNameDB.Text   := strgGrid.Cells[_KolACCOUNT_NAME_DB ,NewRow];
-  edtAccountCR.Text       := strgGrid.Cells[_KolTPPRO_REK_CREDIT ,NewRow];
-  edtAccountNameCR.Text   := strgGrid.Cells[_KolACCOUNT_NAME_CR ,NewRow];
+  edtProductDesc.Text     := cxGridView.DataController.Values[_KolPROJAS_NAME ,NewRow];
+  edtProductType.Text     := cxGridView.DataController.Values[_KolTPPRO_CODE ,NewRow];
+  edtProductTypeName.Text := cxGridView.DataController.Values[_KolTPPRO_NAME ,NewRow];
+  edtAccountDB.Text       := cxGridView.DataController.Values[_KolTPPRO_REK_DEBET ,NewRow];
+  edtAccountNameDB.Text   := cxGridView.DataController.Values[_KolACCOUNT_NAME_DB ,NewRow];
+  edtAccountCR.Text       := cxGridView.DataController.Values[_KolTPPRO_REK_CREDIT ,NewRow];
+  edtAccountNameCR.Text   := cxGridView.DataController.Values[_KolACCOUNT_NAME_CR ,NewRow];
 end;
 
 procedure TfrmMasterProductNBD.strgGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
   inherited;
-  edtProductDesc.Text     := strgGrid.Cells[_KolPROJAS_NAME,ARow];
-  edtProductType.Text     := strgGrid.Cells[_KolTPPRO_CODE,ARow];
-  edtProductTypeName.Text := strgGrid.Cells[_KolTPPRO_NAME,ARow];
-  edtAccountDB.Text       := strgGrid.Cells[_KolTPPRO_REK_DEBET,ARow];
-  edtAccountNameDB.Text   := strgGrid.Cells[_KolACCOUNT_NAME_DB,ARow];
-  edtAccountCR.Text       := strgGrid.Cells[_KolTPPRO_REK_CREDIT,ARow];
-  edtAccountNameCR.Text   := strgGrid.Cells[_KolACCOUNT_NAME_CR,ARow];
+  edtProductDesc.Text     := cxGridView.DataController.Values[_KolPROJAS_NAME,ARow];
+  edtProductType.Text     := cxGridView.DataController.Values[_KolTPPRO_CODE,ARow];
+  edtProductTypeName.Text := cxGridView.DataController.Values[_KolTPPRO_NAME,ARow];
+  edtAccountDB.Text       := cxGridView.DataController.Values[_KolTPPRO_REK_DEBET,ARow];
+  edtAccountNameDB.Text   := cxGridView.DataController.Values[_KolACCOUNT_NAME_DB,ARow];
+  edtAccountCR.Text       := cxGridView.DataController.Values[_KolTPPRO_REK_CREDIT,ARow];
+  edtAccountNameCR.Text   := cxGridView.DataController.Values[_KolACCOUNT_NAME_CR,ARow];
 end;
 
 procedure TfrmMasterProductNBD.strgGridGridHint(Sender: TObject; ARow,
@@ -313,11 +318,11 @@ var
 begin
   if (AText <> '') then
   begin
-    resPoint := strgGrid.Find(Point(0,0),AText,[fnIncludeFixed]);
+//    resPoint := strgGrid.Find(Point(0,0),AText,[fnIncludeFixed]);
     if (resPoint.Y <> -1) then
     begin
-      strgGrid.ScrollInView(resPoint.X, resPoint.Y);
-      strgGrid.SelectRows(resPoint.Y, 1);
+//      strgGrid.ScrollInView(resPoint.X, resPoint.Y);
+//      strgGrid.SelectRows(resPoint.Y, 1);
     end;
   end;
 end;

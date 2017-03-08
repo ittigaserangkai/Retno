@@ -95,14 +95,13 @@ inherited frmDialogPajak: TfrmDialogPajak
       Width = 33
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 141
     Width = 400
     ExplicitTop = 141
     ExplicitWidth = 400
     inherited pnlFooter: TPanel
       Width = 400
-      ExplicitTop = 25
       ExplicitWidth = 400
       DesignSize = (
         400

@@ -2,10 +2,8 @@ unit uAppUtils;
 
 interface
 uses
-  System.Classes, System.SysUtils,
-    Graphics, Registry,
-  ComCtrls,Math,DB, ExtCtrls,
-  Variants,StrUtils, Forms, Dialogs, Controls,
+  System.Classes, System.SysUtils, Graphics, Registry, StrUtils,
+  ComCtrls,Math,DB, ExtCtrls, Variants, Forms, Dialogs, Controls,
   Windows,  SqlExpr, System.UITypes;
 
 type
@@ -16,19 +14,14 @@ type
     class procedure BeginBusy;
     class function BytesToStr(const Bytes: TBytes): string;
     class procedure cCloseWaitWindow;
-//    class function cGetIDfromCombo(AComboBox :TComboBox; itemIndex : integer = -1):
-//        string; overload;
-//    class function cGetIDfromCombo(AComboBox :TcxComboBox; itemIndex : integer =
-//        -1): string; overload;
     class procedure CheckDataNumeric(AKey : Char);
     class function Confirm(const Text: string): Boolean;
-//    class procedure CreateJsonValueByField(AArray : ISuperObject; Field: TField);
+
     class function ConfirmBerhasilSimpanCetakReport(ANamaLaporan : String): Boolean;
     class function ConfirmHapus: Boolean;
     class function ConfirmSimpan: Boolean;
     class function ConverToFilter(ADate : TDateTime; AFormat : String =
         'dd MMM YYYY'): String;
-//    class function cOpenQuery(AIQL: String): TSelfSQLQuery;
     class procedure cShowWaitWindow(aCaption : String = 'Mohon Ditunggu ...';
         aPicture : TPicture = nil);
     class function DateToTiseraDate(aTanggal: TDateTime; aSeparator: string = ' '):
@@ -56,22 +49,14 @@ type
     class procedure InisialisasiProgressBar(AParent : TWinControl; AMax : Integer;
         ANomorPB : Integer = 0);
     class function IsDeveloperMode: Boolean;
-//    class function DataSetToJSON(ACaption : String; AQ: TSQLQuery; AKey : String):
-//        ISuperObject; overload;
-//    class function DataSetToJSON(ACaption : String; ASQL : String; AKey : String):
-//        ISuperObject; overload;
+
+
     class function LoadFromStreamToString(Stream: TStream; var myString: String;
         Encoding: TEncoding = nil): Double;
     class function NumberToLetter(aNumber: Integer): string;
     class function ParseSpace(aColName: string): string;
     class function ParseStrToArr(aStr: string; aSep: Char): TStrings;
-// Update
-// 2 July 2004 :
-// - cQueryToListView/Grid update agar tetap keluar field walaupun data eof ...
-// - Nambah LoginPtompt = false di AdoConnection
-// - ngilangin exception pas Exec or Open
 
-//tambahan Fungtion
     class function Quot(aString : String): String;
     class function QuotD(aDate : TDateTime; aTambahJam235959 : Boolean = false):
         String;
@@ -80,15 +65,25 @@ type
     class function QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean): String;
         overload;
     class function QuotF(ANumber : Double): String;
-//    class procedure SetItemAtComboObject(AComboBox : TComboBox; AID : String);
-//        overload;
-//    class procedure SetItemAtComboObject(AComboBox : TcxComboBox; AID : String);
-//        overload;
+
     class procedure SetRegionalSetting_ID;
     class function TulisRegistry(aName, aValue: String; sAppName : String = ''):
         Boolean;
     class procedure Warning(const Text: string);
+
+    class function StrPadLeft(const S: string; Len: Integer; C: Char): string;
+    class function StrPadRight(const S: string; Len: Integer; C: Char): string;
   end;
+
+function GetAppVersionStr: string;
+function GetAppVersionStrWMem: string;
+
+function GetBuildInfo(var Version: string; AFileName: string = ''): boolean;
+
+procedure SetIDCurrencyRegionalSetting;
+
+procedure SetENCurrencyRegionalSetting;
+
 var
   FWaitForm : TForm;
   BusySaveCursor: TCursor;
@@ -116,11 +111,129 @@ const
   _PERTANYAAN_MAU_DESIGN          : String = 'Anda Mempunyai Hak Untuk Design Report' + #13
                                     + 'Anda Akan Melakukan Design Report';
 
-
-implementation
-const
   sSpace: string = ' ';
+implementation
 
+function GetAppVersionStrWMem: string;
+var
+  verblock:PVSFIXEDFILEINFO;
+  versionMS,versionLS:cardinal;
+  verlen:cardinal;
+  rs:TResourceStream;
+  m:TMemoryStream;
+  p:pointer;
+  s:cardinal;
+begin
+  m:=TMemoryStream.Create;
+  try
+    rs:=TResourceStream.CreateFromID(HInstance,1,RT_VERSION);
+    try
+      m.CopyFrom(rs,rs.Size);
+    finally
+      rs.Free;
+    end;
+    m.Position:=0;
+    if VerQueryValue(m.Memory,'\',pointer(verblock),verlen) then
+      begin
+        VersionMS:=verblock.dwFileVersionMS;
+        VersionLS:=verblock.dwFileVersionLS;
+        GetAppVersionStrWMem:=Application.Title+' '+
+          IntToStr(versionMS shr 16)+'.'+
+          IntToStr(versionMS and $FFFF)+'.'+
+          IntToStr(VersionLS shr 16)+'.'+
+          IntToStr(VersionLS and $FFFF);
+      end;
+    if VerQueryValue(m.Memory,PChar('\\StringFileInfo\\'+
+      IntToHex(GetThreadLocale,4)+IntToHex(GetACP,4)+'\\FileDescription'),p,s) or
+        VerQueryValue(m.Memory,'\\StringFileInfo\\040904E4\\FileDescription',p,s) then //en-us
+          GetAppVersionStrWMem:=PChar(p)+' '+GetAppVersionStrWMem;
+  finally
+    m.Free;
+  end;
+end;
+function GetAppVersionStr: string;
+var
+  Exe: string;
+  Size, Handle: DWORD;
+  Buffer: TBytes;
+  FixedPtr: PVSFixedFileInfo;
+begin
+  Exe := ParamStr(0);
+  Size := GetFileVersionInfoSize(PChar(Exe), Handle);
+  if Size = 0 then
+    RaiseLastOSError;
+  SetLength(Buffer, Size);
+  if not GetFileVersionInfo(PChar(Exe), Handle, Size, Buffer) then
+    RaiseLastOSError;
+  if not VerQueryValue(Buffer, '\', Pointer(FixedPtr), Size) then
+    RaiseLastOSError;
+  Result := Format('%d.%d.%d.%d',
+    [LongRec(FixedPtr.dwFileVersionMS).Hi,  //major
+     LongRec(FixedPtr.dwFileVersionMS).Lo,  //minor
+     LongRec(FixedPtr.dwFileVersionLS).Hi,  //release
+     LongRec(FixedPtr.dwFileVersionLS).Lo]) //build
+end;
+
+function GetBuildInfo(var Version: string; AFileName: string = ''): boolean;
+var
+  VerInfoSize: DWORD;
+  VerInfo: Pointer;
+  VerValueSize: DWORD;
+  VerValue: PVSFixedFileInfo;
+  Dummy: DWORD;
+  V1, V2, V3, V4: word;
+begin
+  Result := True;
+  if AFileName = '' then
+    AFileName := ParamStr(0);
+  VerInfoSize := GetFileVersionInfoSize(PChar(AFileName), Dummy);
+  if VerInfoSize = 0 then
+  begin
+    Result := False;
+    Exit;
+  end;
+  GetMem(VerInfo, VerInfoSize);
+  try
+    GetFileVersionInfo(PChar(AFileName), 0, VerInfoSize, VerInfo);
+    VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
+
+    with VerValue^ do
+    begin
+      V1 := dwFileVersionMS shr 16;
+      V2 := dwFileVersionMS and $FFFF;
+      V3 := dwFileVersionLS shr 16;
+      V4 := dwFileVersionLS and $FFFF;
+    end;
+    Version := IntToStr(V1) + '.' + IntToStr(V2) + '.' + IntToStr(V3) + '.' +
+      IntToStr(V4);
+  finally
+    FreeMem(VerInfo, VerInfoSize);
+  end;
+end;
+
+procedure SetIDCurrencyRegionalSetting;
+begin
+  with FormatSettings do
+  begin
+  //  DecimalSeparator := ',';
+  //  ThousandSeparator := '.';
+    CurrencyString := 'Rp.';
+    CurrencyFormat := 2;
+    CurrencyDecimals := 2;
+  end;
+end;
+
+procedure SetENCurrencyRegionalSetting;
+begin
+  with FormatSettings do
+  begin
+  //  DecimalSeparator := '.';
+  //  ThousandSeparator := ',';
+    CurrencyString := '$';
+    CurrencyFormat := 2;
+    CurrencyDecimals := 2;
+  end;
+end;
 
 class function TAppUtils.BacaRegistry(aNama: String; aPath : String = ''):
     string;
@@ -256,28 +369,6 @@ begin
   Result := FormatDateTime(AFormat, ADate);
 end;
 
-//class function TAppUtils.cOpenQuery(AIQL: String): TSelfSQLQuery;
-//begin
-//  Result := TSelfSQLQuery.Create(nil);
-//
-//  if not Assigned(Result.Database) then
-//  begin
-////    Result.Database := frmKoneksi.IBDb;
-//  end;
-//
-//  if not Assigned(Result.Transaction) then
-//  begin
-////    Result.Transaction := frmKoneksi.IBTrans;
-//  end;
-//
-//    Result.SQL.Clear;
-//    Result.SQL.add(AIQL);
-//
-//  Result.Open;
-//  Result.FetchAll;
-//
-//end;
-
 class procedure TAppUtils.cShowWaitWindow(aCaption : String =
     'Mohon Ditunggu ...'; aPicture : TPicture = nil);
 begin
@@ -361,75 +452,6 @@ begin
   end;
 end;
 
-//class procedure TAppUtils.CreateJsonValueByField(AArray : ISuperObject; Field:
-//    TField);
-////var
-////  JsonTyp, FieldTyp : string;
-////  tmpStr : string;
-//begin
-////  Field.DataType.
-//  if Field Is TBooleanField then begin
-//    if Field.AsBoolean then
-//      AArray.I[Field.FieldName] := 1
-//    else
-//      AArray.I[Field.FieldName] := 0
-//  end else if Field Is TSQLTimeStampField then begin
-//      AArray.O[Field.FieldName] := SO('"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',Field.AsDateTime)+'"')
-//  end else if Field Is TDateField then begin
-//      AArray.O[Field.FieldName] := SO('"'+FormatDateTime('yyyy-mm-dd',Field.AsDateTime)+'"')
-//  end else if Field Is TDateTimeField then begin
-//      AArray.O[Field.FieldName] := SO('"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',Field.AsDateTime)+'"')
-//  end else if Field is TMemoField then begin
-//      AArray.S[Field.FieldName] := Field.AsString
-//  end else if Field is TBlobField then begin
-//      AArray.S[Field.FieldName] := Field.AsString
-//  end else if Field is TStringField then begin
-//      AArray.S[Field.FieldName] := Field.AsString
-//  end else if Field is TFloatField then begin
-//      AArray.O[Field.FieldName] := SO(ReplaceStr(Field.AsString,',','.'))
-//  end else begin
-//      AArray.O[Field.FieldName] := SO(Field.Value);
-//  end;
-//end;
-//
-//
-//class function TAppUtils.DataSetToJSON(ACaption : String; AQ: TSQLQuery; AKey :
-//    String): ISuperObject;
-//var
-//  i: Integer;
-////  j: Integer;
-//  lData: ISuperObject;
-////  SS: TStrings;
-////  x: TGuid;
-//begin
-//  Result := SO;
-//  Result.O[ACaption] := SA([]);
-//
-//  AQ.First;
-//  while not AQ.Eof do
-//  begin
-//    lData := SO;
-//    for i := 0 to AQ.FieldCount - 1 do
-//      TAppUtils.CreateJsonValueByField(lData, AQ.Fields[i]);
-//
-//    Result.A[ACaption].Add(lData);
-//    AQ.Next;
-//  end;
-//end;
-//
-//class function TAppUtils.DataSetToJSON(ACaption : String; ASQL : String; AKey :
-//    String): ISuperObject;
-////var
-////  Q: TSQLQuery;
-//begin
-////  Q := TMainModule.cOpenQuery(ASQL);
-////  try
-////    Result := TAppUtils.DataSetToJSON(ACaption, Q, AKey);
-////  finally
-////    Q.Free;
-////  end;
-//end;
-//
 class function TAppUtils.DeleteFileTrace(aFileName: string): Boolean;
 begin
   // TODO -cMM: TAppUtils.DeleteFileTrace default body inserted
@@ -823,40 +845,6 @@ begin
   Result := QuotedSTr(trim(FloatToStr(ANumber)));
 end;
 
-//class procedure TAppUtils.SetItemAtComboObject(AComboBox : TComboBox; AID :
-//    String);
-//var
-//  i: Integer;
-//begin
-//  AComboBox.ItemIndex := -1;
-//
-//  for i := 0 to aComboBox.Items.Count - 1 do
-//  begin
-//    if TComboObject(aComboBox.Items.Objects[i]).cmbID = aID then
-//    begin
-//      AComboBox.ItemIndex := i;
-//      Exit;
-//    end;
-//  end;
-//end;
-//
-//class procedure TAppUtils.SetItemAtComboObject(AComboBox : TcxComboBox; AID :
-//    String);
-//var
-//  i: Integer;
-//begin
-//  AComboBox.ItemIndex := -1;
-//
-//  for i := 0 to aComboBox.Properties.Items.Count - 1 do
-//  begin
-//    if TComboObject(aComboBox.Properties.Items.Objects[i]).cmbID = aID then
-//    begin
-//      AComboBox.ItemIndex := i;
-//      Exit;
-//    end;
-//  end;
-//end;
-
 class procedure TAppUtils.SetRegionalSetting_ID;
 begin
   {$IF CompilerVersion >= 22}
@@ -1014,6 +1002,29 @@ end;
 class procedure TAppUtils.Warning(const Text: string);
 begin
   MessageDlg(Text, mtWarning, [mbYes], 0);
+end;
+
+
+class function TAppUtils.StrPadLeft(const S: string; Len: Integer; C: Char): string;
+var
+  L: Integer;
+begin
+  L := Length(S);
+  if L < Len then
+    Result := StringOfChar(C, Len - L) + S
+  else
+    Result := S;
+end;
+
+class function TAppUtils.StrPadRight(const S: string; Len: Integer; C: Char): string;
+var
+  L: Integer;
+begin
+  L := Length(S);
+  if L < Len then
+    Result := S + StringOfChar(C, Len - L)
+  else
+    Result := S;
 end;
 
 end.

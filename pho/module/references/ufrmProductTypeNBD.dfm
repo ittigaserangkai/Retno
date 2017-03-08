@@ -11,12 +11,19 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 537
-    Height = 250
-    ExplicitWidth = 120
-    ExplicitHeight = 247
+    Height = 247
+    ExplicitWidth = 537
+    ExplicitHeight = 191
+    inherited cxGrid: TcxGrid
+      Width = 515
+      Height = 91
+      TabOrder = 1
+      ExplicitWidth = 515
+      ExplicitHeight = 35
+    end
     object pnl1: TPanel
       Left = 11
-      Top = 105
+      Top = 102
       Width = 515
       Height = 134
       Align = alBottom
@@ -24,8 +31,7 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
-      ExplicitTop = 102
-      ExplicitWidth = 98
+      ExplicitTop = 46
       object lbl1: TLabel
         Left = 17
         Top = 16
@@ -103,66 +109,28 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
         Text = 'PENDAPATAN VVV'
       end
     end
-    object pnl2: TPanel
-      Left = 11
-      Top = 11
-      Width = 515
-      Height = 94
-      Align = alClient
-      BevelInner = bvRaised
-      BevelOuter = bvLowered
-      Color = 15198183
-      TabOrder = 1
-      ExplicitWidth = 98
-      ExplicitHeight = 91
-      object cxGrid: TcxGrid
-        Left = 2
-        Top = 2
-        Width = 511
-        Height = 90
-        Align = alClient
-        TabOrder = 0
-        ExplicitLeft = 11
-        ExplicitTop = 11
-        ExplicitWidth = 227
-        ExplicitHeight = 513
-        object cxGridViewTipeProdukNBD: TcxGridDBTableView
-          Navigator.Buttons.CustomButtons = <>
-          DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
-          DataController.Summary.SummaryGroups = <>
-        end
-        object cxGridLevel1: TcxGridLevel
-          GridView = cxGridViewTipeProdukNBD
-        end
-      end
-    end
   end
   inherited pnlHeader: TPanel
     Width = 537
-    ExplicitWidth = 120
+    ExplicitWidth = 537
+    inherited dtAwalFilter: TcxDateEdit
+      ExplicitHeight = 24
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      ExplicitHeight = 24
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 280
     Width = 537
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 280
+    ExplicitWidth = 537
     inherited pnlFooter: TPanel
       Width = 537
-      ExplicitWidth = 120
+      ExplicitWidth = 537
       inherited btnClose: TcxButton
         Left = 455
-        ExplicitLeft = 38
+        ExplicitLeft = 455
       end
       inherited btnAdd: TcxButton
         Action = actAddProductTypeNBD
@@ -170,21 +138,17 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
       inherited btnUpdate: TcxButton
         Action = actEditProductTypeNBD
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteProductTypeNBD
-      end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshProductTypeNBD
-      end
     end
     inherited pnlSortCut: TPanel
       Width = 537
-      ExplicitWidth = 120
+      ExplicitWidth = 537
       inherited lbl5: TLabel
         Left = 447
-        ExplicitLeft = 452
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 504
