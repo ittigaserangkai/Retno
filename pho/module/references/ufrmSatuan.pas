@@ -83,22 +83,16 @@ procedure TfrmSatuan.actEditSatuanExecute(Sender: TObject);
 begin
   inherited;
 
-//    if (strgGrid.Cells[_kolKode,strgGrid.Row] = ' ') then
-//      Exit;
-
     if not Assigned(frmDialogSatuan) then
       Application.CreateForm(TfrmDialogSatuan, frmDialogSatuan);
 
-    frmDialogSatuan.Caption := 'Edit Unit Of Measure (UOM)';
+    frmDialogSatuan.Caption  := 'Edit Unit Of Measure (UOM)';
     frmDialogSatuan.FormMode := fmEdit;
+    frmDialogSatuan.LoadData(CDS.FieldByName('REF$SATUAN_ID').AsString);
 
-//  frmDialogSatuan.SatuanId := strgGrid.Cells[_kolKode,strgGrid.Row];
-  SetFormPropertyAndShowDialog(frmDialogSatuan);
+    SetFormPropertyAndShowDialog(frmDialogSatuan);
   if (frmDialogSatuan.IsProcessSuccessfull) then
-  begin
     actRefreshSatuanExecute(Self);
-    CommonDlg.ShowConfirm(atEdit);
-  end;
 
   FreeAndNil(frmDialogSatuan);
 end;
