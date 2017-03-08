@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, uRetnoUnit, ufraFooterDialog3Button, uModSatuan, uDMClient;
+  StdCtrls, uRetnoUnit, ufraFooterDialog3Button, uModSatuan, uDMClient, uAppUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -20,20 +20,21 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FFormMode: TFormMode;
     FSatuan: TModSatuan;
 //    FNewUOM : TNewUOM;
-    FUOMLama : String;
+//    FUOMLama : String;
+    function GetSatuan: TModSatuan;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
-    procedure SetSatuan(const Value: TModSatuan);
   protected
     FID: string;
   public
     procedure LoadData(AID : String);
-    property Satuan: TModSatuan read FSatuan write SetSatuan;
+    property Satuan: TModSatuan read GetSatuan write FSatuan;
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -65,9 +66,28 @@ begin
   frmDialogSatuan := nil;
 end;
 
+procedure TfrmDialogSatuan.btnDeleteClick(Sender: TObject);
+begin
+  inherited;
+  FIsProcessSuccessfull := False;
+
+  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
+    Exit;
+
+  try
+    FIsProcessSuccessfull := DMClient.CrudClient.DeleteFromDB(Satuan);
+    TAppUtils.Information('Berhasil Hapus Data');
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
+  end;
+end;
+
 procedure TfrmDialogSatuan.footerDialogMasterbtnSaveClick(Sender: TObject);
 begin
   inherited;
+  FIsProcessSuccessfull := False;
+
   if edtCode.Text='' then
   begin
     CommonDlg.ShowErrorEmpty('CODE');
@@ -81,52 +101,33 @@ begin
     Exit;
   end;
 
-  {
-  TUom := TNewUOM.Create(Self);
-  try
-
-    if (FUOMLama <> edtCode.Text) then
-    begin
-      if TUom.LoadByUOM(edtCode.Text) then
-      begin
-        CommonDlg.ShowErrorExist('CODE',edtCode.Text);
-        edtCode.SetFocus;
-        Exit;
-      end;
-    end;
-  finally
-    FreeAndNil(TUom);
-  end;
-
-  FNewUOM.UpdateData(
-    cbbGroup.Text,
-    edtName.Text,
-    edtCode.Text,
-    StrToInt(cbbUrutan.Text));
+  Satuan.SAT_CODE := edtCode.Text;
+  Satuan.SAT_GROUP := cbbGroup.Text;
+  Satuan.SAT_NAME := edtName.Text;
 
   try
-    if FNewUOM.ExecuteGenerateSQL(FUOMLama) then
-    begin
-      cCommitTrans;
-      CommonDlg.ShowMessage('Berhasil Menyimpan Data');
-      Close;
-    end
-    else
-    begin
-      cRollbackTrans;
-      CommonDlg.ShowMessage('Data Gagal disimpan');
-    end;
-  finally
-    cRollbackTrans;
+    FIsProcessSuccessfull := DMClient.CrudClient.SaveToDB(Satuan);
+    TAppUtils.Information('Berhasil Simpan Data');
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
   end;
-   }
-//  frmSatuan.actRefreshSatuanExecute(sender);
+
+
 end;
 
 procedure TfrmDialogSatuan.FormCreate(Sender: TObject);
 begin
   inherited;
   FID := '';
+end;
+
+function TfrmDialogSatuan.GetSatuan: TModSatuan;
+begin
+  if not Assigned(FSatuan) then
+    FSatuan := TModSatuan.Create;
+
+  Result := FSatuan;
 end;
 
 procedure TfrmDialogSatuan.LoadData(AID : String);
@@ -141,17 +142,13 @@ begin
     cbbGroup.ItemIndex := 0;
   end else begin
     FID := AID;
-    //DMClient.
 
-    edtCode.Text := '';
-    edtName.Text := '';
-    cbbGroup.ItemIndex := 0;
+    FSatuan := DMClient.CrudClient.Retrieve(TModSatuan.ClassName,FID) as TModSatuan;
+
+    edtCode.Text := FSatuan.SAT_CODE;
+    edtName.Text := FSatuan.SAT_NAME;
+    cbbGroup.ItemIndex := cbbGroup.Items.IndexOf(FSatuan.SAT_GROUP);
   end;
-end;
-
-procedure TfrmDialogSatuan.SetSatuan(const Value: TModSatuan);
-begin
-  FSatuan := Value;
 end;
 
 end.

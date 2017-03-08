@@ -98,6 +98,9 @@ inherited frmDialogSatuan: TfrmDialogSatuan
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 204
       end
+      inherited btnDelete: TcxButton
+        OnClick = btnDeleteClick
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 373
