@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, uRetnoUnit;
+  StdCtrls, uRetnoUnit, ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -176,14 +176,14 @@ begin
   for i := 1 to iData do
   begin
     isFound := False;
-    for j := 1 to frmSatuan.cxGridViewSatuan.datacontroller.RowCount - 1 do
-    begin
-//      if IntToStr(i) = frmSatuan.strgGrid.Cells[3,j] then
-      begin
-        isFound := True;
-        Continue;
-      end;
-    end ;
+//    for j := 1 to frmSatuan.cxGridViewSatuan.datacontroller.RowCount - 1 do
+//    begin
+////      if IntToStr(i) = frmSatuan.strgGrid.Cells[3,j] then
+//      begin
+//        isFound := True;
+//        Continue;
+//      end;
+//    end ;
 
     if not isFound then
     begin

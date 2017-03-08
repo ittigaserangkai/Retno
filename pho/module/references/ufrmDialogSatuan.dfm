@@ -13,7 +13,6 @@ inherited frmDialogSatuan: TfrmDialogSatuan
   inherited pnlBody: TPanel
     Width = 373
     Height = 169
-    ExplicitTop = 0
     ExplicitWidth = 373
     ExplicitHeight = 169
     object lbl1: TLabel
@@ -109,7 +108,7 @@ inherited frmDialogSatuan: TfrmDialogSatuan
         'LAIN')
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 169
     Width = 373
     ExplicitTop = 169

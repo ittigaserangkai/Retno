@@ -261,6 +261,7 @@ type
     procedure actHariLiburExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
+    procedure actMasterProductNBDExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
@@ -279,7 +280,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
-    procedure actMasterProductNBDExecute(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -431,6 +431,11 @@ end;
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
 begin
     frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMasterProductNBDExecute(Sender: TObject);
+begin
+  //
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);

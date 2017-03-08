@@ -23,13 +23,12 @@ uses
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
   ufrmGenerateModel in 'unit\ufrmGenerateModel.pas' {frmGenerateModel},
-  uDXUtils in '..\lib\uDXUtils.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModAppHelper in '..\model\uModAppHelper.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModSatuan in '..\model\uModSatuan.pas'
-  uDXUtils in '..\lib\uDXUtils.pas;
+  uModSatuan in '..\model\uModSatuan.pas',
+  uDXUtils in '..\lib\uDXUtils.pas';
 
 {$R *.res}
 
