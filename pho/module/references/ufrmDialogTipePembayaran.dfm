@@ -70,6 +70,9 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 184
       end
+      inherited btnDelete: TcxButton
+        OnClick = btnDeleteClick
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 353
