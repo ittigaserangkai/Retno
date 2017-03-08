@@ -251,6 +251,7 @@ type
     ProductType1: TMenuItem;
     Finance1: TMenuItem;
     Rekening1: TMenuItem;
+    UnitOfMeasure1: TMenuItem;
     actTipePembayaran1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -261,6 +262,7 @@ type
     procedure actHariLiburExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
+    procedure actMasterProductNBDExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
@@ -279,7 +281,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
-    procedure actMasterProductNBDExecute(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
   private
     FPanelLoading: TPanel;
@@ -437,7 +438,7 @@ end;
 
 procedure TfrmMain.actMasterProductNBDExecute(Sender: TObject);
 begin
-    frmMasterProductNBD := TfrmMasterProductNBD.CreateWithUser(Application, FFormProperty);
+  //
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -627,7 +628,7 @@ end;
 
 procedure TfrmMain.actUOMNBDExecute(Sender: TObject);
 begin
-    frmSatuan_NBD := TfrmSatuan_NBD.CreateWithUser(Application, FFormProperty);
+    //frmSatuan_NBD := TfrmSatuan_NBD.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actUserExecute(Sender: TObject);

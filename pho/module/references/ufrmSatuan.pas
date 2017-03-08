@@ -19,9 +19,11 @@ type
     actEditSatuan: TAction;
     actDeleteSatuan: TAction;
     actRefreshSatuan: TAction;
-    cxGridViewSatuan: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
     cxGrid: TcxGrid;
+    cxGrdBrowse: TcxGridDBTableView;
+    cxGrdDetail: TcxGridDBTableView;
+    lvMaster: TcxGridLevel;
+    lvDetail: TcxGridLevel;
 
     procedure FormShow(Sender: TObject);
     procedure actAddSatuanExecute(Sender: TObject);

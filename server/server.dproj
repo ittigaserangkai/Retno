@@ -117,6 +117,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\lib\uDBUtils.pas"/>
         <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\lib\uAppUtils.pas"/>
+        <DCCReference Include="..\model\uModAccount.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
@@ -133,7 +134,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
-        <DCCReference Include="..\lib\uDXUtils.pas"/>
+        <DCCReference Include="..\model\uModSatuan.pas"/>
+        <DCCReference Include="..\lib\uDXUtils.pas">
+            <Form>$R *.res</Form>
+        </DCCReference>
         <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
