@@ -251,6 +251,7 @@ type
     ProductType1: TMenuItem;
     Finance1: TMenuItem;
     Rekening1: TMenuItem;
+    UnitOfMeasure1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -315,8 +316,8 @@ uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
     ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
-  ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
-  ufrmUserGroup, ufrmMasterCustomer;
+  ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmUser,
+  ufrmUserGroup, ufrmMasterCustomer, ufrmSatuan;
 
 {$R *.dfm}
 

@@ -32,6 +32,9 @@ type
     function RefPajak_GetDSOverview: TDataSet;
     function RefTipeBarang_GetDSOverview: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
+    function Satuan_GetDSOverview: TDataSet;
+    function Satuan_GetDSLookup: TDataSet;
+
   end;
 
   {$METHODINFO OFF}
@@ -170,6 +173,28 @@ var
   S: string;
 begin
   S := 'select * from REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Satuan_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select sat_code, sat_name,sat_group, ref$satuan_id' +
+       ' from ref$satuan' +
+       ' ORDER by sat_code';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Satuan_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select sat_code, sat_name,sat_group, ref$satuan_id' +
+       ' from ref$satuan' +
+       ' ORDER by sat_code';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
