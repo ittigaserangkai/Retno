@@ -279,6 +279,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
+    procedure actMasterProductNBDExecute(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -317,7 +318,7 @@ uses
     ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmUser,
-  ufrmUserGroup, ufrmMasterCustomer, ufrmSatuan;
+  ufrmUserGroup, ufrmMasterCustomer, ufrmSatuan, ufrmMasterProductNBD, ufrmSatuan_NBD;
 
 {$R *.dfm}
 

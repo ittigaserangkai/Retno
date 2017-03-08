@@ -2,7 +2,7 @@ unit uModBank;
 
 interface
 uses
-  uModApp, uModAccount;
+  uModApp, uModRekening;
 
 type
   TModBank = class(TModApp)

@@ -162,7 +162,7 @@ inherited frmDialogBank: TfrmDialogBank
       TabOrder = 5
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 277
     Width = 505
     ExplicitTop = 277
@@ -178,6 +178,9 @@ inherited frmDialogBank: TfrmDialogBank
         Left = 336
         OnClick = btnSaveClick
         ExplicitLeft = 336
+      end
+      inherited btnDelete: TcxButton
+        OnClick = btnDeleteClick
       end
     end
     inherited pnlSortCut: TPanel

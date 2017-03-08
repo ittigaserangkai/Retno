@@ -9,18 +9,18 @@ uses
   cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, System.Actions;
+  cxGrid, System.Actions, ufrmMasterBrowse, cxContainer, Vcl.ComCtrls, dxCore,
+  cxDateUtils, ufraFooter4Button, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel;
 
 type
-  TfrmProductTypeNBD = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmProductTypeNBD = class(TfrmMasterBrowse)
     actlst1: TActionList;
     actAddProductTypeNBD: TAction;
     actEditProductTypeNBD: TAction;
     actDeleteProductTypeNBD: TAction;
     actRefreshProductTypeNBD: TAction;
     pnl1: TPanel;
-    pnl2: TPanel;
     edtOwner: TEdit;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -29,9 +29,6 @@ type
     lbl3: TLabel;
     edtAccNameCR: TEdit;
     lbl4: TLabel;
-    cxGrid: TcxGrid;
-    cxGridViewTipeProdukNBD: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure actAddProductTypeNBDExecute(Sender: TObject);

@@ -28,7 +28,8 @@ uses
   uModAppHelper in '..\model\uModAppHelper.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModSatuan in '..\model\uModSatuan.pas';
+  uModSatuan in '..\model\uModSatuan.pas'
+  uDXUtils in '..\lib\uDXUtils.pas;
 
 {$R *.res}
 

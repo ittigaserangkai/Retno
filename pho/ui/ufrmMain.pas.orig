@@ -248,6 +248,10 @@ type
     Pajak1: TMenuItem;
     actSysParm: TAction;
     actSysParmComp: TAction;
+    ProductType1: TMenuItem;
+    Finance1: TMenuItem;
+    Rekening1: TMenuItem;
+    UnitOfMeasure1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -256,6 +260,7 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
+    procedure actMasterCustomerExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
@@ -274,6 +279,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
+    procedure actMasterProductNBDExecute(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -309,10 +315,15 @@ implementation
 
 uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-  ufrmLogin, ufraLoading, ufrmPajak, ufrmBank, ufrmRekening, ufrmTipePerusahaan,
+    ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
+<<<<<<< HEAD
+  ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmUser,
+  ufrmUserGroup, ufrmMasterCustomer, ufrmSatuan;
+=======
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
-  ufrmUserGroup;
+  ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD;
+>>>>>>> 4f623f0a74ee42c3697ddee05fc42c1a039a5b74
 
 {$R *.dfm}
 
@@ -420,6 +431,16 @@ end;
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
     frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
+begin
+    frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMasterProductNBDExecute(Sender: TObject);
+begin
+    frmMasterProductNBD := TfrmMasterProductNBD.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -556,7 +577,7 @@ end;
 
 procedure TfrmMain.actPajakExecute(Sender: TObject);
 begin
-    frmPajak := TfrmPajak.CreateWithUser(Application, FFormProperty);
+  frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);
@@ -604,7 +625,7 @@ end;
 
 procedure TfrmMain.actUOMNBDExecute(Sender: TObject);
 begin
-    //frmSatuan_NBD := TfrmSatuan_NBD.CreateWithUser(Application, FFormProperty);
+    frmSatuan_NBD := TfrmSatuan_NBD.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actUserExecute(Sender: TObject);
