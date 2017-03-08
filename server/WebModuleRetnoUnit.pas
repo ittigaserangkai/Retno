@@ -43,13 +43,15 @@ type
         ARequest: TDSHTTPRequest; AResponse: TDSHTTPResponse);
     class procedure HTTPTraceAll(Sender: TObject; AContext: TDSHTTPContext;
         ARequest: TDSHTTPRequest; AResponse: TDSHTTPResponse);
+    procedure SetTraceOption(aState: Integer = 0);
     { Public declarations }
   end;
 
 var
-  WebModuleClass: TComponentClass = TWebModuleRetno;
+  WebModuleClass : TComponentClass = TWebModuleRetno;
   WebModule : TWebModuleRetno;
   HTTPMemo : TMemo;
+  TraceInitialState : Integer = 0;
 
 implementation
 
@@ -134,6 +136,15 @@ begin
   End;
 end;
 
+procedure TWebModuleRetno.SetTraceOption(aState: Integer = 0);
+begin
+  case aState of
+    0 : DSHTTPWebDispatcher.OnHTTPTrace := nil;
+    1 : DSHTTPWebDispatcher.OnHTTPTrace := HTTPTraceErrorOnly;
+    2 : DSHTTPWebDispatcher.OnHTTPTrace := HTTPTraceAll;
+  end;
+end;
+
 procedure TWebModuleRetno.WebFileDispatcherBeforeDispatch(Sender: TObject;
   const AFileName: string; Request: TWebRequest; Response: TWebResponse;
   var Handled: Boolean);
@@ -160,6 +171,7 @@ begin
     DSHTTPWebDispatcher.DbxContext := DSServer.DbxContext;
     DSHTTPWebDispatcher.Start;
   end;
+  SetTraceOption(TraceInitialState);
   WebModule := Self;
 end;
 

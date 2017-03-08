@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Top = 114
   Caption = 'Retno - Retail And Online System'
   ClientHeight = 403
-  ClientWidth = 572
+  ClientWidth = 549
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,12 +18,11 @@ object frmMain: TfrmMain
   object grpDB: TGroupBox
     Left = 0
     Top = 0
-    Width = 572
-    Height = 153
+    Width = 549
+    Height = 152
     Align = alTop
     Caption = 'Koneksi Database'
     TabOrder = 0
-    ExplicitWidth = 585
     object lblServer: TLabel
       Left = 36
       Top = 51
@@ -135,22 +134,22 @@ object frmMain: TfrmMain
       OnClick = btnKonekDBClick
     end
     object grpRestServer: TGroupBox
-      Left = 272
-      Top = 17
+      Left = 262
+      Top = 16
       Width = 270
-      Height = 78
+      Height = 80
       Caption = 'Rest Server'
       TabOrder = 7
       object Label1: TLabel
         Left = 17
-        Top = 21
+        Top = 25
         Width = 20
         Height = 13
         Caption = 'Port'
       end
       object ButtonStart: TButton
         Left = 15
-        Top = 42
+        Top = 46
         Width = 74
         Height = 25
         Caption = 'Start'
@@ -159,7 +158,7 @@ object frmMain: TfrmMain
       end
       object ButtonStop: TButton
         Left = 92
-        Top = 42
+        Top = 46
         Width = 74
         Height = 25
         Caption = 'Stop'
@@ -168,7 +167,7 @@ object frmMain: TfrmMain
       end
       object EditPort: TEdit
         Left = 45
-        Top = 18
+        Top = 22
         Width = 121
         Height = 21
         TabOrder = 2
@@ -176,7 +175,7 @@ object frmMain: TfrmMain
       end
       object ButtonOpenBrowser: TButton
         Left = 172
-        Top = 16
+        Top = 20
         Width = 84
         Height = 52
         Caption = 'Open Browser'
@@ -185,8 +184,8 @@ object frmMain: TfrmMain
       end
     end
     object rbTrace: TRadioGroup
-      Left = 272
-      Top = 97
+      Left = 262
+      Top = 99
       Width = 270
       Height = 44
       Caption = 'Trace Option'
@@ -201,16 +200,16 @@ object frmMain: TfrmMain
   end
   object mmLog: TMemo
     Left = 0
-    Top = 153
-    Width = 572
-    Height = 250
+    Top = 152
+    Width = 549
+    Height = 251
     Align = alClient
     BorderStyle = bsNone
     Color = clBackground
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clLime
     Font.Height = -11
-    Font.Name = 'Tahoma'
+    Font.Name = 'Consolas'
     Font.Style = []
     Lines.Strings = (
       'server is not running')
@@ -219,7 +218,9 @@ object frmMain: TfrmMain
     ScrollBars = ssBoth
     TabOrder = 1
     WordWrap = False
-    ExplicitWidth = 585
+    ExplicitTop = 153
+    ExplicitWidth = 572
+    ExplicitHeight = 250
   end
   object AE: TApplicationEvents
     OnIdle = AEIdle

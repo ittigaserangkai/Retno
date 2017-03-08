@@ -154,19 +154,10 @@ end;
 
 procedure TfrmMain.rbTraceClick(Sender: TObject);
 begin
-  if not Assigned(WebModule) then
-  begin
-    rbTrace.OnClick   := nil;
-    rbTrace.ItemIndex := 0;
-    rbTrace.OnClick   := rbTraceClick;
-    HTTPMemo.Lines.Add('There is no Client Connected Yet');
-    exit;
-  end;
-  case rbTrace.ItemIndex of
-    0 : WebModule.DSHTTPWebDispatcher.OnHTTPTrace := nil;
-    1 : WebModule.DSHTTPWebDispatcher.OnHTTPTrace := WebModule.HTTPTraceErrorOnly;
-    2 : WebModule.DSHTTPWebDispatcher.OnHTTPTrace := WebModule.HTTPTraceAll;
-  end;
+  if not Assigned(WebModule) then   //no client yet, can't access the webmodule
+    TraceInitialState := rbTrace.ItemIndex
+  else
+    WebModule.SetTraceOption(rbTrace.ItemIndex);
 end;
 
 procedure TfrmMain.StartServer;
