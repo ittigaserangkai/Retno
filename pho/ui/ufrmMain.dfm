@@ -1048,4 +1048,9 @@ object frmMain: TfrmMain
       OnExecute = actSysParmCompExecute
     end
   end
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
+    Left = 152
+    Top = 152
+  end
 end

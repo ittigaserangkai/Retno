@@ -254,6 +254,7 @@ type
     UnitOfMeasure1: TMenuItem;
     actTipePembayaran1: TMenuItem;
     CompanyType1: TMenuItem;
+    ApplicationEvents1: TApplicationEvents;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -284,6 +285,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
+    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -323,7 +325,7 @@ uses
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
-  ufrmTipePembayaran;
+  ufrmTipePembayaran, Datasnap.DSHTTPClient;
 
 {$R *.dfm}
 
@@ -641,6 +643,17 @@ end;
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
 begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+var
+  Msg: string;
+begin
+  Msg := 'Ada kesalahan dengan pesan : ' + #13 +   E.Message;
+  if E is EHTTPProtocolException then
+    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
+
+  TAppUtils.Error(Msg);
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
