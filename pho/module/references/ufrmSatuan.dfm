@@ -5,7 +5,6 @@ inherited frmSatuan: TfrmSatuan
   ClientHeight = 334
   ClientWidth = 542
   OldCreateOrder = True
-  ExplicitTop = -18
   ExplicitWidth = 558
   ExplicitHeight = 373
   PixelsPerInch = 96
@@ -30,9 +29,6 @@ inherited frmSatuan: TfrmSatuan
       TabOrder = 0
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
-      ExplicitTop = 49
-      ExplicitWidth = 601
-      ExplicitHeight = 292
       object cxGrdBrowse: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Filter.Options = [fcoCaseInsensitive]

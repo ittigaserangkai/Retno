@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.20;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>20</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.28;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>28</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -251,12 +251,6 @@
             <Form>frmTest</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModApp.pas"/>
-        <DCCReference Include="..\model\uModTest.pas"/>
-        <DCCReference Include="..\lib\uDBUtils.pas"/>
-        <DCCReference Include="..\lib\uAppUtils.pas"/>
-        <DCCReference Include="..\lib\uDXUtils.pas"/>
-        <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
             <Form>frmDialogRekening</Form>
         </DCCReference>
@@ -363,9 +357,11 @@
             <Form>frmDialogSearchSupplier</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\lib\uAppUtils.pas"/>
         <DCCReference Include="..\lib\uConn.pas"/>
+        <DCCReference Include="..\lib\uDBUtils.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
-        <DCCReference Include="..\lib\uInfo.pas"/>
+        <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\lib\uNetUtils.pas"/>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
         <DCCReference Include="module\merchandise\ufraHistoriPOByProduct.pas">
@@ -383,12 +379,15 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\model\uModAccount.pas"/>
+        <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
+        <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
         <DCCReference Include="..\model\uModMember.pas"/>
+        <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>
         <DCCReference Include="..\model\uModTipePembeli.pas"/>
@@ -415,6 +414,10 @@
         <DCCReference Include="module\references\ufrmSatuan_NBD.pas">
             <Form>frmSatuan_NBD</Form>
         </DCCReference>
+        <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
+        <DCCReference Include="..\model\uModSatuan.pas"/>
+        <DCCReference Include="..\model\uModTipePembayaran.pas"/>
+        <DCCReference Include="unit\uInfo.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

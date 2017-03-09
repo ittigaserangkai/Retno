@@ -228,10 +228,6 @@ inherited frmDialogSearchProduct: TfrmDialogSearchProduct
         Height = 211
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 48
-        ExplicitTop = 16
-        ExplicitWidth = 250
-        ExplicitHeight = 200
         object cxGridViewSearchProduct: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -255,7 +251,7 @@ inherited frmDialogSearchProduct: TfrmDialogSearchProduct
       end
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 372
     Width = 621
     ExplicitTop = 372

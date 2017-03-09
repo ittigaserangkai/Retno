@@ -9,7 +9,7 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, Vcl.Menus, cxButtons;
+  cxGridDBTableView, cxGrid, Vcl.Menus, cxButtons, Datasnap.DBClient;
 
 type
 
@@ -35,8 +35,8 @@ type
     function GetMasterCompany: TCompany;
     function GetMasterNewUnit: integer;//TUnit;
     procedure GetUserModule;
-  protected
 
+  protected
   public
     FLoginFullname  : string;
     FLoginRole      : string;

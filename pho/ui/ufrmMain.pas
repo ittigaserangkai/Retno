@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank, System.UITypes;
+  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -252,6 +252,8 @@ type
     Finance1: TMenuItem;
     Rekening1: TMenuItem;
     UnitOfMeasure1: TMenuItem;
+    actTipePembayaran1: TMenuItem;
+    CompanyType1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -277,9 +279,11 @@ type
     procedure actUOMNBDExecute(Sender: TObject);
     procedure actUserExecute(Sender: TObject);
     procedure actUserGroupExecute(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
+    procedure actTipePembayaranExecute(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -317,8 +321,9 @@ uses
     uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
     ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
-  ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmUser,
-  ufrmUserGroup, ufrmMasterCustomer, ufrmSatuan, ufrmMasterProductNBD, ufrmSatuan_NBD;
+  ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
+  ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
+  ufrmTipePembayaran;
 
 {$R *.dfm}
 
@@ -608,6 +613,11 @@ begin
   frmSysParm.Show;
 end;
 
+procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);
+begin
+  frmTipePembayaran := TfrmTipePembayaran.CreateWithUser (Application, FFormProperty);
+end;
+
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
 begin
     frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
@@ -631,6 +641,11 @@ end;
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
 begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.Button1Click(Sender: TObject);
+begin
+  raise Exception.Create('Error Message');
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

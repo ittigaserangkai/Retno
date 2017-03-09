@@ -2,19 +2,19 @@ inherited frmDialogSatuan: TfrmDialogSatuan
   Left = 557
   Top = 170
   Caption = 'frmDialogSatuan'
-  ClientHeight = 225
+  ClientHeight = 176
   ClientWidth = 373
   Constraints.MinHeight = 32
   OldCreateOrder = True
   ExplicitWidth = 389
-  ExplicitHeight = 264
+  ExplicitHeight = 215
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 373
-    Height = 169
+    Height = 120
     ExplicitWidth = 373
-    ExplicitHeight = 169
+    ExplicitHeight = 120
     object lbl1: TLabel
       Left = 48
       Top = 16
@@ -38,14 +38,6 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       Height = 16
       Alignment = taRightJustify
       Caption = 'Group'
-    end
-    object Label1: TLabel
-      Left = 38
-      Top = 108
-      Width = 35
-      Height = 16
-      Alignment = taRightJustify
-      Caption = 'Urutan'
     end
     object edtCode: TEdit
       Left = 86
@@ -88,30 +80,11 @@ inherited frmDialogSatuan: TfrmDialogSatuan
         'VOLUME'
         'LAIN')
     end
-    object cbbUrutan: TComboBox
-      Left = 86
-      Top = 106
-      Width = 113
-      Height = 24
-      BevelKind = bkSoft
-      Style = csDropDownList
-      CharCase = ecUpperCase
-      Ctl3D = False
-      ItemIndex = 0
-      ParentCtl3D = False
-      TabOrder = 3
-      Text = 'BERAT'
-      Items.Strings = (
-        'BERAT'
-        'PANJANG'
-        'VOLUME'
-        'LAIN')
-    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 169
+    Top = 120
     Width = 373
-    ExplicitTop = 169
+    ExplicitTop = 120
     ExplicitWidth = 373
     inherited pnlFooter: TPanel
       Width = 373
@@ -124,6 +97,9 @@ inherited frmDialogSatuan: TfrmDialogSatuan
         Left = 204
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 204
+      end
+      inherited btnDelete: TcxButton
+        OnClick = btnDeleteClick
       end
     end
     inherited pnlSortCut: TPanel

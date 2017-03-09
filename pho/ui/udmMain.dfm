@@ -57,11 +57,6 @@ object dmMain: TdmMain
     Left = 224
     Top = 104
   end
-  object appevnMain: TApplicationEvents
-    OnException = appevnMainException
-    Left = 24
-    Top = 152
-  end
   object adoConn: TADOConnection
     ConnectionString = 
       'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\data\Sigit\Proje' +

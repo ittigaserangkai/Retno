@@ -29,7 +29,7 @@ implementation
 
 class function TModBank.GetTableName: String;
 begin
-  Result := 'Bank';
+  Result := 'Bank22';
 end;
 
 initialization

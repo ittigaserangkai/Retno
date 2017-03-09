@@ -155,6 +155,13 @@ object frmMain: TfrmMain
       object UnitOfMeasure1: TMenuItem
         Action = actUOM
       end
+      object actTipePembayaran1: TMenuItem
+        Action = actTipePembayaran
+        Caption = 'Tipe Pembayaran'
+      end
+      object CompanyType1: TMenuItem
+        Action = actCompanyType
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -294,7 +301,7 @@ object frmMain: TfrmMain
     end
     object actCompanyType: TAction
       Category = 'References'
-      Caption = 'Company Type'
+      Caption = 'Tipe Perusahaan'
       OnExecute = actCompanyTypeExecute
     end
     object actBank: TAction
@@ -330,6 +337,7 @@ object frmMain: TfrmMain
     object actTipePembayaran: TAction
       Category = 'Merchandise'
       Caption = 'actTipePembayaran'
+      OnExecute = actTipePembayaranExecute
     end
     object actTipePengirimanPO: TAction
       Category = 'Merchandise'

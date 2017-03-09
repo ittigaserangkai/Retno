@@ -9,7 +9,7 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridTableView, cxGridDBTableView, cxGrid, Datasnap.DBClient, uDMClient;
 
 type
   TfrmSatuan = class(TfrmMaster)
@@ -34,6 +34,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
+    FCDS: TClientDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
 //    FNewUOM : TNewUOM;
   public
@@ -45,16 +47,9 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogSatuan, uConstanta;
+uses ufrmDialogSatuan, uDBUtils, uAppUtils, uDXUtils, uTSCommonDlg;
 
 {$R *.dfm}
-const
-  _kolKode  : Integer = 0;
-  _kolNama  : Integer = 1;
-  _kolGrup  : Integer = 2;
-  _kolUrutan: Integer = 3;
-
-
 
 procedure TfrmSatuan.FormShow(Sender: TObject);
 begin
@@ -88,29 +83,23 @@ procedure TfrmSatuan.actEditSatuanExecute(Sender: TObject);
 begin
   inherited;
 
-//    if (strgGrid.Cells[_kolKode,strgGrid.Row] = ' ') then
-//      Exit;
-
     if not Assigned(frmDialogSatuan) then
       Application.CreateForm(TfrmDialogSatuan, frmDialogSatuan);
 
-    frmDialogSatuan.Caption := 'Edit Unit Of Measure (UOM)';
+    frmDialogSatuan.Caption  := 'Edit Unit Of Measure (UOM)';
     frmDialogSatuan.FormMode := fmEdit;
+    frmDialogSatuan.LoadData(CDS.FieldByName('REF$SATUAN_ID').AsString);
 
-//  frmDialogSatuan.SatuanId := strgGrid.Cells[_kolKode,strgGrid.Row];
-  SetFormPropertyAndShowDialog(frmDialogSatuan);
+    SetFormPropertyAndShowDialog(frmDialogSatuan);
   if (frmDialogSatuan.IsProcessSuccessfull) then
-  begin
     actRefreshSatuanExecute(Self);
-    CommonDlg.ShowConfirm(atEdit);
-  end;
 
   FreeAndNil(frmDialogSatuan);
 end;
 
 procedure TfrmSatuan.actDeleteSatuanExecute(Sender: TObject);
-var
-  aUOM: string;
+//var
+//  aUOM: string;
 begin
   inherited;
  {
@@ -138,61 +127,12 @@ begin
 end;
 
 procedure TfrmSatuan.actRefreshSatuanExecute(Sender: TObject);
-var i, countData: Integer;
-//    iB : TFDQuery;
-
 begin
-  {
-  try
-    iB  := cOpenQuery(TNewUOM.GetSQLUom);
+  if Assigned(FCDS) then FCDS.Free;
 
-    iB.Last;
-    iB.First;
-
-    countData := iB.RecordCount;
-    with strgGrid do
-    begin
-      Clear;
-      RowCount := countData+1;
-      ColCount := 4;
-
-      Cells[_kolKode, 0]  := 'CODE';
-      Cells[_kolNama, 0]  := 'NAME';
-      Cells[_kolGrup, 0]  := 'GROUP';
-      Cells[_kolUrutan, 0]:= 'URUTAN';
-
-      if (RowCount > 1) then
-      begin
-        i := 1;
-        while not iB.Eof do
-        begin
-          Cells[_kolKode, i]    := iB.FieldByName('SAT_CODE').AsString;
-          Cells[_kolNama, i]    := iB.FieldByName('SAT_NAME').AsString;
-          Cells[_kolGrup, i]    := iB.FieldByName('SAT_GROUP').AsString;
-          Cells[_kolUrutan, i]  := iB.FieldByName('SAT_URUTAN').AsString;
-
-          Inc(i);
-          Application.ProcessMessages;
-          iB.Next;
-        end;
-      end
-      else
-      begin
-        RowCount := 2;
-        Cells[_kolKode, 1]  := ' ';
-        Cells[_kolNama, 1]  := ' ';
-        Cells[_kolGrup, 1]  := ' ';
-        Cells[_kolUrutan, 1]:= ' ';
-      end;
-
-      FixedRows := 1;
-      AutoSize := true;
-    end;
-  finally
-    strgGrid.SetFocus;
-    FreeAndNil(iB);
-  end;
-  }
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Satuan_GetDSOverview ,Self );
+  cxGrdBrowse.LoadFromCDS(CDS);
+  cxGrdBrowse.SetVisibleColumns(['REF$SATUAN_ID'],False);
 end;
 
 procedure TfrmSatuan.FormDestroy(Sender: TObject);

@@ -100,7 +100,6 @@
             <Form>frmLogin</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="unit\uConstanta.pas"/>
         <DCCReference Include="..\system\ufraFooter1Button.pas">
             <Form>fraFooter1Button</Form>
             <DesignClass>TFrame</DesignClass>
@@ -140,8 +139,69 @@
             <Form>frmAbout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\system\uInfo.pas"/>
+        <DCCReference Include="..\system\uFormProperty.pas"/>
+        <DCCReference Include="..\lib\uConn.pas"/>
+        <DCCReference Include="..\lib\uDBUtils.pas"/>
+        <DCCReference Include="..\lib\uDSUtils.pas"/>
+        <DCCReference Include="..\lib\uDXUtils.pas"/>
+        <DCCReference Include="..\lib\uNetUtils.pas"/>
+        <DCCReference Include="..\lib\uTSINIFile.pas"/>
+        <DCCReference Include="unit\uConstanta.pas"/>
+        <DCCReference Include="..\system\uRetnoUnit.pas"/>
         <DCCReference Include="..\system\uTSCommonDlg.pas"/>
+        <DCCReference Include="..\system\ufraFooter4Button.pas">
+            <Form>fraFooter4Button</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\system\ufraFooterDialog3Button.pas">
+            <Form>fraFooterDialog3Button</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\classes\uCompany.pas"/>
+        <DCCReference Include="..\classes\uTSBaseClass.pas"/>
+        <DCCReference Include="..\model\uModApp.pas"/>
+        <DCCReference Include="..\model\uModAppHelper.pas"/>
+        <DCCReference Include="..\model\uModAuthApp.pas"/>
+        <DCCReference Include="..\model\uModCompany.pas"/>
+        <DCCReference Include="..\model\uModOutlet.pas"/>
+        <DCCReference Include="..\model\uModTest.pas"/>
+        <DCCReference Include="..\model\uModBank.pas"/>
+        <DCCReference Include="..\model\uModRekening.pas"/>
+        <DCCReference Include="module\so\ufrmCreateSO.pas">
+            <Form>frmCreateSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\so\ufrmHistorySO.pas">
+            <Form>frmHistorySO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmMasterBrowse.pas">
+            <Form>frmMasterBrowse</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\so\ufrmDialogDetailSO.pas">
+            <Form>frmDialogDetailSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\so\ufrmSearchSO.pas">
+            <Form>frmDialogSearchSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmMasterDialogBrowse.pas">
+            <Form>frmMasterDialogBrowse</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\uAppUtils.pas"/>
+        <DCCReference Include="module\so\ufrmDialogAddProductForSO.pas">
+            <Form>frmDialogAddProductForSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\pho\module\product\ufrmSearchProduct.pas">
+            <Form>frmDialogSearchProduct</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
