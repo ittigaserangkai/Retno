@@ -12,7 +12,7 @@ uses
   cxGridDBTableView, cxGrid, System.Actions, ufrmMaster, cxContainer,
   Vcl.ComCtrls, dxCore, cxDateUtils, ufraFooter4Button, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, DBClient, uClientClasses, uDMClient,
-  uDBUtils, uDXUtils;
+  uDBUtils, uDXUtils, Vcl.Menus, cxButtons;
 
 type
   TfrmTipePembayaran = class(TfrmMasterBrowse)

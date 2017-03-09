@@ -82,7 +82,6 @@ uses
   uDBUtils in '..\lib\uDBUtils.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
   uDXUtils in '..\lib\uDXUtils.pas',
-  uInfo in '..\lib\uInfo.pas',
   uNetUtils in '..\lib\uNetUtils.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
   ufraHistoriPOByProduct in 'module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
@@ -107,7 +106,11 @@ uses
   ufrmMasterProductNBD in 'module\references\ufrmMasterProductNBD.pas' {frmMasterProductNBD},
   ufrmDialogMasterProductNBD in 'module\references\ufrmDialogMasterProductNBD.pas' {frmDialogMasterProductNBD},
   ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
-  ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD};
+  ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModSatuan in '..\model\uModSatuan.pas',
+  uInfo in 'unit\uInfo.pas';
 
 {$R *.res}
 
