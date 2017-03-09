@@ -35,6 +35,8 @@ type
     function Rekening_GetDSOverview: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
     function Satuan_GetDSLookup: TDataSet;
+    function CostCenter_GetDSLookup: TDataSet;
+    function CostCenter_GetDSOverview: TDataSet;
     function TipePembayaran_GetDSOverview: TDataSet;
 
 
@@ -198,6 +200,15 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.CostCenter_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select COCTER_CODE, COCTER_NAME, COST_CENTER_ID from COST_CENTER';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Satuan_GetDSOverview: TDataSet;
 var
   S: string;
@@ -205,6 +216,15 @@ begin
   S := 'select sat_code, sat_name,sat_group, ref$satuan_id' +
        ' from ref$satuan' +
        ' ORDER by sat_code';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.CostCenter_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select COCTER_CODE, COCTER_NAME, COST_CENTER_ID from COST_CENTER';
 
   Result := TDBUtils.OpenQuery(S);
 end;

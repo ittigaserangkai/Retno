@@ -29,7 +29,8 @@ uses
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   uDXUtils in '..\lib\uDXUtils.pas',
-  uModTipePembayaran in '..\model\uModTipePembayaran.pas';
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModCostCenter in '..\model\uModCostCenter.pas';
 
 {$R *.res}
 

@@ -580,7 +580,7 @@ end;
 
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);
 begin
-    frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
+  frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductTypeNBDExecute(Sender: TObject);

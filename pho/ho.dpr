@@ -109,7 +109,8 @@ uses
   ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
   ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
   uModSatuan in '..\model\uModSatuan.pas',
-  uModTipePembayaran in '..\model\uModTipePembayaran.pas';
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModCostCenter in '..\model\uModCostCenter.pas';
 
 {$R *.res}
 
