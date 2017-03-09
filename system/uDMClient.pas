@@ -25,18 +25,49 @@ type
     { Public declarations }
   end;
 
+  ERestClientError = class(Exception)
+  private
+    FSrcExceptClass: String;
+  public
+    constructor Create(E: Exception);
+    property SrcExceptClass: String read FSrcExceptClass write FSrcExceptClass;
+  published
+  end;
+
+procedure RestClientError(E: Exception);
+
 var
   DMClient: TDMClient;
 
 implementation
 
+uses
+  Datasnap.DSHTTPClient, Dialogs;
+
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
 
+procedure RestClientError(E: Exception);
+begin
+  Raise ERestClientError.Create(E);
+end;
+
+constructor ERestClientError.Create(E: Exception);
+var
+  Msg: string;
+begin
+  Msg := E.Message;
+  if E is EHTTPProtocolException then
+    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
+  SrcExceptClass := E.ClassName;
+  inherited Create(Msg);
+end;
+
 procedure TDMClient.DataModuleCreate(Sender: TObject);
 begin
-  //
+  RestConn.PreserveSessionID := False;
+  //set true akan menyebabkan ada expired time di client
 end;
 
 function TDMClient.GetCrudClient: TCrudClient;

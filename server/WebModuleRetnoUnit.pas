@@ -13,7 +13,7 @@ uses
   Datasnap.DSProxyFreePascal_iOS,
   Datasnap.DSProxyJavaScript, IPPeerServer, Datasnap.DSMetadata,
   Datasnap.DSServerMetadata, Datasnap.DSClientMetadata, Datasnap.DSCommonServer,
-  Datasnap.DSHTTP;
+  Datasnap.DSHTTP, Vcl.StdCtrls;
 
 type
   TWebModuleRetno = class(TWebModule)
@@ -39,18 +39,27 @@ type
     FServerFunctionInvokerAction: TWebActionItem;
     function AllowServerFunctionInvoker: Boolean;
   public
+    class procedure HTTPTraceErrorOnly(Sender: TObject; AContext: TDSHTTPContext;
+        ARequest: TDSHTTPRequest; AResponse: TDSHTTPResponse);
+    class procedure HTTPTraceAll(Sender: TObject; AContext: TDSHTTPContext;
+        ARequest: TDSHTTPRequest; AResponse: TDSHTTPResponse);
+    procedure SetTraceOption(aState: Integer = 0);
     { Public declarations }
   end;
 
 var
-  WebModuleClass: TComponentClass = TWebModuleRetno;
+  WebModuleClass : TComponentClass = TWebModuleRetno;
+  WebModule : TWebModuleRetno;
+  HTTPMemo : TMemo;
+  TraceInitialState : Integer = 0;
 
 implementation
 
 
 {$R *.dfm}
 
-uses ServerMethodsUnit, ServerContainerUnit, Web.WebReq;
+uses ServerMethodsUnit, ServerContainerUnit, Web.WebReq, ufrmMain,
+  System.StrUtils;
 
 procedure TWebModuleRetno.ServerFunctionInvokerHTMLTag(Sender: TObject; Tag: TTag;
   const TagString: string; TagParams: TStrings; var ReplaceText: string);
@@ -103,6 +112,39 @@ begin
     (Request.RemoteAddr = '0:0:0:0:0:0:0:1') or (Request.RemoteAddr = '::1');
 end;
 
+class procedure TWebModuleRetno.HTTPTraceErrorOnly(Sender: TObject; AContext:
+    TDSHTTPContext; ARequest: TDSHTTPRequest; AResponse: TDSHTTPResponse);
+begin
+  if Pos('error', LowerCase(AResponse.ResponseText)) = 0 then exit;
+
+  HTTPTraceAll(Sender, AContext, ARequest, AResponse);
+end;
+
+class procedure TWebModuleRetno.HTTPTraceAll(Sender: TObject; AContext:
+    TDSHTTPContext; ARequest: TDSHTTPRequest; AResponse: TDSHTTPResponse);
+var
+  Prefix: string;
+begin
+  Try
+    if not Assigned(HTTPMemo) then exit;
+    if HTTPMemo.Lines.Count > 1000 then HTTPMemo.Lines.Clear;
+
+    Prefix := '[' + TimeToStr(Now()) + ']:' + '[' + ARequest.RemoteIP + ']';
+    HTTPMemo.Lines.Add(Prefix + '-> ' + AnsiLeftStr(ARequest.URI,200));
+    HTTPMemo.Lines.Add(Prefix + '<- ' + AnsiLeftStr(AResponse.ContentText,200));
+  except
+  End;
+end;
+
+procedure TWebModuleRetno.SetTraceOption(aState: Integer = 0);
+begin
+  case aState of
+    0 : DSHTTPWebDispatcher.OnHTTPTrace := nil;
+    1 : DSHTTPWebDispatcher.OnHTTPTrace := HTTPTraceErrorOnly;
+    2 : DSHTTPWebDispatcher.OnHTTPTrace := HTTPTraceAll;
+  end;
+end;
+
 procedure TWebModuleRetno.WebFileDispatcherBeforeDispatch(Sender: TObject;
   const AFileName: string; Request: TWebRequest; Response: TWebResponse;
   var Handled: Boolean);
@@ -129,6 +171,8 @@ begin
     DSHTTPWebDispatcher.DbxContext := DSServer.DbxContext;
     DSHTTPWebDispatcher.Start;
   end;
+  SetTraceOption(TraceInitialState);
+  WebModule := Self;
 end;
 
 initialization

@@ -95,7 +95,7 @@ uses
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModMember in '..\model\uModMember.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
@@ -108,8 +108,8 @@ uses
   ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
   ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
-  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModSatuan in '..\model\uModSatuan.pas',
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uInfo in 'unit\uInfo.pas';
 
 {$R *.res}

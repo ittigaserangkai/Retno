@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.25;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>25</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.28;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>28</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -386,7 +386,7 @@
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
-        <DCCReference Include="..\model\uModRekening.pas"/>
+        <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>
@@ -415,8 +415,8 @@
             <Form>frmSatuan_NBD</Form>
         </DCCReference>
         <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
-        <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="..\model\uModSatuan.pas"/>
+        <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="unit\uInfo.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
