@@ -33,6 +33,11 @@ type
     function RefTipeBarang_GetDSOverview: TDataSet;
     function GroupRekening_GetDSLookup: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
+    function Member_GetDSOverview: TDataSet;
+    function MemberActivasi_GetDSOverview: TDataSet;
+    function RefDiscMember_GetDSOverview: TDataSet;
+    function MemberKeluarga_GetDSOverview: TDataSet;
+    function RefGrupMember_GetDSOverview: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
     function Satuan_GetDSLookup: TDataSet;
     function TipePembayaran_GetDSOverview: TDataSet;
@@ -185,6 +190,46 @@ var
   S: string;
 begin
   S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REK_PARENT_CODE, REF$GRUP_REKENING_ID from REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Member_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.MemberActivasi_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MEMBER_ACTIVASI';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefDiscMember_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from REF$DISC_MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.MemberKeluarga_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MEMBER_KELUARGA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefGrupMember_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from REF$GRUP_MEMBER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

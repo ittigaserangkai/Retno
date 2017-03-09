@@ -386,7 +386,7 @@
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
-        <DCCReference Include="..\model\uModRekening.pas"/>
+        <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>

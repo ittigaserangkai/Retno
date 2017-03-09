@@ -95,7 +95,7 @@ uses
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModMember in '..\model\uModMember.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
