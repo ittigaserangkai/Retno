@@ -124,7 +124,6 @@ type
         FMEMBERACT_VALID_DATE_TO;
   end;
 
-type
   TModMemberKeluarga = class(TModApp)
   private
     FMEMBERKLRG_STAKLRG_ID: Integer;
@@ -141,7 +140,6 @@ type
         FMEMBERKLRG_BIRTH_DATE;
   end;
 
-type
   TModRefDiscMember = class(TModApp)
   private
     FDISCMEMBER_BEGIN_VALUE: Double;
@@ -158,7 +156,6 @@ type
         FDISCMEMBER_DISCOUNT;
   end;
 
-type
   TModRefGrupMember = class(TModApp)
   private
     FGROMEMBER_NAME: String;

@@ -28,7 +28,7 @@ uses
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
-  uDXUtils in '..\lib\uDXUtils.pas' {$R *.res},
+  uDXUtils in '..\lib\uDXUtils.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModRekening in '..\model\uModRekening.pas';
