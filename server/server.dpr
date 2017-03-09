@@ -30,7 +30,8 @@ uses
   uModSatuan in '..\model\uModSatuan.pas',
   uDXUtils in '..\lib\uDXUtils.pas' {$R *.res},
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
-  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas';
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
+  uModRekening in '..\model\uModRekening.pas';
 
 {$R *.res}
 
