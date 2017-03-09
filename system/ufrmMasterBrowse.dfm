@@ -11,8 +11,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Width = 655
     Height = 314
     ExplicitTop = 33
-    ExplicitWidth = 540
-    ExplicitHeight = 249
+    ExplicitWidth = 655
+    ExplicitHeight = 314
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
@@ -21,8 +21,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Align = alClient
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitWidth = 518
-      ExplicitHeight = 227
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -43,7 +41,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   inherited pnlHeader: TPanel
     Width = 655
     Height = 33
-    ExplicitWidth = 540
+    ExplicitWidth = 655
     ExplicitHeight = 33
     DesignSize = (
       655
@@ -53,7 +51,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Top = 13
       Anchors = [akTop, akRight]
       Caption = 'Filter Data'
-      ExplicitLeft = 291
     end
     object dtAwalFilter: TcxDateEdit
       Left = 345
@@ -64,7 +61,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      ExplicitLeft = 355
       Width = 89
     end
     object lblsdFilter: TcxLabel
@@ -72,7 +68,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Top = 13
       Anchors = [akTop, akRight]
       Caption = 's.d.'
-      ExplicitLeft = 451
     end
     object dtAkhirFilter: TcxDateEdit
       Left = 465
@@ -83,7 +78,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 3
-      ExplicitLeft = 475
       Width = 89
     end
     object btnSearch: TcxButton
@@ -146,7 +140,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
-      ExplicitLeft = 574
     end
   end
   inline fraFooter4Button1: TfraFooter4Button [2]
@@ -162,19 +155,19 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 282
-    ExplicitWidth = 540
+    ExplicitTop = 347
+    ExplicitWidth = 655
     inherited pnlFooter: TPanel
       Width = 655
-      ExplicitWidth = 540
+      ExplicitWidth = 655
       inherited btnClose: TcxButton
         Left = 573
-        ExplicitLeft = 458
+        ExplicitLeft = 573
       end
     end
     inherited pnlSortCut: TPanel
       Width = 655
-      ExplicitWidth = 540
+      ExplicitWidth = 655
       inherited lbl5: TLabel
         Left = 565
         ExplicitLeft = 444
