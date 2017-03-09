@@ -39,32 +39,20 @@ type
     procedure actEditRekeningExecute(Sender: TObject);
     procedure actDeleteRekeningExecute(Sender: TObject);
     procedure actRefreshRekeningExecute(Sender: TObject);
-    procedure cbpRekGroupKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure cbpRekGroupChange(Sender: TObject);
     procedure cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
         TcxTreeListNode);
   private
     FCDS: TClientDataset;
-    FCrud: TCrudClient;
     FDSProvider: TDSProviderClient;
     FGrupRekeningId: string;
-    FModRekening: TModTipeBarang;
-    function GetCrud: TCrudClient;
     function GetDSProvider: TDSProviderClient;
-    function GetListGrupRekeningByCompanyId(AId: Integer): TDataSet;
-    function GetModRekening: TModTipeBarang;
     procedure LoadData;
-//    function GetListRekeningByCompanyId(AId: Integer): TDataSet;
-//    function GetListRekeningByGrupRekeningId(AId: string): TDataSet;
-    procedure ParseComboGrupRekening;
-    procedure ParseDataRekening(aParentCode : String; aNode : TTreeNode);
     procedure SetGrupRekeningId(const Value: string);
     property CDS: TClientDataset read FCDS write FCDS;
-    property Crud: TCrudClient read GetCrud write FCrud;
     property DSProvider: TDSProviderClient read GetDSProvider write FDSProvider;
-    property ModRekening: TModTipeBarang read GetModRekening write FModRekening;
+//    property ModRekening: TModTipeBarang read GetModRekening write FModRekening;
   public
     function IsRekeningExist(aKode : String): Boolean;
     property GrupRekeningId: string read FGrupRekeningId write SetGrupRekeningId;
@@ -82,8 +70,8 @@ uses uTSCommonDlg, uConstanta, uRetnoUnit;
 procedure TfrmRekening.FormDestroy(Sender: TObject);
 begin
   inherited;
-  frmRekening := nil;
-  frmRekening.Free;
+//  frmRekening := nil;
+//  frmRekening.Free;
 end;
 
 procedure TfrmRekening.actAddRekeningExecute(Sender: TObject);
@@ -107,8 +95,8 @@ begin
 end;
 
 procedure TfrmRekening.actEditRekeningExecute(Sender: TObject);
-var
-  TTNode: TTreeNode;
+//var
+//  TTNode: TTreeNode;
 begin
   inherited;
   if not Assigned(frmDialogRekening) then
@@ -130,6 +118,7 @@ begin
   end;
 
   frmDialogRekening.Free;
+  LoadData();
 end;
 
 procedure TfrmRekening.actDeleteRekeningExecute(Sender: TObject);
@@ -195,204 +184,14 @@ begin
 
 end;
 
-function TfrmRekening.GetListGrupRekeningByCompanyId(
-  AId: Integer): TDataSet;
-var arrParam: TArr;
-begin
-  if AId = 0 then
-    SetLength(arrParam, 0)
-  else
-  begin
-    SetLength(arrParam, 1);
-    arrParam[0].tipe := ptInteger;
-    arrParam[0].data := AId;
-  end;
-
-//  if not Assigned(Rekening) then
-//    Rekening := TRekening.Create;
-//
-//  Result := Rekening.GetListGrupRekeningByCompanyId(arrParam);
-end;
-
-//function TfrmRekening.GetListRekeningByCompanyId(
-//  AId: Integer): TDataSet;
-//var arrParam: TArr;
-//begin
-//  if AId = 0 then
-//    SetLength(arrParam, 0)
-//  else
-//  begin
-//    SetLength(arrParam, 1);
-//    arrParam[0].tipe := ptInteger;
-//    arrParam[0].data := AId;
-//  end;
-//
-//  if not Assigned(Rekening) then
-//    Rekening := TRekening.Create;
-//
-//  Result := Rekening.GetListRekeningByCompanyId(arrParam);
-//end;
-
-//function TfrmRekening.GetListRekeningByGrupRekeningId(
-//  AId: string): TDataSet;
-//var arrParam: TArr;
-//begin
-//  if AId = '' then
-//    SetLength(arrParam, 0)
-//  else
-//  begin
-//    SetLength(arrParam, 2);
-//    arrParam[0].tipe := ptString;
-//    arrParam[0].data := AId;
-//    arrParam[1].tipe := ptInteger;
-//    arrParam[1].data := Mastercompany.ID;
-//  end;
-//
-//  if not Assigned(Rekening) then
-//    Rekening := TRekening.Create;
-//
-//  Result := Rekening.GetListRekeningByGrupRekeningId(arrParam);
-//end;
-
-procedure TfrmRekening.ParseComboGrupRekening;
-var dataGrupRekening: TDataSet;
-begin
-  dataGrupRekening := GetListGrupRekeningByCompanyId(Mastercompany.ID);
-
-  with cbpRekGroup do
-  begin
-    if not dataGrupRekening.IsEmpty then
-    begin
-//      RowCount := dataGrupRekening.RecordCount + 1;
-//      AddRow(['Id', 'NAME', 'DESCRIPTION']);
-//
-//      while not dataGrupRekening.Eof do
-//      begin
-//        AddRow([dataGrupRekening.FieldByName('GROREK_ID').AsString,
-//          dataGrupRekening.FieldByName('GROREK_NAME').AsString,
-//          dataGrupRekening.FieldByName('GROREK_DESCRIPTION').AsString]);
-//
-//        dataGrupRekening.Next;
-//      end;
-    end
-    else
-    begin
-//      RowCount := 2;
-//      AddRow(['Id', 'NAME', 'DESCRIPTION']);
-//      AddRow([' ', ' ', ' ']);
-    end;
-
-//    FixedRows := 1;
-//    SizeGridToData;
-    Text := '';
-  end;
-end;
-
-procedure TfrmRekening.ParseDataRekening(aParentCode : String; aNode :
-    TTreeNode);
-var // dataRekening: TDataSet;
-  TTNode: TTreeNode;
-  sParentCode: string;
-//  i: Integer;
-  sKriteria: string;
-  s: string;
-  sLeaf: string;
-  sJnsRek: string;
-//  j: Integer;
-begin
-  {if cbpRekGroup.Text = '' then
-    dataRekening := GetListRekeningByCompanyId(Mastercompany.ID)
-  else
-    dataRekening := GetListRekeningByGrupRekeningId(GrupRekeningId);}
-
-  sKriteria := '';
-  if aParentCode = '' Then
-    sKriteria := ' And (REK_PARENT_CODE IS NULL Or REK_PARENT_CODE = ' + QuotedStr('') + ')'
-  else
-    sKriteria := ' And REK_PARENT_CODE = ' + QuotedStr(aParentCode);
-
-  if (cbpRekGroup.Text <> '') And (GrupRekeningId <> '') then
-    sKriteria := sKriteria + ' AND REK_GROREK_ID = ' + GrupRekeningId;
-
-  s := 'SELECT REK_CODE, REK_NAME, REK_LEVEL,'
-     + ' REK_DESCRIPTION, REK_PARENT_CODE, REK_IS_DEBET,'
-     + ' REK_IS_LEAF FROM REKENING'
-     + ' WHERE REK_COMP_ID = ' + IntToStr(Mastercompany.ID)
-     + sKriteria
-     + ' ORDER BY REK_CODE ';
-
-{  with cOpenQuery(s) do
-  begin
-    try
-      if not eof then
-      begin
-
-        while not Eof do
-        begin
-          if FieldByName('REK_IS_DEBET').AsInteger = 0 then
-            sJnsRek := 'CREDIT'
-          else
-            sJnsRek := 'DEBET';
-
-          if FieldByName('REK_IS_LEAF').AsInteger = 0 then
-            sLeaf := 'HEADER'
-          else
-            sLeaf := 'DETAIL';
-
-          if aNode = nil then
-            TTNode := TlistRekening.Items.Add(nil, FieldByName('REK_CODE').AsString)
-          else
-            TTNode := TlistRekening.Items.AddChild(aNode, FieldByName('REK_CODE').AsString);
-
-          TlistRekening.SetNodeColumn(TTNode, 1, FieldByName('REK_NAME').AsString);
-          TlistRekening.SetNodeColumn(TTNode, 2, FieldByName('REK_LEVEL').AsString);
-          TlistRekening.SetNodeColumn(TTNode, 3, FieldByName('REK_DESCRIPTION').AsString);
-          TlistRekening.SetNodeColumn(TTNode, 4, FieldByName('REK_PARENT_CODE').AsString);
-          TlistRekening.SetNodeColumn(TTNode, 5, sJnsRek);
-          TlistRekening.SetNodeColumn(TTNode, 6, sLeaf);
-
-          sParentCode := FieldByName('REK_CODE').AsString;
-          if sParentCode = FieldByName('REK_PARENT_CODE').AsString then
-          begin
-//            TTNode := nil;
-            TTNode.Free;
-          end
-          else
-          begin
-            if IsRekeningExist(sParentCode) then
-              ParseDataRekening(sParentCode, TTNode);
-          end;
-
-          Next;
-          
-        end;
-      end;
-    finally
-      Free;
-    end;
-  end;
-  }
-end;
-
 procedure TfrmRekening.SetGrupRekeningId(const Value: string);
 begin
   FGrupRekeningId := Value;
 end;
 
-procedure TfrmRekening.cbpRekGroupKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  inherited;
-  if (Key = VK_RETURN) then
-  begin
-    ParseDataRekening('', nil);
-  end;  
-end;
-
 procedure TfrmRekening.FormShow(Sender: TObject);
 begin
   inherited;
-  ParseComboGrupRekening;
   //isi kolom string grid
   {ACCOUNT CODE
 ACCOUNT NAME
@@ -448,13 +247,6 @@ begin
   cxDBTreeList.ApplyBestFit;
 end;
 
-function TfrmRekening.GetCrud: TCrudClient;
-begin
-  if not Assigned(FCrud) then
-    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
-  Result := FCrud;
-end;
-
 function TfrmRekening.GetDSProvider: TDSProviderClient;
 begin
   if not Assigned(FDSProvider) then
@@ -462,17 +254,10 @@ begin
   Result := FDSProvider;
 end;
 
-function TfrmRekening.GetModRekening: TModTipeBarang;
-begin
-  if not Assigned(FModRekening) then
-    FModRekening := TModTipeBarang.Create();
-  Result := FModRekening;
-end;
-
 procedure TfrmRekening.LoadData;
 begin
   CDS := TDBUtils.DSToCDS( DSProvider.Rekening_GetDSOverview() , SELF);
-  cxDBTreeList.LoadFromCDS(CDS, 'REK_CODE', 'REK_PARENT_CODE', FALSE);
+  cxDBTreeList.LoadFromCDS(CDS, 'REKENING_ID', 'REKENING_PARENT_ID', FALSE);
 //  cxDBTreeList.SetVisibleColumns(['REKENING_ID'], FALSE);
   cxDBTreeList.ApplyBestFit;
 end;

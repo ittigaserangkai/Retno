@@ -31,7 +31,6 @@ type
   public
     constructor Create(E: Exception);
     property SrcExceptClass: String read FSrcExceptClass write FSrcExceptClass;
-  published
   end;
 
 procedure RestClientError(E: Exception);
