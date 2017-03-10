@@ -67,10 +67,6 @@ inherited frmRekening: TfrmRekening
         OptionsData.Editing = False
         RootValue = -1
         TabOrder = 1
-        ExplicitLeft = 55
-        ExplicitTop = 25
-        ExplicitWidth = 250
-        ExplicitHeight = 150
         object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
           Visible = False
           DataBinding.FieldName = 'REK_CODE'

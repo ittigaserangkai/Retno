@@ -8,7 +8,7 @@ type
   private
     FRekeningGroup: TModRekeningGroup;
     FREK_CODE: String;
-    FREK_PARENT_CODE: String;
+    FREK_PARENT: TModRekening;
     FREK_DESCRIPTION: String;
     FREK_LEVEL: Integer;
     FREK_NAME: String;
@@ -22,7 +22,8 @@ type
     property RekeningGroup: TModRekeningGroup read FRekeningGroup write
         FRekeningGroup;
     property REK_CODE: String read FREK_CODE write FREK_CODE;
-    property REK_PARENT_CODE: String read FREK_PARENT_CODE write FREK_PARENT_CODE;
+    [AttributeOfForeign('REKENING_PARENT_ID')]
+    property REK_PARENT: TModRekening read FREK_PARENT write FREK_PARENT;
     property REK_DESCRIPTION: String read FREK_DESCRIPTION write FREK_DESCRIPTION;
     property REK_LEVEL: Integer read FREK_LEVEL write FREK_LEVEL;
     property REK_NAME: String read FREK_NAME write FREK_NAME;

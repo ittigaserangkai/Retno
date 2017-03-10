@@ -3,7 +3,8 @@ unit uServerClasses;
 interface
 
 uses
-  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils;
+  System.Classes, uModApp, uModAppHelper,uDBUtils, Rtti, Data.DB, SysUtils,
+  StrUtils;
 
 type
   {$METHODINFO ON}
@@ -15,6 +16,7 @@ type
   TCrud = class(TComponent)
   private
     function StringToClass(ModClassName: string): TModAppClass;
+    function ValidateCode(AOBject: TModApp): Boolean;
   public
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
@@ -33,6 +35,11 @@ type
     function RefTipeBarang_GetDSOverview: TDataSet;
     function GroupRekening_GetDSLookup: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
+    function Member_GetDSOverview: TDataSet;
+    function MemberActivasi_GetDSOverview: TDataSet;
+    function RefDiscMember_GetDSOverview: TDataSet;
+    function MemberKeluarga_GetDSOverview: TDataSet;
+    function RefGrupMember_GetDSOverview: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
     function Satuan_GetDSLookup: TDataSet;
     function CostCenter_GetDSLookup: TDataSet;
@@ -57,6 +64,7 @@ var
   lSS: TStrings;
 begin
   Result := False;
+  if not ValidateCode(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
@@ -138,6 +146,32 @@ begin
   Result := TDBUtils.GenerateSQL(AObject);
 end;
 
+function TCrud.ValidateCode(AOBject: TModApp): Boolean;
+var
+  S: string;
+  sFilter: string;
+begin
+  Result  := True;
+  if AObject.PropFromAttr(AttributeOfCode, False) = nil then
+    exit;
+  sFilter := AOBject.GetCodeField + ' = ' + QuotedStr(AObject.GetCodeValue);
+  if AOBject.ID <> '' then
+    sFilter := sFilter + ' And ' + AOBject.GetPrimaryField + ' <> ' + QuotedStr(AOBject.ID);
+  S := Format(SQL_Select,['*', AOBject.GetTableName, sFilter]);
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      Result := EOF;
+    Finally
+      Free;
+    End;
+  end;
+  if not Result then
+    raise Exception.Create(AOBject.GetTableName + '.' + AOBject.GetCodeField
+      + ' : ' + AOBject.GetCodeValue + ' sudah ada di Database'
+    );
+end;
+
 function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
@@ -186,7 +220,47 @@ function TDSProvider.Rekening_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REK_PARENT_CODE, REF$GRUP_REKENING_ID from REKENING';
+  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REKENING_PARENT_ID, REF$GRUP_REKENING_ID from REKENING';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Member_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.MemberActivasi_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MEMBER_ACTIVASI';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefDiscMember_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from REF$DISC_MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.MemberKeluarga_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MEMBER_KELUARGA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefGrupMember_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from REF$GRUP_MEMBER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

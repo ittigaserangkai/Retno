@@ -300,10 +300,10 @@ end;
 procedure TfrmDialogBank.LoadData(ID: string);
 begin
   if Assigned(FModBank) then FreeAndNil(FModBank);
-  Try
+//  Try
     FModBank := Crud.Retrieve(TModBank.ClassName, ID) as TModBank;
-  except on E:Exception do RestClientError(E);
-  End;
+//  except on E:Exception do RestClientError(E);
+//  End;
 
   edtCode.Text := ModBank.BANK_CODE;
   edtName.Text := ModBank.BANK_NAME;

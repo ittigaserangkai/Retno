@@ -51,12 +51,6 @@ uses
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
-  uModApp in '..\model\uModApp.pas',
-  uModTest in '..\model\uModTest.pas',
-  uDBUtils in '..\lib\uDBUtils.pas',
-  uAppUtils in '..\lib\uAppUtils.pas',
-  uDXUtils in '..\lib\uDXUtils.pas',
-  uModBank in '..\model\uModBank.pas',
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
   ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
   ufrmUser in 'module\management user\ufrmUser.pas' {frmUser},
@@ -83,20 +77,26 @@ uses
   uSpecialKey in '..\classes\uSpecialKey.pas',
   ufrmSearchProduct in 'module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
   ufrmSearchSupplier in 'module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
+  uAppUtils in '..\lib\uAppUtils.pas',
   uConn in '..\lib\uConn.pas',
+  uDBUtils in '..\lib\uDBUtils.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
+  uDXUtils in '..\lib\uDXUtils.pas',
   uNetUtils in '..\lib\uNetUtils.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
   ufraHistoriPOByProduct in 'module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
   uModAccount in '..\model\uModAccount.pas',
+  uModApp in '..\model\uModApp.pas',
   uModAppHelper in '..\model\uModAppHelper.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
+  uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRekening in '..\model\uModRekening.pas',
+  uModTest in '..\model\uModTest.pas',
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
@@ -107,6 +107,7 @@ uses
   ufrmDialogMasterProductNBD in 'module\references\ufrmDialogMasterProductNBD.pas' {frmDialogMasterProductNBD},
   ufrmDialogSatuan_NBD in 'module\references\ufrmDialogSatuan_NBD.pas' {frmDialogSatuan_NBD},
   ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
@@ -114,7 +115,8 @@ uses
   uInfo in 'unit\uInfo.pas',
   ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
   ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
-  uInterface in 'unit\uInterface.pas';
+  uInterface in 'unit\uInterface.pas',
+  uModRekening in '..\model\uModRekening.pas';
 
 {$R *.res}
 
@@ -124,6 +126,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmDialogCostCenter, frmDialogCostCenter);
   Application.Run;
 end.

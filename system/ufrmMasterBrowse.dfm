@@ -1,27 +1,28 @@
 inherited frmMasterBrowse: TfrmMasterBrowse
   Caption = 'form Master Browse Data'
   ClientHeight = 403
-  ClientWidth = 746
-  ExplicitWidth = 762
+  ClientWidth = 655
+  ExplicitWidth = 671
   ExplicitHeight = 442
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Top = 33
-    Width = 746
+    Width = 655
     Height = 314
     ExplicitTop = 33
-    ExplicitWidth = 655
-    ExplicitHeight = 314
+    ExplicitWidth = 540
+    ExplicitHeight = 249
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
-      Width = 724
+      Width = 633
       Height = 292
       Align = alClient
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitWidth = 633
+      ExplicitWidth = 518
+      ExplicitHeight = 227
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -40,14 +41,17 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     end
   end
   inherited pnlHeader: TPanel
-    Width = 746
+    Width = 655
     Height = 33
-    ExplicitWidth = 655
+    ExplicitWidth = 540
     ExplicitHeight = 33
+    DesignSize = (
+      655
+      33)
     object lblFilterData: TcxLabel
-      Left = 423
-      Top = 1
-      Align = alRight
+      Left = 281
+      Top = 13
+      Anchors = [akTop, akRight]
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
@@ -57,11 +61,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       AnchorY = 17
     end
     object dtAwalFilter: TcxDateEdit
-      AlignWithMargins = True
-      Left = 484
-      Top = 5
-      Margins.Top = 4
-      Align = alRight
+      Left = 345
+      Top = 9
+      Anchors = [akTop, akRight]
       EditValue = 0d
       Properties.DateButtons = [btnClear, btnToday]
       Properties.SaveTime = False
@@ -73,9 +75,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Width = 89
     end
     object lblsdFilter: TcxLabel
-      Left = 576
-      Top = 1
-      Align = alRight
+      Left = 441
+      Top = 13
+      Anchors = [akTop, akRight]
       Caption = 's.d.'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
@@ -84,11 +86,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       AnchorY = 17
     end
     object dtAkhirFilter: TcxDateEdit
-      AlignWithMargins = True
-      Left = 602
-      Top = 5
-      Margins.Top = 4
-      Align = alRight
+      Left = 465
+      Top = 9
+      Anchors = [akTop, akRight]
       EditValue = 0d
       Properties.DateButtons = [btnClear, btnToday]
       Properties.SaveTime = False
@@ -99,14 +99,12 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Width = 89
     end
     object btnSearch: TcxButton
-      AlignWithMargins = True
-      Left = 697
-      Top = 4
-      Width = 45
+      Left = 564
+      Top = 9
+      Width = 49
       Height = 25
       Cursor = crHandPoint
-      Align = alRight
-      Action = actRefresh
+      Anchors = [akTop, akRight]
       OptionsImage.Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         1800000000000006000000000000000000000000000000000000FF00FFFF00FF
@@ -168,7 +166,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   inline fraFooter4Button1: TfraFooter4Button [2]
     Left = 0
     Top = 347
-    Width = 746
+    Width = 655
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -178,8 +176,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 347
-    ExplicitWidth = 655
+    ExplicitTop = 282
+    ExplicitWidth = 540
     inherited pnlFooter: TPanel
       Width = 746
       ExplicitWidth = 655
@@ -202,14 +200,14 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Width = 746
       ExplicitWidth = 655
       inherited lbl5: TLabel
-        Left = 656
+        Left = 565
         ExplicitLeft = 444
       end
     end
   end
   inherited cxStyle: TcxStyleRepository
-    Left = 328
-    Top = 88
+    Left = 352
+    Top = 32
     PixelsPerInch = 96
   end
   object actlstBrowse: TActionList

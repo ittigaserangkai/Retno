@@ -42,6 +42,7 @@ type
     class function GetNextIDGUID: TGuid;
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject : TModApp; AID : String);
+    class procedure LoadByCode(AOBject : TModApp; AID : String);
     class procedure SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
@@ -603,102 +604,22 @@ class procedure TDBUtils.LoadFromDB(AOBject : TModApp; AID : String);
 var
   Q: TFDQuery;
   sSQL: string;
-//  ctx : TRttiContext;
-//  lAppObject: TModApp;
-//  lAppObjectList: TObjectList<TModApp>;
-//  lObjectList: TObject;
-//  rt : TRttiType;
-//  prop : TRttiProperty;
-//  meth : TRttiMethod;
-//  QQ: TClientDataSet;
-//  sGenericItemClassName: string;
-////  sX: string;
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
-
   Q := TDBUtils.OpenQuery(sSQL);
   SetFromDatast(AObject, Q);
+end;
 
-  {
-  ctx := TRttiContext.Create();
-  try
-    rt := ctx.GetType(AObject.ClassType);
-
-    if not Q.IsEmpty then
-    begin
-      for prop in rt.GetProperties() do begin
-        if prop.Name = 'ObjectState' then
-          Continue;
-
-        if (not prop.IsWritable) then
-          Continue;
-
-        if AOBject is TModAppItem then
-        begin
-          if (UpperCase(prop.Name)=UpperCase((AOBject as TModAppItem).GetHeaderField)) then
-            continue;
-        end;
-
-        case prop.PropertyType.TypeKind of
-          tkInteger : prop.SetValue(AObject,Q.FieldByName(prop.Name).AsInteger );
-          tkFloat   : prop.SetValue(AObject,Q.FieldByName(prop.Name).AsFloat );
-          tkUString : prop.SetValue(AObject,Q.FieldByName(prop.Name).AsString );
-          tkClass   : begin
-                        meth := prop.PropertyType.GetMethod('ToArray');
-                        if Assigned(meth) then
-                        begin
-                          lObjectList := prop.GetValue(AOBject).AsObject;
-                          sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
-                          sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
-//                          sGenericItemClassName :=  StringReplace(sGenericItemClassName, 'UMODEL.','', [rfIgnoreCase]);
-
-                          lAppObject := TModApp((ctx.FindType(sGenericItemClassName) as TRttiInstanceType).MetaClassType.Create);
-                          meth := prop.PropertyType.GetMethod('Add');
-
-                          if Assigned(meth) then
-                          begin
-                            sSQL := 'select id from ' + lAppObject.ClassName
-                                    + ' where ' + TModAppItem(lAppObject).GetHeaderField + ' = ' + QuotedStr(AID);
-
-                            QQ := TDBUtils.OpenDataset(sSQL);
-                            try
-                              while not QQ.Eof do
-                              begin
-                                lAppObject.ID := QQ.FieldByName('ID').AsString;
-                                TModAppItem(lAppObject).SetHeaderProperty(AOBject);
-                                LoadFromDB(lAppObject, lAppObject.ID);
-                                meth.Invoke(lObjectList,[lAppObject]);
-
-                                QQ.Next;
-                                if not QQ.Eof then
-                                  lAppObject := TModApp((ctx.FindType(sGenericItemClassName) as TRttiInstanceType).MetaClassType.Create);
-
-
-
-                              end;
-                            finally
-                              QQ.Free;
-                            end;
-
-
-                          end;
-                        end else begin
-                          meth          := prop.PropertyType.GetMethod('Create');
-                          lAppObject    := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-                          lAppObject.ID := Q.FieldByName(prop.Name).AsString;
-
-                          prop.SetValue(AOBject, lAppObject);
-                        end;
-                      end;
-        end;
-      end;
-    end;
-  finally
-    AOBject.ObjectState := 3;
-    Q.Free;
-  end;
-  }
+class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
+var
+  Q: TFDQuery;
+  sSQL: string;
+begin
+  sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
+    AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
+  Q := TDBUtils.OpenQuery(sSQL);
+  SetFromDatast(AObject, Q);
 end;
 
 class procedure TDBUtils.SetFromDatast(AOBject: TModApp; ADataSet: TDataset);

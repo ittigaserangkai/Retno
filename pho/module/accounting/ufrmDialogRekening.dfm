@@ -152,7 +152,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 145
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 257
     Width = 476
     ExplicitTop = 257

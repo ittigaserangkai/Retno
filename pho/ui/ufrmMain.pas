@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, ufrmCostCenter;
+  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -256,6 +256,7 @@ type
     CompanyType1: TMenuItem;
     actCostCenter: TAction;
     actCostCenter1: TMenuItem;
+    ApplicationEvents1: TApplicationEvents;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -287,6 +288,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
+    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -326,7 +328,7 @@ uses
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
-  ufrmTipePembayaran;
+  ufrmTipePembayaran, Datasnap.DSHTTPClient;
 
 {$R *.dfm}
 
@@ -424,11 +426,6 @@ end;
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
     frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actCostCenterExecute(Sender: TObject);
-begin
-  frmCostCenter := TfrmCostCenter.Create(nil);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);
@@ -590,7 +587,7 @@ end;
 
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);
 begin
-  frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
+    frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductTypeNBDExecute(Sender: TObject);
@@ -649,6 +646,17 @@ end;
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
 begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+var
+  Msg: string;
+begin
+  Msg := 'Ada kesalahan dengan pesan : ' + #13 +   E.Message;
+  if E is EHTTPProtocolException then
+    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
+
+  TAppUtils.Error(Msg);
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
