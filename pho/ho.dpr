@@ -115,8 +115,8 @@ uses
   uInfo in 'unit\uInfo.pas',
   ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
   ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
-  uInterface in 'unit\uInterface.pas',
-  uModRekening in '..\model\uModRekening.pas';
+  uModRekening in '..\model\uModRekening.pas',
+  uInterface in '..\system\uInterface.pas';
 
 {$R *.res}
 

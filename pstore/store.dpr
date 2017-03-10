@@ -53,7 +53,8 @@ uses
   ufrmDialogPersonalMember in 'module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
   ufrmSearchTypeMember in 'module\customer_support\ufrmSearchTypeMember.pas' {frmDialogSearchTypeMember},
   ufrmPopupFamilyMember in 'module\customer_support\ufrmPopupFamilyMember.pas' {frmPopupFamilyMember},
-  ufrmPopupPersonalMember in 'module\customer_support\ufrmPopupPersonalMember.pas' {frmPopupPersonalMember};
+  ufrmPopupPersonalMember in 'module\customer_support\ufrmPopupPersonalMember.pas' {frmPopupPersonalMember},
+  uInterface in '..\system\uInterface.pas';
 
 {$R *.res}
 
