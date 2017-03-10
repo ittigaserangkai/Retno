@@ -18,7 +18,6 @@ type
     fraFooter4Button1: TfraFooter4Button;
     lblFilterData: TcxLabel;
     dtAwalFilter: TcxDateEdit;
-    lblsdFilter: TcxLabel;
     dtAkhirFilter: TcxDateEdit;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
@@ -30,6 +29,7 @@ type
     actClose: TAction;
     actPrint: TAction;
     actRefresh: TAction;
+    lblsdFilter: TcxLabel;
     procedure actCloseExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

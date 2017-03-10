@@ -83,7 +83,6 @@ procedure TfrmDialogBank.actSaveExecute(Sender: TObject);
 begin
   inherited;
   if ValidateData then SimpanData;
-  Self.Close;
 end;
 
 procedure TfrmDialogBank.SetFormMode(const Value: TFormMode);
@@ -203,6 +202,8 @@ begin
   prepareAddData();
   cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
   cxLookupAccount.Properties.SetMultiPurposeLookup;
+
+  AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogBank.btnDeleteClick(Sender: TObject);
@@ -302,8 +303,7 @@ begin
   Try
     Crud.SaveToDB(ModBank);
     TAppUtils.Information('Data Bank Berhasil Disimpan');
-    Self.ModalResult := mrOk;
-    Self.CloseModal;
+    ModalResult := mrOk;
   except
     TAppUtils.Error('Gagal Menyimpan Data Bank');
     Raise;

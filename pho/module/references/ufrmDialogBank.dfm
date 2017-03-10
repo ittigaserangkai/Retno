@@ -56,7 +56,7 @@ inherited frmDialogBank: TfrmDialogBank
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 0
+      TabOrder = 1
     end
     object edtBranch: TEdit
       Left = 92
@@ -67,7 +67,7 @@ inherited frmDialogBank: TfrmDialogBank
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 1
+      TabOrder = 2
     end
     object edtAddress: TEdit
       Left = 92
@@ -78,7 +78,7 @@ inherited frmDialogBank: TfrmDialogBank
       Ctl3D = False
       MaxLength = 256
       ParentCtl3D = False
-      TabOrder = 2
+      TabOrder = 3
     end
     object edtCode: TEdit
       Left = 92
@@ -89,7 +89,7 @@ inherited frmDialogBank: TfrmDialogBank
       Ctl3D = False
       MaxLength = 8
       ParentCtl3D = False
-      TabOrder = 3
+      TabOrder = 0
     end
     object gbRekening: TGroupBox
       Left = 2
@@ -127,12 +127,12 @@ inherited frmDialogBank: TfrmDialogBank
         MaxLength = 8
         ParentCtl3D = False
         ReadOnly = True
-        TabOrder = 0
+        TabOrder = 2
         Visible = False
       end
       object edtDescription: TEdit
         Left = 90
-        Top = 56
+        Top = 55
         Width = 303
         Height = 22
         CharCase = ecUpperCase
@@ -140,7 +140,6 @@ inherited frmDialogBank: TfrmDialogBank
         MaxLength = 128
         ParentCtl3D = False
         TabOrder = 1
-        Visible = False
       end
       object cxLookupAccount: TcxExtLookupComboBox
         Left = 90
@@ -149,7 +148,7 @@ inherited frmDialogBank: TfrmDialogBank
         StyleDisabled.LookAndFeel.NativeStyle = False
         StyleFocused.LookAndFeel.NativeStyle = False
         StyleHot.LookAndFeel.NativeStyle = False
-        TabOrder = 2
+        TabOrder = 0
         Width = 302
       end
     end
@@ -171,13 +170,13 @@ inherited frmDialogBank: TfrmDialogBank
       Width = 505
       ExplicitWidth = 505
       inherited btnClose: TcxButton
-        Left = 423
-        ExplicitLeft = 423
+        Left = 428
+        ExplicitLeft = 428
       end
       inherited btnSave: TcxButton
-        Left = 336
+        Left = 325
         Action = actSave
-        ExplicitLeft = 336
+        ExplicitLeft = 325
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -188,16 +187,18 @@ inherited frmDialogBank: TfrmDialogBank
       Width = 505
       ExplicitWidth = 505
       inherited lbl4: TLabel
-        Left = 320
-        ExplicitLeft = 218
+        Left = 325
+        ExplicitLeft = 325
       end
       inherited lbl5: TLabel
-        Left = 415
-        ExplicitLeft = 313
+        Left = 424
+        ExplicitLeft = 424
       end
     end
   end
   inherited actlstMasterDialog: TActionList
+    Left = 408
+    Top = 64
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

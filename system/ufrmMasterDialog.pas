@@ -3,8 +3,11 @@ unit ufrmMasterDialog;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions;
+  Windows, Messages, SysUtils, Variants, Graphics, Controls, Forms,
+  Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions,
+  System.Classes, Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -14,19 +17,19 @@ type
     actDelete: TAction;
     actSave: TAction;
     actCancel: TAction;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
-    procedure FormKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure actCancelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FDialogCompany: Integer;
     FDialogUnit: Integer;
     TList: TStrings;
     procedure Authenticate;
+    procedure EventKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GetAndRunButton(AButtonName: string); dynamic;
     procedure GetUserModule;
+  protected
+    procedure AssignKeyDownEvent;
   public
     FDialogUnitCOde: string;
     FDialogUnitName: string;
@@ -59,6 +62,41 @@ uses udmMain;
 
 {$R *.dfm}
 
+procedure TfrmMasterDialog.actCancelExecute(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TfrmMasterDialog.AssignKeyDownEvent;
+var
+  Comp: TComponent;
+  i: Integer;
+begin
+  for i := 0 to ComponentCount-1 do
+  begin
+    Comp := Components[i];
+    if Comp is TEdit then
+    begin
+      If not Assigned(TEdit(Comp).OnKeyDown) then
+        TEdit(Comp).OnKeyDown := EventKeyDown;
+      if TEdit(Comp).ReadOnly then
+        TEdit(Comp).TabStop := False;
+    end else if Comp is TcxTextEdit then
+    begin
+      If not Assigned(TcxTextEdit(Comp).OnKeyDown) then
+        TcxTextEdit(Comp).OnKeyDown := EventKeyDown;
+      if TcxTextEdit(Comp).Properties.ReadOnly then
+        TcxTextEdit(Comp).TabStop := False;
+    end else if Comp is TcxExtLookupComboBox then
+    begin
+      if not Assigned(TcxExtLookupComboBox(Comp).OnKeyDown) then
+        TcxExtLookupComboBox(Comp).OnKeyDown := EventKeyDown;
+      if TcxExtLookupComboBox(Comp).Properties.ReadOnly then
+        TcxExtLookupComboBox(Comp).TabStop := False;
+    end;
+  end;
+end;
+
 procedure TfrmMasterDialog.Authenticate;
 var
   i: word;
@@ -80,15 +118,11 @@ begin
 
 end;
 
-procedure TfrmMasterDialog.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmMasterDialog.EventKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
 begin
-  Action := caFree
-end;
-
-procedure TfrmMasterDialog.FormDestroy(Sender: TObject);
-begin
-  frmMasterDialog := nil;
+  if Key = VK_RETURN then
+    SelectNext(Screen.ActiveControl, True, True);
 end;
 
 procedure TfrmMasterDialog.GetAndRunButton(AButtonName: string);
@@ -109,22 +143,22 @@ begin
     end;
 end;
 
-procedure TfrmMasterDialog.FormKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if(Key = VK_RETURN)and(ssctrl in Shift) then
-    GetAndRunButton('btnSave');
-  if(Key = VK_ESCAPE) then
-    GetAndRunButton('btnClose');
-end;
-
 procedure TfrmMasterDialog.FormCreate(Sender: TObject);
 begin
-  TList             := TStringList.Create;
-  FormatSettings.DecimalSeparator  := '.';
-  FormatSettings.ThousandSeparator := ',';
-  FormatSettings.CurrencyString    := 'Rp';
+  TList                             := TStringList.Create;
+  FormatSettings.DecimalSeparator   := '.';
+  FormatSettings.ThousandSeparator  := ',';
+  FormatSettings.CurrencyString     := 'Rp';
  end;
+
+procedure TfrmMasterDialog.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  //inherited
+  if(Key = VK_DELETE)and(ssctrl in Shift) then actDelete.Execute;
+  if(Key = VK_RETURN)and(ssctrl in Shift) then actSave.Execute;
+  if(Key = VK_ESCAPE) then actCancel.Execute
+end;
 
 procedure TfrmMasterDialog.GetUserModule;
 var
@@ -173,10 +207,5 @@ begin
   FDialogUnit := Value;
 end;
 
-
-procedure TfrmMasterDialog.FormShow(Sender: TObject);
-begin
-//    Authenticate;
-end;
 
 end.
