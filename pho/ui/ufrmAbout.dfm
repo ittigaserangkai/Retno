@@ -48,7 +48,11 @@ inherited frmAbout: TfrmAbout
       end
       inherited btnSave: TcxButton
         Left = 103
+        Action = actSave
         ExplicitLeft = 103
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel

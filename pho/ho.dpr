@@ -111,11 +111,8 @@ uses
   uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
-  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
-  uInfo in 'unit\uInfo.pas',
   ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
   ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
-  uModRekening in '..\model\uModRekening.pas',
   uInterface in '..\system\uInterface.pas';
 
 {$R *.res}
