@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
-  System.Actions, Vcl.ActnList;
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls;
 
 type
   TfrmMain = class(TForm)
@@ -34,7 +34,6 @@ type
     edDatabase: TcxTextEdit;
     edPort: TcxTextEdit;
     btnKonekDB: TButton;
-    Button1: TButton;
     mmMainMenu: TMainMenu;
     File1: TMenuItem;
     Exit1: TMenuItem;
@@ -43,14 +42,16 @@ type
     actlstMenu: TActionList;
     actFileExit: TAction;
     actToolsGenerateModel: TAction;
+    mmLog: TMemo;
+    rbTrace: TRadioGroup;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
+    procedure rbTraceClick(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
     procedure StartServer;
@@ -67,7 +68,8 @@ implementation
 
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
-  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel;
+  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel,
+  WebModuleRetnoUnit;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -122,49 +124,19 @@ begin
   end;
 end;
 
-procedure TfrmMain.Button1Click(Sender: TObject);
-var
-  lTest: TModTest;
-  i: Integer;
-  lTestItem: TModTestItem;
-begin
-  lTest         := TModTest.Create;
-  lTest.RefNo   := 'Halo';
-  lTest.Bank    := TModBank.Create;
-  lTest.Bank.ID := TDBUtils.GetNextIDGUIDToString;
-  lTest.RefDate := Now();
-
-  for i := 0 to 5 do
-  begin
-    lTestItem          := TModTestItem.Create;
-    lTestItem.ItemCode := 'ItemCode_' + inttostr(i);
-    lTestItem.ItemName := 'ItemName_' + inttostr(i);
-    lTestItem.QTY      := i;
-
-    lTest.Items.Add(lTestItem);
-  end;
-
-  With TDBUtils.GenerateSQL(lTest) do
-  begin
-    SaveToFile('D:\GenerateSQL.txt');
-  end;
-
-//  TDBUtils.LoadFromDB(lTest,'5E76958A-D9D9-4377-A7E8-1192D48B2E7A');
-//  showmessage(lTest.RefNo);
-
-end;
-
 procedure TfrmMain.ButtonStopClick(Sender: TObject);
 begin
   TerminateThreads;
   FServer.Active := False;
   DSServer.Stop;
   FServer.Bindings.Clear;
+  HTTPMemo.Lines.Add('Server Stopped');
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  FServer := TIdHTTPWebBrokerBridge.Create(Self);
+  HTTPMemo  := mmLog;
+  FServer   := TIdHTTPWebBrokerBridge.Create(Self);
 
   if TAppUtils.BacaRegistry('Server') <> '' then
   begin
@@ -180,6 +152,14 @@ begin
 
 end;
 
+procedure TfrmMain.rbTraceClick(Sender: TObject);
+begin
+  if not Assigned(WebModule) then   //no client yet, can't access the webmodule
+    TraceInitialState := rbTrace.ItemIndex
+  else
+    WebModule.SetTraceOption(rbTrace.ItemIndex);
+end;
+
 procedure TfrmMain.StartServer;
 begin
   btnKonekDB.Click;
@@ -189,6 +169,7 @@ begin
     FServer.DefaultPort := StrToInt(EditPort.Text);
     FServer.Active      := True;
     DSServer.Start;
+    HTTPMemo.Lines.Add('Server Started');
   end;
 end;
 

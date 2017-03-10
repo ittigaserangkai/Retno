@@ -24,7 +24,6 @@ type
     spInsert: TFDStoredProc;
     spUpdate: TFDStoredProc;
     spDelete: TFDStoredProc;
-    appevnMain: TApplicationEvents;
     adoConn: TADOConnection;
     adoQry: TADOQuery;
     fdMSSQLdl1: TFDPhysMSSQLDriverLink;

@@ -13,8 +13,8 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   inherited pnlBody: TPanel
     Width = 546
     Height = 238
-    ExplicitWidth = 120
-    ExplicitHeight = 233
+    ExplicitWidth = 546
+    ExplicitHeight = 238
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
@@ -22,15 +22,23 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
       Height = 216
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 72
-      ExplicitTop = 80
-      ExplicitWidth = 289
-      ExplicitHeight = 121
       object cxGridViewTipePerusahaan: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        object cxGridViewTipePerusahaanColumn1: TcxGridDBColumn
+          DataBinding.FieldName = 'REF$TIPE_PERUSAHAAN_ID'
+          Visible = False
+        end
+        object cxGridViewTipePerusahaanColumn2: TcxGridDBColumn
+          Caption = 'KODE'
+          DataBinding.FieldName = 'TPPERSH_CODE'
+        end
+        object cxGridViewTipePerusahaanColumn3: TcxGridDBColumn
+          Caption = 'NAMA'
+          DataBinding.FieldName = 'TPPERSH_NAME'
+        end
       end
       object cxGridLevel1: TcxGridLevel
         GridView = cxGridViewTipePerusahaan
@@ -39,9 +47,9 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   end
   inherited pnlHeader: TPanel
     Width = 546
-    ExplicitWidth = 120
+    ExplicitWidth = 546
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inline fraFooter5Button1: TfraFooter5Button [2]
     Left = 0
     Top = 268
     Width = 546
@@ -54,14 +62,14 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 268
+    ExplicitWidth = 546
     inherited pnlFooter: TPanel
       Width = 546
-      ExplicitWidth = 120
+      ExplicitWidth = 546
       inherited btnClose: TcxButton
         Left = 466
-        ExplicitLeft = 40
+        ExplicitLeft = 466
       end
       inherited btnAdd: TcxButton
         Action = actAddTipePerusahaan
@@ -78,12 +86,15 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     end
     inherited pnlSortCut: TPanel
       Width = 546
-      ExplicitWidth = 120
+      ExplicitWidth = 546
       inherited lbl5: TLabel
         Left = 458
         ExplicitLeft = 452
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object actlstTipeSupplier: TActionList
     Left = 440

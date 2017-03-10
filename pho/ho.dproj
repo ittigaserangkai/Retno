@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.26;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>26</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.29;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>29</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -365,7 +365,6 @@
         </DCCReference>
         <DCCReference Include="..\lib\uConn.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
-        <DCCReference Include="..\lib\uInfo.pas"/>
         <DCCReference Include="..\lib\uNetUtils.pas"/>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
         <DCCReference Include="module\merchandise\ufraHistoriPOByProduct.pas">
@@ -418,6 +417,17 @@
         <DCCReference Include="..\model\uModSatuan.pas"/>
         <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="..\model\uModCostCenter.pas"/>
+        <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
+        <DCCReference Include="unit\uInfo.pas"/>
+        <DCCReference Include="module\references\ufrmCostCenter.pas">
+            <Form>frmCostCenter</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogCostCenter.pas">
+            <Form>frmDialogCostCenter</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="unit\uInterface.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -450,27 +460,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -824,12 +819,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

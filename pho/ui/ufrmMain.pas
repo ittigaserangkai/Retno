@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank, System.UITypes;
+  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, ufrmCostCenter;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -253,12 +253,16 @@ type
     Rekening1: TMenuItem;
     UnitOfMeasure1: TMenuItem;
     actTipePembayaran1: TMenuItem;
+    CompanyType1: TMenuItem;
+    actCostCenter: TAction;
+    actCostCenter1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
+    procedure actCostCenterExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
@@ -278,6 +282,7 @@ type
     procedure actUOMNBDExecute(Sender: TObject);
     procedure actUserExecute(Sender: TObject);
     procedure actUserGroupExecute(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
@@ -419,6 +424,11 @@ end;
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
     frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actCostCenterExecute(Sender: TObject);
+begin
+  frmCostCenter := TfrmCostCenter.Create(nil);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);
@@ -639,6 +649,11 @@ end;
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
 begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.Button1Click(Sender: TObject);
+begin
+  raise Exception.Create('Error Message');
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

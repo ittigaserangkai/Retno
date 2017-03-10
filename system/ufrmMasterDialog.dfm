@@ -56,12 +56,18 @@ object frmMasterDialog: TfrmMasterDialog
       inherited btnClose: TcxButton
         Left = 484
         Cancel = False
+        ModalResult = 2
         ExplicitLeft = 484
       end
       inherited btnSave: TcxButton
         Left = 357
+        Action = actSave
         Default = False
+        ModalResult = 1
         ExplicitLeft = 357
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
@@ -75,6 +81,20 @@ object frmMasterDialog: TfrmMasterDialog
         Left = 454
         ExplicitLeft = 456
       end
+    end
+  end
+  object actlstMasterDialog: TActionList
+    Left = 368
+    Top = 104
+    object actDelete: TAction
+      Caption = 'Delete'
+      ShortCut = 16430
+    end
+    object actSave: TAction
+      Caption = 'Save'
+    end
+    object actCancel: TAction
+      Caption = 'actCancel'
     end
   end
 end

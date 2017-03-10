@@ -32,6 +32,8 @@ procedure cSetShowWaitWindowCaption(aCaption : String = 'Mohon Ditunggu ...');
 
 procedure cCloseWaitWindow;
 
+function GetLastEODDate(aUNitID : Integer): TDateTime;
+
 const
   _add = 5;
   _Div = 7;
@@ -199,6 +201,25 @@ begin
 
     FreeAndNil(FWaitForm);
     Screen.Cursor := crDefault;
+end;
+
+function GetLastEODDate(aUNitID : Integer): TDateTime;
+var
+  sSQL: string;
+begin
+  sSQL := 'select max(le_tanggal) '
+          + ' from log_eod'
+          + ' where unit_id = ' + IntToStr(aUNitID);
+
+{  with cOpenQuery(sSQL) do
+  begin
+    try
+      Result := Fields[0].AsDateTime;
+    finally
+      Free;
+    end;
+  end;
+}
 end;
 
 end.

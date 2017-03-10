@@ -38,6 +38,7 @@ type
     function CostCenter_GetDSLookup: TDataSet;
     function CostCenter_GetDSOverview: TDataSet;
     function TipePembayaran_GetDSOverview: TDataSet;
+    function TipePerusahaan_GetDSOverview: TDataSet;
 
 
   end;
@@ -234,6 +235,14 @@ var
   S: string;
 begin
   S := 'select REF$TIPE_PEMBAYARAN_ID, TPBYR_CODE, TPBYR_NAME from REF$TIPE_PEMBAYARAN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipePerusahaan_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM REF$TIPE_PERUSAHAAN';
   Result := TDBUtils.OpenQuery(S);
 end;
 

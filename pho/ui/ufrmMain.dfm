@@ -159,6 +159,12 @@ object frmMain: TfrmMain
         Action = actTipePembayaran
         Caption = 'Tipe Pembayaran'
       end
+      object CompanyType1: TMenuItem
+        Action = actCompanyType
+      end
+      object actCostCenter1: TMenuItem
+        Action = actCostCenter
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -298,7 +304,7 @@ object frmMain: TfrmMain
     end
     object actCompanyType: TAction
       Category = 'References'
-      Caption = 'Company Type'
+      Caption = 'Tipe Perusahaan'
       OnExecute = actCompanyTypeExecute
     end
     object actBank: TAction
@@ -1043,6 +1049,11 @@ object frmMain: TfrmMain
       Category = 'Sistem'
       Caption = 'System Parameter Company'
       OnExecute = actSysParmCompExecute
+    end
+    object actCostCenter: TAction
+      Category = 'References'
+      Caption = 'Cost Center'
+      OnExecute = actCostCenterExecute
     end
   end
 end

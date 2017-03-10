@@ -85,7 +85,6 @@ uses
   ufrmSearchSupplier in 'module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
   uConn in '..\lib\uConn.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
-  uInfo in '..\lib\uInfo.pas',
   uNetUtils in '..\lib\uNetUtils.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
   ufraHistoriPOByProduct in 'module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
@@ -110,7 +109,12 @@ uses
   ufrmSatuan_NBD in 'module\references\ufrmSatuan_NBD.pas' {frmSatuan_NBD},
   uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
-  uModCostCenter in '..\model\uModCostCenter.pas';
+  uModCostCenter in '..\model\uModCostCenter.pas',
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
+  uInfo in 'unit\uInfo.pas',
+  ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
+  ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
+  uInterface in 'unit\uInterface.pas';
 
 {$R *.res}
 
@@ -120,5 +124,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmDialogCostCenter, frmDialogCostCenter);
   Application.Run;
 end.

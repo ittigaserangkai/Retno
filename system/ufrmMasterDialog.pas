@@ -4,12 +4,16 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList;
+  Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions;
 
 type
   TfrmMasterDialog = class(TForm)
     pnlBody: TPanel;
     footerDialogMaster: TfraFooterDialog3Button;
+    actlstMasterDialog: TActionList;
+    actDelete: TAction;
+    actSave: TAction;
+    actCancel: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;

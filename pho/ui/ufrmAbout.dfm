@@ -9,12 +9,32 @@ inherited frmAbout: TfrmAbout
   Constraints.MinHeight = 308
   Constraints.MinWidth = 288
   OldCreateOrder = True
-  OnShow = FormShow
   ExplicitWidth = 288
   ExplicitHeight = 308
   PixelsPerInch = 96
   TextHeight = 16
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited pnlBody: TPanel
+    Width = 272
+    Height = 213
+    ExplicitWidth = 272
+    ExplicitHeight = 213
+    object lbx2: TcxLabel
+      Left = 32
+      Top = 96
+      Caption = 'lbx2'
+    end
+    object lbx1: TcxLabel
+      Left = 32
+      Top = 70
+      Caption = 'lbx1'
+    end
+    object lbx5: TcxLabel
+      Left = 32
+      Top = 122
+      Caption = 'lbx5'
+    end
+  end
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 213
     Width = 272
     ExplicitTop = 213
@@ -42,27 +62,6 @@ inherited frmAbout: TfrmAbout
         Left = 182
         ExplicitLeft = 182
       end
-    end
-  end
-  inherited pnlBody: TPanel
-    Width = 272
-    Height = 213
-    ExplicitWidth = 272
-    ExplicitHeight = 213
-    object lbx2: TcxLabel
-      Left = 32
-      Top = 96
-      Caption = 'lbx2'
-    end
-    object lbx1: TcxLabel
-      Left = 32
-      Top = 70
-      Caption = 'lbx1'
-    end
-    object lbx5: TcxLabel
-      Left = 32
-      Top = 122
-      Caption = 'lbx5'
     end
   end
 end

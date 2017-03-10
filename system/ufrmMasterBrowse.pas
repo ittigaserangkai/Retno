@@ -10,22 +10,7 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxLabel, ufraFooter4Button, dxSkinsCore, dxSkinBlack, dxSkinBlue,
-  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
-  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
-  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
-  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinscxPCPainter;
+  cxLabel, ufraFooter4Button, Vcl.Menus, cxButtons, System.Actions, Vcl.ActnList, uInterface;
 
 type
   TfrmMasterBrowse = class(TfrmMaster)
@@ -37,9 +22,18 @@ type
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
     cxGrid: TcxGrid;
+    btnSearch: TcxButton;
+    actlstBrowse: TActionList;
+    actAdd: TAction;
+    actEdit: TAction;
+    actClose: TAction;
+    actPrint: TAction;
+    actRefresh: TAction;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
+    procedure ShowDialogForm(AFormDialog : ICRUDAble; AID : String = '');
     { Public declarations }
   end;
 
@@ -47,7 +41,23 @@ var
   frmMasterBrowse: TfrmMasterBrowse;
 
 implementation
+uses
+  System.DateUtils;
 
 {$R *.dfm}
+
+procedure TfrmMasterBrowse.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dtAwalFilter.Date  := StartOfTheMonth(Now);
+  dtAkhirFilter.Date := Now;
+end;
+
+procedure TfrmMasterBrowse.ShowDialogForm(AFormDialog : ICRUDAble; AID : String
+    = '');
+begin
+//  AFormDialog.LoadData(AID);
+//  AFormDialog.
+end;
 
 end.

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
   StdCtrls, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, cxLabel;
+  cxContainer, cxEdit, cxLabel, ufraFooterDialog3Button;
 
 type
   TfrmAbout = class(TfrmMasterDialog)

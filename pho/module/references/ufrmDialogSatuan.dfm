@@ -91,14 +91,17 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       ExplicitWidth = 373
       inherited btnClose: TcxButton
         Left = 291
+        Action = actCancel
         ExplicitLeft = 291
       end
       inherited btnSave: TcxButton
         Left = 204
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 204
       end
       inherited btnDelete: TcxButton
+        Action = actDelete
         OnClick = btnDeleteClick
       end
     end
