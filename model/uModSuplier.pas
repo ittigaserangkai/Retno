@@ -39,10 +39,10 @@ type
     property SUP_CONTACT_PERSON: String read FSUP_CONTACT_PERSON write
         FSUP_CONTACT_PERSON;
     property SUP_TITLE: String read FSUP_TITLE write FSUP_TITLE;
-    [AttributeOfForeign('REF$TIPE_PERUSAHAAN_ID')] //relasi dg tabel lain
+    [AttributeOfForeign('REF$TIPE_PERUSAHAAN_ID')] //relasi dg tabel lain yg butuh karakter unik
     property TIPE_PERUSAHAAN: TModTipePerusahaan read FTIPE_PERUSAHAAN write
         FTIPE_PERUSAHAAN;
-    property BANK: TModBank read FBANK write FBANK;
+    property BANK: TModBank read FBANK write FBANK; //relasi dg tabel lain
     property SUP_BANK_ACCOUNT_NO: String read FSUP_BANK_ACCOUNT_NO write
         FSUP_BANK_ACCOUNT_NO;
     property SUP_BANK_ACCOUNT_NAME: String read FSUP_BANK_ACCOUNT_NAME write
@@ -51,7 +51,7 @@ type
         FSUP_SERVICE_LEVEL;
     property SUPLIER_GROUP: TModSuplierGroup read FSUPLIER_GROUP write
         FSUPLIER_GROUP;
-    [AttributeOfForeign('REF$TIPE_SUPLIER_ID')] //relasi dg tabel lain
+    [AttributeOfForeign('REF$TIPE_SUPLIER_ID')] //relasi dg tabel lain yg butuh karakter unik
     property TIPE_SUPLIER: TModTipeSuplier read FTIPE_SUPLIER write FTIPE_SUPLIER;
   end;
 
@@ -99,6 +99,5 @@ initialization
   TModSuplier.RegisterRTTI;
   TModSuplierGroup.RegisterRTTI;
   TModTipeSuplier.RegisterRTTI;
-
 
 end.
