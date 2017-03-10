@@ -16,6 +16,8 @@ type
         TRttiProperty;
     function FieldNameOf(aprop: TRttiProperty): String;
     function GetHeaderField: String;
+    function GetCodeField: String;
+    function GetCodeValue: String;
     function GetHeaderProperty: String;
     function QuotValue(AProp: TRttiProperty): String;
   end;
@@ -64,9 +66,7 @@ var
 begin
   Result := '';
   if  UpperCase(aProp.Name) = 'ID' then
-    Result := Self.GetPrimaryField // attribute tidak diset
-//  else if (aProp.PropertyType.TypeKind = tkClass) then
-//    Result := aProp.Name + '_ID'
+    Result := Self.GetPrimaryField
   else begin
     for a in aprop.GetAttributes do
     begin
@@ -74,14 +74,11 @@ begin
       begin
         if AttributeOfCustom(a).CustomField <> '' then
           Result := AttributeOfCustom(a).CustomField;
-//        else if (a.InheritsFrom(AttributeOfForeign)) then  // Bank.Rekening : TModRekning -> Rekening_ID
-//          Result := aProp.Name + '_ID';
         Break;
       end;
     end;
     if (Result = '') and (aProp.PropertyType.TypeKind = tkClass) then
       Result := aProp.Name + '_ID';
-
     if Result = '' then Result := aProp.Name;
   end;
 end;
@@ -89,6 +86,16 @@ end;
 function TModAppHelper.GetHeaderField: String;
 begin
   Result := FieldNameOf( PropFromAttr(AttributeOfHeader) );
+end;
+
+function TModAppHelper.GetCodeField: String;
+begin
+  Result := FieldNameOf( PropFromAttr(AttributeOfCode) );
+end;
+
+function TModAppHelper.GetCodeValue: String;
+begin
+  Result := PropFromAttr(AttributeOfCode).GetValue(Self).AsString;
 end;
 
 function TModAppHelper.GetHeaderProperty: String;
@@ -117,11 +124,11 @@ begin
         Result := BoolToStr(AProp.GetValue(Self).AsBoolean);
       tkClass:
         begin
+          Result := 'NULL';
           lObj := AProp.GetValue(Self).AsObject;
-          if lObj.InheritsFrom(TModApp) then
-          begin
-            Result := QuotedStr(TModApp(lObj).ID);
-          end;
+          if (lObj.InheritsFrom(TModApp)) and (lObj <> nil) then
+            if TModApp(lObj).ID <> '' then
+              Result := QuotedStr(TModApp(lObj).ID);
         end
     else
       Raise Exception.Create(

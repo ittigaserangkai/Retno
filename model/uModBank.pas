@@ -18,6 +18,7 @@ type
   published
     property BANK_ADDRESS: string read FBANK_ADDRESS write FBANK_ADDRESS;
     property BANK_BRANCH: string read FBANK_BRANCH write FBANK_BRANCH;
+    [AttributeOfCode]
     property BANK_CODE: string read FBANK_CODE write FBANK_CODE;
     property BANK_DESCRIPTION: string read FBANK_DESCRIPTION write
         FBANK_DESCRIPTION;
@@ -29,7 +30,7 @@ implementation
 
 class function TModBank.GetTableName: String;
 begin
-  Result := 'Bank22';
+  Result := 'Bank';
 end;
 
 initialization

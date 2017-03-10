@@ -110,7 +110,8 @@ uses
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
-  uInfo in 'unit\uInfo.pas';
+  uInfo in 'unit\uInfo.pas',
+  uModRekening in '..\model\uModRekening.pas';
 
 {$R *.res}
 

@@ -3,7 +3,8 @@ unit uServerClasses;
 interface
 
 uses
-  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils;
+  System.Classes, uModApp, uModAppHelper,uDBUtils, Rtti, Data.DB, SysUtils,
+  StrUtils;
 
 type
   {$METHODINFO ON}
@@ -15,6 +16,7 @@ type
   TCrud = class(TComponent)
   private
     function StringToClass(ModClassName: string): TModAppClass;
+    function ValidateCode(AOBject: TModApp): Boolean;
   public
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
@@ -60,6 +62,7 @@ var
   lSS: TStrings;
 begin
   Result := False;
+  if not ValidateCode(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
@@ -139,6 +142,32 @@ end;
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
 begin
   Result := TDBUtils.GenerateSQL(AObject);
+end;
+
+function TCrud.ValidateCode(AOBject: TModApp): Boolean;
+var
+  S: string;
+  sFilter: string;
+begin
+  Result  := True;
+  if AObject.PropFromAttr(AttributeOfCode, False) = nil then
+    exit;
+  sFilter := AOBject.GetCodeField + ' = ' + QuotedStr(AObject.GetCodeValue);
+  if AOBject.ID <> '' then
+    sFilter := sFilter + ' And ' + AOBject.GetPrimaryField + ' <> ' + QuotedStr(AOBject.ID);
+  S := Format(SQL_Select,['*', AOBject.GetTableName, sFilter]);
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      Result := EOF;
+    Finally
+      Free;
+    End;
+  end;
+  if not Result then
+    raise Exception.Create(AOBject.GetTableName + '.' + AOBject.GetCodeField
+      + ' : ' + AOBject.GetCodeValue + ' sudah ada di Database'
+    );
 end;
 
 function TDSProvider.Bank_GetDSOverview: TDataSet;

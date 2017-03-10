@@ -310,23 +310,10 @@ end;
 
 procedure TfrmBank.RefreshData;
 begin
-
   if Assigned(FCDS) then FreeAndNil(FCDS);
-
-  //FCDS := TDBUtils.DSToCDS( DSClient.Bank_GetDSOverview ,Self );
-
-  //trial stateless conn
-  with TDSProviderClient.Create(DMClient.RestConn) do
-  begin
-    Try
-      FCDS := TDBUtils.DSToCDS( Bank_GetDSOverview ,Self );
-    Finally
-      free;
-    End;
-  end;
-
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Bank_GetDSOverview ,Self );
   cxGrdBrowse.LoadFromCDS(CDS);
-  cxGrdBrowse.SetVisibleColumns(['ID'],False);
+  cxGrdBrowse.SetVisibleColumns(['Bank_ID'],False);
 end;
 
 end.
