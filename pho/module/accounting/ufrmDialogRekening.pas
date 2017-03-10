@@ -9,7 +9,7 @@ uses
   cxEdit, cxMaskEdit, cxButtonEdit, cxTextEdit, cxCurrencyEdit, uClientClasses,
   uModRekening,  uDMClient, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, uDbutils, DBClient, Vcl.Samples.Spin,
-  cxSpinEdit;
+  cxSpinEdit, ufraFooterDialog3Button;
 
 type
   TStatusForm = (frNew, frEdit);
@@ -61,7 +61,7 @@ type
     FModRekening: TModRekening;
     FRekCode: string;
     FParentCode: string;
-    procedure ChekEmptyValue;
+    function ChekEmptyValue: Boolean;
     function GetCDSRekening: tclientDataset;
     function GetCDSRekeningGroup: tclientDataset;
     function GetCrud: TCrudClient;
@@ -108,9 +108,9 @@ uses  uConstanta, uTSCommonDlg, uRetnoUnit, DB, StrUtils, uAppUtils, uDXUtils;
 procedure TfrmDialogRekening.FormCreate(Sender: TObject);
 begin
   inherited;
-  dbParentCode.Properties.LoadFromCDS(CDSRekening,'REK_CODE', 'REK_NAME', ['REKENING_ID'] , self);
+  dbParentCode.Properties.LoadFromCDS(CDSRekening,'REKENING_ID', 'REK_NAME', ['REKENING_ID'] , self);
   dbParentCode.Properties.SetMultiPurposeLookup;
-  dbAccountGroup.Properties.LoadFromCDS(CDSRekeningGroup,'GROREK_NAME', 'GROREK_DESCRIPTIOn', ['REF$GRUP_REKENING_ID'] , self);
+  dbAccountGroup.Properties.LoadFromCDS(CDSRekeningGroup,'REF$GRUP_REKENING_ID', 'GROREK_NAME', ['REF$GRUP_REKENING_ID'] , self);
   dbAccountGroup.Properties.SetMultiPurposeLookup;
 end;
 
@@ -436,8 +436,9 @@ begin
 //  end;
 end;
 
-procedure TfrmDialogRekening.ChekEmptyValue;
+function TfrmDialogRekening.ChekEmptyValue: Boolean;
 begin
+  Result := False;
   if (edtRekCode.Text = '') then
   begin
     CommonDlg.ShowError('Rekening Code Is Empty');
@@ -451,7 +452,8 @@ begin
     CommonDlg.ShowError('Rekening Group Is Empty');
     dbAccountGroup.SetFocus;
     Exit;
-  end;  
+  end;
+  Result := True;
 end;
 
 procedure TfrmDialogRekening.SetParentCode(const Value: string);
@@ -504,7 +506,7 @@ end;
 function TfrmDialogRekening.GetCDSRekeningGroup: tclientDataset;
 begin
   if not assigned(FCDSRekeningGroup) then
-    FCDSRekeningGroup := Tdbutils.DSToCDS(DsProvider.Rekening_GetDSLookup, self);
+    FCDSRekeningGroup := Tdbutils.DSToCDS(DsProvider.GroupRekening_GetDSLookup, self);
   Result := FCDSRekeningGroup;
 end;
 
@@ -565,7 +567,8 @@ begin
   edtDescription.Text := ModRekening.REK_DESCRIPTION;
   if Assigned(ModRekening.RekeningGroup) then
     dbAccountGroup.EditValue := ModRekening.RekeningGroup.ID;
-  dbParentCode.EditValue := ModRekening.REK_PARENT_CODE;
+  if Assigned(ModRekening.REK_PARENT) then
+    dbParentCode.EditValue := ModRekening.REK_PARENT.ID;
   if ModRekening.REK_IS_GROUP = 1 then chkbs.Checked := true else chkpl.Checked := true;
   if ModRekening.REK_IS_DEBET = 1 then cHKisDebet.Checked := true else cHKisDebet.Checked := false;
   if ModRekening.REK_IS_LEAF = 1 then cHKisLeaf.Checked := true else cHKisLeaf.Checked := false;
@@ -585,7 +588,7 @@ var
   IsGroup : Integer;
 begin
   try
-    ChekEmptyValue;
+    if not ChekEmptyValue then exit;
     IsProcessSuccesfull := False;
 
     Self.Enabled := False;
@@ -609,7 +612,7 @@ begin
   ModRekening.REK_LEVEL := intedtLevel.Value;
   ModRekening.REK_DESCRIPTION := edtDescription.Text;
   ModRekening.RekeningGroup := TModRekeningGroup.CreateID(dbAccountGroup.EditValue);
-  ModRekening.REK_PARENT_CODE := dbParentCode.EditValue;
+  ModRekening.REK_PARENT := TModRekening.CreateID(dbParentCode.EditValue);
   ModRekening.REK_IS_DEBET := isDebet;
   ModRekening.REK_IS_LEAF := isLeaf;
   ModRekening.REK_IS_GROUP := isGroup;
