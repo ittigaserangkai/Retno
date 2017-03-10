@@ -202,6 +202,42 @@
             <Form>frmDialogSearchProduct</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmMemberShip.pas">
+            <Form>frmMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmDialogMemberShip.pas">
+            <Form>frmDialogMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmSearchCompanyMember.pas">
+            <Form>frmDialogSearchCompanyMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmDialogFamilyMember.pas">
+            <Form>frmDialogFamilyMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmSearchStatusKlrg.pas">
+            <Form>frmDialogSearchStatusKlrg</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmDialogPersonalMember.pas">
+            <Form>frmDialogPersonalMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmSearchTypeMember.pas">
+            <Form>frmDialogSearchTypeMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmPopupFamilyMember.pas">
+            <Form>frmPopupFamilyMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\customer_support\ufrmPopupPersonalMember.pas">
+            <Form>frmPopupPersonalMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

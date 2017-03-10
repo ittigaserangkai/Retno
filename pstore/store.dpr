@@ -44,7 +44,16 @@ uses
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
   uAppUtils in '..\lib\uAppUtils.pas',
   ufrmDialogAddProductForSO in 'module\so\ufrmDialogAddProductForSO.pas' {frmDialogAddProductForSO},
-  ufrmSearchProduct in '..\pho\module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct};
+  ufrmSearchProduct in '..\pho\module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
+  ufrmMemberShip in 'module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
+  ufrmDialogMemberShip in 'module\customer_support\ufrmDialogMemberShip.pas' {frmDialogMemberShip},
+  ufrmSearchCompanyMember in 'module\customer_support\ufrmSearchCompanyMember.pas' {frmDialogSearchCompanyMember},
+  ufrmDialogFamilyMember in 'module\customer_support\ufrmDialogFamilyMember.pas' {frmDialogFamilyMember},
+  ufrmSearchStatusKlrg in 'module\customer_support\ufrmSearchStatusKlrg.pas' {frmDialogSearchStatusKlrg},
+  ufrmDialogPersonalMember in 'module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
+  ufrmSearchTypeMember in 'module\customer_support\ufrmSearchTypeMember.pas' {frmDialogSearchTypeMember},
+  ufrmPopupFamilyMember in 'module\customer_support\ufrmPopupFamilyMember.pas' {frmPopupFamilyMember},
+  ufrmPopupPersonalMember in 'module\customer_support\ufrmPopupPersonalMember.pas' {frmPopupPersonalMember};
 
 {$R *.res}
 
