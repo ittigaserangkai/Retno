@@ -54,7 +54,8 @@ uses
   ufrmSearchTypeMember in 'module\customer_support\ufrmSearchTypeMember.pas' {frmDialogSearchTypeMember},
   ufrmPopupFamilyMember in 'module\customer_support\ufrmPopupFamilyMember.pas' {frmPopupFamilyMember},
   ufrmPopupPersonalMember in 'module\customer_support\ufrmPopupPersonalMember.pas' {frmPopupPersonalMember},
-  uInterface in '..\system\uInterface.pas';
+  uInterface in '..\system\uInterface.pas',
+  uModSuplier in '..\model\uModSuplier.pas';
 
 {$R *.res}
 
