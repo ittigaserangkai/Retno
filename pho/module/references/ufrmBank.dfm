@@ -11,94 +11,16 @@ inherited frmBank: TfrmBank
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 623
-    Height = 352
+    Height = 349
     ExplicitWidth = 623
-    ExplicitHeight = 352
-    object pnlBodyUp: TPanel
-      Left = 11
-      Top = 11
+    ExplicitHeight = 293
+    inherited cxGrid: TcxGrid
       Width = 601
-      Height = 38
-      Align = alTop
-      Color = 15198183
-      TabOrder = 0
-      Visible = False
-      object Label1: TLabel
-        Left = 8
-        Top = 12
-        Width = 41
-        Height = 16
-        Caption = 'Search :'
-      end
-      object edtPencarian: TEdit
-        Left = 52
-        Top = 8
-        Width = 201
-        Height = 24
-        BevelInner = bvLowered
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 0
-        OnChange = edtPencarianChange
-        OnKeyPress = edtPencarianKeyPress
-      end
-    end
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 49
-      Width = 601
-      Height = 292
-      Align = alClient
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      LookAndFeel.Kind = lfUltraFlat
-      LookAndFeel.NativeStyle = False
-      object cxGrdBrowse: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Filter.Options = [fcoCaseInsensitive]
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <
-          item
-          end>
-        DataController.Summary.SummaryGroups = <>
-        FilterRow.Visible = True
-        FilterRow.ApplyChanges = fracImmediately
-        OptionsCustomize.ColumnHiding = True
-        OptionsCustomize.ColumnsQuickCustomization = True
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
-        OptionsView.GroupByBox = False
-        Styles.ContentEven = styleGridEven
-        Styles.Header = styleGridHeader
-      end
-      object cxGrdDetail: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
-        OptionsView.GroupByBox = False
-      end
-      object lvMaster: TcxGridLevel
-        Caption = 'Master Data'
-        GridView = cxGrdBrowse
-        object lvDetail: TcxGridLevel
-          Caption = 'Detail Data'
-          Visible = False
-        end
-      end
+      Height = 327
+      ExplicitLeft = 11
+      ExplicitTop = 11
+      ExplicitWidth = 601
+      ExplicitHeight = 271
     end
   end
   inherited pnlHeader: TPanel
@@ -109,48 +31,80 @@ inherited frmBank: TfrmBank
       Caption = 'Master Bank'
       ExplicitWidth = 69
     end
+    inherited lblFilterData: TcxLabel
+      Left = 267
+      ExplicitLeft = 267
+      ExplicitTop = 1
+      ExplicitHeight = 31
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 328
+      ExplicitLeft = 328
+      ExplicitTop = 5
+      ExplicitHeight = 23
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 599
+      ExplicitLeft = 599
+      ExplicitTop = 1
+      ExplicitHeight = 31
+      AnchorY = 17
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 423
+      ExplicitLeft = 423
+      ExplicitTop = 5
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 518
+      ExplicitLeft = 518
+      ExplicitTop = 3
+      ExplicitHeight = 27
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 382
     Width = 623
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 382
+    ExplicitTop = 326
     ExplicitWidth = 623
     inherited pnlFooter: TPanel
       Width = 623
+      ExplicitLeft = -1
+      ExplicitTop = 18
       ExplicitWidth = 623
       inherited btnClose: TcxButton
-        Left = 541
-        ExplicitLeft = 541
+        Left = 546
+        Action = actClose
+        ExplicitLeft = 546
+        ExplicitTop = 4
       end
       inherited btnAdd: TcxButton
-        Action = actAddBank
+        Action = actAdd
+        ExplicitTop = 4
       end
       inherited btnUpdate: TcxButton
-        Action = actEditBank
+        Action = actEdit
+        ExplicitTop = 4
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteBank
-      end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshBank
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
     end
     inherited pnlSortCut: TPanel
       Width = 623
       ExplicitWidth = 623
+      inherited lbl1: TLabel
+        ExplicitLeft = 5
+      end
+      inherited lbl2: TLabel
+        ExplicitLeft = 88
+      end
       inherited lbl5: TLabel
-        Left = 533
-        ExplicitLeft = 452
+        Left = 549
+        ExplicitLeft = 587
+        ExplicitTop = 2
       end
     end
   end

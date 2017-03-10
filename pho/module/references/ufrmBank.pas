@@ -9,48 +9,30 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, DBClient, uDMCLient, uClientClasses;
+  cxGridDBTableView, cxGrid, DBClient, uDMCLient, uClientClasses,
+  ufrmMasterBrowse, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel;
 
 type
-  TfrmBank = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmBank = class(TfrmMasterBrowse)
     actlstBank: TActionList;
     actAddBank: TAction;
     actEditBank: TAction;
     actDeleteBank: TAction;
     actRefreshBank: TAction;
-    pnlBodyUp: TPanel;
-    Label1: TLabel;
-    edtPencarian: TEdit;
-    cxGrid: TcxGrid;
-    cxGrdBrowse: TcxGridDBTableView;
-    cxGrdDetail: TcxGridDBTableView;
-    lvMaster: TcxGridLevel;
-    lvDetail: TcxGridLevel;
-    procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure actAddBankExecute(Sender: TObject);
     procedure actEditBankExecute(Sender: TObject);
     procedure actDeleteBankExecute(Sender: TObject);
     procedure actRefreshBankExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure edtPencarianKeyPress(Sender: TObject; var Key: Char);
-    procedure edtPencarianChange(Sender: TObject);
   private
     FCDS: TClientDataSet;
-    FDSClient: TDSProviderClient;
   resPoint: TPoint;
-    procedure FindDataOnGrid(aText:String);
-    function GetDSClient: TDSProviderClient;
-    { Private declarations }
-
-    function GetData(): TDataSet;
-    procedure RefreshData;
     property CDS: TClientDataSet read FCDS write FCDS;
-    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
   public
+    procedure RefreshData; override;
 //     FBank : TBank;
     { Public declarations }
   end;
@@ -64,18 +46,6 @@ uses
   uTSCommonDlg, ufrmDialogBank,  uConstanta, uDXUtils, uDBUtils;
 
 {$R *.dfm}
-
-procedure TfrmBank.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  frmBank := nil;
-end;
-
-procedure TfrmBank.FormShow(Sender: TObject);
-begin
-  inherited;
-  actRefreshBankExecute(Self);
-end;
 
 procedure TfrmBank.actAddBankExecute(Sender: TObject);
 begin
@@ -189,62 +159,10 @@ begin
   end;
 end;
 
-function TfrmBank.GetData(): TDataSet;
-
-begin
-  // inisiate business model
-//  if not assigned(Bank) then
-//    Bank := TBank.Create;
-//
-//  Result := Bank.GetListDataBank();
-end;
-
 procedure TfrmBank.actRefreshBankExecute(Sender: TObject);
-//var
-//    dataBank: TDataSet;
-//    i,countData: Integer;
+
 begin
   RefreshData;
-//  dataBank := GetData();
-//  countData := dataBank.RecordCount;
-//  with strgGrid do
-//  begin
-//    Clear;
-//    RowCount := countData+1;
-//    ColCount := 4;
-//
-//    Cells[0, 0] := 'CODE';
-//    Cells[1, 0] := 'NAME';
-//    Cells[2, 0] := 'BRANCH';
-//    Cells[3, 0] := 'ADDRESS';
-//
-//    if (RowCount > 1) then
-//    begin
-//      i := 1;
-//      while not dataBank.Eof do
-//      begin
-//        Cells[0, i] := dataBank.FieldByName('BANK_CODE').AsString;
-//        Cells[1, i] := dataBank.FieldByName('BANK_NAME').AsString;
-//        Cells[2, i] := dataBank.FieldByName('BANK_BRANCH').AsString;
-//        Cells[3, i] := dataBank.FieldByName('BANK_ADDRESS').AsString;
-//        Cells[4, i] := dataBank.FieldByName('BANK_ID').AsString;
-//
-//        Inc(i);
-//        dataBank.Next;
-//      end;
-//    end
-//    else
-//    begin
-//      RowCount := 2;
-//      Cells[0, 1] := ' ';
-//      Cells[1, 1] := ' ';
-//      Cells[2, 1] := ' ';
-//      Cells[3, 1] := ' ';
-//    end;
-//
-//    FixedRows := 1;
-//    AutoSize := true;
-//  end;
 end;
 
 procedure TfrmBank.FormActivate(Sender: TObject);
@@ -253,67 +171,18 @@ begin
 //  frmMain.CreateMenu((sender as TForm));
 end;
 
-procedure TfrmBank.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-//  frmMain.DestroyMenu((sender as TForm));
-end;
-
 procedure TfrmBank.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FBank := uNewBank.TBank.Create(Self);
 end;
 
-procedure TfrmBank.edtPencarianKeyPress(Sender: TObject; var Key: Char);
-begin
-  inherited;
-//  if Key = Chr(VK_RETURN) then
-//  begin
-//    if edtPencarian.Text <> '' then
-//    begin
-//      resPoint := strgGrid.FindNext;
-//      if (resPoint.Y <> -1) then
-//      begin
-//        strgGrid.ScrollInView(resPoint.X, resPoint.Y);
-//        strgGrid.SelectRows(resPoint.Y, 1);
-//      end;
-//    end;
-//  end;
-end;
-
-procedure TfrmBank.edtPencarianChange(Sender: TObject);
-begin
-  inherited;
-  FindDataOnGrid(edtPencarian.Text);
-end;
-
-procedure TfrmBank.FindDataOnGrid(aText:String);
-begin
-//  if (aText <> '') then
-//  begin
-//    resPoint := strgGrid.Find(Point(0,0),aText,[fnIncludeFixed]);
-//    if (resPoint.Y <> -1) then
-//    begin
-//      strgGrid.ScrollInView(resPoint.X, resPoint.Y);
-//      strgGrid.SelectRows(resPoint.Y, 1);
-//    end;
-//  end;
-end;
-
-function TfrmBank.GetDSClient: TDSProviderClient;
-begin
-  if not Assigned(FDSClient) then
-    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
-  Result := FDSClient;
-end;
-
 procedure TfrmBank.RefreshData;
 begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Bank_GetDSOverview ,Self );
-  cxGrdBrowse.LoadFromCDS(CDS);
-  cxGrdBrowse.SetVisibleColumns(['Bank_ID'],False);
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['Bank_ID'],False);
 end;
 
 end.

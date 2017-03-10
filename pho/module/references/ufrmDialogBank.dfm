@@ -176,10 +176,12 @@ inherited frmDialogBank: TfrmDialogBank
       end
       inherited btnSave: TcxButton
         Left = 336
+        Action = actSave
         OnClick = btnSaveClick
         ExplicitLeft = 336
       end
       inherited btnDelete: TcxButton
+        Action = actDelete
         OnClick = btnDeleteClick
       end
     end

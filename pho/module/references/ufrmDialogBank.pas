@@ -9,7 +9,7 @@ uses
   uDXUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils,
-  ufraFooterDialog3Button;
+  ufraFooterDialog3Button, System.Actions, Vcl.ActnList;
 
 type
   TFormMode = (fmAdd, fmEdit);
