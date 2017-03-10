@@ -11,10 +11,6 @@ inherited frmMasterDialogBrowse: TfrmMasterDialogBrowse
       Align = alClient
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitLeft = 11
-      ExplicitTop = 11
-      ExplicitWidth = 518
-      ExplicitHeight = 227
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -29,6 +25,16 @@ inherited frmMasterDialogBrowse: TfrmMasterDialogBrowse
       end
       object cxlvMaster: TcxGridLevel
         GridView = cxGridView
+      end
+    end
+  end
+  inherited footerDialogMaster: TfraFooterDialog3Button
+    inherited pnlFooter: TPanel
+      inherited btnSave: TcxButton
+        Action = actSave
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
   end

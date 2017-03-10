@@ -113,7 +113,15 @@ uses
   uModCostCenter in '..\model\uModCostCenter.pas',
   ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
   ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
-  uInterface in '..\system\uInterface.pas';
+  uInterface in '..\system\uInterface.pas',
+  ufrmSupplier in 'module\merchandise\ufrmSupplier.pas' {frmSupplier},
+  ufrmDialogSupplier in 'module\merchandise\ufrmDialogSupplier.pas' {frmDialogSupplier},
+  ufrmOutstandingPO in 'module\merchandise\ufrmOutstandingPO.pas' {frmOutstandingPO},
+  ufrmDayOfPO in 'module\merchandise\ufrmDayOfPO.pas' {frmDayofPO},
+  ufrmDisplayPO in '..\pstore\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
+  ufrmSearchPO in '..\pstore\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
+  ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
+  ufrmReprintNP in '..\pstore\module\merchandise\ufrmReprintNP.pas' {frmReprintNP};
 
 {$R *.res}
 

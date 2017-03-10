@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid;
+  cxGrid, System.Actions, Vcl.ActnList;
 
 type
   TfrmMasterDialogBrowse = class(TfrmMasterDialog)

@@ -3,11 +3,13 @@ unit uDMClient;
 interface
 
 uses
-  System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses;
+  System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses,
+  System.ImageList, Vcl.ImgList, Vcl.Controls;
 
 type
   TDMClient = class(TDataModule)
     RestConn: TDSRestConnection;
+    imgListButton: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     FCrudClient: TCrudClient;
