@@ -448,6 +448,11 @@ begin
   //
 end;
 
+procedure TfrmMain.actCostCenterExecute(Sender: TObject);
+begin
+  //
+end;
+
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
