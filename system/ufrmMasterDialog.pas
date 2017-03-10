@@ -48,6 +48,8 @@ type
 
   end;
 
+  TMasterDlgClass = class of TfrmMasterDialog;
+
 var
   frmMasterDialog: TfrmMasterDialog;
 

@@ -32,7 +32,6 @@ uses
   uDXUtils in '..\lib\uDXUtils.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
-  uModRekening in '..\model\uModRekening.pas';
   uModCostCenter in '..\model\uModCostCenter.pas';
 
 {$R *.res}
