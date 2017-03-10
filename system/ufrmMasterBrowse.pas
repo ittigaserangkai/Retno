@@ -30,6 +30,7 @@ type
     actClose: TAction;
     actPrint: TAction;
     actRefresh: TAction;
+    procedure actCloseExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -37,10 +38,11 @@ type
   private
     FAutoRefreshData: Boolean;
     { Private declarations }
-  public
-    procedure RefreshData; dynamic; abstract;
+  protected
     function ShowDialogForm(DlgFormClass: TMasterDlgClass; AID: String = ''):
         Integer;
+  public
+    procedure RefreshData; dynamic; abstract;
     { Public declarations }
   published
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;
@@ -52,9 +54,15 @@ var
 implementation
 
 uses
-  System.DateUtils;
+  System.DateUtils, ufrmDialogBank;
 
 {$R *.dfm}
+
+procedure TfrmMasterBrowse.actCloseExecute(Sender: TObject);
+begin
+  inherited;
+  Self.Close;
+end;
 
 procedure TfrmMasterBrowse.actRefreshExecute(Sender: TObject);
 begin
@@ -73,7 +81,7 @@ begin
   inherited;
   dtAwalFilter.Date   := StartOfTheMonth(Now);
   dtAkhirFilter.Date  := Now;
-  AutoRefreshData     := False;
+  AutoRefreshData     := True;
 end;
 
 procedure TfrmMasterBrowse.FormShow(Sender: TObject);
@@ -90,11 +98,12 @@ var
 begin
   frm := DlgFormClass.Create(Application);
   Try
-    if not Supports(frm, ICRUDAble, MyInterface) then
-      if Assigned(MyInterface) then MyInterface.LoadData(AID);
+    if Supports(frm, ICRUDAble, MyInterface) then
+      if Assigned(MyInterface) and (AID<>'') then MyInterface.LoadData(AID);
 
     Result := frm.ShowModal;
-    if (AutoRefreshData) and (Result = mrOk) then RefreshData;
+    if (AutoRefreshData) and (Result = mrOk) then
+      RefreshData;
   Finally
     frm.Free;
   End;

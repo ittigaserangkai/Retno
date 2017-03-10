@@ -21,7 +21,7 @@ type
     function GetCostCenter: TModCostCenter;
     { Private declarations }
   public
-    procedure LoadData(AID : String); stdcall;
+    procedure LoadData(AID : String);
     property CostCenter: TModCostCenter read GetCostCenter write FCostCenter;
     { Public declarations }
   end;

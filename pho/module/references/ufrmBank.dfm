@@ -5,6 +5,7 @@ inherited frmBank: TfrmBank
   ClientHeight = 438
   ClientWidth = 623
   OldCreateOrder = True
+  ExplicitTop = -23
   ExplicitWidth = 639
   ExplicitHeight = 477
   PixelsPerInch = 96
@@ -13,14 +14,12 @@ inherited frmBank: TfrmBank
     Width = 623
     Height = 349
     ExplicitWidth = 623
-    ExplicitHeight = 293
+    ExplicitHeight = 349
     inherited cxGrid: TcxGrid
       Width = 601
       Height = 327
-      ExplicitLeft = 11
-      ExplicitTop = 11
       ExplicitWidth = 601
-      ExplicitHeight = 271
+      ExplicitHeight = 327
     end
   end
   inherited pnlHeader: TPanel
@@ -34,59 +33,45 @@ inherited frmBank: TfrmBank
     inherited lblFilterData: TcxLabel
       Left = 267
       ExplicitLeft = 267
-      ExplicitTop = 1
-      ExplicitHeight = 31
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 328
       ExplicitLeft = 328
-      ExplicitTop = 5
-      ExplicitHeight = 23
     end
     inherited lblsdFilter: TcxLabel
-      Left = 599
-      ExplicitLeft = 599
-      ExplicitTop = 1
-      ExplicitHeight = 31
+      Left = 420
+      ExplicitLeft = 429
+      ExplicitTop = 7
       AnchorY = 17
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 423
+      Left = 446
       ExplicitLeft = 423
-      ExplicitTop = 5
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 518
+      Left = 541
       ExplicitLeft = 518
-      ExplicitTop = 3
-      ExplicitHeight = 27
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 382
     Width = 623
-    ExplicitTop = 326
+    ExplicitTop = 382
     ExplicitWidth = 623
     inherited pnlFooter: TPanel
       Width = 623
-      ExplicitLeft = -1
-      ExplicitTop = 18
       ExplicitWidth = 623
       inherited btnClose: TcxButton
         Left = 546
         Action = actClose
         ExplicitLeft = 546
-        ExplicitTop = 4
       end
       inherited btnAdd: TcxButton
         Action = actAdd
-        ExplicitTop = 4
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        ExplicitTop = 4
       end
       inherited btnPrint: TcxButton
         Action = actPrint
@@ -95,40 +80,21 @@ inherited frmBank: TfrmBank
     inherited pnlSortCut: TPanel
       Width = 623
       ExplicitWidth = 623
-      inherited lbl1: TLabel
-        ExplicitLeft = 5
-      end
-      inherited lbl2: TLabel
-        ExplicitLeft = 88
-      end
       inherited lbl5: TLabel
         Left = 549
-        ExplicitLeft = 587
-        ExplicitTop = 2
+        ExplicitLeft = 549
       end
     end
   end
   inherited cxStyle: TcxStyleRepository
     PixelsPerInch = 96
   end
-  object actlstBank: TActionList
-    Left = 544
-    Top = 8
-    object actAddBank: TAction
-      Caption = 'Add'
-      OnExecute = actAddBankExecute
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditBank: TAction
-      Caption = 'Edit'
-      OnExecute = actEditBankExecute
-    end
-    object actDeleteBank: TAction
-      Caption = 'Delete'
-      OnExecute = actDeleteBankExecute
-    end
-    object actRefreshBank: TAction
-      Caption = 'Refresh'
-      OnExecute = actRefreshBankExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

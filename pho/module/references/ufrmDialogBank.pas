@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, uInterface,
   StdCtrls, uRetnoUnit, uTSBaseClass, uModBank, uDMClient, uClientClasses,
   uDXUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
@@ -14,7 +14,7 @@ uses
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogBank = class(TfrmMasterDialog)
+  TfrmDialogBank = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     Lbl2: TLabel;
     lbl3: TLabel;
@@ -30,13 +30,12 @@ type
     edtDescription: TEdit;
     chkAllUnit: TCheckBox;
     cxLookupAccount: TcxExtLookupComboBox;
+    procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edtRekKodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure btnSaveClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: Boolean;
@@ -63,7 +62,7 @@ type
     property DSClient: TDSProviderClient read GetDSClient write FDSClient;
     property ModBank: TModBank read GetModBank write FModBank;
   public
-    procedure LoadData(ID: string);
+    procedure LoadData(AID: String);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -79,6 +78,13 @@ implementation
 uses uTSCommonDlg, ufrmBank, uModRekening;
 
 {$R *.dfm}
+
+procedure TfrmDialogBank.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  if ValidateData then SimpanData;
+  Self.Close;
+end;
 
 procedure TfrmDialogBank.SetFormMode(const Value: TFormMode);
 begin
@@ -107,29 +113,6 @@ procedure TfrmDialogBank.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmDialogBank := nil;
-end;
-
-procedure TfrmDialogBank.FormShow(Sender: TObject);
-begin
-  inherited;
-  if (FFormMode = fmEdit) then
-  begin
-//    FKodeLama := frmBank.strgGrid.Cells[0,frmBank.strgGrid.Row];
-//    IDLokal := StrToInt(frmBank.strgGrid.Cells[4,frmBank.strgGrid.Row]);
-//    if FBank.LoadByID(IDLokal) then
-    begin
-//      edtCode.text := FBank.Kode;
-//      edtName.Text := FBank.Nama;
-//      edtBranch.Text := FBank.Cabang;
-//      edtAddress.Text := FBank.Alamat;
-//      edtRekKode.Text := FBank.REK_CODE;
-//      edtDescription.Text := FBank.Description;
-    end;
-  end
-   // showDataEdit(BankId)
-  else begin
-    prepareAddData();
-  end;
 end;
 
 procedure TfrmDialogBank.footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -217,6 +200,7 @@ procedure TfrmDialogBank.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FBank := uNewBank.TBank.Create(self);
+  prepareAddData();
   cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
   cxLookupAccount.Properties.SetMultiPurposeLookup;
 end;
@@ -230,14 +214,6 @@ begin
     TAppUtils.Information('Terhapus');
     Self.Close;
   end;
-end;
-
-procedure TfrmDialogBank.btnSaveClick(Sender: TObject);
-begin
-  inherited;
-  if ValidateData then SimpanData;
-  Self.Close;
-
 end;
 
 procedure TfrmDialogBank.edtRekKodeKeyDown(Sender: TObject; var Key: Word;
@@ -297,23 +273,17 @@ begin
   Result := FModBank;
 end;
 
-procedure TfrmDialogBank.LoadData(ID: string);
+procedure TfrmDialogBank.LoadData(AID: String);
 begin
   if Assigned(FModBank) then FreeAndNil(FModBank);
-//  Try
-    FModBank := Crud.Retrieve(TModBank.ClassName, ID) as TModBank;
-//  except on E:Exception do RestClientError(E);
-//  End;
-
+  FModBank := Crud.Retrieve(TModBank.ClassName, AID) as TModBank;
   edtCode.Text := ModBank.BANK_CODE;
   edtName.Text := ModBank.BANK_NAME;
   edtBranch.Text := ModBank.BANK_BRANCH;
   edtDescription.Text := ModBank.BANK_DESCRIPTION;
   edtAddress.Text := ModBank.BANK_ADDRESS;
-
   if Assigned(ModBank.REKENING) then
     cxLookupAccount.EditValue := ModBank.REKENING.ID;
-
 end;
 
 procedure TfrmDialogBank.SimpanData;
@@ -325,22 +295,19 @@ begin
   ModBank.BANK_BRANCH := edtBranch.Text;
   ModBank.BANK_DESCRIPTION := edtDescription.Text;
   ModBank.BANK_ADDRESS := edtAddress.Text;
-
   if not VarIsNull(cxLookupAccount.EditValue) then
   begin
     ModBank.REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
   end;
-
   Try
     Crud.SaveToDB(ModBank);
     TAppUtils.Information('Data Bank Berhasil Disimpan');
-
-
+    Self.ModalResult := mrOk;
+    Self.CloseModal;
   except
     TAppUtils.Error('Gagal Menyimpan Data Bank');
     Raise;
   End;
-
 
 end;
 

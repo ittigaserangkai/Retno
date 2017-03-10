@@ -1,29 +1,27 @@
 inherited frmMasterBrowse: TfrmMasterBrowse
   Caption = 'form Master Browse Data'
   ClientHeight = 403
-  ClientWidth = 661
-  ExplicitWidth = 677
+  ClientWidth = 676
+  ExplicitWidth = 692
   ExplicitHeight = 442
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Top = 33
-    Width = 661
+    Width = 676
     Height = 314
     ExplicitTop = 33
-    ExplicitWidth = 655
+    ExplicitWidth = 661
     ExplicitHeight = 314
     object cxGrid: TcxGrid
       Left = 11
       Top = 11
-      Width = 639
+      Width = 654
       Height = 292
       Align = alClient
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitLeft = 8
-      ExplicitTop = 16
-      ExplicitWidth = 633
+      ExplicitWidth = 639
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -45,25 +43,24 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     end
   end
   inherited pnlHeader: TPanel
-    Width = 661
+    Width = 676
     Height = 33
-    ExplicitWidth = 655
+    ExplicitWidth = 661
     ExplicitHeight = 33
     object lblFilterData: TcxLabel
-      Left = 305
+      Left = 320
       Top = 1
       Align = alRight
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 281
-      ExplicitTop = 7
-      ExplicitHeight = 20
+      Visible = False
+      ExplicitLeft = 305
       AnchorY = 17
     end
     object dtAwalFilter: TcxDateEdit
       AlignWithMargins = True
-      Left = 366
+      Left = 381
       Top = 5
       Margins.Top = 4
       Margins.Bottom = 4
@@ -73,26 +70,25 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      ExplicitLeft = 345
-      ExplicitTop = 9
-      ExplicitHeight = 24
+      Visible = False
+      ExplicitLeft = 366
       Width = 89
     end
     object lblsdFilter: TcxLabel
-      Left = 458
+      Left = 473
       Top = 1
       Align = alRight
       Caption = 's.d.'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 441
+      Visible = False
+      ExplicitLeft = 467
       ExplicitTop = 7
-      ExplicitHeight = 20
       AnchorY = 17
     end
     object dtAkhirFilter: TcxDateEdit
       AlignWithMargins = True
-      Left = 484
+      Left = 499
       Top = 5
       Margins.Top = 4
       Margins.Bottom = 4
@@ -102,14 +98,14 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 3
-      ExplicitLeft = 465
-      ExplicitTop = 9
-      ExplicitHeight = 24
+      Visible = False
+      ExplicitLeft = 444
+      ExplicitTop = 3
       Width = 89
     end
     object btnSearch: TcxButton
       AlignWithMargins = True
-      Left = 579
+      Left = 594
       Top = 3
       Width = 78
       Height = 27
@@ -171,15 +167,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         7F7F7F7F7F7F7F7F9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
-      ExplicitLeft = 573
-      ExplicitTop = 4
-      ExplicitHeight = 25
+      ExplicitLeft = 579
     end
   end
   inline fraFooter4Button1: TfraFooter4Button [2]
     Left = 0
     Top = 347
-    Width = 661
+    Width = 676
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -190,23 +184,24 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     ParentFont = False
     TabOrder = 2
     ExplicitTop = 347
-    ExplicitWidth = 655
+    ExplicitWidth = 661
     inherited pnlFooter: TPanel
-      Width = 661
-      ExplicitWidth = 655
+      Width = 676
+      ExplicitWidth = 661
       inherited bvlSeparator: TBevel
         Left = 254
         ExplicitLeft = 254
       end
       inherited btnClose: TcxButton
         AlignWithMargins = True
-        Left = 584
+        Left = 599
         Top = 4
         Margins.Top = 2
         Margins.Bottom = 2
         Align = alRight
         Action = actClose
-        ExplicitLeft = 573
+        ExplicitLeft = 584
+        ExplicitTop = 4
       end
       inherited btnAdd: TcxButton
         AlignWithMargins = True
@@ -219,7 +214,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Align = alLeft
         Action = actAdd
         ExplicitLeft = 4
-        ExplicitTop = 5
+        ExplicitTop = 4
       end
       inherited btnUpdate: TcxButton
         AlignWithMargins = True
@@ -232,7 +227,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Align = alLeft
         Action = actEdit
         ExplicitLeft = 80
-        ExplicitTop = 5
+        ExplicitTop = 4
       end
       inherited btnPrint: TcxButton
         Left = 261
@@ -243,8 +238,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 661
-      ExplicitWidth = 655
+      Width = 676
+      ExplicitWidth = 661
       inherited lbl1: TLabel
         AlignWithMargins = True
         Left = 5
@@ -252,6 +247,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Margins.Top = 1
         Margins.Bottom = 1
         Align = alLeft
+        ExplicitLeft = 5
       end
       inherited lbl2: TLabel
         AlignWithMargins = True
@@ -261,17 +257,19 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Margins.Top = 1
         Margins.Bottom = 1
         Align = alLeft
+        ExplicitLeft = 88
       end
       inherited lbl4: TLabel
         Left = 263
         ExplicitLeft = 263
       end
       inherited lbl5: TLabel
-        Left = 587
+        Left = 602
         Top = 2
         Height = 17
         Align = alRight
-        ExplicitLeft = 444
+        ExplicitLeft = 587
+        ExplicitTop = 2
       end
     end
   end
@@ -293,6 +291,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     end
     object actClose: TAction
       Caption = 'Close'
+      OnExecute = actCloseExecute
     end
     object actPrint: TAction
       Caption = '&Print'
