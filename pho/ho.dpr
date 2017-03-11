@@ -121,7 +121,8 @@ uses
   ufrmDisplayPO in '..\pstore\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmSearchPO in '..\pstore\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
-  ufrmReprintNP in '..\pstore\module\merchandise\ufrmReprintNP.pas' {frmReprintNP};
+  ufrmReprintNP in '..\pstore\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
+  uModSuplier in '..\model\uModSuplier.pas';
 
 {$R *.res}
 

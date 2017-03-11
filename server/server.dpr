@@ -29,10 +29,11 @@ uses
   uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
-  uDXUtils in '..\lib\uDXUtils.pas',
+  uDXUtils in '..\lib\uDXUtils.pas' {$R *.res},
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
-  uModCostCenter in '..\model\uModCostCenter.pas';
+  uModCostCenter in '..\model\uModCostCenter.pas',
+  uModSuplier in '..\model\uModSuplier.pas';
 
 {$R *.res}
 
