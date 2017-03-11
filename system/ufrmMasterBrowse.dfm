@@ -32,6 +32,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         DataController.Summary.SummaryGroups = <>
         FilterRow.InfoText = 'klik untuk memfilter data'
         FilterRow.Visible = True
+        FilterRow.ApplyChanges = fracImmediately
         NewItemRow.InfoText = 'Baris baru'
         OptionsData.Editing = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
