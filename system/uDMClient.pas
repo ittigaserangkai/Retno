@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses,
-  System.ImageList, Vcl.ImgList, Vcl.Controls;
+  System.ImageList, Vcl.ImgList, Vcl.Controls, uDB;
 
 type
   TDMClient = class(TDataModule)

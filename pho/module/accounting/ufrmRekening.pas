@@ -10,7 +10,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxCustomData, cxTL,
   cxTextEdit, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxContainer, cxEdit,
   cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
-  uClientClasses, uModTipeBarang, uDMClient,
+  uClientClasses,  uDMClient,
   uDBUtils, uDXUtils, DBClient, uAppUtils, cxTLData, cxDBTL, cxFilter, cxData,
   cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid;

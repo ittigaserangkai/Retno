@@ -10,7 +10,7 @@ uses
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, System.Actions, uDMClient,
   uClientClasses, uDBUtils, uDXUtils, DBClient, uAppUtils,
-  uModTipeBarang;
+  uModBarang;
 
 type
   TfrmProductType = class(TfrmMaster)
