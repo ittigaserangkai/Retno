@@ -97,7 +97,6 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModTest in '..\model\uModTest.pas',
-  uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
   ufraFooterDialog3Button in '..\system\ufraFooterDialog3Button.pas' {fraFooterDialog3Button: TFrame},
@@ -122,7 +121,8 @@ uses
   ufrmSearchPO in '..\pstore\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
   ufrmReprintNP in '..\pstore\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
-  uModSuplier in '..\model\uModSuplier.pas';
+  uModSuplier in '..\model\uModSuplier.pas',
+  uModBarang in '..\model\uModBarang.pas';
 
 {$R *.res}
 

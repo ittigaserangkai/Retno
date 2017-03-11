@@ -26,14 +26,14 @@ uses
   uModRekening in '..\model\uModRekening.pas',
   uModMember in '..\model\uModMember.pas',
   uModAppHelper in '..\model\uModAppHelper.pas',
-  uModTipeBarang in '..\model\uModTipeBarang.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
-  uDXUtils in '..\lib\uDXUtils.pas' {$R *.res},
+  uDXUtils in '..\lib\uDXUtils.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
-  uModSuplier in '..\model\uModSuplier.pas';
+  uModSuplier in '..\model\uModSuplier.pas',
+  uModBarang in '..\model\uModBarang.pas';
 
 {$R *.res}
 

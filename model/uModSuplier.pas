@@ -59,12 +59,10 @@ type
   private
     FGROUP_NO: String;
     FGROUP_NAME: String;
-    FGetTableName: String;
   public
-    class function GetTableName1: String; override;
+    class function GetTableName: String; override;
     property GROUP_NO: String read FGROUP_NO write FGROUP_NO;
     property GROUP_NAME: String read FGROUP_NAME write FGROUP_NAME;
-    property GetTableName: String read FGetTableName write FGetTableName;
   end;
 
   TModTipeSuplier = class(TModApp)
@@ -72,7 +70,7 @@ type
     FTPSUP_CODE: String;
     FTPSUP_NAME: String;
   public
-    class function GetTableName1: String; override;
+    class function GetTableName: String; override;
     property TPSUP_CODE: String read FTPSUP_CODE write FTPSUP_CODE;
     property TPSUP_NAME: String read FTPSUP_NAME write FTPSUP_NAME;
   end;
@@ -84,12 +82,12 @@ begin
   Result := 'SUPLIER';
 end;
 
-class function TModSuplierGroup.GetTableName1: String;
+class function TModSuplierGroup.GetTableName: String;
 begin
   Result := 'SUPLIER_GROUP';
 end;
 
-class function TModTipeSuplier.GetTableName1: String;
+class function TModTipeSuplier.GetTableName: String;
 begin
   Result := 'REF$TIPE_SUPLIER';
 end;
