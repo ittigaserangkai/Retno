@@ -4,7 +4,8 @@ interface
 
 uses
   System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses,
-  System.ImageList, Vcl.ImgList, Vcl.Controls, uDB;
+  System.ImageList, Vcl.ImgList, Vcl.Controls, uDBUtils, Data.DB,
+  Datasnap.DBClient;
 
 type
   TDMClient = class(TDataModule)
@@ -38,6 +39,8 @@ type
 
 procedure RestClientError(E: Exception);
 
+function ToCDS(aDataSet: TDataSet; AOwner: TComponent = nil): TClientDataSet;
+
 var
   DMClient: TDMClient;
 
@@ -53,6 +56,11 @@ uses
 procedure RestClientError(E: Exception);
 begin
   Raise ERestClientError.Create(E);
+end;
+
+function ToCDS(aDataSet: TDataSet; AOwner: TComponent = nil): TClientDataSet;
+begin
+  Result := TDBUtils.DSToCDS(ADataSet, AOwner);
 end;
 
 constructor ERestClientError.Create(E: Exception);

@@ -40,12 +40,20 @@ type
     function RefDiscMember_GetDSOverview: TDataSet;
     function MemberKeluarga_GetDSOverview: TDataSet;
     function RefGrupMember_GetDSOverview: TDataSet;
-    function Satuan_GetDSOverview: TDataSet;
     function Satuan_GetDSLookup: TDataSet;
     function CostCenter_GetDSLookup: TDataSet;
     function CostCenter_GetDSOverview: TDataSet;
     function TipePembayaran_GetDSOverview: TDataSet;
     function TipePerusahaan_GetDSOverview: TDataSet;
+    function Outlet_GetDSLookup: TDataSet;
+    function Lokasi_GetDSLookup: TDataSet;
+    function Merchandise_GetDSLookup: TDataSet;
+    function MerchandiseGroup_GetDSLookup: TDataSet;
+    function SubGroup_GetDSLookup: TDataSet;
+    function Satuan_GetDSOverview: TDataSet;
+    function Kategori_GetDSLookup: TDataSet;
+    function RefPajak_GetDSLookup: TDataSet;
+    function RefTipeBarang_GetDSLookup: TDataSet;
 
 
   end;
@@ -317,6 +325,76 @@ var
   S: string;
 begin
   S := 'SELECT * FROM REF$TIPE_PERUSAHAAN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Outlet_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select OUTLET_NAME, OUTLET_CODE, REF$OUTLET_ID'
+      +' from REF$OUTLET';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Lokasi_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select LOK_NAME, LOK_CODE, LOK_DESCRIPTION'
+      +' from REF$LOKASI ORDER BY LOK_CODE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Merchandise_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select MERCHAN_NAME, MERCHAN_CODE, REF$MERCHANDISE_ID'
+      +' FROM REF$MERCHANDISE ORDER BY MERCHAN_CODE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.MerchandiseGroup_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT MERCHANGRUP_NAME, MERCHANGRUP_CODE, REF$MERCHANDISE_GRUP_ID, REF$MERCHANDISE_ID'
+      +' FROM REF$MERCHANDISE_GRUP ORDER BY MERCHANGRUP_CODE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SubGroup_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select SUBGRUP_NAME, SUBGRUP_CODE, REF$SUB_GRUP_ID,'
+      +' REF$MERCHANDISE_GRUP_ID from REF$SUB_GRUP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Kategori_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select KAT_NAME, KAT_CODE, REF$KATEGORI_ID, REF$SUB_GRUP_ID from '
+      +' REF$KATEGORI ORDER BY KAT_CODE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefPajak_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select PJK_NAME, PJK_CODE, Ref$Pajak_ID FROM REF$PAJAK';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeBarang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select TPBRG_NAME, TPBRG_CODE, REF$TIPE_BARANG_ID FROM REF$TIPE_BARANG';
   Result := TDBUtils.OpenQuery(S);
 end;
 

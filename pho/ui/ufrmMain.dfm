@@ -124,8 +124,8 @@ object frmMain: TfrmMain
     end
   end
   object mmMainMenu: TMainMenu
-    Left = 408
-    Top = 136
+    Left = 88
+    Top = 120
     object mmSistem: TMenuItem
       Caption = '&System'
       object miLogin: TMenuItem
@@ -170,6 +170,12 @@ object frmMain: TfrmMain
       Caption = 'Finance'
       object Rekening1: TMenuItem
         Action = actRekening
+      end
+    end
+    object Merchandise1: TMenuItem
+      Caption = 'Merchandise'
+      object MasterProduct1: TMenuItem
+        Action = actDataProduct
       end
     end
     object mmSetting1: TMenuItem
@@ -219,10 +225,17 @@ object frmMain: TfrmMain
         Caption = 'About...'
       end
     end
+    object est1: TMenuItem
+      Caption = 'Test'
+      object DialogBarang1: TMenuItem
+        Caption = 'Dialog Barang'
+        OnClick = DialogBarang1Click
+      end
+    end
   end
   object actlstMain: TActionList
-    Left = 375
-    Top = 136
+    Left = 23
+    Top = 168
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
@@ -328,6 +341,7 @@ object frmMain: TfrmMain
     object actDataProduct: TAction
       Category = 'Merchandise'
       Caption = 'Master &Product'
+      OnExecute = actDataProductExecute
     end
     object actDataCompetitor: TAction
       Category = 'Merchandise'
@@ -1058,7 +1072,12 @@ object frmMain: TfrmMain
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
-    Left = 152
-    Top = 152
+    Left = 24
+    Top = 120
+  end
+  object LookAndFeelController: TcxLookAndFeelController
+    NativeStyle = False
+    Left = 16
+    Top = 256
   end
 end

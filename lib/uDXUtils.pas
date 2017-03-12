@@ -3,28 +3,33 @@ unit uDXUtils;
 interface
 
 uses
-  cxGrid,cxGridDBTableView, cxTreeView,  Math, cxGridExportLink, cxExportPivotGridLink,
-  cxGridDBBandedTableView, cxDBPivotGrid, cxCurrencyEdit, cxCustomPivotGrid,
-  cxGridBandedTableView, cxDBExtLookupComboBox, cxCustomData, cxFilter,
-  cxGridCustomTableView, cxDBTL, cxTLExportLink,cxCalendar, Dialogs, SysUtils,
-  cxGridDBDataDefinitions, System.Classes,DB, DBClient, uAppUtils, uDBUtils,
-  cxDropDownEdit, cxGridTableView, StrUtils, System.Contnrs, Vcl.Controls, Vcl.Forms;
+  cxGrid,cxGridDBTableView, cxTreeView,  Math, cxGridExportLink,
+  cxExportPivotGridLink, cxGridDBBandedTableView, cxDBPivotGrid, cxCurrencyEdit,
+  cxCustomPivotGrid, cxGridBandedTableView, cxDBExtLookupComboBox, cxCustomData,
+  cxFilter, cxGridCustomTableView, cxDBTL, cxTLExportLink,cxCalendar, Dialogs,
+  SysUtils, cxGridDBDataDefinitions, System.Classes,DB, DBClient, uAppUtils,
+  uDBUtils, cxDropDownEdit, cxGridTableView, StrUtils, System.Contnrs,
+  Vcl.Controls, Vcl.Forms, Windows, Messages, Variants, Graphics, ExtCtrls,
+  ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
+  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit;
+
 
 type
+  TTag = set of byte;
+
   DataControllerHelper = class helper for TcxGridDataController
   private
   public
     function GetFooterSummary(ASummaryIndex: Integer): Variant;
   end;
 
-type
   DBDataControllerHelper = class helper for TcxGridDBDataController
   private
   public
     function GetFooterSummary(ASummaryIndex: Integer): Variant;
   end;
 
-type
   TcxDBBandGridHelper = class helper for TcxGridDBBandedTableView
     function GetFooterSummary(aColumn: TcxGridDBBandedColumn): Variant;
   public
@@ -44,18 +49,25 @@ type
     procedure SetVisibleColumns(ColumnSets: Array Of String; IsVisible: Boolean);
   end;
 
-type
-  TcxExtLookupHelper = class helper for TcxExtLookupComboBoxProperties
-  protected
+  TcxExtLookupPropHelper = class helper for TcxExtLookupComboBoxProperties
   public
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent);
     procedure LoadFromSQL(aSQL, IDField, DisplayField: String; HideFields: Array Of
         String; aOwnerForm: TComponent);
+    procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
+        HideFields: Array Of String; aOwnerForm: TComponent);
     procedure SetMultiPurposeLookup;
   end;
 
-type
+  TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
+  public
+    procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
+        HideFields: Array Of String; aOwnerForm: TComponent);
+    procedure SetMultiPurposeLookup;
+  end;
+
+
   TcxDBTreeHelper = class helper for TcxDBTreeList
   public
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
@@ -67,7 +79,6 @@ type
         overload;
   end;
 
-type
   TcxDBPivotHelper = class helper for TcxDBPivotGrid
   public
     procedure ExportToXLS(ExpandAll: Boolean = True; sFileName: String = '';
@@ -84,7 +95,6 @@ type
     procedure SetVisibleColumns(ColumnSets: Array Of String; IsVisible: Boolean);
   end;
 
-type
   TcxDBGridHelper = class helper for TcxGridDBTableView
   private
   public
@@ -98,6 +108,7 @@ type
         DoBestFit: Boolean = True);
     procedure LoadFromSQL(aSQL: String; aOwner: TComponent); overload;
     procedure LoadFromSQL(aSQL: String); overload;
+    procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent); overload;
     procedure SetAllUpperCaseColumn;
     procedure SetColumnsCaption(ColumnSets, ColumnCaption: Array Of String);
     procedure SetSummaryByColumns(ColumnSets: Array Of String; SummaryKind:
@@ -117,7 +128,6 @@ type
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
   end;
 
-type
   TcxExtLookup= class(TcxExtLookupComboBoxProperties)
   protected
   public
@@ -125,9 +135,17 @@ type
 
   end;
 
+  TFormHelper = class helper for TForm
+  private
+    procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
+  public
+    procedure AssignKeyDownEvent;
+    procedure ClearByTag(Tag: TTag);
+  end;
+
+
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
-
 
 
 implementation
@@ -380,7 +398,7 @@ begin
   end;
 end;
 
-procedure TcxExtLookupHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
+procedure TcxExtLookupPropHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
     DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
 var
   aRepo: TcxGridViewRepository;
@@ -423,7 +441,7 @@ begin
   end;
 end;
 
-procedure TcxExtLookupHelper.LoadFromSQL(aSQL, IDField, DisplayField: String;
+procedure TcxExtLookupPropHelper.LoadFromSQL(aSQL, IDField, DisplayField: String;
     HideFields: Array Of String; aOwnerForm: TComponent);
 var
   lCDS: TClientDataSet;
@@ -434,7 +452,18 @@ begin
   Self.LoadFromCDS(lCDS, IDField, DisplayField, HideFields, aOwnerForm);
 end;
 
-procedure TcxExtLookupHelper.SetMultiPurposeLookup;
+procedure TcxExtLookupPropHelper.LoadFromDS(aDataSet: TDataSet; IDField,
+    DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
+var
+  lCDS: TClientDataSet;
+begin
+  //method ini hanya digunakan sekali saja,
+  //membuat cds sesuai owner form agar di free on destroy
+  lCDS := TDBUtils.DSToCDS(aDataSet, aOwnerForm);
+  Self.LoadFromCDS(lCDS, IDField, DisplayField, HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
 begin
   AutoSearchOnPopup  := True;
   FocusPopup         := True;
@@ -814,6 +843,14 @@ begin
   Self.LoadFromSQL(aSQL, Self);
 end;
 
+procedure TcxDBGridHelper.LoadFromDS(aDataSet: TDataSet; aOwner: TComponent);
+var
+  lCDS: TClientDataSet;
+begin
+  lCDS := TDBUtils.DSToCDS(aDataSet, aOwner);
+  Self.LoadFromCDS(lCDS);
+end;
+
 procedure TcxDBGridHelper.SetAllUpperCaseColumn;
 var
   i: Integer;
@@ -935,6 +972,72 @@ begin
     TcxExtLookupComboBox(Sender).Properties.View.DataController.Filter.Clear;
     TcxExtLookupComboBox(Sender).Properties.ListFieldItem.Focused := True;
   end;
+end;
+
+procedure TFormHelper.AssignKeyDownEvent;
+var
+  C: TComponent;
+  i: Integer;
+begin
+  for i := 0 to Self.ComponentCount-1 do
+  begin
+    C := Self.Components[i];
+    if C is TEdit then
+      If not Assigned(TEdit(C).OnKeyDown) then
+        TEdit(C).OnKeyDown := OnKeyEnter;
+    if C is TcxTextEdit then
+      If not Assigned(TcxTextEdit(C).OnKeyDown) then
+        TcxTextEdit(C).OnKeyDown := OnKeyEnter;
+    if C is TcxExtLookupComboBox then
+      if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
+        TcxExtLookupComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TcxComboBox then
+      if not Assigned(TcxComboBox(C).OnKeyDown) then
+        TcxComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TcxCheckBox then
+      if not Assigned(TcxCheckBox(C).OnKeyDown) then
+        TcxCheckBox(C).OnKeyDown := OnKeyEnter;
+    if C is TcxSpinEdit then
+      if not Assigned(TcxSpinEdit(C).OnKeyDown) then
+        TcxSpinEdit(C).OnKeyDown := OnKeyEnter;
+  end;
+end;
+
+procedure TFormHelper.ClearByTag(Tag: TTag);
+var
+  C: TComponent;
+  i: Integer;
+begin
+  for i := 0 to Self.ComponentCount-1 do
+  begin
+    C := Self.Components[i];
+    if not (C.Tag in Tag) then continue;
+
+    if C is TEdit then TEdit(C).Clear;
+    if C is TcxTextEdit then TcxTextEdit(C).Clear;
+    if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
+    if C is TcxComboBox then TcxComboBox(C).Clear;
+    if C is TcxCheckBox then TcxCheckBox(C).Clear;
+    if C is TcxSpinEdit then TcxSpinEdit(C).Clear;
+  end;
+end;
+
+procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  if Key = VK_RETURN then SelectNext(Screen.ActiveControl, True, True);
+end;
+
+procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
+    DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
+begin
+  Self.Properties.LoadFromDS(aDataSet, IDField, DisplayField,
+    HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;
+begin
+  Self.Properties.SetMultiPurposeLookup;
 end;
 
 end.

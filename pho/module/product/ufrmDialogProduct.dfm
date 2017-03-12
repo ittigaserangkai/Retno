@@ -1,261 +1,436 @@
 inherited frmDialogProduct: TfrmDialogProduct
   Left = 307
   Top = 98
-  Caption = 'frmDialogProduct'
-  ClientHeight = 481
-  ClientWidth = 758
+  Caption = 'Update Data Barang'
+  ClientHeight = 408
+  ClientWidth = 800
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
-  ExplicitWidth = 774
-  ExplicitHeight = 520
+  OnShow = FormShow
+  ExplicitWidth = 816
+  ExplicitHeight = 447
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 758
-    Height = 425
-    ExplicitWidth = 758
-    ExplicitHeight = 425
-    object lbl2: TLabel
+    Width = 800
+    Height = 352
+    ExplicitTop = -1
+    ExplicitWidth = 800
+    ExplicitHeight = 352
+    object lbProductCode: TLabel
       Left = 13
-      Top = 6
+      Top = 10
       Width = 67
       Height = 16
       Caption = 'Product Code'
     end
-    object lbl3: TLabel
+    object lbShortname: TLabel
       Left = 13
-      Top = 52
+      Top = 59
       Width = 57
       Height = 16
       Caption = 'Short Name'
     end
-    object lbl4: TLabel
+    object lbProductname: TLabel
       Left = 13
-      Top = 29
+      Top = 34
       Width = 69
       Height = 16
       Caption = 'Product Name'
     end
-    object lbl5: TLabel
+    object lbStockCS: TLabel
       Left = 13
-      Top = 75
+      Top = 84
       Width = 46
       Height = 16
       Caption = 'Stock/CS'
     end
-    object lbl6: TLabel
+    object lbProductType: TLabel
       Left = 13
-      Top = 100
+      Top = 109
       Width = 65
       Height = 16
       Caption = 'Product Type'
     end
-    object lbl8: TLabel
+    object lbUOMStock: TLabel
       Left = 13
-      Top = 125
+      Top = 134
       Width = 54
       Height = 16
       Caption = 'UOM Stock'
     end
-    object lbl10: TLabel
+    object lbOutlet: TLabel
       Left = 13
-      Top = 150
+      Top = 159
       Width = 32
       Height = 16
       Caption = 'Outlet'
     end
-    object lbl23: TLabel
-      Left = 431
-      Top = 7
+    object lbCatalog: TLabel
+      Left = 433
+      Top = 10
       Width = 70
       Height = 16
       Caption = 'Catalog Code'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 4246527
+      Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Trebuchet MS'
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lbl26: TLabel
+    object lbGroup: TLabel
       Left = 13
-      Top = 276
-      Width = 30
+      Top = 283
+      Width = 43
       Height = 16
-      Caption = 'Group'
+      Caption = 'Kategori'
     end
-    object lbl27: TLabel
+    object lbDivision: TLabel
       Left = 13
-      Top = 200
-      Width = 39
+      Top = 208
+      Width = 63
       Height = 16
-      Caption = 'Division'
+      Caption = 'Merchandise'
     end
-    object lbl20: TLabel
+    object lbRefPajak: TLabel
       Left = 13
-      Top = 301
-      Width = 72
+      Top = 308
+      Width = 55
       Height = 16
-      Caption = 'Sales Tax Code'
+      Caption = 'Jenis Pajak'
     end
-    object lbl7: TLabel
+    object lbLocation: TLabel
       Left = 13
-      Top = 175
+      Top = 184
       Width = 44
       Height = 16
       Caption = 'Location'
     end
-    object lbl30: TLabel
+    object lbCategory: TLabel
       Left = 13
-      Top = 225
-      Width = 47
+      Top = 233
+      Width = 30
       Height = 16
-      Caption = 'Category'
+      Caption = 'Group'
     end
-    object lbl31: TLabel
+    object lbSubCategory: TLabel
       Left = 13
-      Top = 251
-      Width = 67
+      Top = 258
+      Width = 50
       Height = 16
-      Caption = 'Sub Category'
+      Caption = 'Sub Group'
     end
-    object lbl21: TLabel
-      Left = 531
-      Top = 254
+    object lbAlloc1: TLabel
+      Left = 467
+      Top = 258
       Width = 63
       Height = 16
       Caption = 'Allocation(%)'
       Visible = False
     end
-    object lbl22: TLabel
-      Left = 531
-      Top = 279
+    object lbAlloc2: TLabel
+      Left = 467
+      Top = 283
       Width = 63
       Height = 16
       Caption = 'Allocation(%)'
       Visible = False
     end
-    object lbl24: TLabel
-      Left = 531
-      Top = 304
+    object lbAlloc3: TLabel
+      Left = 467
+      Top = 308
       Width = 63
       Height = 16
       Caption = 'Allocation(%)'
       Visible = False
     end
-    object Label1: TLabel
-      Left = 13
-      Top = 326
+    object lbProductGallon: TLabel
+      Left = 459
+      Top = 208
       Width = 67
       Height = 16
       Caption = 'Product Code'
       Visible = False
     end
-    object Label3: TLabel
-      Left = 13
-      Top = 352
-      Width = 34
-      Height = 16
-      Caption = 'Author'
-    end
-    object Label4: TLabel
-      Left = 13
-      Top = 377
-      Width = 45
-      Height = 16
-      Caption = 'Publisher'
-    end
-    object lblLabel2: TLabel
-      Left = 309
-      Top = 279
+    object lbSafetyStock: TLabel
+      Left = 227
+      Top = 85
       Width = 63
       Height = 16
       Caption = 'Safety Stock'
     end
     object lbl9: TLabel
-      Left = 373
-      Top = 9
-      Width = 33
-      Height = 16
-      Caption = '(Merk)'
+      Left = 200
+      Top = 10
+      Width = 25
+      Height = 32
+      Caption = 'Merk'#13#10
     end
-    object Label2: TLabel
-      Left = 453
-      Top = 279
+    object lbHari: TLabel
+      Left = 351
+      Top = 85
       Width = 21
       Height = 16
       Caption = 'Hari'
     end
-    object cbTurunan: TcxCheckBox
-      Left = 308
-      Top = 79
-      Caption = 'Is Product Turunan'
-      TabOrder = 16
-      OnKeyPress = cbTurunanKeyPress
-    end
-    object edtProductCode: TEdit
+    object edtShortName: TcxTextEdit
       Left = 101
-      Top = 6
-      Width = 70
-      Height = 22
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 0
-      OnKeyPress = edtProductCodeKeyPress
-    end
-    object edtShortName: TEdit
-      Left = 101
-      Top = 52
+      Top = 56
+      Properties.CharCase = ecUpperCase
+      TabOrder = 4
       Width = 309
-      Height = 22
-      CharCase = ecUpperCase
-      Ctl3D = False
-      ParentCtl3D = False
+    end
+    object edtProductName: TcxTextEdit
+      Left = 101
+      Top = 31
+      Properties.CharCase = ecUpperCase
       TabOrder = 3
-      OnKeyPress = edtShortNameKeyPress
-    end
-    object edtBrandName: TEdit
-      Left = 101
-      Top = 29
       Width = 309
-      Height = 22
-      CharCase = ecUpperCase
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 2
-      OnExit = edtBrandNameExit
-      OnKeyPress = edtBrandNameKeyPress
     end
-    object edtCatalog: TEdit
+    object edtCatalog: TcxTextEdit
       Left = 507
-      Top = 6
-      Width = 247
-      Height = 22
-      Color = 10150911
-      Ctl3D = False
-      MaxLength = 13
-      ParentCtl3D = False
-      TabOrder = 29
-      OnKeyPress = edtCatalogKeyPress
+      Top = 7
+      Style.Color = clMoneyGreen
+      TabOrder = 2
+      Width = 239
     end
-    object cbActive: TcxCheckBox
-      Left = 308
-      Top = 99
-      Caption = 'Is Active'
+    object intedtCommonAllocation: TcxCurrencyEdit
+      Left = 532
+      Top = 255
+      EditValue = 0
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DecimalPlaces = 0
+      Properties.DisplayFormat = ',0;(0)'
+      Style.Color = clWindow
+      TabOrder = 19
+      Visible = False
+      Width = 41
+    end
+    object edtCommonUOM: TcxTextEdit
+      Tag = 1
+      Left = 574
+      Top = 255
+      TabOrder = 20
+      Text = 'PCS'
+      Visible = False
+      Width = 38
+    end
+    object edtAsgrossUOM: TcxTextEdit
+      Tag = 1
+      Left = 574
+      Top = 280
+      TabOrder = 22
+      Text = 'PCS'
+      Visible = False
+      Width = 38
+    end
+    object intedtAsgrossAllocation: TcxCurrencyEdit
+      Left = 532
+      Top = 280
+      EditValue = 0
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DecimalPlaces = 0
+      Properties.DisplayFormat = ',0;(0)'
+      TabOrder = 21
+      Visible = False
+      Width = 41
+    end
+    object intedtTraderAllocation: TcxCurrencyEdit
+      Left = 532
+      Top = 305
+      EditValue = 0
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DecimalPlaces = 0
+      Properties.DisplayFormat = ',0;(0)'
+      TabOrder = 23
+      Visible = False
+      Width = 41
+    end
+    object edtTraderUOM: TcxTextEdit
+      Tag = 1
+      Left = 574
+      Top = 305
+      TabOrder = 24
+      Text = 'PCS'
+      Visible = False
+      Width = 38
+    end
+    object cbStock: TcxComboBox
+      Left = 101
+      Top = 81
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      Properties.Items.Strings = (
+        'STOCK'
+        'CS')
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
+      TabOrder = 5
+      Width = 120
+    end
+    object cxLookupTipeBarang: TcxExtLookupComboBox
+      Left = 101
+      Top = 107
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 7
+      Width = 188
+    end
+    object cxLookupSatuan: TcxExtLookupComboBox
+      Left = 101
+      Top = 131
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 8
+      Width = 120
+    end
+    object cxLookupOutlet: TcxExtLookupComboBox
+      Left = 101
+      Top = 156
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 9
+      Width = 188
+    end
+    object cxLookupLocation: TcxExtLookupComboBox
+      Left = 101
+      Top = 181
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 10
+      Width = 188
+    end
+    object cxLookupJenisPajak: TcxExtLookupComboBox
+      Left = 101
+      Top = 305
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 15
+      Width = 120
+    end
+    object cxLookupMerchan: TcxExtLookupComboBox
+      Left = 101
+      Top = 205
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      Properties.OnEditValueChanged = cxLookupMerchanPropertiesEditValueChanged
+      TabOrder = 11
+      Width = 188
+    end
+    object cxLookupMerchanGroup: TcxExtLookupComboBox
+      Left = 101
+      Top = 230
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 12
+      Width = 188
+    end
+    object cxLookupSubGroup: TcxExtLookupComboBox
+      Left = 101
+      Top = 255
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 13
+      Width = 188
+    end
+    object cxLookupKategori: TcxExtLookupComboBox
+      Left = 101
+      Top = 280
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      TabOrder = 14
+      Width = 188
+    end
+    object edtBrgGalong: TcxTextEdit
+      Left = 556
+      Top = 205
       TabOrder = 17
-      OnKeyPress = cbActiveKeyPress
+      Visible = False
+      Width = 68
     end
-    object pnl1: TPanel
-      Left = 429
-      Top = 126
-      Width = 327
-      Height = 59
-      BevelInner = bvRaised
-      BevelOuter = bvLowered
+    object edtBrgNamaGalon: TcxTextEdit
+      Left = 532
+      Top = 205
+      TabOrder = 18
+      Visible = False
+      Width = 237
+    end
+    object cbbProductName: TcxExtLookupComboBox
+      Left = 227
+      Top = 7
+      Properties.CharCase = ecUpperCase
+      TabOrder = 1
+      Width = 183
+    end
+    object edtProductCode: TcxTextEdit
+      Left = 101
+      Top = 7
+      Properties.CharCase = ecUpperCase
+      TabOrder = 0
+      Width = 92
+    end
+    object gbPurchase: TcxGroupBox
+      Left = 466
+      Top = 35
+      Caption = ' Purchase : '
       Enabled = False
-      TabOrder = 31
-      object lbl25: TLabel
+      TabOrder = 25
+      Height = 96
+      Width = 323
+      object lbPLUPurchase: TLabel
+        Left = 11
+        Top = 21
+        Width = 68
+        Height = 16
+        Caption = 'PLU Purchase'
+      end
+      object lbUOMPurchase: TLabel
+        Left = 11
+        Top = 70
+        Width = 72
+        Height = 16
+        Caption = 'UOM Purchase'
+        Visible = False
+      end
+      object edtPLUPurchase: TcxTextEdit
+        Left = 88
+        Top = 18
+        TabOrder = 0
+        Width = 70
+      end
+      object edtProductPurchase: TcxTextEdit
+        Left = 88
+        Top = 42
+        TabOrder = 1
+        Width = 225
+      end
+      object cxExtLookupComboBox1: TcxExtLookupComboBox
+        Left = 88
+        Top = 67
+        TabOrder = 2
+        Width = 129
+      end
+    end
+    object cxGroupBox2: TcxGroupBox
+      Left = 467
+      Top = 137
+      Enabled = False
+      PanelStyle.Active = True
+      TabOrder = 26
+      Height = 62
+      Width = 321
+      object lbPKMAvg: TLabel
+        Left = 13
+        Top = 9
+        Width = 62
+        Height = 16
+        Caption = 'PKM Average'
+      end
+      object lbLastCost: TLabel
         Left = 13
         Top = 31
         Width = 47
@@ -269,497 +444,201 @@ inherited frmDialogProduct: TfrmDialogProduct
         ParentFont = False
       end
       object lbl41: TLabel
-        Left = 236
-        Top = 30
+        Left = 194
+        Top = 33
         Width = 6
         Height = 16
         Caption = '/'
       end
-      object lbl29: TLabel
-        Left = 13
-        Top = 7
-        Width = 62
-        Height = 16
-        Caption = 'PKM Average'
-      end
       object jvcuredtLastCost: TcxCurrencyEdit
-        Left = 127
-        Top = 29
-        TabOrder = 1
+        Left = 87
+        Top = 30
+        TabOrder = 0
         Width = 107
       end
-      object edtLastCOGSUOM: TEdit
-        Left = 245
-        Top = 29
-        Width = 41
-        Height = 22
-        Ctl3D = False
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 3
-        Text = 'CRT'
-      end
-      object edtAverageSlsUOM: TEdit
-        Left = 190
-        Top = 5
-        Width = 38
-        Height = 22
-        Ctl3D = False
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 2
-        Text = 'CRT'
-      end
       object edtAverageSls: TcxCurrencyEdit
-        Left = 127
-        Top = 5
-        TabOrder = 0
+        Left = 87
+        Top = 6
+        TabOrder = 1
         Width = 62
       end
-    end
-    object cbisDecimal: TcxCheckBox
-      Left = 308
-      Top = 120
-      Caption = 'Is Decimal'
-      TabOrder = 18
-      OnKeyPress = cbisDecimalKeyPress
-    end
-    object cbIsTaxInclude: TcxCheckBox
-      Left = 308
-      Top = 141
-      Caption = 'Price Include Tax'
-      TabOrder = 19
-      OnKeyPress = cbIsTaxIncludeKeyPress
-    end
-    object grpPurchase: TGroupBox
-      Left = 429
-      Top = 31
-      Width = 326
-      Height = 93
-      Caption = 'Purchase: '
-      TabOrder = 30
-      object lbl28: TLabel
-        Left = 8
-        Top = 19
-        Width = 68
-        Height = 16
-        Caption = 'PLU Purchase'
+      object edtAverageSlsUOM: TcxTextEdit
+        Tag = 1
+        Left = 150
+        Top = 6
+        TabOrder = 2
+        Text = 'CRT'
+        Width = 38
       end
-      object lbl1: TLabel
-        Left = 7
-        Top = 66
-        Width = 72
-        Height = 16
-        Caption = 'UOM Purchase'
-        Visible = False
+      object edtLastCOGSUOM: TcxTextEdit
+        Tag = 1
+        Left = 201
+        Top = 30
+        TabOrder = 3
+        Text = 'CRT'
+        Width = 41
       end
-      object edtPLUPurchase: TEdit
-        Left = 82
-        Top = 18
-        Width = 70
-        Height = 22
-        Ctl3D = False
-        MaxLength = 7
-        ParentCtl3D = False
+    end
+    object gbOption: TcxGroupBox
+      Left = 299
+      Top = 111
+      PanelStyle.Active = True
+      Style.BorderStyle = ebsFlat
+      TabOrder = 16
+      Height = 202
+      Width = 150
+      object cbTurunan: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 2
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Is Product Turunan'
+        Properties.ImmediatePost = True
         TabOrder = 0
-        OnExit = edtPLUPurchaseExit
-        OnKeyUp = edtPLUPurchaseKeyUp
       end
-      object edtProductPurchase: TEdit
-        Left = 82
-        Top = 41
-        Width = 235
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        ParentCtl3D = False
+      object cbActive: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 26
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Is Active'
+        Properties.ImmediatePost = True
         TabOrder = 1
       end
-      object edtUOMName: TEdit
-        Left = 153
-        Top = 64
-        Width = 100
-        Height = 22
-        Ctl3D = False
-        MaxLength = 6
-        ParentCtl3D = False
-        ReadOnly = True
+      object cbisDecimal: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 50
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Is Decimal'
+        Properties.ImmediatePost = True
         TabOrder = 2
-        Visible = False
       end
-      object edtUOMPurchase: TEdit
-        Left = 82
-        Top = 64
-        Width = 65
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        ParentCtl3D = False
-        ReadOnly = True
+      object cbIsTaxInclude: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 74
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Price Include Tax'
+        Properties.ImmediatePost = True
         TabOrder = 3
+      end
+      object cbisDeposit: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 146
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Product Deposit'
+        Properties.ImmediatePost = True
+        TabOrder = 6
+        ExplicitTop = 140
+      end
+      object chkIsDiscAMC: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 122
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Is Disc AMC'
+        Properties.ImmediatePost = True
+        TabOrder = 5
+        ExplicitTop = 119
+      end
+      object chkIsBasic: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 98
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Is Basic Item'
+        Properties.ImmediatePost = True
+        TabOrder = 4
+      end
+      object chkIsGalon: TcxCheckBox
+        AlignWithMargins = True
+        Left = 5
+        Top = 170
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Is Galon'
+        Properties.ImmediatePost = True
+        TabOrder = 7
         Visible = False
       end
     end
-    object intedtCommonAllocation: TcxCurrencyEdit
-      Left = 596
-      Top = 251
-      EditValue = 0
-      Properties.Alignment.Horz = taRightJustify
-      Properties.DecimalPlaces = 0
-      Properties.DisplayFormat = ',0;(0)'
-      Style.Color = clWindow
-      TabOrder = 23
-      Visible = False
-      OnExit = intedtCommonAllocationExit
-      Width = 41
-    end
-    object edtCommonUOM: TEdit
-      Left = 638
-      Top = 251
-      Width = 38
-      Height = 22
-      Ctl3D = False
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 24
-      Text = 'PCS'
-      Visible = False
-    end
-    object edtAsgrossUOM: TEdit
-      Left = 638
-      Top = 276
-      Width = 38
-      Height = 22
-      Ctl3D = False
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 26
-      Text = 'PCS'
-      Visible = False
-    end
-    object intedtAsgrossAllocation: TcxCurrencyEdit
-      Left = 596
-      Top = 276
-      EditValue = 0
-      Properties.Alignment.Horz = taRightJustify
-      Properties.DecimalPlaces = 0
-      Properties.DisplayFormat = ',0;(0)'
-      TabOrder = 25
-      Visible = False
-      OnExit = intedtCommonAllocationExit
-      Width = 41
-    end
-    object intedtTraderAllocation: TcxCurrencyEdit
-      Left = 596
-      Top = 301
-      EditValue = 0
-      Properties.Alignment.Horz = taRightJustify
-      Properties.DecimalPlaces = 0
-      Properties.DisplayFormat = ',0;(0)'
-      TabOrder = 27
-      Visible = False
-      OnExit = intedtCommonAllocationExit
-      Width = 41
-    end
-    object edtTraderUOM: TEdit
-      Left = 638
-      Top = 301
-      Width = 38
-      Height = 22
-      Ctl3D = False
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 28
-      Text = 'PCS'
-      Visible = False
-    end
-    object cbisDeposit: TcxCheckBox
-      Left = 308
-      Top = 161
-      Caption = 'Product Deposit'
-      TabOrder = 20
-      OnKeyPress = cbIsTaxIncludeKeyPress
-    end
-    object cbpStok: TComboBox
-      Left = 101
-      Top = 75
-      Width = 125
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 4
-      Items.Strings = (
-        'STOK'
-        'CS')
-    end
-    object cbpProductType: TComboBox
-      Left = 101
-      Top = 100
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 5
-    end
-    object cbpUOMStok: TComboBox
-      Left = 101
-      Top = 125
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
+    object edtSSBARANG: TcxSpinEdit
+      Left = 295
+      Top = 82
       TabOrder = 6
-    end
-    object cbpOutlet: TComboBox
-      Left = 101
-      Top = 150
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 7
-    end
-    object cbpLocation: TComboBox
-      Left = 101
-      Top = 175
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 8
-    end
-    object cbpTax: TComboBox
-      Left = 101
-      Top = 301
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 9
-    end
-    object cbpMerchan: TComboBox
-      Left = 101
-      Top = 200
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 10
-      OnChange = cbpMerchanChange
-    end
-    object cbpMerchanGrup: TComboBox
-      Left = 101
-      Top = 225
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 11
-      OnChange = cbpMerchanGrupChange
-    end
-    object cbpSubGroup: TComboBox
-      Left = 101
-      Top = 251
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 12
-      OnChange = cbpSubGroupChange
-    end
-    object cbpKategori: TComboBox
-      Left = 101
-      Top = 276
-      Width = 145
-      Height = 24
-      BevelKind = bkFlat
-      Style = csDropDownList
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 13
-    end
-    object chkIsGalon: TcxCheckBox
-      Left = 308
-      Top = 183
-      Caption = 'Is Galon'
-      TabOrder = 21
-      Visible = False
-      OnClick = chkIsGalonClick
-      OnKeyPress = cbIsTaxIncludeKeyPress
-    end
-    object edtBrgGalong: TEdit
-      Left = 101
-      Top = 326
-      Width = 70
-      Height = 22
-      Ctl3D = False
-      MaxLength = 6
-      ParentCtl3D = False
-      TabOrder = 14
-      Visible = False
-      OnKeyDown = edtBrgGalongKeyDown
-    end
-    object edtBrgNamaGalon: TEdit
-      Left = 172
-      Top = 326
-      Width = 238
-      Height = 22
-      CharCase = ecUpperCase
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 15
-      Visible = False
-      OnKeyPress = edtProductNameKeyPress
-    end
-    object chkIsDiscAMC: TcxCheckBox
-      Left = 308
-      Top = 206
-      Caption = 'Is Disc AMC'
-      TabOrder = 22
-      OnClick = chkIsGalonClick
-      OnKeyPress = cbIsTaxIncludeKeyPress
-    end
-    object edtAuthorId: TEdit
-      Left = 101
-      Top = 350
-      Width = 68
-      Height = 22
-      Hint = 'TEKAN F5 UNTUK LOOKUP'
-      Ctl3D = False
-      ParentCtl3D = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 32
-      Text = '00000'
-      OnKeyDown = edtAuthorIdKeyDown
-    end
-    object edtAuthorNm: TEdit
-      Left = 172
-      Top = 350
-      Width = 237
-      Height = 22
-      Ctl3D = False
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 33
-      Text = 'TIDAK ADA'
-    end
-    object edtPubsID: TEdit
-      Left = 101
-      Top = 374
-      Width = 68
-      Height = 22
-      Hint = 'TEKAN F5 UNTUK LOOKUP'
-      Ctl3D = False
-      ParentCtl3D = False
-      ParentShowHint = False
-      ReadOnly = True
-      ShowHint = True
-      TabOrder = 34
-      Text = '00000'
-      OnKeyDown = edtPubsIDKeyDown
-    end
-    object edtPubsNm: TEdit
-      Left = 172
-      Top = 374
-      Width = 237
-      Height = 22
-      Ctl3D = False
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 35
-      Text = 'TIDAK ADA'
-    end
-    object edtSSSubGroup: TcxCurrencyEdit
-      Left = 248
-      Top = 276
-      Hint = 'Safety Stock Default yang di ambil dari Sub Group'
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 36
-      Visible = False
-      Width = 49
-    end
-    object edtSSBARANG: TcxCurrencyEdit
-      Left = 376
-      Top = 276
-      TabOrder = 37
-      Width = 73
-    end
-    object chkIsBasic: TcxCheckBox
-      Left = 308
-      Top = 230
-      Caption = 'Is Basic Item'
-      TabOrder = 38
-      OnClick = chkIsGalonClick
-      OnKeyPress = chkIsBasicKeyPress
-    end
-    object cbbProductName: TComboBox
-      Left = 178
-      Top = 4
-      Width = 189
-      Height = 24
-      TabOrder = 1
-      OnKeyPress = cbbProductNameKeyPress
+      Width = 53
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
-    Top = 425
-    Width = 758
-    ExplicitTop = 425
-    ExplicitWidth = 758
+  inherited footerDialogMaster: TfraFooterDialog3Button
+    Top = 352
+    Width = 800
+    ExplicitTop = 401
+    ExplicitWidth = 800
     inherited pnlFooter: TPanel
-      Width = 758
-      ExplicitWidth = 758
+      Width = 800
+      ExplicitTop = 18
+      ExplicitWidth = 800
       inherited btnClose: TcxButton
-        Left = 676
-        ExplicitLeft = 676
+        Left = 723
+        ExplicitLeft = 723
       end
       inherited btnSave: TcxButton
-        Left = 591
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 591
+        Left = 620
+        Action = actSave
+        ExplicitLeft = 620
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 758
-      ExplicitWidth = 758
+      Width = 800
+      ExplicitWidth = 800
       inherited lbl4: TLabel
-        Left = 574
-        ExplicitLeft = 576
+        Left = 627
+        Height = 15
+        ExplicitLeft = 585
       end
       inherited lbl5: TLabel
-        Left = 671
+        Left = 726
         Width = 72
+        Height = 15
         Caption = 'Escape [Close]'
-        ExplicitLeft = 673
+        ExplicitLeft = 684
         ExplicitWidth = 72
+      end
+      inherited lbl3: TLabel
+        Height = 15
       end
     end
   end
-  object ActionList1: TActionList
-    Left = 672
-    Top = 62
-    object actPluIsActive: TAction
-      Caption = 'actPluIsActive'
-    end
+  inherited actlstMasterDialog: TActionList
+    Left = 520
+    Top = 208
   end
 end

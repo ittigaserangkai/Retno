@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts;
+  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -257,6 +257,11 @@ type
     actCostCenter: TAction;
     actCostCenter1: TMenuItem;
     ApplicationEvents1: TApplicationEvents;
+    Merchandise1: TMenuItem;
+    MasterProduct1: TMenuItem;
+    LookAndFeelController: TcxLookAndFeelController;
+    est1: TMenuItem;
+    DialogBarang1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -264,6 +269,7 @@ type
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actDataProductExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
@@ -289,6 +295,7 @@ type
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure DialogBarang1Click(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -323,12 +330,12 @@ var
 implementation
 
 uses
-    uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-    ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
+  uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
+  ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
-  ufrmTipePembayaran, Datasnap.DSHTTPClient;
+  ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct;
 
 {$R *.dfm}
 
@@ -440,7 +447,7 @@ end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
 begin
-    frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
+  frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterProductNBDExecute(Sender: TObject);
@@ -451,6 +458,11 @@ end;
 procedure TfrmMain.actCostCenterExecute(Sender: TObject);
 begin
   //
+end;
+
+procedure TfrmMain.actDataProductExecute(Sender: TObject);
+begin
+  frmProduct := TfrmProduct.CreateWithUser(ApplicationEvents1, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -667,6 +679,15 @@ end;
 procedure TfrmMain.Button1Click(Sender: TObject);
 begin
   raise Exception.Create('Error Message');
+end;
+
+procedure TfrmMain.DialogBarang1Click(Sender: TObject);
+begin
+  with TfrmDialogProduct.Create(Self) do
+  begin
+    ShowModal;
+    Free;
+  end;
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

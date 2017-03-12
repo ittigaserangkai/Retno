@@ -7,7 +7,8 @@ uses
   Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions,
   System.Classes, Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
-  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
+  cxCheckBox, cxSpinEdit;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -25,11 +26,9 @@ type
     FDialogUnit: Integer;
     TList: TStrings;
     procedure Authenticate;
-    procedure EventKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GetAndRunButton(AButtonName: string); dynamic;
     procedure GetUserModule;
   protected
-    procedure AssignKeyDownEvent;
   public
     FDialogUnitCOde: string;
     FDialogUnitName: string;
@@ -67,36 +66,6 @@ begin
   Self.Close;
 end;
 
-procedure TfrmMasterDialog.AssignKeyDownEvent;
-var
-  Comp: TComponent;
-  i: Integer;
-begin
-  for i := 0 to ComponentCount-1 do
-  begin
-    Comp := Components[i];
-    if Comp is TEdit then
-    begin
-      If not Assigned(TEdit(Comp).OnKeyDown) then
-        TEdit(Comp).OnKeyDown := EventKeyDown;
-      if TEdit(Comp).ReadOnly then
-        TEdit(Comp).TabStop := False;
-    end else if Comp is TcxTextEdit then
-    begin
-      If not Assigned(TcxTextEdit(Comp).OnKeyDown) then
-        TcxTextEdit(Comp).OnKeyDown := EventKeyDown;
-      if TcxTextEdit(Comp).Properties.ReadOnly then
-        TcxTextEdit(Comp).TabStop := False;
-    end else if Comp is TcxExtLookupComboBox then
-    begin
-      if not Assigned(TcxExtLookupComboBox(Comp).OnKeyDown) then
-        TcxExtLookupComboBox(Comp).OnKeyDown := EventKeyDown;
-      if TcxExtLookupComboBox(Comp).Properties.ReadOnly then
-        TcxExtLookupComboBox(Comp).TabStop := False;
-    end;
-  end;
-end;
-
 procedure TfrmMasterDialog.Authenticate;
 var
   i: word;
@@ -116,13 +85,6 @@ begin
     end;
   end;
 
-end;
-
-procedure TfrmMasterDialog.EventKeyDown(Sender: TObject; var Key: Word; Shift:
-    TShiftState);
-begin
-  if Key = VK_RETURN then
-    SelectNext(Screen.ActiveControl, True, True);
 end;
 
 procedure TfrmMasterDialog.GetAndRunButton(AButtonName: string);

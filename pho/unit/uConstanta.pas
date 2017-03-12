@@ -77,6 +77,7 @@ const
   PO_APPROVED_SUCCESSFULLY = 'PO approved successfully';
   PO_CHANGED_SUCCESSFULLY = 'PO changed successfully';
   PO_CANCELLED_SUCCESSFULLY = 'PO canceled successfully';
+  CONF_VALIDATE_FOR_SAVE = 'Anda yakin data sudah sesuai ?';
 
   // db
   DEBUG_MODE_ON = true;

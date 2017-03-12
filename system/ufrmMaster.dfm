@@ -59,8 +59,8 @@ object frmMaster: TfrmMaster
     end
   end
   object cxStyle: TcxStyleRepository
-    Left = 376
-    Top = 16
+    Left = 456
+    Top = 8
     PixelsPerInch = 96
     object styleGridEven: TcxStyle
       AssignedValues = [svColor, svFont]

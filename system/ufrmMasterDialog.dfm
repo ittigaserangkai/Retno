@@ -31,7 +31,6 @@ object frmMasterDialog: TfrmMasterDialog
     BevelOuter = bvLowered
     Color = 15198183
     TabOrder = 0
-    ExplicitWidth = 506
   end
   inline footerDialogMaster: TfraFooterDialog3Button
     Left = 0
@@ -47,10 +46,10 @@ object frmMasterDialog: TfrmMasterDialog
     ParentFont = False
     TabOrder = 1
     ExplicitTop = 276
-    ExplicitWidth = 506
+    ExplicitWidth = 554
     inherited pnlFooter: TPanel
       Width = 554
-      ExplicitWidth = 506
+      ExplicitWidth = 554
       inherited btnClose: TcxButton
         AlignWithMargins = True
         Left = 477
@@ -61,7 +60,7 @@ object frmMasterDialog: TfrmMasterDialog
         Cancel = False
         ModalResult = 2
         DragKind = dkDock
-        ExplicitLeft = 429
+        ExplicitLeft = 477
         ExplicitTop = 4
       end
       inherited btnSave: TcxButton
@@ -75,7 +74,7 @@ object frmMasterDialog: TfrmMasterDialog
         Action = actSave
         Default = False
         DragKind = dkDock
-        ExplicitLeft = 326
+        ExplicitLeft = 374
         ExplicitTop = 4
       end
       inherited btnDelete: TcxButton
@@ -92,7 +91,7 @@ object frmMasterDialog: TfrmMasterDialog
     end
     inherited pnlSortCut: TPanel
       Width = 554
-      ExplicitWidth = 506
+      ExplicitWidth = 554
       inherited lbl4: TLabel
         AlignWithMargins = True
         Left = 374
@@ -103,7 +102,7 @@ object frmMasterDialog: TfrmMasterDialog
         Margins.Bottom = 1
         Align = alRight
         Caption = 'CTRL-Enter [Save]'
-        ExplicitLeft = 326
+        ExplicitLeft = 374
         ExplicitWidth = 91
       end
       inherited lbl5: TLabel
@@ -114,7 +113,7 @@ object frmMasterDialog: TfrmMasterDialog
         Margins.Right = 0
         Margins.Bottom = 1
         Align = alRight
-        ExplicitLeft = 425
+        ExplicitLeft = 473
       end
       inherited lbl3: TLabel
         AlignWithMargins = True

@@ -644,37 +644,26 @@ end;
 
 procedure TfrmProduct.actAddProductExecute(Sender: TObject);
 begin
-//  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError('UNIT BELUM DIPILIH');
-    Exit;
-  end;
-  if SpecialKey.ChekFrameAdded then
-  begin
-    SpecialKey.ExecuteLabelOnFrame('lblAdd');
-    Exit;
-  end;
-
   if not assigned(frmDialogProduct) then
     frmDialogProduct := TfrmDialogProduct.Create(Application);
-
-  with frmDialogProduct do
-  begin
-    try
-      fraFooter5Button1.btnClose.Cancel           := True;
-      Caption := 'Add Product';
-      FormMode                   := fmAdd;
-      SetFormPropertyAndShowDialog(frmDialogProduct);
-      if (IsProcessSuccessfull) then
-      begin
-        cbpProductCode.Text := edtProductCode.Text;
-        actRefreshProductExecute(nil);
-        CommonDlg.ShowConfirm(atAdd);
-      end;
-    finally
-      free;
-    end;
-  end;
+  frmDialogProduct.ShowModal;
+//  with frmDialogProduct do
+//  begin
+//    try
+//      fraFooter5Button1.btnClose.Cancel           := True;
+//      Caption := 'Add Product';
+//      FormMode                   := fmAdd;
+//      SetFormPropertyAndShowDialog(frmDialogProduct);
+//      if (IsProcessSuccessfull) then
+//      begin
+//        cbpProductCode.Text := edtProductCode.Text;
+//        actRefreshProductExecute(nil);
+//        CommonDlg.ShowConfirm(atAdd);
+//      end;
+//    finally
+//      free;
+//    end;
+//  end;
 
 end;
 
@@ -696,24 +685,24 @@ begin
   if not assigned(frmDialogProduct) then
     frmDialogProduct := TfrmDialogProduct.Create(Application);
 
-  with frmDialogProduct do
-  begin
-    try
-      fraFooter5Button1.btnClose.Cancel           := True;
-      Caption := 'Edit Product';
-      FormMode                   := fmEdit;
-      ProductId                  := cbpProductCode.Text;
-      SetFormPropertyAndShowDialog(frmDialogProduct);
-      if (IsProcessSuccessfull) then
-      begin
-        cbpProductCode.Text := edtProductCode.Text;
-        actRefreshProductExecute(nil);
-        CommonDlg.ShowConfirm(atEdit);
-      end;
-    finally
-      free;
-    end;
-  end;
+//  with frmDialogProduct do
+//  begin
+//    try
+//      fraFooter5Button1.btnClose.Cancel           := True;
+//      Caption := 'Edit Product';
+//      FormMode                   := fmEdit;
+//      ProductId                  := cbpProductCode.Text;
+//      SetFormPropertyAndShowDialog(frmDialogProduct);
+//      if (IsProcessSuccessfull) then
+//      begin
+//        cbpProductCode.Text := edtProductCode.Text;
+//        actRefreshProductExecute(nil);
+//        CommonDlg.ShowConfirm(atEdit);
+//      end;
+//    finally
+//      free;
+//    end;
+//  end;
 
 
 end;

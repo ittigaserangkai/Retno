@@ -10,7 +10,7 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, cxTextEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar;
+  cxCalendar, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TfrmDialogProdSupplier = class(TfrmMasterDialog)
