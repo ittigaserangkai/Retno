@@ -33,9 +33,9 @@ type
   TfrmSupplierType = class(TfrmMasterBrowse)
   private
     FCDSBrowse: tClientDataset;
-    procedure RefreshData;
     property CDSBrowse: tClientDataset read FCDSBrowse write FCDSBrowse;
   public
+    procedure RefreshData; override;
     { Public declarations }
   end;
 

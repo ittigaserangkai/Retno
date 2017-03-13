@@ -277,6 +277,7 @@ type
     LookAndFeelController: TcxLookAndFeelController;
     est1: TMenuItem;
     DialogBarang1: TMenuItem;
+    ipeSuplier1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
