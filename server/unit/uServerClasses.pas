@@ -52,8 +52,10 @@ type
     function SubGroup_GetDSLookup: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
     function Kategori_GetDSLookup: TDataSet;
+    function Merk_GetDSLookUp: TDataSet;
     function RefPajak_GetDSLookup: TDataSet;
     function RefTipeBarang_GetDSLookup: TDataSet;
+    function TipeSuplier_GetDSOverview: TDataSet;
 
 
   end;
@@ -276,7 +278,7 @@ function TDSProvider.Satuan_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select sat_code, sat_name,sat_group, ref$satuan_id' +
+  S := 'select sat_name, sat_code, sat_group, ref$satuan_id' +
        ' from ref$satuan' +
        ' ORDER by sat_code';
 
@@ -382,6 +384,14 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Merk_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select Merk_Name,Merk_Description, Merk_ID from Merk';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.RefPajak_GetDSLookup: TDataSet;
 var
   S: string;
@@ -395,6 +405,14 @@ var
   S: string;
 begin
   S := 'Select TPBRG_NAME, TPBRG_CODE, REF$TIPE_BARANG_ID FROM REF$TIPE_BARANG';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeSuplier_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPSUP_CODE, TPSUP_NAME from REF$TIPE_SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

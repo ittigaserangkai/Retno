@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.38;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>38</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.36;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>36</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -459,20 +459,52 @@
         </DCCReference>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
+        <DCCReference Include="module\product\ufrmDialogKategori.pas">
+            <Form>frmDialogKategori</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerchandise.pas">
+            <Form>frmDialogMerchandise</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerchandiseGroup.pas">
+            <Form>frmDialogMerchandiseGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerk.pas">
+            <Form>frmDialogMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogSubGroup.pas">
+            <Form>frmDialogSubGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmKategori.pas">
+            <Form>frmKategori</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerchandise.pas">
+            <Form>frmMerchandise</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerchandiseGroup.pas">
+            <Form>frmMerchandiseGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerk.pas">
+            <Form>frmMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmSubGroup.pas">
+            <Form>frmSubGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="module\merchandise\ufrmQuotation.pas">
             <Form>frmQuotation</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmDialogQuotation.pas">
             <Form>frmDialogQuotation</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmOutlet.pas">
-            <Form>frmOutlet</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmDialogOutlet.pas">
-            <Form>frmDialogOutlet</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
@@ -507,12 +539,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -866,27 +913,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
