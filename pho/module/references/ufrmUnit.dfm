@@ -14,7 +14,7 @@ inherited frmUnit: TfrmUnit
     Height = 308
     BorderWidth = 2
     ExplicitWidth = 771
-    ExplicitHeight = 56
+    ExplicitHeight = 308
     inherited pgcBrowse: TcxPageControl
       Left = 3
       Top = 3
@@ -23,19 +23,17 @@ inherited frmUnit: TfrmUnit
       ExplicitLeft = 3
       ExplicitTop = 3
       ExplicitWidth = 765
-      ExplicitHeight = 50
+      ExplicitHeight = 302
       ClientRectBottom = 302
       ClientRectRight = 765
       inherited tsBrowse: TcxTabSheet
         ExplicitWidth = 765
-        ExplicitHeight = 50
+        ExplicitHeight = 302
         inherited cxGrid: TcxGrid
           Width = 765
           Height = 302
-          ExplicitLeft = 0
-          ExplicitTop = 0
           ExplicitWidth = 765
-          ExplicitHeight = 50
+          ExplicitHeight = 302
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               Caption = 'NO'
@@ -99,7 +97,7 @@ inherited frmUnit: TfrmUnit
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 341
     Width = 771
-    ExplicitTop = 145
+    ExplicitTop = 341
     ExplicitWidth = 771
     inherited pnlFooter: TPanel
       Width = 771
@@ -131,11 +129,9 @@ inherited frmUnit: TfrmUnit
       inherited lbl5: TLabel
         Left = 697
         Height = 17
+        ExplicitLeft = 697
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   inherited actlstBrowse: TActionList
     inherited actAdd: TAction

@@ -13,8 +13,8 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited pnlBody: TPanel
     Width = 648
     Height = 445
-    ExplicitWidth = 650
-    ExplicitHeight = 471
+    ExplicitWidth = 648
+    ExplicitHeight = 445
     object lbl1: TLabel
       Left = 76
       Top = 10
@@ -356,7 +356,7 @@ inherited frmDialogUnit: TfrmDialogUnit
     object edtUnitChildID: TEdit
       Left = 104
       Top = 325
-      Width = 41
+      Width = 49
       Height = 22
       Ctl3D = False
       MaxLength = 128
@@ -517,103 +517,122 @@ inherited frmDialogUnit: TfrmDialogUnit
       OnClick = chkActiveClick
     end
     object edtUnitAppID: TcxButtonEdit
-      Left = 104
+      Left = 103
       Top = 94
-      Properties.Buttons = <>
+      Properties.Buttons = <
+        item
+        end>
+      Properties.OnButtonClick = edtUnitAppIDPropertiesButtonClick
       TabOrder = 4
       Text = '0'
       OnKeyDown = edtUnitAppIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUnitCompID: TcxButtonEdit
-      Left = 104
+      Left = 103
       Top = 115
-      Properties.Buttons = <>
+      Properties.Buttons = <
+        item
+        end>
+      Properties.OnButtonClick = edtUnitCompIDPropertiesButtonClick
       TabOrder = 5
       Text = '0'
       OnKeyDown = edtUnitCompIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUntInfoCompTypeID: TcxButtonEdit
-      Left = 104
+      Left = 103
       Top = 136
-      Properties.Buttons = <>
+      Properties.Buttons = <
+        item
+        end>
+      Properties.OnButtonClick = edtUntInfoCompTypeIDPropertiesButtonClick
       TabOrder = 6
       Text = '0'
       OnKeyDown = edtUntInfoCompTypeIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUnitRegnID: TcxButtonEdit
-      Left = 104
+      Left = 103
       Top = 156
-      Properties.Buttons = <>
+      Properties.Buttons = <
+        item
+        end>
       TabOrder = 7
       Text = '0'
       OnKeyDown = edtUnitRegnIDKeyDown
       OnKeyPress = edtUnitRegnIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUnitTypeID: TcxButtonEdit
-      Left = 104
+      Left = 103
       Top = 176
-      Properties.Buttons = <>
+      Properties.Buttons = <
+        item
+        end>
       TabOrder = 8
       Text = '0'
       OnKeyDown = edtUnitTypeIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUnitPropId: TcxButtonEdit
-      Left = 104
-      Top = 241
-      Properties.Buttons = <>
+      Left = 103
+      Top = 240
+      Properties.Buttons = <
+        item
+        end>
       TabOrder = 12
       Text = '0'
       OnKeyDown = edtUnitPropIdKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUnitKabID: TcxButtonEdit
-      Left = 104
-      Top = 261
-      Properties.Buttons = <>
+      Left = 103
+      Top = 260
+      Properties.Buttons = <
+        item
+        end>
       TabOrder = 13
       Text = '0'
       OnKeyDown = edtUnitAppIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 58
     end
     object edtUnitParentID: TcxButtonEdit
-      Left = 104
-      Top = 305
-      Properties.Buttons = <>
+      Left = 103
+      Top = 303
+      Properties.Buttons = <
+        item
+        end>
       TabOrder = 16
       Text = '0'
       OnKeyDown = edtUnitAppIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
-      Width = 49
+      Width = 51
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 445
     Width = 648
-    ExplicitTop = 471
-    ExplicitWidth = 650
+    ExplicitTop = 445
+    ExplicitWidth = 648
     inherited pnlFooter: TPanel
       Width = 648
-      ExplicitWidth = 650
+      ExplicitWidth = 648
       inherited btnClose: TcxButton
         Left = 571
-        ExplicitLeft = 573
+        ExplicitLeft = 571
       end
       inherited btnSave: TcxButton
         Left = 468
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 470
+        ExplicitLeft = 468
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -621,16 +640,16 @@ inherited frmDialogUnit: TfrmDialogUnit
     end
     inherited pnlSortCut: TPanel
       Width = 648
-      ExplicitWidth = 650
+      ExplicitWidth = 648
       inherited lbl4: TLabel
         Left = 468
         Height = 15
-        ExplicitLeft = 470
+        ExplicitLeft = 468
       end
       inherited lbl5: TLabel
         Left = 567
         Height = 15
-        ExplicitLeft = 569
+        ExplicitLeft = 567
       end
       inherited lbl3: TLabel
         Height = 15
