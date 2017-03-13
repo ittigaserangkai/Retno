@@ -18,8 +18,8 @@ inherited frmSupplierType: TfrmSupplierType
       Height = 225
       ExplicitWidth = 520
       ExplicitHeight = 225
-      ClientRectBottom = 221
-      ClientRectRight = 516
+      ClientRectBottom = 225
+      ClientRectRight = 520
       inherited tsBrowse: TcxTabSheet
         ExplicitWidth = 520
         ExplicitHeight = 225
@@ -34,6 +34,7 @@ inherited frmSupplierType: TfrmSupplierType
   end
   inherited pnlHeader: TPanel
     Width = 542
+    ExplicitTop = -6
     ExplicitWidth = 542
     inherited lblFilterData: TcxLabel
       Left = 188
@@ -67,6 +68,7 @@ inherited frmSupplierType: TfrmSupplierType
       Width = 542
       ExplicitWidth = 542
       inherited btnClose: TcxButton
+        Left = 465
         Action = actClose
       end
       inherited btnAdd: TcxButton
@@ -82,9 +84,9 @@ inherited frmSupplierType: TfrmSupplierType
     inherited pnlSortCut: TPanel
       Width = 542
       ExplicitWidth = 542
+      inherited lbl5: TLabel
+        Left = 468
+      end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
 end
