@@ -127,8 +127,8 @@ object frmMasterDialog: TfrmMasterDialog
     end
   end
   object actlstMasterDialog: TActionList
-    Left = 480
-    Top = 136
+    Left = 512
+    Top = 48
     object actDelete: TAction
       Caption = 'Delete'
       ShortCut = 16430

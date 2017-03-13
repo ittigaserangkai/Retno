@@ -3,7 +3,7 @@ unit uModApp;
 interface
 
 uses
-  SysUtils, System.Rtti;
+  SysUtils, System.Rtti, System.TypInfo;
 
 type
 
@@ -103,7 +103,7 @@ var
   a: TCustomAttribute;
 begin
   Result := '';
-  if  UpperCase(aProp.Name) = 'ID' then
+  if UpperCase(aProp.Name) = 'ID' then
     Result := Self.GetPrimaryField
   else begin
     for a in aprop.GetAttributes do
@@ -225,7 +225,7 @@ class procedure TModApp.RegisterRTTI;
 begin
   //dummy method agar rtti diregister secara full
   //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
-  //jalankan di inizialitation .section
+  //jalankan di initialization section
 end;
 
 end.
