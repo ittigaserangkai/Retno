@@ -121,7 +121,9 @@ uses
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
   ufrmReprintNP in '..\pstore\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
-  uModBarang in '..\model\uModBarang.pas';
+  uModBarang in '..\model\uModBarang.pas',
+  ufrmQuotation in 'module\merchandise\ufrmQuotation.pas' {frmQuotation},
+  ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation};
 
 {$R *.res}
 
