@@ -11,7 +11,7 @@ uses
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, ufraFooter4Button, Vcl.Menus, cxButtons, System.Actions, Vcl.ActnList,
-  uInterface, ufrmMasterDialog;
+  uInterface, ufrmMasterDialog, dxBarBuiltInMenu, cxPC;
 
 type
   TfrmMasterBrowse = class(TfrmMaster)
@@ -19,9 +19,6 @@ type
     lblFilterData: TcxLabel;
     dtAwalFilter: TcxDateEdit;
     dtAkhirFilter: TcxDateEdit;
-    cxGridView: TcxGridDBTableView;
-    cxlvMaster: TcxGridLevel;
-    cxGrid: TcxGrid;
     btnSearch: TcxButton;
     actlstBrowse: TActionList;
     actAdd: TAction;
@@ -30,6 +27,11 @@ type
     actPrint: TAction;
     actRefresh: TAction;
     lblsdFilter: TcxLabel;
+    pgcBrowse: TcxPageControl;
+    tsBrowse: TcxTabSheet;
+    cxGrid: TcxGrid;
+    cxGridView: TcxGridDBTableView;
+    cxlvMaster: TcxGridLevel;
     procedure actCloseExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

@@ -11,37 +11,57 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Top = 33
     Width = 701
     Height = 314
+    Color = clWindow
     ExplicitTop = 33
     ExplicitWidth = 701
-    ExplicitHeight = 314
-    object cxGrid: TcxGrid
+    ExplicitHeight = 288
+    object pgcBrowse: TcxPageControl
       Left = 11
       Top = 11
       Width = 679
       Height = 292
       Align = alClient
       TabOrder = 0
-      LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      LookAndFeel.NativeStyle = False
-      object cxGridView: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        FindPanel.InfoText = 'ketik teks yang dicari...'
-        DataController.Filter.Options = [fcoCaseInsensitive]
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-        FilterRow.InfoText = 'klik untuk memfilter data'
-        FilterRow.Visible = True
-        FilterRow.ApplyChanges = fracImmediately
-        NewItemRow.InfoText = 'Baris baru'
-        OptionsData.Editing = False
-        OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
-        OptionsView.GroupByBox = False
-        Styles.ContentEven = styleGridEven
-        Styles.Header = styleGridHeader
-      end
-      object cxlvMaster: TcxGridLevel
-        GridView = cxGridView
+      Properties.ActivePage = tsBrowse
+      Properties.CustomButtons.Buttons = <>
+      Properties.HideTabs = True
+      ClientRectBottom = 292
+      ClientRectRight = 679
+      ClientRectTop = 0
+      object tsBrowse: TcxTabSheet
+        Caption = 'Browse Data'
+        ImageIndex = 0
+        ParentColor = False
+        object cxGrid: TcxGrid
+          Left = 0
+          Top = 0
+          Width = 679
+          Height = 292
+          Align = alClient
+          TabOrder = 0
+          LockedStateImageOptions.Text = 'Mohon ditunggu...'
+          LookAndFeel.NativeStyle = False
+          object cxGridView: TcxGridDBTableView
+            Navigator.Buttons.CustomButtons = <>
+            FindPanel.InfoText = 'ketik teks yang dicari...'
+            DataController.Filter.Options = [fcoCaseInsensitive]
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            FilterRow.InfoText = 'klik untuk memfilter data'
+            FilterRow.Visible = True
+            FilterRow.ApplyChanges = fracImmediately
+            NewItemRow.InfoText = 'Baris baru'
+            OptionsData.Editing = False
+            OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+            OptionsView.GroupByBox = False
+            Styles.ContentEven = styleGridEven
+            Styles.Header = styleGridHeader
+          end
+          object cxlvMaster: TcxGridLevel
+            GridView = cxGridView
+          end
+        end
       end
     end
   end

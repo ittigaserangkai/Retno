@@ -13,7 +13,7 @@ inherited frmProduct: TfrmProduct
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 924
-    Height = 409
+    Height = 465
     BorderWidth = 0
     ExplicitWidth = 924
     ExplicitHeight = 409
@@ -21,12 +21,13 @@ inherited frmProduct: TfrmProduct
       Left = 161
       Top = 1
       Width = 762
-      Height = 407
+      Height = 463
       Align = alClient
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
+      ExplicitHeight = 407
       object lblCompanyCode: TLabel
         Left = 684
         Top = 7
@@ -442,7 +443,7 @@ inherited frmProduct: TfrmProduct
       end
       object lbl43: TcxLabel
         Left = 549
-        Top = 374
+        Top = 378
         Cursor = crHandPoint
         Caption = 'F2 detail...'
         ParentFont = False
@@ -1182,11 +1183,12 @@ inherited frmProduct: TfrmProduct
       Left = 1
       Top = 1
       Width = 160
-      Height = 407
+      Height = 463
       Align = alLeft
       ActiveGroupIndex = 0
       TabOrder = 1
       View = 0
+      ExplicitHeight = 407
       object dxNavGroupSettingProduct: TdxNavBarGroup
         Caption = 'Setting Product'
         SelectedLinkIndex = -1
@@ -1234,6 +1236,10 @@ inherited frmProduct: TfrmProduct
   inherited pnlHeader: TPanel
     Width = 924
     ExplicitWidth = 924
+    inherited lblHeader: TLabel
+      ExplicitLeft = 4
+      ExplicitTop = 8
+    end
     object lblInvalid: TcxLabel
       Left = 496
       Top = 8
@@ -1241,52 +1247,6 @@ inherited frmProduct: TfrmProduct
       Style.TextColor = clRed
       Properties.LabelEffect = cxleExtrude
       Properties.LabelStyle = cxlsRaised
-    end
-  end
-  inline fraFooter5Button1: TfraFooter5Button [2]
-    Left = 0
-    Top = 439
-    Width = 924
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 439
-    ExplicitWidth = 924
-    inherited pnlFooter: TPanel
-      Width = 924
-      ExplicitWidth = 924
-      inherited btnClose: TcxButton
-        Left = 842
-        Cancel = False
-        OnClick = fraFooter5Button1btnCloseClick
-        ExplicitLeft = 842
-      end
-      inherited btnAdd: TcxButton
-        Action = actAddProduct
-      end
-      inherited btnUpdate: TcxButton
-        Action = actEditProduct
-      end
-      inherited btnDelete: TcxButton
-        Action = actDeleteProduct
-      end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshProduct
-      end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 924
-      ExplicitWidth = 924
-      inherited lbl5: TLabel
-        Left = 834
-        ExplicitLeft = 830
-      end
     end
   end
   inherited cxStyle: TcxStyleRepository

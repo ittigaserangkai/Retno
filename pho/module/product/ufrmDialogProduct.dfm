@@ -15,7 +15,6 @@ inherited frmDialogProduct: TfrmDialogProduct
   inherited pnlBody: TPanel
     Width = 800
     Height = 352
-    ExplicitTop = -1
     ExplicitWidth = 800
     ExplicitHeight = 352
     object lbProductCode: TLabel
@@ -379,6 +378,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Caption = ' Purchase : '
       Enabled = False
       TabOrder = 25
+      Transparent = True
       Height = 96
       Width = 323
       object lbPLUPurchase: TLabel
@@ -421,6 +421,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Enabled = False
       PanelStyle.Active = True
       TabOrder = 26
+      Transparent = True
       Height = 62
       Width = 321
       object lbPKMAvg: TLabel
@@ -485,6 +486,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       PanelStyle.Active = True
       Style.BorderStyle = ebsFlat
       TabOrder = 16
+      Transparent = True
       Height = 202
       Width = 150
       object cbTurunan: TcxCheckBox
@@ -498,6 +500,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Is Product Turunan'
         Properties.ImmediatePost = True
         TabOrder = 0
+        Transparent = True
       end
       object cbActive: TcxCheckBox
         AlignWithMargins = True
@@ -510,6 +513,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Is Active'
         Properties.ImmediatePost = True
         TabOrder = 1
+        Transparent = True
       end
       object cbisDecimal: TcxCheckBox
         AlignWithMargins = True
@@ -522,6 +526,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Is Decimal'
         Properties.ImmediatePost = True
         TabOrder = 2
+        Transparent = True
       end
       object cbIsTaxInclude: TcxCheckBox
         AlignWithMargins = True
@@ -534,6 +539,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Price Include Tax'
         Properties.ImmediatePost = True
         TabOrder = 3
+        Transparent = True
       end
       object cbisDeposit: TcxCheckBox
         AlignWithMargins = True
@@ -546,6 +552,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Product Deposit'
         Properties.ImmediatePost = True
         TabOrder = 6
+        Transparent = True
         ExplicitTop = 140
       end
       object chkIsDiscAMC: TcxCheckBox
@@ -559,6 +566,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Is Disc AMC'
         Properties.ImmediatePost = True
         TabOrder = 5
+        Transparent = True
         ExplicitTop = 119
       end
       object chkIsBasic: TcxCheckBox
@@ -572,6 +580,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Is Basic Item'
         Properties.ImmediatePost = True
         TabOrder = 4
+        Transparent = True
       end
       object chkIsGalon: TcxCheckBox
         AlignWithMargins = True
@@ -584,6 +593,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Caption = 'Is Galon'
         Properties.ImmediatePost = True
         TabOrder = 7
+        Transparent = True
         Visible = False
       end
     end
@@ -597,11 +607,10 @@ inherited frmDialogProduct: TfrmDialogProduct
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 352
     Width = 800
-    ExplicitTop = 401
+    ExplicitTop = 352
     ExplicitWidth = 800
     inherited pnlFooter: TPanel
       Width = 800
-      ExplicitTop = 18
       ExplicitWidth = 800
       inherited btnClose: TcxButton
         Left = 723
@@ -622,14 +631,14 @@ inherited frmDialogProduct: TfrmDialogProduct
       inherited lbl4: TLabel
         Left = 627
         Height = 15
-        ExplicitLeft = 585
+        ExplicitLeft = 627
       end
       inherited lbl5: TLabel
         Left = 726
         Width = 72
         Height = 15
         Caption = 'Escape [Close]'
-        ExplicitLeft = 684
+        ExplicitLeft = 726
         ExplicitWidth = 72
       end
       inherited lbl3: TLabel
@@ -638,7 +647,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 520
-    Top = 208
+    Left = 648
+    Top = 240
   end
 end

@@ -45,10 +45,13 @@ object frmMaster: TfrmMaster
     Color = 14079702
     TabOrder = 0
     object lblHeader: TLabel
-      Left = 8
-      Top = 7
+      AlignWithMargins = True
+      Left = 4
+      Top = 8
       Width = 146
-      Height = 14
+      Height = 18
+      Margins.Top = 7
+      Align = alLeft
       Caption = 'LABEL HEADER GOES HERE..'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -56,6 +59,9 @@ object frmMaster: TfrmMaster
       Font.Name = 'Arial'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 8
+      ExplicitTop = 7
+      ExplicitHeight = 14
     end
   end
   object cxStyle: TcxStyleRepository

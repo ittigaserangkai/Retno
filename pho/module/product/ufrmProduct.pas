@@ -15,7 +15,6 @@ uses
 
 type
   TfrmProduct = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
     pnl1: TPanel;
     lblCompanyCode: TLabel;
     lbl2: TLabel;
@@ -1150,10 +1149,8 @@ begin
 end;
 
 procedure TfrmProduct.SetXYSP;
-
 begin
   fraSellingPrice.Align   := alCustom;
-
   SetLeftWidthSP;
 end;
 
