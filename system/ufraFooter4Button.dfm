@@ -93,7 +93,6 @@ object fraFooter4Button: TfraFooter4Button
         00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 0
-      OnClick = btnCloseClick
     end
     object btnAdd: TcxButton
       Left = 11
