@@ -16,7 +16,7 @@ inherited frmProduct: TfrmProduct
     Height = 465
     BorderWidth = 0
     ExplicitWidth = 924
-    ExplicitHeight = 409
+    ExplicitHeight = 465
     object pnl1: TPanel
       Left = 161
       Top = 1
@@ -27,7 +27,6 @@ inherited frmProduct: TfrmProduct
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
-      ExplicitHeight = 407
       object lblCompanyCode: TLabel
         Left = 684
         Top = 7
@@ -1188,7 +1187,6 @@ inherited frmProduct: TfrmProduct
       ActiveGroupIndex = 0
       TabOrder = 1
       View = 0
-      ExplicitHeight = 407
       object dxNavGroupSettingProduct: TdxNavBarGroup
         Caption = 'Setting Product'
         SelectedLinkIndex = -1
@@ -1237,8 +1235,7 @@ inherited frmProduct: TfrmProduct
     Width = 924
     ExplicitWidth = 924
     inherited lblHeader: TLabel
-      ExplicitLeft = 4
-      ExplicitTop = 8
+      Height = 18
     end
     object lblInvalid: TcxLabel
       Left = 496

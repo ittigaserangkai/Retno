@@ -25,13 +25,18 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ActivePage = tsBrowse
       Properties.CustomButtons.Buttons = <>
       Properties.HideTabs = True
-      ClientRectBottom = 292
-      ClientRectRight = 679
-      ClientRectTop = 0
+      ClientRectBottom = 288
+      ClientRectLeft = 4
+      ClientRectRight = 675
+      ClientRectTop = 4
       object tsBrowse: TcxTabSheet
         Caption = 'Browse Data'
         ImageIndex = 0
         ParentColor = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
@@ -55,8 +60,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
             OptionsData.Editing = False
             OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
             OptionsView.GroupByBox = False
-            Styles.ContentEven = styleGridEven
-            Styles.Header = styleGridHeader
           end
           object cxlvMaster: TcxGridLevel
             GridView = cxGridView
@@ -70,6 +73,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Height = 33
     ExplicitWidth = 701
     ExplicitHeight = 33
+    inherited lblHeader: TLabel
+      Height = 21
+    end
     object lblFilterData: TcxLabel
       Left = 347
       Top = 1
@@ -96,6 +102,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
     object dtAkhirFilter: TcxDateEdit
@@ -111,6 +118,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
     object btnSearch: TcxButton
@@ -195,7 +203,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       AnchorY = 17
     end
   end
-  inline fraFooter4Button1: TfraFooter4Button [2]
+  inline fraFooter4Button1: TfraFooter4Button
     Left = 0
     Top = 347
     Width = 701
@@ -268,7 +276,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited lbl1: TLabel
         AlignWithMargins = True
         Left = 5
-        Height = 15
         Margins.Top = 1
         Margins.Bottom = 1
         Align = alLeft
@@ -277,7 +284,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited lbl2: TLabel
         AlignWithMargins = True
         Left = 88
-        Height = 15
         Margins.Left = 15
         Margins.Top = 1
         Margins.Bottom = 1
@@ -291,14 +297,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited lbl5: TLabel
         Left = 627
         Top = 2
-        Height = 17
         Align = alRight
         ExplicitLeft = 627
         ExplicitTop = 2
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
+  object cxStyle: TcxStyleRepository
     Left = 568
     Top = 104
     PixelsPerInch = 96

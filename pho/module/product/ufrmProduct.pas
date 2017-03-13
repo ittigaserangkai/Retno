@@ -499,7 +499,7 @@ begin
   if not assigned(fraBonusProduct) then
     fraBonusProduct := TfraBonusProduct.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
   fraBonusProduct.Height            := 290;
   fraBonusProduct.Parent            := pnlBody;
   fraBonusProduct.Align             := alBottom;
@@ -522,7 +522,7 @@ begin
   if not assigned(fraAlokasiStock) then
     fraAlokasiStock := TfraAlokasiStock.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
   fraAlokasiStock.Height            := 290;
   fraAlokasiStock.Parent            := pnlBody;
   fraAlokasiStock.Align             := alBottom;
@@ -539,7 +539,7 @@ begin
   if not assigned(fraSellingPrice) then
     fraSellingPrice := TfraSellingPrice.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
   fraSellingPrice.Height            := aHeightSP;
   fraSellingPrice.Parent            := pnlBody;
 //  fraSellingPrice.FSelfUnitId       := MasterNewUnit.ID;
@@ -569,7 +569,7 @@ begin
   if not assigned(fraUOMConvertion) then
     fraUOMConvertion := TfraUOMConvertion.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
 
 //  fraUOMConvertion.FSelfUnitId      := MasterNewUnit.ID;
   fraUOMConvertion.Height           := 290;
@@ -592,7 +592,7 @@ begin
   if not assigned(fraStockCard) then
     fraStockCard := TfraStockCard.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
   fraStockCard.FSelfUsername          := FLoginUsername;
   fraStockCard.fselfFullname          := FLoginFullname;
 //  fraStockCard.FSelfUnitId          := MasterNewUnit.ID;
@@ -609,7 +609,7 @@ begin
   if not assigned(fraProductSupplier) then
     fraProductSupplier := TfraProductSupplier.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
 //  fraProductSupplier.FSelfUnitID        := MasterNewUnit.ID;
   fraProductSupplier.FSelfIsStore       := FMasterIsStore;
   fraProductSupplier.Height         := 293;
@@ -632,7 +632,7 @@ begin
   if not assigned(fraHistoriPOByProduct) then
     fraHistoriPOByProduct := TfraHistoriPOByProduct.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
   fraHistoriPOByProduct.Height      := 240;
   fraHistoriPOByProduct.Parent      := pnlBody;
   fraHistoriPOByProduct.Align       := alBottom;
@@ -760,7 +760,7 @@ begin
   if not assigned(fraProductTurunan) then
     fraProductTurunan := TfraProductTurunan.Create(Application);
 
-  fraFooter5Button1.btnClose.Cancel := False;
+//  fraFooter5Button1.btnClose.Cancel := False;
   fraProductTurunan.Parent          := Self;
   fraProductTurunan.Height          := 290;
   fraProductTurunan.Parent          := pnlBody;
@@ -912,7 +912,7 @@ end;
 procedure TfrmProduct.FormActivate(Sender: TObject);
 begin
   inherited;
-  fraFooter5Button1.btnClose.Cancel:= False;
+//  fraFooter5Button1.btnClose.Cancel:= False;
 end;
 
 procedure TfrmProduct.cbpProductCodeKeyDown(Sender: TObject; var Key: Word;
@@ -982,14 +982,14 @@ end;
 
 procedure TfrmProduct.SetActiveFooter5Button(AIsActive: boolean);
 begin
-  with fraFooter5Button1 do
+  {with fraFooter5Button1 do
   begin
     actAddProduct.Enabled := AIsActive;
     actEditProduct.Enabled := AIsActive;
     actDeleteProduct.Enabled := AIsActive;
     actRefreshProduct.Enabled := AIsActive;
     btnClose.Enabled := AIsActive;
-  end;
+  end;     }
   SetLabel;
 end;
 
@@ -1136,7 +1136,7 @@ end;
 procedure TfrmProduct.SetLabel;
 begin
   if FLoginIsStore=1 then //FMasterIsStore=1 then
-  fraFooter5Button1.lbl1.Enabled := False
+  {fraFooter5Button1.lbl1.Enabled := False
   else
   fraFooter5Button1.lbl1.Enabled := True;
 
@@ -1146,6 +1146,7 @@ begin
   fraFooter5Button1.btnAdd.Enabled := fraFooter5Button1.lbl1.Enabled;
   fraFooter5Button1.btnUpdate.Enabled := fraFooter5Button1.lbl1.Enabled;
   fraFooter5Button1.btnDelete.Enabled := fraFooter5Button1.lbl1.Enabled;
+  }
 end;
 
 procedure TfrmProduct.SetXYSP;
