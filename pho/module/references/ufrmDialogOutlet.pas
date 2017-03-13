@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
-  StdCtrls, uNewSalesOutlet, uRetnoUnit;
+  StdCtrls, uRetnoUnit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -24,7 +24,7 @@ type
     FIsProcessSuccessfull: Boolean;
     FOutletId: Integer;
     FFormMode: TFormMode;
-    FNewOutlet: TNewSalesOutlet;
+//    FNewOutlet: TNewSalesOutlet;
     IDLokal: Integer;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -62,19 +62,6 @@ end;
 
 procedure TfrmDialogOutlet.footerDialogMasterbtnSaveClick(Sender: TObject);
 begin
-{  if (FormMode = fmAdd) then
-  begin
-    FIsProcessSuccessfull := SaveOutlet;
-    if FIsProcessSuccessfull then
-      Close;
-  end
-  else
-  begin
-    FIsProcessSuccessfull := UpdateOutlet;
-    if FIsProcessSuccessfull then
-      Close;
-  end;    }
-
   if edtCode.Text = '' then
   begin
     CommonDlg.ShowError('Data Kode Belum diisi');
@@ -89,13 +76,13 @@ begin
     Exit;
   end;
 
-  if FNewOutlet.isKodeExits(edtCode.Text,DialogUnit, FNewOutlet.ID) then
+//  if FNewOutlet.isKodeExits(edtCode.Text,DialogUnit, FNewOutlet.ID) then
   begin
     CommonDlg.ShowError('Code ' + edtCode.Text + ' Sudah Ada');
     edtCode.SetFocus;
     Exit;
   end;
-
+  {
   try
     FNewOutlet.UpdateData(edtName.Text, IDLokal, edtCode.Text,edtName.Text,DialogUnit);
     if FNewOutlet.ExecuteGenerateSQL then
@@ -113,6 +100,7 @@ begin
     finally;
       cRollbackTrans;
     end;
+    }
 end;
 
 procedure TfrmDialogOutlet.SetFormMode(const Value: TFormMode);
@@ -136,10 +124,10 @@ begin
    if (FFormMode = fmEdit) then
    begin
     IDLokal := FOutletId;
-    if FNewOutlet.LoadByID(IDLokal) then
+//    if FNewOutlet.LoadByID(IDLokal) then
     begin
-      edtCode.Text := FNewOutlet.Kode;
-      edtName.Text := FNewOutlet.Nama;
+//      edtCode.Text := FNewOutlet.Kode;
+//      edtName.Text := FNewOutlet.Nama;
     end
    end else begin
     IDLokal := 0;
@@ -156,7 +144,7 @@ end;
 procedure TfrmDialogOutlet.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewOutlet := TNewSalesOutlet.Create(Self);
+//  FNewOutlet := TNewSalesOutlet.Create(Self);
 end;
 
 end.

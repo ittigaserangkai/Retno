@@ -123,7 +123,9 @@ uses
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmQuotation in 'module\merchandise\ufrmQuotation.pas' {frmQuotation},
-  ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation};
+  ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation},
+  ufrmOutlet in 'module\references\ufrmOutlet.pas' {frmOutlet},
+  ufrmDialogOutlet in 'module\references\ufrmDialogOutlet.pas' {frmDialogOutlet};
 
 {$R *.res}
 
