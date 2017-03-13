@@ -54,6 +54,7 @@ type
     function Kategori_GetDSLookup: TDataSet;
     function RefPajak_GetDSLookup: TDataSet;
     function RefTipeBarang_GetDSLookup: TDataSet;
+    function TipeSuplier_GetDSOverview: TDataSet;
 
 
   end;
@@ -395,6 +396,14 @@ var
   S: string;
 begin
   S := 'Select TPBRG_NAME, TPBRG_CODE, REF$TIPE_BARANG_ID FROM REF$TIPE_BARANG';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeSuplier_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPSUP_CODE, TPSUP_NAME from REF$TIPE_SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

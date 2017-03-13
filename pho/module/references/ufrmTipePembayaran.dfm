@@ -14,24 +14,34 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     Height = 246
     ExplicitWidth = 618
     ExplicitHeight = 246
-    inherited cxGrid: TcxGrid
+    inherited pgcBrowse: TcxPageControl
       Width = 596
       Height = 224
-      ExplicitWidth = 596
-      ExplicitHeight = 224
-      inherited cxGridView: TcxGridDBTableView
-        object cxGridViewColumn1: TcxGridDBColumn
-          Caption = 'ID'
-          DataBinding.FieldName = 'REF$TIPE_PEMBAYARAN_ID'
-          Visible = False
-        end
-        object cxGridViewColumn2: TcxGridDBColumn
-          Caption = 'KODE'
-          DataBinding.FieldName = 'TPBYR_CODE'
-        end
-        object cxGridViewColumn3: TcxGridDBColumn
-          Caption = 'Nama'
-          DataBinding.FieldName = 'TPBYR_NAME'
+      ClientRectBottom = 224
+      ClientRectRight = 596
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 596
+        ExplicitHeight = 224
+        inherited cxGrid: TcxGrid
+          Width = 596
+          Height = 224
+          ExplicitWidth = 596
+          ExplicitHeight = 224
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'ID'
+              DataBinding.FieldName = 'REF$TIPE_PEMBAYARAN_ID'
+              Visible = False
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'KODE'
+              DataBinding.FieldName = 'TPBYR_CODE'
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'Nama'
+              DataBinding.FieldName = 'TPBYR_NAME'
+            end
+          end
         end
       end
     end
@@ -40,30 +50,25 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     Width = 618
     ExplicitWidth = 618
     inherited lblFilterData: TcxLabel
-      Left = 344
-      Top = 7
-      ExplicitLeft = 344
-      ExplicitTop = 7
+      Left = 264
+      ExplicitLeft = 264
+      AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 402
-      Top = 5
-      ExplicitLeft = 402
-      ExplicitTop = 5
-      ExplicitHeight = 24
-    end
-    inherited lblsdFilter: TcxLabel
-      Left = 497
-      Top = 7
-      ExplicitLeft = 497
-      ExplicitTop = 7
+      Left = 325
+      ExplicitLeft = 325
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 523
-      Top = 5
-      ExplicitLeft = 523
-      ExplicitTop = 5
-      ExplicitHeight = 24
+      Left = 441
+      ExplicitLeft = 441
+    end
+    inherited btnSearch: TcxButton
+      Left = 536
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 417
+      ExplicitLeft = 417
+      AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
@@ -75,10 +80,9 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       Width = 618
       ExplicitWidth = 618
       inherited btnClose: TcxButton
-        Left = 517
-        Top = 6
-        ExplicitLeft = 517
-        ExplicitTop = 6
+        Left = 541
+        Action = actClose
+        ExplicitLeft = 541
       end
       inherited btnAdd: TcxButton
         Action = actAddTipePembayaran
@@ -89,6 +93,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       inherited btnPrint: TcxButton
         Left = 249
         Width = 74
+        Action = actPrint
         ExplicitLeft = 249
         ExplicitWidth = 74
       end
@@ -97,8 +102,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       Width = 618
       ExplicitWidth = 618
       inherited lbl5: TLabel
-        Left = 517
-        Top = 5
+        Left = 544
         ExplicitLeft = 517
         ExplicitTop = 5
       end
