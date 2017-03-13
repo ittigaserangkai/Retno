@@ -16,14 +16,18 @@ inherited frmSupplierType: TfrmSupplierType
     inherited pgcBrowse: TcxPageControl
       Width = 520
       Height = 225
-      ClientRectBottom = 225
-      ClientRectRight = 520
+      ExplicitWidth = 520
+      ExplicitHeight = 225
+      ClientRectBottom = 221
+      ClientRectRight = 516
       inherited tsBrowse: TcxTabSheet
         ExplicitWidth = 520
         ExplicitHeight = 225
         inherited cxGrid: TcxGrid
           Width = 520
           Height = 225
+          ExplicitWidth = 520
+          ExplicitHeight = 225
         end
       end
     end
@@ -38,12 +42,15 @@ inherited frmSupplierType: TfrmSupplierType
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 249
+      ExplicitLeft = 249
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 365
+      ExplicitLeft = 365
     end
     inherited btnSearch: TcxButton
       Left = 460
+      ExplicitLeft = 460
     end
     inherited lblsdFilter: TcxLabel
       Left = 341
@@ -54,8 +61,11 @@ inherited frmSupplierType: TfrmSupplierType
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 280
     Width = 542
+    ExplicitTop = 280
+    ExplicitWidth = 542
     inherited pnlFooter: TPanel
       Width = 542
+      ExplicitWidth = 542
       inherited btnClose: TcxButton
         Action = actClose
       end
@@ -71,6 +81,7 @@ inherited frmSupplierType: TfrmSupplierType
     end
     inherited pnlSortCut: TPanel
       Width = 542
+      ExplicitWidth = 542
     end
   end
   inherited cxStyle: TcxStyleRepository
