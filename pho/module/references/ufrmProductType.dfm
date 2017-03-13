@@ -35,8 +35,11 @@ inherited frmProductType: TfrmProductType
   inherited pnlHeader: TPanel
     Width = 723
     ExplicitWidth = 723
+    inherited lblHeader: TLabel
+      Height = 18
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 309
     Width = 723
@@ -80,9 +83,6 @@ inherited frmProductType: TfrmProductType
         ExplicitLeft = 452
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 504

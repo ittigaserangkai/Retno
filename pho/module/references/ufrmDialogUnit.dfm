@@ -643,16 +643,11 @@ inherited frmDialogUnit: TfrmDialogUnit
       ExplicitWidth = 648
       inherited lbl4: TLabel
         Left = 468
-        Height = 15
         ExplicitLeft = 468
       end
       inherited lbl5: TLabel
         Left = 567
-        Height = 15
         ExplicitLeft = 567
-      end
-      inherited lbl3: TLabel
-        Height = 15
       end
     end
   end

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ExtCtrls, StdCtrls, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
-  cxTextEdit, cxMaskEdit, cxButtonEdit, SUIForm, System.Actions, Vcl.ActnList,
+  cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
   ufraFooterDialog3Button;
 
 type

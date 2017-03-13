@@ -137,7 +137,9 @@ uses
   ufrmOutlet in 'module\references\ufrmOutlet.pas' {frmOutlet},
   ufrmDialogOutlet in 'module\references\ufrmDialogOutlet.pas' {frmDialogOutlet},
   ufrmUnit in 'module\references\ufrmUnit.pas' {frmUnit},
-  ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit};
+  ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit},
+  ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
+  ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor};
 
 {$R *.res}
 
