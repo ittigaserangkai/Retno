@@ -299,11 +299,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       end
     end
   end
-  object cxStyle: TcxStyleRepository
-    Left = 568
-    Top = 104
-    PixelsPerInch = 96
-  end
   object actlstBrowse: TActionList
     Left = 568
     Top = 152
