@@ -12,15 +12,15 @@ uses
   cxGrid, System.Actions, dxSkinsCore, ufrmMasterBrowse, dxBarBuiltInMenu,
   cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, ufraFooter4Button,
   cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxPC,
-  Datasnap.DBClient, uDMClient;
+  Datasnap.DBClient, uDMClient, uDXUtils;
 
 type
   TfrmSupplierType = class(TfrmMasterBrowse)
   private
     FCDSBrowse: TClientDataset;
-    procedure RefreshData;
     property CDSBrowse: TClientDataset read FCDSBrowse write FCDSBrowse;
   public
+    procedure RefreshData; override;
     { Public declarations }
   end;
 
@@ -29,7 +29,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogSupplierType, Math,  uConstanta, uDMClient,
+uses uTSCommonDlg, ufrmDialogSupplierType, Math,  uConstanta,
   uDBUtils;
 
 {$R *.dfm}
