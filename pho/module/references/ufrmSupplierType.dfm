@@ -90,4 +90,7 @@ inherited frmSupplierType: TfrmSupplierType
       end
     end
   end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
+  end
 end
