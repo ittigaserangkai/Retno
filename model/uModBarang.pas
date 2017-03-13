@@ -3,7 +3,7 @@ unit uModBarang;
 interface
 
 uses
-  uModApp, uModRefPajak, uModAuthApp;
+  uModApp, uModRefPajak, uModAuthApp, uModSatuan;
 
 type
   TModMerchandise = class(TModApp)
@@ -135,7 +135,7 @@ type
     FBRG_NILAI_RAFAKSI: Double;
     FBRG_PKM_AVERAGE: String;
     FBRG_QTY_RAFAKSI: Double;
-    FBRG_SAT_CODE_STOCK: String;
+    FSATUAN_STOCK: TModSatuan;
     FBRG_UOM_DIAMETER: string;
     FBRG_UOM_VOLUME: Integer;
     FBRG_UOM_WEIGHT: string;
@@ -189,8 +189,8 @@ type
         FBRG_NILAI_RAFAKSI;
     property BRG_PKM_AVERAGE: String read FBRG_PKM_AVERAGE write FBRG_PKM_AVERAGE;
     property BRG_QTY_RAFAKSI: Double read FBRG_QTY_RAFAKSI write FBRG_QTY_RAFAKSI;
-    property BRG_SAT_CODE_STOCK: String read FBRG_SAT_CODE_STOCK write
-        FBRG_SAT_CODE_STOCK;
+    [AttributeOfForeign('REF$SATUAN_STOCK')]
+    property SATUAN_STOCK: TModSatuan read FSATUAN_STOCK write FSATUAN_STOCK;
     property BRG_UOM_DIAMETER: string read FBRG_UOM_DIAMETER write
         FBRG_UOM_DIAMETER;
     property BRG_UOM_VOLUME: Integer read FBRG_UOM_VOLUME write FBRG_UOM_VOLUME;

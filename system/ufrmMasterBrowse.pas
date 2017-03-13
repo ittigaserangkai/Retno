@@ -59,7 +59,7 @@ type
     function ShowDialogForm(DlgFormClass: TMasterDlgClass; AID: String = ''):
         Integer;
   public
-    procedure RefreshData; dynamic; abstract;
+     procedure RefreshData; dynamic; abstract;
     { Public declarations }
   published
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;

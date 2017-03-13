@@ -7,22 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, dxSkinsCore,
-  dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
-  dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
-  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
-  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
-  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
-  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
-  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
-  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
-  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
-  dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter;
+  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
+  ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -277,7 +263,15 @@ type
     LookAndFeelController: TcxLookAndFeelController;
     est1: TMenuItem;
     DialogBarang1: TMenuItem;
-    ipeSuplier1: TMenuItem;
+    actMerchandise: TAction;
+    actSubGroup: TAction;
+    actKategori: TAction;
+    actMerk: TAction;
+    Merchandise2: TMenuItem;
+    MerchandiseGroup1: TMenuItem;
+    SubGroup1: TMenuItem;
+    Kategori1: TMenuItem;
+    Merk1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -287,9 +281,13 @@ type
     procedure actCostCenterExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
+    procedure actKategoriExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
+    procedure actMerchandiseExecute(Sender: TObject);
+    procedure actMerchanGroupExecute(Sender: TObject);
+    procedure actMerkExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
@@ -297,6 +295,7 @@ type
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
@@ -478,7 +477,27 @@ end;
 
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
-  frmProduct := TfrmProduct.CreateWithUser(ApplicationEvents1, FFormProperty);
+  frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actKategoriExecute(Sender: TObject);
+begin
+  frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMerchandiseExecute(Sender: TObject);
+begin
+  frmMerchandise := TfrmMerchandise.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMerchanGroupExecute(Sender: TObject);
+begin
+  frmMerchandiseGroup := TfrmMerchandiseGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMerkExecute(Sender: TObject);
+begin
+  frmMerk := TfrmMerk.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -631,6 +650,11 @@ end;
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
 begin
     frmRekening := TfrmRekening.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSubGroupExecute(Sender: TObject);
+begin
+  frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierTypeExecute(Sender: TObject);

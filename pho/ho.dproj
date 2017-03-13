@@ -70,8 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.35;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>35</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.36;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>36</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -459,6 +459,46 @@
         </DCCReference>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
+        <DCCReference Include="module\product\ufrmDialogKategori.pas">
+            <Form>frmDialogKategori</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerchandise.pas">
+            <Form>frmDialogMerchandise</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerchandiseGroup.pas">
+            <Form>frmDialogMerchandiseGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerk.pas">
+            <Form>frmDialogMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogSubGroup.pas">
+            <Form>frmDialogSubGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmKategori.pas">
+            <Form>frmKategori</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerchandise.pas">
+            <Form>frmMerchandise</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerchandiseGroup.pas">
+            <Form>frmMerchandiseGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerk.pas">
+            <Form>frmMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmSubGroup.pas">
+            <Form>frmSubGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="module\merchandise\ufrmQuotation.pas">
             <Form>frmQuotation</Form>
             <FormType>dfm</FormType>

@@ -177,6 +177,21 @@ object frmMain: TfrmMain
     end
     object Merchandise1: TMenuItem
       Caption = 'Merchandise'
+      object Merchandise2: TMenuItem
+        Action = actMerchandise
+      end
+      object MerchandiseGroup1: TMenuItem
+        Action = actMerchanGroup
+      end
+      object SubGroup1: TMenuItem
+        Action = actSubGroup
+      end
+      object Kategori1: TMenuItem
+        Action = actKategori
+      end
+      object Merk1: TMenuItem
+        Action = actMerk
+      end
       object MasterProduct1: TMenuItem
         Action = actDataProduct
       end
@@ -306,10 +321,6 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Group/Sub Group/Category'
     end
-    object actMerchanGroup: TAction
-      Category = 'References'
-      Caption = 'Merchandise Group'
-    end
     object actSalesOutlet: TAction
       Category = 'References'
       Caption = 'Sales Outlet'
@@ -327,6 +338,16 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Bank'
       OnExecute = actBankExecute
+    end
+    object actMerchanGroup: TAction
+      Category = 'References'
+      Caption = 'Merchandise Group'
+      OnExecute = actMerchanGroupExecute
+    end
+    object actMerchandise: TAction
+      Category = 'References'
+      Caption = 'Merchandise'
+      OnExecute = actMerchandiseExecute
     end
     object actProductType: TAction
       Category = 'References'
@@ -1072,11 +1093,26 @@ object frmMain: TfrmMain
       Caption = 'Cost Center'
       OnExecute = actCostCenterExecute
     end
+    object actSubGroup: TAction
+      Category = 'References'
+      Caption = 'Sub Group'
+      OnExecute = actSubGroupExecute
+    end
+    object actKategori: TAction
+      Category = 'References'
+      Caption = 'Kategori'
+      OnExecute = actKategoriExecute
+    end
+    object actMerk: TAction
+      Category = 'References'
+      Caption = 'Merk'
+      OnExecute = actMerkExecute
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
-    Left = 24
-    Top = 120
+    Left = 168
+    Top = 160
   end
   object LookAndFeelController: TcxLookAndFeelController
     NativeStyle = False

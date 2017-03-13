@@ -33,8 +33,6 @@ inherited frmProduct: TfrmProduct
         inherited cxGrid: TcxGrid
           Width = 902
           Height = 357
-          ExplicitLeft = 0
-          ExplicitTop = 0
           ExplicitWidth = 902
           ExplicitHeight = 357
         end
@@ -51,8 +49,6 @@ inherited frmProduct: TfrmProduct
           ActiveGroupIndex = 0
           TabOrder = 0
           View = 0
-          ExplicitLeft = 8
-          ExplicitHeight = 404
           object dxNavGroupSettingProduct: TdxNavBarGroup
             Caption = 'Setting Product'
             SelectedLinkIndex = -1
@@ -1320,15 +1316,8 @@ inherited frmProduct: TfrmProduct
     inherited pnlSortCut: TPanel
       Width = 924
       ExplicitWidth = 924
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
       inherited lbl5: TLabel
         Left = 850
-        Height = 17
         ExplicitLeft = 850
       end
     end
