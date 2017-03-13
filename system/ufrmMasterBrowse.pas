@@ -56,7 +56,7 @@ var
 implementation
 
 uses
-  System.DateUtils, ufrmDialogBank;
+  System.DateUtils;
 
 {$R *.dfm}
 

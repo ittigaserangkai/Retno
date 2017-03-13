@@ -29,8 +29,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogSupplierType, Math,  uConstanta, uDMClient,
-  uDBUtils;
+uses uTSCommonDlg, ufrmDialogSupplierType, Math,  uConstanta, uDXUtils, uDBUtils;
 
 {$R *.dfm}
 
@@ -38,7 +37,7 @@ procedure TfrmSupplierType.RefreshData;
 begin
   CDSBrowse := TDBUtils.DSToCDS(
     DMClient.DSProviderClient.TipeSuplier_GetDSOverview(),self);
-  CXGridview.LoadFromCDS(CDSBrowse);
+  cxGridView.LoadFromCDS(CDSBrowse);
   // TODO -cMM: TfrmSupplierType.RefreshData default body inserted
 end;
 

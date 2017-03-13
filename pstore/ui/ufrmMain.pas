@@ -185,6 +185,7 @@ type
     procedure actCloseAllExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnCreateFormExecute(Sender: TObject);
+    procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
@@ -232,7 +233,8 @@ implementation
 
 {$R *.dfm}
 
-uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg;
+uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
+  ufrmLogin;
 
 procedure TfrmMain.actCloseAllExecute(Sender: TObject);
 var i: integer;
@@ -308,6 +310,54 @@ begin
      igProd_Code_Length := iTemp;
   if TryStrToInt(getGlobalVar('PRICEPRECISION'), iTemp) then
      igPrice_Precision := iTemp;
+end;
+
+procedure TfrmMain.actOnLoginExecute(Sender: TObject);
+var
+  FdefUnitId: Integer;
+begin
+  frmLogin := TfrmLogin.Create(Application);
+  frmLogin.ShowFormLogin(LOGIN_PAGE);
+
+  if (LoginSuccessfull) then
+  begin
+
+           FdefUnitId  := StrToInt(getGlobalVar('UNITID')); //unit dan db untuk wh dan ho dijadikan 1
+
+    FFormProperty.FMasterIsStore := GetIsStoreUnitID(FdefUnitId);
+
+//    FGlobalProperty.LIstMerID     := GetListMerchanID(frmLogin.LoginID, frmLogin.LoginUntID);
+//    aListMerID                    := FGlobalProperty.LIstMerID;
+    FFormProperty.FLoginId        := frmLogin.LoginID;
+    FFormProperty.FLoginUnitId    := frmLogin.LoginUntID;
+    FFormProperty.FLoginRole      := frmLogin.LoginUserName;
+    FFormProperty.FLoginUsername  := frmLogin.LoginUserName;
+//    FFormProperty.FFilePathReport := GetFilePathReport;
+    FFormProperty.FSelfUnitId     := FdefUnitId;
+    FFormProperty.FIpClient       := IP;
+    FFormProperty.FHostClient     := Host;
+    FFormProperty.FTipeApp        := THO;
+    {
+    with cOpenQuery(GetSQLisHOisStore(frmLogin.LoginUntID)) do
+    begin
+      try
+        FFormProperty.FLoginIsStore   := FieldByName('UNT_IS_STORE').AsInteger;
+      finally
+        Free;
+      end;
+    end;
+    }
+//    SetStatusHOSTORE;
+
+    lUnitId := FFormProperty.FSelfUnitId;
+
+//    OpenLoading(USER_LOGIN_LOADING);
+//    LoginExecute;
+//    CloseLoading;
+  end; // end if
+
+  frmLogin := nil;
+  frmLogin.Free;
 end;
 
 procedure TfrmMain.actOnLogoutExecute(Sender: TObject);

@@ -4,36 +4,41 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, Grids,
-  BaseGrid, AdvGrid, ActnList, uNewUnit, AdvObj;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, System.Actions,
+  cxClasses, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid,
+  cxPC, Vcl.ActnList;
 
 type
-  TfrmUnit = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
-    actlstUnit: TActionList;
-    actAddUnit: TAction;
-    actEditUnit: TAction;
-    actDeleteUnit: TAction;
-    actRefreshUnit: TAction;
+  TfrmUnit = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
+    cxGridViewColumn7: TcxGridDBColumn;
+    cxGridViewColumn8: TcxGridDBColumn;
+    procedure actAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actAddUnitExecute(Sender: TObject);
     procedure actEditUnitExecute(Sender: TObject);
     procedure actDeleteUnitExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
-    procedure fraFooter5Button1btnAddClick(Sender: TObject);
     procedure fraFooter5Button1btnDeleteClick(Sender: TObject);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
     procedure actRefreshUnitExecute(Sender: TObject);
   private
     FCompID     : Integer;
-//    FLoginID    : Integer;
     FLoginUnit  : integer;
-    FUnit       : TUnit;
+//    FUnit       : TUnit;
     FUnitID: Integer;
     procedure ParseHeader;
     procedure SetData;
@@ -71,9 +76,24 @@ const
   _ColCount   : Integer = 8;
 
 
+procedure TfrmUnit.actAddExecute(Sender: TObject);
+begin
+  inherited;
+
+  if not Assigned(frmDialogUnit) then
+  frmDialogUnit := TfrmDialogUnit.Create(Application);
+
+  frmDialogUnit.ShowWithCompanyID(FCompID, 0, FLoginUnit, FLoginID );
+
+  if frmDialogUnit.IsProcessSuccessfull then
+    actRefreshUnitExecute(Self);
+
+  FreeAndNil(frmDialogUnit);
+end;
+
 procedure TfrmUnit.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FUnit);
+//  FreeAndNil(FUnit);
   frmUnit := nil;
   inherited;
 end;
@@ -81,11 +101,11 @@ end;
 procedure TfrmUnit.FormShow(Sender: TObject);
 begin
   inherited;
-  FUnit       := TUnit.Create(nil); 
+//  FUnit       := TUnit.Create(nil);
   lblHeader.Caption := 'STORE UNIT';
 
   FCompID     := MasterCompany.ID;
-  FUnitID     := MasterNewUnit.ID;
+//  FUnitID     := MasterNewUnit.ID;
 //  FLoginID    := FLoginID
   FLoginUnit  := FLoginUnitId;
 
@@ -165,20 +185,42 @@ begin
 //  end;
 end;
 
+procedure TfrmUnit.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  if not Assigned(frmDialogUnit) then
+    frmDialogUnit := TfrmDialogUnit.Create(Application);
+
+//  frmDialogUnit.ShowWithCompanyID(FCompID, strgGrid.Ints[_kolUnitID, strgGrid.Row],
+//                            FLoginUnit, FLoginID );
+
+  if frmDialogUnit.IsProcessSuccessfull then
+    actRefreshUnitExecute(Self);
+
+  FreeAndNil(frmDialogUnit);
+end;
+
+procedure TfrmUnit.actRefreshExecute(Sender: TObject);
+begin
+  inherited;
+ ParseHeader;
+ SetData;
+end;
+
 procedure TfrmUnit.FormActivate(Sender: TObject);
 begin
   inherited;
   // no unit id must be specified, so hide the combo
   frmMain.lbl1.Visible := False;
   frmMain.cbbUnit.Visible := False;
-  frmMain.CreateMenu((sender as TForm));
+//  frmMain.CreateMenu((sender as TForm));
 end;
 
 procedure TfrmUnit.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   frmMain.lbl1.Visible    := True;
   frmMain.cbbUnit.Visible := True;
-  frmMain.DestroyMenu((sender as TForm));
+//  frmMain.DestroyMenu((sender as TForm));
   Action  := caFree;
   inherited;
 end;
@@ -187,7 +229,7 @@ procedure TfrmUnit.SetData;
 var
   i: Integer;
 begin
-  with FUnit.GetRec(FCompID) do
+  {with FUnit.GetRec(FCompID) do
   begin
     try
       i := 0;
@@ -216,7 +258,7 @@ begin
     end;
   end;
   strgGrid.AutoSizeCol(_kolNo);
-
+  }
 end;
 
 procedure TfrmUnit.ShowWithCompanyID(aCompID: Integer; aUnitID: integer;
@@ -232,37 +274,6 @@ begin
 
 end;
 
-procedure TfrmUnit.fraFooter5Button1btnUpdateClick(Sender: TObject);
-begin
-  inherited;
-  if not Assigned(frmDialogUnit) then
-    frmDialogUnit := TfrmDialogUnit.Create(Application);
-
-  frmDialogUnit.ShowWithCompanyID(FCompID, strgGrid.Ints[_kolUnitID, strgGrid.Row],
-                            FLoginUnit, FLoginID );
-
-  if frmDialogUnit.IsProcessSuccessfull then
-    actRefreshUnitExecute(Self);
-
-  FreeAndNil(frmDialogUnit);
-end;
-
-procedure TfrmUnit.fraFooter5Button1btnAddClick(Sender: TObject);
-begin
-  inherited;
-
-  if not Assigned(frmDialogUnit) then
-  frmDialogUnit := TfrmDialogUnit.Create(Application);
-
-  frmDialogUnit.ShowWithCompanyID(FCompID, 0, FLoginUnit, FLoginID );
-
-  if frmDialogUnit.IsProcessSuccessfull then
-    actRefreshUnitExecute(Self);
-
-  FreeAndNil(frmDialogUnit);
-
-end;
-
 procedure TfrmUnit.fraFooter5Button1btnDeleteClick(Sender: TObject);
 begin
   inherited;
@@ -271,7 +282,7 @@ end;
 
 procedure TfrmUnit.ParseHeader;
 begin
-  with strgGrid do
+  {with strgGrid do
   begin
     RowCount  := _RowCount;
     FixedRows := _fixedRow;
@@ -287,18 +298,7 @@ begin
     Cells[_kolType, 0]    := 'TYPE';
     Cells[_kolActive, 0]  := 'AKTIF';
   end;
-end;
-
-procedure TfrmUnit.strgGridGetAlignment(Sender: TObject; ARow,
-  ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-begin
-  inherited;
-  HAlign := taLeftJustify;
-  if (ARow < strgGrid.FixedRows) or (ACol = _kolActive) then
-  begin
-    HAlign := taCenter;
-  end;
-
+  }
 end;
 
 procedure TfrmUnit.actRefreshUnitExecute(Sender: TObject);

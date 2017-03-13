@@ -4,33 +4,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, ActnList, uConn,
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ufraFooter5Button, ActnList, uConn,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, System.Actions, DBClient,
-  uDMClient, uDBUtils, uDXUtils;
+  uDMClient, uDBUtils, uDXUtils, dxBarBuiltInMenu, cxContainer, Vcl.ComCtrls,
+  dxCore, cxDateUtils, Vcl.Menus, ufraFooter4Button, cxButtons, cxTextEdit,
+  cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxPC;
 
 type
-  TfrmTipePerusahaan = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
-    actlstTipeSupplier: TActionList;
-    actAddTipePerusahaan: TAction;
-    actEditTipePerusahaan: TAction;
-    actDeleteTipePerusahaan: TAction;
-    actRefreshTipePerusahaan: TAction;
-    cxGridViewTipePerusahaan: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
-    cxGrid: TcxGrid;
-    cxGridViewTipePerusahaanColumn1: TcxGridDBColumn;
-    cxGridViewTipePerusahaanColumn2: TcxGridDBColumn;
-    cxGridViewTipePerusahaanColumn3: TcxGridDBColumn;
+  TfrmTipePerusahaan = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure actAddTipePerusahaanExecute(Sender: TObject);
-    procedure actEditTipePerusahaanExecute(Sender: TObject);
     procedure actDeleteTipePerusahaanExecute(Sender: TObject);
-    procedure actRefreshTipePerusahaanExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormActivate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
@@ -53,6 +44,26 @@ uses uTSCommonDlg, ufrmDialogTipePerusahaan;
 
 {$R *.dfm}
 
+procedure TfrmTipePerusahaan.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  if not Assigned(frmDialogTipePerusahaan) then
+    Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
+
+  frmDialogTipePerusahaan.Caption := 'Add Company Type';
+  frmDialogTipePerusahaan.FormMode := fmAdd;
+
+  SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
+  if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
+  begin
+    actRefreshExecute(Self);
+    CommonDlg.ShowConfirm(atAdd);
+  end;
+
+  frmDialogTipePerusahaan.Free;
+  RefreshData;
+end;
+
 procedure TfrmTipePerusahaan.FormDestroy(Sender: TObject);
 begin
   inherited;
@@ -67,49 +78,7 @@ begin
 //  frmMain.cbbUnit.Visible := False;
   
   lblHeader.Caption := 'COMPANY TYPE';
-  actRefreshTipePerusahaanExecute(Self);
-end;
-
-procedure TfrmTipePerusahaan.actAddTipePerusahaanExecute(Sender: TObject);
-begin
-  inherited;
-  if not Assigned(frmDialogTipePerusahaan) then
-    Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
-
-  frmDialogTipePerusahaan.Caption := 'Add Company Type';
-  frmDialogTipePerusahaan.FormMode := fmAdd;
-
-  SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
-  if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
-  begin
-    actRefreshTipePerusahaanExecute(Self);
-    CommonDlg.ShowConfirm(atAdd);
-  end;
-
-  frmDialogTipePerusahaan.Free;
-end;
-
-procedure TfrmTipePerusahaan.actEditTipePerusahaanExecute(Sender: TObject);
-begin
-  inherited;
-  // check is data available
-//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-
-  if not Assigned(frmDialogTipePerusahaan) then
-    Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
-
-  frmDialogTipePerusahaan.Caption := 'Edit Company Type';
-  frmDialogTipePerusahaan.FormMode := fmEdit;
-//  frmDialogTipePerusahaan.TipePerusahaanId := StrToInt(strgGrid.Cells[2,strgGrid.row]);
-  frmDialogTipePerusahaan.loaddata(CDSBrowse.FieldByName('REF$TIPE_PERUSAHAAN_ID').AsString);
-  SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
-  if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
-  begin
-    actRefreshTipePerusahaanExecute(Self);
-    CommonDlg.ShowConfirm(atEdit);
-  end;
-
-  frmDialogTipePerusahaan.Free;
+  actRefreshExecute(Self);
 end;
 
 procedure TfrmTipePerusahaan.actDeleteTipePerusahaanExecute(
@@ -134,17 +103,45 @@ begin
   }
 end;
 
+procedure TfrmTipePerusahaan.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  // check is data available
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
+
+  if not Assigned(frmDialogTipePerusahaan) then
+    Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
+
+  frmDialogTipePerusahaan.Caption := 'Edit Company Type';
+  frmDialogTipePerusahaan.FormMode := fmEdit;
+  frmDialogTipePerusahaan.loaddata(CDSBrowse.FieldByName('REF$TIPE_PERUSAHAAN_ID').AsString);
+  SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
+  if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
+  begin
+    actRefreshExecute(Self);
+    CommonDlg.ShowConfirm(atEdit);
+  end;
+  frmDialogTipePerusahaan.Free;
+end;
+
+procedure TfrmTipePerusahaan.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  //print
+end;
+
+procedure TfrmTipePerusahaan.actRefreshExecute(Sender: TObject);
+begin
+  inherited;
+  RefreshData;
+end;
+
 function TfrmTipePerusahaan.GetData(): TDataSet;
 var
   arrParam: TArr;
 begin
   arrParam := nil;
 //  Result := TipePerusahaan.GetDataTipePerusahaan(arrParam);
-end;
-
-procedure TfrmTipePerusahaan.actRefreshTipePerusahaanExecute(Sender: TObject);
-begin
-  RefreshData;
 end;
 
 procedure TfrmTipePerusahaan.FormClose(Sender: TObject;
@@ -180,7 +177,7 @@ end;
 procedure TfrmTipePerusahaan.RefreshData;
 begin
   CDSBrowse := TDbUtils.DSToCDS(DMClient.DSProviderClient.TipePerusahaan_GetDSOverview, self);
-  cxGridViewTipePerusahaan.LoadFromCDS(CDSBrowse);
+  cxGridView.LoadFromCDS(CDSBrowse);
 //  cxGridViewTipePerusahaan.SetVisibleColumns(['REF$TIPE_PERUSAHAAN_ID'], False);
 //  cxGridViewTipePerusahaan.SetColumnsCaption(['TPPERSH_CODE','TPPERSH_NAME'],['KODE','NAMA']);
 end;

@@ -165,6 +165,9 @@ object frmMain: TfrmMain
       object actCostCenter1: TMenuItem
         Action = actCostCenter
       end
+      object ipeSuplier1: TMenuItem
+        Action = actSupplierType
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -249,8 +252,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 23
-    Top = 168
+    Left = 22
+    Top = 172
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'

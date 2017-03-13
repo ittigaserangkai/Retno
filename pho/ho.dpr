@@ -131,10 +131,15 @@ uses
   ufrmMerchandise in 'module\product\ufrmMerchandise.pas' {frmMerchandise},
   ufrmMerchandiseGroup in 'module\product\ufrmMerchandiseGroup.pas' {frmMerchandiseGroup},
   ufrmMerk in 'module\product\ufrmMerk.pas' {frmMerk},
-  ufrmSubGroup in 'module\product\ufrmSubGroup.pas' {frmSubGroup};
-  uModBarang in '..\model\uModBarang.pas',
+  ufrmSubGroup in 'module\product\ufrmSubGroup.pas' {frmSubGroup},
   ufrmQuotation in 'module\merchandise\ufrmQuotation.pas' {frmQuotation},
-  ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation};
+  ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation},
+  ufrmOutlet in 'module\references\ufrmOutlet.pas' {frmOutlet},
+  ufrmDialogOutlet in 'module\references\ufrmDialogOutlet.pas' {frmDialogOutlet},
+  ufrmUnit in 'module\references\ufrmUnit.pas' {frmUnit},
+  ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit},
+  ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
+  ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor};
 
 {$R *.res}
 

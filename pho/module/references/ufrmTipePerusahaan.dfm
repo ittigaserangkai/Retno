@@ -12,108 +12,104 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 546
-    Height = 238
+    Height = 235
     ExplicitWidth = 546
-    ExplicitHeight = 238
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 11
+    ExplicitHeight = 179
+    inherited pgcBrowse: TcxPageControl
       Width = 524
-      Height = 216
-      Align = alClient
-      TabOrder = 0
-      object cxGridViewTipePerusahaan: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-        object cxGridViewTipePerusahaanColumn1: TcxGridDBColumn
-          DataBinding.FieldName = 'REF$TIPE_PERUSAHAAN_ID'
-          Visible = False
+      Height = 213
+      ExplicitWidth = 524
+      ExplicitHeight = 157
+      ClientRectBottom = 213
+      ClientRectRight = 524
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 524
+        ExplicitHeight = 157
+        inherited cxGrid: TcxGrid
+          Width = 524
+          Height = 213
+          ExplicitWidth = 524
+          ExplicitHeight = 157
         end
-        object cxGridViewTipePerusahaanColumn2: TcxGridDBColumn
-          Caption = 'KODE'
-          DataBinding.FieldName = 'TPPERSH_CODE'
-        end
-        object cxGridViewTipePerusahaanColumn3: TcxGridDBColumn
-          Caption = 'NAMA'
-          DataBinding.FieldName = 'TPPERSH_NAME'
-        end
-      end
-      object cxGridLevel1: TcxGridLevel
-        GridView = cxGridViewTipePerusahaan
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 546
     ExplicitWidth = 546
+    inherited lblFilterData: TcxLabel
+      Left = 192
+      ExplicitLeft = 192
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 253
+      ExplicitLeft = 253
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 369
+      ExplicitLeft = 369
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 464
+      ExplicitLeft = 464
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 345
+      ExplicitLeft = 345
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 268
     Width = 546
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
     ExplicitTop = 268
     ExplicitWidth = 546
     inherited pnlFooter: TPanel
       Width = 546
       ExplicitWidth = 546
       inherited btnClose: TcxButton
-        Left = 466
-        ExplicitLeft = 466
+        Left = 469
+        Action = actClose
+        ExplicitLeft = 469
       end
       inherited btnAdd: TcxButton
-        Action = actAddTipePerusahaan
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditTipePerusahaan
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteTipePerusahaan
-      end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshTipePerusahaan
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
     end
     inherited pnlSortCut: TPanel
       Width = 546
       ExplicitWidth = 546
+      inherited lbl1: TLabel
+        Height = 15
+      end
+      inherited lbl2: TLabel
+        Height = 15
+      end
       inherited lbl5: TLabel
-        Left = 458
-        ExplicitLeft = 452
+        Left = 472
+        Height = 17
+        ExplicitLeft = 472
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
-  end
-  object actlstTipeSupplier: TActionList
-    Left = 440
-    Top = 8
-    object actAddTipePerusahaan: TAction
-      Caption = 'Add'
-      OnExecute = actAddTipePerusahaanExecute
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditTipePerusahaan: TAction
-      Caption = 'Edit'
-      OnExecute = actEditTipePerusahaanExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
-    object actDeleteTipePerusahaan: TAction
-      Caption = 'Delete'
-      OnExecute = actDeleteTipePerusahaanExecute
-    end
-    object actRefreshTipePerusahaan: TAction
-      Caption = 'Refresh'
-      OnExecute = actRefreshTipePerusahaanExecute
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

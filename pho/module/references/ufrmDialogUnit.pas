@@ -4,8 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
-  StdCtrls, cbxbase, dblup1a, JclStrings, uNewUnit, EditBtn;
+  Dialogs, ufrmMasterDialog, ExtCtrls, StdCtrls, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
+  cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -65,14 +67,14 @@ type
     chkAllowPO: TCheckBox;
     chkAllowGR: TCheckBox;
     chkActive: TCheckBox;
-    edtUnitAppID: TEditBtn;
-    edtUnitCompID: TEditBtn;
-    edtUntInfoCompTypeID: TEditBtn;
-    edtUnitRegnID: TEditBtn;
-    edtUnitTypeID: TEditBtn;
-    edtUnitPropId: TEditBtn;
-    edtUnitKabID: TEditBtn;
-    edtUnitParentID: TEditBtn;
+    edtUnitAppID: TcxButtonEdit;
+    edtUnitCompID: TcxButtonEdit;
+    edtUntInfoCompTypeID: TcxButtonEdit;
+    edtUnitRegnID: TcxButtonEdit;
+    edtUnitTypeID: TcxButtonEdit;
+    edtUnitPropId: TcxButtonEdit;
+    edtUnitKabID: TcxButtonEdit;
+    edtUnitParentID: TcxButtonEdit;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -99,49 +101,36 @@ type
     procedure edtUntInfoNpwpRegsYKeyPress(Sender: TObject; var Key: Char);
     procedure edtUnitRegnIDKeyPress(Sender: TObject; var Key: Char);
     procedure chkActiveClick(Sender: TObject);
-    procedure edtUnitAppIDClickBtn(Sender: TObject);
-    procedure edtUnitCompIDClickBtn(Sender: TObject);
-    procedure edtUntInfoCompTypeIDClickBtn(Sender: TObject);
     procedure edtUnitRegnIDClickBtn(Sender: TObject);
     procedure edtUnitTypeIDClickBtn(Sender: TObject);
     procedure edtUnitPropIdClickBtn(Sender: TObject);
     procedure edtUnitKabIDClickBtn(Sender: TObject);
     procedure edtUnitParentIDClickBtn(Sender: TObject);
+    procedure edtUnitAppIDPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure edtUnitCompIDPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure edtUntInfoCompTypeIDPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     FCompID     : Integer;
     FisActive   : Integer;
     FUnitId     : integer;
     FLoginUnit  : integer;
     FLoginID    : integer;
-    FUnit       : TUnit;
+//    FUnit       : TUnit;
 
     FIsProcessSuccessfull: boolean;
     function CekLookUpID(aValue: string): Boolean;
-//    FFormMode: TFormMode;
-//    IdType: Integer;
-//    FIdType: TStringList;
-
-
-
-//    function SaveUnit: boolean;
-//    function UpdateUnit: boolean;
-//    procedure SetFormMode(const Value: TFormMode);
-//    procedure SetIsProcessSuccessfull(const Value: boolean);
-//    procedure SetUnitId(const Value: integer);
-//    procedure showDataEdit(intIdUnit:Integer);
-//    procedure prepareAddData;
     procedure SetData;
     procedure ClearData;
-//    procedure KeyPressStr(var Key: Char);
   public
     procedure ShowWithCompanyID(aCompID: Integer; aUnitID: integer;
         aLoginUnit: integer; aLoginID: integer);
 
-    
-    
+
+
   published
-//    property FormMode: TFormMode read FFormMode write SetFormMode;
-//    property UnitId: integer read FUnitId write SetUnitId;
     property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write FIsProcessSuccessfull;
   end;
 
@@ -152,202 +141,18 @@ var
 implementation
 
 uses  uTSCommonDlg, uRetnoUnit, Math;
-//  uTipePerusahaan;
 
 {$R *.dfm}
 
-//procedure TfrmDialogUnit.showDataEdit(intIdUnit:Integer);
-//var data: TDataSet;
-//    intI: Integer;
-//    strR, strDataType: string;
-//begin
-//  if not assigned(Unt) then
-//    Unt := TUnit.Create;
-//  data:= Unt.SearchDataUnit(intIdUnit);
-////  edtCodeUnit.Text := data.fieldbyname('UNT_CODE').AsString;
-////  edtNameUnit.Text := data.fieldbyname('UNT_NAME').AsString;
-////  edtDescUnit.Text := data.fieldbyname('UNT_DESCRIPTION').AsString;
-////  edtAddressUnit.Text := data.fieldbyname('ADDRESS').AsString;
-////  edtNPWPUnit.Text := data.fieldbyname('NPWP').AsString;
-//  IdType:=data.fieldbyname('TPPERSH_ID').AsInteger;
-//
-//  intI:=0;
-//  repeat
-//      cbbTypeUnitR.ItemIndex:=intI;
-//      strR:= cbbTypeUnitR.Items.Strings[intI];
-//      strDataType:= data.fieldbyname('TPPERSH_NAME').AsString;
-//
-//      inc(intI);
-//  until (strR = strDataType) or (intI = (intCbbTypeCount-1));
-//
-//     cbbTypeUnitR.ItemIndex:=intI-1;
-//end;
-
-//procedure TfrmDialogUnit.prepareAddData;
-//begin
-//  edtCodeUnit.Clear;
-//  edtNameUnit.Clear;
-//  edtDescUnit.Clear;
-//  cbbTypeUnitR.ItemIndex:=0;
-//end;
-
-//function TfrmDialogUnit.SaveUnit: boolean;
-//var
-//  arrParam: TArr;
-//begin
-//  result := false;
-//
-//  if edtCodeUnit.Text='' then
-//  begin
-//    CommonDlg.ShowErrorEmpty('CODE');
-//    edtCodeUnit.SetFocus;
-//    Exit;
-//  end
-//  else
-//  if edtNameUnit.Text='' then
-//  begin
-//    CommonDlg.ShowErrorEmpty('NAME');
-//    edtNameUnit.SetFocus;
-//    Exit;
-//  end;
-//
-//  if not assigned(Unt) then
-//    Unt := TUnit.Create;
-//
-//  if Unt.IsCodeExist(edtCodeUnit.Text,frmMain.CompanyId) then
-//  begin
-//    CommonDlg.ShowErrorExist('CODE',edtCodeUnit.Text);
-//    edtCodeUnit.SetFocus;
-//    FreeAndNil(Unt);
-//    Exit;
-//  end;
-//
-//  // set param
-//  SetLength(arrParam,8);
-//  arrParam[0].tipe := ptString;
-//  arrParam[0].data := edtCodeUnit.Text;
-//  arrParam[1].tipe := ptString;
-//  arrParam[1].data := edtNameUnit.Text;
-//  arrParam[2].tipe := ptString;
-//  arrParam[2].data := edtDescUnit.Text;
-//  arrParam[3].tipe := ptInteger;
-//  arrParam[3].data := IdType;
-//  arrParam[4].tipe := ptString;
-//  arrParam[4].data := edtAddressUnit.Text;
-//  arrParam[5].tipe := ptString;
-////  arrParam[5].data := edtNPWPUnit.Text;
-//  arrParam[6].tipe := ptInteger;
-//  arrParam[6].data := frmMain.LoginId;
-//  arrParam[7].tipe := ptInteger;
-//  arrParam[7].data := frmMain.CompanyId;
-//
-//  result:= Unt.InputDataUnit(arrParam);
-//
-//end;
-
-//procedure TfrmDialogUnit.SetFormMode(const Value: TFormMode);
-//begin
-//  FFormMode := Value;
-//end;
-
-//procedure TfrmDialogUnit.SetIsProcessSuccessfull(const Value: boolean);
-//begin
-//  FIsProcessSuccessfull := Value;
-//end;
-
-//procedure TfrmDialogUnit.SetUnitId(const Value: integer);
-//begin
-//  FUnitId := Value;
-//end;
-
-//function TfrmDialogUnit.UpdateUnit: boolean;
-//var
-//  arrParam: TArr;
-//begin
-//  result := false;
-////
-//  if edtCodeUnit.Text='' then
-//  begin
-//    CommonDlg.ShowErrorEmpty('CODE');
-//    edtCodeUnit.SetFocus;
-//    Exit;
-//  end
-//  else
-//  if edtNameUnit.Text='' then
-//  begin
-//    CommonDlg.ShowErrorEmpty('NAME');
-//    edtNameUnit.SetFocus;
-//    Exit;
-//  end;
-//
-//  if Unt.IsCodeExist(edtCodeUnit.Text,frmMain.CompanyId,UnitId) then
-//  begin
-//    CommonDlg.ShowErrorExist('CODE',edtCodeUnit.Text);
-//    edtCodeUnit.SetFocus;
-//    FreeAndNil(Unt);
-//    Exit;
-//  end;
-//
-//  // set param
-//  SetLength(arrParam,8);
-//  arrParam[0].tipe := ptString;
-//  arrParam[0].data := edtCodeUnit.Text;
-//  arrParam[1].tipe := ptString;
-//  arrParam[1].data := edtNameUnit.Text;
-//  arrParam[2].tipe := ptString;
-//  arrParam[2].data := edtDescUnit.Text;
-//  arrParam[3].tipe := ptInteger;
-//  arrParam[3].data := IdType;
-//  arrParam[4].tipe := ptString;
-//  arrParam[4].data := edtAddressUnit.Text;
-//  arrParam[5].tipe := ptString;
-////  arrParam[5].data := edtNPWPUnit.Text;
-//  arrParam[6].tipe := ptInteger;
-//  arrParam[6].data := UnitId;
-//  arrParam[7].tipe := ptInteger;
-//  arrParam[7].data := frmMain.LoginId;
-//
-//  if not assigned(Unt) then
-//    Unt := TUnit.Create;
-////
-//  result:=Unt.UpdateDataUnit(arrParam);
-//
-//end;
-
 procedure TfrmDialogUnit.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FUnit);
+//  FreeAndNil(FUnit);
   frmDialogUnit := nil;
   inherited;
 end;
 
 procedure TfrmDialogUnit.FormShow(Sender: TObject);
-//var data: TDataSet;
 begin
-//  inherited;
-//  FIdType := TStringList.Create;
-//  if not assigned(TipePerusahaan) then
-//    TipePerusahaan := TTipePerusahaan.Create;
-//
-//  {Set Unit Type}
-//  cbbTypeUnitR.Clear;
-//  FIdType.Clear;
-//  data:=TipePerusahaan.GetDataTipePerusahaan(nil);
-//  intCbbTypeCount:= data.RecordCount;
-//  with data do
-//  begin
-//    IdType:=data.fieldbyname('TPPERSH_ID').AsInteger;
-//    while not Eof do
-//    begin
-//      cbbTypeUnitR.Items.Add(data.fieldbyname('TPPERSH_NAME').AsString);
-//      FIdType.Add(IntToStr(data.fieldbyname('TPPERSH_ID').AsInteger));
-//      Next;
-//    end;
-//  end;
-//
-//  if (FFormMode = fmEdit) then
-//    showDataEdit(UnitId)
-//  else
 //    prepareAddData();
 end;
 
@@ -415,7 +220,7 @@ begin
 
   isHoStWh  := rgTipeUnit.ItemIndex;
 
-
+  {
   try
     with FUnit do
     begin
@@ -449,6 +254,7 @@ begin
   finally
     cRollbackTrans;
   end;
+  }
   FormatSettings.ShortDateFormat := sShrDt;
 end;
 
@@ -480,7 +286,7 @@ procedure TfrmDialogUnit.SetData;
 begin
   if FUnitId > 0 then
   begin
-    if FUnit.LoadByID(FUnitId) then
+    {if FUnit.LoadByID(FUnitId) then
     begin
 
       edtUnitCode.Text            := FUnit.Kode;
@@ -507,7 +313,6 @@ begin
       edtUnitContact.Text         := FUnit.Contact;
       edtUnitEmail.Text           := FUnit.Email;
       edtUnitParentID.Text        := IntToStr(FUnit.ParentID);
-      //edtUnitChildID.Text         := IntToStr(FUnit.ChilID);
       edtUntInfoNpwpID.Text       := FUnit.UnitInfo.Npwp;
       edtUntInfoNpwpNm.Text       := FUnit.UnitInfo.NpwpNm;
       edtUntInfoNpwpAdr.Text      := FUnit.UnitInfo.NpwpAdr;
@@ -517,12 +322,13 @@ begin
       chkAllowPo.Checked          := (FUnit.isAllowPo=1);
       chkActive.Checked           := (FUnit.isActive = 1)
 
-
     end;
   end
   else
   begin
     ClearData;
+  end;  }
+
   end;
 end;
 
@@ -574,7 +380,7 @@ begin
   FUnitId     := aUnitId;
   FLoginID    := aLoginID;
   FLoginUnit  := aLoginUnit;
-  FUnit       := TUnit.CreateWithUser(nil, aLoginID);
+//  FUnit       := TUnit.CreateWithUser(nil, aLoginID);
   setdata;
   Self.ShowModal;
 end;
@@ -590,40 +396,60 @@ procedure TfrmDialogUnit.edtUnitAppIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
- if key = vk_F5 then
-    FUnit.GetRecApp(edtUnitAppID, edtUnitAppNm);
+// if key = vk_F5 then
+//    FUnit.GetRecApp(edtUnitAppID, edtUnitAppNm);
 end;
 
 procedure TfrmDialogUnit.edtUnitCompIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if key = vk_F5 then
-    FUnit.GetRecCompany(edtUnitCompID, edtUnitCompNm);
+//  if key = vk_F5 then
+//    FUnit.GetRecCompany(edtUnitCompID, edtUnitCompNm);
+end;
+
+procedure TfrmDialogUnit.edtUnitCompIDPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+var
+  kEY: Word;
+begin
+  inherited;
+  kEY := VK_F5;
+    edtUnitCompIDKeyDown(Sender, kEY, [ssAlt]);
 end;
 
 procedure TfrmDialogUnit.edtUntInfoCompTypeIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if key = vk_F5 then
-    FUnit.GetRecPrshType(edtUntInfoCompTypeID, edtUntInfoCompTypeNm);
+//  if key = vk_F5 then
+//    FUnit.GetRecPrshType(edtUntInfoCompTypeID, edtUntInfoCompTypeNm);
+end;
+
+procedure TfrmDialogUnit.edtUntInfoCompTypeIDPropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+var
+  kEY: Word;
+begin
+  inherited;
+  kEY := VK_F5;
+    edtUntInfoCompTypeIDKeyDown(Sender, kEY, [ssAlt]);
 end;
 
 procedure TfrmDialogUnit.edtUnitRegnIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
- if key = vk_F5 then
-    FUnit.GetRecRegn(edtUnitRegnID, edtUnitRegnNm);
+// if key = vk_F5 then
+//    FUnit.GetRecRegn(edtUnitRegnID, edtUnitRegnNm);
 end;
 
 procedure TfrmDialogUnit.edtUnitPropIdKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-if key = vk_F5 then
-    FUnit.GetRecProp(edtUnitPropId, edtUnitPropNm);
+//if key = vk_F5 then
+//    FUnit.GetRecProp(edtUnitPropId, edtUnitPropNm);
 end;
 
 procedure TfrmDialogUnit.edtUnitKabIDKeyDown(Sender: TObject;
@@ -634,10 +460,10 @@ begin
   inherited;
   TryStrToInt(edtUnitPropId.Text, aPropId);
   
-  if key = vk_F5 then
-    FUnit.GetRecKab(edtUnitKabID, edtUnitKabNm, aPropId)
-  else if Key = vk_return then
-    FUnit.GetRecKab(aPropId, edtUnitKabID, edtUnitKabNm);
+//  if key = vk_F5 then
+//    FUnit.GetRecKab(edtUnitKabID, edtUnitKabNm, aPropId)
+//  else if Key = vk_return then
+//    FUnit.GetRecKab(aPropId, edtUnitKabID, edtUnitKabNm);
 
 end;
 
@@ -651,11 +477,21 @@ begin
 //    Key := #0;
 end;
 
+procedure TfrmDialogUnit.edtUnitAppIDPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+var
+  kEY: Word;
+begin
+  inherited;
+  kEY := VK_F5;
+    edtUnitAppIDKeyDown(Sender, kEY, [ssAlt]);
+end;
+
 procedure TfrmDialogUnit.edtUnitTypeIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  FUnit.GetRecUnitType(edtUnitTypeID, edtUnitTypeNm);
+//  FUnit.GetRecUnitType(edtUnitTypeID, edtUnitTypeNm);
 end;
 
 procedure TfrmDialogUnit.edtUnitCodeKeyPress(Sender: TObject;
@@ -707,12 +543,6 @@ begin
     Key := #0;
 end;
 
-//procedure TfrmDialogUnit.KeyPressStr(var Key: Char);
-//begin
-//  if not (Key in ['0'..'9']) then
-//    Key := #0;
-//end;
-
 procedure TfrmDialogUnit.chkActiveClick(Sender: TObject);
 begin
   inherited;
@@ -720,34 +550,6 @@ begin
     FisActive  := 1
   else
     FisActive  := 0;
-end;
-
-procedure TfrmDialogUnit.edtUnitAppIDClickBtn(Sender: TObject);
-var
-  kEY: Word;
-begin
-  inherited;
-  kEY := VK_F5;
-    edtUnitAppIDKeyDown(Sender, kEY, [ssAlt]);
-end;
-
-procedure TfrmDialogUnit.edtUnitCompIDClickBtn(Sender: TObject);
-var
-  kEY: Word;
-begin
-  inherited;
-  kEY := VK_F5;
-    edtUnitCompIDKeyDown(Sender, kEY, [ssAlt]);
-
-end;
-
-procedure TfrmDialogUnit.edtUntInfoCompTypeIDClickBtn(Sender: TObject);
-var
-  kEY: Word;
-begin
-  inherited;
-  kEY := VK_F5;
-    edtUntInfoCompTypeIDKeyDown(Sender, kEY, [ssAlt]);
 end;
 
 procedure TfrmDialogUnit.edtUnitRegnIDClickBtn(Sender: TObject);

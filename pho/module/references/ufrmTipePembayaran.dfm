@@ -17,6 +17,8 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     inherited pgcBrowse: TcxPageControl
       Width = 596
       Height = 224
+      ExplicitWidth = 596
+      ExplicitHeight = 224
       ClientRectBottom = 224
       ClientRectRight = 596
       inherited tsBrowse: TcxTabSheet
@@ -64,6 +66,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     end
     inherited btnSearch: TcxButton
       Left = 536
+      ExplicitLeft = 536
     end
     inherited lblsdFilter: TcxLabel
       Left = 417
@@ -103,8 +106,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       ExplicitWidth = 618
       inherited lbl5: TLabel
         Left = 544
-        ExplicitLeft = 517
-        ExplicitTop = 5
+        ExplicitLeft = 544
       end
     end
   end

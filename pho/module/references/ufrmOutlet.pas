@@ -4,30 +4,27 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  BaseGrid, AdvGrid, ActnList, uConn, uRetnoUnit, uNewSalesOutlet;
+  Dialogs, ufrmMasterBrowse, ufraFooter5Button, StdCtrls, ExtCtrls,
+  uConn, uRetnoUnit, System.Actions, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  Vcl.ActnList;
 
 type
-  TfrmOutlet = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
-    actlstOutlet: TActionList;
-    actAddOutlet: TAction;
-    actEditOutlet: TAction;
-    actDeleteOutlet: TAction;
-    actRefreshOutlet: TAction;
+  TfrmOutlet = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure actEditOutletExecute(Sender: TObject);
-    procedure actAddOutletExecute(Sender: TObject);
     procedure actDeleteOutletExecute(Sender: TObject);
-    procedure actRefreshOutletExecute(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure fraFooter5Button1btnCloseClick(Sender: TObject);
   private
-  FNewOutlet : TNewSalesOutlet;
+//  FNewOutlet : TNewSalesOutlet;
     { Private declarations }
     function GetData(): TDataSet;
   public
@@ -39,9 +36,39 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogOutlet, uOutlet,  uConstanta;
+uses uTSCommonDlg, ufrmDialogOutlet, uConstanta;
 
 {$R *.dfm}
+
+procedure TfrmOutlet.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  // check is Unit Id is specified?
+//  if MasterNewUnit.ID=0 then
+  begin
+    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+    Exit;
+  end;
+  if(1 <> 0) then
+  begin
+    if not Assigned(frmDialogOutlet) then
+      Application.CreateForm(TfrmDialogOutlet, frmDialogOutlet);
+
+    frmDialogOutlet.Caption := 'Add Sales Outlet';
+    frmDialogOutlet.FormMode := fmAdd;
+
+    SetFormPropertyAndShowDialog(frmDialogOutlet);
+    if (frmDialogOutlet.IsProcessSuccessfull) then
+    begin
+     actRefreshExecute(Self);
+     CommonDlg.ShowConfirm(atAdd);
+    end;
+  end
+  else
+    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+
+  frmDialogOutlet.Free;
+end;
 
 procedure TfrmOutlet.FormDestroy(Sender: TObject);
 begin
@@ -53,13 +80,45 @@ procedure TfrmOutlet.FormShow(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'SALES OUTLET';
-  actRefreshOutletExecute(Self);
+  actRefreshExecute(Self);
 end;
 
-procedure TfrmOutlet.actEditOutletExecute(Sender: TObject);
+procedure TfrmOutlet.actDeleteOutletExecute(Sender: TObject);
 begin
+//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
   // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
+//  if MasterNewUnit.ID=0 then
+  begin
+    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
+    Exit;
+  end;
+//  if (CommonDlg.Confirm('Are you sure you wish to delete Sales Outlet (Name: '+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
+  begin
+    {
+    if FNewOutlet.LoadByID(StrToInt(strgGrid.Cells[2,strgGrid.row])) then
+    begin
+      if FNewOutlet.RemoveFromDB then
+      begin
+        cCommitTrans;
+        CommonDlg.ShowMessage(' Data Berhasil dihapus');
+        frmOutlet.actRefreshOutletExecute(Self);
+        exit;
+      end
+      else begin
+        cRollbackTrans;
+        CommonDlg.ShowMessage('Data Gagal dihapus');
+      end;
+      actRefreshOutletExecute(Self);
+    end
+    }
+  end;
+end;
+
+procedure TfrmOutlet.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  // check is Unit Id is specified?
+  {if MasterNewUnit.ID=0 then
   begin
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
     //frmMain.cbbUnit.SetFocus;
@@ -84,100 +143,19 @@ begin
   end
   else
     CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-
+  }
   frmDialogOutlet.Free;
 end;
 
-procedure TfrmOutlet.actAddOutletExecute(Sender: TObject);
-begin
-  // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
-  if(MasterNewUnit.ID <> 0) then
-  begin
-    if not Assigned(frmDialogOutlet) then
-      Application.CreateForm(TfrmDialogOutlet, frmDialogOutlet);
-
-    frmDialogOutlet.frmSuiMasterDialog.Caption := 'Add Sales Outlet';
-    frmDialogOutlet.FormMode := fmAdd;
-
-    SetFormPropertyAndShowDialog(frmDialogOutlet);
-    if (frmDialogOutlet.IsProcessSuccessfull) then
-    begin
-     actRefreshOutletExecute(Self);
-     CommonDlg.ShowConfirm(atAdd);
-    end;
-  end
-  else
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-
-  frmDialogOutlet.Free;
-end;
-
-procedure TfrmOutlet.actDeleteOutletExecute(Sender: TObject);
-begin
-  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-  // check is Unit Id is specified?
-  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError(ER_UNIT_NOT_SPECIFIC);
-    //frmMain.cbbUnit.SetFocus;
-    Exit;
-  end;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Sales Outlet (Name: '+strgGrid.Cells[1,strgGrid.row]+')?') = mrYes) then
-  begin
-
-    if FNewOutlet.LoadByID(StrToInt(strgGrid.Cells[2,strgGrid.row])) then
-    begin
-      if FNewOutlet.RemoveFromDB then
-      begin
-        cCommitTrans;
-        CommonDlg.ShowMessage(' Data Berhasil dihapus');
-        frmOutlet.actRefreshOutletExecute(Self);
-        exit;
-      end
-      else begin
-        cRollbackTrans;
-        CommonDlg.ShowMessage('Data Gagal dihapus');
-      end;
-      actRefreshOutletExecute(Self);
-    end
-
-  end;
-end;
-
-function TfrmOutlet.GetData(): TDataSet;
-var 
-  arrParam: TArr;
-begin
-  // inisiate the business model
-  if not assigned(Outlet) then
-    Outlet := TOutlet.Create;
-
-//  if MasterNewUnit.ID <> 0 then
-//  begin
-//    SetLength(arrParam,1);
-//    arrParam[0].tipe := ptString;
-//    arrParam[0].data := MasterNewUnit.ID;
-//  end
-//  else
-    arrParam := nil;
-
-  Result := Outlet.GetListDataOutlet(arrParam);
-end;
-
-procedure TfrmOutlet.actRefreshOutletExecute(Sender: TObject);
+procedure TfrmOutlet.actRefreshExecute(Sender: TObject);
 var
   dataOutlet: TDataSet;
   i, countData:Integer;
 begin
+  inherited;
   dataOutlet := GetData();
   countData := dataOutlet.RecordCount;
-  with strgGrid do
+  {with strgGrid do
   begin
     Clear;
     RowCount := countData+1;
@@ -209,32 +187,27 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
-  //=== R ====
+  }
+
 end;
 
-procedure TfrmOutlet.FormActivate(Sender: TObject);
+function TfrmOutlet.GetData(): TDataSet;
+var 
+  arrParam: TArr;
 begin
-  inherited;
-  //frmMain.CreateMenu((sender as TForm));
-end;
+  // inisiate the business model
+//  if not assigned(Outlet) then
+//    Outlet := TOutlet.Create;
 
-procedure TfrmOutlet.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  //frmMain.DestroyMenu((sender as TForm));
+    arrParam := nil;
+
+//  Result := Outlet.GetListDataOutlet(arrParam);
 end;
 
 procedure TfrmOutlet.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewOutlet := TNewSalesOutlet.create(self);
-end;
-
-procedure TfrmOutlet.fraFooter5Button1btnCloseClick(Sender: TObject);
-begin
-  inherited;
-  fraFooter5Button1.btnCloseClick(Sender);
-
+//  FNewOutlet := TNewSalesOutlet.create(self);
 end;
 
 end.

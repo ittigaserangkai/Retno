@@ -68,7 +68,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 487
   end
   object mmMainMenu: TMainMenu
     Left = 520
@@ -155,6 +154,7 @@ object frmMain: TfrmMain
       Category = 'Sistem'
       Caption = 'Login'
       ShortCut = 16460
+      OnExecute = actOnLoginExecute
     end
     object actOnExit: TAction
       Category = 'Sistem'
