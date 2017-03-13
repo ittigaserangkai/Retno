@@ -14,7 +14,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Color = clWindow
     ExplicitTop = 33
     ExplicitWidth = 701
-    ExplicitHeight = 288
+    ExplicitHeight = 314
     object pgcBrowse: TcxPageControl
       Left = 11
       Top = 11
@@ -41,6 +41,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'
           LookAndFeel.NativeStyle = False
+          ExplicitLeft = 87
+          ExplicitTop = -16
           object cxGridView: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -70,6 +72,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Height = 33
     ExplicitWidth = 701
     ExplicitHeight = 33
+    inherited lblHeader: TLabel
+      Height = 21
+    end
     object lblFilterData: TcxLabel
       Left = 347
       Top = 1

@@ -89,7 +89,6 @@ uses
   ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
   uModAccount in '..\model\uModAccount.pas',
   uModApp in '..\model\uModApp.pas',
-  uModAppHelper in '..\model\uModAppHelper.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',

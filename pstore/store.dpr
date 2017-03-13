@@ -29,7 +29,6 @@ uses
   uCompany in '..\classes\uCompany.pas',
   uTSBaseClass in '..\classes\uTSBaseClass.pas',
   uModApp in '..\model\uModApp.pas',
-  uModAppHelper in '..\model\uModAppHelper.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',

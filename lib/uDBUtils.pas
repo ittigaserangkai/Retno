@@ -11,7 +11,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDac.Dapt,
-  uModApp, uModAppHelper, uModTest;
+  uModApp, uModTest;
 
 type
   TDBUtils = class(TObject)

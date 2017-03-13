@@ -3,7 +3,7 @@ unit uServerClasses;
 interface
 
 uses
-  System.Classes, uModApp, uModAppHelper,uDBUtils, Rtti, Data.DB, SysUtils,
+  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils;
 
 type
