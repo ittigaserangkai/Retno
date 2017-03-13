@@ -132,6 +132,9 @@ uses
   ufrmMerchandiseGroup in 'module\product\ufrmMerchandiseGroup.pas' {frmMerchandiseGroup},
   ufrmMerk in 'module\product\ufrmMerk.pas' {frmMerk},
   ufrmSubGroup in 'module\product\ufrmSubGroup.pas' {frmSubGroup};
+  uModBarang in '..\model\uModBarang.pas',
+  ufrmQuotation in 'module\merchandise\ufrmQuotation.pas' {frmQuotation},
+  ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation};
 
 {$R *.res}
 

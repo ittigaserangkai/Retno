@@ -25,9 +25,10 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ActivePage = tsBrowse
       Properties.CustomButtons.Buttons = <>
       Properties.HideTabs = True
-      ClientRectBottom = 292
-      ClientRectRight = 679
-      ClientRectTop = 0
+      ClientRectBottom = 288
+      ClientRectLeft = 4
+      ClientRectRight = 675
+      ClientRectTop = 4
       object tsBrowse: TcxTabSheet
         Caption = 'Browse Data'
         ImageIndex = 0
@@ -59,8 +60,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
             OptionsData.Editing = False
             OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
             OptionsView.GroupByBox = False
-            Styles.ContentEven = styleGridEven
-            Styles.Header = styleGridHeader
           end
           object cxlvMaster: TcxGridLevel
             GridView = cxGridView
@@ -204,7 +203,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       AnchorY = 17
     end
   end
-  inline fraFooter4Button1: TfraFooter4Button [2]
+  inline fraFooter4Button1: TfraFooter4Button
     Left = 0
     Top = 347
     Width = 701
@@ -304,7 +303,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
+  object cxStyle: TcxStyleRepository
     Left = 568
     Top = 104
     PixelsPerInch = 96
