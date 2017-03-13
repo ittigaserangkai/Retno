@@ -4,27 +4,36 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, Grids,
-  BaseGrid, AdvGrid, ActnList, uNewUnit, AdvObj;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ufraFooter5Button, Grids,
+  BaseGrid, AdvGrid, ActnList, uNewUnit, AdvObj, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, System.Actions,
+  cxClasses, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid,
+  cxPC;
 
 type
-  TfrmUnit = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
-    actlstUnit: TActionList;
-    actAddUnit: TAction;
-    actEditUnit: TAction;
-    actDeleteUnit: TAction;
-    actRefreshUnit: TAction;
+  TfrmUnit = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
+    cxGridViewColumn7: TcxGridDBColumn;
+    cxGridViewColumn8: TcxGridDBColumn;
+    procedure actAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actAddUnitExecute(Sender: TObject);
     procedure actEditUnitExecute(Sender: TObject);
     procedure actDeleteUnitExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
-    procedure fraFooter5Button1btnAddClick(Sender: TObject);
     procedure fraFooter5Button1btnDeleteClick(Sender: TObject);
     procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
       var HAlign: TAlignment; var VAlign: TVAlignment);
@@ -70,6 +79,21 @@ const
   _fixedCol   : Integer = 1;
   _ColCount   : Integer = 8;
 
+
+procedure TfrmUnit.actAddExecute(Sender: TObject);
+begin
+  inherited;
+
+  if not Assigned(frmDialogUnit) then
+  frmDialogUnit := TfrmDialogUnit.Create(Application);
+
+  frmDialogUnit.ShowWithCompanyID(FCompID, 0, FLoginUnit, FLoginID );
+
+  if frmDialogUnit.IsProcessSuccessfull then
+    actRefreshUnitExecute(Self);
+
+  FreeAndNil(frmDialogUnit);
+end;
 
 procedure TfrmUnit.FormDestroy(Sender: TObject);
 begin
@@ -165,6 +189,28 @@ begin
 //  end;
 end;
 
+procedure TfrmUnit.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  if not Assigned(frmDialogUnit) then
+    frmDialogUnit := TfrmDialogUnit.Create(Application);
+
+  frmDialogUnit.ShowWithCompanyID(FCompID, strgGrid.Ints[_kolUnitID, strgGrid.Row],
+                            FLoginUnit, FLoginID );
+
+  if frmDialogUnit.IsProcessSuccessfull then
+    actRefreshUnitExecute(Self);
+
+  FreeAndNil(frmDialogUnit);
+end;
+
+procedure TfrmUnit.actRefreshExecute(Sender: TObject);
+begin
+  inherited;
+ ParseHeader;
+ SetData;
+end;
+
 procedure TfrmUnit.FormActivate(Sender: TObject);
 begin
   inherited;
@@ -229,37 +275,6 @@ begin
 
   SetData;
 
-
-end;
-
-procedure TfrmUnit.fraFooter5Button1btnUpdateClick(Sender: TObject);
-begin
-  inherited;
-  if not Assigned(frmDialogUnit) then
-    frmDialogUnit := TfrmDialogUnit.Create(Application);
-
-  frmDialogUnit.ShowWithCompanyID(FCompID, strgGrid.Ints[_kolUnitID, strgGrid.Row],
-                            FLoginUnit, FLoginID );
-
-  if frmDialogUnit.IsProcessSuccessfull then
-    actRefreshUnitExecute(Self);
-
-  FreeAndNil(frmDialogUnit);
-end;
-
-procedure TfrmUnit.fraFooter5Button1btnAddClick(Sender: TObject);
-begin
-  inherited;
-
-  if not Assigned(frmDialogUnit) then
-  frmDialogUnit := TfrmDialogUnit.Create(Application);
-
-  frmDialogUnit.ShowWithCompanyID(FCompID, 0, FLoginUnit, FLoginID );
-
-  if frmDialogUnit.IsProcessSuccessfull then
-    actRefreshUnitExecute(Self);
-
-  FreeAndNil(frmDialogUnit);
 
 end;
 

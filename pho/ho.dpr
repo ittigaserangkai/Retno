@@ -131,8 +131,7 @@ uses
   ufrmMerchandise in 'module\product\ufrmMerchandise.pas' {frmMerchandise},
   ufrmMerchandiseGroup in 'module\product\ufrmMerchandiseGroup.pas' {frmMerchandiseGroup},
   ufrmMerk in 'module\product\ufrmMerk.pas' {frmMerk},
-  ufrmSubGroup in 'module\product\ufrmSubGroup.pas' {frmSubGroup};
-  uModBarang in '..\model\uModBarang.pas',
+  ufrmSubGroup in 'module\product\ufrmSubGroup.pas' {frmSubGroup},
   ufrmQuotation in 'module\merchandise\ufrmQuotation.pas' {frmQuotation},
   ufrmDialogQuotation in 'module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation},
   ufrmOutlet in 'module\references\ufrmOutlet.pas' {frmOutlet},

@@ -34,7 +34,6 @@ inherited frmSupplierType: TfrmSupplierType
   end
   inherited pnlHeader: TPanel
     Width = 542
-    ExplicitTop = -6
     ExplicitWidth = 542
     inherited lblFilterData: TcxLabel
       Left = 188
@@ -70,6 +69,7 @@ inherited frmSupplierType: TfrmSupplierType
       inherited btnClose: TcxButton
         Left = 465
         Action = actClose
+        ExplicitLeft = 465
       end
       inherited btnAdd: TcxButton
         Action = actAdd
@@ -86,7 +86,11 @@ inherited frmSupplierType: TfrmSupplierType
       ExplicitWidth = 542
       inherited lbl5: TLabel
         Left = 468
+        ExplicitLeft = 468
       end
     end
+  end
+  inherited cxStyle: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

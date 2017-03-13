@@ -5,7 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
-  StdCtrls, cbxbase, dblup1a, JclStrings, uNewUnit, EditBtn;
+  StdCtrls, cbxbase, dblup1a, JclStrings, uNewUnit, EditBtn, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
+  cxTextEdit, cxMaskEdit, cxButtonEdit, SUIForm, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -65,14 +68,14 @@ type
     chkAllowPO: TCheckBox;
     chkAllowGR: TCheckBox;
     chkActive: TCheckBox;
-    edtUnitAppID: TEditBtn;
-    edtUnitCompID: TEditBtn;
-    edtUntInfoCompTypeID: TEditBtn;
-    edtUnitRegnID: TEditBtn;
-    edtUnitTypeID: TEditBtn;
-    edtUnitPropId: TEditBtn;
-    edtUnitKabID: TEditBtn;
-    edtUnitParentID: TEditBtn;
+    edtUnitAppID: TcxButtonEdit;
+    edtUnitCompID: TcxButtonEdit;
+    edtUntInfoCompTypeID: TcxButtonEdit;
+    edtUnitRegnID: TcxButtonEdit;
+    edtUnitTypeID: TcxButtonEdit;
+    edtUnitPropId: TcxButtonEdit;
+    edtUnitKabID: TcxButtonEdit;
+    edtUnitParentID: TcxButtonEdit;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
