@@ -52,6 +52,7 @@ type
     function SubGroup_GetDSLookup: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
     function Kategori_GetDSLookup: TDataSet;
+    function Merk_GetDSLookUp: TDataSet;
     function RefPajak_GetDSLookup: TDataSet;
     function RefTipeBarang_GetDSLookup: TDataSet;
 
@@ -276,7 +277,7 @@ function TDSProvider.Satuan_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select sat_code, sat_name,sat_group, ref$satuan_id' +
+  S := 'select sat_name, sat_code, sat_group, ref$satuan_id' +
        ' from ref$satuan' +
        ' ORDER by sat_code';
 
@@ -379,6 +380,14 @@ var
 begin
   S := 'Select KAT_NAME, KAT_CODE, REF$KATEGORI_ID, REF$SUB_GRUP_ID from '
       +' REF$KATEGORI ORDER BY KAT_CODE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Merk_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select Merk_Name,Merk_Description, Merk_ID from Merk';
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -32,6 +32,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Caption = 'Browse Data'
         ImageIndex = 0
         ParentColor = False
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
@@ -101,6 +103,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
     object dtAkhirFilter: TcxDateEdit
@@ -116,6 +119,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
     object btnSearch: TcxButton
@@ -273,7 +277,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited lbl1: TLabel
         AlignWithMargins = True
         Left = 5
-        Height = 15
         Margins.Top = 1
         Margins.Bottom = 1
         Align = alLeft
@@ -282,7 +285,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited lbl2: TLabel
         AlignWithMargins = True
         Left = 88
-        Height = 15
         Margins.Left = 15
         Margins.Top = 1
         Margins.Bottom = 1
@@ -296,7 +298,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited lbl5: TLabel
         Left = 627
         Top = 2
-        Height = 17
         Align = alRight
         ExplicitLeft = 627
         ExplicitTop = 2

@@ -459,6 +459,46 @@
         </DCCReference>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
+        <DCCReference Include="module\product\ufrmDialogKategori.pas">
+            <Form>frmDialogKategori</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerchandise.pas">
+            <Form>frmDialogMerchandise</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerchandiseGroup.pas">
+            <Form>frmDialogMerchandiseGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogMerk.pas">
+            <Form>frmDialogMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmDialogSubGroup.pas">
+            <Form>frmDialogSubGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmKategori.pas">
+            <Form>frmKategori</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerchandise.pas">
+            <Form>frmMerchandise</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerchandiseGroup.pas">
+            <Form>frmMerchandiseGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmMerk.pas">
+            <Form>frmMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\product\ufrmSubGroup.pas">
+            <Form>frmSubGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

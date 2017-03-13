@@ -116,11 +116,15 @@ class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent):
 var
   ADSP: TDataSetProvider;
 begin
-  Result:= TClientDataSet.Create(aOwner);
-  ADSP := TDataSetProvider.Create(Result);
-  ADSP.DataSet:= aDataset;
-  Result.SetProvider(ADSP);
-  Result.Open;
+  Result := nil;
+  if ADataSet.FieldCount <> 0 then
+  begin
+    Result:= TClientDataSet.Create(aOwner);
+    ADSP := TDataSetProvider.Create(Result);
+    ADSP.DataSet:= aDataset;
+    Result.SetProvider(ADSP);
+    Result.Open;
+  end;
 end;
 
 class procedure TDBUtils.DSToCDS(ADataset : TDataset; ACDS : TClientDataset);
@@ -755,12 +759,10 @@ end;
 
 class function TDBUtils.OpenQuery(ASQL : String): TFDQuery;
 begin
-//  if mmoLogs <> nil then
-//    mmoLogs.Lines.Add(ASQL);
-
   Result := TFDQuery.Create(nil);
   Result.Connection := FDConnection;
-  Result.Open(ASQL);
+  Result.SQL.Text := ASQL;
+  Result.Open;
 end;
 
 class procedure TDBUtils.RollBack;

@@ -121,7 +121,17 @@ uses
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
   ufrmReprintNP in '..\pstore\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
-  uModBarang in '..\model\uModBarang.pas';
+  uModBarang in '..\model\uModBarang.pas',
+  ufrmDialogKategori in 'module\product\ufrmDialogKategori.pas' {frmDialogKategori},
+  ufrmDialogMerchandise in 'module\product\ufrmDialogMerchandise.pas' {frmDialogMerchandise},
+  ufrmDialogMerchandiseGroup in 'module\product\ufrmDialogMerchandiseGroup.pas' {frmDialogMerchandiseGroup},
+  ufrmDialogMerk in 'module\product\ufrmDialogMerk.pas' {frmDialogMerk},
+  ufrmDialogSubGroup in 'module\product\ufrmDialogSubGroup.pas' {frmDialogSubGroup},
+  ufrmKategori in 'module\product\ufrmKategori.pas' {frmKategori},
+  ufrmMerchandise in 'module\product\ufrmMerchandise.pas' {frmMerchandise},
+  ufrmMerchandiseGroup in 'module\product\ufrmMerchandiseGroup.pas' {frmMerchandiseGroup},
+  ufrmMerk in 'module\product\ufrmMerk.pas' {frmMerk},
+  ufrmSubGroup in 'module\product\ufrmSubGroup.pas' {frmSubGroup};
 
 {$R *.res}
 

@@ -12,8 +12,8 @@ inherited frmDialogLokasi: TfrmDialogLokasi
   inherited pnlBody: TPanel
     Width = 378
     Height = 330
-    ExplicitWidth = 380
-    ExplicitHeight = 356
+    ExplicitWidth = 378
+    ExplicitHeight = 330
     object lbl1: TLabel
       Left = 65
       Top = 160
@@ -189,34 +189,43 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       Width = 82
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 330
     Width = 378
-    ExplicitTop = 356
-    ExplicitWidth = 380
+    ExplicitTop = 330
+    ExplicitWidth = 378
     inherited pnlFooter: TPanel
       Width = 378
-      ExplicitWidth = 380
+      ExplicitWidth = 378
       inherited btnClose: TcxButton
-        Left = 296
-        ExplicitLeft = 298
+        Left = 301
+        ExplicitLeft = 301
       end
       inherited btnSave: TcxButton
-        Left = 213
+        Left = 198
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 215
+        ExplicitLeft = 198
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 378
-      ExplicitWidth = 380
+      ExplicitWidth = 378
       inherited lbl4: TLabel
-        Left = 192
-        ExplicitLeft = 194
+        Left = 198
+        Height = 15
+        ExplicitLeft = 198
       end
       inherited lbl5: TLabel
-        Left = 288
-        ExplicitLeft = 290
+        Left = 297
+        Height = 15
+        ExplicitLeft = 297
+      end
+      inherited lbl3: TLabel
+        Height = 15
       end
     end
   end

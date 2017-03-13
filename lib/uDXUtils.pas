@@ -7,12 +7,12 @@ uses
   cxExportPivotGridLink, cxGridDBBandedTableView, cxDBPivotGrid, cxCurrencyEdit,
   cxCustomPivotGrid, cxGridBandedTableView, cxDBExtLookupComboBox, cxCustomData,
   cxFilter, cxGridCustomTableView, cxDBTL, cxTLExportLink,cxCalendar, Dialogs,
-  SysUtils, cxGridDBDataDefinitions, System.Classes,DB, DBClient, uAppUtils,
+  SysUtils, cxGridDBDataDefinitions, System.Classes, DBClient, uAppUtils,
   uDBUtils, cxDropDownEdit, cxGridTableView, StrUtils, System.Contnrs,
   Vcl.Controls, Vcl.Forms, Windows, Messages, Variants, Graphics, ExtCtrls,
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
-  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit;
+  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB;
 
 
 type
@@ -803,6 +803,8 @@ end;
 procedure TcxDBGridHelper.LoadFromCDS(ACDS: TClientDataSet; AutoFormat: Boolean
     = True; DoBestFit: Boolean = True);
 begin
+  if not Assigned(ACDS) then exit;
+  
   If not Assigned(Self.DataController.DataSource) then
   begin
     Self.DataController.DataSource := TDataSource.Create(Self);
