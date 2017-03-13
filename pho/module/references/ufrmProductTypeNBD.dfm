@@ -5,6 +5,7 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
   ClientHeight = 336
   ClientWidth = 537
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 553
   ExplicitHeight = 375
   PixelsPerInch = 96
@@ -14,12 +15,26 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
     Height = 247
     ExplicitWidth = 537
     ExplicitHeight = 191
-    inherited cxGrid: TcxGrid
+    inherited pgcBrowse: TcxPageControl
       Width = 515
       Height = 91
       TabOrder = 1
       ExplicitWidth = 515
-      ExplicitHeight = 35
+      ExplicitHeight = 91
+      ClientRectBottom = 90
+      ClientRectRight = 514
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        inherited cxGrid: TcxGrid
+          Width = 515
+          Height = 91
+          ExplicitWidth = 515
+          ExplicitHeight = 35
+        end
+      end
     end
     object pnl1: TPanel
       Left = 11
@@ -113,11 +128,29 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
   inherited pnlHeader: TPanel
     Width = 537
     ExplicitWidth = 537
+    inherited lblFilterData: TcxLabel
+      Left = 183
+      ExplicitLeft = 183
+      AnchorY = 17
+    end
     inherited dtAwalFilter: TcxDateEdit
+      Left = 244
+      ExplicitLeft = 244
       ExplicitHeight = 24
     end
     inherited dtAkhirFilter: TcxDateEdit
+      Left = 360
+      ExplicitLeft = 360
       ExplicitHeight = 24
+    end
+    inherited btnSearch: TcxButton
+      Left = 455
+      ExplicitLeft = 455
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 336
+      ExplicitLeft = 336
+      AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
@@ -128,27 +161,26 @@ inherited frmProductTypeNBD: TfrmProductTypeNBD
     inherited pnlFooter: TPanel
       Width = 537
       ExplicitWidth = 537
-      inherited btnClose: TcxButton
-        Left = 455
-        ExplicitLeft = 455
-      end
       inherited btnAdd: TcxButton
         Action = actAddProductTypeNBD
       end
       inherited btnUpdate: TcxButton
         Action = actEditProductTypeNBD
       end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 537
-      ExplicitWidth = 537
-      inherited lbl5: TLabel
-        Left = 447
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 455
+        Action = actClose
+        ExplicitLeft = 455
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+    end
   end
   object actlst1: TActionList
     Left = 504

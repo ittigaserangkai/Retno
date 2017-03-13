@@ -5,6 +5,7 @@ inherited frmUnit: TfrmUnit
   ClientHeight = 397
   ClientWidth = 771
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 787
   ExplicitHeight = 436
   PixelsPerInch = 96
@@ -24,9 +25,11 @@ inherited frmUnit: TfrmUnit
       ExplicitTop = 3
       ExplicitWidth = 765
       ExplicitHeight = 302
-      ClientRectBottom = 302
-      ClientRectRight = 765
+      ClientRectBottom = 301
+      ClientRectRight = 764
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 765
         ExplicitHeight = 302
         inherited cxGrid: TcxGrid
@@ -77,12 +80,10 @@ inherited frmUnit: TfrmUnit
     inherited dtAwalFilter: TcxDateEdit
       Left = 478
       ExplicitLeft = 478
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 594
       ExplicitLeft = 594
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 689
@@ -102,11 +103,6 @@ inherited frmUnit: TfrmUnit
     inherited pnlFooter: TPanel
       Width = 771
       ExplicitWidth = 771
-      inherited btnClose: TcxButton
-        Left = 694
-        Action = actClose
-        ExplicitLeft = 694
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -116,20 +112,15 @@ inherited frmUnit: TfrmUnit
       inherited btnPrint: TcxButton
         Action = actPrint
       end
+      inherited btnClose: TcxButton
+        Left = 694
+        Action = actClose
+        ExplicitLeft = 694
+      end
     end
-    inherited pnlSortCut: TPanel
-      Width = 771
-      ExplicitWidth = 771
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
-        Left = 697
-        Height = 17
-        ExplicitLeft = 697
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
       end
     end
   end

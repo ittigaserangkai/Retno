@@ -9,7 +9,7 @@ uses
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData,
   ufraFooterDialog3Button, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  Vcl.Menus, cxButtons;
+  Vcl.Menus, cxButtons, System.Actions, Vcl.ActnList;
 
 type
   TModul = (tmMutasiStock, tmStatusKlrgIGRA, tmReturDmg, tmReturRep, tmDoForReplace, tmWastageDmg, tmWastageObrl, tmNull);

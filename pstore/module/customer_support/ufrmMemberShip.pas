@@ -12,7 +12,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, System.Actions,
   cxCurrencyEdit, cxClasses, ufraFooter4Button, cxButtons, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
-  cxGridCustomView, cxGrid;
+  cxGridCustomView, cxGrid, dxBarBuiltInMenu, cxPC;
 
 type
   TfrmMemberShip = class(TfrmMasterBrowse)

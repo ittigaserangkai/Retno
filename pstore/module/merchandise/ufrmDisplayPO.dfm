@@ -763,9 +763,6 @@ inherited frmDisplayPO: TfrmDisplayPO
     Width = 773
     ExplicitWidth = 773
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
-  end
   object actlst1: TActionList
     Left = 624
     object actSaveGoodReceiving: TAction

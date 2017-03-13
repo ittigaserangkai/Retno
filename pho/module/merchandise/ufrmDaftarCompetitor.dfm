@@ -6,6 +6,7 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
   ClientWidth = 709
   KeyPreview = True
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 725
   ExplicitHeight = 448
   PixelsPerInch = 96
@@ -21,9 +22,11 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
       Height = 298
       ExplicitWidth = 98
       ExplicitHeight = 236
-      ClientRectBottom = 298
-      ClientRectRight = 687
+      ClientRectBottom = 297
+      ClientRectRight = 686
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 98
         ExplicitHeight = 236
         inherited cxGrid: TcxGrid
@@ -37,21 +40,19 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
   end
   inherited pnlHeader: TPanel
     Width = 709
-    ExplicitWidth = 120
+    ExplicitWidth = 709
     inherited lblFilterData: TcxLabel
       Left = 355
-      ExplicitLeft = -234
+      ExplicitLeft = 355
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 416
       ExplicitLeft = -173
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 532
       ExplicitLeft = -57
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 627
@@ -59,7 +60,7 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
     end
     inherited lblsdFilter: TcxLabel
       Left = 508
-      ExplicitLeft = -81
+      ExplicitLeft = 508
       AnchorY = 17
     end
   end
@@ -71,11 +72,6 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
     inherited pnlFooter: TPanel
       Width = 709
       ExplicitWidth = 120
-      inherited btnClose: TcxButton
-        Left = 632
-        Action = actClose
-        ExplicitLeft = 43
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
         OnClick = btnAddClick
@@ -88,19 +84,15 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
         Action = actPrint
         OnClick = btnPrintClick
       end
+      inherited btnClose: TcxButton
+        Left = 632
+        Action = actClose
+        ExplicitLeft = 43
+      end
     end
-    inherited pnlSortCut: TPanel
-      Width = 709
-      ExplicitWidth = 120
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
-        Left = 635
-        Height = 17
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
       end
     end
   end

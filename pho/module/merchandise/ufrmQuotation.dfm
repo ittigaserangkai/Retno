@@ -5,6 +5,7 @@ inherited frmQuotation: TfrmQuotation
   ClientHeight = 495
   ClientWidth = 769
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 785
   ExplicitHeight = 534
   PixelsPerInch = 96
@@ -25,11 +26,11 @@ inherited frmQuotation: TfrmQuotation
       ExplicitTop = 155
       ExplicitWidth = 767
       ExplicitHeight = 186
-      ClientRectBottom = 182
-      ClientRectRight = 763
+      ClientRectBottom = 185
+      ClientRectRight = 766
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 759
         ExplicitHeight = 178
         inherited cxGrid: TcxGrid
@@ -741,12 +742,12 @@ inherited frmQuotation: TfrmQuotation
     inherited dtAwalFilter: TcxDateEdit
       Left = 476
       ExplicitLeft = 476
-      ExplicitHeight = 23
+      ExplicitHeight = 21
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 592
       ExplicitLeft = 592
-      ExplicitHeight = 23
+      ExplicitHeight = 21
     end
     inherited btnSearch: TcxButton
       Left = 687
@@ -766,11 +767,6 @@ inherited frmQuotation: TfrmQuotation
     inherited pnlFooter: TPanel
       Width = 769
       ExplicitWidth = 769
-      inherited btnClose: TcxButton
-        Left = 692
-        Action = actClose
-        ExplicitLeft = 692
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -780,25 +776,17 @@ inherited frmQuotation: TfrmQuotation
       inherited btnPrint: TcxButton
         Action = actPrint
       end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 769
-      ExplicitWidth = 769
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
-        Left = 695
-        Height = 17
-        ExplicitLeft = 695
+      inherited btnClose: TcxButton
+        Left = 692
+        Action = actClose
+        ExplicitLeft = 692
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+    end
   end
   inherited actlstBrowse: TActionList
     inherited actAdd: TAction

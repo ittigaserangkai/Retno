@@ -1,8 +1,8 @@
 object DMClient: TDMClient
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 123
-  Width = 147
+  Height = 240
+  Width = 258
   object RestConn: TDSRestConnection
     Host = '127.0.0.1'
     Port = 8080
@@ -12,10 +12,10 @@ object DMClient: TDMClient
     UniqueId = '{A01380B5-3771-45CF-B6B6-022C98D01784}'
   end
   object imgListButton: TImageList
-    Left = 88
-    Top = 40
+    Left = 104
+    Top = 16
     Bitmap = {
-      494C0101260030001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010126003000240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000A0000000010020000000000000A0
       0000000000000000000000000000000000000000000066333300663333006633
       3300663333006633330066333300663333006633330066333300663333006633
@@ -1341,5 +1341,27 @@ object DMClient: TDMClient
       E000E4FCF83F8180E000E4FCF83FF99FF800E0FCF83FF99FF800F9FCF83FF99F
       F800F800F83FF81FFFFFF800FFFFFC1F00000000000000000000000000000000
       000000000000}
+  end
+  object cxStyle: TcxStyleRepository
+    Left = 104
+    Top = 88
+    PixelsPerInch = 96
+    object cxStyleGridEven: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+    end
+    object cxStyleGridHeader: TcxStyle
+      AssignedValues = [svColor, svFont]
+      Color = cl3DLight
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+    end
   end
 end

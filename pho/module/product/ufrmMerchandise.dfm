@@ -9,67 +9,61 @@ inherited frmMerchandise: TfrmMerchandise
   inherited pnlBody: TPanel
     Width = 652
     Height = 286
-    ExplicitWidth = 124
+    ExplicitWidth = 652
+    ExplicitHeight = 286
     inherited pgcBrowse: TcxPageControl
       Width = 630
       Height = 264
-      ExplicitWidth = 102
-      ClientRectBottom = 264
-      ClientRectRight = 630
+      ExplicitWidth = 630
+      ExplicitHeight = 264
+      ClientRectBottom = 263
+      ClientRectRight = 629
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 102
-        ExplicitHeight = 292
+        ExplicitWidth = 628
+        ExplicitHeight = 262
         inherited cxGrid: TcxGrid
-          Width = 630
-          Height = 264
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 102
+          Width = 628
+          Height = 262
+          ExplicitWidth = 628
+          ExplicitHeight = 262
         end
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 652
-    ExplicitWidth = 124
+    ExplicitWidth = 652
     inherited lblFilterData: TcxLabel
       Left = 298
-      ExplicitLeft = -230
+      ExplicitLeft = 298
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 359
-      ExplicitLeft = -169
-      ExplicitHeight = 23
+      ExplicitLeft = 359
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 475
-      ExplicitLeft = -53
-      ExplicitHeight = 23
+      ExplicitLeft = 475
     end
     inherited btnSearch: TcxButton
       Left = 570
-      ExplicitLeft = 42
+      ExplicitLeft = 570
     end
     inherited lblsdFilter: TcxLabel
       Left = 451
-      ExplicitLeft = -77
+      ExplicitLeft = 451
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 319
     Width = 652
-    ExplicitTop = -56
-    ExplicitWidth = 124
+    ExplicitTop = 319
+    ExplicitWidth = 652
     inherited pnlFooter: TPanel
       Width = 652
-      ExplicitWidth = 124
-      inherited btnClose: TcxButton
-        Left = 575
-        Action = actClose
-        ExplicitLeft = 47
-      end
+      ExplicitWidth = 652
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -79,23 +73,17 @@ inherited frmMerchandise: TfrmMerchandise
       inherited btnPrint: TcxButton
         Action = actPrint
       end
+      inherited btnClose: TcxButton
+        Left = 575
+        Action = actClose
+        ExplicitLeft = 575
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 652
-      ExplicitWidth = 124
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
-        Left = 578
-        Height = 17
-      end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
 end

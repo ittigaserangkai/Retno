@@ -48,8 +48,6 @@ inherited frmPajak: TfrmPajak
         OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsView.GroupByBox = False
-        Styles.ContentEven = styleGridEven
-        Styles.Header = styleGridHeader
       end
       object cxGrdDetail: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -77,7 +75,7 @@ inherited frmPajak: TfrmPajak
     Width = 740
     ExplicitWidth = 740
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 316
     Width = 740
@@ -122,9 +120,6 @@ inherited frmPajak: TfrmPajak
         ExplicitLeft = 452
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlstPajak: TActionList
     Left = 440

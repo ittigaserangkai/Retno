@@ -641,18 +641,6 @@ inherited frmCreateSO: TfrmCreateSO
       Width = 320
       Height = 120
       TabOrder = 2
-      ColWidths = (
-        64
-        64
-        64
-        64
-        64)
-      RowHeights = (
-        24
-        24
-        24
-        24
-        24)
     end
     object gridTemp: TStringGrid
       Left = 24
@@ -660,25 +648,13 @@ inherited frmCreateSO: TfrmCreateSO
       Width = 320
       Height = 142
       TabOrder = 3
-      ColWidths = (
-        64
-        64
-        64
-        64
-        64)
-      RowHeights = (
-        24
-        24
-        24
-        24
-        24)
     end
   end
   inherited pnlHeader: TPanel
     Width = 801
     ExplicitWidth = 801
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 433
     Width = 801
@@ -928,9 +904,6 @@ inherited frmCreateSO: TfrmCreateSO
         ExplicitWidth = 121
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 673

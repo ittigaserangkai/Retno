@@ -70,6 +70,7 @@ inherited frmReprintNP: TfrmReprintNP
           Left = 451
           Top = 2
           ExplicitLeft = 448
+          ExplicitTop = 2
         end
       end
     end
@@ -120,9 +121,6 @@ inherited frmReprintNP: TfrmReprintNP
       Caption = 'REPRINT NP / CHECK LIST PO'
       ExplicitWidth = 151
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Images = DMClient.imgListButton

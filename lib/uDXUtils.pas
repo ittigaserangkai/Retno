@@ -100,6 +100,8 @@ type
   public
     procedure AutoFormatCurrency(ADisplayFormat: String = ',0;(,0)');
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
+    function DS: TDataset;
+    function CDS: TClientDataSet;
 
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
@@ -744,6 +746,16 @@ begin
   end;
 end;
 
+function TcxDBGridHelper.DS: TDataset;
+begin
+  Result := Self.DataController.DataSource.DataSet;
+end;
+
+function TcxDBGridHelper.CDS: TClientDataSet;
+begin
+  Result := TClientDataSet(Self.DS);
+end;
+
 procedure TcxDBGridHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
     Boolean = True);
 var
@@ -849,6 +861,11 @@ var
   lCDS: TClientDataSet;
 begin
   lCDS := TDBUtils.DSToCDS(aDataSet, aOwner);
+
+  if Assigned(Self.DataController.DataSource) then
+    if Self.DataController.DataSource.DataSet <> nil then
+      Self.DataController.DataSource.DataSet.Free;
+
   Self.LoadFromCDS(lCDS);
 end;
 

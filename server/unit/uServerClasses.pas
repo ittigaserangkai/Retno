@@ -23,6 +23,7 @@ type
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
 
@@ -129,6 +130,27 @@ begin
   If not Assigned(lClass) then
     Raise Exception.Create('Class ' + ModClassName + ' not found');
   Result := Self.Retrieve(lClass, AID);
+end;
+
+function TCrud.SaveToDBID(AObject: TModApp): String;
+var
+  lSS: TStrings;
+begin
+  Result := '';
+  if not ValidateCode(AObject) then exit;
+  lSS := TDBUtils.GenerateSQL(AObject);
+  Try
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+      TDBUtils.Commit;
+      Result := AObject.ID
+    except
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+    lSS.Free;
+  End;
 end;
 
 function TCrud.StringToClass(ModClassName: string): TModAppClass;

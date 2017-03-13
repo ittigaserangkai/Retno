@@ -12,7 +12,7 @@ uses
   cxGridDBTableView, cxGrid, DBClient, uDMCLient, uClientClasses,
   ufrmMasterBrowse, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar, cxLabel;
+  cxCalendar, cxLabel, dxBarBuiltInMenu, cxPC;
 
 type
   TfrmBank = class(TfrmMasterBrowse)

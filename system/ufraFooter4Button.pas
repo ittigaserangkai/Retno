@@ -10,16 +10,17 @@ uses
 type
   TfraFooter4Button = class(TFrame)
     pnlFooter: TPanel;
-    btnClose: TcxButton;
+    pnlShortCut: TPanel;
+    lbCTRLC: TLabel;
+    lbCTRLE: TLabel;
+    lbEscape: TLabel;
     btnAdd: TcxButton;
     btnUpdate: TcxButton;
     btnPrint: TcxButton;
+    btnClose: TcxButton;
     bvlSeparator: TBevel;
-    pnlSortCut: TPanel;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    lbl4: TLabel;
-    lbl5: TLabel;
+    cxButton1: TcxButton;
+    lbCTRLP: TLabel;
   private
     { Private declarations }
   public

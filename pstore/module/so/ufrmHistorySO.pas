@@ -10,7 +10,8 @@ uses
   cxNavigator, Data.DB, cxDBData, cxContainer, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxButtons, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, ufraFooter4Button, cxTextEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid, Vcl.Menus;
+  cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid, Vcl.Menus,
+  dxBarBuiltInMenu, cxPC;
 
 type
   TfrmHistorySO = class(TfrmMasterBrowse)

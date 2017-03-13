@@ -204,8 +204,12 @@ inherited frmDialogMasterProductNBD: TfrmDialogMasterProductNBD
       end
       inherited btnSave: TcxButton
         Left = 273
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 275
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel

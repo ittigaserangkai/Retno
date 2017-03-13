@@ -10,7 +10,8 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, System.Actions, Vcl.ActnList, cxClasses,
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid;
+  cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid, dxBarBuiltInMenu,
+  cxPC;
 
 type
   TfrmGudang = class(TfrmMasterBrowse)
