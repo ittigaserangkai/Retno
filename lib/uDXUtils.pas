@@ -804,7 +804,6 @@ procedure TcxDBGridHelper.LoadFromCDS(ACDS: TClientDataSet; AutoFormat: Boolean
     = True; DoBestFit: Boolean = True);
 begin
   if not Assigned(ACDS) then exit;
-  
   If not Assigned(Self.DataController.DataSource) then
   begin
     Self.DataController.DataSource := TDataSource.Create(Self);
