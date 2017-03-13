@@ -162,7 +162,6 @@
         <DCCReference Include="..\classes\uCompany.pas"/>
         <DCCReference Include="..\classes\uTSBaseClass.pas"/>
         <DCCReference Include="..\model\uModApp.pas"/>
-        <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>

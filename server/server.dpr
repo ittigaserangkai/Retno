@@ -25,7 +25,6 @@ uses
   ufrmGenerateModel in 'unit\ufrmGenerateModel.pas' {frmGenerateModel},
   uModRekening in '..\model\uModRekening.pas',
   uModMember in '..\model\uModMember.pas',
-  uModAppHelper in '..\model\uModAppHelper.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   uDXUtils in '..\lib\uDXUtils.pas',

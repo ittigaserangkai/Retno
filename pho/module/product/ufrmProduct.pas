@@ -4,145 +4,25 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls,
-  Mask, ActnList, DateUtils, Buttons, Math, System.Actions,
-  cxStyles, cxClasses,
-  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, cxLabel, cxCheckBox, cxTextEdit, cxCurrencyEdit,
-  Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, cxButtonEdit, cxButtons,
-  cxMaskEdit, cxDropDownEdit, cxCalendar, dxNavBarCollns, dxNavBarBase, dxNavBar,
-  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Mask, ActnList,
+  DateUtils, Buttons, Math, System.Actions, cxStyles, cxClasses, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters,  cxContainer, cxEdit,
+  cxLabel, cxCheckBox, cxTextEdit, cxCurrencyEdit, Vcl.ComCtrls, dxCore,
+  cxDateUtils, Vcl.Menus, cxButtonEdit, cxButtons, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, dxNavBarCollns, dxNavBarBase, dxNavBar, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox, ufrmMasterBrowse, dxBarBuiltInMenu,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
+  ufraFooter4Button, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
 
 type
-  TfrmProduct = class(TfrmMaster)
-    pnl1: TPanel;
-    lblCompanyCode: TLabel;
-    lbl2: TLabel;
-    edtProductName: TEdit;
-    lbl3: TLabel;
-    edtShortName: TEdit;
-    lbl4: TLabel;
-    edtBrandName: TEdit;
-    lbl5: TLabel;
-    lbl6: TLabel;
-    lbl7: TLabel;
-    edtStock: TEdit;
-    edtProducttype: TEdit;
-    edtActive: TEdit;
-    lbl8: TLabel;
-    lbl9: TLabel;
-    edtUOMStockCode: TEdit;
-    edtUOMPurchaseCode: TEdit;
-    edtUOMStockName: TEdit;
-    edtUOMPurchaseName: TEdit;
-    lbl10: TLabel;
-    edtOutlet: TEdit;
-    lbl17: TLabel;
-    fedtMaxQtyOrder: TcxCurrencyEdit;
-    edtMaxQtyOrderUOM: TEdit;
-    lbl18: TLabel;
-    lbl19: TLabel;
-    lbl20: TLabel;
-    fedtStockOnOrder: TcxCurrencyEdit;
-    edtStockOnOrderUOM: TEdit;
-    fedtAverageSls: TcxCurrencyEdit;
-    edtAverageSlsUOM: TEdit;
-    edtSalesTaxCode: TEdit;
-    lbl21: TcxLabel;
-    lbl22: TcxLabel;
-    lbl23: TLabel;
-    lbl24: TLabel;
-    lbl25: TLabel;
-    lbl26: TLabel;
-    lbl27: TLabel;
-    edtCatalog: TEdit;
-    edtGroupCode: TEdit;
-    edtGroupName: TEdit;
-    edtSubGroupCode: TEdit;
-    edtSubGroupName: TEdit;
-    edtCategoryName: TEdit;
-    edtCategoryCode: TEdit;
-    edtMerchandName: TEdit;
-    edtMerchandCode: TEdit;
-    fedtCurrentStock: TcxCurrencyEdit;
-    edtCurrentStockUOM: TEdit;
-    lbl28: TLabel;
-    lbl29: TLabel;
-    edtPrimarySupplierCode: TEdit;
-    edtPrimarySupplierName: TEdit;
-    lbl30: TcxLabel;
-    lbl31: TLabel;
-    lbl32: TLabel;
-    lbl33: TLabel;
-    lbl34: TLabel;
-    intedtExpiredTime: TcxCurrencyEdit;
-    intedtDeliveryTime: TcxCurrencyEdit;
-    cbEnabledCN: TcxCheckBox;
-    jvcuredtPurchasingPrice: TcxCurrencyEdit;
-    edtPurchasingPriceUOM: TEdit;
-    lbl36: TLabel;
-    lbl37: TLabel;
-    lbl38: TLabel;
-    lbl39: TLabel;
-    jvcuredtSellingPrice: TcxCurrencyEdit;
-    edtSellingPriceUOM: TEdit;
-    lbl40: TLabel;
-    edtLastCOGSUOM: TEdit;
-    lbl41: TLabel;
-    jvcuredtLastCOGS: TcxCurrencyEdit;
-    fedtMargin: TcxCurrencyEdit;
-    lbl42: TLabel;
-    cbEnableDec: TcxCheckBox;
-    lbl43: TcxLabel;
-    lbl44: TcxLabel;
-    lbl45: TLabel;
-    jvcuredtDepositValue: TcxCurrencyEdit;
-    edtUser: TEdit;
-    lbl46: TLabel;
-    dtTgl: TcxDateEdit;
-    lbl50: TcxLabel;
-    cbTurunan: TcxCheckBox;
-    lbl51: TLabel;
+  TfrmProduct = class(TfrmMasterBrowse)
     actlst1: TActionList;
     actAddProduct: TAction;
     actEditProduct: TAction;
     actDeleteProduct: TAction;
     actRefreshProduct: TAction;
-    lbl52: TLabel;
-    edtLocation: TEdit;
-    edtBKP: TEdit;
-    Label1: TLabel;
-    jvcuredtLastCost: TcxCurrencyEdit;
-    lbl1: TLabel;
-    lbl53: TLabel;
     actValidateProduct: TAction;
-    lbl54: TLabel;
-    dt1: TcxDateEdit;
-    edt1: TEdit;
-    lblValid: TLabel;
-    cbIsTaxInclude: TcxCheckBox;
-    lbl55: TLabel;
-    edtPLUPurchase: TEdit;
-    Label2: TLabel;
-    cbIsDiskonGMC: TcxCheckBox;
-    cbIsDeposit: TcxCheckBox;
-    lbl35: TLabel;
-    fedtStockQty: TcxCurrencyEdit;
-    lbl56: TLabel;
-    edtStockUOM: TEdit;
-    fedtStockRp: TcxCurrencyEdit;
-    edtUOMLastCost: TEdit;
-    Label3: TLabel;
-    Label4: TLabel;
-    edSafetyStock: TcxCurrencyEdit;
-    edtSSUOM: TEdit;
-    lbl11: TLabel;
-    edtAuthorId: TEdit;
-    edtAuthorNm: TEdit;
-    edtPubsNm: TEdit;
-    edtPubsID: TEdit;
-    lbl12: TLabel;
-    chkBasicItem: TcxCheckBox;
     actProductSupplier: TAction;
     actUomConversion: TAction;
     actStockCard: TAction;
@@ -156,37 +36,153 @@ type
     cxStyle2: TcxStyle;
     cxStyle3: TcxStyle;
     cxStyle4: TcxStyle;
-    btnValidateProduct: TcxButton;
-    cbpProductCode: TcxButtonEdit;
+    tsProductInfo: TcxTabSheet;
     dxNavBarLeftSide: TdxNavBar;
     dxNavGroupSettingProduct: TdxNavBarGroup;
+    dxNavGroupOtherInfo: TdxNavBarGroup;
     dxNavItemUoMConvertion: TdxNavBarItem;
     dxNavItemProductSupplier: TdxNavBarItem;
     dxNavItemStockCard: TdxNavBarItem;
     dxNavItemHistoryPO: TdxNavBarItem;
-    dxNavGroupOtherInfo: TdxNavBarGroup;
     dxNavItemOtherInfo: TdxNavBarItem;
+    pnl1: TPanel;
+    lblCompanyCode: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    lbl9: TLabel;
+    lbl10: TLabel;
+    lbl17: TLabel;
+    lbl18: TLabel;
+    lbl19: TLabel;
+    lbl20: TLabel;
+    lbl23: TLabel;
+    lbl24: TLabel;
+    lbl25: TLabel;
+    lbl26: TLabel;
+    lbl27: TLabel;
+    lbl28: TLabel;
+    lbl29: TLabel;
+    lbl31: TLabel;
+    lbl32: TLabel;
+    lbl33: TLabel;
+    lbl34: TLabel;
+    lbl36: TLabel;
+    lbl37: TLabel;
+    lbl38: TLabel;
+    lbl39: TLabel;
+    lbl40: TLabel;
+    lbl41: TLabel;
+    lbl42: TLabel;
+    lbl45: TLabel;
+    lbl46: TLabel;
+    lbl51: TLabel;
+    lbl52: TLabel;
+    Label1: TLabel;
+    lbl1: TLabel;
+    lbl53: TLabel;
+    lbl54: TLabel;
+    lblValid: TLabel;
+    lbl55: TLabel;
+    Label2: TLabel;
+    lbl35: TLabel;
+    lbl56: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    lbl11: TLabel;
+    lbl12: TLabel;
+    lbl21: TcxLabel;
+    lbl22: TcxLabel;
+    lbl30: TcxLabel;
+    lbl43: TcxLabel;
+    lbl44: TcxLabel;
+    lbl50: TcxLabel;
+    edtProductName: TEdit;
+    edtShortName: TEdit;
+    edtBrandName: TEdit;
+    edtStock: TEdit;
+    edtProducttype: TEdit;
+    edtActive: TEdit;
+    edtUOMStockCode: TEdit;
+    edtUOMPurchaseCode: TEdit;
+    edtUOMStockName: TEdit;
+    edtUOMPurchaseName: TEdit;
+    edtOutlet: TEdit;
+    fedtMaxQtyOrder: TcxCurrencyEdit;
+    edtMaxQtyOrderUOM: TEdit;
+    fedtStockOnOrder: TcxCurrencyEdit;
+    edtStockOnOrderUOM: TEdit;
+    fedtAverageSls: TcxCurrencyEdit;
+    edtAverageSlsUOM: TEdit;
+    edtSalesTaxCode: TEdit;
+    edtCatalog: TEdit;
+    edtGroupCode: TEdit;
+    edtGroupName: TEdit;
+    edtSubGroupCode: TEdit;
+    edtSubGroupName: TEdit;
+    edtCategoryName: TEdit;
+    edtCategoryCode: TEdit;
+    edtMerchandName: TEdit;
+    edtMerchandCode: TEdit;
+    fedtCurrentStock: TcxCurrencyEdit;
+    edtCurrentStockUOM: TEdit;
+    edtPrimarySupplierCode: TEdit;
+    edtPrimarySupplierName: TEdit;
+    intedtExpiredTime: TcxCurrencyEdit;
+    intedtDeliveryTime: TcxCurrencyEdit;
+    cbEnabledCN: TcxCheckBox;
+    jvcuredtPurchasingPrice: TcxCurrencyEdit;
+    edtPurchasingPriceUOM: TEdit;
+    jvcuredtSellingPrice: TcxCurrencyEdit;
+    edtSellingPriceUOM: TEdit;
+    edtLastCOGSUOM: TEdit;
+    jvcuredtLastCOGS: TcxCurrencyEdit;
+    fedtMargin: TcxCurrencyEdit;
+    cbEnableDec: TcxCheckBox;
+    jvcuredtDepositValue: TcxCurrencyEdit;
+    edtUser: TEdit;
+    dtTgl: TcxDateEdit;
+    cbTurunan: TcxCheckBox;
+    edtLocation: TEdit;
+    edtBKP: TEdit;
+    jvcuredtLastCost: TcxCurrencyEdit;
+    dt1: TcxDateEdit;
+    edt1: TEdit;
+    cbIsTaxInclude: TcxCheckBox;
+    edtPLUPurchase: TEdit;
+    cbIsDiskonGMC: TcxCheckBox;
+    cbIsDeposit: TcxCheckBox;
+    fedtStockQty: TcxCurrencyEdit;
+    edtStockUOM: TEdit;
+    fedtStockRp: TcxCurrencyEdit;
+    edtUOMLastCost: TEdit;
+    edSafetyStock: TcxCurrencyEdit;
+    edtSSUOM: TEdit;
+    edtAuthorId: TEdit;
+    edtAuthorNm: TEdit;
+    edtPubsNm: TEdit;
+    edtPubsID: TEdit;
+    chkBasicItem: TcxCheckBox;
+    btnValidateProduct: TcxButton;
+    cbpProductCode: TcxButtonEdit;
     cbpCompCode: TcxExtLookupComboBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure actAddProductExecute(Sender: TObject);
-    procedure actEditProductExecute(Sender: TObject);
-    procedure actDeleteProductExecute(Sender: TObject);
     procedure actRefreshProductExecute(Sender: TObject);
     procedure cbpProductCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure cbpProductCodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure actValidateProductExecute(Sender: TObject);
     procedure cbpProductCodeEnter(Sender: TObject);
     procedure cbpProductCodeExit(Sender: TObject);
     procedure fraFooter5Button1btnCloseClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormResize(Sender: TObject);
     procedure actProductSupplierExecute(Sender: TObject);
     procedure actStockCardExecute(Sender: TObject);
     procedure actHistoryPoExecute(Sender: TObject);
@@ -198,7 +194,6 @@ type
     procedure cbpProductCodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
   private
-
     FnewBArang : Integer;
     function ParseProduct(AProductCode: string): Boolean;
     procedure ClearForm;
@@ -211,7 +206,6 @@ type
     procedure ShowFormProductSupplier();
     procedure ShowHistoriPOByProduct;
     procedure ShowFormProductTurunan();
-   // procedure ShowFormSearchProduct();
     procedure ClearFrameOpened();
     procedure GetStockUOMRP();
     procedure SetLeftWidthSP;
@@ -241,7 +235,6 @@ procedure TfrmProduct.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   ClearFrameOpened;
-//  frmMain.DestroyMenu((sender as TForm));
   Action := caFree;
 end;
 
@@ -249,14 +242,6 @@ procedure TfrmProduct.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'PRODUCT MASTER';
-//  FnewBArang        := TNewBarang.Create(Self);
-end;
-
-procedure TfrmProduct.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  frmProduct := nil;
-  FreeAndNil(FnewBArang);
 end;
 
 procedure TfrmProduct.GetStockUOMRP;
@@ -491,154 +476,57 @@ end;
 
 procedure TfrmProduct.ShowFormBonusProduct;
 begin
-  if edtProductName.Text='' then Exit;
-  ClearFrameOpened;
-  //OpenLoading(FORM_LOADING);
-  SetActiveFooter5Button(false);
-
   if not assigned(fraBonusProduct) then
     fraBonusProduct := TfraBonusProduct.Create(Application);
 
-//  fraFooter5Button1.btnClose.Cancel := False;
-  fraBonusProduct.Height            := 290;
-  fraBonusProduct.Parent            := pnlBody;
-  fraBonusProduct.Align             := alBottom;
-  fraBonusProduct.ProductCode       := cbpProductCode.Text;
-  fraBonusProduct.UntID             := 1;
-  fraBonusProduct.OP_ID             := FLoginId;
-
-//  fraBonusProduct.ShowBonusProduct(cbpProductCode.Text,MasterNewUnit.ID);
-
-  fraBonusProduct.SetFocus;
 end;
 
 procedure TfrmProduct.ShowFormAlokasiStock;
 begin
-  if edtProductName.Text='' then Exit;
-  ClearFrameOpened;
-  //OpenLoading(FORM_LOADING);
-  SetActiveFooter5Button(false);
-
   if not assigned(fraAlokasiStock) then
     fraAlokasiStock := TfraAlokasiStock.Create(Application);
 
-//  fraFooter5Button1.btnClose.Cancel := False;
-  fraAlokasiStock.Height            := 290;
-  fraAlokasiStock.Parent            := pnlBody;
-  fraAlokasiStock.Align             := alBottom;
-  fraAlokasiStock.ProductCode       := cbpProductCode.Text;
-  fraAlokasiStock.ShowAlokasiStock(cbpProductCode.Text);
-//  CloseLoading;
 end;
 
 procedure TfrmProduct.ShowFormSellingPrice;
 begin
-  if edtProductName.Text='' then Exit;
-  SetActiveFooter5Button(false);
-
   if not assigned(fraSellingPrice) then
     fraSellingPrice := TfraSellingPrice.Create(Application);
-
-//  fraFooter5Button1.btnClose.Cancel := False;
   fraSellingPrice.Height            := aHeightSP;
   fraSellingPrice.Parent            := pnlBody;
-//  fraSellingPrice.FSelfUnitId       := MasterNewUnit.ID;
   fraSellingPrice.FTpApp            := FTipeApp;
-
-
-  if (assigned(fraProductSupplier)) and (fraProductSupplier.Parent <> nil)  then
-  begin
-    SetXYSP;
-  end
+  if (assigned(fraProductSupplier)) and (fraProductSupplier.Parent <> nil) then
+    SetXYSP
   else
-  begin
     fraSellingPrice.Align             := alBottom;
-  end;
-
-  fraSellingPrice.ProductCode       := cbpProductCode.Text;
-  fraSellingPrice.LastCOGS          := jvcuredtLastCOGS.Value;
-  fraSellingPrice.ShowSellingPrice(cbpProductCode.Text);
 end;
 
 procedure TfrmProduct.ShowFormUOMConversion;
 begin
-
-  if edtProductName.Text = '' then Exit;
-
   SetActiveFooter5Button(false);
   if not assigned(fraUOMConvertion) then
     fraUOMConvertion := TfraUOMConvertion.Create(Application);
-
-//  fraFooter5Button1.btnClose.Cancel := False;
-
-//  fraUOMConvertion.FSelfUnitId      := MasterNewUnit.ID;
-  fraUOMConvertion.Height           := 290;
-  fraUOMConvertion.Parent           := pnlBody;
-  fraUOMConvertion.Align            := alBottom;
-  fraUOMConvertion.pnlAddEdit.Visible := false;
-  fraUOMConvertion.ProductCode        := cbpProductCode.Text;
-  fraUOMConvertion.ShowUOMConvertion(edtUOMStockCode.Text);
-
 
 end;
 
 procedure TfrmProduct.ShowFormStockCard;
 begin
-  if edtProductName.Text='' then Exit;
-  ClearFrameOpened;
-  //OpenLoading(FORM_LOADING);
-  SetActiveFooter5Button(false);
-
   if not assigned(fraStockCard) then
     fraStockCard := TfraStockCard.Create(Application);
-
-//  fraFooter5Button1.btnClose.Cancel := False;
-  fraStockCard.FSelfUsername          := FLoginUsername;
-  fraStockCard.fselfFullname          := FLoginFullname;
-//  fraStockCard.FSelfUnitId          := MasterNewUnit.ID;
-  fraStockCard.Parent               := pnlBody;
-  fraStockCard.Align                := alBottom;
-  fraStockCard.ProductCode          := cbpProductCode.Text;
-  fraStockCard.ShowStockCard(cbpProductCode.Text);
 end;
 
 procedure TfrmProduct.ShowFormProductSupplier;
 begin
-  if edtProductName.Text='' then Exit;
-  SetActiveFooter5Button(false);
   if not assigned(fraProductSupplier) then
     fraProductSupplier := TfraProductSupplier.Create(Application);
 
-//  fraFooter5Button1.btnClose.Cancel := False;
-//  fraProductSupplier.FSelfUnitID        := MasterNewUnit.ID;
-  fraProductSupplier.FSelfIsStore       := FMasterIsStore;
-  fraProductSupplier.Height         := 293;
-  fraProductSupplier.Parent         := pnlBody;
-
-  if (assigned(fraSellingPrice)) and (fraSellingPrice.Parent <> nil) then
-    SetXYSP;
-
-  fraProductSupplier.Align          := alBottom;
-  fraProductSupplier.ProductCode    := cbpProductCode.Text;
-  fraProductSupplier.ShowProductSupplier(cbpProductCode.Text);
 end;
 
 procedure TfrmProduct.ShowHistoriPOByProduct;
 begin
-  if edtProductName.Text='' then Exit;
-  ClearFrameOpened;
-  SetActiveFooter5Button(false);
-
   if not assigned(fraHistoriPOByProduct) then
     fraHistoriPOByProduct := TfraHistoriPOByProduct.Create(Application);
 
-//  fraFooter5Button1.btnClose.Cancel := False;
-  fraHistoriPOByProduct.Height      := 240;
-  fraHistoriPOByProduct.Parent      := pnlBody;
-  fraHistoriPOByProduct.Align       := alBottom;
-  fraHistoriPOByProduct.ProductCode := cbpProductCode.Text;
-  fraHistoriPOByProduct.ShowPOByProduct;
-  fraHistoriPOByProduct.FromMode    := fmProduct;
 end;
 
 procedure TfrmProduct.actAddProductExecute(Sender: TObject);
@@ -646,105 +534,6 @@ begin
   if not assigned(frmDialogProduct) then
     frmDialogProduct := TfrmDialogProduct.Create(Application);
   frmDialogProduct.ShowModal;
-//  with frmDialogProduct do
-//  begin
-//    try
-//      fraFooter5Button1.btnClose.Cancel           := True;
-//      Caption := 'Add Product';
-//      FormMode                   := fmAdd;
-//      SetFormPropertyAndShowDialog(frmDialogProduct);
-//      if (IsProcessSuccessfull) then
-//      begin
-//        cbpProductCode.Text := edtProductCode.Text;
-//        actRefreshProductExecute(nil);
-//        CommonDlg.ShowConfirm(atAdd);
-//      end;
-//    finally
-//      free;
-//    end;
-//  end;
-
-end;
-
-procedure TfrmProduct.actEditProductExecute(Sender: TObject);
-begin
-  if edtProductName.Text='' then Exit;
-//  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError('UNIT BELUM DIPILIH');
-    Exit;
-  end;
-
-  if SpecialKey.ChekFrameAdded then
-  begin
-    SpecialKey.ExecuteLabelOnFrame('lblEdit');
-    Exit;
-  end;
-
-  if not assigned(frmDialogProduct) then
-    frmDialogProduct := TfrmDialogProduct.Create(Application);
-
-//  with frmDialogProduct do
-//  begin
-//    try
-//      fraFooter5Button1.btnClose.Cancel           := True;
-//      Caption := 'Edit Product';
-//      FormMode                   := fmEdit;
-//      ProductId                  := cbpProductCode.Text;
-//      SetFormPropertyAndShowDialog(frmDialogProduct);
-//      if (IsProcessSuccessfull) then
-//      begin
-//        cbpProductCode.Text := edtProductCode.Text;
-//        actRefreshProductExecute(nil);
-//        CommonDlg.ShowConfirm(atEdit);
-//      end;
-//    finally
-//      free;
-//    end;
-//  end;
-
-
-end;
-
-procedure TfrmProduct.actDeleteProductExecute(Sender: TObject);
-var
-  strErr: string;
-begin
-  if SpecialKey.ChekFrameAdded then
-  begin
-    SpecialKey.ExecuteLabelOnFrame('lblDelete');
-    Exit;
-  end;
-
-  if edtProductName.Text='' then Exit;
-  {if (CommonDlg.Confirm('Are you sure want to delete product (Product Code: '+cbpProductCode.Text+')?') = mrYes) then
-  begin
-    if FnewBArang.LoadByKode(cbpProductCode.Text) then
-    begin
-      try
-        FnewBArang.RemoveFromDB;
-        cCommitTrans;
-        CommonDlg.ShowMessage('berhasil menghapus data');
-        ClearByTag(Self,[0]);
-        cbpProductCode.Text := '';
-        actRefreshProductExecute(nil);
-      except
-        on E: EIBError do
-        begin
-          strErr := GetForeignTable(e.Message);
-          if strErr <> '' then
-            CommonDlg.ShowError(strErr)
-          else
-            CommonDlg.ShowError(e.Message);
-        end;
-      end;
-    end
-    else
-    begin
-      CommonDlg.ShowMessage('Tidak menemukan data product tersebut');
-    end;
-  end;
-   }
 end;
 
 procedure TfrmProduct.actRefreshProductExecute(Sender: TObject);
@@ -754,19 +543,8 @@ end;
 
 procedure TfrmProduct.ShowFormProductTurunan;
 begin
-  if edtProductName.Text='' then Exit;
-  ClearFrameOpened;
-  SetActiveFooter5Button(false);
   if not assigned(fraProductTurunan) then
     fraProductTurunan := TfraProductTurunan.Create(Application);
-
-//  fraFooter5Button1.btnClose.Cancel := False;
-  fraProductTurunan.Parent          := Self;
-  fraProductTurunan.Height          := 290;
-  fraProductTurunan.Parent          := pnlBody;
-  fraProductTurunan.Align           := alBottom;
-  fraProductTurunan.ProductCode     := cbpProductCode.Text;
-  fraProductTurunan.ShowProductTurunan(cbpProductCode.Text);
 end;
 
 procedure TfrmProduct.cbpProductCodeKeyUp(Sender: TObject; var Key: Word;
@@ -888,66 +666,12 @@ begin
 
 end;
 
-procedure TfrmProduct.FormShow(Sender: TObject);
-begin
-  inherited;
-  cbTurunan.Enabled:= False;
-  cbIsTaxInclude.Enabled:= False;
-  cbEnabledCN.Enabled:= False;
-  cbEnableDec.Enabled:= False;
-  cbIsDiskonGMC.Enabled := False;
-  cbIsDeposit.Enabled := False;
-  chkBasicItem.Enabled := False;
-  ClearForm;
-  ParseCompanyCode;
-  cbpProductCode.Text := '';
-
-  if not assigned(SpecialKey) then
-    SpecialKey := TSpecialKey.Create;
-
-  SetLabel;
-
-end;
-
-procedure TfrmProduct.FormActivate(Sender: TObject);
-begin
-  inherited;
-//  fraFooter5Button1.btnClose.Cancel:= False;
-end;
-
 procedure TfrmProduct.cbpProductCodeKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
   if(ssctrl in Shift)and(Key=VK_DELETE)then
     Key:= VK_NONAME;
-end;
-
-procedure TfrmProduct.actValidateProductExecute(Sender: TObject);
-begin
-//  if MasterNewUnit.ID=0 then
-  begin
-    CommonDlg.ShowError('UNIT BELUM DIPILIH');
-    Exit;
-  end;
-  {
-  with TNewBarang.Create(Self) do
-  begin
-    try
-      if ValidateBarang(cbpProductCode.Text)  then
-      begin
-        cCommitTrans;
-        ParseProduct(cbpProductCode.Text);
-      end
-      else
-        cRollbackTrans;
-
-    finally
-      cRollbackTrans;
-      Free;
-    end;
-  end; }
-
 end;
 
 procedure TfrmProduct.ClearFrameOpened;
@@ -982,14 +706,6 @@ end;
 
 procedure TfrmProduct.SetActiveFooter5Button(AIsActive: boolean);
 begin
-  {with fraFooter5Button1 do
-  begin
-    actAddProduct.Enabled := AIsActive;
-    actEditProduct.Enabled := AIsActive;
-    actDeleteProduct.Enabled := AIsActive;
-    actRefreshProduct.Enabled := AIsActive;
-    btnClose.Enabled := AIsActive;
-  end;     }
   SetLabel;
 end;
 
@@ -1000,14 +716,11 @@ begin
   begin
     cbpProductCode.Text := TAppUtils.StrPadLeft(cbpProductCode.Text,igProd_Code_Length,'0');
   end;
-
 end;
 
 procedure TfrmProduct.fraFooter5Button1btnCloseClick(Sender: TObject);
 begin
-  //inherited;
   Self.Close;
-  //fraFooter5Button1.btnCloseClick(Sender);
 end;
 
 procedure TfrmProduct.FormKeyDown(Sender: TObject; var Key: Word;
@@ -1091,8 +804,8 @@ begin
 
   if (Key = Ord('V')) and (ssCtrl in shift) then
   begin
-    if actValidateProduct.Enabled then
-    actValidateProductExecute(Self);
+//    if actValidateProduct.Enabled then
+//    actValidateProductExecute(Self);
   end;
 
   if (Key = VK_F1) and (ssctrl in Shift) then
@@ -1135,18 +848,7 @@ end;
 
 procedure TfrmProduct.SetLabel;
 begin
-  if FLoginIsStore=1 then //FMasterIsStore=1 then
-  {fraFooter5Button1.lbl1.Enabled := False
-  else
-  fraFooter5Button1.lbl1.Enabled := True;
 
-  fraFooter5Button1.lbl2.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.lbl3.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.lbl4.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.btnAdd.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.btnUpdate.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.btnDelete.Enabled := fraFooter5Button1.lbl1.Enabled;
-  }
 end;
 
 procedure TfrmProduct.SetXYSP;
@@ -1165,18 +867,6 @@ begin
   fraSellingPrice.Top       := fraProductSupplier.Top - aMaxHeight;
   fraSellingPrice.Left    := fraProductSupplier.Left;
   fraSellingPrice.Width   := fraProductSupplier.Width;
-end;
-
-procedure TfrmProduct.FormResize(Sender: TObject);
-begin
-  inherited;
-  if (assigned(fraSellingPrice)) and (assigned(fraProductSupplier)) then
-  begin
-    if (fraSellingPrice.Parent <> nil) and (fraProductSupplier.Parent <> nil) then
-    begin
-      SetLeftWidthSP;
-    end;
-  end;
 end;
 
 procedure TfrmProduct.actProductSupplierExecute(Sender: TObject);
