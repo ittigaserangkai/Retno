@@ -12,7 +12,6 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   inherited pnlBody: TPanel
     Width = 710
     Height = 365
-    ExplicitTop = 33
     ExplicitWidth = 710
     ExplicitHeight = 309
     inherited pgcBrowse: TcxPageControl
@@ -181,7 +180,6 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       ExplicitWidth = 710
       inherited lbEscape: TLabel
         Left = 636
-        Height = 17
         ExplicitLeft = 636
       end
     end

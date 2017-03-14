@@ -35,7 +35,7 @@ const
   ER_DO_BONUS = 'Gagal Simpan DO Bonus';
   ER_SHIFT_NOT_FOUND = 'Shift name not found.';
   ER_TRANSACT_NOT_FOUND = 'Transaction number not found.';
-  ER_FAILED_INSERT_PO_ASSGROS = 'Input PO from trader failed.';
+  ER_FAILED_INSERT_PO_TRADER = 'Input PO from trader failed.';
   ER_UNIT_NOT_SPECIFIC = 'Unit Belum Dipilih';
   ER_COMPANY_NOT_SPECIFIC = 'Company Belum Dipilih';
   ER_UNIT_OR_COMPANY_NOT_SPECIFIC = 'Company Atau Unit Belum Dipilih';
@@ -73,11 +73,13 @@ const
   IMPORT_SYNC_ERROR = 'Synchronizing is done with error.';
   ACTIVATE_POS_SUCCESSFULLY = 'POS Activated successfully.';
   PRODUCT_NOT_FOUND = 'Product not found.';
-  PRINT_DO_FOR_ASSGROS_SUCCESSFULLY = 'DO For Assgrss printed successfully.';
+  PRINT_DO_FOR_TRADER_SUCCESSFULLY = 'DO For Trader printed successfully.';
   PO_APPROVED_SUCCESSFULLY = 'PO approved successfully';
   PO_CHANGED_SUCCESSFULLY = 'PO changed successfully';
   PO_CANCELLED_SUCCESSFULLY = 'PO canceled successfully';
   CONF_VALIDATE_FOR_SAVE = 'Anda yakin data sudah sesuai ?';
+  CONF_VALIDATE_FOR_CLOSE = 'Anda yakin menutup form ini ?';
+  CONF_VALIDATE_FOR_DELETE = 'Anda yakin menghapus data ini ?';
 
   // db
   DEBUG_MODE_ON = true;

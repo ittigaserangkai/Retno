@@ -76,7 +76,7 @@ type
     btnShow: TcxButton;
     bStop: TcxButton;
     btnTesting: TcxButton;
-    btn1: TcxButton;
+    btnAddOthersProdSO: TcxButton;
     btnToExcel: TcxButton;
     btnAddFromPOTrader: TcxButton;
     pmPMGrid: TPopupMenu;
@@ -106,7 +106,6 @@ type
     procedure FormActivate(Sender: TObject);
     procedure actAddOthersProdSOExecute(Sender: TObject);
     procedure actAddPOTraderExecute(Sender: TObject);
-    procedure btnAddFromPOAssgrossClick(Sender: TObject);
     procedure btnShowClick(Sender: TObject);
     procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
@@ -141,6 +140,9 @@ type
     procedure pmiValFromPSLClick(Sender: TObject);
     procedure pmiValToZeroClick(Sender: TObject);
     procedure actToExcelExecute(Sender: TObject);
+    procedure btnAddOthersProdSOClick(Sender: TObject);
+    procedure btnAddFromPOTraderClick(Sender: TObject);
+    procedure btnToExcelClick(Sender: TObject);
   private
     isAdaData: Boolean;
     isAfterPOTrader: Boolean;
@@ -753,12 +755,6 @@ begin
 //    StrgGrid.AddCheckBox(_kolStatus,StrgGrid.RowCount-1,True,True);
 //    StrgGrid.Row := getBarisKosong;
   end;
-end;
-
-procedure TfrmCreateSO.btnAddFromPOAssgrossClick(Sender: TObject);
-begin
-  inherited;
-  actAddPOTraderExecute(Self);
 end;
 
 procedure TfrmCreateSO.btnShowClick(Sender: TObject);
@@ -2279,6 +2275,24 @@ procedure TfrmCreateSO.actToExcelExecute(Sender: TObject);
 begin
   inherited;
 //  SaveDataGrid2Excel(StrgGrid);
+end;
+
+procedure TfrmCreateSO.btnAddOthersProdSOClick(Sender: TObject);
+begin
+  inherited;
+  actAddOthersProdSOExecute(Sender);
+end;
+
+procedure TfrmCreateSO.btnAddFromPOTraderClick(Sender: TObject);
+begin
+  inherited;
+  actAddPOTraderExecute(Sender);
+end;
+
+procedure TfrmCreateSO.btnToExcelClick(Sender: TObject);
+begin
+  inherited;
+  actToExcelExecute(Sender);
 end;
 
 end.

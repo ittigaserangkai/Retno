@@ -6,9 +6,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ExtCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
-  cxCurrencyEdit, Vcl.StdCtrls, cxTextEdit, cxMaskEdit,
-  cxDropDownEdit, cxCalendar, ufraFooterDialog3Button, DB, AdvCombo, ColCombo,
-  System.Actions, Vcl.ActnList;
+  cxCurrencyEdit, Vcl.StdCtrls, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, ufraFooterDialog3Button, DB, System.Actions, Vcl.ActnList,
+  AdvCombo, ColCombo;
 
 type
   TFormMode = (fmAdd, fmEdit);
