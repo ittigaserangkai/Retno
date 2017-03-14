@@ -87,8 +87,8 @@ type
     actAdjustmentCashback: TAction;
     actExportSync: TAction;
     actImportSync: TAction;
-    actPOFromAsgross: TAction;
-    actAssgros: TAction;
+    actPOFromTrader: TAction;
+    actTrader: TAction;
     actDOForAsgross: TAction;
     actMemberShip: TAction;
     actMemberActivation: TAction;
@@ -128,7 +128,7 @@ type
     actSupplier: TAction;
     actHistoryPO: TAction;
     actListingReceivingProduct: TAction;
-    actListOutstandingDOAssgros: TAction;
+    actListOutstandingDOTrader: TAction;
     actAdjustmentProduct: TAction;
     actListCNMerchandisePerSuplier: TAction;
     actListPODOReceive: TAction;

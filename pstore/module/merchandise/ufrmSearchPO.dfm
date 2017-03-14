@@ -20,6 +20,9 @@ inherited frmDialogSearchPO: TfrmDialogSearchPO
       Width = 640
       Height = 219
       TabOrder = 2
+      ExplicitTop = 89
+      ExplicitWidth = 640
+      ExplicitHeight = 219
       inherited cxGridView: TcxGridDBTableView
         object cxGridViewColumn1: TcxGridDBColumn
           Caption = 'Division Name'
@@ -216,12 +219,12 @@ inherited frmDialogSearchPO: TfrmDialogSearchPO
       Width = 644
       ExplicitWidth = 644
       inherited btnClose: TcxButton
-        Left = 562
+        Left = 567
         TabOrder = 1
-        ExplicitLeft = 562
+        ExplicitLeft = 567
       end
       inherited btnSave: TcxButton
-        Left = 453
+        Left = 464
         Action = actSave
         Caption = 'Select'
         OptionsImage.Glyph.Data = {
@@ -277,7 +280,7 @@ inherited frmDialogSearchPO: TfrmDialogSearchPO
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFF}
         TabOrder = 0
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 453
+        ExplicitLeft = 464
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -286,19 +289,24 @@ inherited frmDialogSearchPO: TfrmDialogSearchPO
     inherited pnlSortCut: TPanel
       Width = 644
       ExplicitWidth = 644
-      inherited lbl4: TLabel
-        Left = 445
+      inherited lbCTRLEnter: TLabel
+        Left = 463
         Width = 98
+        Height = 15
         Caption = 'Ctrl - Enter [Select]'
-        ExplicitLeft = 447
+        ExplicitLeft = 463
         ExplicitWidth = 98
       end
-      inherited lbl5: TLabel
-        Left = 554
+      inherited lbEscape: TLabel
+        Left = 567
         Width = 72
+        Height = 15
         Caption = 'Escape [Close]'
-        ExplicitLeft = 556
+        ExplicitLeft = 567
         ExplicitWidth = 72
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
     end
   end

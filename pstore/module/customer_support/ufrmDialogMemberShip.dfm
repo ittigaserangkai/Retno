@@ -332,25 +332,34 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
       Width = 742
       ExplicitWidth = 742
       inherited btnClose: TcxButton
-        Left = 660
-        ExplicitLeft = 660
+        Left = 665
+        ExplicitLeft = 665
       end
       inherited btnSave: TcxButton
-        Left = 573
+        Left = 562
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 573
+        ExplicitLeft = 562
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 742
       ExplicitWidth = 742
-      inherited lbl4: TLabel
-        Left = 546
-        ExplicitLeft = 548
+      inherited lbCTRLEnter: TLabel
+        Left = 567
+        Height = 15
+        ExplicitLeft = 567
       end
-      inherited lbl5: TLabel
-        Left = 645
-        ExplicitLeft = 647
+      inherited lbEscape: TLabel
+        Left = 658
+        Height = 15
+        ExplicitLeft = 658
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
     end
   end

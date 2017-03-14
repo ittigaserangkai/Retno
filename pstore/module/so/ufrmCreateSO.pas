@@ -14,7 +14,7 @@ uses
   Vcl.Menus, Vcl.ActnList, Vcl.Grids, cxDBExtLookupComboBox;
 
 type
-  TThreadSOType = (tpCreateSO,tpSearchSO,tpAddPOAssgros,tpAvgSales);
+  TThreadSOType = (tpCreateSO,tpSearchSO,tpAddPOTrader,tpAvgSales);
   TfrmCreateSO = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
     pnlTop: TPanel;
@@ -31,7 +31,7 @@ type
     pnl1: TPanel;
     lbl4: TLabel;
     actAddOthersProdSO: TAction;
-    actAddPOAssgross: TAction;
+    actAddPOTrader: TAction;
     Button1: TButton;
     Button2: TButton;
     Edit1: TEdit;
@@ -78,7 +78,7 @@ type
     btnTesting: TcxButton;
     btn1: TcxButton;
     btnToExcel: TcxButton;
-    btnAddFromPOAssgross: TcxButton;
+    btnAddFromPOTrader: TcxButton;
     pmPMGrid: TPopupMenu;
     pmiHapusItem: TMenuItem;
     pmiHapusSemua: TMenuItem;
@@ -105,7 +105,7 @@ type
     procedure cbbSoForChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure actAddOthersProdSOExecute(Sender: TObject);
-    procedure actAddPOAssgrossExecute(Sender: TObject);
+    procedure actAddPOTraderExecute(Sender: TObject);
     procedure btnAddFromPOAssgrossClick(Sender: TObject);
     procedure btnShowClick(Sender: TObject);
     procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
@@ -143,7 +143,7 @@ type
     procedure actToExcelExecute(Sender: TObject);
   private
     isAdaData: Boolean;
-    isAfterPOAssGros: Boolean;
+    isAfterPOTrader: Boolean;
     DataCmbStrG: TDataSet;
     ThreadType: TThreadSOType;
 //    FBarang : TNewBarang;
@@ -725,10 +725,10 @@ begin
     }
 end;
 
-procedure TfrmCreateSO.actAddPOAssgrossExecute(Sender: TObject);
+procedure TfrmCreateSO.actAddPOTraderExecute(Sender: TObject);
 begin
   inherited;
-  if isAfterPOAssGros then
+  if isAfterPOTrader then
     Exit;
   if cbbMerchanGroup.ItemIndex=0 then
   begin
@@ -736,7 +736,7 @@ begin
     cbbMerchanGroup.SetFocus;
     Exit;
   end;
-  ThreadType:= tpAddPOAssgros;
+  ThreadType:= tpAddPOTrader;
   if not assigned(frmSplash) then
     frmSplash := TfrmSplash.Create(Application);
   frmSplash.Show;
@@ -758,7 +758,7 @@ end;
 procedure TfrmCreateSO.btnAddFromPOAssgrossClick(Sender: TObject);
 begin
   inherited;
-  actAddPOAssgrossExecute(Self);
+  actAddPOTraderExecute(Self);
 end;
 
 procedure TfrmCreateSO.btnShowClick(Sender: TObject);

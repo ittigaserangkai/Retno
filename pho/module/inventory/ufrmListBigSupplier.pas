@@ -4,33 +4,39 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter5Button, Grids, BaseGrid, AdvGrid, Mask,
-  JvToolEdit, SUIButton, StdCtrls, ExtCtrls, ActnList, cbxbase, dblup1a, uConn,
-  uRMSUnit, FR_Class, Math, AdvObj, JvExMask;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ActnList,
+  uRetnoUnit, Math, System.Actions,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, cxButtons,
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
+  cxTextEdit, cxMaskEdit, cxCalendar, dxBarBuiltInMenu, cxStyles, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
+  ufraFooter4Button, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
 
 type
-  TfrmListBigSupplier = class(TfrmMaster)
+  TfrmListBigSupplier = class(TfrmMasterBrowse)
     pnlTop: TPanel;
     lbl3: TLabel;
     lbl4: TLabel;
-    btnShow: TsuiButton;
-    dtTglFrom: TJvDateEdit;
+    dtTglFrom: TcxDateEdit;
     edtGroupName: TEdit;
-    pnlContent: TPanel;
-    strgGrid: TAdvStringGrid;
-    fraFooter5Button1: TfraFooter5Button;
-    actlst1: TActionList;
-    actPrintBigSupplier: TAction;
-    cbpGroup: TColumnComboBox;
-    dtTglTo: TJvDateEdit;
+    cbpGroup: TcxExtLookupComboBox;
+    dtTglTo: TcxDateEdit;
     lbl5: TLabel;
-    actRefreshPrintBigSupplier: TAction;
     chkContrabon: TCheckBox;
-    bCetak: TsuiButton;
+    btnShow: TcxButton;
+    btnCetak: TcxButton;
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure actPrintBigSupplierExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbpGroupKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -38,13 +44,8 @@ type
     procedure btnShowClick(Sender: TObject);
     procedure dtTglFromKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure actRefreshPrintBigSupplierExecute(Sender: TObject);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
     procedure strgGridGetFloatFormat(Sender: TObject; ACol, ARow: Integer;
       var IsFloat: Boolean; var FloatFormat: String);
-    procedure btnShowEnter(Sender: TObject);
-    procedure btnShowExit(Sender: TObject);
     procedure dtTglFromChange(Sender: TObject);
     procedure dtTglToChange(Sender: TObject);
     procedure cbpGroupChange(Sender: TObject);
@@ -53,8 +54,7 @@ type
     procedure strgGridMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure strgGridClickCell(Sender: TObject; ARow, ACol: Integer);
-    procedure fraFooter5Button1btnCloseClick(Sender: TObject);
-    procedure bCetakClick(Sender: TObject);
+    procedure btnCetakClick(Sender: TObject);
   private
     { Private declarations }
     FSumSales,
@@ -63,7 +63,7 @@ type
 //    dataSalesAnalys: TResultDataSet;
     iax: Integer;
     procedure GetData;
-    procedure LoadDropDownData(ACombo: TColumnComboBox; sSQL: String);
+    procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; sSQL: String);
     procedure ParseGridData;
     procedure ParseHeaderGrid();
     function getDataSalesAnalys: string;
@@ -87,8 +87,7 @@ var
 
 implementation
 
-uses uPrintSalesAnalys, udmReport, ufrmMain, ufrmDialogPrintPreview,
-  udmReportNew, StrUtils, DB, suithemes, uGTSUICommonDlg, DateUtils;
+uses StrUtils, uTSCommonDlg, DateUtils, uAppUtils;
 
 const
     _Kol_GROUPCode          : Integer = 0;
@@ -141,32 +140,18 @@ begin
   frmListBigSupplier := nil;
 end;
 
-procedure TfrmListBigSupplier.actPrintBigSupplierExecute(Sender: TObject);
+procedure TfrmListBigSupplier.actPrintExecute(Sender: TObject);
 var
-//  ParamList: TStringList;
   SS: TStrings;
   i: Integer;
   iGetTick: Integer;
   sSQL: string;
-//    ReportDataset: TResultDataSet;
-//    PathOfFile: String;
 begin
   inherited;
-//  if not FisListingOK then
-//  begin
-//      CommonDlg.ShowError('Listing belum terupdate');
-//      Exit;
-//  end;
-//  if not FisListingOK then
-//    if not getSumSales(FSumSalesLast, FSumSales) then
-//    begin
-//        CommonDlg.ShowError('Gagal mengambil data Total Sales');
-//        Exit;
-//    end;
 
   iGetTick  := GetTickCount;
   SS        :=TStringList.Create;
-
+  {
   try
     for i := strgGrid.FixedRows to strgGrid.RowCount - iax do
     begin
@@ -182,8 +167,6 @@ begin
             + Quot(strgGrid.Cells[_kolMerNm, i]) + ', '
             + strgGrid.Cells[_Kol_SALES, i] + ', '
             + strgGrid.Cells[_Kol_TOTALSALES, i] + ', '
-//            + strgGrid.Cells[_Kol_COGS, i] + ', '
-//            + strgGrid.Cells[_Kol_GC, i] + ', '
             + strgGrid.Cells[_Kol_Profit, i] + ', '
             + strgGrid.Cells[_Kol_GP, i] + ', '
             + strgGrid.Cells[_kol_SL, i] + ', '
@@ -236,8 +219,6 @@ begin
 
       frVariables.Variable['dtTglFrom']    := dtTglFrom.Date;
       frVariables.Variable['dtTglTo']      := dtTglTo.Date;
-    //  frVariables.Variable['sumsales']     := FSumSales;
-    //  frVariables.Variable['sumsaleslast'] := FSumSalesLast;
       frVariables.Variable['loginname']    := FLoginFullname;
       frVariables.Variable['unitname']     := MasterNewUnit.Nama;
 
@@ -250,48 +231,54 @@ begin
     cExDelTmpLaporan(iGetTick, FLoginId);
     cCommitTrans;
   end;
-
+  }
 end;
 
-procedure TfrmListBigSupplier.LoadDropDownData(ACombo: TColumnComboBox; sSQL:
+procedure TfrmListBigSupplier.actRefreshExecute(Sender: TObject);
+begin
+  inherited;
+  LoadDropDownData(cbpGroup, GetListGrup());
+end;
+
+procedure TfrmListBigSupplier.LoadDropDownData(ACombo: TcxExtLookupComboBox; sSQL:
     String);
 begin
   {Flush the old data}
-  ACombo.ClearGridData;
+//  ACombo.ClearGridData;
 
   {Make sure the allocated storage is big enough}
-  ACombo.RowCount := 5;
-  ACombo.ColCount := 2;
+//  ACombo.RowCount := 5;
+//  ACombo.ColCount := 2;
 
   {Load the data}
-  if ACombo = cbpGroup then
-  begin
-    ACombo.AddRow(['','NAME','DESCRIPTION']);
-    ACombo.AddRow(['1','TOP 5','Peringkat 5 besar Supplier dengan nilai penjualan terbesar']);
-    ACombo.AddRow(['2','TOP 10','Peringkat 10 besar Supplier dengan nilai penjualan terbesar']);
-    ACombo.AddRow(['3','TOP 5','Peringkat 5 besar Supplier dengan nilai profit terbesar']);
-    ACombo.AddRow(['4','TOP 10','Peringkat 10 besar Supplier dengan nilai profit terbesar']);
-  end; //end if acombo
+//  if ACombo = cbpGroup then
+//  begin
+//    ACombo.AddRow(['','NAME','DESCRIPTION']);
+//    ACombo.AddRow(['1','TOP 5','Peringkat 5 besar Supplier dengan nilai penjualan terbesar']);
+//    ACombo.AddRow(['2','TOP 10','Peringkat 10 besar Supplier dengan nilai penjualan terbesar']);
+//    ACombo.AddRow(['3','TOP 5','Peringkat 5 besar Supplier dengan nilai profit terbesar']);
+//    ACombo.AddRow(['4','TOP 10','Peringkat 10 besar Supplier dengan nilai profit terbesar']);
+//  end; //end if acombo
 
   {Now shring the grid so its just big enough for the data}
-  ACombo.SizeGridToData;
-  ACombo.FixedRows:= 1;
+//  ACombo.SizeGridToData;
+//  ACombo.FixedRows:= 1;
 end;//R
 
 procedure TfrmListBigSupplier.FormShow(Sender: TObject);
 begin
   inherited;
 
-  if strgGrid.FloatingFooter.Visible then
-    iax := 2
-  else
+//  if strgGrid.FloatingFooter.Visible then
+//    iax := 2
+//  else
     iax := 1;
 
   dtTglFrom.Date := Now;
   dtTglTo.Date   := Now;
   FisListingOK   := False;
   InisialisasiGrid;
-  actRefreshPrintBigSupplierExecute(Self);
+  actRefreshExecute(Self);
 end;
 
 procedure TfrmListBigSupplier.cbpGroupKeyUp(Sender: TObject; var Key: Word;
@@ -307,7 +294,7 @@ begin
   begin
     lComboText := cbpGroup.Text;
     LoadDropDownData(cbpGroup, GetListGrup());
-    cbpGroup.Value := lComboText;
+    cbpGroup.Text := lComboText;
     cbpGroupCloseUp(Sender);
   end;
 end;
@@ -321,6 +308,7 @@ begin
   sSQL := getDataSalesAnalys();
 
   ParseHeaderGrid();
+  {
   with cOpenQuery(sSQL) do
   Begin
       Try
@@ -392,12 +380,13 @@ begin
           Free;
       End;
   End;
+  }
 end;
 
 procedure TfrmListBigSupplier.cbpGroupCloseUp(Sender: TObject);
 begin
   inherited;
-  edtGroupName.Text := cbpGroup.Cells[2,cbpGroup.Row];
+//  edtGroupName.Text := cbpGroup.Cells[2,cbpGroup.Row];
 end;
 
 procedure TfrmListBigSupplier.btnShowClick(Sender: TObject);
@@ -434,14 +423,6 @@ begin
   FisListingOK    := True;
 end;
 
-procedure TfrmListBigSupplier.actRefreshPrintBigSupplierExecute(
-  Sender: TObject);
-//var arrParam: TArr;
-begin
-  inherited;
-  LoadDropDownData(cbpGroup, GetListGrup());
-end;
-
 function TfrmListBigSupplier.getDataSalesAnalys: string;
 var
   SUBG_MERG_ID: Integer;
@@ -452,11 +433,10 @@ begin
   _DateTo   := dtTglTo.Date;
   sSQL      := '';
   //BY UNT                        x
-  if (cbpGroup.Cells[0,cbpGroup.Row] = '-1') then
+  {if (cbpGroup.Cells[0,cbpGroup.Row] = '-1') then
   begin
     // last periode
     // in range periode
-    //dataSalesAnalys := PrintSalesAnalys.GetDataPrintSalesAnalysByIDUnt(arrParam);
     sSQL := ' select * ' +
             ' from PROC_TR$DSA_ALL(' +
             Quotd(_DateFrom) + ', ' +
@@ -470,7 +450,6 @@ begin
   begin
     // last periode
     // in range periode
-    //dataSalesAnalys := PrintSalesAnalys.GetDataPrintSalesAnalysByGrup(arrParam);
     sSQL := ' select * ' +
             ' from PROC_TR$DSA_ALL_BYGROUP(' +
             Quotd(_DateFrom) + ', ' +
@@ -494,6 +473,7 @@ begin
             IntToStr(MasterNewUnit.ID) +
             ');';
   end;
+  }
   Result := sSQL;
 end;
 
@@ -508,59 +488,19 @@ end;
 
 procedure TfrmListBigSupplier.ParseHeaderGrid;
 begin
-  if cbpGroup.Cells[0, cbpGroup.Row] = '-2' then
-    strgGrid.Cells[_Kol_GROUPCode, 0] := 'GROUP'
-  else
-    strgGrid.Cells[_Kol_GROUPCode, 0] := 'SUB GROUP CODE & NAME';
-end;
-
-procedure TfrmListBigSupplier.strgGridGetAlignment(Sender: TObject; ARow,
-  ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-begin
-  inherited;
-//  if ACol = 0 then
-//    HAlign := taLeftJustify
+//  if cbpGroup.Cells[0, cbpGroup.Row] = '-2' then
+//    strgGrid.Cells[_Kol_GROUPCode, 0] := 'GROUP'
 //  else
-//    HAlign := taRightJustify;
-
-  HAlign := taLeftJustify;
-  if ARow < strgGrid.FixedRows then
-  begin
-    HAlign := taCenter;
-  end
-  else
-  begin
-    if ACol in [_Kol_SALES.._Kol_GPL] then
-    begin
-      HAlign := taRightJustify;
-    end;
-  end;
+//    strgGrid.Cells[_Kol_GROUPCode, 0] := 'SUB GROUP CODE & NAME';
 end;
 
 procedure TfrmListBigSupplier.strgGridGetFloatFormat(Sender: TObject;
   ACol, ARow: Integer; var IsFloat: Boolean; var FloatFormat: String);
 begin
   inherited;
-//  FloatFormat := '%.2n';
-//  if (ACol <> 0) then
-//    IsFloat := True
-//  else
-//    IsFloat := False;
   if ACol in [_Kol_GROUPCode, _kolMerId, _kolMerCode, _kolMerNm, _kolid,
             _kolSubCode, _kolSubNm, _Kol_GROUPName, _Kol_SupCode, _Kol_SupName] then IsFloat := False;
   if IsFloat then FloatFormat := '%.2n';
-end;
-
-procedure TfrmListBigSupplier.btnShowEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmListBigSupplier.btnShowExit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
 end;
 
 procedure TfrmListBigSupplier.dtTglFromChange(Sender: TObject);
@@ -594,9 +534,9 @@ var
   aSumSales     : Double;
   i, j, k, iKol : Integer;
 begin
+  {
   strgGrid.Enabled  := False;
   try
-//    if chkBarangSendiri.Checked then
     with cOpenQuery(GetListMerchan()) do
     begin
       Try
@@ -717,7 +657,6 @@ begin
       end;
 
       strgGrid.Floats[_Kol_GP, i]         :=  aTmp1 /aTmp  * 100;
-//      strgGrid.Floats[_Kol_GP, i]         :=  strgGrid.Floats[_Kol_SALES, i] / strgGrid.Floats[_Kol_Profit, i] * 100;
 
       //last
       strgGrid.Floats[_kol_TSL, i] :=  strgGrid.Floats[_kol_SL, i] /aSumSalesLast * 100;
@@ -728,7 +667,7 @@ begin
     strgGrid.FloatingFooter.ColumnCalc[_Kol_Profit]  := acSUM;
     strgGrid.Enabled  := True;
   end;
-
+   }
 end;
 
 function TfrmListBigSupplier.GetSQLDSAPos(aMerchan_ID: Integer; isContrabon:
@@ -758,10 +697,10 @@ begin
   end;
 
   if isLast then
-    sdate := ' and ExtractDate(b.TRANS_DATE) = ' + QuotD(dtTglTo.Date)
+    sdate := ' and ExtractDate(b.TRANS_DATE) = ' + TAppUtils.QuotD(dtTglTo.Date)
   else
-    sdate := ' and ExtractDate(b.TRANS_DATE) BETWEEN '+  QuotD(dtTglFrom.Date)
-          + ' and '+ QuotD(dtTglTo.Date);
+    sdate := ' and ExtractDate(b.TRANS_DATE) BETWEEN '+  TAppUtils.QuotD(dtTglFrom.Date)
+          + ' and '+ TAppUtils.QuotD(dtTglTo.Date);
 
 //  if (cbpGroup.Cells[0,cbpGroup.Row] = '1') then
   begin
@@ -770,7 +709,7 @@ begin
     sJoin   := ' left outer join barang_suplier bs on d.BRG_CODE=bs.BRGSUP_BRG_CODE and bs.BRGSUP_IS_PRIMARY = 1'
             + ' left outer join suplier s on bs.BRGSUP_SUP_CODE=s.SUP_CODE '
   end;
-
+  {
   if (cbpGroup.Cells[0,cbpGroup.Row] = '1') then
      sOrderBy := ' 8 Desc Rows 5'
   else if (cbpGroup.Cells[0,cbpGroup.Row] = '2') then
@@ -779,7 +718,7 @@ begin
      sOrderBy := ' 6 Desc Rows 5'
   else if (cbpGroup.Cells[0,cbpGroup.Row] = '4') then
      sOrderBy := ' 6 Desc Rows 10';
-
+  }
   sSQL := 'select'
       + sGrpBy1
       + sGrpBy2
@@ -789,7 +728,7 @@ begin
       + ' from TRANSAKSI_DETIL a'
       + ' inner join TRANSAKSI b on a.TRANSD_TRANS_NO = b.TRANS_NO'
       + ' and a.TRANSD_TRANS_UNT_ID = b.TRANS_UNT_ID'
-      + ' and b.TRANS_UNT_ID = '+ IntToStr(MasterNewUnit.ID)
+//      + ' and b.TRANS_UNT_ID = '+ IntToStr(MasterNewUnit.ID)
       + ' and b.TRANS_IS_PENDING = 0'
       + sdate
       + ' inner join REF$TIPE_BARANG c on a.TRANSD_TPBRG_ID = c.TPBRG_ID'
@@ -839,10 +778,10 @@ begin
   end;
 
   if isLast then
-    sdate := ' and ExtractDate(b.POAS_DATE) = ' + QuotD(dtTglTo.Date)
+    sdate := ' and ExtractDate(b.POAS_DATE) = ' + TAppUtils.QuotD(dtTglTo.Date)
   else
-    sdate := ' and ExtractDate(b.POAS_DATE) BETWEEN '+  QuotD(dtTglFrom.Date)
-          + ' and '+ QuotD(dtTglTo.Date);
+    sdate := ' and ExtractDate(b.POAS_DATE) BETWEEN '+  TAppUtils.QuotD(dtTglFrom.Date)
+          + ' and '+ TAppUtils.QuotD(dtTglTo.Date);
 
 //  if (cbpGroup.Cells[0,cbpGroup.Row] = '-1') then
   begin
@@ -851,7 +790,7 @@ begin
     sJoin   := ' left outer join barang_suplier bs on brg.BRG_CODE=bs.BRGSUP_BRG_CODE and bs.BRGSUP_IS_PRIMARY = 1'
             + ' left outer join suplier s on bs.BRGSUP_SUP_CODE=s.SUP_CODE'
   end;
-
+  {
   if (cbpGroup.Cells[0,cbpGroup.Row] = '1') then
      sOrderBy := ' 8 Desc Rows 5'
   else if (cbpGroup.Cells[0,cbpGroup.Row] = '2') then
@@ -860,7 +799,7 @@ begin
      sOrderBy := ' 6 Desc Rows 5'
   else if (cbpGroup.Cells[0,cbpGroup.Row] = '4') then
      sOrderBy := ' 6 Desc Rows 10';
-
+  }
   sSQL := 'select'
       + sGrpBy1
       + sGrpBy2
@@ -870,7 +809,7 @@ begin
       + ' from PO_ASSGROS_DETIL a'
       + ' inner join PO_ASSGROS b on a.POASD_POAS_NO = b.POAS_NO'
       + ' and a.POASD_POAS_UNT_ID = b.POAS_UNT_ID'
-      + ' and b.POAS_UNT_ID = '+ IntToStr(MasterNewUnit.ID)
+//      + ' and b.POAS_UNT_ID = '+ IntToStr(MasterNewUnit.ID)
       + sdate
       + ' inner join barang brg on a.POASD_BRG_CODE = brg.BRG_CODE'
       + ' and brg.BRG_MERCHAN_ID = ' + IntToStr(aMerchan_ID)
@@ -905,7 +844,7 @@ begin
   _DateTo   := dtTglTo.Date;
   sSQL      := '';
   //BY UNT
-  if (cbpGroup.Cells[0,cbpGroup.Row] = '-1') then
+  {if (cbpGroup.Cells[0,cbpGroup.Row] = '-1') then
   begin
     // last periode
     // in range periode
@@ -1014,11 +953,12 @@ begin
          Free;
       End;
   end;
+  }
 end;
 
 procedure TfrmListBigSupplier.InisialisasiGrid;
 begin
-  with strgGrid do
+  {with strgGrid do
   begin
     cClearStringGrid(strgGrid, True);
     Clear;
@@ -1039,7 +979,8 @@ begin
     Cells[_Kol_COGS, 0]       := 'COGS';
     Cells[_Kol_GC, 0]         := '% G COGS';
 
-  end;  
+  end;
+  }
 end;
 
 procedure TfrmListBigSupplier.SetData(aSql: string; isLast: Boolean = False);
@@ -1048,7 +989,7 @@ var
   aCOGS: Double;
   i: Integer;
 begin
-  with cOpenQuery(aSql) do
+  {with cOpenQuery(aSql) do
   begin
     try
       while not Eof do
@@ -1126,6 +1067,7 @@ begin
       Free;
     end;
   end;
+  }
 end;
 
 procedure TfrmListBigSupplier.FormKeyDown(Sender: TObject; var Key: Word;
@@ -1135,8 +1077,8 @@ begin
   if(Key = Ord('P'))and(ssctrl in Shift) then
   begin
     if cbpGroup.Focused or dtTglFrom.Focused or dtTglTo.Focused then
-      fraFooter5Button1.btnAdd.SetFocus;
-    actPrintBigSupplierExecute(Self);
+      fraFooter4Button1.btnAdd.SetFocus;
+    actPrintExecute(Self);
   end;
 end;
 
@@ -1152,10 +1094,10 @@ procedure TfrmListBigSupplier.strgGridMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
-  if (strgGrid.CellRect(_Kol_GROUPCode,0).Left < X) and (X < strgGrid.CellRect(_Kol_GROUPCode,0).Right)  and
-      (strgGrid.CellRect(_Kol_GROUPCode,0).Top < Y) and (Y < strgGrid.CellRect(_Kol_GROUPCode,0).Bottom) then
-      Screen.Cursor := crHandPoint
-  else
+//  if (strgGrid.CellRect(_Kol_GROUPCode,0).Left < X) and (X < strgGrid.CellRect(_Kol_GROUPCode,0).Right)  and
+//      (strgGrid.CellRect(_Kol_GROUPCode,0).Top < Y) and (Y < strgGrid.CellRect(_Kol_GROUPCode,0).Bottom) then
+//      Screen.Cursor := crHandPoint
+//  else
     Screen.Cursor := crDefault;
 end;
 
@@ -1166,24 +1108,16 @@ begin
   if (ARow = 0) and (ACol = _Kol_GROUPCode) then
   begin
 
-    strgGrid.SortByColumn(ACol);
-
-    if strgGrid.SortSettings.Direction = sdDescending then
-      strgGrid.SortSettings.Direction := sdAscending
-    else
-      strgGrid.SortSettings.Direction := sdDescending;
+//    strgGrid.SortByColumn(ACol);
+//
+//    if strgGrid.SortSettings.Direction = sdDescending then
+//      strgGrid.SortSettings.Direction := sdAscending
+//    else
+//      strgGrid.SortSettings.Direction := sdDescending;
   end;
 end;
 
-procedure TfrmListBigSupplier.fraFooter5Button1btnCloseClick(
-  Sender: TObject);
-begin
-  inherited;
-//  fraFooter5Button1.btnCloseClick(Sender);
-  Close;
-end;
-
-procedure TfrmListBigSupplier.bCetakClick(Sender: TObject);
+procedure TfrmListBigSupplier.btnCetakClick(Sender: TObject);
 var
   SS: TStrings;
   i: Integer;
@@ -1194,7 +1128,7 @@ begin
 
   iGetTick  := GetTickCount;
   SS        :=TStringList.Create;
-
+  {
   try
     for i := strgGrid.FixedRows to strgGrid.RowCount - iax do
     begin
@@ -1210,8 +1144,6 @@ begin
             + Quot(strgGrid.Cells[_kolMerNm, i]) + ', '
             + strgGrid.Cells[_Kol_SALES, i] + ', '
             + strgGrid.Cells[_Kol_TOTALSALES, i] + ', '
-//            + strgGrid.Cells[_Kol_COGS, i] + ', '
-//            + strgGrid.Cells[_Kol_GC, i] + ', '
             + strgGrid.Cells[_Kol_Profit, i] + ', '
             + strgGrid.Cells[_Kol_GP, i] + ', '
             + strgGrid.Cells[_kol_SL, i] + ', '
@@ -1264,8 +1196,6 @@ begin
 
       frVariables.Variable['dtTglFrom']    := dtTglFrom.Date;
       frVariables.Variable['dtTglTo']      := dtTglTo.Date;
-    //  frVariables.Variable['sumsales']     := FSumSales;
-    //  frVariables.Variable['sumsaleslast'] := FSumSalesLast;
       frVariables.Variable['loginname']    := FLoginUsername;
       frVariables.Variable['unitname']     := MasterNewUnit.Nama;
 
@@ -1278,7 +1208,7 @@ begin
     cExDelTmpLaporan(iGetTick, FLoginId);
     cCommitTrans;
   end;
-
+  }
 end;
 
 end.

@@ -13,7 +13,7 @@ inherited frmSysParm: TfrmSysParm
     Width = 627
     Height = 388
     ExplicitWidth = 627
-    ExplicitHeight = 334
+    ExplicitHeight = 388
     inherited pgcBrowse: TcxPageControl
       Top = 89
       Width = 605
@@ -21,17 +21,17 @@ inherited frmSysParm: TfrmSysParm
       TabOrder = 1
       ExplicitTop = 89
       ExplicitWidth = 605
-      ExplicitHeight = 234
-      ClientRectBottom = 288
-      ClientRectRight = 605
+      ExplicitHeight = 288
+      ClientRectBottom = 287
+      ClientRectRight = 604
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 605
-        ExplicitHeight = 234
+        ExplicitWidth = 603
+        ExplicitHeight = 286
         inherited cxGrid: TcxGrid
-          Width = 605
-          Height = 288
-          ExplicitWidth = 605
-          ExplicitHeight = 234
+          Width = 603
+          Height = 286
+          ExplicitWidth = 603
+          ExplicitHeight = 286
         end
       end
     end
@@ -187,16 +187,11 @@ inherited frmSysParm: TfrmSysParm
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 421
     Width = 627
-    ExplicitTop = 367
+    ExplicitTop = 421
     ExplicitWidth = 627
     inherited pnlFooter: TPanel
       Width = 627
       ExplicitWidth = 627
-      inherited btnClose: TcxButton
-        Left = 550
-        Action = actClose
-        ExplicitLeft = 550
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -206,19 +201,25 @@ inherited frmSysParm: TfrmSysParm
       inherited btnPrint: TcxButton
         Action = actPrint
       end
+      inherited btnClose: TcxButton
+        Left = 550
+        Action = actClose
+        ExplicitLeft = 550
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 627
       ExplicitWidth = 627
-      inherited lbl1: TLabel
-        Height = 15
+      inherited lbCTRLC: TLabel
+        ExplicitHeight = 15
       end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 553
         Height = 17
+        ExplicitLeft = 553
       end
     end
   end
