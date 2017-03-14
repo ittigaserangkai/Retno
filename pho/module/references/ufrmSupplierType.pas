@@ -16,6 +16,8 @@ uses
 
 type
   TfrmSupplierType = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
   private
     FCDSBrowse: TClientDataset;

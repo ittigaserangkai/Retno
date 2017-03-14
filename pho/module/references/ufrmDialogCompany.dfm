@@ -1,16 +1,14 @@
-inherited frmDialogCostCenter: TfrmDialogCostCenter
-  Caption = 'Cost Center'
-  ClientHeight = 155
-  ClientWidth = 442
-  ExplicitWidth = 458
-  ExplicitHeight = 194
+inherited frmDialogCompany: TfrmDialogCompany
+  Caption = 'frmDialogCompany'
+  ClientHeight = 181
+  ClientWidth = 386
+  ExplicitWidth = 402
+  ExplicitHeight = 220
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 442
-    Height = 99
-    ExplicitWidth = 442
-    ExplicitHeight = 99
+    Width = 386
+    Height = 125
     object lblCode: TLabel
       Left = 16
       Top = 16
@@ -19,7 +17,7 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       Alignment = taRightJustify
       Caption = 'Code'
     end
-    object LblName: TLabel
+    object lblLblName: TLabel
       Left = 14
       Top = 44
       Width = 27
@@ -51,39 +49,31 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 99
-    Width = 442
-    ExplicitTop = 99
-    ExplicitWidth = 442
+    Top = 125
+    Width = 386
     inherited pnlFooter: TPanel
-      Width = 442
-      ExplicitWidth = 442
+      Width = 386
       inherited btnClose: TcxButton
-        Left = 365
+        Left = 309
         Action = actCancel
-        ExplicitLeft = 365
       end
       inherited btnSave: TcxButton
-        Left = 272
+        Left = 216
         Action = actSave
-        ExplicitLeft = 272
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 442
-      ExplicitWidth = 442
+      Width = 386
       inherited lbCTRLEnter: TLabel
-        Left = 267
+        Left = 211
         Height = 15
-        ExplicitLeft = 267
       end
       inherited lbEscape: TLabel
-        Left = 358
+        Left = 302
         Height = 15
-        ExplicitLeft = 358
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -91,11 +81,20 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
     end
   end
   inherited actlstMasterDialog: TActionList
+    Images = DMClient.imgListButton
+    Left = 464
+    Top = 24
     inherited actDelete: TAction
+      ImageIndex = 8
       OnExecute = actDeleteExecute
     end
     inherited actSave: TAction
+      ImageIndex = 32
       OnExecute = actSaveExecute
+    end
+    inherited actCancel: TAction
+      Caption = 'Cancel'
+      ImageIndex = 4
     end
   end
 end

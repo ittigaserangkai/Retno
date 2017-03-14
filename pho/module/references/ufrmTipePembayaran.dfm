@@ -22,13 +22,13 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       ClientRectBottom = 223
       ClientRectRight = 595
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 596
-        ExplicitHeight = 224
+        ExplicitWidth = 594
+        ExplicitHeight = 222
         inherited cxGrid: TcxGrid
-          Width = 596
-          Height = 224
-          ExplicitWidth = 596
-          ExplicitHeight = 224
+          Width = 594
+          Height = 222
+          ExplicitWidth = 594
+          ExplicitHeight = 222
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               Caption = 'ID'
@@ -51,6 +51,11 @@ inherited frmTipePembayaran: TfrmTipePembayaran
   inherited pnlHeader: TPanel
     Width = 618
     ExplicitWidth = 618
+    inherited lblHeader: TLabel
+      Width = 137
+      Caption = 'Master Tipe Pembayaran'
+      ExplicitWidth = 137
+    end
     inherited lblFilterData: TcxLabel
       Left = 264
       ExplicitLeft = 264
@@ -82,52 +87,41 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     inherited pnlFooter: TPanel
       Width = 618
       ExplicitWidth = 618
+      inherited btnAdd: TcxButton
+        Action = actAdd
+        TabOrder = 1
+      end
+      inherited btnUpdate: TcxButton
+        Action = actClose
+        TabOrder = 0
+      end
+      inherited btnPrint: TcxButton
+        Width = 74
+        Action = actPrint
+        ExplicitWidth = 74
+      end
       inherited btnClose: TcxButton
         Left = 541
         Action = actClose
         ExplicitLeft = 541
       end
-      inherited btnAdd: TcxButton
-        Action = actAddTipePembayaran
-      end
-      inherited btnUpdate: TcxButton
-        Action = actEditTipePembayaran
-      end
-      inherited btnPrint: TcxButton
-        Left = 249
-        Width = 74
-        Action = actPrint
-        ExplicitLeft = 249
-        ExplicitWidth = 74
+      inherited cxButton1: TcxButton
+        Left = 342
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 618
-      ExplicitWidth = 618
-      inherited lbl5: TLabel
-        Left = 544
-        ExplicitLeft = 544
-      end
     end
   end
-  object actlstTipePembayaran: TActionList
-    Left = 479
-    Top = 44
-    object actAddTipePembayaran: TAction
-      Caption = '&Add'
-      OnExecute = actAddTipePembayaranExecute
+  inherited actlstBrowse: TActionList
+    Left = 516
+    Top = 96
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditTipePembayaran: TAction
-      Caption = '&Edit / Lihat'
-      OnExecute = actEditTipePembayaranExecute
-    end
-    object actDeleteTipePembayaran: TAction
-      Caption = 'actDeleteTipePembayaran'
-      OnExecute = actDeleteTipePembayaranExecute
-    end
-    object actRefreshTipePembayaran: TAction
-      Caption = 'actRefreshTipePembayaran'
-      OnExecute = actRefreshTipePembayaranExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

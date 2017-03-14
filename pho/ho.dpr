@@ -142,7 +142,9 @@ uses
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
   ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor},
   ufrmListBigTrader in 'module\inventory\ufrmListBigTrader.pas' {frmListBigTrader},
-  ufrmListBigSupplier in 'module\inventory\ufrmListBigSupplier.pas' {frmListBigSupplier};
+  ufrmListBigSupplier in 'module\inventory\ufrmListBigSupplier.pas' {frmListBigSupplier},
+  ufrmCompany in 'module\references\ufrmCompany.pas' {frmCompany},
+  ufrmDialogCompany in 'module\references\ufrmDialogCompany.pas' {frmDialogCompany};
 
 {$R *.res}
 

@@ -216,7 +216,6 @@
             <Form>DMClient</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\classes\uClientClasses.pas"/>
         <DCCReference Include="ui\ufrmTest.pas">
             <Form>frmTest</Form>
         </DCCReference>
@@ -448,19 +447,22 @@
         <DCCReference Include="module\merchandise\ufrmDialogBarangCompetitor.pas">
             <Form>frmDialogBarangCompetitor</Form>
         </DCCReference>
+<<<<<<< HEAD
+        <DCCReference Include="module\references\ufrmCompany.pas">
+            <Form>frmCompany</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\classes\uClientClasses.pas"/>
+        <DCCReference Include="module\references\ufrmDialogCompany.pas">
+            <Form>frmDialogCompany</Form>
+            <FormType>dfm</FormType>
+=======
         <DCCReference Include="module\inventory\ufrmListBigTrader.pas">
             <Form>frmListBigTrader</Form>
         </DCCReference>
         <DCCReference Include="module\inventory\ufrmListBigSupplier.pas">
             <Form>frmListBigSupplier</Form>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmCompany.pas">
-            <Form>frmCompany</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\references\ufrmDialogCompany.pas">
-            <Form>frmDialogCompany</Form>
-            <FormType>dfm</FormType>
+>>>>>>> 6ab798d9385a5cecb6aaf5f43023da8fe8f4c2c7
         </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
@@ -887,6 +889,9 @@
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>
+            <DataSnapProxyLookup>
+                <uClientClasses>{A01380B5-3771-45CF-B6B6-022C98D01784}</uClientClasses>
+            </DataSnapProxyLookup>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

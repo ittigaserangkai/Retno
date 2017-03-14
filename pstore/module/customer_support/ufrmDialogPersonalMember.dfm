@@ -450,16 +450,11 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       ExplicitWidth = 490
       inherited lbCTRLEnter: TLabel
         Left = 315
-        Height = 15
         ExplicitLeft = 315
       end
       inherited lbEscape: TLabel
         Left = 406
-        Height = 15
         ExplicitLeft = 406
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end

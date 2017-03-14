@@ -17,7 +17,6 @@ object frmMasterDialog: TfrmMasterDialog
   OldCreateOrder = False
   Position = poMainFormCenter
   Scaled = False
-  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
@@ -53,7 +52,7 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited btnClose: TcxButton
         Left = 477
-        Action = actDelete
+        Action = actCancel
         Cancel = False
         ModalResult = 2
         DragKind = dkDock
@@ -87,17 +86,21 @@ object frmMasterDialog: TfrmMasterDialog
     end
   end
   object actlstMasterDialog: TActionList
-    Left = 440
-    Top = 64
+    Images = DMClient.imgListButton
+    Left = 512
+    Top = 48
     object actDelete: TAction
       Caption = 'Delete'
+      ImageIndex = 8
       ShortCut = 16430
     end
     object actSave: TAction
       Caption = 'Save'
+      ImageIndex = 32
     end
     object actCancel: TAction
       Caption = 'actCancel'
+      ImageIndex = 4
       OnExecute = actCancelExecute
     end
   end

@@ -168,6 +168,9 @@ object frmMain: TfrmMain
       object ipeSuplier1: TMenuItem
         Action = actSupplierType
       end
+      object Company1: TMenuItem
+        Action = actCompany
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -730,21 +733,21 @@ object frmMain: TfrmMain
       Category = 'Finance'
       Caption = 'Listing Agreement'
     end
-    object actInvoiceAssgros: TAction
+    object actInvoiceTrader: TAction
       Category = 'Finance'
-      Caption = 'Invoice AsGross'
+      Caption = 'Invoice Trader'
     end
-    object actPaymentAssgros: TAction
+    object actPaymentTrader: TAction
       Category = 'Finance'
-      Caption = 'Payment Assgros'
+      Caption = 'Payment Trader'
     end
     object actListDoOutstanding: TAction
       Category = 'Finance'
       Caption = 'actListDoOutstanding'
     end
-    object actListingAgingInvoiceAssgros: TAction
+    object actListingAgingInvoiceTrader: TAction
       Category = 'Finance'
-      Caption = 'actListingAgingInvoiceAssgros'
+      Caption = 'Listing Aging Invoice Trader'
     end
     object actListAPPayment: TAction
       Category = 'Finance'
@@ -858,9 +861,9 @@ object frmMain: TfrmMain
       Category = 'Finance'
       Caption = 'actListAdjustmentProduct'
     end
-    object actListOutstandingDOAssgros: TAction
+    object actListOutstandingDOTrader: TAction
       Category = 'Finance'
-      Caption = 'actListOutstandingDOAssgros'
+      Caption = 'List Outstanding DO Trader'
     end
     object actListPODOReceive: TAction
       Category = 'Finance'
@@ -1107,6 +1110,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Merk'
       OnExecute = actMerkExecute
+    end
+    object actCompany: TAction
+      Category = 'References'
+      Caption = 'Company'
+      OnExecute = actCompanyExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents

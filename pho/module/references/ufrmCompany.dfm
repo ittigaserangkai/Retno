@@ -1,82 +1,75 @@
-inherited frmCostCenter: TfrmCostCenter
-  Caption = 'frmCostCenter'
-  ClientHeight = 335
-  ClientWidth = 755
-  ExplicitWidth = 771
-  ExplicitHeight = 374
+inherited frmCompany: TfrmCompany
+  Caption = 'frmCompany'
+  ClientHeight = 359
+  ClientWidth = 783
+  ExplicitWidth = 799
+  ExplicitHeight = 398
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 755
-    Height = 246
-    ExplicitWidth = 755
-    ExplicitHeight = 246
+    Width = 783
+    Height = 270
+    ExplicitWidth = 124
     inherited pgcBrowse: TcxPageControl
-      Width = 733
-      Height = 224
-      ExplicitWidth = 733
-      ExplicitHeight = 224
-      ClientRectBottom = 223
-      ClientRectRight = 732
+      Width = 761
+      Height = 248
+      ExplicitWidth = 102
+      ClientRectBottom = 247
+      ClientRectRight = 760
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 731
-        ExplicitHeight = 222
+        ExplicitWidth = 100
+        ExplicitHeight = 290
         inherited cxGrid: TcxGrid
-          Width = 731
-          Height = 222
-          ExplicitWidth = 731
-          ExplicitHeight = 222
+          Width = 759
+          Height = 246
+          ExplicitWidth = 100
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 755
-    ExplicitWidth = 755
+    Width = 783
+    ExplicitWidth = 124
     inherited lblHeader: TLabel
-      Width = 122
-      Caption = 'MASTER COST CENTER'
-      ExplicitWidth = 122
+      Width = 54
+      Caption = 'COMPANY'
+      ExplicitWidth = 54
     end
     inherited lblFilterData: TcxLabel
-      Left = 401
-      Enabled = False
-      ExplicitLeft = 401
+      Left = 429
+      ExplicitLeft = -230
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 462
-      Enabled = False
-      ExplicitLeft = 462
+      Left = 490
+      ExplicitLeft = -169
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 578
-      Enabled = False
-      ExplicitLeft = 578
+      Left = 606
+      ExplicitLeft = -53
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 673
-      ExplicitLeft = 673
+      Left = 701
+      ExplicitLeft = 42
     end
     inherited lblsdFilter: TcxLabel
-      Left = 554
-      Enabled = False
-      ExplicitLeft = 554
+      Left = 582
+      ExplicitLeft = -77
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 279
-    Width = 755
-    ExplicitTop = 279
-    ExplicitWidth = 755
+    Top = 303
+    Width = 783
+    ExplicitTop = -56
+    ExplicitWidth = 124
     inherited pnlFooter: TPanel
-      Width = 755
-      ExplicitWidth = 755
+      Width = 783
+      ExplicitWidth = 124
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -87,30 +80,44 @@ inherited frmCostCenter: TfrmCostCenter
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 678
+        Left = 706
         Action = actClose
-        ExplicitLeft = 678
+        ExplicitLeft = 47
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 755
-      ExplicitWidth = 755
+      Width = 783
+      ExplicitWidth = 124
       inherited lbEscape: TLabel
-        Left = 681
+        Left = 709
         Height = 17
-        ExplicitLeft = 681
       end
     end
   end
   inherited actlstBrowse: TActionList
+    Images = DMClient.imgListButton
     inherited actAdd: TAction
+      ImageIndex = 2
       OnExecute = actAddExecute
     end
     inherited actEdit: TAction
+      ImageIndex = 10
       OnExecute = actEditExecute
+    end
+    inherited actClose: TAction
+      ImageIndex = 22
+    end
+    inherited actPrint: TAction
+      ImageIndex = 28
+    end
+    inherited actRefresh: TAction
+      ImageIndex = 30
+    end
+    inherited actExport: TAction
+      ImageIndex = 34
     end
   end
 end

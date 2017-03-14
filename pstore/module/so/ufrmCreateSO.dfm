@@ -101,7 +101,7 @@ inherited frmCreateSO: TfrmCreateSO
           Height = 16
           Caption = '(Use this button to add product beyond SO schedulling day)'
         end
-        object btn1: TcxButton
+        object btnAddOthersProdSO: TcxButton
           Left = 8
           Top = 4
           Width = 217
@@ -161,7 +161,7 @@ inherited frmCreateSO: TfrmCreateSO
             00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
           OptionsImage.NumGlyphs = 2
           TabOrder = 0
-          OnClick = btnShowClick
+          OnClick = btnAddOthersProdSOClick
         end
         object btnToExcel: TcxButton
           Left = 536
@@ -223,7 +223,7 @@ inherited frmCreateSO: TfrmCreateSO
             7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F}
           OptionsImage.NumGlyphs = 2
           TabOrder = 1
-          OnClick = btnShowClick
+          OnClick = btnToExcelClick
         end
         object btnAddFromPOTrader: TcxButton
           Left = 616
@@ -285,7 +285,7 @@ inherited frmCreateSO: TfrmCreateSO
             00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
           OptionsImage.NumGlyphs = 2
           TabOrder = 2
-          OnClick = btnShowClick
+          OnClick = btnAddFromPOTraderClick
         end
       end
       object Button1: TButton
