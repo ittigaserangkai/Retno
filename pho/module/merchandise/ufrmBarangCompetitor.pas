@@ -464,7 +464,7 @@ begin
   inherited;
    if(Key=VK_DELETE)and(ssctrl in Shift)then
     Key:= VK_NONAME;
-   if(Key=Vk_ESCAPE) then fraFooter4Button1.btnCloseClick(Self);
+   if(Key=Vk_ESCAPE) then actCloseExecute(Self);
 end;
 
 procedure TfrmBarangCompetitor.FormKeyUp(Sender: TObject; var Key: Word;

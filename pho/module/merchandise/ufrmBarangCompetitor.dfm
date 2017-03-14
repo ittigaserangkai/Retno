@@ -422,12 +422,10 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
     inherited dtAwalFilter: TcxDateEdit
       Left = 409
       ExplicitLeft = 409
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 525
       ExplicitLeft = 525
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 620
@@ -467,9 +465,13 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
     end
     inherited pnlShortCut: TPanel
       Width = 702
+      ExplicitWidth = 702
+      inherited lbCTRLC: TLabel
+        ExplicitHeight = 15
+      end
       inherited lbEscape: TLabel
         Left = 628
-        Height = 17
+        ExplicitLeft = 628
       end
     end
   end
