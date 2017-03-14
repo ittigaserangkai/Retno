@@ -123,7 +123,7 @@ inherited frmRekening: TfrmRekening
       ExplicitWidth = 53
     end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 321
     Width = 756
@@ -166,9 +166,6 @@ inherited frmRekening: TfrmRekening
         ExplicitLeft = 644
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlstRekening: TActionList
     Left = 683

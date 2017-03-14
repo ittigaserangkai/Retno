@@ -11,7 +11,8 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, System.Actions, cxClasses,
   ufraFooter4Button, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridTableView, cxGridDBTableView, cxGrid, dxBarBuiltInMenu, Vcl.Menus,
+  cxButtons, cxPC;
 
 type
   TfrmMasterProductNBD = class(TfrmMasterBrowse)

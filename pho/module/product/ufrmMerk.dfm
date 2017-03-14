@@ -16,16 +16,16 @@ inherited frmMerk: TfrmMerk
       Height = 259
       ExplicitWidth = 629
       ExplicitHeight = 259
-      ClientRectBottom = 259
-      ClientRectRight = 629
+      ClientRectBottom = 258
+      ClientRectRight = 628
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 629
-        ExplicitHeight = 259
+        ExplicitWidth = 627
+        ExplicitHeight = 257
         inherited cxGrid: TcxGrid
-          Width = 629
-          Height = 259
-          ExplicitWidth = 629
-          ExplicitHeight = 259
+          Width = 627
+          Height = 257
+          ExplicitWidth = 627
+          ExplicitHeight = 257
         end
       end
     end
@@ -64,11 +64,6 @@ inherited frmMerk: TfrmMerk
     inherited pnlFooter: TPanel
       Width = 651
       ExplicitWidth = 651
-      inherited btnClose: TcxButton
-        Left = 574
-        Action = actClose
-        ExplicitLeft = 574
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -78,17 +73,27 @@ inherited frmMerk: TfrmMerk
       inherited btnPrint: TcxButton
         Action = actPrint
       end
+      inherited btnClose: TcxButton
+        Left = 574
+        Action = actClose
+        ExplicitLeft = 574
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 651
       ExplicitWidth = 651
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 577
-        ExplicitLeft = 577
+        Height = 17
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
   end
 end

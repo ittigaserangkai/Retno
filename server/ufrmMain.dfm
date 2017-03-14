@@ -202,7 +202,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 152
     Width = 549
-    Height = 251
+    Height = 232
     Align = alClient
     BorderStyle = bsNone
     Color = clBackground
@@ -218,6 +218,17 @@ object frmMain: TfrmMain
     ScrollBars = ssBoth
     TabOrder = 1
     WordWrap = False
+    ExplicitHeight = 251
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 384
+    Width = 549
+    Height = 19
+    Panels = <>
+    ExplicitLeft = 96
+    ExplicitTop = 208
+    ExplicitWidth = 0
   end
   object AE: TApplicationEvents
     OnIdle = AEIdle

@@ -10,17 +10,17 @@ uses
 type
   TfraFooter4Button = class(TFrame)
     pnlFooter: TPanel;
-    btnClose: TcxButton;
+    pnlShortCut: TPanel;
+    lbCTRLC: TLabel;
+    lbCTRLE: TLabel;
+    lbEscape: TLabel;
     btnAdd: TcxButton;
     btnUpdate: TcxButton;
     btnPrint: TcxButton;
+    btnClose: TcxButton;
     bvlSeparator: TBevel;
-    pnlSortCut: TPanel;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    lbl4: TLabel;
-    lbl5: TLabel;
-    procedure btnCloseClick(Sender: TObject);
+    cxButton1: TcxButton;
+    lbCTRLP: TLabel;
   private
     { Private declarations }
   public
@@ -32,20 +32,6 @@ implementation
 uses TypInfo;
 
 {$R *.dfm}
-
-procedure TfraFooter4Button.btnCloseClick(Sender: TObject);
-var
-  xObject: TObject;
-begin
-  if (Owner is TForm) then
-  begin
-    xObject := (Owner as TForm);
-    xObject.Free;
-  end else if (Owner is TFrame) then
-  begin
-    TForm((Owner as TFrame).Owner).Close;
-  end;
-end;
 
 end.
 

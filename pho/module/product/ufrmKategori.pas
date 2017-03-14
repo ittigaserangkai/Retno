@@ -18,6 +18,7 @@ type
   private
     { Private declarations }
   public
+    procedure RefreshData; override;
     { Public declarations }
   end;
 
@@ -26,6 +27,16 @@ var
 
 implementation
 
+uses
+  uDMClient, uDBUtils, uDXUtils, uModBarang;
+
 {$R *.dfm}
+
+procedure TfrmKategori.RefreshData;
+begin
+  inherited;
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Kategori_GetDSLookup, Self);
+  cxGridView.SetVisibleColumns(['Ref$Kategori_ID','Ref$Sub_Grup_ID'], False);
+end;
 
 end.

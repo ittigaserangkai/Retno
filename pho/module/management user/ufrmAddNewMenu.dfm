@@ -90,7 +90,7 @@ inherited frmAddNewMenu: TfrmAddNewMenu
       ExplicitWidth = 75
     end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 341
     Width = 673
@@ -134,9 +134,6 @@ inherited frmAddNewMenu: TfrmAddNewMenu
         ExplicitLeft = 583
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actAddNewMenu: TActionList
     Left = 544

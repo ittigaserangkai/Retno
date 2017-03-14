@@ -5,6 +5,7 @@ inherited frmMemberShip: TfrmMemberShip
   ClientHeight = 522
   ClientWidth = 780
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 796
   ExplicitHeight = 561
   PixelsPerInch = 96
@@ -14,7 +15,7 @@ inherited frmMemberShip: TfrmMemberShip
     Height = 433
     ExplicitWidth = 780
     ExplicitHeight = 433
-    inherited cxGrid: TcxGrid
+    inherited pgcBrowse: TcxPageControl
       Top = 185
       Width = 758
       Height = 172
@@ -22,25 +23,41 @@ inherited frmMemberShip: TfrmMemberShip
       ExplicitTop = 185
       ExplicitWidth = 758
       ExplicitHeight = 172
-      inherited cxGridView: TcxGridDBTableView
-        object cxGridViewColumn1: TcxGridDBColumn
-          Caption = 'ID CARD NO.'
-          Width = 84
-        end
-        object cxGridViewColumn2: TcxGridDBColumn
-          Caption = 'MEMBER NAME'
-          Width = 92
-        end
-        object cxGridViewColumn3: TcxGridDBColumn
-          Caption = 'MEMBER ADDRESS'
-          Width = 164
-        end
-        object cxGridViewColumn4: TcxGridDBColumn
-          Caption = 'CARD TYPE'
-        end
-        object cxGridViewColumn5: TcxGridDBColumn
-          Caption = 'TYPE MEMBER'
-          Width = 93
+      ClientRectBottom = 171
+      ClientRectRight = 757
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        inherited cxGrid: TcxGrid
+          Top = 185
+          Width = 758
+          Height = 172
+          ExplicitTop = 185
+          ExplicitWidth = 758
+          ExplicitHeight = 172
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'ID CARD NO.'
+              Width = 84
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'MEMBER NAME'
+              Width = 92
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'MEMBER ADDRESS'
+              Width = 164
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'CARD TYPE'
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              Caption = 'TYPE MEMBER'
+              Width = 93
+            end
+          end
         end
       end
     end
@@ -521,11 +538,29 @@ inherited frmMemberShip: TfrmMemberShip
       Caption = 'List MemberShip'
       ExplicitWidth = 95
     end
+    inherited lblFilterData: TcxLabel
+      Left = 426
+      ExplicitLeft = 426
+      AnchorY = 17
+    end
     inherited dtAwalFilter: TcxDateEdit
+      Left = 487
+      ExplicitLeft = 487
       ExplicitHeight = 24
     end
     inherited dtAkhirFilter: TcxDateEdit
+      Left = 603
+      ExplicitLeft = 603
       ExplicitHeight = 24
+    end
+    inherited btnSearch: TcxButton
+      Left = 698
+      ExplicitLeft = 698
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 579
+      ExplicitLeft = 579
+      AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
@@ -536,28 +571,26 @@ inherited frmMemberShip: TfrmMemberShip
     inherited pnlFooter: TPanel
       Width = 780
       ExplicitWidth = 780
-      inherited btnClose: TcxButton
-        Left = 698
-        ExplicitLeft = 698
-      end
       inherited btnAdd: TcxButton
         Action = actAddMemberShip
       end
       inherited btnUpdate: TcxButton
         Action = actEditMemberShip
       end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 780
-      ExplicitWidth = 780
-      inherited lbl5: TLabel
-        Left = 690
-        ExplicitLeft = 690
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 698
+        Action = actClose
+        ExplicitLeft = 698
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+    end
   end
   object actlst1: TActionList
     Left = 707

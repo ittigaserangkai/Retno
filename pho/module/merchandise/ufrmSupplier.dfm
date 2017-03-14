@@ -827,7 +827,7 @@ inherited frmSupplier: TfrmSupplier
       ExplicitWidth = 99
     end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 430
     Width = 803
@@ -890,9 +890,6 @@ inherited frmSupplier: TfrmSupplier
         ExplicitTop = 2
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlstSupplier: TActionList
     Left = 752

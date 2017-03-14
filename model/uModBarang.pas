@@ -81,10 +81,13 @@ type
   TModMerk = class(TModApp)
   private
     FMERK_NAME: string;
+    FMERK_DESCRIPTION: string;
   public
     class function GetTableName: String; override;
   published
     property MERK_NAME: string read FMERK_NAME write FMERK_NAME;
+    property MERK_DESCRIPTION: string read FMERK_DESCRIPTION write
+        FMERK_DESCRIPTION;
   end;
 
 type

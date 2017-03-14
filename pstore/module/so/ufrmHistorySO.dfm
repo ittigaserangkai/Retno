@@ -5,6 +5,7 @@ inherited frmHistorySO: TfrmHistorySO
   ClientHeight = 448
   ClientWidth = 656
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 672
   ExplicitHeight = 487
   PixelsPerInch = 96
@@ -15,37 +16,55 @@ inherited frmHistorySO: TfrmHistorySO
     BorderWidth = 0
     ExplicitWidth = 656
     ExplicitHeight = 359
-    inherited cxGrid: TcxGrid
+    inherited pgcBrowse: TcxPageControl
       Left = 1
       Top = 73
       Width = 654
       Height = 285
-      PopupMenu = ppmn1
       TabOrder = 1
       ExplicitLeft = 1
       ExplicitTop = 73
       ExplicitWidth = 654
       ExplicitHeight = 285
-      inherited cxGridView: TcxGridDBTableView
-        object cxGridViewColumn1: TcxGridDBColumn
-          Caption = 'No.'
-          Width = 39
-        end
-        object cxGridViewColumn2: TcxGridDBColumn
-          Caption = 'No. Suggention Order'
-          Width = 132
-        end
-        object cxGridViewColumn3: TcxGridDBColumn
-          Caption = 'Date'
-          Width = 83
-        end
-        object cxGridViewColumn4: TcxGridDBColumn
-          Caption = 'Total'
-          Width = 97
-        end
-        object cxGridViewColumn5: TcxGridDBColumn
-          Caption = 'Status SO'
-          Width = 93
+      ClientRectBottom = 284
+      ClientRectRight = 653
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        inherited cxGrid: TcxGrid
+          Left = 1
+          Top = 73
+          Width = 654
+          Height = 285
+          PopupMenu = ppmn1
+          ExplicitLeft = 1
+          ExplicitTop = 73
+          ExplicitWidth = 654
+          ExplicitHeight = 285
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'No.'
+              Width = 39
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'No. Suggention Order'
+              Width = 132
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'Date'
+              Width = 83
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'Total'
+              Width = 97
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              Caption = 'Status SO'
+              Width = 93
+            end
+          end
         end
       end
     end
@@ -108,29 +127,30 @@ inherited frmHistorySO: TfrmHistorySO
   inherited pnlHeader: TPanel
     Width = 656
     ExplicitWidth = 656
-    DesignSize = (
-      656
-      33)
     inherited lblFilterData: TcxLabel
-      Left = 298
-      ExplicitLeft = 298
+      Left = 302
+      ExplicitLeft = 302
+      AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 362
+      Left = 363
       ExplicitLeft = 362
-    end
-    inherited lblsdFilter: TcxLabel
-      Left = 458
-      ExplicitLeft = 458
+      ExplicitHeight = 21
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 482
+      Left = 479
       ExplicitLeft = 482
+      ExplicitHeight = 21
     end
     inherited btnSearch: TcxButton
-      Left = 581
+      Left = 574
       OnClick = btnSearchClick
       ExplicitLeft = 581
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 455
+      ExplicitLeft = 455
+      AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
@@ -141,22 +161,26 @@ inherited frmHistorySO: TfrmHistorySO
     inherited pnlFooter: TPanel
       Width = 656
       ExplicitWidth = 656
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
       inherited btnClose: TcxButton
         Left = 574
+        Action = actClose
         ExplicitLeft = 574
       end
     end
-    inherited pnlSortCut: TPanel
-      Width = 656
-      ExplicitWidth = 656
-      inherited lbl5: TLabel
-        Left = 566
-        ExplicitLeft = 566
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 609

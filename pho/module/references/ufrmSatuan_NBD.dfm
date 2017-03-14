@@ -5,6 +5,7 @@ inherited frmSatuan_NBD: TfrmSatuan_NBD
   ClientHeight = 336
   ClientWidth = 546
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 562
   ExplicitHeight = 375
   PixelsPerInch = 96
@@ -14,33 +15,53 @@ inherited frmSatuan_NBD: TfrmSatuan_NBD
     Height = 247
     ExplicitWidth = 120
     ExplicitHeight = 186
-    inherited cxGrid: TcxGrid
+    inherited pgcBrowse: TcxPageControl
       Width = 524
       Height = 225
-      ExplicitWidth = 98
-      ExplicitHeight = 164
+      ExplicitWidth = 524
+      ExplicitHeight = 225
+      ClientRectBottom = 224
+      ClientRectRight = 523
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        inherited cxGrid: TcxGrid
+          Width = 524
+          Height = 225
+          ExplicitWidth = 98
+          ExplicitHeight = 164
+        end
+      end
     end
   end
   inherited pnlHeader: TPanel
     Width = 546
-    ExplicitWidth = 120
+    ExplicitWidth = 546
     inherited lblFilterData: TcxLabel
-      Left = 252
-      ExplicitLeft = -174
+      Left = 192
+      ExplicitLeft = 192
+      AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 316
+      Left = 253
       ExplicitLeft = -110
       ExplicitHeight = 24
     end
-    inherited lblsdFilter: TcxLabel
-      Left = 412
-      ExplicitLeft = -14
-    end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 444
+      Left = 369
       ExplicitLeft = 18
       ExplicitHeight = 24
+    end
+    inherited btnSearch: TcxButton
+      Left = 464
+      ExplicitLeft = 464
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 345
+      ExplicitLeft = 345
+      AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
@@ -51,27 +72,26 @@ inherited frmSatuan_NBD: TfrmSatuan_NBD
     inherited pnlFooter: TPanel
       Width = 546
       ExplicitWidth = 120
-      inherited btnClose: TcxButton
-        Left = 464
-        ExplicitLeft = 38
-      end
       inherited btnAdd: TcxButton
         Action = actAddSatuan_NBD
       end
       inherited btnUpdate: TcxButton
         Action = actEditSatuan_NBD
       end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 546
-      ExplicitWidth = 120
-      inherited lbl5: TLabel
-        Left = 456
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 464
+        Action = actClose
+        ExplicitLeft = 38
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+    end
   end
   object actlstSatuan_NBD: TActionList
     Left = 488

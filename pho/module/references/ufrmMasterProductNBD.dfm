@@ -5,6 +5,7 @@ inherited frmMasterProductNBD: TfrmMasterProductNBD
   ClientHeight = 398
   ClientWidth = 659
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 675
   ExplicitHeight = 437
   PixelsPerInch = 96
@@ -25,7 +26,7 @@ inherited frmMasterProductNBD: TfrmMasterProductNBD
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
-      TabOrder = 0
+      TabOrder = 1
       ExplicitTop = 63
       ExplicitWidth = 98
       object lbl1: TLabel
@@ -145,36 +146,55 @@ inherited frmMasterProductNBD: TfrmMasterProductNBD
         Text = 'PIUTANG VVV'
       end
     end
-    inherited cxGrid: TcxGrid
+    inherited pgcBrowse: TcxPageControl
       Width = 637
       Height = 112
-      TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 633
-      ExplicitHeight = 52
+      ExplicitWidth = 637
+      ExplicitHeight = 112
+      ClientRectBottom = 111
+      ClientRectRight = 636
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        inherited cxGrid: TcxGrid
+          Width = 637
+          Height = 112
+          ExplicitLeft = 2
+          ExplicitTop = 2
+          ExplicitWidth = 633
+          ExplicitHeight = 52
+        end
+      end
     end
   end
   inherited pnlHeader: TPanel
     Width = 659
-    ExplicitWidth = 120
+    ExplicitWidth = 659
     inherited lblFilterData: TcxLabel
-      Left = 261
-      ExplicitLeft = -278
+      Left = 305
+      ExplicitLeft = 305
+      AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 325
+      Left = 366
       ExplicitLeft = -214
       ExplicitHeight = 24
     end
-    inherited lblsdFilter: TcxLabel
-      Left = 421
-      ExplicitLeft = -118
-    end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 453
+      Left = 482
       ExplicitLeft = -86
       ExplicitHeight = 24
+    end
+    inherited btnSearch: TcxButton
+      Left = 577
+      ExplicitLeft = 577
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 458
+      ExplicitLeft = 458
+      AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
@@ -186,22 +206,24 @@ inherited frmMasterProductNBD: TfrmMasterProductNBD
     inherited pnlFooter: TPanel
       Width = 659
       ExplicitWidth = 120
-      inherited btnClose: TcxButton
-        Left = 577
-        ExplicitLeft = 38
-      end
       inherited btnAdd: TcxButton
         Action = actAddMasterProductNBD
       end
       inherited btnUpdate: TcxButton
         Action = actEditMasterProductNBD
       end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 577
+        Action = actClose
+        ExplicitLeft = 38
+      end
     end
-    inherited pnlSortCut: TPanel
-      Width = 659
-      ExplicitWidth = 120
-      inherited lbl5: TLabel
-        Left = 569
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
       end
     end
   end
@@ -229,9 +251,6 @@ inherited frmMasterProductNBD: TfrmMasterProductNBD
       TabOrder = 0
       OnChange = edtSearchChange
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlst1: TActionList
     Left = 504

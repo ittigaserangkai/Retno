@@ -20,7 +20,6 @@ inherited frmDialogSearchStatusKlrg: TfrmDialogSearchStatusKlrg
       Width = 386
       Height = 240
       TabOrder = 1
-      ExplicitLeft = 2
       ExplicitTop = 56
       ExplicitWidth = 377
       ExplicitHeight = 266
@@ -134,6 +133,7 @@ inherited frmDialogSearchStatusKlrg: TfrmDialogSearchStatusKlrg
       end
       inherited btnSave: TcxButton
         Left = 220
+        Action = actSave
         Caption = 'Select'
         OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
@@ -188,6 +188,9 @@ inherited frmDialogSearchStatusKlrg: TfrmDialogSearchStatusKlrg
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFF}
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 211
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel

@@ -6,6 +6,7 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   ClientWidth = 546
   OldCreateOrder = True
   OnDeactivate = FormDeactivate
+  ExplicitTop = 8
   ExplicitWidth = 562
   ExplicitHeight = 363
   PixelsPerInch = 96
@@ -20,9 +21,11 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
       Height = 213
       ExplicitWidth = 524
       ExplicitHeight = 157
-      ClientRectBottom = 213
-      ClientRectRight = 524
+      ClientRectBottom = 212
+      ClientRectRight = 523
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 524
         ExplicitHeight = 157
         inherited cxGrid: TcxGrid
@@ -45,12 +48,10 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     inherited dtAwalFilter: TcxDateEdit
       Left = 253
       ExplicitLeft = 253
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 369
       ExplicitLeft = 369
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 464
@@ -70,11 +71,6 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     inherited pnlFooter: TPanel
       Width = 546
       ExplicitWidth = 546
-      inherited btnClose: TcxButton
-        Left = 469
-        Action = actClose
-        ExplicitLeft = 469
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -84,20 +80,15 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
       inherited btnPrint: TcxButton
         Action = actPrint
       end
+      inherited btnClose: TcxButton
+        Left = 469
+        Action = actClose
+        ExplicitLeft = 469
+      end
     end
-    inherited pnlSortCut: TPanel
-      Width = 546
-      ExplicitWidth = 546
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
-        Left = 472
-        Height = 17
-        ExplicitLeft = 472
+    inherited pnlShortCut: TPanel
+      inherited lbEscape: TLabel
+        Height = 16
       end
     end
   end

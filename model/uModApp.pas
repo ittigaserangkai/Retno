@@ -180,7 +180,7 @@ begin
     if Result <> nil then break;
   end;
 
-  if Result = nil then
+  if (Result = nil) and (WithException) then
     raise Exception.Create(
       'Attribute : ' + attr.ClassName + ' can''t be found in '
       + Self.ClassName

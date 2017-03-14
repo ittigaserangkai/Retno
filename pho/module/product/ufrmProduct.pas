@@ -32,10 +32,6 @@ type
     actSellingPrice: TAction;
     actProductTurunan: TAction;
     lblInvalid: TcxLabel;
-    cxStyle1: TcxStyle;
-    cxStyle2: TcxStyle;
-    cxStyle3: TcxStyle;
-    cxStyle4: TcxStyle;
     tsProductInfo: TcxTabSheet;
     dxNavBarLeftSide: TdxNavBar;
     dxNavGroupSettingProduct: TdxNavBarGroup;

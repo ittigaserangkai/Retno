@@ -273,7 +273,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
     object cxLookupTipeBarang: TcxExtLookupComboBox
       Left = 101
-      Top = 107
+      Top = 106
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       TabOrder = 7
@@ -297,7 +297,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
     object cxLookupLocation: TcxExtLookupComboBox
       Left = 101
-      Top = 181
+      Top = 180
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       TabOrder = 10
@@ -358,7 +358,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Visible = False
       Width = 237
     end
-    object cbbProductName: TcxExtLookupComboBox
+    object cxLookupMerk: TcxExtLookupComboBox
       Left = 227
       Top = 7
       Properties.CharCase = ecUpperCase
