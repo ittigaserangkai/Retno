@@ -70,13 +70,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-<<<<<<< HEAD
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.26;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>26</VerInfo_Build>
-=======
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.28;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>28</VerInfo_Build>
->>>>>>> a15e64be027be08a6bebdadc9cf6df324eedbdb8
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.29;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>29</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Debug>true</VerInfo_Debug>
         <VerInfo_MajorVer>2017</VerInfo_MajorVer>
@@ -256,6 +251,12 @@
             <Form>frmTest</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\model\uModApp.pas"/>
+        <DCCReference Include="..\model\uModTest.pas"/>
+        <DCCReference Include="..\lib\uDBUtils.pas"/>
+        <DCCReference Include="..\lib\uAppUtils.pas"/>
+        <DCCReference Include="..\lib\uDXUtils.pas"/>
+        <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
             <Form>frmDialogRekening</Form>
         </DCCReference>
@@ -362,11 +363,8 @@
             <Form>frmDialogSearchSupplier</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\lib\uAppUtils.pas"/>
         <DCCReference Include="..\lib\uConn.pas"/>
-        <DCCReference Include="..\lib\uDBUtils.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
-        <DCCReference Include="..\lib\uDXUtils.pas"/>
         <DCCReference Include="..\lib\uNetUtils.pas"/>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
         <DCCReference Include="module\merchandise\ufraHistoriPOByProduct.pas">
@@ -384,15 +382,17 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\model\uModAccount.pas"/>
-        <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
-        <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
+<<<<<<< HEAD
         <DCCReference Include="..\model\uModRekening.pas"/>
+=======
+        <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
+>>>>>>> 21e8a83523cc68bc7d18882f9e632def46a1fd95
         <DCCReference Include="..\model\uModTipeBarang.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>
         <DCCReference Include="..\model\uModTipePembeli.pas"/>
@@ -419,14 +419,24 @@
         <DCCReference Include="module\references\ufrmSatuan_NBD.pas">
             <Form>frmSatuan_NBD</Form>
         </DCCReference>
-        <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
         <DCCReference Include="..\model\uModSatuan.pas"/>
         <DCCReference Include="..\model\uModTipePembayaran.pas"/>
-<<<<<<< HEAD
         <DCCReference Include="..\model\uModCostCenter.pas"/>
-=======
+        <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
         <DCCReference Include="unit\uInfo.pas"/>
->>>>>>> a15e64be027be08a6bebdadc9cf6df324eedbdb8
+<<<<<<< HEAD
+        <DCCReference Include="module\references\ufrmCostCenter.pas">
+            <Form>frmCostCenter</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\references\ufrmDialogCostCenter.pas">
+            <Form>frmDialogCostCenter</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="unit\uInterface.pas"/>
+=======
+        <DCCReference Include="..\model\uModRekening.pas"/>
+>>>>>>> 21e8a83523cc68bc7d18882f9e632def46a1fd95
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

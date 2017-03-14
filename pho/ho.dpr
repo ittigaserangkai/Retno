@@ -109,7 +109,6 @@ uses
   uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
-  ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
   ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
   uInterface in '..\system\uInterface.pas',
   ufrmSupplier in 'module\merchandise\ufrmSupplier.pas' {frmSupplier},
@@ -140,8 +139,7 @@ uses
   ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit},
   ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
-  ufrmBarangCompetitor in 'module\merchandise\ufrmBarangCompetitor.pas' {frmBarangCompetitor},
-  ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor};
+  ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter};
 
 {$R *.res}
 
