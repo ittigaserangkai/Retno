@@ -52,6 +52,7 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited btnClose: TcxButton
         Left = 477
+        Action = actCancel
         Cancel = False
         ModalResult = 2
         DragKind = dkDock
@@ -59,6 +60,8 @@ object frmMasterDialog: TfrmMasterDialog
       end
       inherited btnSave: TcxButton
         Left = 384
+        Action = actSave
+        ExplicitLeft = 384
       end
       inherited btnDelete: TcxButton
         Action = actDelete

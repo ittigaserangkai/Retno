@@ -225,27 +225,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     ExplicitWidth = 701
     inherited pnlFooter: TPanel
       Width = 701
-      ExplicitTop = 21
       ExplicitWidth = 701
-      inherited btnAdd: TcxButton
-        ExplicitLeft = 4
-        ExplicitTop = 4
-      end
-      inherited btnUpdate: TcxButton
-        ExplicitLeft = 80
-        ExplicitTop = 4
-      end
-      inherited btnPrint: TcxButton
-        ExplicitLeft = 264
-      end
       inherited btnClose: TcxButton
         Left = 624
+        ExplicitLeft = 624
       end
       inherited cxButton1: TcxButton
         Action = actExport
-        ExplicitLeft = 340
-        ExplicitTop = 4
-        ExplicitHeight = 27
       end
     end
     inherited pnlShortCut: TPanel
