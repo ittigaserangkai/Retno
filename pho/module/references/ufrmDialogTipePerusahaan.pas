@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, uRetnoUnit, uModTipePerusahaan, ufraFooterDialog3Button,
-  uDMClient, uAppUtils;
+  uDMClient, uAppUtils, System.Actions, Vcl.ActnList;
 
 type
   TFormMode = (fmAdd, fmEdit);

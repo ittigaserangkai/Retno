@@ -5,18 +5,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-   uNewMerchandize, uRetnoUnit ;
+   uNewMerchandize, uRetnoUnit, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button ;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
   TfrmDialogMerchandiseGroup = class(TfrmMasterDialog)
-    lbl1: TLabel;
-    edtName: TEdit;
-    Label1: TLabel;
-    edtCode: TEdit;
-    Label10: TLabel;
-    cbbPpn: TComboBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);

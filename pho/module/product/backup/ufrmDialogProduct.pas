@@ -7,7 +7,7 @@ uses
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, uConn, uRetnoUnit, ActnList, System.Actions, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
-  cxCurrencyEdit, cxCheckBox;
+  cxCurrencyEdit, cxCheckBox, ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);

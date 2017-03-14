@@ -721,7 +721,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       OnKeyPress = cbbProductNameKeyPress
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 425
     Width = 758
     ExplicitTop = 425
@@ -735,23 +735,27 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
       inherited btnSave: TcxButton
         Left = 591
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 591
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 758
       ExplicitWidth = 758
-      inherited lbl4: TLabel
-        Left = 574
-        ExplicitLeft = 576
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 671
-        Width = 72
-        Caption = 'Escape [Close]'
-        ExplicitLeft = 673
-        ExplicitWidth = 72
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

@@ -75,13 +75,16 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
     inherited pnlSortCut: TPanel
       Width = 442
       ExplicitWidth = 442
-      inherited lbl4: TLabel
-        Left = 229
-        ExplicitLeft = 229
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 330
-        ExplicitLeft = 330
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

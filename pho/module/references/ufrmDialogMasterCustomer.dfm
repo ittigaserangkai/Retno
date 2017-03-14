@@ -426,7 +426,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       end
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 380
     Width = 534
     ExplicitTop = 406
@@ -440,20 +440,27 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       end
       inherited btnSave: TcxButton
         Left = 365
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 367
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 534
       ExplicitWidth = 536
-      inherited lbl4: TLabel
-        Left = 350
-        ExplicitLeft = 352
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 444
-        ExplicitLeft = 446
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

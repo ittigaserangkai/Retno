@@ -9,7 +9,7 @@ uses
   cxEdit, cxMaskEdit, cxButtonEdit, cxTextEdit, cxCurrencyEdit, uClientClasses,
   uModRekening,  uDMClient, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, uDbutils, DBClient, Vcl.Samples.Spin,
-  cxSpinEdit, ufraFooterDialog3Button;
+  cxSpinEdit, ufraFooterDialog3Button, System.Actions, Vcl.ActnList;
 
 type
   TStatusForm = (frNew, frEdit);

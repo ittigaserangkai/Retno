@@ -10,7 +10,8 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator,
   cxDBData, cxGridLevel, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid, cxButtons,
-  cxContainer, cxTextEdit, cxMaskEdit, cxButtonEdit;
+  cxContainer, cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions,
+  Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TfrmDialogAddNewMenu = class(TfrmMasterDialog)

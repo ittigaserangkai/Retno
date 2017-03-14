@@ -103,31 +103,33 @@ inherited frmDialogPajak: TfrmDialogPajak
     inherited pnlFooter: TPanel
       Width = 400
       ExplicitWidth = 400
-      DesignSize = (
-        400
-        35)
       inherited btnClose: TcxButton
         Left = 318
         ExplicitLeft = 318
       end
       inherited btnSave: TcxButton
         Left = 232
-        Top = 4
+        Action = actSave
         OnClick = btnSaveClick
         ExplicitLeft = 232
-        ExplicitTop = 4
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 400
       ExplicitWidth = 400
-      inherited lbl4: TLabel
-        Left = 215
-        ExplicitLeft = 215
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 310
-        ExplicitLeft = 310
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

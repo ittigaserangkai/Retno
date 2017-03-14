@@ -13,7 +13,6 @@ inherited frmDialogHariLibur: TfrmDialogHariLibur
   inherited pnlBody: TPanel
     Width = 367
     Height = 85
-    ExplicitTop = 0
     ExplicitWidth = 369
     ExplicitHeight = 111
     object Label1: TLabel
@@ -51,7 +50,7 @@ inherited frmDialogHariLibur: TfrmDialogHariLibur
       TabOrder = 1
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 85
     Width = 367
     ExplicitTop = 111
@@ -65,20 +64,27 @@ inherited frmDialogHariLibur: TfrmDialogHariLibur
       end
       inherited btnSave: TcxButton
         Left = 198
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 200
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 367
       ExplicitWidth = 369
-      inherited lbl4: TLabel
-        Left = 183
-        ExplicitLeft = 185
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 277
-        ExplicitLeft = 279
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

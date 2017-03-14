@@ -13,11 +13,10 @@ type
     btnClose: TcxButton;
     btnSave: TcxButton;
     pnlSortCut: TPanel;
-    lbl4: TLabel;
-    lbl5: TLabel;
+    lbCTRLEnter: TLabel;
+    lbEscape: TLabel;
     btnDelete: TcxButton;
-    lbl3: TLabel;
-    procedure btnCloseClick(Sender: TObject);
+    lbCTRLDel: TLabel;
   private
     { Private declarations }
   public
@@ -27,14 +26,6 @@ type
 implementation
 
 {$R *.dfm}
-
-procedure TfraFooterDialog3Button.btnCloseClick(Sender: TObject);
-begin
-  if (Owner is TForm) then
-    TForm(Owner).Close
-  else if (Owner is TFrame) then
-    TForm((Owner as TFrame).Owner).Close;
-end;
 
 end.
 

@@ -1,7 +1,5 @@
 inherited frmDialogMerchandise: TfrmDialogMerchandise
   Caption = 'Update Data Merchandise'
-  ExplicitWidth = 570
-  ExplicitHeight = 371
   PixelsPerInch = 96
   TextHeight = 16
   inherited footerDialogMaster: TfraFooterDialog3Button
@@ -14,14 +12,16 @@ inherited frmDialogMerchandise: TfrmDialogMerchandise
       end
     end
     inherited pnlSortCut: TPanel
-      inherited lbl4: TLabel
-        Height = 15
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Height = 15
+      inherited lbEscape: TLabel
+        Height = 16
       end
-      inherited lbl3: TLabel
-        Height = 15
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

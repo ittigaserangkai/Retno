@@ -527,10 +527,6 @@
             <Form>frmDialogDaftarKompetitor</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\merchandise\ufrmBarangCompetitor.pas">
-            <Form>frmBarangCompetitor</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="module\merchandise\ufrmDialogBarangCompetitor.pas">
             <Form>frmDialogBarangCompetitor</Form>
             <FormType>dfm</FormType>

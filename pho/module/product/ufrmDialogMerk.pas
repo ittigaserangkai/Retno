@@ -14,6 +14,7 @@ type
     edNama: TEdit;
     edDescription: TEdit;
     lbl1: TLabel;
+    procedure FormCreate(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
   private
     FModMerk: TModMerk;
@@ -32,10 +33,16 @@ var
 implementation
 
 uses
-  uDMClient;
+  uDMClient, uDXUtils;
 
 
 {$R *.dfm}
+
+procedure TfrmDialogMerk.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
+end;
 
 procedure TfrmDialogMerk.actSaveExecute(Sender: TObject);
 begin

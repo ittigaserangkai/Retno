@@ -7,30 +7,11 @@ uses
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
   StdCtrls, Mask, JvToolEdit, JvLabel, Grids, BaseGrid, AdvGrid, uConn, JclStrings,
   uAdjustmentStock, JvEdit, JvExMask, JvExStdCtrls, JvValidateEdit,
-  JvExControls, AdvObj;
+  JvExControls, AdvObj, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TStatusForm = (frAdd, frApply, frEdit);
   TfrmDialogAdjustmentProduct = class(TfrmMasterDialog)
-    pnlMiddle: TPanel;
-    pnl2: TPanel;
-    strgGrid: TAdvStringGrid;
-    pnl1: TPanel;
-    lblTambah: TJvLabel;
-    lblHapus: TJvLabel;
-    pnlTop: TPanel;
-    lbl1: TLabel;
-    lbl3: TLabel;
-    lbl2: TLabel;
-    lbl4: TLabel;
-    dtTglOpnam: TJvDateEdit;
-    edtRemark: TEdit;
-    cbbPilihan: TComboBox;
-    edt1: TEdit;
-    lbl5: TLabel;
-    curredtTotAdjustment: TJvValidateEdit;
-    lbl6: TLabel;
-    edtProductName: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure strgGridCanEditCell(Sender: TObject; ARow, ACol: Integer;
