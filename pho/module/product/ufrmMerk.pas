@@ -17,6 +17,7 @@ type
   TfrmMerk = class(TfrmMasterBrowse)
     procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,6 +35,13 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmMerk.btnUpdateClick(Sender: TObject);
+begin
+  inherited;
+  if cxGridView.DS <> nil then
+    ShowDialogForm(TfrmDialogMerk,cxGridView.DS.FieldByName('Merk_ID').AsString);
+end;
+
 procedure TfrmMerk.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -41,19 +49,9 @@ begin
 end;
 
 procedure TfrmMerk.actAddExecute(Sender: TObject);
-var
-  frm: TfrmDialogMerk;
 begin
   inherited;
-  frm := TfrmDialogMerk.Create(Self);
-  Try
-    If frm.ShowModal = mrOk then
-    begin
-      showMessage(frm.ModMerk.ID);
-    end;
-  Finally
-    frm.Free;
-  End;
+  ShowDialogForm(TfrmDialogMerk);
 end;
 
 procedure TfrmMerk.RefreshData;

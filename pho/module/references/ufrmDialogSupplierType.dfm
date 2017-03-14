@@ -6,6 +6,8 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
   ClientWidth = 347
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
@@ -52,7 +54,7 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
       TabOrder = 0
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 106
     Width = 347
     ExplicitTop = 106
@@ -66,20 +68,27 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
       end
       inherited btnSave: TcxButton
         Left = 178
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 178
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 347
       ExplicitWidth = 347
-      inherited lbl4: TLabel
-        Left = 163
-        ExplicitLeft = 163
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 257
-        ExplicitLeft = 257
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

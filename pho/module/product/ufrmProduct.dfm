@@ -7,7 +7,7 @@ inherited frmProduct: TfrmProduct
   KeyPreview = True
   OldCreateOrder = True
   OnShow = nil
-  ExplicitTop = 8
+  ExplicitTop = -15
   ExplicitWidth = 940
   ExplicitHeight = 534
   PixelsPerInch = 96
@@ -15,6 +15,7 @@ inherited frmProduct: TfrmProduct
   inherited pnlBody: TPanel
     Width = 924
     Height = 406
+    ExplicitTop = 33
     ExplicitWidth = 924
     ExplicitHeight = 406
     inherited pgcBrowse: TcxPageControl
@@ -28,15 +29,15 @@ inherited frmProduct: TfrmProduct
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
-        ExplicitLeft = 0
-        ExplicitTop = 27
-        ExplicitWidth = 902
-        ExplicitHeight = 357
+        ExplicitLeft = 1
+        ExplicitTop = 24
+        ExplicitWidth = 900
+        ExplicitHeight = 359
         inherited cxGrid: TcxGrid
-          Width = 902
-          Height = 357
-          ExplicitWidth = 902
-          ExplicitHeight = 357
+          Width = 900
+          Height = 359
+          ExplicitWidth = 900
+          ExplicitHeight = 359
         end
       end
       object tsProductInfo: TcxTabSheet
@@ -51,7 +52,6 @@ inherited frmProduct: TfrmProduct
           ActiveGroupIndex = 0
           TabOrder = 0
           View = 0
-          ExplicitHeight = 357
           object dxNavGroupSettingProduct: TdxNavBarGroup
             Caption = 'Setting Product'
             SelectedLinkIndex = -1
@@ -1270,12 +1270,12 @@ inherited frmProduct: TfrmProduct
     inherited dtAwalFilter: TcxDateEdit
       Left = 631
       ExplicitLeft = 631
-      ExplicitHeight = 21
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 747
       ExplicitLeft = 747
-      ExplicitHeight = 21
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 842
@@ -1302,27 +1302,46 @@ inherited frmProduct: TfrmProduct
     ExplicitWidth = 924
     inherited pnlFooter: TPanel
       Width = 924
+      ExplicitTop = 21
       ExplicitWidth = 924
       inherited btnAdd: TcxButton
         Action = actAdd
+        ExplicitLeft = 4
+        ExplicitTop = 4
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
+        ExplicitLeft = 80
+        ExplicitTop = 4
       end
       inherited btnPrint: TcxButton
         Action = actPrint
+        ExplicitLeft = 264
       end
       inherited btnClose: TcxButton
         Left = 847
         Action = actClose
         ExplicitLeft = 847
       end
-    end
-    inherited pnlShortCut: TPanel
-      inherited lbEscape: TLabel
-        Height = 16
+      inherited cxButton1: TcxButton
+        Action = actExport
+        ExplicitLeft = 340
+        ExplicitTop = 4
+        ExplicitHeight = 27
       end
     end
+    inherited pnlShortCut: TPanel
+      Width = 924
+      ExplicitWidth = 924
+      inherited lbEscape: TLabel
+        Left = 850
+        Height = 17
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    Left = 552
+    Top = 24
   end
   object actlst1: TActionList
     Left = 680

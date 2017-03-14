@@ -5,21 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, uNewBankAccount;
+  StdCtrls, uNewBankAccount, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button;
 
 type
   TfrmBankAccDialog = class(TfrmMasterDialog)
-    edtNoRek: TEdit;
-    Label8: TLabel;
-    Label9: TLabel;
-    edtNm: TEdit;
-    edtKode: TEdit;
-    Label10: TLabel;
-    edtCab: TEdit;
-    chkIsActive: TCheckBox;
-    Label12: TLabel;
-    edtAlamat: TEdit;
-    Label1: TLabel;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
   private
     { Private declarations }

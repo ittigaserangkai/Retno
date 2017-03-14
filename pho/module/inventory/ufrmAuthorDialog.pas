@@ -5,53 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  SUIForm, uNewAuthor;
+  SUIForm, uNewAuthor, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TfrmAuthorDialog = class(TfrmMasterDialog)
-    lblCode: TLabel;
-    edtKode: TEdit;
-    edtNama: TEdit;
-    Label2: TLabel;
-    Label3: TLabel;
-    edtTptLhr: TEdit;
-    edtAlamat: TEdit;
-    Label4: TLabel;
-    Label5: TLabel;
-    edtTlp: TEdit;
-    edtHp: TEdit;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    edtKota: TEdit;
-    Label1: TLabel;
-    chkIsActive: TCheckBox;
-    edtEmail: TEdit;
-    edtKeahlian: TEdit;
-    lbl4: TLabel;
-    lbl5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    edtLhrD: TEdit;
-    edtKodePos: TEdit;
-    edtAlamatKantor: TEdit;
-    edtMerk: TEdit;
-    edtBankNm: TEdit;
-    edtBankCab: TEdit;
-    edtNoRek: TEdit;
-    Label12: TLabel;
-    edtBankId: TEdit;
-    edtLhrM: TEdit;
-    edtLhrY: TEdit;
-    Label13: TLabel;
-    edtNamaPena: TEdit;
-    edtRemark: TEdit;
-    Label14: TLabel;
-    Label15: TLabel;
-    Label16: TLabel;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

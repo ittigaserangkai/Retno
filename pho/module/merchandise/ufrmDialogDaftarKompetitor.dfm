@@ -125,23 +125,16 @@ inherited frmDialogDaftarKompetitor: TfrmDialogDaftarKompetitor
     inherited pnlSortCut: TPanel
       Width = 367
       ExplicitWidth = 369
-      inherited lbl4: TLabel
-        Left = 181
-        Width = 97
-        Height = 15
-        Caption = 'CTRL - Enter [Save]'
-        ExplicitLeft = 179
-        ExplicitTop = 2
-        ExplicitWidth = 97
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 286
-        Height = 15
-        ExplicitLeft = 279
-        ExplicitTop = 2
+      inherited lbEscape: TLabel
+        Height = 16
       end
-      inherited lbl3: TLabel
-        Height = 15
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

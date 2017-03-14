@@ -26,16 +26,16 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    DesignSize = (
-      440
-      35)
     object btnClose: TcxButton
-      Left = 358
-      Top = 3
+      AlignWithMargins = True
+      Left = 363
+      Top = 4
       Width = 72
       Height = 27
       Cursor = crHandPoint
-      Anchors = [akRight, akBottom]
+      Margins.Top = 2
+      Margins.Bottom = 2
+      Align = alRight
       Cancel = True
       Caption = 'Cancel'
       OptionsImage.Glyph.Data = {
@@ -91,15 +91,20 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
         00FFFF00FFFF00FFFF00FFFF00FF9F9F9FFF00FFFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 0
-      OnClick = btnCloseClick
+      ExplicitLeft = 358
+      ExplicitTop = 3
     end
     object btnSave: TcxButton
-      Left = 271
-      Top = 3
+      AlignWithMargins = True
+      Left = 270
+      Top = 4
       Width = 80
       Height = 27
       Cursor = crHandPoint
-      Anchors = [akRight, akBottom]
+      Margins.Top = 2
+      Margins.Right = 10
+      Margins.Bottom = 2
+      Align = alRight
       Caption = 'Save'
       Default = True
       OptionsImage.Glyph.Data = {
@@ -155,14 +160,19 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 1
+      ExplicitLeft = 203
+      ExplicitTop = 0
     end
     object btnDelete: TcxButton
-      Left = 24
-      Top = 3
+      AlignWithMargins = True
+      Left = 5
+      Top = 4
       Width = 72
       Height = 27
       Cursor = crHandPoint
-      Anchors = [akLeft, akBottom]
+      Margins.Top = 2
+      Margins.Bottom = 2
+      Align = alLeft
       Caption = 'Delete'
       OptionsImage.Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
@@ -217,6 +227,8 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 2
+      ExplicitLeft = 24
+      ExplicitTop = 3
     end
   end
   object pnlSortCut: TPanel
@@ -229,29 +241,34 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
     BevelOuter = bvLowered
     Color = 13284267
     TabOrder = 1
-    DesignSize = (
-      440
-      21)
-    object lbl4: TLabel
-      Left = 275
+    object lbCTRLEnter: TLabel
+      AlignWithMargins = True
+      Left = 265
       Top = 3
-      Width = 62
-      Height = 16
-      Anchors = [akRight, akBottom]
-      Caption = 'Enter [Save]'
+      Width = 85
+      Height = 15
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alRight
+      Caption = 'Ctrl-Enter [Save]'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 248
+      ExplicitHeight = 10
     end
-    object lbl5: TLabel
-      Left = 350
+    object lbEscape: TLabel
+      AlignWithMargins = True
+      Left = 356
       Top = 3
       Width = 79
-      Height = 16
-      Anchors = [akRight, akBottom]
+      Height = 15
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alRight
       Caption = 'Escape [Cancel]'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -259,13 +276,18 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 362
+      ExplicitHeight = 16
     end
-    object lbl3: TLabel
-      Left = 24
+    object lbCTRLDel: TLabel
+      AlignWithMargins = True
+      Left = 5
       Top = 3
       Width = 87
-      Height = 16
-      Anchors = [akLeft, akBottom]
+      Height = 15
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alLeft
       Caption = 'CTRL-Del [Delete]'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -273,6 +295,8 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 24
+      ExplicitHeight = 16
     end
   end
 end
