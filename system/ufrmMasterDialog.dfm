@@ -56,21 +56,12 @@ object frmMasterDialog: TfrmMasterDialog
         ModalResult = 2
         DragKind = dkDock
         ExplicitLeft = 477
-        ExplicitTop = 4
       end
       inherited btnSave: TcxButton
-        Left = 374
-        Margins.Right = 20
-        Action = actSave
-        Default = False
-        DragKind = dkDock
-        ExplicitLeft = 374
-        ExplicitTop = 4
+        Left = 384
       end
       inherited btnDelete: TcxButton
         Action = actDelete
-        ExplicitLeft = 5
-        ExplicitTop = 4
       end
     end
     inherited pnlSortCut: TPanel
@@ -79,10 +70,12 @@ object frmMasterDialog: TfrmMasterDialog
       inherited lbCTRLEnter: TLabel
         Left = 379
         Height = 15
+        ExplicitLeft = 379
       end
       inherited lbEscape: TLabel
         Left = 470
         Height = 15
+        ExplicitLeft = 470
       end
       inherited lbCTRLDel: TLabel
         Height = 15
