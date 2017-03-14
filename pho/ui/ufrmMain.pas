@@ -8,7 +8,7 @@ uses
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
-  ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup;
+  ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -472,7 +472,7 @@ end;
 
 procedure TfrmMain.actCostCenterExecute(Sender: TObject);
 begin
-  //
+  frmCostCenter := TfrmCostCenter.Create(Application);
 end;
 
 procedure TfrmMain.actDataProductExecute(Sender: TObject);

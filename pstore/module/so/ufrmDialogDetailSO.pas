@@ -10,7 +10,8 @@ uses
   cxDropDownEdit, cxCalendar, ufraFooterDialog3Button, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, ufrmMasterDialogBrowse;
+  cxGridDBTableView, cxGrid, ufrmMasterDialogBrowse, System.Actions,
+  Vcl.ActnList;
 
 type
   TintHari = record
@@ -128,9 +129,6 @@ begin
     Cells[_kolNo,0] := 'NO.';
     Cells[_kolPlu,0] := 'PRODUCT CODE';
     Cells[_kolBkpBtkp,0] := 'BKP/BTKP';
-//    Cells[3,0] := 'QTY COMMON';
-//    Cells[4,0] := 'QTY TRADER';
-//    Cells[5,0] := 'QTY ASSGROS';  
     Cells[_kolNamaBarang,0] := 'NAMA BARANG';
     Cells[_kolQTY,0] := 'QTY';
     Cells[_kolSupCode,0] := 'SUPPLIER CODE';
@@ -215,12 +213,12 @@ begin
   if FIsBelumPO then
   begin
     footerDialogMaster.btnSave.Visible := True;
-    footerDialogMaster.lbl4.Visible := True;
+    footerDialogMaster.lbCTRLEnter.Visible := True;
   end
   else
   begin
     footerDialogMaster.btnSave.Visible := False;
-    footerDialogMaster.lbl4.Visible := False;
+    footerDialogMaster.lbCTRLEnter.Visible := False;
     lblDeleteRow.Visible := False;
     Label1.Visible := false;
     edtAddPLU.Visible := False; 

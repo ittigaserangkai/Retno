@@ -18,10 +18,11 @@ type
   TfrmCostCenter = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
     { Private declarations }
+  protected
+    procedure RefreshData; override;
   public
     { Public declarations }
   end;
@@ -65,9 +66,8 @@ begin
   end;
 end;
 
-procedure TfrmCostCenter.actRefreshExecute(Sender: TObject);
+procedure TfrmCostCenter.RefreshData;
 begin
-  inherited;
   if Assigned(FCDS) then FreeAndNil(FCDS);
 
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.CostCenter_GetDSLookup(),Self );

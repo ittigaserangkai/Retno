@@ -7,11 +7,11 @@ uses
   Dialogs, ufrmMasterDialogBrowse, ufraFooterDialog2Button, ExtCtrls,StdCtrls,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
-  cxDBData, AdvUtil, AdvCombo, ColCombo, ufraFooterDialog3Button, cxGridLevel,
+  cxDBData, ufraFooterDialog3Button, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils,
   cxLabel, cxDropDownEdit, cxCalendar, cxTextEdit, cxMaskEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDBLookupEdit, cxDBExtLookupComboBox, System.Actions, Vcl.ActnList;
 
 type
   TFormMode = (fmAdd, fmEdit);

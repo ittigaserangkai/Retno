@@ -12,7 +12,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Width = 701
     Height = 314
     Color = clWindow
-    ExplicitTop = 38
+    ExplicitTop = 33
     ExplicitWidth = 701
     ExplicitHeight = 314
     object pgcBrowse: TcxPageControl
@@ -225,12 +225,27 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     ExplicitWidth = 701
     inherited pnlFooter: TPanel
       Width = 701
+      ExplicitTop = 21
       ExplicitWidth = 701
+      inherited btnAdd: TcxButton
+        ExplicitLeft = 4
+        ExplicitTop = 4
+      end
+      inherited btnUpdate: TcxButton
+        ExplicitLeft = 80
+        ExplicitTop = 4
+      end
+      inherited btnPrint: TcxButton
+        ExplicitLeft = 264
+      end
       inherited btnClose: TcxButton
         Left = 624
       end
       inherited cxButton1: TcxButton
         Action = actExport
+        ExplicitLeft = 340
+        ExplicitTop = 4
+        ExplicitHeight = 27
       end
     end
     inherited pnlShortCut: TPanel
@@ -238,6 +253,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       ExplicitWidth = 701
       inherited lbEscape: TLabel
         Left = 627
+        Height = 17
         ExplicitLeft = 627
       end
     end

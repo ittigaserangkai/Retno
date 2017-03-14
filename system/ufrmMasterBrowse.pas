@@ -44,8 +44,9 @@ type
   protected
     function ShowDialogForm(DlgFormClass: TMasterDlgClass; AID: String = ''):
         Integer;
+    procedure RefreshData; dynamic; abstract;
   public
-     procedure RefreshData; dynamic; abstract;
+
     { Public declarations }
   published
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;

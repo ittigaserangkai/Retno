@@ -14,6 +14,7 @@ type
     LblName: TLabel;
     edtCode: TEdit;
     edtName: TEdit;
+    procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
   private
@@ -34,12 +35,19 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmDialogCostCenter.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
+end;
+
 procedure TfrmDialogCostCenter.actDeleteExecute(Sender: TObject);
 begin
   inherited;
   if TAppUtils.ConfirmHapus then
   begin
-    DMClient.CrudClient.DeleteFromDB(FCostCenter);
+    if DMClient.CrudClient.DeleteFromDB(FCostCenter) then
+      Self.ModalResult := mrOk;
   end;
 end;
 
@@ -65,7 +73,10 @@ begin
     CostCenter.COCTER_CODE := edtCode.Text;
     CostCenter.COCTER_NAME := edtName.Text;
 
-    DMClient.CrudClient.SaveToDB(FCostCenter);
+    if DMClient.CrudClient.SaveToDB(FCostCenter) then
+      ModalResult := mrOk;
+
+
   end;
 end;
 

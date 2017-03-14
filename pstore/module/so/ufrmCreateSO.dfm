@@ -225,13 +225,13 @@ inherited frmCreateSO: TfrmCreateSO
           TabOrder = 1
           OnClick = btnShowClick
         end
-        object btnAddFromPOAssgross: TcxButton
+        object btnAddFromPOTrader: TcxButton
           Left = 616
           Top = 4
           Width = 137
           Height = 25
           Cursor = crHandPoint
-          Caption = 'Add From PO Assgros'
+          Caption = 'Add From PO Trader'
           OptionsImage.Glyph.Data = {
             36060000424D3606000000000000360000002800000020000000100000000100
             1800000000000006000000000000000000000000000000000000FF00FFFF00FF
@@ -641,6 +641,18 @@ inherited frmCreateSO: TfrmCreateSO
       Width = 320
       Height = 120
       TabOrder = 2
+      ColWidths = (
+        64
+        64
+        64
+        64
+        64)
+      RowHeights = (
+        24
+        24
+        24
+        24
+        24)
     end
     object gridTemp: TStringGrid
       Left = 24
@@ -648,11 +660,26 @@ inherited frmCreateSO: TfrmCreateSO
       Width = 320
       Height = 142
       TabOrder = 3
+      ColWidths = (
+        64
+        64
+        64
+        64
+        64)
+      RowHeights = (
+        24
+        24
+        24
+        24
+        24)
     end
   end
   inherited pnlHeader: TPanel
     Width = 801
     ExplicitWidth = 801
+    inherited lblHeader: TLabel
+      Height = 18
+    end
   end
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0
@@ -920,9 +947,9 @@ inherited frmCreateSO: TfrmCreateSO
       Caption = 'Add Others Product for SO'
       OnExecute = actAddOthersProdSOExecute
     end
-    object actAddPOAssgross: TAction
-      Caption = 'Add From PO Assgross'
-      OnExecute = actAddPOAssgrossExecute
+    object actAddPOTrader: TAction
+      Caption = 'Add From PO Trader'
+      OnExecute = actAddPOTraderExecute
     end
     object actToExcel: TAction
       Caption = 'actToExcel'

@@ -22,7 +22,7 @@ inherited frmDialogDetailSO: TfrmDialogDetailSO
       TabOrder = 1
       ExplicitTop = 37
       ExplicitWidth = 777
-      ExplicitHeight = 293
+      ExplicitHeight = 237
     end
     object Panel1: TPanel
       Left = 2
@@ -96,9 +96,6 @@ inherited frmDialogDetailSO: TfrmDialogDetailSO
       Align = alBottom
       BevelOuter = bvLowered
       TabOrder = 2
-      ExplicitLeft = 11
-      ExplicitTop = 226
-      ExplicitWidth = 755
       DesignSize = (
         777
         56)
@@ -206,28 +203,34 @@ inherited frmDialogDetailSO: TfrmDialogDetailSO
       Width = 781
       ExplicitWidth = 781
       inherited btnClose: TcxButton
-        Left = 699
+        Left = 704
         Caption = 'Close'
-        ExplicitLeft = 699
+        ExplicitLeft = 704
       end
       inherited btnSave: TcxButton
-        Left = 612
+        Left = 601
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 612
+        ExplicitLeft = 601
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 781
       ExplicitWidth = 781
-      inherited lbl4: TLabel
-        Left = 592
-        ExplicitLeft = 594
+      inherited lbCTRLEnter: TLabel
+        Left = 606
+        ExplicitLeft = 606
       end
-      inherited lbl5: TLabel
-        Left = 686
+      inherited lbEscape: TLabel
+        Left = 697
+        ExplicitLeft = 697
+      end
+      inherited lbCTRLDel: TLabel
         Width = 72
         Caption = 'Escape [Close]'
-        ExplicitLeft = 688
         ExplicitWidth = 72
       end
     end
