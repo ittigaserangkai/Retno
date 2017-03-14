@@ -1,14 +1,14 @@
 inherited frmDialogMerk: TfrmDialogMerk
   Caption = 'Update Data Merk'
-  ClientHeight = 265
-  ClientWidth = 608
-  ExplicitWidth = 624
-  ExplicitHeight = 304
+  ClientHeight = 176
+  ClientWidth = 475
+  ExplicitWidth = 491
+  ExplicitHeight = 215
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 608
-    Height = 209
+    Width = 475
+    Height = 120
     ExplicitWidth = 608
     ExplicitHeight = 209
     object Label1: TLabel
@@ -52,45 +52,44 @@ inherited frmDialogMerk: TfrmDialogMerk
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 209
-    Width = 608
+    Top = 120
+    Width = 475
     ExplicitTop = 209
     ExplicitWidth = 608
     inherited pnlFooter: TPanel
-      Width = 608
+      Width = 475
       ExplicitWidth = 608
       inherited btnClose: TcxButton
-        Left = 531
+        Left = 398
         ExplicitLeft = 531
       end
       inherited btnSave: TcxButton
-        Left = 428
+        Left = 305
         Action = actSave
-        ExplicitLeft = 428
+        ExplicitLeft = 438
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+        OnClick = btnDeleteClick
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 608
+      Width = 475
       ExplicitWidth = 608
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 300
       end
       inherited lbEscape: TLabel
-        Height = 16
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 391
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 464
-    Top = 80
+    Left = 448
+    Top = 16
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

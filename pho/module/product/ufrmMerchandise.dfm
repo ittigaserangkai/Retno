@@ -9,6 +9,7 @@ inherited frmMerchandise: TfrmMerchandise
   inherited pnlBody: TPanel
     Width = 652
     Height = 286
+    ExplicitTop = 33
     ExplicitWidth = 652
     ExplicitHeight = 286
     inherited pgcBrowse: TcxPageControl
@@ -19,6 +20,8 @@ inherited frmMerchandise: TfrmMerchandise
       ClientRectBottom = 263
       ClientRectRight = 629
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 628
         ExplicitHeight = 262
         inherited cxGrid: TcxGrid
@@ -41,10 +44,12 @@ inherited frmMerchandise: TfrmMerchandise
     inherited dtAwalFilter: TcxDateEdit
       Left = 359
       ExplicitLeft = 359
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 475
       ExplicitLeft = 475
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 570
@@ -84,6 +89,19 @@ inherited frmMerchandise: TfrmMerchandise
     end
     inherited pnlShortCut: TPanel
       Width = 652
+      ExplicitWidth = 652
+      inherited lbEscape: TLabel
+        Left = 578
+        Height = 17
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

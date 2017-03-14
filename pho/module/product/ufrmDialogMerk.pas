@@ -14,6 +14,7 @@ type
     edNama: TEdit;
     edDescription: TEdit;
     lbl1: TLabel;
+    procedure actDeleteExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
   private
@@ -33,10 +34,24 @@ var
 implementation
 
 uses
-  uDMClient, uDXUtils;
+  uDMClient, uDXUtils, uApputils, uConstanta;
 
 
 {$R *.dfm}
+
+procedure TfrmDialogMerk.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  Try
+    DMCLient.CrudClient.DeleteFromDB(ModMerk);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.Close;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
 
 procedure TfrmDialogMerk.FormCreate(Sender: TObject);
 begin
@@ -70,7 +85,14 @@ procedure TfrmDialogMerk.SaveData;
 begin
   ModMerk.MERK_NAME        := edNama.Text;
   ModMerk.MERK_DESCRIPTION := edDescription.Text;
-  ModMerk.ID               := DMClient.CrudClient.SaveToDBID(ModMerk);
+  Try
+    ModMerk.ID             := DMClient.CrudClient.SaveToDBID(ModMerk);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
+  End;
+
 end;
 
 end.
