@@ -140,6 +140,8 @@ type
   TFormHelper = class helper for TForm
   private
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure OnClosePopup(Sender: TObject);
+    procedure OnEditValueChanged(Sender: TObject);
   public
     procedure AssignKeyDownEvent;
     procedure ClearByTag(Tag: TTag);
@@ -471,7 +473,6 @@ begin
   FocusPopup         := True;
   DropDownAutoSize   := True;
   DropDownListStyle  := lsEditList;
-  FocusPopup         := True;
 
   If Self.View is TcxGridDBTableView then
   begin
@@ -479,6 +480,7 @@ begin
     Self.View.OptionsData.Inserting         := False;
     Self.View.OptionsData.Deleting          := False;
     Self.View.OptionsData.Appending         := False;
+    Self.PostPopupValueOnTab := True;
     Self.View.DataController.Filter.Options := [fcoCaseInsensitive];
 
     TcxGridDBTableView(Self.View).FilterRow.InfoText
@@ -1006,9 +1008,21 @@ begin
     if C is TcxTextEdit then
       If not Assigned(TcxTextEdit(C).OnKeyDown) then
         TcxTextEdit(C).OnKeyDown := OnKeyEnter;
+
     if C is TcxExtLookupComboBox then
-      if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
-        TcxExtLookupComboBox(C).OnKeyDown := OnKeyEnter;
+    begin
+      //if multipurposelookup
+      if TcxExtLookupComboBox(C).Properties.FocusPopup then
+      begin
+        if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
+          TcxExtLookupComboBox(C).OnKeyDown:= OnKeyEnter;
+      end else
+      begin
+        if not Assigned(TcxExtLookupComboBox(C).Properties.OnEditValueChanged) then
+          TcxExtLookupComboBox(C).Properties.OnEditValueChanged := OnEditValueChanged;
+      end;
+    end;
+
     if C is TcxComboBox then
       if not Assigned(TcxComboBox(C).OnKeyDown) then
         TcxComboBox(C).OnKeyDown := OnKeyEnter;
@@ -1043,7 +1057,23 @@ end;
 procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
-  if Key = VK_RETURN then SelectNext(Screen.ActiveControl, True, True);
+  if Key = VK_RETURN then
+  begin
+//    if Sender is TcxExtLookupComboBox then
+//      TcxExtLookupComboBox(Sender).PostEditValue;
+    SelectNext(Screen.ActiveControl, True, True);
+  end;
+end;
+
+procedure TFormHelper.OnClosePopup(Sender: TObject);
+begin
+  if Sender is TcxExtLookupComboBox then
+    TcxExtLookupComboBox(Sender).PostEditValue;
+end;
+
+procedure TFormHelper.OnEditValueChanged(Sender: TObject);
+begin
+  SelectNext(Screen.ActiveControl, True, True);
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,

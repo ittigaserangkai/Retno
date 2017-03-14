@@ -49,7 +49,6 @@ uses
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
   ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
   ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
@@ -144,7 +143,8 @@ uses
   ufrmListBigTrader in 'module\inventory\ufrmListBigTrader.pas' {frmListBigTrader},
   ufrmListBigSupplier in 'module\inventory\ufrmListBigSupplier.pas' {frmListBigSupplier},
   ufrmCompany in 'module\references\ufrmCompany.pas' {frmCompany},
-  ufrmDialogCompany in 'module\references\ufrmDialogCompany.pas' {frmDialogCompany};
+  ufrmDialogCompany in 'module\references\ufrmDialogCompany.pas' {frmDialogCompany},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
@@ -154,5 +154,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmMerchandiseGroup, frmMerchandiseGroup);
   Application.Run;
 end.

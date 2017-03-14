@@ -15,6 +15,8 @@ uses
 
 type
   TfrmMerchandiseGroup = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,9 +30,23 @@ var
 implementation
 
 uses
-  uDMClient, uDBUtils, uDXUtils, uModBarang;
+  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogMerchandiseGroup;
 
 {$R *.dfm}
+
+procedure TfrmMerchandiseGroup.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogMerchandiseGroup);
+end;
+
+procedure TfrmMerchandiseGroup.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogMerchandiseGroup,
+    cxGridView.DS.FieldByName('Ref$Merchandise_Grup_ID').AsString
+  );
+end;
 
 procedure TfrmMerchandiseGroup.RefreshData;
 begin

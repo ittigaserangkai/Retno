@@ -2,6 +2,7 @@ inherited frmMerchandiseGroup: TfrmMerchandiseGroup
   Caption = 'frmMerchandiseGroup'
   ClientHeight = 395
   ClientWidth = 637
+  ExplicitTop = 8
   ExplicitWidth = 653
   ExplicitHeight = 434
   PixelsPerInch = 96
@@ -19,6 +20,8 @@ inherited frmMerchandiseGroup: TfrmMerchandiseGroup
       ClientRectBottom = 283
       ClientRectRight = 614
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 613
         ExplicitHeight = 282
         inherited cxGrid: TcxGrid
@@ -41,10 +44,12 @@ inherited frmMerchandiseGroup: TfrmMerchandiseGroup
     inherited dtAwalFilter: TcxDateEdit
       Left = 344
       ExplicitLeft = 344
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 460
       ExplicitLeft = 460
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 555
@@ -84,6 +89,19 @@ inherited frmMerchandiseGroup: TfrmMerchandiseGroup
     end
     inherited pnlShortCut: TPanel
       Width = 637
+      ExplicitWidth = 637
+      inherited lbEscape: TLabel
+        Left = 563
+        Height = 17
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end
