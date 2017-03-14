@@ -4,7 +4,6 @@ uses
   Vcl.Forms,
   ufrmMain in 'ui\ufrmMain.pas' {frmMain},
   ufrmLogin in 'module\login\ufrmLogin.pas' {frmLogin},
-  uConstanta in 'unit\uConstanta.pas',
   ufraFooter1Button in '..\system\ufraFooter1Button.pas' {fraFooter1Button: TFrame},
   ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
   ufraLoading in '..\system\ufraLoading.pas' {fraLoading: TFrame},
@@ -140,7 +139,8 @@ uses
   ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit},
   ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
-  ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor};
+  ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor},
+  uConstanta in 'unit\uConstanta.pas';
 
 {$R *.res}
 
