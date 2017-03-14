@@ -1111,8 +1111,8 @@ object frmMain: TfrmMain
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
-    Left = 168
-    Top = 160
+    Left = 169
+    Top = 159
   end
   object LookAndFeelController: TcxLookAndFeelController
     NativeStyle = False

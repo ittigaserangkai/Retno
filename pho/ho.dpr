@@ -149,5 +149,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmSupplierType, frmSupplierType);
   Application.Run;
 end.

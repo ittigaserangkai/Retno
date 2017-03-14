@@ -226,8 +226,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Margins.Bottom = 2
         Align = alRight
         Action = actClose
-        ExplicitLeft = 624
-        ExplicitTop = 4
+        ExplicitLeft = 625
       end
       inherited btnAdd: TcxButton
         AlignWithMargins = True

@@ -69,6 +69,7 @@ inherited frmSupplierType: TfrmSupplierType
       inherited btnClose: TcxButton
         Left = 465
         Action = actClose
+        OnClick = nil
         ExplicitLeft = 465
       end
       inherited btnAdd: TcxButton
@@ -90,7 +91,9 @@ inherited frmSupplierType: TfrmSupplierType
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
   end
 end

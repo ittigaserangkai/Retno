@@ -34,7 +34,6 @@ type
     cxlvMaster: TcxGridLevel;
     procedure actCloseExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -70,12 +69,6 @@ procedure TfrmMasterBrowse.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   RefreshData;
-end;
-
-procedure TfrmMasterBrowse.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  Action := caFree;
 end;
 
 procedure TfrmMasterBrowse.FormCreate(Sender: TObject);

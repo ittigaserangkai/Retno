@@ -110,9 +110,6 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
-  end
   object actlstTipePembayaran: TActionList
     Left = 479
     Top = 44

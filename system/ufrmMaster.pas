@@ -165,7 +165,6 @@ end;
 
 procedure TfrmMaster.FormDestroy(Sender: TObject);
 begin
-//  frmMain.pnlHeader.Show;
   FreeAndNil(TList);
   FreeAndNil(frmMaster); // := nil;
 end;
@@ -173,10 +172,6 @@ end;
 procedure TfrmMaster.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
-
-  {if frmMain.MDIChildCount = 1 then
-    frmMain.pnlHeader.Show;
-  }  
 end;
 
 procedure TfrmMaster.Authenticate;
