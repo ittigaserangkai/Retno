@@ -2,20 +2,21 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
   Left = 241
   Top = 178
   Caption = 'frmDialogTipePembayaran'
-  ClientHeight = 138
-  ClientWidth = 353
+  ClientHeight = 354
+  ClientWidth = 667
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
-  ExplicitWidth = 369
-  ExplicitHeight = 177
+  ExplicitWidth = 683
+  ExplicitHeight = 393
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 353
-    Height = 82
-    ExplicitWidth = 353
-    ExplicitHeight = 82
+    Width = 667
+    Height = 298
+    ExplicitTop = -1
+    ExplicitWidth = 667
+    ExplicitHeight = 298
     object lbl1: TLabel
       Left = 40
       Top = 13
@@ -54,42 +55,44 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 82
-    Width = 353
+    Top = 298
+    Width = 667
     ExplicitTop = 82
     ExplicitWidth = 353
     inherited pnlFooter: TPanel
-      Width = 353
+      Width = 667
       ExplicitWidth = 353
       inherited btnClose: TcxButton
-        Left = 271
-        ExplicitLeft = 271
+        Left = 590
+        ExplicitLeft = 276
       end
       inherited btnSave: TcxButton
-        Left = 184
-        Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 184
+        Left = 497
+        Action = nil
+        OptionsImage.ImageIndex = 32
+        ExplicitLeft = 183
       end
       inherited btnDelete: TcxButton
-        Action = actDelete
-        OnClick = btnDeleteClick
+        Action = nil
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 353
+      Width = 667
       ExplicitWidth = 353
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 492
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 583
       end
-      inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
-      end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
