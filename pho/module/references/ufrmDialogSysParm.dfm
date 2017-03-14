@@ -12,9 +12,8 @@ inherited frmDialogSysParm: TfrmDialogSysParm
   inherited pnlBody: TPanel
     Width = 455
     Height = 176
-    ExplicitTop = 0
-    ExplicitWidth = 457
-    ExplicitHeight = 202
+    ExplicitWidth = 455
+    ExplicitHeight = 176
     object Label9: TLabel
       Left = 67
       Top = 18
@@ -120,35 +119,49 @@ inherited frmDialogSysParm: TfrmDialogSysParm
       TabOrder = 4
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 176
     Width = 455
-    ExplicitTop = 202
-    ExplicitWidth = 457
+    ExplicitTop = 176
+    ExplicitWidth = 455
     inherited pnlFooter: TPanel
       Width = 455
-      ExplicitWidth = 457
+      ExplicitWidth = 455
       inherited btnClose: TcxButton
-        Left = 373
-        ExplicitLeft = 375
+        Left = 378
+        ExplicitLeft = 378
       end
       inherited btnSave: TcxButton
-        Left = 286
+        Left = 275
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 288
+        ExplicitLeft = 275
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 455
-      ExplicitWidth = 457
+      ExplicitWidth = 455
       inherited lbl4: TLabel
-        Left = 290
+        Left = 275
+        Height = 15
         ExplicitLeft = 292
       end
       inherited lbl5: TLabel
-        Left = 365
+        Left = 374
+        Height = 15
         ExplicitLeft = 367
       end
+      inherited lbl3: TLabel
+        Height = 15
+      end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
     end
   end
 end
