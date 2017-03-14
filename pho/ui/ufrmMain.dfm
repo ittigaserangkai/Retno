@@ -168,6 +168,9 @@ object frmMain: TfrmMain
       object ipeSuplier1: TMenuItem
         Action = actSupplierType
       end
+      object Company1: TMenuItem
+        Action = actCompany
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -1107,6 +1110,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Merk'
       OnExecute = actMerkExecute
+    end
+    object actCompany: TAction
+      Category = 'References'
+      Caption = 'Company'
+      OnExecute = actCompanyExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents

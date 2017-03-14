@@ -8,7 +8,8 @@ uses
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
-  ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter;
+  ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
+  ufrmCompany;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -272,11 +273,14 @@ type
     SubGroup1: TMenuItem;
     Kategori1: TMenuItem;
     Merk1: TMenuItem;
+    actCompany: TAction;
+    Company1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
+    procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
@@ -443,6 +447,11 @@ var i: integer;
 begin
   for i := Self.MDIChildCount-1 downto 0 do
     MDIChildren[i].Close;
+end;
+
+procedure TfrmMain.actCompanyExecute(Sender: TObject);
+begin
+  frmCompany := TfrmCompany.Create(Application);
 end;
 
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);

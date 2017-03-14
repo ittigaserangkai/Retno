@@ -28,11 +28,11 @@ uses
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   uDXUtils in '..\lib\uDXUtils.pas',
-  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
   uModSuplier in '..\model\uModSuplier.pas',
-  uModBarang in '..\model\uModBarang.pas';
+  uModBarang in '..\model\uModBarang.pas',
+  uServerDSProvider in 'unit\uServerDSProvider.pas';
 
 {$R *.res}
 

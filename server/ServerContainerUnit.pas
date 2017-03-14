@@ -9,7 +9,7 @@ uses
   Datasnap.DSProxyJavaAndroid, Datasnap.DSProxyJavaBlackBerry,
   Datasnap.DSProxyObjectiveCiOS, Datasnap.DSProxyCsharpSilverlight,
   Datasnap.DSProxyFreePascal_iOS,
-  Datasnap.DSAuth, Datasnap.DSNames;
+  Datasnap.DSAuth, Datasnap.DSNames, uServerDSProvider;
 
 type
   TServerContainer = class(TDataModule)

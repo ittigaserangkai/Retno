@@ -19,6 +19,8 @@ inherited frmCostCenter: TfrmCostCenter
       ClientRectBottom = 223
       ClientRectRight = 732
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 731
         ExplicitHeight = 222
         inherited cxGrid: TcxGrid
@@ -48,11 +50,13 @@ inherited frmCostCenter: TfrmCostCenter
       Left = 462
       Enabled = False
       ExplicitLeft = 462
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 578
       Enabled = False
       ExplicitLeft = 578
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 673
@@ -96,6 +100,8 @@ inherited frmCostCenter: TfrmCostCenter
       ExplicitWidth = 755
       inherited lbEscape: TLabel
         Left = 681
+        Height = 17
+        ExplicitLeft = 681
       end
     end
   end
