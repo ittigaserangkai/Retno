@@ -14,7 +14,7 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
     Height = 362
     BorderWidth = 0
     ExplicitWidth = 702
-    ExplicitHeight = 306
+    ExplicitHeight = 362
     inherited pgcBrowse: TcxPageControl
       Left = 1
       Top = 89
@@ -24,17 +24,17 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
       ExplicitLeft = 1
       ExplicitTop = 89
       ExplicitWidth = 700
-      ExplicitHeight = 85
-      ClientRectBottom = 141
-      ClientRectRight = 700
+      ExplicitHeight = 141
+      ClientRectBottom = 140
+      ClientRectRight = 699
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 700
-        ExplicitHeight = 85
+        ExplicitWidth = 698
+        ExplicitHeight = 139
         inherited cxGrid: TcxGrid
-          Width = 700
-          Height = 141
-          ExplicitWidth = 700
-          ExplicitHeight = 85
+          Width = 698
+          Height = 139
+          ExplicitWidth = 698
+          ExplicitHeight = 139
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               Caption = 'No.'
@@ -198,7 +198,6 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 1
-      ExplicitTop = 174
       object lbl5: TLabel
         Left = 11
         Top = 8
@@ -443,16 +442,11 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 395
     Width = 702
-    ExplicitTop = 339
+    ExplicitTop = 395
     ExplicitWidth = 702
     inherited pnlFooter: TPanel
       Width = 702
       ExplicitWidth = 702
-      inherited btnClose: TcxButton
-        Left = 625
-        Action = actClose
-        ExplicitLeft = 625
-      end
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -462,17 +456,18 @@ inherited frmBarangCompetitor: TfrmBarangCompetitor
       inherited btnPrint: TcxButton
         Action = actPrint
       end
+      inherited btnClose: TcxButton
+        Left = 625
+        Action = actClose
+        ExplicitLeft = 625
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 702
-      ExplicitWidth = 702
-      inherited lbl1: TLabel
-        Height = 15
-      end
-      inherited lbl2: TLabel
-        Height = 15
-      end
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 628
         Height = 17
       end

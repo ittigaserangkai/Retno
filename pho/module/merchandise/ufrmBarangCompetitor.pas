@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ActnList,
-  System.Actions, Math, uConn, ColCombo, cxGraphics, cxControls, cxLookAndFeels,
+  System.Actions, Math, uConn, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
   Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, cxCurrencyEdit,
