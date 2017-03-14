@@ -19,6 +19,7 @@ type
     edtGroup: TEdit;
     edtDesc: TEdit;
     Label3: TLabel;
+    procedure actDeleteExecute(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -41,6 +42,41 @@ implementation
 
 {$R *.dfm}
 uses uTSCommonDlg, uRetnoUnit;
+
+procedure TfrmDialogSysParm.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  /// tanya ke user dl mas, apakah yakin akan hapus DB
+  {
+  if MessageDlg('Apakah yakin akan menghapus System Parameter ' +
+          strgGrid.Cells[_KolNm , iy] + ' ?',
+          mtConfirmation,[mbYes,mbNo],0)=mrYes then
+  begin
+    if FSysParm.LoadByID(strgGrid.Ints[_kolId, iy]) then
+    begin
+      try
+        if FSysParm.RemoveFromDB then
+        begin
+          cCommitTrans;
+          CommonDlg.ShowMessage('Sukses Hapus System Parameter');
+          GetRec;
+        end
+        else
+        begin
+          cRollbackTrans;
+          CommonDlg.ShowError('Gagal Hapus System Parameter');
+        end;
+      finally
+        cRollbackTrans;
+      end;
+    end
+    else
+    begin
+       CommonDlg.ShowConfirmGlobal ('Data yang dihapus tidak ada!');
+    end;
+  end;
+  }
+end;
 
 procedure TfrmDialogSysParm.SetData;
 begin
