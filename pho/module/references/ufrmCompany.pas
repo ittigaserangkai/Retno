@@ -11,10 +11,12 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDXUtils, uDMClient;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDXUtils, uDMClient, ufrmDialogCompany;
 
 type
   TfrmCompany = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -29,6 +31,36 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmCompany.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  frmDialogCompany := TfrmDialogCompany.Create(nil);
+  try
+   frmDialogCompany.LoadData('00000000-0000-0000-0000-000000000000');
+   frmDialogCompany.ShowModal;
+
+    if frmDialogCompany.ModalResult = mrOk then
+      actRefreshExecute(Sender);
+  finally
+   frmDialogCompany.Free;
+  end;
+end;
+
+procedure TfrmCompany.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  frmDialogCompany := TfrmDialogCompany.Create(nil);
+  try
+   frmDialogCompany.LoadData(cxGridView.DS.FieldByName('COMPANY_ID').AsString);
+   frmDialogCompany.ShowModal;
+
+    if frmDialogCompany.ModalResult = mrOk then
+      actRefreshExecute(Sender);
+  finally
+   frmDialogCompany.Free;
+  end;
+end;
 
 procedure TfrmCompany.RefreshData;
 begin

@@ -141,7 +141,8 @@ uses
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
   ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor},
   ufrmCompany in 'module\references\ufrmCompany.pas' {frmCompany},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmDialogCompany in 'module\references\ufrmDialogCompany.pas' {frmDialogCompany};
 
 {$R *.res}
 

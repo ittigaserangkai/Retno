@@ -77,12 +77,16 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       ExplicitWidth = 442
       inherited lbCTRLEnter: TLabel
         Left = 267
-        ExplicitLeft = 216
-        ExplicitTop = 7
-        ExplicitHeight = 15
+        Height = 15
+        ExplicitLeft = 267
       end
       inherited lbEscape: TLabel
         Left = 358
+        Height = 15
+        ExplicitLeft = 358
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
     end
   end

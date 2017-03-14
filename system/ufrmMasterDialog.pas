@@ -8,7 +8,7 @@ uses
   System.Classes, Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxCheckBox, cxSpinEdit;
+  cxCheckBox, cxSpinEdit, uDMClient, uClientClasses;
 
 type
   TfrmMasterDialog = class(TForm)

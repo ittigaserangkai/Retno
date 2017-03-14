@@ -11,7 +11,7 @@ uses
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, ufraFooter4Button, Vcl.Menus, cxButtons, System.Actions, Vcl.ActnList,
-  uInterface, ufrmMasterDialog, dxBarBuiltInMenu, cxPC;
+  uInterface, ufrmMasterDialog, dxBarBuiltInMenu, cxPC, uDMClient, uClientClasses;
 
 type
   TfrmMasterBrowse = class(TfrmMaster)

@@ -70,8 +70,18 @@ inherited frmCompany: TfrmCompany
     inherited pnlFooter: TPanel
       Width = 783
       ExplicitWidth = 124
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
       inherited btnClose: TcxButton
         Left = 706
+        Action = actClose
         ExplicitLeft = 47
       end
       inherited cxButton1: TcxButton
@@ -85,6 +95,29 @@ inherited frmCompany: TfrmCompany
         Left = 709
         Height = 17
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    Images = DMClient.imgListButton
+    inherited actAdd: TAction
+      ImageIndex = 2
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      ImageIndex = 10
+      OnExecute = actEditExecute
+    end
+    inherited actClose: TAction
+      ImageIndex = 22
+    end
+    inherited actPrint: TAction
+      ImageIndex = 28
+    end
+    inherited actRefresh: TAction
+      ImageIndex = 30
+    end
+    inherited actExport: TAction
+      ImageIndex = 34
     end
   end
 end
