@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
-  StdCtrls, ufraFooterDialog3Button;
+  StdCtrls, ufraFooterDialog3Button, System.Actions, Vcl.ActnList;
 
 type
   TFormMode = (fmAdd, fmEdit);

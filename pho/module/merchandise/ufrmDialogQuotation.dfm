@@ -1704,25 +1704,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
     inherited pnlSortCut: TPanel
       Width = 986
       ExplicitWidth = 986
-      inherited lbl4: TLabel
-        Left = 817
-        Width = 87
-        Height = 15
-        Caption = 'Save [Ctrl+Enter]'
-        ExplicitLeft = 817
-        ExplicitWidth = 87
-      end
-      inherited lbl5: TLabel
-        Left = 912
-        Width = 72
-        Height = 15
-        Caption = 'Close [Escape]'
-        ExplicitLeft = 912
-        ExplicitWidth = 72
-      end
-      inherited lbl3: TLabel
-        Height = 15
-      end
     end
   end
 end

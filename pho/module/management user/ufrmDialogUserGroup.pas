@@ -7,7 +7,8 @@ uses
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, System.StrUtils,
   StdCtrls, ComCtrls, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus, cxButtons,
-  cxContainer, cxEdit, cxTreeView;
+  cxContainer, cxEdit, cxTreeView, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);

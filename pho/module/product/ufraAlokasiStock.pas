@@ -19,10 +19,10 @@ type
     lblClose: TcxLabel;
     lbl1: TLabel;
     edt28: TEdit;
-    cxViewStockAllocation: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
-    cxGrid: TcxGrid;
     ecCurrentStock: TcxCurrencyEdit;
+    cxGrid: TcxGrid;
+    cxGridView: TcxGridDBTableView;
+    cxlvMaster: TcxGridLevel;
     procedure lblCloseClick(Sender: TObject);
   private
     FProductCode: string;
@@ -47,7 +47,7 @@ uses ufrmProduct, uConn;
 
 procedure TfraAlokasiStock.ParseHeaderGrid;
 begin
-  with cxViewStockAllocation.DataController do
+  with cxGridView.DataController do
   begin
     ClearDetails;
 //    RowCount := 4;
@@ -72,7 +72,7 @@ var data: TDataSet;
 begin
   data := TDataSet.Create(Self);
   ParseHeaderGrid;
-  with cxViewStockAllocation.DataController do
+  with cxGridView.DataController do
   begin
     Values[0,1] := 'COMMON';
     Values[0,2] := 'TRADER';

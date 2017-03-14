@@ -59,14 +59,14 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       Width = 442
       ExplicitWidth = 442
       inherited btnClose: TcxButton
-        Left = 365
+        Left = 360
         Action = actCancel
-        ExplicitLeft = 365
+        ExplicitLeft = 360
       end
       inherited btnSave: TcxButton
-        Left = 262
+        Left = 233
         Action = actSave
-        ExplicitLeft = 262
+        ExplicitLeft = 233
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -75,18 +75,16 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
     inherited pnlSortCut: TPanel
       Width = 442
       ExplicitWidth = 442
-      inherited lbl4: TLabel
-        Left = 262
-        Height = 15
-        ExplicitLeft = 262
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 361
-        Height = 15
-        ExplicitLeft = 361
+      inherited lbEscape: TLabel
+        Height = 16
       end
-      inherited lbl3: TLabel
-        Height = 15
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

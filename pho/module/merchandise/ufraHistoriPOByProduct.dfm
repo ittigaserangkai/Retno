@@ -59,16 +59,34 @@ object fraHistoriPOByProduct: TfraHistoriPOByProduct
       Height = 175
       Align = alClient
       TabOrder = 4
-      ExplicitWidth = 647
-      ExplicitHeight = 101
-      object cxGridDBTableView1: TcxGridDBTableView
+      LockedStateImageOptions.Text = 'Mohon ditunggu...'
+      LookAndFeel.NativeStyle = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 677
+      ExplicitHeight = 290
+      object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
+        FindPanel.DisplayMode = fpdmManual
+        FindPanel.InfoText = 'ketik teks yang dicari...'
+        DataController.Filter.Options = [fcoCaseInsensitive]
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        FilterRow.InfoText = 
+          'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
+          'er'
+        FilterRow.Visible = True
+        FilterRow.ApplyChanges = fracImmediately
+        NewItemRow.InfoText = 'Baris baru'
+        OptionsData.Editing = False
+        OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+        OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridHeader
+        Styles.Header = DMClient.cxStyleGridEven
       end
-      object cxGridLevel1: TcxGridLevel
-        GridView = cxGridDBTableView1
+      object cxlvMaster: TcxGridLevel
+        GridView = cxGridView
       end
     end
   end

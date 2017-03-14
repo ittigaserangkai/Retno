@@ -5,16 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  uActionListCust, StdCtrls;
+  uActionListCust, StdCtrls, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button;
 
 type
   TfrmDialogActionList = class(TfrmMasterDialog)
-    edtID: TEdit;
-    edtNm: TEdit;
-    edtDesc: TEdit;
-    Suplier: TLabel;
-    Label7: TLabel;
-    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);

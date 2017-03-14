@@ -108,13 +108,16 @@ inherited frmDialogSatuan: TfrmDialogSatuan
     inherited pnlSortCut: TPanel
       Width = 373
       ExplicitWidth = 373
-      inherited lbl4: TLabel
-        Left = 188
-        ExplicitLeft = 190
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 283
-        ExplicitLeft = 285
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

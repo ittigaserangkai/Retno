@@ -3,17 +3,17 @@ inherited frmDialogProduct: TfrmDialogProduct
   Top = 98
   Caption = 'Update Data Barang'
   ClientHeight = 408
-  ClientWidth = 800
+  ClientWidth = 778
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 816
+  ExplicitWidth = 794
   ExplicitHeight = 447
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 800
+    Width = 778
     Height = 352
     ExplicitWidth = 800
     ExplicitHeight = 352
@@ -373,7 +373,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 92
     end
     object gbPurchase: TcxGroupBox
-      Left = 466
+      Left = 443
       Top = 35
       Caption = ' Purchase : '
       Enabled = False
@@ -416,7 +416,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
     end
     object cxGroupBox2: TcxGroupBox
-      Left = 467
+      Left = 444
       Top = 137
       Enabled = False
       PanelStyle.Active = True
@@ -488,7 +488,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       TabOrder = 16
       Transparent = True
       Height = 202
-      Width = 150
+      Width = 134
       object cbTurunan: TcxCheckBox
         AlignWithMargins = True
         Left = 5
@@ -501,6 +501,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 0
         Transparent = True
+        ExplicitWidth = 143
       end
       object cbActive: TcxCheckBox
         AlignWithMargins = True
@@ -514,6 +515,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 1
         Transparent = True
+        ExplicitWidth = 143
       end
       object cbisDecimal: TcxCheckBox
         AlignWithMargins = True
@@ -527,6 +529,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 2
         Transparent = True
+        ExplicitWidth = 143
       end
       object cbIsTaxInclude: TcxCheckBox
         AlignWithMargins = True
@@ -540,6 +543,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 3
         Transparent = True
+        ExplicitWidth = 143
       end
       object cbisDeposit: TcxCheckBox
         AlignWithMargins = True
@@ -554,6 +558,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 6
         Transparent = True
         ExplicitTop = 140
+        ExplicitWidth = 143
       end
       object chkIsDiscAMC: TcxCheckBox
         AlignWithMargins = True
@@ -568,6 +573,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 5
         Transparent = True
         ExplicitTop = 119
+        ExplicitWidth = 143
       end
       object chkIsBasic: TcxCheckBox
         AlignWithMargins = True
@@ -581,6 +587,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 4
         Transparent = True
+        ExplicitWidth = 143
       end
       object chkIsGalon: TcxCheckBox
         AlignWithMargins = True
@@ -595,6 +602,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 7
         Transparent = True
         Visible = False
+        ExplicitWidth = 143
       end
     end
     object edtSSBARANG: TcxSpinEdit
@@ -606,18 +614,18 @@ inherited frmDialogProduct: TfrmDialogProduct
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 352
-    Width = 800
+    Width = 778
     ExplicitTop = 352
     ExplicitWidth = 800
     inherited pnlFooter: TPanel
-      Width = 800
+      Width = 778
       ExplicitWidth = 800
       inherited btnClose: TcxButton
-        Left = 723
+        Left = 701
         ExplicitLeft = 723
       end
       inherited btnSave: TcxButton
-        Left = 620
+        Left = 598
         Action = actSave
         ExplicitLeft = 620
       end
@@ -626,15 +634,15 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 800
+      Width = 778
       ExplicitWidth = 800
       inherited lbl4: TLabel
-        Left = 627
+        Left = 605
         Height = 15
         ExplicitLeft = 627
       end
       inherited lbl5: TLabel
-        Left = 726
+        Left = 704
         Width = 72
         Height = 15
         Caption = 'Escape [Close]'
@@ -647,7 +655,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 648
+    Left = 696
     Top = 240
   end
 end

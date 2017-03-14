@@ -139,7 +139,11 @@ uses
   ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit},
   ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
+<<<<<<< HEAD
   ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter};
+=======
+  ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor};
+>>>>>>> 0bf058d3f258d85d3988c8a939f61d1c0efe0436
 
 {$R *.res}
 

@@ -678,7 +678,7 @@ inherited frmDialogAddNewMenu: TfrmDialogAddNewMenu
       end
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 483
     Width = 583
     TabOrder = 3
@@ -693,24 +693,31 @@ inherited frmDialogAddNewMenu: TfrmDialogAddNewMenu
       end
       inherited btnSave: TcxButton
         Left = 414
+        Action = actSave
         Visible = False
         ExplicitLeft = 416
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 583
       ExplicitWidth = 585
-      inherited lbl4: TLabel
-        Left = 394
-        ExplicitLeft = 398
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 488
-        ExplicitLeft = 492
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end
-  object btnRefresh: TcxButton
+  object btnRefresh: TcxButton [2]
     Left = 96
     Top = 508
     Width = 75
@@ -772,7 +779,7 @@ inherited frmDialogAddNewMenu: TfrmDialogAddNewMenu
     TabOrder = 2
     OnClick = btnRefreshClick
   end
-  object btnUpdate: TcxButton
+  object btnUpdate: TcxButton [3]
     Left = 8
     Top = 508
     Width = 75
