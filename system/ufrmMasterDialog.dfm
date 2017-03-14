@@ -53,6 +53,7 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited btnClose: TcxButton
         Left = 477
+        Action = actDelete
         Cancel = False
         ModalResult = 2
         DragKind = dkDock
@@ -60,6 +61,7 @@ object frmMasterDialog: TfrmMasterDialog
       end
       inherited btnSave: TcxButton
         Left = 384
+        Action = actSave
         ExplicitLeft = 384
       end
       inherited btnDelete: TcxButton
@@ -71,17 +73,22 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited lbCTRLEnter: TLabel
         Left = 379
+        Height = 15
         ExplicitLeft = 379
       end
       inherited lbEscape: TLabel
         Left = 470
+        Height = 15
         ExplicitLeft = 470
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
     end
   end
   object actlstMasterDialog: TActionList
-    Left = 512
-    Top = 48
+    Left = 440
+    Top = 64
     object actDelete: TAction
       Caption = 'Delete'
       ShortCut = 16430

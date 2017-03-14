@@ -650,11 +650,15 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 778
       inherited btnClose: TcxButton
         Left = 701
+        Action = actDelete
+        Caption = 'Cancel'
+        OptionsImage.ImageIndex = 4
         ExplicitLeft = 701
       end
       inherited btnSave: TcxButton
         Left = 608
         Action = actSave
+        OptionsImage.ImageIndex = 32
         ExplicitLeft = 608
       end
       inherited btnDelete: TcxButton
@@ -666,16 +670,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 778
       inherited lbCTRLEnter: TLabel
         Left = 603
-        Height = 15
         ExplicitLeft = 603
       end
       inherited lbEscape: TLabel
         Left = 694
-        Height = 15
         ExplicitLeft = 694
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end

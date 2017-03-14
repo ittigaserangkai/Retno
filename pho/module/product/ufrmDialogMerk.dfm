@@ -9,8 +9,8 @@ inherited frmDialogMerk: TfrmDialogMerk
   inherited pnlBody: TPanel
     Width = 475
     Height = 120
-    ExplicitWidth = 608
-    ExplicitHeight = 209
+    ExplicitWidth = 475
+    ExplicitHeight = 120
     object Label1: TLabel
       Left = 26
       Top = 37
@@ -35,7 +35,6 @@ inherited frmDialogMerk: TfrmDialogMerk
       Height = 22
       CharCase = ecUpperCase
       Ctl3D = False
-      MaxLength = 8
       ParentCtl3D = False
       TabOrder = 0
     end
@@ -46,7 +45,6 @@ inherited frmDialogMerk: TfrmDialogMerk
       Height = 22
       CharCase = ecUpperCase
       Ctl3D = False
-      MaxLength = 128
       ParentCtl3D = False
       TabOrder = 1
     end
@@ -54,33 +52,34 @@ inherited frmDialogMerk: TfrmDialogMerk
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 120
     Width = 475
-    ExplicitTop = 209
-    ExplicitWidth = 608
+    ExplicitTop = 120
+    ExplicitWidth = 475
     inherited pnlFooter: TPanel
       Width = 475
-      ExplicitWidth = 608
+      ExplicitWidth = 475
       inherited btnClose: TcxButton
         Left = 398
-        ExplicitLeft = 531
+        ExplicitLeft = 398
       end
       inherited btnSave: TcxButton
         Left = 305
         Action = actSave
-        ExplicitLeft = 438
+        ExplicitLeft = 305
       end
       inherited btnDelete: TcxButton
         Action = actDelete
-        OnClick = btnDeleteClick
       end
     end
     inherited pnlSortCut: TPanel
       Width = 475
-      ExplicitWidth = 608
+      ExplicitWidth = 475
       inherited lbCTRLEnter: TLabel
         Left = 300
+        ExplicitLeft = 300
       end
       inherited lbEscape: TLabel
         Left = 391
+        ExplicitLeft = 391
       end
     end
   end
