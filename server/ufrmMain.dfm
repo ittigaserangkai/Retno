@@ -218,7 +218,6 @@ object frmMain: TfrmMain
     ScrollBars = ssBoth
     TabOrder = 1
     WordWrap = False
-    ExplicitHeight = 251
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -226,9 +225,6 @@ object frmMain: TfrmMain
     Width = 549
     Height = 19
     Panels = <>
-    ExplicitLeft = 96
-    ExplicitTop = 208
-    ExplicitWidth = 0
   end
   object AE: TApplicationEvents
     OnIdle = AEIdle

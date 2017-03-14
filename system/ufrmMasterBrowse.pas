@@ -36,7 +36,6 @@ type
     procedure actCloseExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -45,8 +44,9 @@ type
   protected
     function ShowDialogForm(DlgFormClass: TMasterDlgClass; AID: String = ''):
         Integer;
+    procedure RefreshData; dynamic; abstract;
   public
-     procedure RefreshData; dynamic; abstract;
+
     { Public declarations }
   published
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;
@@ -78,12 +78,6 @@ procedure TfrmMasterBrowse.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   RefreshData;
-end;
-
-procedure TfrmMasterBrowse.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  Action := caFree;
 end;
 
 procedure TfrmMasterBrowse.FormCreate(Sender: TObject);

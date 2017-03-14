@@ -12,6 +12,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property COCTER_CODE: string read FCOCTER_CODE write FCOCTER_CODE;
     property COCTER_NAME: string read FCOCTER_NAME write FCOCTER_NAME;
   end;

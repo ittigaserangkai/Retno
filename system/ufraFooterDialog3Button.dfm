@@ -40,9 +40,7 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Caption = 'Cancel'
       OptionsImage.ImageIndex = 4
       OptionsImage.Images = DMClient.imgListButton
-      TabOrder = 0
-      ExplicitLeft = 358
-      ExplicitTop = 3
+      TabOrder = 1
     end
     object btnSave: TcxButton
       AlignWithMargins = True
@@ -56,12 +54,9 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Margins.Bottom = 2
       Align = alRight
       Caption = 'Save'
-      Default = True
       OptionsImage.ImageIndex = 32
       OptionsImage.Images = DMClient.imgListButton
-      TabOrder = 1
-      ExplicitLeft = 203
-      ExplicitTop = 0
+      TabOrder = 0
     end
     object btnDelete: TcxButton
       AlignWithMargins = True
@@ -77,8 +72,6 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       OptionsImage.ImageIndex = 8
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 2
-      ExplicitLeft = 24
-      ExplicitTop = 3
     end
   end
   object pnlSortCut: TPanel
@@ -107,8 +100,7 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 248
-      ExplicitHeight = 10
+      ExplicitHeight = 16
     end
     object lbEscape: TLabel
       AlignWithMargins = True
@@ -126,7 +118,6 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 362
       ExplicitHeight = 16
     end
     object lbCTRLDel: TLabel
@@ -145,7 +136,6 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 24
       ExplicitHeight = 16
     end
   end
