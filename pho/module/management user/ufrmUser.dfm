@@ -39,7 +39,7 @@ inherited frmUser: TfrmUser
     Width = 539
     ExplicitWidth = 120
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 145
     Width = 539
@@ -82,9 +82,6 @@ inherited frmUser: TfrmUser
         ExplicitLeft = 452
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlstMerchandiseGroup: TActionList
     Left = 472

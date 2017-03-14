@@ -51,78 +51,34 @@ object frmMasterDialog: TfrmMasterDialog
       Width = 554
       ExplicitWidth = 554
       inherited btnClose: TcxButton
-        AlignWithMargins = True
         Left = 477
-        Top = 4
-        Margins.Top = 2
-        Margins.Bottom = 2
-        Align = alRight
         Cancel = False
         ModalResult = 2
         DragKind = dkDock
         ExplicitLeft = 477
-        ExplicitTop = 4
       end
       inherited btnSave: TcxButton
-        AlignWithMargins = True
-        Left = 374
-        Top = 4
-        Margins.Top = 2
-        Margins.Right = 20
-        Margins.Bottom = 2
-        Align = alRight
-        Action = actSave
-        Default = False
-        DragKind = dkDock
-        ExplicitLeft = 374
-        ExplicitTop = 4
+        Left = 384
       end
       inherited btnDelete: TcxButton
-        AlignWithMargins = True
-        Left = 5
-        Top = 4
-        Margins.Top = 2
-        Margins.Bottom = 2
-        Align = alLeft
         Action = actDelete
-        ExplicitLeft = 5
-        ExplicitTop = 4
       end
     end
     inherited pnlSortCut: TPanel
       Width = 554
       ExplicitWidth = 554
-      inherited lbl4: TLabel
-        AlignWithMargins = True
-        Left = 374
-        Width = 91
+      inherited lbCTRLEnter: TLabel
+        Left = 379
         Height = 15
-        Margins.Top = 1
-        Margins.Right = 5
-        Margins.Bottom = 1
-        Align = alRight
-        Caption = 'CTRL-Enter [Save]'
-        ExplicitLeft = 374
-        ExplicitWidth = 91
+        ExplicitLeft = 379
       end
-      inherited lbl5: TLabel
-        AlignWithMargins = True
-        Left = 473
+      inherited lbEscape: TLabel
+        Left = 470
         Height = 15
-        Margins.Top = 1
-        Margins.Right = 0
-        Margins.Bottom = 1
-        Align = alRight
-        ExplicitLeft = 473
+        ExplicitLeft = 470
       end
-      inherited lbl3: TLabel
-        AlignWithMargins = True
-        Left = 5
+      inherited lbCTRLDel: TLabel
         Height = 15
-        Margins.Top = 1
-        Margins.Bottom = 1
-        Align = alLeft
-        ExplicitLeft = 5
       end
     end
   end

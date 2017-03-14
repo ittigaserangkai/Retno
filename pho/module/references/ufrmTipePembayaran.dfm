@@ -19,8 +19,8 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       Height = 224
       ExplicitWidth = 596
       ExplicitHeight = 224
-      ClientRectBottom = 224
-      ClientRectRight = 596
+      ClientRectBottom = 223
+      ClientRectRight = 595
       inherited tsBrowse: TcxTabSheet
         ExplicitWidth = 596
         ExplicitHeight = 224

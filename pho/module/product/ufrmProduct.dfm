@@ -7,6 +7,7 @@ inherited frmProduct: TfrmProduct
   KeyPreview = True
   OldCreateOrder = True
   OnShow = nil
+  ExplicitTop = -15
   ExplicitWidth = 940
   ExplicitHeight = 534
   PixelsPerInch = 96
@@ -14,6 +15,7 @@ inherited frmProduct: TfrmProduct
   inherited pnlBody: TPanel
     Width = 924
     Height = 406
+    ExplicitTop = 33
     ExplicitWidth = 924
     ExplicitHeight = 406
     inherited pgcBrowse: TcxPageControl
@@ -22,19 +24,20 @@ inherited frmProduct: TfrmProduct
       Properties.HideTabs = False
       ExplicitWidth = 902
       ExplicitHeight = 384
-      ClientRectBottom = 384
-      ClientRectRight = 902
-      ClientRectTop = 27
+      ClientRectBottom = 383
+      ClientRectRight = 901
+      ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
-        ExplicitTop = 27
-        ExplicitWidth = 902
-        ExplicitHeight = 357
+        ExplicitLeft = 1
+        ExplicitTop = 24
+        ExplicitWidth = 900
+        ExplicitHeight = 359
         inherited cxGrid: TcxGrid
-          Width = 902
-          Height = 357
-          ExplicitWidth = 902
-          ExplicitHeight = 357
+          Width = 900
+          Height = 359
+          ExplicitWidth = 900
+          ExplicitHeight = 359
         end
       end
       object tsProductInfo: TcxTabSheet
@@ -44,7 +47,7 @@ inherited frmProduct: TfrmProduct
           Left = 0
           Top = 0
           Width = 160
-          Height = 357
+          Height = 359
           Align = alLeft
           ActiveGroupIndex = 0
           TabOrder = 0
@@ -95,8 +98,8 @@ inherited frmProduct: TfrmProduct
         object pnl1: TPanel
           Left = 160
           Top = 0
-          Width = 742
-          Height = 357
+          Width = 740
+          Height = 359
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
@@ -1267,10 +1270,12 @@ inherited frmProduct: TfrmProduct
     inherited dtAwalFilter: TcxDateEdit
       Left = 631
       ExplicitLeft = 631
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 747
       ExplicitLeft = 747
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 842
@@ -1297,49 +1302,46 @@ inherited frmProduct: TfrmProduct
     ExplicitWidth = 924
     inherited pnlFooter: TPanel
       Width = 924
+      ExplicitTop = 21
       ExplicitWidth = 924
+      inherited btnAdd: TcxButton
+        Action = actAdd
+        ExplicitLeft = 4
+        ExplicitTop = 4
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+        ExplicitLeft = 80
+        ExplicitTop = 4
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+        ExplicitLeft = 264
+      end
       inherited btnClose: TcxButton
         Left = 847
         Action = actClose
         ExplicitLeft = 847
       end
-      inherited btnAdd: TcxButton
-        Action = actAdd
-      end
-      inherited btnUpdate: TcxButton
-        Action = actEdit
-      end
-      inherited btnPrint: TcxButton
-        Action = actPrint
+      inherited cxButton1: TcxButton
+        Action = actExport
+        ExplicitLeft = 340
+        ExplicitTop = 4
+        ExplicitHeight = 27
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 924
       ExplicitWidth = 924
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 850
-        ExplicitLeft = 850
+        Height = 17
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
-    object cxStyle1: TcxStyle
-      AssignedValues = [svColor]
-      Color = 14086654
-    end
-    object cxStyle2: TcxStyle
-      AssignedValues = [svColor]
-      Color = 14548991
-    end
-    object cxStyle3: TcxStyle
-      AssignedValues = [svColor]
-      Color = 15138790
-    end
-    object cxStyle4: TcxStyle
-      AssignedValues = [svColor]
-      Color = 16767449
-    end
+  inherited actlstBrowse: TActionList
+    Left = 552
+    Top = 24
   end
   object actlst1: TActionList
     Left = 680

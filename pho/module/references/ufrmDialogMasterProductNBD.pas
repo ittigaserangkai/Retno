@@ -8,7 +8,7 @@ uses
   uConn, ufraFooterDialog3Button, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxCurrencyEdit, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, DB,
-  cxDBExtLookupComboBox;
+  cxDBExtLookupComboBox, System.Actions, Vcl.ActnList;
 
 type
   TFormMode = (fmAdd, fmEdit);

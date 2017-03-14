@@ -11,7 +11,8 @@ uses
   ufraFooter4Button, Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, DBClient, ufrmDialogCostCenter;
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, DBClient, ufrmDialogCostCenter,
+  dxBarBuiltInMenu, cxPC;
 
 type
   TfrmCostCenter = class(TfrmMasterBrowse)

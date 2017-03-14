@@ -22,8 +22,8 @@ type
     lblClose: TcxLabel;
     pnl4: TPanel;
     cxGrid: TcxGrid;
-    cxGridDBTableView1: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
+    cxGridView: TcxGridDBTableView;
+    cxlvMaster: TcxGridLevel;
     procedure lblCloseClick(Sender: TObject);
   private
     { Private declarations }

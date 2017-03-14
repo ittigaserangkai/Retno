@@ -9,6 +9,7 @@ inherited frmMerk: TfrmMerk
   inherited pnlBody: TPanel
     Width = 651
     Height = 281
+    ExplicitTop = 33
     ExplicitWidth = 651
     ExplicitHeight = 281
     inherited pgcBrowse: TcxPageControl
@@ -16,16 +17,18 @@ inherited frmMerk: TfrmMerk
       Height = 259
       ExplicitWidth = 629
       ExplicitHeight = 259
-      ClientRectBottom = 259
-      ClientRectRight = 629
+      ClientRectBottom = 258
+      ClientRectRight = 628
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 629
-        ExplicitHeight = 259
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 627
+        ExplicitHeight = 257
         inherited cxGrid: TcxGrid
-          Width = 629
-          Height = 259
-          ExplicitWidth = 629
-          ExplicitHeight = 259
+          Width = 627
+          Height = 257
+          ExplicitWidth = 627
+          ExplicitHeight = 257
         end
       end
     end
@@ -41,10 +44,12 @@ inherited frmMerk: TfrmMerk
     inherited dtAwalFilter: TcxDateEdit
       Left = 358
       ExplicitLeft = 358
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 474
       ExplicitLeft = 474
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 569
@@ -64,31 +69,38 @@ inherited frmMerk: TfrmMerk
     inherited pnlFooter: TPanel
       Width = 651
       ExplicitWidth = 651
+      inherited btnAdd: TcxButton
+        Action = actAdd
+        ExplicitTop = 5
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+        OnClick = btnUpdateClick
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
       inherited btnClose: TcxButton
         Left = 574
         Action = actClose
         ExplicitLeft = 574
       end
-      inherited btnAdd: TcxButton
-        Action = actAdd
-      end
-      inherited btnUpdate: TcxButton
-        Action = actEdit
-      end
-      inherited btnPrint: TcxButton
-        Action = actPrint
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 651
       ExplicitWidth = 651
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 577
         ExplicitLeft = 577
       end
     end
   end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
   end
 end

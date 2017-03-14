@@ -31,12 +31,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       TabOrder = 0
       Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 499
-      ClientRectLeft = 4
-      ClientRectRight = 640
+      ClientRectBottom = 503
+      ClientRectRight = 644
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = 'Supplier'
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lbl3: TLabel
           Left = 66
           Top = 58
@@ -466,6 +468,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       object tsMerchandiseGroup: TcxTabSheet
         Caption = 'Category'
         Enabled = False
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lbl37: TLabel
           Left = 66
           Top = 10
@@ -723,13 +728,15 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object pnl1: TPanel
           Left = 0
-          Top = 214
-          Width = 636
+          Top = 218
+          Width = 644
           Height = 258
           Align = alBottom
           Caption = 'Change contact supplier for Merchandise Group'
           Color = clWhite
           TabOrder = 21
+          ExplicitTop = 214
+          ExplicitWidth = 636
           object lbl30: TLabel
             Left = 77
             Top = 47
@@ -1156,16 +1163,16 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     inherited pnlSortCut: TPanel
       Width = 648
       ExplicitWidth = 648
-      inherited lbl4: TLabel
-        Left = 463
-        ExplicitLeft = 465
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 558
-        Width = 72
-        Caption = 'Escape [Close]'
-        ExplicitLeft = 560
-        ExplicitWidth = 72
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

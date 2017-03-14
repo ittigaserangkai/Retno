@@ -57,7 +57,7 @@ type
     edtBrgNamaGalon: TcxTextEdit;
     lbSafetyStock: TLabel;
     lbl9: TLabel;
-    cbbProductName: TcxExtLookupComboBox;
+    cxLookupMerk: TcxExtLookupComboBox;
     lbHari: TLabel;
     edtProductCode: TcxTextEdit;
     gbPurchase: TcxGroupBox;
@@ -154,6 +154,8 @@ begin
       'LOK_CODE', 'LOK_NAME', [], Self);
     cxLookupJenisPajak.LoadFromDS(RefPajak_GetDSLookup,
       'REF$PAJAK_ID', 'PJK_NAME' , ['REF$PAJAK_ID'], Self);
+    cxLookupMerk.LoadFromDS(Merk_GetDSLookUp,
+      'MERK_ID', 'MERK_NAME' , ['MERK_ID'], Self);
   end;
 end;
 

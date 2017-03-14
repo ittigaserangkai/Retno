@@ -7,7 +7,7 @@ uses
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
-  cxButtonEdit;
+  cxButtonEdit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TfrmDialogMenu = class(TfrmMasterDialog)

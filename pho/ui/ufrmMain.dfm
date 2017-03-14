@@ -124,8 +124,8 @@ object frmMain: TfrmMain
     end
   end
   object mmMainMenu: TMainMenu
-    Left = 88
-    Top = 120
+    Left = 40
+    Top = 136
     object mmSistem: TMenuItem
       Caption = '&System'
       object miLogin: TMenuItem
@@ -1111,12 +1111,12 @@ object frmMain: TfrmMain
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
-    Left = 169
-    Top = 159
+    Left = 32
+    Top = 280
   end
   object LookAndFeelController: TcxLookAndFeelController
     NativeStyle = False
-    Left = 16
-    Top = 256
+    Left = 24
+    Top = 224
   end
 end

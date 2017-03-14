@@ -18,6 +18,7 @@ type
   private
     { Private declarations }
   public
+    procedure RefreshData; override;
     { Public declarations }
   end;
 
@@ -26,6 +27,16 @@ var
 
 implementation
 
+uses
+  uDMClient, uDBUtils, uDXUtils, uModBarang;
+
 {$R *.dfm}
+
+procedure TfrmMerchandise.RefreshData;
+begin
+  inherited;
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup, Self);
+  cxGridView.SetVisibleColumns([TModMerchandise.GetPrimaryField], False);
+end;
 
 end.

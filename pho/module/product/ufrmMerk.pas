@@ -15,9 +15,10 @@ uses
 
 type
   TfrmMerk = class(TfrmMasterBrowse)
+    procedure FormCreate(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
   private
-    FCDS: TClientDataSet;
-    property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   public
     procedure RefreshData; override;
@@ -30,19 +31,34 @@ var
 implementation
 
 uses
-  uDMClient, uDBUtils, uDXUtils;
+  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogMerk, ufrmMasterDialog;
 
 {$R *.dfm}
 
-procedure TfrmMerk.RefreshData;
-var
-  DS: TDataSet;
+procedure TfrmMerk.btnUpdateClick(Sender: TObject);
 begin
   inherited;
-  if not Assigned(FCDS) then FCDS.Free;
-  DS := DMClient.DSProviderClient.Merk_GetDSLookUp;
-  CDS := TDBUtils.DSToCDS(DS, Self);
-  cxGridView.LoadFromCDS(CDS);
+  if cxGridView.DS <> nil then
+    ShowDialogForm(TfrmDialogMerk,cxGridView.DS.FieldByName('Merk_ID').AsString);
+end;
+
+procedure TfrmMerk.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AutoRefreshData := True;
+end;
+
+procedure TfrmMerk.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogMerk);
+end;
+
+procedure TfrmMerk.RefreshData;
+begin
+  inherited;
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp, Self);
+  cxGridView.SetVisibleColumns([TModMerk.GetPrimaryField], False);
 end;
 
 end.

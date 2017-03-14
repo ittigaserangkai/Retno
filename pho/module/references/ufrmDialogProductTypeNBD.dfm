@@ -157,23 +157,27 @@ inherited frmDialogProductTypeNBD: TfrmDialogProductTypeNBD
       end
       inherited btnSave: TcxButton
         Left = 219
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 219
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 396
       ExplicitWidth = 396
-      inherited lbl4: TLabel
-        Left = 212
-        Width = 93
-        Caption = 'Ctrl + Enter [Save]'
-        ExplicitLeft = 214
-        ExplicitWidth = 93
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 314
-        ExplicitLeft = 316
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

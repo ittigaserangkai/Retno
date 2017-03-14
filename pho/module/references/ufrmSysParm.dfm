@@ -11,37 +11,27 @@ inherited frmSysParm: TfrmSysParm
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 627
-    Height = 393
+    Height = 388
     ExplicitWidth = 627
-    ExplicitHeight = 393
-    object pnlMain: TPanel
-      Left = 11
+    ExplicitHeight = 334
+    inherited pgcBrowse: TcxPageControl
       Top = 89
       Width = 605
-      Height = 293
-      Align = alClient
-      BorderWidth = 10
-      Color = 15198183
-      TabOrder = 0
-      object cxGrid: TcxGrid
-        Left = 11
-        Top = 11
-        Width = 583
-        Height = 271
-        Align = alClient
-        TabOrder = 0
-        ExplicitLeft = 128
-        ExplicitTop = 25
-        ExplicitWidth = 329
-        ExplicitHeight = 119
-        object cxGridViewSysParam: TcxGridDBTableView
-          Navigator.Buttons.CustomButtons = <>
-          DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
-          DataController.Summary.SummaryGroups = <>
-        end
-        object cxGridLevel1: TcxGridLevel
-          GridView = cxGridViewSysParam
+      Height = 288
+      TabOrder = 1
+      ExplicitTop = 89
+      ExplicitWidth = 605
+      ExplicitHeight = 234
+      ClientRectBottom = 288
+      ClientRectRight = 605
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 605
+        ExplicitHeight = 234
+        inherited cxGrid: TcxGrid
+          Width = 605
+          Height = 288
+          ExplicitWidth = 605
+          ExplicitHeight = 234
         end
       end
     end
@@ -52,7 +42,7 @@ inherited frmSysParm: TfrmSysParm
       Height = 78
       Align = alTop
       Color = 15198183
-      TabOrder = 1
+      TabOrder = 0
       object grp1: TGroupBox
         Left = 1
         Top = 1
@@ -169,76 +159,75 @@ inherited frmSysParm: TfrmSysParm
       Caption = 'SYSTEM PARAMETER'
       ExplicitWidth = 112
     end
+    inherited lblFilterData: TcxLabel
+      Left = 273
+      ExplicitLeft = 273
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 334
+      ExplicitLeft = 334
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 450
+      ExplicitLeft = 450
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 545
+      ExplicitLeft = 545
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 426
+      ExplicitLeft = 426
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
-    Top = 423
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 421
     Width = 627
-    Height = 54
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 423
+    ExplicitTop = 367
     ExplicitWidth = 627
-    ExplicitHeight = 54
     inherited pnlFooter: TPanel
-      Top = 19
       Width = 627
-      ExplicitTop = 19
       ExplicitWidth = 627
       inherited btnClose: TcxButton
-        Left = 545
-        ExplicitLeft = 545
+        Left = 550
+        Action = actClose
+        ExplicitLeft = 550
       end
       inherited btnAdd: TcxButton
-        Caption = 'Add'
-        OnClick = fraFooter5Button1btnAddClick
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Caption = 'Edit'
-        OnClick = fraFooter5Button1btnUpdateClick
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        OnClick = fraFooter5Button1btnDeleteClick
-      end
-      inherited btnRefresh: TcxButton
-        OnClick = fraFooter5Button1btnRefreshClick
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
     end
     inherited pnlSortCut: TPanel
       Width = 627
-      Height = 19
       ExplicitWidth = 627
-      ExplicitHeight = 19
       inherited lbl1: TLabel
-        Top = 1
-        ExplicitTop = 1
+        Height = 15
       end
       inherited lbl2: TLabel
-        Top = 1
-        Caption = 'CTRL-E (Edit)'
-        ExplicitTop = 1
-      end
-      inherited lbl3: TLabel
-        Top = 1
-        Visible = False
-        ExplicitTop = 1
-      end
-      inherited lbl4: TLabel
-        Top = 1
-        ExplicitTop = 1
+        Height = 15
       end
       inherited lbl5: TLabel
-        Left = 537
-        Top = 1
-        ExplicitLeft = 547
-        ExplicitTop = 1
+        Left = 553
+        Height = 17
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

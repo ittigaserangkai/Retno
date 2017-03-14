@@ -27,7 +27,6 @@ object fraStockCard: TfraStockCard
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 627
   end
   object pnl1: TPanel
     Left = 0
@@ -39,8 +38,6 @@ object fraStockCard: TfraStockCard
     BevelOuter = bvLowered
     Color = 15198183
     TabOrder = 1
-    ExplicitWidth = 627
-    ExplicitHeight = 343
     object lbl1: TLabel
       Left = 10
       Top = 7
@@ -97,8 +94,6 @@ object fraStockCard: TfraStockCard
       BevelOuter = bvLowered
       BorderWidth = 10
       TabOrder = 2
-      ExplicitTop = 35
-      ExplicitWidth = 623
       DesignSize = (
         554
         306)
@@ -109,10 +104,6 @@ object fraStockCard: TfraStockCard
         Height = 284
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 176
-        ExplicitTop = 74
-        ExplicitWidth = 301
-        ExplicitHeight = 143
         object cxGridViewToko: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -192,6 +183,8 @@ object fraStockCard: TfraStockCard
       Width = 75
       Height = 25
       Caption = '&Refresh'
+      ImageIndex = 30
+      Images = DMClient.imgListButton
       TabOrder = 1
       OnClick = btnRefreshClick
     end
@@ -201,6 +194,8 @@ object fraStockCard: TfraStockCard
       Width = 75
       Height = 25
       Caption = '&Cetak'
+      ImageIndex = 28
+      Images = DMClient.imgListButton
       TabOrder = 3
       OnClick = btnCetakClick
     end

@@ -47,8 +47,6 @@ inherited frmSatuan: TfrmSatuan
         OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsView.GroupByBox = False
-        Styles.ContentEven = styleGridEven
-        Styles.Header = styleGridHeader
       end
       object cxGrdDetail: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -75,8 +73,11 @@ inherited frmSatuan: TfrmSatuan
   inherited pnlHeader: TPanel
     Width = 542
     ExplicitWidth = 542
+    inherited lblHeader: TLabel
+      Height = 18
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button [2]
+  inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 278
     Width = 542
@@ -119,9 +120,6 @@ inherited frmSatuan: TfrmSatuan
         ExplicitLeft = 452
       end
     end
-  end
-  inherited cxStyle: TcxStyleRepository
-    PixelsPerInch = 96
   end
   object actlstSatuan: TActionList
     Left = 488

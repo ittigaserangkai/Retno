@@ -204,20 +204,27 @@ inherited frmDialogMasterProductNBD: TfrmDialogMasterProductNBD
       end
       inherited btnSave: TcxButton
         Left = 273
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 275
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 442
       ExplicitWidth = 444
-      inherited lbl4: TLabel
-        Left = 258
-        ExplicitLeft = 260
+      inherited lbCTRLEnter: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
-      inherited lbl5: TLabel
-        Left = 352
-        ExplicitLeft = 354
+      inherited lbEscape: TLabel
+        Height = 16
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 16
+        ExplicitHeight = 16
       end
     end
   end

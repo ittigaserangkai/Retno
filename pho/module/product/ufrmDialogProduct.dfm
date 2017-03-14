@@ -3,19 +3,19 @@ inherited frmDialogProduct: TfrmDialogProduct
   Top = 98
   Caption = 'Update Data Barang'
   ClientHeight = 408
-  ClientWidth = 800
+  ClientWidth = 778
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 816
+  ExplicitWidth = 794
   ExplicitHeight = 447
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 800
+    Width = 778
     Height = 352
-    ExplicitWidth = 800
+    ExplicitWidth = 778
     ExplicitHeight = 352
     object lbProductCode: TLabel
       Left = 13
@@ -273,7 +273,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
     object cxLookupTipeBarang: TcxExtLookupComboBox
       Left = 101
-      Top = 107
+      Top = 106
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       TabOrder = 7
@@ -297,7 +297,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
     object cxLookupLocation: TcxExtLookupComboBox
       Left = 101
-      Top = 181
+      Top = 180
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       TabOrder = 10
@@ -358,7 +358,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Visible = False
       Width = 237
     end
-    object cbbProductName: TcxExtLookupComboBox
+    object cxLookupMerk: TcxExtLookupComboBox
       Left = 227
       Top = 7
       Properties.CharCase = ecUpperCase
@@ -373,7 +373,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 92
     end
     object gbPurchase: TcxGroupBox
-      Left = 466
+      Left = 443
       Top = 35
       Caption = ' Purchase : '
       Enabled = False
@@ -416,7 +416,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
     end
     object cxGroupBox2: TcxGroupBox
-      Left = 467
+      Left = 444
       Top = 137
       Enabled = False
       PanelStyle.Active = True
@@ -488,7 +488,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       TabOrder = 16
       Transparent = True
       Height = 202
-      Width = 150
+      Width = 134
       object cbTurunan: TcxCheckBox
         AlignWithMargins = True
         Left = 5
@@ -606,48 +606,43 @@ inherited frmDialogProduct: TfrmDialogProduct
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 352
-    Width = 800
+    Width = 778
     ExplicitTop = 352
-    ExplicitWidth = 800
+    ExplicitWidth = 778
     inherited pnlFooter: TPanel
-      Width = 800
-      ExplicitWidth = 800
+      Width = 778
+      ExplicitWidth = 778
       inherited btnClose: TcxButton
-        Left = 723
-        ExplicitLeft = 723
+        Left = 701
+        ExplicitLeft = 701
       end
       inherited btnSave: TcxButton
-        Left = 620
+        Left = 608
         Action = actSave
-        ExplicitLeft = 620
+        ExplicitLeft = 608
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 800
-      ExplicitWidth = 800
-      inherited lbl4: TLabel
-        Left = 627
+      Width = 778
+      ExplicitWidth = 778
+      inherited lbCTRLEnter: TLabel
+        Left = 603
         Height = 15
-        ExplicitLeft = 627
       end
-      inherited lbl5: TLabel
-        Left = 726
-        Width = 72
+      inherited lbEscape: TLabel
+        Left = 694
         Height = 15
-        Caption = 'Escape [Close]'
-        ExplicitLeft = 726
-        ExplicitWidth = 72
       end
-      inherited lbl3: TLabel
+      inherited lbCTRLDel: TLabel
         Height = 15
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 648
+    Left = 696
     Top = 240
   end
 end

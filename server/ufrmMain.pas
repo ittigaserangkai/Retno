@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
-  System.Actions, Vcl.ActnList, Vcl.ExtCtrls;
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls;
 
 type
   TfrmMain = class(TForm)
@@ -44,6 +44,7 @@ type
     actToolsGenerateModel: TAction;
     mmLog: TMemo;
     rbTrace: TRadioGroup;
+    StatusBar1: TStatusBar;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);

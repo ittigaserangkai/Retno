@@ -12,7 +12,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Width = 701
     Height = 314
     Color = clWindow
-    ExplicitTop = 33
+    ExplicitTop = 38
     ExplicitWidth = 701
     ExplicitHeight = 314
     object pgcBrowse: TcxPageControl
@@ -25,9 +25,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ActivePage = tsBrowse
       Properties.CustomButtons.Buttons = <>
       Properties.HideTabs = True
-      ClientRectBottom = 292
-      ClientRectRight = 679
-      ClientRectTop = 0
+      Properties.Options = [pcoAlwaysShowGoDialogButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize, pcoUsePageColorForTab]
+      LookAndFeel.Kind = lfFlat
+      LookAndFeel.NativeStyle = False
+      ClientRectBottom = 291
+      ClientRectLeft = 1
+      ClientRectRight = 678
+      ClientRectTop = 1
       object tsBrowse: TcxTabSheet
         Caption = 'Browse Data'
         ImageIndex = 0
@@ -35,26 +39,31 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
-          Width = 679
-          Height = 292
+          Width = 677
+          Height = 290
           Align = alClient
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'
           LookAndFeel.NativeStyle = False
           object cxGridView: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
+            FindPanel.DisplayMode = fpdmManual
             FindPanel.InfoText = 'ketik teks yang dicari...'
             DataController.Filter.Options = [fcoCaseInsensitive]
             DataController.Summary.DefaultGroupSummaryItems = <>
             DataController.Summary.FooterSummaryItems = <>
             DataController.Summary.SummaryGroups = <>
-            FilterRow.InfoText = 'klik untuk memfilter data'
+            FilterRow.InfoText = 
+              'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
+              'er'
             FilterRow.Visible = True
             FilterRow.ApplyChanges = fracImmediately
             NewItemRow.InfoText = 'Baris baru'
             OptionsData.Editing = False
             OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
             OptionsView.GroupByBox = False
+            Styles.ContentEven = DMClient.cxStyleGridHeader
+            Styles.Header = DMClient.cxStyleGridEven
           end
           object cxlvMaster: TcxGridLevel
             GridView = cxGridView
@@ -69,7 +78,10 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     ExplicitWidth = 701
     ExplicitHeight = 33
     inherited lblHeader: TLabel
+      Left = 6
       Height = 21
+      Margins.Left = 5
+      ExplicitLeft = 6
     end
     object lblFilterData: TcxLabel
       Left = 347
@@ -214,87 +226,19 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     inherited pnlFooter: TPanel
       Width = 701
       ExplicitWidth = 701
-      inherited bvlSeparator: TBevel
-        Left = 254
-        ExplicitLeft = 254
-      end
       inherited btnClose: TcxButton
-        AlignWithMargins = True
         Left = 624
-        Top = 4
-        Margins.Top = 2
-        Margins.Bottom = 2
-        Align = alRight
-        Action = actClose
-        ExplicitLeft = 625
       end
-      inherited btnAdd: TcxButton
-        AlignWithMargins = True
-        Left = 4
-        Top = 4
-        Margins.Left = 2
-        Margins.Top = 2
-        Margins.Right = 2
-        Margins.Bottom = 2
-        Align = alLeft
-        Action = actAdd
-        ExplicitLeft = 4
-        ExplicitTop = 4
-      end
-      inherited btnUpdate: TcxButton
-        AlignWithMargins = True
-        Left = 80
-        Top = 4
-        Margins.Left = 2
-        Margins.Top = 2
-        Margins.Right = 2
-        Margins.Bottom = 2
-        Align = alLeft
-        Action = actEdit
-        ExplicitLeft = 80
-        ExplicitTop = 4
-      end
-      inherited btnPrint: TcxButton
-        Left = 261
-        Top = 4
-        Action = actPrint
-        ExplicitLeft = 261
-        ExplicitTop = 4
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 701
       ExplicitWidth = 701
-      inherited lbl1: TLabel
-        AlignWithMargins = True
-        Left = 5
-        Height = 15
-        Margins.Top = 1
-        Margins.Bottom = 1
-        Align = alLeft
-        ExplicitLeft = 5
-      end
-      inherited lbl2: TLabel
-        AlignWithMargins = True
-        Left = 88
-        Height = 15
-        Margins.Left = 15
-        Margins.Top = 1
-        Margins.Bottom = 1
-        Align = alLeft
-        ExplicitLeft = 88
-      end
-      inherited lbl4: TLabel
-        Left = 263
-        ExplicitLeft = 263
-      end
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 627
-        Top = 2
-        Height = 17
-        Align = alRight
         ExplicitLeft = 627
-        ExplicitTop = 2
       end
     end
   end
@@ -320,6 +264,10 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     object actRefresh: TAction
       Caption = '&Refresh'
       OnExecute = actRefreshExecute
+    end
+    object actExport: TAction
+      Caption = 'E&xport'
+      OnExecute = actExportExecute
     end
   end
 end

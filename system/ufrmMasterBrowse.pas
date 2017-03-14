@@ -32,7 +32,9 @@ type
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
+    actExport: TAction;
     procedure actCloseExecute(Sender: TObject);
+    procedure actExportExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -55,7 +57,7 @@ var
 implementation
 
 uses
-  System.DateUtils;
+  System.DateUtils, uDXUtils;
 
 {$R *.dfm}
 
@@ -63,6 +65,12 @@ procedure TfrmMasterBrowse.actCloseExecute(Sender: TObject);
 begin
   inherited;
   Self.Close;
+end;
+
+procedure TfrmMasterBrowse.actExportExecute(Sender: TObject);
+begin
+  inherited;
+  cxGridView.ExportToXLS();
 end;
 
 procedure TfrmMasterBrowse.actRefreshExecute(Sender: TObject);
