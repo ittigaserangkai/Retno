@@ -14,7 +14,7 @@ uses
   Vcl.Menus, Vcl.ActnList, Vcl.Grids, cxDBExtLookupComboBox;
 
 type
-  TThreadSOType = (tpCreateSO,tpSearchSO,tpAddPOAssgros,tpAvgSales);
+  TThreadSOType = (tpCreateSO,tpSearchSO,tpAddPOTrader,tpAvgSales);
   TfrmCreateSO = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
     pnlTop: TPanel;
@@ -31,7 +31,7 @@ type
     pnl1: TPanel;
     lbl4: TLabel;
     actAddOthersProdSO: TAction;
-    actAddPOAssgross: TAction;
+    actAddPOTrader: TAction;
     Button1: TButton;
     Button2: TButton;
     Edit1: TEdit;
@@ -76,9 +76,9 @@ type
     btnShow: TcxButton;
     bStop: TcxButton;
     btnTesting: TcxButton;
-    btn1: TcxButton;
+    btnAddOthersProdSO: TcxButton;
     btnToExcel: TcxButton;
-    btnAddFromPOAssgross: TcxButton;
+    btnAddFromPOTrader: TcxButton;
     pmPMGrid: TPopupMenu;
     pmiHapusItem: TMenuItem;
     pmiHapusSemua: TMenuItem;
@@ -105,8 +105,7 @@ type
     procedure cbbSoForChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure actAddOthersProdSOExecute(Sender: TObject);
-    procedure actAddPOAssgrossExecute(Sender: TObject);
-    procedure btnAddFromPOAssgrossClick(Sender: TObject);
+    procedure actAddPOTraderExecute(Sender: TObject);
     procedure btnShowClick(Sender: TObject);
     procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
@@ -141,9 +140,12 @@ type
     procedure pmiValFromPSLClick(Sender: TObject);
     procedure pmiValToZeroClick(Sender: TObject);
     procedure actToExcelExecute(Sender: TObject);
+    procedure btnAddOthersProdSOClick(Sender: TObject);
+    procedure btnAddFromPOTraderClick(Sender: TObject);
+    procedure btnToExcelClick(Sender: TObject);
   private
     isAdaData: Boolean;
-    isAfterPOAssGros: Boolean;
+    isAfterPOTrader: Boolean;
     DataCmbStrG: TDataSet;
     ThreadType: TThreadSOType;
 //    FBarang : TNewBarang;
@@ -725,10 +727,10 @@ begin
     }
 end;
 
-procedure TfrmCreateSO.actAddPOAssgrossExecute(Sender: TObject);
+procedure TfrmCreateSO.actAddPOTraderExecute(Sender: TObject);
 begin
   inherited;
-  if isAfterPOAssGros then
+  if isAfterPOTrader then
     Exit;
   if cbbMerchanGroup.ItemIndex=0 then
   begin
@@ -736,7 +738,7 @@ begin
     cbbMerchanGroup.SetFocus;
     Exit;
   end;
-  ThreadType:= tpAddPOAssgros;
+  ThreadType:= tpAddPOTrader;
   if not assigned(frmSplash) then
     frmSplash := TfrmSplash.Create(Application);
   frmSplash.Show;
@@ -753,12 +755,6 @@ begin
 //    StrgGrid.AddCheckBox(_kolStatus,StrgGrid.RowCount-1,True,True);
 //    StrgGrid.Row := getBarisKosong;
   end;
-end;
-
-procedure TfrmCreateSO.btnAddFromPOAssgrossClick(Sender: TObject);
-begin
-  inherited;
-  actAddPOAssgrossExecute(Self);
 end;
 
 procedure TfrmCreateSO.btnShowClick(Sender: TObject);
@@ -2279,6 +2275,24 @@ procedure TfrmCreateSO.actToExcelExecute(Sender: TObject);
 begin
   inherited;
 //  SaveDataGrid2Excel(StrgGrid);
+end;
+
+procedure TfrmCreateSO.btnAddOthersProdSOClick(Sender: TObject);
+begin
+  inherited;
+  actAddOthersProdSOExecute(Sender);
+end;
+
+procedure TfrmCreateSO.btnAddFromPOTraderClick(Sender: TObject);
+begin
+  inherited;
+  actAddPOTraderExecute(Sender);
+end;
+
+procedure TfrmCreateSO.btnToExcelClick(Sender: TObject);
+begin
+  inherited;
+  actToExcelExecute(Sender);
 end;
 
 end.

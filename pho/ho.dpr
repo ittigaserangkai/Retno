@@ -49,6 +49,7 @@ uses
   ufrmSupplierType in 'module\references\ufrmSupplierType.pas' {frmSupplierType},
   ufrmSearchRekening in 'module\references\ufrmSearchRekening.pas' {frmDialogSearchRekening},
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
+  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmTest in 'ui\ufrmTest.pas' {frmTest},
   ufrmDialogRekening in 'module\accounting\ufrmDialogRekening.pas' {frmDialogRekening},
   ufrmRekening in 'module\accounting\ufrmRekening.pas' {frmRekening},
@@ -140,9 +141,8 @@ uses
   ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
   ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor},
-  ufrmCompany in 'module\references\ufrmCompany.pas' {frmCompany},
-  uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmDialogCompany in 'module\references\ufrmDialogCompany.pas' {frmDialogCompany};
+  ufrmListBigTrader in 'module\inventory\ufrmListBigTrader.pas' {frmListBigTrader},
+  ufrmListBigSupplier in 'module\inventory\ufrmListBigSupplier.pas' {frmListBigSupplier};
 
 {$R *.res}
 

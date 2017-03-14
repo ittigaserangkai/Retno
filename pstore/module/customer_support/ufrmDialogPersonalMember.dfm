@@ -13,8 +13,8 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
   inherited pnlBody: TPanel
     Width = 490
     Height = 328
-    ExplicitWidth = 492
-    ExplicitHeight = 354
+    ExplicitWidth = 490
+    ExplicitHeight = 328
     object pnl1: TPanel
       Left = 2
       Top = 43
@@ -25,8 +25,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       BorderWidth = 20
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 488
-      ExplicitHeight = 309
       object lbl1: TLabel
         Left = 22
         Top = 13
@@ -385,7 +383,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 1
-      ExplicitWidth = 488
       object lbl4: TLabel
         Left = 27
         Top = 12
@@ -429,33 +426,35 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 328
     Width = 490
-    ExplicitTop = 354
-    ExplicitWidth = 492
+    ExplicitTop = 328
+    ExplicitWidth = 490
     inherited pnlFooter: TPanel
       Width = 490
-      ExplicitWidth = 492
+      ExplicitWidth = 490
       inherited btnClose: TcxButton
-        Left = 408
-        ExplicitLeft = 410
+        Left = 413
+        ExplicitLeft = 413
       end
       inherited btnSave: TcxButton
-        Left = 321
+        Left = 310
+        Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 323
+        ExplicitLeft = 310
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
       Width = 490
-      ExplicitWidth = 492
-      inherited lbl4: TLabel
-        Left = 294
-        Top = 2
-        ExplicitLeft = 296
-        ExplicitTop = 2
+      ExplicitWidth = 490
+      inherited lbCTRLEnter: TLabel
+        Left = 315
+        ExplicitLeft = 315
       end
-      inherited lbl5: TLabel
-        Left = 393
-        ExplicitLeft = 395
+      inherited lbEscape: TLabel
+        Left = 406
+        ExplicitLeft = 406
       end
     end
   end

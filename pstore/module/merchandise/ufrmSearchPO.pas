@@ -16,7 +16,7 @@ uses
 type
   TModul = (tmDeliveryOrder, tmCNDNGoodReceiving, tmReprintNP, tmReturDamage,
   tmReturReplace, tmWastageDamage, tmWastageObral, tmAdjustmentTurunan, tmNull,
-  tmAssGross, tmPOAssGross, tmListCNMerchSupplier, tmPODOReceiving);
+  tmTrader, tmPOTrader, tmListCNMerchSupplier, tmPODOReceiving);
   TfrmDialogSearchPO = class(TfrmMasterDialogBrowse)
     pnl1: TPanel;
     lbl1: TLabel;
@@ -168,7 +168,7 @@ begin
       PurchasePrice := strgGrid.Cells[8, strgGrid.row];
     end
     else
-    if FModul in [tmPoAssGross] then
+    if FModul in [tmPoTrader] then
     begin
       PONo:= strgGrid.Cells[0,strgGrid.Row];
       if not Assigned(SearchPO) then;
@@ -176,10 +176,10 @@ begin
       SetLength(arrParam,1);
       arrParam[0].tipe:= ptString;
       arrParam[0].data:= PONo;
-      POAsGrossData := SearchPO.GetListDataPOAssGrossDetailByNoPO(arrParam);
+      POAsGrossData := SearchPO.GetListDataPOTraderDetailByNoPO(arrParam);
     end
     else
-    if FModul in [tmAssGross] then
+    if FModul in [tmTrader] then
     begin
       // Add code here
       if not Assigned(SearchPO) then;
@@ -187,7 +187,7 @@ begin
       SetLength(arrParam,1);
       arrParam[0].tipe:= ptString;
       arrParam[0].data:= strgGrid.Cells[2,strgGrid.Row];
-      TraderData := SearchPO.GetListDataTraderByPOAssGross(arrParam);
+      TraderData := SearchPO.GetListDataTraderByPOTrader(arrParam);
     end
     else
     if Modul = tmPODOReceiving then
@@ -558,11 +558,11 @@ begin
       strgGrid.FixedRows := 1;
     end;
   end
-  else if Modul in [tmAssGross, tmPoAssGross, tmPODOReceiving] then
+  else if Modul in [tmTrader, tmPoTrader, tmPODOReceiving] then
   begin
     if chkDate.Checked then
     begin
-      if FModul in [tmPODOReceiving, tmPoAssGross] then
+      if FModul in [tmPODOReceiving, tmPoTrader] then
          SetLength(arrParam, 4)
       else
           SetLength(arrParam, 3);
@@ -581,12 +581,12 @@ begin
       begin
         arrParam[3].tipe:= ptString;
         arrParam[3].data:= 'invoicing';
-        data:= SearchPO.GetListDataPoAssGrossByPONoDateStatus(arrParam);
+        data:= SearchPO.GetListDataPoTraderByPONoDateStatus(arrParam);
       end else
       begin
         arrParam[3].tipe:= ptString;
         arrParam[3].data:= 'OPEN';
-        data := SearchPO.GetListDataPoAssGrossByNOPOStatus(arrParam);
+        data := SearchPO.GetListDataPoTraderByNOPOStatus(arrParam);
       end;
     end
     else
@@ -595,7 +595,7 @@ begin
       arrParam[0].tipe := ptString;
       arrParam[0].data := edt1.Text;
 
-      data := SearchPO.GetListDataPOAssGrossByNoPO(arrParam);
+      data := SearchPO.GetListDataPOTraderByNoPO(arrParam);
     end;
 
     with strgGrid do

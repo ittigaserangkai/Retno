@@ -19,6 +19,7 @@ type
     actSave: TAction;
     actCancel: TAction;
     procedure actCancelExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -57,7 +58,7 @@ var
 
 implementation
 
-uses udmMain;
+uses udmMain, uAppUtils, uConstanta;
 
 {$R *.dfm}
 
@@ -85,6 +86,16 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmMasterDialog.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_CLOSE) then
+  begin
+    Action := caNone;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TfrmMasterDialog.GetAndRunButton(AButtonName: string);

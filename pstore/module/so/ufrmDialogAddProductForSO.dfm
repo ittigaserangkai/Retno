@@ -197,6 +197,7 @@ inherited frmDialogAddProductForSO: TfrmDialogAddProductForSO
       end
       inherited btnSave: TcxButton
         Left = 520
+        Action = actSave
         Caption = 'Add'
         OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
@@ -252,18 +253,21 @@ inherited frmDialogAddProductForSO: TfrmDialogAddProductForSO
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 520
       end
+      inherited btnDelete: TcxButton
+        Action = actDelete
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 689
       ExplicitWidth = 689
-      inherited lbl4: TLabel
+      inherited lbCTRLEnter: TLabel
         Left = 503
         Width = 80
         Caption = 'Ctrl-Enter [Add]'
         ExplicitLeft = 502
         ExplicitWidth = 80
       end
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 594
         Width = 72
         Caption = 'Escape [Close]'
@@ -272,7 +276,7 @@ inherited frmDialogAddProductForSO: TfrmDialogAddProductForSO
       end
     end
   end
-  object btnShow: TcxButton
+  object btnShow: TcxButton [2]
     Left = 496
     Top = 36
     Width = 65

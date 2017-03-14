@@ -55,7 +55,17 @@ uses
   ufrmPopupPersonalMember in 'module\customer_support\ufrmPopupPersonalMember.pas' {frmPopupPersonalMember},
   ufrmGudang in 'module\inventory\ufrmGudang.pas' {frmGudang},
   ufrmDialogGudang in 'module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
-  uInterface in '..\system\uInterface.pas';
+  uInterface in '..\system\uInterface.pas',
+  ufrmTrader in 'module\trader\ufrmTrader.pas' {frmTrader},
+  ufrmDialogTrader in 'module\trader\ufrmDialogTrader.pas' {frmDialogTrader},
+  ufrmDialogPlafonTrader in 'module\trader\ufrmDialogPlafonTrader.pas' {frmDialogPlafonTrader},
+  ufrmSearchPO in 'module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
+  ufrmCrazyPrice in 'module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
+  ufrmCrazyPriceDialog in 'module\trader\ufrmCrazyPriceDialog.pas' {frmCrazyPriceDialog},
+  ufrmPOFromTrader in 'module\trader\ufrmPOFromTrader.pas' {ufrmPOFromTrader},
+  ufrmDialogPOFromTrader in 'module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader},
+  ufrmDialogPrintKasirPreview in 'module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
+  uTemplatePrintText in '..\system\uTemplatePrintText.pas';
 
 {$R *.res}
 

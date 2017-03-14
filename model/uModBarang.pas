@@ -85,6 +85,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property MERK_NAME: string read FMERK_NAME write FMERK_NAME;
     property MERK_DESCRIPTION: string read FMERK_DESCRIPTION write
         FMERK_DESCRIPTION;

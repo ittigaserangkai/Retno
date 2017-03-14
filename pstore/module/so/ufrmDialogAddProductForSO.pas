@@ -9,7 +9,8 @@ uses
   cxEdit, cxCheckBox, ufraFooterDialog3Button, ufrmMasterDialogBrowse,
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Menus, cxButtons;
+  cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Menus, cxButtons,
+  System.Actions, Vcl.ActnList;
 
 type
   TThreadSO = class(TThread)

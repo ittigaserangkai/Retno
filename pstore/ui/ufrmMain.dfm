@@ -353,13 +353,13 @@ object frmMain: TfrmMain
       Category = 'EOD'
       Caption = '&Import Sync'
     end
-    object actPOFromAsgross: TAction
-      Category = 'Asgross'
-      Caption = '&PO From Asgross'
+    object actPOFromTrader: TAction
+      Category = 'Trader'
+      Caption = '&PO From Trader'
     end
-    object actAssgros: TAction
-      Category = 'Asgross'
-      Caption = 'Master &Asgross'
+    object actTrader: TAction
+      Category = 'Trader'
+      Caption = 'Master &Trader'
     end
     object actDOForAsgross: TAction
       Category = 'Asgross'
@@ -378,7 +378,7 @@ object frmMain: TfrmMain
       Caption = 'Prin&t PO'
     end
     object actCrazyPrice: TAction
-      Category = 'Asgross'
+      Category = 'Trader'
       Caption = 'Crazy Price'
     end
     object actDataCostumer: TAction
@@ -414,7 +414,7 @@ object frmMain: TfrmMain
       Caption = 'Broadcast Download'
     end
     object actDOForTrader: TAction
-      Category = 'Asgross'
+      Category = 'Trader'
       Caption = 'actDOForTrader'
     end
     object actDailySalesReport: TAction
@@ -517,9 +517,9 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'actListingReceivingProduct'
     end
-    object actListOutstandingDOAssgros: TAction
-      Category = 'Asgross'
-      Caption = 'List Outstanding DO Assgros'
+    object actListOutstandingDOTrader: TAction
+      Category = 'Trader'
+      Caption = 'List Outstanding DO Trader'
     end
     object actAdjustmentProduct: TAction
       Category = 'Inventory'
@@ -530,11 +530,11 @@ object frmMain: TfrmMain
       Caption = 'List CN Merchandise Per Supplier'
     end
     object actListPODOReceive: TAction
-      Category = 'Asgross'
+      Category = 'Trader'
       Caption = 'Listing PO/DO Receive'
     end
     object actListOmzet: TAction
-      Category = 'Asgross'
+      Category = 'Trader'
       Caption = 'List Omzet'
     end
     object actListingProductIGRA: TAction
@@ -570,7 +570,7 @@ object frmMain: TfrmMain
       Caption = 'Listing Supplier Have CN'
     end
     object actPriceConfirmation: TAction
-      Category = 'Asgross'
+      Category = 'Trader'
       Caption = 'Price Confirmation'
     end
     object actListAdjustmentProduct: TAction
@@ -578,7 +578,7 @@ object frmMain: TfrmMain
       Caption = 'List Adjustment Product'
     end
     object actPriceConfirmationKring33: TAction
-      Category = 'Asgross'
+      Category = 'Trader'
       Caption = 'Price Confirmation Kring33'
     end
     object actListDailyTransaction: TAction

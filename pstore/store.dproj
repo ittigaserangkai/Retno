@@ -246,6 +246,43 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uInterface.pas"/>
+        <DCCReference Include="module\trader\ufrmTrader.pas">
+            <Form>frmTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\trader\ufrmDialogTrader.pas">
+            <Form>frmDialogTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\trader\ufrmDialogPlafonTrader.pas">
+            <Form>frmDialogPlafonTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\merchandise\ufrmSearchPO.pas">
+            <Form>frmDialogSearchPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\trader\ufrmCrazyPrice.pas">
+            <Form>frmCrazyPrice</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\trader\ufrmCrazyPriceDialog.pas">
+            <Form>frmCrazyPriceDialog</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\trader\ufrmPOFromTrader.pas">
+            <Form>ufrmPOFromTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\trader\ufrmDialogPOFromTrader.pas">
+            <Form>frmDialogPOFromTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="module\cashier_supv\ufrmDialogPrintKasirPreview.pas">
+            <Form>frmDialogPrintKasirPreview</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\uTemplatePrintText.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

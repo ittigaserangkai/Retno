@@ -259,11 +259,14 @@ inherited frmDialogProduct: TfrmDialogProduct
     object cbStock: TcxComboBox
       Left = 101
       Top = 81
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       Properties.Items.Strings = (
         'STOCK'
         'CS')
+      ShowHint = True
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       StyleFocused.LookAndFeel.NativeStyle = False
@@ -274,73 +277,100 @@ inherited frmDialogProduct: TfrmDialogProduct
     object cxLookupTipeBarang: TcxExtLookupComboBox
       Left = 101
       Top = 106
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 7
       Width = 188
     end
     object cxLookupSatuan: TcxExtLookupComboBox
       Left = 101
       Top = 131
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 8
       Width = 120
     end
     object cxLookupOutlet: TcxExtLookupComboBox
       Left = 101
       Top = 156
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 9
       Width = 188
     end
     object cxLookupLocation: TcxExtLookupComboBox
       Left = 101
       Top = 180
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 10
       Width = 188
     end
     object cxLookupJenisPajak: TcxExtLookupComboBox
       Left = 101
       Top = 305
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 15
       Width = 120
     end
     object cxLookupMerchan: TcxExtLookupComboBox
       Left = 101
       Top = 205
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       Properties.OnEditValueChanged = cxLookupMerchanPropertiesEditValueChanged
+      ShowHint = True
       TabOrder = 11
       Width = 188
     end
     object cxLookupMerchanGroup: TcxExtLookupComboBox
       Left = 101
       Top = 230
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 12
       Width = 188
     end
     object cxLookupSubGroup: TcxExtLookupComboBox
       Left = 101
       Top = 255
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 13
       Width = 188
     end
     object cxLookupKategori: TcxExtLookupComboBox
       Left = 101
       Top = 280
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      ShowHint = True
       TabOrder = 14
       Width = 188
     end
@@ -361,8 +391,14 @@ inherited frmDialogProduct: TfrmDialogProduct
     object cxLookupMerk: TcxExtLookupComboBox
       Left = 227
       Top = 7
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      ParentShowHint = False
       Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      ShowHint = True
+      Style.ButtonStyle = btsDefault
       TabOrder = 1
+      OnKeyUp = cxLookupMerkKeyUp
       Width = 183
     end
     object edtProductCode: TcxTextEdit
@@ -631,10 +667,12 @@ inherited frmDialogProduct: TfrmDialogProduct
       inherited lbCTRLEnter: TLabel
         Left = 603
         Height = 15
+        ExplicitLeft = 603
       end
       inherited lbEscape: TLabel
         Left = 694
         Height = 15
+        ExplicitLeft = 694
       end
       inherited lbCTRLDel: TLabel
         Height = 15

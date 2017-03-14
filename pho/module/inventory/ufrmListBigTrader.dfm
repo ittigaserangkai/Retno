@@ -12,8 +12,8 @@ inherited frmListBigTrader: TfrmListBigTrader
   inherited pnlBody: TPanel
     Width = 479
     Height = 194
-    ExplicitWidth = 120
-    ExplicitHeight = 171
+    ExplicitWidth = 479
+    ExplicitHeight = 194
     object lbl1: TLabel
       Left = 10
       Top = 14
@@ -66,15 +66,12 @@ inherited frmListBigTrader: TfrmListBigTrader
       Time = 40196.621535914360000000
       TabOrder = 0
     end
-    object edRangking: TJvValidateEdit
+    object edRangking: TcxCurrencyEdit
       Left = 140
       Top = 40
-      Width = 119
-      Height = 22
-      CriticalPoints.MaxValueIncluded = False
-      CriticalPoints.MinValueIncluded = False
-      EditText = '0'
+      EditValue = 0
       TabOrder = 2
+      Width = 119
     end
     object btnCetak: TButton
       Left = 270
@@ -111,9 +108,10 @@ inherited frmListBigTrader: TfrmListBigTrader
   end
   inherited pnlHeader: TPanel
     Width = 479
-    ExplicitWidth = 120
+    ExplicitWidth = 479
     inherited lblHeader: TLabel
       Width = 97
+      Height = 18
       Caption = 'Listing Big Trader'
       ExplicitWidth = 97
     end
