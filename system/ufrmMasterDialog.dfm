@@ -17,6 +17,7 @@ object frmMasterDialog: TfrmMasterDialog
   OldCreateOrder = False
   Position = poMainFormCenter
   Scaled = False
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
@@ -59,6 +60,7 @@ object frmMasterDialog: TfrmMasterDialog
       end
       inherited btnSave: TcxButton
         Left = 384
+        ExplicitLeft = 384
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -69,16 +71,11 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited lbCTRLEnter: TLabel
         Left = 379
-        Height = 15
         ExplicitLeft = 379
       end
       inherited lbEscape: TLabel
         Left = 470
-        Height = 15
         ExplicitLeft = 470
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end

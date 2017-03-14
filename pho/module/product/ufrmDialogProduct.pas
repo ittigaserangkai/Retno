@@ -87,6 +87,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookupMerkKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FModBarang: TModBarang;
     procedure InitLookup;
@@ -104,7 +105,7 @@ var
 implementation
 
 uses
-  uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta;
+  uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk;
 
 {$R *.dfm}
 
@@ -113,6 +114,28 @@ procedure TfrmDialogProduct.cxLookupMerchanPropertiesEditValueChanged(
 begin
   inherited;
 //  Showmessage(cxLookupMerchan.EditValue);
+end;
+
+procedure TfrmDialogProduct.cxLookupMerkKeyUp(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+var
+  frm: TfrmDialogMerk;
+begin
+  inherited;
+  if Key = VK_F5 then
+  begin
+    frm := TfrmDialogMerk.Create(Application);
+    Try
+      if frm.ShowModal = mrOk then
+      begin
+        cxLookupMerk.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp,
+          'MERK_ID', 'MERK_NAME' , ['MERK_ID'], Self);
+        cxLookupMerk.EditValue := frm.ModMerk.ID;
+      end;
+    Finally
+      frm.Free;
+    End;
+  end;
 end;
 
 procedure TfrmDialogProduct.FormCreate(Sender: TObject);
