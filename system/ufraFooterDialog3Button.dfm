@@ -54,7 +54,6 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Margins.Bottom = 2
       Align = alRight
       Caption = 'Save'
-      Default = True
       OptionsImage.ImageIndex = 32
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 0

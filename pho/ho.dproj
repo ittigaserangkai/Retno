@@ -1,14 +1,14 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{BEAFB175-EB4D-4DA8-8A39-72306AE7D72D}</ProjectGuid>
-        <ProjectVersion>18.1</ProjectVersion>
-        <FrameworkType>VCL</FrameworkType>
+        <ProjectGuid>{A129B2AD-FBEC-4746-A4D0-AE2BB4DF269A}</ProjectGuid>
         <MainSource>ho.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>18.0</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -18,7 +18,7 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
         <Cfg_1>true</Cfg_1>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
@@ -29,7 +29,7 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
@@ -41,63 +41,46 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <SanitizedProjectName>ho</SanitizedProjectName>
-        <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
-        <DCC_N>false</DCC_N>
         <DCC_S>false</DCC_S>
-        <DCC_F>false</DCC_F>
+        <SanitizedProjectName>ho</SanitizedProjectName>
         <DCC_K>false</DCC_K>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;Data.Win;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_F>false</DCC_F>
+        <DCC_N>false</DCC_N>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;DBXDb2Driver;dxCoreRS23;vclactnband;frxe23;vclFireDAC;dxPSLnksRS23;dxPSdxLCLnkRS23;tethering;cxDataRS23;dxPSdxOCLnkRS23;dxTabbedMDIRS23;FireDACADSDriver;fsTee23;JvPluginSystem;dxDBXServerModeRS23;dxHttpIndyRequestRS23;dxPScxGridLnkRS23;cxSchedulerRS23;FireDACMSSQLDriver;vcltouch;JvBands;vcldb;Intraweb;svn;JvJans;frxcs23;dxWizardControlRS23;dxPScxCommonRS23;dxBarRS23;cxSchedulerRibbonStyleEventEditorRS23;JvDotNetCtrls;dxPSTeeChartRS23;cxLibraryRS23;vclib;cxPivotGridChartRS23;dxPSdxDBOCLnkRS23;fsDB23;dxGDIPlusRS23;FireDACDBXDriver;tmsexdXE10;vclx;dxdborRS23;RESTBackendComponents;dxLayoutControlRS23;dxPSPrVwRibbonRS23;VCLRESTComponents;vclie;bindengine;CloudService;JvHMI;FireDACMySQLDriver;DataSnapClient;dxPScxPCProdRS23;fsADO23;bindcompdbx;DBXSybaseASEDriver;IndyIPServer;IndySystem;dsnapcon;cxTreeListdxBarPopupMenuRS23;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;Jcl;frxADO23;dxBarDBNavRS23;dxFlowChartRS23;DBXOdbcDriver;FireDACTDataDriver;FMXTee;fs23;soaprtl;DbxCommonDriver;dxSpreadSheetRS23;JvManagedThreads;dxPSdxSpreadSheetLnkRS23;xmlrtl;soapmidas;DataSnapNativeClient;fmxobj;JvTimeFramework;rtl;DbxClientDriver;DBXSybaseASADriver;dxNavBarRS23;JvSystem;JvStdCtrls;dxRichEditControlRS23;appanalytics;cxPivotGridRS23;dxSkinsdxDLPainterRS23;IndyIPClient;dxRibbonRS23;dxPScxVGridLnkRS23;bindcompvcl;frxDB23;dxPScxTLLnkRS23;dxMapControlRS23;TeeUI;JvDocking;JvPascalInterpreter;VclSmp;dxPScxSchedulerLnkRS23;cxTreeListRS23;FireDACODBCDriver;JclVcl;DataSnapIndy10ServerTransport;dxRibbonCustomizationFormRS23;dxPSRichEditControlLnkRS23;dxBarExtDBItemsRS23;DataSnapProviderClient;FireDACMongoDBDriver;JvControls;frx23;JvPrintPreview;dxSpellCheckerRS23;dxSkinsdxBarPainterRS23;DataSnapServerMidas;RESTComponents;DBXInterBaseDriver;dxADOServerModeRS23;emsclientfiredac;DataSnapFireDAC;svnui;JvGlobus;dxmdsRS23;dxdbtrRS23;dxPSDBTeeChartRS23;dxPSCoreRS23;dxSkinscxPCPainterRS23;DBXMSSQLDriver;JvMM;DatasnapConnectorsFreePascal;bindcompfmx;JvNet;DBXOracleDriver;inetdb;JvAppFrm;FmxTeeUI;dxBarExtItemsRS23;FireDACIBDriver;fmx;fmxdae;frxDBX23;dxServerModeRS23;dxPsPrVwAdvRS23;JvWizards;cxPageControlRS23;cxSchedulerGridRS23;dbexpress;IndyCore;JvPageComps;dsnap;DataSnapCommon;emsclient;FireDACCommon;JvDB;DataSnapConnectors;cxVerticalGridRS23;soapserver;frxTee23;dxTileControlRS23;JclDeveloperTools;cxGridRS23;FireDACOracleDriver;DBXMySQLDriver;JvCmp;DBXFirebirdDriver;FireDACCommonDriver;inet;IndyIPCommon;JvCustom;dxDockingRS23;vcl;JvXPCtrls;dxPScxExtCommonRS23;dxSkinsCoreRS23;FireDACDb2Driver;dxThemeRS23;dxSkinsdxRibbonPainterRS23;dxPSdxFCLnkRS23;dxtrmdRS23;TeeDB;FireDAC;cxSchedulerTreeBrowserRS23;JvCore;dxFireDACServerModeRS23;JvCrypt;FireDACSqliteDriver;FireDACPgDriver;ibmonitor;FireDACASADriver;cxEditorsRS23;JvDlgs;JvRuntimeDesign;dxSkinsdxNavBarPainterRS23;dxGaugeControlRS23;ibxpress;Tee;cxPivotGridOLAPRS23;DataSnapServer;ibxbindings;vclwinx;FireDACDSDriver;CustomIPTransport;vcldsnap;bindcomp;DBXInformixDriver;dxPSdxGaugeControlLnkRS23;fsIBX23;dxPScxPivotGridLnkRS23;dxorgcRS23;dxPSdxDBTVLnkRS23;vclribbon;dbxcds;frxIBX23;adortl;SUIPackD23;dxComnRS23;dsnapxml;dbrtl;inetdbxpress;IndyProtocols;cxExportRS23;JclContainers;dxSkinscxSchedulerPainterRS23;tmsdXE10;fmxase;tmswizdXE10;tmsxlsdXE10;$(DCC_UsePackage)</DCC_UsePackage>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Icon_MainIcon>ho_Icon.ico</Icon_MainIcon>
+        <DCC_Namespace>System.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
-        <DCC_DebugDCUs>true</DCC_DebugDCUs>
-        <DCC_Optimize>false</DCC_Optimize>
-        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
-        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
-        <DCC_RemoteDebug>true</DCC_RemoteDebug>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <VerInfo_PreRelease>true</VerInfo_PreRelease>
-<<<<<<< HEAD
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.43;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>43</VerInfo_Build>
-=======
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.41;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Build>41</VerInfo_Build>
->>>>>>> 0bf058d3f258d85d3988c8a939f61d1c0efe0436
-        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Debug>true</VerInfo_Debug>
-        <VerInfo_MajorVer>2017</VerInfo_MajorVer>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_DcuOutput>D:\SharedProjects\Projects\Retno\pho\dcu</DCC_DcuOutput>
-        <DCC_ExeOutput>D:\SharedProjects\Projects\Retno\bin</DCC_ExeOutput>
-        <Icon_MainIcon>..\images\hoOne_Icon.ico</Icon_MainIcon>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-        <DCC_RemoteDebug>false</DCC_RemoteDebug>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
-        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableHighDPI>true</AppEnableHighDPI>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -105,58 +88,46 @@
         </DelphiCompile>
         <DCCReference Include="ui\ufrmMain.pas">
             <Form>frmMain</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\login\ufrmLogin.pas">
             <Form>frmLogin</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="unit\uConstanta.pas"/>
         <DCCReference Include="..\system\ufraFooter1Button.pas">
             <Form>fraFooter1Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\system\ufraFooter5Button.pas">
             <Form>fraFooter5Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\system\ufraLoading.pas">
             <Form>fraLoading</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\system\ufraProgressBar.pas">
             <Form>fraProgressBar</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="ui\ufrmSplash.pas">
             <Form>frmSplash</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufraFooterDialog2Button.pas">
             <Form>fraFooterDialog2Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterDialog.pas">
             <Form>frmMasterDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMaster.pas">
             <Form>frmMaster</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ui\udmMain.pas">
             <Form>dmMain</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="ui\ufrmAbout.pas">
             <Form>frmAbout</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uMenuManagement.pas"/>
         <DCCReference Include="..\system\uFormProperty.pas"/>
@@ -164,11 +135,9 @@
         <DCCReference Include="..\system\uRetnoUnit.pas"/>
         <DCCReference Include="module\references\ufrmPajak.pas">
             <Form>frmPajak</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmDialogPajak.pas">
             <Form>frmDialogPajak</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uTSCommonDlg.pas"/>
         <DCCReference Include="..\classes\uCompany.pas"/>
@@ -176,19 +145,15 @@
         <DCCReference Include="..\classes\uUnit.pas"/>
         <DCCReference Include="module\references\ufrmBank.pas">
             <Form>frmBank</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmDialogBank.pas">
             <Form>frmDialogBank</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmDialogHariLibur.pas">
             <Form>frmDialogHariLibur</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmHariLibur.pas">
             <Form>frmHariLibur</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmDialogLokasi.pas">
             <Form>frmDialogLokasi</Form>
@@ -254,7 +219,6 @@
         <DCCReference Include="..\classes\uClientClasses.pas"/>
         <DCCReference Include="ui\ufrmTest.pas">
             <Form>frmTest</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\accounting\ufrmDialogRekening.pas">
             <Form>frmDialogRekening</Form>
@@ -264,103 +228,80 @@
         </DCCReference>
         <DCCReference Include="module\management user\ufrmUser.pas">
             <Form>frmUser</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmUserGroup.pas">
             <Form>frmUserGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmDialogUser.pas">
             <Form>frmDialogUser</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmDialogUserGroup.pas">
             <Form>frmDialogUserGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmAddNewMenu.pas">
             <Form>frmAddNewMenu</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmDialogMenu.pas">
             <Form>frmDialogMenu</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmModule.pas">
             <Form>frmModule</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmDialogModule.pas">
             <Form>frmDialogModule</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\management user\ufrmDialogAddNewMenu.pas">
             <Form>frmDialogAddNewMenu</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmMasterCustomer.pas">
             <Form>frmMasterCustomer</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmDialogMasterCustomer.pas">
             <Form>frmDialogMasterCustomer</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufraAlokasiStock.pas">
             <Form>fraAlokasiStock</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufraBonusProduct.pas">
             <Form>fraBonusProduct</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufraProductSupplier.pas">
             <Form>fraProductSupplier</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufraProductTurunan.pas">
             <Form>fraProductTurunan</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufraSellingPrice.pas">
             <Form>fraSellingPrice</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufraStockCard.pas">
             <Form>fraStockCard</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufraUOMConvertion.pas">
             <Form>fraUOMConvertion</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\product\ufrmDialogProdSupplier.pas">
             <Form>frmDialogProdSupplier</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmDialogProduct.pas">
             <Form>frmDialogProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmProduct.pas">
             <Form>frmProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\classes\uSpecialKey.pas"/>
         <DCCReference Include="module\product\ufrmSearchProduct.pas">
             <Form>frmDialogSearchProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmSearchSupplier.pas">
             <Form>frmDialogSearchSupplier</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\uAppUtils.pas"/>
         <DCCReference Include="..\lib\uConn.pas"/>
@@ -371,16 +312,13 @@
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
         <DCCReference Include="module\merchandise\ufraHistoriPOByProduct.pas">
             <Form>fraHistoriPOByProduct</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterBrowse.pas">
             <Form>frmMasterBrowse</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufraFooter4Button.pas">
             <Form>fraFooter4Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\model\uModAccount.pas"/>
@@ -396,7 +334,6 @@
         <DCCReference Include="..\model\uModTipePembeli.pas"/>
         <DCCReference Include="..\system\ufraFooterDialog3Button.pas">
             <Form>fraFooterDialog3Button</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="module\references\ufrmProductTypeNBD.pas">
@@ -421,84 +358,68 @@
         <DCCReference Include="..\model\uModSatuan.pas"/>
         <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="..\model\uModCostCenter.pas"/>
+        <DCCReference Include="module\references\ufrmCostCenter.pas">
+            <Form>frmCostCenter</Form>
+        </DCCReference>
         <DCCReference Include="module\references\ufrmDialogCostCenter.pas">
             <Form>frmDialogCostCenter</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uInterface.pas"/>
         <DCCReference Include="module\merchandise\ufrmSupplier.pas">
             <Form>frmSupplier</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmDialogSupplier.pas">
             <Form>frmDialogSupplier</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmOutstandingPO.pas">
             <Form>frmOutstandingPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmDayOfPO.pas">
             <Form>frmDayofPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\pstore\module\merchandise\ufrmDisplayPO.pas">
             <Form>frmDisplayPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\pstore\module\merchandise\ufrmSearchPO.pas">
             <Form>frmDialogSearchPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterDialogBrowse.pas">
             <Form>frmMasterDialogBrowse</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\pstore\module\merchandise\ufrmReprintNP.pas">
             <Form>frmReprintNP</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
         <DCCReference Include="module\product\ufrmDialogKategori.pas">
             <Form>frmDialogKategori</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmDialogMerchandise.pas">
             <Form>frmDialogMerchandise</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmDialogMerchandiseGroup.pas">
             <Form>frmDialogMerchandiseGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmDialogMerk.pas">
             <Form>frmDialogMerk</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmDialogSubGroup.pas">
             <Form>frmDialogSubGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmKategori.pas">
             <Form>frmKategori</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmMerchandise.pas">
             <Form>frmMerchandise</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmMerchandiseGroup.pas">
             <Form>frmMerchandiseGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmMerk.pas">
             <Form>frmMerk</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\product\ufrmSubGroup.pas">
             <Form>frmSubGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmQuotation.pas">
             <Form>frmQuotation</Form>
@@ -514,44 +435,34 @@
         </DCCReference>
         <DCCReference Include="module\references\ufrmUnit.pas">
             <Form>frmUnit</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\references\ufrmDialogUnit.pas">
             <Form>frmDialogUnit</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmDaftarCompetitor.pas">
             <Form>frmDaftarCompetitor</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\merchandise\ufrmDialogDaftarKompetitor.pas">
             <Form>frmDialogDaftarKompetitor</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-<<<<<<< HEAD
-        <DCCReference Include="module\references\ufrmCostCenter.pas">
-            <Form>frmCostCenter</Form>
-=======
         <DCCReference Include="module\merchandise\ufrmDialogBarangCompetitor.pas">
             <Form>frmDialogBarangCompetitor</Form>
->>>>>>> 0bf058d3f258d85d3988c8a939f61d1c0efe0436
-            <FormType>dfm</FormType>
         </DCCReference>
-        <BuildConfiguration Include="Release">
+        <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
-        <BuildConfiguration Include="Debug">
+        <BuildConfiguration Include="Release">
             <Key>Cfg_1</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Delphi.Personality.12</Borland.Personality>
-        <Borland.ProjectType>Application</Borland.ProjectType>
+        <Borland.ProjectType/>
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
@@ -562,413 +473,12 @@
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp230.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
-            <Deployment Version="2">
-                <DeployFile LocalName="..\bin\ho.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>ho.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXResource">
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\Resources</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidClassesDexFile">
-                    <Platform Name="Android">
-                        <RemoteDir>classes</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AdditionalDebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch768">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_LauncherIcon144">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidLibnativeMipsFile">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\mips</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Required="true" Name="ProjectOutput">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="DependencyFramework">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.framework</Extensions>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPhone_Launch640">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch1024">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceDebug">
-                    <Platform Name="iOSDevice64">
-                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidLibnativeX86File">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\x86</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPhone_Launch320">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSInfoPList">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidLibnativeArmeabiFile">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="DebugSymbols">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch1536">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_SplashImage470">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-normal</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_LauncherIcon96">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_SplashImage640">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-large</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPhone_Launch640x1136">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSEntitlements">
-                    <Platform Name="iOSDevice64">
-                        <RemoteDir>../</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <RemoteDir>../</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_LauncherIcon72">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-hdpi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidGDBServer">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXInfoPList">
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXEntitlements">
-                    <Platform Name="OSX32">
-                        <RemoteDir>../</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="iPad_Launch2048">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidSplashStyles">
-                    <Platform Name="Android">
-                        <RemoteDir>res\values</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_SplashImage426">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-small</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidSplashImageDef">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSResource">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectAndroidManifest">
-                    <Platform Name="Android">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_DefaultAppIcon">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="File">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="Android">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>0</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidServiceOutput">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Required="true" Name="DependencyPackage">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.bpl</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_LauncherIcon48">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-mdpi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_SplashImage960">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-xlarge</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="Android_LauncherIcon36">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-ldpi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-            </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>
             </Platforms>
-            <DataSnapProxyLookup>
-                <uClientClasses>{A01380B5-3771-45CF-B6B6-022C98D01784}</uClientClasses>
-            </DataSnapProxyLookup>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
-    <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
 </Project>

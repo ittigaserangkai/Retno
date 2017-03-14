@@ -109,6 +109,7 @@ uses
   uModSatuan in '..\model\uModSatuan.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
+  ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter},
   ufrmDialogCostCenter in 'module\references\ufrmDialogCostCenter.pas' {frmDialogCostCenter},
   uInterface in '..\system\uInterface.pas',
   ufrmSupplier in 'module\merchandise\ufrmSupplier.pas' {frmSupplier},
@@ -139,11 +140,7 @@ uses
   ufrmDialogUnit in 'module\references\ufrmDialogUnit.pas' {frmDialogUnit},
   ufrmDaftarCompetitor in 'module\merchandise\ufrmDaftarCompetitor.pas' {frmDaftarCompetitor},
   ufrmDialogDaftarKompetitor in 'module\merchandise\ufrmDialogDaftarKompetitor.pas' {frmDialogDaftarKompetitor},
-<<<<<<< HEAD
-  ufrmCostCenter in 'module\references\ufrmCostCenter.pas' {frmCostCenter};
-=======
   ufrmDialogBarangCompetitor in 'module\merchandise\ufrmDialogBarangCompetitor.pas' {frmDialogBarangCompetitor};
->>>>>>> 0bf058d3f258d85d3988c8a939f61d1c0efe0436
 
 {$R *.res}
 
@@ -153,6 +150,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmSupplierType, frmSupplierType);
   Application.Run;
 end.
