@@ -128,10 +128,10 @@ type
     actMarkUpSellingPrice: TAction;
     actHistoryPrice: TAction;
     actListingAgreement: TAction;
-    actInvoiceAssgros: TAction;
-    actPaymentAssgros: TAction;
+    actInvoiceTrader: TAction;
+    actPaymentTrader: TAction;
     actListDoOutstanding: TAction;
-    actListingAgingInvoiceAssgros: TAction;
+    actListingAgingInvoiceTrader: TAction;
     actListAPPayment: TAction;
     actListClaimFakturPajak: TAction;
     actPendingCekOutCekAPNBD: TAction;
@@ -160,7 +160,7 @@ type
     actListingReceivingProduct: TAction;
     actRekapitulasiCN: TAction;
     actListAdjustmentProduct: TAction;
-    actListOutstandingDOAssgros: TAction;
+    actListOutstandingDOTrader: TAction;
     actListPODOReceive: TAction;
     actListOmzet: TAction;
     actSalesReportContrabon: TAction;

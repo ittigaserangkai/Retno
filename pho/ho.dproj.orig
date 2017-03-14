@@ -7,7 +7,7 @@
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <ProjectVersion>18.1</ProjectVersion>
+        <ProjectVersion>18.0</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -68,6 +68,21 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+<<<<<<< HEAD
+        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2017.0.0.42;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>42</VerInfo_Build>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <VerInfo_Debug>true</VerInfo_Debug>
+        <VerInfo_MajorVer>2017</VerInfo_MajorVer>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_DcuOutput>D:\SharedProjects\Projects\Retno\pho\dcu</DCC_DcuOutput>
+        <DCC_ExeOutput>D:\SharedProjects\Projects\Retno\bin</DCC_ExeOutput>
+        <Icon_MainIcon>..\images\hoOne_Icon.ico</Icon_MainIcon>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+=======
+>>>>>>> 6e8f4ccb8ffc074a286945b9296c4c692963a95d
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
@@ -448,13 +463,19 @@
         <DCCReference Include="module\merchandise\ufrmDialogBarangCompetitor.pas">
             <Form>frmDialogBarangCompetitor</Form>
         </DCCReference>
+<<<<<<< HEAD
         <DCCReference Include="module\inventory\ufrmListBigTrader.pas">
             <Form>frmListBigTrader</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="module\inventory\ufrmListBigSupplier.pas">
             <Form>frmListBigSupplier</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
+        <BuildConfiguration Include="Release">
+=======
         <BuildConfiguration Include="Debug">
+>>>>>>> 6e8f4ccb8ffc074a286945b9296c4c692963a95d
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
