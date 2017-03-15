@@ -13,6 +13,7 @@ type
     FCOMP_NAME: string;
   public
     class function GetTableName: String; override;
+  published
     property COMP_CODE: string read FCOMP_CODE write FCOMP_CODE;
     property COMP_NAME: string read FCOMP_NAME write FCOMP_NAME;
   end;
@@ -24,4 +25,7 @@ begin
   Result := 'COMPANY';
 end;
 
+initialization
+  //if error "can not instantiate type of uModel.xxxx" occured, register here
+  TModCompany.RegisterRTTI;
 end.
