@@ -3,7 +3,8 @@ unit ufrmDialogMerchandiseGroup;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmMasterDialog, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, uModBarang, uInterface,
   Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
@@ -18,7 +19,6 @@ type
     lbNama: TLabel;
     cxLookupMerchan: TcxExtLookupComboBox;
     lbDivision: TLabel;
-    cxtest: TcxExtLookupComboBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -52,6 +52,7 @@ begin
   Try
     DMCLient.CrudClient.DeleteFromDB(ModMerchandiseGroup);
     TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
     Self.Close;
   except
     TAppUtils.Error(ER_DELETE_FAILED);
@@ -70,12 +71,8 @@ end;
 procedure TfrmDialogMerchandiseGroup.FormCreate(Sender: TObject);
 begin
   inherited;
-
   cxLookupMerchan.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup,
       'REF$MERCHANDISE_ID','MERCHAN_NAME' ,['REF$MERCHANDISE_ID'], Self);
-  cxTest.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup,
-      'REF$MERCHANDISE_ID','MERCHAN_NAME' ,['REF$MERCHANDISE_ID'], Self);
-  cxLookupMerchan.SetMultiPurposeLookup;
 
   Self.AssignKeyDownEvent;
 end;
@@ -91,9 +88,10 @@ end;
 procedure TfrmDialogMerchandiseGroup.LoadData(AID: String);
 begin
   if Assigned(FModMerchandiseGroup) then FreeAndNil(FModMerchandiseGroup);
-  FModMerchandiseGroup := DMClient.CrudClient.Retrieve(TModMerchandise.ClassName, aID) as TModMerchandiseGroup;
+  FModMerchandiseGroup := DMClient.CrudClient.Retrieve(TModMerchandiseGroup.ClassName, aID) as TModMerchandiseGroup;
   edtCode.Text    := ModMerchandiseGroup.MERCHANGRUP_CODE;
   edtName.Text    := ModMerchandiseGroup.MERCHANGRUP_NAME;
+  cxLookupMerchan.EditValue := ModMerchandiseGroup.Merchandise.ID;
 end;
 
 procedure TfrmDialogMerchandiseGroup.SaveData;

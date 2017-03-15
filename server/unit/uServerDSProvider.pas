@@ -242,7 +242,7 @@ var
   S: string;
 begin
   S := 'select A.REF$MERCHANDISE_ID, A.REF$MERCHANDISE_GRUP_ID,'
-      +' A.MERCHANGRUP_CODE, A.MERCHANGRUP_NAME'
+      +' A.MERCHANGRUP_CODE, A.MERCHANGRUP_NAME, B.MERCHAN_NAME'
       +' from REF$MERCHANDISE_GRUP A'
       +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID';
   Result := TDBUtils.OpenQuery(S);
@@ -252,8 +252,12 @@ function TDSProvider.SubGroup_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'Select SUBGRUP_NAME, SUBGRUP_CODE, REF$SUB_GRUP_ID,'
-      +' REF$MERCHANDISE_GRUP_ID from REF$SUB_GRUP';
+  S := 'SELECT A.SUBGRUP_NAME, A.SUBGRUP_CODE, B.MERCHANGRUP_NAME,'
+      +' A.REF$SUB_GRUP_ID , A.REF$MERCHANDISE_GRUP_ID'
+      +' FROM REF$SUB_GRUP A'
+      +' INNER JOIN REF$MERCHANDISE_GRUP B'
+      +' ON A.REF$MERCHANDISE_GRUP_ID = B.REF$MERCHANDISE_GRUP_ID';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -261,8 +265,10 @@ function TDSProvider.Kategori_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'Select KAT_NAME, KAT_CODE, REF$KATEGORI_ID, REF$SUB_GRUP_ID from '
-      +' REF$KATEGORI ORDER BY KAT_CODE';
+  S := 'Select A.KAT_NAME, A.KAT_CODE, B.SUBGRUP_NAME, A.REF$KATEGORI_ID, A.REF$SUB_GRUP_ID'
+      +' from REF$KATEGORI A'
+      +' INNER JOIN REF$SUB_GRUP B ON A.REF$SUB_GRUP_ID=B.REF$SUB_GRUP_ID'
+      +' ORDER BY KAT_CODE';
   Result := TDBUtils.OpenQuery(S);
 end;
 

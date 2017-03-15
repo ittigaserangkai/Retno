@@ -43,7 +43,7 @@ inherited frmDialogMerchandiseGroup: TfrmDialogMerchandiseGroup
       Ctl3D = False
       MaxLength = 4
       ParentCtl3D = False
-      TabOrder = 2
+      TabOrder = 1
     end
     object edtName: TEdit
       Left = 92
@@ -54,7 +54,7 @@ inherited frmDialogMerchandiseGroup: TfrmDialogMerchandiseGroup
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 3
+      TabOrder = 2
     end
     object cxLookupMerchan: TcxExtLookupComboBox
       Left = 91
@@ -63,17 +63,7 @@ inherited frmDialogMerchandiseGroup: TfrmDialogMerchandiseGroup
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
-      ShowHint = True
-      TabOrder = 1
-      Width = 222
-    end
-    object cxtest: TcxExtLookupComboBox
-      Left = 91
-      Top = 15
-      Hint = 'Klik F5 untuk membuat Master Baru'
-      ParentShowHint = False
-      Properties.CharCase = ecUpperCase
-      Properties.ImmediatePost = True
+      Properties.ValidateOnEnter = False
       ShowHint = True
       TabOrder = 0
       Width = 222
