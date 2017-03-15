@@ -252,6 +252,10 @@ object frmMain: TfrmMain
         Caption = 'Dialog Barang'
         OnClick = DialogBarang1Click
       end
+      object est2: TMenuItem
+        Caption = 'Test'
+        OnClick = est2Click
+      end
     end
   end
   object actlstMain: TActionList

@@ -115,10 +115,10 @@ uses
   ufrmDialogSupplier in '..\module\merchandise\ufrmDialogSupplier.pas' {frmDialogSupplier},
   ufrmOutstandingPO in '..\module\merchandise\ufrmOutstandingPO.pas' {frmOutstandingPO},
   ufrmDayOfPO in '..\module\merchandise\ufrmDayOfPO.pas' {frmDayofPO},
-  ufrmDisplayPO in '..\pstore\..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
-  ufrmSearchPO in '..\pstore\..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
+  ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
+  ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
-  ufrmReprintNP in '..\pstore\..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
@@ -133,7 +133,6 @@ uses
   ufrmSubGroup in '..\module\product\ufrmSubGroup.pas' {frmSubGroup},
   ufrmQuotation in '..\module\merchandise\ufrmQuotation.pas' {frmQuotation},
   ufrmDialogQuotation in '..\module\merchandise\ufrmDialogQuotation.pas' {frmDialogQuotation},
-  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
   ufrmDialogOutlet in '..\module\references\ufrmDialogOutlet.pas' {frmDialogOutlet},
   ufrmUnit in '..\module\references\ufrmUnit.pas' {frmUnit},
   ufrmDialogUnit in '..\module\references\ufrmDialogUnit.pas' {frmDialogUnit},
@@ -145,7 +144,8 @@ uses
   ufrmCompany in '..\module\references\ufrmCompany.pas' {frmCompany},
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
-  uModUnit in '..\model\uModUnit.pas';
+  uModUnit in '..\model\uModUnit.pas',
+  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet};
 
 {$R *.res}
 

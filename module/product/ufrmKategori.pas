@@ -15,6 +15,8 @@ uses
 
 type
   TfrmKategori = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,9 +30,23 @@ var
 implementation
 
 uses
-  uDMClient, uDBUtils, uDXUtils, uModBarang;
+  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogKategori;
 
 {$R *.dfm}
+
+procedure TfrmKategori.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogKategori);
+end;
+
+procedure TfrmKategori.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogKategori,
+    cxGridView.DS.FieldByName('REF$KATEGORI_ID').AsString
+  );
+end;
 
 procedure TfrmKategori.RefreshData;
 begin
