@@ -106,7 +106,6 @@ begin
     TAppUtils.Error(ER_INSERT_FAILED);
     raise;
   End;
-
 end;
 
 function TfrmDialogKategori.ValidateData: Boolean;

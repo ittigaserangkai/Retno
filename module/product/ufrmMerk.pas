@@ -31,7 +31,8 @@ var
 implementation
 
 uses
-  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogMerk, ufrmMasterDialog;
+  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogMerk, ufrmMasterDialog,
+  uClientClasses;
 
 {$R *.dfm}
 
@@ -57,8 +58,14 @@ end;
 procedure TfrmMerk.RefreshData;
 begin
   inherited;
-  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp, Self);
-  cxGridView.SetVisibleColumns([TModMerk.GetPrimaryField], False);
+
+//  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp, Self);
+//  cxGridView.SetVisibleColumns([TModMerk.GetPrimaryField], False);
+  with TDSProviderClient.Create(DMClient.RestConn, False) do
+  begin
+    Merk_GetDSLookUp();
+    Merk_GetDSLookUp();
+  end;
 end;
 
 end.

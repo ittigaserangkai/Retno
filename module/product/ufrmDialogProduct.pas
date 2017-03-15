@@ -90,6 +90,7 @@ type
     procedure cxLookupMerkKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FModBarang: TModBarang;
+    procedure ClearFornm;
     procedure InitLookup;
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -109,11 +110,34 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmDialogProduct.ClearFornm;
+begin
+  ClearByTag([0]);
+  cbStock.ItemIndex := 0;
+  cxLookupTipeBarang.SetDefaultValue;
+  cxLookupSatuan.SetDefaultValue;
+  cxLookupOutlet.SetDefaultValue;
+  cxLookupMerchan.SetDefaultValue;
+  cxLookupMerchanGroup.SetDefaultValue;
+  cxLookupKategori.SetDefaultValue;
+  cxLookupLocation.SetDefaultValue;
+  cxLookupJenisPajak.SetDefaultValue;
+  cxLookupMerk.SetDefaultValue;
+end;
+
 procedure TfrmDialogProduct.cxLookupMerchanPropertiesEditValueChanged(
   Sender: TObject);
+var
+  KeyField: string;
 begin
   inherited;
-//  Showmessage(cxLookupMerchan.EditValue);
+  with cxLookupMerchanGroup.DS do
+  begin
+    KeyField := cxLookupMerchan.Properties.KeyFieldNames;
+    Filter := KeyField + ' = ' + QuotedStr(cxLookupMerchan.DS.FieldByName(KeyField).AsString);
+    Filtered := True;
+  end;
+//  Self.OnEditValueChanged(cxLookupMerchan);
 end;
 
 procedure TfrmDialogProduct.cxLookupMerkKeyUp(Sender: TObject; var Key: Word;
@@ -143,7 +167,7 @@ begin
   inherited;
   AssignKeyDownEvent;
   InitLookup;
-  ClearByTag([0]);
+  ClearFornm;
 end;
 
 procedure TfrmDialogProduct.FormShow(Sender: TObject);
@@ -180,6 +204,7 @@ begin
     cxLookupMerk.LoadFromDS(Merk_GetDSLookUp,
       'MERK_ID', 'MERK_NAME' , ['MERK_ID'], Self);
   end;
+  //inisialisasi
 end;
 
 procedure TfrmDialogProduct.UpdateData;

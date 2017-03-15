@@ -295,9 +295,9 @@ inherited frmDialogProduct: TfrmDialogProduct
     object cbStock: TcxComboBox
       Left = 101
       Top = 81
-      Hint = 'Klik F5 untuk membuat Master Baru'
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
+      Properties.DropDownListStyle = lsEditFixedList
       Properties.ImmediatePost = True
       Properties.Items.Strings = (
         'STOCK'
@@ -308,6 +308,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       StyleFocused.LookAndFeel.NativeStyle = False
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 5
+      Text = 'STOCK'
       Width = 120
     end
     object cxLookupTipeBarang: TcxExtLookupComboBox
@@ -797,7 +798,7 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 696
-    Top = 240
+    Left = 544
+    Top = 232
   end
 end

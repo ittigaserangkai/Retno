@@ -3,7 +3,7 @@ unit ufrmMain;
 interface
 
 uses
-  Winapi.Messages, System.SysUtils, System.Variants,
+  Winapi.Messages, System.SysUtils, System.Variants,DB,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
@@ -63,6 +63,7 @@ type
 
 var
   frmMain: TfrmMain;
+  test : TDataSEt;
 
 implementation
 {$R *.dfm}

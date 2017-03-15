@@ -45,6 +45,9 @@ type
   {$METHODINFO OFF}
 implementation
 
+uses
+  ufrmMain;
+
 function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
@@ -276,8 +279,12 @@ function TDSProvider.Merk_GetDSLookUp: TDataSet;
 var
   S: string;
 begin
+
   S := 'select Merk_Name,Merk_Description, Merk_ID from Merk';
+  if Test <> nil then
+    Test.fields[0].AsString;
   Result := TDBUtils.OpenQuery(S);
+  Test := Result;
 end;
 
 function TDSProvider.RefPajak_GetDSLookup: TDataSet;

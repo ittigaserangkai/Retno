@@ -62,8 +62,11 @@ type
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
   public
+    function CDS: TClientDataSet;
+    function DS: TDataset;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent);
+    procedure SetDefaultValue;
     procedure SetMultiPurposeLookup;
   end;
 
@@ -102,7 +105,6 @@ type
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
     function DS: TDataset;
     function CDS: TClientDataSet;
-
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
@@ -1088,7 +1090,19 @@ end;
 class procedure TFormHelper.OnEditValueChanged(Sender: TObject);
 begin
   if Sender is TcxExtLookupComboBox then Keybd_event(VK_TAB, 0, 0, 0);
-//  SelectNext(Screen.ActiveControl, True, True);
+end;
+
+function TcxExtLookupComboHelper.CDS: TClientDataSet;
+begin
+  Result := TClientDataSet(Self.DS);
+end;
+
+function TcxExtLookupComboHelper.DS: TDataset;
+begin
+  if Assigned(TcxGridDBTableView(Self.Properties.View).DataController.DataSource ) then
+    Result := TcxGridDBTableView(Self.Properties.View).DataController.DataSource.DataSet
+  else
+    Result := nil;
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
@@ -1096,6 +1110,15 @@ procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
 begin
   Self.Properties.LoadFromDS(aDataSet, IDField, DisplayField,
     HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.SetDefaultValue;
+begin
+  Self.Clear;
+  if Self.DS <> nil then
+  begin
+    Self.EditValue := Self.DS.FieldByName(Self.Properties.KeyFieldNames).Value;
+  end;
 end;
 
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;
