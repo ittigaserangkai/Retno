@@ -275,6 +275,7 @@ type
     Merk1: TMenuItem;
     actCompany: TAction;
     Company1: TMenuItem;
+    est2: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -315,6 +316,7 @@ type
     procedure actTipePembayaranExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure DialogBarang1Click(Sender: TObject);
+    procedure est2Click(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -354,7 +356,8 @@ uses
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
-  ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct;
+  ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
+  ufrmOutlet;
 
 {$R *.dfm}
 
@@ -748,6 +751,11 @@ begin
 
   // set invisible to menu
   AMenu.Visible := AValue;
+end;
+
+procedure TfrmMain.est2Click(Sender: TObject);
+begin
+  TfrmOutlet.Create(Application);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);

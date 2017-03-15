@@ -15,6 +15,8 @@ uses
 
 type
   TfrmSubGroup = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,9 +30,23 @@ var
 implementation
 
 uses
-  uDMClient, uDBUtils, uDXUtils, uModBarang;
+  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogSubGroup;
 
 {$R *.dfm}
+
+procedure TfrmSubGroup.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogSubGroup);
+end;
+
+procedure TfrmSubGroup.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogSubGroup,
+    cxGridView.DS.FieldByName('REF$SUB_GRUP_ID').AsString
+  );
+end;
 
 procedure TfrmSubGroup.RefreshData;
 begin

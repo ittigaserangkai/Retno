@@ -1,7 +1,8 @@
 inherited frmSubGroup: TfrmSubGroup
-  Caption = 'frmSubGroup'
+  Caption = 'Data Sub Group'
   ClientHeight = 395
   ClientWidth = 668
+  ExplicitTop = 8
   ExplicitWidth = 684
   ExplicitHeight = 434
   PixelsPerInch = 96
@@ -84,6 +85,19 @@ inherited frmSubGroup: TfrmSubGroup
     end
     inherited pnlShortCut: TPanel
       Width = 668
+      ExplicitWidth = 668
+      inherited lbEscape: TLabel
+        Left = 594
+        Height = 17
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end
