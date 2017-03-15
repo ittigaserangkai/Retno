@@ -317,6 +317,7 @@ type
     procedure actTipePembayaranExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure DialogBarang1Click(Sender: TObject);
+    procedure est2Click(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -756,6 +757,11 @@ begin
 
   // set invisible to menu
   AMenu.Visible := AValue;
+end;
+
+procedure TfrmMain.est2Click(Sender: TObject);
+begin
+  TfrmOutlet.Create(Application);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);

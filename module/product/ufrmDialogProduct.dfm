@@ -178,6 +178,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Left = 101
       Top = 56
       Properties.CharCase = ecUpperCase
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 4
       Width = 309
     end
@@ -185,6 +189,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Left = 101
       Top = 31
       Properties.CharCase = ecUpperCase
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 3
       Width = 309
     end
@@ -192,6 +200,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Left = 507
       Top = 7
       Style.Color = clMoneyGreen
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 2
       Width = 239
     end
@@ -203,6 +215,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0;(0)'
       Style.Color = clWindow
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 19
       Visible = False
       Width = 41
@@ -211,6 +227,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Tag = 1
       Left = 574
       Top = 255
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 20
       Text = 'PCS'
       Visible = False
@@ -220,6 +240,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Tag = 1
       Left = 574
       Top = 280
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 22
       Text = 'PCS'
       Visible = False
@@ -232,6 +256,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.Alignment.Horz = taRightJustify
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0;(0)'
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 21
       Visible = False
       Width = 41
@@ -243,6 +271,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.Alignment.Horz = taRightJustify
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0;(0)'
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 23
       Visible = False
       Width = 41
@@ -251,6 +283,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Tag = 1
       Left = 574
       Top = 305
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 24
       Text = 'PCS'
       Visible = False
@@ -282,6 +318,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 7
       Width = 188
     end
@@ -293,6 +333,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 8
       Width = 120
     end
@@ -304,6 +348,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 9
       Width = 188
     end
@@ -315,6 +363,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 10
       Width = 188
     end
@@ -326,6 +378,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 15
       Width = 120
     end
@@ -338,6 +394,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.ImmediatePost = True
       Properties.OnEditValueChanged = cxLookupMerchanPropertiesEditValueChanged
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 11
       Width = 188
     end
@@ -349,6 +409,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 12
       Width = 188
     end
@@ -360,6 +424,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 13
       Width = 188
     end
@@ -371,6 +439,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 14
       Width = 188
     end
@@ -384,6 +456,10 @@ inherited frmDialogProduct: TfrmDialogProduct
     object edtBrgNamaGalon: TcxTextEdit
       Left = 532
       Top = 205
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 18
       Visible = False
       Width = 237
@@ -396,7 +472,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
       ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
       Style.ButtonStyle = btsDefault
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 1
       OnKeyUp = cxLookupMerkKeyUp
       Width = 183
@@ -405,6 +485,10 @@ inherited frmDialogProduct: TfrmDialogProduct
       Left = 101
       Top = 7
       Properties.CharCase = ecUpperCase
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 0
       Width = 92
     end
@@ -435,18 +519,30 @@ inherited frmDialogProduct: TfrmDialogProduct
       object edtPLUPurchase: TcxTextEdit
         Left = 88
         Top = 18
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 0
         Width = 70
       end
       object edtProductPurchase: TcxTextEdit
         Left = 88
         Top = 42
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 1
         Width = 225
       end
       object cxExtLookupComboBox1: TcxExtLookupComboBox
         Left = 88
         Top = 67
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 2
         Width = 129
       end
@@ -490,12 +586,20 @@ inherited frmDialogProduct: TfrmDialogProduct
       object jvcuredtLastCost: TcxCurrencyEdit
         Left = 87
         Top = 30
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 0
         Width = 107
       end
       object edtAverageSls: TcxCurrencyEdit
         Left = 87
         Top = 6
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 1
         Width = 62
       end
@@ -503,6 +607,10 @@ inherited frmDialogProduct: TfrmDialogProduct
         Tag = 1
         Left = 150
         Top = 6
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 2
         Text = 'CRT'
         Width = 38
@@ -511,6 +619,10 @@ inherited frmDialogProduct: TfrmDialogProduct
         Tag = 1
         Left = 201
         Top = 30
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        StyleFocused.LookAndFeel.NativeStyle = False
+        StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 3
         Text = 'CRT'
         Width = 41
@@ -636,6 +748,10 @@ inherited frmDialogProduct: TfrmDialogProduct
     object edtSSBARANG: TcxSpinEdit
       Left = 295
       Top = 82
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 6
       Width = 53
     end
@@ -651,14 +767,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       inherited btnClose: TcxButton
         Left = 701
         Action = actDelete
-        Caption = 'Cancel'
-        OptionsImage.ImageIndex = 4
         ExplicitLeft = 701
       end
       inherited btnSave: TcxButton
         Left = 608
         Action = actSave
-        OptionsImage.ImageIndex = 32
         ExplicitLeft = 608
       end
       inherited btnDelete: TcxButton
@@ -670,11 +783,16 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 778
       inherited lbCTRLEnter: TLabel
         Left = 603
+        Height = 15
         ExplicitLeft = 603
       end
       inherited lbEscape: TLabel
         Left = 694
+        Height = 15
         ExplicitLeft = 694
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
     end
   end

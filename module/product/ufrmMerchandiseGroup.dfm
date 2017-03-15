@@ -1,5 +1,5 @@
 inherited frmMerchandiseGroup: TfrmMerchandiseGroup
-  Caption = 'frmMerchandiseGroup'
+  Caption = 'Data Merchandise Group'
   ClientHeight = 395
   ClientWidth = 637
   ExplicitTop = 8
@@ -93,6 +93,7 @@ inherited frmMerchandiseGroup: TfrmMerchandiseGroup
       inherited lbEscape: TLabel
         Left = 563
         Height = 17
+        ExplicitLeft = 563
       end
     end
   end

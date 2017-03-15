@@ -2,6 +2,7 @@ inherited frmKategori: TfrmKategori
   Caption = 'frmKategori'
   ClientHeight = 424
   ClientWidth = 627
+  ExplicitTop = 8
   ExplicitWidth = 643
   ExplicitHeight = 463
   PixelsPerInch = 96
@@ -19,6 +20,8 @@ inherited frmKategori: TfrmKategori
       ClientRectBottom = 312
       ClientRectRight = 604
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 603
         ExplicitHeight = 311
         inherited cxGrid: TcxGrid
@@ -41,10 +44,12 @@ inherited frmKategori: TfrmKategori
     inherited dtAwalFilter: TcxDateEdit
       Left = 334
       ExplicitLeft = 334
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 450
       ExplicitLeft = 450
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 545
@@ -84,6 +89,20 @@ inherited frmKategori: TfrmKategori
     end
     inherited pnlShortCut: TPanel
       Width = 627
+      ExplicitWidth = 627
+      inherited lbEscape: TLabel
+        Left = 553
+        Height = 17
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    Left = 544
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

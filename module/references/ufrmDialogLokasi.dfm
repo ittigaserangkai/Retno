@@ -1,17 +1,17 @@
 inherited frmDialogLokasi: TfrmDialogLokasi
   Left = 313
   Caption = 'frmDialogLokasi'
-  ClientHeight = 386
+  ClientHeight = 365
   ClientWidth = 378
   Constraints.MinHeight = 32
   OldCreateOrder = True
   ExplicitWidth = 394
-  ExplicitHeight = 425
+  ExplicitHeight = 404
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 378
-    Height = 330
+    Height = 309
     ExplicitWidth = 378
     ExplicitHeight = 330
     object lbl1: TLabel
@@ -190,7 +190,7 @@ inherited frmDialogLokasi: TfrmDialogLokasi
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 330
+    Top = 309
     Width = 378
     ExplicitTop = 330
     ExplicitWidth = 378
@@ -199,13 +199,14 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       ExplicitWidth = 378
       inherited btnClose: TcxButton
         Left = 301
+        Action = actCancel
         ExplicitLeft = 301
       end
       inherited btnSave: TcxButton
-        Left = 198
+        Left = 208
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 198
+        ExplicitLeft = 208
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -215,15 +216,15 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       Width = 378
       ExplicitWidth = 378
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 203
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 294
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
     end
   end

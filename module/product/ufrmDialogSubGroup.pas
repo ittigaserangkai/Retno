@@ -6,23 +6,31 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmMasterDialog, System.Actions,
-  Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, uInterface, uModBarang;
+  Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, uInterface, uModBarang,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
+  cxEdit, Vcl.StdCtrls, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmDialogSubGroup = class(TfrmMasterDialog, ICRUDAble)
+    lbDivision: TLabel;
+    cxLookupMerGroup: TcxExtLookupComboBox;
+    edtCode: TEdit;
+    lbKode: TLabel;
+    lbNama: TLabel;
+    edtName: TEdit;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
-    FModMerchandiseGroup: TModMerchandiseGroup;
-    function GetModMerchandiseGroup: TModMerchandiseGroup;
+    FModSubGroup: TModSubGroup;
+    function GetModSubGroup: TModSubGroup;
     function ValidateData: Boolean;
     { Private declarations }
   public
     procedure LoadData(AID: String);
     procedure SaveData;
-    property ModMerchandiseGroup: TModMerchandiseGroup read GetModMerchandiseGroup
-        write FModMerchandiseGroup;
+    property ModSubGroup: TModSubGroup read GetModSubGroup write FModSubGroup;
     { Public declarations }
   end;
 
@@ -41,7 +49,7 @@ begin
   inherited;
   if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
   Try
-    DMCLient.CrudClient.DeleteFromDB(ModMerchandiseGroup);
+    DMCLient.CrudClient.DeleteFromDB(ModSubGroup);
     TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
     Self.ModalResult := mrOk;
     Self.Close;
@@ -62,35 +70,37 @@ end;
 procedure TfrmDialogSubGroup.FormCreate(Sender: TObject);
 begin
   inherited;
-//  cxLookupMerchan.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup,
-//      'REF$MERCHANDISE_ID','MERCHAN_NAME' ,['REF$MERCHANDISE_ID'], Self);
-//
-//  Self.AssignKeyDownEvent;
+  cxLookupMerGroup.LoadFromDS(
+    DMClient.DSProviderClient.MerchandiseGroup_GetDSLookup,
+    'REF$MERCHANDISE_GRUP_ID','MERCHANGRUP_NAME' ,
+    ['REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'], Self);
+
+  Self.AssignKeyDownEvent;
 end;
 
-function TfrmDialogSubGroup.GetModMerchandiseGroup: TModMerchandiseGroup;
+function TfrmDialogSubGroup.GetModSubGroup: TModSubGroup;
 begin
-  if not Assigned(FModMerchandiseGroup) then
-    FModMerchandiseGroup := TModMerchandiseGroup.Create;
-  Result := FModMerchandiseGroup;
+  if not Assigned(FModSubGroup) then
+    FModSubGroup := TModSubGroup.Create;
+  Result := FModSubGroup;
 end;
 
 procedure TfrmDialogSubGroup.LoadData(AID: String);
 begin
-  if Assigned(FModMerchandiseGroup) then FreeAndNil(FModMerchandiseGroup);
-  FModMerchandiseGroup := DMClient.CrudClient.Retrieve(TModMerchandiseGroup.ClassName, aID) as TModMerchandiseGroup;
-//  edtCode.Text    := ModMerchandiseGroup.MERCHANGRUP_CODE;
-//  edtName.Text    := ModMerchandiseGroup.MERCHANGRUP_NAME;
-//  cxLookupMerchan.EditValue := ModMerchandiseGroup.Merchandise.ID;
+  if Assigned(FModSubGroup) then FreeAndNil(FModSubGroup);
+  FModSubGroup := DMClient.CrudClient.Retrieve(TModSubGroup.ClassName, aID) as TModSubGroup;
+  edtCode.Text    := ModSubGroup.SUBGRUP_CODE;
+  edtName.Text    := ModSubGroup.SUBGRUP_NAME;
+  cxLookupMerGroup.EditValue := ModSubGroup.MerchandiseGroup.ID;
 end;
 
 procedure TfrmDialogSubGroup.SaveData;
 begin
-//  ModMerchandiseGroup.MERCHANGRUP_CODE := edtCode.Text;
-//  ModMerchandiseGroup.MERCHANGRUP_NAME := edtName.Text;
-//  ModMerchandiseGroup.Merchandise := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
+  ModSubGroup.SUBGRUP_CODE := edtCode.Text;
+  ModSubGroup.SUBGRUP_NAME := edtName.Text;
+  ModSubGroup.MerchandiseGroup := TModMerchandiseGroup.CreateID(cxLookupMerGroup.EditValue);
   Try
-    ModMerchandiseGroup.ID         := DMClient.CrudClient.SaveToDBID(ModMerchandiseGroup);
+    ModSubGroup.ID         := DMClient.CrudClient.SaveToDBID(ModSubGroup);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
   except
     TAppUtils.Error(ER_INSERT_FAILED);
@@ -101,23 +111,23 @@ end;
 
 function TfrmDialogSubGroup.ValidateData: Boolean;
 begin
-//  Result := False;
-//  if VarIsNull(cxLookupMerchan.EditValue) then
-//  begin
-//    TAppUtils.Error('Merchandise wajib dipilih');
-//    exit;
-//  end;
-//  if edtCode.Text = '' then
-//  begin
-//    TAppUtils.Error('Kode tidak boleh kosong');
-//    exit;
-//  end;
-//  if edtName.Text = '' then
-//  begin
-//    TAppUtils.Error('Nama tidak boleh kosong');
-//    exit;
-//  end;
-//  Result := True;
+  Result := False;
+  if VarIsNull(cxLookupMerGroup.EditValue) then
+  begin
+    TAppUtils.Error('Merchandise Group wajib dipilih');
+    exit;
+  end;
+  if edtCode.Text = '' then
+  begin
+    TAppUtils.Error('Kode tidak boleh kosong');
+    exit;
+  end;
+  if edtName.Text = '' then
+  begin
+    TAppUtils.Error('Nama tidak boleh kosong');
+    exit;
+  end;
+  Result := True;
 end;
 
 end.

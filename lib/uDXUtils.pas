@@ -139,6 +139,7 @@ type
 
   TFormHelper = class helper for TForm
   private
+    function IsComponentEmpty(aComp: TComponent): Boolean;
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     procedure AssignKeyDownEvent;
@@ -1050,6 +1051,26 @@ begin
     if C is TcxCheckBox then TcxCheckBox(C).Clear;
     if C is TcxSpinEdit then TcxSpinEdit(C).Clear;
   end;
+end;
+
+function TFormHelper.IsComponentEmpty(aComp: TComponent): Boolean;
+begin
+  if aComp is TcxExtLookupComboBox then
+    Result := VarIsNull(TcxExtLookupComboBox(aComp).EditValue)
+  else if aComp is TcxComboBox then
+    Result := TcxComboBox(aComp).ItemIndex = -1
+  else if aComp is TComboBox then
+    Result := TComboBox(aComp).ItemIndex = -1
+  else if aComp is TcxTextEdit then
+    Result := TcxTextEdit(aComp).Text = ''
+  else if aComp is TEdit then
+    Result := TEdit(aComp).Text = ''
+  else if aComp is TcxSpinEdit then
+    Result := TcxSpinEdit(aComp).Value = 0
+  else if aComp is TcxCurrencyEdit then
+    Result := TcxCurrencyEdit(aComp).Value = 0
+  else
+    Result := False;
 end;
 
 procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
