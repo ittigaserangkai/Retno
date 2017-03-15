@@ -745,7 +745,7 @@ class function TDBUtils.OpenMemTable(ASQL : String): TFDMemTable;
 var
   Q: TFDQuery;
 begin
-  Result := TFDMemTable.Create(nil);
+  Result := TFDMemTable.Create(Application);
 
   Q := TDBUtils.OpenQuery(ASQL);
   try
@@ -759,7 +759,7 @@ end;
 
 class function TDBUtils.OpenQuery(ASQL : String): TFDQuery;
 begin
-  Result := TFDQuery.Create(nil);
+  Result := TFDQuery.Create(Application);
   Result.Connection := FDConnection;
   Result.SQL.Text := ASQL;
   Result.Open;

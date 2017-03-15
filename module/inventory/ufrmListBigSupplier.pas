@@ -124,16 +124,16 @@ begin
 end;
 
 procedure TfrmListBigSupplier.actPrintExecute(Sender: TObject);
-var
-  SS: TStrings;
-  i: Integer;
-  iGetTick: Integer;
-  sSQL: string;
+//var
+//  SS: TStrings;
+//  i: Integer;
+//  iGetTick: Integer;
+//  sSQL: string;
 begin
   inherited;
 
-  iGetTick  := GetTickCount;
-  SS        :=TStringList.Create;
+//  iGetTick  := GetTickCount;
+//  SS        :=TStringList.Create;
   {
   try
     for i := strgGrid.FixedRows to strgGrid.RowCount - iax do
@@ -342,10 +342,10 @@ var
   sSQL: string;
   _DateFrom, _DateTo: TDateTime;
 begin
-  //Result    := False;
-  _DateFrom := dtTglFrom.Date;
-  _DateTo   := dtTglTo.Date;
-  sSQL      := '';
+  Result    := False;
+//  _DateFrom := dtTglFrom.Date;
+//  _DateTo   := dtTglTo.Date;
+//  sSQL      := '';
   //BY UNT
   {if (cbpGroup.Cells[0,cbpGroup.Row] = '-1') then
   begin

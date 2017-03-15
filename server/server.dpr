@@ -1,8 +1,6 @@
 program server;
 {$APPTYPE GUI}
 
-{$R *.dres}
-
 uses
   Vcl.Forms,
   Web.WebReq,
@@ -26,13 +24,14 @@ uses
   uModMember in '..\model\uModMember.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
-  uDXUtils in '..\lib\uDXUtils.pas' {$R *.res},
+  uDXUtils in '..\lib\uDXUtils.pas' ,
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   uServerDSProvider in 'unit\uServerDSProvider.pas',
-  uModCompany in '..\model\uModCompany.pas';
+  uModCompany in '..\model\uModCompany.pas',
+  uModUnit in '..\model\uModUnit.pas';
 
 {$R *.res}
 
