@@ -154,6 +154,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmMerchandiseGroup, frmMerchandiseGroup);
   Application.Run;
 end.

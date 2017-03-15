@@ -140,11 +140,10 @@ type
   TFormHelper = class helper for TForm
   private
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure OnClosePopup(Sender: TObject);
-    procedure OnEditValueChanged(Sender: TObject);
   public
     procedure AssignKeyDownEvent;
     procedure ClearByTag(Tag: TTag);
+    class procedure OnEditValueChanged(Sender: TObject);
   end;
 
 
@@ -1008,21 +1007,21 @@ begin
     if C is TcxTextEdit then
       If not Assigned(TcxTextEdit(C).OnKeyDown) then
         TcxTextEdit(C).OnKeyDown := OnKeyEnter;
-
     if C is TcxExtLookupComboBox then
     begin
-      //if multipurposelookup
+      //bug: lookup standar, ketika user memilih dengan keyboard panah, lalu enter tidak ngefek
+      //bug: lookup generic / multipurpose harus enter 2x
+      //fix by this code :
+      //1st postpopupvalue must be active
+      TcxExtLookupComboBox(C).Properties.PostPopupValueOnTab := True;
+      //2nd utk generic lookup tambahkan editvaluechanged post tab agar fokus pindah dari view ke lookup
       if TcxExtLookupComboBox(C).Properties.FocusPopup then
-      begin
-        if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
-          TcxExtLookupComboBox(C).OnKeyDown:= OnKeyEnter;
-      end else
-      begin
         if not Assigned(TcxExtLookupComboBox(C).Properties.OnEditValueChanged) then
           TcxExtLookupComboBox(C).Properties.OnEditValueChanged := OnEditValueChanged;
-      end;
+      //3rd onEnter send tab key
+      if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
+        TcxExtLookupComboBox(C).OnKeyDown:= OnKeyEnter;
     end;
-
     if C is TcxComboBox then
       if not Assigned(TcxComboBox(C).OnKeyDown) then
         TcxComboBox(C).OnKeyDown := OnKeyEnter;
@@ -1044,7 +1043,6 @@ begin
   begin
     C := Self.Components[i];
     if not (C.Tag in Tag) then continue;
-
     if C is TEdit then TEdit(C).Clear;
     if C is TcxTextEdit then TcxTextEdit(C).Clear;
     if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
@@ -1059,21 +1057,17 @@ procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
 begin
   if Key = VK_RETURN then
   begin
-//    if Sender is TcxExtLookupComboBox then
-//      TcxExtLookupComboBox(Sender).PostEditValue;
-    SelectNext(Screen.ActiveControl, True, True);
+    if Sender is TcxExtLookupComboBox then
+      Key := VK_TAB
+    else
+      SelectNext(Screen.ActiveControl, True, True);
   end;
 end;
 
-procedure TFormHelper.OnClosePopup(Sender: TObject);
+class procedure TFormHelper.OnEditValueChanged(Sender: TObject);
 begin
-  if Sender is TcxExtLookupComboBox then
-    TcxExtLookupComboBox(Sender).PostEditValue;
-end;
-
-procedure TFormHelper.OnEditValueChanged(Sender: TObject);
-begin
-  SelectNext(Screen.ActiveControl, True, True);
+  if Sender is TcxExtLookupComboBox then Keybd_event(VK_TAB, 0, 0, 0);
+//  SelectNext(Screen.ActiveControl, True, True);
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,

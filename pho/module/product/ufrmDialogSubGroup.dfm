@@ -4,6 +4,9 @@ inherited frmDialogSubGroup: TfrmDialogSubGroup
   TextHeight = 16
   inherited footerDialogMaster: TfraFooterDialog3Button
     inherited pnlFooter: TPanel
+      inherited btnClose: TcxButton
+        Action = actCancel
+      end
       inherited btnSave: TcxButton
         Action = actSave
       end
@@ -13,15 +16,13 @@ inherited frmDialogSubGroup: TfrmDialogSubGroup
     end
     inherited pnlSortCut: TPanel
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
     end
   end
