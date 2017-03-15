@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany;
+  ufrmCompany, ufrmUnit;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -276,6 +276,7 @@ type
     actCompany: TAction;
     Company1: TMenuItem;
     SalesOutlet1: TMenuItem;
+    UnitStore1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -315,6 +316,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
+    procedure actUnitExecute(Sender: TObject);
+    procedure actUnitStoreExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
@@ -701,6 +704,16 @@ end;
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
 begin
     frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUnitExecute(Sender: TObject);
+begin
+  frmUnit := TfrmUnit.Create(Application);
+end;
+
+procedure TfrmMain.actUnitStoreExecute(Sender: TObject);
+begin
+  frmUnit := TfrmUnit.Create(Application);
 end;
 
 procedure TfrmMain.actUOMExecute(Sender: TObject);

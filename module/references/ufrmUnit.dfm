@@ -5,7 +5,6 @@ inherited frmUnit: TfrmUnit
   ClientHeight = 397
   ClientWidth = 771
   OldCreateOrder = True
-  ExplicitTop = 8
   ExplicitWidth = 787
   ExplicitHeight = 436
   PixelsPerInch = 96
@@ -44,6 +43,11 @@ inherited frmUnit: TfrmUnit
   inherited pnlHeader: TPanel
     Width = 771
     ExplicitWidth = 771
+    inherited lblHeader: TLabel
+      Width = 24
+      Caption = 'UNIT'
+      ExplicitWidth = 24
+    end
     inherited lblFilterData: TcxLabel
       Left = 417
       ExplicitLeft = 417
@@ -101,6 +105,7 @@ inherited frmUnit: TfrmUnit
       inherited lbEscape: TLabel
         Left = 697
         Height = 17
+        ExplicitLeft = 697
       end
     end
   end
