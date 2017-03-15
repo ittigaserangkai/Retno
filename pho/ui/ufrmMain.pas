@@ -275,6 +275,7 @@ type
     Merk1: TMenuItem;
     actCompany: TAction;
     Company1: TMenuItem;
+    SalesOutlet1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -299,6 +300,7 @@ type
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSalesOutletExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
@@ -354,7 +356,8 @@ uses
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
-  ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct;
+  ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
+  ufrmOutlet;
 
 {$R *.dfm}
 
@@ -659,6 +662,11 @@ end;
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
 begin
     frmRekening := TfrmRekening.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSalesOutletExecute(Sender: TObject);
+begin
+  frmOutlet := TfrmOutlet.Create(Application);
 end;
 
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);

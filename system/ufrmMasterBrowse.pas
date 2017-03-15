@@ -92,6 +92,7 @@ procedure TfrmMasterBrowse.FormShow(Sender: TObject);
 begin
   inherited;
   actRefresh.Execute;
+  Self.cxGrid.SetFocus;
 end;
 
 function TfrmMasterBrowse.ShowDialogForm(DlgFormClass: TMasterDlgClass; AID:
