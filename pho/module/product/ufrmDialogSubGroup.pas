@@ -62,10 +62,10 @@ end;
 procedure TfrmDialogSubGroup.FormCreate(Sender: TObject);
 begin
   inherited;
-  cxLookupMerchan.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup,
-      'REF$MERCHANDISE_ID','MERCHAN_NAME' ,['REF$MERCHANDISE_ID'], Self);
-
-  Self.AssignKeyDownEvent;
+//  cxLookupMerchan.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup,
+//      'REF$MERCHANDISE_ID','MERCHAN_NAME' ,['REF$MERCHANDISE_ID'], Self);
+//
+//  Self.AssignKeyDownEvent;
 end;
 
 function TfrmDialogSubGroup.GetModMerchandiseGroup: TModMerchandiseGroup;
@@ -79,16 +79,16 @@ procedure TfrmDialogSubGroup.LoadData(AID: String);
 begin
   if Assigned(FModMerchandiseGroup) then FreeAndNil(FModMerchandiseGroup);
   FModMerchandiseGroup := DMClient.CrudClient.Retrieve(TModMerchandiseGroup.ClassName, aID) as TModMerchandiseGroup;
-  edtCode.Text    := ModMerchandiseGroup.MERCHANGRUP_CODE;
-  edtName.Text    := ModMerchandiseGroup.MERCHANGRUP_NAME;
-  cxLookupMerchan.EditValue := ModMerchandiseGroup.Merchandise.ID;
+//  edtCode.Text    := ModMerchandiseGroup.MERCHANGRUP_CODE;
+//  edtName.Text    := ModMerchandiseGroup.MERCHANGRUP_NAME;
+//  cxLookupMerchan.EditValue := ModMerchandiseGroup.Merchandise.ID;
 end;
 
 procedure TfrmDialogSubGroup.SaveData;
 begin
-  ModMerchandiseGroup.MERCHANGRUP_CODE := edtCode.Text;
-  ModMerchandiseGroup.MERCHANGRUP_NAME := edtName.Text;
-  ModMerchandiseGroup.Merchandise := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
+//  ModMerchandiseGroup.MERCHANGRUP_CODE := edtCode.Text;
+//  ModMerchandiseGroup.MERCHANGRUP_NAME := edtName.Text;
+//  ModMerchandiseGroup.Merchandise := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
   Try
     ModMerchandiseGroup.ID         := DMClient.CrudClient.SaveToDBID(ModMerchandiseGroup);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
@@ -101,23 +101,23 @@ end;
 
 function TfrmDialogSubGroup.ValidateData: Boolean;
 begin
-  Result := False;
-  if VarIsNull(cxLookupMerchan.EditValue) then
-  begin
-    TAppUtils.Error('Merchandise wajib dipilih');
-    exit;
-  end;
-  if edtCode.Text = '' then
-  begin
-    TAppUtils.Error('Kode tidak boleh kosong');
-    exit;
-  end;
-  if edtName.Text = '' then
-  begin
-    TAppUtils.Error('Nama tidak boleh kosong');
-    exit;
-  end;
-  Result := True;
+//  Result := False;
+//  if VarIsNull(cxLookupMerchan.EditValue) then
+//  begin
+//    TAppUtils.Error('Merchandise wajib dipilih');
+//    exit;
+//  end;
+//  if edtCode.Text = '' then
+//  begin
+//    TAppUtils.Error('Kode tidak boleh kosong');
+//    exit;
+//  end;
+//  if edtName.Text = '' then
+//  begin
+//    TAppUtils.Error('Nama tidak boleh kosong');
+//    exit;
+//  end;
+//  Result := True;
 end;
 
 end.
