@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany;
+  ufrmCompany, ufrmUnit;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -275,7 +275,8 @@ type
     Merk1: TMenuItem;
     actCompany: TAction;
     Company1: TMenuItem;
-    est2: TMenuItem;
+    SalesOutlet1: TMenuItem;
+    UnitStore1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -300,6 +301,7 @@ type
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSalesOutletExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
@@ -314,6 +316,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
+    procedure actUnitExecute(Sender: TObject);
+    procedure actUnitStoreExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
@@ -664,6 +668,11 @@ begin
     frmRekening := TfrmRekening.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actSalesOutletExecute(Sender: TObject);
+begin
+  frmOutlet := TfrmOutlet.Create(Application);
+end;
+
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
@@ -695,6 +704,16 @@ end;
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
 begin
     frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUnitExecute(Sender: TObject);
+begin
+  frmUnit := TfrmUnit.Create(Application);
+end;
+
+procedure TfrmMain.actUnitStoreExecute(Sender: TObject);
+begin
+  frmUnit := TfrmUnit.Create(Application);
 end;
 
 procedure TfrmMain.actUOMExecute(Sender: TObject);

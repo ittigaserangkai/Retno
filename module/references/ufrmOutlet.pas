@@ -12,11 +12,18 @@ uses
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
-  Vcl.ActnList;
+  Vcl.ActnList, uClientClasses, uDMClient, uDXUtils, uDBUtils, DBClient;
 
 type
   TfrmOutlet = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
+  protected
+    procedure RefreshData; override;
   public
     { Public declarations }
   end;
@@ -26,8 +33,27 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogOutlet, uConstanta;
+uses uTSCommonDlg, ufrmDialogOutlet, uConstanta, uModOutlet;
 
 {$R *.dfm}
+
+procedure TfrmOutlet.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogOutlet);
+end;
+
+procedure TfrmOutlet.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogOutlet, cxGridView.DS.FieldByName('REF$OUTLET_ID').AsString)
+end;
+
+procedure TfrmOutlet.RefreshData;
+begin
+  inherited;
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Outlet_GetDSLookup(), SELF);
+  cxGridView.SetVisibleColumns(['REF$OUTLET_ID'], False);
+end;
 
 end.

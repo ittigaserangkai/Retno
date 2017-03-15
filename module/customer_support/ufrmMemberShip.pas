@@ -73,6 +73,7 @@ type
     cxGridViewColumn4: TcxGridDBColumn;
     cxGridViewColumn5: TcxGridDBColumn;
     btnShow: TcxButton;
+    cxTabSheet1: TcxTabSheet;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);

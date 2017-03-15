@@ -26,4 +26,8 @@ begin
   Result := 'REF$OUTLET';
 end;
 
+Initialization
+
+TmodOutlet.RegisterRTTI;
+
 end.

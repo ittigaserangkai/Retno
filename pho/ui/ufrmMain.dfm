@@ -171,6 +171,12 @@ object frmMain: TfrmMain
       object Company1: TMenuItem
         Action = actCompany
       end
+      object SalesOutlet1: TMenuItem
+        Action = actSalesOutlet
+      end
+      object UnitStore1: TMenuItem
+        Action = actUnitStore
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -331,10 +337,12 @@ object frmMain: TfrmMain
     object actSalesOutlet: TAction
       Category = 'References'
       Caption = 'Sales Outlet'
+      OnExecute = actSalesOutletExecute
     end
     object actUnitStore: TAction
       Category = 'References'
       Caption = 'Unit Store'
+      OnExecute = actUnitStoreExecute
     end
     object actCompanyType: TAction
       Category = 'References'

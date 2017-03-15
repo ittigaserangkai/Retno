@@ -11,7 +11,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, System.Actions,
   cxClasses, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxGridCustomView, cxGrid,
-  cxPC, Vcl.ActnList;
+  cxPC, Vcl.ActnList, uDMClient, uDBUtils, Datasnap.DBClient;
 
 type
   TfrmUnit = class(TfrmMasterBrowse)
@@ -28,6 +28,7 @@ type
     procedure fraFooter5Button1btnDeleteClick(Sender: TObject);
     procedure actRefreshUnitExecute(Sender: TObject);
   private
+    FCDS: TClientDataSet;
     FCompID     : Integer;
     FLoginUnit  : integer;
 //    FUnit       : TUnit;
@@ -36,6 +37,8 @@ type
     procedure SetData;
     { Private declarations }
 
+  protected
+    procedure RefreshData; override;
   public
     procedure ShowWithCompanyID(aCompID: Integer; aUnitID: integer; aLoginID:
         integer; aLoginUntID: integer);
@@ -49,7 +52,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogUnit , ufrmMain, uRetnoUnit;
+uses uTSCommonDlg, ufrmDialogUnit ,  uAppUtils, uDXUtils;
 
 {$R *.dfm}
 const
@@ -94,14 +97,14 @@ procedure TfrmUnit.FormShow(Sender: TObject);
 begin
   inherited;
 //  FUnit       := TUnit.Create(nil);
-  lblHeader.Caption := 'STORE UNIT';
-
-  FCompID     := MasterCompany.ID;
+//  lblHeader.Caption := 'STORE UNIT';
+//
+//  FCompID     := MasterCompany.ID;
 //  FUnitID     := MasterNewUnit.ID;
 //  FLoginID    := FLoginID
-  FLoginUnit  := FLoginUnitId;
-
-  SetData;
+//  FLoginUnit  := FLoginUnitId;
+//
+//  SetData;
 
 end;
 
@@ -203,15 +206,15 @@ procedure TfrmUnit.FormActivate(Sender: TObject);
 begin
   inherited;
   // no unit id must be specified, so hide the combo
-  frmMain.lbl1.Visible := False;
-  frmMain.cbbUnit.Visible := False;
+//  frmMain.lbl1.Visible := False;
+//  frmMain.cbbUnit.Visible := False;
 //  frmMain.CreateMenu((sender as TForm));
 end;
 
 procedure TfrmUnit.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  frmMain.lbl1.Visible    := True;
-  frmMain.cbbUnit.Visible := True;
+//  frmMain.lbl1.Visible    := True;
+//  frmMain.cbbUnit.Visible := True;
 //  frmMain.DestroyMenu((sender as TForm));
   Action  := caFree;
   inherited;
@@ -298,6 +301,16 @@ begin
   inherited;
  ParseHeader;
  SetData;
+end;
+
+procedure TfrmUnit.RefreshData;
+begin
+  inherited;
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Unit_GetDSOverview(),Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['AUT$UNIT_ID'],False);
 end;
 
 end.

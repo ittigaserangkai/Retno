@@ -39,6 +39,12 @@ type
     function RefPajak_GetDSLookup: TDataSet;
     function RefTipeBarang_GetDSLookup: TDataSet;
     function TipeSuplier_GetDSOverview: TDataSet;
+    function Unit_GetDSOverview: TDataSet;
+    function Unit_GetDSLookUp: TDataSet;
+    function UnitType_GetDSLookUp: TDataSet;
+    function UnitType_GetDSOverview: TDataSet;
+    function App_GetDSLookUp: TDataSet;
+    function App_GetDSOverview: TDataSet;
 
 
   end;
@@ -308,6 +314,54 @@ var
   S: string;
 begin
   S := 'select TPSUP_CODE, TPSUP_NAME from REF$TIPE_SUPLIER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Unit_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM AUT$UNIT';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Unit_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT UNT_CODE, UNT_NAME, AUT$UNIT_ID FROM AUT$UNIT';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.UnitType_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT TYPE_NAME, TYPE_DESC, UNIT_TYPE_ID from UNIT_TYPE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.UnitType_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT TYPE_NAME, TYPE_DESC, UNIT_TYPE_ID from UNIT_TYPE';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.App_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION,AUT$APP_ID from AUT$APP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.App_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION,AUT$APP_ID from AUT$APP';
   Result := TDBUtils.OpenQuery(S);
 end;
 
