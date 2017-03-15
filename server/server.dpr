@@ -19,7 +19,6 @@ uses
   uModTest in '..\model\uModTest.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
   uServerClasses in 'unit\uServerClasses.pas',
-  uModCompany in '..\model\uModCompany.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
   ufrmGenerateModel in 'unit\ufrmGenerateModel.pas' {frmGenerateModel},
@@ -27,12 +26,13 @@ uses
   uModMember in '..\model\uModMember.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
-  uDXUtils in '..\lib\uDXUtils.pas',
+  uDXUtils in '..\lib\uDXUtils.pas' {$R *.res},
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
   uModCostCenter in '..\model\uModCostCenter.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
-  uServerDSProvider in 'unit\uServerDSProvider.pas';
+  uServerDSProvider in 'unit\uServerDSProvider.pas',
+  uModCompany in '..\model\uModCompany.pas';
 
 {$R *.res}
 

@@ -5,6 +5,7 @@ inherited frmListBigSupplier: TfrmListBigSupplier
   ClientHeight = 438
   ClientWidth = 633
   OldCreateOrder = True
+  ExplicitTop = 8
   ExplicitWidth = 649
   ExplicitHeight = 477
   PixelsPerInch = 96
@@ -13,7 +14,6 @@ inherited frmListBigSupplier: TfrmListBigSupplier
     Width = 633
     Height = 349
     BorderWidth = 0
-    ExplicitTop = 33
     ExplicitWidth = 633
     ExplicitHeight = 293
     inherited pgcBrowse: TcxPageControl
@@ -191,8 +191,18 @@ inherited frmListBigSupplier: TfrmListBigSupplier
     inherited pnlFooter: TPanel
       Width = 633
       ExplicitWidth = 633
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
       inherited btnClose: TcxButton
         Left = 556
+        Action = actClose
         ExplicitLeft = 556
       end
       inherited cxButton1: TcxButton
@@ -204,7 +214,7 @@ inherited frmListBigSupplier: TfrmListBigSupplier
       ExplicitWidth = 633
       inherited lbEscape: TLabel
         Left = 559
-        Height = 17
+        ExplicitLeft = 559
       end
     end
   end
