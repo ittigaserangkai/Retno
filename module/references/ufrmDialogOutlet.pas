@@ -5,12 +5,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
-  StdCtrls, uRetnoUnit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
+  StdCtrls, uRetnoUnit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
+  uInterface, uClientClasses, uDMClient, uModOutlet;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogOutlet = class(TfrmMasterDialog)
+  TfrmDialogOutlet = class(TfrmMasterDialog, iCRUDABLE)
     edtCode: TEdit;
     lbl1: TLabel;
     Label1: TLabel;
@@ -21,16 +22,23 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
+    FCrud: TCrudClient;
     FIsProcessSuccessfull: Boolean;
     FOutletId: Integer;
     FFormMode: TFormMode;
+    FModOutlet: TModOutlet;
 //    FNewOutlet: TNewSalesOutlet;
     IDLokal: Integer;
+    function GetCrud: TCrudClient;
+    function GetModOutlet: TModOutlet;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetOutletId(const Value: Integer);
     procedure prepareAddData;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property ModOutlet: TModOutlet read GetModOutlet write FModOutlet;
   public
+    procedure LoadData(AID: String);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -145,6 +153,27 @@ procedure TfrmDialogOutlet.FormCreate(Sender: TObject);
 begin
   inherited;
 //  FNewOutlet := TNewSalesOutlet.Create(Self);
+end;
+
+function TfrmDialogOutlet.GetCrud: TCrudClient;
+begin
+  if not Assigned(FCrud) then
+    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
+end;
+
+function TfrmDialogOutlet.GetModOutlet: TModOutlet;
+begin
+  Result := FModOutlet;
+end;
+
+procedure TfrmDialogOutlet.LoadData(AID: String);
+begin
+  if Assigned(fModOutlet) then FreeAndNil(fModOutlet);
+  fModOutlet := Crud.Retrieve(TModOutlet.ClassName, AID) as TModOutlet;
+
+  edtCode.Text := ModOutlet.OUTLET_CODE;
+  edtName.Text := ModOutlet.OUTLET_NAME;
 end;
 
 end.

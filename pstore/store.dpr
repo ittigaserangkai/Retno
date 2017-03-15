@@ -44,7 +44,6 @@ uses
   uAppUtils in '..\lib\uAppUtils.pas',
   ufrmDialogAddProductForSO in '..\module\so\ufrmDialogAddProductForSO.pas' {frmDialogAddProductForSO},
   ufrmSearchProduct in '..\module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
-  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
   ufrmDialogMemberShip in '..\module\customer_support\ufrmDialogMemberShip.pas' {frmDialogMemberShip},
   ufrmSearchCompanyMember in '..\module\customer_support\ufrmSearchCompanyMember.pas' {frmDialogSearchCompanyMember},
   ufrmDialogFamilyMember in '..\module\customer_support\ufrmDialogFamilyMember.pas' {frmDialogFamilyMember},
@@ -67,7 +66,8 @@ uses
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip};
 
 {$R *.res}
 
@@ -77,5 +77,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmMemberShip, frmMemberShip);
   Application.Run;
 end.
