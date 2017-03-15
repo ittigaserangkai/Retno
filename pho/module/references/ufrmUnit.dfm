@@ -28,43 +28,15 @@ inherited frmUnit: TfrmUnit
       ClientRectBottom = 301
       ClientRectRight = 764
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 765
-        ExplicitHeight = 302
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 763
+        ExplicitHeight = 300
         inherited cxGrid: TcxGrid
-          Width = 765
-          Height = 302
-          ExplicitWidth = 765
-          ExplicitHeight = 302
-          inherited cxGridView: TcxGridDBTableView
-            object cxGridViewColumn1: TcxGridDBColumn
-              Caption = 'NO'
-            end
-            object cxGridViewColumn2: TcxGridDBColumn
-              Caption = 'KODE'
-            end
-            object cxGridViewColumn3: TcxGridDBColumn
-              Caption = 'NAMA'
-            end
-            object cxGridViewColumn4: TcxGridDBColumn
-              Caption = 'KETERANGAN'
-              Width = 140
-            end
-            object cxGridViewColumn5: TcxGridDBColumn
-              Caption = 'ALAMAT'
-              Width = 129
-            end
-            object cxGridViewColumn6: TcxGridDBColumn
-              Caption = 'NPWP'
-            end
-            object cxGridViewColumn7: TcxGridDBColumn
-              Caption = 'TIPE'
-            end
-            object cxGridViewColumn8: TcxGridDBColumn
-              Caption = 'AKTIF'
-            end
-          end
+          Width = 763
+          Height = 300
+          ExplicitWidth = 763
+          ExplicitHeight = 300
         end
       end
     end
@@ -80,10 +52,12 @@ inherited frmUnit: TfrmUnit
     inherited dtAwalFilter: TcxDateEdit
       Left = 478
       ExplicitLeft = 478
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 594
       ExplicitLeft = 594
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 689
@@ -117,10 +91,16 @@ inherited frmUnit: TfrmUnit
         Action = actClose
         ExplicitLeft = 694
       end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
     inherited pnlShortCut: TPanel
+      Width = 771
+      ExplicitWidth = 771
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 697
+        Height = 17
       end
     end
   end

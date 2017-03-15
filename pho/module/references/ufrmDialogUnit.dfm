@@ -2,22 +2,24 @@ inherited frmDialogUnit: TfrmDialogUnit
   Left = 227
   Top = 112
   Caption = 'frmDialogUnit'
-  ClientHeight = 501
+  ClientHeight = 584
   ClientWidth = 648
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  ExplicitTop = -104
   ExplicitWidth = 664
-  ExplicitHeight = 540
+  ExplicitHeight = 623
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 648
-    Height = 445
+    Height = 528
+    ExplicitTop = -1
     ExplicitWidth = 648
     ExplicitHeight = 445
     object lbl1: TLabel
       Left = 76
-      Top = 10
+      Top = 11
       Width = 25
       Height = 16
       Alignment = taRightJustify
@@ -25,7 +27,7 @@ inherited frmDialogUnit: TfrmDialogUnit
     end
     object Lbl2: TLabel
       Left = 74
-      Top = 31
+      Top = 39
       Width = 27
       Height = 16
       Alignment = taRightJustify
@@ -33,7 +35,7 @@ inherited frmDialogUnit: TfrmDialogUnit
     end
     object lbl3: TLabel
       Left = 43
-      Top = 53
+      Top = 67
       Width = 58
       Height = 16
       Alignment = taRightJustify
@@ -177,109 +179,19 @@ inherited frmDialogUnit: TfrmDialogUnit
     end
     object Label21: TLabel
       Left = 32
-      Top = 388
+      Top = 465
       Width = 68
       Height = 16
       Alignment = taRightJustify
       Caption = 'Npwp Address'
     end
     object Label22: TLabel
-      Left = 38
-      Top = 414
+      Left = 29
+      Top = 495
       Width = 180
       Height = 16
       Alignment = taRightJustify
       Caption = 'Npwp Register Date (DD/MM/YYYY)'
-    end
-    object Label3: TLabel
-      Left = 261
-      Top = 412
-      Width = 6
-      Height = 16
-      Alignment = taRightJustify
-      Caption = '/'
-    end
-    object Label11: TLabel
-      Left = 308
-      Top = 411
-      Width = 6
-      Height = 16
-      Alignment = taRightJustify
-      Caption = '/'
-    end
-    object edtUnitCode: TEdit
-      Left = 104
-      Top = 10
-      Width = 89
-      Height = 22
-      Ctl3D = False
-      MaxLength = 8
-      ParentCtl3D = False
-      TabOrder = 0
-      OnKeyPress = edtUnitCodeKeyPress
-    end
-    object edtUnitName: TEdit
-      Left = 104
-      Top = 31
-      Width = 209
-      Height = 22
-      Ctl3D = False
-      MaxLength = 64
-      ParentCtl3D = False
-      TabOrder = 1
-    end
-    object edtUnitDesc: TEdit
-      Left = 104
-      Top = 52
-      Width = 321
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      TabOrder = 2
-    end
-    object edtUntInfoAddress: TEdit
-      Left = 104
-      Top = 73
-      Width = 321
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      TabOrder = 3
-    end
-    object edtUnitAppNm: TEdit
-      Left = 160
-      Top = 94
-      Width = 233
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 28
-    end
-    object edtUnitCompNm: TEdit
-      Left = 160
-      Top = 115
-      Width = 233
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 29
-    end
-    object edtUnitRegnNm: TEdit
-      Left = 160
-      Top = 157
-      Width = 233
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 30
     end
     object edtUnitPropNm: TEdit
       Left = 160
@@ -290,7 +202,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       MaxLength = 128
       ParentCtl3D = False
       ReadOnly = True
-      TabOrder = 27
+      TabOrder = 13
     end
     object edtUnitKabNm: TEdit
       Left = 160
@@ -301,7 +213,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       MaxLength = 128
       ParentCtl3D = False
       ReadOnly = True
-      TabOrder = 31
+      TabOrder = 14
     end
     object edtUnitPhone: TEdit
       Left = 104
@@ -311,7 +223,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 9
+      TabOrder = 0
     end
     object edtUnitFax: TEdit
       Left = 104
@@ -321,7 +233,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 10
+      TabOrder = 1
     end
     object edtUnitZip: TEdit
       Left = 230
@@ -331,7 +243,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 11
+      TabOrder = 2
     end
     object edtUnitContact: TEdit
       Left = 104
@@ -341,7 +253,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 14
+      TabOrder = 5
     end
     object edtUnitEmail: TEdit
       Left = 320
@@ -351,7 +263,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 15
+      TabOrder = 6
     end
     object edtUnitChildID: TEdit
       Left = 104
@@ -361,7 +273,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 17
+      TabOrder = 8
     end
     object edtUntInfoNpwpID: TEdit
       Left = 104
@@ -371,82 +283,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Ctl3D = False
       MaxLength = 128
       ParentCtl3D = False
-      TabOrder = 18
-    end
-    object edtUntInfoNpwpNm: TEdit
-      Left = 104
-      Top = 367
-      Width = 209
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      TabOrder = 19
-    end
-    object edtUntInfoNpwpAdr: TEdit
-      Left = 104
-      Top = 388
-      Width = 329
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      TabOrder = 20
-    end
-    object edtUntInfoNpwpRegsD: TEdit
-      Left = 224
-      Top = 409
-      Width = 33
-      Height = 22
-      Ctl3D = False
-      MaxLength = 2
-      ParentCtl3D = False
-      TabOrder = 21
-      OnKeyPress = edtUntInfoNpwpRegsDKeyPress
-    end
-    object edtUntInfoCompTypeNm: TEdit
-      Left = 160
-      Top = 136
-      Width = 233
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 32
-    end
-    object edtUnitTypeNm: TEdit
-      Left = 160
-      Top = 178
-      Width = 233
-      Height = 22
-      Ctl3D = False
-      MaxLength = 128
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 33
-    end
-    object edtUntInfoNpwpRegsM: TEdit
-      Left = 271
-      Top = 409
-      Width = 33
-      Height = 22
-      Ctl3D = False
-      MaxLength = 2
-      ParentCtl3D = False
-      TabOrder = 22
-      OnKeyPress = edtUntInfoNpwpRegsMKeyPress
-    end
-    object edtUntInfoNpwpRegsY: TEdit
-      Left = 318
-      Top = 409
-      Width = 33
-      Height = 22
-      Ctl3D = False
-      MaxLength = 4
-      ParentCtl3D = False
-      TabOrder = 23
-      OnKeyPress = edtUntInfoNpwpRegsYKeyPress
+      TabOrder = 9
     end
     object edtUnitParentNm: TEdit
       Left = 153
@@ -457,7 +294,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       MaxLength = 128
       ParentCtl3D = False
       ReadOnly = True
-      TabOrder = 34
+      TabOrder = 15
     end
     object edtUnitChildNm: TEdit
       Left = 152
@@ -468,7 +305,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       MaxLength = 128
       ParentCtl3D = False
       ReadOnly = True
-      TabOrder = 35
+      TabOrder = 16
     end
     object rgTipeUnit: TRadioGroup
       Left = 464
@@ -481,7 +318,7 @@ inherited frmDialogUnit: TfrmDialogUnit
         'HO'
         'Store'
         'Warehouse')
-      TabOrder = 26
+      TabOrder = 12
     end
     object grpAuthority: TGroupBox
       Left = 464
@@ -489,7 +326,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Width = 161
       Height = 81
       Caption = 'Authority'
-      TabOrder = 25
+      TabOrder = 11
       object chkAllowPO: TCheckBox
         Left = 16
         Top = 24
@@ -513,71 +350,8 @@ inherited frmDialogUnit: TfrmDialogUnit
       Width = 97
       Height = 17
       Caption = 'Active'
-      TabOrder = 24
+      TabOrder = 10
       OnClick = chkActiveClick
-    end
-    object edtUnitAppID: TcxButtonEdit
-      Left = 103
-      Top = 94
-      Properties.Buttons = <
-        item
-        end>
-      Properties.OnButtonClick = edtUnitAppIDPropertiesButtonClick
-      TabOrder = 4
-      Text = '0'
-      OnKeyDown = edtUnitAppIDKeyDown
-      OnKeyPress = edtUnitAppIDKeyPress
-      Width = 58
-    end
-    object edtUnitCompID: TcxButtonEdit
-      Left = 103
-      Top = 115
-      Properties.Buttons = <
-        item
-        end>
-      Properties.OnButtonClick = edtUnitCompIDPropertiesButtonClick
-      TabOrder = 5
-      Text = '0'
-      OnKeyDown = edtUnitCompIDKeyDown
-      OnKeyPress = edtUnitAppIDKeyPress
-      Width = 58
-    end
-    object edtUntInfoCompTypeID: TcxButtonEdit
-      Left = 103
-      Top = 136
-      Properties.Buttons = <
-        item
-        end>
-      Properties.OnButtonClick = edtUntInfoCompTypeIDPropertiesButtonClick
-      TabOrder = 6
-      Text = '0'
-      OnKeyDown = edtUntInfoCompTypeIDKeyDown
-      OnKeyPress = edtUnitAppIDKeyPress
-      Width = 58
-    end
-    object edtUnitRegnID: TcxButtonEdit
-      Left = 103
-      Top = 156
-      Properties.Buttons = <
-        item
-        end>
-      TabOrder = 7
-      Text = '0'
-      OnKeyDown = edtUnitRegnIDKeyDown
-      OnKeyPress = edtUnitRegnIDKeyPress
-      Width = 58
-    end
-    object edtUnitTypeID: TcxButtonEdit
-      Left = 103
-      Top = 176
-      Properties.Buttons = <
-        item
-        end>
-      TabOrder = 8
-      Text = '0'
-      OnKeyDown = edtUnitTypeIDKeyDown
-      OnKeyPress = edtUnitAppIDKeyPress
-      Width = 58
     end
     object edtUnitPropId: TcxButtonEdit
       Left = 103
@@ -585,7 +359,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Properties.Buttons = <
         item
         end>
-      TabOrder = 12
+      TabOrder = 3
       Text = '0'
       OnKeyDown = edtUnitPropIdKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
@@ -597,7 +371,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Properties.Buttons = <
         item
         end>
-      TabOrder = 13
+      TabOrder = 4
       Text = '0'
       OnKeyDown = edtUnitAppIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
@@ -609,15 +383,49 @@ inherited frmDialogUnit: TfrmDialogUnit
       Properties.Buttons = <
         item
         end>
-      TabOrder = 16
+      TabOrder = 7
       Text = '0'
       OnKeyDown = edtUnitAppIDKeyDown
       OnKeyPress = edtUnitAppIDKeyPress
       Width = 51
     end
+    object edCode: TcxTextEdit
+      Left = 136
+      Top = 7
+      TabOrder = 17
+      Text = 'edCode'
+      Width = 121
+    end
+    object edNama: TcxTextEdit
+      Left = 136
+      Top = 35
+      TabOrder = 18
+      Text = 'edNama'
+      Width = 121
+    end
+    object edDesciption: TcxTextEdit
+      Left = 136
+      Top = 63
+      TabOrder = 19
+      Text = 'edDesciption'
+      Width = 121
+    end
+    object edAddress: TcxTextEdit
+      Left = 136
+      Top = 91
+      TabOrder = 20
+      Text = 'edAddress'
+      Width = 121
+    end
+    object edRegisterNPWP: TcxDateEdit
+      Left = 230
+      Top = 491
+      TabOrder = 21
+      Width = 147
+    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 445
+    Top = 528
     Width = 648
     ExplicitTop = 445
     ExplicitWidth = 648
@@ -626,13 +434,14 @@ inherited frmDialogUnit: TfrmDialogUnit
       ExplicitWidth = 648
       inherited btnClose: TcxButton
         Left = 571
+        Action = actCancel
         ExplicitLeft = 571
       end
       inherited btnSave: TcxButton
-        Left = 468
+        Left = 478
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 468
+        ExplicitLeft = 478
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -642,16 +451,30 @@ inherited frmDialogUnit: TfrmDialogUnit
       Width = 648
       ExplicitWidth = 648
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 473
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 564
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
     end
+  end
+  object edNPWPAddress: TcxTextEdit [2]
+    Left = 104
+    Top = 461
+    TabOrder = 2
+    Text = 'edNPWPAddress'
+    Width = 273
+  end
+  object edNPWPName: TcxTextEdit [3]
+    Left = 106
+    Top = 435
+    TabOrder = 3
+    Text = 'edNPWPName'
+    Width = 271
   end
 end

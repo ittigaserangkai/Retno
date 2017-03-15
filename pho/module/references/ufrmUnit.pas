@@ -15,14 +15,6 @@ uses
 
 type
   TfrmUnit = class(TfrmMasterBrowse)
-    cxGridViewColumn1: TcxGridDBColumn;
-    cxGridViewColumn2: TcxGridDBColumn;
-    cxGridViewColumn3: TcxGridDBColumn;
-    cxGridViewColumn4: TcxGridDBColumn;
-    cxGridViewColumn5: TcxGridDBColumn;
-    cxGridViewColumn6: TcxGridDBColumn;
-    cxGridViewColumn7: TcxGridDBColumn;
-    cxGridViewColumn8: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);

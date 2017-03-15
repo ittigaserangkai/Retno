@@ -7,26 +7,20 @@ uses
   Dialogs, ufrmMasterDialog, ExtCtrls, StdCtrls, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
-  ufraFooterDialog3Button;
+  ufraFooterDialog3Button, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
+  cxCalendar;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
   TfrmDialogUnit = class(TfrmMasterDialog)
     lbl1: TLabel;
-    edtUnitCode: TEdit;
     Lbl2: TLabel;
-    edtUnitName: TEdit;
     lbl3: TLabel;
-    edtUnitDesc: TEdit;
     Label2: TLabel;
-    edtUntInfoAddress: TEdit;
     Label4: TLabel;
-    edtUnitAppNm: TEdit;
     Label5: TLabel;
-    edtUnitCompNm: TEdit;
     Label6: TLabel;
-    edtUnitRegnNm: TEdit;
     Label7: TLabel;
     edtUnitPropNm: TEdit;
     Label8: TLabel;
@@ -49,17 +43,8 @@ type
     edtUntInfoNpwpID: TEdit;
     Label19: TLabel;
     Label20: TLabel;
-    edtUntInfoNpwpNm: TEdit;
-    edtUntInfoNpwpAdr: TEdit;
     Label21: TLabel;
     Label22: TLabel;
-    edtUntInfoNpwpRegsD: TEdit;
-    edtUntInfoCompTypeNm: TEdit;
-    edtUnitTypeNm: TEdit;
-    edtUntInfoNpwpRegsM: TEdit;
-    edtUntInfoNpwpRegsY: TEdit;
-    Label3: TLabel;
-    Label11: TLabel;
     edtUnitParentNm: TEdit;
     edtUnitChildNm: TEdit;
     rgTipeUnit: TRadioGroup;
@@ -67,14 +52,16 @@ type
     chkAllowPO: TCheckBox;
     chkAllowGR: TCheckBox;
     chkActive: TCheckBox;
-    edtUnitAppID: TcxButtonEdit;
-    edtUnitCompID: TcxButtonEdit;
-    edtUntInfoCompTypeID: TcxButtonEdit;
-    edtUnitRegnID: TcxButtonEdit;
-    edtUnitTypeID: TcxButtonEdit;
     edtUnitPropId: TcxButtonEdit;
     edtUnitKabID: TcxButtonEdit;
     edtUnitParentID: TcxButtonEdit;
+    edCode: TcxTextEdit;
+    edNama: TcxTextEdit;
+    edDesciption: TcxTextEdit;
+    edAddress: TcxTextEdit;
+    edRegisterNPWP: TcxDateEdit;
+    edNPWPAddress: TcxTextEdit;
+    edNPWPName: TcxTextEdit;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -164,61 +151,61 @@ var
 begin
   inherited;
 
-  if not CekLookUpID(edtUnitAppID.Text) then
-  begin
-    CommonDlg.ShowError('Application Type harus diisi');
-    Exit;
-  end;
-
-  if not CekLookUpID(edtUnitCompID.Text) then
-  begin
-    CommonDlg.ShowError('Company Root harus diisi');
-    Exit;
-  end;
-
-  if not CekLookUpID(edtUntInfoCompTypeID.Text) then
-  begin
-    CommonDlg.ShowError('Corporate Type harus diisi');
-    Exit;
-  end;
-
-  if not CekLookUpID(edtUnitRegnID.Text) then
-  begin
-    CommonDlg.ShowError('Region harus diisi');
-    Exit;
-  end;
-
-  if not CekLookUpID(edtUnitTypeID.Text) then
-  begin
-    CommonDlg.ShowError('Unit Type harus diisi');
-    Exit;
-  end;
-
-  if not CekLookUpID(edtUnitPropId.Text) then
-  begin
-    CommonDlg.ShowError('Propinsi harus diisi');
-    Exit;
-  end;
-
-  if not CekLookUpID(edtUnitKabID.Text) then
-  begin
-    CommonDlg.ShowError('Kabupaten harus diisi');
-    Exit;
-  end;
-
-  sShrDt  := FormatSettings.ShortDateFormat;
-  FormatSettings.ShortDateFormat := 'dd-mm-yyyy';
-
-
-  if not TryStrToDate( edtUntInfoNpwpRegsD.Text + FormatSettings.DateSeparator + edtUntInfoNpwpRegsM.Text
-              + FormatSettings.DateSeparator + edtUntInfoNpwpRegsY.Text, dtOut ) then
-  begin
-    CommonDlg.ShowError('Tanggal Tidak Sesuai');
-    FormatSettings.ShortDateFormat := sShrDt;
-    Exit;
-  end;
-
-  isHoStWh  := rgTipeUnit.ItemIndex;
+//  if not CekLookUpID(edtUnitAppID.Text) then
+//  begin
+//    CommonDlg.ShowError('Application Type harus diisi');
+//    Exit;
+//  end;
+//
+//  if not CekLookUpID(edtUnitCompID.Text) then
+//  begin
+//    CommonDlg.ShowError('Company Root harus diisi');
+//    Exit;
+//  end;
+//
+//  if not CekLookUpID(edtUntInfoCompTypeID.Text) then
+//  begin
+//    CommonDlg.ShowError('Corporate Type harus diisi');
+//    Exit;
+//  end;
+//
+//  if not CekLookUpID(edtUnitRegnID.Text) then
+//  begin
+//    CommonDlg.ShowError('Region harus diisi');
+//    Exit;
+//  end;
+//
+//  if not CekLookUpID(edtUnitTypeID.Text) then
+//  begin
+//    CommonDlg.ShowError('Unit Type harus diisi');
+//    Exit;
+//  end;
+//
+//  if not CekLookUpID(edtUnitPropId.Text) then
+//  begin
+//    CommonDlg.ShowError('Propinsi harus diisi');
+//    Exit;
+//  end;
+//
+//  if not CekLookUpID(edtUnitKabID.Text) then
+//  begin
+//    CommonDlg.ShowError('Kabupaten harus diisi');
+//    Exit;
+//  end;
+//
+//  sShrDt  := FormatSettings.ShortDateFormat;
+//  FormatSettings.ShortDateFormat := 'dd-mm-yyyy';
+//
+//
+//  if not TryStrToDate( edtUntInfoNpwpRegsD.Text + FormatSettings.DateSeparator + edtUntInfoNpwpRegsM.Text
+//              + FormatSettings.DateSeparator + edtUntInfoNpwpRegsY.Text, dtOut ) then
+//  begin
+//    CommonDlg.ShowError('Tanggal Tidak Sesuai');
+//    FormatSettings.ShortDateFormat := sShrDt;
+//    Exit;
+//  end;
+//
+//  isHoStWh  := rgTipeUnit.ItemIndex;
 
   {
   try
@@ -334,40 +321,40 @@ end;
 
 procedure TfrmDialogUnit.ClearData;
 begin
-  edtUnitCode.Clear;
-  edtUnitName.Clear;
-  edtUnitDesc.Clear;
-  edtUntInfoAddress.Clear;
-  edtUnitAppID.Clear;
-  edtUnitAppNm.Clear;
-  edtUnitCompID.Clear;
-  edtUnitCompNm.Clear;
-  edtUnitRegnID.Clear;
-  edtUnitRegnNm.Clear;
-  edtUnitPropId.Clear;
-  edtUnitPropNm.Clear;
-  edtUnitKabID.Clear;
-  edtUnitKabNm.Clear;
-  edtUnitTypeID.Clear;
-  edtUnitTypeNm.Clear;
-  edtUnitPhone.Clear;
-  edtUnitFax.Clear;
-  edtUnitZip.Clear;
-  edtUnitContact.Clear;
-  edtUnitEmail.Clear;
-  edtUnitParentID.Text  := '0';
-  edtUnitParentNm.Clear;
-  edtUnitChildID.Clear;
-  edtUnitChildNm.Clear;
-  edtUntInfoCompTypeID.Clear;
-  edtUntInfoCompTypeNm.Clear;
-  edtUntInfoNpwpID.Clear;
-  edtUntInfoNpwpNm.Clear;
-  edtUntInfoNpwpAdr.Clear;
-  edtUntInfoNpwpRegsD.Clear;
-  edtUntInfoNpwpRegsM.Clear;
-  edtUntInfoNpwpRegsY.Clear;
-  chkActive.Checked := False;
+//  edtUnitCode.Clear;
+//  edtUnitName.Clear;
+//  edtUnitDesc.Clear;
+//  edtUntInfoAddress.Clear;
+//  edtUnitAppID.Clear;
+//  edtUnitAppNm.Clear;
+//  edtUnitCompID.Clear;
+//  edtUnitCompNm.Clear;
+//  edtUnitRegnID.Clear;
+//  edtUnitRegnNm.Clear;
+//  edtUnitPropId.Clear;
+//  edtUnitPropNm.Clear;
+//  edtUnitKabID.Clear;
+//  edtUnitKabNm.Clear;
+//  edtUnitTypeID.Clear;
+//  edtUnitTypeNm.Clear;
+//  edtUnitPhone.Clear;
+//  edtUnitFax.Clear;
+//  edtUnitZip.Clear;
+//  edtUnitContact.Clear;
+//  edtUnitEmail.Clear;
+//  edtUnitParentID.Text  := '0';
+//  edtUnitParentNm.Clear;
+//  edtUnitChildID.Clear;
+//  edtUnitChildNm.Clear;
+//  edtUntInfoCompTypeID.Clear;
+//  edtUntInfoCompTypeNm.Clear;
+//  edtUntInfoNpwpID.Clear;
+//  edtUntInfoNpwpNm.Clear;
+//  edtUntInfoNpwpAdr.Clear;
+//  edtUntInfoNpwpRegsD.Clear;
+//  edtUntInfoNpwpRegsM.Clear;
+//  edtUntInfoNpwpRegsY.Clear;
+//  chkActive.Checked := False;
 
 
 end;

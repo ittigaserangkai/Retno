@@ -144,7 +144,8 @@ uses
   ufrmListBigSupplier in 'module\inventory\ufrmListBigSupplier.pas' {frmListBigSupplier},
   ufrmCompany in 'module\references\ufrmCompany.pas' {frmCompany},
   ufrmDialogCompany in 'module\references\ufrmDialogCompany.pas' {frmDialogCompany},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModUnit in '..\model\uModUnit.pas';
 
 {$R *.res}
 
