@@ -6,21 +6,21 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
   ufrmProductType, uRetnoUnit, uModBarang,  uDMClient, uClientClasses,
-  System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button, uInterface;
 
 type     
   TFormMode = (fmAdd, fmEdit);
   
-  TfrmDialogProductType = class(TfrmMasterDialog)
+  TfrmDialogProductType = class(TfrmMasterDialog, ICrudable)
     lbl1: TLabel;
     lbl2: TLabel;
     edtCode: TEdit;
     edtName: TEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FProductTypeId: Integer;
@@ -58,15 +58,28 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConn, DB, uApputils;
+uses uTSCommonDlg, uConn, DB, uApputils, uConstanta;
 
 {$R *.dfm}
 
-procedure TfrmDialogProductType.btnSaveClick(Sender: TObject);
+procedure TfrmDialogProductType.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.ConfirmHapus then Exit;
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModTipeBarang);
+    Self.ModalResult := mrOK;
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+  Except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    Raise
+  End;
+end;
+
+procedure TfrmDialogProductType.actSaveExecute(Sender: TObject);
 begin
   inherited;
   SimpanData();
-  Self.Close;
 end;
 
 function TfrmDialogProductType.cekProduk(aKodeBaru : string): Boolean;
@@ -232,12 +245,6 @@ begin
   frmDialogProductType := nil;
 end;
 
-procedure TfrmDialogProductType.FormCreate(Sender: TObject);
-begin
-  inherited;
-//  FTipeProduct := TTipeProduk.Create(self);
-end;
-
 function TfrmDialogProductType.GetCrud: TCrudClient;
 begin
   if not Assigned(FCrud) then
@@ -269,6 +276,7 @@ begin
   try
     Crud.SaveToDB(MODTipeBarang);
     TAppUtils.Information('Simpan Berhasil.');
+    Self.ModalResult := mrOk;
   except
     TAppUtils.Error('Gagal Menyimpan Data.');
     Raise

@@ -49,7 +49,7 @@ object frmMaster: TfrmMaster
       Left = 4
       Top = 8
       Width = 146
-      Height = 18
+      Height = 14
       Margins.Top = 7
       Align = alLeft
       Caption = 'LABEL HEADER GOES HERE..'
@@ -59,7 +59,6 @@ object frmMaster: TfrmMaster
       Font.Name = 'Arial'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitHeight = 14
     end
   end
 end

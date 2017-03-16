@@ -144,6 +144,7 @@ inherited frmRekening: TfrmRekening
       ExplicitWidth = 756
       inherited btnClose: TcxButton
         Left = 674
+        OnClick = btnCloseClick
         ExplicitLeft = 674
       end
       inherited btnAdd: TcxButton
@@ -154,6 +155,7 @@ inherited frmRekening: TfrmRekening
       end
       inherited btnDelete: TcxButton
         Action = actDeleteRekening
+        Visible = False
       end
       inherited btnRefresh: TcxButton
         Action = actRefreshRekening
@@ -162,6 +164,15 @@ inherited frmRekening: TfrmRekening
     inherited pnlSortCut: TPanel
       Width = 756
       ExplicitWidth = 756
+      inherited lbl3: TLabel
+        Left = 263
+        Visible = False
+        ExplicitLeft = 263
+      end
+      inherited lbl4: TLabel
+        Left = 167
+        ExplicitLeft = 167
+      end
       inherited lbl5: TLabel
         Left = 666
         ExplicitLeft = 644
@@ -181,6 +192,7 @@ inherited frmRekening: TfrmRekening
     end
     object actDeleteRekening: TAction
       Caption = '&Delete'
+      Enabled = False
       OnExecute = actDeleteRekeningExecute
     end
     object actRefreshRekening: TAction

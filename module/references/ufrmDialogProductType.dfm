@@ -61,14 +61,14 @@ inherited frmDialogProductType: TfrmDialogProductType
       Width = 396
       ExplicitWidth = 396
       inherited btnClose: TcxButton
-        Left = 314
-        ExplicitLeft = 314
+        Left = 319
+        Action = actCancel
+        ExplicitLeft = 319
       end
       inherited btnSave: TcxButton
-        Left = 227
+        Left = 226
         Action = actSave
-        OnClick = btnSaveClick
-        ExplicitLeft = 227
+        ExplicitLeft = 226
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -78,16 +78,26 @@ inherited frmDialogProductType: TfrmDialogProductType
       Width = 396
       ExplicitWidth = 396
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 306
+        Height = 15
+        ExplicitLeft = 306
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 221
+        Height = 15
+        ExplicitLeft = 221
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
