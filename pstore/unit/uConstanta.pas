@@ -107,7 +107,7 @@ const
   BUTTON_CAPTION1 = 'Yes';
   BUTTON_CAPTION2 = 'No';
   BUTTON_CAPTION3 = 'Cancel';
-  MESSAGE_CAPTION = 'Head Office - ';  
+  MESSAGE_CAPTION = 'Store - ';
 
   // sync
   SYNC_LOCAL_DIR = 'sinkronisasi\sync\';

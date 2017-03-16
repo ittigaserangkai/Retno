@@ -5,8 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses,
   System.ImageList, Vcl.ImgList, Vcl.Controls, uDBUtils, Data.DB,
-  Datasnap.DBClient, cxStyles, cxClasses, cxLookAndFeelPainters, cxGraphics,
-  dxAlertWindow;
+  Datasnap.DBClient, cxStyles, cxClasses;
 
 type
   TDMClient = class(TDataModule)
@@ -15,6 +14,7 @@ type
     cxStyle: TcxStyleRepository;
     cxStyleGridEven: TcxStyle;
     cxStyleGridHeader: TcxStyle;
+    imgListIcon: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     FCrudClient: TCrudClient;
