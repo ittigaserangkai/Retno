@@ -84,13 +84,17 @@ type
     chkIsBasic: TcxCheckBox;
     chkIsGalon: TcxCheckBox;
     edtSSBARANG: TcxSpinEdit;
+    procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookupMerkKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cxLookupMerchanGroupPropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookupSubGroupPropertiesEditValueChanged(Sender: TObject);
   private
     FModBarang: TModBarang;
-    procedure ClearFornm;
+    procedure ClearForm;
+    procedure FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
     procedure InitLookup;
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -110,9 +114,17 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmDialogProduct.ClearFornm;
+procedure TfrmDialogProduct.actSaveExecute(Sender: TObject);
 begin
-  ClearByTag([0]);
+  inherited;
+  if not ValidateData then
+    exit;
+
+end;
+
+procedure TfrmDialogProduct.ClearForm;
+begin
+  ClearByTag([0,1]);
   cbStock.ItemIndex := 0;
   cxLookupTipeBarang.SetDefaultValue;
   cxLookupSatuan.SetDefaultValue;
@@ -123,21 +135,23 @@ begin
   cxLookupLocation.SetDefaultValue;
   cxLookupJenisPajak.SetDefaultValue;
   cxLookupMerk.SetDefaultValue;
+  Application.ProcessMessages; //--> need this
+    //...  to prevent cxLookupMerk send Tab when focus position in TabOrder : 0
+  SelectFirst;
+end;
+
+procedure TfrmDialogProduct.cxLookupMerchanGroupPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  FilterOtherLookup(cxLookupMerchanGroup, cxLookupSubGroup);
 end;
 
 procedure TfrmDialogProduct.cxLookupMerchanPropertiesEditValueChanged(
   Sender: TObject);
-var
-  KeyField: string;
 begin
   inherited;
-  with cxLookupMerchanGroup.DS do
-  begin
-    KeyField := cxLookupMerchan.Properties.KeyFieldNames;
-    Filter := KeyField + ' = ' + QuotedStr(cxLookupMerchan.DS.FieldByName(KeyField).AsString);
-    Filtered := True;
-  end;
-//  Self.OnEditValueChanged(cxLookupMerchan);
+  FilterOtherLookup(cxLookupMerchan, cxLookupMerchanGroup);
 end;
 
 procedure TfrmDialogProduct.cxLookupMerkKeyUp(Sender: TObject; var Key: Word;
@@ -162,12 +176,43 @@ begin
   end;
 end;
 
+procedure TfrmDialogProduct.cxLookupSubGroupPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  FilterOtherLookup(cxLookupSubGroup, cxLookupKategori);
+end;
+
+procedure TfrmDialogProduct.FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
+var
+  KeyField: string;
+begin
+  inherited;
+  with Dst.CDS do
+  begin
+    KeyField := Src.Properties.KeyFieldNames;
+    Filter := '[' + KeyField + '] = '
+      + QuotedStr(Src.DS.FieldByName(KeyField).AsString);
+    Filtered := True;
+  end;
+  Dst.SetDefaultValue();
+
+  //ini dipasang di onEditValueChanged,
+  //yang apabila dipasang di lookup jenis generic (setMultiPurposeLookup)
+  //harusny enternya 2 kali baru pindah fokus
+  //nah ngepasin saja ada trigger Dst.SetDefaultValue yang EditValueChanged
+  //dan destiniasi terakhir di cxlookupKategori, diaman OnEditValueChanged nil (di isi runtime)
+  //jadi pas malahan
+  // ....... solusi lain misal cxlookupkategori ada onEditValueChanged,
+  //........tambahkan TForm.OnEditValueChanged(cxLookupKategori)
+end;
+
 procedure TfrmDialogProduct.FormCreate(Sender: TObject);
 begin
   inherited;
-  AssignKeyDownEvent;
   InitLookup;
-  ClearFornm;
+  AssignKeyDownEvent;
+  ClearForm;
 end;
 
 procedure TfrmDialogProduct.FormShow(Sender: TObject);
@@ -203,6 +248,12 @@ begin
       'REF$PAJAK_ID', 'PJK_NAME' , ['REF$PAJAK_ID'], Self);
     cxLookupMerk.LoadFromDS(Merk_GetDSLookUp,
       'MERK_ID', 'MERK_NAME' , ['MERK_ID'], Self);
+
+    cxLookupMerchan.SetMultiPurposeLookup;
+    cxLookupMerchanGroup.SetMultiPurposeLookup;
+    cxLookupSubGroup.SetMultiPurposeLookup;
+    cxLookupKategori.SetMultiPurposeLookup;
+    cxLookupMerk.SetMultiPurposeLookup;
   end;
   //inisialisasi
 end;
@@ -216,8 +267,7 @@ end;
 function TfrmDialogProduct.ValidateData: Boolean;
 begin
   Result := False;
-  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_SAVE) then
-    exit;
+  ValidateEmptyCtrl([1]);
   Result := True;
 end;
 

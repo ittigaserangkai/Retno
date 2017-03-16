@@ -2,7 +2,6 @@ inherited frmMerk: TfrmMerk
   Caption = 'frmMerk'
   ClientHeight = 370
   ClientWidth = 651
-  ExplicitTop = 8
   ExplicitWidth = 667
   ExplicitHeight = 409
   PixelsPerInch = 96

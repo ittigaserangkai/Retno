@@ -3,17 +3,18 @@ inherited frmDialogProduct: TfrmDialogProduct
   Top = 98
   Caption = 'Update Data Barang'
   ClientHeight = 408
-  ClientWidth = 778
+  ClientWidth = 776
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 794
+  ExplicitLeft = -35
+  ExplicitWidth = 792
   ExplicitHeight = 447
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 778
+    Width = 776
     Height = 352
     ExplicitWidth = 778
     ExplicitHeight = 352
@@ -175,6 +176,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Caption = 'Hari'
     end
     object edtShortName: TcxTextEdit
+      Tag = 1
       Left = 101
       Top = 56
       Properties.CharCase = ecUpperCase
@@ -186,8 +188,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 309
     end
     object edtProductName: TcxTextEdit
+      Tag = 1
       Left = 101
       Top = 31
+      HelpType = htKeyword
+      HelpKeyword = 'Nama Produk'
       Properties.CharCase = ecUpperCase
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
@@ -197,8 +202,12 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 309
     end
     object edtCatalog: TcxTextEdit
+      Tag = 1
       Left = 507
       Top = 7
+      HelpType = htKeyword
+      HelpKeyword = 'Kode Katalog'
+      Properties.CharCase = ecUpperCase
       Style.Color = clMoneyGreen
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
@@ -224,7 +233,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 41
     end
     object edtCommonUOM: TcxTextEdit
-      Tag = 1
+      Tag = 2
       Left = 574
       Top = 255
       Style.LookAndFeel.NativeStyle = False
@@ -237,7 +246,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 38
     end
     object edtAsgrossUOM: TcxTextEdit
-      Tag = 1
+      Tag = 2
       Left = 574
       Top = 280
       Style.LookAndFeel.NativeStyle = False
@@ -280,7 +289,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 41
     end
     object edtTraderUOM: TcxTextEdit
-      Tag = 1
+      Tag = 2
       Left = 574
       Top = 305
       Style.LookAndFeel.NativeStyle = False
@@ -293,6 +302,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 38
     end
     object cbStock: TcxComboBox
+      Tag = 1
       Left = 101
       Top = 81
       ParentShowHint = False
@@ -312,6 +322,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 120
     end
     object cxLookupTipeBarang: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 106
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -327,6 +338,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 188
     end
     object cxLookupSatuan: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 131
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -342,6 +354,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 120
     end
     object cxLookupOutlet: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 156
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -357,6 +370,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 188
     end
     object cxLookupLocation: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 180
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -372,6 +386,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 188
     end
     object cxLookupJenisPajak: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 305
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -387,6 +402,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 120
     end
     object cxLookupMerchan: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 205
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -403,12 +419,14 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 188
     end
     object cxLookupMerchanGroup: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 230
       Hint = 'Klik F5 untuk membuat Master Baru'
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      Properties.OnEditValueChanged = cxLookupMerchanGroupPropertiesEditValueChanged
       ShowHint = True
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
@@ -418,12 +436,14 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 188
     end
     object cxLookupSubGroup: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 255
       Hint = 'Klik F5 untuk membuat Master Baru'
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      Properties.OnEditValueChanged = cxLookupSubGroupPropertiesEditValueChanged
       ShowHint = True
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
@@ -433,6 +453,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 188
     end
     object cxLookupKategori: TcxExtLookupComboBox
+      Tag = 1
       Left = 101
       Top = 280
       Hint = 'Klik F5 untuk membuat Master Baru'
@@ -466,9 +487,12 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 237
     end
     object cxLookupMerk: TcxExtLookupComboBox
+      Tag = 1
       Left = 227
       Top = 7
       Hint = 'Klik F5 untuk membuat Master Baru'
+      HelpType = htKeyword
+      HelpKeyword = 'Merk'
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
@@ -483,8 +507,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 183
     end
     object edtProductCode: TcxTextEdit
+      Tag = 1
       Left = 101
       Top = 7
+      HelpType = htKeyword
+      HelpKeyword = 'Kode Produk'
       Properties.CharCase = ecUpperCase
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
@@ -494,7 +521,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Width = 92
     end
     object gbPurchase: TcxGroupBox
-      Left = 443
+      Left = 440
       Top = 35
       Caption = ' Purchase : '
       Enabled = False
@@ -549,7 +576,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
     end
     object cxGroupBox2: TcxGroupBox
-      Left = 444
+      Left = 441
       Top = 137
       Enabled = False
       PanelStyle.Active = True
@@ -605,7 +632,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Width = 62
       end
       object edtAverageSlsUOM: TcxTextEdit
-        Tag = 1
+        Tag = 2
         Left = 150
         Top = 6
         Style.LookAndFeel.NativeStyle = False
@@ -617,7 +644,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Width = 38
       end
       object edtLastCOGSUOM: TcxTextEdit
-        Tag = 1
+        Tag = 2
         Left = 201
         Top = 30
         Style.LookAndFeel.NativeStyle = False
@@ -637,7 +664,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       TabOrder = 16
       Transparent = True
       Height = 202
-      Width = 134
+      Width = 132
       object cbTurunan: TcxCheckBox
         AlignWithMargins = True
         Left = 5
@@ -650,6 +677,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 0
         Transparent = True
+        ExplicitWidth = 127
       end
       object cbActive: TcxCheckBox
         AlignWithMargins = True
@@ -663,6 +691,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 1
         Transparent = True
+        ExplicitWidth = 127
       end
       object cbisDecimal: TcxCheckBox
         AlignWithMargins = True
@@ -676,6 +705,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 2
         Transparent = True
+        ExplicitWidth = 127
       end
       object cbIsTaxInclude: TcxCheckBox
         AlignWithMargins = True
@@ -689,6 +719,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 3
         Transparent = True
+        ExplicitWidth = 127
       end
       object cbisDeposit: TcxCheckBox
         AlignWithMargins = True
@@ -703,6 +734,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 6
         Transparent = True
         ExplicitTop = 140
+        ExplicitWidth = 127
       end
       object chkIsDiscAMC: TcxCheckBox
         AlignWithMargins = True
@@ -717,6 +749,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 5
         Transparent = True
         ExplicitTop = 119
+        ExplicitWidth = 127
       end
       object chkIsBasic: TcxCheckBox
         AlignWithMargins = True
@@ -730,6 +763,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 4
         Transparent = True
+        ExplicitWidth = 127
       end
       object chkIsGalon: TcxCheckBox
         AlignWithMargins = True
@@ -744,6 +778,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 7
         Transparent = True
         Visible = False
+        ExplicitWidth = 127
       end
     end
     object edtSSBARANG: TcxSpinEdit
@@ -759,19 +794,19 @@ inherited frmDialogProduct: TfrmDialogProduct
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 352
-    Width = 778
+    Width = 776
     ExplicitTop = 352
     ExplicitWidth = 778
     inherited pnlFooter: TPanel
-      Width = 778
+      Width = 776
       ExplicitWidth = 778
       inherited btnClose: TcxButton
-        Left = 701
+        Left = 699
         Action = actDelete
         ExplicitLeft = 701
       end
       inherited btnSave: TcxButton
-        Left = 608
+        Left = 606
         Action = actSave
         ExplicitLeft = 608
       end
@@ -780,15 +815,15 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 778
+      Width = 776
       ExplicitWidth = 778
       inherited lbCTRLEnter: TLabel
-        Left = 603
+        Left = 601
         Height = 15
         ExplicitLeft = 603
       end
       inherited lbEscape: TLabel
-        Left = 694
+        Left = 692
         Height = 15
         ExplicitLeft = 694
       end
@@ -798,7 +833,10 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 544
-    Top = 232
+    Left = 560
+    Top = 160
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end
