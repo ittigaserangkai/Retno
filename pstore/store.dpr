@@ -65,7 +65,9 @@ uses
   ufrmPOFromTrader in 'module\trader\ufrmPOFromTrader.pas' {ufrmPOFromTrader},
   ufrmDialogPOFromTrader in 'module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader},
   ufrmDialogPrintKasirPreview in 'module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
-  uTemplatePrintText in '..\system\uTemplatePrintText.pas';
+  uTemplatePrintText in '..\system\uTemplatePrintText.pas',
+  uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
@@ -74,5 +76,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
+  Application.CreateForm(TDMClient, DMClient);
   Application.Run;
 end.
