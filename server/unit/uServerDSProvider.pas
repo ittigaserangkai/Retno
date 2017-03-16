@@ -83,7 +83,7 @@ function TDSProvider.RefTipeBarang_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * from REF$TIPE_BARANG';
+  S := 'SELECT TPBRG_CODE, TPBRG_NAME, REF$TIPE_BARANG_ID from REF$TIPE_BARANG';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -220,7 +220,7 @@ function TDSProvider.Outlet_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select OUTLET_NAME, OUTLET_CODE, REF$OUTLET_ID'
+  S := 'select OUTLET_NAME, OUTLET_CODE, OUTLET_DESCRIPTION, REF$OUTLET_ID'
       +' from REF$OUTLET';
   Result := TDBUtils.OpenQuery(S);
 end;

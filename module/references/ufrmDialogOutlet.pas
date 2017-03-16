@@ -16,9 +16,12 @@ type
     lbl1: TLabel;
     Label1: TLabel;
     edtName: TEdit;
+    Label2: TLabel;
+    edtDescription: TEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -35,6 +38,7 @@ type
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetOutletId(const Value: Integer);
     procedure prepareAddData;
+    procedure SimpanData;
     property Crud: TCrudClient read GetCrud write FCrud;
     property ModOutlet: TModOutlet read GetModOutlet write FModOutlet;
   public
@@ -51,25 +55,27 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmOutlet;
+uses uTSCommonDlg, ufrmOutlet, uAppUtils, uConstanta;
 
 {$R *.dfm}
 
-procedure TfrmDialogOutlet.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmDialogOutlet.actDeleteExecute(Sender: TObject);
 begin
   inherited;
-  Action := caFree;
+  if not TAppUtils.ConfirmHapus then Exit;
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModOutlet);
+    Self.ModalResult := mrOK;
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+  Except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    Raise
+  End;
 end;
 
-procedure TfrmDialogOutlet.FormDestroy(Sender: TObject);
+procedure TfrmDialogOutlet.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  frmDialogOutlet := nil;
-end;
-
-procedure TfrmDialogOutlet.footerDialogMasterbtnSaveClick(Sender: TObject);
-begin
   if edtCode.Text = '' then
   begin
     CommonDlg.ShowError('Data Kode Belum diisi');
@@ -84,31 +90,20 @@ begin
     Exit;
   end;
 
-//  if FNewOutlet.isKodeExits(edtCode.Text,DialogUnit, FNewOutlet.ID) then
-  begin
-    CommonDlg.ShowError('Code ' + edtCode.Text + ' Sudah Ada');
-    edtCode.SetFocus;
-    Exit;
-  end;
-  {
-  try
-    FNewOutlet.UpdateData(edtName.Text, IDLokal, edtCode.Text,edtName.Text,DialogUnit);
-    if FNewOutlet.ExecuteGenerateSQL then
-    begin
-      cCommitTrans;
-      CommonDlg.ShowMessage('Data Berhasil Disimpan');
-      frmOutlet.actRefreshOutletExecute(nil);
-      close;
-    end
-    else begin
-      cRollbackTrans;
-      CommonDlg.ShowMessage('Gagal Disimpan');
-      Exit;
-    end;
-    finally;
-      cRollbackTrans;
-    end;
-    }
+  SimpanData();
+end;
+
+procedure TfrmDialogOutlet.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  Action := caFree;
+end;
+
+procedure TfrmDialogOutlet.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  frmDialogOutlet := nil;
 end;
 
 procedure TfrmDialogOutlet.SetFormMode(const Value: TFormMode);
@@ -164,6 +159,7 @@ end;
 
 function TfrmDialogOutlet.GetModOutlet: TModOutlet;
 begin
+  if not Assigned(FModOutlet) then FModOutlet := TModOutlet.Create;
   Result := FModOutlet;
 end;
 
@@ -172,8 +168,24 @@ begin
   if Assigned(fModOutlet) then FreeAndNil(fModOutlet);
   fModOutlet := Crud.Retrieve(TModOutlet.ClassName, AID) as TModOutlet;
 
-  edtCode.Text := ModOutlet.OUTLET_CODE;
-  edtName.Text := ModOutlet.OUTLET_NAME;
+  edtCode.Text        := ModOutlet.OUTLET_CODE;
+  edtName.Text        := ModOutlet.OUTLET_NAME;
+  edtDescription.Text := ModOUtlet.OUTLET_DESCRIPTION;
+end;
+
+procedure TfrmDialogOutlet.SimpanData;
+begin
+  ModOutlet.OUTLET_CODE        := edtCode.Text;
+  ModOutlet.OUTLET_NAME        := edtName.Text;
+  ModOutlet.OUTLET_DESCRIPTION := edtDescription.Text;
+  try
+    Crud.SaveToDB(ModOutlet);
+    TAppUtils.Information('Simpan Berhasil.');
+    Self.ModalResult := mrOK;
+  except
+    TAppUtils.Error('Gagal Menyimpan Data.');
+    Raise
+  end;
 end;
 
 end.
