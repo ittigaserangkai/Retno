@@ -5,7 +5,8 @@ interface
 uses
   System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses,
   System.ImageList, Vcl.ImgList, Vcl.Controls, uDBUtils, Data.DB,
-  Datasnap.DBClient, cxStyles, cxClasses;
+  Datasnap.DBClient, cxStyles, cxClasses, cxLookAndFeelPainters, cxGraphics,
+  dxAlertWindow;
 
 type
   TDMClient = class(TDataModule)

@@ -63,7 +63,7 @@ type
 
 var
   frmMain: TfrmMain;
-  test : TDataSEt;
+//  test : TDataSEt;
 
 implementation
 {$R *.dfm}

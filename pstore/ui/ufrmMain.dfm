@@ -15,7 +15,6 @@ object frmMain: TfrmMain
   OldCreateOrder = False
   OnCloseQuery = FormCloseQuery
   OnCreate = actOnCreateFormExecute
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 16
   object pnlHeader: TPanel
@@ -35,6 +34,7 @@ object frmMain: TfrmMain
       Height = 76
       Align = alClient
       Transparent = True
+      OnDblClick = imgHeaderDblClick
       ExplicitLeft = 4
       ExplicitTop = 4
     end
