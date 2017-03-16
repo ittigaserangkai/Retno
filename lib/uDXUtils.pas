@@ -66,7 +66,7 @@ type
     function DS: TDataset;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent);
-    procedure SetDefaultValue;
+    procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
   end;
 
@@ -141,11 +141,11 @@ type
 
   TFormHelper = class helper for TForm
   private
-    function IsComponentEmpty(aComp: TComponent): Boolean;
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     procedure AssignKeyDownEvent;
     procedure ClearByTag(Tag: TTag);
+    function ValidateEmptyCtrl(Tag: TTag; ShowWarning: Boolean = True): Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
   end;
 
@@ -1055,25 +1055,50 @@ begin
   end;
 end;
 
-function TFormHelper.IsComponentEmpty(aComp: TComponent): Boolean;
+function TFormHelper.ValidateEmptyCtrl(Tag: TTag; ShowWarning: Boolean = True):
+    Boolean;
+var
+  C: TComponent;
+  i: Integer;
+  iTabOrd: Integer;
+  sMsg: string;
+  EmptyCtrl: TWinControl;
+  IsEmpty: Boolean;
 begin
-  if aComp is TcxExtLookupComboBox then
-    Result := VarIsNull(TcxExtLookupComboBox(aComp).EditValue)
-  else if aComp is TcxComboBox then
-    Result := TcxComboBox(aComp).ItemIndex = -1
-  else if aComp is TComboBox then
-    Result := TComboBox(aComp).ItemIndex = -1
-  else if aComp is TcxTextEdit then
-    Result := TcxTextEdit(aComp).Text = ''
-  else if aComp is TEdit then
-    Result := TEdit(aComp).Text = ''
-  else if aComp is TcxSpinEdit then
-    Result := TcxSpinEdit(aComp).Value = 0
-  else if aComp is TcxCurrencyEdit then
-    Result := TcxCurrencyEdit(aComp).Value = 0
-  else
-    Result := False;
+  IsEmpty   := False;
+  iTabOrd   := MaxInt;
+  EmptyCtrl := nil;
+  for i := 0 to Self.ComponentCount-1 do
+  begin
+    C := Self.Components[i];
+    if not (C.Tag in Tag) then continue;
+    if not C.InheritsFrom(TWinControl) then continue;
+    if C is TcxExtLookupComboBox then
+      IsEmpty := VarIsNull(TcxExtLookupComboBox(C).EditValue)
+    else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
+    else if C is TComboBox then IsEmpty := TComboBox(C).ItemIndex = -1
+    else if C is TcxTextEdit then IsEmpty := TcxTextEdit(C).Text = ''
+    else if C is TEdit then IsEmpty := TEdit(C).Text = ''
+    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
+    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
+    if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
+    begin
+      EmptyCtrl   := TWinControl(C);
+      iTabOrd := EmptyCtrl.TabOrder;
+    end;
+  end;
+  Result := EmptyCtrl <> nil;
+  if (Result) and (ShowWarning) then
+  begin
+    if EmptyCtrl.HelpKeyword <> '' then
+      sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
+    else
+      sMsg := 'Input Tidak Boleh Kosong';
+    EmptyCtrl.SetFocus;
+    TAppUtils.Warning(sMsg);
+  end;
 end;
+
 
 procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
     TShiftState);
@@ -1088,8 +1113,15 @@ begin
 end;
 
 class procedure TFormHelper.OnEditValueChanged(Sender: TObject);
+var
+  sDebug: string;
 begin
-  if Sender is TcxExtLookupComboBox then Keybd_event(VK_TAB, 0, 0, 0);
+  if Sender is TcxExtLookupComboBox then
+  begin
+    //agar generic lookup cukup enter 1x utk pindah ke komponent
+    Keybd_event(VK_TAB, 0, 0, 0);
+    sDebug := TcxExtLookupComboBox(Sender).Name;
+  end;
 end;
 
 function TcxExtLookupComboHelper.CDS: TClientDataSet;
@@ -1112,13 +1144,27 @@ begin
     HideFields, aOwnerForm);
 end;
 
-procedure TcxExtLookupComboHelper.SetDefaultValue;
+procedure TcxExtLookupComboHelper.SetDefaultValue(TriggerEvents: Boolean =
+    True);
+var
+  OnEditValChanged: TNotifyEvent;
 begin
-  Self.Clear;
-  if Self.DS <> nil then
+  if not TriggerEvents then
   begin
-    Self.EditValue := Self.DS.FieldByName(Self.Properties.KeyFieldNames).Value;
+    if Assigned(Self.Properties.OnEditValueChanged) then
+      OnEditValChanged := Self.Properties.OnEditValueChanged;
+    Self.Properties.OnEditValueChanged := nil;
   end;
+  Try
+    Self.Clear;
+    if Self.DS <> nil then
+    begin
+      Self.EditValue := Self.DS.FieldByName(Self.Properties.KeyFieldNames).Value;
+    end;
+  Finally
+    if not TriggerEvents then
+      Self.Properties.OnEditValueChanged := OnEditValChanged;
+  End;
 end;
 
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;

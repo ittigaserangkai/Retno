@@ -58,14 +58,13 @@ end;
 procedure TfrmMerk.RefreshData;
 begin
   inherited;
-
-//  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp, Self);
-//  cxGridView.SetVisibleColumns([TModMerk.GetPrimaryField], False);
-  with TDSProviderClient.Create(DMClient.RestConn, False) do
-  begin
-    Merk_GetDSLookUp();
-    Merk_GetDSLookUp();
-  end;
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp, Self);
+  cxGridView.SetVisibleColumns([TModMerk.GetPrimaryField], False);
+//  with TDSProviderClient.Create(DMClient.RestConn, False) do
+//  begin
+//    Merk_GetDSLookUp();
+//    Merk_GetDSLookUp();
+//  end;
 end;
 
 end.
