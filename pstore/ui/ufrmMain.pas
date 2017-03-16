@@ -187,7 +187,7 @@ type
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure imgHeaderDblClick(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -409,13 +409,9 @@ begin
     CanClose := false;
 end;
 
-procedure TfrmMain.FormDestroy(Sender: TObject);
+procedure TfrmMain.imgHeaderDblClick(Sender: TObject);
 begin
-//  ADConn.Free;
-//  ADConn := nil;
-//
-//  FDbEventListener.Free;
-  frmMain := nil;
+   CommonDlg.ShowInformationAlert('Informasi', 'tampil!!', mtinformation);
 end;
 
 procedure TfrmMain.SetAclstExim(aEnable : Boolean);
