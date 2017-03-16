@@ -8,7 +8,6 @@ inherited frmDialogProduct: TfrmDialogProduct
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitLeft = -35
   ExplicitWidth = 792
   ExplicitHeight = 447
   PixelsPerInch = 96
@@ -16,7 +15,7 @@ inherited frmDialogProduct: TfrmDialogProduct
   inherited pnlBody: TPanel
     Width = 776
     Height = 352
-    ExplicitWidth = 778
+    ExplicitWidth = 776
     ExplicitHeight = 352
     object lbProductCode: TLabel
       Left = 13
@@ -194,6 +193,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       HelpType = htKeyword
       HelpKeyword = 'Nama Produk'
       Properties.CharCase = ecUpperCase
+      Properties.OnEditValueChanged = edtProductNamePropertiesEditValueChanged
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       StyleFocused.LookAndFeel.NativeStyle = False
@@ -496,6 +496,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
       Properties.ImmediatePost = True
+      Properties.OnEditValueChanged = cxLookupMerkPropertiesEditValueChanged
       ShowHint = True
       Style.LookAndFeel.NativeStyle = False
       Style.ButtonStyle = btsDefault
@@ -503,7 +504,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       StyleFocused.LookAndFeel.NativeStyle = False
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 1
-      OnKeyUp = cxLookupMerkKeyUp
       Width = 183
     end
     object edtProductCode: TcxTextEdit
@@ -668,7 +668,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       object cbTurunan: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 2
+        Top = 50
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -677,12 +677,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 0
         Transparent = True
-        ExplicitWidth = 127
+        ExplicitTop = 2
       end
       object cbActive: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 26
+        Top = 2
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -691,12 +691,13 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 1
         Transparent = True
-        ExplicitWidth = 127
+        ExplicitLeft = 13
+        ExplicitTop = 0
       end
       object cbisDecimal: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 50
+        Top = 74
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -705,12 +706,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 2
         Transparent = True
-        ExplicitWidth = 127
+        ExplicitTop = 50
       end
       object cbIsTaxInclude: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 74
+        Top = 98
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -719,7 +720,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 3
         Transparent = True
-        ExplicitWidth = 127
+        ExplicitTop = 74
       end
       object cbisDeposit: TcxCheckBox
         AlignWithMargins = True
@@ -734,7 +735,6 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 6
         Transparent = True
         ExplicitTop = 140
-        ExplicitWidth = 127
       end
       object chkIsDiscAMC: TcxCheckBox
         AlignWithMargins = True
@@ -744,17 +744,17 @@ inherited frmDialogProduct: TfrmDialogProduct
         Margins.Right = 0
         Margins.Bottom = 0
         Align = alTop
-        Caption = 'Is Disc AMC'
+        Caption = 'Is Disc PAS'
         Properties.ImmediatePost = True
         TabOrder = 5
         Transparent = True
-        ExplicitTop = 119
-        ExplicitWidth = 127
+        ExplicitLeft = 7
+        ExplicitTop = 106
       end
       object chkIsBasic: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 98
+        Top = 26
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -763,7 +763,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         Properties.ImmediatePost = True
         TabOrder = 4
         Transparent = True
-        ExplicitWidth = 127
+        ExplicitLeft = 7
       end
       object chkIsGalon: TcxCheckBox
         AlignWithMargins = True
@@ -778,7 +778,6 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 7
         Transparent = True
         Visible = False
-        ExplicitWidth = 127
       end
     end
     object edtSSBARANG: TcxSpinEdit
@@ -796,36 +795,38 @@ inherited frmDialogProduct: TfrmDialogProduct
     Top = 352
     Width = 776
     ExplicitTop = 352
-    ExplicitWidth = 778
+    ExplicitWidth = 776
     inherited pnlFooter: TPanel
       Width = 776
-      ExplicitWidth = 778
+      ExplicitWidth = 776
       inherited btnClose: TcxButton
         Left = 699
         Action = actDelete
-        ExplicitLeft = 701
+        ExplicitLeft = 699
       end
       inherited btnSave: TcxButton
         Left = 606
         Action = actSave
-        ExplicitLeft = 608
+        ExplicitLeft = 606
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+        ExplicitLeft = 4
+        ExplicitTop = 5
       end
     end
     inherited pnlSortCut: TPanel
       Width = 776
-      ExplicitWidth = 778
+      ExplicitWidth = 776
       inherited lbCTRLEnter: TLabel
         Left = 601
         Height = 15
-        ExplicitLeft = 603
+        ExplicitLeft = 601
       end
       inherited lbEscape: TLabel
         Left = 692
         Height = 15
-        ExplicitLeft = 694
+        ExplicitLeft = 692
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -833,8 +834,11 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 560
-    Top = 160
+    Left = 664
+    Top = 240
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

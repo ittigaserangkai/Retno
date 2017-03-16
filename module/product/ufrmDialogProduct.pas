@@ -9,13 +9,13 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxCurrencyEdit, cxCheckBox, ufraFooterDialog3Button, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxSpinEdit, cxGroupBox, uModBank, uModBarang;
+  cxSpinEdit, cxGroupBox, uModBank, uModBarang, uInterface;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
 
-  TfrmDialogProduct = class(TfrmMasterDialog)
+  TfrmDialogProduct = class(TfrmMasterDialog, ICrudAble)
     lbProductCode: TLabel;
     lbShortname: TLabel;
     lbProductname: TLabel;
@@ -84,22 +84,27 @@ type
     chkIsBasic: TcxCheckBox;
     chkIsGalon: TcxCheckBox;
     edtSSBARANG: TcxSpinEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
-    procedure cxLookupMerkKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure cxLookupMerchanGroupPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookupSubGroupPropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookupMerkPropertiesEditValueChanged(Sender: TObject);
+    procedure edtProductNamePropertiesEditValueChanged(Sender: TObject);
   private
     FModBarang: TModBarang;
     procedure ClearForm;
     procedure FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
+    function GetModBarang: TModBarang;
     procedure InitLookup;
+    procedure SaveData;
     procedure UpdateData;
     function ValidateData: Boolean;
-    property ModBarang: TModBarang read FModBarang write FModBarang;
+    property ModBarang: TModBarang read GetModBarang write FModBarang;
   public
+    procedure LoadData(AID: String);
     { Public declarations }
   published
   end;
@@ -110,16 +115,29 @@ var
 implementation
 
 uses
-  uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk;
+  uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk,
+  uModOutlet, uModRefPajak;
 
 {$R *.dfm}
+
+procedure TfrmDialogProduct.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModBarang);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
 
 procedure TfrmDialogProduct.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if not ValidateData then
-    exit;
-
+  SaveData;
 end;
 
 procedure TfrmDialogProduct.ClearForm;
@@ -154,26 +172,12 @@ begin
   FilterOtherLookup(cxLookupMerchan, cxLookupMerchanGroup);
 end;
 
-procedure TfrmDialogProduct.cxLookupMerkKeyUp(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
-var
-  frm: TfrmDialogMerk;
+procedure TfrmDialogProduct.cxLookupMerkPropertiesEditValueChanged(
+  Sender: TObject);
 begin
   inherited;
-  if Key = VK_F5 then
-  begin
-    frm := TfrmDialogMerk.Create(Application);
-    Try
-      if frm.ShowModal = mrOk then
-      begin
-        cxLookupMerk.LoadFromDS(DMClient.DSProviderClient.Merk_GetDSLookUp,
-          'MERK_ID', 'MERK_NAME' , ['MERK_ID'], Self);
-        cxLookupMerk.EditValue := frm.ModMerk.ID;
-      end;
-    Finally
-      frm.Free;
-    End;
-  end;
+  edtShortName.Text := cxLookupMerk.Text + ' ' + edtProductName.Text;
+  Self.OnEditValueChanged(cxLookupMerk);
 end;
 
 procedure TfrmDialogProduct.cxLookupSubGroupPropertiesEditValueChanged(
@@ -181,6 +185,13 @@ procedure TfrmDialogProduct.cxLookupSubGroupPropertiesEditValueChanged(
 begin
   inherited;
   FilterOtherLookup(cxLookupSubGroup, cxLookupKategori);
+end;
+
+procedure TfrmDialogProduct.edtProductNamePropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  edtShortName.Text := cxLookupMerk.Text + ' ' + edtProductName.Text;
 end;
 
 procedure TfrmDialogProduct.FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
@@ -221,6 +232,13 @@ begin
   edtProductCode.SetFocus;
 end;
 
+function TfrmDialogProduct.GetModBarang: TModBarang;
+begin
+  if not Assigned(FModBarang) then
+    FModBarang := TModBarang.Create;
+  Result := FModBarang;
+end;
+
 procedure TfrmDialogProduct.InitLookup;
 begin
   With DMClient.DSProviderClient do
@@ -228,7 +246,7 @@ begin
     cxLookupTipeBarang.LoadFromDS(RefTipeBarang_GetDSLookup,
       'REF$TIPE_BARANG_ID', 'TPBRG_NAME', ['REF$TIPE_BARANG_ID'], Self );
     cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,
-      'SAT_CODE', 'SAT_NAME', [], Self);
+      'ref$satuan_id', 'SAT_NAME', ['ref$satuan_id'], Self);
     cxLookupOutlet.LoadFromDS(Outlet_GetDSLookup,
       'REF$OUTLET_ID', 'OUTLET_NAME', ['REF$OUTLET_ID'], Self);
     cxLookupMerchan.LoadFromDS(Merchandise_GetDSLookup,
@@ -243,7 +261,7 @@ begin
       'REF$KATEGORI_ID','KAT_NAME' ,
       ['REF$KATEGORI_ID','REF$SUB_GRUP_ID'], Self);
     cxLookupLocation.LoadFromDS(Lokasi_GetDSLookup,
-      'LOK_CODE', 'LOK_NAME', [], Self);
+      'REF$LOKASI_ID', 'LOK_NAME', ['REF$LOKASI_ID'], Self);
     cxLookupJenisPajak.LoadFromDS(RefPajak_GetDSLookup,
       'REF$PAJAK_ID', 'PJK_NAME' , ['REF$PAJAK_ID'], Self);
     cxLookupMerk.LoadFromDS(Merk_GetDSLookUp,
@@ -258,16 +276,84 @@ begin
   //inisialisasi
 end;
 
+procedure TfrmDialogProduct.SaveData;
+begin
+  if not ValidateData then exit;
+  UpdateData;
+  Try
+    ModBarang.ID := DMClient.CrudClient.SaveToDBID(ModBarang);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
+  End;
+end;
+
 procedure TfrmDialogProduct.UpdateData;
 begin
-  ModBarang.BRG_CODE := edtProductCode.Text;
-  ModBarang.BRG_NAME := edtProductName.Text;
+  ModBarang.BRG_CODE          := edtProductCode.Text;
+  ModBarang.BRG_NAME          := edtProductName.Text;
+  ModBarang.BRG_CATALOG       := edtCatalog.Text;
+  ModBarang.BRG_ALIAS         := edtShortName.Text;
+  ModBarang.Merk              := TModMerk.CreateID(cxLookupMerk.EditValue);
+
+  ModBarang.SAFETY_STOCK      := edtSSBARANG.Value;
+  ModBarang.TipeBarang        := TModTipeBarang.CreateID(cxLookupTipeBarang.EditValue);
+  ModBarang.SATUAN_STOCK      := TModSatuan.CreateID(cxLookupSatuan.EditValue);
+  ModBarang.Outlet            := TModOutlet.CreateID(cxLookupOutlet.EditValue);
+  ModBarang.Lokasi            := TModlokasi.CreateID(cxLookupLocation.EditValue);
+  ModBarang.Merchandise       := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
+  ModBarang.MerchandiseGroup  := TModMerchandiseGroup.CreateID(cxLookupMerchanGroup.EditValue);
+  ModBarang.Kategori          := TModKategori.CreateID(cxLookupKategori.EditValue);
+  ModBarang.RefPajak          := TModRefPajak.CreateID(cxLookupJenisPajak.EditValue);
+  ModBarang.BRG_IS_CS         := TAppUtils.BoolToInt(cbStock.ItemIndex=1);
+  ModBarang.BRG_IS_STOCK      := TAppUtils.BoolToInt(cbStock.ItemIndex=0);
+
+  ModBarang.BRG_IS_ACTIVE       := TAppUtils.BoolToInt(cbActive.Checked);
+  ModBarang.BRG_IS_BASIC        := TAppUtils.BoolToInt(chkIsBasic.Checked);
+  ModBarang.BRG_IS_DECIMAL      := TAppUtils.BoolToInt(cbisDecimal.Checked);
+  ModBarang.BRG_IS_PJK_INCLUDE  := TAppUtils.BoolToInt(cbIsTaxInclude.Checked);
+  ModBarang.BRG_IS_DEPOSIT      := TAppUtils.BoolToInt(cbisDeposit.Checked);
+//  ModBarang.BRG_IS_BUILD        := TAppUtils.BoolToInt(chkIsBasic.Checked);
+  ModBarang.BRG_IS_DISC_GMC     := TAppUtils.BoolToInt(chkIsDiscAMC.Checked);
+  ModBarang.BRG_IS_GALON        := TAppUtils.BoolToInt(chkIsGalon.Checked);
+//  ModBarang.BRG_IS_VALIDATE     := TAppUtils.BoolToInt(chkIsBasic.Checked);
+
+end;
+
+procedure TfrmDialogProduct.LoadData(AID: String);
+begin
+  If Assigned(FModBarang) then FModBarang.Free;
+  FModBarang := DMClient.CrudClient.Retrieve(TModBarang.ClassName, aID) as TModBarang;
+  edtProductCode.Text             := ModBarang.BRG_CODE;
+  edtProductName.Text             := ModBarang.BRG_NAME;
+  edtCatalog.Text                 := ModBarang.BRG_CATALOG;
+  edtShortName.Text               := ModBarang.BRG_ALIAS;
+  edtSSBARANG.Value               := ModBarang.SAFETY_STOCK;
+  cxLookupMerk.EditValue          := ModBarang.Merk.ID;
+  cxLookupTipeBarang.EditValue    := ModBarang.TipeBarang.ID;
+  cxLookupSatuan.EditValue        := ModBarang.SATUAN_STOCK.ID;
+  cxLookupOutlet.EditValue        := ModBarang.Outlet.ID;
+  cxLookupLocation.EditValue      := ModBarang.Lokasi.ID;
+  cxLookupMerchan.EditValue       := ModBarang.Merchandise.ID;
+  cxLookupMerchanGroup.EditValue  := ModBarang.MerchandiseGroup.ID;
+  cxLookupKategori.EditValue      := ModBarang.Kategori.ID;
+  cxLookupJenisPajak.EditValue    := ModBarang.RefPajak.ID;
+  cbStock.ItemIndex               := ModBarang.BRG_IS_CS;
+  cbActive.Checked                := ModBarang.BRG_IS_ACTIVE = 1;
+  chkIsBasic.Checked              := ModBarang.BRG_IS_BASIC = 1;
+  cbisDecimal.Checked             := ModBarang.BRG_IS_DECIMAL = 1;
+  cbIsTaxInclude.Checked          := ModBarang.BRG_IS_PJK_INCLUDE = 1;
+  cbisDeposit.Checked             := ModBarang.BRG_IS_DEPOSIT = 1;
+  chkIsDiscAMC.Checked            := ModBarang.BRG_IS_DISC_GMC = 1;
+  chkIsGalon.Checked              := ModBarang.BRG_IS_GALON = 1;
 end;
 
 function TfrmDialogProduct.ValidateData: Boolean;
 begin
   Result := False;
-  ValidateEmptyCtrl([1]);
+  If not ValidateEmptyCtrl([1]) then exit;
   Result := True;
 end;
 

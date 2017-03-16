@@ -31,7 +31,6 @@ type
     actAlokasiStock: TAction;
     actSellingPrice: TAction;
     actProductTurunan: TAction;
-    lblInvalid: TcxLabel;
     tsProductInfo: TcxTabSheet;
     dxNavBarLeftSide: TdxNavBar;
     dxNavGroupSettingProduct: TdxNavBarGroup;
@@ -166,6 +165,7 @@ type
     btnValidateProduct: TcxButton;
     cbpProductCode: TcxButtonEdit;
     cbpCompCode: TcxExtLookupComboBox;
+    procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure actAddProductExecute(Sender: TObject);
@@ -185,6 +185,7 @@ type
     procedure actUomConversionExecute(Sender: TObject);
     procedure actBonusProductExecute(Sender: TObject);
     procedure actAlokasiStockExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
     procedure actSellingPriceExecute(Sender: TObject);
     procedure actProductTurunanExecute(Sender: TObject);
     procedure cbpProductCodePropertiesButtonClick(Sender: TObject;
@@ -207,6 +208,7 @@ type
     procedure SetLeftWidthSP;
     procedure SetXYSP;
   public
+    procedure RefreshData; override;
     procedure SetActiveFooter5Button(AIsActive: boolean);
     procedure SetLabel;
   end;
@@ -220,12 +222,18 @@ uses uTSCommonDlg,uConstanta, ufraBonusProduct, ufraAlokasiStock,
   ufraSellingPrice, ufraUOMConvertion, ufraStockCard, ufraProductSupplier,
   ufraProductTurunan, ufrmDialogProduct,
   uSpecialKey, ufraHistoriPOByProduct, uRetnoUnit,
-  udmMain, uAppUtils;
+  udmMain, uAppUtils, uDXUtils, uDMClient;
 
 {$R *.dfm}
 
 const aHeightSP : integer = 290;
       aMaxTop   : Integer = 50;
+
+procedure TfrmProduct.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogProduct);
+end;
 
 procedure TfrmProduct.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -238,6 +246,7 @@ procedure TfrmProduct.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'PRODUCT MASTER';
+  Self.AutoRefreshData := True;
 end;
 
 procedure TfrmProduct.GetStockUOMRP;
@@ -651,7 +660,7 @@ begin
   fedtStockRp.Value := 0;
   edtStockUOM.Clear;
 
-  lblInvalid.Visible := false;
+//  lblInvalid.Visible := false;
   lblValid.Visible := false;
 
   edtAuthorId.Clear;
@@ -901,6 +910,13 @@ begin
   ShowFormAlokasiStock;
 end;
 
+procedure TfrmProduct.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogProduct,
+    cxGridView.DS.FieldByName('Barang_ID').AsString);
+end;
+
 procedure TfrmProduct.actSellingPriceExecute(Sender: TObject);
 begin
   inherited;
@@ -911,6 +927,12 @@ procedure TfrmProduct.actProductTurunanExecute(Sender: TObject);
 begin
   inherited;
   ShowFormProductTurunan();
+end;
+
+procedure TfrmProduct.RefreshData;
+begin
+  inherited;
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Barang_GetDSOverview, Self);
 end;
 
 end.

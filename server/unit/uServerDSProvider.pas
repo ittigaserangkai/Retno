@@ -45,6 +45,7 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
+    function Barang_GetDSOverview: TDataSet;
 
 
   end;
@@ -229,7 +230,7 @@ function TDSProvider.Lokasi_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select LOK_NAME, LOK_CODE, LOK_DESCRIPTION'
+  S := 'select REF$LOKASI_ID, LOK_NAME, LOK_CODE, LOK_DESCRIPTION'
       +' from REF$LOKASI ORDER BY LOK_CODE';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -358,6 +359,27 @@ var
   S: string;
 begin
   S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION,AUT$APP_ID from AUT$APP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Barang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.BARANG_ID,'
+      +' A.BRG_CODE, A.BRG_CATALOG,'
+      +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
+      +' E.SUBGRUP_NAME, D.KAT_NAME, F.TPBRG_NAME, G.SAT_NAME, H.OUTLET_NAME'
+      +' FROM BARANG A'
+      +' LEFT JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
+      +' LEFT JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
+      +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
+      +' LEFT JOIN REF$TIPE_BARANG F ON A.REF$TIPE_BARANG_ID=F.REF$TIPE_BARANG_ID '
+      +' LEFT JOIN REF$SATUAN G ON G.REF$SATUAN_ID = A.REF$SATUAN_STOCK'
+      +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 

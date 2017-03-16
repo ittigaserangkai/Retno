@@ -8,10 +8,12 @@ uses
 
 type
   TAppUtils = class(TObject)
+  private
   public
     class function BacaRegistry(aNama: String; aPath : String = ''): string;
     class function BacaRegistry1(aNama: String; aPath : String = ''): string;
     class procedure BeginBusy;
+    class function BoolToInt(aBool: Boolean): Integer;
     class function BytesToStr(const Bytes: TBytes): string;
     class procedure cCloseWaitWindow;
     class procedure CheckDataNumeric(AKey : Char);
@@ -283,6 +285,11 @@ begin
     Screen.Cursor := crHourglass;
   end;
   Inc(BusyCount);
+end;
+
+class function TAppUtils.BoolToInt(aBool: Boolean): Integer;
+begin
+  if aBool then Result := 1 else Result := 0;
 end;
 
 class function TAppUtils.BytesToStr(const Bytes: TBytes): string;

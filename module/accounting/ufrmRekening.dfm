@@ -119,6 +119,7 @@ inherited frmRekening: TfrmRekening
     ExplicitWidth = 756
     inherited lblHeader: TLabel
       Width = 53
+      Height = 18
       Caption = 'ACCOUNT'
       ExplicitWidth = 53
     end
