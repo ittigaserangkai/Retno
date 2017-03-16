@@ -62,8 +62,11 @@ type
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
   public
+    function CDS: TClientDataSet;
+    function DS: TDataset;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent);
+    procedure SetDefaultValue;
     procedure SetMultiPurposeLookup;
   end;
 
@@ -102,7 +105,6 @@ type
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
     function DS: TDataset;
     function CDS: TClientDataSet;
-
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
@@ -139,10 +141,12 @@ type
 
   TFormHelper = class helper for TForm
   private
+    function IsComponentEmpty(aComp: TComponent): Boolean;
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     procedure AssignKeyDownEvent;
     procedure ClearByTag(Tag: TTag);
+    class procedure OnEditValueChanged(Sender: TObject);
   end;
 
 
@@ -471,7 +475,6 @@ begin
   FocusPopup         := True;
   DropDownAutoSize   := True;
   DropDownListStyle  := lsEditList;
-  FocusPopup         := True;
 
   If Self.View is TcxGridDBTableView then
   begin
@@ -479,6 +482,7 @@ begin
     Self.View.OptionsData.Inserting         := False;
     Self.View.OptionsData.Deleting          := False;
     Self.View.OptionsData.Appending         := False;
+    Self.PostPopupValueOnTab := True;
     Self.View.DataController.Filter.Options := [fcoCaseInsensitive];
 
     TcxGridDBTableView(Self.View).FilterRow.InfoText
@@ -1007,8 +1011,20 @@ begin
       If not Assigned(TcxTextEdit(C).OnKeyDown) then
         TcxTextEdit(C).OnKeyDown := OnKeyEnter;
     if C is TcxExtLookupComboBox then
+    begin
+      //bug: lookup standar, ketika user memilih dengan keyboard panah, lalu enter tidak ngefek
+      //bug: lookup generic / multipurpose harus enter 2x
+      //fix by this code :
+      //1st postpopupvalue must be active
+      TcxExtLookupComboBox(C).Properties.PostPopupValueOnTab := True;
+      //2nd utk generic lookup tambahkan editvaluechanged post tab agar fokus pindah dari view ke lookup
+      if TcxExtLookupComboBox(C).Properties.FocusPopup then
+        if not Assigned(TcxExtLookupComboBox(C).Properties.OnEditValueChanged) then
+          TcxExtLookupComboBox(C).Properties.OnEditValueChanged := OnEditValueChanged;
+      //3rd onEnter send tab key
       if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
-        TcxExtLookupComboBox(C).OnKeyDown := OnKeyEnter;
+        TcxExtLookupComboBox(C).OnKeyDown:= OnKeyEnter;
+    end;
     if C is TcxComboBox then
       if not Assigned(TcxComboBox(C).OnKeyDown) then
         TcxComboBox(C).OnKeyDown := OnKeyEnter;
@@ -1030,7 +1046,6 @@ begin
   begin
     C := Self.Components[i];
     if not (C.Tag in Tag) then continue;
-
     if C is TEdit then TEdit(C).Clear;
     if C is TcxTextEdit then TcxTextEdit(C).Clear;
     if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
@@ -1040,10 +1055,54 @@ begin
   end;
 end;
 
+function TFormHelper.IsComponentEmpty(aComp: TComponent): Boolean;
+begin
+  if aComp is TcxExtLookupComboBox then
+    Result := VarIsNull(TcxExtLookupComboBox(aComp).EditValue)
+  else if aComp is TcxComboBox then
+    Result := TcxComboBox(aComp).ItemIndex = -1
+  else if aComp is TComboBox then
+    Result := TComboBox(aComp).ItemIndex = -1
+  else if aComp is TcxTextEdit then
+    Result := TcxTextEdit(aComp).Text = ''
+  else if aComp is TEdit then
+    Result := TEdit(aComp).Text = ''
+  else if aComp is TcxSpinEdit then
+    Result := TcxSpinEdit(aComp).Value = 0
+  else if aComp is TcxCurrencyEdit then
+    Result := TcxCurrencyEdit(aComp).Value = 0
+  else
+    Result := False;
+end;
+
 procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
-  if Key = VK_RETURN then SelectNext(Screen.ActiveControl, True, True);
+  if Key = VK_RETURN then
+  begin
+    if Sender is TcxExtLookupComboBox then
+      Key := VK_TAB
+    else
+      SelectNext(Screen.ActiveControl, True, True);
+  end;
+end;
+
+class procedure TFormHelper.OnEditValueChanged(Sender: TObject);
+begin
+  if Sender is TcxExtLookupComboBox then Keybd_event(VK_TAB, 0, 0, 0);
+end;
+
+function TcxExtLookupComboHelper.CDS: TClientDataSet;
+begin
+  Result := TClientDataSet(Self.DS);
+end;
+
+function TcxExtLookupComboHelper.DS: TDataset;
+begin
+  if Assigned(TcxGridDBTableView(Self.Properties.View).DataController.DataSource ) then
+    Result := TcxGridDBTableView(Self.Properties.View).DataController.DataSource.DataSet
+  else
+    Result := nil;
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
@@ -1051,6 +1110,15 @@ procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
 begin
   Self.Properties.LoadFromDS(aDataSet, IDField, DisplayField,
     HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.SetDefaultValue;
+begin
+  Self.Clear;
+  if Self.DS <> nil then
+  begin
+    Self.EditValue := Self.DS.FieldByName(Self.Properties.KeyFieldNames).Value;
+  end;
 end;
 
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;

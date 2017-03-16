@@ -122,7 +122,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
         <DCCReference Include="unit\uServerClasses.pas"/>
-        <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
         <DCCReference Include="unit\ufrmGenerateModel.pas">
@@ -137,11 +136,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\lib\uDXUtils.pas">
             <Form>$R *.res</Form>
         </DCCReference>
-        <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
         <DCCReference Include="..\model\uModCostCenter.pas"/>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
+        <DCCReference Include="unit\uServerDSProvider.pas"/>
+        <DCCReference Include="..\model\uModCompany.pas"/>
+        <DCCReference Include="..\model\uModUnit.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>
@@ -191,7 +192,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
-                <DeployFile LocalName="js\CallbackFramework.js" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="js\base64.js" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -395,7 +396,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="js\base64.js" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="js\CallbackFramework.js" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

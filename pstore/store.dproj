@@ -96,9 +96,8 @@
             <Form>frmMain</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\login\ufrmLogin.pas">
+        <DCCReference Include="..\module\login\ufrmLogin.pas">
             <Form>frmLogin</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufraFooter1Button.pas">
             <Form>fraFooter1Button</Form>
@@ -168,119 +167,90 @@
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
-        <DCCReference Include="module\so\ufrmCreateSO.pas">
+        <DCCReference Include="..\module\so\ufrmCreateSO.pas">
             <Form>frmCreateSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\so\ufrmHistorySO.pas">
+        <DCCReference Include="..\module\so\ufrmHistorySO.pas">
             <Form>frmHistorySO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterBrowse.pas">
             <Form>frmMasterBrowse</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\so\ufrmDialogDetailSO.pas">
+        <DCCReference Include="..\module\so\ufrmDialogDetailSO.pas">
             <Form>frmDialogDetailSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\so\ufrmSearchSO.pas">
+        <DCCReference Include="..\module\so\ufrmSearchSO.pas">
             <Form>frmDialogSearchSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterDialogBrowse.pas">
             <Form>frmMasterDialogBrowse</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\uAppUtils.pas"/>
-        <DCCReference Include="module\so\ufrmDialogAddProductForSO.pas">
+        <DCCReference Include="..\module\so\ufrmDialogAddProductForSO.pas">
             <Form>frmDialogAddProductForSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\pho\module\product\ufrmSearchProduct.pas">
+        <DCCReference Include="..\module\product\ufrmSearchProduct.pas">
             <Form>frmDialogSearchProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmMemberShip.pas">
-            <Form>frmMemberShip</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmDialogMemberShip.pas">
+        <DCCReference Include="..\module\customer_support\ufrmDialogMemberShip.pas">
             <Form>frmDialogMemberShip</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmSearchCompanyMember.pas">
+        <DCCReference Include="..\module\customer_support\ufrmSearchCompanyMember.pas">
             <Form>frmDialogSearchCompanyMember</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmDialogFamilyMember.pas">
+        <DCCReference Include="..\module\customer_support\ufrmDialogFamilyMember.pas">
             <Form>frmDialogFamilyMember</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmSearchStatusKlrg.pas">
+        <DCCReference Include="..\module\customer_support\ufrmSearchStatusKlrg.pas">
             <Form>frmDialogSearchStatusKlrg</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmDialogPersonalMember.pas">
+        <DCCReference Include="..\module\customer_support\ufrmDialogPersonalMember.pas">
             <Form>frmDialogPersonalMember</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmSearchTypeMember.pas">
+        <DCCReference Include="..\module\customer_support\ufrmSearchTypeMember.pas">
             <Form>frmDialogSearchTypeMember</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmPopupFamilyMember.pas">
+        <DCCReference Include="..\module\customer_support\ufrmPopupFamilyMember.pas">
             <Form>frmPopupFamilyMember</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmPopupPersonalMember.pas">
+        <DCCReference Include="..\module\customer_support\ufrmPopupPersonalMember.pas">
             <Form>frmPopupPersonalMember</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\inventory\ufrmGudang.pas">
+        <DCCReference Include="..\module\inventory\ufrmGudang.pas">
             <Form>frmGudang</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\inventory\ufrmDialogGudang.pas">
+        <DCCReference Include="..\module\inventory\ufrmDialogGudang.pas">
             <Form>frmDialogGudang</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uInterface.pas"/>
-        <DCCReference Include="module\trader\ufrmTrader.pas">
+        <DCCReference Include="..\module\trader\ufrmTrader.pas">
             <Form>frmTrader</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\trader\ufrmDialogTrader.pas">
+        <DCCReference Include="..\module\trader\ufrmDialogTrader.pas">
             <Form>frmDialogTrader</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\trader\ufrmDialogPlafonTrader.pas">
+        <DCCReference Include="..\module\trader\ufrmDialogPlafonTrader.pas">
             <Form>frmDialogPlafonTrader</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\merchandise\ufrmSearchPO.pas">
+        <DCCReference Include="..\module\merchandise\ufrmSearchPO.pas">
             <Form>frmDialogSearchPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\trader\ufrmCrazyPrice.pas">
+        <DCCReference Include="..\module\trader\ufrmCrazyPrice.pas">
             <Form>frmCrazyPrice</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\trader\ufrmCrazyPriceDialog.pas">
+        <DCCReference Include="..\module\trader\ufrmCrazyPriceDialog.pas">
             <Form>frmCrazyPriceDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\trader\ufrmPOFromTrader.pas">
+        <DCCReference Include="..\module\trader\ufrmPOFromTrader.pas">
             <Form>ufrmPOFromTrader</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\trader\ufrmDialogPOFromTrader.pas">
+        <DCCReference Include="..\module\trader\ufrmDialogPOFromTrader.pas">
             <Form>frmDialogPOFromTrader</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\cashier_supv\ufrmDialogPrintKasirPreview.pas">
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas">
             <Form>frmDialogPrintKasirPreview</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uTemplatePrintText.pas"/>
         <DCCReference Include="..\system\uDMClient.pas">
@@ -289,6 +259,10 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\classes\uClientClasses.pas"/>
+        <DCCReference Include="..\module\customer_support\ufrmMemberShip.pas">
+            <Form>frmMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -321,12 +295,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -680,27 +669,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

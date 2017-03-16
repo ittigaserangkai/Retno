@@ -168,6 +168,15 @@ object frmMain: TfrmMain
       object ipeSuplier1: TMenuItem
         Action = actSupplierType
       end
+      object Company1: TMenuItem
+        Action = actCompany
+      end
+      object SalesOutlet1: TMenuItem
+        Action = actSalesOutlet
+      end
+      object UnitStore1: TMenuItem
+        Action = actUnitStore
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -249,6 +258,10 @@ object frmMain: TfrmMain
         Caption = 'Dialog Barang'
         OnClick = DialogBarang1Click
       end
+      object est2: TMenuItem
+        Caption = 'Test'
+        OnClick = est2Click
+      end
     end
   end
   object actlstMain: TActionList
@@ -324,10 +337,12 @@ object frmMain: TfrmMain
     object actSalesOutlet: TAction
       Category = 'References'
       Caption = 'Sales Outlet'
+      OnExecute = actSalesOutletExecute
     end
     object actUnitStore: TAction
       Category = 'References'
       Caption = 'Unit Store'
+      OnExecute = actUnitStoreExecute
     end
     object actCompanyType: TAction
       Category = 'References'
@@ -1107,6 +1122,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Merk'
       OnExecute = actMerkExecute
+    end
+    object actCompany: TAction
+      Category = 'References'
+      Caption = 'Company'
+      OnExecute = actCompanyExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents

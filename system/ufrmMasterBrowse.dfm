@@ -225,27 +225,23 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     ExplicitWidth = 701
     inherited pnlFooter: TPanel
       Width = 701
-      ExplicitTop = 21
       ExplicitWidth = 701
       inherited btnAdd: TcxButton
-        ExplicitLeft = 4
-        ExplicitTop = 4
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        ExplicitLeft = 80
-        ExplicitTop = 4
+        Action = actEdit
       end
       inherited btnPrint: TcxButton
-        ExplicitLeft = 264
+        Action = actPrint
       end
       inherited btnClose: TcxButton
         Left = 624
+        Action = actClose
+        ExplicitLeft = 624
       end
       inherited cxButton1: TcxButton
         Action = actExport
-        ExplicitLeft = 340
-        ExplicitTop = 4
-        ExplicitHeight = 27
       end
     end
     inherited pnlShortCut: TPanel
@@ -259,30 +255,37 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     end
   end
   object actlstBrowse: TActionList
+    Images = DMClient.imgListButton
     Left = 568
     Top = 152
     object actAdd: TAction
       Caption = 'A&dd'
+      ImageIndex = 2
       ShortCut = 16451
     end
     object actEdit: TAction
       Caption = '&Edit / Lihat'
+      ImageIndex = 10
       ShortCut = 16453
     end
     object actClose: TAction
       Caption = 'Close'
+      ImageIndex = 8
       OnExecute = actCloseExecute
     end
     object actPrint: TAction
       Caption = '&Print'
+      ImageIndex = 28
       ShortCut = 16464
     end
     object actRefresh: TAction
       Caption = '&Refresh'
+      ImageIndex = 30
       OnExecute = actRefreshExecute
     end
     object actExport: TAction
       Caption = 'E&xport'
+      ImageIndex = 34
       OnExecute = actExportExecute
     end
   end

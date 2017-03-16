@@ -8,7 +8,7 @@ uses
   System.Classes, Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxCheckBox, cxSpinEdit;
+  cxCheckBox, cxSpinEdit, uDMClient, uClientClasses;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -90,11 +90,12 @@ end;
 
 procedure TfrmMasterDialog.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_CLOSE) then
-  begin
-    Action := caNone;
-    exit;
-  end;
+// blocke dulu, ketika berhasil simpan langsung tutup seharusny tapi malah muncul confirm
+//  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_CLOSE) then
+//  begin
+//    Action := caNone;
+//    exit;
+//  end;
   inherited;
 end;
 

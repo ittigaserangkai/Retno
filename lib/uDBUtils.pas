@@ -25,8 +25,8 @@ type
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
-    class function DSToCDS(aDataset: TDataSet; aOwner: TComponent): TClientDataset;
-        overload;
+    class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
+        Boolean = True): TClientDataset; overload;
     class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
     class procedure TemporaryForHideWarning;
     class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
@@ -47,7 +47,7 @@ type
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
-    class function OpenQuery(ASQL : String): TFDQuery;
+    class function OpenQuery(ASQL: String; AOwner: TComponent = nil): TFDQuery;
     class procedure RollBack;
   end;
 
@@ -111,8 +111,8 @@ begin
 
 end;
 
-class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent):
-    TClientDataset;
+class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent;
+    FreeDataSet: Boolean = True): TClientDataset;
 var
   ADSP: TDataSetProvider;
 begin
@@ -124,6 +124,8 @@ begin
     ADSP.DataSet:= aDataset;
     Result.SetProvider(ADSP);
     Result.Open;
+
+    if FreeDataSet then aDataset.Free;
   end;
 end;
 
@@ -513,7 +515,7 @@ begin
 
   sSQL := 'select max(id) as ID from ' + AOBject.ClassName;
 
-  Q := TDBUtils.OpenQuery(sSQL);
+  Q := TDBUtils.OpenQuery(sSQL, nil);
   try
     while not Q.Eof do
     begin
@@ -611,7 +613,7 @@ var
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
-  Q := TDBUtils.OpenQuery(sSQL);
+  Q := TDBUtils.OpenQuery(sSQL, nil);
   SetFromDatast(AObject, Q);
 end;
 
@@ -622,7 +624,7 @@ var
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
-  Q := TDBUtils.OpenQuery(sSQL);
+  Q := TDBUtils.OpenQuery(sSQL, nil);
   SetFromDatast(AObject, Q);
 end;
 
@@ -688,7 +690,7 @@ begin
                 lAppObjectItem.Free;
                 //
 
-                QQ := TDBUtils.OpenQuery(sSQL);
+                QQ := TDBUtils.OpenQuery(sSQL, nil);
                 try
                   while not QQ.Eof do
                   begin
@@ -747,7 +749,7 @@ var
 begin
   Result := TFDMemTable.Create(nil);
 
-  Q := TDBUtils.OpenQuery(ASQL);
+  Q := TDBUtils.OpenQuery(ASQL, nil);
   try
     Q.FetchAll;
     Result.Data := Q.Data;
@@ -757,9 +759,10 @@ begin
   end;
 end;
 
-class function TDBUtils.OpenQuery(ASQL : String): TFDQuery;
+class function TDBUtils.OpenQuery(ASQL: String; AOwner: TComponent = nil):
+    TFDQuery;
 begin
-  Result := TFDQuery.Create(nil);
+  Result := TFDQuery.Create(AOwner);
   Result.Connection := FDConnection;
   Result.SQL.Text := ASQL;
   Result.Open;
