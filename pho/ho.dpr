@@ -146,12 +146,8 @@ uses
   uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
   uTSCommonDlg in '..\system\uTSCommonDlg.pas',
-  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
-  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher};
-
-ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
-  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
+  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer};
@@ -164,8 +160,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmVoucher, frmVoucher);
-  Application.CreateForm(TfrmVoucher, frmVoucher);
-  Application.CreateForm(TfrmDialogVoucher, frmDialogVoucher);
   Application.Run;
 end.
