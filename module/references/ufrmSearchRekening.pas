@@ -10,7 +10,7 @@ uses
   cxButtons, cxControls, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView,
-  cxGrid;
+  cxGrid, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TsearchRekMode = (mDebet,mCredit,mDisburstment,mReceipt,mJournalEntry,
@@ -76,8 +76,6 @@ var
   frmDialogSearchRekening: TfrmDialogSearchRekening;
 
 implementation
-
-//uses uSearchRekening,suithemes, uBarangCompetitor;
 
 {$R *.dfm}
 

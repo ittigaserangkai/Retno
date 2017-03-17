@@ -12,28 +12,28 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
   inherited pnlBody: TPanel
     Width = 677
     Height = 326
-    ExplicitWidth = 656
-    ExplicitHeight = 270
+    ExplicitWidth = 677
+    ExplicitHeight = 326
     inherited pgcBrowse: TcxPageControl
       Top = 129
       Width = 655
       Height = 135
       TabOrder = 2
-      ExplicitTop = 265
-      ExplicitWidth = 634
-      ExplicitHeight = 53
+      ExplicitTop = 129
+      ExplicitWidth = 655
+      ExplicitHeight = 135
       ClientRectBottom = 134
       ClientRectRight = 654
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 632
-        ExplicitHeight = 51
+        ExplicitWidth = 653
+        ExplicitHeight = 133
         inherited cxGrid: TcxGrid
           Width = 653
           Height = 133
-          ExplicitWidth = 632
-          ExplicitHeight = 51
+          ExplicitWidth = 653
+          ExplicitHeight = 133
           inherited cxGridView: TcxGridDBTableView
             object cxcolGridViewColumn1: TcxGridDBColumn
               Caption = 'SUPPLIER CODE'
@@ -66,7 +66,6 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       BorderWidth = 10
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 634
       object lbl1: TLabel
         Left = 8
         Top = 8
@@ -159,7 +158,6 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       Align = alBottom
       Color = 15198183
       TabOrder = 1
-      ExplicitWidth = 634
       object lbl5: TLabel
         Left = 16
         Top = 26
@@ -218,7 +216,7 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
   end
   inherited pnlHeader: TPanel
     Width = 677
-    ExplicitWidth = 656
+    ExplicitWidth = 677
     inherited lblHeader: TLabel
       Width = 90
       Caption = 'BARCODE USAGE'
@@ -226,37 +224,37 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
     end
     inherited lblFilterData: TcxLabel
       Left = 323
-      ExplicitLeft = 302
+      ExplicitLeft = 323
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 384
-      ExplicitLeft = 363
+      ExplicitLeft = 384
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 500
-      ExplicitLeft = 479
+      ExplicitLeft = 500
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 595
-      ExplicitLeft = 574
+      ExplicitLeft = 595
     end
     inherited lblsdFilter: TcxLabel
       Left = 476
-      ExplicitLeft = 455
+      ExplicitLeft = 476
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 359
     Width = 677
-    ExplicitTop = 303
-    ExplicitWidth = 656
+    ExplicitTop = 359
+    ExplicitWidth = 677
     inherited pnlFooter: TPanel
       Width = 677
-      ExplicitWidth = 656
+      ExplicitWidth = 677
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -269,7 +267,7 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       inherited btnClose: TcxButton
         Left = 600
         Action = actClose
-        ExplicitLeft = 579
+        ExplicitLeft = 600
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -277,10 +275,11 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
     end
     inherited pnlShortCut: TPanel
       Width = 677
-      ExplicitWidth = 656
+      ExplicitWidth = 677
       inherited lbEscape: TLabel
         Left = 603
         Height = 17
+        ExplicitLeft = 603
       end
     end
   end

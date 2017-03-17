@@ -104,7 +104,6 @@ inherited frmUnit: TfrmUnit
       ExplicitWidth = 771
       inherited lbEscape: TLabel
         Left = 697
-        Height = 17
         ExplicitLeft = 697
       end
     end

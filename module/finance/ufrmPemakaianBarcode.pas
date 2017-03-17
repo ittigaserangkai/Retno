@@ -70,8 +70,6 @@ type
       AItemIndex: Integer; ASelection: String);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure btnSaveEnter(Sender: TObject);
-    procedure btnSaveExit(Sender: TObject);
   private
     FStatusForm: TStatusForm;
     FIsProcessSuccessfull: Boolean;
@@ -392,7 +390,7 @@ var bResult, isError: Boolean;
 begin
   bResult := False;
   isError := False;
-  try
+  {try
     //lastNo := StrToInt(GetLastPotonganTagihanContrabonNO);
     lastNo := '';
     i := 1;
@@ -422,7 +420,7 @@ begin
        bResult := False;
        cRollbackTrans;
   end;
-
+  }
   Result := bResult;
 end;
 
@@ -438,18 +436,18 @@ begin
   cbbTipeSuplier.ItemIndex := -1;
   curredtHarga.Value := 0;
   edtDescription.Clear;
-  grdMain.ClearRows(1, grdMain.RowCount - 1);
-  grdMain.RowCount := 2;
+//  grdMain.ClearRows(1, grdMain.RowCount - 1);
+//  grdMain.RowCount := 2;
   intedtTotalQty.Value := 0;
   curredtTotalPrice.Value := 0;
 end;
 
 procedure TfrmPemakaianBarcode.ParseDataPotonganTagihanContrabonByDateAndType(
   ADate: TDateTime; AType: string);
-var dataPemakaianBarcode: TResultDataSet;
+var dataPemakaianBarcode: TDataSet;
     i: Integer;
 begin
-  dataPemakaianBarcode := GetListPemakaianBarcodeByDateAndSuplierType(MasterNewUnit.ID, AType, ADate);
+  {dataPemakaianBarcode := GetListPemakaianBarcodeByDateAndSuplierType(MasterNewUnit.ID, AType, ADate);
   dataPemakaianBarcode.Last;                       // GetListPotonganTagihanContrabonByDateAndType
   with grdMain do
   begin
@@ -501,6 +499,7 @@ begin
     AutoSize := True;
     FixedRows := 1;
   end;
+  }
 end;
 
 function TfrmPemakaianBarcode.UpdateDataPotonganTagihanContrabon: Boolean;
@@ -510,7 +509,7 @@ var
 begin
   isError := False;
   Result := False;
-  try
+  {try
     i := 1;
     while (i < grdMain.RowCount) and (not isError) do
     begin
@@ -565,6 +564,7 @@ begin
     Result := False;
     cRollbackTrans;
   end;
+  }
 end;
 
 procedure TfrmPemakaianBarcode.btnSaveClick(Sender: TObject);
@@ -577,13 +577,13 @@ begin
 
         if IsProcessSuccessfull then
         begin
-          cCommitTrans;
+//          cCommitTrans;
           CommonDlg.ShowMessage(CONF_ADD_SUCCESSFULLY);
           ClearComponent;
         end
         else
         begin
-          cRollbackTrans;
+//          cRollbackTrans;
           CommonDlg.ShowError(ER_INSERT_FAILED);
         end;
       end;
@@ -593,7 +593,7 @@ begin
 
         if IsProcessSuccessfull then
         begin
-          cCommitTrans;
+//          cCommitTrans;
           //aneh nih, abis nambah dr edit kok accessviolation. pk try jg ga iso
           CommonDlg.ShowMessage(CONF_EDIT_SUCCESSFULLY);
           //ShowMessage(CONF_EDIT_SUCCESSFULLY);
@@ -602,7 +602,7 @@ begin
         end
         else
         begin
-          cRollbackTrans;
+//          cRollbackTrans;
           CommonDlg.ShowError(ER_UPDATE_FAILED);
         end;
       end;
@@ -612,13 +612,13 @@ begin
   lblAddRow.Visible := False;
 
   btnSave.Enabled := False;
-  fraFooter5Button1.btnAdd.Enabled := True;
+  fraFooter4Button1.btnAdd.Enabled := True;
 end;
 
 procedure TfrmPemakaianBarcode.lblAddRowClick(Sender: TObject);
 begin
   inherited;
-  with grdMain do
+  {with grdMain do
   begin
       AddRow;
       Alignments[_Kol_QUANTITY, RowCount-1] := taRightJustify;
@@ -627,15 +627,17 @@ begin
       CellProperties[_Kol_SUPPLIER_NAME ,RowCount-1].BrushColor:= clInfoBk;
       CellProperties[_Kol_TOTAL_PRICE ,RowCount-1].BrushColor:= clInfoBk;
   end;
+  }
 end;
 
 procedure TfrmPemakaianBarcode.lblDeleteRowClick(Sender: TObject);
 begin
   inherited;
-  if (grdMain.RowCount > 2) then
+  {if (grdMain.RowCount > 2) then
     grdMain.RemoveSelectedRows
   else
     grdMain.ClearRows(1, grdMain.RowCount);
+    }
 end;
 
 procedure TfrmPemakaianBarcode.grdMainGetFloatFormat(Sender: TObject;
@@ -653,14 +655,6 @@ begin
   end
   else
     IsFloat := False;
-//  FloatFormat := '%0.2n';
-//  if ARow>0 then
-//  begin
-//    if (ACol in [_Kol_QUANTITY, _Kol_TOTAL_PRICE]) then
-//      IsFloat := True
-//    else
-//      IsFloat := False;
-//  end;
 end;
 
 procedure TfrmPemakaianBarcode.curredtHargaEnter(Sender: TObject);
@@ -675,26 +669,24 @@ begin
   inherited;
   if Key = VK_RETURN then
   begin
-//    grdMain.Col := 1;
-//    grdMain.Row := 1;
-    grdMain.SetFocus;
+    cxGrid.SetFocus;
   end;
 end;
 
 procedure TfrmPemakaianBarcode.FormShow(Sender: TObject);
 var
-  dataSet: TResultDataSet;
+  dataSet: TDataSet;
 begin
   inherited;
   cbbTipeSuplier.Clear;
-  dataSet := GetListTipeBarangContrabon(MasterNewUnit.ID);
+//  dataSet := GetListTipeBarangContrabon(MasterNewUnit.ID);
   dataSet.First;
   while not dataSet.Eof do
   begin
       cbbTipeSuplier.Items.Append(dataSet.Fields[0].AsString);
       dataSet.Next;
   end;
-  cbbKodeSuplier.Tag := -1;
+//  cbbKodeSuplier.Tag := -1;
 end;
 
 procedure TfrmPemakaianBarcode.grdMainComboChange(Sender: TObject; ACol,
@@ -703,18 +695,18 @@ begin
   inherited;
   if ACol = _Kol_SUPPLIER_CODE then //kasih nama sup
   begin
-       grdMain.Cells[_Kol_SUPPLIER_NAME, ARow] := cbbNamaSupplier.Items[AItemIndex];
+//       grdMain.Cells[_Kol_SUPPLIER_NAME, ARow] := cbbNamaSupplier.Items[AItemIndex];
   end;
   if ACol = _Kol_SUPPLIER_NAME then //kasih kode
   begin
-       grdMain.Cells[_Kol_SUPPLIER_CODE, ARow] := cbbKodeSuplier.Items[AItemIndex];
+//       grdMain.Cells[_Kol_SUPPLIER_CODE, ARow] := cbbKodeSuplier.Items[AItemIndex];
   end;
 end;
 
 procedure TfrmPemakaianBarcode.FormCreate(Sender: TObject);
 begin
   inherited;
-  FNewPotTagContrabon := TNewPotTagihanContrabon.CreateWithUser(Self, FLoginId, FLoginUnitId);
+//  FNewPotTagContrabon := TNewPotTagihanContrabon.CreateWithUser(Self, FLoginId, FLoginUnitId);
 
 end;
 
@@ -722,18 +714,6 @@ procedure TfrmPemakaianBarcode.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmPemakaianBarcode := nil;
-end;
-
-procedure TfrmPemakaianBarcode.btnSaveEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmPemakaianBarcode.btnSaveExit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
 end;
 
 end.

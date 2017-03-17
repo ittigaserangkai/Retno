@@ -79,7 +79,7 @@ begin
     if not Assigned(frmDialogLokasi) then
       Application.CreateForm(TfrmDialogLokasi, frmDialogLokasi);
 
-  {  frmDialogLokasi.frmSuiMasterDialog.Caption := 'Edit Location';
+  {  frmDialogLokasi.Caption := 'Edit Location';
    frmDialogLokasi.FormMode    := fmEdit;
     frmDialogLokasi.LokasiCode  := strgGrid.Cells[0,strgGrid.Row];
     frmDialogLokasi.code        := strgGrid.Cells[0,strgGrid.Row];
