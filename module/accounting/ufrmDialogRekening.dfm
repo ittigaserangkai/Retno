@@ -161,33 +161,47 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 476
       ExplicitWidth = 476
       inherited btnClose: TcxButton
-        Left = 394
-        ExplicitLeft = 394
+        Left = 399
+        Action = actCancel
+        ExplicitLeft = 399
       end
       inherited btnSave: TcxButton
-        Left = 308
+        Left = 306
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 308
+        ExplicitLeft = 306
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+        Visible = False
       end
     end
     inherited pnlSortCut: TPanel
       Width = 476
       ExplicitWidth = 476
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 301
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 392
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
+        Visible = False
+        ExplicitLeft = 3
+        ExplicitTop = 2
+        ExplicitHeight = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      Enabled = False
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

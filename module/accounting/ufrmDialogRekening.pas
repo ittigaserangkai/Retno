@@ -9,11 +9,11 @@ uses
   cxEdit, cxMaskEdit, cxButtonEdit, cxTextEdit, cxCurrencyEdit, uClientClasses,
   uModRekening,  uDMClient, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, uDbutils, DBClient, Vcl.Samples.Spin,
-  cxSpinEdit, ufraFooterDialog3Button, System.Actions, Vcl.ActnList;
+  cxSpinEdit, ufraFooterDialog3Button, System.Actions, Vcl.ActnList, uInterface;
 
 type
   TStatusForm = (frNew, frEdit);
-  TfrmDialogRekening = class(TfrmMasterDialog)
+  TfrmDialogRekening = class(TfrmMasterDialog, iCrudable)
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
@@ -31,6 +31,8 @@ type
     dbParentCode: TcxExtLookupComboBox;
     intedtLevel: TcxSpinEdit;
     dbAccountGroup: TcxExtLookupComboBox;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -45,7 +47,6 @@ type
       Shift: TShiftState);
     procedure chkIsDebetKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure edbParentCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edbParentCodeClickBtn(Sender: TObject);
@@ -101,9 +102,31 @@ var
 
 implementation
 
-uses  uConstanta, uTSCommonDlg, uRetnoUnit, DB, StrUtils, uAppUtils, uDXUtils;
+uses  uConstanta, uTSCommonDlg, uRetnoUnit, DB, StrUtils, uAppUtils, uDXUtils,
+  ufrmProductType;
 
 {$R *.dfm}
+
+procedure TfrmDialogRekening.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.ConfirmHapus then Exit;
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModRekening);
+    Self.ModalResult := mrOK;
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+  Except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    Raise
+  End;
+  Self.Close;
+end;
+
+procedure TfrmDialogRekening.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  SimpanData();
+end;
 
 procedure TfrmDialogRekening.FormCreate(Sender: TObject);
 begin
@@ -264,176 +287,6 @@ begin
   inherited;
   if (Key = VK_RETURN) then
     chkIsLeaf.SetFocus;
-end;
-
-procedure TfrmDialogRekening.footerDialogMasterbtnSaveClick(
-  Sender: TObject);
-//var
-//  iRekParentCompID: Integer;
-//  isLeaf  : Integer;
-//  IsDebet : Integer;
-//  IsGroup : Integer;
-//  Rekening: TMasterRekening;
-//  S      : string;
-//  pDiv   : Integer;
-//  pDetail: Integer;
-//  sSql   : string;
-begin
-  inherited;
-  SimpanData();
-  Self.Close;
-//  {case StatusForm of
-//    frNew:
-//    begin
-//      IsProcessSuccesfull := SaveDataRekening;
-//
-//      if IsProcessSuccesfull then
-//        Close
-//      else
-//        CommonDlg.ShowError(ER_INSERT_FAILED);
-//    end;
-//    frEdit:
-//    begin
-//      IsProcessSuccesfull := UpdateDataRekening;
-//
-//      if IsProcessSuccesfull then
-//        Close
-//      else
-//        CommonDlg.ShowError(ER_UPDATE_FAILED);
-//    end;
-//  end; }
-//
-//  try
-//    ChekEmptyValue;
-//    IsProcessSuccesfull := False;
-//
-//    Self.Enabled := False;
-//
-////    Rekening := TMasterRekening.Create(nil);
-//
-////    KodeGrupRekId := cGetIDfromCombo(cmbAccountType, cmbAccountType.ItemIndex);
-//
-//    if chkIsDebet.Checked then IsDebet := 1
-//    else IsDebet := 0;
-//
-//    if chkIsLeaf.Checked then isLeaf := 1
-//    else isLeaf := 0;
-//
-//    IsGroup := 0 ;
-//    if chkBS.Checked then IsGroup := 1;
-//    if chkPL.Checked then IsGroup := 2;
-//
-//
-//
-//    if intedtLevel.Value = 0 then iRekParentCompID := 0
-//    else iRekParentCompID := DialogCompany;
-
-//    Rekening.UpdateData(FLoginId, FLoginId,
-//                        edtRekCode.Text, DialogCompany,
-//                        edtDescription.Text, DialogCompany, KodeGrupRekId,
-//                        IsDebet, isLeaf, intedtLevel.Value, edtRekName.Text,
-//                        edbParentCode.Text, iRekParentCompID, Isgroup);
-
-//    if Rekening.ExecuteGenerateSQL(RekCode) then
-//    begin
-//      cCommitTrans;
-//      FIsProcessSuccesfull := True;
-//    end
-//    else
-//    begin
-//      cRollbackTrans;
-//      FIsProcessSuccesfull := False;
-//    end;
-//
-//    if (LeftStr(edtRekCode.Text,1) = '1') or (LeftStr(edtRekCode.Text,1) = '4') or (LeftStr(edtRekCode.Text,1) = '7') then
-//        pDiv := 0
-//    else
-//        pDiv := 1;
-//
-//    if isLeaf = 1 then
-//        pDetail := 0
-//    else
-//        pDetail := 1;
-//
-////
-//    IF IsGroup = 1 then
-//      begin
-//        sSql := 'SELECT * FROM REKENING_BS WHERE REKBS_CODE = ' + Quot(Rekening.REK_CODE) + ' AND  REKBS_COMP_ID = ' + IntToStr( Rekening.REK_COMP_ID);
-//        with cOpenQuery(sSQL) do
-//        begin
-//          try
-//             if not FieldByName('REKBS_CODE').IsNull then
-//              begin
-//                HapusRekIfada('PL', Rekening.GetHeaderFlag);
-//                S := 'update REKENING_BS set '
-//                + ' OP_MODIFY = ' + IntToStr( FLoginId) + ','
-//                + ' REKBS_DIVISION = ' + IntToStr( pDiv) + ','
-//                + ' REKBS_IS_HEADER =' + IntToStr( pDetail) + ','
-//                + ' REKBS_IS_SUB_TOTAL =' + IntToStr( pDetail)
-//                + ' WHERE REKBS_CODE = ' + Quot(Rekening.REK_CODE) + ' AND  REKBS_COMP_ID = ' + IntToStr( Rekening.REK_COMP_ID) + ';';
-//              end
-//            else
-//              S := 'Insert into REKENING_BS ( OP_CREATE, REKBS_CODE, REKBS_COMP_ID,REKBS_DIVISION,REKBS_IS_HEADER,REKBS_IS_SUB_TOTAL ) values ('
-//              + IntToStr( FLoginId) + ', '
-//              + Quot(Rekening.REK_CODE) + ','
-//              + IntToStr( Rekening.REK_COMP_ID) + ','
-//              + IntToStr( pDiv) + ','
-//              + IntToStr( pDetail) + ','
-//              + IntToStr( pDetail) + ');';
-//          finally
-//            Free;
-//          end;
-//        end;
-//      end
-//    else IF IsGroup = 2 Then
-//      begin
-//
-//        sSql := 'SELECT * FROM REKENING_PL WHERE REKPL_CODE = ' + Quot(Rekening.REK_CODE) + ' AND  REKPL_COMP_ID = ' + IntToStr( Rekening.REK_COMP_ID);
-//          with cOpenQuery(sSQL) do
-//          begin
-//            try
-//              if not FieldByName('REKPL_CODE').IsNull then
-//               begin
-//                HapusRekIfada('BS', Rekening.GetHeaderFlag);
-//                S := 'update REKENING_PL set '
-//                + ' OP_MODIFY = ' + IntToStr( FLoginId) + ','
-//                + ' REKPL_CODE = ' + Quot(Rekening.REK_CODE) + ','
-//                + ' REKPL_COMP_ID = ' + IntToStr( Rekening.REK_COMP_ID) + ','
-//                + ' REKPL_DIVISION = ' + IntToStr( pDiv) + ','
-//                + ' REKPL_IS_HEADER =' + IntToStr( pDetail) + ','
-//                + ' REKPL_IS_SUB_TOTAL =' + IntToStr( pDetail)
-//                + ' WHERE REKPL_CODE = ' + Quot(Rekening.REK_CODE) + ' AND  REKPL_COMP_ID = ' + IntToStr( Rekening.REK_COMP_ID) + ';';
-//               end
-//             else
-//              S := 'Insert into REKENING_PL ( OP_CREATE, REKPL_CODE, REKPL_COMP_ID,REKPL_DIVISION,REKPL_IS_HEADER,REKPL_IS_SUB_TOTAL ) values ('
-//              + IntToStr( FLoginId) + ', '
-//              + Quot(Rekening.REK_CODE) + ','
-//              + IntToStr( Rekening.REK_COMP_ID) + ','
-//              + IntToStr( pDiv) + ','
-//              + IntToStr( pDetail) + ','
-//              + IntToStr( pDetail) + ');';
-//          finally
-//            Free;
-//          end;
-//
-//       end;
-//      end;
-//
-//    if not cExecSQL(S, False, Rekening.GetHeaderFlag) then
-//    begin
-//      CommonDlg.ShowError('Data BS / PL Gagal Disimpan');
-//      cRollbackTrans;
-////      Exit;
-////    end
-////    else
-////      cCommitTrans;
-//
-//
-//  finally
-//    Self.Enabled := True;
-////    if Rekening <> Nil Then FreeAndNil(Rekening);
-//    if FIsProcessSuccesfull then Close;
-//  end;
 end;
 
 function TfrmDialogRekening.ChekEmptyValue: Boolean;
@@ -619,6 +472,7 @@ begin
   try
     Crud.SaveToDB(MODRekening);
     TAppUtils.Information('Simpan Berhasil.');
+    ModalResult := mrOK;
   except
     TAppUtils.Error('Gagal Menyimpan Data.');
     Raise

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/15/2017 4:17:20 PM
+// 03/16/17 4:46:51 PM
 //
 
 unit uClientClasses;
@@ -134,6 +134,8 @@ type
     FApp_GetDSLookUpCommand_Cache: TDSRestCommand;
     FApp_GetDSOverviewCommand: TDSRestCommand;
     FApp_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBarang_GetDSOverviewCommand: TDSRestCommand;
+    FBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -208,6 +210,8 @@ type
     function App_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function App_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function App_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Barang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Barang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -641,6 +645,16 @@ const
   );
 
   TDSProvider_App_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Barang_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Barang_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -1975,6 +1989,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FApp_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Barang_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FBarang_GetDSOverviewCommand = nil then
+  begin
+    FBarang_GetDSOverviewCommand := FConnection.CreateCommand;
+    FBarang_GetDSOverviewCommand.RequestType := 'GET';
+    FBarang_GetDSOverviewCommand.Text := 'TDSProvider.Barang_GetDSOverview';
+    FBarang_GetDSOverviewCommand.Prepare(TDSProvider_Barang_GetDSOverview);
+  end;
+  FBarang_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarang_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarang_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Barang_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarang_GetDSOverviewCommand_Cache = nil then
+  begin
+    FBarang_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FBarang_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FBarang_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Barang_GetDSOverview';
+    FBarang_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Barang_GetDSOverview_Cache);
+  end;
+  FBarang_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarang_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -2057,6 +2100,8 @@ begin
   FApp_GetDSLookUpCommand_Cache.DisposeOf;
   FApp_GetDSOverviewCommand.DisposeOf;
   FApp_GetDSOverviewCommand_Cache.DisposeOf;
+  FBarang_GetDSOverviewCommand.DisposeOf;
+  FBarang_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

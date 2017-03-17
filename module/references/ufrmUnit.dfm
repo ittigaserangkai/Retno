@@ -44,9 +44,9 @@ inherited frmUnit: TfrmUnit
     Width = 771
     ExplicitWidth = 771
     inherited lblHeader: TLabel
-      Width = 24
-      Caption = 'UNIT'
-      ExplicitWidth = 24
+      Width = 62
+      Caption = 'UNIT STORE'
+      ExplicitWidth = 62
     end
     inherited lblFilterData: TcxLabel
       Left = 417

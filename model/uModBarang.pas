@@ -3,7 +3,7 @@ unit uModBarang;
 interface
 
 uses
-  uModApp, uModRefPajak, uModAuthApp, uModSatuan;
+  uModApp, uModRefPajak, uModAuthApp, uModSatuan, uModOutlet;
 
 type
   TModMerchandise = class(TModApp)
@@ -91,25 +91,13 @@ type
         FMERK_DESCRIPTION;
   end;
 
-type
-  TModOutlet = class(TModApp)
-  private
-    FOUTLET_CODE: string;
-    FOUTLET_NAME: string;
-    FOUTLET_DESCRIPTION: string;
+  TModLokasi = class(TModApp)
   public
-    class function GetTableName: String; override;
-  published
-    property OUTLET_CODE: string read FOUTLET_CODE write FOUTLET_CODE;
-    property OUTLET_NAME: string read FOUTLET_NAME write FOUTLET_NAME;
-    property OUTLET_DESCRIPTION: string read FOUTLET_DESCRIPTION write
-        FOUTLET_DESCRIPTION;
+    class function GetTableName: string; override;
   end;
 
   TModBarang = class(TModApp)
   private
-    FAUTHOR_ID: String;
-    FPUBLISHER_ID: String;
     FBRG_CODE: String;
     FBRG_NAME: String;
     FBRG_ALIAS: String;
@@ -130,12 +118,10 @@ type
     FBRG_IS_DISC_GMC: Integer;
     FBRG_IS_GALON: Integer;
     FBRG_IS_PJK_INCLUDE: Integer;
-    FBRG_IS_STOCK: String;
+    FBRG_IS_STOCK: Integer;
     FBRG_IS_VALIDATE: Integer;
     FBRG_LASTCOST: Double;
     FBRG_LENGTH: string;
-    FBRG_LOK_CODE: string;
-    FBRG_NAME5: String;
     FBRG_NILAI_RAFAKSI: Double;
     FBRG_PKM_AVERAGE: String;
     FBRG_QTY_RAFAKSI: Double;
@@ -149,15 +135,13 @@ type
     FKategori: TModKategori;
     FMerk: TModMerk;
     FOutlet: TModOutlet;
+    FLokasi: TModLokasi;
     FRefPajak: TModRefPajak;
     FSAFETY_STOCK: Double;
     FTipeBarang: TModTipeBarang;
-    FValidate_User: TModAuthUser;
   public
     class function GetTableName: string; override;
   published
-    property AUTHOR_ID: String read FAUTHOR_ID write FAUTHOR_ID;
-    property PUBLISHER_ID: String read FPUBLISHER_ID write FPUBLISHER_ID;
     property BRG_CODE: String read FBRG_CODE write FBRG_CODE;
     property BRG_NAME: String read FBRG_NAME write FBRG_NAME;
     property BRG_ALIAS: String read FBRG_ALIAS write FBRG_ALIAS;
@@ -183,12 +167,10 @@ type
     property BRG_IS_GALON: Integer read FBRG_IS_GALON write FBRG_IS_GALON;
     property BRG_IS_PJK_INCLUDE: Integer read FBRG_IS_PJK_INCLUDE write
         FBRG_IS_PJK_INCLUDE;
-    property BRG_IS_STOCK: String read FBRG_IS_STOCK write FBRG_IS_STOCK;
+    property BRG_IS_STOCK: Integer read FBRG_IS_STOCK write FBRG_IS_STOCK;
     property BRG_IS_VALIDATE: Integer read FBRG_IS_VALIDATE write FBRG_IS_VALIDATE;
     property BRG_LASTCOST: Double read FBRG_LASTCOST write FBRG_LASTCOST;
     property BRG_LENGTH: string read FBRG_LENGTH write FBRG_LENGTH;
-    property BRG_LOK_CODE: string read FBRG_LOK_CODE write FBRG_LOK_CODE;
-    property BRG_NAME5: String read FBRG_NAME5 write FBRG_NAME5;
     property BRG_NILAI_RAFAKSI: Double read FBRG_NILAI_RAFAKSI write
         FBRG_NILAI_RAFAKSI;
     property BRG_PKM_AVERAGE: String read FBRG_PKM_AVERAGE write FBRG_PKM_AVERAGE;
@@ -211,14 +193,16 @@ type
     property Merk: TModMerk read FMerk write FMerk;
     [AttributeOfForeign('REF$OUTLET_ID')]
     property Outlet: TModOutlet read FOutlet write FOutlet;
+    [AttributeOfForeign('REF$Lokasi_ID')]
+    property Lokasi: TModLokasi read FLokasi write FLokasi;
     [AttributeOfForeign('REF$PAJAK_ID')]
     property RefPajak: TModRefPajak read FRefPajak write FRefPajak;
     property SAFETY_STOCK: Double read FSAFETY_STOCK write FSAFETY_STOCK;
     [AttributeOfForeign('REF$TIPE_BARANG_ID')]
     property TipeBarang: TModTipeBarang read FTipeBarang write FTipeBarang;
-    [AttributeOfForeign('BRG_VALIDATE_USR_ID')]
-    property Validate_User: TModAuthUser read FValidate_User write FValidate_User;
   end;
+
+
 
 implementation
 
@@ -253,14 +237,14 @@ begin
   Result := 'MERK';
 end;
 
-class function TModOutlet.GetTableName: String;
-begin
-  Result := 'REF$OUTLET';
-end;
-
 class function TModBarang.GetTableName: string;
 begin
   Result := 'BARANG';
+end;
+
+class function TModLokasi.GetTableName: string;
+begin
+  Result := 'REF$LOKASI';
 end;
 
 initialization
@@ -270,7 +254,8 @@ initialization
   TModKategori.RegisterRTTI;
   TModTipeBarang.RegisterRTTI;
   TModMerk.RegisterRTTI;
-
+  TModLokasi.RegisterRTTI;
+  TModBarang.RegisterRTTI;
 
 
 end.

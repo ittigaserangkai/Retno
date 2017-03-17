@@ -1087,8 +1087,8 @@ begin
       iTabOrd := EmptyCtrl.TabOrder;
     end;
   end;
-  Result := EmptyCtrl <> nil;
-  if (Result) and (ShowWarning) then
+  Result := EmptyCtrl = nil;
+  if (not Result) and (ShowWarning) then
   begin
     if EmptyCtrl.HelpKeyword <> '' then
       sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
@@ -1109,6 +1109,10 @@ begin
       Key := VK_TAB
     else
       SelectNext(Screen.ActiveControl, True, True);
+  end else if Key = VK_F5 then
+  begin
+//    if Sender is TcxExtLookupComboBox then
+//      TcxExtLookupComboBox(Sender).Properties.OnPopup(Sender); ;
   end;
 end;
 
@@ -1149,6 +1153,7 @@ procedure TcxExtLookupComboHelper.SetDefaultValue(TriggerEvents: Boolean =
 var
   OnEditValChanged: TNotifyEvent;
 begin
+  OnEditValChanged := nil;
   if not TriggerEvents then
   begin
     if Assigned(Self.Properties.OnEditValueChanged) then
