@@ -269,7 +269,7 @@ procedure TCommonDlg.ShowInformationAlert(pCaption, pMessage: string; pIcon:
     TMsgDlgType);
 begin
   InitiateAlertProperties(pIcon, pCaption);
-  NewAlert(pCaption, pMessage + ER_EXIST);
+  NewAlert(pCaption, pMessage {+ ER_EXIST});
 end;
 
 initialization

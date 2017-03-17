@@ -277,6 +277,7 @@ type
     Company1: TMenuItem;
     SalesOutlet1: TMenuItem;
     UnitStore1: TMenuItem;
+    Lokasi1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -473,7 +474,7 @@ end;
 
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
-    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+ frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);

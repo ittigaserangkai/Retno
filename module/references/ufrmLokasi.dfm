@@ -11,99 +11,93 @@ inherited frmLokasi: TfrmLokasi
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 540
-    Height = 255
-    ExplicitWidth = 120
-    ExplicitHeight = 247
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 11
+    Height = 252
+    ExplicitWidth = 540
+    ExplicitHeight = 252
+    inherited pgcBrowse: TcxPageControl
       Width = 518
-      Height = 233
-      Align = alClient
-      TabOrder = 0
-      ExplicitLeft = 112
-      ExplicitTop = 120
-      ExplicitWidth = 250
-      ExplicitHeight = 200
-      object cxGridViewLocation: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-      end
-      object cxGridLevel1: TcxGridLevel
-        GridView = cxGridViewLocation
+      Height = 230
+      ExplicitWidth = 518
+      ExplicitHeight = 230
+      ClientRectBottom = 229
+      ClientRectRight = 517
+      inherited tsBrowse: TcxTabSheet
+        inherited cxGrid: TcxGrid
+          Width = 516
+          Height = 228
+          ExplicitWidth = 516
+          ExplicitHeight = 228
+        end
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 540
-    ExplicitWidth = 120
+    ExplicitWidth = 540
+    inherited lblFilterData: TcxLabel
+      Left = 186
+      ExplicitLeft = 186
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 247
+      ExplicitLeft = 247
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 363
+      ExplicitLeft = 363
+    end
+    inherited btnSearch: TcxButton
+      Left = 458
+      ExplicitLeft = 458
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 339
+      ExplicitLeft = 339
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 285
     Width = 540
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 285
+    ExplicitWidth = 540
     inherited pnlFooter: TPanel
       Width = 540
-      ExplicitWidth = 120
-      inherited btnClose: TcxButton
-        Left = 458
-        ExplicitLeft = 38
-      end
+      ExplicitWidth = 540
       inherited btnAdd: TcxButton
-        Action = actAddLokasi
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Left = 91
-        Action = actEditLokasi
-        ExplicitLeft = 91
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteLokasi
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshLokasi
+      inherited btnClose: TcxButton
+        Left = 463
+        Action = actClose
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 540
-      ExplicitWidth = 120
-      inherited lbl5: TLabel
-        Left = 450
-        ExplicitLeft = 452
+      ExplicitWidth = 540
+      inherited lbEscape: TLabel
+        Left = 466
+        Height = 17
+        ExplicitLeft = 466
       end
     end
   end
-  object actlstLokasi: TActionList
-    Left = 440
-    Top = 16
-    object actAddLokasi: TAction
-      Caption = 'Add'
-      OnExecute = actAddLokasiExecute
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditLokasi: TAction
-      Caption = 'Edit'
-      OnExecute = actEditLokasiExecute
-    end
-    object actDeleteLokasi: TAction
-      Caption = 'Delete'
-      OnExecute = actDeleteLokasiExecute
-    end
-    object actRefreshLokasi: TAction
-      Caption = 'Refresh'
-      OnExecute = actRefreshLokasiExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

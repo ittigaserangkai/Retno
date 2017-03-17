@@ -230,7 +230,8 @@ function TDSProvider.Lokasi_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select REF$LOKASI_ID, LOK_NAME, LOK_CODE, LOK_DESCRIPTION'
+  S := 'select REF$LOKASI_ID, LOK_NAME, LOK_CODE, LOK_DESCRIPTION,'
+      +' LOK_RACK, LOK_BAY, LOK_SHELVE, LOK_POSITION, LOK_TYPE'
       +' from REF$LOKASI ORDER BY LOK_CODE';
   Result := TDBUtils.OpenQuery(S);
 end;

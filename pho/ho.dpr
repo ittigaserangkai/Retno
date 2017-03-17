@@ -21,7 +21,6 @@ uses
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmPajak in '..\module\references\ufrmPajak.pas' {frmPajak},
   ufrmDialogPajak in '..\module\references\ufrmDialogPajak.pas' {frmDialogPajak},
-  uTSCommonDlg in '..\system\uTSCommonDlg.pas',
   uCompany in '..\classes\uCompany.pas',
   uTSBaseClass in '..\classes\uTSBaseClass.pas',
   uUnit in '..\classes\uUnit.pas',
@@ -145,7 +144,8 @@ uses
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
   uModUnit in '..\model\uModUnit.pas',
-  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet};
+  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
+  uTSCommonDlg in '..\system\uTSCommonDlg.pas';
 
 {$R *.res}
 

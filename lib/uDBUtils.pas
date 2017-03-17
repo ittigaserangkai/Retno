@@ -4,14 +4,14 @@ interface
 uses
   System.Rtti, typinfo, SysUtils, StrUtils,
   Forms, DBClient,
-  Provider, uAppUtils, Generics.Collections, System.Classes, StdCtrls,
+  Provider, Generics.Collections, System.Classes, StdCtrls,
   FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
   FireDAC.Phys.PG, FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.ODBCBase,
   FireDAC.Phys.MSSQL, Data.DB, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDac.Dapt,
-  uModApp, uModTest;
+  uModApp, uModTest, uTSINIFile;
 
 type
   TDBUtils = class(TObject)
@@ -99,12 +99,12 @@ begin
   FDConnection.Connected := True;
   if FDConnection.Connected then
   begin
-    TAppUtils.TulisRegistry('Engine', ADBEngine);
-    TAppUtils.TulisRegistry('server', AServer);
-    TAppUtils.TulisRegistry('Database', ADatabase);
-    TAppUtils.TulisRegistry('User_Name', AUser);
-    TAppUtils.TulisRegistry('Password', APassword);
-    TAppUtils.TulisRegistry('Port', APort);
+    TulisRegistry('Engine', ADBEngine);
+    TulisRegistry('server', AServer);
+    TulisRegistry('Database', ADatabase);
+    TulisRegistry('User_Name', AUser);
+    TulisRegistry('Password', APassword);
+    TulisRegistry('Port', APort);
 
     Result := True;
   end;
@@ -188,7 +188,7 @@ begin
     If not Result then Result := True;
   except
     Self.RollBack;
-    Q.SQL.SaveToFile(TAppUtils.GetAppPath + '\FailedExecution.log');
+    Q.SQL.SaveToFile(ExtractFilePath(ParamStr(0)) + '\FailedExecution.log');
     raise;
   end;
   FreeAndNIl(Q);

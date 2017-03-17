@@ -69,9 +69,8 @@ implementation
 {$R *.dfm}
 
 uses
-  WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils, uAppUtils,
-  ServerContainerUnit, uModTest, uModBank, ufrmGenerateModel,
-  WebModuleRetnoUnit;
+  WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils,
+  ServerContainerUnit, uModTest, uModBank, WebModuleRetnoUnit, uTSINIFile;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -104,8 +103,8 @@ end;
 
 procedure TfrmMain.actToolsGenerateModelExecute(Sender: TObject);
 begin
-  frmGenerateModel := TfrmGenerateModel.Create(Self);
-  frmGenerateModel.ShowModal;
+//  frmGenerateModel := TfrmGenerateModel.Create(Self);
+//  frmGenerateModel.ShowModal;
 end;
 
 procedure TfrmMain.btnKonekDBClick(Sender: TObject);
@@ -140,14 +139,14 @@ begin
   HTTPMemo  := mmLog;
   FServer   := TIdHTTPWebBrokerBridge.Create(Self);
 
-  if TAppUtils.BacaRegistry('Server') <> '' then
+  if BacaRegistry('Server') <> '' then
   begin
-    cbbEngine.ItemIndex := cbbEngine.Items.IndexOf(TAppUtils.BacaRegistry('Engine'));
-    edServer.Text       := TAppUtils.BacaRegistry('Server');
-    edDatabase.Text     := TAppUtils.BacaRegistry('Database');
-    edUser.Text         := TAppUtils.BacaRegistry('User_Name');
-    edPassword.Text     := TAppUtils.BacaRegistry('Password');
-    edPort.Text         := TAppUtils.BacaRegistry('Port');
+    cbbEngine.ItemIndex := cbbEngine.Items.IndexOf(BacaRegistry('Engine'));
+    edServer.Text       := BacaRegistry('Server');
+    edDatabase.Text     := BacaRegistry('Database');
+    edUser.Text         := BacaRegistry('User_Name');
+    edPassword.Text     := BacaRegistry('Password');
+    edPort.Text         := BacaRegistry('Port');
   end;
 
   StartServer;

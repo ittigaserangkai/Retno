@@ -177,6 +177,9 @@ object frmMain: TfrmMain
       object UnitStore1: TMenuItem
         Action = actUnitStore
       end
+      object Lokasi1: TMenuItem
+        Action = actLokasi
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -1136,7 +1139,7 @@ object frmMain: TfrmMain
   end
   object LookAndFeelController: TcxLookAndFeelController
     NativeStyle = False
-    Left = 24
-    Top = 224
+    Left = 64
+    Top = 216
   end
 end
