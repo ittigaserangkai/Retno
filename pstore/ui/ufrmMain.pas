@@ -187,7 +187,7 @@ type
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
-    procedure imgHeaderDblClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -409,9 +409,9 @@ begin
     CanClose := false;
 end;
 
-procedure TfrmMain.imgHeaderDblClick(Sender: TObject);
+procedure TfrmMain.FormShow(Sender: TObject);
 begin
-   CommonDlg.ShowInformationAlert('Informasi', 'tampil!!', mtinformation);
+  CommonDlg.ShowInformationAlert('Aplikasi Store', 'test Selamat Datang', mtCustom);
 end;
 
 procedure TfrmMain.SetAclstExim(aEnable : Boolean);

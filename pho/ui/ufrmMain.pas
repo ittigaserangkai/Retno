@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany, ufrmUnit;
+  ufrmCompany, ufrmUnit, ufrmVoucher;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -319,6 +319,7 @@ type
     procedure actTipePembayaranExecute(Sender: TObject);
     procedure actUnitExecute(Sender: TObject);
     procedure actUnitStoreExecute(Sender: TObject);
+    procedure actVoucherExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
@@ -735,6 +736,11 @@ end;
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
 begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actVoucherExecute(Sender: TObject);
+begin
+    frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);

@@ -120,7 +120,7 @@ begin
 
 //  if not Assigned(frmDialogUnit) then
 //    Application.CreateForm(TfrmDialogUnit, frmDialogUnit);
-//  frmDialogUnit.frmSuiMasterDialog.Caption := 'Add Store Unit';
+//  frmDialogUnit.Caption := 'Add Store Unit';
 //  frmDialogUnit.FormMode := fmAdd;
 //  frmDialogUnit.ShowModal;
 //  if (frmDialogUnit.IsProcessSuccessfull) then
@@ -146,7 +146,7 @@ begin
 
 //  if not Assigned(frmDialogUnit) then
 //    Application.CreateForm(TfrmDialogUnit, frmDialogUnit);
-//  frmDialogUnit.frmSuiMasterDialog.Caption := 'Edit Store Unit';
+//  frmDialogUnit.Caption := 'Edit Store Unit';
 //  frmDialogUnit.FormMode := fmEdit;
 //  frmDialogUnit.UnitId := StrToInt(strgGrid.Cells[6,strgGrid.row]); // put your pajak id that won be edit
 //  frmDialogUnit.ShowModal;

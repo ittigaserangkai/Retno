@@ -558,6 +558,7 @@ object frmMain: TfrmMain
     object actVoucher: TAction
       Category = 'Accounting'
       Caption = '&Voucher'
+      OnExecute = actVoucherExecute
     end
     object actSetupCashManagement: TAction
       Category = 'Finance'

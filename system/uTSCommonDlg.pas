@@ -12,14 +12,12 @@ type
   TCommonDlg = class
   private
     FalertMain: TdxAlertWindowManager;
-    FMessageCounters: array of integer;
-    FMaxAlertToGenerate: Integer;
     FMessageDialog: TForm;
     function FindWindowByCaption(const ACaption: string): TdxAlertWindow;
     procedure InitiateMessageProperties(pButtonCount: integer; pIcon: TMsgDlgType;
         pCaption, pMessage: string);
-    procedure InitiateAlertProperties(pIcon: TMsgDlgType; pCaption: string);
-    procedure NewAlert(aCaption, aMessage: string);
+    procedure InitiateAlertProperties(pCaption: string);
+    procedure NewAlert(aCaption, aMessage: string; pIcon: TMsgDlgType);
   public
     destructor Destroy; override;
     procedure ShowMessage(msg: string); overload;
@@ -32,7 +30,8 @@ type
     function Confirm(msg: string; noOfButton: integer = 2): TModalResult;
     procedure ShowErrorExist(AField, AValue: String);
     procedure ShowConfirmSuccessfull(AType: TActionType);
-    procedure ShowInformationAlert(pCaption, pMessage: string; pIcon: TMsgDlgType);
+    procedure ShowInformationAlert(pCaption, pMessage: string; pIcon: TMsgDlgType =
+        mtInformation);
   end;
 
 var
@@ -116,10 +115,10 @@ begin
     FMessageDialog.Free;
     FMessageDialog := nil;
   end;
-//  if Assigned(FMessageAlert) then
-//  begin
-//    FreeAndNil(FMessageAlert);
-//  end;
+  if Assigned(FalertMain) then
+  begin
+    FreeAndNil(FalertMain);
+  end;
 end;
 
 function TCommonDlg.FindWindowByCaption(const ACaption: string): TdxAlertWindow;
@@ -166,25 +165,6 @@ begin
   end;
 end;
 
-procedure TCommonDlg.InitiateAlertProperties(pIcon: TMsgDlgType; pCaption:
-    string);
-begin
-  SetLength(FMessageCounters, 1);
-  if not assigned(FalertMain) then
-  begin
-    FalertMain := TdxAlertWindowManager.Create(nil);
-    FMessageCounters[1] := 1;
-  end;
-  with FalertMain do
-  begin
-    OptionsMessage.Text.Font.Name := 'Trebuchet MS';
-    OptionsMessage.Images := DMClient.imgListButton;
-//    Position := poMainFormCenter;
-//    Text := pMessage;
-  end;
-  pCaption := MESSAGE_CAPTION + pCaption;
-end;
-
 procedure TCommonDlg.ShowErrorEmpty(AField: string);
 begin
   InitiateMessageProperties(1, mtWarning, 'Peringatan', AField + ER_EMPTY);
@@ -223,21 +203,41 @@ begin
   FMessageDialog.ShowModal;
 end;
 
-procedure TCommonDlg.NewAlert(aCaption, aMessage: string);
+procedure TCommonDlg.InitiateAlertProperties(pCaption: string);
+begin
+  if not assigned(FalertMain) then
+  begin
+    FalertMain := TdxAlertWindowManager.Create(nil);
+  end;
+  with FalertMain do
+  begin
+    OptionsBehavior.DisplayTime := 10000;
+    OptionsMessage.Text.Font.Name := 'Trebuchet MS';
+    OptionsMessage.Text.Font.Size := 11;
+    OptionsMessage.Images := DMClient.imgListIcon;
+//    Position := poMainFormCenter;
+//    Text := pMessage;
+  end;
+  pCaption := MESSAGE_CAPTION + pCaption;
+end;
+
+procedure TCommonDlg.NewAlert(aCaption, aMessage: string; pIcon: TMsgDlgType);
   const
-    FormatTextMessage = 'Message #%d:' + #13#10 + '%s.';
+    FormatTextMessage = 'Pesan:' + #13#10 + '%s.';
+  var
+    iMageIdx: integer;
 
   procedure ShowNewMessage(var AAlertWindow: TdxAlertWindow; const AMessageText:
       string; aCaption: string);
   begin
     if AAlertWindow = nil then
     begin
-      AAlertWIndow := FalertMain.Show(ACaption, AMessageText, 2);
+      AAlertWIndow := FalertMain.Show(ACaption, AMessageText, iMageIdx);
       AAlertWIndow.Tag := 1;
     end
     else
     begin
-      AAlertWindow.MessageList.Add(ACaption, AMessageText, 1);
+      AAlertWindow.MessageList.Add(ACaption, AMessageText, iMageIdx);
       AAlertWindow.RestartDisplayTimer;
     end;
   end;
@@ -252,8 +252,15 @@ var
   AMessageNumber: Integer;
   AAlertWindow: TdxAlertWindow;
 begin
-  //temp
-    AAlertWindow := FindWindowByCaption(aCaption);
+    case pIcon of
+      mtWarning    : iMageIdx := 10;
+      mtError      : iMageIdx := 12;
+      mtInformation: iMageIdx := 19;
+      mtConfirmation: iMageIdx := 16;
+      mtCustom      : iMageIdx := 11;
+    end;
+    //sebetulnya bisa mengelompokan pesan , tp kok sering AV ???
+    {AAlertWindow := FindWindowByCaption(aCaption);
     Inc(FMessageCounters[1]);
     AMessageNumber := FMessageCounters[1];
     ShowNewMessage(AAlertWindow, Format(FormatTextMessage, [AMessageNumber, aMessage]), aCaption);
@@ -263,15 +270,18 @@ begin
       if AAlertWindow.MessageList.Count = 2 then
         AddNavigationInfoToMessage(AAlertWindow, 0);
     end;
+    }
+
+    FalertMain.Show(aCaption, Format(FormatTextMessage, [aMessage]), iMageIdx);
 end;
 
 procedure TCommonDlg.ShowInformationAlert(pCaption, pMessage: string; pIcon:
-    TMsgDlgType);
+    TMsgDlgType = mtInformation);
 begin
-  InitiateAlertProperties(pIcon, pCaption);
-  NewAlert(pCaption, pMessage {+ ER_EXIST});
+  InitiateAlertProperties(pCaption);
+  NewAlert(pCaption, pMessage, pIcon);
 end;
 
 initialization
- CommonDlg := TCommonDlg.Create;
+  CommonDlg := TCommonDlg.Create;
 end.
