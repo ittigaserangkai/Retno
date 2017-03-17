@@ -31,7 +31,8 @@ uses
   uServerDSProvider in 'unit\uServerDSProvider.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModUnit in '..\model\uModUnit.pas',
-  uTSINIFile in '..\lib\uTSINIFile.pas';
+  uTSINIFile in '..\lib\uTSINIFile.pas',
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas';
 
 {$R *.res}
 

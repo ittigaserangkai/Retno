@@ -278,6 +278,8 @@ type
     SalesOutlet1: TMenuItem;
     UnitStore1: TMenuItem;
     Lokasi1: TMenuItem;
+    actTipekirimPO: TAction;
+    ipekirimPO1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -307,6 +309,7 @@ type
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
+    procedure actTipekirimPOExecute(Sender: TObject);
     procedure actTipePengirimanPOExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actUOMNBDExecute(Sender: TObject);
@@ -696,6 +699,11 @@ begin
     frmSysParm := TfrmSysParm.Create(Application);
 
   frmSysParm.Show;
+end;
+
+procedure TfrmMain.actTipekirimPOExecute(Sender: TObject);
+begin
+  frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser (Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);

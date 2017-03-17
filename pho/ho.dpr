@@ -150,7 +150,8 @@ uses
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
-  ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer};
+  ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas';
 
 {$R *.res}
 

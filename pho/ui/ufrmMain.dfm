@@ -180,6 +180,9 @@ object frmMain: TfrmMain
       object Lokasi1: TMenuItem
         Action = actLokasi
       end
+      object ipekirimPO1: TMenuItem
+        Action = actTipekirimPO
+      end
     end
     object Finance1: TMenuItem
       Caption = 'Finance'
@@ -1131,6 +1134,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Company'
       OnExecute = actCompanyExecute
+    end
+    object actTipekirimPO: TAction
+      Category = 'References'
+      Caption = 'Tipe kirim PO'
+      OnExecute = actTipekirimPOExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents
