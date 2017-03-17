@@ -318,6 +318,7 @@ type
     procedure actTipePembayaranExecute(Sender: TObject);
     procedure actUnitExecute(Sender: TObject);
     procedure actUnitStoreExecute(Sender: TObject);
+    procedure actVoucherExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
@@ -361,7 +362,7 @@ uses
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
-  ufrmOutlet;
+  ufrmOutlet, ufrmVoucher;
 
 {$R *.dfm}
 
@@ -734,6 +735,11 @@ end;
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
 begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actVoucherExecute(Sender: TObject);
+begin
+    frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);

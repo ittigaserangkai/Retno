@@ -145,7 +145,11 @@ uses
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
   uModUnit in '..\model\uModUnit.pas',
-  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet};
+  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
+  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
+  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
+  ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
+  ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode};
 
 {$R *.res}
 
@@ -155,5 +159,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmSetupCashManagement, frmSetupCashManagement);
+  Application.CreateForm(TfrmPemakaianBarcode, frmPemakaianBarcode);
   Application.Run;
 end.
