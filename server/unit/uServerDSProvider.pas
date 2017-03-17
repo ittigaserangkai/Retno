@@ -46,6 +46,7 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Barang_GetDSOverview: TDataSet;
+    function TipeKirimPO_GetDSOverview: TDataSet;
 
 
   end;
@@ -380,6 +381,16 @@ begin
       +' LEFT JOIN REF$SATUAN G ON G.REF$SATUAN_ID = A.REF$SATUAN_STOCK'
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
       +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeKirimPO_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPKRMPO_CODE, TPKRMPO_NAME, REF$TIPE_KIRIM_PO_ID'
+      +' from REF$TIPE_KIRIM_PO';
 
   Result := TDBUtils.OpenQuery(S);
 end;

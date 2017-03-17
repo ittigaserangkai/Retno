@@ -2,19 +2,19 @@ inherited frmDialogTipePengirimanPO: TfrmDialogTipePengirimanPO
   Left = 223
   Top = 162
   Caption = 'frmDialogTipePengirimanPO'
-  ClientHeight = 140
-  ClientWidth = 347
+  ClientHeight = 371
+  ClientWidth = 548
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 363
-  ExplicitHeight = 179
+  ExplicitWidth = 564
+  ExplicitHeight = 410
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 347
-    Height = 84
-    ExplicitWidth = 349
-    ExplicitHeight = 110
+    Width = 548
+    Height = 315
+    ExplicitWidth = 347
+    ExplicitHeight = 84
     object lbl1: TLabel
       Left = 38
       Top = 10
@@ -30,6 +30,7 @@ inherited frmDialogTipePengirimanPO: TfrmDialogTipePengirimanPO
       Caption = 'Type'
     end
     object edtKodeTipePengirimanPO: TEdit
+      Tag = 1
       Left = 73
       Top = 12
       Width = 95
@@ -53,41 +54,51 @@ inherited frmDialogTipePengirimanPO: TfrmDialogTipePengirimanPO
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 84
-    Width = 347
-    ExplicitTop = 110
-    ExplicitWidth = 349
+    Top = 315
+    Width = 548
+    ExplicitTop = 84
+    ExplicitWidth = 347
     inherited pnlFooter: TPanel
-      Width = 347
-      ExplicitWidth = 349
+      Width = 548
+      ExplicitWidth = 347
       inherited btnClose: TcxButton
-        Left = 265
-        ExplicitLeft = 267
+        Left = 471
+        Action = actCancel
+        ExplicitLeft = 270
       end
       inherited btnSave: TcxButton
-        Left = 178
+        Left = 378
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 180
+        ExplicitLeft = 177
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 347
-      ExplicitWidth = 349
+      Width = 548
+      ExplicitWidth = 347
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 373
+        Height = 15
+        ExplicitLeft = 172
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 464
+        Height = 15
+        ExplicitLeft = 263
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
