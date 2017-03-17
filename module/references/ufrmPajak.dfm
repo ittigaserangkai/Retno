@@ -11,62 +11,68 @@ inherited frmPajak: TfrmPajak
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 740
-    Height = 286
+    Height = 283
     ExplicitWidth = 740
-    ExplicitHeight = 324
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 11
+    ExplicitHeight = 283
+    inherited pgcBrowse: TcxPageControl
       Width = 718
-      Height = 264
-      Align = alClient
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      LookAndFeel.Kind = lfUltraFlat
-      LookAndFeel.NativeStyle = False
-      ExplicitHeight = 302
-      object cxGridBrowse: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Filter.Options = [fcoCaseInsensitive]
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <
-          item
-          end>
-        DataController.Summary.SummaryGroups = <>
-        FilterRow.Visible = True
-        FilterRow.ApplyChanges = fracImmediately
-        OptionsCustomize.ColumnHiding = True
-        OptionsCustomize.ColumnsQuickCustomization = True
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
-        OptionsView.GroupByBox = False
-      end
-      object cxGrdDetail: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
-        OptionsView.GroupByBox = False
-      end
-      object lvMaster: TcxGridLevel
-        Caption = 'Master Data'
-        GridView = cxGridBrowse
-        object lvDetail: TcxGridLevel
-          Caption = 'Detail Data'
-          Visible = False
+      Height = 261
+      ClientRectBottom = 260
+      ClientRectRight = 717
+      inherited tsBrowse: TcxTabSheet
+        inherited cxGrid: TcxGrid
+          Width = 716
+          Height = 259
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'KODE PAJAK'
+              DataBinding.FieldName = 'PJK_CODE'
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'NAMA'
+              DataBinding.FieldName = 'PJK_NAME'
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'PPN'
+              DataBinding.FieldName = 'PJK_PPN'
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'PPNBM'
+              DataBinding.FieldName = 'PJK_PPNBM'
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              DataBinding.FieldName = 'PJK_IS_DEFAULT'
+              Visible = False
+            end
+            object cxGridViewColumn6: TcxGridDBColumn
+              DataBinding.FieldName = 'OP_CREATE'
+              Visible = False
+            end
+            object cxGridViewColumn8: TcxGridDBColumn
+              DataBinding.FieldName = 'DATE_CREATE'
+              Visible = False
+            end
+            object cxGridViewColumn7: TcxGridDBColumn
+              DataBinding.FieldName = 'OP_MODIFY'
+              Visible = False
+            end
+            object cxGridViewColumn9: TcxGridDBColumn
+              DataBinding.FieldName = 'DATE_MODIFY'
+              Visible = False
+            end
+            object cxGridViewColumn10: TcxGridDBColumn
+              DataBinding.FieldName = 'OPC_UNIT'
+              Visible = False
+            end
+            object cxGridViewColumn11: TcxGridDBColumn
+              DataBinding.FieldName = 'OPM_UNIT'
+              Visible = False
+            end
+            object cxGridViewColumn12: TcxGridDBColumn
+              DataBinding.FieldName = 'REF$PAJAK_ID'
+              Visible = False
+            end
+          end
         end
       end
     end
@@ -74,75 +80,62 @@ inherited frmPajak: TfrmPajak
   inherited pnlHeader: TPanel
     Width = 740
     ExplicitWidth = 740
+    inherited lblFilterData: TcxLabel
+      Left = 386
+      ExplicitLeft = 386
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 447
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 563
+    end
+    inherited btnSearch: TcxButton
+      Left = 658
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 539
+      ExplicitLeft = 539
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 316
     Width = 740
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 354
-    ExplicitWidth = 740
     inherited pnlFooter: TPanel
       Width = 740
-      ExplicitWidth = 740
-      inherited btnClose: TcxButton
-        Left = 658
-        ExplicitLeft = 658
-      end
       inherited btnAdd: TcxButton
-        Top = 4
-        Action = actAddPajak
-        ExplicitTop = 4
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditPajak
+        Action = actEdit
+        OnClick = btnUpdateClick
       end
-      inherited btnDelete: TcxButton
-        Action = actDeletePajak
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshPajak
+      inherited btnClose: TcxButton
+        Action = actClose
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 740
-      ExplicitWidth = 740
-      inherited lbl5: TLabel
-        Left = 650
-        ExplicitLeft = 452
+      inherited lbEscape: TLabel
+        Left = 666
+        Height = 17
       end
     end
   end
-  object actlstPajak: TActionList
-    Left = 440
-    Top = 8
-    object actAddPajak: TAction
-      Caption = 'Add'
-      OnExecute = actAddPajakExecute
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditPajak: TAction
-      Caption = 'Edit'
-      OnExecute = actEditPajakExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
-    object actDeletePajak: TAction
-      Caption = 'Delete'
-      OnExecute = actDeletePajakExecute
-    end
-    object actRefreshPajak: TAction
-      Caption = 'Refresh'
-      OnExecute = actRefreshPajakExecute
-    end
-  end
-  object DataSource1: TDataSource
-    Left = 449
-    Top = 173
   end
 end
