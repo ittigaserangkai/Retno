@@ -312,7 +312,7 @@ function TDSProvider.TipeSuplier_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select TPSUP_CODE, TPSUP_NAME from REF$TIPE_SUPLIER';
+  S := 'select TPSUP_CODE, TPSUP_NAME, REF$TIPE_SUPLIER_ID from REF$TIPE_SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -71,6 +71,7 @@ type
     FTPSUP_NAME: String;
   public
     class function GetTableName: String; override;
+  published
     property TPSUP_CODE: String read FTPSUP_CODE write FTPSUP_CODE;
     property TPSUP_NAME: String read FTPSUP_NAME write FTPSUP_NAME;
   end;

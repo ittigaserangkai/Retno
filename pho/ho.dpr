@@ -118,7 +118,6 @@ uses
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
   ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
-  uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
   ufrmDialogMerchandise in '..\module\product\ufrmDialogMerchandise.pas' {frmDialogMerchandise},
@@ -151,7 +150,8 @@ uses
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
-  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas';
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
+  uModSuplier in '..\model\uModSuplier.pas';
 
 {$R *.res}
 

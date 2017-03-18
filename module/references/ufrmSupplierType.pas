@@ -18,7 +18,15 @@ type
   TfrmSupplierType = class(TfrmMasterBrowse)
     cxGridViewColumn1: TcxGridDBColumn;
     cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
+    cxGridViewColumn7: TcxGridDBColumn;
+    cxGridViewColumn8: TcxGridDBColumn;
+    cxGridViewColumn9: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     FCDSBrowse: TClientDataset;
     property CDSBrowse: TClientDataset read FCDSBrowse write FCDSBrowse;
@@ -32,17 +40,22 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDialogSupplierType, Math,  uConstanta, uDXUtils,
-  uDBUtils, uModSuplier;
+uses uTSCommonDlg, Math,  uConstanta, uDXUtils,
+  uDBUtils, uModSuplier, ufrmDialogSupplierType;
 
 {$R *.dfm}
 
 procedure TfrmSupplierType.actAddExecute(Sender: TObject);
-var
-  ModSupp: TModSuplier;
 begin
   inherited;
-  ModSupp.Free;
+  ShowDialogForm(TfrmDialogSupplierType)
+end;
+
+procedure TfrmSupplierType.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogSupplierType,
+  cxGridView.DS.FieldByName('REF$TIPE_SUPLIER_ID').AsString)
 end;
 
 procedure TfrmSupplierType.RefreshData;
@@ -50,7 +63,6 @@ begin
   CDSBrowse := TDBUtils.DSToCDS(
     DMClient.DSProviderClient.TipeSuplier_GetDSOverview(),self);
   cxGridView.LoadFromCDS(CDSBrowse);
-  // TODO -cMM: TfrmSupplierType.RefreshData default body inserted
 end;
 
 end.

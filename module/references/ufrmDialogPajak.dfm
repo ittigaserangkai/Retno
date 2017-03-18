@@ -12,8 +12,8 @@ inherited frmDialogPajak: TfrmDialogPajak
   inherited pnlBody: TPanel
     Width = 438
     Height = 246
-    ExplicitWidth = 400
-    ExplicitHeight = 141
+    ExplicitWidth = 438
+    ExplicitHeight = 246
     object lbl1: TLabel
       Left = 32
       Top = 42
@@ -98,20 +98,20 @@ inherited frmDialogPajak: TfrmDialogPajak
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 246
     Width = 438
-    ExplicitTop = 141
-    ExplicitWidth = 400
+    ExplicitTop = 246
+    ExplicitWidth = 438
     inherited pnlFooter: TPanel
       Width = 438
-      ExplicitWidth = 400
+      ExplicitWidth = 438
       inherited btnClose: TcxButton
         Left = 361
         Action = actCancel
-        ExplicitLeft = 323
+        ExplicitLeft = 361
       end
       inherited btnSave: TcxButton
         Left = 268
         Action = actSave
-        ExplicitLeft = 230
+        ExplicitLeft = 268
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -119,14 +119,16 @@ inherited frmDialogPajak: TfrmDialogPajak
     end
     inherited pnlSortCut: TPanel
       Width = 438
-      ExplicitWidth = 400
+      ExplicitWidth = 438
       inherited lbCTRLEnter: TLabel
         Left = 263
         Height = 15
+        ExplicitLeft = 263
       end
       inherited lbEscape: TLabel
         Left = 354
         Height = 15
+        ExplicitLeft = 354
       end
       inherited lbCTRLDel: TLabel
         Height = 15
