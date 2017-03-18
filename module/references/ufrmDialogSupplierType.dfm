@@ -13,8 +13,8 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
   inherited pnlBody: TPanel
     Width = 563
     Height = 271
-    ExplicitWidth = 347
-    ExplicitHeight = 106
+    ExplicitWidth = 563
+    ExplicitHeight = 271
     object lbl1: TLabel
       Left = 32
       Top = 41
@@ -44,7 +44,7 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
     end
     object edtCode: TEdit
       Left = 72
-      Top = 14
+      Top = 13
       Width = 79
       Height = 22
       CharCase = ecUpperCase
@@ -57,20 +57,20 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 271
     Width = 563
-    ExplicitTop = 106
-    ExplicitWidth = 347
+    ExplicitTop = 271
+    ExplicitWidth = 563
     inherited pnlFooter: TPanel
       Width = 563
-      ExplicitWidth = 347
+      ExplicitWidth = 563
       inherited btnClose: TcxButton
         Left = 486
         Action = actCancel
-        ExplicitLeft = 270
+        ExplicitLeft = 486
       end
       inherited btnSave: TcxButton
         Left = 393
         Action = actSave
-        ExplicitLeft = 177
+        ExplicitLeft = 393
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -78,14 +78,16 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
     end
     inherited pnlSortCut: TPanel
       Width = 563
-      ExplicitWidth = 347
+      ExplicitWidth = 563
       inherited lbCTRLEnter: TLabel
         Left = 473
         Height = 15
+        ExplicitLeft = 473
       end
       inherited lbEscape: TLabel
         Left = 388
         Height = 15
+        ExplicitLeft = 388
       end
       inherited lbCTRLDel: TLabel
         Height = 15

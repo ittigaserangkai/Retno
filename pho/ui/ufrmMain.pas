@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany, ufrmUnit, ufrmVoucher;
+  ufrmCompany, ufrmUnit, ufrmVoucher, ufrmSupplierGroup;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -280,6 +280,7 @@ type
     Lokasi1: TMenuItem;
     actTipekirimPO: TAction;
     ipekirimPO1: TMenuItem;
+    SupplierGroup1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -306,6 +307,7 @@ type
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
+    procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
@@ -681,6 +683,11 @@ end;
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSupplierGroupExecute(Sender: TObject);
+begin
+  frmSupplierGroup := TfrmSupplierGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierTypeExecute(Sender: TObject);

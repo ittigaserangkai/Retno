@@ -151,7 +151,9 @@ uses
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
-  uModSuplier in '..\model\uModSuplier.pas';
+  uModSuplier in '..\model\uModSuplier.pas',
+  ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
+  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup};
 
 {$R *.res}
 

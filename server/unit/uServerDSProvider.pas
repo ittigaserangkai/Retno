@@ -47,6 +47,7 @@ type
     function App_GetDSOverview: TDataSet;
     function Barang_GetDSOverview: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
+    function SuplierGroup_GetDSOverview1: TDataSet;
 
 
   end;
@@ -392,6 +393,15 @@ begin
   S := 'select TPKRMPO_CODE, TPKRMPO_NAME, REF$TIPE_KIRIM_PO_ID'
       +' from REF$TIPE_KIRIM_PO';
 
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SuplierGroup_GetDSOverview1: TDataSet;
+var
+  S: string;
+begin
+  S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  +' from SUPLIER_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
 

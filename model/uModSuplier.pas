@@ -59,10 +59,14 @@ type
   private
     FGROUP_NO: String;
     FGROUP_NAME: String;
+    FGROUP_DESCRIPTION: String;
   public
     class function GetTableName: String; override;
-    property GROUP_NO: String read FGROUP_NO write FGROUP_NO;
+  published
+    property GROUP_DESCRIPTION: String read FGROUP_DESCRIPTION write
+        FGROUP_DESCRIPTION;
     property GROUP_NAME: String read FGROUP_NAME write FGROUP_NAME;
+    property GROUP_NO: String read FGROUP_NO write FGROUP_NO;
   end;
 
   TModTipeSuplier = class(TModApp)

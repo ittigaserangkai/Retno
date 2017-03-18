@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/17/2017 2:55:01 PM
+// 3/18/2017 3:01:54 PM
 //
 
 unit uClientClasses;
@@ -138,6 +138,8 @@ type
     FBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FTipeKirimPO_GetDSOverviewCommand: TDSRestCommand;
     FTipeKirimPO_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FSuplierGroup_GetDSOverview1Command: TDSRestCommand;
+    FSuplierGroup_GetDSOverview1Command_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -216,6 +218,8 @@ type
     function Barang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeKirimPO_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeKirimPO_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function SuplierGroup_GetDSOverview1(const ARequestFilter: string = ''): TDataSet;
+    function SuplierGroup_GetDSOverview1_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -669,6 +673,16 @@ const
   );
 
   TDSProvider_TipeKirimPO_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_SuplierGroup_GetDSOverview1: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_SuplierGroup_GetDSOverview1_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -2061,6 +2075,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FTipeKirimPO_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.SuplierGroup_GetDSOverview1(const ARequestFilter: string): TDataSet;
+begin
+  if FSuplierGroup_GetDSOverview1Command = nil then
+  begin
+    FSuplierGroup_GetDSOverview1Command := FConnection.CreateCommand;
+    FSuplierGroup_GetDSOverview1Command.RequestType := 'GET';
+    FSuplierGroup_GetDSOverview1Command.Text := 'TDSProvider.SuplierGroup_GetDSOverview1';
+    FSuplierGroup_GetDSOverview1Command.Prepare(TDSProvider_SuplierGroup_GetDSOverview1);
+  end;
+  FSuplierGroup_GetDSOverview1Command.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FSuplierGroup_GetDSOverview1Command.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FSuplierGroup_GetDSOverview1Command.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.SuplierGroup_GetDSOverview1_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FSuplierGroup_GetDSOverview1Command_Cache = nil then
+  begin
+    FSuplierGroup_GetDSOverview1Command_Cache := FConnection.CreateCommand;
+    FSuplierGroup_GetDSOverview1Command_Cache.RequestType := 'GET';
+    FSuplierGroup_GetDSOverview1Command_Cache.Text := 'TDSProvider.SuplierGroup_GetDSOverview1';
+    FSuplierGroup_GetDSOverview1Command_Cache.Prepare(TDSProvider_SuplierGroup_GetDSOverview1_Cache);
+  end;
+  FSuplierGroup_GetDSOverview1Command_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FSuplierGroup_GetDSOverview1Command_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -2147,6 +2190,8 @@ begin
   FBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FTipeKirimPO_GetDSOverviewCommand.DisposeOf;
   FTipeKirimPO_GetDSOverviewCommand_Cache.DisposeOf;
+  FSuplierGroup_GetDSOverview1Command.DisposeOf;
+  FSuplierGroup_GetDSOverview1Command_Cache.DisposeOf;
   inherited;
 end;
 
