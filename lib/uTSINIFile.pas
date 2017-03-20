@@ -14,7 +14,7 @@ unit uTSINIFile;
 interface
 
 uses
-  SysUtils, Forms, INIFiles;
+  SysUtils, Forms, INIFiles, Registry;
 
 procedure _INIWriteString(AFilename, ASection, AIdentifier, AValue: String);
 procedure _INIWriteInteger(AFilename, ASection, AIdentifier: String; AValue: Integer);
@@ -28,8 +28,14 @@ procedure _DeleteIdent(AFilename, ASection, AIdenfifier: String);
 function _IsSectionExists(AFilename, ASection: String): Boolean;
 function _IsIdentExists(AFilename, ASection, AIdentifier: String): Boolean;
 
+function BacaRegistry(aNama: String; aPath : String = ''): string;
+
+function TulisRegistry(aName, aValue: String; sAppName : String = ''): Boolean;
+
 implementation
 
+uses
+  Winapi.Windows;
 
 procedure _INIWriteString(AFilename, ASection, AIdentifier, AValue: String);
 var
@@ -173,6 +179,55 @@ begin
       Free;
     end;
   end;
+end;
+
+function BacaRegistry(aNama: String; aPath : String = ''): string;
+var
+  Registry: TRegistry;
+  //S: string;
+begin
+  Registry:=TRegistry.Create;
+
+  Registry.RootKey := HKEY_CURRENT_USER;
+  {False because we do not want to create it if it doesn’t exist}
+  if Trim(aPath) = '' then
+    Registry.OpenKey('\Software\' + Application.Title, False)
+  else
+    Registry.OpenKey('\Software\' + aPath, False);
+
+  Result := Registry.ReadString(aNama);
+
+  Registry.Free;
+end;
+
+function TulisRegistry(aName, aValue: String; sAppName : String = ''): Boolean;
+var
+   Reg : TRegistry;
+begin
+    result := true;
+    Reg := TRegistry.Create;
+    try
+      Reg.RootKey := HKEY_CURRENT_USER;
+      if sAppName = '' then
+      begin
+        if Reg.OpenKey('\Software\' + Application.Title, True) then
+        begin
+             Reg.WriteString(aName, aValue);
+             Reg.CloseKey;
+        end
+      end else begin
+        if Reg.OpenKey('\Software\' + sAppName, True) then
+        begin
+             Reg.WriteString(aName, aValue);
+             Reg.CloseKey;
+        end;
+      end;
+    Except
+      result := false;
+      Reg.Free;
+      exit;
+    end;
+   Reg.Free;
 end;
 
 end.

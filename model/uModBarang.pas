@@ -92,8 +92,31 @@ type
   end;
 
   TModLokasi = class(TModApp)
+  private
+    FLOK_CODE: string;
+    FLOK_RACK: string;
+    FLOK_BAY: string;
+    FLOK_NAME: string;
+    FLOK_TYPE: string;
+    FLOK_SHELVE: string;
+    FLOK_POSITION: string;
+    FLOK_IS_ACTIVE: Integer;
+    FLOK_CAPACITY: Double;
+    FLOK_DESCRIPTION: string;
+  protected
   public
     class function GetTableName: string; override;
+  published
+    property LOK_CODE: string read FLOK_CODE write FLOK_CODE;
+    property LOK_RACK: string read FLOK_RACK write FLOK_RACK;
+    property LOK_BAY: string read FLOK_BAY write FLOK_BAY;
+    property LOK_NAME: string read FLOK_NAME write FLOK_NAME;
+    property LOK_TYPE: string read FLOK_TYPE write FLOK_TYPE;
+    property LOK_SHELVE: string read FLOK_SHELVE write FLOK_SHELVE;
+    property LOK_POSITION: string read FLOK_POSITION write FLOK_POSITION;
+    property LOK_IS_ACTIVE: Integer read FLOK_IS_ACTIVE write FLOK_IS_ACTIVE;
+    property LOK_CAPACITY: Double read FLOK_CAPACITY write FLOK_CAPACITY;
+    property LOK_DESCRIPTION: string read FLOK_DESCRIPTION write FLOK_DESCRIPTION;
   end;
 
   TModBarang = class(TModApp)

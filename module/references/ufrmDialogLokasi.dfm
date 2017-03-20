@@ -2,18 +2,18 @@ inherited frmDialogLokasi: TfrmDialogLokasi
   Left = 313
   Caption = 'frmDialogLokasi'
   ClientHeight = 365
-  ClientWidth = 378
+  ClientWidth = 424
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 394
+  ExplicitWidth = 440
   ExplicitHeight = 404
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 378
+    Width = 424
     Height = 309
-    ExplicitWidth = 378
-    ExplicitHeight = 330
+    ExplicitWidth = 648
+    ExplicitHeight = 309
     object lbl1: TLabel
       Left = 65
       Top = 160
@@ -84,10 +84,14 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       Caption = 'Potition'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 96
       Top = 12
       Width = 83
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Kode Lokasi'
+      ParentCustomHint = False
       CharCase = ecUpperCase
       Ctl3D = False
       MaxLength = 4
@@ -132,10 +136,13 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       TabOrder = 8
     end
     object edtName: TEdit
+      Tag = 2
       Left = 96
       Top = 157
       Width = 200
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Nama Lokasi'
       CharCase = ecUpperCase
       Ctl3D = False
       MaxLength = 64
@@ -147,6 +154,8 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       Top = 41
       Width = 83
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Rack'
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 1
@@ -156,6 +165,8 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       Top = 70
       Width = 83
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Bay'
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 2
@@ -165,15 +176,19 @@ inherited frmDialogLokasi: TfrmDialogLokasi
       Top = 99
       Width = 83
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Shelve'
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 3
     end
-    object edPotition: TEdit
+    object edPosition: TEdit
       Left = 96
       Top = 128
       Width = 83
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Position'
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 4
@@ -191,41 +206,52 @@ inherited frmDialogLokasi: TfrmDialogLokasi
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 309
-    Width = 378
-    ExplicitTop = 330
-    ExplicitWidth = 378
+    Width = 424
+    ExplicitTop = 309
+    ExplicitWidth = 648
     inherited pnlFooter: TPanel
-      Width = 378
-      ExplicitWidth = 378
+      Width = 424
+      ExplicitWidth = 648
       inherited btnClose: TcxButton
-        Left = 301
+        Left = 347
         Action = actCancel
-        ExplicitLeft = 301
+        ExplicitLeft = 571
       end
       inherited btnSave: TcxButton
-        Left = 208
+        Left = 254
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 208
+        ExplicitLeft = 478
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 378
-      ExplicitWidth = 378
+      Width = 424
+      ExplicitWidth = 648
       inherited lbCTRLEnter: TLabel
-        Left = 203
+        Left = 249
         Height = 15
+        ExplicitLeft = 473
       end
       inherited lbEscape: TLabel
-        Left = 294
+        Left = 340
         Height = 15
+        ExplicitLeft = 564
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    Left = 248
+    Top = 40
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

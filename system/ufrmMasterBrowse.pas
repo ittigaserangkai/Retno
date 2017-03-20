@@ -110,7 +110,7 @@ begin
     if (AutoRefreshData) and (Result = mrOk) then
       RefreshData;
   Finally
-    frm.Free;
+    FreeAndNil(frm);
   End;
 end;
 

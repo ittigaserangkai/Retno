@@ -46,6 +46,8 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Barang_GetDSOverview: TDataSet;
+    function TipeKirimPO_GetDSOverview: TDataSet;
+    function SuplierGroup_GetDSOverview1: TDataSet;
 
 
   end;
@@ -230,7 +232,8 @@ function TDSProvider.Lokasi_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select REF$LOKASI_ID, LOK_NAME, LOK_CODE, LOK_DESCRIPTION'
+  S := 'select REF$LOKASI_ID, LOK_NAME, LOK_CODE, LOK_DESCRIPTION,'
+      +' LOK_RACK, LOK_BAY, LOK_SHELVE, LOK_POSITION, LOK_TYPE'
       +' from REF$LOKASI ORDER BY LOK_CODE';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -310,7 +313,7 @@ function TDSProvider.TipeSuplier_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select TPSUP_CODE, TPSUP_NAME from REF$TIPE_SUPLIER';
+  S := 'select TPSUP_CODE, TPSUP_NAME, REF$TIPE_SUPLIER_ID from REF$TIPE_SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -380,6 +383,25 @@ begin
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
       +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
 
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeKirimPO_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPKRMPO_CODE, TPKRMPO_NAME, REF$TIPE_KIRIM_PO_ID'
+      +' from REF$TIPE_KIRIM_PO';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SuplierGroup_GetDSOverview1: TDataSet;
+var
+  S: string;
+begin
+  S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  +' from SUPLIER_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
 

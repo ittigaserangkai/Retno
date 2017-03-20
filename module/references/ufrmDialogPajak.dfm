@@ -2,18 +2,18 @@ inherited frmDialogPajak: TfrmDialogPajak
   Left = 342
   Top = 87
   Caption = 'frmDialogPajak'
-  ClientHeight = 197
-  ClientWidth = 400
+  ClientHeight = 302
+  ClientWidth = 438
   OldCreateOrder = True
-  ExplicitWidth = 416
-  ExplicitHeight = 236
+  ExplicitWidth = 454
+  ExplicitHeight = 341
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 400
-    Height = 141
-    ExplicitWidth = 400
-    ExplicitHeight = 141
+    Width = 438
+    Height = 246
+    ExplicitWidth = 438
+    ExplicitHeight = 246
     object lbl1: TLabel
       Left = 32
       Top = 42
@@ -68,7 +68,7 @@ inherited frmDialogPajak: TfrmDialogPajak
       Ctl3D = False
       MaxLength = 64
       ParentCtl3D = False
-      TabOrder = 0
+      TabOrder = 1
     end
     object edtCodePajak: TEdit
       Left = 69
@@ -78,7 +78,7 @@ inherited frmDialogPajak: TfrmDialogPajak
       Ctl3D = False
       MaxLength = 4
       ParentCtl3D = False
-      TabOrder = 1
+      TabOrder = 0
     end
     object edtPPN: TcxCalcEdit
       Left = 69
@@ -96,41 +96,53 @@ inherited frmDialogPajak: TfrmDialogPajak
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 141
-    Width = 400
-    ExplicitTop = 141
-    ExplicitWidth = 400
+    Top = 246
+    Width = 438
+    ExplicitTop = 246
+    ExplicitWidth = 438
     inherited pnlFooter: TPanel
-      Width = 400
-      ExplicitWidth = 400
+      Width = 438
+      ExplicitWidth = 438
       inherited btnClose: TcxButton
-        Left = 318
-        ExplicitLeft = 318
+        Left = 361
+        Action = actCancel
+        ExplicitLeft = 361
       end
       inherited btnSave: TcxButton
-        Left = 232
+        Left = 268
         Action = actSave
-        OnClick = btnSaveClick
-        ExplicitLeft = 232
+        ExplicitLeft = 268
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 400
-      ExplicitWidth = 400
+      Width = 438
+      ExplicitWidth = 438
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 263
+        Height = 15
+        ExplicitLeft = 263
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 354
+        Height = 15
+        ExplicitLeft = 354
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    Left = 128
+    Top = 160
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

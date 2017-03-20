@@ -44,7 +44,8 @@ type
     class function HitungKarakterReplace(AStringHitung : Char; AStringSource :
         String): Integer;
     class procedure IncStepProgressBar(AStep : Integer; ANomorPB : Integer = 0);
-    class procedure Information(const Text: string);
+    class procedure Information(const Text: string; UsingNativeDlg: Boolean =
+        False);
     class procedure InformationBerhasilHapus;
     class procedure InformationBerhasilSimpan; overload;
     class procedure InformationBerhasilSimpan(aNoBukti: string); overload;
@@ -115,6 +116,9 @@ const
 
   sSpace: string = ' ';
 implementation
+
+uses
+  uTSCommonDlg;
 
 function GetAppVersionStrWMem: string;
 var
@@ -622,9 +626,13 @@ begin
 
 end;
 
-class procedure TAppUtils.Information(const Text: string);
+class procedure TAppUtils.Information(const Text: string; UsingNativeDlg:
+    Boolean = False);
 begin
-  MessageDlg(Text, mtInformation, [mbYes], 0);;
+  If UsingNativeDlg then
+    MessageDlg(Text, mtInformation, [mbYes], 0)
+  else
+    CommonDlg.ShowInformationAlert('Informasi',Text,mtInformation);
 end;
 
 class procedure TAppUtils.InformationBerhasilHapus;

@@ -172,7 +172,7 @@ inherited frmVoucher: TfrmVoucher
       ExplicitWidth = 631
       inherited lbEscape: TLabel
         Left = 557
-        Height = 17
+        ExplicitLeft = 557
       end
     end
   end

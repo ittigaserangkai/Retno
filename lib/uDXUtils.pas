@@ -12,7 +12,8 @@ uses
   Vcl.Controls, Vcl.Forms, Windows, Messages, Variants, Graphics, ExtCtrls,
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
-  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB;
+  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
+  cxPC;
 
 
 type
@@ -145,8 +146,10 @@ type
   public
     procedure AssignKeyDownEvent;
     procedure ClearByTag(Tag: TTag);
-    function ValidateEmptyCtrl(Tag: TTag; ShowWarning: Boolean = True): Boolean;
+    function ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean = True):
+        Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
+    function SetFocusRec(aWinCTRL: TWinControl): Boolean;
   end;
 
 
@@ -1055,8 +1058,8 @@ begin
   end;
 end;
 
-function TFormHelper.ValidateEmptyCtrl(Tag: TTag; ShowWarning: Boolean = True):
-    Boolean;
+function TFormHelper.ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean =
+    True): Boolean;
 var
   C: TComponent;
   i: Integer;
@@ -1083,19 +1086,22 @@ begin
     else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
     if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
     begin
-      EmptyCtrl   := TWinControl(C);
-      iTabOrd := EmptyCtrl.TabOrder;
+      EmptyCtrl := TWinControl(C);
+      iTabOrd   := EmptyCtrl.TabOrder;
     end;
   end;
   Result := EmptyCtrl = nil;
-  if (not Result) and (ShowWarning) then
+  if (not Result) {and (ShowWarning)} then
   begin
-    if EmptyCtrl.HelpKeyword <> '' then
-      sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
-    else
-      sMsg := 'Input Tidak Boleh Kosong';
-    EmptyCtrl.SetFocus;
-    TAppUtils.Warning(sMsg);
+    SetFocusRec(EmptyCtrl);
+    If ShowWarning then
+    begin
+      if EmptyCtrl.HelpKeyword <> '' then
+        sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
+      else
+        sMsg := 'Input Tidak Boleh Kosong';
+      TAppUtils.Warning(sMsg);
+    end;
   end;
 end;
 
@@ -1125,6 +1131,30 @@ begin
     //agar generic lookup cukup enter 1x utk pindah ke komponent
     Keybd_event(VK_TAB, 0, 0, 0);
     sDebug := TcxExtLookupComboBox(Sender).Name;
+  end;
+end;
+
+function TFormHelper.SetFocusRec(aWinCTRL: TWinControl): Boolean;
+begin
+  Result := False;
+  If aWinCTRL.Enabled and aWinCTRL.Visible then
+  begin
+    //kapan2 diterusin
+//    if (aWinCTRL is TcxTabSheet) and (not aWinCTRL.Visible) then
+//    begin
+//      If (TcxPageControl(aWinCTRL.Parent).Enabled)
+//      and (TcxPageControl(aWinCTRL.Parent).Visible) then
+//        TcxPageControl(aWinCTRL.Parent).ActivePage := TcxTabSheet(aWinCTRL);
+//      Result := True;
+//    end else
+
+    If aWinCTRL.Parent <> nil then
+      Result := SetFocusRec(aWinCTRL.Parent)
+    else
+      Result := True;
+
+    If Result then
+      aWinCTRL.SetFocus;
   end;
 end;
 

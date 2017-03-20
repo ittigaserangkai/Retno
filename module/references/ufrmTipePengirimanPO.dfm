@@ -2,108 +2,121 @@ inherited frmTipePengirimanPO: TfrmTipePengirimanPO
   Left = 213
   Top = 174
   Caption = 'PO Delivery'#39's Type'
-  ClientHeight = 310
-  ClientWidth = 540
+  ClientHeight = 352
+  ClientWidth = 727
   OldCreateOrder = True
-  ExplicitWidth = 556
-  ExplicitHeight = 349
+  ExplicitWidth = 743
+  ExplicitHeight = 391
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 540
-    Height = 224
-    ExplicitWidth = 120
-    ExplicitHeight = 221
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 11
-      Width = 518
-      Height = 202
-      Align = alClient
-      TabOrder = 0
-      ExplicitLeft = 104
-      ExplicitTop = 64
-      ExplicitWidth = 250
-      ExplicitHeight = 200
-      object cxGridViewTipePengiriman: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-      end
-      object cxGridLevel1: TcxGridLevel
-        GridView = cxGridViewTipePengiriman
+    Width = 727
+    Height = 263
+    ExplicitWidth = 727
+    ExplicitHeight = 263
+    inherited pgcBrowse: TcxPageControl
+      Width = 705
+      Height = 241
+      ExplicitWidth = 705
+      ExplicitHeight = 241
+      ClientRectBottom = 240
+      ClientRectRight = 704
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 703
+        ExplicitHeight = 239
+        inherited cxGrid: TcxGrid
+          Width = 703
+          Height = 239
+          ExplicitWidth = 703
+          ExplicitHeight = 239
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'KODE'
+              DataBinding.FieldName = 'TPKRMPO_CODE'
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'NAMA'
+              DataBinding.FieldName = 'TPKRMPO_NAME'
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              DataBinding.FieldName = 'REF$TIPE_KIRIM_PO_ID'
+              Visible = False
+            end
+          end
+        end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 540
-    ExplicitWidth = 120
+    Width = 727
+    ExplicitWidth = 727
+    inherited lblFilterData: TcxLabel
+      Left = 373
+      ExplicitLeft = 373
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 434
+      ExplicitLeft = 434
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 550
+      ExplicitLeft = 550
+    end
+    inherited btnSearch: TcxButton
+      Left = 645
+      ExplicitLeft = 645
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 526
+      ExplicitLeft = 526
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
-    Top = 254
-    Width = 540
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 296
+    Width = 727
+    ExplicitTop = 296
+    ExplicitWidth = 727
     inherited pnlFooter: TPanel
-      Width = 540
-      ExplicitWidth = 120
-      inherited btnClose: TcxButton
-        Left = 458
-        ExplicitLeft = 38
-      end
+      Width = 727
+      ExplicitWidth = 727
       inherited btnAdd: TcxButton
-        Action = actAddTipePengirimanPO
-        Caption = 'Add'
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditTipePengirimanPO
-        Caption = 'Edit'
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteTipePengirimanPO
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshTipePengirimanPO
+      inherited btnClose: TcxButton
+        Left = 650
+        Action = actClose
+        ExplicitLeft = 650
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
-      Width = 540
-      ExplicitWidth = 120
-      inherited lbl5: TLabel
-        Left = 450
-        ExplicitLeft = 452
+    inherited pnlShortCut: TPanel
+      Width = 727
+      ExplicitWidth = 727
+      inherited lbEscape: TLabel
+        Left = 653
+        Height = 17
+        ExplicitLeft = 653
       end
     end
   end
-  object actlstTipePengirimanPO: TActionList
-    Left = 440
-    Top = 8
-    object actAddTipePengirimanPO: TAction
-      Caption = 'actAddTipePengirimanPO'
-      OnExecute = actAddTipePengirimanPOExecute
+  inherited actlstBrowse: TActionList
+    Left = 526
+    Top = 102
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditTipePengirimanPO: TAction
-      Caption = 'actEditTipePengirimanPO'
-      OnExecute = actEditTipePengirimanPOExecute
-    end
-    object actDeleteTipePengirimanPO: TAction
-      Caption = 'actDeleteTipePengirimanPO'
-      OnExecute = actDeleteTipePengirimanPOExecute
-    end
-    object actRefreshTipePengirimanPO: TAction
-      Caption = 'actRefreshTipePengirimanPO'
-      OnExecute = actRefreshTipePengirimanPOExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end
