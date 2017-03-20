@@ -3,27 +3,28 @@ inherited frmMemberShip: TfrmMemberShip
   Top = 78
   Caption = 'MemberShip'
   ClientHeight = 522
-  ClientWidth = 773
+  ClientWidth = 780
   OldCreateOrder = True
-  ExplicitWidth = 789
+  ExplicitWidth = 796
   ExplicitHeight = 561
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 773
+    Width = 780
     Height = 433
     ExplicitLeft = -2
     ExplicitTop = 38
     ExplicitWidth = 780
     ExplicitHeight = 433
     inherited pgcBrowse: TcxPageControl
-      Width = 751
+      Width = 758
       Height = 411
+      Properties.ActivePage = cxTabSheet1
       Properties.HideTabs = False
       ExplicitWidth = 758
       ExplicitHeight = 411
       ClientRectBottom = 410
-      ClientRectRight = 750
+      ClientRectRight = 757
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
@@ -31,26 +32,44 @@ inherited frmMemberShip: TfrmMemberShip
         ExplicitWidth = 756
         ExplicitHeight = 386
         inherited cxGrid: TcxGrid
-          Width = 749
+          Width = 756
           Height = 386
           ExplicitWidth = 756
           ExplicitHeight = 386
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'ID CARD NO.'
+              Width = 84
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'MEMBER NAME'
+              Width = 92
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'MEMBER ADDRESS'
+              Width = 164
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'CARD TYPE'
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              Caption = 'TYPE MEMBER'
+              Width = 93
+            end
+          end
         end
       end
       object cxTabSheet1: TcxTabSheet
         Caption = 'cxTabSheet1'
         ImageIndex = 1
-        TabVisible = False
-        ExplicitWidth = 756
         object pnl1: TPanel
           Left = 0
           Top = 0
-          Width = 749
+          Width = 756
           Height = 174
           Align = alTop
           ParentColor = True
           TabOrder = 0
-          ExplicitWidth = 756
           object lblInput: TLabel
             Left = 24
             Top = 34
@@ -135,6 +154,7 @@ inherited frmMemberShip: TfrmMemberShip
             Caption = 'F1 for Display Personal'
             ParentFont = False
             Transparent = True
+            OnClick = lblDispPersonalClick
           end
           object lblDispFamily: TcxLabel
             Left = 140
@@ -144,6 +164,7 @@ inherited frmMemberShip: TfrmMemberShip
             ParentFont = False
             Transparent = True
             Visible = False
+            OnClick = lblDispFamilyClick
           end
           object edtCompTypeName: TEdit
             Left = 189
@@ -165,6 +186,7 @@ inherited frmMemberShip: TfrmMemberShip
             Ctl3D = False
             ParentCtl3D = False
             TabOrder = 0
+            OnKeyUp = edtCompNameKeyUp
           end
           object edtAddress: TEdit
             Left = 104
@@ -347,19 +369,19 @@ inherited frmMemberShip: TfrmMemberShip
               00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
             OptionsImage.NumGlyphs = 2
             TabOrder = 15
+            OnClick = btnShowClick
           end
         end
         object pnl2: TPanel
           Left = 0
           Top = 321
-          Width = 749
+          Width = 756
           Height = 65
           Align = alBottom
           BevelInner = bvRaised
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          ExplicitWidth = 756
           object lbl5: TLabel
             Left = 8
             Top = 36
@@ -512,7 +534,7 @@ inherited frmMemberShip: TfrmMemberShip
     end
   end
   inherited pnlHeader: TPanel
-    Width = 773
+    Width = 780
     ExplicitWidth = 780
     inherited lblHeader: TLabel
       Width = 95
@@ -520,37 +542,37 @@ inherited frmMemberShip: TfrmMemberShip
       ExplicitWidth = 95
     end
     inherited lblFilterData: TcxLabel
-      Left = 419
+      Left = 426
       ExplicitLeft = 426
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 480
+      Left = 487
       ExplicitLeft = 487
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 596
+      Left = 603
       ExplicitLeft = 603
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 691
+      Left = 698
       ExplicitLeft = 698
     end
     inherited lblsdFilter: TcxLabel
-      Left = 572
+      Left = 579
       ExplicitLeft = 579
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 466
-    Width = 773
+    Width = 780
     ExplicitTop = 466
     ExplicitWidth = 780
     inherited pnlFooter: TPanel
-      Width = 773
+      Width = 780
       ExplicitWidth = 780
       inherited btnAdd: TcxButton
         Action = actAddMemberShip
@@ -562,7 +584,7 @@ inherited frmMemberShip: TfrmMemberShip
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 696
+        Left = 703
         Action = actClose
         ExplicitLeft = 703
       end
@@ -571,10 +593,10 @@ inherited frmMemberShip: TfrmMemberShip
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 773
+      Width = 780
       ExplicitWidth = 780
       inherited lbEscape: TLabel
-        Left = 699
+        Left = 706
         Height = 17
         ExplicitLeft = 706
       end
@@ -593,9 +615,11 @@ inherited frmMemberShip: TfrmMemberShip
     end
     object actDeleteMemberShip: TAction
       Caption = 'Delete'
+      OnExecute = actDeleteMemberShipExecute
     end
     object actRefreshMemberShip: TAction
       Caption = 'Refresh'
+      OnExecute = actRefreshMemberShipExecute
     end
   end
 end

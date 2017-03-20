@@ -7,6 +7,7 @@ type
   TModMemberKeluarga = Class;
   TModRefDiscMember = Class;
   TModRefGrupMember = Class;
+  TModRefTipeMember = Class;
   TModMember = class(TModApp)
   private
     FMEMBER_ACTIVASI: TModMemberActivasi;
@@ -16,8 +17,6 @@ type
     FMEMBER_CARD_NO: String;
     FMEMBER_AGAMA_ID: Integer;
     FMEMBER_ADDRESS: String;
-    FMEMBER_ADDRESS1: String;
-    FMEMBER_TPMEMBER_ID: Integer;
     FMEMBER_IS_ACTIVE: Integer;
     FMEMBER_IS_VALID: Integer;
     FMEMBER_GROMEMBER_UNT_ID: Integer;
@@ -34,12 +33,13 @@ type
     FMEMBER_KTP_NO: string;
     FMEMBER_SEX: Integer;
     FMEMBER_IS_WNI: integer;
-    FMEMBER_PLACE_OF_BIRTH: Integer;
+    FMEMBER_PLACE_OF_BIRTH: string;
     FMEMBER_DATE_OF_BIRTH: TDateTime;
     FMEMBER_RT: String;
     FMEMBER_POST_CODE: String;
     FMEMBER_JML_TANGGUNGAN: String;
     FMEMBER_RW: String;
+    FRefTipeMember: TModRefTipeMember;
   public
     class function GetTableName: String; override;
   published
@@ -56,9 +56,6 @@ type
     property MEMBER_CARD_NO: String read FMEMBER_CARD_NO write FMEMBER_CARD_NO;
     property MEMBER_AGAMA_ID: Integer read FMEMBER_AGAMA_ID write FMEMBER_AGAMA_ID;
     property MEMBER_ADDRESS: String read FMEMBER_ADDRESS write FMEMBER_ADDRESS;
-    property MEMBER_ADDRESS1: String read FMEMBER_ADDRESS1 write FMEMBER_ADDRESS1;
-    property MEMBER_TPMEMBER_ID: Integer read FMEMBER_TPMEMBER_ID write
-        FMEMBER_TPMEMBER_ID;
     property MEMBER_IS_ACTIVE: Integer read FMEMBER_IS_ACTIVE write
         FMEMBER_IS_ACTIVE;
     property MEMBER_IS_VALID: Integer read FMEMBER_IS_VALID write FMEMBER_IS_VALID;
@@ -83,7 +80,7 @@ type
     property MEMBER_KTP_NO: string read FMEMBER_KTP_NO write FMEMBER_KTP_NO;
     property MEMBER_SEX: Integer read FMEMBER_SEX write FMEMBER_SEX;
     property MEMBER_IS_WNI: integer read FMEMBER_IS_WNI write FMEMBER_IS_WNI;
-    property MEMBER_PLACE_OF_BIRTH: Integer read FMEMBER_PLACE_OF_BIRTH write
+    property MEMBER_PLACE_OF_BIRTH: string read FMEMBER_PLACE_OF_BIRTH write
         FMEMBER_PLACE_OF_BIRTH;
     property MEMBER_DATE_OF_BIRTH: TDateTime read FMEMBER_DATE_OF_BIRTH write
         FMEMBER_DATE_OF_BIRTH;
@@ -93,6 +90,9 @@ type
     property MEMBER_JML_TANGGUNGAN: String read FMEMBER_JML_TANGGUNGAN write
         FMEMBER_JML_TANGGUNGAN;
     property MEMBER_RW: String read FMEMBER_RW write FMEMBER_RW;
+    [AttributeOfForeign('REF$TIPE_MEMBER_ID')]
+    property RefTipeMember: TModRefTipeMember read FRefTipeMember write
+        FRefTipeMember;
   end;
 
 
@@ -196,6 +196,19 @@ type
         FRefTipePerusahaan;
   end;
 
+  TModRefTipeMember = class(TModApp)
+  private
+    FIS_UNDIAN: Integer;
+    FTPMEMBER_NAME: string;
+    FIS_POIN: Integer;
+  public
+    class function GetTableName: String; override;
+  published
+    property IS_UNDIAN: Integer read FIS_UNDIAN write FIS_UNDIAN;
+    property TPMEMBER_NAME: string read FTPMEMBER_NAME write FTPMEMBER_NAME;
+    property IS_POIN: Integer read FIS_POIN write FIS_POIN;
+  end;
+
 implementation
 
 class function TModMember.GetTableName: String;
@@ -223,10 +236,16 @@ begin
   Result := 'REF$GRUP_MEMBER';
 end;
 
+class function TModRefTipeMember.GetTableName: String;
+begin
+  Result := 'REF$TIPE_MEMBER';
+end;
+
 initialization
   TModMember.RegisterRTTI;
   TModMemberActivasi.RegisterRTTI;
   tModMemberKeluarga.RegisterRTTI;
   tModRefDiscMember.RegisterRTTI;
   tModRefGrupMember.RegisterRTTI;
+  tModRefTipeMember.RegisterRTTI;
 end.

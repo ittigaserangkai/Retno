@@ -6,6 +6,7 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
   ClientWidth = 742
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  ExplicitTop = -49
   ExplicitWidth = 758
   ExplicitHeight = 511
   PixelsPerInch = 96
@@ -137,16 +138,6 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Height = 16
         Caption = 'Register Date'
       end
-      object edtCompTypeName: TEdit
-        Left = 189
-        Top = 77
-        Width = 210
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 3
-      end
       object edtCompName: TEdit
         Left = 104
         Top = 50
@@ -156,7 +147,6 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Ctl3D = False
         ParentCtl3D = False
         TabOrder = 1
-        OnKeyUp = edtCompNameKeyUp
       end
       object edtAdrress: TEdit
         Left = 104
@@ -166,30 +156,17 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 7
-        OnKeyUp = edtAdrressKeyUp
+        TabOrder = 4
       end
       object edtNPWP: TEdit
         Left = 104
         Top = 131
-        Width = 79
+        Width = 295
         Height = 22
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 6
-        OnKeyUp = edtNPWPKeyUp
-      end
-      object edtRefNo: TEdit
-        Left = 189
-        Top = 104
-        Width = 210
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 5
-        OnKeyUp = edtRefNoKeyUp
+        TabOrder = 3
       end
       object edtKelurahan: TEdit
         Left = 547
@@ -199,8 +176,7 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 8
-        OnKeyUp = edtKelurahanKeyUp
+        TabOrder = 5
       end
       object edtCity: TEdit
         Left = 547
@@ -210,8 +186,7 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 9
-        OnKeyUp = edtCityKeyUp
+        TabOrder = 6
       end
       object edtPostCode: TEdit
         Left = 547
@@ -221,8 +196,7 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 10
-        OnKeyUp = edtPostCodeKeyUp
+        TabOrder = 7
       end
       object edtTelephone: TEdit
         Left = 547
@@ -232,8 +206,7 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 11
-        OnKeyUp = edtTelephoneKeyUp
+        TabOrder = 8
       end
       object edtFaxNo: TEdit
         Left = 547
@@ -243,15 +216,13 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 12
-        OnKeyUp = edtFaxNoKeyUp
+        TabOrder = 9
       end
       object cbpCompType: TcxExtLookupComboBox
         Left = 104
         Top = 77
         TabOrder = 2
-        OnKeyUp = cbpCompTypeKeyUp
-        Width = 79
+        Width = 295
       end
       object cbbDocStatus: TComboBox
         Left = 547
@@ -263,27 +234,29 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Ctl3D = False
         ItemIndex = 1
         ParentCtl3D = False
-        TabOrder = 13
+        TabOrder = 10
         Text = 'COMPLETE'
-        OnKeyUp = cbbDocStatusKeyUp
         Items.Strings = (
           'INCOMPLETE'
           'COMPLETE')
-      end
-      object cbpReference: TcxExtLookupComboBox
-        Left = 104
-        Top = 104
-        TabOrder = 4
-        OnKeyUp = cbpReferenceKeyUp
-        Width = 79
       end
       object dtRegister: TcxDateEdit
         Left = 104
         Top = 23
         TabStop = False
+        Properties.ShowTime = False
         TabOrder = 0
-        OnKeyUp = dtRegisterKeyUp
-        Width = 89
+        Width = 95
+      end
+      object edtReference: TEdit
+        Left = 104
+        Top = 104
+        Width = 295
+        Height = 22
+        CharCase = ecUpperCase
+        Ctl3D = False
+        ParentCtl3D = False
+        TabOrder = 11
       end
     end
     object pnl2: TPanel
@@ -303,7 +276,6 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Caption = 'New Row (Ctrl + T)'
         ParentFont = False
         Transparent = True
-        OnClick = lblAddRowClick
       end
       object lblDeleteRow: TcxLabel
         Left = 127
@@ -311,7 +283,6 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Caption = 'Delete Row (Ctrl + R)'
         ParentFont = False
         Transparent = True
-        OnClick = lblDeleteRowClick
       end
       object lblDetilPersonal: TcxLabel
         Left = 262
@@ -319,7 +290,6 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Caption = 'Detil Personal (Ctrl-D)'
         ParentFont = False
         Transparent = True
-        OnClick = lblDetilPersonalClick
       end
     end
   end
@@ -333,16 +303,17 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
       ExplicitWidth = 742
       inherited btnClose: TcxButton
         Left = 665
+        Action = actCancel
         ExplicitLeft = 665
       end
       inherited btnSave: TcxButton
-        Left = 562
+        Left = 572
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 562
+        ExplicitLeft = 572
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+        Visible = False
       end
     end
     inherited pnlSortCut: TPanel
@@ -362,5 +333,9 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Height = 15
       end
     end
+  end
+  inherited actlstMasterDialog: TActionList
+    Left = 514
+    Top = 216
   end
 end

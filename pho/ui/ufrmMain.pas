@@ -281,6 +281,9 @@ type
     actTipekirimPO: TAction;
     ipekirimPO1: TMenuItem;
     SupplierGroup1: TMenuItem;
+    CustomerSupport1: TMenuItem;
+    MasterCustomer1: TMenuItem;
+    actMembership: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -295,6 +298,7 @@ type
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
+    procedure actMembershipExecute(Sender: TObject);
     procedure actMerchandiseExecute(Sender: TObject);
     procedure actMerchanGroupExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
@@ -368,7 +372,7 @@ uses
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
-  ufrmOutlet;
+  ufrmOutlet, ufrmMemberShip;
 
 {$R *.dfm}
 
@@ -506,6 +510,11 @@ end;
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
 begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMembershipExecute(Sender: TObject);
+begin
+  frmMembership := TfrmMembership.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMerchandiseExecute(Sender: TObject);

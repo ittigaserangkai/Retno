@@ -106,8 +106,8 @@ object frmMain: TfrmMain
       TabOrder = 1
     end
     object cbbCompCode: TComboBox
-      Left = 159
-      Top = 4
+      Left = 160
+      Top = 6
       Width = 194
       Height = 24
       BevelKind = bkSoft
@@ -182,6 +182,12 @@ object frmMain: TfrmMain
       end
       object ipekirimPO1: TMenuItem
         Action = actTipekirimPO
+      end
+    end
+    object CustomerSupport1: TMenuItem
+      Caption = 'Membership'
+      object MasterCustomer1: TMenuItem
+        Action = actMembership
       end
     end
     object Finance1: TMenuItem
@@ -1143,6 +1149,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Tipe kirim PO'
       OnExecute = actTipekirimPOExecute
+    end
+    object actMembership: TAction
+      Category = 'Membership'
+      Caption = 'Membership'
+      OnExecute = actMembershipExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents

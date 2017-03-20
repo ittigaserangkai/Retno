@@ -263,6 +263,8 @@
             <Form>frmMemberShip</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\model\uModMember.pas"/>
+        <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -46,6 +46,7 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Barang_GetDSOverview: TDataSet;
+    function RefTipeMember_GetDSOverview: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
 
@@ -110,7 +111,20 @@ function TDSProvider.Member_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select * from MEMBER';
+  S := 'select A.MEMBER_ID, A.MEMBER_CARD_NO AS NOMOR_KARTU, A.MEMBER_NAME AS NAMA, '
+    +' A.MEMBER_ADDRESS+'', ''+A.MEMBER_KELURAHAN+'', ''+A.MEMBER_KECAMATAN AS ALAMAT, A.MEMBER_KOTA AS KOTA,'
+    +' A.MEMBER_PLACE_OF_BIRTH AS TEMPAT_LAHIR, A.MEMBER_DATE_OF_BIRTH AS TANGGAL_LAHIR,'
+    +' B.AGAMA_NAME AS AGAMA,'
+    +' A.MEMBER_KTP_NO AS NOMOR_IDENTITAS,'
+    +' CASE WHEN A.MEMBER_SEX = 0 THEN ''L'' ELSE ''P'' END AS JK, '
+    +' CASE WHEN A.IS_TRADER = 0 THEN ''END USER'' ELSE ''TRADER'' END AS KELOMPOK,'
+    +' F.TPMEMBER_NAME AS TIPE_MEMBER, '
+    +' CASE WHEN F.IS_POIN = 0 THEN ''TIDAK DAPAT'' ELSE ''DAPAT'' END AS POIN,'
+    +' CASE WHEN F.IS_UNDIAN = 0 THEN ''TIDAK DAPAT'' ELSE ''DAPAT'' END AS UNDIAN,'
+    +' A.REF$GRUP_MEMBER_ID, A.REF$DISC_MEMBER_ID, A.MEMBER_ACTIVASI_ID, A.MEMBER_KELUARGA_ID'
+    +' FROM MEMBER A'
+    +' LEFT JOIN REF$TIPE_MEMBER F ON A.REF$TIPE_MEMBER_ID = F.REF$TIPE_MEMBER_ID'
+    +' LEFT JOIN REF$AGAMA B ON A.REF$AGAMA_id = B.REF$AGAMA_ID';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -383,6 +397,14 @@ begin
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
       +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
 
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeMember_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * from REF$TIPE_MEMBER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

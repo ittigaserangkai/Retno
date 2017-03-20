@@ -153,7 +153,10 @@ uses
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
-  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup};
+  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
+  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
+  ufrmDialogMemberShip in '..\module\customer_support\ufrmDialogMemberShip.pas' {frmDialogMemberShip},
+  uModMember in '..\model\uModMember.pas';
 
 {$R *.res}
 
