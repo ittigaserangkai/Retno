@@ -153,7 +153,8 @@ uses
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
-  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup};
+  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
 
 {$R *.res}
 

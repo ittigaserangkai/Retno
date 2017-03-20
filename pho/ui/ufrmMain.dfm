@@ -1145,8 +1145,9 @@ object frmMain: TfrmMain
       OnExecute = actTipekirimPOExecute
     end
   end
-  object ApplicationEvents1: TApplicationEvents
-    OnException = ApplicationEvents1Exception
+  object AppEvents: TApplicationEvents
+    OnException = AppEventsException
+    OnShortCut = AppEventsShortCut
     Left = 32
     Top = 280
   end

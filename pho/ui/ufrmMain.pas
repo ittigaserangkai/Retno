@@ -258,7 +258,7 @@ type
     CompanyType1: TMenuItem;
     actCostCenter: TAction;
     actCostCenter1: TMenuItem;
-    ApplicationEvents1: TApplicationEvents;
+    AppEvents: TApplicationEvents;
     Merchandise1: TMenuItem;
     MasterProduct1: TMenuItem;
     LookAndFeelController: TcxLookAndFeelController;
@@ -325,7 +325,8 @@ type
     procedure actUnitExecute(Sender: TObject);
     procedure actUnitStoreExecute(Sender: TObject);
     procedure actVoucherExecute(Sender: TObject);
-    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure AppEventsException(Sender: TObject; E: Exception);
+    procedure AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
   private
@@ -368,7 +369,7 @@ uses
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
-  ufrmOutlet;
+  ufrmOutlet, ufrmMouselessMenu;
 
 {$R *.dfm}
 
@@ -758,7 +759,7 @@ begin
     frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
-procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
 var
   Msg: string;
 begin
@@ -767,6 +768,19 @@ begin
     Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
 
   TAppUtils.Error(Msg);
+end;
+
+procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled:
+    Boolean);
+begin
+  if Msg.CharCode = 192 then
+  begin
+    with TfrmMouselesMenu.Create(Application) do
+    begin
+      ShowModal;
+    end;
+    Handled := True;
+  end;
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
