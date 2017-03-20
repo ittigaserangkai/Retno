@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany, ufrmUnit, ufrmVoucher, ufrmSupplierGroup;
+  ufrmCompany, ufrmUnit;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -277,10 +277,7 @@ type
     Company1: TMenuItem;
     SalesOutlet1: TMenuItem;
     UnitStore1: TMenuItem;
-    Lokasi1: TMenuItem;
-    actTipekirimPO: TAction;
-    ipekirimPO1: TMenuItem;
-    SupplierGroup1: TMenuItem;
+    actQuotationMailer: TAction;
     CustomerSupport1: TMenuItem;
     MasterCustomer1: TMenuItem;
     actMembership: TAction;
@@ -308,14 +305,16 @@ type
     procedure actPajakExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
+    procedure actQuotationExecute(Sender: TObject);
+    procedure actQuotationHargaBeliExecute(Sender: TObject);
+    procedure actQuotationMailerExecute(Sender: TObject);
+    procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
-    procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
-    procedure actTipekirimPOExecute(Sender: TObject);
     procedure actTipePengirimanPOExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actUOMNBDExecute(Sender: TObject);
@@ -372,7 +371,8 @@ uses
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
-  ufrmOutlet, ufrmMemberShip;
+  ufrmOutlet, ufrmVoucher, ufrmQuotation, ufrmQuotationHargaBeli,
+  ufrmQuotationMailer, ufrmMemberShip;
 
 {$R *.dfm}
 
@@ -484,7 +484,7 @@ end;
 
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
- frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
@@ -679,6 +679,26 @@ begin
     frmProductTypeNBD := TfrmProductTypeNBD.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actQuotationExecute(Sender: TObject);
+begin
+  frmQuotation := TfrmQuotation.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationHargaBeliExecute(Sender: TObject);
+begin
+  frmQuotationHargaBeli := TfrmQuotationHargaBeli.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationMailerExecute(Sender: TObject);
+begin
+    frmQuotationMailer := TfrmQuotationMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationPromoExecute(Sender: TObject);
+begin
+    frmQuotationMailer := TfrmQuotationMailer.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
 begin
     frmRekening := TfrmRekening.CreateWithUser(Application, FFormProperty);
@@ -692,11 +712,6 @@ end;
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actSupplierGroupExecute(Sender: TObject);
-begin
-  frmSupplierGroup := TfrmSupplierGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierTypeExecute(Sender: TObject);
@@ -715,11 +730,6 @@ begin
     frmSysParm := TfrmSysParm.Create(Application);
 
   frmSysParm.Show;
-end;
-
-procedure TfrmMain.actTipekirimPOExecute(Sender: TObject);
-begin
-  frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser (Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);

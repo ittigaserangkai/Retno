@@ -41,7 +41,6 @@ inherited frmMemberShip: TfrmMemberShip
         Caption = 'cxTabSheet1'
         ImageIndex = 1
         TabVisible = False
-        ExplicitWidth = 756
         object pnl1: TPanel
           Left = 0
           Top = 0
@@ -50,7 +49,6 @@ inherited frmMemberShip: TfrmMemberShip
           Align = alTop
           ParentColor = True
           TabOrder = 0
-          ExplicitWidth = 756
           object lblInput: TLabel
             Left = 24
             Top = 34
@@ -513,7 +511,7 @@ inherited frmMemberShip: TfrmMemberShip
   end
   inherited pnlHeader: TPanel
     Width = 773
-    ExplicitWidth = 780
+    ExplicitWidth = 773
     inherited lblHeader: TLabel
       Width = 95
       Caption = 'List MemberShip'
@@ -521,7 +519,7 @@ inherited frmMemberShip: TfrmMemberShip
     end
     inherited lblFilterData: TcxLabel
       Left = 419
-      ExplicitLeft = 426
+      ExplicitLeft = 419
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -540,7 +538,7 @@ inherited frmMemberShip: TfrmMemberShip
     end
     inherited lblsdFilter: TcxLabel
       Left = 572
-      ExplicitLeft = 579
+      ExplicitLeft = 572
       AnchorY = 17
     end
   end
@@ -575,8 +573,7 @@ inherited frmMemberShip: TfrmMemberShip
       ExplicitWidth = 780
       inherited lbEscape: TLabel
         Left = 699
-        Height = 17
-        ExplicitLeft = 706
+        ExplicitLeft = 699
       end
     end
   end
