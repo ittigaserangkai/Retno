@@ -4,25 +4,28 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmDefaultMaster, ufraFooter5Button, StdCtrls, ExtCtrls,
-  cbxbase, dblup1a, Mask, JvToolEdit, Grids, BaseGrid, AdvGrid, AdvCGrid,
-  uRMSUnit, UnewQuotationPromo, uConn, uQuotation, EditBtn, ComCtrls,
-  JvDateTimePicker, te_controls, SUIButton, jpeg , uNewBarang, AdvObj,
-  te_extctrls, JvExMask;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, Mask, ComCtrls,
+  Vcl.Imaging.jpeg, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
+  dxCore, cxDateUtils, Vcl.Menus, System.Actions, Vcl.ActnList,
+  ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  cxSpinEdit, cxTimeEdit, cxButtonEdit;
 
 type
-  TfrmQuotatiuonMailer = class(TfrmDefaultMaster)
+  TfrmQuotationMailer = class(TfrmMasterBrowse)
     pnlTop: TPanel;
     Label2: TLabel;
     Label4: TLabel;
     Label6: TLabel;
     Label8: TLabel;
     lblEndDate: TLabel;
-    dtEffectiveDate: TJvDateEdit;
-    dtRefDate: TJvDateEdit;
+    dtEffectiveDate: TcxDateEdit;
+    dtRefDate: TcxDateEdit;
     edtRemark: TEdit;
-    dtEndDate: TJvDateEdit;
-    pnlData: TPanel;
+    dtEndDate: TcxDateEdit;
     pnlBottom: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -30,33 +33,42 @@ type
     edtProdName: TEdit;
     edtCatalog: TEdit;
     edtKode: TEdit;
-    edtQuotationNo1: TEditBtn;
-    dtEffectiveTime: TTeDateTimePicker;
-    dtEndTime: TTeDateTimePicker;
-    btnUpdate: TsuiButton;
     img1: TImage;
-    strgGrid: TAdvColumnGrid;
+    edtStartTime: TcxTimeEdit;
+    edtEndTime: TcxTimeEdit;
+    cxcolGridViewColumn1: TcxGridDBColumn;
+    cxcolGridViewColumn2: TcxGridDBColumn;
+    cxcolGridViewColumn3: TcxGridDBColumn;
+    cxcolGridViewColumn4: TcxGridDBColumn;
+    cxcolGridViewColumn5: TcxGridDBColumn;
+    cxcolGridViewColumn6: TcxGridDBColumn;
+    cxcolGridViewColumn7: TcxGridDBColumn;
+    cxcolGridViewColumn8: TcxGridDBColumn;
+    cxcolGridViewColumn9: TcxGridDBColumn;
+    cxcolGridViewColumn10: TcxGridDBColumn;
+    cxcolGridViewColumn11: TcxGridDBColumn;
+    cxcolGridViewColumn12: TcxGridDBColumn;
+    cxcolGridViewColumn13: TcxGridDBColumn;
+    cxcolGridViewColumn14: TcxGridDBColumn;
+    cxcolGridViewColumn15: TcxGridDBColumn;
+    cxcolGridViewColumn16: TcxGridDBColumn;
+    cxcolGridViewColumn17: TcxGridDBColumn;
+    cxcolGridViewColumn18: TcxGridDBColumn;
+    edbQuotationNo1: TcxButtonEdit;
 
+    procedure actPrintExecute(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     //procedure cbpQuotationNoKeyUp(Sender: TObject; var Key: Word;
     //  Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
-    procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure frftr5btn1btnUpdateClick(Sender: TObject);
     procedure strgGridCanEditCell(Sender: TObject; ARow, ACol: Integer;
       var CanEdit: Boolean);
-    procedure edtQuotationNo1ClickBtn(Sender: TObject);
-    procedure edtQuotationNo1KeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure btnUpdateClick(Sender: TObject);
     procedure frftr5btn1btnCloseClick(Sender: TObject);
     procedure dtRefDateKeyPress(Sender: TObject; var Key: Char);
     procedure dtEffectiveDateKeyPress(Sender: TObject; var Key: Char);
@@ -67,10 +79,11 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnRefreshClick(Sender: TObject);
-    procedure btnUpdateEnter(Sender: TObject);
-    procedure btnUpdateExit(Sender: TObject);
     procedure strgGridGetFloatFormat(Sender: TObject; ACol, ARow: Integer;
       var IsFloat: Boolean; var FloatFormat: String);
+    procedure edb1PropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+    procedure edbQuotationNo1KeyUp(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
   private
 
     procedure LoadDataQuotationMailer(aNoBukti : String; aUnitID : Integer);
@@ -97,15 +110,13 @@ type
     //procedure RefreshData(AQuotId, AUnitId: Integer);
    // procedure ParseHeaderGrid;
    procedure ParseDataGrid;
-   procedure LoadDataBarangQuotation(aQuotationPromoItem : TNewQuotationPromoItem; aBaris :
-        Integer);
-   procedure LoadDataHargaQuotation(aQuotationPromoItem : TNewQuotationPromoItem; aBaris :
-        Integer);
+   procedure LoadDataBarangQuotation(aQuotationPromoItem, aBaris: Integer);
+   procedure LoadDataHargaQuotation(aQuotationPromoItem, aBaris: Integer);
 
 
    // procedure DeleteQuotation(AQuotId,AUnitId: Integer);
   public
-    FQuotationMailer : TNewQuotationPromo;
+    FQuotationMailer: Integer;
     procedure AturLebarKolom;
     procedure InistialisasiGrid;
     procedure UbahIsParent;
@@ -115,11 +126,10 @@ type
   end;
 
 var
-  frmQuotatiuonMailer: TfrmQuotatiuonMailer;
+  frmQuotationMailer: TfrmQuotationMailer;
 
 implementation
-uses suithemes,  uGTSUICommonDlg,
-  ufrmMasterDialog, udmReportNew, ufrmDialogQuotationMailerNeo;
+uses uTSCommonDlg, ufrmDialogQuotationMailerNeo;
 
 const
   _KolIsParent       : Integer = 0;
@@ -145,9 +155,16 @@ const
 
 {$R *.dfm}
 
-procedure TfrmQuotatiuonMailer.InistialisasiGrid;
+procedure TfrmQuotationMailer.actPrintExecute(Sender: TObject);
 begin
-  with strgGrid do
+  inherited;
+  frmDialogQuotationMailerNeo := TfrmDialogQuotationMailerNeo.Create(Self);
+//  DoPrintSlipQuotationMailer(edbQuotationNo1.Text,MasterNewUnit.ID, FLoginFullname, MasterNewUnit.Nama);
+end;
+
+procedure TfrmQuotationMailer.InistialisasiGrid;
+begin
+  {with strgGrid do
   begin
     MergeCells(0,0,1,2);
     MergeCells(_KolIsParent,0,1,2);
@@ -179,11 +196,12 @@ begin
 
     AturLebarKolom;
   end;
+  }
 end;
 
-procedure TfrmQuotatiuonMailer.AturLebarKolom;
+procedure TfrmQuotationMailer.AturLebarKolom;
 begin
-  with strgGrid do
+  {with strgGrid do
   begin
     AutoSizeColumns(True, 5);
     AutoSizeCol(_KolNamaBarang);
@@ -200,14 +218,14 @@ begin
     AutoSizeCol(_KolItemID);
 
     Columns[_KolItemID].Width := 0;
-//    Columns[_KolKodeSupplier].Width := 0;
   end;
+  }
 end;
 
-procedure TfrmQuotatiuonMailer.btnAddClick(Sender: TObject);
+procedure TfrmQuotationMailer.btnAddClick(Sender: TObject);
 begin
   inherited;
-  if MasterNewUnit.ID = 0 then
+//  if MasterNewUnit.ID = 0 then
   begin
     CommonDlg.ShowError('Company Belum Dipilih');
     Exit;
@@ -224,7 +242,7 @@ begin
       FIDLokal       := 0;
       SetFormPropertyAndShowDialog(frmDialogQuotationMailerNeo);
       if IsProcessSuccessfull then
-        LoadDataQuotationMailer(edtQuotationNo.Text, MasterNewUnit.ID);
+        LoadDataQuotationMailer(edtQuotationNo.Text, MasterNewUnit);
     finally
       Free;
     end;
@@ -232,44 +250,7 @@ begin
   
 end;
 
-{procedure TfrmQuotatiuonMailer.RefreshData(AQuotId, AUnitId: Integer);
-begin
-  //FMerGroupId := AMerGroupId;
-  //ParseSupplierByCode(ASupCode, AUnitId);
-  //ParseMerchandGroupById(AMerGroupId, AUnitId);
-  //ParseSupplierMerchandGroup(ASupCode, AMerGroupId, AUnitId);
-  ParseQuotationById(AQuotId, AUnitId);
-end;
- }
-{procedure TfrmQuotatiuonMailer.ParseQuotationById(AQuotId, AUnitId: Integer);
-var
-  //wCursor: IWaitCursor;
-  dataQuot: TResultDataSet;
-begin
- // wCursor := TWaitCursor.Create;
-  dataQuot := TQuotation.GetListQuotationById(AQuotId, AUnitId);
-  if not (dataQuot.IsEmpty) then
-  begin
-    FQuotationId := dataQuot.FieldByName('QUOT_ID').AsInteger;
-    FQuotationUntId := dataQuot.FieldByName('QUOT_UNT_ID').AsInteger;
-    cbpQuotationNo.Text := dataQuot.FieldByName('QUOT_REF_NO').AsString;
-    dtRefDate.Date := dataQuot.FieldByName('QUOT_DATE').AsDateTime;
-    dtEffectiveDate.Date := dataQuot.FieldByName('QUOT_DATE_EFFECTIVE').AsDateTime;
-    edtEndDate.Date := dataQuot.fieldByName('QUOT_END_DATE').AsDateTime;
-    edtRemark.Text := dataQuot.FieldByName('QUOT_REMARK').AsString;
-  end
-  else
-  begin
-    FQuotationId := -1;
-    FQuotationUntId := -1;
-    cbpQuotationNo.Text := '';
-    dtRefDate.Text := '';
-    dtEffectiveDate.Text := '';
-    edtEndDate.Text :='';
-    edtRemark.Text := '';
-  end;
-}
-function TfrmQuotatiuonMailer.GetTipeHArgaByID(TipeHArgaID: Integer;
+function TfrmQuotationMailer.GetTipeHArgaByID(TipeHArgaID: Integer;
     TipeHArgaUntID:integer): string;
 var sSQL: string;
 begin
@@ -278,7 +259,7 @@ begin
           + ' from ref$Tipe_Harga '
           + ' where tpHrg_ID = ' + IntToStr(TipeHargaID)
           + ' and tpHrg_unt_ID = ' + IntToStr(TipeHArgaUntID);
-  with cOpenQuery(sSQL) do
+  {with cOpenQuery(sSQL) do
   begin
     try
       Result := FieldByName('tpHrg_name').AsString;
@@ -286,13 +267,14 @@ begin
       Free;
     end;
   end;
+  }
 end;
 
 
-procedure TfrmQuotatiuonMailer.LoadDataHargaQuotation(aQuotationPromoItem :
-    TNewQuotationPromoItem; aBaris : Integer);
+procedure TfrmQuotationMailer.LoadDataHargaQuotation(aQuotationPromoItem,
+    aBaris: Integer);
 begin
-  with strgGrid do
+  {with strgGrid do
   begin
     Floats[_KolPrice , aBaris]      := aQuotationPromoItem.Price;
     Floats[_KolDiscPersen , aBaris] := aQuotationPromoItem.DiscPersen;
@@ -307,14 +289,15 @@ begin
     Floats[_MURupiah, aBaris]       := Floats[_KolSetelahDisc,aBaris] - Floats[_KolHArgaAVGIncPPN,aBaris];
 
   end;
+  }
 end;
 
-procedure TfrmQuotatiuonMailer.LoadDataBarangQuotation(aQuotationPromoItem :
-    TNewQuotationPromoItem; aBaris : Integer);
-var
-  FLokalBarang: TNewBarang;
+procedure TfrmQuotationMailer.LoadDataBarangQuotation(aQuotationPromoItem,
+    aBaris: Integer);
+//var
+//  FLokalBarang: TNewBarang;
 begin
-
+  {
   with strgGrid do
   begin
     FLokalBarang := aQuotationPromoItem.Barang;
@@ -335,14 +318,15 @@ begin
       FLokalBarang.Free;
     end;
   end;
+  }
 end;
 
-procedure TfrmQuotatiuonMailer.ParseDataGrid;
+procedure TfrmQuotationMailer.ParseDataGrid;
 var
   iBaris: Integer;
   i : Integer;
 begin
-  cClearGrid(strgGrid,False);
+  {cClearGrid(strgGrid,False);
 
     for i := 0 to FQuotationMailer.QuotationPromoItems.Count - 1 do
     begin
@@ -364,18 +348,19 @@ begin
 
     AturLebarKolom;
     SetWarnaBarisSG(strgGrid);
+    }
 end;
 
 
-procedure TfrmQuotatiuonMailer.UbahIsParent;
+procedure TfrmQuotationMailer.UbahIsParent;
 var
   j: Integer;
   sPLU: string;
   sPLUPurchase, sPLUPurchase2 : string;
   i, itmp: Integer;
 begin
-//  itmp := 0;
-  for i := 1 to strgGrid.RowCount - 1 do
+
+  {for i := 1 to strgGrid.RowCount - 1 do
   begin
     sPLU := strgGrid.Cells[_kolPLU, i];
     sPLUPurchase := strgGrid.Cells[_kolPLUPurchase, i];
@@ -410,17 +395,18 @@ begin
       end;
     end;
   end;
+  }
 end;
 
 
-procedure TfrmQuotatiuonMailer.FormCreate(Sender: TObject);
+procedure TfrmQuotationMailer.FormCreate(Sender: TObject);
 begin
   inherited;
-  FQuotationMailer := TNewQuotationPromo.Create(self);
-  
+//  FQuotationMailer := TNewQuotationPromo.Create(self);
+
 end;
 
-procedure TfrmQuotatiuonMailer.FormKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmQuotationMailer.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -465,13 +451,14 @@ begin
   end;   }
 end;
 
-procedure TfrmQuotatiuonMailer.LoadProductByBrgCode;
+procedure TfrmQuotationMailer.LoadProductByBrgCode;
 var
   sSQL: string;
 begin
   sSQL := 'select brg_code, brg_catalog, brg_alias '
           + ' from barang '
-          + ' where brg_code = ' + Quot(strgGrid.Cells[_KolPLU,strgGrid.Row]);
+;//          + ' where brg_code = ' + QuotedStr(strgGrid.Cells[_KolPLU,strgGrid.Row]);
+  {
   with cOpenQuery(sSQL) do
   begin
     try
@@ -484,85 +471,21 @@ begin
       Free;
     end;
   end;
+  }
 end;
 
-{procedure TfrmQuotatiuonMailer.DeleteQuotation(AQuotId, AUnitId: Integer);
-var
-  intI, IDLokal: Integer;
-  arrParam: TArr;
-  IsBerhasilHapus: Boolean;
-  chkStatue: Boolean;
-begin
-  if (CommonDlg.Confirm('Are you sure you wish to remove Quotation : ' +
-    edtQuotationNo.Text + ' ?') = mrYes) then
-  begin
-  
-  {  SetLength(arrParam, 2);
-    arrParam[0].tipe := ptInteger;
-    arrParam[0].data := AQuotId;
-    arrParam[1].tipe := ptInteger;
-    arrParam[1].data := AUnitId;
 
-
-    if TQuotation.DeleteDataQuotationDetilpromo(arrParam) then
-    begin
-      CommonDlg.ShowMessage('Berhasil menghapus data');
-      
-      //RefreshData('', '', -1, -1, -1);
-    end;
-    cClearGrid(strgGrid,False);
-  //FQuotationMailer.QuotationPromoItems[i].LoadByIdAndUnitID(FQuotationMailer.ID,MasterNewUnit.ID)
-//  end;
-//end;    }
-
-
-procedure TfrmQuotatiuonMailer.strgGridGetAlignment(Sender: TObject; ARow,
-  ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-var    i: Integer;
-
-begin
-  inherited;
-     if ARow = 0 then
-  begin
-    for i := 0 to strgGrid.ColCount - 1 do
-    begin
-      HAlign := taCenter;
-    end;
-  end;
-end;
-
-procedure TfrmQuotatiuonMailer.FormActivate(Sender: TObject);
-begin
-  inherited;
-  //frmMain.CreateMenu((sender as TForm));
-end;
-
-procedure TfrmQuotatiuonMailer.FormClose(Sender: TObject;
+procedure TfrmQuotationMailer.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-  //frmMain.DestroyMenu((sender as TForm));
   Action := caFree;
-  frmQuotatiuonMailer:=nil;
 end;
 
-procedure TfrmQuotatiuonMailer.FormDestroy(Sender: TObject);
+procedure TfrmQuotationMailer.btnDeleteClick(Sender: TObject);
 begin
   inherited;
-  frmQuotatiuonMailer := nil;
-end;
-
-procedure TfrmQuotatiuonMailer.btnDeleteClick(Sender: TObject);
-//var
-//  data: TStringList;
-//  chkStatue: Boolean;
-//  IDLokal: Integer;
-//  IsBerhasilHapus: Boolean;
-//  intI: Integer;
-//  arrParam: TArr;
-begin
-  inherited;
-  if (CommonDlg.Confirm('Anda Yakin Akan Menghapus Quotation Mailer : ' + edtQuotationNo1.Text + ' ?') = mrYes) then
+  {if (CommonDlg.Confirm('Anda Yakin Akan Menghapus Quotation Mailer : ' + edbQuotationNo1.Text + ' ?') = mrYes) then
   begin
     if FQuotationMailer.ID > 0 then
     begin
@@ -576,7 +499,7 @@ begin
             CommonDlg.ShowMessage('Data Berhasil Dihapus');
 
             cClearGrid(strgGrid,False);
-            edtQuotationNo1.Text := '';
+            edbQuotationNo1.Text := '';
             edtRemark.Text := '';
             edtProdName.Text := '';
             edtCatalog.Text := '';
@@ -598,15 +521,14 @@ begin
       CommonDlg.ShowMessage('Gagal Menghapus Data');
     end;
   end;
+  }
 end;
 
-
-
-procedure TfrmQuotatiuonMailer.frftr5btn1btnUpdateClick(Sender: TObject);
+procedure TfrmQuotationMailer.frftr5btn1btnUpdateClick(Sender: TObject);
 
 begin
   inherited;
-  if MasterNewUnit.ID = 0 then
+  if MasterNewUnit = 0 then
   begin
     CommonDlg.ShowError('Company Belum Dipilih');
     Exit;
@@ -616,27 +538,24 @@ begin
   with frmDialogQuotationMailerNeo do
   begin
     try
-      if  FQuotationMailer.IsProcessed = 1 then
+//      if  FQuotationMailer.IsProcessed = 1 then
       begin
         CommonDlg.ShowError('Quotation Ini Sudah Dieksekusi, Tidak Bisa Diedit');
         Exit;
       end;
 
-      FIDLokal       := FQuotationMailer.ID;
-      //FUnitID        := FQuotationMailer.UnitID;
-      //FLoginFullname := FLoginFullname;
-      //FUnitName      := MasterNewUnit.Nama;
+      FIDLokal       := FQuotationMailer;
 
       SetFormPropertyAndShowDialog(frmDialogQuotationMailerNeo);
-      if IsProcessSuccessfull then
-        LoadDataQuotationMailer(edtQuotationNo.Text,MasterNewUnit.ID);
+//      if IsProcessSuccessfull then
+//        LoadDataQuotationMailer(edtQuotationNo.Text,MasterNewUnit.ID);
     finally
       Free;
     end;
   end;
 end;
 
-procedure TfrmQuotatiuonMailer.strgGridCanEditCell(Sender: TObject; ARow,
+procedure TfrmQuotationMailer.strgGridCanEditCell(Sender: TObject; ARow,
   ACol: Integer; var CanEdit: Boolean);
 begin
   inherited;
@@ -645,7 +564,8 @@ begin
 //    CanEdit := True;
 end;
 
-procedure TfrmQuotatiuonMailer.edtQuotationNo1ClickBtn(Sender: TObject);
+procedure TfrmQuotationMailer.edb1PropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
 var
   sSQL: string;
 begin
@@ -655,8 +575,8 @@ begin
           + ' QUOT_DATE_EFFECTIVE as " Effective Date", QUOT_END_DATE as " End Date",'
           + ' QUOT_REMARK  as "Remark", QUOT_ID as "ID",QUOT_IS_PROCESSED as "Is Processed"'
           + ' FROM QUOTATION_PROMO '
-          + ' WHERE QUOT_UNT_ID = ' + IntToStr(MasterNewUnit.ID) ;
-
+          + ' WHERE QUOT_UNT_ID = ' + IntToStr(MasterNewUnit) ;
+    {
     with cLookUp('Quotation/ref No',sSQL, 200,1,False) do
     begin
       try
@@ -664,7 +584,7 @@ begin
           Exit;
 
         cShowWaitWindow('Sedang Load Data ........');
-        edtQuotationNo1.Text := Strings[0];
+        edbQuotationNo1.Text := Strings[0];
 
         //LoadDataQuotationMailer(aNoBukti, aUnitID);
 
@@ -673,82 +593,75 @@ begin
         Free;
       end;
     end;
-
+    }
 
 end;
 
-procedure TfrmQuotatiuonMailer.edtQuotationNo1KeyUp(Sender: TObject;
+procedure TfrmQuotationMailer.edbQuotationNo1KeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
   if (Key = VK_F5) then
   begin
-    edtQuotationNo1ClickBtn(Self);
+    edb1PropertiesButtonClick(Self, 0);
   end
   else if (Key = VK_RETURN) then
   begin
-    LoadDataQuotationMailer(edtQuotationNo1.Text, MasterNewUnit.ID);
+    LoadDataQuotationMailer(edbQuotationNo1.Text, MasterNewUnit);
     Perform(WM_NEXTDLGCTL,0,0);
   end;
 
 end;
 
-procedure TfrmQuotatiuonMailer.FormShow(Sender: TObject);
+procedure TfrmQuotationMailer.FormShow(Sender: TObject);
 begin
   inherited;
-  edtQuotationNo1.Text := '';
+  edbQuotationNo1.Text := '';
   InistialisasiGrid;
 end;
 
-procedure TfrmQuotatiuonMailer.btnUpdateClick(Sender: TObject);
-begin
-  inherited;
-  frmDialogQuotationMailerNeo := TfrmDialogQuotationMailerNeo.Create(Self);
-  DoPrintSlipQuotationMailer(edtQuotationNo1.Text,MasterNewUnit.ID, FLoginFullname, MasterNewUnit.Nama);
-end;
-
-procedure TfrmQuotatiuonMailer.frftr5btn1btnCloseClick(Sender: TObject);
+procedure TfrmQuotationMailer.frftr5btn1btnCloseClick(Sender: TObject);
 begin
    Close;
 end;
 
-procedure TfrmQuotatiuonMailer.dtRefDateKeyPress(Sender: TObject;
+procedure TfrmQuotationMailer.dtRefDateKeyPress(Sender: TObject;
   var Key: Char);
 begin
     if Key=#13 then Perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmQuotatiuonMailer.dtEffectiveDateKeyPress(Sender: TObject;
+procedure TfrmQuotationMailer.dtEffectiveDateKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then Perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmQuotatiuonMailer.dtEffectiveTimeKeyPress(Sender: TObject;
+procedure TfrmQuotationMailer.dtEffectiveTimeKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then Perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmQuotatiuonMailer.dtEndDateKeyPress(Sender: TObject;
+procedure TfrmQuotationMailer.dtEndDateKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then Perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmQuotatiuonMailer.dtEndTimeKeyPress(Sender: TObject;
+procedure TfrmQuotationMailer.dtEndTimeKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then Perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmQuotatiuonMailer.edtRemarkKeyPress(Sender: TObject;
+procedure TfrmQuotationMailer.edtRemarkKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then Perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmQuotatiuonMailer.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmQuotationMailer.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -764,30 +677,18 @@ begin
     Close;
 end;
 
-procedure TfrmQuotatiuonMailer.btnRefreshClick(Sender: TObject);
+procedure TfrmQuotationMailer.btnRefreshClick(Sender: TObject);
 begin
 //  inherited;
-  LoadDataQuotationMailer(edtQuotationNo1.Text, MasterNewUnit.ID);
+  LoadDataQuotationMailer(edbQuotationNo1.Text, MasterNewUnit);
 end;
 
-procedure TfrmQuotatiuonMailer.btnUpdateEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmQuotatiuonMailer.btnUpdateExit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmQuotatiuonMailer.LoadDataQuotationMailer(aNoBukti : String;
+procedure TfrmQuotationMailer.LoadDataQuotationMailer(aNoBukti : String;
     aUnitID : Integer);
 begin
-  if FQuotationMailer.LoadByNoBukti(aNoBukti,aUnitID) then
+  {if FQuotationMailer.LoadByNoBukti(aNoBukti,aUnitID) then
   begin
-    edtQuotationNo1.Text  := FQuotationMailer.RefNo;
+    edbQuotationNo1.Text  := FQuotationMailer.RefNo;
     dtEffectiveDate.Date  := FQuotationMailer.EffectifDate;
     dtEndDate.Date        := FQuotationMailer.EndDate;
     edtRemark.Text        := FQuotationMailer.Remark;
@@ -806,9 +707,10 @@ begin
     ClearByTag(Self,[1]);
     Exit;
   end;
+  }
 end;
 
-procedure TfrmQuotatiuonMailer.strgGridGetFloatFormat(Sender: TObject;
+procedure TfrmQuotationMailer.strgGridGetFloatFormat(Sender: TObject;
   ACol, ARow: Integer; var IsFloat: Boolean; var FloatFormat: String);
 begin
   inherited;

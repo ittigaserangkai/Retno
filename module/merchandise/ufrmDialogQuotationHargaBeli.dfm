@@ -1,127 +1,122 @@
-inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
-  Left = 216
-  Top = 140
-  Caption = 'Quotation Harga Beli'
-  ClientHeight = 475
-  ClientWidth = 740
-  ExplicitWidth = 756
-  ExplicitHeight = 514
+inherited frmDialogQuotationHargaBeli: TfrmDialogQuotationHargaBeli
+  Left = 164
+  Top = 125
+  Caption = 'Input Quotation Harga Beli'
+  ClientHeight = 502
+  ClientWidth = 866
+  Constraints.MinHeight = 32
+  KeyPreview = False
+  OldCreateOrder = True
+  ExplicitWidth = 882
+  ExplicitHeight = 541
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 740
-    Height = 386
-    BorderWidth = 1
-    ExplicitWidth = 740
-    ExplicitHeight = 386
-    inherited pgcBrowse: TcxPageControl
-      Left = 2
-      Top = 150
-      Width = 736
-      Height = 234
+    Width = 866
+    Height = 446
+    ExplicitWidth = 866
+    ExplicitHeight = 446
+    inherited cxGrid: TcxGrid
+      Top = 168
+      Width = 862
+      Height = 276
       TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 150
-      ExplicitWidth = 736
-      ExplicitHeight = 234
-      ClientRectBottom = 233
-      ClientRectRight = 735
-      inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 734
-        ExplicitHeight = 232
-        inherited cxGrid: TcxGrid
-          Width = 734
-          Height = 232
-          ExplicitWidth = 734
-          ExplicitHeight = 232
-          inherited cxGridView: TcxGridDBTableView
-            object cxcolGridViewColumn1: TcxGridDBColumn
-              Caption = 'NO.'
-            end
-            object cxcolGridViewColumn2: TcxGridDBColumn
-              Caption = 'KODE BARANG'
-              Width = 104
-            end
-            object cxcolGridViewColumn3: TcxGridDBColumn
-              Caption = 'NAMA BARANG'
-              Width = 130
-            end
-            object cxcolGridViewColumn4: TcxGridDBColumn
-              Caption = 'UOM'
-            end
-            object cxcolGridViewColumn5: TcxGridDBColumn
-              Caption = 'HARGA'
-            end
-            object cxcolGridViewColumn6: TcxGridDBColumn
-              Caption = 'DISC 1 (%)'
-            end
-            object cxcolGridViewColumn7: TcxGridDBColumn
-              Caption = 'DISC 2 (%)'
-            end
-            object cxcolGridViewColumn8: TcxGridDBColumn
-              Caption = 'DISC 1 (Rp)'
-            end
-          end
+      ExplicitTop = 168
+      ExplicitWidth = 862
+      ExplicitHeight = 276
+      inherited cxGridView: TcxGridDBTableView
+        FindPanel.DisplayMode = fpdmManual
+        FilterRow.InfoText = 
+          'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
+          'er'
+        FilterRow.ApplyChanges = fracImmediately
+        OptionsData.Editing = False
+        Styles.ContentEven = DMClient.cxStyleGridHeader
+        Styles.Header = DMClient.cxStyleGridEven
+        object cxcolGridViewColumn1: TcxGridDBColumn
+          Caption = 'NO.'
+        end
+        object cxcolGridViewColumn2: TcxGridDBColumn
+          Caption = 'KODE BARANG'
+        end
+        object cxcolGridViewColumn3: TcxGridDBColumn
+          Caption = 'NAMA BARANG'
+        end
+        object cxcolGridViewColumn4: TcxGridDBColumn
+          Caption = 'UOM'
+        end
+        object cxcolGridViewColumn5: TcxGridDBColumn
+          Caption = 'HARGA'
+        end
+        object cxcolGridViewColumn6: TcxGridDBColumn
+          Caption = 'DISC 1 (%)'
+        end
+        object cxcolGridViewColumn7: TcxGridDBColumn
+          Caption = 'DISC 2 (%)'
+        end
+        object cxcolGridViewColumn8: TcxGridDBColumn
+          Caption = 'DISC 3 (Rp)'
         end
       end
     end
     object pnlatas: TPanel
       Left = 2
       Top = 2
-      Width = 736
-      Height = 148
+      Width = 862
+      Height = 166
       Align = alTop
       Color = 15198183
       TabOrder = 0
+      DesignSize = (
+        862
+        166)
       object lbl1: TLabel
-        Left = 201
-        Top = 8
+        Left = 260
+        Top = 10
         Width = 33
         Height = 16
         Caption = 'Suplier'
       end
       object lbl2: TLabel
-        Left = 390
-        Top = 86
+        Left = 253
+        Top = 89
         Width = 37
         Height = 16
         Caption = 'Tanggal'
       end
       object lbl3: TLabel
-        Left = 176
-        Top = 113
+        Left = 235
+        Top = 142
         Width = 58
         Height = 16
         Caption = 'Keterangan'
       end
       object lbl4: TLabel
-        Left = 161
-        Top = 86
+        Left = 220
+        Top = 115
         Width = 73
         Height = 16
         Caption = 'Effektive Date'
       end
       object lbl5: TLabel
-        Left = 198
-        Top = 60
+        Left = 257
+        Top = 62
         Width = 36
         Height = 16
         Caption = 'Ref. No'
       end
       object lbl6: TLabel
-        Left = 188
-        Top = 34
-        Width = 46
+        Left = 251
+        Top = 36
+        Width = 42
         Height = 16
-        Caption = 'No. Bukti'
+        Caption = 'No Bukti'
       end
       object img1: TImage
         Left = 1
         Top = 1
-        Width = 146
-        Height = 146
+        Width = 164
+        Height = 164
         Align = alLeft
         Picture.Data = {
           0A544A504547496D616765F63D0000FFD8FFE000104A46494600010200006400
@@ -623,9 +618,31 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
           808081FFD9}
         Stretch = True
       end
+      object lbl7: TcxLabel
+        Left = 752
+        Top = 145
+        Cursor = crHandPoint
+        Anchors = [akRight, akBottom]
+        Caption = 'Hapus Baris (Ctrl-R)'
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+        OnClick = lbl7Click
+      end
+      object lblTambah: TcxLabel
+        Left = 641
+        Top = 145
+        Cursor = crHandPoint
+        Anchors = [akRight, akBottom]
+        Caption = 'Tambah Baris (Ctrl-T)'
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+        OnClick = lblTambahClick
+      end
       object edtNamaSuplier: TEdit
-        Left = 365
-        Top = 8
+        Left = 425
+        Top = 7
         Width = 193
         Height = 22
         Ctl3D = False
@@ -634,136 +651,128 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
         TabOrder = 0
       end
       object dtTanggal: TcxDateEdit
-        Left = 430
-        Top = 86
-        TabOrder = 4
-        Width = 128
-      end
-      object dtEffektiveDate: TcxDateEdit
-        Left = 242
+        Left = 302
         Top = 86
         TabOrder = 3
+        OnExit = dtTanggalExit
+        OnKeyPress = dtTanggalKeyPress
+        OnKeyUp = dtTanggalKeyUp
+        Width = 121
+      end
+      object dtEffektiveDate: TcxDateEdit
+        Left = 302
+        Top = 112
+        TabOrder = 4
+        OnKeyPress = dtEffektiveDateKeyPress
+        OnKeyUp = dtEffektiveDateKeyUp
         Width = 121
       end
       object edtKeterangan: TEdit
-        Left = 242
-        Top = 113
-        Width = 316
+        Left = 302
+        Top = 139
+        Width = 317
         Height = 22
         Ctl3D = False
         ParentCtl3D = False
-        ReadOnly = True
         TabOrder = 5
+        OnKeyPress = edtKeteranganKeyPress
+        OnKeyUp = edtKeteranganKeyUp
       end
       object edtRefNo: TEdit
-        Left = 242
-        Top = 60
-        Width = 316
+        Left = 302
+        Top = 59
+        Width = 172
         Height = 22
         Ctl3D = False
         ParentCtl3D = False
-        ReadOnly = True
         TabOrder = 2
+        OnKeyPress = edtRefNoKeyPress
+        OnKeyUp = edtRefNoKeyUp
       end
       object edtNoBukti: TEdit
-        Left = 242
-        Top = 34
-        Width = 316
+        Left = 302
+        Top = 33
+        Width = 172
         Height = 22
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 1
-        OnKeyDown = edtNoBuktiKeyDown
+        OnKeyPress = edtNoBuktiKeyPress
+        OnKeyUp = edtNoBuktiKeyUp
       end
       object edbKodeSuplier: TcxButtonEdit
-        Left = 240
+        Left = 301
         Top = 7
         Properties.Buttons = <
           item
             Default = True
             Kind = bkEllipsis
           end>
-        Properties.OnButtonClick = edbQuotationNo1PropertiesButtonClick
-        TabOrder = 6
+        Properties.OnButtonClick = edbKodeSuplierPropertiesButtonClick
+        TabOrder = 8
         Text = 'edbKodeSuplier'
         Width = 121
       end
     end
   end
-  inherited pnlHeader: TPanel
-    Width = 740
-    ExplicitWidth = 740
-    inherited lblHeader: TLabel
-      Width = 110
-      Caption = 'Quotation Harga Beli'
-      ExplicitWidth = 110
-    end
-    inherited lblFilterData: TcxLabel
-      Left = 386
-      ExplicitLeft = 386
-      AnchorY = 17
-    end
-    inherited dtAwalFilter: TcxDateEdit
-      Left = 447
-      ExplicitLeft = 447
-      ExplicitHeight = 23
-    end
-    inherited dtAkhirFilter: TcxDateEdit
-      Left = 563
-      ExplicitLeft = 563
-      ExplicitHeight = 23
-    end
-    inherited btnSearch: TcxButton
-      Left = 658
-      ExplicitLeft = 658
-    end
-    inherited lblsdFilter: TcxLabel
-      Left = 539
-      ExplicitLeft = 539
-      AnchorY = 17
-    end
-  end
-  inherited fraFooter4Button1: TfraFooter4Button
-    Top = 419
-    Width = 740
-    ExplicitTop = 419
-    ExplicitWidth = 740
-    inherited pnlFooter: TPanel
-      Width = 740
-      ExplicitWidth = 740
-      inherited btnAdd: TcxButton
-        Action = actAdd
+  inherited footerDialogMaster: TfraFooterDialog3Button
+    Top = 446
+    Width = 866
+    ExplicitTop = 446
+    ExplicitWidth = 866
+    inherited pnlSortCut: TPanel [0]
+      Width = 866
+      ExplicitWidth = 866
+      inherited lbCTRLEnter: TLabel
+        Left = 789
+        Width = 72
+        Height = 15
+        Caption = 'Close [Escape]'
+        ExplicitLeft = 789
+        ExplicitWidth = 72
       end
-      inherited btnUpdate: TcxButton
-        Action = actEdit
-      end
-      inherited btnPrint: TcxButton
-        Action = actPrint
-      end
-      inherited btnClose: TcxButton
-        Left = 663
-        Action = actClose
-        ExplicitLeft = 663
-      end
-      inherited cxButton1: TcxButton
-        Action = actExport
-      end
-    end
-    inherited pnlShortCut: TPanel
-      Width = 740
-      ExplicitWidth = 740
       inherited lbEscape: TLabel
-        Left = 666
-        Height = 17
-        ExplicitLeft = 666
+        Left = 704
+        Height = 15
+        ExplicitLeft = 704
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+    end
+    inherited pnlFooter: TPanel [1]
+      Width = 866
+      ExplicitWidth = 866
+      inherited btnClose: TcxButton
+        Left = 696
+        Action = actCancel
+        OnKeyUp = footerDialogMasterbtnCloseKeyUp
+        ExplicitLeft = 696
+      end
+      inherited btnSave: TcxButton
+        Left = 774
+        Action = actSave
+        OnClick = footerDialogMasterbtnSaveClick
+        OnKeyUp = footerDialogMasterbtnSaveKeyUp
+        ExplicitLeft = 774
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
       end
     end
   end
-  inherited actlstBrowse: TActionList
-    inherited actPrint: TAction
-      OnExecute = actPrintExecute
+  object pm1: TPopupMenu
+    Left = 187
+    Top = 247
+    object mniTambahBaris: TMenuItem
+      Caption = 'Tambah Baris'
+      OnClick = mniTambahBarisClick
+    end
+    object mniHapusBaris: TMenuItem
+      Caption = 'Hapus Baris'
+      OnClick = mniHapusBarisClick
     end
   end
 end
