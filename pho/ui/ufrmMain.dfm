@@ -106,8 +106,8 @@ object frmMain: TfrmMain
       TabOrder = 1
     end
     object cbbCompCode: TComboBox
-      Left = 159
-      Top = 4
+      Left = 160
+      Top = 6
       Width = 194
       Height = 24
       BevelKind = bkSoft
@@ -177,11 +177,11 @@ object frmMain: TfrmMain
       object UnitStore1: TMenuItem
         Action = actUnitStore
       end
-      object Lokasi1: TMenuItem
-        Action = actLokasi
-      end
-      object ipekirimPO1: TMenuItem
-        Action = actTipekirimPO
+    end
+    object CustomerSupport1: TMenuItem
+      Caption = 'Membership'
+      object MasterCustomer1: TMenuItem
+        Action = actMembership
       end
     end
     object Finance1: TMenuItem
@@ -209,9 +209,6 @@ object frmMain: TfrmMain
       end
       object MasterProduct1: TMenuItem
         Action = actDataProduct
-      end
-      object SupplierGroup1: TMenuItem
-        Action = actSupplierGroup
       end
     end
     object mmSetting1: TMenuItem
@@ -274,8 +271,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 118
-    Top = 140
+    Left = 22
+    Top = 172
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
@@ -742,6 +739,7 @@ object frmMain: TfrmMain
     object actQuotation: TAction
       Category = 'Merchandise'
       Caption = 'actQuotation'
+      OnExecute = actQuotationExecute
     end
     object actMarkUpSellingPrice: TAction
       Category = 'Merchandise'
@@ -942,6 +940,7 @@ object frmMain: TfrmMain
     object actQuotationPromo: TAction
       Category = 'Merchandise'
       Caption = 'actQuotationPromo'
+      OnExecute = actQuotationPromoExecute
     end
     object actSettingJurnal: TAction
       Category = 'EOD'
@@ -954,6 +953,7 @@ object frmMain: TfrmMain
     object actQuotationHargaBeli: TAction
       Category = 'Merchandise'
       Caption = 'actQuotationHargaBeli'
+      OnExecute = actQuotationHargaBeliExecute
     end
     object actGenerateJurnalManual: TAction
       Category = 'EOD'
@@ -1000,8 +1000,7 @@ object frmMain: TfrmMain
     end
     object actSupplierGroup: TAction
       Category = 'Merchandise'
-      Caption = 'S&upplier Group'
-      OnExecute = actSupplierGroupExecute
+      Caption = 'SupplierGroup'
     end
     object actReprintNP: TAction
       Caption = 'actReprintNP'
@@ -1139,10 +1138,15 @@ object frmMain: TfrmMain
       Caption = 'Company'
       OnExecute = actCompanyExecute
     end
-    object actTipekirimPO: TAction
-      Category = 'References'
-      Caption = 'Tipe kirim PO'
-      OnExecute = actTipekirimPOExecute
+    object actQuotationMailer: TAction
+      Category = 'Merchandise'
+      Caption = 'Quotation Mailer'
+      OnExecute = actQuotationMailerExecute
+    end
+    object actMembership: TAction
+      Category = 'Membership'
+      Caption = 'Membership'
+      OnExecute = actMembershipExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -1153,7 +1157,7 @@ object frmMain: TfrmMain
   end
   object LookAndFeelController: TcxLookAndFeelController
     NativeStyle = False
-    Left = 64
-    Top = 216
+    Left = 24
+    Top = 224
   end
 end

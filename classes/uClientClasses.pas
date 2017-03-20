@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/18/2017 3:01:54 PM
+// 3/20/2017 2:15:14 PM
 //
 
 unit uClientClasses;
@@ -136,6 +136,8 @@ type
     FApp_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarang_GetDSOverviewCommand: TDSRestCommand;
     FBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRefTipeMember_GetDSOverviewCommand: TDSRestCommand;
+    FRefTipeMember_GetDSOverviewCommand_Cache: TDSRestCommand;
     FTipeKirimPO_GetDSOverviewCommand: TDSRestCommand;
     FTipeKirimPO_GetDSOverviewCommand_Cache: TDSRestCommand;
     FSuplierGroup_GetDSOverview1Command: TDSRestCommand;
@@ -216,6 +218,8 @@ type
     function App_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Barang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Barang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RefTipeMember_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function RefTipeMember_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeKirimPO_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeKirimPO_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SuplierGroup_GetDSOverview1(const ARequestFilter: string = ''): TDataSet;
@@ -663,6 +667,16 @@ const
   );
 
   TDSProvider_Barang_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RefTipeMember_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RefTipeMember_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -2046,6 +2060,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarang_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.RefTipeMember_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FRefTipeMember_GetDSOverviewCommand = nil then
+  begin
+    FRefTipeMember_GetDSOverviewCommand := FConnection.CreateCommand;
+    FRefTipeMember_GetDSOverviewCommand.RequestType := 'GET';
+    FRefTipeMember_GetDSOverviewCommand.Text := 'TDSProvider.RefTipeMember_GetDSOverview';
+    FRefTipeMember_GetDSOverviewCommand.Prepare(TDSProvider_RefTipeMember_GetDSOverview);
+  end;
+  FRefTipeMember_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRefTipeMember_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRefTipeMember_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RefTipeMember_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRefTipeMember_GetDSOverviewCommand_Cache = nil then
+  begin
+    FRefTipeMember_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FRefTipeMember_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FRefTipeMember_GetDSOverviewCommand_Cache.Text := 'TDSProvider.RefTipeMember_GetDSOverview';
+    FRefTipeMember_GetDSOverviewCommand_Cache.Prepare(TDSProvider_RefTipeMember_GetDSOverview_Cache);
+  end;
+  FRefTipeMember_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRefTipeMember_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.TipeKirimPO_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FTipeKirimPO_GetDSOverviewCommand = nil then
@@ -2188,6 +2231,8 @@ begin
   FApp_GetDSOverviewCommand_Cache.DisposeOf;
   FBarang_GetDSOverviewCommand.DisposeOf;
   FBarang_GetDSOverviewCommand_Cache.DisposeOf;
+  FRefTipeMember_GetDSOverviewCommand.DisposeOf;
+  FRefTipeMember_GetDSOverviewCommand_Cache.DisposeOf;
   FTipeKirimPO_GetDSOverviewCommand.DisposeOf;
   FTipeKirimPO_GetDSOverviewCommand_Cache.DisposeOf;
   FSuplierGroup_GetDSOverview1Command.DisposeOf;

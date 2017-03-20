@@ -162,7 +162,7 @@ begin
   if frmDialogPersonalMember.IsProcessSuccessfull then
   begin
     ParseDataGrid();
-    frmMemberShip.actRefreshMemberShipExecute(Self);
+//    frmMemberShip.actRefreshMemberShipExecute(Self);
   end;
 end;
 
