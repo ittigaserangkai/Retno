@@ -733,6 +733,7 @@ object frmMain: TfrmMain
     object actQuotation: TAction
       Category = 'Merchandise'
       Caption = 'actQuotation'
+      OnExecute = actQuotationExecute
     end
     object actMarkUpSellingPrice: TAction
       Category = 'Merchandise'
@@ -933,6 +934,7 @@ object frmMain: TfrmMain
     object actQuotationPromo: TAction
       Category = 'Merchandise'
       Caption = 'actQuotationPromo'
+      OnExecute = actQuotationPromoExecute
     end
     object actSettingJurnal: TAction
       Category = 'EOD'
@@ -945,6 +947,7 @@ object frmMain: TfrmMain
     object actQuotationHargaBeli: TAction
       Category = 'Merchandise'
       Caption = 'actQuotationHargaBeli'
+      OnExecute = actQuotationHargaBeliExecute
     end
     object actGenerateJurnalManual: TAction
       Category = 'EOD'
@@ -1128,6 +1131,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Company'
       OnExecute = actCompanyExecute
+    end
+    object actQuotationMailer: TAction
+      Category = 'Merchandise'
+      Caption = 'Quotation Mailer'
+      OnExecute = actQuotationMailerExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents

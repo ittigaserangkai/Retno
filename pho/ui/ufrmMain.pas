@@ -277,6 +277,7 @@ type
     Company1: TMenuItem;
     SalesOutlet1: TMenuItem;
     UnitStore1: TMenuItem;
+    actQuotationMailer: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -300,6 +301,10 @@ type
     procedure actPajakExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
+    procedure actQuotationExecute(Sender: TObject);
+    procedure actQuotationHargaBeliExecute(Sender: TObject);
+    procedure actQuotationMailerExecute(Sender: TObject);
+    procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
@@ -362,7 +367,8 @@ uses
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
-  ufrmOutlet, ufrmVoucher;
+  ufrmOutlet, ufrmVoucher, ufrmQuotation, ufrmQuotationHargaBeli,
+  ufrmQuotationMailer;
 
 {$R *.dfm}
 
@@ -662,6 +668,26 @@ end;
 procedure TfrmMain.actProductTypeNBDExecute(Sender: TObject);
 begin
     frmProductTypeNBD := TfrmProductTypeNBD.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationExecute(Sender: TObject);
+begin
+  frmQuotation := TfrmQuotation.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationHargaBeliExecute(Sender: TObject);
+begin
+  frmQuotationHargaBeli := TfrmQuotationHargaBeli.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationMailerExecute(Sender: TObject);
+begin
+    frmQuotationMailer := TfrmQuotationMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationPromoExecute(Sender: TObject);
+begin
+    frmQuotationMailer := TfrmQuotationMailer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
