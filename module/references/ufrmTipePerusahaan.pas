@@ -13,6 +13,7 @@ uses
   dxCore, cxDateUtils, Vcl.Menus, ufraFooter4Button, cxButtons, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxPC;
 
+
 type
   TfrmTipePerusahaan = class(TfrmMasterBrowse)
     cxGridViewColumn1: TcxGridDBColumn;

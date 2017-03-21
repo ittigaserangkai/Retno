@@ -3,32 +3,31 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   Top = 237
   Caption = 'Master Tipe Perusahaan'
   ClientHeight = 324
-  ClientWidth = 546
+  ClientWidth = 570
   OldCreateOrder = True
   OnDeactivate = FormDeactivate
-  ExplicitWidth = 562
+  ExplicitWidth = 586
   ExplicitHeight = 363
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 546
+    Width = 570
     Height = 235
     ExplicitWidth = 546
     ExplicitHeight = 235
     inherited pgcBrowse: TcxPageControl
-      Width = 524
+      Width = 548
       Height = 213
       ExplicitWidth = 524
       ExplicitHeight = 213
       ClientRectBottom = 212
-      ClientRectRight = 523
+      ClientRectRight = 547
       inherited tsBrowse: TcxTabSheet
         ExplicitWidth = 522
         ExplicitHeight = 211
         inherited cxGrid: TcxGrid
-          Width = 522
+          Width = 546
           Height = 211
-          ExplicitTop = -6
           ExplicitWidth = 522
           ExplicitHeight = 211
           inherited cxGridView: TcxGridDBTableView
@@ -51,59 +50,55 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     end
   end
   inherited pnlHeader: TPanel
-    Width = 546
+    Width = 570
     ExplicitWidth = 546
     inherited lblHeader: TLabel
       Width = 98
       Caption = 'TIPE PERUSAHAAN'
-      ExplicitLeft = 0
-      ExplicitTop = 6
       ExplicitWidth = 98
-      ExplicitHeight = 21
     end
     inherited lblFilterData: TcxLabel
-      Left = 192
+      Left = 216
       ExplicitLeft = 192
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 253
+      Left = 277
       ExplicitLeft = 253
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 369
+      Left = 393
       ExplicitLeft = 369
     end
     inherited btnSearch: TcxButton
-      Left = 464
+      Left = 488
       ExplicitLeft = 464
     end
     inherited lblsdFilter: TcxLabel
-      Left = 345
+      Left = 369
       ExplicitLeft = 345
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 268
-    Width = 546
+    Width = 570
     ExplicitTop = 268
     ExplicitWidth = 546
     inherited pnlFooter: TPanel
-      Width = 546
+      Width = 570
       ExplicitWidth = 546
       inherited btnAdd: TcxButton
         Action = actAdd
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 469
+        Left = 493
         Action = actClose
         ExplicitLeft = 469
       end
@@ -112,7 +107,12 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 546
+      Width = 570
+      ExplicitWidth = 546
+      inherited lbEscape: TLabel
+        Left = 496
+        Height = 17
+      end
     end
   end
   inherited actlstBrowse: TActionList

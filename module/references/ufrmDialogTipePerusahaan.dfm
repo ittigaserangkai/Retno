@@ -2,17 +2,17 @@ inherited frmDialogTipePerusahaan: TfrmDialogTipePerusahaan
   Left = 278
   Top = 233
   Caption = 'frmDialogTipePerusahaan'
-  ClientHeight = 141
-  ClientWidth = 368
+  ClientHeight = 168
+  ClientWidth = 390
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 384
-  ExplicitHeight = 180
+  ExplicitWidth = 406
+  ExplicitHeight = 207
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 368
-    Height = 85
+    Width = 390
+    Height = 112
     ExplicitWidth = 368
     ExplicitHeight = 85
     object lbl1: TLabel
@@ -59,39 +59,40 @@ inherited frmDialogTipePerusahaan: TfrmDialogTipePerusahaan
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 85
-    Width = 368
+    Top = 112
+    Width = 390
     ExplicitTop = 85
     ExplicitWidth = 368
     inherited pnlFooter: TPanel
-      Width = 368
+      Width = 390
       ExplicitWidth = 368
       inherited btnClose: TcxButton
-        Left = 291
+        Left = 313
         Action = actCancel
         ExplicitLeft = 291
       end
       inherited btnSave: TcxButton
-        Left = 198
+        Left = 220
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 198
-        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 368
+      Width = 390
       ExplicitWidth = 368
       inherited lbCTRLEnter: TLabel
-        Left = 193
+        Left = 215
         Height = 15
+        ExplicitLeft = 193
       end
       inherited lbEscape: TLabel
-        Left = 284
+        Left = 306
         Height = 15
+        ExplicitLeft = 284
       end
       inherited lbCTRLDel: TLabel
         Height = 15
