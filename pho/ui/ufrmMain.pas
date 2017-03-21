@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany, ufrmUnit;
+  ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -281,6 +281,9 @@ type
     CustomerSupport1: TMenuItem;
     MasterCustomer1: TMenuItem;
     actMembership: TAction;
+    actSupplier: TAction;
+    actSupplier1: TMenuItem;
+    SupplierGroup1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -291,6 +294,7 @@ type
     procedure actCostCenterExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
+    procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
@@ -312,6 +316,7 @@ type
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
+    procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
@@ -506,6 +511,11 @@ end;
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSupplierExecute(Sender: TObject);
+begin
+  frmSupplier := TfrmSupplier.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
@@ -713,6 +723,11 @@ end;
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSupplierGroupExecute(Sender: TObject);
+begin
+  frmSupplierGroup := TfrmSupplierGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierTypeExecute(Sender: TObject);
