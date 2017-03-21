@@ -947,6 +947,7 @@
             <DataSnapProxyLookup>
                 <uClientClasses>{A01380B5-3771-45CF-B6B6-022C98D01784}</uClientClasses>
             </DataSnapProxyLookup>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
