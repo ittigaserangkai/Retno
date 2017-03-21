@@ -135,7 +135,7 @@ begin
     actSave.Execute;
     Key := VK_CANCEL;
   end;
-  if(Key = VK_ESCAPE) then actCancel.Execute
+  if(Key = VK_ESCAPE) then actCancel.Execute;
 end;
 
 procedure TfrmMasterDialog.GetUserModule;
