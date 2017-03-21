@@ -1,12 +1,11 @@
 inherited frmTipePerusahaan: TfrmTipePerusahaan
   Left = 184
   Top = 237
-  Caption = 'Company Type'
+  Caption = 'Master Tipe Perusahaan'
   ClientHeight = 324
   ClientWidth = 546
   OldCreateOrder = True
   OnDeactivate = FormDeactivate
-  ExplicitTop = 8
   ExplicitWidth = 562
   ExplicitHeight = 363
   PixelsPerInch = 96
@@ -15,24 +14,38 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     Width = 546
     Height = 235
     ExplicitWidth = 546
-    ExplicitHeight = 179
+    ExplicitHeight = 235
     inherited pgcBrowse: TcxPageControl
       Width = 524
       Height = 213
       ExplicitWidth = 524
-      ExplicitHeight = 157
+      ExplicitHeight = 213
       ClientRectBottom = 212
       ClientRectRight = 523
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 524
-        ExplicitHeight = 157
+        ExplicitWidth = 522
+        ExplicitHeight = 211
         inherited cxGrid: TcxGrid
-          Width = 524
-          Height = 213
-          ExplicitWidth = 524
-          ExplicitHeight = 157
+          Width = 522
+          Height = 211
+          ExplicitTop = -6
+          ExplicitWidth = 522
+          ExplicitHeight = 211
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'KODE'
+              DataBinding.FieldName = 'TPPERSH_CODE'
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'NAMA'
+              DataBinding.FieldName = 'TPPERSH_NAME'
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'ID'
+              DataBinding.FieldName = 'REF$TIPE_PERUSAHAAN_ID'
+              Visible = False
+            end
+          end
         end
       end
     end
@@ -40,6 +53,14 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   inherited pnlHeader: TPanel
     Width = 546
     ExplicitWidth = 546
+    inherited lblHeader: TLabel
+      Width = 98
+      Caption = 'TIPE PERUSAHAAN'
+      ExplicitLeft = 0
+      ExplicitTop = 6
+      ExplicitWidth = 98
+      ExplicitHeight = 21
+    end
     inherited lblFilterData: TcxLabel
       Left = 192
       ExplicitLeft = 192
@@ -76,6 +97,7 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
+        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Action = actPrint
@@ -85,11 +107,12 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
         Action = actClose
         ExplicitLeft = 469
       end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
     inherited pnlShortCut: TPanel
-      inherited lbEscape: TLabel
-        Height = 16
-      end
+      Width = 546
     end
   end
   inherited actlstBrowse: TActionList

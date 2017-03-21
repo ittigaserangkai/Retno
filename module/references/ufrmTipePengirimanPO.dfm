@@ -104,7 +104,6 @@ inherited frmTipePengirimanPO: TfrmTipePengirimanPO
       ExplicitWidth = 727
       inherited lbEscape: TLabel
         Left = 653
-        Height = 17
         ExplicitLeft = 653
       end
     end

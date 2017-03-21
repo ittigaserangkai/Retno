@@ -36,10 +36,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Caption = 'Browse Data'
         ImageIndex = 0
         ParentColor = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
@@ -113,7 +109,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
-      ExplicitHeight = 21
       Width = 89
     end
     object dtAkhirFilter: TcxDateEdit
@@ -129,7 +124,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
-      ExplicitHeight = 21
       Width = 89
     end
     object btnSearch: TcxButton
@@ -255,6 +249,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       ExplicitWidth = 701
       inherited lbEscape: TLabel
         Left = 627
+        Height = 17
         ExplicitLeft = 627
       end
     end

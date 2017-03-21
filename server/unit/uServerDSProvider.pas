@@ -215,7 +215,8 @@ function TDSProvider.TipePerusahaan_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM REF$TIPE_PERUSAHAAN';
+  S := 'select TPPERSH_CODE, TPPERSH_NAME, REF$TIPE_PERUSAHAAN_ID'
+        +' from REF$TIPE_PERUSAHAAN';
   Result := TDBUtils.OpenQuery(S);
 end;
 

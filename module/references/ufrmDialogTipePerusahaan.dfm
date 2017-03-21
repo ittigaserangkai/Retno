@@ -32,10 +32,13 @@ inherited frmDialogTipePerusahaan: TfrmDialogTipePerusahaan
       Caption = 'Name'
     end
     object edtCode: TEdit
-      Left = 80
+      Tag = 1
+      Left = 75
       Top = 14
       Width = 82
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Kode Tipe Perusahaan'
       CharCase = ecUpperCase
       Ctl3D = False
       MaxLength = 4
@@ -43,7 +46,8 @@ inherited frmDialogTipePerusahaan: TfrmDialogTipePerusahaan
       TabOrder = 0
     end
     object edtName: TEdit
-      Left = 80
+      Tag = 1
+      Left = 75
       Top = 42
       Width = 265
       Height = 22
@@ -63,34 +67,43 @@ inherited frmDialogTipePerusahaan: TfrmDialogTipePerusahaan
       Width = 368
       ExplicitWidth = 368
       inherited btnClose: TcxButton
-        Left = 286
-        ExplicitLeft = 286
+        Left = 291
+        Action = actCancel
+        ExplicitLeft = 291
       end
       inherited btnSave: TcxButton
-        Left = 199
+        Left = 198
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 199
+        ExplicitLeft = 198
+        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = actDelete
-        OnClick = btnDeleteClick
       end
     end
     inherited pnlSortCut: TPanel
       Width = 368
       ExplicitWidth = 368
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 193
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 284
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
