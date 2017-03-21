@@ -145,7 +145,23 @@ uses
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
   uModUnit in '..\model\uModUnit.pas',
-  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet};
+  ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
+  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
+  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
+  ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
+  ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
+  ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
+  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
+  ufrmDialogQuotationHargaBeli in '..\module\merchandise\ufrmDialogQuotationHargaBeli.pas' {frmDialogQuotationHargaBeli},
+  ufrmDialogQuotationMailerNeo in '..\module\merchandise\ufrmDialogQuotationMailerNeo.pas' {frmDialogQuotationMailerNeo},
+  ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer},
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
+  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
+  ufrmDialogMemberShip in '..\module\customer_support\ufrmDialogMemberShip.pas' {frmDialogMemberShip},
+  uModMember in '..\model\uModMember.pas',
+  ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
+  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
 
 {$R *.res}
 

@@ -17,8 +17,7 @@ uses
 type
   TfrmOutlet = class(TfrmMasterBrowse)
     cxGridViewColumn1: TcxGridDBColumn;
-    cxGridViewColumn2: TcxGridDBColumn;
-    cxGridViewColumn3: TcxGridDBColumn;
+    procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
@@ -36,6 +35,12 @@ implementation
 uses uTSCommonDlg, ufrmDialogOutlet, uConstanta, uModOutlet;
 
 {$R *.dfm}
+
+procedure TfrmOutlet.FormCreate(Sender: TObject);
+begin
+  inherited;
+  AutoRefreshData := true;
+end;
 
 procedure TfrmOutlet.actAddExecute(Sender: TObject);
 begin

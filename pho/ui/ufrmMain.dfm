@@ -106,8 +106,8 @@ object frmMain: TfrmMain
       TabOrder = 1
     end
     object cbbCompCode: TComboBox
-      Left = 159
-      Top = 4
+      Left = 160
+      Top = 6
       Width = 194
       Height = 24
       BevelKind = bkSoft
@@ -176,6 +176,12 @@ object frmMain: TfrmMain
       end
       object UnitStore1: TMenuItem
         Action = actUnitStore
+      end
+    end
+    object CustomerSupport1: TMenuItem
+      Caption = 'Membership'
+      object MasterCustomer1: TMenuItem
+        Action = actMembership
       end
     end
     object Finance1: TMenuItem
@@ -555,6 +561,7 @@ object frmMain: TfrmMain
     object actVoucher: TAction
       Category = 'Accounting'
       Caption = '&Voucher'
+      OnExecute = actVoucherExecute
     end
     object actSetupCashManagement: TAction
       Category = 'Finance'
@@ -732,6 +739,7 @@ object frmMain: TfrmMain
     object actQuotation: TAction
       Category = 'Merchandise'
       Caption = 'actQuotation'
+      OnExecute = actQuotationExecute
     end
     object actMarkUpSellingPrice: TAction
       Category = 'Merchandise'
@@ -932,6 +940,7 @@ object frmMain: TfrmMain
     object actQuotationPromo: TAction
       Category = 'Merchandise'
       Caption = 'actQuotationPromo'
+      OnExecute = actQuotationPromoExecute
     end
     object actSettingJurnal: TAction
       Category = 'EOD'
@@ -944,6 +953,7 @@ object frmMain: TfrmMain
     object actQuotationHargaBeli: TAction
       Category = 'Merchandise'
       Caption = 'actQuotationHargaBeli'
+      OnExecute = actQuotationHargaBeliExecute
     end
     object actGenerateJurnalManual: TAction
       Category = 'EOD'
@@ -1128,9 +1138,20 @@ object frmMain: TfrmMain
       Caption = 'Company'
       OnExecute = actCompanyExecute
     end
+    object actQuotationMailer: TAction
+      Category = 'Merchandise'
+      Caption = 'Quotation Mailer'
+      OnExecute = actQuotationMailerExecute
+    end
+    object actMembership: TAction
+      Category = 'Membership'
+      Caption = 'Membership'
+      OnExecute = actMembershipExecute
+    end
   end
-  object ApplicationEvents1: TApplicationEvents
-    OnException = ApplicationEvents1Exception
+  object AppEvents: TApplicationEvents
+    OnException = AppEventsException
+    OnShortCut = AppEventsShortCut
     Left = 32
     Top = 280
   end

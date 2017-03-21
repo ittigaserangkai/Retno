@@ -43,6 +43,8 @@ type
     procedure cbpRekGroupChange(Sender: TObject);
     procedure cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
         TcxTreeListNode);
+    procedure btnCloseClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FCDS: TClientDataset;
     FDSProvider: TDSProviderClient;
@@ -90,7 +92,6 @@ begin
     actRefreshRekeningExecute(Self);
   end;
 
-  frmDialogRekening.Free;
   LoadData();
 end;
 
@@ -102,23 +103,24 @@ begin
   if not Assigned(frmDialogRekening) then
     frmDialogRekening := TfrmDialogRekening.Create(Application);
 
-  frmDialogRekening.Caption := 'Edit Rekening';
-  frmDialogRekening.StatusForm := frEdit;
-  frmDialogRekening.FormMode := fmEdited;
+//  frmDialogRekening.Caption := 'Edit Rekening';
+//  frmDialogRekening.StatusForm := frEdit;
+//  frmDialogRekening.FormMode := fmEdited;
   frmDialogRekening.LoadData(CDS.FieldByName('REKENING_ID').AsString);
 //  TTNode := TlistRekening.Selected;
 
 //  frmDialogRekening.RekCode := TlistRekening.GetNodeColumn(TTNode, 0);
-  SetFormPropertyAndShowDialog(frmDialogRekening);
+//  SetFormPropertyAndShowDialog(frmDialogRekening);
 
-  if (frmDialogRekening.IsProcessSuccesfull) then
-  begin
-    CommonDlg.ShowMessage(CONF_EDIT_SUCCESSFULLY);
-    actRefreshRekeningExecute(Self);
-  end;
+//  if (frmDialogRekening.IsProcessSuccesfull) then
+//  begin
+//    CommonDlg.ShowMessage(CONF_EDIT_SUCCESSFULLY);
+//    actRefreshRekeningExecute(Self);
+//  end;
 
-  frmDialogRekening.Free;
-  LoadData();
+//  frmDialogRekening.Free;
+  if frmDialogRekening.ShowModal = mrOK then
+    LoadData();
 end;
 
 procedure TfrmRekening.actDeleteRekeningExecute(Sender: TObject);
@@ -184,6 +186,12 @@ begin
 
 end;
 
+procedure TfrmRekening.btnCloseClick(Sender: TObject);
+begin
+  inherited;
+  Self.Close;
+end;
+
 procedure TfrmRekening.SetGrupRekeningId(const Value: string);
 begin
   FGrupRekeningId := Value;
@@ -245,6 +253,14 @@ procedure TfrmRekening.cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
 begin
   inherited;
   cxDBTreeList.ApplyBestFit;
+end;
+
+procedure TfrmRekening.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+//  if(Key = VK_DELETE)and(ssctrl in Shift) then
+//    exit;
+//  inherited;
 end;
 
 function TfrmRekening.GetDSProvider: TDSProviderClient;

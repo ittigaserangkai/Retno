@@ -197,14 +197,14 @@ inherited frmDialogGudang: TfrmDialogGudang
     inherited pnlSortCut: TPanel
       Width = 421
       ExplicitWidth = 421
-      inherited lbl4: TLabel
+      inherited lbCTRLEnter: TLabel
         Left = 152
         Width = 159
         Caption = 'F5 [Lookup]     Ctrl-Enter [Save]'
         ExplicitLeft = 154
         ExplicitWidth = 159
       end
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 326
         ExplicitLeft = 328
       end

@@ -67,7 +67,9 @@ uses
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip};
+  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
+  uModMember in '..\model\uModMember.pas',
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas';
 
 {$R *.res}
 
@@ -77,6 +79,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmMemberShip, frmMemberShip);
   Application.Run;
 end.

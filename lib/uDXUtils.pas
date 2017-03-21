@@ -12,7 +12,8 @@ uses
   Vcl.Controls, Vcl.Forms, Windows, Messages, Variants, Graphics, ExtCtrls,
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
-  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB;
+  cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
+  cxPC;
 
 
 type
@@ -62,8 +63,11 @@ type
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
   public
+    function CDS: TClientDataSet;
+    function DS: TDataset;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent);
+    procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
   end;
 
@@ -102,7 +106,6 @@ type
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
     function DS: TDataset;
     function CDS: TClientDataSet;
-
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
@@ -139,12 +142,14 @@ type
 
   TFormHelper = class helper for TForm
   private
-    function IsComponentEmpty(aComp: TComponent): Boolean;
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     procedure AssignKeyDownEvent;
     procedure ClearByTag(Tag: TTag);
+    function ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean = True):
+        Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
+    function SetFocusRec(aWinCTRL: TWinControl): Boolean;
   end;
 
 
@@ -1053,25 +1058,53 @@ begin
   end;
 end;
 
-function TFormHelper.IsComponentEmpty(aComp: TComponent): Boolean;
+function TFormHelper.ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean =
+    True): Boolean;
+var
+  C: TComponent;
+  i: Integer;
+  iTabOrd: Integer;
+  sMsg: string;
+  EmptyCtrl: TWinControl;
+  IsEmpty: Boolean;
 begin
-  if aComp is TcxExtLookupComboBox then
-    Result := VarIsNull(TcxExtLookupComboBox(aComp).EditValue)
-  else if aComp is TcxComboBox then
-    Result := TcxComboBox(aComp).ItemIndex = -1
-  else if aComp is TComboBox then
-    Result := TComboBox(aComp).ItemIndex = -1
-  else if aComp is TcxTextEdit then
-    Result := TcxTextEdit(aComp).Text = ''
-  else if aComp is TEdit then
-    Result := TEdit(aComp).Text = ''
-  else if aComp is TcxSpinEdit then
-    Result := TcxSpinEdit(aComp).Value = 0
-  else if aComp is TcxCurrencyEdit then
-    Result := TcxCurrencyEdit(aComp).Value = 0
-  else
-    Result := False;
+  IsEmpty   := False;
+  iTabOrd   := MaxInt;
+  EmptyCtrl := nil;
+  for i := 0 to Self.ComponentCount-1 do
+  begin
+    C := Self.Components[i];
+    if not (C.Tag in Tag) then continue;
+    if not C.InheritsFrom(TWinControl) then continue;
+    if C is TcxExtLookupComboBox then
+      IsEmpty := VarIsNull(TcxExtLookupComboBox(C).EditValue)
+    else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
+    else if C is TComboBox then IsEmpty := TComboBox(C).ItemIndex = -1
+    else if C is TcxTextEdit then IsEmpty := TcxTextEdit(C).Text = ''
+    else if C is TEdit then IsEmpty := TEdit(C).Text = ''
+    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
+    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
+    if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
+    begin
+      EmptyCtrl := TWinControl(C);
+      iTabOrd   := EmptyCtrl.TabOrder;
+    end;
+  end;
+  Result := EmptyCtrl = nil;
+  if (not Result) {and (ShowWarning)} then
+  begin
+    SetFocusRec(EmptyCtrl);
+    If ShowWarning then
+    begin
+      if EmptyCtrl.HelpKeyword <> '' then
+        sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
+      else
+        sMsg := 'Input Tidak Boleh Kosong';
+      TAppUtils.Warning(sMsg);
+    end;
+  end;
 end;
+
 
 procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
     TShiftState);
@@ -1082,13 +1115,60 @@ begin
       Key := VK_TAB
     else
       SelectNext(Screen.ActiveControl, True, True);
+  end else if Key = VK_F5 then
+  begin
+//    if Sender is TcxExtLookupComboBox then
+//      TcxExtLookupComboBox(Sender).Properties.OnPopup(Sender); ;
   end;
 end;
 
 class procedure TFormHelper.OnEditValueChanged(Sender: TObject);
+var
+  sDebug: string;
 begin
-  if Sender is TcxExtLookupComboBox then Keybd_event(VK_TAB, 0, 0, 0);
-//  SelectNext(Screen.ActiveControl, True, True);
+  if Sender is TcxExtLookupComboBox then
+  begin
+    //agar generic lookup cukup enter 1x utk pindah ke komponent
+    Keybd_event(VK_TAB, 0, 0, 0);
+    sDebug := TcxExtLookupComboBox(Sender).Name;
+  end;
+end;
+
+function TFormHelper.SetFocusRec(aWinCTRL: TWinControl): Boolean;
+begin
+  Result := False;
+  If aWinCTRL.Enabled and aWinCTRL.Visible then
+  begin
+    //kapan2 diterusin
+//    if (aWinCTRL is TcxTabSheet) and (not aWinCTRL.Visible) then
+//    begin
+//      If (TcxPageControl(aWinCTRL.Parent).Enabled)
+//      and (TcxPageControl(aWinCTRL.Parent).Visible) then
+//        TcxPageControl(aWinCTRL.Parent).ActivePage := TcxTabSheet(aWinCTRL);
+//      Result := True;
+//    end else
+
+    If aWinCTRL.Parent <> nil then
+      Result := SetFocusRec(aWinCTRL.Parent)
+    else
+      Result := True;
+
+    If Result then
+      aWinCTRL.SetFocus;
+  end;
+end;
+
+function TcxExtLookupComboHelper.CDS: TClientDataSet;
+begin
+  Result := TClientDataSet(Self.DS);
+end;
+
+function TcxExtLookupComboHelper.DS: TDataset;
+begin
+  if Assigned(TcxGridDBTableView(Self.Properties.View).DataController.DataSource ) then
+    Result := TcxGridDBTableView(Self.Properties.View).DataController.DataSource.DataSet
+  else
+    Result := nil;
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
@@ -1096,6 +1176,30 @@ procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
 begin
   Self.Properties.LoadFromDS(aDataSet, IDField, DisplayField,
     HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.SetDefaultValue(TriggerEvents: Boolean =
+    True);
+var
+  OnEditValChanged: TNotifyEvent;
+begin
+  OnEditValChanged := nil;
+  if not TriggerEvents then
+  begin
+    if Assigned(Self.Properties.OnEditValueChanged) then
+      OnEditValChanged := Self.Properties.OnEditValueChanged;
+    Self.Properties.OnEditValueChanged := nil;
+  end;
+  Try
+    Self.Clear;
+    if Self.DS <> nil then
+    begin
+      Self.EditValue := Self.DS.FieldByName(Self.Properties.KeyFieldNames).Value;
+    end;
+  Finally
+    if not TriggerEvents then
+      Self.Properties.OnEditValueChanged := OnEditValChanged;
+  End;
 end;
 
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;

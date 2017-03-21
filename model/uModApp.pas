@@ -210,9 +210,10 @@ begin
         begin
           Result := 'NULL';
           lObj := AProp.GetValue(Self).AsObject;
-          if (lObj.InheritsFrom(TModApp)) and (lObj <> nil) then
-            if TModApp(lObj).ID <> '' then
-              Result := QuotedStr(TModApp(lObj).ID);
+          if lObj <> nil then
+            if lObj.InheritsFrom(TModApp) then
+              if TModApp(lObj).ID <> '' then
+                Result := QuotedStr(TModApp(lObj).ID);
         end
     else
       Raise Exception.Create(

@@ -9,7 +9,6 @@ inherited frmMerk: TfrmMerk
   inherited pnlBody: TPanel
     Width = 651
     Height = 281
-    ExplicitTop = 33
     ExplicitWidth = 651
     ExplicitHeight = 281
     inherited pgcBrowse: TcxPageControl
@@ -71,7 +70,6 @@ inherited frmMerk: TfrmMerk
       ExplicitWidth = 651
       inherited btnAdd: TcxButton
         Action = actAdd
-        ExplicitTop = 5
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
@@ -94,6 +92,7 @@ inherited frmMerk: TfrmMerk
       ExplicitWidth = 651
       inherited lbEscape: TLabel
         Left = 577
+        Height = 17
         ExplicitLeft = 577
       end
     end

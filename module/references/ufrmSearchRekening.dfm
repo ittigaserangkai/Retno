@@ -13,7 +13,6 @@ inherited frmDialogSearchRekening: TfrmDialogSearchRekening
   inherited pnlBody: TPanel
     Width = 505
     Height = 298
-    ExplicitTop = 0
     ExplicitWidth = 507
     ExplicitHeight = 324
     object pnl1: TPanel
@@ -169,7 +168,7 @@ inherited frmDialogSearchRekening: TfrmDialogSearchRekening
       end
     end
   end
-  inherited footerDialogMaster: TfraFooterDialog2Button
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 298
     Width = 505
     ExplicitTop = 324
@@ -179,10 +178,12 @@ inherited frmDialogSearchRekening: TfrmDialogSearchRekening
       ExplicitWidth = 507
       inherited btnClose: TcxButton
         Left = 422
+        Action = actCancel
         ExplicitLeft = 424
       end
       inherited btnSave: TcxButton
         Left = 335
+        Action = actSave
         Caption = 'Select'
         OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
@@ -238,18 +239,21 @@ inherited frmDialogSearchRekening: TfrmDialogSearchRekening
         OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 337
       end
+      inherited btnDelete: TcxButton
+        Action = actDelete
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 505
       ExplicitWidth = 507
-      inherited lbl4: TLabel
+      inherited lbCTRLEnter: TLabel
         Left = 312
         Width = 92
         Caption = 'Ctrl-Enter [Select]'
         ExplicitLeft = 314
         ExplicitWidth = 92
       end
-      inherited lbl5: TLabel
+      inherited lbEscape: TLabel
         Left = 409
         ExplicitLeft = 411
       end

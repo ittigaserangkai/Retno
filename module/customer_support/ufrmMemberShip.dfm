@@ -3,78 +3,52 @@ inherited frmMemberShip: TfrmMemberShip
   Top = 78
   Caption = 'MemberShip'
   ClientHeight = 522
-  ClientWidth = 780
+  ClientWidth = 773
   OldCreateOrder = True
-  ExplicitTop = 8
-  ExplicitWidth = 796
+  ExplicitWidth = 789
   ExplicitHeight = 561
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 780
+    Width = 773
     Height = 433
+    ExplicitLeft = -2
+    ExplicitTop = 38
     ExplicitWidth = 780
     ExplicitHeight = 433
     inherited pgcBrowse: TcxPageControl
-      Width = 758
+      Width = 751
       Height = 411
-      Properties.ActivePage = cxTabSheet1
       Properties.HideTabs = False
-      ExplicitTop = 185
       ExplicitWidth = 758
-      ExplicitHeight = 172
+      ExplicitHeight = 411
       ClientRectBottom = 410
-      ClientRectRight = 757
+      ClientRectRight = 750
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
-        ExplicitTop = 1
+        ExplicitTop = 24
         ExplicitWidth = 756
-        ExplicitHeight = 170
+        ExplicitHeight = 386
         inherited cxGrid: TcxGrid
-          Width = 756
+          Width = 749
           Height = 386
           ExplicitWidth = 756
-          ExplicitHeight = 170
-          inherited cxGridView: TcxGridDBTableView
-            object cxGridViewColumn1: TcxGridDBColumn
-              Caption = 'ID CARD NO.'
-              Width = 84
-            end
-            object cxGridViewColumn2: TcxGridDBColumn
-              Caption = 'MEMBER NAME'
-              Width = 92
-            end
-            object cxGridViewColumn3: TcxGridDBColumn
-              Caption = 'MEMBER ADDRESS'
-              Width = 164
-            end
-            object cxGridViewColumn4: TcxGridDBColumn
-              Caption = 'CARD TYPE'
-            end
-            object cxGridViewColumn5: TcxGridDBColumn
-              Caption = 'TYPE MEMBER'
-              Width = 93
-            end
-          end
+          ExplicitHeight = 386
         end
       end
       object cxTabSheet1: TcxTabSheet
         Caption = 'cxTabSheet1'
         ImageIndex = 1
-        ExplicitTop = 1
-        ExplicitHeight = 170
+        TabVisible = False
         object pnl1: TPanel
           Left = 0
           Top = 0
-          Width = 756
+          Width = 749
           Height = 174
           Align = alTop
           ParentColor = True
           TabOrder = 0
-          ExplicitLeft = 11
-          ExplicitTop = 11
-          ExplicitWidth = 758
           object lblInput: TLabel
             Left = 24
             Top = 34
@@ -159,7 +133,6 @@ inherited frmMemberShip: TfrmMemberShip
             Caption = 'F1 for Display Personal'
             ParentFont = False
             Transparent = True
-            OnClick = lblDispPersonalClick
           end
           object lblDispFamily: TcxLabel
             Left = 140
@@ -169,7 +142,6 @@ inherited frmMemberShip: TfrmMemberShip
             ParentFont = False
             Transparent = True
             Visible = False
-            OnClick = lblDispFamilyClick
           end
           object edtCompTypeName: TEdit
             Left = 189
@@ -191,7 +163,6 @@ inherited frmMemberShip: TfrmMemberShip
             Ctl3D = False
             ParentCtl3D = False
             TabOrder = 0
-            OnKeyUp = edtCompNameKeyUp
           end
           object edtAddress: TEdit
             Left = 104
@@ -374,22 +345,19 @@ inherited frmMemberShip: TfrmMemberShip
               00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
             OptionsImage.NumGlyphs = 2
             TabOrder = 15
-            OnClick = btnShowClick
           end
         end
         object pnl2: TPanel
           Left = 0
           Top = 321
-          Width = 756
+          Width = 749
           Height = 65
           Align = alBottom
           BevelInner = bvRaised
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          ExplicitLeft = 11
-          ExplicitTop = 357
-          ExplicitWidth = 758
+          ExplicitWidth = 756
           object lbl5: TLabel
             Left = 8
             Top = 36
@@ -542,45 +510,45 @@ inherited frmMemberShip: TfrmMemberShip
     end
   end
   inherited pnlHeader: TPanel
-    Width = 780
-    ExplicitWidth = 780
+    Width = 773
+    ExplicitWidth = 773
     inherited lblHeader: TLabel
       Width = 95
       Caption = 'List MemberShip'
       ExplicitWidth = 95
     end
     inherited lblFilterData: TcxLabel
-      Left = 426
-      ExplicitLeft = 426
+      Left = 419
+      ExplicitLeft = 419
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 487
+      Left = 480
       ExplicitLeft = 487
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 603
+      Left = 596
       ExplicitLeft = 603
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 698
+      Left = 691
       ExplicitLeft = 698
     end
     inherited lblsdFilter: TcxLabel
-      Left = 579
-      ExplicitLeft = 579
+      Left = 572
+      ExplicitLeft = 572
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 466
-    Width = 780
+    Width = 773
     ExplicitTop = 466
     ExplicitWidth = 780
     inherited pnlFooter: TPanel
-      Width = 780
+      Width = 773
       ExplicitWidth = 780
       inherited btnAdd: TcxButton
         Action = actAddMemberShip
@@ -592,7 +560,7 @@ inherited frmMemberShip: TfrmMemberShip
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 703
+        Left = 696
         Action = actClose
         ExplicitLeft = 703
       end
@@ -601,11 +569,11 @@ inherited frmMemberShip: TfrmMemberShip
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 780
+      Width = 773
       ExplicitWidth = 780
       inherited lbEscape: TLabel
-        Left = 706
-        Height = 17
+        Left = 699
+        ExplicitLeft = 699
       end
     end
   end
@@ -622,11 +590,9 @@ inherited frmMemberShip: TfrmMemberShip
     end
     object actDeleteMemberShip: TAction
       Caption = 'Delete'
-      OnExecute = actDeleteMemberShipExecute
     end
     object actRefreshMemberShip: TAction
       Caption = 'Refresh'
-      OnExecute = actRefreshMemberShipExecute
     end
   end
 end

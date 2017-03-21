@@ -462,6 +462,59 @@
             <Form>frmOutlet</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\accounting\ufrmVoucher.pas">
+            <Form>frmVoucher</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\accounting\ufrmDialogVoucher.pas">
+            <Form>frmDialogVoucher</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\accounting\ufrmSetupCashManagement.pas">
+            <Form>frmSetupCashManagement</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\finance\ufrmPemakaianBarcode.pas">
+            <Form>frmPemakaianBarcode</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\finance\ufrmElectricCustomer.pas">
+            <Form>frmElectricCustomer</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmQuotationHargaBeli.pas">
+            <Form>frmQuotationHargaBeli</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogQuotationHargaBeli.pas">
+            <Form>frmDialogQuotationHargaBeli</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogQuotationMailerNeo.pas">
+            <Form>frmDialogQuotationMailerNeo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmQuotationMailer.pas">
+            <Form>frmQuotationMailer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
+        <DCCReference Include="..\module\customer_support\ufrmMemberShip.pas">
+            <Form>frmMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogMemberShip.pas">
+            <Form>frmDialogMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModMember.pas"/>
+        <DCCReference Include="..\module\merchandise\ufrmSupplierGroup.pas">
+            <Form>frmSupplierGroup</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogSupplierGroup.pas">
+            <Form>frmDialogSupplierGroup</Form>
+        </DCCReference>
+        <DCCReference Include="..\client\ui\ufrmMouselessMenu.pas">
+            <Form>frmMouselesMenu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

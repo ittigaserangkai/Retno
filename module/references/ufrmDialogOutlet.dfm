@@ -2,35 +2,42 @@ inherited frmDialogOutlet: TfrmDialogOutlet
   Left = 392
   Top = 270
   Caption = 'uNewSalesOutletuNewSalesOutlet'
-  ClientHeight = 133
-  ClientWidth = 326
+  ClientHeight = 162
+  ClientWidth = 395
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 342
-  ExplicitHeight = 172
+  ExplicitWidth = 411
+  ExplicitHeight = 201
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 326
-    Height = 77
-    ExplicitWidth = 326
-    ExplicitHeight = 77
+    Width = 395
+    Height = 106
+    ExplicitWidth = 395
+    ExplicitHeight = 106
     object lbl1: TLabel
       Left = 44
-      Top = 12
+      Top = 13
       Width = 25
       Height = 16
       Caption = 'Code'
     end
     object Label1: TLabel
       Left = 42
-      Top = 39
+      Top = 40
       Width = 27
       Height = 16
       Caption = 'Name'
     end
+    object Label2: TLabel
+      Left = 42
+      Top = 68
+      Width = 58
+      Height = 16
+      Caption = 'Description'
+    end
     object edtCode: TEdit
-      Left = 86
+      Left = 111
       Top = 11
       Width = 83
       Height = 22
@@ -41,7 +48,7 @@ inherited frmDialogOutlet: TfrmDialogOutlet
       TabOrder = 0
     end
     object edtName: TEdit
-      Left = 86
+      Left = 111
       Top = 38
       Width = 227
       Height = 22
@@ -51,46 +58,64 @@ inherited frmDialogOutlet: TfrmDialogOutlet
       ParentCtl3D = False
       TabOrder = 1
     end
+    object edtDescription: TEdit
+      Left = 111
+      Top = 66
+      Width = 227
+      Height = 22
+      CharCase = ecUpperCase
+      Ctl3D = False
+      MaxLength = 128
+      ParentCtl3D = False
+      TabOrder = 2
+    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 77
-    Width = 326
-    ExplicitTop = 77
-    ExplicitWidth = 326
+    Top = 106
+    Width = 395
+    ExplicitTop = 106
+    ExplicitWidth = 395
     inherited pnlFooter: TPanel
-      Width = 326
-      ExplicitWidth = 326
+      Width = 395
+      ExplicitWidth = 395
       inherited btnClose: TcxButton
-        Left = 249
+        Left = 318
         Action = actCancel
-        ExplicitLeft = 249
+        ExplicitLeft = 318
       end
       inherited btnSave: TcxButton
-        Left = 156
+        Left = 225
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 156
+        ExplicitLeft = 225
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 326
-      ExplicitWidth = 326
+      Width = 395
+      ExplicitWidth = 395
       inherited lbCTRLEnter: TLabel
-        Left = 236
+        Left = 305
         Height = 15
-        ExplicitLeft = 236
+        ExplicitLeft = 305
       end
       inherited lbEscape: TLabel
-        Left = 151
+        Left = 220
         Height = 15
-        ExplicitLeft = 151
+        ExplicitLeft = 220
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

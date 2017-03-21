@@ -92,22 +92,22 @@ end;
 constructor TfrmMaster.CreateWithUser(aOwner: TComponent; aFormProperty :
     TFormProperty);
 begin
-  MasterCompany    := TCompany.Create(Self);
-  MasterNewUnit    := 0;//TUnit.Create(Self);
-
-  FMasterIsStore   := aFormProperty.FMasterIsStore;
-  FMasterIsHO      := aFormProperty.FMasterIsHo; 
-  FLoginFullname   := aFormProperty.FLoginFullname;
-  FLoginRole       := aFormProperty.FLoginRole;
-  FLoginUsername   := aFormProperty.FLoginUsername;
-  FLoginId         := aFormProperty.FLoginId;
-  FLoginUnitId     := aFormProperty.FLoginUnitId;
-  FLoginIsStore    := aFormProperty.FLoginIsStore;
-  FTipeApp         := aFormProperty.FTipeApp;
-
-  FFilePathReport  := aFormProperty.FFilePathReport;
-  FHostClient      := aFormProperty.FHostClient;
-  FIpClient        := aFormProperty.FIpClient;
+//  MasterCompany    := TCompany.Create(Self);
+//  MasterNewUnit    := 0;//TUnit.Create(Self);
+//
+//  FMasterIsStore   := aFormProperty.FMasterIsStore;
+//  FMasterIsHO      := aFormProperty.FMasterIsHo;
+//  FLoginFullname   := aFormProperty.FLoginFullname;
+//  FLoginRole       := aFormProperty.FLoginRole;
+//  FLoginUsername   := aFormProperty.FLoginUsername;
+//  FLoginId         := aFormProperty.FLoginId;
+//  FLoginUnitId     := aFormProperty.FLoginUnitId;
+//  FLoginIsStore    := aFormProperty.FLoginIsStore;
+//  FTipeApp         := aFormProperty.FTipeApp;
+//
+//  FFilePathReport  := aFormProperty.FFilePathReport;
+//  FHostClient      := aFormProperty.FHostClient;
+//  FIpClient        := aFormProperty.FIpClient;
 
 //  if MasterCompany.LoadByID(aFormProperty.FSelfCompanyID) then
 //  begin

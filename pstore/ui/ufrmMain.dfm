@@ -15,7 +15,7 @@ object frmMain: TfrmMain
   OldCreateOrder = False
   OnCloseQuery = FormCloseQuery
   OnCreate = actOnCreateFormExecute
-  OnDestroy = FormDestroy
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
   object pnlHeader: TPanel

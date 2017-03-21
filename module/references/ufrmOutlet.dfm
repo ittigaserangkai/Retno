@@ -33,12 +33,6 @@ inherited frmOutlet: TfrmOutlet
             object cxGridViewColumn1: TcxGridDBColumn
               DataBinding.FieldName = 'REF$OUTLET_ID'
             end
-            object cxGridViewColumn2: TcxGridDBColumn
-              DataBinding.FieldName = 'OUTLET_CODE'
-            end
-            object cxGridViewColumn3: TcxGridDBColumn
-              DataBinding.FieldName = 'OUTLET_NAME'
-            end
           end
         end
       end
@@ -83,7 +77,6 @@ inherited frmOutlet: TfrmOutlet
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Action = actPrint

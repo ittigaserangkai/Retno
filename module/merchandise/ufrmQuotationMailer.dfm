@@ -1,4 +1,4 @@
-inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
+inherited frmQuotationMailer: TfrmQuotationMailer
   Left = 248
   Top = 193
   Caption = 'Maintenace Quotation Promo'
@@ -11,24 +11,101 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 861
-    Height = 379
+    Height = 376
     BorderWidth = 1
-    ExplicitWidth = 120
-    ExplicitHeight = 377
+    ExplicitWidth = 861
+    ExplicitHeight = 376
+    inherited pgcBrowse: TcxPageControl
+      Left = 2
+      Top = 105
+      Width = 857
+      Height = 205
+      TabOrder = 2
+      ExplicitLeft = 2
+      ExplicitTop = 105
+      ExplicitWidth = 857
+      ExplicitHeight = 205
+      ClientRectBottom = 204
+      ClientRectRight = 856
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 855
+        ExplicitHeight = 203
+        inherited cxGrid: TcxGrid
+          Width = 855
+          Height = 203
+          ExplicitWidth = 855
+          ExplicitHeight = 203
+          inherited cxGridView: TcxGridDBTableView
+            object cxcolGridViewColumn1: TcxGridDBColumn
+              Caption = 'Is Parent'
+            end
+            object cxcolGridViewColumn2: TcxGridDBColumn
+              Caption = 'PLU Purc'
+            end
+            object cxcolGridViewColumn3: TcxGridDBColumn
+              Caption = 'PLU'
+            end
+            object cxcolGridViewColumn4: TcxGridDBColumn
+              Caption = 'Nama Barang'
+            end
+            object cxcolGridViewColumn5: TcxGridDBColumn
+              Caption = 'Tipe Harga'
+            end
+            object cxcolGridViewColumn6: TcxGridDBColumn
+              Caption = 'UOM'
+            end
+            object cxcolGridViewColumn7: TcxGridDBColumn
+              Caption = 'Harga Beli'
+            end
+            object cxcolGridViewColumn8: TcxGridDBColumn
+              Caption = 'UOM Harga Beli'
+            end
+            object cxcolGridViewColumn9: TcxGridDBColumn
+              Caption = 'PPN'
+            end
+            object cxcolGridViewColumn10: TcxGridDBColumn
+              Caption = 'Harga Jual'
+            end
+            object cxcolGridViewColumn11: TcxGridDBColumn
+              Caption = 'Diskon'
+            end
+            object cxcolGridViewColumn12: TcxGridDBColumn
+              Caption = 'Diskon %'
+            end
+            object cxcolGridViewColumn13: TcxGridDBColumn
+              Caption = 'Setelah Diskon'
+            end
+            object cxcolGridViewColumn14: TcxGridDBColumn
+              Caption = 'Harga Average'
+            end
+            object cxcolGridViewColumn15: TcxGridDBColumn
+              Caption = 'Harga Exclude PPN'
+            end
+            object cxcolGridViewColumn16: TcxGridDBColumn
+              Caption = 'Margin'
+            end
+            object cxcolGridViewColumn17: TcxGridDBColumn
+              Caption = 'Margin Rp'
+            end
+            object cxcolGridViewColumn18: TcxGridDBColumn
+              Caption = 'Konversi Value'
+            end
+          end
+        end
+      end
+    end
     object pnlTop: TPanel
       Left = 2
       Top = 2
       Width = 857
-      Height = 118
+      Height = 103
       Align = alTop
       BevelInner = bvSpace
       BevelOuter = bvLowered
       ParentColor = True
       TabOrder = 0
-      ExplicitWidth = 116
-      DesignSize = (
-        857
-        118)
       object Label2: TLabel
         Left = 128
         Top = 11
@@ -44,7 +121,7 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
       end
       object Label4: TLabel
         Left = 128
-        Top = 64
+        Top = 40
         Width = 73
         Height = 16
         Caption = 'Effective Date'
@@ -56,8 +133,8 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
         ParentFont = False
       end
       object Label6: TLabel
-        Left = 128
-        Top = 37
+        Left = 416
+        Top = 13
         Width = 100
         Height = 16
         Caption = 'Quotation/Ref Date'
@@ -70,7 +147,7 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
       end
       object Label8: TLabel
         Left = 128
-        Top = 90
+        Top = 66
         Width = 37
         Height = 16
         Caption = 'Remark'
@@ -83,7 +160,7 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
       end
       object lblEndDate: TLabel
         Left = 473
-        Top = 64
+        Top = 40
         Width = 45
         Height = 16
         Caption = 'End Date'
@@ -92,7 +169,7 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
         Left = 2
         Top = 2
         Width = 114
-        Height = 114
+        Height = 99
         Align = alLeft
         Picture.Data = {
           0A544A504547496D616765F9C00000FFD8FFE000104A46494600010200006400
@@ -1641,1266 +1718,77 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
           12889444A225112889444A225112889444A225112889444A225112889444A225
           112889444A22FFD9}
         Stretch = True
+        ExplicitHeight = 114
       end
-      object dtEffectiveDate: TJvDateEdit
+      object dtEffectiveDate: TcxDateEdit
         Left = 240
-        Top = 61
-        Width = 121
-        Height = 22
-        Flat = True
-        ParentFlat = False
-        NumGlyphs = 2
-        ShowNullDate = False
-        TabOrder = 2
-        OnKeyPress = dtEffectiveDateKeyPress
-      end
-      object dtRefDate: TJvDateEdit
-        Left = 240
-        Top = 34
-        Width = 121
-        Height = 22
-        Flat = True
-        ParentFlat = False
-        NumGlyphs = 2
-        ShowNullDate = False
+        Top = 37
         TabOrder = 1
+        OnKeyPress = dtEffectiveDateKeyPress
+        Width = 121
+      end
+      object dtRefDate: TcxDateEdit
+        Left = 528
+        Top = 10
+        TabOrder = 0
         OnKeyPress = dtRefDateKeyPress
+        Width = 121
       end
       object edtRemark: TEdit
         Left = 240
-        Top = 87
+        Top = 63
         Width = 302
         Height = 22
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 6
+        TabOrder = 2
         OnKeyPress = edtRemarkKeyPress
       end
-      object dtEndDate: TJvDateEdit
+      object dtEndDate: TcxDateEdit
         Left = 527
-        Top = 61
-        Width = 105
-        Height = 22
-        Flat = True
-        ParentFlat = False
-        NumGlyphs = 2
-        ShowNullDate = False
-        TabOrder = 4
+        Top = 37
+        TabOrder = 3
         OnKeyPress = dtEndDateKeyPress
+        Width = 122
       end
-      object edtQuotationNo1: TEditBtn
+      object edtStartTime: TcxTimeEdit
+        Left = 368
+        Top = 37
+        EditValue = 0d
+        TabOrder = 4
+        Width = 81
+      end
+      object edtEndTime: TcxTimeEdit
+        Left = 648
+        Top = 37
+        EditValue = 0d
+        TabOrder = 5
+        Width = 73
+      end
+      object edbQuotationNo1: TcxButtonEdit
         Left = 240
         Top = 8
-        Width = 121
-        Height = 22
-        Ctl3D = False
-        ReturnIsTab = False
-        Flat = False
-        Etched = False
-        FocusBorder = False
-        ParentCtl3D = False
-        RightAlign = False
-        TabOrder = 0
-        Text = '0'
-        Version = '1.5.1.0'
-        OnKeyUp = edtQuotationNo1KeyUp
-        OnClickBtn = edtQuotationNo1ClickBtn
-      end
-      object dtEffectiveTime: TTeDateTimePicker
-        Left = 363
-        Top = 60
-        Width = 94
-        Height = 24
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        Date = 39665.668174363430000000
-        Time = 39665.668174363430000000
-        Kind = dtkTime
-        TabOrder = 3
-        OnKeyPress = dtEffectiveTimeKeyPress
-        ThemeObject = 'default'
-      end
-      object dtEndTime: TTeDateTimePicker
-        Left = 634
-        Top = 60
-        Width = 94
-        Height = 24
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        Date = 39665.668174363430000000
-        Time = 39665.668174363430000000
-        Kind = dtkTime
-        TabOrder = 5
-        OnKeyPress = dtEndTimeKeyPress
-        ThemeObject = 'default'
-      end
-      object btnUpdate: TsuiButton
-        Left = 369
-        Top = 6
-        Width = 72
-        Height = 27
-        Cursor = crHandPoint
-        Anchors = [akLeft, akBottom]
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        Caption = '&Cetak'
-        AutoSize = False
-        ParentFont = False
-        OnEnter = btnUpdateEnter
-        OnExit = btnUpdateExit
-        UIStyle = BlueGlass
-        TabOrder = 7
-        Transparent = True
-        ModalResult = 0
-        FocusedRectMargin = 2
-        Glyph.Data = {
-          36060000424D3606000000000000360000002800000020000000100000000100
-          18000000000000060000C40E0000C40E000000000000000000007F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFBFBFBFDCDCDC
-          BFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          DCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBFBFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          BFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          DCDCDCDCDCDCDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          DCDCDC003250003250003250003250003250003250DCDCDC7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7FFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          DCDCDC0062962020206BC6FF6BC6FF6BC6FF4B79FF003250003250FF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF
-          00FFFF00FF7F7F7F7F7F7FFFFFFFFFFFFFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          FFFFFFCC66000062968ED4FF8ED4FF3399FF3399FF4B79FF4B79FF0032500032
-          50FF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF
-          00FFFF00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFFFFFFFFFFFFBFBFBFFFFFFF
-          DCDCDCFFFFFFDCDCDC0062968ED4FF3399FF3399FF3399FF3399FF4B79FF6060
-          60002573002573FF00FF7F7F7FFFFFFFFF00FFFFFFFFFFFFFF7F7F7FFFFFFFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFBFBFBFFFFFFF
-          FFFFFFCC6600CC6600CC660000629600629666CCFF66CCFF3399FF9F9F9F9F9F
-          9F4848FF4848FF0025737F7F7FFFFFFFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7FFFFFFFFFFFFFFFFFFFFF00FF7F7F7FFFFFFFFF00FF7F7F7FBFBFBFFFFFFF
-          DCDCDCFFFFFFDCDCDCFFFFFFDCDCDCDCDCDC00629600629666CCFFFFFFFF6B8F
-          FF4848FF4848FF0025737F7F7FFFFFFFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFF7F7F7F7F7F7F7F7F7FFFFFFF7F7F7FFFFFFFFF00FF7F7F7FBFBFBFFFFFFF
-          FFFFFFCC6600CC6600CC6600CC6600CC6600DCDCDCDCDCDC006296006296B1C7
-          FFB1C7FF6B8FFF0025737F7F7FFFFFFFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7FFF00FFFF00FF7F7F7F7F7F7FFFFFFFFFFFFFFFFFFF7F7F7FBFBFBFFFFFFF
-          FFFFFFFFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDCDCDCDCDC7F7F7FFF00FF0000
-          99000099000099FF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFF7F7F7F7F7F7F7F7F7FFFFFFFBFBFBFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FF}
-        Layout = blGlyphLeft
-        Spacing = 4
-        MouseContinuouslyDownInterval = 100
-        OnClick = btnUpdateClick
-        ResHandle = 0
-      end
-    end
-    object pnlData: TPanel
-      Left = 2
-      Top = 120
-      Width = 857
-      Height = 193
-      Align = alClient
-      BevelOuter = bvLowered
-      TabOrder = 1
-      ExplicitWidth = 116
-      ExplicitHeight = 191
-      object strgGrid: TAdvColumnGrid
-        Left = 1
-        Top = 1
-        Width = 855
-        Height = 191
-        Cursor = crDefault
-        Align = alClient
-        Color = clInfoBk
-        ColCount = 20
-        Ctl3D = True
-        DefaultRowHeight = 21
-        DrawingStyle = gdsClassic
-        FixedCols = 0
-        RowCount = 3
-        FixedRows = 2
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing]
-        ParentCtl3D = False
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-        OnGetAlignment = strgGridGetAlignment
-        OnCanEditCell = strgGridCanEditCell
-        OnGetFloatFormat = strgGridGetFloatFormat
-        ActiveCellFont.Charset = DEFAULT_CHARSET
-        ActiveCellFont.Color = clWindowText
-        ActiveCellFont.Height = -11
-        ActiveCellFont.Name = 'Tahoma'
-        ActiveCellFont.Style = [fsBold]
-        CellNode.TreeColor = clSilver
-        ColumnHeaders.Strings = (
-          'Is Parent'
-          'PLU Purc'
-          'PLU'
-          'Nama Barang'
-          'Tipe Harga'
-          'UOM'
-          'Harga Beli'
-          'UOM Harga Beli'
-          'PPN'
-          'Harga Jual'
-          'Diskon'
-          'Diskon %'
-          'Setelah Diskon'
-          'Harga Average'
-          'Harga Exclude PPN'
-          'Margin'
-          'Margin Rp'
-          'Konversi Value'
-          'ID Item'
-          'ID Item')
-        ControlLook.FixedGradientHoverFrom = clGray
-        ControlLook.FixedGradientHoverTo = clWhite
-        ControlLook.FixedGradientDownFrom = clGray
-        ControlLook.FixedGradientDownTo = clSilver
-        ControlLook.ControlStyle = csWinXP
-        ControlLook.DropDownHeader.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownHeader.Font.Color = clWindowText
-        ControlLook.DropDownHeader.Font.Height = -11
-        ControlLook.DropDownHeader.Font.Name = 'Tahoma'
-        ControlLook.DropDownHeader.Font.Style = []
-        ControlLook.DropDownHeader.Visible = True
-        ControlLook.DropDownHeader.Buttons = <>
-        ControlLook.DropDownFooter.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownFooter.Font.Color = clWindowText
-        ControlLook.DropDownFooter.Font.Height = -11
-        ControlLook.DropDownFooter.Font.Name = 'Tahoma'
-        ControlLook.DropDownFooter.Font.Style = []
-        ControlLook.DropDownFooter.Visible = True
-        ControlLook.DropDownFooter.Buttons = <>
-        Filter = <>
-        FilterDropDown.Font.Charset = DEFAULT_CHARSET
-        FilterDropDown.Font.Color = clWindowText
-        FilterDropDown.Font.Height = -11
-        FilterDropDown.Font.Name = 'MS Sans Serif'
-        FilterDropDown.Font.Style = []
-        FilterDropDown.Height = 200
-        FilterDropDown.Width = 200
-        FilterDropDownClear = '(All)'
-        FixedColWidth = 70
-        FixedFont.Charset = DEFAULT_CHARSET
-        FixedFont.Color = clWindowText
-        FixedFont.Height = -11
-        FixedFont.Name = 'Tahoma'
-        FixedFont.Style = [fsBold]
-        FloatFormat = '%.2f'
-        PrintSettings.DateFormat = 'dd/mm/yyyy'
-        PrintSettings.Font.Charset = DEFAULT_CHARSET
-        PrintSettings.Font.Color = clWindowText
-        PrintSettings.Font.Height = -11
-        PrintSettings.Font.Name = 'MS Sans Serif'
-        PrintSettings.Font.Style = []
-        PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FixedFont.Color = clWindowText
-        PrintSettings.FixedFont.Height = -11
-        PrintSettings.FixedFont.Name = 'MS Sans Serif'
-        PrintSettings.FixedFont.Style = []
-        PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-        PrintSettings.HeaderFont.Color = clWindowText
-        PrintSettings.HeaderFont.Height = -11
-        PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-        PrintSettings.HeaderFont.Style = []
-        PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FooterFont.Color = clWindowText
-        PrintSettings.FooterFont.Height = -11
-        PrintSettings.FooterFont.Name = 'MS Sans Serif'
-        PrintSettings.FooterFont.Style = []
-        PrintSettings.PageNumSep = '/'
-        SearchFooter.Font.Charset = DEFAULT_CHARSET
-        SearchFooter.Font.Color = clWindowText
-        SearchFooter.Font.Height = -11
-        SearchFooter.Font.Name = 'Tahoma'
-        SearchFooter.Font.Style = []
-        SortSettings.Column = 0
-        Version = '3.1.2.2'
-        Columns = <
+        Properties.Buttons = <
           item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Is Parent'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 70
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'PLU Purc'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 70
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'PLU'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 70
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Nama Barang'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 267
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clWindow
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Tipe Harga'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 71
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clWhite
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'UOM'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 54
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Harga Beli'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 99
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'UOM Harga Beli'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 124
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'PPN'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 65
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Harga Jual'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 133
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Diskon'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 132
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Diskon %'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 93
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Setelah Diskon'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 0
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Harga Average'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 135
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Harga Exclude PPN'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 0
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Margin'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 64
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Margin Rp'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 64
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'Konversi Value'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 64
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'ID Item'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 64
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = clInfoBk
-            ColumnPopupType = cpFixedCellsRClick
-            DropDownCount = 8
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'ID Item'
-            HeaderAlignment = taLeftJustify
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            MinSize = 0
-            MaxSize = 0
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 64
+            Default = True
+            Kind = bkEllipsis
           end>
-        ExplicitWidth = 114
-        ExplicitHeight = 189
-        ColWidths = (
-          70
-          70
-          70
-          267
-          71
-          54
-          99
-          124
-          65
-          133
-          132
-          93
-          0
-          135
-          0
-          64
-          64
-          64
-          64
-          64)
+        Properties.OnButtonClick = edb1PropertiesButtonClick
+        TabOrder = 6
+        Text = 'edbQuotationNo1'
+        Width = 121
       end
     end
     object pnlBottom: TPanel
       Left = 2
-      Top = 313
+      Top = 310
       Width = 857
       Height = 64
       Align = alBottom
       BevelInner = bvLowered
       BevelOuter = bvNone
       ParentColor = True
-      TabOrder = 2
-      ExplicitTop = 311
-      ExplicitWidth = 116
+      TabOrder = 1
       object lbl1: TLabel
         Left = 187
         Top = 10
@@ -2965,42 +1853,76 @@ inherited frmQuotatiuonMailer: TfrmQuotatiuonMailer
   end
   inherited pnlHeader: TPanel
     Width = 861
-    ExplicitWidth = 120
+    ExplicitWidth = 861
     inherited lblHeader: TLabel
       Width = 177
       Caption = 'MAINTENACE QUOTATION PROMO'
       ExplicitWidth = 177
     end
+    inherited lblFilterData: TcxLabel
+      Left = 507
+      ExplicitLeft = 507
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 568
+      ExplicitLeft = 568
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 684
+      ExplicitLeft = 684
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 779
+      ExplicitLeft = 779
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 660
+      ExplicitLeft = 660
+      AnchorY = 17
+    end
   end
-  inherited frftr5btn1: TfraFooter5Button
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 409
     Width = 861
-    ExplicitTop = -56
+    ExplicitTop = 409
+    ExplicitWidth = 861
     inherited pnlFooter: TPanel
       Width = 861
-      inherited btnClose: TsuiButton
-        Left = 779
-        ExplicitLeft = 38
+      ExplicitWidth = 861
+      inherited btnAdd: TcxButton
+        Action = actAdd
       end
-      inherited btnAdd: TsuiButton
-        OnClick = btnAddClick
+      inherited btnUpdate: TcxButton
+        Action = actEdit
       end
-      inherited btnUpdate: TsuiButton
-        OnClick = frftr5btn1btnUpdateClick
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnDelete: TsuiButton
-        OnClick = btnDeleteClick
+      inherited btnClose: TcxButton
+        Left = 784
+        Action = actClose
+        ExplicitLeft = 784
       end
-      inherited btnRefresh: TsuiButton
-        OnClick = btnRefreshClick
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 861
-      inherited lbl5: TLabel
-        Left = 771
-        ExplicitLeft = 760
+      ExplicitWidth = 861
+      inherited lbEscape: TLabel
+        Left = 787
+        Height = 17
+        ExplicitLeft = 787
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

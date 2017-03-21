@@ -45,6 +45,10 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
+    function Barang_GetDSOverview: TDataSet;
+    function RefTipeMember_GetDSOverview: TDataSet;
+    function TipeKirimPO_GetDSOverview: TDataSet;
+    function SuplierGroup_GetDSOverview1: TDataSet;
 
 
   end;
@@ -83,7 +87,7 @@ function TDSProvider.RefTipeBarang_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * from REF$TIPE_BARANG';
+  S := 'SELECT TPBRG_CODE, TPBRG_NAME, REF$TIPE_BARANG_ID from REF$TIPE_BARANG';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -107,7 +111,20 @@ function TDSProvider.Member_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select * from MEMBER';
+  S := 'select A.MEMBER_ID, A.MEMBER_CARD_NO AS NOMOR_KARTU, A.MEMBER_NAME AS NAMA, '
+    +' A.MEMBER_ADDRESS+'', ''+A.MEMBER_KELURAHAN+'', ''+A.MEMBER_KECAMATAN AS ALAMAT, A.MEMBER_KOTA AS KOTA,'
+    +' A.MEMBER_PLACE_OF_BIRTH AS TEMPAT_LAHIR, A.MEMBER_DATE_OF_BIRTH AS TANGGAL_LAHIR,'
+    +' B.AGAMA_NAME AS AGAMA,'
+    +' A.MEMBER_KTP_NO AS NOMOR_IDENTITAS,'
+    +' CASE WHEN A.MEMBER_SEX = 0 THEN ''L'' ELSE ''P'' END AS JK, '
+    +' CASE WHEN A.IS_TRADER = 0 THEN ''END USER'' ELSE ''TRADER'' END AS KELOMPOK,'
+    +' F.TPMEMBER_NAME AS TIPE_MEMBER, '
+    +' CASE WHEN F.IS_POIN = 0 THEN ''TIDAK DAPAT'' ELSE ''DAPAT'' END AS POIN,'
+    +' CASE WHEN F.IS_UNDIAN = 0 THEN ''TIDAK DAPAT'' ELSE ''DAPAT'' END AS UNDIAN,'
+    +' A.REF$GRUP_MEMBER_ID, A.REF$DISC_MEMBER_ID, A.MEMBER_ACTIVASI_ID, A.MEMBER_KELUARGA_ID'
+    +' FROM MEMBER A'
+    +' LEFT JOIN REF$TIPE_MEMBER F ON A.REF$TIPE_MEMBER_ID = F.REF$TIPE_MEMBER_ID'
+    +' LEFT JOIN REF$AGAMA B ON A.REF$AGAMA_id = B.REF$AGAMA_ID';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -220,7 +237,7 @@ function TDSProvider.Outlet_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select OUTLET_NAME, OUTLET_CODE, REF$OUTLET_ID'
+  S := 'select OUTLET_NAME, OUTLET_CODE, OUTLET_DESCRIPTION, REF$OUTLET_ID'
       +' from REF$OUTLET';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -229,7 +246,8 @@ function TDSProvider.Lokasi_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select LOK_NAME, LOK_CODE, LOK_DESCRIPTION'
+  S := 'select REF$LOKASI_ID, LOK_NAME, LOK_CODE, LOK_DESCRIPTION,'
+      +' LOK_RACK, LOK_BAY, LOK_SHELVE, LOK_POSITION, LOK_TYPE'
       +' from REF$LOKASI ORDER BY LOK_CODE';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -283,7 +301,10 @@ var
   S: string;
 begin
   S := 'select Merk_Name,Merk_Description, Merk_ID from Merk';
+//  if Test <> nil then
+//    Test.fields[0].AsString;
   Result := TDBUtils.OpenQuery(S);
+//  Test := Result;
 end;
 
 function TDSProvider.RefPajak_GetDSLookup: TDataSet;
@@ -306,7 +327,7 @@ function TDSProvider.TipeSuplier_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select TPSUP_CODE, TPSUP_NAME from REF$TIPE_SUPLIER';
+  S := 'select TPSUP_CODE, TPSUP_NAME, REF$TIPE_SUPLIER_ID from REF$TIPE_SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -355,6 +376,54 @@ var
   S: string;
 begin
   S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION,AUT$APP_ID from AUT$APP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Barang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.BARANG_ID,'
+      +' A.BRG_CODE, A.BRG_CATALOG,'
+      +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
+      +' E.SUBGRUP_NAME, D.KAT_NAME, F.TPBRG_NAME, G.SAT_NAME, H.OUTLET_NAME'
+      +' FROM BARANG A'
+      +' LEFT JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
+      +' LEFT JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
+      +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
+      +' LEFT JOIN REF$TIPE_BARANG F ON A.REF$TIPE_BARANG_ID=F.REF$TIPE_BARANG_ID '
+      +' LEFT JOIN REF$SATUAN G ON G.REF$SATUAN_ID = A.REF$SATUAN_STOCK'
+      +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeMember_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * from REF$TIPE_MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeKirimPO_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPKRMPO_CODE, TPKRMPO_NAME, REF$TIPE_KIRIM_PO_ID'
+      +' from REF$TIPE_KIRIM_PO';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SuplierGroup_GetDSOverview1: TDataSet;
+var
+  S: string;
+begin
+  S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  +' from SUPLIER_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
 

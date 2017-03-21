@@ -1,19 +1,76 @@
 inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
   Left = 216
   Top = 140
-  Width = 752
-  Height = 512
   Caption = 'Quotation Harga Beli'
+  ClientHeight = 475
+  ClientWidth = 740
+  ExplicitWidth = 756
+  ExplicitHeight = 514
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 744
-    Height = 399
+    Width = 740
+    Height = 386
     BorderWidth = 1
+    ExplicitWidth = 740
+    ExplicitHeight = 386
+    inherited pgcBrowse: TcxPageControl
+      Left = 2
+      Top = 150
+      Width = 736
+      Height = 234
+      TabOrder = 1
+      ExplicitLeft = 2
+      ExplicitTop = 150
+      ExplicitWidth = 736
+      ExplicitHeight = 234
+      ClientRectBottom = 233
+      ClientRectRight = 735
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 734
+        ExplicitHeight = 232
+        inherited cxGrid: TcxGrid
+          Width = 734
+          Height = 232
+          ExplicitWidth = 734
+          ExplicitHeight = 232
+          inherited cxGridView: TcxGridDBTableView
+            object cxcolGridViewColumn1: TcxGridDBColumn
+              Caption = 'NO.'
+            end
+            object cxcolGridViewColumn2: TcxGridDBColumn
+              Caption = 'KODE BARANG'
+              Width = 104
+            end
+            object cxcolGridViewColumn3: TcxGridDBColumn
+              Caption = 'NAMA BARANG'
+              Width = 130
+            end
+            object cxcolGridViewColumn4: TcxGridDBColumn
+              Caption = 'UOM'
+            end
+            object cxcolGridViewColumn5: TcxGridDBColumn
+              Caption = 'HARGA'
+            end
+            object cxcolGridViewColumn6: TcxGridDBColumn
+              Caption = 'DISC 1 (%)'
+            end
+            object cxcolGridViewColumn7: TcxGridDBColumn
+              Caption = 'DISC 2 (%)'
+            end
+            object cxcolGridViewColumn8: TcxGridDBColumn
+              Caption = 'DISC 1 (Rp)'
+            end
+          end
+        end
+      end
+    end
     object pnlatas: TPanel
       Left = 2
       Top = 2
-      Width = 740
+      Width = 736
       Height = 148
       Align = alTop
       Color = 15198183
@@ -28,7 +85,7 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
       object lbl2: TLabel
         Left = 390
         Top = 86
-        Width = 38
+        Width = 37
         Height = 16
         Caption = 'Tanggal'
       end
@@ -566,24 +623,6 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
           808081FFD9}
         Stretch = True
       end
-      object edtkodeSuplier: TEditBtn
-        Left = 242
-        Top = 8
-        Width = 121
-        Height = 22
-        Ctl3D = False
-        ReturnIsTab = False
-        Flat = False
-        Etched = False
-        FocusBorder = False
-        ParentCtl3D = False
-        RightAlign = False
-        TabOrder = 0
-        Text = '0'
-        OnKeyDown = edtkodeSuplierKeyDown
-        OnKeyPress = edtkodeSuplierKeyPress
-        OnClickBtn = edtkodeSuplierClickBtn
-      end
       object edtNamaSuplier: TEdit
         Left = 365
         Top = 8
@@ -592,41 +631,29 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
         Ctl3D = False
         ParentCtl3D = False
         ReadOnly = True
-        TabOrder = 1
+        TabOrder = 0
       end
-      object dtTanggal: TJvDateEdit
+      object dtTanggal: TcxDateEdit
         Left = 430
         Top = 86
+        TabOrder = 4
         Width = 128
-        Height = 22
-        ButtonFlat = False
-        Ctl3D = False
-        NumGlyphs = 2
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 5
       end
-      object dtEffektiveDate: TJvDateEdit
+      object dtEffektiveDate: TcxDateEdit
         Left = 242
         Top = 86
+        TabOrder = 3
         Width = 121
-        Height = 22
-        ButtonFlat = False
-        Ctl3D = False
-        NumGlyphs = 2
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 4
       end
       object edtKeterangan: TEdit
         Left = 242
         Top = 113
-        Width = 237
+        Width = 316
         Height = 22
         Ctl3D = False
         ParentCtl3D = False
         ReadOnly = True
-        TabOrder = 6
+        TabOrder = 5
       end
       object edtRefNo: TEdit
         Left = 242
@@ -636,7 +663,7 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
         Ctl3D = False
         ParentCtl3D = False
         ReadOnly = True
-        TabOrder = 3
+        TabOrder = 2
       end
       object edtNoBukti: TEdit
         Left = 242
@@ -647,610 +674,96 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
         Ctl3D = False
         ParentCtl3D = False
         ReadOnly = True
-        TabOrder = 2
+        TabOrder = 1
         OnKeyDown = edtNoBuktiKeyDown
       end
-      object btnSlip: TButton
-        Left = 483
-        Top = 112
-        Width = 75
-        Height = 25
-        Caption = 'Cetak'
-        TabOrder = 7
-        OnClick = btnSlipClick
-      end
-    end
-    object pnlbawah: TPanel
-      Left = 2
-      Top = 150
-      Width = 740
-      Height = 247
-      Align = alClient
-      Color = 15198183
-      TabOrder = 1
-      object ColGrid: TAdvColumnGrid
-        Left = 1
-        Top = 1
-        Width = 738
-        Height = 245
-        Cursor = crDefault
-        Align = alClient
-        ColCount = 8
-        Ctl3D = True
-        DefaultRowHeight = 21
-        DefaultDrawing = False
-        FixedCols = 0
-        RowCount = 2
-        FixedRows = 1
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        GridLineWidth = 1
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing]
-        ParentCtl3D = False
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-        OnKeyUp = ColGridKeyUp
-        GridLineColor = clSilver
-        ActiveCellShow = False
-        ActiveCellFont.Charset = DEFAULT_CHARSET
-        ActiveCellFont.Color = clWindowText
-        ActiveCellFont.Height = -11
-        ActiveCellFont.Name = 'Tahoma'
-        ActiveCellFont.Style = [fsBold]
-        ActiveCellColor = clGray
-        ActiveCellColorTo = clNone
-        Bands.PrimaryColor = clInfoBk
-        Bands.PrimaryLength = 1
-        Bands.SecondaryColor = clWindow
-        Bands.SecondaryLength = 1
-        Bands.Print = False
-        AutoNumAlign = False
-        AutoSize = False
-        VAlignment = vtaTop
-        EnhTextSize = False
-        EnhRowColMove = True
-        SizeWithForm = False
-        Multilinecells = False
-        OnCanEditCell = ColGridCanEditCell
-        OnGetFloatFormat = ColGridGetFloatFormat
-        DragDropSettings.OleAcceptFiles = True
-        DragDropSettings.OleAcceptText = True
-        SortSettings.AutoColumnMerge = False
-        SortSettings.Column = 0
-        SortSettings.Show = False
-        SortSettings.IndexShow = False
-        SortSettings.IndexColor = clYellow
-        SortSettings.Full = True
-        SortSettings.SingleColumn = False
-        SortSettings.IgnoreBlanks = False
-        SortSettings.BlankPos = blFirst
-        SortSettings.AutoFormat = True
-        SortSettings.Direction = sdAscending
-        SortSettings.InitSortDirection = sdAscending
-        SortSettings.FixedCols = False
-        SortSettings.NormalCellsOnly = False
-        SortSettings.Row = 0
-        SortSettings.UndoSort = False
-        FloatingFooter.Color = clBtnFace
-        FloatingFooter.Column = 0
-        FloatingFooter.FooterStyle = fsFixedLastRow
-        FloatingFooter.Visible = False
-        ControlLook.Color = clBlack
-        ControlLook.CheckSize = 15
-        ControlLook.RadioSize = 10
-        ControlLook.ControlStyle = csWinXP
-        ControlLook.DropDownAlwaysVisible = False
-        ControlLook.ProgressMarginX = 2
-        ControlLook.ProgressMarginY = 2
-        EnableBlink = False
-        EnableHTML = True
-        EnableWheel = True
-        Flat = False
-        Look = glXP
-        HintColor = clInfoBk
-        SelectionColor = 15387318
-        SelectionTextColor = clBlack
-        SelectionRectangle = False
-        SelectionResizer = False
-        SelectionRTFKeep = False
-        HintShowCells = False
-        HintShowLargeText = False
-        HintShowSizing = False
-        PrintSettings.FooterSize = 0
-        PrintSettings.HeaderSize = 0
-        PrintSettings.Time = ppNone
-        PrintSettings.Date = ppNone
-        PrintSettings.DateFormat = 'dd/mm/yyyy'
-        PrintSettings.PageNr = ppNone
-        PrintSettings.Title = ppNone
-        PrintSettings.Font.Charset = DEFAULT_CHARSET
-        PrintSettings.Font.Color = clWindowText
-        PrintSettings.Font.Height = -11
-        PrintSettings.Font.Name = 'MS Sans Serif'
-        PrintSettings.Font.Style = []
-        PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FixedFont.Color = clWindowText
-        PrintSettings.FixedFont.Height = -11
-        PrintSettings.FixedFont.Name = 'MS Sans Serif'
-        PrintSettings.FixedFont.Style = []
-        PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-        PrintSettings.HeaderFont.Color = clWindowText
-        PrintSettings.HeaderFont.Height = -11
-        PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-        PrintSettings.HeaderFont.Style = []
-        PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FooterFont.Color = clWindowText
-        PrintSettings.FooterFont.Height = -11
-        PrintSettings.FooterFont.Name = 'MS Sans Serif'
-        PrintSettings.FooterFont.Style = []
-        PrintSettings.Borders = pbSingle
-        PrintSettings.BorderStyle = psSolid
-        PrintSettings.Centered = True
-        PrintSettings.RepeatFixedRows = False
-        PrintSettings.RepeatFixedCols = False
-        PrintSettings.LeftSize = 0
-        PrintSettings.RightSize = 0
-        PrintSettings.ColumnSpacing = 0
-        PrintSettings.RowSpacing = 0
-        PrintSettings.TitleSpacing = 0
-        PrintSettings.Orientation = poPortrait
-        PrintSettings.PageNumberOffset = 0
-        PrintSettings.MaxPagesOffset = 0
-        PrintSettings.FixedWidth = 0
-        PrintSettings.FixedHeight = 0
-        PrintSettings.UseFixedHeight = False
-        PrintSettings.UseFixedWidth = False
-        PrintSettings.FitToPage = fpNever
-        PrintSettings.PageNumSep = '/'
-        PrintSettings.NoAutoSize = False
-        PrintSettings.NoAutoSizeRow = False
-        PrintSettings.PrintGraphics = False
-        PrintSettings.UseDisplayFont = True
-        HTMLSettings.Width = 100
-        HTMLSettings.XHTML = False
-        Navigation.AdvanceDirection = adLeftRight
-        Navigation.InsertPosition = pInsertBefore
-        Navigation.HomeEndKey = heFirstLastColumn
-        Navigation.TabToNextAtEnd = False
-        Navigation.TabAdvanceDirection = adLeftRight
-        ColumnSize.Location = clRegistry
-        CellNode.Color = clSilver
-        CellNode.ExpandOne = False
-        CellNode.NodeColor = clBlack
-        CellNode.NodeIndent = 12
-        CellNode.ShowTree = True
-        CellNode.TreeColor = clSilver
-        MaxEditLength = 0
-        Grouping.HeaderColor = clNone
-        Grouping.HeaderColorTo = clNone
-        Grouping.HeaderTextColor = clNone
-        Grouping.MergeHeader = False
-        Grouping.MergeSummary = False
-        Grouping.Summary = False
-        Grouping.SummaryColor = clNone
-        Grouping.SummaryColorTo = clNone
-        Grouping.SummaryTextColor = clNone
-        IntelliPan = ipVertical
-        URLColor = clBlue
-        URLShow = False
-        URLFull = False
-        URLEdit = False
-        ScrollType = ssNormal
-        ScrollColor = clNone
-        ScrollWidth = 17
-        ScrollSynch = False
-        ScrollProportional = False
-        ScrollHints = shNone
-        OemConvert = False
-        FixedFooters = 0
-        FixedRightCols = 0
-        FixedColWidth = 45
-        FixedRowHeight = 21
-        FixedFont.Charset = DEFAULT_CHARSET
-        FixedFont.Color = clWindowText
-        FixedFont.Height = -11
-        FixedFont.Name = 'Tahoma'
-        FixedFont.Style = [fsBold]
-        FixedAsButtons = False
-        FloatFormat = '%.2f'
-        IntegralHeight = False
-        WordWrap = True
-        ColumnHeaders.Strings = (
-          'NO'
-          'KODE BARANG'
-          'NAMA BARANG'
-          'UOM'
-          'HARGA'
-          'DISC 1 (%)'
-          'DISC 2 (%)'
-          'DISC 3 (Rp.)')
-        Lookup = False
-        LookupCaseSensitive = False
-        LookupHistory = False
-        BackGround.Top = 0
-        BackGround.Left = 0
-        BackGround.Display = bdTile
-        BackGround.Cells = bcNormal
-        Filter = <>
-        Columns = <
+      object edbKodeSuplier: TcxButtonEdit
+        Left = 240
+        Top = 7
+        Properties.Buttons = <
           item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15329769
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'NO'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolNo'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 45
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'KODE BARANG'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolNamaBArang'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 95
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taLeftJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'NAMA BARANG'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolBarangAlias'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 200
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taCenter
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 14086654
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'UOM'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolUOMBeli'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 64
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'HARGA'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolHarga'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 150
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'DISC 1 (%)'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolDisc1'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 100
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'DISC 2 (%)'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'kolDisc2'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 100
-          end
-          item
-            AutoMinSize = 0
-            AutoMaxSize = 0
-            Alignment = taRightJustify
-            Borders = []
-            BorderPen.Color = clSilver
-            CheckFalse = 'N'
-            CheckTrue = 'Y'
-            Color = 15332329
-            ColumnPopupType = cpFixedCellsRClick
-            EditLength = 0
-            Editor = edNormal
-            FilterCaseSensitive = False
-            Fixed = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            Header = 'DISC 3 (Rp.)'
-            MinSize = 0
-            MaxSize = 0
-            Name = 'KolDisc3'
-            Password = False
-            PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-            PrintColor = clWhite
-            PrintFont.Charset = DEFAULT_CHARSET
-            PrintFont.Color = clWindowText
-            PrintFont.Height = -11
-            PrintFont.Name = 'Tahoma'
-            PrintFont.Style = []
-            ReadOnly = False
-            ShowBands = False
-            SortStyle = ssAutomatic
-            SpinMax = 0
-            SpinMin = 0
-            SpinStep = 1
-            Tag = 0
-            Width = 100
+            Default = True
+            Kind = bkEllipsis
           end>
-        FilterDropDown.Color = clWindow
-        FilterDropDown.ColumnWidth = False
-        FilterDropDown.Font.Charset = DEFAULT_CHARSET
-        FilterDropDown.Font.Color = clWindowText
-        FilterDropDown.Font.Height = -11
-        FilterDropDown.Font.Name = 'MS Sans Serif'
-        FilterDropDown.Font.Style = []
-        FilterDropDown.Height = 200
-        FilterDropDown.Width = 200
-        ColWidths = (
-          45
-          95
-          200
-          64
-          150
-          100
-          100
-          100)
+        Properties.OnButtonClick = edbQuotationNo1PropertiesButtonClick
+        TabOrder = 6
+        Text = 'edbKodeSuplier'
+        Width = 121
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 744
+    Width = 740
+    ExplicitWidth = 740
     inherited lblHeader: TLabel
       Width = 110
       Caption = 'Quotation Harga Beli'
+      ExplicitWidth = 110
+    end
+    inherited lblFilterData: TcxLabel
+      Left = 386
+      ExplicitLeft = 386
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 447
+      ExplicitLeft = 447
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 563
+      ExplicitLeft = 563
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 658
+      ExplicitLeft = 658
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 539
+      ExplicitLeft = 539
+      AnchorY = 17
     end
   end
-  inherited frftr5btn1: TfraFooter5Button
-    Top = 429
-    Width = 744
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 419
+    Width = 740
+    ExplicitTop = 419
+    ExplicitWidth = 740
     inherited pnlFooter: TPanel
-      Width = 744
-      inherited btnClose: TsuiButton
-        Left = 662
+      Width = 740
+      ExplicitWidth = 740
+      inherited btnAdd: TcxButton
+        Action = actAdd
       end
-      inherited btnAdd: TsuiButton
-        OnClick = frftr5btn1btnAddClick
+      inherited btnUpdate: TcxButton
+        Action = actEdit
       end
-      inherited btnUpdate: TsuiButton
-        OnClick = frftr5btn1btnUpdateClick
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnDelete: TsuiButton
-        OnClick = frftr5btn1btnDeleteClick
+      inherited btnClose: TcxButton
+        Left = 663
+        Action = actClose
+        ExplicitLeft = 663
       end
-      inherited btnRefresh: TsuiButton
-        OnClick = frftr5btn1btnRefreshClick
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
-      Width = 744
-      inherited lbl5: TLabel
-        Left = 654
+    inherited pnlShortCut: TPanel
+      Width = 740
+      ExplicitWidth = 740
+      inherited lbEscape: TLabel
+        Left = 666
+        Height = 17
+        ExplicitLeft = 666
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

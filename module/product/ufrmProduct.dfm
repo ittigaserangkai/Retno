@@ -2,29 +2,27 @@ inherited frmProduct: TfrmProduct
   Left = 287
   Top = 78
   Caption = 'Product Master'
-  ClientHeight = 495
+  ClientHeight = 590
   ClientWidth = 924
   KeyPreview = True
   OldCreateOrder = True
-  OnShow = nil
-  ExplicitTop = -15
   ExplicitWidth = 940
-  ExplicitHeight = 534
+  ExplicitHeight = 629
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 924
-    Height = 406
-    ExplicitTop = 33
+    Height = 501
     ExplicitWidth = 924
     ExplicitHeight = 406
     inherited pgcBrowse: TcxPageControl
       Width = 902
-      Height = 384
+      Height = 479
+      Properties.ActivePage = tsProductInfo
       Properties.HideTabs = False
       ExplicitWidth = 902
       ExplicitHeight = 384
-      ClientRectBottom = 383
+      ClientRectBottom = 478
       ClientRectRight = 901
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
@@ -35,7 +33,7 @@ inherited frmProduct: TfrmProduct
         ExplicitHeight = 359
         inherited cxGrid: TcxGrid
           Width = 900
-          Height = 359
+          Height = 454
           ExplicitWidth = 900
           ExplicitHeight = 359
         end
@@ -43,15 +41,17 @@ inherited frmProduct: TfrmProduct
       object tsProductInfo: TcxTabSheet
         Caption = 'Product Info'
         ImageIndex = 1
+        ExplicitHeight = 359
         object dxNavBarLeftSide: TdxNavBar
           Left = 0
           Top = 0
           Width = 160
-          Height = 359
+          Height = 454
           Align = alLeft
           ActiveGroupIndex = 0
           TabOrder = 0
           View = 0
+          ExplicitHeight = 359
           object dxNavGroupSettingProduct: TdxNavBarGroup
             Caption = 'Setting Product'
             SelectedLinkIndex = -1
@@ -99,12 +99,13 @@ inherited frmProduct: TfrmProduct
           Left = 160
           Top = 0
           Width = 740
-          Height = 359
+          Height = 454
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
+          ExplicitHeight = 359
           object lblCompanyCode: TLabel
             Left = 684
             Top = 7
@@ -1286,37 +1287,24 @@ inherited frmProduct: TfrmProduct
       ExplicitLeft = 723
       AnchorY = 17
     end
-    object lblInvalid: TcxLabel
-      Left = 496
-      Top = 8
-      Caption = 'Invalid'
-      Style.TextColor = clRed
-      Properties.LabelEffect = cxleExtrude
-      Properties.LabelStyle = cxlsRaised
-    end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 439
+    Top = 534
     Width = 924
     ExplicitTop = 439
     ExplicitWidth = 924
     inherited pnlFooter: TPanel
       Width = 924
-      ExplicitTop = 21
+      ExplicitTop = 6
       ExplicitWidth = 924
       inherited btnAdd: TcxButton
         Action = actAdd
-        ExplicitLeft = 4
-        ExplicitTop = 4
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        ExplicitLeft = 80
-        ExplicitTop = 4
       end
       inherited btnPrint: TcxButton
         Action = actPrint
-        ExplicitLeft = 264
       end
       inherited btnClose: TcxButton
         Left = 847
@@ -1325,9 +1313,6 @@ inherited frmProduct: TfrmProduct
       end
       inherited cxButton1: TcxButton
         Action = actExport
-        ExplicitLeft = 340
-        ExplicitTop = 4
-        ExplicitHeight = 27
       end
     end
     inherited pnlShortCut: TPanel
@@ -1336,12 +1321,19 @@ inherited frmProduct: TfrmProduct
       inherited lbEscape: TLabel
         Left = 850
         Height = 17
+        ExplicitLeft = 850
       end
     end
   end
   inherited actlstBrowse: TActionList
     Left = 552
     Top = 24
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
+    end
   end
   object actlst1: TActionList
     Left = 680

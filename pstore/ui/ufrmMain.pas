@@ -187,7 +187,7 @@ type
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -409,13 +409,9 @@ begin
     CanClose := false;
 end;
 
-procedure TfrmMain.FormDestroy(Sender: TObject);
+procedure TfrmMain.FormShow(Sender: TObject);
 begin
-//  ADConn.Free;
-//  ADConn := nil;
-//
-//  FDbEventListener.Free;
-  frmMain := nil;
+  CommonDlg.ShowInformationAlert('Aplikasi Store', 'test Selamat Datang', mtCustom);
 end;
 
 procedure TfrmMain.SetAclstExim(aEnable : Boolean);

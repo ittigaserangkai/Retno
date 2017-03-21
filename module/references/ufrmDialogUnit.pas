@@ -8,60 +8,59 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
   ufraFooterDialog3Button, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
-  cxCalendar;
+  cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
   TfrmDialogUnit = class(TfrmMasterDialog)
-    lbl1: TLabel;
-    Lbl2: TLabel;
-    lbl3: TLabel;
-    Label2: TLabel;
-    Label4: TLabel;
+    lblCode: TLabel;
+    lblName: TLabel;
+    lblDescription: TLabel;
+    lblAddress: TLabel;
+    lblAppType: TLabel;
     Label5: TLabel;
-    Label6: TLabel;
+    lblRegion: TLabel;
     Label7: TLabel;
-    edtUnitPropNm: TEdit;
     Label8: TLabel;
-    edtUnitKabNm: TEdit;
     Label9: TLabel;
     Label10: TLabel;
-    edtUnitPhone: TEdit;
-    edtUnitFax: TEdit;
     Label12: TLabel;
-    edtUnitZip: TEdit;
     Label13: TLabel;
-    edtUnitContact: TEdit;
     Label14: TLabel;
-    edtUnitEmail: TEdit;
     Label15: TLabel;
     Label16: TLabel;
-    Label17: TLabel;
-    edtUnitChildID: TEdit;
     Label18: TLabel;
-    edtUntInfoNpwpID: TEdit;
-    Label19: TLabel;
-    Label20: TLabel;
-    Label21: TLabel;
-    Label22: TLabel;
-    edtUnitParentNm: TEdit;
-    edtUnitChildNm: TEdit;
+    lblNPWP: TLabel;
+    lblNPWPName: TLabel;
+    lblNPWPAddress: TLabel;
+    lblNPWPRegDate: TLabel;
     rgTipeUnit: TRadioGroup;
     grpAuthority: TGroupBox;
     chkAllowPO: TCheckBox;
     chkAllowGR: TCheckBox;
     chkActive: TCheckBox;
-    edtUnitPropId: TcxButtonEdit;
-    edtUnitKabID: TcxButtonEdit;
-    edtUnitParentID: TcxButtonEdit;
     edCode: TcxTextEdit;
     edNama: TcxTextEdit;
     edDesciption: TcxTextEdit;
     edAddress: TcxTextEdit;
     edRegisterNPWP: TcxDateEdit;
+    cbbAppType: TcxExtLookupComboBox;
+    cbbCompany: TcxExtLookupComboBox;
+    cbbCorporateType: TcxExtLookupComboBox;
+    cbbParentUnit: TcxExtLookupComboBox;
+    edContactPerson: TcxTextEdit;
+    edEmail: TcxTextEdit;
+    edRegion: TcxTextEdit;
+    edType: TcxTextEdit;
+    edPhone: TcxTextEdit;
+    edFax: TcxTextEdit;
+    edZIP: TcxTextEdit;
+    cbbPropinsi: TcxExtLookupComboBox;
+    cbbKabupaten: TcxExtLookupComboBox;
     edNPWPAddress: TcxTextEdit;
     edNPWPName: TcxTextEdit;
+    edNPWP: TcxTextEdit;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -99,6 +98,7 @@ type
       AButtonIndex: Integer);
     procedure edtUntInfoCompTypeIDPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure FormCreate(Sender: TObject);
   private
     FCompID     : Integer;
     FisActive   : Integer;
@@ -127,7 +127,7 @@ var
 
 implementation
 
-uses  uTSCommonDlg, uRetnoUnit, Math;
+uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils;
 
 {$R *.dfm}
 
@@ -379,6 +379,12 @@ begin
 //  Action  := caFree;
 end;
 
+procedure TfrmDialogUnit.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
+end;
+
 procedure TfrmDialogUnit.edtUnitAppIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
@@ -445,8 +451,8 @@ var
   aPropId: Integer;
 begin
   inherited;
-  TryStrToInt(edtUnitPropId.Text, aPropId);
-  
+//  TryStrToInt(edtUnitPropId.Text, aPropId);
+
 //  if key = vk_F5 then
 //    FUnit.GetRecKab(edtUnitKabID, edtUnitKabNm, aPropId)
 //  else if Key = vk_return then

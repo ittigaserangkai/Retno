@@ -36,17 +36,17 @@ uses TypInfo;
 {$R *.dfm}
 
 procedure TfraFooter5Button.btnCloseClick(Sender: TObject);
-var
-  xObject: TObject;
+//var
+//  xObject: TObject;
 begin
-  if (Owner is TForm) then
-  begin
-    xObject := (Owner as TForm);
-    xObject.Free;
-  end else if (Owner is TFrame) then
-  begin
-    TForm((Owner as TFrame).Owner).Close;
-  end;
+//  if (Owner is TForm) then
+//  begin
+//    xObject := (Owner as TForm);
+//    xObject.Free;
+//  end else if (Owner is TFrame) then
+//  begin
+//    TForm((Owner as TFrame).Owner).Close;
+//  end;
 end;
 
 end.

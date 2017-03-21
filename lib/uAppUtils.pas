@@ -8,10 +8,12 @@ uses
 
 type
   TAppUtils = class(TObject)
+  private
   public
     class function BacaRegistry(aNama: String; aPath : String = ''): string;
     class function BacaRegistry1(aNama: String; aPath : String = ''): string;
     class procedure BeginBusy;
+    class function BoolToInt(aBool: Boolean): Integer;
     class function BytesToStr(const Bytes: TBytes): string;
     class procedure cCloseWaitWindow;
     class procedure CheckDataNumeric(AKey : Char);
@@ -42,7 +44,8 @@ type
     class function HitungKarakterReplace(AStringHitung : Char; AStringSource :
         String): Integer;
     class procedure IncStepProgressBar(AStep : Integer; ANomorPB : Integer = 0);
-    class procedure Information(const Text: string);
+    class procedure Information(const Text: string; UsingNativeDlg: Boolean =
+        False);
     class procedure InformationBerhasilHapus;
     class procedure InformationBerhasilSimpan; overload;
     class procedure InformationBerhasilSimpan(aNoBukti: string); overload;
@@ -113,6 +116,9 @@ const
 
   sSpace: string = ' ';
 implementation
+
+uses
+  uTSCommonDlg;
 
 function GetAppVersionStrWMem: string;
 var
@@ -283,6 +289,11 @@ begin
     Screen.Cursor := crHourglass;
   end;
   Inc(BusyCount);
+end;
+
+class function TAppUtils.BoolToInt(aBool: Boolean): Integer;
+begin
+  if aBool then Result := 1 else Result := 0;
 end;
 
 class function TAppUtils.BytesToStr(const Bytes: TBytes): string;
@@ -615,9 +626,13 @@ begin
 
 end;
 
-class procedure TAppUtils.Information(const Text: string);
+class procedure TAppUtils.Information(const Text: string; UsingNativeDlg:
+    Boolean = False);
 begin
-  MessageDlg(Text, mtInformation, [mbYes], 0);;
+  If UsingNativeDlg then
+    MessageDlg(Text, mtInformation, [mbYes], 0)
+  else
+    CommonDlg.ShowInformationAlert('Informasi',Text,mtInformation);
 end;
 
 class procedure TAppUtils.InformationBerhasilHapus;

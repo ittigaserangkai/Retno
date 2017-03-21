@@ -77,6 +77,9 @@ const
   PO_APPROVED_SUCCESSFULLY = 'PO approved successfully';
   PO_CHANGED_SUCCESSFULLY = 'PO changed successfully';
   PO_CANCELLED_SUCCESSFULLY = 'PO canceled successfully';
+  CONF_VALIDATE_FOR_SAVE = 'Anda yakin data sudah sesuai ?';
+  CONF_VALIDATE_FOR_CLOSE = 'Anda yakin menutup form ini ?';
+  CONF_VALIDATE_FOR_DELETE = 'Anda yakin menghapus data ini ?';
 
   // db
   DEBUG_MODE_ON = true;
@@ -104,7 +107,7 @@ const
   BUTTON_CAPTION1 = 'Yes';
   BUTTON_CAPTION2 = 'No';
   BUTTON_CAPTION3 = 'Cancel';
-  MESSAGE_CAPTION = 'Head Office - ';  
+  MESSAGE_CAPTION = 'Store - ';
 
   // sync
   SYNC_LOCAL_DIR = 'sinkronisasi\sync\';

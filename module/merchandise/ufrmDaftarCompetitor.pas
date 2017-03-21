@@ -92,7 +92,7 @@ begin
   end;
   if not Assigned(frmDialogDaftarKompetitor) then
     Application.CreateForm(TfrmDialogDaftarKompetitor, frmDialogDaftarKompetitor);
-  frmDialogDaftarKompetitor.frmSuiMasterDialog.Caption := 'Edit List Competitor';
+  frmDialogDaftarKompetitor.Caption := 'Edit List Competitor';
   frmDialogDaftarKompetitor.FormMode := fmEdit;
   frmDialogDaftarKompetitor.ComptId := strgGrid.ints[3,strgGrid.Row];
 

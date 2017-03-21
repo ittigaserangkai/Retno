@@ -6,7 +6,6 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
   ClientWidth = 709
   KeyPreview = True
   OldCreateOrder = True
-  ExplicitTop = 8
   ExplicitWidth = 725
   ExplicitHeight = 448
   PixelsPerInch = 96
@@ -25,8 +24,6 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
       ClientRectBottom = 297
       ClientRectRight = 686
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 0
-        ExplicitTop = 0
         ExplicitWidth = 98
         ExplicitHeight = 236
         inherited cxGrid: TcxGrid
@@ -89,10 +86,8 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
         Action = actClose
         ExplicitLeft = 43
       end
-    end
-    inherited pnlShortCut: TPanel
-      inherited lbEscape: TLabel
-        Height = 16
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
   end

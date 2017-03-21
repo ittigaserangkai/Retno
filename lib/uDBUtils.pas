@@ -4,14 +4,14 @@ interface
 uses
   System.Rtti, typinfo, SysUtils, StrUtils,
   Forms, DBClient,
-  Provider, uAppUtils, Generics.Collections, System.Classes, StdCtrls,
+  Provider, Generics.Collections, System.Classes, StdCtrls,
   FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
   FireDAC.Phys.PG, FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.ODBCBase,
   FireDAC.Phys.MSSQL, Data.DB, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDac.Dapt,
-  uModApp, uModTest;
+  uModApp, uModTest, uTSINIFile;
 
 type
   TDBUtils = class(TObject)
@@ -25,8 +25,8 @@ type
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
-    class function DSToCDS(aDataset: TDataSet; aOwner: TComponent): TClientDataset;
-        overload;
+    class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
+        Boolean = True): TClientDataset; overload;
     class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
     class procedure TemporaryForHideWarning;
     class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
@@ -47,7 +47,7 @@ type
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
-    class function OpenQuery(ASQL : String): TFDQuery;
+    class function OpenQuery(ASQL: String; AOwner: TComponent = nil): TFDQuery;
     class procedure RollBack;
   end;
 
@@ -99,20 +99,20 @@ begin
   FDConnection.Connected := True;
   if FDConnection.Connected then
   begin
-    TAppUtils.TulisRegistry('Engine', ADBEngine);
-    TAppUtils.TulisRegistry('server', AServer);
-    TAppUtils.TulisRegistry('Database', ADatabase);
-    TAppUtils.TulisRegistry('User_Name', AUser);
-    TAppUtils.TulisRegistry('Password', APassword);
-    TAppUtils.TulisRegistry('Port', APort);
+    TulisRegistry('Engine', ADBEngine);
+    TulisRegistry('server', AServer);
+    TulisRegistry('Database', ADatabase);
+    TulisRegistry('User_Name', AUser);
+    TulisRegistry('Password', APassword);
+    TulisRegistry('Port', APort);
 
     Result := True;
   end;
 
 end;
 
-class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent):
-    TClientDataset;
+class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent;
+    FreeDataSet: Boolean = True): TClientDataset;
 var
   ADSP: TDataSetProvider;
 begin
@@ -124,6 +124,8 @@ begin
     ADSP.DataSet:= aDataset;
     Result.SetProvider(ADSP);
     Result.Open;
+
+    if FreeDataSet then aDataset.Free;
   end;
 end;
 
@@ -186,7 +188,7 @@ begin
     If not Result then Result := True;
   except
     Self.RollBack;
-    Q.SQL.SaveToFile(TAppUtils.GetAppPath + '\FailedExecution.log');
+    Q.SQL.SaveToFile(ExtractFilePath(ParamStr(0)) + '\FailedExecution.log');
     raise;
   end;
   FreeAndNIl(Q);
@@ -513,7 +515,7 @@ begin
 
   sSQL := 'select max(id) as ID from ' + AOBject.ClassName;
 
-  Q := TDBUtils.OpenQuery(sSQL);
+  Q := TDBUtils.OpenQuery(sSQL, nil);
   try
     while not Q.Eof do
     begin
@@ -611,7 +613,7 @@ var
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
-  Q := TDBUtils.OpenQuery(sSQL);
+  Q := TDBUtils.OpenQuery(sSQL, nil);
   SetFromDatast(AObject, Q);
 end;
 
@@ -622,7 +624,7 @@ var
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
-  Q := TDBUtils.OpenQuery(sSQL);
+  Q := TDBUtils.OpenQuery(sSQL, nil);
   SetFromDatast(AObject, Q);
 end;
 
@@ -688,7 +690,7 @@ begin
                 lAppObjectItem.Free;
                 //
 
-                QQ := TDBUtils.OpenQuery(sSQL);
+                QQ := TDBUtils.OpenQuery(sSQL, nil);
                 try
                   while not QQ.Eof do
                   begin
@@ -749,9 +751,9 @@ class function TDBUtils.OpenMemTable(ASQL : String): TFDMemTable;
 var
   Q: TFDQuery;
 begin
-  Result := TFDMemTable.Create(Application);
+  Result := TFDMemTable.Create(nil);
 
-  Q := TDBUtils.OpenQuery(ASQL);
+  Q := TDBUtils.OpenQuery(ASQL, nil);
   try
     Q.FetchAll;
     Result.Data := Q.Data;
@@ -761,9 +763,10 @@ begin
   end;
 end;
 
-class function TDBUtils.OpenQuery(ASQL : String): TFDQuery;
+class function TDBUtils.OpenQuery(ASQL: String; AOwner: TComponent = nil):
+    TFDQuery;
 begin
-  Result := TFDQuery.Create(Application);
+  Result := TFDQuery.Create(AOwner);
   Result.Connection := FDConnection;
   Result.SQL.Text := ASQL;
   Result.Open;

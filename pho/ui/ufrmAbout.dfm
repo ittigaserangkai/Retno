@@ -44,6 +44,7 @@ inherited frmAbout: TfrmAbout
       ExplicitWidth = 272
       inherited btnClose: TcxButton
         Left = 190
+        Action = actCancel
         ExplicitLeft = 190
       end
       inherited btnSave: TcxButton
@@ -58,14 +59,6 @@ inherited frmAbout: TfrmAbout
     inherited pnlSortCut: TPanel
       Width = 272
       ExplicitWidth = 272
-      inherited lbl4: TLabel
-        Left = 87
-        ExplicitLeft = 87
-      end
-      inherited lbl5: TLabel
-        Left = 182
-        ExplicitLeft = 182
-      end
     end
   end
 end
