@@ -727,7 +727,11 @@ var
   LDSP: TDataSetProvider;
   LSQLQuery: TFDQuery;
 begin
-  Result      := TClientDataSet.Create(AOwner);
+  if AOwner = nil then
+    Result := TClientDataSet.Create(Application)
+  else
+    Result := TClientDataSet.Create(AOwner);
+
   LDSP        := TDataSetProvider.Create(Result);
   LSQLQuery   := TFDQuery.Create(LDSP);
   LSQLQuery.FetchOptions.Unidirectional := False;
