@@ -13,11 +13,14 @@ uses
   dxCore, cxDateUtils, Vcl.Menus, ufraFooter4Button, cxButtons, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxPC;
 
+
 type
   TfrmTipePerusahaan = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure actDeleteTipePerusahaanExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
@@ -28,9 +31,10 @@ type
   private
     FCDSBrowse: tClientDataset;
     function GetData(): TDataSet;
-    procedure RefreshData;
     property CDSBrowse: tClientDataset read FCDSBrowse write FCDSBrowse;
 
+  protected
+    procedure RefreshData; override;
   public
     { Public declarations }
   end;
@@ -47,38 +51,13 @@ uses uTSCommonDlg, ufrmDialogTipePerusahaan;
 procedure TfrmTipePerusahaan.actAddExecute(Sender: TObject);
 begin
   inherited;
-  if not Assigned(frmDialogTipePerusahaan) then
-    Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
-
-  frmDialogTipePerusahaan.Caption := 'Add Company Type';
-  frmDialogTipePerusahaan.FormMode := fmAdd;
-
-  SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
-  if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
-  begin
-    actRefreshExecute(Self);
-    CommonDlg.ShowConfirm(atAdd);
-  end;
-
-  frmDialogTipePerusahaan.Free;
-  RefreshData;
+   ShowDialogForm(TfrmDialogTipePerusahaan);
 end;
 
 procedure TfrmTipePerusahaan.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmTipePerusahaan := nil;
-end;
-
-procedure TfrmTipePerusahaan.FormShow(Sender: TObject);
-begin
-  inherited;
-  // no unit id must be specified, so hide the combo
-//  frmMain.lbl1.Visible := False;
-//  frmMain.cbbUnit.Visible := False;
-  
-  lblHeader.Caption := 'COMPANY TYPE';
-  actRefreshExecute(Self);
 end;
 
 procedure TfrmTipePerusahaan.actDeleteTipePerusahaanExecute(
@@ -106,22 +85,9 @@ end;
 procedure TfrmTipePerusahaan.actEditExecute(Sender: TObject);
 begin
   inherited;
-  // check is data available
-//  if strgGrid.Cells[0,strgGrid.row]=' ' then Exit;
-
-  if not Assigned(frmDialogTipePerusahaan) then
-    Application.CreateForm(TfrmDialogTipePerusahaan, frmDialogTipePerusahaan);
-
-  frmDialogTipePerusahaan.Caption := 'Edit Company Type';
-  frmDialogTipePerusahaan.FormMode := fmEdit;
-  frmDialogTipePerusahaan.loaddata(CDSBrowse.FieldByName('REF$TIPE_PERUSAHAAN_ID').AsString);
-  SetFormPropertyAndShowDialog(frmDialogTipePerusahaan);
-  if (frmDialogTipePerusahaan.IsProcessSuccessfull) then
-  begin
-    actRefreshExecute(Self);
-    CommonDlg.ShowConfirm(atEdit);
-  end;
-  frmDialogTipePerusahaan.Free;
+ShowDialogForm(TfrmDialogTipePerusahaan,
+    cxGridView.DS.FieldByName('REF$TIPE_PERUSAHAAN_ID').AsString
+    );
 end;
 
 procedure TfrmTipePerusahaan.actPrintExecute(Sender: TObject);
