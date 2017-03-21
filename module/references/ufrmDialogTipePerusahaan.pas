@@ -19,7 +19,6 @@ type
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -97,45 +96,6 @@ end;
 procedure TfrmDialogTipePerusahaan.SetTipePerusahaanId(const Value: Integer);
 begin
   FTipePerusahaanId := Value;
-end;
-
-procedure TfrmDialogTipePerusahaan.footerDialogMasterbtnSaveClick(Sender: TObject);
-begin
-
-
-    if edtCode.Text = '' then
-    begin
-      CommonDlg.ShowError('Data Kode Belum diisi');
-      edtCode.SetFocus;
-      Exit;
-    end;
-
-    if edtName.Text = '' then
-    begin
-      CommonDlg.ShowError('Data Nama Belum didisi');
-      edtName.Text;
-      Exit;
-    end;
-    SimpanData;
-    {
-    FPerusahaan.UpdateData(IDLokal,edtCode.Text,edtName.Text,DialogUnit);
-    try
-      if FPerusahaan.ExecuteGenerateSQL then
-      begin
-        cCommitTrans;
-        CommonDlg.ShowMessage('Berhasil Menyimpan Data');
-        frmTipePerusahaan.actRefreshTipePerusahaanExecute(Self);
-        Close;
-      end else
-      begin
-        cRollbackTrans;
-        CommonDlg.ShowError('Gagal Menyimpan Data');
-        Exit;
-      end;
-     finally
-       cRollbackTrans;
-     end;
-     }
 end;
 
 procedure TfrmDialogTipePerusahaan.prepareAddData;
