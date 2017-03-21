@@ -49,6 +49,7 @@ type
     function RefTipeMember_GetDSOverview: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
+    function Suplier_GetDSOverview: TDataSet;
 
 
   end;
@@ -424,6 +425,16 @@ var
 begin
   S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
   +' from SUPLIER_GROUP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Suplier_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select SUP_CODE, SUP_NAME'
+  +' from'
+  +' SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
