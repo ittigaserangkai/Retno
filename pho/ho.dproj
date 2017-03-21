@@ -3,7 +3,7 @@
         <ProjectGuid>{A129B2AD-FBEC-4746-A4D0-AE2BB4DF269A}</ProjectGuid>
         <MainSource>ho.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
@@ -68,6 +68,9 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
@@ -77,6 +80,7 @@
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -139,6 +143,7 @@
         <DCCReference Include="..\module\references\ufrmDialogPajak.pas">
             <Form>frmDialogPajak</Form>
         </DCCReference>
+        <DCCReference Include="..\system\uTSCommonDlg.pas"/>
         <DCCReference Include="..\classes\uCompany.pas"/>
         <DCCReference Include="..\classes\uTSBaseClass.pas"/>
         <DCCReference Include="..\classes\uUnit.pas"/>
@@ -387,6 +392,7 @@
         <DCCReference Include="..\module\merchandise\ufrmReprintNP.pas">
             <Form>frmReprintNP</Form>
         </DCCReference>
+        <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
         <DCCReference Include="..\module\product\ufrmDialogKategori.pas">
             <Form>frmDialogKategori</Form>
@@ -460,13 +466,12 @@
             <Form>frmOutlet</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\system\uTSCommonDlg.pas"/>
-        <DCCReference Include="..\module\accounting\ufrmDialogVoucher.pas">
-            <Form>frmDialogVoucher</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\module\accounting\ufrmVoucher.pas">
             <Form>frmVoucher</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\accounting\ufrmDialogVoucher.pas">
+            <Form>frmDialogVoucher</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\accounting\ufrmSetupCashManagement.pas">
@@ -478,14 +483,40 @@
         <DCCReference Include="..\module\finance\ufrmElectricCustomer.pas">
             <Form>frmElectricCustomer</Form>
         </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmQuotationHargaBeli.pas">
+            <Form>frmQuotationHargaBeli</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogQuotationHargaBeli.pas">
+            <Form>frmDialogQuotationHargaBeli</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogQuotationMailerNeo.pas">
+            <Form>frmDialogQuotationMailerNeo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmQuotationMailer.pas">
+            <Form>frmQuotationMailer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
-        <DCCReference Include="..\model\uModSuplier.pas"/>
+        <DCCReference Include="..\module\customer_support\ufrmMemberShip.pas">
+            <Form>frmMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogMemberShip.pas">
+            <Form>frmDialogMemberShip</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\module\merchandise\ufrmSupplierGroup.pas">
             <Form>frmSupplierGroup</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmDialogSupplierGroup.pas">
             <Form>frmDialogSupplierGroup</Form>
+        </DCCReference>
+        <DCCReference Include="..\client\ui\ufrmMouselessMenu.pas">
+            <Form>frmMouselesMenu</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Debug">
