@@ -976,6 +976,7 @@ object frmMain: TfrmMain
     object actGenPO: TAction
       Category = 'Merchandise'
       Caption = 'actGenPO'
+      OnExecute = actGenPOExecute
     end
     object actPrintPO: TAction
       Category = 'Merchandise'
