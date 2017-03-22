@@ -7,7 +7,9 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
-  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, ufrmCostCenter;
+  uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
+  ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
+  ufrmCompany, ufrmUnit, ufrmVoucher, ufrmSupplierGroup;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -127,10 +129,10 @@ type
     actMarkUpSellingPrice: TAction;
     actHistoryPrice: TAction;
     actListingAgreement: TAction;
-    actInvoiceAssgros: TAction;
-    actPaymentAssgros: TAction;
+    actInvoiceTrader: TAction;
+    actPaymentTrader: TAction;
     actListDoOutstanding: TAction;
-    actListingAgingInvoiceAssgros: TAction;
+    actListingAgingInvoiceTrader: TAction;
     actListAPPayment: TAction;
     actListClaimFakturPajak: TAction;
     actPendingCekOutCekAPNBD: TAction;
@@ -159,7 +161,7 @@ type
     actListingReceivingProduct: TAction;
     actRekapitulasiCN: TAction;
     actListAdjustmentProduct: TAction;
-    actListOutstandingDOAssgros: TAction;
+    actListOutstandingDOTrader: TAction;
     actListPODOReceive: TAction;
     actListOmzet: TAction;
     actSalesReportContrabon: TAction;
@@ -254,33 +256,70 @@ type
     UnitOfMeasure1: TMenuItem;
     actTipePembayaran1: TMenuItem;
     CompanyType1: TMenuItem;
-<<<<<<< HEAD
     actCostCenter: TAction;
     actCostCenter1: TMenuItem;
-=======
     ApplicationEvents1: TApplicationEvents;
->>>>>>> 21e8a83523cc68bc7d18882f9e632def46a1fd95
+    Merchandise1: TMenuItem;
+    MasterProduct1: TMenuItem;
+    LookAndFeelController: TcxLookAndFeelController;
+    est1: TMenuItem;
+    DialogBarang1: TMenuItem;
+    actMerchandise: TAction;
+    actSubGroup: TAction;
+    actKategori: TAction;
+    actMerk: TAction;
+    Merchandise2: TMenuItem;
+    MerchandiseGroup1: TMenuItem;
+    SubGroup1: TMenuItem;
+    Kategori1: TMenuItem;
+    Merk1: TMenuItem;
+    actCompany: TAction;
+    Company1: TMenuItem;
+    SalesOutlet1: TMenuItem;
+    UnitStore1: TMenuItem;
+<<<<<<< HEAD
+    actQuotationMailer: TAction;
+=======
+    Lokasi1: TMenuItem;
+    actTipekirimPO: TAction;
+    ipekirimPO1: TMenuItem;
+    SupplierGroup1: TMenuItem;
+>>>>>>> aa26bd07e468f7145f5c31848f1574b467bb41cf
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
+    procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actDataProductExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
+    procedure actKategoriExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
+    procedure actMerchandiseExecute(Sender: TObject);
+    procedure actMerchanGroupExecute(Sender: TObject);
+    procedure actMerkExecute(Sender: TObject);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actPajakExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
+    procedure actQuotationExecute(Sender: TObject);
+    procedure actQuotationHargaBeliExecute(Sender: TObject);
+    procedure actQuotationMailerExecute(Sender: TObject);
+    procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSalesOutletExecute(Sender: TObject);
+    procedure actSubGroupExecute(Sender: TObject);
+    procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
+    procedure actTipekirimPOExecute(Sender: TObject);
     procedure actTipePengirimanPOExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actUOMNBDExecute(Sender: TObject);
@@ -291,7 +330,12 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
+    procedure actUnitExecute(Sender: TObject);
+    procedure actUnitStoreExecute(Sender: TObject);
+    procedure actVoucherExecute(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure DialogBarang1Click(Sender: TObject);
+    procedure est2Click(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -326,12 +370,18 @@ var
 implementation
 
 uses
-    uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
-    ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
+  uMenuManagement, uNetUtils, uTSINIFile, uConstanta, uAppUtils, uRetnoUnit,
+  ufrmLogin, ufraLoading, ufrmPajak, ufrmRekening, ufrmTipePerusahaan,
   ufrmHariLibur, ufrmLokasi, ufrmProductType, ufrmProductTypeNBD,
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
-  ufrmTipePembayaran, Datasnap.DSHTTPClient;
+  ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
+<<<<<<< HEAD
+  ufrmOutlet, ufrmVoucher, ufrmQuotation, ufrmQuotationHargaBeli,
+  ufrmQuotationMailer;
+=======
+  ufrmOutlet;
+>>>>>>> aa26bd07e468f7145f5c31848f1574b467bb41cf
 
 {$R *.dfm}
 
@@ -426,14 +476,14 @@ begin
     MDIChildren[i].Close;
 end;
 
+procedure TfrmMain.actCompanyExecute(Sender: TObject);
+begin
+  frmCompany := TfrmCompany.Create(Application);
+end;
+
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
     frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actCostCenterExecute(Sender: TObject);
-begin
-  frmCostCenter := TfrmCostCenter.Create(nil);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);
@@ -443,17 +493,47 @@ end;
 
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
-    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+ frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
 begin
-    frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
+  frmMasterCustomer := TfrmMasterCustomer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterProductNBDExecute(Sender: TObject);
 begin
   //
+end;
+
+procedure TfrmMain.actCostCenterExecute(Sender: TObject);
+begin
+  frmCostCenter := TfrmCostCenter.Create(Application);
+end;
+
+procedure TfrmMain.actDataProductExecute(Sender: TObject);
+begin
+  frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actKategoriExecute(Sender: TObject);
+begin
+  frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMerchandiseExecute(Sender: TObject);
+begin
+  frmMerchandise := TfrmMerchandise.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMerchanGroupExecute(Sender: TObject);
+begin
+  frmMerchandiseGroup := TfrmMerchandiseGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMerkExecute(Sender: TObject);
+begin
+  frmMerk := TfrmMerk.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -595,7 +675,7 @@ end;
 
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);
 begin
-  frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
+    frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductTypeNBDExecute(Sender: TObject);
@@ -603,9 +683,44 @@ begin
     frmProductTypeNBD := TfrmProductTypeNBD.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actQuotationExecute(Sender: TObject);
+begin
+  frmQuotation := TfrmQuotation.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationHargaBeliExecute(Sender: TObject);
+begin
+  frmQuotationHargaBeli := TfrmQuotationHargaBeli.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationMailerExecute(Sender: TObject);
+begin
+    frmQuotationMailer := TfrmQuotationMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actQuotationPromoExecute(Sender: TObject);
+begin
+    frmQuotationMailer := TfrmQuotationMailer.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
 begin
     frmRekening := TfrmRekening.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSalesOutletExecute(Sender: TObject);
+begin
+  frmOutlet := TfrmOutlet.Create(Application);
+end;
+
+procedure TfrmMain.actSubGroupExecute(Sender: TObject);
+begin
+  frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSupplierGroupExecute(Sender: TObject);
+begin
+  frmSupplierGroup := TfrmSupplierGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierTypeExecute(Sender: TObject);
@@ -626,6 +741,11 @@ begin
   frmSysParm.Show;
 end;
 
+procedure TfrmMain.actTipekirimPOExecute(Sender: TObject);
+begin
+  frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser (Application, FFormProperty);
+end;
+
 procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);
 begin
   frmTipePembayaran := TfrmTipePembayaran.CreateWithUser (Application, FFormProperty);
@@ -634,6 +754,16 @@ end;
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
 begin
     frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actUnitExecute(Sender: TObject);
+begin
+  frmUnit := TfrmUnit.Create(Application);
+end;
+
+procedure TfrmMain.actUnitStoreExecute(Sender: TObject);
+begin
+  frmUnit := TfrmUnit.Create(Application);
 end;
 
 procedure TfrmMain.actUOMExecute(Sender: TObject);
@@ -656,6 +786,11 @@ begin
     frmUserGroup := TfrmUserGroup.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actVoucherExecute(Sender: TObject);
+begin
+    frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);
 var
   Msg: string;
@@ -672,6 +807,15 @@ begin
   raise Exception.Create('Error Message');
 end;
 
+procedure TfrmMain.DialogBarang1Click(Sender: TObject);
+begin
+  with TfrmDialogProduct.Create(Self) do
+  begin
+    ShowModal;
+    Free;
+  end;
+end;
+
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
 var
   i: integer;
@@ -681,6 +825,11 @@ begin
 
   // set invisible to menu
   AMenu.Visible := AValue;
+end;
+
+procedure TfrmMain.est2Click(Sender: TObject);
+begin
+  TfrmOutlet.Create(Application);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
