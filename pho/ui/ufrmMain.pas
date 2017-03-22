@@ -293,6 +293,7 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
+    procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
@@ -378,7 +379,7 @@ uses
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
-  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher;
+  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO;
 
 {$R *.dfm}
 
@@ -511,6 +512,11 @@ end;
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actGenPOExecute(Sender: TObject);
+begin
+    frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
