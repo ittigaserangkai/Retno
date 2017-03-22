@@ -8,12 +8,13 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
   ufraFooterDialog3Button, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
-  cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
+  uModUnit, uInterface,uModCompany, uAppUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogUnit = class(TfrmMasterDialog)
+  TfrmDialogUnit = class(TfrmMasterDialog, ICRUDAble)
     lblCode: TLabel;
     lblName: TLabel;
     lblDescription: TLabel;
@@ -61,6 +62,8 @@ type
     edNPWPAddress: TcxTextEdit;
     edNPWPName: TcxTextEdit;
     edNPWP: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -108,9 +111,15 @@ type
 //    FUnit       : TUnit;
 
     FIsProcessSuccessfull: boolean;
-    function CekLookUpID(aValue: string): Boolean;
+    FUnitStore: TModUnit;
+//    function CekLookUpID(aValue: string): Boolean;
     procedure SetData;
-    procedure ClearData;
+//    procedure ClearData;
+    function GetUnitStore: TModUnit;
+    procedure InisialisasiCBBAutApp;
+    procedure InisialisasiCBBCompany;
+    procedure LoadData(AID : String);
+    property UnitStore: TModUnit read GetUnitStore write FUnitStore;
   public
     procedure ShowWithCompanyID(aCompID: Integer; aUnitID: integer;
         aLoginUnit: integer; aLoginID: integer);
@@ -127,9 +136,67 @@ var
 
 implementation
 
-uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils;
+uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils, Datasnap.DBClient,
+uDMClient, uDBUtils, uModAuthApp;
 
 {$R *.dfm}
+
+procedure TfrmDialogUnit.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm('Apakah Anda Yakin Akan Menghapus ?')  then
+    Exit;
+
+  if DMClient.CrudClient.DeleteFromDB(UnitStore) then
+  begin
+    TAppUtils.Information('Berhasil Hapus Data Cabang');
+    LoadData('');
+  end;
+
+end;
+
+procedure TfrmDialogUnit.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  if not ValidateEmptyCtrl([1], True) then
+    Exit;
+
+  UnitStore.COMPANY       := TModCompany.CreateID(cbbCompany.EditValue);
+  UnitStore.AUTAPP := TModAutApp.CreateID(cbbAppType.EditValue);
+  UnitStore.FUNT_IS_HO    := 0;
+  UnitStore.FUNT_IS_STORE := 0;
+  UnitStore.FUNT_IS_WH    := 0;
+
+  if rgTipeUnit.ItemIndex = 0 then
+    UnitStore.FUNT_IS_HO := 1
+  else if rgTipeUnit.ItemIndex = 1 then
+    UnitStore.FUNT_IS_STORE := 1
+  else
+    UnitStore.FUNT_IS_WH := 1;
+
+  UnitStore.FUNT_ZIP           := edZIP.Text;
+  UnitStore.UNT_APP_ID         := cbbAppType.ItemIndex;
+  UnitStore.UNT_CODE           := edCode.Text;
+  UnitStore.UNT_CONTACT_PERSON := edContactPerson.Text;
+  UnitStore.UNT_DESCRIPTION    := edDesciption.Text;
+  UnitStore.UNT_EMAIL          := edEmail.Text;
+  UnitStore.UNT_FAX            := edFax.Text;
+  UnitStore.UNT_ISGRALLOW      := 1;
+
+  UnitStore.UNT_IS_ACTIVE := 0;
+  if chkActive.Checked then
+    UnitStore.UNT_IS_ACTIVE := 1;
+
+  UnitStore.UNT_IS_ALLOWPO  := 1;
+  UnitStore.UNT_KAB_ID      := 1;
+  UnitStore.UNT_NAME        := edNama.Text;
+  UnitStore.UNT_PHONE       := edPhone.Text;
+  UnitStore.UNT_REGION_CODE := edRegion.Text;
+  UnitStore.UNT_TYPE        := 1;
+
+
+
+end;
 
 procedure TfrmDialogUnit.FormDestroy(Sender: TObject);
 begin
@@ -144,10 +211,10 @@ begin
 end;
 
 procedure TfrmDialogUnit.footerDialogMasterbtnSaveClick(Sender: TObject);
-var
-  dtOut              : TDateTime;
-  sShrDt             : string;
-  isHoStWh           : Integer;
+//var
+//  dtOut              : TDateTime;
+//  sShrDt             : string;
+//  isHoStWh           : Integer;
 begin
   inherited;
 
@@ -242,7 +309,7 @@ begin
     cRollbackTrans;
   end;
   }
-  FormatSettings.ShortDateFormat := sShrDt;
+//  FormatSettings.ShortDateFormat := sShrDt;
 end;
 
 procedure TfrmDialogUnit.cbbTypeUnitRChange(Sender: TObject);
@@ -250,24 +317,24 @@ begin
 //  IdType:= StrToInt(FIdType.Strings[cbbTypeUnitR.ItemIndex]);
 end;
 
-function TfrmDialogUnit.CekLookUpID(aValue: string): Boolean;
-var
-  i       : Integer;
-  aResult : Boolean;
-begin
+//function TfrmDialogUnit.CekLookUpID(aValue: string): Boolean;
+//var
+//  i       : Integer;
+//  aResult : Boolean;
+//begin
 
-  try
-    i := StrToInt(Trim(aValue));
-    if i > 0  then
-      aResult := True
-    else
-      aResult := False;
-  except
-    aResult := False;
-  end;
-  
-  Result := aResult ;
-end;
+//  try
+//    i := StrToInt(Trim(aValue));
+//    if i > 0  then
+//      aResult := True
+//    else
+//      aResult := False;
+//  except
+//    aResult := False;
+//  end;
+//
+//  Result := aResult ;
+//end;
 
 procedure TfrmDialogUnit.SetData;
 begin
@@ -319,8 +386,8 @@ begin
   end;
 end;
 
-procedure TfrmDialogUnit.ClearData;
-begin
+//procedure TfrmDialogUnit.ClearData;
+//begin
 //  edtUnitCode.Clear;
 //  edtUnitName.Clear;
 //  edtUnitDesc.Clear;
@@ -357,7 +424,7 @@ begin
 //  chkActive.Checked := False;
 
 
-end;
+//end;
 
 
 procedure TfrmDialogUnit.ShowWithCompanyID(aCompID: Integer; aUnitID: integer;
@@ -375,14 +442,17 @@ end;
 procedure TfrmDialogUnit.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-//  inherited;
-//  Action  := caFree;
+  inherited;
+  FreeAndNil(FUnitStore);
 end;
 
 procedure TfrmDialogUnit.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+
+  InisialisasiCBBCompany;
+  InisialisasiCBBAutApp;
 end;
 
 procedure TfrmDialogUnit.edtUnitAppIDKeyDown(Sender: TObject;
@@ -447,8 +517,8 @@ end;
 
 procedure TfrmDialogUnit.edtUnitKabIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
-var
-  aPropId: Integer;
+//var
+//  aPropId: Integer;
 begin
   inherited;
 //  TryStrToInt(edtUnitPropId.Text, aPropId);
@@ -588,6 +658,74 @@ begin
   inherited;
   kEY := VK_F5;
     edtUnitAppIDKeyDown(Sender, kEY, [ssAlt]);
+end;
+
+function TfrmDialogUnit.GetUnitStore: TModUnit;
+begin
+  if FUnitStore = nil then
+    FUnitStore := TModUnit.Create;
+
+  Result := FUnitStore;
+end;
+
+procedure TfrmDialogUnit.InisialisasiCBBAutApp;
+var
+  lcdsAutApp: TClientDataSet;
+begin
+  lcdsAutApp := TDBUtils.DSToCDS(DMClient.DSProviderClient.AutAPP_GetDSLookup(), Self);
+  cbbAppType.Properties.LoadFromCDS(lcdsAutApp,'AUT$APP_ID','APP_NAME',['AUT$APP_ID'],Self);
+  cbbAppType.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiCBBCompany;
+var
+  lcdsCompany: TClientDataSet;
+begin
+  lcdsCompany := TDBUtils.DSToCDS(DMClient.DSProviderClient.Company_GetDSLookup(), Self);
+  cbbCompany.Properties.LoadFromCDS(lcdsCompany,'Company_ID','COMP_NAME',['Company_ID'],Self);
+  cbbCompany.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.LoadData(AID : String);
+begin
+  FreeAndNil(FUnitStore);
+  ClearByTag([0,1]);
+
+  if AID <> '' then
+  begin
+    FUnitStore := TModUnit(DMCLient.CrudClient.Retrieve(TModUnit.ClassName, AID));
+    if FUnitStore <> nil then
+    begin
+      cbbCompany.EditValue := UnitStore.COMPANY.ID;
+      cbbAppType.EditValue := UnitStore.AUTAPP.ID;
+
+      rgTipeUnit.ItemIndex := 0;
+      if UnitStore.FUNT_IS_HO = 1 then
+        rgTipeUnit.ItemIndex := 0
+      else if UnitStore.FUNT_IS_STORE = 1  then
+        rgTipeUnit.ItemIndex := 1
+      else
+        rgTipeUnit.ItemIndex := 2;
+
+      edZIP.Text := UnitStore.FUNT_ZIP;
+      edCode.Text := UnitStore.UNT_CODE;
+      edContactPerson.Text := UnitStore.UNT_CONTACT_PERSON;
+      edDesciption.Text := UnitStore.UNT_DESCRIPTION;
+      edEmail.Text := UnitStore.UNT_EMAIL;
+      edFax.Text :=UnitStore.UNT_FAX;
+
+//      UnitStore.UNT_ISGRALLOW      := 1;
+
+      chkActive.Checked := UnitStore.UNT_IS_ACTIVE = 1;
+
+      chkAllowPO.Checked := UnitStore.UNT_IS_ALLOWPO  = 1;
+//      UnitStore.UNT_KAB_ID      := 1;
+      edNama.Text := UnitStore.UNT_NAME;
+      edPhone.Text := UnitStore.UNT_PHONE;
+      edRegion.Text := UnitStore.UNT_REGION_CODE;
+//      UnitStore.UNT_TYPE        := 1;
+    end;
+  end;
 end;
 
 end.

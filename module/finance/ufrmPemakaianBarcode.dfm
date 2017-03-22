@@ -278,7 +278,6 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       ExplicitWidth = 677
       inherited lbEscape: TLabel
         Left = 603
-        Height = 17
         ExplicitLeft = 603
       end
     end

@@ -3,14 +3,16 @@ unit uModUnit;
 interface
 
 uses
-  uModApp;
+  uModApp, uModCompany, System.SysUtils, uModAuthApp;
 
 type
   TModUnit = class(TModApp)
 
   private
-    FCOMPANY: TModUnit;
+    FAUTAPP: TModAutApp;
+    FCOMPANY: TModCompany;
     FFUNT_IS_HO: Integer;
+    FFUNT_IS_WH: Integer;
     FFUNT_IS_STORE: Integer;
     FFUNT_ZIP: string;
     FUNT_APP_ID: Integer;
@@ -28,10 +30,14 @@ type
     FUNT_REGION_CODE: string;
     FUNT_TYPE: Integer;
   public
+    destructor Destroy; override;
     class function GetTableName: String; override;
   published
-    property COMPANY: TModUnit read FCOMPANY write FCOMPANY;
+    [AttributeOfForeign('AUT$APP_ID')]
+    property AUTAPP: TModAutApp read FAUTAPP write FAUTAPP;
+    property COMPANY: TModCompany read FCOMPANY write FCOMPANY;
     property FUNT_IS_HO: Integer read FFUNT_IS_HO write FFUNT_IS_HO;
+    property FUNT_IS_WH: Integer read FFUNT_IS_WH write FFUNT_IS_WH;
     property FUNT_IS_STORE: Integer read FFUNT_IS_STORE write FFUNT_IS_STORE;
     property FUNT_ZIP: string read FFUNT_ZIP write FFUNT_ZIP;
     property UNT_APP_ID: Integer read FUNT_APP_ID write FUNT_APP_ID;
@@ -65,19 +71,15 @@ type
     property Type_Name: string read FType_Name write FType_Name;
   end;
 
-type
-  TModAppA = class(TModApp)
-  private
-    FType_Desc: string;
-    FType_Name: string;
-  public
-    class function GetTableName: String; override;
-  published
-    property Type_Desc: string read FType_Desc write FType_Desc;
-    property Type_Name: string read FType_Name write FType_Name;
-  end;
-
 implementation
+
+
+destructor TModUnit.Destroy;
+begin
+  inherited;
+  FreeAndNil(FCOMPANY);
+
+end;
 
 class function TModUnit.GetTableName: String;
 begin
@@ -87,11 +89,6 @@ end;
 class function TModUnitType.GetTableName: String;
 begin
   Result := 'UNIT_TYPE';
-end;
-
-class function TModAppA.GetTableName: String;
-begin
-  Result := 'AUT$APP';
 end;
 
 end.
