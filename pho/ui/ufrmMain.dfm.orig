@@ -106,8 +106,8 @@ object frmMain: TfrmMain
       TabOrder = 1
     end
     object cbbCompCode: TComboBox
-      Left = 160
-      Top = 6
+      Left = 159
+      Top = 4
       Width = 194
       Height = 24
       BevelKind = bkSoft
@@ -177,11 +177,11 @@ object frmMain: TfrmMain
       object UnitStore1: TMenuItem
         Action = actUnitStore
       end
-    end
-    object CustomerSupport1: TMenuItem
-      Caption = 'Membership'
-      object MasterCustomer1: TMenuItem
-        Action = actMembership
+      object Lokasi1: TMenuItem
+        Action = actLokasi
+      end
+      object ipekirimPO1: TMenuItem
+        Action = actTipekirimPO
       end
     end
     object Finance1: TMenuItem
@@ -212,9 +212,6 @@ object frmMain: TfrmMain
       end
       object SupplierGroup1: TMenuItem
         Action = actSupplierGroup
-      end
-      object actSupplier1: TMenuItem
-        Action = actSupplier
       end
     end
     object mmSetting1: TMenuItem
@@ -277,8 +274,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 85
-    Top = 186
+    Left = 118
+    Top = 140
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
@@ -976,7 +973,6 @@ object frmMain: TfrmMain
     object actGenPO: TAction
       Category = 'Merchandise'
       Caption = 'actGenPO'
-      OnExecute = actGenPOExecute
     end
     object actPrintPO: TAction
       Category = 'Merchandise'
@@ -1007,7 +1003,7 @@ object frmMain: TfrmMain
     end
     object actSupplierGroup: TAction
       Category = 'Merchandise'
-      Caption = 'Supplier Group'
+      Caption = 'S&upplier Group'
       OnExecute = actSupplierGroupExecute
     end
     object actReprintNP: TAction
@@ -1146,41 +1142,27 @@ object frmMain: TfrmMain
       Caption = 'Company'
       OnExecute = actCompanyExecute
     end
+<<<<<<< HEAD
     object actQuotationMailer: TAction
       Category = 'Merchandise'
       Caption = 'Quotation Mailer'
       OnExecute = actQuotationMailerExecute
-    end
-    object actMembership: TAction
-      Category = 'Membership'
-      Caption = 'Membership'
-      OnExecute = actMembershipExecute
-    end
-    object actSupplier: TAction
-      Category = 'Merchandise'
-      Caption = 'Supplier'
-      OnExecute = actSupplierExecute
-    end
-    object actListingQuotationHargaBeli: TAction
-      Category = 'Merchandise'
-      Caption = 'actListingQuotationHargaBeli'
-      OnExecute = actListingQuotationHargaBeliExecute
-    end
-    object actListingQuotationMailer: TAction
-      Category = 'Merchandise'
-      Caption = 'actListingQuotationMailer'
-      OnExecute = actListingQuotationMailerExecute
+=======
+    object actTipekirimPO: TAction
+      Category = 'References'
+      Caption = 'Tipe kirim PO'
+      OnExecute = actTipekirimPOExecute
+>>>>>>> aa26bd07e468f7145f5c31848f1574b467bb41cf
     end
   end
-  object AppEvents: TApplicationEvents
-    OnException = AppEventsException
-    OnShortCut = AppEventsShortCut
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
     Left = 32
     Top = 280
   end
   object LookAndFeelController: TcxLookAndFeelController
     NativeStyle = False
-    Left = 24
-    Top = 224
+    Left = 64
+    Top = 216
   end
 end

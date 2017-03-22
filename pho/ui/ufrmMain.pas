@@ -284,6 +284,8 @@ type
     actSupplier: TAction;
     actSupplier1: TMenuItem;
     SupplierGroup1: TMenuItem;
+    actListingQuotationHargaBeli: TAction;
+    actListingQuotationMailer: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -293,9 +295,12 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
+    procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
+    procedure actListingQuotationHargaBeliExecute(Sender: TObject);
+    procedure actListingQuotationMailerExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
@@ -378,7 +383,8 @@ uses
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
-  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher;
+  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
+  ufrmListQuotHB, ufrmListQuotMailer;
 
 {$R *.dfm}
 
@@ -513,6 +519,11 @@ begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actGenPOExecute(Sender: TObject);
+begin
+    frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
+end;
+
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
 begin
   frmSupplier := TfrmSupplier.CreateWithUser(Application, FFormProperty);
@@ -521,6 +532,16 @@ end;
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
 begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListingQuotationHargaBeliExecute(Sender: TObject);
+begin
+    frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
+begin
+    frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);

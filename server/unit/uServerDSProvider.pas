@@ -47,7 +47,9 @@ type
     function App_GetDSOverview: TDataSet;
     function Bank_GetDSLookup: TDataSet;
     function Barang_GetDSOverview: TDataSet;
+    function Gudang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
+    function AutAPP_GetDSLookup: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
     function SuplierGroup_GetDSLookup: TDataSet;
@@ -417,11 +419,30 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Gudang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S:= 'select GUDANG_ID, GUD_CODE as KODE, GUD_NAME as NAMA, GUD_ADDRESS as ALAMAT, GUD_TELP as TELEPON,'
+      + ' GUD_FAX as FAX, GUD_CITY as KOTA, GUD_POST_CODE as [KODE POS], GUD_CONTACT_PERSON as KONTAK'
+      + ' from GUDANG'  ;
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.RefTipeMember_GetDSOverview: TDataSet;
 var
   S: string;
 begin
   S := 'SELECT * from REF$TIPE_MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AutAPP_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION, AUT$APP_ID from aut$APP';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -138,6 +138,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModUnit.pas"/>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
         <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
+        <DCCReference Include="..\model\uModGudang.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>
@@ -199,7 +200,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Release\server.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\build\Retno\bin\server.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>server.exe</RemoteName>
                         <Overwrite>true</Overwrite>

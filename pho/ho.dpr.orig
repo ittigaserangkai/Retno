@@ -21,7 +21,6 @@ uses
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmPajak in '..\module\references\ufrmPajak.pas' {frmPajak},
   ufrmDialogPajak in '..\module\references\ufrmDialogPajak.pas' {frmDialogPajak},
-  uTSCommonDlg in '..\system\uTSCommonDlg.pas',
   uCompany in '..\classes\uCompany.pas',
   uTSBaseClass in '..\classes\uTSBaseClass.pas',
   uUnit in '..\classes\uUnit.pas',
@@ -119,7 +118,6 @@ uses
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
   ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
-  uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
   ufrmDialogMerchandise in '..\module\product\ufrmDialogMerchandise.pas' {frmDialogMerchandise},
@@ -146,30 +144,23 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
-  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
+  uTSCommonDlg in '..\system\uTSCommonDlg.pas',
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
+  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
+<<<<<<< HEAD
   ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
   ufrmDialogQuotationHargaBeli in '..\module\merchandise\ufrmDialogQuotationHargaBeli.pas' {frmDialogQuotationHargaBeli},
   ufrmDialogQuotationMailerNeo in '..\module\merchandise\ufrmDialogQuotationMailerNeo.pas' {frmDialogQuotationMailerNeo},
-  ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer},
+  ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer};
+=======
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
-  ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
-  ufrmDialogMemberShip in '..\module\customer_support\ufrmDialogMemberShip.pas' {frmDialogMemberShip},
-  uModMember in '..\model\uModMember.pas',
+  uModSuplier in '..\model\uModSuplier.pas',
   ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
-  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
-  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
-  uFrmGenPO in '..\module\merchandise\uFrmGenPO.pas' {frmGenPO},
-  uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp},
-  ufrmListQuotation in '..\module\merchandise\ufrmListQuotation.pas' {frmListQuotation},
-  ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
-  uDMReport in '..\system\uDMReport.pas' {dmReport},
-  HPHELP in '..\lib\HPHELP.PAS',
-  ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
-  ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer};
+  ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup};
+>>>>>>> aa26bd07e468f7145f5c31848f1574b467bb41cf
 
 {$R *.res}
 
@@ -179,6 +170,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.
