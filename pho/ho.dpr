@@ -168,7 +168,8 @@ uses
   ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
   uDMReport in '..\system\uDMReport.pas' {dmReport},
   HPHELP in '..\lib\HPHELP.PAS',
-  ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB};
+  ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
+  ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer};
 
 {$R *.res}
 

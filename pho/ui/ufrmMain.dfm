@@ -1166,6 +1166,11 @@ object frmMain: TfrmMain
       Caption = 'actListingQuotationHargaBeli'
       OnExecute = actListingQuotationHargaBeliExecute
     end
+    object actListingQuotationMailer: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingQuotationMailer'
+      OnExecute = actListingQuotationMailerExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException

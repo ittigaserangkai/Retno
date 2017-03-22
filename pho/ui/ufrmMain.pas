@@ -285,6 +285,7 @@ type
     actSupplier1: TMenuItem;
     SupplierGroup1: TMenuItem;
     actListingQuotationHargaBeli: TAction;
+    actListingQuotationMailer: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -299,6 +300,7 @@ type
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
     procedure actListingQuotationHargaBeliExecute(Sender: TObject);
+    procedure actListingQuotationMailerExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
@@ -382,7 +384,7 @@ uses
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
   ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
-  ufrmListQuotHB;
+  ufrmListQuotHB, ufrmListQuotMailer;
 
 {$R *.dfm}
 
@@ -535,6 +537,11 @@ end;
 procedure TfrmMain.actListingQuotationHargaBeliExecute(Sender: TObject);
 begin
     frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
+begin
+    frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);
