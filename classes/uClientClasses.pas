@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/21/2017 1:32:07 PM
+// 3/22/2017 3:42:47 PM
 //
 
 unit uClientClasses;
@@ -134,6 +134,8 @@ type
     FApp_GetDSLookUpCommand_Cache: TDSRestCommand;
     FApp_GetDSOverviewCommand: TDSRestCommand;
     FApp_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBank_GetDSLookupCommand: TDSRestCommand;
+    FBank_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarang_GetDSOverviewCommand: TDSRestCommand;
     FBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FRefTipeMember_GetDSOverviewCommand: TDSRestCommand;
@@ -142,8 +144,14 @@ type
     FTipeKirimPO_GetDSOverviewCommand_Cache: TDSRestCommand;
     FSuplierGroup_GetDSOverview1Command: TDSRestCommand;
     FSuplierGroup_GetDSOverview1Command_Cache: TDSRestCommand;
+    FSuplierGroup_GetDSLookupCommand: TDSRestCommand;
+    FSuplierGroup_GetDSLookupCommand_Cache: TDSRestCommand;
     FSuplier_GetDSOverviewCommand: TDSRestCommand;
     FSuplier_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FTipePerusahaan_GetDSLookupCommand: TDSRestCommand;
+    FTipePerusahaan_GetDSLookupCommand_Cache: TDSRestCommand;
+    FTipeSuplier_GetDSLookupCommand: TDSRestCommand;
+    FTipeSuplier_GetDSLookupCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -218,6 +226,8 @@ type
     function App_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function App_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function App_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Bank_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function Bank_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Barang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Barang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RefTipeMember_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -226,8 +236,14 @@ type
     function TipeKirimPO_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SuplierGroup_GetDSOverview1(const ARequestFilter: string = ''): TDataSet;
     function SuplierGroup_GetDSOverview1_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function SuplierGroup_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function SuplierGroup_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Suplier_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Suplier_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function TipePerusahaan_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function TipePerusahaan_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function TipeSuplier_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function TipeSuplier_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -665,6 +681,16 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_Bank_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Bank_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_Barang_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -705,12 +731,42 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_SuplierGroup_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_SuplierGroup_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_Suplier_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
   TDSProvider_Suplier_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_TipePerusahaan_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_TipePerusahaan_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_TipeSuplier_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_TipeSuplier_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -2045,6 +2101,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FApp_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Bank_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FBank_GetDSLookupCommand = nil then
+  begin
+    FBank_GetDSLookupCommand := FConnection.CreateCommand;
+    FBank_GetDSLookupCommand.RequestType := 'GET';
+    FBank_GetDSLookupCommand.Text := 'TDSProvider.Bank_GetDSLookup';
+    FBank_GetDSLookupCommand.Prepare(TDSProvider_Bank_GetDSLookup);
+  end;
+  FBank_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBank_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBank_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Bank_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBank_GetDSLookupCommand_Cache = nil then
+  begin
+    FBank_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FBank_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FBank_GetDSLookupCommand_Cache.Text := 'TDSProvider.Bank_GetDSLookup';
+    FBank_GetDSLookupCommand_Cache.Prepare(TDSProvider_Bank_GetDSLookup_Cache);
+  end;
+  FBank_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBank_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.Barang_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FBarang_GetDSOverviewCommand = nil then
@@ -2161,6 +2246,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FSuplierGroup_GetDSOverview1Command_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.SuplierGroup_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FSuplierGroup_GetDSLookupCommand = nil then
+  begin
+    FSuplierGroup_GetDSLookupCommand := FConnection.CreateCommand;
+    FSuplierGroup_GetDSLookupCommand.RequestType := 'GET';
+    FSuplierGroup_GetDSLookupCommand.Text := 'TDSProvider.SuplierGroup_GetDSLookup';
+    FSuplierGroup_GetDSLookupCommand.Prepare(TDSProvider_SuplierGroup_GetDSLookup);
+  end;
+  FSuplierGroup_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FSuplierGroup_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FSuplierGroup_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.SuplierGroup_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FSuplierGroup_GetDSLookupCommand_Cache = nil then
+  begin
+    FSuplierGroup_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FSuplierGroup_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FSuplierGroup_GetDSLookupCommand_Cache.Text := 'TDSProvider.SuplierGroup_GetDSLookup';
+    FSuplierGroup_GetDSLookupCommand_Cache.Prepare(TDSProvider_SuplierGroup_GetDSLookup_Cache);
+  end;
+  FSuplierGroup_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FSuplierGroup_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.Suplier_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FSuplier_GetDSOverviewCommand = nil then
@@ -2188,6 +2302,64 @@ begin
   end;
   FSuplier_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FSuplier_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.TipePerusahaan_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FTipePerusahaan_GetDSLookupCommand = nil then
+  begin
+    FTipePerusahaan_GetDSLookupCommand := FConnection.CreateCommand;
+    FTipePerusahaan_GetDSLookupCommand.RequestType := 'GET';
+    FTipePerusahaan_GetDSLookupCommand.Text := 'TDSProvider.TipePerusahaan_GetDSLookup';
+    FTipePerusahaan_GetDSLookupCommand.Prepare(TDSProvider_TipePerusahaan_GetDSLookup);
+  end;
+  FTipePerusahaan_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FTipePerusahaan_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FTipePerusahaan_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.TipePerusahaan_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FTipePerusahaan_GetDSLookupCommand_Cache = nil then
+  begin
+    FTipePerusahaan_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FTipePerusahaan_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FTipePerusahaan_GetDSLookupCommand_Cache.Text := 'TDSProvider.TipePerusahaan_GetDSLookup';
+    FTipePerusahaan_GetDSLookupCommand_Cache.Prepare(TDSProvider_TipePerusahaan_GetDSLookup_Cache);
+  end;
+  FTipePerusahaan_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FTipePerusahaan_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.TipeSuplier_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FTipeSuplier_GetDSLookupCommand = nil then
+  begin
+    FTipeSuplier_GetDSLookupCommand := FConnection.CreateCommand;
+    FTipeSuplier_GetDSLookupCommand.RequestType := 'GET';
+    FTipeSuplier_GetDSLookupCommand.Text := 'TDSProvider.TipeSuplier_GetDSLookup';
+    FTipeSuplier_GetDSLookupCommand.Prepare(TDSProvider_TipeSuplier_GetDSLookup);
+  end;
+  FTipeSuplier_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FTipeSuplier_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FTipeSuplier_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.TipeSuplier_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FTipeSuplier_GetDSLookupCommand_Cache = nil then
+  begin
+    FTipeSuplier_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FTipeSuplier_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FTipeSuplier_GetDSLookupCommand_Cache.Text := 'TDSProvider.TipeSuplier_GetDSLookup';
+    FTipeSuplier_GetDSLookupCommand_Cache.Prepare(TDSProvider_TipeSuplier_GetDSLookup_Cache);
+  end;
+  FTipeSuplier_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FTipeSuplier_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
@@ -2272,6 +2444,8 @@ begin
   FApp_GetDSLookUpCommand_Cache.DisposeOf;
   FApp_GetDSOverviewCommand.DisposeOf;
   FApp_GetDSOverviewCommand_Cache.DisposeOf;
+  FBank_GetDSLookupCommand.DisposeOf;
+  FBank_GetDSLookupCommand_Cache.DisposeOf;
   FBarang_GetDSOverviewCommand.DisposeOf;
   FBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FRefTipeMember_GetDSOverviewCommand.DisposeOf;
@@ -2280,8 +2454,14 @@ begin
   FTipeKirimPO_GetDSOverviewCommand_Cache.DisposeOf;
   FSuplierGroup_GetDSOverview1Command.DisposeOf;
   FSuplierGroup_GetDSOverview1Command_Cache.DisposeOf;
+  FSuplierGroup_GetDSLookupCommand.DisposeOf;
+  FSuplierGroup_GetDSLookupCommand_Cache.DisposeOf;
   FSuplier_GetDSOverviewCommand.DisposeOf;
   FSuplier_GetDSOverviewCommand_Cache.DisposeOf;
+  FTipePerusahaan_GetDSLookupCommand.DisposeOf;
+  FTipePerusahaan_GetDSLookupCommand_Cache.DisposeOf;
+  FTipeSuplier_GetDSLookupCommand.DisposeOf;
+  FTipeSuplier_GetDSLookupCommand_Cache.DisposeOf;
   inherited;
 end;
 

@@ -45,11 +45,15 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
+    function Bank_GetDSLookup: TDataSet;
     function Barang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
+    function SuplierGroup_GetDSLookup: TDataSet;
     function Suplier_GetDSOverview: TDataSet;
+    function TipePerusahaan_GetDSLookup: TDataSet;
+    function TipeSuplier_GetDSLookup: TDataSet;
 
 
   end;
@@ -381,6 +385,17 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Bank_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT Bank_ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
+      +' BANK_REK_CODE'
+      +' FROM BANK';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Barang_GetDSOverview: TDataSet;
 var
   S: string;
@@ -429,13 +444,39 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.SuplierGroup_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select GROUP_NO, GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  +' from SUPLIER_GROUP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Suplier_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select SUP_CODE, SUP_NAME'
+  S := 'select SUPLIER_ID, SUP_CODE, SUP_NAME, SUP_CITY, SUP_TELP, SUP_FAX'
   +' from'
   +' SUPLIER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipePerusahaan_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPPERSH_CODE, TPPERSH_NAME, REF$TIPE_PERUSAHAAN_ID'
+        +' from REF$TIPE_PERUSAHAAN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeSuplier_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPSUP_CODE, TPSUP_NAME, REF$TIPE_SUPLIER_ID from REF$TIPE_SUPLIER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

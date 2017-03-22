@@ -110,6 +110,12 @@ type
     lbl8: TLabel;
     lbl9: TLabel;
     lblDayOfPO: TcxLabel;
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
@@ -176,8 +182,8 @@ end;
 procedure TfrmSupplier.actEditExecute(Sender: TObject);
 begin
   inherited;
-//  ShowDialogForm(TfrmDialogSupplier,
-//  cxGridView.DS.FieldByName('SUPLIER_ID').AsString);
+  ShowDialogForm(TfrmDialogSupplier,
+  cxGridView.DS.FieldByName('SUPLIER_ID').AsString);
 end;
 
 procedure TfrmSupplier.SetActiveFooter5Button(AIsActive: boolean);
