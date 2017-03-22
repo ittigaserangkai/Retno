@@ -118,6 +118,7 @@ type
     function GetUnitStore: TModUnit;
     procedure InisialisasiCBBAutApp;
     procedure InisialisasiCBBCompany;
+    procedure InisialisasiCBBTipePuerusahaan;
     procedure LoadData(AID : String);
     property UnitStore: TModUnit read GetUnitStore write FUnitStore;
   public
@@ -163,25 +164,25 @@ begin
 
   UnitStore.COMPANY       := TModCompany.CreateID(cbbCompany.EditValue);
   UnitStore.AUTAPP := TModAutApp.CreateID(cbbAppType.EditValue);
-  UnitStore.FUNT_IS_HO    := 0;
-  UnitStore.FUNT_IS_STORE := 0;
-  UnitStore.FUNT_IS_WH    := 0;
+  UnitStore.UNT_IS_HO    := 0;
+  UnitStore.UNT_IS_STORE := 0;
+  UnitStore.UNT_IS_WH    := 0;
 
   if rgTipeUnit.ItemIndex = 0 then
-    UnitStore.FUNT_IS_HO := 1
+    UnitStore.UNT_IS_HO := 1
   else if rgTipeUnit.ItemIndex = 1 then
-    UnitStore.FUNT_IS_STORE := 1
+    UnitStore.UNT_IS_STORE := 1
   else
-    UnitStore.FUNT_IS_WH := 1;
+    UnitStore.UNT_IS_WH := 1;
 
-  UnitStore.FUNT_ZIP           := edZIP.Text;
-  UnitStore.UNT_APP_ID         := cbbAppType.ItemIndex;
+  UnitStore.UNT_ZIP            := edZIP.Text;
+  UnitStore.AUTAPP             := TModAutApp.CreateID(cbbAppType.EditValue);
   UnitStore.UNT_CODE           := edCode.Text;
   UnitStore.UNT_CONTACT_PERSON := edContactPerson.Text;
   UnitStore.UNT_DESCRIPTION    := edDesciption.Text;
   UnitStore.UNT_EMAIL          := edEmail.Text;
   UnitStore.UNT_FAX            := edFax.Text;
-  UnitStore.UNT_ISGRALLOW      := 1;
+  UnitStore.UNT_ISGRALLOWED      := 1;
 
   UnitStore.UNT_IS_ACTIVE := 0;
   if chkActive.Checked then
@@ -191,8 +192,21 @@ begin
   UnitStore.UNT_KAB_ID      := 1;
   UnitStore.UNT_NAME        := edNama.Text;
   UnitStore.UNT_PHONE       := edPhone.Text;
-  UnitStore.UNT_REGION_CODE := edRegion.Text;
-  UnitStore.UNT_TYPE        := 1;
+  UnitStore.UNT_RGN_CODE    := edRegion.Text;
+  UnitStore.UNT_TYPE        := TModUnitType.CreateID('');
+  UnitStore.NPWP            := edNPWP.Text;
+  UnitStore.NPWP_ADR        := edNPWPAddress.Text;
+  UnitStore.NPWP_NAME       := edNPWPName.Text;
+  UnitStore.NPWP_REG_DATE   := edRegisterNPWP.Date;
+//  UnitStore.REF_TIPE_PERUSAHAAN := tmod
+
+  if DMClient.CrudClient.SaveToDB(UnitStore) then
+  begin
+    TAppUtils.Information('Berhasil Simpan Data Cabang');
+    LoadData('');
+  end;
+
+
 
 
 
@@ -453,6 +467,7 @@ begin
 
   InisialisasiCBBCompany;
   InisialisasiCBBAutApp;
+  InisialisasiCBBTipePuerusahaan;
 end;
 
 procedure TfrmDialogUnit.edtUnitAppIDKeyDown(Sender: TObject;
@@ -686,6 +701,15 @@ begin
   cbbCompany.Properties.SetMultiPurposeLookup;
 end;
 
+procedure TfrmDialogUnit.InisialisasiCBBTipePuerusahaan;
+var
+  lcdsTipeCompany: TClientDataSet;
+begin
+  lcdsTipeCompany := TDBUtils.DSToCDS(DMClient.DSProviderClient.TipePerusahaan_GetDSOverview(), Self);
+  cbbCorporateType.Properties.LoadFromCDS(lcdsTipeCompany,'REF$TIPE_PERUSAHAAN_ID','TPPERSH_NAME',['REF$TIPE_PERUSAHAAN_ID'],Self);
+  cbbCorporateType.Properties.SetMultiPurposeLookup;
+end;
+
 procedure TfrmDialogUnit.LoadData(AID : String);
 begin
   FreeAndNil(FUnitStore);
@@ -700,14 +724,14 @@ begin
       cbbAppType.EditValue := UnitStore.AUTAPP.ID;
 
       rgTipeUnit.ItemIndex := 0;
-      if UnitStore.FUNT_IS_HO = 1 then
+      if UnitStore.UNT_IS_HO = 1 then
         rgTipeUnit.ItemIndex := 0
-      else if UnitStore.FUNT_IS_STORE = 1  then
+      else if UnitStore.UNT_IS_STORE = 1  then
         rgTipeUnit.ItemIndex := 1
       else
         rgTipeUnit.ItemIndex := 2;
 
-      edZIP.Text := UnitStore.FUNT_ZIP;
+      edZIP.Text := UnitStore.UNT_ZIP;
       edCode.Text := UnitStore.UNT_CODE;
       edContactPerson.Text := UnitStore.UNT_CONTACT_PERSON;
       edDesciption.Text := UnitStore.UNT_DESCRIPTION;
@@ -722,7 +746,7 @@ begin
 //      UnitStore.UNT_KAB_ID      := 1;
       edNama.Text := UnitStore.UNT_NAME;
       edPhone.Text := UnitStore.UNT_PHONE;
-      edRegion.Text := UnitStore.UNT_REGION_CODE;
+      edRegion.Text := UnitStore.UNT_RGN_CODE;
 //      UnitStore.UNT_TYPE        := 1;
     end;
   end;
