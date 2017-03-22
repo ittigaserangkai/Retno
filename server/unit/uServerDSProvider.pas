@@ -47,6 +47,7 @@ type
     function App_GetDSOverview: TDataSet;
     function Barang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
+    function AutAPP_GetDSLookup: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
 
@@ -405,6 +406,15 @@ var
   S: string;
 begin
   S := 'SELECT * from REF$TIPE_MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AutAPP_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION, AUT$APP_ID from aut$APP';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -425,8 +425,8 @@ begin
 end;
 
 procedure TfrmDisplayPO.InsertNumber;
-var
-  i: Integer;
+//var
+//  i: Integer;
 begin
 //  for i := strgGrid.FixedRows to strgGrid.RowCount - 1 do
 //  begin
@@ -447,15 +447,15 @@ begin
 end;
 
 procedure TfrmDisplayPO.LoadDataPOBonus(aBarisGrid : Integer);
-var
-  sSQL: string;
-  i: Integer;
+//var
+//  sSQL: string;
+//  i: Integer;
 begin
 
-  sSQL := ' select po_no '
-          + ' from po '
-//          + ' where po_no_ref = ' + QuotedStr(FPO.NoBukti)
-          + ' and po_no <> po_no_ref ';
+//  sSQL := ' select po_no '
+//          + ' from po '
+////          + ' where po_no_ref = ' + QuotedStr(FPO.NoBukti)
+//          + ' and po_no <> po_no_ref ';
   {
   with cOpenQuery(sSQL) do
   begin

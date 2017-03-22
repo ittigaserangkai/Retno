@@ -6,6 +6,7 @@ inherited frmDialogUnit: TfrmDialogUnit
   ClientWidth = 852
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  OnClose = FormClose
   ExplicitWidth = 868
   ExplicitHeight = 546
   PixelsPerInch = 96
@@ -13,7 +14,6 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited pnlBody: TPanel
     Width = 852
     Height = 451
-    ExplicitTop = -1
     ExplicitWidth = 852
     ExplicitHeight = 451
     object lblCode: TLabel
@@ -360,21 +360,20 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 451
     Width = 852
-    ExplicitTop = 528
-    ExplicitWidth = 648
+    ExplicitTop = 451
+    ExplicitWidth = 852
     inherited pnlFooter: TPanel
       Width = 852
-      ExplicitWidth = 648
+      ExplicitWidth = 852
       inherited btnClose: TcxButton
         Left = 775
         Action = actCancel
-        ExplicitLeft = 571
+        ExplicitLeft = 775
       end
       inherited btnSave: TcxButton
         Left = 682
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 478
+        ExplicitLeft = 682
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -382,16 +381,16 @@ inherited frmDialogUnit: TfrmDialogUnit
     end
     inherited pnlSortCut: TPanel
       Width = 852
-      ExplicitWidth = 648
+      ExplicitWidth = 852
       inherited lbCTRLEnter: TLabel
         Left = 677
         Height = 15
-        ExplicitLeft = 473
+        ExplicitLeft = 677
       end
       inherited lbEscape: TLabel
         Left = 768
         Height = 15
-        ExplicitLeft = 564
+        ExplicitLeft = 768
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -401,5 +400,8 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited actlstMasterDialog: TActionList
     Left = 296
     Top = 72
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

@@ -24,7 +24,6 @@ uses
   uTSCommonDlg in '..\system\uTSCommonDlg.pas',
   uCompany in '..\classes\uCompany.pas',
   uTSBaseClass in '..\classes\uTSBaseClass.pas',
-  uUnit in '..\classes\uUnit.pas',
   ufrmBank in '..\module\references\ufrmBank.pas' {frmBank},
   ufrmDialogBank in '..\module\references\ufrmDialogBank.pas' {frmDialogBank},
   ufrmDialogHariLibur in '..\module\references\ufrmDialogHariLibur.pas' {frmDialogHariLibur},
@@ -90,7 +89,6 @@ uses
   uModApp in '..\model\uModApp.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModBank in '..\model\uModBank.pas',
-  uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRekening in '..\model\uModRekening.pas',
@@ -161,7 +159,8 @@ uses
   uModMember in '..\model\uModMember.pas',
   ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
   ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
-  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
+  uModCompany in '..\model\uModCompany.pas';
 
 {$R *.res}
 
