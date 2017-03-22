@@ -6,6 +6,7 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 924
   KeyPreview = True
   OldCreateOrder = True
+  ExplicitTop = -5
   ExplicitWidth = 940
   ExplicitHeight = 629
   PixelsPerInch = 96
@@ -14,14 +15,13 @@ inherited frmProduct: TfrmProduct
     Width = 924
     Height = 501
     ExplicitWidth = 924
-    ExplicitHeight = 406
+    ExplicitHeight = 501
     inherited pgcBrowse: TcxPageControl
       Width = 902
       Height = 479
-      Properties.ActivePage = tsProductInfo
       Properties.HideTabs = False
       ExplicitWidth = 902
-      ExplicitHeight = 384
+      ExplicitHeight = 479
       ClientRectBottom = 478
       ClientRectRight = 901
       ClientRectTop = 24
@@ -30,18 +30,17 @@ inherited frmProduct: TfrmProduct
         ExplicitLeft = 1
         ExplicitTop = 24
         ExplicitWidth = 900
-        ExplicitHeight = 359
+        ExplicitHeight = 454
         inherited cxGrid: TcxGrid
           Width = 900
           Height = 454
           ExplicitWidth = 900
-          ExplicitHeight = 359
+          ExplicitHeight = 454
         end
       end
       object tsProductInfo: TcxTabSheet
         Caption = 'Product Info'
         ImageIndex = 1
-        ExplicitHeight = 359
         object dxNavBarLeftSide: TdxNavBar
           Left = 0
           Top = 0
@@ -51,7 +50,6 @@ inherited frmProduct: TfrmProduct
           ActiveGroupIndex = 0
           TabOrder = 0
           View = 0
-          ExplicitHeight = 359
           object dxNavGroupSettingProduct: TdxNavBarGroup
             Caption = 'Setting Product'
             SelectedLinkIndex = -1
@@ -105,7 +103,6 @@ inherited frmProduct: TfrmProduct
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          ExplicitHeight = 359
           object lblCompanyCode: TLabel
             Left = 684
             Top = 7
@@ -1291,11 +1288,10 @@ inherited frmProduct: TfrmProduct
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 534
     Width = 924
-    ExplicitTop = 439
+    ExplicitTop = 534
     ExplicitWidth = 924
     inherited pnlFooter: TPanel
       Width = 924
-      ExplicitTop = 6
       ExplicitWidth = 924
       inherited btnAdd: TcxButton
         Action = actAdd

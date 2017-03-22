@@ -8,150 +8,112 @@ uses
   ActnList, Menus, uConstanta, uRetnounit, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
   System.Actions, cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar, cxLabel, cxStyles, cxClasses, cxButtonEdit;
+  cxCalendar, cxLabel, cxStyles, cxClasses, cxButtonEdit, ufrmMasterBrowse,
+  dxBarBuiltInMenu, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
+  cxDBData, ufraFooter4Button, cxButtons, cxGridLevel, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  uDXUtils, uDMClient, Datasnap.DBClient, ufrmDialogSupplier;
 
 type
   TRefreshMode = (refFormShow, refEdit);
 
-  TfrmSupplier = class(TfrmMaster)
-    lbl2: TLabel;
-    lbl3: TLabel;
-    lbl5: TLabel;
-    lbl6: TLabel;
-    lbl7: TLabel;
-    lbl8: TLabel;
-    lbl10: TLabel;
-    lbEnCreateCN: TLabel;
+  TfrmSupplier = class(TfrmMasterBrowse)
+    cxTabSheet1: TcxTabSheet;
+    bvl1: TBevel;
+    bvl2: TBevel;
+    cbpMerchanGroup: TComboBox;
+    chkEnableCN: TCheckBox;
+    chkSupIsActive: TCheckBox;
+    dtLastPurchase: TcxDateEdit;
+    dtUserCreate: TcxDateEdit;
+    dtUserModify: TcxDateEdit;
+    edtAddr: TEdit;
+    edtAPEndingBlnc: TcxCurrencyEdit;
+    edtBankAccName: TEdit;
+    edtBankAccNo: TEdit;
+    edtBankAddrss: TEdit;
+    edtBankBranch: TEdit;
+    edtBankCode: TEdit;
+    edtBankName: TEdit;
+    edtBKP: TEdit;
+    edtCity: TEdit;
+    edtCNBalance: TcxCurrencyEdit;
+    edtContactPerson: TEdit;
+    edtCreditLimt: TcxCurrencyEdit;
+    edtDayOfPO: TEdit;
+    edtDeliverPO: TEdit;
+    edtDisc: TcxCurrencyEdit;
+    edtExtendDescr: TEdit;
+    edtFaxNo: TEdit;
+    edtJenisPeruhaan: TEdit;
+    edtKodeSupplier: TcxButtonEdit;
+    edtLastPayment: TcxCurrencyEdit;
+    edtLeadTime: TEdit;
+    edtMerchGroupName: TEdit;
+    edtNoOfPO: TEdit;
+    edtNPWP: TEdit;
+    edtNpwpAlamat: TEdit;
+    edtOutstandingpayment: TcxCurrencyEdit;
+    edtPhone: TEdit;
+    edtPKP: TEdit;
+    edtPostcode: TEdit;
+    edtSuplierTipe: TEdit;
+    edtSupName: TEdit;
+    edtTaxNo: TEdit;
+    edtTermPayment: TEdit;
+    edtTittle: TEdit;
+    edtTypePaymnt: TEdit;
+    edtUserCreate: TEdit;
+    edtUserModify: TEdit;
     Label1: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    lbEnCreateCN: TLabel;
+    lbl10: TLabel;
     lbl12: TLabel;
     lbl13: TLabel;
     lbl14: TLabel;
     lbl15: TLabel;
     lbl16: TLabel;
     lbl17: TLabel;
-    edtSupName: TEdit;
-    edtAddr: TEdit;
-    edtCity: TEdit;
     lbl18: TLabel;
-    edtPostcode: TEdit;
-    edtPhone: TEdit;
     lbl19: TLabel;
-    edtFaxNo: TEdit;
-    edtContactPerson: TEdit;
-    edtSuplierTipe: TEdit;
-    edtPKP: TEdit;
-    edtNPWP: TEdit;
-    chkEnableCN: TCheckBox;
-    edtExtendDescr: TEdit;
-    edtBankCode: TEdit;
-    edtBankName: TEdit;
-    edtBankAccName: TEdit;
-    dtUserCreate: TcxDateEdit;
+    lbl2: TLabel;
     lbl20: TLabel;
-    edtUserCreate: TEdit;
-    edtAPEndingBlnc: TcxCurrencyEdit;
     lbl21: TLabel;
     lbl22: TLabel;
     lbl23: TLabel;
     lbl24: TLabel;
     lbl25: TLabel;
     lbl26: TLabel;
-    edtTittle: TEdit;
-    edtCreditLimt: TcxCurrencyEdit;
-    edtTypePaymnt: TEdit;
-    edtTermPayment: TEdit;
     lbl27: TLabel;
     lbl28: TLabel;
-    edtLeadTime: TEdit;
-    edtDeliverPO: TEdit;
-    edtBankAccNo: TEdit;
-    bvl1: TBevel;
-    lblDayOfPO: TcxLabel;
+    lbl3: TLabel;
     lbl30: TLabel;
     lbl31: TcxLabel;
     lbl32: TLabel;
     lbl33: TLabel;
-    edtNoOfPO: TEdit;
     lbl34: TLabel;
     lbl35: TLabel;
-    bvl2: TBevel;
-    edtLastPayment: TcxCurrencyEdit;
-    fraFooter5Button1: TfraFooter5Button;
-    actlstSupplier: TActionList;
-    actAddSupplier: TAction;
-    actEditSupplier: TAction;
-    actDeleteSupplier: TAction;
-    actRefreshSupplier: TAction;
     lbl36: TLabel;
-    edtTaxNo: TEdit;
     lbl37: TLabel;
-    edtMerchGroupName: TEdit;
-    dtLastPurchase: TcxDateEdit;
-    edtCNBalance: TcxCurrencyEdit;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    lbl8: TLabel;
     lbl9: TLabel;
-    edtOutstandingpayment: TcxCurrencyEdit;
-    edtDayOfPO: TEdit;
-    ppmn1: TPopupMenu;
-    AddSupplier1: TMenuItem;
-    AddMerchandiseGroup1: TMenuItem;
-    edtUserModify: TEdit;
-    Label2: TLabel;
-    dtUserModify: TcxDateEdit;
-    Label3: TLabel;
-    edtBKP: TEdit;
-    Label4: TLabel;
-    actUpdateBank: TAction;
-    Label5: TLabel;
-    edtKodeSupplier: TcxButtonEdit;
-    edtJenisPeruhaan: TEdit;
-    cbpMerchanGroup: TComboBox;
-    ppmn2: TPopupMenu;
-    DeleteSuplier: TMenuItem;
-    DeleteMErchandise: TMenuItem;
-    Label6: TLabel;
-    edtBankBranch: TEdit;
-    Label7: TLabel;
-    edtBankAddrss: TEdit;
-    chkSupIsActive: TCheckBox;
-    edtDisc: TcxCurrencyEdit;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label8: TLabel;
-    edtNpwpAlamat: TEdit;
-
-    procedure FormDestroy(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure actAddSupplierExecute(Sender: TObject);
-    procedure actEditSupplierExecute(Sender: TObject);
-    procedure actRefreshSupplierExecute(Sender: TObject);
-    procedure fraFooter5Button1btnRefreshClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure actUpdateBankExecute(Sender: TObject);
-    procedure edtKodeSupplierClickBtn(Sender: TObject);
-    procedure edtKodeSupplierKeyPress(Sender: TObject; var Key: Char);
-    procedure edtKodeSupplierKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
-    procedure AddSupplier1Click(Sender: TObject);
-    procedure AddMerchandiseGroup1Click(Sender: TObject);
-    procedure actDeleteSupplierExecute(Sender: TObject);
-    procedure DeleteSuplierClick(Sender: TObject);
-    procedure DeleteMErchandiseClick(Sender: TObject);
-    procedure lblDayOfPOClick(Sender: TObject);
-    procedure lbl31Click(Sender: TObject);
-    procedure cbpMerchanGroupChange(Sender: TObject);
-    procedure fraFooter5Button1btnCloseClick(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    lblDayOfPO: TcxLabel;
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
-//    FSuplier : TNewSupplier;
-//    FNewUnit: TUnit;
-//    FsuplierMerchGroup : TNewSupplierMerGroup;
-
   public
-    { Public declarations }
-//    dataSUPMerchanGrup: TreeDataSuplierMerchanGrup;
     FRefreshMode: TRefreshMode;
     SKode: string;
     iMerchanGroup_ID: Integer;
@@ -187,6 +149,7 @@ type
     procedure LoadDataSupplier(aKode: string);
     procedure LoadedtOfPO;
     function LoadListcbpMerchGroup(aSupKode: String): Boolean;
+    procedure RefreshData; override;
     procedure SetActiveFooter5Button(AIsActive: boolean);
     procedure setchkEnableCN(IsEnableCN : Integer);
 
@@ -198,88 +161,27 @@ var
 
 implementation
 
-uses ufrmDayOfPO, ufrmOutstandingPO, uTSCommonDlg, ufrmDialogSupplier,
+uses ufrmDayOfPO, ufrmOutstandingPO, uTSCommonDlg,
   ufrmSearchSupplier, ufraHistoriPOByProduct;
 
 {$R *.dfm}
 
-procedure TfrmSupplier.FormDestroy(Sender: TObject);
+
+procedure TfrmSupplier.actAddExecute(Sender: TObject);
 begin
   inherited;
-  frmSupplier := nil;
+  ShowDialogForm(TfrmDialogSupplier);
 end;
 
-procedure TfrmSupplier.FormCreate(Sender: TObject);
+procedure TfrmSupplier.actEditExecute(Sender: TObject);
 begin
   inherited;
-//  DecimalSeparator := '.';
-//  ThousandSeparator := ',';
-  with FormatSettings do
-  begin
-    CurrencyString := '';
-    CurrencyFormat := 2;
-    CurrencyDecimals := 2;
-    UntID4update := 0;
-//    FSuplier := TNewSupplier.Create(Self);
-//    FNewUnit := TUnit.Create(Self);
-//    FsuplierMerchGroup := TNewSupplierMerGroup.Create(Self);
-  end;
+//  ShowDialogForm(TfrmDialogSupplier,
+//  cxGridView.DS.FieldByName('SUPLIER_ID').AsString);
 end;
-
-procedure TfrmSupplier.actAddSupplierExecute(Sender: TObject);
-begin
-  ppmn1.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
-end;
-
-procedure TfrmSupplier.actEditSupplierExecute(Sender: TObject);
-begin
-  frmDialogSupplier := TfrmDialogSupplier.Create(Self);
-  with frmDialogSupplier do
-  begin
-    IsInsert := 0;
-
-    KodeLama := edtKodeSupplier.Text;
-    FormMode := fmAddSup;
-    
-    isMerchandise     := True;
-    chkAllMer.Enabled := False;
-   // edtKodeSupplierExit(nil);
-  end;
-  SetFormPropertyAndShowDialog(frmDialogSupplier);
-end;
-
-procedure TfrmSupplier.actRefreshSupplierExecute(Sender: TObject);
-begin
-  inherited;
-//  edtKodeSupplierClickBtn(nil);
-end;
-
-
-procedure TfrmSupplier.fraFooter5Button1btnRefreshClick(Sender: TObject);
-begin
-  inherited;
-  FRefreshMode := refFormShow;
-  actRefreshSupplierExecute(self);
-end;
-
-procedure TfrmSupplier.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-  //frmMain.cbbUnit.Visible := True;
-  //frmMain.lbl1.Visible := True;
-//  frmMain.DestroyMenu((sender as TForm));
-end;
-
 
 procedure TfrmSupplier.SetActiveFooter5Button(AIsActive: boolean);
 begin
-end;
-
-procedure TfrmSupplier.actUpdateBankExecute(Sender: TObject);
-begin
-  inherited;
-  // Dipake saat dialog supp show
 end;
 
 procedure TfrmSupplier.LoadDataSupplier(aKode: string);
@@ -351,112 +253,6 @@ begin
 
     end;
   end; }
-end;
-
-procedure TfrmSupplier.edtKodeSupplierClickBtn(Sender: TObject);
-var
-  sSQL: String;
-begin
-  inherited;
-  sSQL := 'select sup_code as Kode, sup_name as Nama'
-          + ' from suplier';
-  {
-  with cLookUp('Daftar Supplier', sSQL) do
-  begin
-    try
-      if Strings[0] <> '' then
-      begin
-        edtKodeSupplier.Text := Strings[0];
-        edtKodeSupplier.SetFocus;
-        edtJenisPeruhaan.SetFocus;
-      end;
-    finally
-      Free;
-    end;
-  end;
-   }
-    LoadDataSupplier(edtKodeSupplier.Text);
-  if LoadListcbpMerchGroup(edtKodeSupplier.Text) then
-    LoadDataMerchandise(cbpMerchanGroup.Text);
-
-end;
-
-procedure TfrmSupplier.edtKodeSupplierKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  Key := UpCase(Key);
-end;
-
-procedure TfrmSupplier.edtKodeSupplierKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-  if Key = VK_F5 then
-      edtKodeSupplierClickBtn(Self)
-  else if Key = VK_RETURN then
-  begin
-    LoadDataSupplier(edtKodeSupplier.Text);
-    if LoadListcbpMerchGroup(edtKodeSupplier.Text) then
-      LoadDataMerchandise(cbpMerchanGroup.Text);
-  end;
-    
-end;
-
-procedure TfrmSupplier.FormShow(Sender: TObject);
-begin
-  inherited;
-//  ClearByTag(Self,[0]) ;
-//  FNewUnit.ClearProperties;
-
-  if FLoginIsStore = 1 then
-    fraFooter5Button1.lbl1.Enabled := False
-  else
-    fraFooter5Button1.lbl1.Enabled := True;
-
-  fraFooter5Button1.lbl2.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.lbl3.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.lbl4.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.btnAdd.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.btnUpdate.Enabled := fraFooter5Button1.lbl1.Enabled;
-  fraFooter5Button1.btnDelete.Enabled := fraFooter5Button1.lbl1.Enabled; 
-end;
-
-procedure TfrmSupplier.AddSupplier1Click(Sender: TObject);
-begin
-  inherited;
-  frmDialogSupplier := TfrmDialogSupplier.Create(Self);
-  with frmDialogSupplier do
-  begin
-    FormMode := fmAddSup;
-    isSuplier := True;
-    isMerchandise := False;
-    isInsert := 1;
-  end;
-  SetFormPropertyAndShowDialog(frmDialogSupplier);
-  
-end;
-
-procedure TfrmSupplier.AddMerchandiseGroup1Click(Sender: TObject);
-begin
-  inherited;
-  frmDialogSupplier := TfrmDialogSupplier.Create(Self);
-  with frmDialogSupplier do
-  begin
-    isMerchandise := True;
-    isSuplier := False;
-    if edtKodeSupplier.Text = '' then
-    begin
-      CommonDlg.ShowMessage('Pilih suplier dulu');
-      edtKodeSupplier.SetFocus;
-      Exit;
-    end;
-    SKode := edtKodeSupplier.Text;
-    
-    isInsert := 1;
-  end;
-  SetFormPropertyAndShowDialog(frmDialogSupplier);
-
 end;
 
 function TfrmSupplier.LoadListcbpMerchGroup(aSupKode: String): Boolean;
@@ -655,48 +451,6 @@ begin
   end;
 end;
 
-procedure TfrmSupplier.actDeleteSupplierExecute(Sender: TObject);
-begin
-  inherited;
-  ppmn2.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
-end;
-
-procedure TfrmSupplier.DeleteSuplierClick(Sender: TObject);
-var
-  KodeSuplier: string;
-  ListKodeMErchandise: TStrings;
-  i: Integer;
-begin
-  inherited;
-  KodeSuplier := edtKodeSupplier.Text;
-  if (CommonDlg.Confirm('Anda Yakin ingin menghapus data suplier : ' + edtSupName.Text + ' ? ') = mrYes) then
-  begin
-    {
-     if FSuplier.LoadByKode(KodeSuplier) then
-      begin
-         FSuplier.RemoveFromDB;
-         ClearByTag(Self,[0]);
-         CommonDlg.ShowMessage('Berhasil menghapus data Suplier');
-      end;
-
-      ListKodeMErchandise := GetListKodeMerchandise(KodeSuplier);
-      if ListKodeMErchandise.Count > 0 then
-      begin
-        for i := 0 to ListKodeMErchandise.Count - 1 do
-        begin
-          if FsuplierMerchGroup.LoadByKode(ListKodeMErchandise[i]) then
-          begin
-          if FsuplierMerchGroup.RemoveFromDB then
-            CommonDlg.ShowMessage('Berhasil menghapus data merchandise');
-          end else
-            CommonDlg.ShowMessage('gagal menghapus data merchandise');
-        end;
-        ClearByTag(Self,[1]);
-
-    end; }
-  end;
-end;
-
 function TfrmSupplier.GetListKodeMerchandise(aKodeSuplier: string): TStrings;
 var
   sSQL: string;
@@ -716,83 +470,6 @@ begin
     end;
   end;        
    }
-end;
-
-procedure TfrmSupplier.DeleteMErchandiseClick(Sender: TObject);
-var
-  kodeMErchan: string;
-begin
-  inherited;
-  {
-  iMerchanGroup_ID := cGetIDfromCombo(cbpMerchanGroup);
-  kodeMErchan := getKodeMerchandise(edtKodeSupplier.Text, iMerchanGroup_ID);
-  if FsuplierMerchGroup.LoadByKode(kodeMErchan) then
-  begin
-    if not FsuplierMerchGroup.IsPunyaBarangSupplier then
-    begin
-      if FsuplierMerchGroup.RemoveFromDB then
-      begin
-        CommonDlg.ShowMessage('Berhasil menghapus data');
-        ClearByTag(Self,[1]);
-      end;
-    end else begin
-      CommonDlg.ShowMessage('Merchandize Ini Sudah Punya Barang');
-      Exit;
-    end;
-  end else begin
-    CommonDlg.ShowMessage('Tidak bisa load data merchandise group' );
-  end;
-   }
-  LoadListcbpMerchGroup(edtKodeSupplier.Text);
-  LoadDataMerchandise(cbpMerchanGroup.Text);
-
-
-end;
-
-procedure TfrmSupplier.lblDayOfPOClick(Sender: TObject);
-begin
-  inherited;
-//  SKodeMerchan := getKodeMerchandise(edtKodeSupplier.Text,cGetIDfromCombo(cbpMerchanGroup));
-  frmDayofPO := TfrmDayofPO.Create(Self);
-  frmDayofPO.ShowModal;
-end;
-
-procedure TfrmSupplier.lbl31Click(Sender: TObject);
-var
-  sKodeSupMG: string;
-  iMerchanGroup_ID: Integer;
-begin
-  inherited;
-  with TfrmOutstandingPO.Create(Self) do
-  try
-//    iMerchanGroup_ID := cGetIDfromCombo(cbpMerchanGroup);
-    sKodeSupMG :=  getKodeMerchandise(edtKodeSupplier.Text,iMerchanGroup_ID);
-    ShowDataPOOutStanding(sKodeSupMG);
-    ShowModal;
-  finally
-    Free;
-  end;
-
-end;
-
-procedure TfrmSupplier.cbpMerchanGroupChange(Sender: TObject);
-begin
-  inherited;
-//  ClearByTag(Self,[1]);
-  LoadDataMerchandise(cbpMerchanGroup.Text);
-end;
-
-procedure TfrmSupplier.fraFooter5Button1btnCloseClick(Sender: TObject);
-begin
-  inherited;
-  fraFooter5Button1.btnCloseClick(Sender);
-
-end;
-
-procedure TfrmSupplier.FormActivate(Sender: TObject);
-begin
-  inherited;
-  //LoadDataSupplier(edtKodeSupplier.Text, MasterNewUnit.ID);
 end;
 
 function TfrmSupplier.GetUserNameByID(aOP_Create : Integer; aUnitID : Integer):
@@ -820,17 +497,11 @@ begin
   end; }
 end;
 
-procedure TfrmSupplier.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfrmSupplier.RefreshData;
 begin
   inherited;
-  if ssCtrl in Shift then
-  begin
-    if (Key = Ord('D')) then
-      lblDayOfPOClick(nil)
-    else if (Key = Ord('P')) then
-      lbl31Click(nil);
-  end;
+  cxGridView.LoadFromDS(
+    DMClient.DSProviderClient.Suplier_GetDSOverview(),Self);
 end;
 
 end.

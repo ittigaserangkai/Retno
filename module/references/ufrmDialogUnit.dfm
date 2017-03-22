@@ -7,6 +7,7 @@ inherited frmDialogUnit: TfrmDialogUnit
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnClose = FormClose
+  ExplicitTop = -151
   ExplicitWidth = 868
   ExplicitHeight = 546
   PixelsPerInch = 96
@@ -400,6 +401,9 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited actlstMasterDialog: TActionList
     Left = 296
     Top = 72
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

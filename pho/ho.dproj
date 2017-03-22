@@ -68,6 +68,9 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
@@ -77,6 +80,7 @@
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -142,6 +146,7 @@
         <DCCReference Include="..\system\uTSCommonDlg.pas"/>
         <DCCReference Include="..\classes\uCompany.pas"/>
         <DCCReference Include="..\classes\uTSBaseClass.pas"/>
+        <DCCReference Include="..\classes\uUnit.pas"/>
         <DCCReference Include="..\module\references\ufrmBank.pas">
             <Form>frmBank</Form>
         </DCCReference>
@@ -323,6 +328,7 @@
         <DCCReference Include="..\model\uModApp.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
+        <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
@@ -513,7 +519,14 @@
             <Form>frmMouselesMenu</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModCompany.pas"/>
+        <DCCReference Include="..\module\merchandise\uFrmGenPO.pas">
+            <Form>frmGenPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\uFrmPODisp.pas">
+            <Form>frmPODisp</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -543,18 +556,33 @@
                 <Platform value="Win32">True</Platform>
             </Platforms>
             <Deployment Version="2">
-                <DeployFile LocalName="ho.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\build\Retno\bin\ho.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ho.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -908,27 +936,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
@@ -942,6 +955,7 @@
             <DataSnapProxyLookup>
                 <uClientClasses>{A01380B5-3771-45CF-B6B6-022C98D01784}</uClientClasses>
             </DataSnapProxyLookup>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

@@ -6,21 +6,21 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, uRetnoUnit, uModTipePerusahaan, ufraFooterDialog3Button,
-  uDMClient, uAppUtils, System.Actions, Vcl.ActnList;
+  uDMClient, uAppUtils, System.Actions, Vcl.ActnList, uInterface;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogTipePerusahaan = class(TfrmMasterDialog)
+  TfrmDialogTipePerusahaan = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     edtCode: TEdit;
     Lbl2: TLabel;
     edtName: TEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FTipePerusahaanId: Integer;
@@ -50,9 +50,32 @@ var
 
 implementation
 
-uses  uTSCommonDlg, uConn;
+uses  uTSCommonDlg, uConn, uDXUtils;
 
 {$R *.dfm}
+
+procedure TfrmDialogTipePerusahaan.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if ModTipePerusahaan.ID = '' then exit;
+  if TAppUtils.Confirm('Anda Yakin Hapus Data?') = False then exit;
+
+  try
+    DMClient.CrudClient.DeleteFromDB(ModTipePerusahaan);
+    TAppUtils.Information('Data Berhasil Dihapus');
+    Self.ModalResult:=mrOk;
+  except
+    TAppUtils.Error('Gagal Hapus Data');
+    raise
+
+  end;
+end;
+
+procedure TfrmDialogTipePerusahaan.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  SimpanData;
+end;
 
 procedure TfrmDialogTipePerusahaan.FormDestroy(Sender: TObject);
 begin
@@ -73,61 +96,6 @@ end;
 procedure TfrmDialogTipePerusahaan.SetTipePerusahaanId(const Value: Integer);
 begin
   FTipePerusahaanId := Value;
-end;
-
-procedure TfrmDialogTipePerusahaan.btnDeleteClick(Sender: TObject);
-begin
-  inherited;
-  if ModTipePerusahaan.ID = '' then exit;
-  if TAppUtils.Confirm('Anda Yakin Hapus Data?') = False then exit;
-
-  try
-    DMClient.CrudClient.DeleteFromDB(ModTipePerusahaan);
-    TAppUtils.Information('Data Berhasil Dihapus');
-  except
-    TAppUtils.Error('Gagal Hapus Data');
-    raise
-
-  end;
-end;
-
-procedure TfrmDialogTipePerusahaan.footerDialogMasterbtnSaveClick(Sender: TObject);
-begin
-
-
-    if edtCode.Text = '' then
-    begin
-      CommonDlg.ShowError('Data Kode Belum diisi');
-      edtCode.SetFocus;
-      Exit;
-    end;
-
-    if edtName.Text = '' then
-    begin
-      CommonDlg.ShowError('Data Nama Belum didisi');
-      edtName.Text;
-      Exit;
-    end;
-    SimpanData;
-    {
-    FPerusahaan.UpdateData(IDLokal,edtCode.Text,edtName.Text,DialogUnit);
-    try
-      if FPerusahaan.ExecuteGenerateSQL then
-      begin
-        cCommitTrans;
-        CommonDlg.ShowMessage('Berhasil Menyimpan Data');
-        frmTipePerusahaan.actRefreshTipePerusahaanExecute(Self);
-        Close;
-      end else
-      begin
-        cRollbackTrans;
-        CommonDlg.ShowError('Gagal Menyimpan Data');
-        Exit;
-      end;
-     finally
-       cRollbackTrans;
-     end;
-     }
 end;
 
 procedure TfrmDialogTipePerusahaan.prepareAddData;
@@ -156,6 +124,7 @@ end;
 procedure TfrmDialogTipePerusahaan.FormCreate(Sender: TObject);
 begin
   inherited;
+  self.AssignKeyDownEvent;
 //  FPerusahaan := TnewTipePerusahaan.Create(Self);
 end;
 
@@ -175,12 +144,15 @@ end;
 
 procedure TfrmDialogTipePerusahaan.SimpanData;
 begin
+  if not ValidateEmptyCtrl  then   exit;
+
   ModTipePerusahaan.TPPERSH_CODE := edtCode.Text;
   ModTipePerusahaan.TPPERSH_NAME := edtName.Text;
 
   try
     DMClient.CrudClient.SaveToDB(ModTipePerusahaan);
     TAppUtils.Information('Data Berhasil Disimpan');
+    Self.ModalResult:=mrOk;
   except
     TAppUtils.Error('Gagal Simpan Data');
     raise

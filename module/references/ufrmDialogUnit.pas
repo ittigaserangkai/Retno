@@ -9,7 +9,7 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
   ufraFooterDialog3Button, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
   cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  uModUnit, uInterface,uModCompany;
+  uModUnit, uInterface,uModCompany, uAppUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -62,6 +62,7 @@ type
     edNPWPAddress: TcxTextEdit;
     edNPWPName: TcxTextEdit;
     edNPWP: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -139,6 +140,20 @@ uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils, Datasnap.DBClient,
 uDMClient, uDBUtils, uModAuthApp;
 
 {$R *.dfm}
+
+procedure TfrmDialogUnit.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm('Apakah Anda Yakin Akan Menghapus ?')  then
+    Exit;
+
+  if DMClient.CrudClient.DeleteFromDB(UnitStore) then
+  begin
+    TAppUtils.Information('Berhasil Hapus Data Cabang');
+    LoadData('');
+  end;
+
+end;
 
 procedure TfrmDialogUnit.actSaveExecute(Sender: TObject);
 begin
