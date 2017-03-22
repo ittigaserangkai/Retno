@@ -527,6 +527,27 @@
             <Form>frmPODisp</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmListQuotation.pas">
+            <Form>frmListQuotation</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmDialogPrintPreview.pas">
+            <Form>frmDialogPrintPreview</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\uDMReport.pas">
+            <Form>dmReport</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\HPHELP.PAS"/>
+        <DCCReference Include="..\module\merchandise\ufrmListQuotHB.pas">
+            <Form>frmListQuotHB</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmListQuotMailer.pas">
+            <Form>frmListQuotMailer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -559,6 +580,12 @@
                 <DeployFile LocalName="..\..\build\Retno\bin\ho.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ho.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\lib\HPHELP.PAS" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

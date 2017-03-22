@@ -30,9 +30,10 @@ uses
   uModBarang in '..\model\uModBarang.pas',
   uServerDSProvider in 'unit\uServerDSProvider.pas',
   uModCompany in '..\model\uModCompany.pas',
+  uModUnit in '..\model\uModUnit.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
-  uModUnit in '..\model\uModUnit.pas';
+  uModGudang in '..\model\uModGudang.pas';
 
 {$R *.res}
 
