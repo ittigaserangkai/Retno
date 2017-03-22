@@ -6,7 +6,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   ClientWidth = 648
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitTop = -13
   ExplicitWidth = 664
   ExplicitHeight = 602
   PixelsPerInch = 96
@@ -36,9 +35,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = 'Supplier'
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lbl3: TLabel
           Left = 66
           Top = 58
@@ -221,8 +217,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentCtl3D = False
           ParentFont = False
           TabOrder = 2
-          OnExit = edtSupNameExit
-          OnKeyPress = edtSupNameKeyPress
         end
         object edtAddress: TEdit
           Left = 112
@@ -254,7 +248,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentBiDiMode = False
           ParentCtl3D = False
           TabOrder = 5
-          OnKeyPress = edtPostCodeKeyPress
         end
         object edtFax: TEdit
           Left = 304
@@ -325,7 +318,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentCtl3D = False
           TabOrder = 11
           Text = 'NON PKP'
-          OnChange = cbbPKPChange
           Items.Strings = (
             'NON PKP'
             'PKP')
@@ -397,9 +389,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             end>
           TabOrder = 14
           Text = '0'
-          OnExit = edKodeBankExit
-          OnKeyDown = edKodeBankKeyDown
-          OnKeyPress = edKodeBankKeyPress
           Width = 95
         end
         object edtSuppGrpNo: TEdit
@@ -410,7 +399,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ParentCtl3D = False
           TabOrder = 20
-          OnKeyDown = edtSuppGrpNoKeyDown
         end
         object edtSuppGrpNm: TEdit
           Left = 184
@@ -468,9 +456,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       object tsMerchandiseGroup: TcxTabSheet
         Caption = 'Category'
         Enabled = False
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lbl37: TLabel
           Left = 66
           Top = 10
@@ -649,7 +634,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ParentCtl3D = False
           TabOrder = 3
-          OnKeyPress = edtFeeKeyPress
         end
         object edtLeadTime: TEdit
           Left = 121
@@ -659,7 +643,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ParentCtl3D = False
           TabOrder = 4
-          OnKeyPress = edtFeeKeyPress
         end
         object curedtCreditLmt: TcxCurrencyEdit
           Left = 121
@@ -705,7 +688,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ParentCtl3D = False
           TabOrder = 15
-          OnKeyPress = edtFeeKeyPress
         end
         object edtExtdDesc: TEdit
           Left = 121
@@ -735,8 +717,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Change contact supplier for Merchandise Group'
           Color = clWhite
           TabOrder = 21
-          ExplicitTop = 214
-          ExplicitWidth = 636
           object lbl30: TLabel
             Left = 77
             Top = 47
@@ -943,7 +923,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Height = 17
             Caption = 'Make Different Contact'
             TabOrder = 0
-            OnClick = chkIsDifClick
           end
           object cbpBankCodeMer: TcxButtonEdit
             Left = 121
@@ -952,7 +931,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Properties.Buttons = <>
             TabOrder = 8
             Text = '0'
-            OnExit = cbpBankCodeMerExit
             Width = 63
           end
           object edtBankBranch: TEdit
@@ -1053,7 +1031,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ParentCtl3D = False
           TabOrder = 18
-          OnChange = cbbBKPChange
           Items.Strings = (
             'NON BKP'
             'BKP')
@@ -1071,7 +1048,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentShowHint = False
           ShowHint = True
           TabOrder = 16
-          OnKeyPress = edtFeeKeyPress
         end
         object chkFee: TCheckBox
           Left = 508
@@ -1105,7 +1081,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ParentCtl3D = False
           TabOrder = 0
-          OnExit = cbpMerchGroupExit
         end
         object cbbPpn: TComboBox
           Left = 521
@@ -1147,14 +1122,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Width = 648
       ExplicitWidth = 648
       inherited btnClose: TcxButton
-        Left = 566
-        ExplicitLeft = 566
+        Left = 571
+        Action = actCancel
+        ExplicitLeft = 571
       end
       inherited btnSave: TcxButton
-        Left = 479
+        Left = 478
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 479
+        ExplicitLeft = 478
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -1164,21 +1139,23 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Width = 648
       ExplicitWidth = 648
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 473
+        Height = 15
+        ExplicitLeft = 473
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 564
+        Height = 15
+        ExplicitLeft = 564
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
     end
   end
   object actSupplier: TActionList
-    Left = 517
-    Top = 41
+    Left = 512
+    Top = 113
     object actUpdateBank: TAction
       Caption = 'actUpdateBank'
     end

@@ -22,7 +22,6 @@ type
     procedure actEditUnitExecute(Sender: TObject);
     procedure actDeleteUnitExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure fraFooter5Button1btnDeleteClick(Sender: TObject);
@@ -75,15 +74,18 @@ procedure TfrmUnit.actAddExecute(Sender: TObject);
 begin
   inherited;
 
-  if not Assigned(frmDialogUnit) then
-  frmDialogUnit := TfrmDialogUnit.Create(Application);
+  ShowDialogForm(TfrmDialogUnit);
 
-  frmDialogUnit.ShowWithCompanyID(FCompID, 0, FLoginUnit, FLoginID );
-
-  if frmDialogUnit.IsProcessSuccessfull then
-    actRefreshUnitExecute(Self);
-
-  FreeAndNil(frmDialogUnit);
+//
+//  if not Assigned(frmDialogUnit) then
+//  frmDialogUnit := TfrmDialogUnit.Create(Application);
+//
+//  frmDialogUnit.ShowWithCompanyID(FCompID, 0, FLoginUnit, FLoginID );
+//
+//  if frmDialogUnit.IsProcessSuccessfull then
+//    actRefreshUnitExecute(Self);
+//
+//  FreeAndNil(frmDialogUnit);
 end;
 
 procedure TfrmUnit.FormDestroy(Sender: TObject);
@@ -183,23 +185,7 @@ end;
 procedure TfrmUnit.actEditExecute(Sender: TObject);
 begin
   inherited;
-  if not Assigned(frmDialogUnit) then
-    frmDialogUnit := TfrmDialogUnit.Create(Application);
-
-//  frmDialogUnit.ShowWithCompanyID(FCompID, strgGrid.Ints[_kolUnitID, strgGrid.Row],
-//                            FLoginUnit, FLoginID );
-
-  if frmDialogUnit.IsProcessSuccessfull then
-    actRefreshUnitExecute(Self);
-
-  FreeAndNil(frmDialogUnit);
-end;
-
-procedure TfrmUnit.actRefreshExecute(Sender: TObject);
-begin
-  inherited;
- ParseHeader;
- SetData;
+  ShowDialogForm(TfrmDialogUnit, cxGridView.DS.FieldByName('ID').AsString);
 end;
 
 procedure TfrmUnit.FormActivate(Sender: TObject);
@@ -221,8 +207,8 @@ begin
 end;
 
 procedure TfrmUnit.SetData;
-var
-  i: Integer;
+//var
+//  i: Integer;
 begin
   {with FUnit.GetRec(FCompID) do
   begin

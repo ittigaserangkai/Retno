@@ -210,6 +210,12 @@ object frmMain: TfrmMain
       object MasterProduct1: TMenuItem
         Action = actDataProduct
       end
+      object SupplierGroup1: TMenuItem
+        Action = actSupplierGroup
+      end
+      object actSupplier1: TMenuItem
+        Action = actSupplier
+      end
     end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
@@ -271,8 +277,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 22
-    Top = 172
+    Left = 85
+    Top = 186
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
@@ -970,6 +976,7 @@ object frmMain: TfrmMain
     object actGenPO: TAction
       Category = 'Merchandise'
       Caption = 'actGenPO'
+      OnExecute = actGenPOExecute
     end
     object actPrintPO: TAction
       Category = 'Merchandise'
@@ -1000,7 +1007,8 @@ object frmMain: TfrmMain
     end
     object actSupplierGroup: TAction
       Category = 'Merchandise'
-      Caption = 'SupplierGroup'
+      Caption = 'Supplier Group'
+      OnExecute = actSupplierGroupExecute
     end
     object actReprintNP: TAction
       Caption = 'actReprintNP'
@@ -1147,6 +1155,11 @@ object frmMain: TfrmMain
       Category = 'Membership'
       Caption = 'Membership'
       OnExecute = actMembershipExecute
+    end
+    object actSupplier: TAction
+      Category = 'Merchandise'
+      Caption = 'Supplier'
+      OnExecute = actSupplierExecute
     end
   end
   object AppEvents: TApplicationEvents

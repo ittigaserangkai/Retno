@@ -130,8 +130,12 @@ procedure TfrmMasterDialog.FormKeyDown(Sender: TObject; var Key: Word; Shift:
 begin
   //inherited
   if(Key = VK_DELETE)and(ssctrl in Shift) then actDelete.Execute;
-  if(Key = VK_RETURN)and(ssctrl in Shift) then actSave.Execute;
-  if(Key = VK_ESCAPE) then actCancel.Execute
+  if(Key = VK_RETURN)and(ssctrl in Shift) then
+  begin
+    actSave.Execute;
+    Key := VK_CANCEL;
+  end;
+  if(Key = VK_ESCAPE) then actCancel.Execute;
 end;
 
 procedure TfrmMasterDialog.GetUserModule;

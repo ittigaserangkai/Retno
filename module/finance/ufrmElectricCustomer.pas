@@ -74,7 +74,7 @@ type
     isOnAdd: Boolean;
     isOnEdit: Boolean;
     procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
-    procedure ParseGridElectricRateCombobox(aUnit_ID: Integer=0);
+//    procedure ParseGridElectricRateCombobox(aUnit_ID: Integer=0);
   public
     { Public declarations }
   end;
@@ -126,31 +126,31 @@ begin
 //  ACombo.ClearGridData;
 
   {Make sure the allocated storage is big enough}
-  if AColsOfData < 1 then AColsOfData := 0;
-//  ACombo.RowCount := AColsOfData + 2;
-//  ACombo.ColCount := 3;
-
-  {Load the data}
-  if Acombo = cbpCustCode then
-  begin
-//    ACombo.AddRow(['','CODE','NAME']);
-//    ACombo.AddRow(['-','-','< ALL >']);
-
-    if dataCustCode.RecordCount > 0 then
-    begin
-      dataCustCode.First;
-      while not dataCustCode.Eof do
-      begin
-        try
-//          ACombo.AddRow([dataCustCode.FieldByName('CUST_CODE').AsString,
-//                         dataCustCode.FieldByName('CUST_CODE').AsString,
-//                         dataCustCode.FieldByName('CUST_NAME').AsString]);
-        except
-        end;
-        dataCustCode.Next;
-      end; //END WHILE
-    end; //END <> NIL
-  end;
+//  if AColsOfData < 1 then AColsOfData := 0;
+////  ACombo.RowCount := AColsOfData + 2;
+////  ACombo.ColCount := 3;
+//
+//  {Load the data}
+//  if Acombo = cbpCustCode then
+//  begin
+////    ACombo.AddRow(['','CODE','NAME']);
+////    ACombo.AddRow(['-','-','< ALL >']);
+//
+//    if dataCustCode.RecordCount > 0 then
+//    begin
+//      dataCustCode.First;
+//      while not dataCustCode.Eof do
+//      begin
+//        try
+////          ACombo.AddRow([dataCustCode.FieldByName('CUST_CODE').AsString,
+////                         dataCustCode.FieldByName('CUST_CODE').AsString,
+////                         dataCustCode.FieldByName('CUST_NAME').AsString]);
+//        except
+//        end;
+//        dataCustCode.Next;
+//      end; //END WHILE
+//    end; //END <> NIL
+//  end;
 
   {Now shring the grid so its just big enough for the data}
 //  ACombo.SizeGridToData;
@@ -175,7 +175,7 @@ begin
 end;
 
 procedure TfrmElectricCustomer.FormCreate(Sender: TObject);
-var i: Integer;
+//var i: Integer;
 begin
   inherited;
 
@@ -195,9 +195,9 @@ begin
 end;
 
 procedure TfrmElectricCustomer.btnShowClick(Sender: TObject);
-var dataElectricCustomer: TDataSet;
-    i: Integer;
-    aCustCode: String;
+//var dataElectricCustomer: TDataSet;
+//    i: Integer;
+//    aCustCode: String;
 begin
   inherited;
   {
@@ -264,11 +264,11 @@ begin
 end;
 
 procedure TfrmElectricCustomer.actAddExecute(Sender: TObject);
-var dataAddElectricCustomer: TDataSet;
+//var dataAddElectricCustomer: TDataSet;
 //  isSaveError: Boolean;
-    i: Integer;
-    Year, Month, Day: Word;
-    aDate_Begin: TDateTime;
+//    i: Integer;
+//    Year, Month, Day: Word;
+//    aDate_Begin: TDateTime;
 begin
   inherited;
 
@@ -409,8 +409,8 @@ end;
 
 procedure TfrmElectricCustomer.actDeleteElectricCustomerExecute(
   Sender: TObject);
-var i: Integer;
-    isChecked: Boolean;
+//var i: Integer;
+//    isChecked: Boolean;
 begin
   inherited;
   if CommonDlg.Confirm('Are you sure you want to delete the selected data ?') = mrYes then begin
@@ -441,14 +441,14 @@ begin
 end;
 
 procedure TfrmElectricCustomer.actEditExecute(Sender: TObject);
-var dataEditElectricCustomer: TDataSet;
-  iCustomerState: Integer;
-  isActive: Boolean;
-    i: Integer;
-    aDate_Begin, aDate_Last: TDateTime;
-    Year, Month, Day: Word;
-    aCustCode: String;
-    isCheck, isAnyUpdate, isError: Boolean;
+//var dataEditElectricCustomer: TDataSet;
+//  iCustomerState: Integer;
+//  isActive: Boolean;
+//    i: Integer;
+//    aDate_Begin, aDate_Last: TDateTime;
+//    Year, Month, Day: Word;
+//    aCustCode: String;
+//    isCheck, isAnyUpdate, isError: Boolean;
 begin
   inherited;
 
@@ -609,32 +609,32 @@ begin
   list_customer[ARow-1].cust_elec_rate_unit_id:= list_electric_rate[AItemIndex].elec_rate_unit_id;
 end;
 
-procedure TfrmElectricCustomer.ParseGridElectricRateCombobox(aUnit_ID:
-    Integer=0);
-var
-  dataElectricRate: TDataSet;
-  j: Integer;
-begin
-  {dataElectricRate:= GetAllListElectricRate(aUnit_ID);
-  dataElectricRate.Last;
-  SetLength(list_electric_rate, dataElectricRate.RecordCount);
-  if not dataElectricRate.IsEmpty then begin
-    dataElectricRate.First;
-    strgElectricCustomer.Combobox.Clear;
-    for j:= 0 to dataElectricRate.RecordCount-1 do begin
-      list_electric_rate[j].elec_rate_id:= dataElectricRate.FieldByName('ELECTR_ID').AsInteger;
-      list_electric_rate[j].elec_rate_unit_id:= dataElectricRate.FieldByName('ELECTR_UNT_ID').AsInteger;
-      list_electric_rate[j].elec_rate_group:= dataElectricRate.FieldByName('ELECTR_GROUP').AsString;
-      list_electric_rate[j].elec_rate_power:= dataElectricRate.FieldByName('ELECTR_POWER').AsFloat;
-      list_electric_rate[j].elec_rate_charge:= dataElectricRate.FieldByName('ELECTR_COST_ABODEMEN').AsCurrency;
-  
-      strgElectricCustomer.Combobox.Items.Add(dataElectricRate.FieldByName('ELECTR_GROUP').AsString);
-      dataElectricRate.Next;
-    end;
-    strgElectricCustomer.Combobox.ItemIndex:= 0;
-  end;
-  }
-end;
+//procedure TfrmElectricCustomer.ParseGridElectricRateCombobox(aUnit_ID:
+//    Integer=0);
+//var
+//  dataElectricRate: TDataSet;
+//  j: Integer;
+//begin
+//  {dataElectricRate:= GetAllListElectricRate(aUnit_ID);
+//  dataElectricRate.Last;
+//  SetLength(list_electric_rate, dataElectricRate.RecordCount);
+//  if not dataElectricRate.IsEmpty then begin
+//    dataElectricRate.First;
+//    strgElectricCustomer.Combobox.Clear;
+//    for j:= 0 to dataElectricRate.RecordCount-1 do begin
+//      list_electric_rate[j].elec_rate_id:= dataElectricRate.FieldByName('ELECTR_ID').AsInteger;
+//      list_electric_rate[j].elec_rate_unit_id:= dataElectricRate.FieldByName('ELECTR_UNT_ID').AsInteger;
+//      list_electric_rate[j].elec_rate_group:= dataElectricRate.FieldByName('ELECTR_GROUP').AsString;
+//      list_electric_rate[j].elec_rate_power:= dataElectricRate.FieldByName('ELECTR_POWER').AsFloat;
+//      list_electric_rate[j].elec_rate_charge:= dataElectricRate.FieldByName('ELECTR_COST_ABODEMEN').AsCurrency;
+//
+//      strgElectricCustomer.Combobox.Items.Add(dataElectricRate.FieldByName('ELECTR_GROUP').AsString);
+//      dataElectricRate.Next;
+//    end;
+//    strgElectricCustomer.Combobox.ItemIndex:= 0;
+//  end;
+//  }
+//end;
 
 procedure TfrmElectricCustomer.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -684,9 +684,9 @@ begin
 end;
 
 procedure TfrmElectricCustomer.btnPrintClick(Sender: TObject);
-var
-  sSQL: string;
-  aCustCode: String;
+//var
+//  sSQL: string;
+//  aCustCode: String;
 begin
   inherited;
   {

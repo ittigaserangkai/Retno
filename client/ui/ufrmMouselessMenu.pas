@@ -66,7 +66,7 @@ var
   frmMouselesMenu: TfrmMouselesMenu;
 
 const
-  _MaxItemRows : Integer = 8;
+  _MaxItemRows : Integer = 10;
 
 implementation
 

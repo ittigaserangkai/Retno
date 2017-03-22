@@ -1094,6 +1094,7 @@ begin
   if (not Result) {and (ShowWarning)} then
   begin
     SetFocusRec(EmptyCtrl);
+    Application.ProcessMessages;
     If ShowWarning then
     begin
       if EmptyCtrl.HelpKeyword <> '' then
@@ -1102,6 +1103,7 @@ begin
         sMsg := 'Input Tidak Boleh Kosong';
       TAppUtils.Warning(sMsg);
     end;
+
   end;
 end;
 
@@ -1109,12 +1111,13 @@ end;
 procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
-  if Key = VK_RETURN then
+  if (Key = VK_RETURN) and (not (ssCtrl in Shift))  then
   begin
     if Sender is TcxExtLookupComboBox then
       Key := VK_TAB
     else
       SelectNext(Screen.ActiveControl, True, True);
+
   end else if Key = VK_F5 then
   begin
 //    if Sender is TcxExtLookupComboBox then

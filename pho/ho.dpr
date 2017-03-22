@@ -161,7 +161,9 @@ uses
   uModMember in '..\model\uModMember.pas',
   ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
   ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
-  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
+  uFrmGenPO in '..\module\merchandise\uFrmGenPO.pas' {frmGenPO},
+  uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp};
 
 {$R *.res}
 

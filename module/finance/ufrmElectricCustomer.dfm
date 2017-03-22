@@ -236,7 +236,7 @@ inherited frmElectricCustomer: TfrmElectricCustomer
       ExplicitWidth = 702
       inherited lbEscape: TLabel
         Left = 628
-        Height = 17
+        ExplicitLeft = 628
       end
     end
   end

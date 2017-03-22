@@ -3,7 +3,7 @@
         <ProjectGuid>{A129B2AD-FBEC-4746-A4D0-AE2BB4DF269A}</ProjectGuid>
         <MainSource>ho.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
@@ -519,6 +519,14 @@
             <Form>frmMouselesMenu</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\merchandise\uFrmGenPO.pas">
+            <Form>frmGenPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\uFrmPODisp.pas">
+            <Form>frmPODisp</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -548,7 +556,7 @@
                 <Platform value="Win32">True</Platform>
             </Platforms>
             <Deployment Version="2">
-                <DeployFile LocalName="ho.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\build\Retno\bin\ho.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ho.exe</RemoteName>
                         <Overwrite>true</Overwrite>

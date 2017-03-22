@@ -51,7 +51,6 @@ object frmMouselesMenu: TfrmMouselesMenu
     Height = 45
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 360
     object lbCTRLDel: TLabel
       AlignWithMargins = True
       Left = 453
@@ -127,9 +126,5 @@ object frmMouselesMenu: TfrmMouselesMenu
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 48
-    ExplicitTop = 112
-    ExplicitWidth = 185
-    ExplicitHeight = 41
   end
 end
