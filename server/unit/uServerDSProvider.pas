@@ -46,6 +46,7 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Barang_GetDSOverview: TDataSet;
+    function Gudang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
@@ -398,6 +399,16 @@ begin
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
       +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
 
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Gudang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S:= 'select GUDANG_ID, GUD_CODE as KODE, GUD_NAME as NAMA, GUD_ADDRESS as ALAMAT, GUD_TELP as TELEPON,'
+      + ' GUD_FAX as FAX, GUD_CITY as KOTA, GUD_POST_CODE as [KODE POS], GUD_CONTACT_PERSON as KONTAK'
+      + ' from GUDANG'  ;
   Result := TDBUtils.OpenQuery(S);
 end;
 
