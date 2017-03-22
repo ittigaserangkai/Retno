@@ -18,7 +18,7 @@ type
     FGUD_POST_CODE: string;
     FGUD_TELP: string;
   public
-    function GetTableName: string; override;
+    class function GetTableName: string; override;
   published
     [AttributeOfForeign('AUT$UNIT_ID')]
     property AutUnit: TModUnit read FAutUnit write FAutUnit;
@@ -36,7 +36,7 @@ type
 
 implementation
 
-function TModGudang.GetTableName: string;
+class function TModGudang.GetTableName: string;
 begin
   Result := 'Gudang'
 
