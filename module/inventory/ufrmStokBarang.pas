@@ -182,7 +182,8 @@ var
   dtAwal    : TDateTime;
   dtAkhir   : TDateTime;
 begin
-//  dtAwal  := StartOfAMonth(YearOf(cGetServerTime), MonthOf(cGetServerTime));
+  Result := 0;
+  dtAwal  := StartOfAMonth(YearOf(Now), MonthOf(Now));
   dtAkhir := EndOfTheMonth(dtAwal);
   sSQL := 'select SUM(QTY) from SP_KARTOK(' + QuotedStr(aKodeBrg)
                   + ',' + IntToStr(aUnitID) + ',' + TAppUtils.QuotD(dtAwal) + ','
@@ -319,6 +320,7 @@ function TfrmStokBarang.GetHargaJual(aKodeBrg:String; aUnitID : Integer):
 var
   sSQL: string;
 begin
+  Result := 0;
   sSQL := 'Select (KONVSAT_SCALE*BHJ_SELL_PRICE) as Price'
         + ' From Barang B '
         + ' Left Join BARANG_HARGA_JUAL BHJ on B.BRG_CODE = BHJ.BHJ_BRG_CODE '

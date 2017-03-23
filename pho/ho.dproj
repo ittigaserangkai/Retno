@@ -80,6 +80,7 @@
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <DCC_Hints>false</DCC_Hints>
         <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>

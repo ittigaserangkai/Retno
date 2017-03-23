@@ -7,7 +7,6 @@ inherited frmDialogUnit: TfrmDialogUnit
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnClose = FormClose
-  ExplicitTop = -151
   ExplicitWidth = 868
   ExplicitHeight = 546
   PixelsPerInch = 96

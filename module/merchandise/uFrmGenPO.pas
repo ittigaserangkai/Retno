@@ -1359,6 +1359,7 @@ var
   dtValid : TDate;
   iValidOpt : Byte;
 begin
+  Result := 0;
   if chkOtomatis.Checked then
     iValidOpt := 0 //otomatis
   else if chkManual.Checked then
@@ -1401,6 +1402,7 @@ end;
 function TfrmGenPO.isiPOStores(aKol, aRow, aPOItemID : Integer): Double;
 var iTmpSODID : Integer;
 begin
+  Result :=0;
    {
     if agSOData.Ints[aKol +1, aRow] > 0 then
       iTmpSODID := agSOData.Ints[aKol +1, aRow]
