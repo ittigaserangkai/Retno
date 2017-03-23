@@ -74,7 +74,7 @@ type
     FStatusForm: TStatusForm;
     FIsProcessSuccessfull: Boolean;
     procedure ParseDataPotonganTagihanContrabonByDateAndType(ADate: TDateTime; AType: string);
-    procedure ClearComponent;
+//    procedure ClearComponent;
     procedure ParseDataSuplierByType(AType: string);
     procedure SetStatusForm(const Value: TStatusForm);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -386,22 +386,22 @@ begin
   FIsProcessSuccessfull := Value;
 end;
 
-procedure TfrmPemakaianBarcode.ClearComponent;
-begin
-  dtBarcode.Text := '  -  -    ';
-  cbbTipeSuplier.ItemIndex := -1;
-  curredtHarga.Value := 0;
-  edtDescription.Clear;
-//  grdMain.ClearRows(1, grdMain.RowCount - 1);
-//  grdMain.RowCount := 2;
-  intedtTotalQty.Value := 0;
-  curredtTotalPrice.Value := 0;
-end;
+//procedure TfrmPemakaianBarcode.ClearComponent;
+//begin
+//  dtBarcode.Text := '  -  -    ';
+//  cbbTipeSuplier.ItemIndex := -1;
+//  curredtHarga.Value := 0;
+//  edtDescription.Clear;
+////  grdMain.ClearRows(1, grdMain.RowCount - 1);
+////  grdMain.RowCount := 2;
+//  intedtTotalQty.Value := 0;
+//  curredtTotalPrice.Value := 0;
+//end;
 
 procedure TfrmPemakaianBarcode.ParseDataPotonganTagihanContrabonByDateAndType(
   ADate: TDateTime; AType: string);
 var dataPemakaianBarcode: TDataSet;
-    i: Integer;
+//    i: Integer;
 begin
   {dataPemakaianBarcode := GetListPemakaianBarcodeByDateAndSuplierType(MasterNewUnit.ID, AType, ADate);
   dataPemakaianBarcode.Last;                       // GetListPotonganTagihanContrabonByDateAndType

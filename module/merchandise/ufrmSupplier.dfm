@@ -5,6 +5,7 @@ inherited frmSupplier: TfrmSupplier
   ClientHeight = 486
   ClientWidth = 803
   OldCreateOrder = True
+  ExplicitTop = -28
   ExplicitWidth = 819
   ExplicitHeight = 525
   PixelsPerInch = 96
@@ -33,6 +34,32 @@ inherited frmSupplier: TfrmSupplier
           Height = 350
           ExplicitWidth = 779
           ExplicitHeight = 350
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              DataBinding.FieldName = 'SUPLIER_ID'
+              Visible = False
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'KODE SUPPLIER'
+              DataBinding.FieldName = 'SUP_CODE'
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'NAMA'
+              DataBinding.FieldName = 'SUP_NAME'
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'KOTA'
+              DataBinding.FieldName = 'SUP_CITY'
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              Caption = 'TELEPON'
+              DataBinding.FieldName = 'SUP_TELP'
+            end
+            object cxGridViewColumn6: TcxGridDBColumn
+              Caption = 'FAX'
+              DataBinding.FieldName = 'SUP_FAX'
+            end
+          end
         end
       end
       object cxTabSheet1: TcxTabSheet
@@ -909,8 +936,8 @@ inherited frmSupplier: TfrmSupplier
     end
   end
   inherited actlstBrowse: TActionList
-    Left = 286
-    Top = 47
+    Left = 55
+    Top = 146
     inherited actAdd: TAction
       OnExecute = actAddExecute
     end

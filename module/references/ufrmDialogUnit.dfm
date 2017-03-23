@@ -7,7 +7,6 @@ inherited frmDialogUnit: TfrmDialogUnit
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnClose = FormClose
-  ExplicitTop = -151
   ExplicitWidth = 868
   ExplicitHeight = 546
   PixelsPerInch = 96
@@ -232,12 +231,14 @@ inherited frmDialogUnit: TfrmDialogUnit
       OnClick = chkActiveClick
     end
     object edCode: TcxTextEdit
+      Tag = 1
       Left = 107
       Top = 8
       TabOrder = 0
       Width = 78
     end
     object edNama: TcxTextEdit
+      Tag = 1
       Left = 235
       Top = 8
       TabOrder = 1

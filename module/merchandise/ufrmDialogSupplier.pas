@@ -9,12 +9,13 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxTextEdit, cxCurrencyEdit,
   System.Actions, ufraFooterDialog3Button, Vcl.Mask, Vcl.StdCtrls, cxButtonEdit,
-  dxBarBuiltInMenu, cxPC;
+  dxBarBuiltInMenu, cxPC, uModSuplier, uDMClient, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox, uInterface;
 
 type
   TFormMode = (fmAddSup, fmAddMer, fmEdit);
 
-  TfrmDialogSupplier = class(TfrmMasterDialog)
+  TfrmDialogSupplier = class(TfrmMasterDialog,ICRUDAble)
     pc1: TcxPageControl;
     tsSupplier: TcxTabSheet;
     tsMerchandiseGroup: TcxTabSheet;
@@ -41,7 +42,6 @@ type
     bvl2: TBevel;
     edtAccountName: TEdit;
     edtAccountNo: TEdit;
-    edtBankName: TEdit;
     cbbPKP: TComboBox;
     lbl36: TLabel;
     edtTaxNo: TEdit;
@@ -116,16 +116,11 @@ type
     Label5: TLabel;
     Label4: TLabel;
     medtNPWP: TMaskEdit;
-    cbTipePerusahaan: TComboBox;
-    cbTipeSupplier: TComboBox;
-    edKodeBank: TcxButtonEdit;
     cbpBankCodeMer: TcxButtonEdit;
     cbpDeliverPO: TComboBox;
     cbpPayment: TComboBox;
     cbpMerchGroup: TComboBox;
     Label6: TLabel;
-    edtSuppGrpNo: TEdit;
-    edtSuppGrpNm: TEdit;
     edtCabangBank: TEdit;
     Label7: TLabel;
     edtBankBranch: TEdit;
@@ -143,12 +138,22 @@ type
     chkAllMer: TCheckBox;
     edtNPWPAlamat: TEdit;
     Label13: TLabel;
+    cxLookUpBank: TcxExtLookupComboBox;
+    Label14: TLabel;
+    cxLookupTipePerush: TcxExtLookupComboBox;
+    cxLookUpSuppGroup: TcxExtLookupComboBox;
+    cxLookUpSupType: TcxExtLookupComboBox;
+    procedure FormCreate(Sender: TObject);
 
 
   private
+    FModSupplier: TModSuplier;
+    function GetModSupplier: TModSuplier;
+    property ModSupplier: TModSuplier read GetModSupplier write FModSupplier;
 
 
   public
+    procedure LoadData(ID: String);
   published
   end;
 
@@ -157,7 +162,74 @@ var
 
 implementation
 
+uses
+  uDXUtils;
+
 
 {$R *.dfm}
+
+procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
+begin
+  inherited;
+  cxLookUpBank.LoadFromDS(
+    DMClient.DSProviderClient.Bank_GetDSLookup,
+      'BANK_ID','BANK_NAME',['BANK_ID'],self
+    );
+  cxLookUpBank.SetMultiPurposeLookup;
+
+  cxLookupTipePerush.LoadFromDS(
+    DMClient.DSProviderClient.TipePerusahaan_GetDSLookup,
+      'REF$TIPE_PERUSAHAAN_ID','TPPERSH_NAME',['REF$TIPE_PERUSAHAAN_ID'],self
+    );
+
+  cxLookUpSupType.LoadFromDS(
+    DMClient.DSProviderClient.TipeSuplier_GetDSLookup,
+      'REF$TIPE_SUPLIER_ID','TPSUP_NAME',['REF$TIPE_SUPLIER_ID'],self
+    );
+
+  cxLookUpSuppGroup.LoadFromDS(
+    DMClient.DSProviderClient.SuplierGroup_GetDSLookup,
+      'SUPLIER_GROUP_ID', 'GROUP_NAME', ['SUPLIER_GROUP_ID'],self
+    );
+
+
+end;
+
+function TfrmDialogSupplier.GetModSupplier: TModSuplier;
+begin
+  if not Assigned(FModSupplier) then
+    FModSupplier := TModSuplier.Create;
+  Result := FModSupplier;
+end;
+
+procedure TfrmDialogSupplier.LoadData(ID: String);
+begin
+  if Assigned(FModSupplier) then FreeAndNil(FModSupplier);
+  FModSupplier := DMclient.CrudClient.Retrieve(TModSuplier.ClassName, ID) as TModSuplier;
+
+  edtSupCode.Text := ModSupplier.SUP_CODE;
+  cxLookupTipePerush.EditValue := ModSupplier.TIPE_PERUSAHAAN.ID;
+  edtSupName.Text := ModSupplier.SUP_NAME;
+  edtAddress.Text := ModSupplier.SUP_ADDRESS;
+  edtCity.Text := ModSupplier.SUP_CITY;
+  edtPostCode.Text := ModSupplier.SUP_POST_CODE;
+  edtPhone.Text := ModSupplier.SUP_TELP;
+  edtFax.Text := ModSupplier.SUP_FAX;
+  edtContactP.Text := ModSupplier.SUP_CONTACT_PERSON;
+  edtTitle.Text := ModSupplier.SUP_TITLE;
+  cxLookUpSupType.EditValue := ModSupplier.TIPE_SUPLIER.ID;
+  cbbPKP.ItemIndex := ModSupplier.SUP_IS_PKP;
+  edtTaxNo.Text := ModSupplier.SUP_LR_TAX;
+  medtNPWP.Text := ModSupplier.SUP_NPWP;
+  edtNPWPAlamat.Text := ModSupplier.SUP_NPWP_ALAMAT;
+  cxLookUpBank.EditValue := ModSupplier.BANK.ID;
+  edtCabangBank.Text := ModSupplier.SUP_BANK_BRANCH;
+  edtAlamatBank.Text := ModSupplier.SUP_BANK_ADDRESS;
+  edtAccountNo.Text := ModSupplier.SUP_BANK_ACCOUNT_NO;
+  edtAccountName.Text := ModSupplier.SUP_BANK_ACCOUNT_NAME;
+  cxLookUpSuppGroup.EditValue := ModSupplier.SUPLIER_GROUP.ID;
+  chkSupActive.Checked := ModSupplier.SUP_IS_ACTIVE=1;
+
+end;
 
 end.
