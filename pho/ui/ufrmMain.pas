@@ -286,7 +286,11 @@ type
     SupplierGroup1: TMenuItem;
     actListingQuotationHargaBeli: TAction;
     actListingQuotationMailer: TAction;
+    actLaporanStok: TAction;
+    actListingPObyMG: TAction;
     procedure actBankExecute(Sender: TObject);
+    procedure actCancPOExecute(Sender: TObject);
+    procedure actChangeStatPOExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
@@ -299,6 +303,8 @@ type
     procedure actHariLiburExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
+    procedure actLaporanStokExecute(Sender: TObject);
+    procedure actListingPObyMGExecute(Sender: TObject);
     procedure actListingQuotationHargaBeliExecute(Sender: TObject);
     procedure actListingQuotationMailerExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
@@ -385,7 +391,8 @@ uses
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
   ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
-  ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO;
+  ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
+  ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup;
 
 {$R *.dfm}
 
@@ -426,6 +433,16 @@ end;
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
   frmBank := tfrmBank.Create(Self);
+end;
+
+procedure TfrmMain.actCancPOExecute(Sender: TObject);
+begin
+    frmCancellationPO := TfrmCancellationPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actChangeStatPOExecute(Sender: TObject);
+begin
+    frmChangeStatusPO := TfrmChangeStatusPO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -533,6 +550,18 @@ end;
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
 begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actLaporanStokExecute(Sender: TObject);
+begin
+    frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
+
+end;
+
+procedure TfrmMain.actListingPObyMGExecute(Sender: TObject);
+begin
+    frmListingPOByMerchandisingGroup := TfrmListingPOByMerchandisingGroup.CreateWithUser(Application, FFormProperty);
+
 end;
 
 procedure TfrmMain.actListingQuotationHargaBeliExecute(Sender: TObject);

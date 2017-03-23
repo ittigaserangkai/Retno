@@ -1,0 +1,411 @@
+inherited frmListingPOByMerchandisingGroup: TfrmListingPOByMerchandisingGroup
+  Left = 41
+  Top = 176
+  Caption = 'Listing Purchase Order By Merchandising Group'
+  ClientHeight = 407
+  ClientWidth = 793
+  OldCreateOrder = True
+  ExplicitWidth = 809
+  ExplicitHeight = 446
+  PixelsPerInch = 96
+  TextHeight = 16
+  inherited pnlBody: TPanel
+    Width = 793
+    Height = 318
+    BorderWidth = 0
+    ExplicitWidth = 793
+    ExplicitHeight = 318
+    inherited pgcBrowse: TcxPageControl
+      Left = 1
+      Top = 122
+      Width = 791
+      Height = 195
+      TabOrder = 1
+      ExplicitLeft = 1
+      ExplicitTop = 122
+      ExplicitWidth = 791
+      ExplicitHeight = 140
+      ClientRectBottom = 194
+      ClientRectRight = 790
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 789
+        ExplicitHeight = 138
+        inherited cxGrid: TcxGrid
+          Width = 789
+          Height = 193
+          ExplicitWidth = 789
+          ExplicitHeight = 138
+        end
+      end
+    end
+    object Panel1: TPanel
+      Left = 1
+      Top = 1
+      Width = 791
+      Height = 121
+      Align = alTop
+      TabOrder = 0
+      DesignSize = (
+        791
+        121)
+      object lbl1: TLabel
+        Left = 200
+        Top = 21
+        Width = 15
+        Height = 16
+        Caption = 's.d'
+      end
+      object lbl2: TLabel
+        Left = 16
+        Top = 21
+        Width = 37
+        Height = 16
+        Caption = 'Periode'
+      end
+      object lbl3: TLabel
+        Left = 16
+        Top = 48
+        Width = 32
+        Height = 16
+        Caption = 'Status'
+      end
+      object lbl4: TLabel
+        Left = 16
+        Top = 75
+        Width = 68
+        Height = 16
+        Caption = 'Merch. Group'
+      end
+      object Label1: TLabel
+        Left = 15
+        Top = 101
+        Width = 64
+        Height = 16
+        Caption = 'Merchandize'
+      end
+      object chkMerGrup: TCheckBox
+        Left = 322
+        Top = 75
+        Width = 97
+        Height = 17
+        Caption = 'Semua'
+        TabOrder = 0
+        OnClick = chkMerGrupClick
+      end
+      object chkStatus: TCheckBox
+        Left = 322
+        Top = 48
+        Width = 97
+        Height = 17
+        Caption = 'Semua'
+        TabOrder = 1
+      end
+      object dtp2: TDateTimePicker
+        Left = 226
+        Top = 17
+        Width = 97
+        Height = 24
+        Date = 39391.525717592600000000
+        Time = 39391.525717592600000000
+        TabOrder = 2
+      end
+      object dtp1: TDateTimePicker
+        Left = 96
+        Top = 17
+        Width = 97
+        Height = 24
+        Date = 39391.525717592600000000
+        Time = 39391.525717592600000000
+        TabOrder = 3
+      end
+      object cbbStatus: TComboBox
+        Left = 96
+        Top = 44
+        Width = 225
+        Height = 24
+        BevelKind = bkFlat
+        Style = csDropDownList
+        CharCase = ecUpperCase
+        TabOrder = 4
+      end
+      object cbbMerGroup: TComboBox
+        Left = 96
+        Top = 71
+        Width = 225
+        Height = 24
+        BevelKind = bkFlat
+        Style = csDropDownList
+        CharCase = ecUpperCase
+        TabOrder = 5
+        OnChange = cbbMerGroupChange
+      end
+      object btnShow: TcxButton
+        Left = 337
+        Top = 13
+        Width = 80
+        Height = 30
+        Cursor = crHandPoint
+        Caption = 'Show'
+        OptionsImage.Glyph.Data = {
+          36060000424D3606000000000000360000002800000020000000100000000100
+          18000000000000060000C40E0000C40E00000000000000000000FF00FF7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F404040FF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FF606060
+          FFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDCDCFFFF
+          FFDCDCDC404040FF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          606060DCDCDCD78300D78300D78300D78300D78300D78300D78300D78300DCDC
+          DC404040FF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF663333
+          663333DE9A3EBFBFBFDE9A3EBFBFBFDE9A3EBFBFBFDE9A3EBFBFBFDE9A3E4040
+          40663333663333FF00FFFF00FF7F7F7F7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7F7F7F7F7F7F7FFFFFFFFF00FFB97A00
+          FFCC996633336633336633336633336633336633336633336633336633336633
+          33CC6600663333FF00FFFF00FF7F7F7FFFFFFF7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FF7F7F7FFFFFFFFF00FFB97A00
+          FFCC99FFCC99FF9900FFCC99FF9900FFCC99FF9900FFCC99FF9900FFCC997F7F
+          7FCC6600663333FF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFB97A00
+          FFCC99FF9900FFCC99FF9900FFCC99FF9900FFCC99FF9900FFCC990033FF0033
+          FFCC6600663333FF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFF00FF7F7F7FFFFFFFFF00FFB97A00
+          FFCC99FFCC99FFCC99FFCC99FFCC99FFCC99FFCC99FFCC99FFCC9900CCFF00CC
+          FFCC6600663333FF00FFFF00FF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFF7F7F7F7F7F7FFFFFFF7F7F7FFFFFFFFF00FFB97A00
+          FFFFDE9933009933009933009933009933009933009933009933009933009933
+          00CC6600663333FF00FFFF00FF7F7F7FFFFFFF7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF7F7F7FFFFFFFFF00FFDE9A3E
+          B97A00993300FFCC99FFCC99FFCC99FFCC99FFCC99FFCC99FFCC99FFCC999933
+          00993300DE9A3EFF00FFFF00FF7F7F7FFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFF7F7F7FFFFFFFFF00FFFF00FF
+          B97A009F9F9FDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBF6060
+          60993300FF00FFFF00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF
+          FF00FF9F9F9FFFFFFFDCDCDCFFFFFFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBF6060
+          60FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF
+          00FFFF00FFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FF
+          FF00FF9F9F9FDCDCDCFFFFFFDCDCDCFFFFFFDCDCDC7F7F7F6060606060606060
+          60FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF
+          00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FF9F9F9FFFFFFFFFFFFFFFFFFFDCDCDCBFBFBF9F9F9FFFFFFF606060FF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF
+          00FFFF00FF7F7F7FFFFFFF7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FF9F9F9FFFFFFFFFFFFFDCDCDCFFFFFFDCDCDC9F9F9F606060FF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFF7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FF9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9FFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
+        TabOrder = 6
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object btnSvExcel: TcxButton
+        Left = 427
+        Top = 14
+        Width = 80
+        Height = 30
+        Cursor = crHandPoint
+        Anchors = [akLeft, akBottom]
+        Caption = 'Ex Excel'
+        OptionsImage.Glyph.Data = {
+          36060000424D3606000000000000360000002800000020000000100000000100
+          18000000000000060000C40E0000C40E00000000000000000000FF00FFFF00FF
+          FF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBF
+          BFBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FDCDCDC7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FF
+          FF00FF005032005032005032005032DCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBF
+          BFBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FF009900009900009900005032BFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDC
+          DCBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7FFF
+          FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FF00990033CC66009900005032DCDCDCDCDCDCDCDCDCBFBFBFDCDCDCBFBF
+          BFDCDCDCBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7FFF00FFFF00FF7F7F7FFF
+          FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900009900
+          00990000990033CC6633CC66005032005032005032005032DCDCDCBFBFBFDCDC
+          DCBFBFBFDCDCDC7F7F7FFFFFFFFFFFFFFFFFFF7F7F7FFF00FFFF00FF7F7F7FFF
+          FFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900CCFFCC
+          66FF9933CC6633CC6633CC6633CC66009900009900005032DCDCDCDCDCDCBFBF
+          BFDCDCDCBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FF7F7F7F7F
+          7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900CCFFCC
+          66FF9966FF9933CC6633CC6633CC6633CC66009900005032DCDCDCDCDCDCDCDC
+          DCBFBFBFDCDCDC7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900009900
+          009900009900CCFFCC33CC66009900009900009900005032DCDCDCDCDCDCDCDC
+          DCDCDCDCBFBFBF7F7F7F7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF
+          00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FF009900CCFFCC66FF99005032FFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDC
+          DCBFBFBFDCDCDC7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FF7F7F7F7F
+          7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FF009900CCFFCC66FF99005032DCDCDCFFFFFFDCDCDCFFFFFFDCDCDCDCDC
+          DCDCDCDCBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFF
+          FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FF009900009900009900005032FFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDC
+          DCDCDCDCDCDCDC7F7F7FFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFF
+          FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFBFBFBFFFFFFFFFFFFFFFFFFFDCDCDCFFFFFFDCDCDCFFFF
+          FFDCDCDCBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7FFF
+          FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFDCDCDCFFFFFFDCDC
+          DCDCDCDCDCDCDC7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+          BFBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F
+          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F}
+        TabOrder = 7
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object cbbMerch: TComboBox
+        Left = 95
+        Top = 97
+        Width = 225
+        Height = 24
+        BevelKind = bkFlat
+        Style = csDropDownList
+        CharCase = ecUpperCase
+        TabOrder = 8
+      end
+      object chkMerch: TCheckBox
+        Left = 321
+        Top = 101
+        Width = 97
+        Height = 17
+        Caption = 'Semua'
+        TabOrder = 9
+      end
+      object GroupBox1: TGroupBox
+        Left = 536
+        Top = 24
+        Width = 225
+        Height = 81
+        Caption = 'Kriteria Cetak'
+        TabOrder = 10
+        object optRptStatus: TRadioButton
+          Left = 8
+          Top = 16
+          Width = 113
+          Height = 17
+          Caption = 'Status'
+          TabOrder = 0
+          OnClick = optRptStatusClick
+        end
+        object optRptMerGrp: TRadioButton
+          Left = 8
+          Top = 36
+          Width = 113
+          Height = 17
+          Caption = 'Group'
+          TabOrder = 1
+          OnClick = optRptMerGrpClick
+        end
+        object optRptMer: TRadioButton
+          Left = 9
+          Top = 57
+          Width = 113
+          Height = 17
+          Caption = 'Merchandize'
+          TabOrder = 2
+          OnClick = optRptMerClick
+        end
+      end
+    end
+  end
+  inherited pnlHeader: TPanel
+    Width = 793
+    ExplicitWidth = 793
+    inherited lblHeader: TLabel
+      Width = 288
+      Caption = 'LISTING PURCHASE ORDER BY MERCHANDISING GROUP'
+      ExplicitWidth = 288
+    end
+    inherited lblFilterData: TcxLabel
+      Left = 439
+      ExplicitLeft = 439
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 500
+      ExplicitLeft = 500
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 616
+      ExplicitLeft = 616
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 711
+      ExplicitLeft = 711
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 592
+      ExplicitLeft = 592
+      AnchorY = 17
+    end
+  end
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 351
+    Width = 793
+    ExplicitTop = 351
+    ExplicitWidth = 793
+    inherited pnlFooter: TPanel
+      Width = 793
+      ExplicitWidth = 793
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 716
+        Action = actClose
+        ExplicitLeft = 716
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
+    end
+    inherited pnlShortCut: TPanel
+      Width = 793
+      ExplicitWidth = 793
+      inherited lbEscape: TLabel
+        Left = 719
+        Height = 17
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
+    end
+  end
+  object DlgSv: TSaveDialog
+    DefaultExt = 'Excel'
+    Filter = 'Excel|*.xls'
+    Left = 505
+    Top = 39
+  end
+end

@@ -11,7 +11,7 @@ uses
   cxButtonEdit, System.Actions, ufraFooter4Button, cxButtons, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, cxPC;
+  cxGrid, cxPC, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmCetakPO = class(TfrmMasterBrowse)
@@ -22,7 +22,7 @@ type
     lbl4: TLabel;
     edtNoPO1: TEdit;
     edtNoPO2: TEdit;
-    btnShowPO: TcxButtonEdit;
+    btnShowPO: TcxButton;
     edtNamaSuplier: TEdit;
     Label1: TLabel;
     cbpMerchandCode: TComboBox;
@@ -34,7 +34,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    CbpKodeSuplier: TcxButtonEdit;
+    CbpKodeSuplier: TcxExtLookupComboBox;
     procedure actPrintExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);

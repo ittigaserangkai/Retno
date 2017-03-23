@@ -144,7 +144,6 @@ uses
   ufrmCompany in '..\module\references\ufrmCompany.pas' {frmCompany},
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
-  uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
@@ -171,6 +170,11 @@ uses
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
   ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
   ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  ufrmCancellationPO in '..\module\merchandise\ufrmCancellationPO.pas' {frmCancellationPO},
+  ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
+  ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
+  ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup},
+  uModUnit in '..\model\uModUnit.pas',
   uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
