@@ -981,6 +981,7 @@ object frmMain: TfrmMain
     object actPrintPO: TAction
       Category = 'Merchandise'
       Caption = 'actPrintPO'
+      OnExecute = actPrintPOExecute
     end
     object actApprovalPO: TAction
       Category = 'Merchandise'

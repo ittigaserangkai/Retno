@@ -312,6 +312,7 @@ type
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actPajakExecute(Sender: TObject);
+    procedure actPrintPOExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
     procedure actQuotationExecute(Sender: TObject);
@@ -384,7 +385,7 @@ uses
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
   ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
-  ufrmListQuotHB, ufrmListQuotMailer;
+  ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO;
 
 {$R *.dfm}
 
@@ -699,6 +700,11 @@ end;
 procedure TfrmMain.actPajakExecute(Sender: TObject);
 begin
   frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actPrintPOExecute(Sender: TObject);
+begin
+    frmCetakPO := TfrmCetakPO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);
