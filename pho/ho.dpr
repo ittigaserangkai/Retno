@@ -169,7 +169,8 @@ uses
   uDMReport in '..\system\uDMReport.pas' {dmReport},
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
-  ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer};
+  ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO};
 
 {$R *.res}
 
