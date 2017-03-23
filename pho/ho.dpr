@@ -174,7 +174,13 @@ uses
   ufrmCancellationPO in '..\module\merchandise\ufrmCancellationPO.pas' {frmCancellationPO},
   ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
   ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
-  ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup};
+  ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup},
+  ufrmHistoryPO in '..\module\merchandise\ufrmHistoryPO.pas' {frmHistoryPO},
+  ufrmPrintHistoryPOBySupplier in '..\module\merchandise\ufrmPrintHistoryPOBySupplier.pas' {frmPrintHistoryPOBySupplier},
+  ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
+  ufrmRetur in '..\module\inventory\ufrmRetur.pas' {frmRetur},
+  ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
+  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur};
 
 {$R *.res}
 
