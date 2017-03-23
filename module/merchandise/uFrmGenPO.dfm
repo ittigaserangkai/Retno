@@ -368,7 +368,7 @@ inherited frmGenPO: TfrmGenPO
         Left = 754
         Top = 1
         Width = 29
-        Height = 17
+        Height = 16
         Align = alRight
         Alignment = taRightJustify
         Caption = 'lbHint'
@@ -378,7 +378,6 @@ inherited frmGenPO: TfrmGenPO
         Font.Name = 'Trebuchet MS'
         Font.Style = []
         ParentFont = False
-        ExplicitHeight = 16
       end
     end
   end
@@ -413,16 +412,11 @@ inherited frmGenPO: TfrmGenPO
       ExplicitWidth = 788
       inherited lbCTRLEnter: TLabel
         Left = 613
-        Height = 15
         ExplicitLeft = 613
       end
       inherited lbEscape: TLabel
         Left = 704
-        Height = 15
         ExplicitLeft = 704
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end
