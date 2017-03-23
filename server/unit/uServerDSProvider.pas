@@ -56,6 +56,8 @@ type
     function Suplier_GetDSOverview: TDataSet;
     function TipePerusahaan_GetDSLookup: TDataSet;
     function TipeSuplier_GetDSLookup: TDataSet;
+    function Propinsi_GetDSLookUp: TDataSet;
+    function Kabupaten_GetDSLookUp: TDataSet;
 
 
   end;
@@ -343,7 +345,7 @@ function TDSProvider.Unit_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM AUT$UNIT';
+  S := 'SELECT * FROM V_AUT$UNIT';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -351,7 +353,7 @@ function TDSProvider.Unit_GetDSLookUp: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT UNT_CODE, UNT_NAME, AUT$UNIT_ID FROM AUT$UNIT';
+  S := 'SELECT UNT_NAME, UNT_CODE, AUT$UNIT_ID FROM AUT$UNIT';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -498,6 +500,22 @@ var
   S: string;
 begin
   S := 'select TPSUP_CODE, TPSUP_NAME, REF$TIPE_SUPLIER_ID from REF$TIPE_SUPLIER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Propinsi_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select PROP_NAME as NAME, PROPINSI_ID from PROPINSI';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Kabupaten_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select KAB_NAME as NAME,PROPINSI_ID, KABUPATEN_ID from KABUPATEN';
   Result := TDBUtils.OpenQuery(S);
 end;
 

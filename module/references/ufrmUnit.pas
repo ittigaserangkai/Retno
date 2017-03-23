@@ -285,8 +285,8 @@ end;
 procedure TfrmUnit.actRefreshUnitExecute(Sender: TObject);
 begin
   inherited;
- ParseHeader;
- SetData;
+// ParseHeader;
+// SetData;
 end;
 
 procedure TfrmUnit.RefreshData;

@@ -33,7 +33,8 @@ uses
   uModUnit in '..\model\uModUnit.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
-  uModGudang in '..\model\uModGudang.pas';
+  uModGudang in '..\model\uModGudang.pas',
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 
