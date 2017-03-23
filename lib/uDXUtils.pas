@@ -101,6 +101,7 @@ type
 
   TcxDBGridHelper = class helper for TcxGridDBTableView
   private
+    procedure DoFormatHeader;
   public
     procedure AutoFormatCurrency(ADisplayFormat: String = ',0;(,0)');
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
@@ -763,6 +764,17 @@ begin
   Result := TClientDataSet(Self.DS);
 end;
 
+procedure TcxDBGridHelper.DoFormatHeader;
+var
+  I: Integer;
+begin
+  for I := 0 to Self.ColumnCount - 1 do
+  begin
+    Self.Columns[i].Caption := StringReplace(Self.Columns[i].Caption,'_',' ', [rfReplaceAll]);
+    Self.Columns[i].HeaderGlyphAlignmentHorz := taCenter;
+  end;
+end;
+
 procedure TcxDBGridHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
     Boolean = True);
 var
@@ -830,6 +842,8 @@ begin
   Self.DataController.DataSource.DataSet := ACDS;
   Self.DataController.CreateAllItems(True);
 
+  DoFormatHeader;
+
   if AutoFormat then
   begin
     AutoFormatDate;
@@ -841,6 +855,8 @@ begin
     Self.OptionsBehavior.BestFitMaxRecordCount := 100;
     Self.ApplyBestFit;
   end;
+
+
 end;
 
 procedure TcxDBGridHelper.LoadFromSQL(aSQL: String; aOwner: TComponent);
