@@ -990,6 +990,7 @@ object frmMain: TfrmMain
     object actCancPO: TAction
       Category = 'Merchandise'
       Caption = 'actCancPO'
+      OnExecute = actCancPOExecute
     end
     object actDispPO: TAction
       Category = 'Merchandise'
@@ -998,6 +999,7 @@ object frmMain: TfrmMain
     object actChangeStatPO: TAction
       Category = 'Merchandise'
       Caption = 'actChangeStatPO'
+      OnExecute = actChangeStatPOExecute
     end
     object actActionList: TAction
       Category = 'Management User'
@@ -1171,6 +1173,16 @@ object frmMain: TfrmMain
       Category = 'Merchandise'
       Caption = 'actListingQuotationMailer'
       OnExecute = actListingQuotationMailerExecute
+    end
+    object actLaporanStok: TAction
+      Category = 'Inventory'
+      Caption = 'actLaporanStok'
+      OnExecute = actLaporanStokExecute
+    end
+    object actListingPObyMG: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingPObyMG'
+      OnExecute = actListingPObyMGExecute
     end
   end
   object AppEvents: TApplicationEvents

@@ -170,7 +170,11 @@ uses
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
   ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
-  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO};
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  ufrmCancellationPO in '..\module\merchandise\ufrmCancellationPO.pas' {frmCancellationPO},
+  ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
+  ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
+  ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup};
 
 {$R *.res}
 

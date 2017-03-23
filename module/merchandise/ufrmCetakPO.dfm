@@ -14,7 +14,7 @@ inherited frmCetakPO: TfrmCetakPO
     Height = 358
     BorderWidth = 0
     ExplicitWidth = 690
-    ExplicitHeight = 302
+    ExplicitHeight = 358
     inherited pgcBrowse: TcxPageControl
       Left = 1
       Top = 116
@@ -24,19 +24,19 @@ inherited frmCetakPO: TfrmCetakPO
       ExplicitLeft = 1
       ExplicitTop = 116
       ExplicitWidth = 688
-      ExplicitHeight = 185
+      ExplicitHeight = 241
       ClientRectBottom = 240
       ClientRectRight = 687
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 686
-        ExplicitHeight = 183
+        ExplicitHeight = 239
         inherited cxGrid: TcxGrid
           Width = 686
           Height = 239
           ExplicitWidth = 686
-          ExplicitHeight = 183
+          ExplicitHeight = 239
         end
       end
     end
@@ -138,17 +138,23 @@ inherited frmCetakPO: TfrmCetakPO
         TabOrder = 9
         OnKeyUp = edtNoPO1KeyUp
       end
-      object btnShowPO: TcxButtonEdit
+      object btnShowPO: TcxButton
         Left = 372
         Top = 84
-        Cursor = crHandPoint
-        AutoSize = False
-        ParentFont = False
-        Properties.Buttons = <>
-        TabOrder = 10
-        OnClick = btnShowPOClick
-        Height = 27
         Width = 80
+        Height = 27
+        Cursor = crHandPoint
+        Caption = 'Show'
+        OptionsImage.ImageIndex = 18
+        OptionsImage.Images = DMClient.imgListButton
+        TabOrder = 10
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Trebuchet MS'
+        Font.Style = []
+        ParentFont = False
+        OnClick = btnShowPOClick
       end
       object edtNamaSuplier: TEdit
         Left = 215
@@ -221,12 +227,10 @@ inherited frmCetakPO: TfrmCetakPO
         TabOrder = 2
         OnKeyPress = edtDdKeyPress
       end
-      object CbpKodeSuplier: TcxButtonEdit
+      object CbpKodeSuplier: TcxExtLookupComboBox
         Left = 88
         Top = 59
-        Properties.Buttons = <>
         TabOrder = 6
-        Text = '0'
         OnExit = CbpKodeSuplierExit
         OnKeyUp = CbpKodeSuplierKeyUp
         Width = 121
@@ -269,7 +273,7 @@ inherited frmCetakPO: TfrmCetakPO
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 391
     Width = 690
-    ExplicitTop = 335
+    ExplicitTop = 391
     ExplicitWidth = 690
     inherited pnlFooter: TPanel
       Width = 690
@@ -298,6 +302,7 @@ inherited frmCetakPO: TfrmCetakPO
       inherited lbEscape: TLabel
         Left = 616
         Height = 17
+        ExplicitLeft = 616
       end
     end
   end
