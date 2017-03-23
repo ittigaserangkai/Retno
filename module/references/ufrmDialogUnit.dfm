@@ -6,6 +6,7 @@ inherited frmDialogUnit: TfrmDialogUnit
   ClientWidth = 852
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  OnClose = FormClose
   ExplicitWidth = 868
   ExplicitHeight = 546
   PixelsPerInch = 96
@@ -13,7 +14,6 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited pnlBody: TPanel
     Width = 852
     Height = 451
-    ExplicitTop = -1
     ExplicitWidth = 852
     ExplicitHeight = 451
     object lblCode: TLabel
@@ -87,14 +87,6 @@ inherited frmDialogUnit: TfrmDialogUnit
       Height = 16
       Alignment = taRightJustify
       Caption = 'Kabupaten'
-    end
-    object Label9: TLabel
-      Left = 289
-      Top = 168
-      Width = 23
-      Height = 16
-      Alignment = taRightJustify
-      Caption = 'Type'
     end
     object Label10: TLabel
       Left = 72
@@ -195,7 +187,7 @@ inherited frmDialogUnit: TfrmDialogUnit
         'HO'
         'Store'
         'Warehouse')
-      TabOrder = 22
+      TabOrder = 21
     end
     object grpAuthority: TGroupBox
       Left = 456
@@ -203,7 +195,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       Width = 161
       Height = 81
       Caption = 'Authority'
-      TabOrder = 23
+      TabOrder = 22
       object chkAllowPO: TCheckBox
         Left = 16
         Top = 24
@@ -231,12 +223,14 @@ inherited frmDialogUnit: TfrmDialogUnit
       OnClick = chkActiveClick
     end
     object edCode: TcxTextEdit
+      Tag = 1
       Left = 107
       Top = 8
       TabOrder = 0
       Width = 78
     end
     object edNama: TcxTextEdit
+      Tag = 1
       Left = 235
       Top = 8
       TabOrder = 1
@@ -257,22 +251,25 @@ inherited frmDialogUnit: TfrmDialogUnit
     object edRegisterNPWP: TcxDateEdit
       Left = 107
       Top = 398
-      TabOrder = 21
+      TabOrder = 20
       Width = 147
     end
     object cbbAppType: TcxExtLookupComboBox
+      Tag = 1
       Left = 107
       Top = 60
       TabOrder = 4
       Width = 145
     end
     object cbbCompany: TcxExtLookupComboBox
+      Tag = 1
       Left = 107
       Top = 86
       TabOrder = 5
       Width = 145
     end
     object cbbCorporateType: TcxExtLookupComboBox
+      Tag = 1
       Left = 107
       Top = 112
       TabOrder = 6
@@ -281,100 +278,97 @@ inherited frmDialogUnit: TfrmDialogUnit
     object cbbParentUnit: TcxExtLookupComboBox
       Left = 107
       Top = 294
-      TabOrder = 17
+      TabOrder = 16
       Width = 145
     end
     object edContactPerson: TcxTextEdit
       Left = 107
       Top = 242
-      TabOrder = 13
+      TabOrder = 12
       Width = 145
     end
     object edEmail: TcxTextEdit
       Left = 317
       Top = 242
-      TabOrder = 14
+      TabOrder = 13
       Width = 121
     end
     object edRegion: TcxTextEdit
+      Tag = 1
       Left = 107
       Top = 164
       TabOrder = 8
       Width = 145
     end
-    object edType: TcxTextEdit
-      Left = 317
-      Top = 164
-      TabOrder = 9
-      Width = 121
-    end
     object edPhone: TcxTextEdit
       Left = 107
       Top = 268
-      TabOrder = 15
+      TabOrder = 14
       Width = 145
     end
     object edFax: TcxTextEdit
       Left = 317
       Top = 268
-      TabOrder = 16
+      TabOrder = 15
       Width = 121
     end
     object edZIP: TcxTextEdit
       Left = 317
       Top = 216
-      TabOrder = 12
+      TabOrder = 11
       Width = 121
     end
     object cbbPropinsi: TcxExtLookupComboBox
+      Tag = 1
       Left = 107
       Top = 190
-      TabOrder = 10
+      Properties.OnChange = cbbPropinsiPropertiesChange
+      TabOrder = 9
       Width = 145
     end
     object cbbKabupaten: TcxExtLookupComboBox
+      Tag = 1
       Left = 107
       Top = 216
-      TabOrder = 11
+      TabOrder = 10
       Width = 145
     end
     object edNPWPAddress: TcxTextEdit
       Left = 107
       Top = 372
-      TabOrder = 20
+      TabOrder = 19
       Width = 331
     end
     object edNPWPName: TcxTextEdit
       Left = 107
       Top = 346
-      TabOrder = 19
+      TabOrder = 18
       Width = 331
     end
     object edNPWP: TcxTextEdit
       Left = 107
       Top = 320
-      TabOrder = 18
+      TabOrder = 17
       Width = 145
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 451
     Width = 852
-    ExplicitTop = 528
-    ExplicitWidth = 648
+    ExplicitTop = 451
+    ExplicitWidth = 852
     inherited pnlFooter: TPanel
       Width = 852
-      ExplicitWidth = 648
+      ExplicitWidth = 852
       inherited btnClose: TcxButton
         Left = 775
         Action = actCancel
-        ExplicitLeft = 571
+        ExplicitLeft = 775
       end
       inherited btnSave: TcxButton
         Left = 682
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 478
+        ExplicitLeft = 682
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -382,16 +376,16 @@ inherited frmDialogUnit: TfrmDialogUnit
     end
     inherited pnlSortCut: TPanel
       Width = 852
-      ExplicitWidth = 648
+      ExplicitWidth = 852
       inherited lbCTRLEnter: TLabel
         Left = 677
         Height = 15
-        ExplicitLeft = 473
+        ExplicitLeft = 677
       end
       inherited lbEscape: TLabel
         Left = 768
         Height = 15
-        ExplicitLeft = 564
+        ExplicitLeft = 768
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -401,5 +395,11 @@ inherited frmDialogUnit: TfrmDialogUnit
   inherited actlstMasterDialog: TActionList
     Left = 296
     Top = 72
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

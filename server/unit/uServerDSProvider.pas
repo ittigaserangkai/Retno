@@ -45,10 +45,19 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
+    function Bank_GetDSLookup: TDataSet;
     function Barang_GetDSOverview: TDataSet;
+    function Gudang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
+    function AutAPP_GetDSLookup: TDataSet;
     function TipeKirimPO_GetDSOverview: TDataSet;
     function SuplierGroup_GetDSOverview1: TDataSet;
+    function SuplierGroup_GetDSLookup: TDataSet;
+    function Suplier_GetDSOverview: TDataSet;
+    function TipePerusahaan_GetDSLookup: TDataSet;
+    function TipeSuplier_GetDSLookup: TDataSet;
+    function Propinsi_GetDSLookUp: TDataSet;
+    function Kabupaten_GetDSLookUp: TDataSet;
 
 
   end;
@@ -229,7 +238,8 @@ function TDSProvider.TipePerusahaan_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM REF$TIPE_PERUSAHAAN';
+  S := 'select TPPERSH_CODE, TPPERSH_NAME, REF$TIPE_PERUSAHAAN_ID'
+        +' from REF$TIPE_PERUSAHAAN';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -335,7 +345,7 @@ function TDSProvider.Unit_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM AUT$UNIT';
+  S := 'SELECT * FROM V_AUT$UNIT';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -343,7 +353,7 @@ function TDSProvider.Unit_GetDSLookUp: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT UNT_CODE, UNT_NAME, AUT$UNIT_ID FROM AUT$UNIT';
+  S := 'SELECT UNT_NAME, UNT_CODE, AUT$UNIT_ID FROM AUT$UNIT';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -379,6 +389,17 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Bank_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT Bank_ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
+      +' BANK_REK_CODE'
+      +' FROM BANK';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Barang_GetDSOverview: TDataSet;
 var
   S: string;
@@ -400,11 +421,30 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Gudang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S:= 'select GUDANG_ID, GUD_CODE as KODE, GUD_NAME as NAMA, GUD_ADDRESS as ALAMAT, GUD_TELP as TELEPON,'
+      + ' GUD_FAX as FAX, GUD_CITY as KOTA, GUD_POST_CODE as [KODE POS], GUD_CONTACT_PERSON as KONTAK'
+      + ' from GUDANG'  ;
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.RefTipeMember_GetDSOverview: TDataSet;
 var
   S: string;
 begin
   S := 'SELECT * from REF$TIPE_MEMBER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AutAPP_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION, AUT$APP_ID from aut$APP';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -424,6 +464,58 @@ var
 begin
   S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
   +' from SUPLIER_GROUP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SuplierGroup_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select GROUP_NO, GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  +' from SUPLIER_GROUP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Suplier_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select SUPLIER_ID, SUP_CODE, SUP_NAME, SUP_CITY, SUP_TELP, SUP_FAX'
+  +' from'
+  +' SUPLIER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipePerusahaan_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPPERSH_CODE, TPPERSH_NAME, REF$TIPE_PERUSAHAAN_ID'
+        +' from REF$TIPE_PERUSAHAAN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeSuplier_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPSUP_CODE, TPSUP_NAME, REF$TIPE_SUPLIER_ID from REF$TIPE_SUPLIER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Propinsi_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select PROP_NAME as NAME, PROPINSI_ID from PROPINSI';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Kabupaten_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select KAB_NAME as NAME,PROPINSI_ID, KABUPATEN_ID from KABUPATEN';
   Result := TDBUtils.OpenQuery(S);
 end;
 

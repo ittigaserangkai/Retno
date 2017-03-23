@@ -6,25 +6,27 @@ uses
   uModApp;
 
 type
-  TModAuthUser = class(TModApp)
+  TModAutApp = class(TModApp)
   private
-    FUSR_USERNAME: string;
-    FUSR_FULLNAME: string;
+    FAPP_NAME: string;
+    FAPP_CODE: string;
+    FAPP_DESCRIPTION: string;
   public
     class function GetTableName: string; override;
   published
-    property USR_USERNAME: string read FUSR_USERNAME write FUSR_USERNAME;
-    property USR_FULLNAME: string read FUSR_FULLNAME write FUSR_FULLNAME;
+    property APP_NAME: string read FAPP_NAME write FAPP_NAME;
+    property APP_CODE: string read FAPP_CODE write FAPP_CODE;
+    property APP_DESCRIPTION: string read FAPP_DESCRIPTION write FAPP_DESCRIPTION;
   end;
 
 implementation
 
-class function TModAuthUser.GetTableName: string;
+class function TModAutApp.GetTableName: string;
 begin
-  Result := 'AUT$USER';
+  Result := 'AUT$APP';
 end;
 
 initialization
-  TModAuthUser.RegisterRTTI;
+  TModAutApp.RegisterRTTI;
 
 end.

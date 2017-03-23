@@ -210,6 +210,12 @@ object frmMain: TfrmMain
       object MasterProduct1: TMenuItem
         Action = actDataProduct
       end
+      object SupplierGroup1: TMenuItem
+        Action = actSupplierGroup
+      end
+      object actSupplier1: TMenuItem
+        Action = actSupplier
+      end
     end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
@@ -271,8 +277,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 22
-    Top = 172
+    Left = 85
+    Top = 186
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
@@ -970,10 +976,12 @@ object frmMain: TfrmMain
     object actGenPO: TAction
       Category = 'Merchandise'
       Caption = 'actGenPO'
+      OnExecute = actGenPOExecute
     end
     object actPrintPO: TAction
       Category = 'Merchandise'
       Caption = 'actPrintPO'
+      OnExecute = actPrintPOExecute
     end
     object actApprovalPO: TAction
       Category = 'Merchandise'
@@ -982,6 +990,7 @@ object frmMain: TfrmMain
     object actCancPO: TAction
       Category = 'Merchandise'
       Caption = 'actCancPO'
+      OnExecute = actCancPOExecute
     end
     object actDispPO: TAction
       Category = 'Merchandise'
@@ -990,6 +999,7 @@ object frmMain: TfrmMain
     object actChangeStatPO: TAction
       Category = 'Merchandise'
       Caption = 'actChangeStatPO'
+      OnExecute = actChangeStatPOExecute
     end
     object actActionList: TAction
       Category = 'Management User'
@@ -1000,7 +1010,8 @@ object frmMain: TfrmMain
     end
     object actSupplierGroup: TAction
       Category = 'Merchandise'
-      Caption = 'SupplierGroup'
+      Caption = 'Supplier Group'
+      OnExecute = actSupplierGroupExecute
     end
     object actReprintNP: TAction
       Caption = 'actReprintNP'
@@ -1147,6 +1158,31 @@ object frmMain: TfrmMain
       Category = 'Membership'
       Caption = 'Membership'
       OnExecute = actMembershipExecute
+    end
+    object actSupplier: TAction
+      Category = 'Merchandise'
+      Caption = 'Supplier'
+      OnExecute = actSupplierExecute
+    end
+    object actListingQuotationHargaBeli: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingQuotationHargaBeli'
+      OnExecute = actListingQuotationHargaBeliExecute
+    end
+    object actListingQuotationMailer: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingQuotationMailer'
+      OnExecute = actListingQuotationMailerExecute
+    end
+    object actLaporanStok: TAction
+      Category = 'Inventory'
+      Caption = 'actLaporanStok'
+      OnExecute = actLaporanStokExecute
+    end
+    object actListingPObyMG: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingPObyMG'
+      OnExecute = actListingPObyMGExecute
     end
   end
   object AppEvents: TApplicationEvents

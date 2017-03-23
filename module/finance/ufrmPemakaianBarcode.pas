@@ -73,11 +73,8 @@ type
   private
     FStatusForm: TStatusForm;
     FIsProcessSuccessfull: Boolean;
-//    FNewPotTagContrabon : TNewPotTagihanContrabon;
-    function SaveDataPotonganTagihanContrabon: Boolean;
-    function UpdateDataPotonganTagihanContrabon: Boolean;
     procedure ParseDataPotonganTagihanContrabonByDateAndType(ADate: TDateTime; AType: string);
-    procedure ClearComponent;
+//    procedure ClearComponent;
     procedure ParseDataSuplierByType(AType: string);
     procedure SetStatusForm(const Value: TStatusForm);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
@@ -383,69 +380,28 @@ begin
   }
 end;
 
-function TfrmPemakaianBarcode.SaveDataPotonganTagihanContrabon: Boolean;
-var bResult, isError: Boolean;
-    i: Integer;
-    lastNo: String;
-begin
-  bResult := False;
-  isError := False;
-  {try
-    //lastNo := StrToInt(GetLastPotonganTagihanContrabonNO);
-    lastNo := '';
-    i := 1;
-    while (i < grdMain.RowCount) and (grdMain.Cells[_Kol_SUPPLIER_CODE, i]<>'') and (not isError) do
-    begin
-      FNewPotTagContrabon.UpdateData(dtBarcode.Date, edtDescription.Text, 0,
-        lastNo, grdMain.Floats[_Kol_QUANTITY, i], 0, curredtHarga.Value, 2,
-        grdMain.Cells[_Kol_SUPPLIER_CODE, i],  grdMain.floats[_Kol_TOTAL_PRICE, i], MasterNewUnit.ID
-        );
-      //PemakaianBarcode.InsertDataPotonganTagihanContrabon(arrParam);
-      if not FNewPotTagContrabon.SaveToDB then
-      begin
-        IF MessageDlg('Gagal menyimpan dibaris ke-'+IntToStr(i) +
-               ', Supplier : '+(grdMain.Cells[_Kol_SUPPLIER_Name, i])+ #13#10 +
-               'Lanjutkan menyimpan data lainnya ?', Dialogs.mtError, Dialogs.mbOKCancel, 0)=mrNO
-        then
-        begin
-             isError := True;
-             cRollbackTrans;
-        end;
-      end;
-      Inc(i);
-    end;
-    if not isError then
-       bResult := True;
-  except
-       bResult := False;
-       cRollbackTrans;
-  end;
-  }
-  Result := bResult;
-end;
-
 procedure TfrmPemakaianBarcode.SetIsProcessSuccessfull(
   const Value: Boolean);
 begin
   FIsProcessSuccessfull := Value;
 end;
 
-procedure TfrmPemakaianBarcode.ClearComponent;
-begin
-  dtBarcode.Text := '  -  -    ';
-  cbbTipeSuplier.ItemIndex := -1;
-  curredtHarga.Value := 0;
-  edtDescription.Clear;
-//  grdMain.ClearRows(1, grdMain.RowCount - 1);
-//  grdMain.RowCount := 2;
-  intedtTotalQty.Value := 0;
-  curredtTotalPrice.Value := 0;
-end;
+//procedure TfrmPemakaianBarcode.ClearComponent;
+//begin
+//  dtBarcode.Text := '  -  -    ';
+//  cbbTipeSuplier.ItemIndex := -1;
+//  curredtHarga.Value := 0;
+//  edtDescription.Clear;
+////  grdMain.ClearRows(1, grdMain.RowCount - 1);
+////  grdMain.RowCount := 2;
+//  intedtTotalQty.Value := 0;
+//  curredtTotalPrice.Value := 0;
+//end;
 
 procedure TfrmPemakaianBarcode.ParseDataPotonganTagihanContrabonByDateAndType(
   ADate: TDateTime; AType: string);
 var dataPemakaianBarcode: TDataSet;
-    i: Integer;
+//    i: Integer;
 begin
   {dataPemakaianBarcode := GetListPemakaianBarcodeByDateAndSuplierType(MasterNewUnit.ID, AType, ADate);
   dataPemakaianBarcode.Last;                       // GetListPotonganTagihanContrabonByDateAndType
@@ -502,117 +458,52 @@ begin
   }
 end;
 
-function TfrmPemakaianBarcode.UpdateDataPotonganTagihanContrabon: Boolean;
-var
-   bResult, isError, isEdited: Boolean;
-    i: Integer;
-begin
-  isError := False;
-  Result := False;
-  {try
-    i := 1;
-    while (i < grdMain.RowCount) and (not isError) do
-    begin
-      bResult := False;
-      if (grdMain.Cells[_Kol_No, i]='') and (grdMain.Cells[_Kol_SUPPLIER_CODE,i]<>'') then
-      begin
-         bResult := True;
-      end
-      else
-      begin
-         grdMain.GetCheckBoxState(_Kol_ID, i, isEdited);
-         if isEdited then
-         begin
-            FNewPotTagContrabon.LoadByNO(grdMain.Cells[_kol_No, i], MasterNewUnit.ID);
-            bResult := True;
-         end;
-      end;
-      if bResult then
-      begin
-          FNewPotTagContrabon.UpdateData(
-            dtBarcode.Date,  //aDATE
-            edtDescription.Text,        //aDESCRIPTION
-            0,                        //aIS_JURNAL
-            Trim(grdMain.Cells[_Kol_No, i]),        //aNO
-            grdMain.Floats[_Kol_QUANTITY, i],  //aQTY
-            0,                            //aRESIDU
-            curredtHarga.Value,       //aSAT_PRICE
-            grdMain.Ints[_Kol_StatPro, i],                         //aSTAPRO_ID
-            grdMain.Cells[_Kol_SUPPLIER_CODE, i], //aSUP_CODE_ID
-            grdMain.floats[_Kol_TOTAL_PRICE, i],  //aTOTAL_BILLING
-            MasterNewUnit.ID);                   //aUNT_ID
-
-          //PemakaianBarcode.UpdateDataPotonganTagihanContrabon(arrParam);
-          if not FNewPotTagContrabon.SaveToDB then
-          begin
-            IF MessageDlg('Gagal menyimpan dibaris ke-'+IntToStr(i) +
-                   ', Supplier : '+(grdMain.Cells[_Kol_SUPPLIER_Name, i])+ #13#10 +
-                   'Lanjutkan menyimpan data lainnya ?', Dialogs.mtError, Dialogs.mbOKCancel, 0)=mrNO
-            then
-            begin
-                 isError := True;
-                 cRollbackTrans;
-            end;
-          end;
-      end;
-      Inc(i);
-    end;
-    //PemakaianBarcode.Commit;
-    if not isError then
-       Result := True;
-  except
-    Result := False;
-    cRollbackTrans;
-  end;
-  }
-end;
-
 procedure TfrmPemakaianBarcode.btnSaveClick(Sender: TObject);
 begin
   inherited;
-  case StatusForm of
-    frNew:
-      begin
-        IsProcessSuccessfull := SaveDataPotonganTagihanContrabon;
-
-        if IsProcessSuccessfull then
-        begin
-//          cCommitTrans;
-          CommonDlg.ShowMessage(CONF_ADD_SUCCESSFULLY);
-          ClearComponent;
-        end
-        else
-        begin
-//          cRollbackTrans;
-          CommonDlg.ShowError(ER_INSERT_FAILED);
-        end;
-      end;
-    frEdit:
-      begin
-        IsProcessSuccessfull := UpdateDataPotonganTagihanContrabon;
-
-        if IsProcessSuccessfull then
-        begin
-//          cCommitTrans;
-          //aneh nih, abis nambah dr edit kok accessviolation. pk try jg ga iso
-          CommonDlg.ShowMessage(CONF_EDIT_SUCCESSFULLY);
-          //ShowMessage(CONF_EDIT_SUCCESSFULLY);
-
-          ClearComponent;
-        end
-        else
-        begin
-//          cRollbackTrans;
-          CommonDlg.ShowError(ER_UPDATE_FAILED);
-        end;
-      end;
-  end;
-
-  lblDeleteRow.Visible := False;
-  lblAddRow.Visible := False;
-
-  btnSave.Enabled := False;
-  fraFooter4Button1.btnAdd.Enabled := True;
+//  case StatusForm of
+//    frNew:
+//      begin
+//        IsProcessSuccessfull := SaveDataPotonganTagihanContrabon;
+//
+//        if IsProcessSuccessfull then
+//        begin
+////          cCommitTrans;
+//          CommonDlg.ShowMessage(CONF_ADD_SUCCESSFULLY);
+//          ClearComponent;
+//        end
+//        else
+//        begin
+////          cRollbackTrans;
+//          CommonDlg.ShowError(ER_INSERT_FAILED);
+//        end;
+//      end;
+//    frEdit:
+//      begin
+//        IsProcessSuccessfull := UpdateDataPotonganTagihanContrabon;
+//
+//        if IsProcessSuccessfull then
+//        begin
+////          cCommitTrans;
+//          //aneh nih, abis nambah dr edit kok accessviolation. pk try jg ga iso
+//          CommonDlg.ShowMessage(CONF_EDIT_SUCCESSFULLY);
+//          //ShowMessage(CONF_EDIT_SUCCESSFULLY);
+//
+//          ClearComponent;
+//        end
+//        else
+//        begin
+////          cRollbackTrans;
+//          CommonDlg.ShowError(ER_UPDATE_FAILED);
+//        end;
+//      end;
+//  end;
+//
+//  lblDeleteRow.Visible := False;
+//  lblAddRow.Visible := False;
+//
+//  btnSave.Enabled := False;
+//  fraFooter4Button1.btnAdd.Enabled := True;
 end;
 
 procedure TfrmPemakaianBarcode.lblAddRowClick(Sender: TObject);
@@ -674,18 +565,18 @@ begin
 end;
 
 procedure TfrmPemakaianBarcode.FormShow(Sender: TObject);
-var
-  dataSet: TDataSet;
+//var
+//  dataSet: TDataSet;
 begin
   inherited;
-  cbbTipeSuplier.Clear;
-//  dataSet := GetListTipeBarangContrabon(MasterNewUnit.ID);
-  dataSet.First;
-  while not dataSet.Eof do
-  begin
-      cbbTipeSuplier.Items.Append(dataSet.Fields[0].AsString);
-      dataSet.Next;
-  end;
+//  cbbTipeSuplier.Clear;
+////  dataSet := GetListTipeBarangContrabon(MasterNewUnit.ID);
+//  dataSet.First;
+//  while not dataSet.Eof do
+//  begin
+//      cbbTipeSuplier.Items.Append(dataSet.Fields[0].AsString);
+//      dataSet.Next;
+//  end;
 //  cbbKodeSuplier.Tag := -1;
 end;
 

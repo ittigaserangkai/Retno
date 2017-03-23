@@ -144,7 +144,6 @@ uses
   ufrmCompany in '..\module\references\ufrmCompany.pas' {frmCompany},
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
-  uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
@@ -161,7 +160,22 @@ uses
   uModMember in '..\model\uModMember.pas',
   ufrmSupplierGroup in '..\module\merchandise\ufrmSupplierGroup.pas' {frmSupplierGroup},
   ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
-  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
+  uFrmGenPO in '..\module\merchandise\uFrmGenPO.pas' {frmGenPO},
+  uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp},
+  ufrmListQuotation in '..\module\merchandise\ufrmListQuotation.pas' {frmListQuotation},
+  ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
+  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  HPHELP in '..\lib\HPHELP.PAS',
+  ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
+  ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  ufrmCancellationPO in '..\module\merchandise\ufrmCancellationPO.pas' {frmCancellationPO},
+  ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
+  ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
+  ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup},
+  uModUnit in '..\model\uModUnit.pas',
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 
@@ -171,5 +185,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.

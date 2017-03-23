@@ -8,12 +8,14 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
   ufraFooterDialog3Button, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
-  cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
+  Datasnap.DBClient,uModUnit, uInterface,uModCompany, uAppUtils,uModPropinsi,
+  uModTipePerusahaan;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogUnit = class(TfrmMasterDialog)
+  TfrmDialogUnit = class(TfrmMasterDialog, ICRUDAble)
     lblCode: TLabel;
     lblName: TLabel;
     lblDescription: TLabel;
@@ -23,7 +25,6 @@ type
     lblRegion: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label9: TLabel;
     Label10: TLabel;
     Label12: TLabel;
     Label13: TLabel;
@@ -52,7 +53,6 @@ type
     edContactPerson: TcxTextEdit;
     edEmail: TcxTextEdit;
     edRegion: TcxTextEdit;
-    edType: TcxTextEdit;
     edPhone: TcxTextEdit;
     edFax: TcxTextEdit;
     edZIP: TcxTextEdit;
@@ -61,6 +61,8 @@ type
     edNPWPAddress: TcxTextEdit;
     edNPWPName: TcxTextEdit;
     edNPWP: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -99,6 +101,7 @@ type
     procedure edtUntInfoCompTypeIDPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure FormCreate(Sender: TObject);
+    procedure cbbPropinsiPropertiesChange(Sender: TObject);
   private
     FCompID     : Integer;
     FisActive   : Integer;
@@ -108,9 +111,21 @@ type
 //    FUnit       : TUnit;
 
     FIsProcessSuccessfull: boolean;
-    function CekLookUpID(aValue: string): Boolean;
+    FUnitStore: TModUnit;
+    cdsKabupaten: TClientDataSet;
+    cdsUnitParent: TClientDataSet;
+//    function CekLookUpID(aValue: string): Boolean;
     procedure SetData;
-    procedure ClearData;
+//    procedure ClearData;
+    function GetUnitStore: TModUnit;
+    procedure InisialisasiCBBAutApp;
+    procedure InisialisasiCBBCompany;
+    procedure InisialisasiCBBTipePuerusahaan;
+    procedure InisialisasiPropinsi;
+    procedure InisialisasiKabupaten;
+    procedure InisialisasiUnitParent;
+    procedure LoadData(AID : String);
+    property UnitStore: TModUnit read GetUnitStore write FUnitStore;
   public
     procedure ShowWithCompanyID(aCompID: Integer; aUnitID: integer;
         aLoginUnit: integer; aLoginID: integer);
@@ -127,9 +142,79 @@ var
 
 implementation
 
-uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils;
+uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils,
+uDMClient, uDBUtils, uModAuthApp;
 
 {$R *.dfm}
+
+procedure TfrmDialogUnit.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm('Apakah Anda Yakin Akan Menghapus ?')  then
+    Exit;
+
+  if DMClient.CrudClient.DeleteFromDB(UnitStore) then
+  begin
+    TAppUtils.Information('Berhasil Hapus Data Cabang');
+    LoadData('');
+  end;
+
+end;
+
+procedure TfrmDialogUnit.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  if not ValidateEmptyCtrl([1], True) then
+    Exit;
+
+  UnitStore.COMPANY             := TModCompany.CreateID(cbbCompany.EditValue);
+  UnitStore.AUTAPP              := TModAutApp.CreateID(cbbAppType.EditValue);
+
+  UnitStore.UNT_IS_HO           := TAppUtils.BoolToInt(UnitStore.UNT_IS_HO = 1);
+  UnitStore.UNT_IS_STORE        := TAppUtils.BoolToInt(UnitStore.UNT_IS_STORE = 1);
+  UnitStore.UNT_IS_WH           := TAppUtils.BoolToInt(UnitStore.UNT_IS_WH = 1);
+
+  UnitStore.UNT_ADR             := edAddress.Text;
+  UnitStore.UNT_ZIP             := edZIP.Text;
+  UnitStore.AUTAPP              := TModAutApp.CreateID(cbbAppType.EditValue);
+  UnitStore.UNT_CODE            := edCode.Text;
+  UnitStore.UNT_CONTACT_PERSON  := edContactPerson.Text;
+  UnitStore.UNT_DESCRIPTION     := edDesciption.Text;
+  UnitStore.UNT_EMAIL           := edEmail.Text;
+  UnitStore.UNT_FAX             := edFax.Text;
+
+
+  if cbbParentUnit.EditValue = null then
+    UnitStore.UNT_PARENT        := nil
+  else
+    UnitStore.UNT_PARENT          := TModUnit.CreateID(cbbParentUnit.EditValue);
+
+  UnitStore.UNT_IS_ACTIVE       := TAppUtils.BoolToInt(chkActive.Checked);
+  UnitStore.UNT_IS_ALLOWPO      := TAppUtils.BoolToInt(chkAllowPO.Checked);
+  UnitStore.UNT_ISGRALLOWED     := TAppUtils.BoolToInt(chkAllowGR.Checked);
+
+  UnitStore.KABUPATEN           := TModKabupaten.CreateID(cbbKabupaten.EditingValue);
+
+  UnitStore.UNT_NAME            := edNama.Text;
+  UnitStore.UNT_PHONE           := edPhone.Text;
+  UnitStore.UNT_RGN_CODE        := edRegion.Text;
+  UnitStore.UNT_NPWP            := edNPWP.Text;
+  UnitStore.UNT_NPWP_ADR        := edNPWPAddress.Text;
+  UnitStore.UNT_NPWP_NAME       := edNPWPName.Text;
+  UnitStore.UNT_NPWP_REG_DATE   := edRegisterNPWP.Date;
+  UnitStore.REF_TIPE_PERUSAHAAN := TModTipePerusahaan.CreateID(cbbCorporateType.EditValue);
+
+  if DMClient.CrudClient.SaveToDB(UnitStore) then
+  begin
+    TAppUtils.Information('Berhasil Simpan Data Cabang');
+    LoadData('');
+  end;
+
+
+
+
+
+end;
 
 procedure TfrmDialogUnit.FormDestroy(Sender: TObject);
 begin
@@ -144,10 +229,10 @@ begin
 end;
 
 procedure TfrmDialogUnit.footerDialogMasterbtnSaveClick(Sender: TObject);
-var
-  dtOut              : TDateTime;
-  sShrDt             : string;
-  isHoStWh           : Integer;
+//var
+//  dtOut              : TDateTime;
+//  sShrDt             : string;
+//  isHoStWh           : Integer;
 begin
   inherited;
 
@@ -242,7 +327,19 @@ begin
     cRollbackTrans;
   end;
   }
-  FormatSettings.ShortDateFormat := sShrDt;
+//  FormatSettings.ShortDateFormat := sShrDt;
+end;
+
+procedure TfrmDialogUnit.cbbPropinsiPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  if VarIsNull(cbbPropinsi.EditValue) then
+    cdsKabupaten.Filtered := False
+  else begin
+    cdsKabupaten.Filter   := ' propinsi_id = ' + QuotedStr(cbbPropinsi.EditValue);
+    cdsKabupaten.Filtered := True;
+  end;
+
 end;
 
 procedure TfrmDialogUnit.cbbTypeUnitRChange(Sender: TObject);
@@ -250,24 +347,24 @@ begin
 //  IdType:= StrToInt(FIdType.Strings[cbbTypeUnitR.ItemIndex]);
 end;
 
-function TfrmDialogUnit.CekLookUpID(aValue: string): Boolean;
-var
-  i       : Integer;
-  aResult : Boolean;
-begin
+//function TfrmDialogUnit.CekLookUpID(aValue: string): Boolean;
+//var
+//  i       : Integer;
+//  aResult : Boolean;
+//begin
 
-  try
-    i := StrToInt(Trim(aValue));
-    if i > 0  then
-      aResult := True
-    else
-      aResult := False;
-  except
-    aResult := False;
-  end;
-  
-  Result := aResult ;
-end;
+//  try
+//    i := StrToInt(Trim(aValue));
+//    if i > 0  then
+//      aResult := True
+//    else
+//      aResult := False;
+//  except
+//    aResult := False;
+//  end;
+//
+//  Result := aResult ;
+//end;
 
 procedure TfrmDialogUnit.SetData;
 begin
@@ -319,8 +416,8 @@ begin
   end;
 end;
 
-procedure TfrmDialogUnit.ClearData;
-begin
+//procedure TfrmDialogUnit.ClearData;
+//begin
 //  edtUnitCode.Clear;
 //  edtUnitName.Clear;
 //  edtUnitDesc.Clear;
@@ -357,7 +454,7 @@ begin
 //  chkActive.Checked := False;
 
 
-end;
+//end;
 
 
 procedure TfrmDialogUnit.ShowWithCompanyID(aCompID: Integer; aUnitID: integer;
@@ -375,14 +472,24 @@ end;
 procedure TfrmDialogUnit.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-//  inherited;
-//  Action  := caFree;
+  inherited;
+  FreeAndNil(FUnitStore);
 end;
 
 procedure TfrmDialogUnit.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+
+  InisialisasiCBBCompany;
+  InisialisasiCBBAutApp;
+  InisialisasiCBBTipePuerusahaan;
+
+  InisialisasiKabupaten;
+  InisialisasiPropinsi;
+  InisialisasiUnitParent;
+
+  LoadData('');
 end;
 
 procedure TfrmDialogUnit.edtUnitAppIDKeyDown(Sender: TObject;
@@ -447,8 +554,8 @@ end;
 
 procedure TfrmDialogUnit.edtUnitKabIDKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
-var
-  aPropId: Integer;
+//var
+//  aPropId: Integer;
 begin
   inherited;
 //  TryStrToInt(edtUnitPropId.Text, aPropId);
@@ -590,4 +697,116 @@ begin
     edtUnitAppIDKeyDown(Sender, kEY, [ssAlt]);
 end;
 
+function TfrmDialogUnit.GetUnitStore: TModUnit;
+begin
+  if FUnitStore = nil then
+    FUnitStore := TModUnit.Create;
+
+  Result := FUnitStore;
+end;
+
+procedure TfrmDialogUnit.InisialisasiCBBAutApp;
+var
+  lcdsAutApp: TClientDataSet;
+begin
+  lcdsAutApp := TDBUtils.DSToCDS(DMClient.DSProviderClient.AutAPP_GetDSLookup(), Self);
+  cbbAppType.Properties.LoadFromCDS(lcdsAutApp,'AUT$APP_ID','APP_NAME',['AUT$APP_ID'],Self);
+  cbbAppType.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiCBBCompany;
+var
+  lcdsCompany: TClientDataSet;
+begin
+  lcdsCompany := TDBUtils.DSToCDS(DMClient.DSProviderClient.Company_GetDSLookup(), Self);
+  cbbCompany.Properties.LoadFromCDS(lcdsCompany,'Company_ID','COMP_NAME',['Company_ID'],Self);
+  cbbCompany.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiCBBTipePuerusahaan;
+var
+  lcdsTipeCompany: TClientDataSet;
+begin
+  lcdsTipeCompany := TDBUtils.DSToCDS(DMClient.DSProviderClient.TipePerusahaan_GetDSOverview(), Self);
+  cbbCorporateType.Properties.LoadFromCDS(lcdsTipeCompany,'REF$TIPE_PERUSAHAAN_ID','TPPERSH_NAME',['REF$TIPE_PERUSAHAAN_ID'],Self);
+  cbbCorporateType.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiPropinsi;
+var
+  lcdsPropinsi: TClientDataSet;
+begin
+  lcdsPropinsi := TDBUtils.DSToCDS(DMClient.DSProviderClient.Propinsi_GetDSLookUp(), Self);
+  cbbPropinsi.Properties.LoadFromCDS(lcdsPropinsi,'PROPINSI_ID','NAME',['PROPINSI_ID'],Self);
+  cbbPropinsi.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiKabupaten;
+begin
+  cdsKabupaten := TDBUtils.DSToCDS(DMClient.DSProviderClient.Kabupaten_GetDSLookUp(), Self);
+  cbbKabupaten.Properties.LoadFromCDS(cdsKabupaten,'KABUPATEN_ID','NAME',['KABUPATEN_ID','PROPINSI_ID'],Self);
+  cbbKabupaten.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiUnitParent;
+begin
+  cdsUnitParent := TDBUtils.DSToCDS(DMClient.DSProviderClient.Unit_GetDSLookUp(), Self);
+  cbbParentUnit.Properties.LoadFromCDS(cdsUnitParent,'AUT$UNIT_ID','UNT_NAME',['AUT$UNIT_ID', 'UNT_CODE'],Self);
+  cbbParentUnit.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.LoadData(AID : String);
+begin
+  FreeAndNil(FUnitStore);
+  ClearByTag([0,1]);
+
+  if AID <> '' then
+  begin
+    FUnitStore := TModUnit(DMCLient.CrudClient.Retrieve(TModUnit.ClassName, AID));
+    if FUnitStore <> nil then
+    begin
+      cbbCompany.EditValue       := UnitStore.COMPANY.ID;
+      cbbAppType.EditValue       := UnitStore.AUTAPP.ID;
+      cbbCorporateType.EditValue := UnitStore.REF_TIPE_PERUSAHAAN.ID;
+
+      rgTipeUnit.ItemIndex       := 0;
+
+      if UnitStore.UNT_IS_HO = 1 then
+        rgTipeUnit.ItemIndex     := 0
+      else if UnitStore.UNT_IS_STORE = 1  then
+        rgTipeUnit.ItemIndex     := 1
+      else
+        rgTipeUnit.ItemIndex     := 2;
+
+      edAddress.Text             := UnitStore.UNT_ADR;
+      edZIP.Text                 := UnitStore.UNT_ZIP;
+      edCode.Text                := UnitStore.UNT_CODE;
+      edContactPerson.Text       := UnitStore.UNT_CONTACT_PERSON;
+      edDesciption.Text          := UnitStore.UNT_DESCRIPTION;
+      edEmail.Text               := UnitStore.UNT_EMAIL;
+      edFax.Text                 := UnitStore.UNT_FAX;
+
+      cbbKabupaten.EditValue     := UnitStore.kABUPATEN.id;
+      cbbPropinsi.EditValue      := cdsKabupaten.FieldByName('PROPINSI_ID').AsString;
+
+      cbbPropinsiPropertiesChange(cbbPropinsi);
+      cbbParentUnit.EditValue    := UnitStore.UNT_PARENT.ID;
+
+
+      edNPWP.Text                := UnitStore.UNT_NPWP;
+      edNPWPAddress.Text         := UnitStore.UNT_NPWP_ADR;
+      edNPWPName.Text            := UnitStore.UNT_NPWP_NAME;
+      edRegisterNPWP.Date        := UnitStore.UNT_NPWP_REG_DATE;
+      chkActive.Checked          := UnitStore.UNT_IS_ACTIVE = 1;
+      chkAllowPO.Checked         := UnitStore.UNT_IS_ALLOWPO  = 1;
+      chkAllowGR.Checked         := UnitStore.UNT_ISGRALLOWED  = 1;
+
+      edNama.Text                := UnitStore.UNT_NAME;
+      edPhone.Text               := UnitStore.UNT_PHONE;
+      edRegion.Text              := UnitStore.UNT_RGN_CODE;
+    end;
+  end;
+end;
+
 end.
+
