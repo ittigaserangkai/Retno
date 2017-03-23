@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/22/2017 3:42:00 PM
+// 3/23/2017 11:19:59 AM
 //
 
 unit uClientClasses;
@@ -156,6 +156,10 @@ type
     FTipePerusahaan_GetDSLookupCommand_Cache: TDSRestCommand;
     FTipeSuplier_GetDSLookupCommand: TDSRestCommand;
     FTipeSuplier_GetDSLookupCommand_Cache: TDSRestCommand;
+    FPropinsi_GetDSLookUpCommand: TDSRestCommand;
+    FPropinsi_GetDSLookUpCommand_Cache: TDSRestCommand;
+    FKabupaten_GetDSLookUpCommand: TDSRestCommand;
+    FKabupaten_GetDSLookUpCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -252,6 +256,10 @@ type
     function TipePerusahaan_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeSuplier_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function TipeSuplier_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Propinsi_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
+    function Propinsi_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Kabupaten_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
+    function Kabupaten_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -795,6 +803,26 @@ const
   );
 
   TDSProvider_TipeSuplier_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Propinsi_GetDSLookUp: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Propinsi_GetDSLookUp_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Kabupaten_GetDSLookUp: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Kabupaten_GetDSLookUp_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -2448,6 +2476,64 @@ begin
   Result := TDSRestCachedDataSet.Create(FTipeSuplier_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Propinsi_GetDSLookUp(const ARequestFilter: string): TDataSet;
+begin
+  if FPropinsi_GetDSLookUpCommand = nil then
+  begin
+    FPropinsi_GetDSLookUpCommand := FConnection.CreateCommand;
+    FPropinsi_GetDSLookUpCommand.RequestType := 'GET';
+    FPropinsi_GetDSLookUpCommand.Text := 'TDSProvider.Propinsi_GetDSLookUp';
+    FPropinsi_GetDSLookUpCommand.Prepare(TDSProvider_Propinsi_GetDSLookUp);
+  end;
+  FPropinsi_GetDSLookUpCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FPropinsi_GetDSLookUpCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FPropinsi_GetDSLookUpCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Propinsi_GetDSLookUp_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FPropinsi_GetDSLookUpCommand_Cache = nil then
+  begin
+    FPropinsi_GetDSLookUpCommand_Cache := FConnection.CreateCommand;
+    FPropinsi_GetDSLookUpCommand_Cache.RequestType := 'GET';
+    FPropinsi_GetDSLookUpCommand_Cache.Text := 'TDSProvider.Propinsi_GetDSLookUp';
+    FPropinsi_GetDSLookUpCommand_Cache.Prepare(TDSProvider_Propinsi_GetDSLookUp_Cache);
+  end;
+  FPropinsi_GetDSLookUpCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FPropinsi_GetDSLookUpCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.Kabupaten_GetDSLookUp(const ARequestFilter: string): TDataSet;
+begin
+  if FKabupaten_GetDSLookUpCommand = nil then
+  begin
+    FKabupaten_GetDSLookUpCommand := FConnection.CreateCommand;
+    FKabupaten_GetDSLookUpCommand.RequestType := 'GET';
+    FKabupaten_GetDSLookUpCommand.Text := 'TDSProvider.Kabupaten_GetDSLookUp';
+    FKabupaten_GetDSLookUpCommand.Prepare(TDSProvider_Kabupaten_GetDSLookUp);
+  end;
+  FKabupaten_GetDSLookUpCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FKabupaten_GetDSLookUpCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FKabupaten_GetDSLookUpCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Kabupaten_GetDSLookUp_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FKabupaten_GetDSLookUpCommand_Cache = nil then
+  begin
+    FKabupaten_GetDSLookUpCommand_Cache := FConnection.CreateCommand;
+    FKabupaten_GetDSLookUpCommand_Cache.RequestType := 'GET';
+    FKabupaten_GetDSLookUpCommand_Cache.Text := 'TDSProvider.Kabupaten_GetDSLookUp';
+    FKabupaten_GetDSLookUpCommand_Cache.Prepare(TDSProvider_Kabupaten_GetDSLookUp_Cache);
+  end;
+  FKabupaten_GetDSLookUpCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FKabupaten_GetDSLookUpCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -2552,6 +2638,10 @@ begin
   FTipePerusahaan_GetDSLookupCommand_Cache.DisposeOf;
   FTipeSuplier_GetDSLookupCommand.DisposeOf;
   FTipeSuplier_GetDSLookupCommand_Cache.DisposeOf;
+  FPropinsi_GetDSLookUpCommand.DisposeOf;
+  FPropinsi_GetDSLookUpCommand_Cache.DisposeOf;
+  FKabupaten_GetDSLookUpCommand.DisposeOf;
+  FKabupaten_GetDSLookUpCommand_Cache.DisposeOf;
   inherited;
 end;
 

@@ -170,7 +170,8 @@ uses
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
   ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
-  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO};
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 
