@@ -17,6 +17,8 @@ type
     lbEscape: TLabel;
     btnDelete: TcxButton;
     lbCTRLDel: TLabel;
+    btnPrint: TcxButton;
+    lblCTRLP: TLabel;
   private
     { Private declarations }
   public

@@ -73,6 +73,24 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 2
     end
+    object btnPrint: TcxButton
+      AlignWithMargins = True
+      Left = 193
+      Top = 4
+      Width = 72
+      Height = 27
+      Cursor = crHandPoint
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Align = alRight
+      Caption = '&Print'
+      OptionsImage.ImageIndex = 28
+      OptionsImage.Images = DMClient.imgListButton
+      TabOrder = 3
+      ExplicitLeft = 162
+    end
   end
   object pnlSortCut: TPanel
     Left = 0
@@ -137,6 +155,26 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Style = []
       ParentFont = False
       ExplicitHeight = 16
+    end
+    object lblCTRLP: TLabel
+      AlignWithMargins = True
+      Left = 189
+      Top = 3
+      Width = 70
+      Height = 15
+      Margins.Left = 110
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alRight
+      AutoSize = False
+      Caption = 'CTRL-P [Print]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitLeft = 181
     end
   end
 end

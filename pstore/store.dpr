@@ -2,7 +2,6 @@ program store;
 
 uses
   Vcl.Forms,
-  ufrmMain in 'ui\ufrmMain.pas' {frmMain},
   ufrmLogin in '..\module\login\ufrmLogin.pas' {frmLogin},
   ufraFooter1Button in '..\system\ufraFooter1Button.pas' {fraFooter1Button: TFrame},
   ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
@@ -95,7 +94,15 @@ uses
   uModSatuan in '..\model\uModSatuan.pas',
   ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
   uSpecialKey in '..\classes\uSpecialKey.pas',
-  ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame};
+  ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
+  ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
+  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  HPHELP in '..\lib\HPHELP.PAS',
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+  ufrmMain in 'ui\ufrmMain.pas' {frmMain};
 
 {$R *.res}
 
@@ -105,21 +112,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmGeneratePOBonus, frmGeneratePOBonus);
-  Application.CreateForm(TfrmChangeStatusPO, frmChangeStatusPO);
-  Application.CreateForm(TfrmCancellationPO, frmCancellationPO);
-  Application.CreateForm(TfrmApprovallPO, frmApprovallPO);
-  Application.CreateForm(TfrmDialogSearchSupplier, frmDialogSearchSupplier);
-  Application.CreateForm(TfrmProduct, frmProduct);
-  Application.CreateForm(TfraStockCard, fraStockCard);
-  Application.CreateForm(TfraSellingPrice, fraSellingPrice);
-  Application.CreateForm(TfraProductTurunan, fraProductTurunan);
-  Application.CreateForm(TfraProductSupplier, fraProductSupplier);
-  Application.CreateForm(TfraBonusProduct, fraBonusProduct);
-  Application.CreateForm(TfraUOMConvertion, fraUOMConvertion);
-  Application.CreateForm(TfraAlokasiStock, fraAlokasiStock);
-  Application.CreateForm(TfrmDialogProduct, frmDialogProduct);
-  Application.CreateForm(TfrmDialogMerk, frmDialogMerk);
-  Application.CreateForm(TfraHistoriPOByProduct, fraHistoriPOByProduct);
+  Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.
