@@ -66,7 +66,7 @@ type
   private
     FDataMember: TStringList;
     //FDataReport: TResultDataSet;
-    FAlamatTrader: string;
+//    FAlamatTrader: string;
     NomorPO: string;
 
     procedure ParseHeaderGrid();
@@ -240,9 +240,9 @@ begin
 end;
 
 procedure TfrmPOFromTrader.ParseDataComboPOTraderNo;
-var
+//var
 //  aParams: TArr;
-  data: TDataSet;
+//  data: TDataSet;
 begin
   {with cbpPOTraderNo do
   begin
@@ -368,9 +368,9 @@ begin
 end;
 
 procedure TfrmPOFromTrader.ShowPODetilByPONo(APONo: string);
-var
-  i               : integer;
-  cSellPriceDisc  : Currency;
+//var
+//  i               : integer;
+//  cSellPriceDisc  : Currency;
 begin
   ParseDataGrid;
 
