@@ -4,10 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  Grids, BaseGrid, AdvGrid, StdCtrls, cbxbase, dblup1a, uInputProductForNotSO,
-  JvLabel, EditBtn, uRMSUnit, uRMSBaseClass, uGTSUICommonDlg, AdvObj,
-  JvExControls;
+  Dialogs, ufrmMasterDialogBrowse, ExtCtrls, StdCtrls,
+  uTSCommonDlg, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, cxLabel, cxTextEdit, cxMaskEdit, cxButtonEdit,
+  cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
   TThreadSO = class(TThread)
@@ -16,21 +19,17 @@ type
                 procedure Execute; override;
               end; { of class declaration }
   TFormMode = (fmAdd, fmEdit);
-  TfrmDialogInputProductForNotSO = class(TfrmMasterDialog)
+  TfrmDialogInputProductForNotSO = class(TfrmMasterDialogBrowse)
     pnlTop: TPanel;
-    pnlContent: TPanel;
     lbl1: TLabel;
     edtName: TEdit;
-    strgGrid: TAdvStringGrid;
     edtCode: TEdit;
-    lblTambah: TJvLabel;
-    edtKode: TEditBtn;
-    lblHapus: TJvLabel;
+    lblTambah: TcxLabel;
+    edtKode: TcxButtonEdit;
+    lblHapus: TcxLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
-    procedure strgGridGetEditorType(Sender: TObject; ACol, ARow: Integer;
-      var AEditor: TEditorType);
     procedure cbpCodeChange(Sender: TObject);
     procedure strgGridComboChange(Sender: TObject; ACol, ARow,
       AItemIndex: Integer; ASelection: String);
@@ -50,6 +49,7 @@ type
       Shift: TShiftState);
     procedure strgGridCellValidate(Sender: TObject; ACol, ARow: Integer;
       var Value: String; var Valid: Boolean);
+    procedure btnDeleteClick(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FSuplierCode: string;
@@ -81,8 +81,7 @@ var
 
 implementation
 
-uses ufrmInputProductForNotSO, uBarangSuplier, asgcombo, uConn, 
-  DB, uSearchSupplier, ufrmSplash, ufrmInputSupplierForNotSO, unewbarang;
+uses ufrmInputProductForNotSO, ufrmSplash, ufrmInputSupplierForNotSO;
 
 {$R *.dfm}
 
@@ -112,7 +111,7 @@ var i:Integer;
   aID: Integer;
 begin
   Result := False;
-
+  {
   SS := TStringList.Create;
   try
     for i := 1 to strgGrid.RowCount - 1 do
@@ -141,18 +140,17 @@ begin
     SS.Free
   end;
 
-
+  }
 end;
 
 function TfrmDialogInputProductForNotSO.UpdateData: boolean;
 var
-
   aID: Integer;
   i: Integer;
   sSQL: string;
 
 begin
-
+  {
   for i := 1 to strgGrid.RowCount - 1 do
   begin
     if strgGrid.Cells[3,i] <> '' then
@@ -207,13 +205,14 @@ begin
     CommonDlg.ShowError('Data Gagal Disimpan');
     Exit;
   end;
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.footerDialogMasterbtnSaveClick(
   Sender: TObject);
 begin
   inherited;
-
+  {
   if not IsValidDateKarenaEOD(dialogunit,cGetServerTime,FMasterIsStore) then
     Exit;
 
@@ -245,6 +244,7 @@ begin
     cRollbackTrans;
     frmInputProductForNotSO.RefreshDataGrid;
   end;
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.SetIsProcessSuccessfull(
@@ -253,32 +253,43 @@ begin
   FIsProcessSuccessfull := Value;
 end;
 
-procedure TfrmDialogInputProductForNotSO.strgGridGetEditorType(
-  Sender: TObject; ACol, ARow: Integer; var AEditor: TEditorType);
-//var i: Integer;
+procedure TfrmDialogInputProductForNotSO.btnDeleteClick(Sender: TObject);
+var
+  sSQL: string;
+  IDLokal: Integer;
 begin
-{  try
-  with strgGrid do
-  case ACol of
-  0:begin
-      aEditor := edComboList;
-      ClearComboString;
-      for i:=0 to Length(dtProduk)-1 do
+    {if strgGrid.Cells[2,strgGrid.Row] = '0'
+      then Exit;
+
+    if (CommonDlg.Confirm('Anda Yakin Akan Menghapus Data : ' + strgGrid.Cells[0,strgGrid.Row] + ' ?') = mrYes) then
+    begin
+      IDLokal := StrToInt(strgGrid.Cells[3,strgGrid.Row]);
+      sSQL := 'delete from SO_BARANG_BLACKLIST where '
+              + ' SOBB_ID = ' + IntToStr(IDLokal)
+              + ' and SOBB_UNT_ID = ' + IntToStr(masternewunit.id);
+
+      if not cExecSQL(sSQL,False,1201) then
       begin
-        Combobox.Items.Add(dtproduk[i].code);
+        cRollbackTrans;
+        CommonDlg.ShowError('Data Gagal Dihapus');
+        Exit;
+      end
+      else if not SimpanBlob(sSQL,1) then
+      begin
+        cRollbackTrans;
+        CommonDlg.ShowError('Data Gagal Disimpan');
+        Exit;
+      end
+      else begin
+        cCommitTrans;
+        CommonDlg.ShowMessage('Data Berhasil Dihapus');
+        strgGrid.Clear;
       end;
     end;
-  1:begin
-      aEditor := edComboList;
-      ClearComboString;
-      for i:=0 to Length(dtProduk)-1 do
-      begin
-        Combobox.Items.Add(dtproduk[i].name);
-      end;
-    end;
-  end;
-  except
-  end;   }
+
+    RefreshDataGrid;
+    strgGrid.SetFocus;
+    }
 end;
 
 procedure TfrmDialogInputProductForNotSO.cbpCodeChange(Sender: TObject);
@@ -313,8 +324,9 @@ end;
 
 procedure TThreadSO.Execute;
 var i: Integer;
-    data: TResultDataSet;
+    data: TDataSet;
 begin
+  {
   with frmDialogInputProductForNotSO do
   try
     if not assigned(BarangSuplier) then
@@ -354,6 +366,7 @@ begin
     frmSplash.Close;
     Terminate;
   end;
+  }
 end; { of procedure }
 
 procedure TfrmDialogInputProductForNotSO.cbpCodeKeyPress(Sender: TObject;
@@ -385,7 +398,7 @@ var
   iBaris: Integer;
   aSQL: string;
 begin
-  //edtKode.Text := '';
+{
   strgGrid.ColWidths[2] := 0;
   strgGrid.ColWidths[3] := 0;
 
@@ -393,8 +406,6 @@ begin
   begin
     //showDataEdit(FSuplierCode)
 
-  //  edtKode.Text := frmInputProductForNotSO.edtKode.Text;
-  //  edtName.Text := frmDialogInputProductForNotSO.edtName.Text;
 
     aSQL := ' select a.sup_code, b.SOBB_BRGSUP_ID, d.brg_alias, d.brg_code,b.SOBB_ID '
             + ' from suplier a, SO_BARANG_BLACKLIST b, barang_suplier c, barang d '
@@ -425,16 +436,18 @@ begin
    prepareAddData();
 
   strgGrid.ControlLook.DropDownAlwaysVisible:=True;
-  isCodeChange:=False;  
+  isCodeChange:=False;
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.lblTambahClick(Sender: TObject);
 begin
   inherited;
-  strgGrid.AddRow;
+  {strgGrid.AddRow;
   strgGrid.SetFocus;
   strgGrid.Col := 0;
   strgGrid.Row := strgGrid.RowCount - 1;
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.cbpCodeKeyDown(Sender: TObject;
@@ -494,7 +507,7 @@ begin
   inherited;
   sSQL := 'select sup_code as "Kode Suplier", sup_name as "Nama Suplier" '
        + ' from suplier ';
-
+  {
   with cLookUp('Data Suplier',sSQL) do
   begin
     if Strings[0] = '' then
@@ -505,6 +518,7 @@ begin
     edtKode.Text := Strings[0];
     edtName.Text := Strings[1];
   end;
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.lbl2Click(Sender: TObject);
@@ -516,24 +530,23 @@ end;
 procedure TfrmDialogInputProductForNotSO.lblHapusClick(Sender: TObject);
 begin
   inherited;
-  strgGrid.Rows[strgGrid.Row].Clear;
+  {strgGrid.Rows[strgGrid.Row].Clear;
   if strgGrid.RowCount > strgGrid.FixedRows + 1 then
     strgGrid.RemoveSelectedRows
-
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.FormKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
+  {
   if ssCtrl in Shift then
   begin
     if (Key = Ord('R')) and (ssctrl in Shift) then
       lblHapusClick(nil)
     else if (Key = Ord('T')) and (ssctrl in Shift) then
       lblTambahClick(nil);
-//    else if (Key = VK_RETURN) and (ssctrl in Shift) then
-//      footerDialogMasterbtnSaveClick(nil);
   end else if Key = VK_RETURN then
   begin
     if ActiveControl = strgGrid then
@@ -551,6 +564,7 @@ begin
       LoadDataBarang;
     end;
   end;
+  }
 end;
 
 function TfrmDialogInputProductForNotSO.IsAdaDataDouble: Boolean;
@@ -559,7 +573,7 @@ var
   i: Integer;
 begin
   Result := False;
-  for i := 1 to strgGrid.RowCount - 1 do
+  {for i := 1 to strgGrid.RowCount - 1 do
   begin
     for j := i + 1 to strgGrid.RowCount - 1 do
     begin
@@ -572,6 +586,7 @@ begin
       end;
     end;
   end;
+  }
 end;
 
 procedure TfrmDialogInputProductForNotSO.LoadDataBarang;
@@ -590,7 +605,7 @@ begin
           + ')';
 
 
-
+     {
       with cLookUp('Data Barang',sSQL) do
       begin
         try
@@ -606,6 +621,7 @@ begin
           Free;
         end;
       end;
+      }
 end;
 
 procedure TfrmDialogInputProductForNotSO.strgGridCellValidate(
@@ -615,7 +631,7 @@ var
   iBrgSupID: Integer;
 begin
   inherited;
-  if ACol in [0] then
+  {if ACol in [0] then
   begin
     with TNewBarang.Create(Self) do
     begin
@@ -633,6 +649,7 @@ begin
       end;
     end;
   end;
+  }
 end;
 
 end.

@@ -301,9 +301,12 @@ type
     procedure actDataProductExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
+    procedure actHistoryPOExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
+    procedure actLapInvMovementQtyExecute(Sender: TObject);
     procedure actLaporanStokExecute(Sender: TObject);
+    procedure actLapReturSupExecute(Sender: TObject);
     procedure actListingPObyMGExecute(Sender: TObject);
     procedure actListingQuotationHargaBeliExecute(Sender: TObject);
     procedure actListingQuotationMailerExecute(Sender: TObject);
@@ -318,6 +321,7 @@ type
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actPajakExecute(Sender: TObject);
+    procedure actPrintHistoryPOBySupplierExecute(Sender: TObject);
     procedure actPrintPOExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
@@ -392,7 +396,9 @@ uses
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
   ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
   ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
-  ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup;
+  ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
+  ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
+  ufrmLaporanRetur;
 
 {$R *.dfm}
 
@@ -542,6 +548,11 @@ begin
     frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
 end;
 
+procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
+begin
+  frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
 begin
   frmSupplier := TfrmSupplier.CreateWithUser(Application, FFormProperty);
@@ -552,10 +563,20 @@ begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
+begin
+    frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actLaporanStokExecute(Sender: TObject);
 begin
     frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
 
+end;
+
+procedure TfrmMain.actLapReturSupExecute(Sender: TObject);
+begin
+  frmLaporanRetur := TfrmLaporanRetur.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actListingPObyMGExecute(Sender: TObject);
@@ -729,6 +750,11 @@ end;
 procedure TfrmMain.actPajakExecute(Sender: TObject);
 begin
   frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actPrintHistoryPOBySupplierExecute(Sender: TObject);
+begin
+    frmPrintHistoryPOBySupplier := TfrmPrintHistoryPOBySupplier.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actPrintPOExecute(Sender: TObject);

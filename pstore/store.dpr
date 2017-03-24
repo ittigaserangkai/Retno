@@ -35,7 +35,6 @@ uses
   uModTest in '..\model\uModTest.pas',
   uModBank in '..\model\uModBank.pas',
   uModRekening in '..\model\uModRekening.pas',
-  ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
   ufrmHistorySO in '..\module\so\ufrmHistorySO.pas' {frmHistorySO},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufrmDialogDetailSO in '..\module\so\ufrmDialogDetailSO.pas' {frmDialogDetailSO},
@@ -69,7 +68,15 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
   uModMember in '..\model\uModMember.pas',
-  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas';
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
+  ufrmInputSupplierForNotSO in '..\module\so\ufrmInputSupplierForNotSO.pas' {frmInputSupplierForNotSO},
+  ufrmDialogInputSupplierForNotSO in '..\module\so\ufrmDialogInputSupplierForNotSO.pas' {frmDialogInputSupplierForNotSO},
+  ufrmInputProductForNotSO in '..\module\so\ufrmInputProductForNotSO.pas' {frmInputProductForNotSO},
+  ufrmDialogInputProductForNotSO in '..\module\so\ufrmDialogInputProductForNotSO.pas' {frmDialogInputProductForNotSO},
+  ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
+  ufrmGeneratePOForAll in '..\module\po\ufrmGeneratePOForAll.pas' {frmGeneratePOforAll},
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
+  ufrmGeneratePOBonus in '..\module\po\ufrmGeneratePOBonus.pas' {frmGeneratePOBonus};
 
 {$R *.res}
 
@@ -79,5 +86,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmGeneratePOBonus, frmGeneratePOBonus);
   Application.Run;
 end.

@@ -462,6 +462,7 @@
             <Form>frmDialogCompany</Form>
         </DCCReference>
         <DCCReference Include="..\classes\uClientClasses.pas"/>
+        <DCCReference Include="..\model\uModUnit.pas"/>
         <DCCReference Include="..\module\references\ufrmOutlet.pas">
             <Form>frmOutlet</Form>
             <FormType>dfm</FormType>
@@ -552,10 +553,6 @@
             <Form>frmCetakPO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\merchandise\ufrmCancellationPO.pas">
-            <Form>frmCancellationPO</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmChangeStatusPO.pas">
             <Form>frmChangeStatusPO</Form>
             <FormType>dfm</FormType>
@@ -568,7 +565,34 @@
             <Form>frmListingPOByMerchandisingGroup</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModUnit.pas"/>
+        <DCCReference Include="..\module\merchandise\ufrmHistoryPO.pas">
+            <Form>frmHistoryPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmPrintHistoryPOBySupplier.pas">
+            <Form>frmPrintHistoryPOBySupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmInvMovementQTY.pas">
+            <Form>frmInvMovementQTY</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmRetur.pas">
+            <Form>frmRetur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogRetur.pas">
+            <Form>frmDialogRetur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmLaporanRetur.pas">
+            <Form>frmLaporanRetur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmCancellationPO.pas">
+            <Form>frmCancellationPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="..\model\uModPropinsi.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
@@ -611,12 +635,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -970,27 +1009,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

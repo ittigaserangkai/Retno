@@ -866,10 +866,12 @@ object frmMain: TfrmMain
     object actHistoryPO: TAction
       Category = 'Finance'
       Caption = 'actHistoryPO'
+      OnExecute = actHistoryPOExecute
     end
     object actPrintHistoryPOBySupplier: TAction
       Category = 'Finance'
       Caption = 'actPrintHistoryPOBySupplier'
+      OnExecute = actPrintHistoryPOBySupplierExecute
     end
     object actListPOCancel: TAction
       Category = 'Finance'
@@ -1069,6 +1071,7 @@ object frmMain: TfrmMain
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
       Caption = 'Laporan Inventory Movement Qty'
+      OnExecute = actLapInvMovementQtyExecute
     end
     object actDisplayPO: TAction
       Category = 'Merchandise'
@@ -1097,6 +1100,7 @@ object frmMain: TfrmMain
     object actLapReturSup: TAction
       Category = 'Inventory'
       Caption = 'actLapReturSup'
+      OnExecute = actLapReturSupExecute
     end
     object actLaporanTransaksiDetil: TAction
       Category = 'Finance'

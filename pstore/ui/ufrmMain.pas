@@ -182,11 +182,19 @@ type
     actLPKAll: TAction;
     actEodLpk: TAction;
     actUser: TAction;
+    procedure actArrangeExecute(Sender: TObject);
+    procedure actCascadeExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
+    procedure actCreateSOExecute(Sender: TObject);
+    procedure actGeneratePOForAllExecute(Sender: TObject);
+    procedure actInputProductNotForSOExecute(Sender: TObject);
+    procedure actInputSupplierNotForSOExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
+    procedure actPOBonusExecute(Sender: TObject);
+    procedure actTileExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
 //    FNewUnit: TUnit;
@@ -234,7 +242,18 @@ implementation
 {$R *.dfm}
 
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
-  ufrmLogin;
+  ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
+  ufrmGeneratePOForAll, ufrmGeneratePOBonus;
+
+procedure TfrmMain.actArrangeExecute(Sender: TObject);
+begin
+  ArrangeIcons;
+end;
+
+procedure TfrmMain.actCascadeExecute(Sender: TObject);
+begin
+  Cascade;
+end;
 
 procedure TfrmMain.actCloseAllExecute(Sender: TObject);
 var i: integer;
@@ -243,19 +262,49 @@ begin
     MDIChildren[i].Close;
 end;
 
+procedure TfrmMain.actCreateSOExecute(Sender: TObject);
+begin
+    frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
+end;
+
+procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
+begin
+    frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
+end;
+
+procedure TfrmMain.actInputProductNotForSOExecute(Sender: TObject);
+begin
+  frmInputProductForNotSO := TfrmInputProductForNotSO.CreateWithUser(Self, FFormProperty);
+end;
+
+procedure TfrmMain.actInputSupplierNotForSOExecute(Sender: TObject);
+begin
+  frmInputSupplierForNotSO := TfrmInputSupplierForNotSO.CreateWithUser(Self, FFormProperty);
+end;
+
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
 begin
   IsTesting := False;
-
-  //ShowMessage(ParamStr(1));
   if ParamStr(1) = 'TESTING' then
   begin
     IsTesting := True;
   end;
-
+  {
+  ConLog:= TConLOg.Create(self);
+  fWriteInLog:= True;
+  try
+    ConLog.DefaultConfig;
+    ConLog.Connected:= True;
+    ConLog.CanMonitor:= True;
+    suistbMain.Panels[4].Text:= 'Log : Yes';
+  except
+    suistbMain.Panels[4].Text:= 'Log : No';
+    ConLog.CanMonitor:= False;
+  end;
+   }
   FFormProperty := TFormProperty.Create;
 //  FDbEventListener := TDbEventListener.Create;
 //  FDbEventListener.OnEvent := DbEventListenerOnEvent;
@@ -384,6 +433,17 @@ begin
     Panels[2].Text := 'Database: ';
     Panels[3].Text := 'EOD : ' + FormatDateTime('DD/MM/YYYY', GetLastEODDate(FFormProperty.FSelfUnitId));
   end; // end with
+end;
+
+procedure TfrmMain.actPOBonusExecute(Sender: TObject);
+begin
+  frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
+end;
+
+procedure TfrmMain.actTileExecute(Sender: TObject);
+begin
+  TileMode := tbVertical;
+  Tile;
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
