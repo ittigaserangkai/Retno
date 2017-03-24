@@ -7,8 +7,8 @@ uses
   Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
-  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, AdvCombo,
-  ColCombo, cxGroupBox, cxCheckGroup, System.Actions, Vcl.ActnList,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  cxGroupBox, cxCheckGroup, System.Actions, Vcl.ActnList,
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
@@ -22,7 +22,6 @@ type
     dtTglTo: TcxDateEdit;
     lbl2: TLabel;
     lbl3: TLabel;
-    cbpMerchandise: TColumnComboBox;
     lbl4: TLabel;
     edtSupplierCode: TEdit;
     edtSuplierName: TEdit;
@@ -92,10 +91,12 @@ end;
 
 function TfrmHistoryPO.GetListMerchandiseByUnitId: TDataSet;
 begin
+  Result := nil;
 end;
 
 function TfrmHistoryPO.GetListStatusPOByUnitId: TDataSet;
 begin
+  Result := nil;
 end;
 
 function TfrmHistoryPO.GetSuplierNameByCode(ACode: string): string;
@@ -207,6 +208,7 @@ end;
 
 function TfrmHistoryPO.GetListPO(AStatusPO: string): TDataSet;
 begin
+  Result := nil;
   {
   if not Assigned(HistoryPO) then
     HistoryPO := THistoryPO.Create;

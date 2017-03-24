@@ -91,8 +91,7 @@ inherited frmHistoryPO: TfrmHistoryPO
           end
           item
           end>
-        TabOrder = 5
-        ExplicitWidth = 76
+        TabOrder = 4
         Height = 49
         Width = 599
       end
@@ -108,38 +107,6 @@ inherited frmHistoryPO: TfrmHistoryPO
         TabOrder = 1
         Width = 89
       end
-      object cbpMerchandise: TColumnComboBox
-        Left = 88
-        Top = 32
-        Width = 121
-        Height = 24
-        Color = clWindow
-        Version = '1.5.0.1'
-        Visible = True
-        Ctl3D = False
-        Columns = <>
-        ComboItems = <>
-        EditColumn = -1
-        EditHeight = 18
-        EmptyText = ''
-        EmptyTextStyle = []
-        DropWidth = 0
-        DropHeight = 200
-        Enabled = True
-        GridLines = False
-        ItemIndex = -1
-        LookupColumn = 0
-        LabelCaption = ''
-        LabelFont.Charset = DEFAULT_CHARSET
-        LabelFont.Color = clWindowText
-        LabelFont.Height = -11
-        LabelFont.Name = 'Tahoma'
-        LabelFont.Style = []
-        ParentCtl3D = False
-        SortColumn = 0
-        TabOrder = 2
-        OnChange = cbpMerchandiseChange
-      end
       object edtSupplierCode: TEdit
         Left = 88
         Top = 59
@@ -148,7 +115,7 @@ inherited frmHistoryPO: TfrmHistoryPO
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 3
+        TabOrder = 2
         OnKeyUp = edtSupplierCodeKeyUp
       end
       object edtSuplierName: TEdit
@@ -160,7 +127,7 @@ inherited frmHistoryPO: TfrmHistoryPO
         Color = 15198183
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 4
+        TabOrder = 3
       end
       object btnShow: TcxButton
         Left = 523
@@ -183,13 +150,13 @@ inherited frmHistoryPO: TfrmHistoryPO
         Color = 15198183
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 7
+        TabOrder = 5
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 643
-    ExplicitWidth = 120
+    ExplicitWidth = 643
     inherited lblHeader: TLabel
       Width = 64
       Caption = 'HISTORY PO'
@@ -197,7 +164,7 @@ inherited frmHistoryPO: TfrmHistoryPO
     end
     inherited lblFilterData: TcxLabel
       Left = 289
-      ExplicitLeft = -234
+      ExplicitLeft = 289
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -216,7 +183,7 @@ inherited frmHistoryPO: TfrmHistoryPO
     end
     inherited lblsdFilter: TcxLabel
       Left = 442
-      ExplicitLeft = -81
+      ExplicitLeft = 442
       AnchorY = 17
     end
   end
@@ -251,7 +218,7 @@ inherited frmHistoryPO: TfrmHistoryPO
       ExplicitWidth = 120
       inherited lbEscape: TLabel
         Left = 569
-        Height = 17
+        ExplicitLeft = 569
       end
     end
   end
