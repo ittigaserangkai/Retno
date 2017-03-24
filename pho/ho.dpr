@@ -171,7 +171,6 @@ uses
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
   ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
   ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
-  ufrmCancellationPO in '..\module\merchandise\ufrmCancellationPO.pas' {frmCancellationPO},
   ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
   ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
   ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup},
@@ -181,7 +180,8 @@ uses
   ufrmRetur in '..\module\inventory\ufrmRetur.pas' {frmRetur},
   ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
-  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO};
+  ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 
@@ -192,6 +192,5 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmDialogDetailGeneratePO, frmDialogDetailGeneratePO);
   Application.Run;
 end.

@@ -193,6 +193,7 @@ type
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
+    procedure actPOBonusExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -242,7 +243,7 @@ implementation
 
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
-  ufrmGeneratePOForAll;
+  ufrmGeneratePOForAll, ufrmGeneratePOBonus;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -432,6 +433,11 @@ begin
     Panels[2].Text := 'Database: ';
     Panels[3].Text := 'EOD : ' + FormatDateTime('DD/MM/YYYY', GetLastEODDate(FFormProperty.FSelfUnitId));
   end; // end with
+end;
+
+procedure TfrmMain.actPOBonusExecute(Sender: TObject);
+begin
+  frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
 end;
 
 procedure TfrmMain.actTileExecute(Sender: TObject);

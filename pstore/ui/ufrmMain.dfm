@@ -595,6 +595,7 @@ object frmMain: TfrmMain
     object actPOBonus: TAction
       Category = 'PO'
       Caption = 'actPOBonus'
+      OnExecute = actPOBonusExecute
     end
     object actSettingJurnal: TAction
       Category = 'Inventory'
