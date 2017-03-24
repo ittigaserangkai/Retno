@@ -216,6 +216,7 @@ object frmMain: TfrmMain
     object actChangeStatusPO: TAction
       Category = 'PO'
       Caption = 'Change &Status PO'
+      OnExecute = actChangeStatusPOExecute
     end
     object actApprovalPO: TAction
       Category = 'PO'

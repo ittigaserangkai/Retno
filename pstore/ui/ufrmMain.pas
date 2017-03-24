@@ -184,6 +184,7 @@ type
     actUser: TAction;
     procedure actArrangeExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
+    procedure actChangeStatusPOExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCreateSOExecute(Sender: TObject);
     procedure actGeneratePOForAllExecute(Sender: TObject);
@@ -243,7 +244,7 @@ implementation
 
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
-  ufrmGeneratePOForAll, ufrmGeneratePOBonus;
+  ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -253,6 +254,11 @@ end;
 procedure TfrmMain.actCascadeExecute(Sender: TObject);
 begin
   Cascade;
+end;
+
+procedure TfrmMain.actChangeStatusPOExecute(Sender: TObject);
+begin
+  frmChangeStatusPO := TfrmChangeStatusPO.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actCloseAllExecute(Sender: TObject);

@@ -8,7 +8,8 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
   cxDBData, Vcl.Menus, cxButtons, cxGridLevel, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid;
+  cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TsearchFor = (sfProductSup, sfMasterSup);

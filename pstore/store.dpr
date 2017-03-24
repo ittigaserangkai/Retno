@@ -76,7 +76,26 @@ uses
   ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
   ufrmGeneratePOForAll in '..\module\po\ufrmGeneratePOForAll.pas' {frmGeneratePOforAll},
   ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
-  ufrmGeneratePOBonus in '..\module\po\ufrmGeneratePOBonus.pas' {frmGeneratePOBonus};
+  ufrmGeneratePOBonus in '..\module\po\ufrmGeneratePOBonus.pas' {frmGeneratePOBonus},
+  ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
+  ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
+  ufrmApprovalPO in '..\module\po\ufrmApprovalPO.pas' {frmApprovallPO},
+  ufrmSearchSupplier in '..\module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
+  ufrmProduct in '..\module\product\ufrmProduct.pas' {frmProduct},
+  ufraStockCard in '..\module\product\ufraStockCard.pas' {fraStockCard: TFrame},
+  ufraSellingPrice in '..\module\product\ufraSellingPrice.pas' {fraSellingPrice: TFrame},
+  ufraProductTurunan in '..\module\product\ufraProductTurunan.pas' {fraProductTurunan: TFrame},
+  ufraProductSupplier in '..\module\product\ufraProductSupplier.pas' {fraProductSupplier: TFrame},
+  ufraBonusProduct in '..\module\product\ufraBonusProduct.pas' {fraBonusProduct: TFrame},
+  ufraUOMConvertion in '..\module\product\ufraUOMConvertion.pas' {fraUOMConvertion: TFrame},
+  ufraAlokasiStock in '..\module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
+  ufrmDialogProduct in '..\module\product\ufrmDialogProduct.pas' {frmDialogProduct},
+  uModBarang in '..\model\uModBarang.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModSatuan in '..\model\uModSatuan.pas',
+  ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
+  uSpecialKey in '..\classes\uSpecialKey.pas',
+  ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame};
 
 {$R *.res}
 
@@ -87,5 +106,20 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmGeneratePOBonus, frmGeneratePOBonus);
+  Application.CreateForm(TfrmChangeStatusPO, frmChangeStatusPO);
+  Application.CreateForm(TfrmCancellationPO, frmCancellationPO);
+  Application.CreateForm(TfrmApprovallPO, frmApprovallPO);
+  Application.CreateForm(TfrmDialogSearchSupplier, frmDialogSearchSupplier);
+  Application.CreateForm(TfrmProduct, frmProduct);
+  Application.CreateForm(TfraStockCard, fraStockCard);
+  Application.CreateForm(TfraSellingPrice, fraSellingPrice);
+  Application.CreateForm(TfraProductTurunan, fraProductTurunan);
+  Application.CreateForm(TfraProductSupplier, fraProductSupplier);
+  Application.CreateForm(TfraBonusProduct, fraBonusProduct);
+  Application.CreateForm(TfraUOMConvertion, fraUOMConvertion);
+  Application.CreateForm(TfraAlokasiStock, fraAlokasiStock);
+  Application.CreateForm(TfrmDialogProduct, frmDialogProduct);
+  Application.CreateForm(TfrmDialogMerk, frmDialogMerk);
+  Application.CreateForm(TfraHistoriPOByProduct, fraHistoriPOByProduct);
   Application.Run;
 end.
