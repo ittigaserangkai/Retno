@@ -170,9 +170,6 @@
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
-        <DCCReference Include="..\module\so\ufrmCreateSO.pas">
-            <Form>frmCreateSO</Form>
-        </DCCReference>
         <DCCReference Include="..\module\so\ufrmHistorySO.pas">
             <Form>frmHistorySO</Form>
         </DCCReference>
@@ -268,6 +265,34 @@
         </DCCReference>
         <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
+        <DCCReference Include="..\module\so\ufrmInputSupplierForNotSO.pas">
+            <Form>frmInputSupplierForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmDialogInputSupplierForNotSO.pas">
+            <Form>frmDialogInputSupplierForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmInputProductForNotSO.pas">
+            <Form>frmInputProductForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmDialogInputProductForNotSO.pas">
+            <Form>frmDialogInputProductForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmCreateSO.pas">
+            <Form>frmCreateSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmGeneratePOForAll.pas">
+            <Form>frmGeneratePOforAll</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
+            <Form>frmDialogDetailGeneratePO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -294,6 +319,12 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
+                <DeployFile LocalName="..\..\build\Retno\bin\store.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>store.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\bin\store.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>store.exe</RemoteName>

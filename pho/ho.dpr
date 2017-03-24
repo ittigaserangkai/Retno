@@ -180,7 +180,8 @@ uses
   ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
   ufrmRetur in '..\module\inventory\ufrmRetur.pas' {frmRetur},
   ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
-  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur};
+  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO};
 
 {$R *.res}
 
@@ -191,5 +192,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmDialogDetailGeneratePO, frmDialogDetailGeneratePO);
   Application.Run;
 end.

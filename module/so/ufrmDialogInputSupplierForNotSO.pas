@@ -4,18 +4,21 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, StdCtrls, cbxbase, dblup1a, uConn,
-  ufraFooterDialog2Button, ExtCtrls, SUIForm, uInputSupplierForNotSO,
-  EditBtn, uRMSUnit, uRMSBaseClass, uGTSUICommonDlg;
+  Dialogs, ufrmMasterDialog, StdCtrls, ExtCtrls, DB,
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxButtonEdit,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox;
 
 type
   TFormMode = (fmAdd, fmEdit);
   TfrmDialogInputSupplierForNotSO = class(TfrmMasterDialog)
     lbl1: TLabel;
     lbl2: TLabel;
-    cbpCode: TColumnComboBox;
+    cbpCode: TcxExtLookupComboBox;
     edtName: TEdit;
-    edtKode: TEditBtn;
+    edtKode: TcxButtonEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -36,12 +39,12 @@ type
     FFormMode: TFormMode;
     FSuplierBlacklistId: Integer;
     isCodeChange: Boolean;
-    dataCodeSuplier: TResultDataSet;
+    dataCodeSuplier: TDataSet;
     { Private declarations }
     procedure SetFormMode(const Value: TFormMode);
     procedure SetSuplierBlacklistId(const Value: Integer);
     procedure prepareAddData;
-    procedure LoadDropDownData(ACombo: TColumnComboBox; AColsOfData: Integer);
+    procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
     function SaveData: boolean;
     function UpdateData: boolean;
     procedure SetIsProcessSuccessfull(const Value: boolean);
@@ -59,51 +62,87 @@ var
 
 implementation
 
-uses uDataCombo, DB,  uSearchSupplier, ufrmInputSupplierForNotSO;
+uses ufrmInputSupplierForNotSO;
 
 {$R *.dfm}
 
-procedure TfrmDialogInputSupplierForNotSO.LoadDropDownData(ACombo: TColumnComboBox; AColsOfData: Integer);
+procedure TfrmDialogInputSupplierForNotSO.actDeleteExecute(Sender: TObject);
+var
+  sSQL: string;
+  IDLokal: Integer;
+begin
+  {if strgGrid.Cells[2,strgGrid.Row]='0' then Exit;
+  if (CommonDlg.Confirm('Are you sure you wish to delete supplier (Supplier Code: '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
+  begin
+   IDLokal := StrToInt(strgGrid.Cells[2,strgGrid.Row]);
+
+    sSQL := 'delete from SO_SUPLIER_BLACKLIST where '
+            + ' SOSB_ID = ' + IntToStr(IDLokal)
+            + ' and SOSB_UNT_ID = ' + IntToStr(masternewunit.id);
+
+
+    if not cExecSQL(sSQL,False,SuplierBlackList.GetHeaderFlag) then
+    begin
+      cRollbackTrans;
+      CommonDlg.ShowError('Data Gagal Dihapus');
+      Exit;
+    end
+    else if not SimpanBlob(sSQL,1) then
+    begin
+      cRollbackTrans;
+      CommonDlg.ShowError('Data Gagal Disimpan');
+      Exit;
+    end
+    else begin
+      cCommitTrans;
+      CommonDlg.ShowMessage('Data Berhasil Dihapus');
+      strgGrid.Clear;
+    end;
+
+    actRefreshSupplierForNotSOExecute(Self);
+  end;
+  }
+end;
+
+procedure TfrmDialogInputSupplierForNotSO.LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
 begin
     {Flush the old data}
-    ACombo.ClearGridData;
+//    ACombo.ClearGridData;
 
     {Make sure the allocated storage is big enough}
-    if AColsOfData>0 then
-      ACombo.RowCount := AColsOfData+1
-    else
-      ACombo.RowCount := 2;
-    ACombo.ColCount := 3;
-    ACombo.AddRow(['','CODE','NAME']);
-    if dataCodeSuplier <> nil then
-    while not dataCodeSuplier.Eof do
-    begin
-      try
-        ACombo.AddRow([dataCodeSuplier.FieldByName('SUP_CODE').AsString,
-                       dataCodeSuplier.FieldByName('SUP_CODE').AsString,
-                       dataCodeSuplier.FieldByName('SUP_NAME').AsString]);
-      except
-      end;
-      dataCodeSuplier.Next;
-    end
-    else
-      try
-        ACombo.AddRow(['0',' ',' ']);
-      except
-      end;
-    ACombo.FixedRows:=1;
+//    if AColsOfData>0 then
+//      ACombo.RowCount := AColsOfData+1
+//    else
+//      ACombo.RowCount := 2;
+//    ACombo.ColCount := 3;
+//    ACombo.AddRow(['','CODE','NAME']);
+//    if dataCodeSuplier <> nil then
+//    while not dataCodeSuplier.Eof do
+//    begin
+//      try
+//        ACombo.AddRow([dataCodeSuplier.FieldByName('SUP_CODE').AsString,
+//                       dataCodeSuplier.FieldByName('SUP_CODE').AsString,
+//                       dataCodeSuplier.FieldByName('SUP_NAME').AsString]);
+//      except
+//      end;
+//      dataCodeSuplier.Next;
+//    end
+//    else
+//      try
+//        ACombo.AddRow(['0',' ',' ']);
+//      except
+//      end;
+//    ACombo.FixedRows:=1;
     {Now shring the grid so its just big enough for the data}
-    ACombo.SizeGridToData;
+//    ACombo.SizeGridToData;
 end;
 
 function TfrmDialogInputSupplierForNotSO.SaveData: boolean;
-var //cek: Boolean;
+var
   i: Integer;
   aSQL: string;
-  //iSQL: string;
   aID: Integer;
   sSQL: string;
-    //arrParam: TArr;
 begin
   inherited;
   Result := False;
@@ -111,7 +150,7 @@ begin
   aSQL := 'select SOSB_SUP_CODE from SO_SUPLIER_BLACKLIST where SOSB_UNT_ID = '
           + IntToStr(dialogunit)
           + ' and SOSB_SUP_CODE = ' + QuotedStr(edtKode.Text);
-
+  {
   with cOpenQuery(aSQL) do
   begin
     for i := 1 to frmInputSupplierForNotSO.strgGrid.RowCount - 1 do
@@ -160,36 +199,16 @@ begin
     cRollbackTrans;
   end;
 
- { if not assigned(SuplierBlackList) then
-    SuplierBlackList := TSuplierBlackList.Create;
-  cek:= SuplierBlackList.CekDataSuplierBlackList(cbpCode.Text);
-  if cek then
-  begin
-    // set param
-    SetLength(arrParam,3);
-    arrParam[0].tipe := ptString;
-    arrParam[0].data := cbpCode.Text;
-    arrParam[1].tipe := ptInteger;
-    arrParam[1].data := FLoginId;
-    arrParam[2].tipe := ptDateTime;
-    arrParam[2].data := Now;
-    Result:= SuplierBlackList.InputDataSuplierBlackList(arrParam);
-  end
-  else
-  begin
-    CommonDlg.ShowMessage(1,'Information','supplier already in list.', mtInfo);
-    Result:= False;
-  end;  }
+   }
 
   
 end;
 
 function TfrmDialogInputSupplierForNotSO.UpdateData: boolean;
-var // cek: Boolean;
+var
   aSQL: string;
   i: Integer;
   sSQL: string;
-  //  arrParam: TArr;
 begin
   Result := False;
   
@@ -197,7 +216,7 @@ begin
           + IntToStr(dialogunit)
           + ' and SOSB_SUP_CODE = ' + QuotedStr(edtKode.Text)
           + ' and SOSB_ID <> ' + IntToStr(SuplierBlacklistId) ;
-
+  {
   with cOpenQuery(sSQL) do
   begin
     for i := 1 to frmInputSupplierForNotSO.strgGrid.RowCount - 1 do
@@ -231,7 +250,6 @@ begin
       Exit;
     end
     else begin
-     // CekKodeExist;
       cCommitTrans;
       CommonDlg.ShowMessage('Data Berhasil Disimpan');
       frmInputSupplierForNotSO.actRefreshSupplierForNotSOExecute(Self);
@@ -240,28 +258,7 @@ begin
   finally
     cRollbackTrans;
   end;
- { if not assigned(SuplierBlackList) then
-    SuplierBlackList := TSuplierBlackList.Create;
-  cek:= SuplierBlackList.CekDataSuplierBlackList(cbpCode.Text);
-  if cek then
-  begin
-    // set param
-    SetLength(arrParam,4);
-    arrParam[0].tipe := ptString;
-    arrParam[0].data := cbpCode.Text;
-    arrParam[1].tipe := ptInteger;
-    arrParam[1].data := FLoginId;
-    arrParam[2].tipe := ptDateTime;
-    arrParam[2].data := Now;
-    arrParam[3].tipe := ptInteger;
-    arrParam[3].data := SuplierBlacklistId;
-    result:=SuplierBlackList.UpdateDataSuplierBlackList(arrParam);
-  end
-  else
-  begin
-    CommonDlg.ShowMessage(1,'Information','supplier already in list.', mtInfo);
-    Result:= False;
-  end;   }
+  }
 end;
 
 procedure TfrmDialogInputSupplierForNotSO.footerDialogMasterbtnSaveClick(
@@ -269,8 +266,8 @@ procedure TfrmDialogInputSupplierForNotSO.footerDialogMasterbtnSaveClick(
 begin
   inherited;
 
-  if not IsValidDateKarenaEOD(dialogunit,cGetServerTime,Fmasterisstore) then
-    Exit;
+//  if not IsValidDateKarenaEOD(dialogunit,cGetServerTime,Fmasterisstore) then
+//    Exit;
 
   if (FormMode = fmAdd) then
   begin
@@ -317,12 +314,8 @@ end;
 
 procedure TfrmDialogInputSupplierForNotSO.prepareAddData;
 begin
-  edtName.Text:=cbpCode.Cells[2,1];
-  {try
-    iIdUnt:=StrToInt(cbpCode.Cells[0,1]);
-  except
-    iIdUnt:=0;
-  end;}
+//  edtName.Text:=cbpCode.Cells[2,1];
+
 end;
 
 procedure TfrmDialogInputSupplierForNotSO.FormShow(Sender: TObject);
@@ -332,7 +325,7 @@ var
 begin
   inherited;
   edtKode.Text := '';
-
+ {
   Kode := frmInputSupplierForNotSO.strgGrid.Cells[0,frmInputSupplierForNotSO.strgGrid.Row];
 
   sSQL := 'select *  from SO_SUPLIER_BLACKLIST where SOSB_SUP_CODE = ' + QuotedStr(Kode);
@@ -351,17 +344,12 @@ begin
       isCodeChange:=False;
     end;
  end;
+ }
 end;
 
 procedure TfrmDialogInputSupplierForNotSO.cbpCodeChange(Sender: TObject);
 begin
   inherited;
-{  edtName.Text:=cbpCode.Cells[2,cbpCode.Row];
-  try
-    iIdUnt:=StrToInt(cbpCode.Cells[0,cbpCode.Row]);
-  except
-    iIdUnt:=0;
-  end;}
   isCodeChange:=True;
 end;
 
@@ -383,7 +371,6 @@ end;
 procedure TfrmDialogInputSupplierForNotSO.cbpCodeCloseUp(Sender: TObject);
 begin
   inherited;
-  //edtName.Text:=cbpCode.Cells[2,cbpCode.Row];
   isCodeChange:=True;
 end;
 
@@ -392,13 +379,14 @@ procedure TfrmDialogInputSupplierForNotSO.cbpCodeKeyUp(Sender: TObject;
 var supCode: string;
 begin
   inherited;
-  if Length(cbpCode.Text) = 1 then
+  {if Length(cbpCode.Text) = 1 then
   begin
     supCode := UpperCase(cbpCode.Text) + '%';
 
     dataCodeSuplier := uSearchSupplier.SearchSupplier.GetDataSupplier(supCode);
     LoadDropDownData(cbpCode,dataCodeSuplier.RecordCount);
   end; //if length
+  }
 end;
 
 procedure TfrmDialogInputSupplierForNotSO.CekKodeExist;
@@ -409,7 +397,7 @@ begin
   sSQL := 'select SOSB_SUP_CODE from SO_SUPLIER_BLACKLIST where SOSB_UNT_ID = '
           + IntToStr(dialogunit)
           + ' and SOSB_SUP_CODE = ' + QuotedStr(edtKode.Text);
-
+  {
   with cOpenQuery(sSQL) do
   begin
     for i := 1 to frmInputSupplierForNotSO.strgGrid.RowCount - 1 do
@@ -421,6 +409,7 @@ begin
       end;
     end;
   end;
+  }
 end;
 
 procedure TfrmDialogInputSupplierForNotSO.edtKodeClickBtn(Sender: TObject);
@@ -430,7 +419,7 @@ begin
   inherited;
   sSQL := 'select sup_code, sup_name '
        + ' from suplier ';
-
+ {
   with cLookUp('Data Suplier',sSQL) do
   begin
      if Strings[0] = '' then
@@ -441,6 +430,7 @@ begin
      edtKode.Text := Strings[0];
      edtName.Text := Strings[1];
   end;
+  }
 end;
 
 procedure TfrmDialogInputSupplierForNotSO.edtKodeKeyPress(Sender: TObject;
@@ -467,8 +457,8 @@ begin
   inherited;
 
   sSQL := 'select sup_code, sup_name from suplier where sup_code = '
-       + Quot(edtKode.Text) ;
-
+       + QuotedStr(edtKode.Text) ;
+  {
   with cOpenQuery(sSQL) do
   begin
     try
@@ -488,7 +478,7 @@ begin
       Free;
     End;
   end;
-//  edtName.SetFocus;
+  }
 
 end;
 
