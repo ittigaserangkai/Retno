@@ -163,7 +163,10 @@ uses
   ufrmDialogSupplierGroup in '..\module\merchandise\ufrmDialogSupplierGroup.pas' {frmDialogSupplierGroup},
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   uFrmGenPO in '..\module\merchandise\uFrmGenPO.pas' {frmGenPO},
-  uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp};
+  uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp},
+  ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
+  ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
+  uModGudang in '..\model\uModGudang.pas';
 
 {$R *.res}
 

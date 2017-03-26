@@ -284,6 +284,9 @@ type
     actSupplier: TAction;
     actSupplier1: TMenuItem;
     SupplierGroup1: TMenuItem;
+    actGudang: TAction;
+    Inventory1: TMenuItem;
+    Gudang1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -295,6 +298,7 @@ type
     procedure actDataProductExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
+    procedure actGudangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
@@ -379,7 +383,8 @@ uses
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
   ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
-  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO;
+  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
+  ufrmGudang;
 
 {$R *.dfm}
 
@@ -517,6 +522,11 @@ end;
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
 begin
     frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
+end;
+
+procedure TfrmMain.actGudangExecute(Sender: TObject);
+begin
+  frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
