@@ -123,8 +123,6 @@ type
     FIdAccInternalUse, FIdAccSuplierBakery, FidAccDistribusi: Integer;
     FIdAccPPNMasukan, FIdAccPPNBM, FIdAccPPNKeluaran: Integer;
     FStatusForm: TStatusForm;
-    function GetListCompany(): TDataSet;
-    function GetListRekeningByCompanyId(ACompId: string): TDataSet;
     function GetNamaRekeningByRekCode(ACompId, ARekCode: string): TDataSet;
     function GetDataSetupCashManagementByGroup(AGroup: string): TDataSet;
     function LoadNamaRekeningByRekCode(ACode: string): string;
@@ -222,24 +220,11 @@ begin
   end;
 end;
 
-function TfrmSetupCashManagement.GetListCompany: TDataSet;
-begin
-//  if not Assigned(SetupCashManagement) then
-//    SetupCashManagement := TSetupCashManagement.Create;
-//
-//  Result := SetupCashManagement.GetListCompany;
-end;
-
-function TfrmSetupCashManagement.GetListRekeningByCompanyId(
-  ACompId: string): TDataSet;
-begin
-//
-end;
-
 procedure TfrmSetupCashManagement.ParseDataConsolidationTo;
 var dataCompany: TDataSet;
 begin
-  dataCompany := GetListCompany;
+
+//  dataCompany := GetListCompany;
   {
   with cbpConsolidation do
   begin
@@ -566,6 +551,7 @@ function TfrmSetupCashManagement.GetNamaRekeningByRekCode(ACompId,
   ARekCode: string): TDataSet;
 //var arrParam: TArr;
 begin
+  Result := nil;
   {if ARekCode = '' then
     SetLength(arrParam, 0)
   else
@@ -610,6 +596,7 @@ function TfrmSetupCashManagement.CekIsGroupCashManagementExist(
 var dataSetupCashManagement: TDataSet;
 //    arrParam: TArr;
 begin
+  Result := False;
   {if (AGroup = '') then
     SetLength(arrParam, 0)
   else
@@ -725,6 +712,7 @@ function TfrmSetupCashManagement.SaveDataSetupCashManagement: Boolean;
 var bResult: Boolean;
 //    arrParam: TArr;
 begin
+  Result := False;
   {if not Assigned(SetupCashManagement) then
     SetupCashManagement := TSetupCashManagement.Create;
 
@@ -930,10 +918,9 @@ end;
 function TfrmSetupCashManagement.UpdateDatasetupCashManagement: Boolean;
 //var arrParam: TArr;
 begin
-{
-//  bResult := False;
+  Result := False;
 
-  if not Assigned(SetupCashManagement) then
+  {if not Assigned(SetupCashManagement) then
     SetupCashManagement := TSetupCashManagement.Create;
 
   try
@@ -1169,6 +1156,7 @@ function TfrmSetupCashManagement.GetDataSetupCashManagementByGroup(
   AGroup: string): TDataSet;
 //var arrParam: TArr;
 begin
+  Result := nil
   {if AGroup = '' then
     SetLength(arrParam, 0)
   else

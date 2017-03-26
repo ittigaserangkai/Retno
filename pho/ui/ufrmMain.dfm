@@ -872,10 +872,12 @@ object frmMain: TfrmMain
     object actHistoryPO: TAction
       Category = 'Finance'
       Caption = 'actHistoryPO'
+      OnExecute = actHistoryPOExecute
     end
     object actPrintHistoryPOBySupplier: TAction
       Category = 'Finance'
       Caption = 'actPrintHistoryPOBySupplier'
+      OnExecute = actPrintHistoryPOBySupplierExecute
     end
     object actListPOCancel: TAction
       Category = 'Finance'
@@ -987,6 +989,7 @@ object frmMain: TfrmMain
     object actPrintPO: TAction
       Category = 'Merchandise'
       Caption = 'actPrintPO'
+      OnExecute = actPrintPOExecute
     end
     object actApprovalPO: TAction
       Category = 'Merchandise'
@@ -995,6 +998,7 @@ object frmMain: TfrmMain
     object actCancPO: TAction
       Category = 'Merchandise'
       Caption = 'actCancPO'
+      OnExecute = actCancPOExecute
     end
     object actDispPO: TAction
       Category = 'Merchandise'
@@ -1003,6 +1007,7 @@ object frmMain: TfrmMain
     object actChangeStatPO: TAction
       Category = 'Merchandise'
       Caption = 'actChangeStatPO'
+      OnExecute = actChangeStatPOExecute
     end
     object actActionList: TAction
       Category = 'Management User'
@@ -1072,6 +1077,7 @@ object frmMain: TfrmMain
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
       Caption = 'Laporan Inventory Movement Qty'
+      OnExecute = actLapInvMovementQtyExecute
     end
     object actDisplayPO: TAction
       Category = 'Merchandise'
@@ -1100,6 +1106,7 @@ object frmMain: TfrmMain
     object actLapReturSup: TAction
       Category = 'Inventory'
       Caption = 'actLapReturSup'
+      OnExecute = actLapReturSupExecute
     end
     object actLaporanTransaksiDetil: TAction
       Category = 'Finance'
@@ -1166,6 +1173,26 @@ object frmMain: TfrmMain
       Category = 'Merchandise'
       Caption = 'Supplier'
       OnExecute = actSupplierExecute
+    end
+    object actListingQuotationHargaBeli: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingQuotationHargaBeli'
+      OnExecute = actListingQuotationHargaBeliExecute
+    end
+    object actListingQuotationMailer: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingQuotationMailer'
+      OnExecute = actListingQuotationMailerExecute
+    end
+    object actLaporanStok: TAction
+      Category = 'Inventory'
+      Caption = 'actLaporanStok'
+      OnExecute = actLaporanStokExecute
+    end
+    object actListingPObyMG: TAction
+      Category = 'Merchandise'
+      Caption = 'actListingPObyMG'
+      OnExecute = actListingPObyMGExecute
     end
     object actGudang: TAction
       Category = 'Inventory'

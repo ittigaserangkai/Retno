@@ -4,30 +4,34 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, Grids,
-  BaseGrid, AdvGrid, cbxbase, dblup1a, DBAdvGrd, ActnList,uConn, EditBtn, uRMSUnit, uRMSBaseClass;
+  Dialogs, ufrmMasterBrowse, System.Actions, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  cxButtonEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
+  cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls;
 
 type
-  TfrmInputProductForNotSO = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmInputProductForNotSO = class(TfrmMasterBrowse)
     pnlSupplier: TPanel;
     lbl1: TLabel;
     edtName: TEdit;
-    cbpCode: TColumnComboBox;
+    cbpCode: TcxExtLookupComboBox;
     actlstInputProductForNotSO: TActionList;
     actAddProductNotForSO: TAction;
     actEditProductNotForSO: TAction;
     actDeleteProductNotForSO: TAction;
     actRefreshProductNotForSO: TAction;
-    strgGrid: TAdvStringGrid;
-    edtKode: TEditBtn;
+    edtKode: TcxButtonEdit;
+    procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure actAddProductNotForSOExecute(Sender: TObject);
-    procedure actEditProductNotForSOExecute(Sender: TObject);
-    procedure actDeleteProductNotForSOExecute(Sender: TObject);
-    procedure actRefreshProductNotForSOExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure cbpCodeChange(Sender: TObject);
     procedure cbpCodeKeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
@@ -45,9 +49,9 @@ type
   public
     { Public declarations }
     iIdUnt: Integer;
-    dataCodeSuplier: TResultDataSet;
-    procedure LoadDropDownData(ACombo: TColumnComboBox; AColsOfData: Integer);
-    procedure LoadDropDownDatax(ACombo: TColumnComboBox;
+    dataCodeSuplier: TDataSet;
+    procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
+    procedure LoadDropDownDatax(ACombo: TcxExtLookupComboBox;
               Field1,Field2,Field3,TblName:string;
               ColTitle1,ColTitle2,ColTitle3:string;
               isSpeedButton:Boolean);
@@ -59,17 +63,27 @@ var
 
 implementation
 
-uses ufrmDialogInputProductForNotSO, uGTSUICommonDlg,
-     uDataCombo, uInputProductForNotSO, DB, 
-  uSearchSupplier, unewsupplier;
+uses ufrmDialogInputProductForNotSO, uTSCommonDlg;
 
 {$R *.dfm}
+
+procedure TfrmInputProductForNotSO.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  if not Assigned(frmDialogInputProductForNotSO) then
+    Application.CreateForm(TfrmDialogInputProductForNotSO, frmDialogInputProductForNotSO);
+
+  frmDialogInputProductForNotSO.edtKode.Text := edtKode.Text;
+  frmDialogInputProductForNotSO.edtName.Text := edtName.Text;
+  frmDialogInputProductForNotSO.Caption := 'Add Product For Not SO';
+  frmDialogInputProductForNotSO.FormMode:=fmAdd;
+  SetFormPropertyAndShowDialog(frmDialogInputProductForNotSO);
+end;
 
 procedure TfrmInputProductForNotSO.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-  //////////frmMain.DestroyMenu((Sender as TForm));
   Action := caFree;
 end;
 
@@ -86,104 +100,83 @@ begin
 
 end;
 
-procedure TfrmInputProductForNotSO.LoadDropDownData(ACombo: TColumnComboBox; AColsOfData: Integer);
+procedure TfrmInputProductForNotSO.LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
 begin
     {Flush the old data}
-    ACombo.ClearGridData;
+//    ACombo.ClearGridData;
 
     {Make sure the allocated storage is big enough}
-    if AColsOfData>0 then
-      ACombo.RowCount := AColsOfData+1
-    else
-      ACombo.RowCount := 2;
-    ACombo.ColCount := 3;
-    ACombo.AddRow(['','CODE','NAME']);
-    if dataCodeSuplier <> nil then
-    while not dataCodeSuplier.Eof do
-    begin
-      try
-        ACombo.AddRow([dataCodeSuplier.FieldByName('SUP_CODE').AsString,
-                       dataCodeSuplier.FieldByName('SUP_CODE').AsString,
-                       dataCodeSuplier.FieldByName('SUP_NAME').AsString]);
-      except
-      end;
-      dataCodeSuplier.Next;
-    end
-    else
-      try
-        ACombo.AddRow(['0',' ',' ']);
-      except
-      end;
-    ACombo.FixedRows:=1;
+//    if AColsOfData>0 then
+//      ACombo.RowCount := AColsOfData+1
+//    else
+//      ACombo.RowCount := 2;
+//    ACombo.ColCount := 3;
+//    ACombo.AddRow(['','CODE','NAME']);
+//    if dataCodeSuplier <> nil then
+//    while not dataCodeSuplier.Eof do
+//    begin
+//      try
+//        ACombo.AddRow([dataCodeSuplier.FieldByName('SUP_CODE').AsString,
+//                       dataCodeSuplier.FieldByName('SUP_CODE').AsString,
+//                       dataCodeSuplier.FieldByName('SUP_NAME').AsString]);
+//      except
+//      end;
+//      dataCodeSuplier.Next;
+//    end
+//    else
+//      try
+//        ACombo.AddRow(['0',' ',' ']);
+//      except
+//      end;
+//    ACombo.FixedRows:=1;
     {Now shring the grid so its just big enough for the data}
-    ACombo.SizeGridToData;
+//    ACombo.SizeGridToData;
 end;
 
-procedure TfrmInputProductForNotSO.LoadDropDownDatax(ACombo: TColumnComboBox;
+procedure TfrmInputProductForNotSO.LoadDropDownDatax(ACombo: TcxExtLookupComboBox;
   Field1,Field2,Field3,TblName:string;
   ColTitle1,ColTitle2,ColTitle3:string;
   isSpeedButton:Boolean);
 var i: Integer;
-    data: TResultDataSet;
+    data: TDataSet;
 begin
-  if not assigned(DataCombo) then
-    DataCombo := TDataCombo.Create;
+//  if not assigned(DataCombo) then
+//    DataCombo := TDataCombo.Create;
   {Flush the old data}
-  ACombo.ClearGridData;
+//  ACombo.ClearGridData;
   {Load the data}
-  data:=DataCombo.GetListDataCombo(Field1,Field2,Field3,TblName);
+//  data:=DataCombo.GetListDataCombo(Field1,Field2,Field3,TblName);
   {Make sure the allocated storage is big enough}
-  ACombo.RowCount := data.RecordCount+1;
-  ACombo.ColCount := 3;
-  ACombo.AddRow([ColTitle1,ColTitle2,ColTitle3]);
-
-  for i:=1 to ACombo.RowCount-1 do
-    try
-      ACombo.AddRow([data.Fields[0].AsVariant,data.Fields[1].AsVariant,data.Fields[2].AsVariant]);
-      data.Next;
-    except
-    end;
-
+//  ACombo.RowCount := data.RecordCount+1;
+//  ACombo.ColCount := 3;
+//  ACombo.AddRow([ColTitle1,ColTitle2,ColTitle3]);
+//
+//  for i:=1 to ACombo.RowCount-1 do
+//    try
+//      ACombo.AddRow([data.Fields[0].AsVariant,data.Fields[1].AsVariant,data.Fields[2].AsVariant]);
+//      data.Next;
+//    except
+//    end;
+//
   {Now shring the grid so its just big enough for the data}
-  ACombo.SizeGridToData;
-  ACombo.ShowSpeedButton:=isSpeedButton;
-  if ACombo.RowCount>1 then
-  begin
-    ACombo.Text:=ACombo.Cells[1,1];
-    ACombo.FixedRows:=1;
-    ACombo.TitleColor:=clSkyBlue;
-  end
-  else
-  begin
-    ACombo.Text:='';
-    ACombo.FixedRows:=0;
-  end;
+//  ACombo.SizeGridToData;
+//  ACombo.ShowSpeedButton:=isSpeedButton;
+//  if ACombo.RowCount>1 then
+//  begin
+//    ACombo.Text:=ACombo.Cells[1,1];
+//    ACombo.FixedRows:=1;
+//    ACombo.TitleColor:=clSkyBlue;
+//  end
+//  else
+//  begin
+//    ACombo.Text:='';
+//    ACombo.FixedRows:=0;
+//  end;
 end;
 
-procedure TfrmInputProductForNotSO.actAddProductNotForSOExecute(
-  Sender: TObject);
+procedure TfrmInputProductForNotSO.actEditExecute(Sender: TObject);
 begin
-  if not Assigned(frmDialogInputProductForNotSO) then
-    Application.CreateForm(TfrmDialogInputProductForNotSO, frmDialogInputProductForNotSO);
-
-  frmDialogInputProductForNotSO.edtKode.Text := edtKode.Text;
-  frmDialogInputProductForNotSO.edtName.Text := edtName.Text;  
-  frmDialogInputProductForNotSO.frmSuiMasterDialog.Caption := 'Add Product For Not SO';
-  frmDialogInputProductForNotSO.FormMode:=fmAdd;
-  SetFormPropertyAndShowDialog(frmDialogInputProductForNotSO);
-
-  {if (frmDialogInputProductForNotSO.IsProcessSuccessfull) then
-  begin
-    actRefreshProductNotForSOExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atAdd);
-  end;
-  frmDialogInputProductForNotSO.Free;
-  }
-end;
-
-procedure TfrmInputProductForNotSO.actEditProductNotForSOExecute(
-  Sender: TObject);
-begin
+  inherited;
   {
   if strgGrid.Cells[2,strgGrid.Row]='0' then Exit;
   if not Assigned(frmDialogInputProductForNotSO) then
@@ -203,48 +196,8 @@ begin
   }
 end;
 
-procedure TfrmInputProductForNotSO.actDeleteProductNotForSOExecute(
-  Sender: TObject);
-var
-  sSQL: string;
-  IDLokal: Integer;
-begin
-    if strgGrid.Cells[2,strgGrid.Row] = '0'
-      then Exit;
-
-    if (CommonDlg.Confirm('Anda Yakin Akan Menghapus Data : ' + strgGrid.Cells[0,strgGrid.Row] + ' ?') = mrYes) then
-    begin
-      IDLokal := StrToInt(strgGrid.Cells[3,strgGrid.Row]);
-      sSQL := 'delete from SO_BARANG_BLACKLIST where '
-              + ' SOBB_ID = ' + IntToStr(IDLokal)
-              + ' and SOBB_UNT_ID = ' + IntToStr(masternewunit.id);
-
-      if not cExecSQL(sSQL,False,1201) then
-      begin
-        cRollbackTrans;
-        CommonDlg.ShowError('Data Gagal Dihapus');
-        Exit;
-      end
-      else if not SimpanBlob(sSQL,1) then
-      begin
-        cRollbackTrans;
-        CommonDlg.ShowError('Data Gagal Disimpan');
-        Exit;
-      end
-      else begin
-        cCommitTrans;
-        CommonDlg.ShowMessage('Data Berhasil Dihapus');
-        strgGrid.Clear;
-      end;
-    end;
-
-    RefreshDataGrid;
-    strgGrid.SetFocus;
-end;
-
-procedure TfrmInputProductForNotSO.actRefreshProductNotForSOExecute(
-  Sender: TObject);
-// //data: TResultDataSet;
+procedure TfrmInputProductForNotSO.actRefreshExecute(Sender: TObject);
+// //data: TDataSet;
     //i: Integer;
 begin
   {if not assigned(ProductBlackList) then
@@ -289,7 +242,7 @@ begin
     AutoSize:=True;
   end;
   strgGrid.FixedRows:=1;
-  
+
 
        }
 end;
@@ -309,7 +262,7 @@ procedure TfrmInputProductForNotSO.cbpCodeKeyPress(Sender: TObject;
 begin
   inherited;
   if key=#13 then
-    actRefreshProductNotForSOExecute(Self);
+    actRefreshExecute(Self);
 end;
 
 procedure TfrmInputProductForNotSO.FormShow(Sender: TObject);
@@ -317,11 +270,11 @@ begin
   inherited;
   cbpCode.SelStart := 7;
   edtKode.Text := '';
-  strgGrid.ColWidths[1] := 250;
+  {strgGrid.ColWidths[1] := 250;
   strgGrid.ColWidths[2] := 0;
   strgGrid.ColWidths[3] := 0;
   strgGrid.ColWidths[4] := 0;
-
+  }
   edtKode.SetFocus;
 end;
 
@@ -337,7 +290,6 @@ procedure TfrmInputProductForNotSO.FormActivate(Sender: TObject);
 begin
   inherited;
   frmInputProductForNotSO.Caption := 'INPUT PRODUCT NOT FOR SO';
-  ////frmMain.CreateMenu((Sender as TForm));
 end;
 
 procedure TfrmInputProductForNotSO.cbpCodeKeyUp(Sender: TObject;
@@ -349,7 +301,7 @@ begin
   begin
     supCode := UpperCase(cbpCode.Text) + '%';
 
-    dataCodeSuplier := SearchSupplier.GetDataSupplier(supCode);
+//    dataCodeSuplier := SearchSupplier.GetDataSupplier(supCode);
     LoadDropDownData(cbpCode,dataCodeSuplier.RecordCount);
   end; //if length
 end;
@@ -367,6 +319,7 @@ var
   sSQL: string;
 begin
   inherited;
+  {
   strgGrid.ColWidths[1] := 250;
   
   sSQL := 'select sup_code as "Kode Suplier", sup_name as "Nama Suplier" '
@@ -406,6 +359,7 @@ begin
     end;
     HapusBarisKosong(strgGrid,1);
   end;
+  }
 end;
 
 procedure TfrmInputProductForNotSO.RefreshDataGrid;
@@ -413,7 +367,7 @@ var
   IBaris: Integer;
   iSQL: string;
 begin
-  cclearStringGrid(strgGrid, True);
+  {cclearStringGrid(strgGrid, True);
   strgGrid.Cells[0, 0] := 'PRODUCT CODE';
   strgGrid.Cells[1, 0] := 'PRODUCT NAME';
 
@@ -440,7 +394,7 @@ begin
     end;
     HapusBarisKosong(strgGrid,1);
   end;
-
+  }
   edtKode.SetFocus;
 end;
 
@@ -455,7 +409,7 @@ procedure TfrmInputProductForNotSO.FormKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if (key = VK_F5) and (ActiveControl =edtKode) then
+  {if (key = VK_F5) and (ActiveControl =edtKode) then
   begin
     edtKodeClickBtn(Self);
   end else if (Key = VK_RETURN) then
@@ -484,6 +438,7 @@ begin
 
     SelectNext(ActiveControl,true,true);
   end;
+  }
 end;
 
 end.

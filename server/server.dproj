@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>server.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -139,6 +139,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
         <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
         <DCCReference Include="..\model\uModGudang.pas"/>
+        <DCCReference Include="..\model\uModPropinsi.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>
@@ -188,7 +189,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
-                <DeployFile LocalName="js\base64.js" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="js\ServerFunctionExecutor-min.js" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -200,19 +201,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\build\Retno\bin\server.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>server.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="js\ServerFunctions.js" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="js\ServerFunctionExecutor.js" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="js\ServerFunctionExecutor.js" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="js\ServerFunctions.js" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -233,6 +228,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <DeployFile LocalName="images\expand.png" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\build\Retno\bin\server.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>server.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -320,7 +321,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\server.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\build\Retno\bin\server.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>server.exe</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -386,6 +387,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="js\base64.js" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="js\CallbackFramework.js" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -398,18 +405,27 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="js\ServerFunctionExecutor-min.js" Configuration="Release" Class="ProjectFile">
+                <DeployClass Name="DependencyModule">
                     <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
                     </Platform>
-                </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -763,27 +779,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

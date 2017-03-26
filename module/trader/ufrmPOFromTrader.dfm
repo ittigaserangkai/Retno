@@ -270,8 +270,18 @@ inherited frmPOFromTrader: TfrmPOFromTrader
     inherited pnlFooter: TPanel
       Width = 674
       ExplicitWidth = 674
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
       inherited btnClose: TcxButton
         Left = 597
+        Action = actClose
         ExplicitLeft = 597
       end
       inherited cxButton1: TcxButton
@@ -283,7 +293,6 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       ExplicitWidth = 674
       inherited lbEscape: TLabel
         Left = 600
-        Height = 17
         ExplicitLeft = 600
       end
     end

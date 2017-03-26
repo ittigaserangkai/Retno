@@ -13,7 +13,7 @@ uses
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
-  cxPC;
+  cxPC, Vcl.ComCtrls;
 
 
 type
@@ -101,6 +101,7 @@ type
 
   TcxDBGridHelper = class helper for TcxGridDBTableView
   private
+    procedure DoFormatHeaderCXGRID;
   public
     procedure AutoFormatCurrency(ADisplayFormat: String = ',0;(,0)');
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
@@ -763,6 +764,17 @@ begin
   Result := TClientDataSet(Self.DS);
 end;
 
+procedure TcxDBGridHelper.DoFormatHeaderCXGRID;
+var
+  I: Integer;
+begin
+  for I := 0 to Self.ColumnCount - 1 do
+  begin
+    Self.Columns[i].Caption := StringReplace(Self.Columns[i].Caption,'_',' ', [rfReplaceAll]);
+    Self.Columns[i].HeaderAlignmentHorz := taCenter;
+  end;
+end;
+
 procedure TcxDBGridHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
     Boolean = True);
 var
@@ -835,12 +847,16 @@ begin
     AutoFormatDate;
     AutoFormatCurrency;
     SetAllUpperCaseColumn;
+    DoFormatHeaderCXGRID;
   end;
   If DoBestFit then
   begin
     Self.OptionsBehavior.BestFitMaxRecordCount := 100;
     Self.ApplyBestFit;
   end;
+
+
+
 end;
 
 procedure TcxDBGridHelper.LoadFromSQL(aSQL: String; aOwner: TComponent);
@@ -1034,6 +1050,11 @@ begin
     if C is TcxCheckBox then
       if not Assigned(TcxCheckBox(C).OnKeyDown) then
         TcxCheckBox(C).OnKeyDown := OnKeyEnter;
+
+    if C is TCheckBox then
+      if not Assigned(TCheckBox(C).OnKeyDown) then
+        TCheckBox(C).OnKeyDown := OnKeyEnter;
+
     if C is TcxSpinEdit then
       if not Assigned(TcxSpinEdit(C).OnKeyDown) then
         TcxSpinEdit(C).OnKeyDown := OnKeyEnter;
@@ -1050,11 +1071,14 @@ begin
     C := Self.Components[i];
     if not (C.Tag in Tag) then continue;
     if C is TEdit then TEdit(C).Clear;
+    if C is TDateTimePicker then TDateTimePicker(C).Date := Now;
     if C is TcxTextEdit then TcxTextEdit(C).Clear;
     if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
     if C is TcxComboBox then TcxComboBox(C).Clear;
     if C is TcxCheckBox then TcxCheckBox(C).Clear;
     if C is TcxSpinEdit then TcxSpinEdit(C).Clear;
+    if C is TcxDateEdit then TcxDateEdit(C).Date := Now;
+
   end;
 end;
 

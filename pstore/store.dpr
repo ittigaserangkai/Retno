@@ -2,7 +2,6 @@ program store;
 
 uses
   Vcl.Forms,
-  ufrmMain in 'ui\ufrmMain.pas' {frmMain},
   ufrmLogin in '..\module\login\ufrmLogin.pas' {frmLogin},
   ufraFooter1Button in '..\system\ufraFooter1Button.pas' {fraFooter1Button: TFrame},
   ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
@@ -35,7 +34,6 @@ uses
   uModTest in '..\model\uModTest.pas',
   uModBank in '..\model\uModBank.pas',
   uModRekening in '..\model\uModRekening.pas',
-  ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
   ufrmHistorySO in '..\module\so\ufrmHistorySO.pas' {frmHistorySO},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufrmDialogDetailSO in '..\module\so\ufrmDialogDetailSO.pas' {frmDialogDetailSO},
@@ -69,7 +67,42 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
   uModMember in '..\model\uModMember.pas',
-  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas';
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
+  ufrmInputSupplierForNotSO in '..\module\so\ufrmInputSupplierForNotSO.pas' {frmInputSupplierForNotSO},
+  ufrmDialogInputSupplierForNotSO in '..\module\so\ufrmDialogInputSupplierForNotSO.pas' {frmDialogInputSupplierForNotSO},
+  ufrmInputProductForNotSO in '..\module\so\ufrmInputProductForNotSO.pas' {frmInputProductForNotSO},
+  ufrmDialogInputProductForNotSO in '..\module\so\ufrmDialogInputProductForNotSO.pas' {frmDialogInputProductForNotSO},
+  ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
+  ufrmGeneratePOForAll in '..\module\po\ufrmGeneratePOForAll.pas' {frmGeneratePOforAll},
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
+  ufrmGeneratePOBonus in '..\module\po\ufrmGeneratePOBonus.pas' {frmGeneratePOBonus},
+  ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
+  ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
+  ufrmApprovalPO in '..\module\po\ufrmApprovalPO.pas' {frmApprovallPO},
+  ufrmSearchSupplier in '..\module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
+  ufrmProduct in '..\module\product\ufrmProduct.pas' {frmProduct},
+  ufraStockCard in '..\module\product\ufraStockCard.pas' {fraStockCard: TFrame},
+  ufraSellingPrice in '..\module\product\ufraSellingPrice.pas' {fraSellingPrice: TFrame},
+  ufraProductTurunan in '..\module\product\ufraProductTurunan.pas' {fraProductTurunan: TFrame},
+  ufraProductSupplier in '..\module\product\ufraProductSupplier.pas' {fraProductSupplier: TFrame},
+  ufraBonusProduct in '..\module\product\ufraBonusProduct.pas' {fraBonusProduct: TFrame},
+  ufraUOMConvertion in '..\module\product\ufraUOMConvertion.pas' {fraUOMConvertion: TFrame},
+  ufraAlokasiStock in '..\module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
+  ufrmDialogProduct in '..\module\product\ufrmDialogProduct.pas' {frmDialogProduct},
+  uModBarang in '..\model\uModBarang.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModSatuan in '..\model\uModSatuan.pas',
+  ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
+  uSpecialKey in '..\classes\uSpecialKey.pas',
+  ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
+  ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
+  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  HPHELP in '..\lib\HPHELP.PAS',
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+  ufrmMain in 'ui\ufrmMain.pas' {frmMain};
 
 {$R *.res}
 
@@ -79,5 +112,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.

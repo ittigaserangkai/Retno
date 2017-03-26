@@ -164,10 +164,12 @@ object frmMain: TfrmMain
     object actCascade: TAction
       Category = 'Window'
       Caption = '&Cascade'
+      OnExecute = actCascadeExecute
     end
     object actTile: TAction
       Category = 'Window'
       Caption = '&Tile'
+      OnExecute = actTileExecute
     end
     object actFinalPayment: TAction
       Category = 'SupvCashier'
@@ -176,6 +178,7 @@ object frmMain: TfrmMain
     object actArrange: TAction
       Category = 'Window'
       Caption = '&Arrange'
+      OnExecute = actArrangeExecute
     end
     object actCloseAll: TAction
       Category = 'Window'
@@ -185,18 +188,22 @@ object frmMain: TfrmMain
     object actInputSupplierNotForSO: TAction
       Category = 'SO'
       Caption = 'Input &Supplier Not For SO'
+      OnExecute = actInputSupplierNotForSOExecute
     end
     object actInputProductNotForSO: TAction
       Category = 'SO'
       Caption = 'Input &Product Not For SO'
+      OnExecute = actInputProductNotForSOExecute
     end
     object actCreateSO: TAction
       Category = 'SO'
       Caption = '&Create Suggestion Order'
+      OnExecute = actCreateSOExecute
     end
     object actGeneratePOForAll: TAction
       Category = 'PO'
       Caption = 'Generate PO For &All'
+      OnExecute = actGeneratePOForAllExecute
     end
     object actGeneratePOBySupplier: TAction
       Category = 'PO'
@@ -209,6 +216,7 @@ object frmMain: TfrmMain
     object actChangeStatusPO: TAction
       Category = 'PO'
       Caption = 'Change &Status PO'
+      OnExecute = actChangeStatusPOExecute
     end
     object actApprovalPO: TAction
       Category = 'PO'
@@ -588,6 +596,7 @@ object frmMain: TfrmMain
     object actPOBonus: TAction
       Category = 'PO'
       Caption = 'actPOBonus'
+      OnExecute = actPOBonusExecute
     end
     object actSettingJurnal: TAction
       Category = 'Inventory'

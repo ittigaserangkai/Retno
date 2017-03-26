@@ -9,7 +9,8 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList,
   ufraFooterDialog3Button, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
   cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  uModUnit, uInterface,uModCompany, uAppUtils;
+  Datasnap.DBClient,uModUnit, uInterface,uModCompany, uAppUtils,uModPropinsi,
+  uModTipePerusahaan;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -24,7 +25,6 @@ type
     lblRegion: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label9: TLabel;
     Label10: TLabel;
     Label12: TLabel;
     Label13: TLabel;
@@ -53,7 +53,6 @@ type
     edContactPerson: TcxTextEdit;
     edEmail: TcxTextEdit;
     edRegion: TcxTextEdit;
-    edType: TcxTextEdit;
     edPhone: TcxTextEdit;
     edFax: TcxTextEdit;
     edZIP: TcxTextEdit;
@@ -102,6 +101,7 @@ type
     procedure edtUntInfoCompTypeIDPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure FormCreate(Sender: TObject);
+    procedure cbbPropinsiPropertiesChange(Sender: TObject);
   private
     FCompID     : Integer;
     FisActive   : Integer;
@@ -112,12 +112,18 @@ type
 
     FIsProcessSuccessfull: boolean;
     FUnitStore: TModUnit;
+    cdsKabupaten: TClientDataSet;
+    cdsUnitParent: TClientDataSet;
 //    function CekLookUpID(aValue: string): Boolean;
     procedure SetData;
 //    procedure ClearData;
     function GetUnitStore: TModUnit;
     procedure InisialisasiCBBAutApp;
     procedure InisialisasiCBBCompany;
+    procedure InisialisasiCBBTipePuerusahaan;
+    procedure InisialisasiPropinsi;
+    procedure InisialisasiKabupaten;
+    procedure InisialisasiUnitParent;
     procedure LoadData(AID : String);
     property UnitStore: TModUnit read GetUnitStore write FUnitStore;
   public
@@ -136,7 +142,7 @@ var
 
 implementation
 
-uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils, Datasnap.DBClient,
+uses  uTSCommonDlg, uRetnoUnit, Math, uDXUtils,
 uDMClient, uDBUtils, uModAuthApp;
 
 {$R *.dfm}
@@ -161,38 +167,50 @@ begin
   if not ValidateEmptyCtrl([1], True) then
     Exit;
 
-  UnitStore.COMPANY       := TModCompany.CreateID(cbbCompany.EditValue);
-  UnitStore.AUTAPP := TModAutApp.CreateID(cbbAppType.EditValue);
-  UnitStore.FUNT_IS_HO    := 0;
-  UnitStore.FUNT_IS_STORE := 0;
-  UnitStore.FUNT_IS_WH    := 0;
+  UnitStore.COMPANY             := TModCompany.CreateID(cbbCompany.EditValue);
+  UnitStore.AUTAPP              := TModAutApp.CreateID(cbbAppType.EditValue);
 
-  if rgTipeUnit.ItemIndex = 0 then
-    UnitStore.FUNT_IS_HO := 1
-  else if rgTipeUnit.ItemIndex = 1 then
-    UnitStore.FUNT_IS_STORE := 1
+  UnitStore.UNT_IS_HO           := TAppUtils.BoolToInt(UnitStore.UNT_IS_HO = 1);
+  UnitStore.UNT_IS_STORE        := TAppUtils.BoolToInt(UnitStore.UNT_IS_STORE = 1);
+  UnitStore.UNT_IS_WH           := TAppUtils.BoolToInt(UnitStore.UNT_IS_WH = 1);
+
+  UnitStore.UNT_ADR             := edAddress.Text;
+  UnitStore.UNT_ZIP             := edZIP.Text;
+  UnitStore.AUTAPP              := TModAutApp.CreateID(cbbAppType.EditValue);
+  UnitStore.UNT_CODE            := edCode.Text;
+  UnitStore.UNT_CONTACT_PERSON  := edContactPerson.Text;
+  UnitStore.UNT_DESCRIPTION     := edDesciption.Text;
+  UnitStore.UNT_EMAIL           := edEmail.Text;
+  UnitStore.UNT_FAX             := edFax.Text;
+
+
+  if cbbParentUnit.EditValue = null then
+    UnitStore.UNT_PARENT        := nil
   else
-    UnitStore.FUNT_IS_WH := 1;
+    UnitStore.UNT_PARENT          := TModUnit.CreateID(cbbParentUnit.EditValue);
 
-  UnitStore.FUNT_ZIP           := edZIP.Text;
-  UnitStore.UNT_APP_ID         := cbbAppType.ItemIndex;
-  UnitStore.UNT_CODE           := edCode.Text;
-  UnitStore.UNT_CONTACT_PERSON := edContactPerson.Text;
-  UnitStore.UNT_DESCRIPTION    := edDesciption.Text;
-  UnitStore.UNT_EMAIL          := edEmail.Text;
-  UnitStore.UNT_FAX            := edFax.Text;
-  UnitStore.UNT_ISGRALLOW      := 1;
+  UnitStore.UNT_IS_ACTIVE       := TAppUtils.BoolToInt(chkActive.Checked);
+  UnitStore.UNT_IS_ALLOWPO      := TAppUtils.BoolToInt(chkAllowPO.Checked);
+  UnitStore.UNT_ISGRALLOWED     := TAppUtils.BoolToInt(chkAllowGR.Checked);
 
-  UnitStore.UNT_IS_ACTIVE := 0;
-  if chkActive.Checked then
-    UnitStore.UNT_IS_ACTIVE := 1;
+  UnitStore.KABUPATEN           := TModKabupaten.CreateID(cbbKabupaten.EditingValue);
 
-  UnitStore.UNT_IS_ALLOWPO  := 1;
-  UnitStore.UNT_KAB_ID      := 1;
-  UnitStore.UNT_NAME        := edNama.Text;
-  UnitStore.UNT_PHONE       := edPhone.Text;
-  UnitStore.UNT_REGION_CODE := edRegion.Text;
-  UnitStore.UNT_TYPE        := 1;
+  UnitStore.UNT_NAME            := edNama.Text;
+  UnitStore.UNT_PHONE           := edPhone.Text;
+  UnitStore.UNT_RGN_CODE        := edRegion.Text;
+  UnitStore.UNT_NPWP            := edNPWP.Text;
+  UnitStore.UNT_NPWP_ADR        := edNPWPAddress.Text;
+  UnitStore.UNT_NPWP_NAME       := edNPWPName.Text;
+  UnitStore.UNT_NPWP_REG_DATE   := edRegisterNPWP.Date;
+  UnitStore.REF_TIPE_PERUSAHAAN := TModTipePerusahaan.CreateID(cbbCorporateType.EditValue);
+
+  if DMClient.CrudClient.SaveToDB(UnitStore) then
+  begin
+    TAppUtils.Information('Berhasil Simpan Data Cabang');
+    LoadData('');
+  end;
+
+
 
 
 
@@ -310,6 +328,18 @@ begin
   end;
   }
 //  FormatSettings.ShortDateFormat := sShrDt;
+end;
+
+procedure TfrmDialogUnit.cbbPropinsiPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  if VarIsNull(cbbPropinsi.EditValue) then
+    cdsKabupaten.Filtered := False
+  else begin
+    cdsKabupaten.Filter   := ' propinsi_id = ' + QuotedStr(cbbPropinsi.EditValue);
+    cdsKabupaten.Filtered := True;
+  end;
+
 end;
 
 procedure TfrmDialogUnit.cbbTypeUnitRChange(Sender: TObject);
@@ -453,6 +483,13 @@ begin
 
   InisialisasiCBBCompany;
   InisialisasiCBBAutApp;
+  InisialisasiCBBTipePuerusahaan;
+
+  InisialisasiKabupaten;
+  InisialisasiPropinsi;
+  InisialisasiUnitParent;
+
+  LoadData('');
 end;
 
 procedure TfrmDialogUnit.edtUnitAppIDKeyDown(Sender: TObject;
@@ -686,6 +723,38 @@ begin
   cbbCompany.Properties.SetMultiPurposeLookup;
 end;
 
+procedure TfrmDialogUnit.InisialisasiCBBTipePuerusahaan;
+var
+  lcdsTipeCompany: TClientDataSet;
+begin
+  lcdsTipeCompany := TDBUtils.DSToCDS(DMClient.DSProviderClient.TipePerusahaan_GetDSOverview(), Self);
+  cbbCorporateType.Properties.LoadFromCDS(lcdsTipeCompany,'REF$TIPE_PERUSAHAAN_ID','TPPERSH_NAME',['REF$TIPE_PERUSAHAAN_ID'],Self);
+  cbbCorporateType.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiPropinsi;
+var
+  lcdsPropinsi: TClientDataSet;
+begin
+  lcdsPropinsi := TDBUtils.DSToCDS(DMClient.DSProviderClient.Propinsi_GetDSLookUp(), Self);
+  cbbPropinsi.Properties.LoadFromCDS(lcdsPropinsi,'PROPINSI_ID','NAME',['PROPINSI_ID'],Self);
+  cbbPropinsi.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiKabupaten;
+begin
+  cdsKabupaten := TDBUtils.DSToCDS(DMClient.DSProviderClient.Kabupaten_GetDSLookUp(), Self);
+  cbbKabupaten.Properties.LoadFromCDS(cdsKabupaten,'KABUPATEN_ID','NAME',['KABUPATEN_ID','PROPINSI_ID'],Self);
+  cbbKabupaten.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogUnit.InisialisasiUnitParent;
+begin
+  cdsUnitParent := TDBUtils.DSToCDS(DMClient.DSProviderClient.Unit_GetDSLookUp(), Self);
+  cbbParentUnit.Properties.LoadFromCDS(cdsUnitParent,'AUT$UNIT_ID','UNT_NAME',['AUT$UNIT_ID', 'UNT_CODE'],Self);
+  cbbParentUnit.Properties.SetMultiPurposeLookup;
+end;
+
 procedure TfrmDialogUnit.LoadData(AID : String);
 begin
   FreeAndNil(FUnitStore);
@@ -696,36 +765,48 @@ begin
     FUnitStore := TModUnit(DMCLient.CrudClient.Retrieve(TModUnit.ClassName, AID));
     if FUnitStore <> nil then
     begin
-      cbbCompany.EditValue := UnitStore.COMPANY.ID;
-      cbbAppType.EditValue := UnitStore.AUTAPP.ID;
+      cbbCompany.EditValue       := UnitStore.COMPANY.ID;
+      cbbAppType.EditValue       := UnitStore.AUTAPP.ID;
+      cbbCorporateType.EditValue := UnitStore.REF_TIPE_PERUSAHAAN.ID;
 
-      rgTipeUnit.ItemIndex := 0;
-      if UnitStore.FUNT_IS_HO = 1 then
-        rgTipeUnit.ItemIndex := 0
-      else if UnitStore.FUNT_IS_STORE = 1  then
-        rgTipeUnit.ItemIndex := 1
+      rgTipeUnit.ItemIndex       := 0;
+
+      if UnitStore.UNT_IS_HO = 1 then
+        rgTipeUnit.ItemIndex     := 0
+      else if UnitStore.UNT_IS_STORE = 1  then
+        rgTipeUnit.ItemIndex     := 1
       else
-        rgTipeUnit.ItemIndex := 2;
+        rgTipeUnit.ItemIndex     := 2;
 
-      edZIP.Text := UnitStore.FUNT_ZIP;
-      edCode.Text := UnitStore.UNT_CODE;
-      edContactPerson.Text := UnitStore.UNT_CONTACT_PERSON;
-      edDesciption.Text := UnitStore.UNT_DESCRIPTION;
-      edEmail.Text := UnitStore.UNT_EMAIL;
-      edFax.Text :=UnitStore.UNT_FAX;
+      edAddress.Text             := UnitStore.UNT_ADR;
+      edZIP.Text                 := UnitStore.UNT_ZIP;
+      edCode.Text                := UnitStore.UNT_CODE;
+      edContactPerson.Text       := UnitStore.UNT_CONTACT_PERSON;
+      edDesciption.Text          := UnitStore.UNT_DESCRIPTION;
+      edEmail.Text               := UnitStore.UNT_EMAIL;
+      edFax.Text                 := UnitStore.UNT_FAX;
 
-//      UnitStore.UNT_ISGRALLOW      := 1;
+      cbbKabupaten.EditValue     := UnitStore.kABUPATEN.id;
+      cbbPropinsi.EditValue      := cdsKabupaten.FieldByName('PROPINSI_ID').AsString;
 
-      chkActive.Checked := UnitStore.UNT_IS_ACTIVE = 1;
+      cbbPropinsiPropertiesChange(cbbPropinsi);
+      cbbParentUnit.EditValue    := UnitStore.UNT_PARENT.ID;
 
-      chkAllowPO.Checked := UnitStore.UNT_IS_ALLOWPO  = 1;
-//      UnitStore.UNT_KAB_ID      := 1;
-      edNama.Text := UnitStore.UNT_NAME;
-      edPhone.Text := UnitStore.UNT_PHONE;
-      edRegion.Text := UnitStore.UNT_REGION_CODE;
-//      UnitStore.UNT_TYPE        := 1;
+
+      edNPWP.Text                := UnitStore.UNT_NPWP;
+      edNPWPAddress.Text         := UnitStore.UNT_NPWP_ADR;
+      edNPWPName.Text            := UnitStore.UNT_NPWP_NAME;
+      edRegisterNPWP.Date        := UnitStore.UNT_NPWP_REG_DATE;
+      chkActive.Checked          := UnitStore.UNT_IS_ACTIVE = 1;
+      chkAllowPO.Checked         := UnitStore.UNT_IS_ALLOWPO  = 1;
+      chkAllowGR.Checked         := UnitStore.UNT_ISGRALLOWED  = 1;
+
+      edNama.Text                := UnitStore.UNT_NAME;
+      edPhone.Text               := UnitStore.UNT_PHONE;
+      edRegion.Text              := UnitStore.UNT_RGN_CODE;
     end;
   end;
 end;
 
 end.
+

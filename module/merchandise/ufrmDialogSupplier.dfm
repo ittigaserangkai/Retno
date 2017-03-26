@@ -2,24 +2,24 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Left = 414
   Top = 98
   Caption = 'frmDialogSupplier'
-  ClientHeight = 563
-  ClientWidth = 648
+  ClientHeight = 559
+  ClientWidth = 656
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 664
-  ExplicitHeight = 602
+  ExplicitWidth = 672
+  ExplicitHeight = 598
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 648
-    Height = 507
-    ExplicitWidth = 648
-    ExplicitHeight = 507
+    Width = 656
+    Height = 503
+    ExplicitWidth = 656
+    ExplicitHeight = 503
     object pc1: TcxPageControl
       Left = 2
       Top = 2
-      Width = 644
-      Height = 503
+      Width = 652
+      Height = 499
       Align = alClient
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -30,8 +30,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       TabOrder = 0
       Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 503
-      ClientRectRight = 644
+      ClientRectBottom = 495
+      ClientRectLeft = 4
+      ClientRectRight = 648
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = 'Supplier'
@@ -150,7 +151,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object Label4: TLabel
           Left = 21
-          Top = 12
+          Top = 11
           Width = 84
           Height = 16
           Caption = 'Suppl. Code/Tipe'
@@ -191,9 +192,16 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 16
           Caption = 'Alamat NPWP'
         end
+        object Label14: TLabel
+          Left = 185
+          Top = 11
+          Width = 87
+          Height = 16
+          Caption = 'Tipe Perushahaan'
+        end
         object edtSupCode: TEdit
           Left = 112
-          Top = 9
+          Top = 8
           Width = 65
           Height = 22
           CharCase = ecUpperCase
@@ -203,10 +211,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           TabOrder = 0
         end
         object edtSupName: TEdit
+          Tag = 9
           Left = 112
           Top = 33
           Width = 298
           Height = 22
+          HelpType = htKeyword
+          HelpKeyword = 'Supplier Name'
           CharCase = ecUpperCase
           Ctl3D = False
           Font.Charset = DEFAULT_CHARSET
@@ -245,6 +256,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           BiDiMode = bdLeftToRight
           CharCase = ecUpperCase
           Ctl3D = False
+          NumbersOnly = True
           ParentBiDiMode = False
           ParentCtl3D = False
           TabOrder = 5
@@ -295,17 +307,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentCtl3D = False
           TabOrder = 18
         end
-        object edtBankName: TEdit
-          Left = 209
-          Top = 247
-          Width = 201
-          Height = 22
-          TabStop = False
-          Ctl3D = False
-          ParentCtl3D = False
-          ReadOnly = True
-          TabOrder = 15
-        end
         object cbbPKP: TComboBox
           Left = 112
           Top = 174
@@ -343,8 +344,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           TabOrder = 9
         end
         object medtNPWP: TMaskEdit
-          Left = 112
-          Top = 199
+          Left = 111
+          Top = 200
           Width = 135
           Height = 22
           CharCase = ecUpperCase
@@ -360,56 +361,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentFont = False
           TabOrder = 13
           Text = ''
-        end
-        object cbTipePerusahaan: TComboBox
-          Left = 179
-          Top = 8
-          Width = 175
-          Height = 24
-          BevelKind = bkFlat
-          BevelOuter = bvRaised
-          Style = csDropDownList
-          TabOrder = 1
-        end
-        object cbTipeSupplier: TComboBox
-          Left = 112
-          Top = 148
-          Width = 95
-          Height = 24
-          BevelKind = bkFlat
-          BevelOuter = bvRaised
-          Style = csDropDownList
-          TabOrder = 10
-        end
-        object edKodeBank: TcxButtonEdit
-          Left = 112
-          Top = 247
-          Properties.Buttons = <
-            item
-            end>
-          TabOrder = 14
-          Text = '0'
-          Width = 95
-        end
-        object edtSuppGrpNo: TEdit
-          Left = 112
-          Top = 366
-          Width = 65
-          Height = 22
-          Ctl3D = False
-          ParentCtl3D = False
-          TabOrder = 20
-        end
-        object edtSuppGrpNm: TEdit
-          Left = 184
-          Top = 366
-          Width = 225
-          Height = 22
-          TabStop = False
-          Ctl3D = False
-          ParentCtl3D = False
-          ReadOnly = True
-          TabOrder = 21
         end
         object edtCabangBank: TEdit
           Left = 112
@@ -441,7 +392,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Font.Name = 'Trebuchet MS'
           Font.Style = []
           ParentFont = False
-          TabOrder = 22
+          TabOrder = 21
         end
         object edtNPWPAlamat: TEdit
           Left = 112
@@ -450,7 +401,31 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 23
+          TabOrder = 14
+        end
+        object cxLookUpBank: TcxExtLookupComboBox
+          Left = 112
+          Top = 246
+          TabOrder = 15
+          Width = 299
+        end
+        object cxLookupTipePerush: TcxExtLookupComboBox
+          Left = 278
+          Top = 8
+          TabOrder = 1
+          Width = 132
+        end
+        object cxLookUpSuppGroup: TcxExtLookupComboBox
+          Left = 111
+          Top = 365
+          TabOrder = 20
+          Width = 299
+        end
+        object cxLookUpSupType: TcxExtLookupComboBox
+          Left = 111
+          Top = 149
+          TabOrder = 10
+          Width = 299
         end
       end
       object tsMerchandiseGroup: TcxTabSheet
@@ -710,13 +685,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object pnl1: TPanel
           Left = 0
-          Top = 218
+          Top = 210
           Width = 644
           Height = 258
           Align = alBottom
           Caption = 'Change contact supplier for Merchandise Group'
           Color = clWhite
           TabOrder = 21
+          ExplicitLeft = 39
           object lbl30: TLabel
             Left = 77
             Top = 47
@@ -1114,48 +1090,58 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 507
-    Width = 648
-    ExplicitTop = 507
-    ExplicitWidth = 648
+    Top = 503
+    Width = 656
+    ExplicitTop = 503
+    ExplicitWidth = 656
     inherited pnlFooter: TPanel
-      Width = 648
-      ExplicitWidth = 648
+      Width = 656
+      ExplicitWidth = 656
       inherited btnClose: TcxButton
-        Left = 571
+        Left = 579
         Action = actCancel
-        ExplicitLeft = 571
+        ExplicitLeft = 579
       end
       inherited btnSave: TcxButton
-        Left = 478
+        Left = 486
         Action = actSave
-        ExplicitLeft = 478
+        ExplicitLeft = 486
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 648
-      ExplicitWidth = 648
+      Width = 656
+      ExplicitWidth = 656
       inherited lbCTRLEnter: TLabel
-        Left = 473
+        Left = 481
         Height = 15
-        ExplicitLeft = 473
+        ExplicitLeft = 481
       end
       inherited lbEscape: TLabel
-        Left = 564
+        Left = 572
         Height = 15
-        ExplicitLeft = 564
+        ExplicitLeft = 572
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
     end
   end
+  inherited actlstMasterDialog: TActionList
+    Left = 514
+    Top = 258
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
+  end
   object actSupplier: TActionList
-    Left = 512
-    Top = 113
+    Left = 507
+    Top = 331
     object actUpdateBank: TAction
       Caption = 'actUpdateBank'
     end

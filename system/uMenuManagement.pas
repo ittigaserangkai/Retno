@@ -65,16 +65,17 @@ begin
 end;
 
 function TMenuManagement.getGroupId: Integer;
-var arrParam: TArr;
-    data    : TDataSet;
+//var arrParam: TArr;
+//    data    : TDataSet;
 begin
-  SetLength(arrParam,2);
-  arrParam[0].tipe:= ptInteger;
-  arrParam[0].data:= UserId;
-  arrParam[1].tipe:= ptInteger;
-  arrParam[1].data:= UserUnt;
+  Result := 0;
+//  SetLength(arrParam,2);
+//  arrParam[0].tipe:= ptInteger;
+//  arrParam[0].data:= UserId;
+//  arrParam[1].tipe:= ptInteger;
+//  arrParam[1].data:= UserUnt;
 //  data:= ADConn.GetAllDataAsArray(SQL_GET_LIST_USER_GROUP_BY_USER_ID, arrParam);
-  Result:= data.fieldbyname('GRO_ID').AsInteger;
+//  Result:= data.fieldbyname('GRO_ID').AsInteger;
 end;
 
 function TMenuManagement.getGroupName: String;

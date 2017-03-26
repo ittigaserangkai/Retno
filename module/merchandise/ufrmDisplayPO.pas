@@ -338,7 +338,7 @@ begin
 //      strgGrid.SetFocus;
   end
   else
-  if(not(Key in['0'..'9',Chr(VK_BACK)]))then
+  if(not(CharInSet(Key ,['0'..'9',Chr(VK_BACK)])))then
     Key:=#0;
 end;
 
@@ -352,7 +352,7 @@ begin
   	LoadDAtaToForm(edtPONo.Text);
 //    HapusBarisKosong(strgGrid,_kolKodeBarang);
     InsertNumber ;
-  end else if(not(Key in['0'..'9',Chr(VK_BACK)]))then
+  end else if(not(CharInSet(Key ,['0'..'9',Chr(VK_BACK)]))) then
     Key:=#0;
 end;
 

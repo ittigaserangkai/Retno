@@ -1,53 +1,54 @@
-unit ufrmDeliveryOrder;
+unit ufrmGoodsReceiving;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, SUIButton, Grids, BaseGrid,
-  AdvGrid, ufraFooter5Button, JclStrings, Mask, JvToolEdit, JvEdit,
-  ActnList, DateUtils, AdvObj, JvExStdCtrls, JvValidateEdit, JvExMask;
+  Dialogs, ufrmMasterDialogBrowse, StdCtrls, ExtCtrls, ActnList, DateUtils,
+  System.Actions, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator,
+  Data.DB, cxDBData, Vcl.Menus, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils,
+  cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtons,
+  ufraFooterDialog3Button, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
-  TfrmDeliveryOrder = class(TfrmMaster)
+  TfrmGoodsReceiving = class(TfrmMasterDialogBrowse)
     pnlTop: TPanel;
     lbl1: TLabel;
     edtPONo: TEdit;
-    btn1: TsuiButton;
-    fraFooter5Button1: TfraFooter5Button;
-    strgGrid: TAdvStringGrid;
-    pnl1: TPanel;
+    btn1: TcxButton;
     lbl5: TLabel;
     lbl6: TLabel;
     lbl7: TLabel;
     lbl8: TLabel;
-    dtDatePO: TJvDateEdit;
-    dtDateSO: TJvDateEdit;
+    dtDatePO: TcxDateEdit;
+    dtDateSO: TcxDateEdit;
     edtSONo: TEdit;
     edtSuplierCode: TEdit;
     edtSuplierName: TEdit;
     edtDONo: TEdit;
     lbl2: TLabel;
-    dtDateDO: TJvDateEdit;
+    dtDateDO: TcxDateEdit;
     lbl4: TLabel;
     edtNP: TEdit;
     lbl9: TLabel;
     lbl10: TLabel;
-    jvcuredtSubTotal: TJvValidateEdit;
-    jvcuredtPPN: TJvValidateEdit;
+    jvcuredtSubTotal: TcxCurrencyEdit;
+    jvcuredtPPN: TcxCurrencyEdit;
     lbl13: TLabel;
-    jvcuredtPPNBM: TJvValidateEdit;
+    jvcuredtPPNBM: TcxCurrencyEdit;
     lbl14: TLabel;
     lbl12: TLabel;
-    jvcuredtDiscount: TJvValidateEdit;
-    jvcuredtTotalBeli: TJvValidateEdit;
+    jvcuredtDiscount: TcxCurrencyEdit;
+    jvcuredtTotalBeli: TcxCurrencyEdit;
     lbl11: TLabel;
     lbl3: TLabel;
     lbl15: TLabel;
-    edtjfBonus: TJvValidateEdit;
+    edtjfBonus: TcxCurrencyEdit;
     lbl16: TLabel;
-    edtjfTotalColie: TJvValidateEdit;
-    edtjfRecvBonus: TJvValidateEdit;
+    edtjfTotalColie: TcxCurrencyEdit;
+    edtjfRecvBonus: TcxCurrencyEdit;
     lbl17: TLabel;
     pnl2: TPanel;
     lbl18: TLabel;
@@ -58,55 +59,28 @@ type
     lbl23: TLabel;
     edtProductName: TEdit;
     lbl24: TLabel;
-    edtjfTotalOrder: TJvValidateEdit;
-    edtjfDisc1: TJvValidateEdit;
-    edtjfDisc2: TJvValidateEdit;
-    jvcuredtNilaiDisc: TJvValidateEdit;
-    jvcuredtTotalDisc: TJvValidateEdit;
-    jvcuredtSellPrice: TJvValidateEdit;
-    btn2: TsuiButton;
+    edtjfTotalOrder: TcxCurrencyEdit;
+    edtjfDisc1: TcxCurrencyEdit;
+    edtjfDisc2: TcxCurrencyEdit;
+    jvcuredtNilaiDisc: TcxCurrencyEdit;
+    jvcuredtTotalDisc: TcxCurrencyEdit;
+    jvcuredtSellPrice: TcxCurrencyEdit;
+    btn2: TcxButton;
     lblStatusPO: TLabel;
-    btnCetakNP: TsuiButton;
-    actlst1: TActionList;
-    actSaveGoodReceiving: TAction;
-    actClearGoodReceiving: TAction;
+    btnCetakNP: TcxButton;
+    procedure actCancelExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure strgGridCanEditCell(Sender: TObject; ARow, ACol: Integer;
-      var CanEdit: Boolean);
     procedure strgGridCellValidate(Sender: TObject; ACol, ARow: Integer;
       var Value: String; var Valid: Boolean);
     procedure btn1Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
     procedure edtPONoChange(Sender: TObject);
     procedure edtDONoKeyPress(Sender: TObject; var Key: Char);
-    procedure strgGridGetEditorType(Sender: TObject; ACol, ARow: Integer;
-      var AEditor: TEditorType);
     procedure edtPONoKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure strgGridGetCellColor(Sender: TObject; ARow, ACol: Integer;
-      AState: TGridDrawState; ABrush: TBrush; AFont: TFont);
-    procedure strgGridClick(Sender: TObject);
-    procedure strgGridRowChanging(Sender: TObject; OldRow, NewRow: Integer;
-      var Allow: Boolean);
-    procedure strgGridCheckBoxClick(Sender: TObject; ACol, ARow: Integer;
-      State: Boolean);
-    procedure FormActivate(Sender: TObject);
-    procedure actSaveGoodReceivingExecute(Sender: TObject);
-    procedure actClearGoodReceivingExecute(Sender: TObject);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
-    procedure strgGridGetFloatFormat(Sender: TObject; ACol, ARow: Integer;
-      var IsFloat: Boolean; var FloatFormat: String);
-    procedure strgGridKeyPress(Sender: TObject; var Key: Char);
-    procedure btn2Enter(Sender: TObject);
-    procedure btn2Exit(Sender: TObject);
-    procedure btn1Exit(Sender: TObject);
-    procedure btn1Enter(Sender: TObject);
-    procedure btnCetakNPEnter(Sender: TObject);
-    procedure btnCetakNPExit(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
   private
     FValidDate: TDate;
     FStatusPO: string;
@@ -115,7 +89,6 @@ type
     FHargaDisc: Real;
     function SaveData: Boolean;
     function CheckIsPOExist(ANoPO:string): Boolean;
-    function SumColStringGrid(StrGrid:TAdvStringGrid;Col,RowStart,RowEnd:Integer):Real;
     function CekChekBoxInGrid: Boolean;
     procedure ShowDetailPO(ANoPO:string);
     procedure FormulaDisconPerRow(Row:Integer; QTYReceive:Real);
@@ -129,30 +102,34 @@ type
   end;
 
 var
-  frmDeliveryOrder: TfrmDeliveryOrder;
+  frmGoodsReceiving: TfrmGoodsReceiving;
   ParamList: TStringList;
 
 implementation
 
-uses uGTSUICommonDlg,suithemes, uConstanta, ufrmSearchPO, uConn, uDeliveryOrder, DB,
-  udmReport, VarUtils, ufrmReprintNP;
+uses uTSCommonDlg,uConstanta, ufrmSearchPO, udmReport, VarUtils, ufrmReprintNP;
 
 {$R *.dfm}
 
-procedure TfrmDeliveryOrder.FormClose(Sender: TObject;
+procedure TfrmGoodsReceiving.actCancelExecute(Sender: TObject);
+begin
+  inherited;
+  SetClearValue;
+end;
+
+procedure TfrmGoodsReceiving.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-//  frmMain.DestroyMenu((Sender as TForm));
   Action := caFree;
 end;
 
-procedure TfrmDeliveryOrder.FormulaDisconPerRow(Row:Integer; QTYReceive:Real);
+procedure TfrmGoodsReceiving.FormulaDisconPerRow(Row:Integer; QTYReceive:Real);
 var Total, Price,
     Disc1, Disc2, Disc3,
     TotalDiscTemp, TotalDisc: Real;
 begin
-  Price:= StrToFloat(strgGrid.Cells[2,Row]);
+  {Price:= StrToFloat(strgGrid.Cells[2,Row]);
   Disc1:= StrToFloat(strgGrid.Cells[9,Row]);
   Disc2:= StrToFloat(strgGrid.Cells[10,Row]);
   Disc3:= StrToFloat(strgGrid.Cells[11,Row]);
@@ -166,12 +143,10 @@ begin
 
   //Nilai dicountnya
   strgGrid.Cells[31,Row]:= FormatFloat('##0.00',TOTAL - TotalDisc);
-
-  //strgGrid.Cells[18,Row]:= FormatFloat('##0.00',Total-StrToFloat(strgGrid.Cells[15,Row]));
-
+   }
 end;
 
-procedure TfrmDeliveryOrder.AllocatedStock
+procedure TfrmGoodsReceiving.AllocatedStock
           (Receive: Real;
            var FCommon,FAssgros,FTrader: Real);
 var sisa,
@@ -203,22 +178,23 @@ begin
   FTrader:= AllocTrader;
 end;
 
-function TfrmDeliveryOrder.CekChekBoxInGrid: Boolean;
+function TfrmGoodsReceiving.CekChekBoxInGrid: Boolean;
 var i: Integer;
     hasil: Boolean;
 begin
   hasil:= True;
   i:=1;
-  while(hasil)and(i<=strgGrid.RowCount-1)do
+  {while(hasil)and(i<=strgGrid.RowCount-1)do
   begin
     strgGrid.GetCheckBoxState(7,i,hasil);
     Inc(i);
   end;
   Result:= hasil;
+  }
 end;
 
-function TfrmDeliveryOrder.SaveData: Boolean;
-var arrParam: TArr;
+function TfrmGoodsReceiving.SaveData: Boolean;
+var
     Hasil: Boolean;
     i: Integer;
     Receive,DOId: Real;
@@ -226,6 +202,7 @@ begin
   try
   Screen.Cursor:= crHourGlass;
   Hasil:= False;
+  {
   if not assigned(DeliveryOrder) then
     DeliveryOrder := TDeliveryOrder.Create;
 
@@ -396,9 +373,9 @@ begin
       arrParam[5].data := DeliveryOrder.GetUnitId;
 
       Hasil := DeliveryOrder.UpdateBarangTransaksiSetCogsAndLastCostByBrgCode(arrParam);
-
-      { Update Barang Transaksi Set Cogs (HPP) Untuk barang bonus}
-      if StrToInt(strgGrid.Cells[24,i])>0 then
+      }
+      // Update Barang Transaksi Set Cogs (HPP) Untuk barang bonus}
+      {if StrToInt(strgGrid.Cells[24,i])>0 then
       begin
         SetLength(arrParam, 4);
         arrParam[0].tipe := ptCurrency;
@@ -446,24 +423,14 @@ begin
         Exit;
       end;
     end;
-  end;
+  end;    }
   Result:= Hasil;
   finally
     Screen.Cursor:= crDefault;
   end;
 end;
 
-function TfrmDeliveryOrder.SumColStringGrid(StrGrid:TAdvStringGrid;Col,RowStart,RowEnd:Integer):Real;
-var i: Integer;
-    hasil: Real;
-begin
-  hasil:= 0;
-  for i:= RowStart to RowEnd do
-    hasil:= hasil+StrToFloat(StrGrid.Cells[Col,i]);
-  Result:= hasil;
-end;
-
-procedure TfrmDeliveryOrder.ClearForm;
+procedure TfrmGoodsReceiving.ClearForm;
 begin
   edtSONo.Clear;
   edtSuplierCode.Clear;
@@ -491,34 +458,27 @@ begin
   jvcuredtSellPrice.Value;
   lblStatusPO.Caption:='';
   SetHeaderGrid;
-  //strgGrid.Enabled:= False;
-  fraFooter5Button1.btnAdd.Enabled:= False;
+  actSave.Enabled:= False;
+  actDelete.Enabled:= False;
 end;
 
-procedure TfrmDeliveryOrder.FormCreate(Sender: TObject);
+procedure TfrmGoodsReceiving.FormCreate(Sender: TObject);
 begin
   inherited;
   dtDatePO.Date := now;
   dtDateSO.Date := now;
   dtDateDO.Date := now;
-  lblHeader.Caption := 'GOOD RECEIVING';
 
   lbl24.Visible := true;
   ClearForm;
 end;
 
-procedure TfrmDeliveryOrder.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  frmDeliveryOrder := nil;
-end;
-
-procedure TfrmDeliveryOrder.ShowDetailPO(ANoPO: string);
-var data: TResultDataSet;
+procedure TfrmGoodsReceiving.ShowDetailPO(ANoPO: string);
+var data: TDataSet;
     i: Integer;
 begin
   SetHeaderGrid;
-  if not Assigned(DeliveryOrder) then
+  {if not Assigned(DeliveryOrder) then
     DeliveryOrder:= TDeliveryOrder.Create;
   if lblStatusPO.Caption='Status PO : RECEIVED' then
     data:= DeliveryOrder.GetListDataDODetil(ANoPO)
@@ -570,7 +530,7 @@ begin
         strgGrid.Cells[13,i]:= FloatToStr(fieldbyname('PPN').AsFloat);
         strgGrid.Cells[14,i]:= FloatToStr(fieldbyname('PPNBM').AsFloat);
         strgGrid.Cells[15,i]:= FloatToStr(fieldbyname('SUB_TOTAL').AsFloat);
-        strgGrid.Cells[16,i]:= FloatToStr(fieldbyname('PPN').AsFloat);//FloatToStr(StrToFloat(strgGrid.Cells[13,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPN * QTY Receive)}
+        strgGrid.Cells[16,i]:= FloatToStr(fieldbyname('PPN').AsFloat);//FloatToStr(StrToFloat(strgGrid.Cells[13,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPN * QTY Receive)
         strgGrid.Cells[17,i]:= FloatToStr(fieldbyname('PPNBM').AsFloat);//FloatToStr(StrToFloat(strgGrid.Cells[14,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPNBM * QTY Receive)
       end
       else
@@ -579,7 +539,7 @@ begin
         strgGrid.Cells[13,i]:= '0'; //FloatToStr(fieldbyname('PPN').AsFloat);
         strgGrid.Cells[14,i]:= '0'; //FloatToStr(fieldbyname('PPNBM').AsFloat);
         strgGrid.Cells[15,i]:= '0'; //FloatToStr(fieldbyname('SUB_TOTAL').AsFloat);
-        strgGrid.Cells[16,i]:= '0'; //FloatToStr(StrToFloat(strgGrid.Cells[13,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPN * QTY Receive)}
+        strgGrid.Cells[16,i]:= '0'; //FloatToStr(StrToFloat(strgGrid.Cells[13,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPN * QTY Receive)
         strgGrid.Cells[17,i]:= '0'; //FloatToStr(StrToFloat(strgGrid.Cells[14,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPNBM * QTY Receive)
       end;
       FormulaDisconPerRow(i,StrToFloat(strgGrid.Cells[4,i]));
@@ -636,7 +596,6 @@ begin
   jvcuredtTotalBeli.Value:= FHargaDisc +
                             jvcuredtPPN.Value +
                             jvcuredtPPNBM.Value;
-                            //jvcuredtSubTotal.Value +
 
   if lblStatusPO.Caption='Status PO : RECEIVED' then
     edtjfRecvBonus.Value:= edtjfBonus.Value
@@ -644,12 +603,13 @@ begin
     edtjfRecvBonus.Value:= 0;
   strgGrid.FixedRows := 1;
   strgGrid.AutoSize := true;
+  }
 end;
 
-function TfrmDeliveryOrder.CheckIsPOExist(ANoPO: string): boolean;
-var data: TResultDataSet;
+function TfrmGoodsReceiving.CheckIsPOExist(ANoPO: string): boolean;
+var data: TDataSet;
 begin
-  if not Assigned(DeliveryOrder) then
+  {if not Assigned(DeliveryOrder) then
     DeliveryOrder:= TDeliveryOrder.Create;
   data:= DeliveryOrder.GetListDataPOByNo(ANoPO);
   with data do
@@ -672,25 +632,13 @@ begin
   end
   else
     result := false;
+    }
 end;
 
-procedure TfrmDeliveryOrder.strgGridCanEditCell(Sender: TObject; ARow,
-  ACol: Integer; var CanEdit: Boolean);
-begin
-  if lblStatusPO.Font.Color=clBlack then
-  begin
-    if (ACol in [4,7])and(strgGrid.Cells[3,ARow]<>'')then
-      CanEdit := True
-    else
-      CanEdit := False;
-  end
-  else
-    CanEdit := False;
-end;
-
-procedure TfrmDeliveryOrder.strgGridCellValidate(Sender: TObject; ACol,
+procedure TfrmGoodsReceiving.strgGridCellValidate(Sender: TObject; ACol,
   ARow: Integer; var Value: String; var Valid: Boolean);
 begin
+  {
   if (ACol = 4) then
   begin
     if(strgGrid.Cells[3,ARow])='' then Exit;
@@ -731,11 +679,12 @@ begin
       strgGrid.Col:= 7;
   end;
   strgGrid.SetFocus;
+  }
 end;
 
-procedure TfrmDeliveryOrder.SetHeaderGrid;
+procedure TfrmGoodsReceiving.SetHeaderGrid;
 begin
-  with strgGrid do
+  {with strgGrid do
   begin
     Clear;
     ColCount := 8;
@@ -749,7 +698,7 @@ begin
     Cells[5,0] := 'UOM';
     Cells[6,0] := 'BONUS';       //QTY Bonus PO
     Cells[7,0] := 'BONUS RECEIVE';              //checkbox
-    //added by putut utk debugging. Harus di hide nantinya
+    //added utk debugging. Harus di hide nantinya
     Cells[8,0]:= '8.BRG_NAME';
     Cells[9,0]:= '9DISC1';
     Cells[10,0]:= '10DISC2';
@@ -778,12 +727,13 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
-procedure TfrmDeliveryOrder.SetClearValue;
+procedure TfrmGoodsReceiving.SetClearValue;
 var i: integer;
 begin
-  for i:=1 to strgGrid.RowCount-1 do
+  {for i:=1 to strgGrid.RowCount-1 do
   begin
     strgGrid.Cells[4,i] := '0';
     strgGrid.Colors[4,i] := clWindow;
@@ -797,25 +747,26 @@ begin
     jvcuredtPPNBM.Value:= 0;
     jvcuredtDiscount.Value:= 0;
   end;
+  }
 end;
 
-procedure TfrmDeliveryOrder.btn1Click(Sender: TObject);
+procedure TfrmGoodsReceiving.btn1Click(Sender: TObject);
 begin
   if not Assigned(frmDialogSearchPO) then
     Application.CreateForm(TfrmDialogSearchPO, frmDialogSearchPO);
-  frmDialogSearchPO.frmSuiMasterDialog.Caption := 'Search PO...';
+  frmDialogSearchPO.Caption := 'Search PO...';
   frmDialogSearchPO.Modul:= tmDeliveryOrder;
   frmDialogSearchPO.ShowModal;
   if (frmDialogSearchPO.IsProcessSuccessfull) then
   begin
-    edtPONo.Text := frmDialogSearchPO.strgGrid.Cells[2,frmDialogSearchPO.strgGrid.Row];
+//    edtPONo.Text := frmDialogSearchPO.strgGrid.Cells[2,frmDialogSearchPO.strgGrid.Row];
     edtPONo.SetFocus;
   end;
     
   frmDialogSearchPO.Free;
 end;
 
-procedure TfrmDeliveryOrder.btn2Click(Sender: TObject);
+procedure TfrmGoodsReceiving.btn2Click(Sender: TObject);
 var SeparatorDate: Char;
     i: Integer;
     colieRcv, bonus: Real;
@@ -823,7 +774,7 @@ begin
   if CommonDlg.Confirm('Are you sure you wish to print NP?')= mrNo
   then Exit;
   SeparatorDate:= FormatSettings.DateSeparator;
-
+  {
   try
     FormatSettings.DateSeparator:= '/';
     bonus:= 0;
@@ -856,9 +807,10 @@ begin
     if Assigned(ParamList) then
       FreeAndNil(ParamList);
   end;
+  }
 end;
 
-procedure TfrmDeliveryOrder.edtPONoChange(Sender: TObject);
+procedure TfrmGoodsReceiving.edtPONoChange(Sender: TObject);
 begin
   inherited;
   lbl24.Visible := True;
@@ -867,11 +819,11 @@ begin
   ClearForm;
 end;
 
-procedure TfrmDeliveryOrder.edtDONoKeyPress(Sender: TObject;
+procedure TfrmGoodsReceiving.edtDONoKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  if Key=#13 then
+  {if Key=#13 then
   begin
     strgGrid.Col:= 4;
     if strgGrid.Enabled then
@@ -880,26 +832,16 @@ begin
   else
   if(not(Key in['0'..'9',Chr(VK_BACK)]))then
     Key:=#0;
+    }
 end;
 
-procedure TfrmDeliveryOrder.strgGridGetEditorType(Sender: TObject; ACol,
-  ARow: Integer; var AEditor: TEditorType);
-begin
-  inherited;
-  case ACol of
-//    4: AEditor:= edNumeric;
-    7: AEditor:= edCheckBox;
-  end;
-end;
-
-procedure TfrmDeliveryOrder.edtPONoKeyPress(Sender: TObject;
+procedure TfrmGoodsReceiving.edtPONoKeyPress(Sender: TObject;
   var Key: Char);
-var data: TResultDataSet;
+var data: TDataSet;
     NewNPNumber: Integer;
-    arrParam: TArr;
 begin
   inherited;
-  if Key=#13 then
+  {if Key=#13 then
   begin
     edtPONo.Text := StrPadLeft(edtPONo.Text, 10, '0');
 
@@ -928,7 +870,6 @@ begin
         fraFooter5Button1.btnAdd.Enabled:= True;
         if not Assigned(DeliveryOrder) then
           DeliveryOrder:= TDeliveryOrder.Create;
-//        data:= DeliveryOrder.GetNNP;
         edtNP.Text:= StrPadLeft(data.Fields[0].AsVariant,10,'0');
           SetLength(arrParam, 2);
           arrParam[0].tipe := ptDateTime;
@@ -959,12 +900,14 @@ begin
   else
   if(not(Key in['0'..'9',Chr(VK_BACK)]))then
     Key:=#0;
+    }
 end;
 
-procedure TfrmDeliveryOrder.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmGoodsReceiving.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
+  {
   if(Key = VK_F2) then
     btn1.Click;
   if(Key = VK_F5)and(ssctrl in Shift) then
@@ -981,66 +924,12 @@ begin
      fraFooter5Button1.btnAdd.Enabled
   then
     GetAndRunButton('btnAdd');
+    }
 end;
 
-procedure TfrmDeliveryOrder.strgGridGetCellColor(Sender: TObject; ARow,
-  ACol: Integer; AState: TGridDrawState; ABrush: TBrush; AFont: TFont);
+procedure TfrmGoodsReceiving.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if(ACol = 4)and(ARow > 0)and
-    (strgGrid.Cells[ACol,ARow]<>'')and
-    (StrToFloat(strgGrid.Cells[ACol,ARow]) <>
-    StrToFloat(strgGrid.Cells[3,ARow]))
-  then
-    AFont.Color:= clRed
-  else
-    AFont.Color:= clBlack;
-end;
-
-procedure TfrmDeliveryOrder.strgGridClick(Sender: TObject);
-begin
-  inherited;
-  if(strgGrid.Cells[0,strgGrid.Row]<>'')then
-  begin
-    edtProductName.Text:= strgGrid.Cells[8,strgGrid.Row];
-    edtjfDisc1.Value:= StrToFloat(strgGrid.Cells[9,strgGrid.Row]);
-    edtjfDisc2.Value:= StrToFloat(strgGrid.Cells[10,strgGrid.Row]);
-    jvcuredtNilaiDisc.Value:= StrToFloat(strgGrid.Cells[11,strgGrid.Row]);
-    jvcuredtTotalDisc.Value:= StrToFloat(strgGrid.Cells[31,strgGrid.Row]);
-    //jvcuredtTotalDisc.Value:= StrToFloat(strgGrid.Cells[12,strgGrid.Row]);
-    //jvcuredtSellPrice.Value:= ????; (komponen di hidden)
-  end;
-end;
-
-procedure TfrmDeliveryOrder.strgGridRowChanging(Sender: TObject; OldRow,
-  NewRow: Integer; var Allow: Boolean);
-begin
-  inherited;
-  strgGridClick(Self);
-end;
-
-procedure TfrmDeliveryOrder.strgGridCheckBoxClick(Sender: TObject; ACol,
-  ARow: Integer; State: Boolean);
-begin
-  inherited;
-  if (ACol = 7) then
-  begin
-    if State then
-      edtjfRecvBonus.Value:= edtjfRecvBonus.Value+ StrToInt(strgGrid.Cells[6,ARow])
-    else
-      edtjfRecvBonus.Value:= edtjfRecvBonus.Value-StrToInt(strgGrid.Cells[6,ARow]);
-  end;
-end;
-
-procedure TfrmDeliveryOrder.FormActivate(Sender: TObject);
-begin
-  inherited;
-  frmDeliveryOrder.Caption := 'GOOD RECEIVING';
-//  frmMain.CreateMenu((Sender as TForm));
-end;
-
-procedure TfrmDeliveryOrder.actSaveGoodReceivingExecute(Sender: TObject);
-begin
   if not CekChekBoxInGrid then
   begin
     CommonDlg.ShowError(ER_DO_BONUS);
@@ -1052,11 +941,9 @@ begin
     begin
       CommonDlg.ShowConfirmGlobal(SAVE_DO_SUCCESSFULLY);
       btnCetakNP.Click;
-//      frmMain.actReprintNPExecute(Self);
-//      frmReprintNP.edt1.Text:= edtPONo.Text;
       btn2.Visible := True;
       btnCetakNP.Visible := True;
-      fraFooter5Button1.btnAdd.Enabled := False;
+      actSave.Enabled := False;
     end
     else
       CommonDlg.ShowConfirmGlobal(SAVE_DO_EXPIRED)
@@ -1065,81 +952,6 @@ begin
     CommonDlg.ShowConfirmGlobal(ER_SAVE_DO);
   SetHeaderGrid;
   lbl24.Visible := False;
-end;
-
-procedure TfrmDeliveryOrder.actClearGoodReceivingExecute(Sender: TObject);
-begin
-  SetClearValue;
-end;
-
-procedure TfrmDeliveryOrder.strgGridGetAlignment(Sender: TObject; ARow,
-  ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-begin
-  inherited;
-  if ARow=0 then
-    HAlign:= taCenter;
-end;
-
-procedure TfrmDeliveryOrder.strgGridGetFloatFormat(Sender: TObject; ACol,
-  ARow: Integer; var IsFloat: Boolean; var FloatFormat: String);
-begin
-  inherited;
-  FloatFormat := '%.2n';
-  if ACol in [2, 11..17] then begin
-    IsFloat := True;
-  end
-  else
-    IsFloat := False;
-
-end;
-
-procedure TfrmDeliveryOrder.strgGridKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-    if strgGrid.Col = 7 then
-    begin
-      strgGrid.Col := 4;
-      if strgGrid.Row <> strgGrid.RowCount - 1 then
-        strgGrid.Row := strgGrid.Row + 1;
-    end;
-end;
-
-procedure TfrmDeliveryOrder.btn2Enter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmDeliveryOrder.btn2Exit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmDeliveryOrder.btn1Exit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmDeliveryOrder.btn1Enter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmDeliveryOrder.btnCetakNPEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmDeliveryOrder.btnCetakNPExit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
 end;
 
 end.

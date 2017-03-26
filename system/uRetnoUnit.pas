@@ -128,7 +128,7 @@ function GetIsStoreUnitID(aUnit_ID : Integer): Integer;
 var
   sSQL: string;
 begin
-//  Result := 0;
+  Result := 0;
 //  sSQL := 'select UNT_IS_STORE, UNT_IS_HO from aut$unit'
 //        + ' where UNT_ID = '+ IntToStr(aUnit_ID);
 //  with cOpenQuery(sSQL) do
@@ -204,12 +204,13 @@ begin
 end;
 
 function GetLastEODDate(aUNitID : Integer): TDateTime;
-var
-  sSQL: string;
+//var
+//  sSQL: string;
 begin
-  sSQL := 'select max(le_tanggal) '
-          + ' from log_eod'
-          + ' where unit_id = ' + IntToStr(aUNitID);
+  Result := Now;
+//  sSQL := 'select max(le_tanggal) '
+//          + ' from log_eod'
+//          + ' where unit_id = ' + IntToStr(aUNitID);
 
 {  with cOpenQuery(sSQL) do
   begin

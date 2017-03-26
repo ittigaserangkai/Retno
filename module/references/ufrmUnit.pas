@@ -185,7 +185,7 @@ end;
 procedure TfrmUnit.actEditExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogUnit, cxGridView.DS.FieldByName('ID').AsString);
+  ShowDialogForm(TfrmDialogUnit, cxGridView.DS.FieldByName('aut$unit_id').AsString);
 end;
 
 procedure TfrmUnit.FormActivate(Sender: TObject);
@@ -285,8 +285,8 @@ end;
 procedure TfrmUnit.actRefreshUnitExecute(Sender: TObject);
 begin
   inherited;
- ParseHeader;
- SetData;
+// ParseHeader;
+// SetData;
 end;
 
 procedure TfrmUnit.RefreshData;

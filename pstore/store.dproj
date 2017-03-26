@@ -95,10 +95,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="ui\ufrmMain.pas">
-            <Form>frmMain</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\module\login\ufrmLogin.pas">
             <Form>frmLogin</Form>
         </DCCReference>
@@ -170,9 +166,6 @@
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
-        <DCCReference Include="..\module\so\ufrmCreateSO.pas">
-            <Form>frmCreateSO</Form>
-        </DCCReference>
         <DCCReference Include="..\module\so\ufrmHistorySO.pas">
             <Form>frmHistorySO</Form>
         </DCCReference>
@@ -268,6 +261,139 @@
         </DCCReference>
         <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
+        <DCCReference Include="..\module\so\ufrmInputSupplierForNotSO.pas">
+            <Form>frmInputSupplierForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmDialogInputSupplierForNotSO.pas">
+            <Form>frmDialogInputSupplierForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmInputProductForNotSO.pas">
+            <Form>frmInputProductForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmDialogInputProductForNotSO.pas">
+            <Form>frmDialogInputProductForNotSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\so\ufrmCreateSO.pas">
+            <Form>frmCreateSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmGeneratePOForAll.pas">
+            <Form>frmGeneratePOforAll</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
+            <Form>frmDialogDetailGeneratePO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmGeneratePOBonus.pas">
+            <Form>frmGeneratePOBonus</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmChangeStatusPO.pas">
+            <Form>frmChangeStatusPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmCancellationPO.pas">
+            <Form>frmCancellationPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmApprovalPO.pas">
+            <Form>frmApprovallPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmSearchSupplier.pas">
+            <Form>frmDialogSearchSupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufrmProduct.pas">
+            <Form>frmProduct</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraStockCard.pas">
+            <Form>fraStockCard</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraSellingPrice.pas">
+            <Form>fraSellingPrice</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraProductTurunan.pas">
+            <Form>fraProductTurunan</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraProductSupplier.pas">
+            <Form>fraProductSupplier</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraBonusProduct.pas">
+            <Form>fraBonusProduct</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraUOMConvertion.pas">
+            <Form>fraUOMConvertion</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraAlokasiStock.pas">
+            <Form>fraAlokasiStock</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufrmDialogProduct.pas">
+            <Form>frmDialogProduct</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModBarang.pas"/>
+        <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="..\model\uModSatuan.pas"/>
+        <DCCReference Include="..\module\product\ufrmDialogMerk.pas">
+            <Form>frmDialogMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\classes\uSpecialKey.pas"/>
+        <DCCReference Include="..\module\merchandise\ufraHistoriPOByProduct.pas">
+            <Form>fraHistoriPOByProduct</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmDialogPrintPreview.pas">
+            <Form>frmDialogPrintPreview</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\uDMReport.pas">
+            <Form>dmReport</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\HPHELP.PAS"/>
+        <DCCReference Include="..\module\inventory\ufrmGoodsReceiving.pas">
+            <Form>frmGoodsReceiving</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmReprintNP.pas">
+            <Form>frmReprintNP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDisplayPO.pas">
+            <Form>frmDisplayPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmListingReceivingProduct.pas">
+            <Form>frmListingReceivingProduct</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="ui\ufrmMain.pas">
+            <Form>frmMain</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -294,9 +420,21 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
+                <DeployFile LocalName="..\..\build\Retno\bin\store.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>store.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\bin\store.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>store.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\lib\HPHELP.PAS" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -164,9 +164,24 @@ uses
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   uFrmGenPO in '..\module\merchandise\uFrmGenPO.pas' {frmGenPO},
   uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp},
-  ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
-  ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
-  uModGudang in '..\model\uModGudang.pas';
+  ufrmListQuotation in '..\module\merchandise\ufrmListQuotation.pas' {frmListQuotation},
+  ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
+  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  HPHELP in '..\lib\HPHELP.PAS',
+  ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
+  ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
+  ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
+  ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup},
+  ufrmHistoryPO in '..\module\merchandise\ufrmHistoryPO.pas' {frmHistoryPO},
+  ufrmPrintHistoryPOBySupplier in '..\module\merchandise\ufrmPrintHistoryPOBySupplier.pas' {frmPrintHistoryPOBySupplier},
+  ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
+  ufrmRetur in '..\module\inventory\ufrmRetur.pas' {frmRetur},
+  ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
+  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
+  ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 
@@ -176,5 +191,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.

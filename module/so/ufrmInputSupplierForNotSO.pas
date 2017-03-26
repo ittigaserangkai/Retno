@@ -4,28 +4,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, Grids,
-  BaseGrid, AdvGrid, ActnList, uRMSUnit, uRMSBaseClass;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ActnList, System.Actions,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
+  cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer, Vcl.ComCtrls, dxCore,
+  cxDateUtils, Vcl.Menus, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
 
 type
-  TfrmInputSupplierForNotSO = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmInputSupplierForNotSO = class(TfrmMasterBrowse)
     pnlKeterangan: TPanel;
-    actlstInputSupplierForNotSO: TActionList;
-    actAddSupplierForNotSO: TAction;
-    actEditSupplierForNotSO: TAction;
-    actDeleteSupplierForNotSO: TAction;
-    actRefreshSupplierForNotSO: TAction;
-    strgGrid: TAdvStringGrid;
+    procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure actAddSupplierForNotSOExecute(Sender: TObject);
-    procedure actEditSupplierForNotSOExecute(Sender: TObject);
-    procedure actDeleteSupplierForNotSOExecute(Sender: TObject);
-    procedure actRefreshSupplierForNotSOExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure fraFooter5Button1btnCloseClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,16 +33,32 @@ var
 
 implementation
 
-uses ufrmDialogInputSupplierForNotSO, uGTSUICommonDlg, uInputSupplierForNotSO,
-  uConn, DB, ufrmMain;
+uses ufrmDialogInputSupplierForNotSO, uTSCommonDlg;
 
 {$R *.dfm}
+
+procedure TfrmInputSupplierForNotSO.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  if not Assigned(frmDialogInputSupplierForNotSO) then
+    Application.CreateForm(TfrmDialogInputSupplierForNotSO, frmDialogInputSupplierForNotSO);
+  frmDialogInputSupplierForNotSO.Caption := 'Add Supplier For Not SO';
+  frmDialogInputSupplierForNotSO.FormMode:=fmAdd;
+
+  SetFormPropertyAndShowDialog(frmDialogInputSupplierForNotSO);
+  if (frmDialogInputSupplierForNotSO.IsProcessSuccessfull) then
+  begin
+    actRefreshExecute(Self);
+    CommonDlg.ShowConfirmSuccessfull(atAdd);
+  end;
+
+  frmDialogInputSupplierForNotSO.Free;
+end;
 
 procedure TfrmInputSupplierForNotSO.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-  //////frmMain.DestroyMenu((Sender as TForm));
   Action := caFree;
 end;
 
@@ -60,99 +72,34 @@ procedure TfrmInputSupplierForNotSO.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'INPUT SUPPLIER NOT FOR SO';
-  actRefreshSupplierForNotSOExecute(Self);  
+  actRefreshExecute(Self);
 end;
 
-procedure TfrmInputSupplierForNotSO.actAddSupplierForNotSOExecute(
-  Sender: TObject);
+procedure TfrmInputSupplierForNotSO.actEditExecute(Sender: TObject);
 begin
+  inherited;
+//  if strgGrid.Cells[2,strgGrid.Row]='0' then Exit;
   if not Assigned(frmDialogInputSupplierForNotSO) then
     Application.CreateForm(TfrmDialogInputSupplierForNotSO, frmDialogInputSupplierForNotSO);
-  frmDialogInputSupplierForNotSO.frmSuiMasterDialog.Caption := 'Add Supplier For Not SO';
-  frmDialogInputSupplierForNotSO.FormMode:=fmAdd;
-
-  SetFormPropertyAndShowDialog(frmDialogInputSupplierForNotSO);
-  if (frmDialogInputSupplierForNotSO.IsProcessSuccessfull) then
-  begin
-    actRefreshSupplierForNotSOExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atAdd);
-  end;
-    
-  frmDialogInputSupplierForNotSO.Free;
-end;
-
-procedure TfrmInputSupplierForNotSO.actEditSupplierForNotSOExecute(
-  Sender: TObject);
-begin
-  if strgGrid.Cells[2,strgGrid.Row]='0' then Exit;
-  if not Assigned(frmDialogInputSupplierForNotSO) then
-    Application.CreateForm(TfrmDialogInputSupplierForNotSO, frmDialogInputSupplierForNotSO);
-  frmDialogInputSupplierForNotSO.frmSuiMasterDialog.Caption := 'Edit Supplier For Not SO';
+  frmDialogInputSupplierForNotSO.Caption := 'Edit Supplier For Not SO';
   frmDialogInputSupplierForNotSO.FormMode:=fmEdit;
-  frmDialogInputSupplierForNotSO.SuplierBlacklistId:=StrToInt(strgGrid.Cells[2,strgGrid.row]);
+//  frmDialogInputSupplierForNotSO.SuplierBlacklistId:=StrToInt(strgGrid.Cells[2,strgGrid.row]);
 
   SetFormPropertyAndShowDialog(frmDialogInputSupplierForNotSO);
   if (frmDialogInputSupplierForNotSO.IsProcessSuccessfull) then
   begin
-    actRefreshSupplierForNotSOExecute(Self);
+    actRefreshExecute(Self);
     CommonDlg.ShowConfirmSuccessfull(atEdit);
   end;
 
   frmDialogInputSupplierForNotSO.Free;
 end;
 
-procedure TfrmInputSupplierForNotSO.actDeleteSupplierForNotSOExecute(
-  Sender: TObject);
-var
-  sSQL: string;
-  IDLokal: Integer;
-begin
-  if strgGrid.Cells[2,strgGrid.Row]='0' then Exit;
-  if (CommonDlg.Confirm('Are you sure you wish to delete supplier (Supplier Code: '+strgGrid.Cells[0,strgGrid.row]+')?') = mrYes) then
-  begin
-  {  if not assigned(SuplierBlackList) then
-      SuplierBlackList := TSuplierBlackList.Create;
-
-    if SuplierBlackList.DeleteDataSuplierBlackList(StrToInt(strgGrid.Cells[2,strgGrid.Row]))then
-    begin
-      actRefreshSupplierForNotSOExecute(Self);
-      CommonDlg.ShowConfirmSuccessfull(atDelete);
-    end;  }
-   IDLokal := StrToInt(strgGrid.Cells[2,strgGrid.Row]);
-
-    sSQL := 'delete from SO_SUPLIER_BLACKLIST where '
-            + ' SOSB_ID = ' + IntToStr(IDLokal)
-            + ' and SOSB_UNT_ID = ' + IntToStr(masternewunit.id);
-
-
-    if not cExecSQL(sSQL,False,SuplierBlackList.GetHeaderFlag) then
-    begin
-      cRollbackTrans;
-      CommonDlg.ShowError('Data Gagal Dihapus');
-      Exit;
-    end
-    else if not SimpanBlob(sSQL,1) then
-    begin
-      cRollbackTrans;
-      CommonDlg.ShowError('Data Gagal Disimpan');
-      Exit;
-    end
-    else begin
-      cCommitTrans;
-      CommonDlg.ShowMessage('Data Berhasil Dihapus');
-      strgGrid.Clear;
-    end;
-
-    actRefreshSupplierForNotSOExecute(Self);
-  end;
-end;
-
-procedure TfrmInputSupplierForNotSO.actRefreshSupplierForNotSOExecute(
-  Sender: TObject);
-var data: TResultDataSet;
+procedure TfrmInputSupplierForNotSO.actRefreshExecute(Sender: TObject);
+var data: TDataSet;
     i: Integer;
 begin
-  if not assigned(SuplierBlackList) then
+  {if not assigned(SuplierBlackList) then
     SuplierBlackList := TSuplierBlackList.Create;
 
   //Set Data
@@ -190,21 +137,13 @@ begin
     AutoSize:=True;
     FixedRows:=1;
   end;
+  }
 end;
 
 procedure TfrmInputSupplierForNotSO.FormActivate(Sender: TObject);
 begin
   inherited;
   frmInputSupplierForNotSO.Caption := 'INPUT SUPPLIER NOT FOR SO';
-  ////frmMain.CreateMenu((Sender as TForm));
-end;
-
-procedure TfrmInputSupplierForNotSO.fraFooter5Button1btnCloseClick(
-  Sender: TObject);
-begin
-  inherited;
-  fraFooter5Button1.btnCloseClick(Sender);
-
 end;
 
 end.
