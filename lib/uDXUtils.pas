@@ -13,7 +13,7 @@ uses
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
-  cxPC, Vcl.ComCtrls;
+  cxPC, Vcl.ComCtrls, Vcl.Mask;
 
 
 type
@@ -1047,6 +1047,12 @@ begin
     if C is TcxComboBox then
       if not Assigned(TcxComboBox(C).OnKeyDown) then
         TcxComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TComboBox then
+      if not Assigned(TComboBox(C).OnKeyDown) then
+        TComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TMaskedit then
+      if not Assigned(TMaskedit(C).OnKeyDown) then
+        TMaskedit(C).OnKeyDown := OnKeyEnter;
     if C is TcxCheckBox then
       if not Assigned(TcxCheckBox(C).OnKeyDown) then
         TcxCheckBox(C).OnKeyDown := OnKeyEnter;
