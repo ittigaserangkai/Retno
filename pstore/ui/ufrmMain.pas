@@ -184,6 +184,7 @@ type
     actUser: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
+    procedure actBeginBalancePOSExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
     procedure actChangeStatusPOExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
@@ -253,7 +254,8 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
   ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
   ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal,
-  ufrmReprintNP, ufrmProductForSelling, ufrmActivatePOS;
+  ufrmReprintNP, ufrmProductForSelling, ufrmActivatePOS,
+  ufrmBeginningBalancePOS;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -263,6 +265,11 @@ end;
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
   ArrangeIcons;
+end;
+
+procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
+begin
+    frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actCascadeExecute(Sender: TObject);

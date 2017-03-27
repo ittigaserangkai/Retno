@@ -310,6 +310,7 @@ object frmMain: TfrmMain
     object actBeginBalancePOS: TAction
       Category = 'SupvCashier'
       Caption = '&Beginning Balance POS'
+      OnExecute = actBeginBalancePOSExecute
     end
     object actProductForSelling: TAction
       Category = 'SupvCashier'
