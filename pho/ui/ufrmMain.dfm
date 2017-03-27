@@ -275,6 +275,12 @@ object frmMain: TfrmMain
         OnClick = est2Click
       end
     end
+    object Inventory1: TMenuItem
+      Caption = 'Inventory'
+      object Gudang1: TMenuItem
+        Action = actGudang
+      end
+    end
   end
   object actlstMain: TActionList
     Left = 85
@@ -1187,6 +1193,11 @@ object frmMain: TfrmMain
       Category = 'Merchandise'
       Caption = 'actListingPObyMG'
       OnExecute = actListingPObyMGExecute
+    end
+    object actGudang: TAction
+      Category = 'Inventory'
+      Caption = 'Gudang'
+      OnExecute = actGudangExecute
     end
   end
   object AppEvents: TApplicationEvents

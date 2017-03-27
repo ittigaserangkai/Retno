@@ -288,6 +288,9 @@ type
     actListingQuotationMailer: TAction;
     actLaporanStok: TAction;
     actListingPObyMG: TAction;
+    actGudang: TAction;
+    Inventory1: TMenuItem;
+    Gudang1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -302,6 +305,7 @@ type
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
+    procedure actGudangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
     procedure actLapInvMovementQtyExecute(Sender: TObject);
@@ -399,6 +403,8 @@ uses
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur;
+  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
+  ufrmGudang;
 
 {$R *.dfm}
 
@@ -551,6 +557,11 @@ end;
 procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
 begin
   frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actGudangExecute(Sender: TObject);
+begin
+  frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
