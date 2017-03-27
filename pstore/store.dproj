@@ -418,6 +418,18 @@
             <Form>frmReprintNP</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmProductForSelling.pas">
+            <Form>frmProductForSelling</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogActivatePOS.pas">
+            <Form>frmDialogActivePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmActivatePOS.pas">
+            <Form>frmActivatePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

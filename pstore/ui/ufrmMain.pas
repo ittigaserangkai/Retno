@@ -182,6 +182,7 @@ type
     actLPKAll: TAction;
     actEodLpk: TAction;
     actUser: TAction;
+    procedure actActivatePOSExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
     procedure actChangeStatusPOExecute(Sender: TObject);
@@ -197,6 +198,7 @@ type
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actPOBonusExecute(Sender: TObject);
+    procedure actProductForSellingExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
@@ -251,7 +253,12 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
   ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
   ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal,
-  ufrmReprintNP;
+  ufrmReprintNP, ufrmProductForSelling, ufrmActivatePOS;
+
+procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
+begin
+    frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+end;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -461,6 +468,11 @@ end;
 procedure TfrmMain.actPOBonusExecute(Sender: TObject);
 begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
+end;
+
+procedure TfrmMain.actProductForSellingExecute(Sender: TObject);
+begin
+    frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actReprintNPExecute(Sender: TObject);

@@ -111,7 +111,10 @@ uses
   uSpell in '..\lib\uSpell.pas',
   ufrmSearchWastageReal in '..\module\inventory\ufrmSearchWastageReal.pas' {frmSearchWastageReal},
   ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal},
-  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP};
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmProductForSelling in '..\module\cashier_supv\ufrmProductForSelling.pas' {frmProductForSelling},
+  ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
+  ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS};
 
 {$R *.res}
 
@@ -122,6 +125,5 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmReprintNP, frmReprintNP);
   Application.Run;
 end.

@@ -305,6 +305,7 @@ object frmMain: TfrmMain
     object actActivatePOS: TAction
       Category = 'SupvCashier'
       Caption = '&Activate POS'
+      OnExecute = actActivatePOSExecute
     end
     object actBeginBalancePOS: TAction
       Category = 'SupvCashier'
@@ -313,6 +314,7 @@ object frmMain: TfrmMain
     object actProductForSelling: TAction
       Category = 'SupvCashier'
       Caption = 'Master &Product For Selling'
+      OnExecute = actProductForSellingExecute
     end
     object actMaintenancePassword: TAction
       Category = 'SupvCashier'
