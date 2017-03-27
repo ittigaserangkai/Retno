@@ -103,7 +103,11 @@ uses
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmMain in 'ui\ufrmMain.pas' {frmMain},
-  ufrmServiceLevel in '..\module\merchandise\ufrmServiceLevel.pas' {frmServiceLevel};
+  ufrmServiceLevel in '..\module\merchandise\ufrmServiceLevel.pas' {frmServiceLevel},
+  ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
+  uModGudang in '..\model\uModGudang.pas',
+  uModUnit in '..\model\uModUnit.pas',
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 

@@ -181,7 +181,11 @@ uses
   ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
-  uModPropinsi in '..\model\uModPropinsi.pas';
+  uModPropinsi in '..\model\uModPropinsi.pas',
+  ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
+  ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
+  ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
+  uModGudang in '..\model\uModGudang.pas';
 
 {$R *.res}
 

@@ -228,7 +228,7 @@ object frmMain: TfrmMain
       OnExecute = actGoodsReceivingExecute
     end
     object actServiceLevel: TAction
-      Category = 'Merchandise'
+      Category = 'Inventory'
       Caption = 'Monitoring &Service Level'
       OnExecute = actServiceLevelExecute
     end
@@ -244,6 +244,7 @@ object frmMain: TfrmMain
     object actDSI: TAction
       Category = 'Inventory'
       Caption = '&Kartu Stock (DSI)'
+      OnExecute = actDSIExecute
     end
     object actWastageObral: TAction
       Category = 'Inventory'

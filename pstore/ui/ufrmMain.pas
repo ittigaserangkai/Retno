@@ -187,6 +187,7 @@ type
     procedure actChangeStatusPOExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCreateSOExecute(Sender: TObject);
+    procedure actDSIExecute(Sender: TObject);
     procedure actGeneratePOForAllExecute(Sender: TObject);
     procedure actGoodsReceivingExecute(Sender: TObject);
     procedure actInputProductNotForSOExecute(Sender: TObject);
@@ -247,7 +248,7 @@ implementation
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
   ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
-  ufrmListingReceivingProduct, ufrmServiceLevel;
+  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -274,6 +275,11 @@ end;
 procedure TfrmMain.actCreateSOExecute(Sender: TObject);
 begin
     frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
+end;
+
+procedure TfrmMain.actDSIExecute(Sender: TObject);
+begin
+    frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
