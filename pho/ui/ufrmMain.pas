@@ -402,9 +402,7 @@ uses
   ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
-  ufrmLaporanRetur;
-  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
-  ufrmGudang;
+  ufrmLaporanRetur, ufrmGudang;
 
 {$R *.dfm}
 

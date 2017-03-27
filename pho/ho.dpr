@@ -151,7 +151,6 @@ uses
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
-  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
   ufrmDialogQuotationHargaBeli in '..\module\merchandise\ufrmDialogQuotationHargaBeli.pas' {frmDialogQuotationHargaBeli},
   ufrmDialogQuotationMailerNeo in '..\module\merchandise\ufrmDialogQuotationMailerNeo.pas' {frmDialogQuotationMailerNeo},
   ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer},
@@ -181,7 +180,11 @@ uses
   ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
-  uModPropinsi in '..\model\uModPropinsi.pas';
+  uModPropinsi in '..\model\uModPropinsi.pas',
+  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
+  ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
+  ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
+  uModGudang in '..\model\uModGudang.pas';
 
 {$R *.res}
 
