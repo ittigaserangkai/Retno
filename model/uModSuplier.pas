@@ -3,12 +3,73 @@ unit uModSuplier;
 interface
 
 uses
-  uModApp, uModTipePerusahaan, uModBank, uModBarang, uModTipePembayaran,
-  uModTipeKirimPO;
+  uModApp, uModTipePerusahaan, uModBank, uModTipePembayaran,  uModTipeKirimPO;
 
 type
   TModSuplierGroup = class;
   TModTipeSuplier = class;
+
+  TModMerchandise = class(TModApp)
+  private
+    FMERCHAN_CODE: string;
+    FMERCHAN_NAME: string;
+  public
+    class function GetTableName: String; override;
+  published
+    [AttributeOfCode]
+    property MERCHAN_CODE: string read FMERCHAN_CODE write FMERCHAN_CODE;
+    property MERCHAN_NAME: string read FMERCHAN_NAME write FMERCHAN_NAME;
+  end;
+
+  TModMerchandiseGroup = class(TModApp)
+  private
+    FMerchandise: TModMerchandise;
+    FMERCHANGRUP_CODE: string;
+    FMERCHANGRUP_NAME: string;
+  public
+    class function GetTableName: String; override;
+  published
+    [AttributeofForeign('REF$MERCHANDISE_ID')]
+    property Merchandise: TModMerchandise read FMerchandise write FMerchandise;
+    [AttributeOfCode]
+    property MERCHANGRUP_CODE: string read FMERCHANGRUP_CODE write
+        FMERCHANGRUP_CODE;
+    property MERCHANGRUP_NAME: string read FMERCHANGRUP_NAME write
+        FMERCHANGRUP_NAME;
+  end;
+
+  TModSubGroup = class(TModApp)
+  private
+    FMerchandiseGroup: TModMerchandiseGroup;
+    FSUBGRUP_CODE: string;
+    FSUBGRUP_NAME: string;
+  public
+    class function GetTableName: String; override;
+  published
+    [AttributeofForeign('REF$MERCHANDISE_GRUP_ID')]
+    property MerchandiseGroup: TModMerchandiseGroup read FMerchandiseGroup write
+        FMerchandiseGroup;
+    [AttributeOfCode]
+    property SUBGRUP_CODE: string read FSUBGRUP_CODE write FSUBGRUP_CODE;
+    property SUBGRUP_NAME: string read FSUBGRUP_NAME write FSUBGRUP_NAME;
+  end;
+
+
+  TModKategori = class(TModApp)
+  private
+    FSubGroup: TModSubGroup;
+    FKAT_CODE: string;
+    FKAT_NAME: string;
+  public
+    class function GetTableName: String; override;
+  published
+    [AttributeofForeign('REF$SUB_GRUP_ID')]
+    property SubGroup: TModSubGroup read FSubGroup write FSubGroup;
+    [AttributeOfCode]
+    property KAT_CODE: string read FKAT_CODE write FKAT_CODE;
+    property KAT_NAME: string read FKAT_NAME write FKAT_NAME;
+  end;
+
   TModSuplier = class(TModApp)
   private
     FSUP_CODE: String;
@@ -205,6 +266,11 @@ type
     property SUPMG_NAME: string read FSUPMG_NAME write FSUPMG_NAME;
   end;
 
+
+
+
+
+
 implementation
 
 class function TModSuplier.GetTableName: String;
@@ -225,6 +291,26 @@ end;
 class function TModSuplierMerchanGroup.GetTableName: String;
 begin
   Result := 'SUPLIER_MERCHAN_GRUP';
+end;
+
+class function TModMerchandiseGroup.GetTableName: String;
+begin
+  Result := 'REF$MERCHANDISE_GRUP';
+end;
+
+class function TModMerchandise.GetTableName: String;
+begin
+  Result := 'REF$MERCHANDISE';
+end;
+
+class function TModSubGroup.GetTableName: String;
+begin
+  Result := 'REF$SUB_GRUP';
+end;
+
+class function TModKategori.GetTableName: String;
+begin
+  Result := 'REF$KATEGORI';
 end;
 
 initialization

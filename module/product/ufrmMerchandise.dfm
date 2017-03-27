@@ -9,7 +9,6 @@ inherited frmMerchandise: TfrmMerchandise
   inherited pnlBody: TPanel
     Width = 652
     Height = 286
-    ExplicitTop = 33
     ExplicitWidth = 652
     ExplicitHeight = 286
     inherited pgcBrowse: TcxPageControl
@@ -92,7 +91,7 @@ inherited frmMerchandise: TfrmMerchandise
       ExplicitWidth = 652
       inherited lbEscape: TLabel
         Left = 578
-        Height = 17
+        ExplicitLeft = 578
       end
     end
   end

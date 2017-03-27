@@ -668,7 +668,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       object cbTurunan: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 50
+        Top = 44
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -678,6 +678,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 0
         Transparent = True
         ExplicitTop = 2
+        ExplicitWidth = 121
       end
       object cbActive: TcxCheckBox
         AlignWithMargins = True
@@ -693,11 +694,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         Transparent = True
         ExplicitLeft = 13
         ExplicitTop = 0
+        ExplicitWidth = 121
       end
       object cbisDecimal: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 74
+        Top = 65
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -707,11 +709,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 2
         Transparent = True
         ExplicitTop = 50
+        ExplicitWidth = 121
       end
       object cbIsTaxInclude: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 98
+        Top = 86
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -721,11 +724,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 3
         Transparent = True
         ExplicitTop = 74
+        ExplicitWidth = 121
       end
       object cbisDeposit: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 146
+        Top = 128
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -735,11 +739,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 6
         Transparent = True
         ExplicitTop = 140
+        ExplicitWidth = 121
       end
       object chkIsDiscAMC: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 122
+        Top = 107
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -750,11 +755,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         Transparent = True
         ExplicitLeft = 7
         ExplicitTop = 106
+        ExplicitWidth = 121
       end
       object chkIsBasic: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 26
+        Top = 23
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -764,11 +770,13 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 4
         Transparent = True
         ExplicitLeft = 7
+        ExplicitTop = 26
+        ExplicitWidth = 121
       end
       object chkIsGalon: TcxCheckBox
         AlignWithMargins = True
         Left = 5
-        Top = 170
+        Top = 149
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
@@ -778,6 +786,8 @@ inherited frmDialogProduct: TfrmDialogProduct
         TabOrder = 7
         Transparent = True
         Visible = False
+        ExplicitTop = 170
+        ExplicitWidth = 121
       end
     end
     object edtSSBARANG: TcxSpinEdit
@@ -820,16 +830,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 776
       inherited lbCTRLEnter: TLabel
         Left = 601
-        Height = 15
         ExplicitLeft = 601
       end
       inherited lbEscape: TLabel
         Left = 692
-        Height = 15
         ExplicitLeft = 692
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end
