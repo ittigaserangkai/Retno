@@ -222,13 +222,15 @@ object frmMain: TfrmMain
       Category = 'PO'
       Caption = 'Appro&val Purchasing Order'
     end
-    object actDeliveryOrder: TAction
+    object actGoodsReceiving: TAction
       Category = 'Inventory'
       Caption = '&Good Receiving'
+      OnExecute = actGoodsReceivingExecute
     end
     object actServiceLevel: TAction
-      Category = 'Inventory'
+      Category = 'Merchandise'
       Caption = 'Monitoring &Service Level'
+      OnExecute = actServiceLevelExecute
     end
     object actCNDNGoodReceiving: TAction
       Category = 'Inventory'

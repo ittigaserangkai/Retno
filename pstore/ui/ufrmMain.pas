@@ -53,7 +53,7 @@ type
     actCancellingPO: TAction;
     actChangeStatusPO: TAction;
     actApprovalPO: TAction;
-    actDeliveryOrder: TAction;
+    actGoodsReceiving: TAction;
     actServiceLevel: TAction;
     actCNDNGoodReceiving: TAction;
     actReturBarang: TAction;
@@ -188,6 +188,7 @@ type
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCreateSOExecute(Sender: TObject);
     procedure actGeneratePOForAllExecute(Sender: TObject);
+    procedure actGoodsReceivingExecute(Sender: TObject);
     procedure actInputProductNotForSOExecute(Sender: TObject);
     procedure actInputSupplierNotForSOExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -195,6 +196,7 @@ type
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actPOBonusExecute(Sender: TObject);
+    procedure actServiceLevelExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -244,7 +246,8 @@ implementation
 
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
-  ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO;
+  ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
+  ufrmListingReceivingProduct, ufrmServiceLevel;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -276,6 +279,11 @@ end;
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
 begin
     frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
+end;
+
+procedure TfrmMain.actGoodsReceivingExecute(Sender: TObject);
+begin
+  frmListingReceivingProduct := TfrmListingReceivingProduct.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actInputProductNotForSOExecute(Sender: TObject);
@@ -444,6 +452,11 @@ end;
 procedure TfrmMain.actPOBonusExecute(Sender: TObject);
 begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
+end;
+
+procedure TfrmMain.actServiceLevelExecute(Sender: TObject);
+begin
+    frmServiceLevel := TfrmServiceLevel.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTileExecute(Sender: TObject);

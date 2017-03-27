@@ -102,7 +102,8 @@ uses
   ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
-  ufrmMain in 'ui\ufrmMain.pas' {frmMain};
+  ufrmMain in 'ui\ufrmMain.pas' {frmMain},
+  ufrmServiceLevel in '..\module\merchandise\ufrmServiceLevel.pas' {frmServiceLevel};
 
 {$R *.res}
 
