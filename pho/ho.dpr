@@ -118,7 +118,6 @@ uses
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
-  ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
@@ -185,7 +184,9 @@ uses
   ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
   ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
   ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
-  uModGudang in '..\model\uModGudang.pas';
+  uModGudang in '..\model\uModGudang.pas',
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving};
 
 {$R *.res}
 

@@ -99,7 +99,6 @@ uses
   uDMReport in '..\system\uDMReport.pas' {dmReport},
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
-  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmMain in 'ui\ufrmMain.pas' {frmMain},
@@ -111,7 +110,8 @@ uses
   ufrmWastageReal in '..\module\inventory\ufrmWastageReal.pas' {frmWastageReal},
   uSpell in '..\lib\uSpell.pas',
   ufrmSearchWastageReal in '..\module\inventory\ufrmSearchWastageReal.pas' {frmSearchWastageReal},
-  ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal};
+  ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal},
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP};
 
 {$R *.res}
 
@@ -122,5 +122,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmReprintNP, frmReprintNP);
   Application.Run;
 end.

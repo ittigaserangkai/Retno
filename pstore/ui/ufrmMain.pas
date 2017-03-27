@@ -197,6 +197,7 @@ type
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actPOBonusExecute(Sender: TObject);
+    procedure actReprintNPExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
     procedure actWastageRealExecute(Sender: TObject);
@@ -249,7 +250,8 @@ implementation
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
   ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
-  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal;
+  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal,
+  ufrmReprintNP;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -459,6 +461,11 @@ end;
 procedure TfrmMain.actPOBonusExecute(Sender: TObject);
 begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
+end;
+
+procedure TfrmMain.actReprintNPExecute(Sender: TObject);
+begin
+    frmReprintNP := TfrmReprintNP.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actServiceLevelExecute(Sender: TObject);

@@ -280,6 +280,7 @@ object frmMain: TfrmMain
     object actReprintNP: TAction
       Category = 'Inventory'
       Caption = '&Reprint / Check List NP'
+      OnExecute = actReprintNPExecute
     end
     object actCNReceiving: TAction
       Category = 'Inventory'
