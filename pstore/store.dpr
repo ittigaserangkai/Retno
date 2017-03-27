@@ -107,7 +107,11 @@ uses
   ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
   uModGudang in '..\model\uModGudang.pas',
   uModUnit in '..\model\uModUnit.pas',
-  uModPropinsi in '..\model\uModPropinsi.pas';
+  uModPropinsi in '..\model\uModPropinsi.pas',
+  ufrmWastageReal in '..\module\inventory\ufrmWastageReal.pas' {frmWastageReal},
+  uSpell in '..\lib\uSpell.pas',
+  ufrmSearchWastageReal in '..\module\inventory\ufrmSearchWastageReal.pas' {frmSearchWastageReal},
+  ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal};
 
 {$R *.res}
 

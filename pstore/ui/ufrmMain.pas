@@ -199,6 +199,7 @@ type
     procedure actPOBonusExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
+    procedure actWastageRealExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
 //    FNewUnit: TUnit;
@@ -248,7 +249,7 @@ implementation
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
   ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
-  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI;
+  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
@@ -469,6 +470,11 @@ procedure TfrmMain.actTileExecute(Sender: TObject);
 begin
   TileMode := tbVertical;
   Tile;
+end;
+
+procedure TfrmMain.actWastageRealExecute(Sender: TObject);
+begin
+    frmWastageReal := TfrmWastageReal.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

@@ -253,6 +253,7 @@ object frmMain: TfrmMain
     object actWastageReal: TAction
       Category = 'Inventory'
       Caption = 'Wastage &Real / Damage'
+      OnExecute = actWastageRealExecute
     end
     object actInputProductIGRA: TAction
       Category = 'Inventory'
