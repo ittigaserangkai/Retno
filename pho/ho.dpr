@@ -118,7 +118,6 @@ uses
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
-  ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
@@ -151,6 +150,7 @@ uses
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
+  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
   ufrmDialogQuotationHargaBeli in '..\module\merchandise\ufrmDialogQuotationHargaBeli.pas' {frmDialogQuotationHargaBeli},
   ufrmDialogQuotationMailerNeo in '..\module\merchandise\ufrmDialogQuotationMailerNeo.pas' {frmDialogQuotationMailerNeo},
   ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer},
@@ -181,10 +181,12 @@ uses
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
   uModPropinsi in '..\model\uModPropinsi.pas',
-  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
+  ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
   ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
   ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
-  uModGudang in '..\model\uModGudang.pas';
+  uModGudang in '..\model\uModGudang.pas',
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving};
 
 {$R *.res}
 

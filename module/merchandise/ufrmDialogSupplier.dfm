@@ -6,6 +6,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   ClientWidth = 656
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  OnShow = FormShow
   ExplicitWidth = 672
   ExplicitHeight = 598
   PixelsPerInch = 96
@@ -430,7 +431,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = 'Category'
-        Enabled = False
         object lbl37: TLabel
           Left = 66
           Top = 10
@@ -692,7 +692,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Change contact supplier for Merchandise Group'
           Color = clWhite
           TabOrder = 21
-          ExplicitLeft = 39
           object lbl30: TLabel
             Left = 77
             Top = 47
@@ -778,7 +777,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Caption = 'Bank Address'
           end
           object edtAddrMer: TEdit
-            Tag = 1
             Left = 121
             Top = 45
             Width = 343
@@ -790,7 +788,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Text = '---'
           end
           object edtCityMer: TEdit
-            Tag = 1
             Left = 121
             Top = 68
             Width = 95
@@ -801,7 +798,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 2
           end
           object edtPostCodeMer: TEdit
-            Tag = 1
             Left = 283
             Top = 68
             Width = 79
@@ -814,7 +810,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 3
           end
           object edtFaxMer: TEdit
-            Tag = 1
             Left = 283
             Top = 91
             Width = 79
@@ -825,7 +820,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 5
           end
           object edtPhoneMer: TEdit
-            Tag = 1
             Left = 121
             Top = 91
             Width = 95
@@ -836,7 +830,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 4
           end
           object edtContactMer: TEdit
-            Tag = 1
             Left = 121
             Top = 114
             Width = 187
@@ -847,7 +840,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 6
           end
           object edtTitleMer: TEdit
-            Tag = 1
             Left = 345
             Top = 114
             Width = 80
@@ -858,7 +850,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 7
           end
           object edtBankCodeMer: TEdit
-            Tag = 1
             Left = 186
             Top = 137
             Width = 247
@@ -871,7 +862,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Text = 'telo'
           end
           object edtBankAccNameMer: TEdit
-            Tag = 1
             Left = 121
             Top = 209
             Width = 279
@@ -882,7 +872,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 12
           end
           object edtBankAccNoMer: TEdit
-            Tag = 1
             Left = 121
             Top = 232
             Width = 211
@@ -910,7 +899,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Width = 63
           end
           object edtBankBranch: TEdit
-            Tag = 1
             Left = 121
             Top = 161
             Width = 312
@@ -922,7 +910,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 10
           end
           object edtBankAddrss: TEdit
-            Tag = 1
             Left = 121
             Top = 185
             Width = 312
@@ -1110,6 +1097,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 409
+        ExplicitLeft = 409
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 656
@@ -1126,6 +1117,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       inherited lbCTRLDel: TLabel
         Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 405
+        ExplicitLeft = 405
       end
     end
   end

@@ -378,10 +378,6 @@
             <Form>frmGoodsReceiving</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\inventory\ufrmReprintNP.pas">
-            <Form>frmReprintNP</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmDisplayPO.pas">
             <Form>frmDisplayPO</Form>
             <FormType>dfm</FormType>
@@ -396,6 +392,102 @@
         </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmServiceLevel.pas">
             <Form>frmServiceLevel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDSI.pas">
+            <Form>frmDSI</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModGudang.pas"/>
+        <DCCReference Include="..\model\uModUnit.pas"/>
+        <DCCReference Include="..\model\uModPropinsi.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmWastageReal.pas">
+            <Form>frmWastageReal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\uSpell.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmSearchWastageReal.pas">
+            <Form>frmSearchWastageReal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogWastageReal.pas">
+            <Form>frmDialogWastageReal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmReprintNP.pas">
+            <Form>frmReprintNP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmProductForSelling.pas">
+            <Form>frmProductForSelling</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogActivatePOS.pas">
+            <Form>frmDialogActivePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmActivatePOS.pas">
+            <Form>frmActivatePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmBeginningBalancePOS.pas">
+            <Form>frmBeginningBalancePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas">
+            <Form>frmDialogBeginBalancePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmMaintenancePassword.pas">
+            <Form>frmMaintenancePassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogMaintenancePassword.pas">
+            <Form>frmDialogMaintenancePassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmFinalPayment.pas">
+            <Form>frmFinalPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogFinalPayment.pas">
+            <Form>frmDialogFinalPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupHistCDFP.pas">
+            <Form>frmPopupHistCDFP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmAdjustmentCashier.pas">
+            <Form>frmAdjustmentCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogAdjustmentCashier.pas">
+            <Form>frmDialogAdjustmentCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmCreditCard.pas">
+            <Form>frmCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCreditCard.pas">
+            <Form>frmDialogCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmCashDropping.pas">
+            <Form>frmCashDropping</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCashDropping.pas">
+            <Form>frmDialogCashDropping</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupHistCD.pas">
+            <Form>frmPopupHistCD</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmResetCashier.pas">
+            <Form>frmResetCashier</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
