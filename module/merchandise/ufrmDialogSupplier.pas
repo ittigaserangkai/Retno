@@ -146,6 +146,7 @@ type
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
 
 
   private
@@ -194,6 +195,7 @@ end;
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.AssignKeyDownEvent;
   cxLookUpBank.LoadFromDS(
     DMClient.DSProviderClient.Bank_GetDSLookup,
       'BANK_ID','BANK_NAME',['BANK_ID'],self
@@ -216,6 +218,12 @@ begin
     );
 
 
+end;
+
+procedure TfrmDialogSupplier.FormShow(Sender: TObject);
+begin
+  inherited;
+  edtSupCode.SetFocus;
 end;
 
 function TfrmDialogSupplier.GetModSupplier: TModSuplier;
@@ -253,11 +261,14 @@ begin
   cxLookUpSuppGroup.EditValue := ModSupplier.SUPLIER_GROUP.ID;
   chkSupActive.Checked := ModSupplier.SUP_IS_ACTIVE=1;
 
+//  tab kedua
+//  cbpMerchGroup.ItemIndex := ModSupplier.
+
 end;
 
 procedure TfrmDialogSupplier.SimpanData;
 begin
-  if not ValidateEmptyCtrl([9]) then exit;
+  if not ValidateEmptyCtrl then exit;
 
 
   ModSupplier.SUP_CODE := edtSupCode.Text;
