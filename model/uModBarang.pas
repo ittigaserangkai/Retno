@@ -3,7 +3,7 @@ unit uModBarang;
 interface
 
 uses
-  uModApp, uModRefPajak, uModAuthApp, uModSatuan, uModOutlet;
+  uModApp, uModRefPajak, uModAuthApp, uModSatuan, uModOutlet, uModSuplier;
 
 type
   TModMerchandise = class(TModApp)
@@ -161,6 +161,7 @@ type
     FLokasi: TModLokasi;
     FRefPajak: TModRefPajak;
     FSAFETY_STOCK: Double;
+    FSATUAN_PURCHASE: TModSatuan;
     FTipeBarang: TModTipeBarang;
   public
     class function GetTableName: string; override;
@@ -221,8 +222,73 @@ type
     [AttributeOfForeign('REF$PAJAK_ID')]
     property RefPajak: TModRefPajak read FRefPajak write FRefPajak;
     property SAFETY_STOCK: Double read FSAFETY_STOCK write FSAFETY_STOCK;
+    [AttributeOfForeign('REF$SATUAN_PURCHASE')]
+    property SATUAN_PURCHASE: TModSatuan read FSATUAN_PURCHASE write
+        FSATUAN_PURCHASE;
     [AttributeOfForeign('REF$TIPE_BARANG_ID')]
     property TipeBarang: TModTipeBarang read FTipeBarang write FTipeBarang;
+  end;
+
+  TModBarangSupplier = class(TModApp)
+  private
+    FBRGSUP_BUY_PRICE: Double;
+    FBRGSUP_DISC1: Double;
+    FBRGSUP_DISC2: Double;
+    FBRGSUP_DISC3: Double;
+    FBRGSUP_BUY_PRICE_TEMP: Double;
+    FBRGSUP_BUY_PRICE_DISC: Double;
+    FBRGSUP_DELIVERY_TIME: Integer;
+    FBRGSUP_IS_ENABLE_CN: Integer;
+    FBRGSUP_EXPIRE_TIME: Integer;
+    FBRGSUP_EXPIRE_TIME1: Integer;
+    FBRGSUP_STOCK_IN_ORDER: Double;
+    FBRGSUP_MIN_ORDER: Double;
+    FBRGSUP_MAX_ORDER: Double;
+    FBRGSUP_IS_PRIMARY: Integer;
+    FBRGSUP_IS_BKP: Integer;
+    FBRGSUP_IS_ACTIVE: Integer;
+    FBRGSUP_FEE: Integer;
+    FBRGSUP_MARK_UP: Integer;
+    FSATUAN_PURCHASE: TModSatuan;
+    FSupplier: TModSuplier;
+  public
+    class function GetTableName: string; override;
+  published
+    property BRGSUP_BUY_PRICE: Double read FBRGSUP_BUY_PRICE write
+        FBRGSUP_BUY_PRICE;
+    property BRGSUP_DISC1: Double read FBRGSUP_DISC1 write FBRGSUP_DISC1;
+    property BRGSUP_DISC2: Double read FBRGSUP_DISC2 write FBRGSUP_DISC2;
+    property BRGSUP_DISC3: Double read FBRGSUP_DISC3 write FBRGSUP_DISC3;
+    property BRGSUP_BUY_PRICE_TEMP: Double read FBRGSUP_BUY_PRICE_TEMP write
+        FBRGSUP_BUY_PRICE_TEMP;
+    property BRGSUP_BUY_PRICE_DISC: Double read FBRGSUP_BUY_PRICE_DISC write
+        FBRGSUP_BUY_PRICE_DISC;
+    property BRGSUP_DELIVERY_TIME: Integer read FBRGSUP_DELIVERY_TIME write
+        FBRGSUP_DELIVERY_TIME;
+    property BRGSUP_IS_ENABLE_CN: Integer read FBRGSUP_IS_ENABLE_CN write
+        FBRGSUP_IS_ENABLE_CN;
+    property BRGSUP_EXPIRE_TIME: Integer read FBRGSUP_EXPIRE_TIME write
+        FBRGSUP_EXPIRE_TIME;
+    property BRGSUP_EXPIRE_TIME1: Integer read FBRGSUP_EXPIRE_TIME1 write
+        FBRGSUP_EXPIRE_TIME1;
+    property BRGSUP_STOCK_IN_ORDER: Double read FBRGSUP_STOCK_IN_ORDER write
+        FBRGSUP_STOCK_IN_ORDER;
+    property BRGSUP_MIN_ORDER: Double read FBRGSUP_MIN_ORDER write
+        FBRGSUP_MIN_ORDER;
+    property BRGSUP_MAX_ORDER: Double read FBRGSUP_MAX_ORDER write
+        FBRGSUP_MAX_ORDER;
+    property BRGSUP_IS_PRIMARY: Integer read FBRGSUP_IS_PRIMARY write
+        FBRGSUP_IS_PRIMARY;
+    property BRGSUP_IS_BKP: Integer read FBRGSUP_IS_BKP write FBRGSUP_IS_BKP;
+    property BRGSUP_IS_ACTIVE: Integer read FBRGSUP_IS_ACTIVE write
+        FBRGSUP_IS_ACTIVE;
+    property BRGSUP_FEE: Integer read FBRGSUP_FEE write FBRGSUP_FEE;
+    property BRGSUP_MARK_UP: Integer read FBRGSUP_MARK_UP write FBRGSUP_MARK_UP;
+    [AttributeOfForeign('REF$SATUAN_PURCHASE')]
+    property SATUAN_PURCHASE: TModSatuan read FSATUAN_PURCHASE write
+        FSATUAN_PURCHASE;
+    [AttributeOfForeign('SUPLIER_ID')]
+    property Supplier: TModSuplier read FSupplier write FSupplier;
   end;
 
 
@@ -270,6 +336,11 @@ begin
   Result := 'REF$LOKASI';
 end;
 
+class function TModBarangSupplier.GetTableName: string;
+begin
+  Result := 'BARANG_SUPLIER';
+end;
+
 initialization
   TModMerchandise.RegisterRTTI;
   TModMerchandiseGroup.RegisterRTTI;
@@ -279,6 +350,6 @@ initialization
   TModMerk.RegisterRTTI;
   TModLokasi.RegisterRTTI;
   TModBarang.RegisterRTTI;
-
+  TModBarangSupplier.RegisterRTTI;
 
 end.
