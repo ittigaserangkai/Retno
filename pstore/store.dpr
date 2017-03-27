@@ -116,7 +116,20 @@ uses
   ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
   ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
   ufrmBeginningBalancePOS in '..\module\cashier_supv\ufrmBeginningBalancePOS.pas' {frmBeginningBalancePOS},
-  ufrmDialogBeginningBalancePOS in '..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas' {frmDialogBeginBalancePOS};
+  ufrmDialogBeginningBalancePOS in '..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas' {frmDialogBeginBalancePOS},
+  ufrmMaintenancePassword in '..\module\cashier_supv\ufrmMaintenancePassword.pas' {frmMaintenancePassword},
+  ufrmDialogMaintenancePassword in '..\module\cashier_supv\ufrmDialogMaintenancePassword.pas' {frmDialogMaintenancePassword},
+  ufrmFinalPayment in '..\module\cashier_supv\ufrmFinalPayment.pas' {frmFinalPayment},
+  ufrmDialogFinalPayment in '..\module\cashier_supv\ufrmDialogFinalPayment.pas' {frmDialogFinalPayment},
+  ufrmPopupHistCDFP in '..\module\cashier_supv\ufrmPopupHistCDFP.pas' {frmPopupHistCDFP},
+  ufrmAdjustmentCashier in '..\module\cashier_supv\ufrmAdjustmentCashier.pas' {frmAdjustmentCashier},
+  ufrmDialogAdjustmentCashier in '..\module\cashier_supv\ufrmDialogAdjustmentCashier.pas' {frmDialogAdjustmentCashier},
+  ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
+  ufrmDialogCreditCard in '..\module\cashier_supv\ufrmDialogCreditCard.pas' {frmDialogCreditCard},
+  ufrmCashDropping in '..\module\cashier_supv\ufrmCashDropping.pas' {frmCashDropping},
+  ufrmDialogCashDropping in '..\module\cashier_supv\ufrmDialogCashDropping.pas' {frmDialogCashDropping},
+  ufrmPopupHistCD in '..\module\cashier_supv\ufrmPopupHistCD.pas' {frmPopupHistCD},
+  ufrmResetCashier in '..\module\cashier_supv\ufrmResetCashier.pas' {frmResetCashier};
 
 {$R *.res}
 

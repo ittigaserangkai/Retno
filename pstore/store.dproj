@@ -438,6 +438,58 @@
             <Form>frmDialogBeginBalancePOS</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmMaintenancePassword.pas">
+            <Form>frmMaintenancePassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogMaintenancePassword.pas">
+            <Form>frmDialogMaintenancePassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmFinalPayment.pas">
+            <Form>frmFinalPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogFinalPayment.pas">
+            <Form>frmDialogFinalPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupHistCDFP.pas">
+            <Form>frmPopupHistCDFP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmAdjustmentCashier.pas">
+            <Form>frmAdjustmentCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogAdjustmentCashier.pas">
+            <Form>frmDialogAdjustmentCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmCreditCard.pas">
+            <Form>frmCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCreditCard.pas">
+            <Form>frmDialogCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmCashDropping.pas">
+            <Form>frmCashDropping</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCashDropping.pas">
+            <Form>frmDialogCashDropping</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupHistCD.pas">
+            <Form>frmPopupHistCD</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmResetCashier.pas">
+            <Form>frmResetCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

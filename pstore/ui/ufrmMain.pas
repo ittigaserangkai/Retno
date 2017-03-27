@@ -183,17 +183,22 @@ type
     actEodLpk: TAction;
     actUser: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
+    procedure actAdjustmentCashierExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
     procedure actBeginBalancePOSExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
+    procedure actCashDroppingExecute(Sender: TObject);
     procedure actChangeStatusPOExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCreateSOExecute(Sender: TObject);
+    procedure actCreditCardExecute(Sender: TObject);
     procedure actDSIExecute(Sender: TObject);
+    procedure actFinalPaymentExecute(Sender: TObject);
     procedure actGeneratePOForAllExecute(Sender: TObject);
     procedure actGoodsReceivingExecute(Sender: TObject);
     procedure actInputProductNotForSOExecute(Sender: TObject);
     procedure actInputSupplierNotForSOExecute(Sender: TObject);
+    procedure actMaintenancePasswordExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
@@ -201,6 +206,7 @@ type
     procedure actPOBonusExecute(Sender: TObject);
     procedure actProductForSellingExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
+    procedure actResetCashierExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
     procedure actWastageRealExecute(Sender: TObject);
@@ -255,11 +261,17 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
   ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal,
   ufrmReprintNP, ufrmProductForSelling, ufrmActivatePOS,
-  ufrmBeginningBalancePOS;
+  ufrmBeginningBalancePOS, ufrmMaintenancePassword, ufrmFinalPayment,
+  ufrmAdjustmentCashier, ufrmCashDropping, ufrmCreditCard, ufrmResetCashier;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
     frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actAdjustmentCashierExecute(Sender: TObject);
+begin
+    frmAdjustmentCashier := TfrmAdjustmentCashier.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
@@ -275,6 +287,11 @@ end;
 procedure TfrmMain.actCascadeExecute(Sender: TObject);
 begin
   Cascade;
+end;
+
+procedure TfrmMain.actCashDroppingExecute(Sender: TObject);
+begin
+    frmCashDropping := TfrmCashDropping.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actChangeStatusPOExecute(Sender: TObject);
@@ -294,9 +311,19 @@ begin
     frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
 end;
 
+procedure TfrmMain.actCreditCardExecute(Sender: TObject);
+begin
+    frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actDSIExecute(Sender: TObject);
 begin
     frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
+begin
+    frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
@@ -317,6 +344,11 @@ end;
 procedure TfrmMain.actInputSupplierNotForSOExecute(Sender: TObject);
 begin
   frmInputSupplierForNotSO := TfrmInputSupplierForNotSO.CreateWithUser(Self, FFormProperty);
+end;
+
+procedure TfrmMain.actMaintenancePasswordExecute(Sender: TObject);
+begin
+    frmMaintenancePassword := TfrmMaintenancePassword.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -485,6 +517,11 @@ end;
 procedure TfrmMain.actReprintNPExecute(Sender: TObject);
 begin
     frmReprintNP := TfrmReprintNP.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actResetCashierExecute(Sender: TObject);
+begin
+    frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actServiceLevelExecute(Sender: TObject);

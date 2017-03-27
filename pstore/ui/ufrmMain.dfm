@@ -174,6 +174,7 @@ object frmMain: TfrmMain
     object actFinalPayment: TAction
       Category = 'SupvCashier'
       Caption = '&Final Payment'
+      OnExecute = actFinalPaymentExecute
     end
     object actArrange: TAction
       Category = 'Window'
@@ -320,22 +321,27 @@ object frmMain: TfrmMain
     object actMaintenancePassword: TAction
       Category = 'SupvCashier'
       Caption = 'Maintenance &User And Password'
+      OnExecute = actMaintenancePasswordExecute
     end
     object actAdjustmentCashier: TAction
       Category = 'SupvCashier'
       Caption = 'Ad&justment Cashier'
+      OnExecute = actAdjustmentCashierExecute
     end
     object actCreditCard: TAction
       Category = 'SupvCashier'
       Caption = '&Credit Card And Discount Card'
+      OnExecute = actCreditCardExecute
     end
     object actCashDropping: TAction
       Category = 'SupvCashier'
       Caption = 'Cash &Dropping'
+      OnExecute = actCashDroppingExecute
     end
     object actResetCashier: TAction
       Category = 'SupvCashier'
       Caption = '&Reset Cashier'
+      OnExecute = actResetCashierExecute
     end
     object actReturNota: TAction
       Category = 'SupvCashier'
