@@ -49,6 +49,11 @@ inherited frmTipeCN: TfrmTipeCN
   inherited pnlHeader: TPanel
     Width = 678
     ExplicitWidth = 678
+    inherited lblHeader: TLabel
+      Width = 89
+      Caption = 'MASTER TIPE CN'
+      ExplicitWidth = 89
+    end
     inherited lblFilterData: TcxLabel
       Left = 324
       ExplicitLeft = 324

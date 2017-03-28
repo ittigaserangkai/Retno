@@ -203,6 +203,5 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmTipeCN, frmTipeCN);
   Application.Run;
 end.
