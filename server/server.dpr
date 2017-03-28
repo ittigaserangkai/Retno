@@ -35,7 +35,9 @@ uses
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
   uModGudang in '..\model\uModGudang.pas',
   uModPropinsi in '..\model\uModPropinsi.pas',
-  uModTipePembayaran in '..\model\uModTipePembayaran.pas';
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModMataUang in '..\model\uModMataUang.pas',
+  uModTipeBonus in '..\model\uModTipeBonus.pas';
 
 {$R *.res}
 

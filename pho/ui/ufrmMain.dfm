@@ -274,6 +274,15 @@ object frmMain: TfrmMain
         Caption = 'Test'
         OnClick = est2Click
       end
+      object MataUang1: TMenuItem
+        Action = actMataUang
+      end
+      object ipeBonus1: TMenuItem
+        Action = actTipeBonus
+      end
+      object ipeCN1: TMenuItem
+        Action = actTipeCN
+      end
     end
     object Inventory1: TMenuItem
       Caption = 'Inventory'
@@ -1198,6 +1207,21 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Gudang'
       OnExecute = actGudangExecute
+    end
+    object actMataUang: TAction
+      Category = 'References'
+      Caption = 'Mata Uang'
+      OnExecute = actMataUangExecute
+    end
+    object actTipeBonus: TAction
+      Category = 'References'
+      Caption = 'Tipe Bonus'
+      OnExecute = actTipeBonusExecute
+    end
+    object actTipeCN: TAction
+      Category = 'References'
+      Caption = 'Tipe CN'
+      OnExecute = actTipeCNExecute
     end
   end
   object AppEvents: TApplicationEvents

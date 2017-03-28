@@ -186,7 +186,13 @@ uses
   ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
   uModGudang in '..\model\uModGudang.pas',
   ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
-  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving};
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
+  uModMataUang in '..\model\uModMataUang.pas',
+  ufrmMataUang in '..\module\references\ufrmMataUang.pas' {frmMataUang},
+  uModTipeBonus in '..\model\uModTipeBonus.pas',
+  ufrmTipeBonus in '..\module\references\ufrmTipeBonus.pas' {frmTipeBonus},
+  uModTipeCN in '..\model\uModTipeCN.pas',
+  ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN};
 
 {$R *.res}
 
@@ -197,5 +203,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmTipeCN, frmTipeCN);
   Application.Run;
 end.
