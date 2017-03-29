@@ -219,87 +219,87 @@ begin
 end;
 
 procedure TfraStockCard.btnRefreshClick(Sender: TObject);
-var
+//var
 //  Grd: TAdvStringGrid;
-  iBaris: Integer;
-  dtAkhir: TDateTime;
-  dtAwal: TDateTime;
-  sSQL: String;
+//  iBaris: Integer;
+//  dtAkhir: TDateTime;
+//  dtAwal: TDateTime;
+//  sSQL: String;
 begin
 //  ClearAdvStringGrid(advstrngrdNonBonus);
 //  ClearAdvStringGrid(advstrngrdBonus);
-  dtAwal := StartOfAMonth(Floor(spnedtTahun.Value),cbbBulan.ItemIndex + 1);
-  dtAkhir := EndOfTheMonth(dtAwal);
-
-//  sSQL := 'select NOBUKTI,TIPETRANSAKSI,ISBONUSFORBONUS, TANGGAL, Qty,RUPIAH'
-//          + ' from SP_KARTOK(' + Quot(frmProduct.cbpProductCode.Text) + ',' + IntToStr(MasterNewUnit.ID) + ',' + QuotD(dtAwal) + ',' + QuotD(dtAkhir) + ')';
-
-sSQL := 'select NOBUKTI,TIPETRANSAKSI,ISBONUSFORBONUS, TANGGAL, Qty,RUPIAH,'
-      + ' e.UNT_CODE AS UNITSRC, C.GUD_NAME AS "GUDSRC",'
-      + ' f.UNT_CODE AS UNITDES, d.GUD_NAME AS "GUDDES"'
-      + ' from SP_KARTOK(' + QuotedStr(frmProduct.cbpProductCode.Text) + ','
-      + IntToStr(FSelfUnitId) + ',' + TAppUtils.QuotD(dtAwal) + ',' + TAppUtils.QuotD(dtAkhir)
-      + ') a'
-      + ' left join MUTASI_STOK b on a.nobukti = b.MSTOK_NO'
-      + ' and b.MSTOK_UNT_ID = '+ IntToStr(FSelfUnitId)
-      + ' left join GUDANG c on c.GUD_ID = b.MSTOK_SRC_GUD_ID'
-      + ' and c.GUD_UNT_ID = b.MSTOK_SRC_GUD_UNT_ID'
-      + ' left join gudang d on d.GUD_ID = b.MSTOK_DES_GUD_ID'
-      + ' and d.GUD_UNT_ID = b.MSTOK_DES_GUD_UNT_ID'
-      + ' left join AUT$UNIT e on c.GUD_UNT_ID = e.UNT_ID'
-      + ' left join AUT$UNIT f on d.GUD_UNT_ID = f.UNT_ID';
-{
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      while not Eof do
-      begin
-        if (FieldByName('ISBONUSFORBONUS').AsInteger = 0) or (FieldByName('ISBONUSFORBONUS').IsNull)  then
-          Grd := advstrngrdNonBonus
-        else
-          Grd := advstrngrdBonus;
-
-        iBaris := Grd.RowCount - 1;
-        with Grd do
-        begin
-          Cells[_KolNoBukti,iBaris]       := FieldByName('NOBUKTI').AsString;
-          Cells[_KolTanggal,iBaris]       := FormatDateTime('DD/MM/YYYY hh:mm:ss', FieldByName('TANGGAL').AsDateTime);
-          Cells[_KolTipeTransaksi,iBaris] := FieldByName('TIPETRANSAKSI').AsString;
-          Cells[_KolQtyMutasi,iBaris]     := FormatFloat('0.000',FieldByName('Qty').AsFloat);
-          Cells[_KolRpMutasi,iBaris]      := FormatFloat('0.000',FieldByName('Rupiah').AsFloat);
-
-          if FieldByName('UNITSRC').AsString <> '' then
-          begin
-            Cells[_kolGudangAsal, iBaris]   := FieldByName('UNITSRC').AsString
-                                          + ', '
-                                          + FieldByName('GUDSRC').AsString;
-            Cells[_kolGudangTujuan, iBaris] := FieldByName('UNITDES').AsString
-                                          + ', '
-                                          + FieldByName('GUDDES').AsString;
-          end;
-          Grd.AddRow;
-        end;
-
-        Next;
-      end;
-
-      UpdateDataSaldoAwal(advstrngrdNonBonus);
-      UpdateDataSaldoAwal(advstrngrdBonus);
-    finally
-      advstrngrdNonBonus.AutoSizeColumns(True, 15);
-      advstrngrdBonus.AutoSizeColumns(True, 15);
-      advstrngrdNonBonus.ColWidths[0] := 0;
-      advstrngrdBonus.ColWidths[0]    := 0;
-      advstrngrdNonBonus.ColWidths[_KolRpMutasi] := 150;
-      advstrngrdNonBonus.ColWidths[_KolRpSaldo]  := 150;
-      advstrngrdBonus.ColWidths[_KolRpMutasi]    := 150;
-      advstrngrdBonus.ColWidths[_KolRpSaldo]     := 150;
-      frmProduct.actRefreshProductExecute(Self);
-      lblUOM.Caption := frmProduct.edtUOMStockCode.Text;
-      Free;
-    end;
-  end;
-  }
+//  dtAwal := StartOfAMonth(Floor(spnedtTahun.Value),cbbBulan.ItemIndex + 1);
+//  dtAkhir := EndOfTheMonth(dtAwal);
+//
+////  sSQL := 'select NOBUKTI,TIPETRANSAKSI,ISBONUSFORBONUS, TANGGAL, Qty,RUPIAH'
+////          + ' from SP_KARTOK(' + Quot(frmProduct.cbpProductCode.Text) + ',' + IntToStr(MasterNewUnit.ID) + ',' + QuotD(dtAwal) + ',' + QuotD(dtAkhir) + ')';
+//
+//sSQL := 'select NOBUKTI,TIPETRANSAKSI,ISBONUSFORBONUS, TANGGAL, Qty,RUPIAH,'
+//      + ' e.UNT_CODE AS UNITSRC, C.GUD_NAME AS "GUDSRC",'
+//      + ' f.UNT_CODE AS UNITDES, d.GUD_NAME AS "GUDDES"'
+//      + ' from SP_KARTOK(' + QuotedStr(frmProduct.cbpProductCode.Text) + ','
+//      + IntToStr(FSelfUnitId) + ',' + TAppUtils.QuotD(dtAwal) + ',' + TAppUtils.QuotD(dtAkhir)
+//      + ') a'
+//      + ' left join MUTASI_STOK b on a.nobukti = b.MSTOK_NO'
+//      + ' and b.MSTOK_UNT_ID = '+ IntToStr(FSelfUnitId)
+//      + ' left join GUDANG c on c.GUD_ID = b.MSTOK_SRC_GUD_ID'
+//      + ' and c.GUD_UNT_ID = b.MSTOK_SRC_GUD_UNT_ID'
+//      + ' left join gudang d on d.GUD_ID = b.MSTOK_DES_GUD_ID'
+//      + ' and d.GUD_UNT_ID = b.MSTOK_DES_GUD_UNT_ID'
+//      + ' left join AUT$UNIT e on c.GUD_UNT_ID = e.UNT_ID'
+//      + ' left join AUT$UNIT f on d.GUD_UNT_ID = f.UNT_ID';
+//{
+//  with cOpenQuery(sSQL) do
+//  begin
+//    try
+//      while not Eof do
+//      begin
+//        if (FieldByName('ISBONUSFORBONUS').AsInteger = 0) or (FieldByName('ISBONUSFORBONUS').IsNull)  then
+//          Grd := advstrngrdNonBonus
+//        else
+//          Grd := advstrngrdBonus;
+//
+//        iBaris := Grd.RowCount - 1;
+//        with Grd do
+//        begin
+//          Cells[_KolNoBukti,iBaris]       := FieldByName('NOBUKTI').AsString;
+//          Cells[_KolTanggal,iBaris]       := FormatDateTime('DD/MM/YYYY hh:mm:ss', FieldByName('TANGGAL').AsDateTime);
+//          Cells[_KolTipeTransaksi,iBaris] := FieldByName('TIPETRANSAKSI').AsString;
+//          Cells[_KolQtyMutasi,iBaris]     := FormatFloat('0.000',FieldByName('Qty').AsFloat);
+//          Cells[_KolRpMutasi,iBaris]      := FormatFloat('0.000',FieldByName('Rupiah').AsFloat);
+//
+//          if FieldByName('UNITSRC').AsString <> '' then
+//          begin
+//            Cells[_kolGudangAsal, iBaris]   := FieldByName('UNITSRC').AsString
+//                                          + ', '
+//                                          + FieldByName('GUDSRC').AsString;
+//            Cells[_kolGudangTujuan, iBaris] := FieldByName('UNITDES').AsString
+//                                          + ', '
+//                                          + FieldByName('GUDDES').AsString;
+//          end;
+//          Grd.AddRow;
+//        end;
+//
+//        Next;
+//      end;
+//
+//      UpdateDataSaldoAwal(advstrngrdNonBonus);
+//      UpdateDataSaldoAwal(advstrngrdBonus);
+//    finally
+//      advstrngrdNonBonus.AutoSizeColumns(True, 15);
+//      advstrngrdBonus.AutoSizeColumns(True, 15);
+//      advstrngrdNonBonus.ColWidths[0] := 0;
+//      advstrngrdBonus.ColWidths[0]    := 0;
+//      advstrngrdNonBonus.ColWidths[_KolRpMutasi] := 150;
+//      advstrngrdNonBonus.ColWidths[_KolRpSaldo]  := 150;
+//      advstrngrdBonus.ColWidths[_KolRpMutasi]    := 150;
+//      advstrngrdBonus.ColWidths[_KolRpSaldo]     := 150;
+//      frmProduct.actRefreshProductExecute(Self);
+//      lblUOM.Caption := frmProduct.edtUOMStockCode.Text;
+//      Free;
+//    end;
+//  end;
+//  }
 end;
 
 procedure TfraStockCard.SetupSGHeader();
@@ -338,10 +338,10 @@ begin
 end;
 
 procedure TfraStockCard.UpdateDataSaldoAwal();
-var
-  dMutasi: Double;
-  dSaldo: Double;
-  i: Integer;
+//var
+//  dMutasi: Double;
+//  dSaldo: Double;
+//  i: Integer;
 begin
   {for i := aSG.FixedRows to aSG.RowCount - 1 do
   begin

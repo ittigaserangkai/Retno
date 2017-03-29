@@ -1316,7 +1316,6 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 924
       inherited lbEscape: TLabel
         Left = 850
-        Height = 17
         ExplicitLeft = 850
       end
     end

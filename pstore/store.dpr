@@ -95,7 +95,10 @@ uses
   uModSatuan in '..\model\uModSatuan.pas',
   ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
   uSpecialKey in '..\classes\uSpecialKey.pas',
-  ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame};
+  ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
+  uModSO in '..\model\uModSO.pas',
+  uModUnit in '..\model\uModUnit.pas',
+  uModPropinsi in '..\model\uModPropinsi.pas';
 
 {$R *.res}
 

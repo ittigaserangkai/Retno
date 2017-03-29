@@ -299,76 +299,64 @@
         </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmChangeStatusPO.pas">
             <Form>frmChangeStatusPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\po\ufrmCancellationPO.pas">
             <Form>frmCancellationPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\po\ufrmApprovalPO.pas">
             <Form>frmApprovallPO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmSearchSupplier.pas">
             <Form>frmDialogSearchSupplier</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\product\ufrmProduct.pas">
             <Form>frmProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraStockCard.pas">
             <Form>fraStockCard</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraSellingPrice.pas">
             <Form>fraSellingPrice</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraProductTurunan.pas">
             <Form>fraProductTurunan</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraProductSupplier.pas">
             <Form>fraProductSupplier</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraBonusProduct.pas">
             <Form>fraBonusProduct</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraUOMConvertion.pas">
             <Form>fraUOMConvertion</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufraAlokasiStock.pas">
             <Form>fraAlokasiStock</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\module\product\ufrmDialogProduct.pas">
             <Form>frmDialogProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\model\uModBarang.pas"/>
         <DCCReference Include="..\model\uModRefPajak.pas"/>
         <DCCReference Include="..\model\uModSatuan.pas"/>
         <DCCReference Include="..\module\product\ufrmDialogMerk.pas">
             <Form>frmDialogMerk</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\classes\uSpecialKey.pas"/>
         <DCCReference Include="..\module\merchandise\ufraHistoriPOByProduct.pas">
             <Form>fraHistoriPOByProduct</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\model\uModSO.pas"/>
+        <DCCReference Include="..\model\uModUnit.pas"/>
+        <DCCReference Include="..\model\uModPropinsi.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

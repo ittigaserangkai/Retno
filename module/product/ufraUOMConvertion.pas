@@ -62,10 +62,10 @@ type
     FUOMLama: string;
     //dataSatuan: TResultDataSet;
     IDLokal : Integer;
-    function IsUomStockSudahAdaKonversinya: Boolean;
+//    function IsUomStockSudahAdaKonversinya: Boolean;
     procedure SetProductCode(const Value: string);
     procedure ParseHeaderGrid();
-    procedure ParseDataGrid();
+//    procedure ParseDataGrid();
   public
 //    FSelfIsStore: Integer;
     FTpApp      : TTipeApp;
@@ -90,46 +90,46 @@ begin
   frmProduct.SetActiveFooter5Button(True);
 end;
 
-procedure TfraUOMConvertion.ParseDataGrid;
-var
-  iBaris: Integer;
-  sSQL: string;
-begin
-  ParseHeaderGrid;
-
-  sSQL := 'select a.konvsat_barcode, a.KONVSAT_SAT_CODE_FROM, a.konvsat_sat_code_to,b.sat_name, a.konvsat_scale,a.konvsat_id'
-            + ' from ref$konversi_satuan a, ref$satuan b'
-            + ' where konvsat_brg_code = ' + QuotedStr(frmProduct.cbpProductCode.Text)
-            + ' and a.KONVSAT_SAT_CODE_FROM = b.sat_code';
-  {
-  ClearAdvStringGrid(strgGrid);
-  iBaris := 1;
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      while not EOF do
-      begin
-        strgGrid.AddCheckBox(0,iBaris,false,false);
-        strgGrid.Cells[1,iBaris] := FieldByName('KONVSAT_SAT_CODE_FROM').AsString;
-        strgGrid.Cells[2,iBaris] := FieldByName('sat_name').AsString;
-        strgGrid.Cells[3,iBaris] := FloatToStr(FieldByName('konvsat_scale').AsFloat);
-        strgGrid.Cells[5,iBaris] := FieldByName('konvsat_id').AsString;
-        strgGrid.Cells[4,iBaris] := FieldByName('konvsat_barcode').AsString;
-        //strgGrid.Cells[6,iBaris] := FieldByName('ID_2').AsString;
-       //strgGrid.Cells[4,iBaris] := FieldByName('SCALE_2').AsString;
-
-        Next;
-        if not EOF then
-        begin
-          Inc(iBaris);
-          strgGrid.AddRow;
-        end;
-      end;
-    finally
-      Free;
-    end;
-  end; }
-end;
+//procedure TfraUOMConvertion.ParseDataGrid;
+//var
+//  iBaris: Integer;
+//  sSQL: string;
+//begin
+//  ParseHeaderGrid;
+//
+//  sSQL := 'select a.konvsat_barcode, a.KONVSAT_SAT_CODE_FROM, a.konvsat_sat_code_to,b.sat_name, a.konvsat_scale,a.konvsat_id'
+//            + ' from ref$konversi_satuan a, ref$satuan b'
+//            + ' where konvsat_brg_code = ' + QuotedStr(frmProduct.cbpProductCode.Text)
+//            + ' and a.KONVSAT_SAT_CODE_FROM = b.sat_code';
+//  {
+//  ClearAdvStringGrid(strgGrid);
+//  iBaris := 1;
+//  with cOpenQuery(sSQL) do
+//  begin
+//    try
+//      while not EOF do
+//      begin
+//        strgGrid.AddCheckBox(0,iBaris,false,false);
+//        strgGrid.Cells[1,iBaris] := FieldByName('KONVSAT_SAT_CODE_FROM').AsString;
+//        strgGrid.Cells[2,iBaris] := FieldByName('sat_name').AsString;
+//        strgGrid.Cells[3,iBaris] := FloatToStr(FieldByName('konvsat_scale').AsFloat);
+//        strgGrid.Cells[5,iBaris] := FieldByName('konvsat_id').AsString;
+//        strgGrid.Cells[4,iBaris] := FieldByName('konvsat_barcode').AsString;
+//        //strgGrid.Cells[6,iBaris] := FieldByName('ID_2').AsString;
+//       //strgGrid.Cells[4,iBaris] := FieldByName('SCALE_2').AsString;
+//
+//        Next;
+//        if not EOF then
+//        begin
+//          Inc(iBaris);
+//          strgGrid.AddRow;
+//        end;
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end; }
+//end;
 
 procedure TfraUOMConvertion.ParseHeaderGrid;
 begin
@@ -455,9 +455,9 @@ begin
 
 end;
 
-function TfraUOMConvertion.IsUomStockSudahAdaKonversinya: Boolean;
-begin
-  Result := False;
+//function TfraUOMConvertion.IsUomStockSudahAdaKonversinya: Boolean;
+//begin
+//  Result := False;
   {with TNewBarang.Create(Self) do
   begin
     try
@@ -472,7 +472,7 @@ begin
       Free
     end;
   end;  }
-end;
+//end;
 
 procedure TfraUOMConvertion.cbbUomKeyPress(Sender: TObject; var Key: Char);
 begin
