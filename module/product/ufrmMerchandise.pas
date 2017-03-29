@@ -30,7 +30,7 @@ var
 implementation
 
 uses
-  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogMerchandise;
+  uDMClient, uDBUtils, uDXUtils, uModBarang, ufrmDialogMerchandise, uModSuplier;
 
 {$R *.dfm}
 

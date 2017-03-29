@@ -2,7 +2,6 @@ program store;
 
 uses
   Vcl.Forms,
-  ufrmMain in 'ui\ufrmMain.pas' {frmMain},
   ufrmLogin in '..\module\login\ufrmLogin.pas' {frmLogin},
   ufraFooter1Button in '..\system\ufraFooter1Button.pas' {fraFooter1Button: TFrame},
   ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
@@ -96,9 +95,55 @@ uses
   ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
   uSpecialKey in '..\classes\uSpecialKey.pas',
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
-  uModSO in '..\model\uModSO.pas',
+  ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
+  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  HPHELP in '..\lib\HPHELP.PAS',
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
+  ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+  ufrmMain in 'ui\ufrmMain.pas' {frmMain},
+  ufrmServiceLevel in '..\module\merchandise\ufrmServiceLevel.pas' {frmServiceLevel},
+  ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
+  uModGudang in '..\model\uModGudang.pas',
   uModUnit in '..\model\uModUnit.pas',
-  uModPropinsi in '..\model\uModPropinsi.pas';
+  uModPropinsi in '..\model\uModPropinsi.pas',
+  ufrmWastageReal in '..\module\inventory\ufrmWastageReal.pas' {frmWastageReal},
+  uSpell in '..\lib\uSpell.pas',
+  ufrmSearchWastageReal in '..\module\inventory\ufrmSearchWastageReal.pas' {frmSearchWastageReal},
+  ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal},
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmProductForSelling in '..\module\cashier_supv\ufrmProductForSelling.pas' {frmProductForSelling},
+  ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
+  ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
+  ufrmBeginningBalancePOS in '..\module\cashier_supv\ufrmBeginningBalancePOS.pas' {frmBeginningBalancePOS},
+  ufrmDialogBeginningBalancePOS in '..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas' {frmDialogBeginBalancePOS},
+  ufrmMaintenancePassword in '..\module\cashier_supv\ufrmMaintenancePassword.pas' {frmMaintenancePassword},
+  ufrmDialogMaintenancePassword in '..\module\cashier_supv\ufrmDialogMaintenancePassword.pas' {frmDialogMaintenancePassword},
+  ufrmFinalPayment in '..\module\cashier_supv\ufrmFinalPayment.pas' {frmFinalPayment},
+  ufrmDialogFinalPayment in '..\module\cashier_supv\ufrmDialogFinalPayment.pas' {frmDialogFinalPayment},
+  ufrmPopupHistCDFP in '..\module\cashier_supv\ufrmPopupHistCDFP.pas' {frmPopupHistCDFP},
+  ufrmAdjustmentCashier in '..\module\cashier_supv\ufrmAdjustmentCashier.pas' {frmAdjustmentCashier},
+  ufrmDialogAdjustmentCashier in '..\module\cashier_supv\ufrmDialogAdjustmentCashier.pas' {frmDialogAdjustmentCashier},
+  ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
+  ufrmDialogCreditCard in '..\module\cashier_supv\ufrmDialogCreditCard.pas' {frmDialogCreditCard},
+  ufrmCashDropping in '..\module\cashier_supv\ufrmCashDropping.pas' {frmCashDropping},
+  ufrmDialogCashDropping in '..\module\cashier_supv\ufrmDialogCashDropping.pas' {frmDialogCashDropping},
+  ufrmPopupHistCD in '..\module\cashier_supv\ufrmPopupHistCD.pas' {frmPopupHistCD},
+  ufrmResetCashier in '..\module\cashier_supv\ufrmResetCashier.pas' {frmResetCashier},
+  uModSuplier in '..\model\uModSuplier.pas',
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
+  ufrmReturNota in '..\module\cashier_supv\ufrmReturNota.pas' {frmReturNota},
+  ufrmDialogReturNota in '..\module\cashier_supv\ufrmDialogReturNota.pas' {frmDialogReturNota},
+  ufraPaymentReturNota in '..\module\cashier_supv\ufraPaymentReturNota.pas' {fraPaymentNotaRetur: TFrame},
+  ufrmDisplayPOSTransaction in '..\module\cashier_supv\ufrmDisplayPOSTransaction.pas' {frmDisplayPOSTransaction},
+  ufrmPopupDetailTransaction in '..\module\cashier_supv\ufrmPopupDetailTransaction.pas' {frmPopupDetailTransaction},
+  ufrmDisplayPOSMonitor in '..\module\cashier_supv\ufrmDisplayPOSMonitor.pas' {frmDisplayPOSMonitor},
+  ufrmPopupDetailCashback in '..\module\cashier_supv\ufrmPopupDetailCashback.pas' {frmPopupDetailCashback},
+  ufrmDisplayLastTransactionNo in '..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas' {frmDisplayLastTransactionNo},
+  ufrmDisplayCCAndCashback in '..\module\cashier_supv\ufrmDisplayCCAndCashback.pas' {frmDisplayCCAndCashback},
+  ufrmAdjustmentCashback in '..\module\cashier_supv\ufrmAdjustmentCashback.pas' {frmAdjustmentCashback},
+  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback};
 
 {$R *.res}
 
@@ -108,21 +153,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TfrmGeneratePOBonus, frmGeneratePOBonus);
-  Application.CreateForm(TfrmChangeStatusPO, frmChangeStatusPO);
-  Application.CreateForm(TfrmCancellationPO, frmCancellationPO);
-  Application.CreateForm(TfrmApprovallPO, frmApprovallPO);
-  Application.CreateForm(TfrmDialogSearchSupplier, frmDialogSearchSupplier);
-  Application.CreateForm(TfrmProduct, frmProduct);
-  Application.CreateForm(TfraStockCard, fraStockCard);
-  Application.CreateForm(TfraSellingPrice, fraSellingPrice);
-  Application.CreateForm(TfraProductTurunan, fraProductTurunan);
-  Application.CreateForm(TfraProductSupplier, fraProductSupplier);
-  Application.CreateForm(TfraBonusProduct, fraBonusProduct);
-  Application.CreateForm(TfraUOMConvertion, fraUOMConvertion);
-  Application.CreateForm(TfraAlokasiStock, fraAlokasiStock);
-  Application.CreateForm(TfrmDialogProduct, frmDialogProduct);
-  Application.CreateForm(TfrmDialogMerk, frmDialogMerk);
-  Application.CreateForm(TfraHistoriPOByProduct, fraHistoriPOByProduct);
+  Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.

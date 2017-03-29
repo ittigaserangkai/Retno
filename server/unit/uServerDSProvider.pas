@@ -58,6 +58,9 @@ type
     function TipeSuplier_GetDSLookup: TDataSet;
     function Propinsi_GetDSLookUp: TDataSet;
     function Kabupaten_GetDSLookUp: TDataSet;
+    function MataUang_GetDSOverview: TDataSet;
+    function TipeBonus_GetDSOverview: TDataSet;
+    function TipeCN_GetDSOverview: TDataSet;
 
 
   end;
@@ -516,6 +519,36 @@ var
   S: string;
 begin
   S := 'select KAB_NAME as NAME,PROPINSI_ID, KABUPATEN_ID from KABUPATEN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.MataUang_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$MATAUANG_ID, UANG_CODE, UANG_SYMBOL, UANG_NAME, UANG_SCALE'
+  +' from'
+  +' REF$MATAUANG';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeBonus_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_BONUS_ID, TPBNS_CODE, TPBNS_NAME'
+  +' from'
+  +' REF$TIPE_BONUS';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeCN_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_CN_ID, TPCN_CODE, TPCN_NAME'
+  +' from'
+  +' REF$TIPE_CN';
   Result := TDBUtils.OpenQuery(S);
 end;
 

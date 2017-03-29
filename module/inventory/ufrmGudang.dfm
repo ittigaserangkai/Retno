@@ -17,21 +17,20 @@ inherited frmGudang: TfrmGudang
     inherited pgcBrowse: TcxPageControl
       Width = 742
       Height = 269
-      ExplicitTop = 49
       ExplicitWidth = 742
-      ExplicitHeight = 231
+      ExplicitHeight = 269
       ClientRectBottom = 268
       ClientRectRight = 741
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 740
-        ExplicitHeight = 229
+        ExplicitHeight = 267
         inherited cxGrid: TcxGrid
           Width = 740
           Height = 267
           ExplicitWidth = 740
-          ExplicitHeight = 229
+          ExplicitHeight = 267
         end
       end
     end
@@ -101,7 +100,16 @@ inherited frmGudang: TfrmGudang
       inherited lbEscape: TLabel
         Left = 690
         Height = 17
+        ExplicitLeft = 690
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

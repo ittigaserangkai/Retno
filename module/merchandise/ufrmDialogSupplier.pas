@@ -10,7 +10,7 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxTextEdit, cxCurrencyEdit,
   System.Actions, ufraFooterDialog3Button, Vcl.Mask, Vcl.StdCtrls, cxButtonEdit,
   dxBarBuiltInMenu, cxPC, uModSuplier, uDMClient, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, uInterface;
+  cxDBExtLookupComboBox, uInterface, uAppUtils, uConstanta;
 
 type
   TFormMode = (fmAddSup, fmAddMer, fmEdit);
@@ -143,12 +143,16 @@ type
     cxLookupTipePerush: TcxExtLookupComboBox;
     cxLookUpSuppGroup: TcxExtLookupComboBox;
     cxLookUpSupType: TcxExtLookupComboBox;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
 
 
   private
     FModSupplier: TModSuplier;
     function GetModSupplier: TModSuplier;
+    procedure SimpanData;
     property ModSupplier: TModSuplier read GetModSupplier write FModSupplier;
 
 
@@ -163,14 +167,35 @@ var
 implementation
 
 uses
-  uDXUtils;
+  uDXUtils, uModTipePerusahaan, uModBank;
 
 
 {$R *.dfm}
 
+procedure TfrmDialogSupplier.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  Try
+    DMCLient.CrudClient.DeleteFromDB(ModSupplier);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult:=mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
+
+procedure TfrmDialogSupplier.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  SimpanData;
+end;
+
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.AssignKeyDownEvent;
   cxLookUpBank.LoadFromDS(
     DMClient.DSProviderClient.Bank_GetDSLookup,
       'BANK_ID','BANK_NAME',['BANK_ID'],self
@@ -193,6 +218,12 @@ begin
     );
 
 
+end;
+
+procedure TfrmDialogSupplier.FormShow(Sender: TObject);
+begin
+  inherited;
+  edtSupCode.SetFocus;
 end;
 
 function TfrmDialogSupplier.GetModSupplier: TModSuplier;
@@ -230,6 +261,54 @@ begin
   cxLookUpSuppGroup.EditValue := ModSupplier.SUPLIER_GROUP.ID;
   chkSupActive.Checked := ModSupplier.SUP_IS_ACTIVE=1;
 
+//  tab kedua
+//  cbpMerchGroup.ItemIndex := ModSupplier.
+
+end;
+
+procedure TfrmDialogSupplier.SimpanData;
+begin
+  if not ValidateEmptyCtrl then exit;
+
+
+  ModSupplier.SUP_CODE := edtSupCode.Text;
+  if not VarIsNull(cxLookupTipePerush.EditValue) then
+    ModSupplier.TIPE_PERUSAHAAN := TModTipePerusahaan.CreateID(cxLookupTipePerush.EditValue);
+  ModSupplier.SUP_NAME := edtSupName.Text;
+  ModSupplier.SUP_ADDRESS := edtAddress.Text;
+  ModSupplier.SUP_CITY := edtCity.Text;
+  ModSupplier.SUP_POST_CODE := edtPostCode.Text;
+  ModSupplier.SUP_TELP := edtPhone.Text;
+  ModSupplier.SUP_FAX := edtFax.Text;
+  ModSupplier.SUP_CONTACT_PERSON := edtContactP.Text;
+  ModSupplier.SUP_TITLE := edtTitle.Text;
+  if not VarIsNull(cxLookUpSupType.EditValue) then
+    ModSupplier.TIPE_SUPLIER := TModTipeSuplier.CreateID(cxLookUpSupType.EditValue);
+  ModSupplier.SUP_IS_PKP := cbbPKP.ItemIndex;
+  ModSupplier.SUP_LR_TAX := edtTaxNo.Text;
+  ModSupplier.SUP_NPWP := medtNPWP.Text;
+  ModSupplier.SUP_NPWP_ALAMAT := edtNPWPAlamat.Text;
+  ModSupplier.BANK := TModBank.CreateID(cxLookUpBank.EditValue);
+  ModSupplier.SUP_BANK_BRANCH := edtCabangBank.Text;
+  ModSupplier.SUP_BANK_ADDRESS := edtAlamatBank.Text;
+  ModSupplier.SUP_BANK_ACCOUNT_NO := edtAccountNo.Text;
+  ModSupplier.SUP_BANK_ACCOUNT_NAME := edtAccountName.Text;
+  if not VarIsNull(cxLookUpSuppGroup.EditValue) then
+    ModSupplier.SUPLIER_GROUP := TModSuplierGroup.CreateID(cxLookUpSuppGroup.EditValue);
+
+  if chkSupActive.Checked then
+    ModSupplier.SUP_IS_ACTIVE := 1
+  else
+    ModSupplier.SUP_IS_ACTIVE := 0;
+
+  try
+    DMClient.CrudClient.SaveToDB(ModSupplier);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    self.ModalResult:=mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
+  end;
 end;
 
 end.

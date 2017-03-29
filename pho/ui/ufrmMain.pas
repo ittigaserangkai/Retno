@@ -9,7 +9,8 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup;
+  ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
+  ufrmTipeCN;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -288,6 +289,15 @@ type
     actListingQuotationMailer: TAction;
     actLaporanStok: TAction;
     actListingPObyMG: TAction;
+    actGudang: TAction;
+    Inventory1: TMenuItem;
+    Gudang1: TMenuItem;
+    actMataUang: TAction;
+    MataUang1: TMenuItem;
+    actTipeBonus: TAction;
+    ipeBonus1: TMenuItem;
+    actTipeCN: TAction;
+    ipeCN1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -302,6 +312,8 @@ type
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
+    procedure actGudangExecute(Sender: TObject);
+    procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
     procedure actLapInvMovementQtyExecute(Sender: TObject);
@@ -336,6 +348,8 @@ type
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
+    procedure actTipeBonusExecute(Sender: TObject);
+    procedure actTipeCNExecute(Sender: TObject);
     procedure actTipePengirimanPOExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actUOMNBDExecute(Sender: TObject);
@@ -398,7 +412,7 @@ uses
   ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
-  ufrmLaporanRetur;
+  ufrmLaporanRetur, ufrmGudang, ufrmMataUang;
 
 {$R *.dfm}
 
@@ -551,6 +565,16 @@ end;
 procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
 begin
   frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actGudangExecute(Sender: TObject);
+begin
+  frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMataUangExecute(Sender: TObject);
+begin
+  frmMataUang := TfrmMataUang.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
@@ -828,6 +852,16 @@ begin
     frmSysParm := TfrmSysParm.Create(Application);
 
   frmSysParm.Show;
+end;
+
+procedure TfrmMain.actTipeBonusExecute(Sender: TObject);
+begin
+  frmTipeBonus := TfrmTipeBonus.CreateWithUser (Application, FFormProperty);
+end;
+
+procedure TfrmMain.actTipeCNExecute(Sender: TObject);
+begin
+  frmTipeCN := TfrmTipeCN.CreateWithUser (Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);

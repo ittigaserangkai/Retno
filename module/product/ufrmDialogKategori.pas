@@ -9,7 +9,7 @@ uses
   Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, uModBarang, uInterface,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
   cxEdit, Vcl.StdCtrls, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDBLookupEdit, cxDBExtLookupComboBox, uModSuplier;
 
 type
   TfrmDialogKategori = class(TfrmMasterDialog, ICRUDAble)

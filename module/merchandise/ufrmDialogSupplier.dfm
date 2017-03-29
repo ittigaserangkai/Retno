@@ -6,6 +6,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   ClientWidth = 656
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  OnShow = FormShow
   ExplicitWidth = 672
   ExplicitHeight = 598
   PixelsPerInch = 96
@@ -13,8 +14,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   inherited pnlBody: TPanel
     Width = 656
     Height = 503
-    ExplicitWidth = 481
-    ExplicitHeight = 507
+    ExplicitWidth = 656
+    ExplicitHeight = 503
     object pc1: TcxPageControl
       Left = 2
       Top = 2
@@ -30,15 +31,12 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       TabOrder = 0
       Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
-      ExplicitWidth = 477
-      ExplicitHeight = 503
-      ClientRectBottom = 499
-      ClientRectRight = 652
+      ClientRectBottom = 495
+      ClientRectLeft = 4
+      ClientRectRight = 648
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = 'Supplier'
-        ExplicitWidth = 477
-        ExplicitHeight = 476
         object lbl3: TLabel
           Left = 66
           Top = 58
@@ -154,7 +152,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object Label4: TLabel
           Left = 21
-          Top = 12
+          Top = 11
           Width = 84
           Height = 16
           Caption = 'Suppl. Code/Tipe'
@@ -197,14 +195,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object Label14: TLabel
           Left = 185
-          Top = 12
+          Top = 11
           Width = 87
           Height = 16
           Caption = 'Tipe Perushahaan'
         end
         object edtSupCode: TEdit
           Left = 112
-          Top = 9
+          Top = 8
           Width = 65
           Height = 22
           CharCase = ecUpperCase
@@ -214,10 +212,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           TabOrder = 0
         end
         object edtSupName: TEdit
-          Left = 111
-          Top = 34
+          Tag = 9
+          Left = 112
+          Top = 33
           Width = 298
           Height = 22
+          HelpType = htKeyword
+          HelpKeyword = 'Supplier Name'
           CharCase = ecUpperCase
           Ctl3D = False
           Font.Charset = DEFAULT_CHARSET
@@ -227,7 +228,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 2
         end
         object edtAddress: TEdit
           Left = 112
@@ -236,7 +237,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 2
+          TabOrder = 3
           Text = '---'
         end
         object edtCity: TEdit
@@ -246,7 +247,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 3
+          TabOrder = 4
         end
         object edtPostCode: TEdit
           Left = 304
@@ -256,9 +257,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           BiDiMode = bdLeftToRight
           CharCase = ecUpperCase
           Ctl3D = False
+          NumbersOnly = True
           ParentBiDiMode = False
           ParentCtl3D = False
-          TabOrder = 4
+          TabOrder = 5
         end
         object edtFax: TEdit
           Left = 304
@@ -268,7 +270,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           CharCase = ecUpperCase
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 6
+          TabOrder = 7
         end
         object edtPhone: TEdit
           Left = 112
@@ -277,7 +279,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 5
+          TabOrder = 6
         end
         object edtContactP: TEdit
           Left = 112
@@ -286,7 +288,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 7
+          TabOrder = 8
         end
         object edtAccountName: TEdit
           Left = 112
@@ -295,7 +297,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 15
+          TabOrder = 19
         end
         object edtAccountNo: TEdit
           Left = 112
@@ -304,7 +306,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 14
+          TabOrder = 18
         end
         object cbbPKP: TComboBox
           Left = 112
@@ -316,7 +318,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ItemIndex = 0
           ParentCtl3D = False
-          TabOrder = 9
+          TabOrder = 11
           Text = 'NON PKP'
           Items.Strings = (
             'NON PKP'
@@ -330,7 +332,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           CharCase = ecUpperCase
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 10
+          TabOrder = 12
           Visible = False
         end
         object edtTitle: TEdit
@@ -340,11 +342,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 8
+          TabOrder = 9
         end
         object medtNPWP: TMaskEdit
-          Left = 112
-          Top = 199
+          Left = 111
+          Top = 200
           Width = 135
           Height = 22
           CharCase = ecUpperCase
@@ -358,7 +360,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           MaxLength = 19
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 13
           Text = ''
         end
         object edtCabangBank: TEdit
@@ -368,7 +370,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 12
+          TabOrder = 16
         end
         object edtAlamatBank: TEdit
           Left = 112
@@ -377,7 +379,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 13
+          TabOrder = 17
         end
         object chkSupActive: TCheckBox
           Left = 112
@@ -391,7 +393,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Font.Name = 'Trebuchet MS'
           Font.Style = []
           ParentFont = False
-          TabOrder = 16
+          TabOrder = 21
         end
         object edtNPWPAlamat: TEdit
           Left = 112
@@ -400,38 +402,35 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 22
           Ctl3D = False
           ParentCtl3D = False
-          TabOrder = 17
+          TabOrder = 14
         end
         object cxLookUpBank: TcxExtLookupComboBox
-          Left = 111
+          Left = 112
           Top = 246
-          TabOrder = 18
+          TabOrder = 15
           Width = 299
         end
         object cxLookupTipePerush: TcxExtLookupComboBox
           Left = 278
-          Top = 9
-          TabOrder = 19
+          Top = 8
+          TabOrder = 1
           Width = 132
         end
         object cxLookUpSuppGroup: TcxExtLookupComboBox
           Left = 111
-          Top = 364
+          Top = 365
           TabOrder = 20
           Width = 299
         end
         object cxLookUpSupType: TcxExtLookupComboBox
           Left = 111
           Top = 149
-          TabOrder = 21
+          TabOrder = 10
           Width = 299
         end
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = 'Category'
-        Enabled = False
-        ExplicitWidth = 477
-        ExplicitHeight = 476
         object lbl37: TLabel
           Left = 66
           Top = 10
@@ -686,15 +685,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object pnl1: TPanel
           Left = 0
-          Top = 214
-          Width = 652
+          Top = 210
+          Width = 644
           Height = 258
           Align = alBottom
           Caption = 'Change contact supplier for Merchandise Group'
           Color = clWhite
           TabOrder = 21
-          ExplicitTop = 218
-          ExplicitWidth = 477
           object lbl30: TLabel
             Left = 77
             Top = 47
@@ -780,7 +777,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Caption = 'Bank Address'
           end
           object edtAddrMer: TEdit
-            Tag = 1
             Left = 121
             Top = 45
             Width = 343
@@ -792,7 +788,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Text = '---'
           end
           object edtCityMer: TEdit
-            Tag = 1
             Left = 121
             Top = 68
             Width = 95
@@ -803,7 +798,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 2
           end
           object edtPostCodeMer: TEdit
-            Tag = 1
             Left = 283
             Top = 68
             Width = 79
@@ -816,7 +810,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 3
           end
           object edtFaxMer: TEdit
-            Tag = 1
             Left = 283
             Top = 91
             Width = 79
@@ -827,7 +820,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 5
           end
           object edtPhoneMer: TEdit
-            Tag = 1
             Left = 121
             Top = 91
             Width = 95
@@ -838,7 +830,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 4
           end
           object edtContactMer: TEdit
-            Tag = 1
             Left = 121
             Top = 114
             Width = 187
@@ -849,7 +840,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 6
           end
           object edtTitleMer: TEdit
-            Tag = 1
             Left = 345
             Top = 114
             Width = 80
@@ -860,7 +850,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 7
           end
           object edtBankCodeMer: TEdit
-            Tag = 1
             Left = 186
             Top = 137
             Width = 247
@@ -873,7 +862,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Text = 'telo'
           end
           object edtBankAccNameMer: TEdit
-            Tag = 1
             Left = 121
             Top = 209
             Width = 279
@@ -884,7 +872,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 12
           end
           object edtBankAccNoMer: TEdit
-            Tag = 1
             Left = 121
             Top = 232
             Width = 211
@@ -912,7 +899,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Width = 63
           end
           object edtBankBranch: TEdit
-            Tag = 1
             Left = 121
             Top = 161
             Width = 312
@@ -924,7 +910,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 10
           end
           object edtBankAddrss: TEdit
-            Tag = 1
             Left = 121
             Top = 185
             Width = 312
@@ -1094,46 +1079,60 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 503
     Width = 656
-    ExplicitTop = 507
-    ExplicitWidth = 481
+    ExplicitTop = 503
+    ExplicitWidth = 656
     inherited pnlFooter: TPanel
       Width = 656
-      ExplicitWidth = 481
+      ExplicitWidth = 656
       inherited btnClose: TcxButton
         Left = 579
         Action = actCancel
-        ExplicitLeft = 404
+        ExplicitLeft = 579
       end
       inherited btnSave: TcxButton
         Left = 486
         Action = actSave
-        ExplicitLeft = 311
+        ExplicitLeft = 486
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 409
+        ExplicitLeft = 409
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 656
-      ExplicitWidth = 481
+      ExplicitWidth = 656
       inherited lbCTRLEnter: TLabel
         Left = 481
         Height = 15
-        ExplicitLeft = 306
+        ExplicitLeft = 481
       end
       inherited lbEscape: TLabel
         Left = 572
         Height = 15
-        ExplicitLeft = 397
+        ExplicitLeft = 572
       end
       inherited lbCTRLDel: TLabel
         Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 405
+        ExplicitLeft = 405
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 514
     Top = 258
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
   object actSupplier: TActionList
     Left = 507

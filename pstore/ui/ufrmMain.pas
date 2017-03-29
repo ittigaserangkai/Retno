@@ -53,7 +53,7 @@ type
     actCancellingPO: TAction;
     actChangeStatusPO: TAction;
     actApprovalPO: TAction;
-    actDeliveryOrder: TAction;
+    actGoodsReceiving: TAction;
     actServiceLevel: TAction;
     actCNDNGoodReceiving: TAction;
     actReturBarang: TAction;
@@ -182,20 +182,34 @@ type
     actLPKAll: TAction;
     actEodLpk: TAction;
     actUser: TAction;
+    procedure actActivatePOSExecute(Sender: TObject);
+    procedure actAdjustmentCashierExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
+    procedure actBeginBalancePOSExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
+    procedure actCashDroppingExecute(Sender: TObject);
     procedure actChangeStatusPOExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCreateSOExecute(Sender: TObject);
+    procedure actCreditCardExecute(Sender: TObject);
+    procedure actDSIExecute(Sender: TObject);
+    procedure actFinalPaymentExecute(Sender: TObject);
     procedure actGeneratePOForAllExecute(Sender: TObject);
+    procedure actGoodsReceivingExecute(Sender: TObject);
     procedure actInputProductNotForSOExecute(Sender: TObject);
     procedure actInputSupplierNotForSOExecute(Sender: TObject);
+    procedure actMaintenancePasswordExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnCreateFormExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actPOBonusExecute(Sender: TObject);
+    procedure actProductForSellingExecute(Sender: TObject);
+    procedure actReprintNPExecute(Sender: TObject);
+    procedure actResetCashierExecute(Sender: TObject);
+    procedure actServiceLevelExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
+    procedure actWastageRealExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
 //    FNewUnit: TUnit;
@@ -244,16 +258,40 @@ implementation
 
 uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
-  ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO;
+  ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
+  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal,
+  ufrmReprintNP, ufrmProductForSelling, ufrmActivatePOS,
+  ufrmBeginningBalancePOS, ufrmMaintenancePassword, ufrmFinalPayment,
+  ufrmAdjustmentCashier, ufrmCashDropping, ufrmCreditCard, ufrmResetCashier;
+
+procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
+begin
+    frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actAdjustmentCashierExecute(Sender: TObject);
+begin
+    frmAdjustmentCashier := TfrmAdjustmentCashier.CreateWithUser(Application, FFormProperty);
+end;
 
 procedure TfrmMain.actArrangeExecute(Sender: TObject);
 begin
   ArrangeIcons;
 end;
 
+procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
+begin
+    frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actCascadeExecute(Sender: TObject);
 begin
   Cascade;
+end;
+
+procedure TfrmMain.actCashDroppingExecute(Sender: TObject);
+begin
+    frmCashDropping := TfrmCashDropping.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actChangeStatusPOExecute(Sender: TObject);
@@ -273,9 +311,29 @@ begin
     frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
 end;
 
+procedure TfrmMain.actCreditCardExecute(Sender: TObject);
+begin
+    frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actDSIExecute(Sender: TObject);
+begin
+    frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
+begin
+    frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
 begin
     frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
+end;
+
+procedure TfrmMain.actGoodsReceivingExecute(Sender: TObject);
+begin
+  frmListingReceivingProduct := TfrmListingReceivingProduct.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actInputProductNotForSOExecute(Sender: TObject);
@@ -286,6 +344,11 @@ end;
 procedure TfrmMain.actInputSupplierNotForSOExecute(Sender: TObject);
 begin
   frmInputSupplierForNotSO := TfrmInputSupplierForNotSO.CreateWithUser(Self, FFormProperty);
+end;
+
+procedure TfrmMain.actMaintenancePasswordExecute(Sender: TObject);
+begin
+    frmMaintenancePassword := TfrmMaintenancePassword.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
@@ -446,10 +509,35 @@ begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
 end;
 
+procedure TfrmMain.actProductForSellingExecute(Sender: TObject);
+begin
+    frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actReprintNPExecute(Sender: TObject);
+begin
+    frmReprintNP := TfrmReprintNP.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actResetCashierExecute(Sender: TObject);
+begin
+    frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actServiceLevelExecute(Sender: TObject);
+begin
+    frmServiceLevel := TfrmServiceLevel.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actTileExecute(Sender: TObject);
 begin
   TileMode := tbVertical;
   Tile;
+end;
+
+procedure TfrmMain.actWastageRealExecute(Sender: TObject);
+begin
+    frmWastageReal := TfrmWastageReal.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

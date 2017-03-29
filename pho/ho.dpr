@@ -118,7 +118,6 @@ uses
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
-  ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
@@ -181,7 +180,19 @@ uses
   ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
-  uModPropinsi in '..\model\uModPropinsi.pas';
+  uModPropinsi in '..\model\uModPropinsi.pas',
+  ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
+  ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
+  ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
+  uModGudang in '..\model\uModGudang.pas',
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
+  uModMataUang in '..\model\uModMataUang.pas',
+  ufrmMataUang in '..\module\references\ufrmMataUang.pas' {frmMataUang},
+  uModTipeBonus in '..\model\uModTipeBonus.pas',
+  ufrmTipeBonus in '..\module\references\ufrmTipeBonus.pas' {frmTipeBonus},
+  uModTipeCN in '..\model\uModTipeCN.pas',
+  ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN};
 
 {$R *.res}
 

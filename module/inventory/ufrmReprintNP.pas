@@ -1,74 +1,22 @@
-{$A8,B-,C+,D+,E-,F-,G+,H+,I+,J-,K-,L+,M-,N+,O+,P+,Q-,R-,S-,T-,U-,V+,W-,X+,Y+,Z1}
-{$MINSTACKSIZE $00004000}
-{$MAXSTACKSIZE $00100000}
-{$IMAGEBASE $00400000}
-{$APPTYPE GUI}
-{$WARN SYMBOL_DEPRECATED ON}
-{$WARN SYMBOL_LIBRARY ON}
-{$WARN SYMBOL_PLATFORM ON}
-{$WARN UNIT_LIBRARY ON}
-{$WARN UNIT_PLATFORM ON}
-{$WARN UNIT_DEPRECATED ON}
-{$WARN HRESULT_COMPAT ON}
-{$WARN HIDING_MEMBER ON}
-{$WARN HIDDEN_VIRTUAL ON}
-{$WARN GARBAGE ON}
-{$WARN BOUNDS_ERROR ON}
-{$WARN ZERO_NIL_COMPAT ON}
-{$WARN STRING_CONST_TRUNCED ON}
-{$WARN FOR_LOOP_VAR_VARPAR ON}
-{$WARN TYPED_CONST_VARPAR ON}
-{$WARN ASG_TO_TYPED_CONST ON}
-{$WARN CASE_LABEL_RANGE ON}
-{$WARN FOR_VARIABLE ON}
-{$WARN CONSTRUCTING_ABSTRACT ON}
-{$WARN COMPARISON_FALSE ON}
-{$WARN COMPARISON_TRUE ON}
-{$WARN COMPARING_SIGNED_UNSIGNED ON}
-{$WARN COMBINING_SIGNED_UNSIGNED ON}
-{$WARN UNSUPPORTED_CONSTRUCT ON}
-{$WARN FILE_OPEN ON}
-{$WARN FILE_OPEN_UNITSRC ON}
-{$WARN BAD_GLOBAL_SYMBOL ON}
-{$WARN DUPLICATE_CTOR_DTOR ON}
-{$WARN INVALID_DIRECTIVE ON}
-{$WARN PACKAGE_NO_LINK ON}
-{$WARN PACKAGED_THREADVAR ON}
-{$WARN IMPLICIT_IMPORT ON}
-{$WARN HPPEMIT_IGNORED ON}
-{$WARN NO_RETVAL ON}
-{$WARN USE_BEFORE_DEF ON}
-{$WARN FOR_LOOP_VAR_UNDEF ON}
-{$WARN UNIT_NAME_MISMATCH ON}
-{$WARN NO_CFG_FILE_FOUND ON}
-{$WARN MESSAGE_DIRECTIVE ON}
-{$WARN IMPLICIT_VARIANTS ON}
-{$WARN UNICODE_TO_LOCALE ON}
-{$WARN LOCALE_TO_UNICODE ON}
-{$WARN IMAGEBASE_MULTIPLE ON}
-{$WARN SUSPICIOUS_TYPECAST ON}
-{$WARN PRIVATE_PROPACCESSOR ON}
-{$WARN UNSAFE_TYPE OFF}
-{$WARN UNSAFE_CODE OFF}
-{$WARN UNSAFE_CAST OFF}
 unit ufrmReprintNP;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter1Button, StdCtrls, ExtCtrls, SUIButton, JclStrings,
-  ActnList, uRMSUnit;
+  Dialogs, ufrmMaster, ufraFooter1Button, StdCtrls, ExtCtrls,
+  ActnList, frxClass, uFormProperty, cxGraphics, cxLookAndFeels,
+  cxLookAndFeelPainters, Vcl.Menus, System.Actions, cxButtons;
 
 type
   TfrmReprintNP = class(TfrmMaster)
     frafoo1: TfraFooter1Button;
     lbl1: TLabel;
     edt1: TEdit;
-    btn1: TsuiButton;
-    btn2: TsuiButton;
-    btn3: TsuiButton;
-    btn4: TsuiButton;
+    btn1: TcxButton;
+    btn2: TcxButton;
+    btn3: TcxButton;
+    btn4: TcxButton;
     actlst1: TActionList;
     actReprintNP: TAction;
     actCheckListReprintNP: TAction;
@@ -80,20 +28,16 @@ type
     procedure btn1Click(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormActivate(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
     procedure actCheckListReprintNPExecute(Sender: TObject);
     procedure actShowDetailReprintNPExecute(Sender: TObject);
     procedure edt1Exit(Sender: TObject);
-    procedure btn2Enter(Sender: TObject);
-    procedure btn3Enter(Sender: TObject);
-    procedure btn4Enter(Sender: TObject);
-    procedure btn1Enter(Sender: TObject);
-    procedure btn1Exit(Sender: TObject);
-    procedure btn4Exit(Sender: TObject);
-    procedure btn3Exit(Sender: TObject);
-    procedure btn2Exit(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edt1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
+    FFormProperty: TFormProperty;
     { Private declarations }
   public
     { Public declarations }
@@ -105,8 +49,8 @@ var
 
 implementation
 
-uses uGTSUICommonDlg,suithemes,  ufrmDeliveryOrder, uConstanta,
-   uSearchPO, uConn, udmReport, ufrmDialogPrintPreview;
+uses uTSCommonDlg, ufrmSearchPO, ufrmGoodsReceiving, uConstanta, uAppUtils,
+   udmReport, ufrmDialogPrintPreview, ufrmDisplayPO, uRetnoUnit;
 
 {$R *.dfm}
 
@@ -114,13 +58,13 @@ procedure TfrmReprintNP.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-  //frmMain.DestroyMenu((Sender as TForm));
   Action := caFree;
 end;
 
 procedure TfrmReprintNP.FormCreate(Sender: TObject);
 begin
   inherited;
+  FFormProperty := TFormProperty.Create;
   lblHeader.Caption := 'REPRINT / CHECK LIST NP';
 end;
 
@@ -140,45 +84,24 @@ begin
       edt1.SetFocus;
     end
     else
-      edt1.Text := StrPadLeft(Trim(edt1.Text), 10, '0');
+      edt1.Text := TAppUtils.StrPadLeft(Trim(edt1.Text), 10, '0');
   end;
 end;
 
 procedure TfrmReprintNP.btn1Click(Sender: TObject);
-var
-  sSQL: string;
 begin
-  {
   if not Assigned(frmDialogSearchPO) then
     Application.CreateForm(TfrmDialogSearchPO, frmDialogSearchPO);
-  frmDialogSearchPO.frmSuiMasterDialog.Caption := 'Search PO...';
+  frmDialogSearchPO.Caption := 'Search PO...';
   frmDialogSearchPO.Modul:= tmReprintNP;
+
+  SetFormPropertyAndShowDialog(frmDialogSearchPO);
   if (frmDialogSearchPO.IsProcessSuccessfull) then
   begin
-    edt1.Text := frmDialogSearchPO.strgGrid.Cells[2,frmDialogSearchPO.strgGrid.Row];
+//    edt1.Text := frmDialogSearchPO.strgGrid.Cells[2,frmDialogSearchPO.strgGrid.Row];
     edt1.SetFocus;
   end;
   frmDialogSearchPO.Free;
-  }
-
-  sSQL := 'select po_no as Nobukti, PO_date as Tanggal , po_so_no as Nomorso'
-          + ' from po'
-          + ' where po_unt_id = ' + IntToStr(MasterNewUnit.ID)
-          + ' and po_stapo_id = 5';
-
-  with cLookUp('Daftar PO', sSQL) do
-  begin
-    try
-      if Trim(Strings[0]) = '' then
-        Exit;
-
-      edt1.Text := Strings[0];
-      edt1.SetFocus;
-    finally
-      Free;
-    end;
-  end;
-
 end;
 
 procedure TfrmReprintNP.FormKeyUp(Sender: TObject; var Key: Word;
@@ -195,75 +118,28 @@ begin
     btn1Click(self);       
 end;
 
-procedure TfrmReprintNP.FormActivate(Sender: TObject);
-begin
-  inherited;
-  //frmMain.CreateMenu((Sender as TForm));
-end;
-
 procedure TfrmReprintNP.actReprintNPExecute(Sender: TObject);
 var SeparatorDate: Char;
-    data: TResultDataSet;
-    arrParam: TArr;
+  s: string;
 begin
   if (edt1.Text <> '') then
   begin
-//    if (CommonDlg.Confirm('Are you sure to reprint NP (PO NO.: '+ edt1.Text +')?') = mrYes) then
-//    begin
-//      commonDlg.ShowConfirmGlobal(PRINT_NP_SUCCESSFULLY);
-//    end;
 
     SeparatorDate:= FormatSettings.DateSeparator;
 
     try
       FormatSettings.DateSeparator:= '/';
 
-      SetLength(arrParam,1);
-      arrParam[0].tipe:= ptString;
-      arrParam[0].data:= Trim(edt1.Text);
-
-      if not Assigned(SearchPO) then
-        SearchPO:= TSearchPO.Create;
-      data:= SearchPO.GetDataNP(arrParam);
-
-      if not Assigned(ParamList) then
-        ParamList := TStringList.Create;
-
-      if not data.IsEmpty then begin
-        data.First;
-        ParamList.Add(data.FieldByName('do_np').AsString); //0
-        ParamList.Add(edt1.Text); //1
-        ParamList.Add(FloatToStr(data.FieldByName('DO_COLIE_ORDER_RECV').AsFloat)); //2
-        ParamList.Add(FloatToStr(data.FieldByName('do_colie_bonus').AsFloat)); //3
-        ParamList.Add(FLoginFullname); //4
-      end
-      else begin
-        ParamList.Add(''); //0
-        ParamList.Add(edt1.Text); //1
-        ParamList.Add(''); //2
-        ParamList.Add(''); //3
-        ParamList.Add(FLoginFullname); //4
-        ParamList.Add(MasterNewUnit.Nama); //5
-      end;
-
-      if not assigned(frmDialogPrintPreview) then
-        frmDialogPrintPreview:= TfrmDialogPrintPreview.Create(Application);
-
-      frmDialogPrintPreview.ListParams:= ParamList;
-      frmDialogPrintPreview.FilePath:= FFilePathReport+'frCetakNP.fr3';
-      SetFormPropertyAndShowDialog(frmDialogPrintPreview);
-//      with dmReport do begin
-//        Params := ParamList;
-//        //frxDBDataset.DataSet := dataKuponBotol;
-//        pMainReport.LoadFromFile(ExtractFilePath(Application.ExeName) + '/template/frCetakNP.fr3');
-//        pMainReport.ShowReport(True);
-//        //pMainReport.Print;
-//      end;
+      s := 'select a.do_np, a.do_po_no, (a.DO_COLIE_ORDER_RECV - a.DO_CN_QTY + a.DO_DN_QTY) as DO_COLIE_ORDER_RECV, a.do_colie_bonus,'
+         + ' (Select b.DO_NP FROM DORD b WHERE b.DO_NO = a.DO_NO_REF) as NPBONUS'
+         + ' from dord a'
+         + ' where a.do_po_no = ' + QuotedStr(edt1.Text);
+//      dmReportNew.EksekusiReport('frCetakNP', s, '', True);
     finally
       FormatSettings.DateSeparator:= SeparatorDate;
-      frmDialogPrintPreview.Free;
+//      frmDialogPrintPreview.Free;
       FreeAndNil(ParamList);
-      FreeAndNil(SearchPO);
+//      FreeAndNil(SearchPO);
     end;
   end
   else
@@ -275,67 +151,49 @@ end;
 
 procedure TfrmReprintNP.actCheckListReprintNPExecute(Sender: TObject);
 var SeparatorDate: Char;
-    data: TResultDataSet;
-    arrParam: TArr;
+  s: string;
+    //data: TResultDataSet;
+    //arrParam: TArr;
 begin
   if (edt1.Text <> '') then begin
     if (CommonDlg.Confirm('Are you sure you want to print check list NP (PO NO. : '+ edt1.Text +')?') = mrYes) then begin
       SeparatorDate:= FormatSettings.DateSeparator;
 
       try
-        FormatSettings.DateSeparator:= '/';
+        s := 'select '
+           + ' (sup_code ||'' ''|| tppersh_code || '' '' || sup_name) as sup,'
+           + ' po_no, po_date, do_date, do_np,'
+           + ' (merchan_id ||'' ''|| merchan_name) as divisi,'
+           + ' brg_code, brg_name || '' '' || brg_merk, brg_catalog,'
+           + ' brg_alias, brg_lok_code, pod_qty_order, pob_qty,'
+           + ' (sat.sat_code) as stock_uom,'
+           + ' DOD_QTY_ORDER_RECV ,'
+           + ' dob_qty, brgsup_sat_code_buy, d.do_no, ks.konvsat_scale,ks.KONVSAT_BARCODE'
+           + ' from dord d'
+           + ' join po p on (d.do_po_no=p.po_no and d.do_po_unt_id=p.po_unt_id)'
+           + ' left join do_detil dod on (d.do_no =dod.dod_do_no and d.do_unt_id=dod.dod_do_unt_id)'
+           + ' left join suplier_merchan_grup supmg on (p.po_supmg_sub_code=supmg.supmg_sub_code)'
+           + ' left join suplier sup on (supmg.supmg_code=sup.sup_code)'
+           + ' left join ref$tipe_perusahaan rtp on (sup.sup_tppersh_id = rtp.tppersh_id)'
+           + ' left join barang brg on (dod.dod_brg_code=brg.brg_code)'
+           + ' left join barang_suplier brgsup on (brgsup.brgsup_supmg_sub_code = supmg.supmg_sub_code)'
+           + ' and (brgsup.brgsup_brg_code = brg.brg_code)'
+           + ' left join po_detil pod on (p.po_no = pod.pod_po_no and p.po_unt_id=pod.pod_po_unt_id)'
+           + ' and dod.dod_brg_code = pod.pod_brg_code '
+           + ' left join po_bonus pob on (pod.pod_id=pob.pob_pod_id and pod.pod_unt_id=pob.pob_pod_unt_id)'
+           + ' left join do_bonus dob on (dod.dod_id=dob.dob_dod_id and dod.dod_unt_id=dob.dob_dod_unt_id)'
+           + ' left join ref$satuan sat on (brg.brg_sat_code_stock =sat.sat_code)'
+           + ' left join ref$satuan sat2 on (brgsup.brgsup_sat_code_buy =sat2.sat_code )'
+           + ' left join ref$merchandise merchan on (brg.brg_merchan_id=merchan.merchan_id)'
+           + ' left join ref$konversi_satuan ks on (ks.konvsat_brg_code=pod.pod_brg_code )'
+           + ' and (ks.konvsat_sat_code_from=brg.brg_sat_code_stock)'
+           + ' and (ks.konvsat_sat_code_to=pod.pod_sat_code_order )'
+           + ' Where p.po_no = ' + QuotedStr(edt1.Text)
+           + ' and DOD_QTY_ORDER_RECV > 0';
+//      dmReportNew.EksekusiReport('frCheckListText', s, '', True);
 
-        SetLength(arrParam,1);
-        arrParam[0].tipe:= ptString;
-        arrParam[0].data:= edt1.Text;
 
-        if not Assigned(SearchPO) then
-          SearchPO:= TSearchPO.Create;
-        data:= SearchPO.CheckListNP(arrParam);
-
-        if not Assigned(ParamList) then
-          ParamList := TStringList.Create;
-        ParamList.Add(edt1.Text); //0
-        ParamList.Add(FLoginFullname); //1
-        if not data.IsEmpty then begin
-          data.First;
-          ParamList.Add(data.FieldByName('O_SUP_NAME').AsString); //2
-          ParamList.Add(data.FieldByName('O_DO_NO').AsString); //3      
-          ParamList.Add(FormatDateTime('dd/mm/yy', data.FieldByName('O_PO_DATE').AsDateTime)); //4
-          ParamList.Add(FormatDateTime('dd/mm/yy', data.FieldByName('O_DO_DATE').AsDateTime)); //5
-          ParamList.Add(data.FieldByName('O_NP').AsString); //6
-          ParamList.Add(data.FieldByName('O_MERCHAN').AsString); //7
-        end
-        else begin
-          ParamList.Add(''); //2
-          ParamList.Add(''); //3
-          ParamList.Add(''); //4
-          ParamList.Add(''); //5
-          ParamList.Add(''); //6
-          ParamList.Add(''); //7
-        end;
-        ParamList.Add(MasterNewUnit.Nama); //8
-
-        if not assigned(frmDialogPrintPreview) then
-          frmDialogPrintPreview:= TfrmDialogPrintPreview.Create(Application);
-
-//        frmDialogPrintPreview.IsTextReport := True;
-        frmDialogPrintPreview.ListParams:= ParamList;
-        frmDialogPrintPreview.RecordSet:= data;
-        frmDialogPrintPreview.FilePath:= FFilePathReport+'frCheckListText.fr3';
-        SetFormPropertyAndShowDialog(frmDialogPrintPreview);
-
-        frmDialogPrintPreview.Free;
-
-//        with dmReport do begin
-//          Params := ParamList;
-//          frxDBDataset.DataSet := data;
-//          pMainReport.LoadFromFile(ExtractFilePath(Application.ExeName) + '/template/frCheckList.fr3');
-//          pMainReport.ShowReport(True);
-//        end;
       finally
-        FreeAndNil(ParamList);
-        FreeAndNil(SearchPO);
         FormatSettings.DateSeparator:= SeparatorDate;
       end;
     end;
@@ -348,69 +206,53 @@ begin
 end;
 
 procedure TfrmReprintNP.actShowDetailReprintNPExecute(Sender: TObject);
+var
+  st  : string;
+  Key : Char;
 begin
-  if not assigned(frmDeliveryOrder) then
-    frmDeliveryOrder := TfrmDeliveryOrder.Create(Application);
+   FFormProperty.FSelfUnitId    := MasterNewUnit;
+  FFormProperty.FSelfCompanyID := MasterCompany.ID;
+  FFormProperty.FLoginFullname := FLoginFullname;
+  FFormProperty.FLoginUsername := FLoginUsername;
 
-  frmDeliveryOrder.edtPONo.Text:= edt1.Text;
-  frmDeliveryOrder.lblHeader.Caption := 'DETAIL NP';
-  frmDeliveryOrder.Show;
+  frmDisplayPO := TfrmDisplayPO.CreateWithUser(Self,FFormProperty);
+  Key := #13;
+
+  st := edt1.Text;
+  frmDisplayPO.edtPONo.Text := st;
+  frmDisplayPO.edtPONoKeyPress(Self, Key);
 end;
 
 procedure TfrmReprintNP.edt1Exit(Sender: TObject);
 begin
   inherited;
   if Trim(edt1.Text) <> '' then
-    edt1.Text := StrPadLeft(Trim(edt1.Text), 10, '0');
+    edt1.Text := TAppUtils.StrPadLeft(Trim(edt1.Text), 10, '0');
 end;
 
-procedure TfrmReprintNP.btn2Enter(Sender: TObject);
+procedure TfrmReprintNP.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+//  inherited;
+  if (Key = Ord('C')) and (ssctrl in Shift) then
+  actReprintNPExecute(Self)
+  else if (Key = Ord('D')) and (ssctrl in Shift) then
+  actCheckListReprintNPExecute(Self)
+  else if (Key = Ord('H')) and (ssctrl in Shift) then
+  actShowDetailReprintNPExecute(Self)
 end;
 
-procedure TfrmReprintNP.btn3Enter(Sender: TObject);
+procedure TfrmReprintNP.edt1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmReprintNP.btn4Enter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmReprintNP.btn1Enter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmReprintNP.btn1Exit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmReprintNP.btn4Exit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmReprintNP.btn3Exit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmReprintNP.btn2Exit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+//  inherited;
+  if Key = VK_F2 then
+  btn1.Click;
 end;
 
 end.
+
+
+
+
 

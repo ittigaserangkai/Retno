@@ -96,16 +96,11 @@ inherited frmDialogMerchandiseGroup: TfrmDialogMerchandiseGroup
       ExplicitWidth = 458
       inherited lbCTRLEnter: TLabel
         Left = 283
-        Height = 15
         ExplicitLeft = 283
       end
       inherited lbEscape: TLabel
         Left = 374
-        Height = 15
         ExplicitLeft = 374
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end

@@ -9,7 +9,7 @@ uses
   Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, uModBarang, uInterface,
   Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDBLookupEdit, cxDBExtLookupComboBox, uModSuplier;
 
 type
   TfrmDialogMerchandiseGroup = class(TfrmMasterDialog, ICRUDAble)

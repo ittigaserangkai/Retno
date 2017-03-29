@@ -144,13 +144,13 @@ uses
   ufrmCompany in '..\module\references\ufrmCompany.pas' {frmCompany},
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uClientClasses in '..\classes\uClientClasses.pas',
+  uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
-  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
   ufrmDialogQuotationHargaBeli in '..\module\merchandise\ufrmDialogQuotationHargaBeli.pas' {frmDialogQuotationHargaBeli},
   ufrmDialogQuotationMailerNeo in '..\module\merchandise\ufrmDialogQuotationMailerNeo.pas' {frmDialogQuotationMailerNeo},
   ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer},
@@ -170,21 +170,25 @@ uses
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
   ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
   ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
-  ufrmCancellationPO in '..\module\merchandise\ufrmCancellationPO.pas' {frmCancellationPO},
   ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
   ufrmStokBarang in '..\module\inventory\ufrmStokBarang.pas' {frmStokBarang},
   ufrmListingPOByMerchandisingGroup in '..\module\merchandise\ufrmListingPOByMerchandisingGroup.pas' {frmListingPOByMerchandisingGroup},
-<<<<<<< HEAD
   ufrmHistoryPO in '..\module\merchandise\ufrmHistoryPO.pas' {frmHistoryPO},
   ufrmPrintHistoryPOBySupplier in '..\module\merchandise\ufrmPrintHistoryPOBySupplier.pas' {frmPrintHistoryPOBySupplier},
   ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
   ufrmRetur in '..\module\inventory\ufrmRetur.pas' {frmRetur},
   ufrmDialogRetur in '..\module\inventory\ufrmDialogRetur.pas' {frmDialogRetur},
-  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur};
+  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
+  ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
+  uModPropinsi in '..\model\uModPropinsi.pas',
+<<<<<<< HEAD
+  ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
 =======
-  uModUnit in '..\model\uModUnit.pas',
-  uModPropinsi in '..\model\uModPropinsi.pas';
->>>>>>> db585d486417c0809fbcf46cdcd74243a335bde4
+  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
+>>>>>>> 194c4afda473e4d28d8a5c4d118f78b4fa9818b2
+  ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
+  ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
+  uModGudang in '..\model\uModGudang.pas';
 
 {$R *.res}
 

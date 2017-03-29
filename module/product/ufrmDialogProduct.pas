@@ -116,7 +116,7 @@ implementation
 
 uses
   uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk,
-  uModOutlet, uModRefPajak;
+  uModOutlet, uModRefPajak, uModSuplier;
 
 {$R *.dfm}
 

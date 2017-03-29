@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   ufrmMasterDialog, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
-  Vcl.ExtCtrls, Vcl.StdCtrls, uModBarang, uInterface;
+  Vcl.ExtCtrls, Vcl.StdCtrls, uModBarang, uInterface, uModSuplier;
 
 type
   TfrmDialogMerchandise = class(TfrmMasterDialog, ICRUDAble)
