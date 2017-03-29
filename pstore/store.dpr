@@ -129,7 +129,21 @@ uses
   ufrmCashDropping in '..\module\cashier_supv\ufrmCashDropping.pas' {frmCashDropping},
   ufrmDialogCashDropping in '..\module\cashier_supv\ufrmDialogCashDropping.pas' {frmDialogCashDropping},
   ufrmPopupHistCD in '..\module\cashier_supv\ufrmPopupHistCD.pas' {frmPopupHistCD},
-  ufrmResetCashier in '..\module\cashier_supv\ufrmResetCashier.pas' {frmResetCashier};
+  ufrmResetCashier in '..\module\cashier_supv\ufrmResetCashier.pas' {frmResetCashier},
+  uModSuplier in '..\model\uModSuplier.pas',
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
+  ufrmReturNota in '..\module\cashier_supv\ufrmReturNota.pas' {frmReturNota},
+  ufrmDialogReturNota in '..\module\cashier_supv\ufrmDialogReturNota.pas' {frmDialogReturNota},
+  ufraPaymentReturNota in '..\module\cashier_supv\ufraPaymentReturNota.pas' {fraPaymentNotaRetur: TFrame},
+  ufrmDisplayPOSTransaction in '..\module\cashier_supv\ufrmDisplayPOSTransaction.pas' {frmDisplayPOSTransaction},
+  ufrmPopupDetailTransaction in '..\module\cashier_supv\ufrmPopupDetailTransaction.pas' {frmPopupDetailTransaction},
+  ufrmDisplayPOSMonitor in '..\module\cashier_supv\ufrmDisplayPOSMonitor.pas' {frmDisplayPOSMonitor},
+  ufrmPopupDetailCashback in '..\module\cashier_supv\ufrmPopupDetailCashback.pas' {frmPopupDetailCashback},
+  ufrmDisplayLastTransactionNo in '..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas' {frmDisplayLastTransactionNo},
+  ufrmDisplayCCAndCashback in '..\module\cashier_supv\ufrmDisplayCCAndCashback.pas' {frmDisplayCCAndCashback},
+  ufrmAdjustmentCashback in '..\module\cashier_supv\ufrmAdjustmentCashback.pas' {frmAdjustmentCashback},
+  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback};
 
 {$R *.res}
 
