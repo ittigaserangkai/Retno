@@ -76,9 +76,13 @@ begin
   try
     FIsProcessSuccessfull := DMClient.CrudClient.SaveToDB(Satuan);
     TAppUtils.Information('Berhasil Simpan Data');
+
+    if FIsProcessSuccessfull then
+      Self.ModalResult := mrOk;
   except
-    on E : Exception do
-      TAppUtils.Error(E.Message);
+//    on E : Exception do
+//      TAppUtils.Error(E.Message);
+    raise;
   end;
 end;
 

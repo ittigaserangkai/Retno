@@ -114,16 +114,19 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       inherited lbCTRLEnter: TLabel
         Left = 198
         Height = 15
+        ExplicitLeft = 198
       end
       inherited lbEscape: TLabel
         Left = 289
         Height = 15
+        ExplicitLeft = 289
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 122
+        ExplicitLeft = 122
       end
     end
   end

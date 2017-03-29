@@ -72,7 +72,7 @@ begin
     if (frmDialogSatuan.IsProcessSuccessfull) then
     begin
       actRefreshSatuanExecute(Self);
-      CommonDlg.ShowConfirm(atAdd);
+//      CommonDlg.ShowConfirm(atAdd);
     end;
 
 
