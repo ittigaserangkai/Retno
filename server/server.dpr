@@ -37,7 +37,10 @@ uses
   uModPropinsi in '..\model\uModPropinsi.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModMataUang in '..\model\uModMataUang.pas',
-  uModTipeBonus in '..\model\uModTipeBonus.pas';
+  uModTipeBonus in '..\model\uModTipeBonus.pas',
+  uModDocument in '..\model\uModDocument.pas',
+  uModTipePo in '..\model\uModTipePo.pas',
+  uModAgama in '..\model\uModAgama.pas';
 
 {$R *.res}
 

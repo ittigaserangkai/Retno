@@ -192,7 +192,10 @@ uses
   uModTipeBonus in '..\model\uModTipeBonus.pas',
   ufrmTipeBonus in '..\module\references\ufrmTipeBonus.pas' {frmTipeBonus},
   uModTipeCN in '..\model\uModTipeCN.pas',
-  ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN};
+  ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN},
+  ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
+  ufrmTipePO in '..\module\po\ufrmTipePO.pas' {frmTipePO},
+  ufrmAgama in '..\module\references\ufrmAgama.pas' {frmAgama};
 
 {$R *.res}
 

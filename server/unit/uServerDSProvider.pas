@@ -60,6 +60,9 @@ type
     function Kabupaten_GetDSLookUp: TDataSet;
     function MataUang_GetDSOverview: TDataSet;
     function TipeBonus_GetDSOverview: TDataSet;
+    function Document_GetDSOverview: TDataSet;
+    function Agama_GetDSOverview: TDataSet;
+    function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
 
 
@@ -539,6 +542,37 @@ begin
   S := 'select REF$TIPE_BONUS_ID, TPBNS_CODE, TPBNS_NAME'
   +' from'
   +' REF$TIPE_BONUS';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Document_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select DOC_NAME, REF$DOCUMENT_ID'
+  +' from'
+  +' REF$DOCUMENT';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Agama_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select AGAMA_NAME, REF$AGAMA_ID'
+  +' from'
+  +' REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+
+function TDSProvider.TipePO_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select TPPO_CODE, TPPO_NAME, REF$TIPE_PO_ID'
+  +' from'
+  +' REF$TIPE_PO';
   Result := TDBUtils.OpenQuery(S);
 end;
 
