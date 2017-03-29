@@ -90,35 +90,46 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       Width = 373
       ExplicitWidth = 373
       inherited btnClose: TcxButton
-        Left = 291
+        Left = 296
         Action = actCancel
-        ExplicitLeft = 291
+        ExplicitLeft = 296
       end
       inherited btnSave: TcxButton
-        Left = 204
+        Left = 203
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 204
+        ExplicitLeft = 203
       end
       inherited btnDelete: TcxButton
         Action = actDelete
         OnClick = btnDeleteClick
+      end
+      inherited btnPrint: TcxButton
+        Left = 126
+        ExplicitLeft = 126
       end
     end
     inherited pnlSortCut: TPanel
       Width = 373
       ExplicitWidth = 373
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 198
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 289
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
       end
+      inherited lblCTRLP: TLabel
+        Left = 122
+      end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

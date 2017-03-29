@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, uRetnoUnit, ufraFooterDialog3Button, uModSatuan,
-  uDMClient, uAppUtils, System.Actions, Vcl.ActnList;
+  uDMClient, uAppUtils, System.Actions, Vcl.ActnList, uDXUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -18,8 +18,8 @@ type
     edtName: TEdit;
     lbl3: TLabel;
     cbbGroup: TComboBox;
+    procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
   private
@@ -50,6 +50,37 @@ implementation
 uses uTSCommonDlg, uConn, DB;
 
 {$R *.dfm}
+
+procedure TfrmDialogSatuan.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  FIsProcessSuccessfull := False;
+
+  if edtCode.Text='' then
+  begin
+    CommonDlg.ShowErrorEmpty('CODE');
+    edtCode.SetFocus;
+    Exit;
+  end;
+  if edtName.Text='' then
+  begin
+    CommonDlg.ShowErrorEmpty('NAME');
+    edtName.SetFocus;
+    Exit;
+  end;
+
+  Satuan.SAT_CODE := edtCode.Text;
+  Satuan.SAT_GROUP := cbbGroup.Text;
+  Satuan.SAT_NAME := edtName.Text;
+
+  try
+    FIsProcessSuccessfull := DMClient.CrudClient.SaveToDB(Satuan);
+    TAppUtils.Information('Berhasil Simpan Data');
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
+  end;
+end;
 
 procedure TfrmDialogSatuan.SetFormMode(const Value: TFormMode);
 begin
@@ -84,43 +115,11 @@ begin
   end;
 end;
 
-procedure TfrmDialogSatuan.footerDialogMasterbtnSaveClick(Sender: TObject);
-begin
-  inherited;
-  FIsProcessSuccessfull := False;
-
-  if edtCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('CODE');
-    edtCode.SetFocus;
-    Exit;
-  end;
-  if edtName.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME');
-    edtName.SetFocus;
-    Exit;
-  end;
-
-  Satuan.SAT_CODE := edtCode.Text;
-  Satuan.SAT_GROUP := cbbGroup.Text;
-  Satuan.SAT_NAME := edtName.Text;
-
-  try
-    FIsProcessSuccessfull := DMClient.CrudClient.SaveToDB(Satuan);
-    TAppUtils.Information('Berhasil Simpan Data');
-  except
-    on E : Exception do
-      TAppUtils.Error(E.Message);
-  end;
-
-
-end;
-
 procedure TfrmDialogSatuan.FormCreate(Sender: TObject);
 begin
   inherited;
   FID := '';
+  Self.AssignKeyDownEvent;
 end;
 
 function TfrmDialogSatuan.GetSatuan: TModSatuan;

@@ -5,10 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, Mask, ActnList,
-  JvExMask, cxGraphics, cxControls, cxLookAndFeels,
+   cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
-  Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, AdvUtil, System.Actions,
+  Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,  System.Actions,
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC;

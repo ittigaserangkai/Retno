@@ -13,6 +13,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property SAT_CODE: string read FSAT_CODE write FSAT_CODE;
     property SAT_GROUP: string read FSAT_GROUP write FSAT_GROUP;
     property SAT_NAME: string read FSAT_NAME write FSAT_NAME;

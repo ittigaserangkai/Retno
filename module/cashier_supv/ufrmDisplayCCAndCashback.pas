@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
-  AdvUtil, System.Actions, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
+   System.Actions, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
   cxNavigator, Data.DB, cxDBData, Vcl.Menus, ufraFooter4Button, cxButtons,
   cxLabel, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
