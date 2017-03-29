@@ -58,7 +58,7 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -85,6 +85,11 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.2017.3.1;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2.2017.3.1;Comments=</VerInfo_Keys>
+        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_MinorVer>2017</VerInfo_MinorVer>
+        <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -488,6 +493,54 @@
         </DCCReference>
         <DCCReference Include="..\module\cashier_supv\ufrmResetCashier.pas">
             <Form>frmResetCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModSuplier.pas"/>
+        <DCCReference Include="..\model\uModTipePembayaran.pas"/>
+        <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
+        <DCCReference Include="..\module\cashier_supv\ufrmReturNota.pas">
+            <Form>frmReturNota</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogReturNota.pas">
+            <Form>frmDialogReturNota</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufraPaymentReturNota.pas">
+            <Form>fraPaymentNotaRetur</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayPOSTransaction.pas">
+            <Form>frmDisplayPOSTransaction</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupDetailTransaction.pas">
+            <Form>frmPopupDetailTransaction</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayPOSMonitor.pas">
+            <Form>frmDisplayPOSMonitor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupDetailCashback.pas">
+            <Form>frmPopupDetailCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas">
+            <Form>frmDisplayLastTransactionNo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayCCAndCashback.pas">
+            <Form>frmDisplayCCAndCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmAdjustmentCashback.pas">
+            <Form>frmAdjustmentCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas">
+            <Form>frmDialogAdjustmentCashback</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

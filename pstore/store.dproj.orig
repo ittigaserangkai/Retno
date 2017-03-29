@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>store.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -71,7 +71,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_DcuOutput>D:\SharedProjects\Projects\Retno\pstore\dcu</DCC_DcuOutput>
-        <DCC_ExeOutput>D:\SharedProjects\Projects\Retno\bin</DCC_ExeOutput>
+        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
         <Icon_MainIcon>store_Icon.ico</Icon_MainIcon>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -85,6 +85,9 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
     </PropertyGroup>
@@ -92,13 +95,8 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="ui\ufrmMain.pas">
-            <Form>frmMain</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\login\ufrmLogin.pas">
+        <DCCReference Include="..\module\login\ufrmLogin.pas">
             <Form>frmLogin</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufraFooter1Button.pas">
             <Form>fraFooter1Button</Form>
@@ -162,95 +160,375 @@
         <DCCReference Include="..\classes\uCompany.pas"/>
         <DCCReference Include="..\classes\uTSBaseClass.pas"/>
         <DCCReference Include="..\model\uModApp.pas"/>
-        <DCCReference Include="..\model\uModAppHelper.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
-        <DCCReference Include="module\so\ufrmCreateSO.pas">
-            <Form>frmCreateSO</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\so\ufrmHistorySO.pas">
+        <DCCReference Include="..\module\so\ufrmHistorySO.pas">
             <Form>frmHistorySO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterBrowse.pas">
             <Form>frmMasterBrowse</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\so\ufrmDialogDetailSO.pas">
+        <DCCReference Include="..\module\so\ufrmDialogDetailSO.pas">
             <Form>frmDialogDetailSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\so\ufrmSearchSO.pas">
+        <DCCReference Include="..\module\so\ufrmSearchSO.pas">
             <Form>frmDialogSearchSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterDialogBrowse.pas">
             <Form>frmMasterDialogBrowse</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\uAppUtils.pas"/>
-        <DCCReference Include="module\so\ufrmDialogAddProductForSO.pas">
+        <DCCReference Include="..\module\so\ufrmDialogAddProductForSO.pas">
             <Form>frmDialogAddProductForSO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\pho\module\product\ufrmSearchProduct.pas">
+        <DCCReference Include="..\module\product\ufrmSearchProduct.pas">
             <Form>frmDialogSearchProduct</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmMemberShip.pas">
+        <DCCReference Include="..\module\customer_support\ufrmDialogMemberShip.pas">
+            <Form>frmDialogMemberShip</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmSearchCompanyMember.pas">
+            <Form>frmDialogSearchCompanyMember</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogFamilyMember.pas">
+            <Form>frmDialogFamilyMember</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmSearchStatusKlrg.pas">
+            <Form>frmDialogSearchStatusKlrg</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogPersonalMember.pas">
+            <Form>frmDialogPersonalMember</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmSearchTypeMember.pas">
+            <Form>frmDialogSearchTypeMember</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmPopupFamilyMember.pas">
+            <Form>frmPopupFamilyMember</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmPopupPersonalMember.pas">
+            <Form>frmPopupPersonalMember</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmGudang.pas">
+            <Form>frmGudang</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogGudang.pas">
+            <Form>frmDialogGudang</Form>
+        </DCCReference>
+        <DCCReference Include="..\system\uInterface.pas"/>
+        <DCCReference Include="..\module\trader\ufrmTrader.pas">
+            <Form>frmTrader</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\trader\ufrmDialogTrader.pas">
+            <Form>frmDialogTrader</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\trader\ufrmDialogPlafonTrader.pas">
+            <Form>frmDialogPlafonTrader</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmSearchPO.pas">
+            <Form>frmDialogSearchPO</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\trader\ufrmCrazyPrice.pas">
+            <Form>frmCrazyPrice</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\trader\ufrmCrazyPriceDialog.pas">
+            <Form>frmCrazyPriceDialog</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\trader\ufrmPOFromTrader.pas">
+            <Form>ufrmPOFromTrader</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\trader\ufrmDialogPOFromTrader.pas">
+            <Form>frmDialogPOFromTrader</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas">
+            <Form>frmDialogPrintKasirPreview</Form>
+        </DCCReference>
+        <DCCReference Include="..\system\uTemplatePrintText.pas"/>
+        <DCCReference Include="..\system\uDMClient.pas">
+            <Form>DMClient</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\classes\uClientClasses.pas"/>
+        <DCCReference Include="..\module\customer_support\ufrmMemberShip.pas">
             <Form>frmMemberShip</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmDialogMemberShip.pas">
-            <Form>frmDialogMemberShip</Form>
+        <DCCReference Include="..\model\uModMember.pas"/>
+        <DCCReference Include="..\model\uModTipePerusahaan.pas"/>
+        <DCCReference Include="..\module\so\ufrmInputSupplierForNotSO.pas">
+            <Form>frmInputSupplierForNotSO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmSearchCompanyMember.pas">
-            <Form>frmDialogSearchCompanyMember</Form>
+        <DCCReference Include="..\module\so\ufrmDialogInputSupplierForNotSO.pas">
+            <Form>frmDialogInputSupplierForNotSO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmDialogFamilyMember.pas">
-            <Form>frmDialogFamilyMember</Form>
+        <DCCReference Include="..\module\so\ufrmInputProductForNotSO.pas">
+            <Form>frmInputProductForNotSO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmSearchStatusKlrg.pas">
-            <Form>frmDialogSearchStatusKlrg</Form>
+        <DCCReference Include="..\module\so\ufrmDialogInputProductForNotSO.pas">
+            <Form>frmDialogInputProductForNotSO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmDialogPersonalMember.pas">
-            <Form>frmDialogPersonalMember</Form>
+        <DCCReference Include="..\module\so\ufrmCreateSO.pas">
+            <Form>frmCreateSO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmSearchTypeMember.pas">
-            <Form>frmDialogSearchTypeMember</Form>
+        <DCCReference Include="..\module\po\ufrmGeneratePOForAll.pas">
+            <Form>frmGeneratePOforAll</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmPopupFamilyMember.pas">
-            <Form>frmPopupFamilyMember</Form>
+        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
+            <Form>frmDialogDetailGeneratePO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="module\customer_support\ufrmPopupPersonalMember.pas">
-            <Form>frmPopupPersonalMember</Form>
+        <DCCReference Include="..\module\po\ufrmGeneratePOBonus.pas">
+            <Form>frmGeneratePOBonus</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\system\uInterface.pas"/>
+        <DCCReference Include="..\module\merchandise\ufrmChangeStatusPO.pas">
+            <Form>frmChangeStatusPO</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmCancellationPO.pas">
+            <Form>frmCancellationPO</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmApprovalPO.pas">
+            <Form>frmApprovallPO</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmSearchSupplier.pas">
+            <Form>frmDialogSearchSupplier</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufrmProduct.pas">
+            <Form>frmProduct</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraStockCard.pas">
+            <Form>fraStockCard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraSellingPrice.pas">
+            <Form>fraSellingPrice</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraProductTurunan.pas">
+            <Form>fraProductTurunan</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraProductSupplier.pas">
+            <Form>fraProductSupplier</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraBonusProduct.pas">
+            <Form>fraBonusProduct</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraUOMConvertion.pas">
+            <Form>fraUOMConvertion</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufraAlokasiStock.pas">
+            <Form>fraAlokasiStock</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\product\ufrmDialogProduct.pas">
+            <Form>frmDialogProduct</Form>
+        </DCCReference>
+        <DCCReference Include="..\model\uModBarang.pas"/>
+        <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="..\model\uModSatuan.pas"/>
+        <DCCReference Include="..\module\product\ufrmDialogMerk.pas">
+            <Form>frmDialogMerk</Form>
+        </DCCReference>
+        <DCCReference Include="..\classes\uSpecialKey.pas"/>
+        <DCCReference Include="..\module\merchandise\ufraHistoriPOByProduct.pas">
+            <Form>fraHistoriPOByProduct</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
 <<<<<<< HEAD
-        <DCCReference Include="module\inventory\ufrmGudang.pas">
-            <Form>frmGudang</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="module\inventory\ufrmDialogGudang.pas">
-            <Form>frmDialogGudang</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
+        <DCCReference Include="..\model\uModSO.pas"/>
+        <DCCReference Include="..\model\uModUnit.pas"/>
+        <DCCReference Include="..\model\uModPropinsi.pas"/>
 =======
+        <DCCReference Include="..\system\ufrmDialogPrintPreview.pas">
+            <Form>frmDialogPrintPreview</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\uDMReport.pas">
+            <Form>dmReport</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\HPHELP.PAS"/>
+        <DCCReference Include="..\module\inventory\ufrmGoodsReceiving.pas">
+            <Form>frmGoodsReceiving</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDisplayPO.pas">
+            <Form>frmDisplayPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmListingReceivingProduct.pas">
+            <Form>frmListingReceivingProduct</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="ui\ufrmMain.pas">
+            <Form>frmMain</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmServiceLevel.pas">
+            <Form>frmServiceLevel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDSI.pas">
+            <Form>frmDSI</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModGudang.pas"/>
+        <DCCReference Include="..\model\uModUnit.pas"/>
+        <DCCReference Include="..\model\uModPropinsi.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmWastageReal.pas">
+            <Form>frmWastageReal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\uSpell.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmSearchWastageReal.pas">
+            <Form>frmSearchWastageReal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogWastageReal.pas">
+            <Form>frmDialogWastageReal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmReprintNP.pas">
+            <Form>frmReprintNP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmProductForSelling.pas">
+            <Form>frmProductForSelling</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogActivatePOS.pas">
+            <Form>frmDialogActivePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmActivatePOS.pas">
+            <Form>frmActivatePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmBeginningBalancePOS.pas">
+            <Form>frmBeginningBalancePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas">
+            <Form>frmDialogBeginBalancePOS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmMaintenancePassword.pas">
+            <Form>frmMaintenancePassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogMaintenancePassword.pas">
+            <Form>frmDialogMaintenancePassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmFinalPayment.pas">
+            <Form>frmFinalPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogFinalPayment.pas">
+            <Form>frmDialogFinalPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupHistCDFP.pas">
+            <Form>frmPopupHistCDFP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmAdjustmentCashier.pas">
+            <Form>frmAdjustmentCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogAdjustmentCashier.pas">
+            <Form>frmDialogAdjustmentCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmCreditCard.pas">
+            <Form>frmCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCreditCard.pas">
+            <Form>frmDialogCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmCashDropping.pas">
+            <Form>frmCashDropping</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCashDropping.pas">
+            <Form>frmDialogCashDropping</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupHistCD.pas">
+            <Form>frmPopupHistCD</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmResetCashier.pas">
+            <Form>frmResetCashier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="..\model\uModSuplier.pas"/>
->>>>>>> b9cbb73cd446bf037de2c653638e8b073731de23
+        <DCCReference Include="..\model\uModTipePembayaran.pas"/>
+        <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
+        <DCCReference Include="..\module\cashier_supv\ufrmReturNota.pas">
+            <Form>frmReturNota</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogReturNota.pas">
+            <Form>frmDialogReturNota</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufraPaymentReturNota.pas">
+            <Form>fraPaymentNotaRetur</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayPOSTransaction.pas">
+            <Form>frmDisplayPOSTransaction</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupDetailTransaction.pas">
+            <Form>frmPopupDetailTransaction</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayPOSMonitor.pas">
+            <Form>frmDisplayPOSMonitor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmPopupDetailCashback.pas">
+            <Form>frmPopupDetailCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas">
+            <Form>frmDisplayLastTransactionNo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDisplayCCAndCashback.pas">
+            <Form>frmDisplayCCAndCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmAdjustmentCashback.pas">
+            <Form>frmAdjustmentCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas">
+            <Form>frmDialogAdjustmentCashback</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+>>>>>>> 4a836c1a95c15535638ac150a0530cb9d3dc4c8b
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -277,6 +555,18 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
+                <DeployFile LocalName="..\..\build\Retno\bin\store.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>store.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\lib\HPHELP.PAS" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\bin\store.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>store.exe</RemoteName>

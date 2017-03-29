@@ -191,10 +191,10 @@ type
     procedure cbpProductCodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
   private
-    FnewBArang : Integer;
+//    FnewBArang : Integer;
     function ParseProduct(AProductCode: string): Boolean;
     procedure ClearForm;
-    procedure ParseCompanyCode();
+//    procedure ParseCompanyCode();
     procedure ShowFormBonusProduct();
     procedure ShowFormAlokasiStock();
     procedure ShowFormSellingPrice();
@@ -286,9 +286,9 @@ end;
 
 
 function TfrmProduct.ParseProduct(AProductCode: string): Boolean;
-var
-  sUOMLastPurchase: string;
-  dLastPurchas: Double;
+//var
+//  sUOMLastPurchase: string;
+//  dLastPurchas: Double;
 //  data  : TResultDataSet;
 //  BT              : TBarangTransaksi;
 //  FBarangSupplier : TBarangSupplier;
@@ -440,10 +440,10 @@ begin
 
 end;
 
-procedure TfrmProduct.ParseCompanyCode;
+//procedure TfrmProduct.ParseCompanyCode;
 //var //data: TResultDataSet;
   //  i: Integer;
-begin
+//begin
   {
   if not Assigned(SearchProduct) then SearchProduct := TSearchProduct.Create;
 
@@ -477,7 +477,7 @@ begin
     cbpProductCode.SizeGridToData;
   end;
   }
-end;
+//end;
 
 procedure TfrmProduct.ShowFormBonusProduct;
 begin

@@ -236,7 +236,6 @@ inherited frmApprovallPO: TfrmApprovallPO
       ExplicitWidth = 628
       inherited lbEscape: TLabel
         Left = 554
-        Height = 17
         ExplicitLeft = 554
       end
     end

@@ -105,42 +105,42 @@ begin
 end;
 
 procedure TfraHistoriPOByProduct.ShowPOByProduct;
-var dsPO: TDataSet;
-    arrParam: TArr;
-    i: Integer;
+//var dsPO: TDataSet;
+//    arrParam: TArr;
+//    i: Integer;
 begin
-//  if not Assigned(objPO) then
-//    objPO := TSearchPO.Create;
-  SetLength(arrParam,1);
-  arrParam[0].tipe := ptString;
-  arrParam[0].data := FProductCode;
-
-
-//  dsPO := objPO.GetListPOByProductCode(arrParam);
-  if dsPO.RecordCount > 0 then
-    SetHeaderGrid(dsPO.RecordCount+1)
-  else
-    SetHeaderGrid(2);
-  i:= 1;
-  {with strgGrid do
-  begin
-    while not dsPO.Eof do
-    begin
-      Cells[0,i] := dsPO.FieldByName('PO_NO').AsString;
-      Cells[1,i] := FormatDateTime('mm/dd/yyyy',dsPO.FieldByName('PO_DATE').AsDateTime);
-      Cells[2,i] := FloatToStr(dsPO.FieldByName('POD_QTY_ORDER').AsFloat);
-      Cells[3,i] := dsPO.FieldByName('POD_SAT_CODE_ORDER').AsString;
-      Cells[4,i] := dsPO.FieldByName('STAPO_NAME').AsString;
-      Cells[5,i] := FormatDateTime('mm/dd/yyyy',dsPO.FieldByName('DO_DATE').AsDateTime);
-      Cells[6,i] := FormatDateTime('mm/dd/yyyy',dsPO.FieldByName('PO_VALID_DATE').AsDateTime);
-      Cells[7,i] := CurrToStr(dsPO.FieldByName('POD_TOTAL_DISC').AsCurrency);
-
-      Inc(i);
-      dsPO.Next;
-    end;
-    AutoSize := True;
-  end;
-  FreeAndNil(objPO);  }
+////  if not Assigned(objPO) then
+////    objPO := TSearchPO.Create;
+//  SetLength(arrParam,1);
+//  arrParam[0].tipe := ptString;
+//  arrParam[0].data := FProductCode;
+//
+//
+////  dsPO := objPO.GetListPOByProductCode(arrParam);
+//  if dsPO.RecordCount > 0 then
+//    SetHeaderGrid(dsPO.RecordCount+1)
+//  else
+//    SetHeaderGrid(2);
+////  i:= 1;
+//  {with strgGrid do
+//  begin
+//    while not dsPO.Eof do
+//    begin
+//      Cells[0,i] := dsPO.FieldByName('PO_NO').AsString;
+//      Cells[1,i] := FormatDateTime('mm/dd/yyyy',dsPO.FieldByName('PO_DATE').AsDateTime);
+//      Cells[2,i] := FloatToStr(dsPO.FieldByName('POD_QTY_ORDER').AsFloat);
+//      Cells[3,i] := dsPO.FieldByName('POD_SAT_CODE_ORDER').AsString;
+//      Cells[4,i] := dsPO.FieldByName('STAPO_NAME').AsString;
+//      Cells[5,i] := FormatDateTime('mm/dd/yyyy',dsPO.FieldByName('DO_DATE').AsDateTime);
+//      Cells[6,i] := FormatDateTime('mm/dd/yyyy',dsPO.FieldByName('PO_VALID_DATE').AsDateTime);
+//      Cells[7,i] := CurrToStr(dsPO.FieldByName('POD_TOTAL_DISC').AsCurrency);
+//
+//      Inc(i);
+//      dsPO.Next;
+//    end;
+//    AutoSize := True;
+//  end;
+//  FreeAndNil(objPO);  }
 end;
 
 procedure TfraHistoriPOByProduct.lblCloseClick(Sender: TObject);
@@ -175,7 +175,7 @@ begin
     SetHeaderGridBySupplier(dsPO.RecordCount+1)
   else
     SetHeaderGridBySupplier(2);
-  i:= 1;
+//  i:= 1;
   {with strgGrid do
   begin
     while not dsPO.Eof do

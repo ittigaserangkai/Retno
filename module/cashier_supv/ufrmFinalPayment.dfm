@@ -31,7 +31,7 @@ inherited frmFinalPayment: TfrmFinalPayment
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 675
-        ExplicitHeight = 226
+        ExplicitHeight = 282
         inherited cxGrid: TcxGrid
           Width = 675
           Height = 226
@@ -46,9 +46,6 @@ inherited frmFinalPayment: TfrmFinalPayment
           Align = alBottom
           BevelOuter = bvLowered
           TabOrder = 1
-          ExplicitLeft = 11
-          ExplicitTop = 161
-          ExplicitWidth = 655
           DesignSize = (
             675
             56)
@@ -165,8 +162,8 @@ inherited frmFinalPayment: TfrmFinalPayment
       object lbl16: TLabel
         Left = 11
         Top = 11
-        Width = 347
-        Height = 59
+        Width = 306
+        Height = 54
         Align = alClient
         Alignment = taCenter
         Caption = 
@@ -178,8 +175,6 @@ inherited frmFinalPayment: TfrmFinalPayment
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitWidth = 306
-        ExplicitHeight = 54
       end
     end
   end
@@ -242,7 +237,6 @@ inherited frmFinalPayment: TfrmFinalPayment
       ExplicitWidth = 679
       inherited lbEscape: TLabel
         Left = 605
-        Height = 17
         ExplicitLeft = 605
       end
     end

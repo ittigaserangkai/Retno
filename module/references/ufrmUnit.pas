@@ -292,11 +292,16 @@ end;
 procedure TfrmUnit.RefreshData;
 begin
   inherited;
-  if Assigned(FCDS) then FreeAndNil(FCDS);
+  try
+    TAppUtils.cShowWaitWindow('Mohon Ditunggu');
+    if Assigned(FCDS) then FreeAndNil(FCDS);
 
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Unit_GetDSOverview(),Self );
-  cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['AUT$UNIT_ID'],False);
+    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Unit_GetDSOverview(),Self );
+    cxGridView.LoadFromCDS(FCDS);
+    cxGridView.SetVisibleColumns(['AUT$UNIT_ID'],False);
+  finally
+    TAppUtils.cCloseWaitWindow;
+  end;
 end;
 
 end.
