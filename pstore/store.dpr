@@ -162,7 +162,18 @@ uses
   ufrmSupplier in '..\module\merchandise\ufrmSupplier.pas' {frmSupplier},
   ufrmDialogSupplier in '..\module\merchandise\ufrmDialogSupplier.pas' {frmDialogSupplier},
   ufrmDayOfPO in '..\module\merchandise\ufrmDayOfPO.pas' {frmDayofPO},
-  ufrmListMembership in '..\module\customer_support\ufrmListMembership.pas' {frmListMembership};
+  ufrmListMembership in '..\module\customer_support\ufrmListMembership.pas' {frmListMembership},
+  ufrmDialogBarcodeRequest in '..\module\merchandise\ufrmDialogBarcodeRequest.pas' {frmDialogBarcodeRequest},
+  ufrmBarcodeRequest in '..\module\merchandise\ufrmBarcodeRequest.pas' {frmBarcodeRequest},
+  ufrmListPOCancel in '..\module\po\ufrmListPOCancel.pas' {frmListPOCancel},
+  ufrmListDailyTransaction in '..\module\cashier_supv\ufrmListDailyTransaction.pas' {frmListDailyTransaction},
+  ufrmDialogDetilPayment in '..\module\cashier_supv\ufrmDialogDetilPayment.pas' {frmDialogDetilPayment},
+  ufrmDialogViewDetilTransaksi in '..\module\cashier_supv\ufrmDialogViewDetilTransaksi.pas' {frmDialogViewDetilTransaksi},
+  ufrmUbahQTYPO in '..\module\po\ufrmUbahQTYPO.pas' {frmUbahQTYPO},
+  ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
+  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
+  ufrmDiscountMember in '..\module\customer_support\ufrmDiscountMember.pas' {frmDiscountMember},
+  ufrmDialogDiscountMember in '..\module\customer_support\ufrmDialogDiscountMember.pas' {frmDialogDiscountMember};
 
 {$R *.res}
 

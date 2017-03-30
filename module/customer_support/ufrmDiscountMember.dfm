@@ -11,9 +11,32 @@ inherited frmDiscountMember: TfrmDiscountMember
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 697
-    Height = 380
-    ExplicitWidth = 120
-    ExplicitHeight = 364
+    Height = 321
+    ExplicitWidth = 697
+    ExplicitHeight = 321
+    inherited pgcBrowse: TcxPageControl
+      Top = 89
+      Width = 675
+      Height = 221
+      TabOrder = 1
+      ExplicitTop = 89
+      ExplicitWidth = 675
+      ExplicitHeight = 221
+      ClientRectBottom = 220
+      ClientRectRight = 674
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 673
+        ExplicitHeight = 219
+        inherited cxGrid: TcxGrid
+          Width = 673
+          Height = 219
+          ExplicitWidth = 673
+          ExplicitHeight = 219
+        end
+      end
+    end
     object pnlTop: TPanel
       Left = 11
       Top = 11
@@ -22,29 +45,14 @@ inherited frmDiscountMember: TfrmDiscountMember
       Align = alTop
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 98
-      object btnShow: TsuiButton
+      object btnShow: TcxButton
         Left = 302
         Top = 46
         Width = 72
         Height = 27
         Cursor = crHandPoint
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
         Caption = 'Show'
-        AutoSize = False
-        ParentFont = False
-        OnEnter = btnShowEnter
-        OnExit = btnShowExit
-        UIStyle = BlueGlass
-        TabOrder = 0
-        Transparent = True
-        ModalResult = 0
-        FocusedRectMargin = 2
-        Glyph.Data = {
+        OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
           18000000000000060000C30E0000C30E00000000000000000000FF00FFFF00FF
           FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
@@ -95,11 +103,14 @@ inherited frmDiscountMember: TfrmDiscountMember
           FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-        Layout = blGlyphLeft
-        Spacing = 4
-        MouseContinuouslyDownInterval = 100
+        TabOrder = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         OnClick = btnShowClick
-        ResHandle = 0
       end
       object grp1: TGroupBox
         Left = 1
@@ -146,135 +157,77 @@ inherited frmDiscountMember: TfrmDiscountMember
         end
       end
     end
-    object pnlMain: TPanel
-      Left = 11
-      Top = 89
-      Width = 675
-      Height = 280
-      Align = alClient
-      BorderWidth = 10
-      Color = 15198183
-      TabOrder = 1
-      ExplicitWidth = 98
-      ExplicitHeight = 264
-      object strgGrid: TAdvStringGrid
-        Left = 11
-        Top = 11
-        Width = 653
-        Height = 258
-        Cursor = crDefault
-        Align = alClient
-        ColCount = 6
-        Ctl3D = True
-        DefaultRowHeight = 21
-        DrawingStyle = gdsClassic
-        FixedCols = 0
-        RowCount = 5
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Trebuchet MS'
-        Font.Style = []
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSelect]
-        ParentCtl3D = False
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-        OnGetAlignment = strgGridGetAlignment
-        OnRowChanging = strgGridRowChanging
-        OnGetFloatFormat = strgGridGetFloatFormat
-        ActiveCellFont.Charset = DEFAULT_CHARSET
-        ActiveCellFont.Color = clWindowText
-        ActiveCellFont.Height = -11
-        ActiveCellFont.Name = 'Tahoma'
-        ActiveCellFont.Style = [fsBold]
-        Bands.Active = True
-        Bands.PrimaryColor = 14935011
-        CellNode.TreeColor = clSilver
-        ControlLook.FixedGradientHoverFrom = clGray
-        ControlLook.FixedGradientHoverTo = clWhite
-        ControlLook.FixedGradientDownFrom = clGray
-        ControlLook.FixedGradientDownTo = clSilver
-        ControlLook.ControlStyle = csWinXP
-        ControlLook.DropDownHeader.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownHeader.Font.Color = clWindowText
-        ControlLook.DropDownHeader.Font.Height = -11
-        ControlLook.DropDownHeader.Font.Name = 'Tahoma'
-        ControlLook.DropDownHeader.Font.Style = []
-        ControlLook.DropDownHeader.Visible = True
-        ControlLook.DropDownHeader.Buttons = <>
-        ControlLook.DropDownFooter.Font.Charset = DEFAULT_CHARSET
-        ControlLook.DropDownFooter.Font.Color = clWindowText
-        ControlLook.DropDownFooter.Font.Height = -11
-        ControlLook.DropDownFooter.Font.Name = 'Tahoma'
-        ControlLook.DropDownFooter.Font.Style = []
-        ControlLook.DropDownFooter.Visible = True
-        ControlLook.DropDownFooter.Buttons = <>
-        Filter = <>
-        FilterDropDown.Font.Charset = DEFAULT_CHARSET
-        FilterDropDown.Font.Color = clWindowText
-        FilterDropDown.Font.Height = -11
-        FilterDropDown.Font.Name = 'Tahoma'
-        FilterDropDown.Font.Style = []
-        FilterDropDownClear = '(All)'
-        FixedFont.Charset = DEFAULT_CHARSET
-        FixedFont.Color = clWindowText
-        FixedFont.Height = -11
-        FixedFont.Name = 'Tahoma'
-        FixedFont.Style = [fsBold]
-        FloatFormat = '%.2f'
-        PrintSettings.DateFormat = 'dd/mm/yyyy'
-        PrintSettings.Font.Charset = DEFAULT_CHARSET
-        PrintSettings.Font.Color = clWindowText
-        PrintSettings.Font.Height = -11
-        PrintSettings.Font.Name = 'MS Sans Serif'
-        PrintSettings.Font.Style = []
-        PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FixedFont.Color = clWindowText
-        PrintSettings.FixedFont.Height = -11
-        PrintSettings.FixedFont.Name = 'MS Sans Serif'
-        PrintSettings.FixedFont.Style = []
-        PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-        PrintSettings.HeaderFont.Color = clWindowText
-        PrintSettings.HeaderFont.Height = -11
-        PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-        PrintSettings.HeaderFont.Style = []
-        PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-        PrintSettings.FooterFont.Color = clWindowText
-        PrintSettings.FooterFont.Height = -11
-        PrintSettings.FooterFont.Name = 'MS Sans Serif'
-        PrintSettings.FooterFont.Style = []
-        PrintSettings.PageNumSep = '/'
-        ScrollWidth = 16
-        SearchFooter.Font.Charset = DEFAULT_CHARSET
-        SearchFooter.Font.Color = clWindowText
-        SearchFooter.Font.Height = -11
-        SearchFooter.Font.Name = 'Tahoma'
-        SearchFooter.Font.Style = []
-        SortSettings.Column = 0
-        Version = '5.8.0.2'
-        ExplicitWidth = 76
-        ExplicitHeight = 242
-        ColWidths = (
-          64
-          64
-          91
-          181
-          160
-          64)
-      end
-    end
   end
   inherited pnlHeader: TPanel
     Width = 697
-    ExplicitWidth = 120
+    ExplicitWidth = 697
     inherited lblHeader: TLabel
       Width = 103
       Caption = 'DISCOUNT MEMBER'
       ExplicitWidth = 103
     end
+    inherited lblFilterData: TcxLabel
+      Left = 343
+      ExplicitLeft = 343
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 404
+      ExplicitLeft = 404
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 520
+      ExplicitLeft = 520
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 615
+      ExplicitLeft = 615
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 496
+      ExplicitLeft = 496
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 354
+    Width = 697
+    TabOrder = 3
+    ExplicitTop = 354
+    ExplicitWidth = 697
+    inherited pnlFooter: TPanel
+      Width = 697
+      ExplicitWidth = 697
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 620
+        Action = actClose
+        ExplicitLeft = 620
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
+    end
+    inherited pnlShortCut: TPanel
+      Width = 697
+      ExplicitWidth = 697
+      inherited lbEscape: TLabel
+        Left = 623
+        Height = 17
+      end
+    end
+  end
+  inline fraFooter5Button1: TfraFooter5Button [3]
     Left = 0
     Top = 410
     Width = 697
@@ -287,38 +240,30 @@ inherited frmDiscountMember: TfrmDiscountMember
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -54
-    ExplicitWidth = 120
+    ExplicitTop = 410
+    ExplicitWidth = 697
     ExplicitHeight = 54
     inherited pnlFooter: TPanel
       Top = 19
       Width = 697
       ExplicitTop = 19
-      ExplicitWidth = 120
-      inherited btnClose: TsuiButton
+      ExplicitWidth = 697
+      inherited btnClose: TcxButton
         Left = 615
         OnClick = fraFooter5Button1btnCloseClick
-        ExplicitLeft = 38
+        ExplicitLeft = 615
       end
-      inherited btnAdd: TsuiButton
+      inherited btnAdd: TcxButton
         Caption = 'Add'
-        OnClick = fraFooter5Button1btnAddClick
       end
-      inherited btnUpdate: TsuiButton
+      inherited btnUpdate: TcxButton
         Caption = 'Edit'
-        OnClick = fraFooter5Button1btnUpdateClick
-      end
-      inherited btnDelete: TsuiButton
-        OnClick = fraFooter5Button1btnDeleteClick
-      end
-      inherited btnRefresh: TsuiButton
-        OnClick = fraFooter5Button1btnRefreshClick
       end
     end
     inherited pnlSortCut: TPanel
       Width = 697
       Height = 19
-      ExplicitWidth = 120
+      ExplicitWidth = 697
       ExplicitHeight = 19
       inherited lbl1: TLabel
         Top = 1
@@ -344,6 +289,14 @@ inherited frmDiscountMember: TfrmDiscountMember
         ExplicitLeft = 615
         ExplicitTop = 1
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

@@ -12,7 +12,7 @@ inherited frmLaporanRetur: TfrmLaporanRetur
     Width = 832
     Height = 377
     ExplicitWidth = 832
-    ExplicitHeight = 437
+    ExplicitHeight = 377
     inherited pgcBrowse: TcxPageControl
       Top = 81
       Width = 810
@@ -20,19 +20,19 @@ inherited frmLaporanRetur: TfrmLaporanRetur
       TabOrder = 1
       ExplicitTop = 81
       ExplicitWidth = 810
-      ExplicitHeight = 345
+      ExplicitHeight = 285
       ClientRectBottom = 284
       ClientRectRight = 809
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 808
-        ExplicitHeight = 343
+        ExplicitHeight = 283
         inherited cxGrid: TcxGrid
           Width = 808
           Height = 283
           ExplicitWidth = 808
-          ExplicitHeight = 343
+          ExplicitHeight = 283
         end
       end
     end
@@ -236,7 +236,7 @@ inherited frmLaporanRetur: TfrmLaporanRetur
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 410
     Width = 832
-    ExplicitTop = 470
+    ExplicitTop = 410
     ExplicitWidth = 832
     inherited pnlFooter: TPanel
       Width = 832
@@ -265,6 +265,7 @@ inherited frmLaporanRetur: TfrmLaporanRetur
       inherited lbEscape: TLabel
         Left = 758
         Height = 17
+        ExplicitLeft = 758
       end
     end
   end

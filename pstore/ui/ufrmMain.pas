@@ -182,10 +182,13 @@ type
     actLPKAll: TAction;
     actEodLpk: TAction;
     actUser: TAction;
+    actLaporanReturSupplier: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
+    procedure actBarcodeRequestExecute(Sender: TObject);
     procedure actBeginBalancePOSExecute(Sender: TObject);
+    procedure actCancellingPOExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
     procedure actCashDroppingExecute(Sender: TObject);
     procedure actChangeStatusPOExecute(Sender: TObject);
@@ -195,6 +198,7 @@ type
     procedure actCreditCardExecute(Sender: TObject);
     procedure actDailySalesReportExecute(Sender: TObject);
     procedure actDataCostumerExecute(Sender: TObject);
+    procedure actDiscMemberExecute(Sender: TObject);
     procedure actDisplayPOExecute(Sender: TObject);
     procedure actDSIExecute(Sender: TObject);
     procedure actFinalPaymentExecute(Sender: TObject);
@@ -203,7 +207,11 @@ type
     procedure actHistoryPOExecute(Sender: TObject);
     procedure actInputProductNotForSOExecute(Sender: TObject);
     procedure actInputSupplierNotForSOExecute(Sender: TObject);
+    procedure actLapInvMovementQtyExecute(Sender: TObject);
+    procedure actLaporanReturSupplierExecute(Sender: TObject);
+    procedure actListDailyTransactionExecute(Sender: TObject);
     procedure actListMembershipExecute(Sender: TObject);
+    procedure actListPOCancelExecute(Sender: TObject);
     procedure actMaintenanceBarcodeExecute(Sender: TObject);
     procedure actMaintenancePasswordExecute(Sender: TObject);
     procedure actMemberActivationExecute(Sender: TObject);
@@ -226,6 +234,7 @@ type
     procedure actShiftExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
+    procedure actUbahQtyPOExecute(Sender: TObject);
     procedure actWastageRealExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -283,7 +292,10 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmCrazyPrice, ufrmMemberShip, ufrmDataCostumer, ufrmMemberActivation,
   ufrmCetakPO, ufrmSalesReportContrabon, ufrmShift, ufrmDailySalesReport,
   ufrmReprintNota, ufrmPurchaseOrder, ufrmWorksheet, ufrmMaintenanceBarcode,
-  ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership;
+  ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
+  ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
+  ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
+  ufrmDiscountMember;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -300,9 +312,19 @@ begin
   ArrangeIcons;
 end;
 
+procedure TfrmMain.actBarcodeRequestExecute(Sender: TObject);
+begin
+    frmBarcodeRequest:= TfrmBarcodeRequest.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
 begin
     frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actCancellingPOExecute(Sender: TObject);
+begin
+    frmCancellationPO := TfrmCancellationPO.CreateWithUser(Application,FFormProperty);
 end;
 
 procedure TfrmMain.actCascadeExecute(Sender: TObject);
@@ -353,6 +375,11 @@ begin
   frmDataCostumer.Show;
 end;
 
+procedure TfrmMain.actDiscMemberExecute(Sender: TObject);
+begin
+    frmDiscountMember := TfrmDiscountMember.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actDisplayPOExecute(Sender: TObject);
 begin
     frmDisplayPO:= TfrmDisplayPO.CreateWithUser(Application,FFormProperty);
@@ -393,9 +420,29 @@ begin
   frmInputSupplierForNotSO := TfrmInputSupplierForNotSO.CreateWithUser(Self, FFormProperty);
 end;
 
+procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
+begin
+     frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actLaporanReturSupplierExecute(Sender: TObject);
+begin
+     frmLaporanRetur := TfrmLaporanRetur.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListDailyTransactionExecute(Sender: TObject);
+begin
+    frmListDailyTransaction := TfrmListDailyTransaction.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actListMembershipExecute(Sender: TObject);
 begin
     frmListMembership := TfrmListMembership.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListPOCancelExecute(Sender: TObject);
+begin
+    frmListPOCancel:= TfrmListPOCancel.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMaintenanceBarcodeExecute(Sender: TObject);
@@ -643,6 +690,11 @@ procedure TfrmMain.actTileExecute(Sender: TObject);
 begin
   TileMode := tbVertical;
   Tile;
+end;
+
+procedure TfrmMain.actUbahQtyPOExecute(Sender: TObject);
+begin
+  frmUbahQTYPO := TfrmUbahQTYPO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actWastageRealExecute(Sender: TObject);

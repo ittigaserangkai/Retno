@@ -213,6 +213,7 @@ object frmMain: TfrmMain
     object actCancellingPO: TAction
       Category = 'PO'
       Caption = '&Cancellation PO'
+      OnExecute = actCancellingPOExecute
     end
     object actChangeStatusPO: TAction
       Category = 'PO'
@@ -589,8 +590,9 @@ object frmMain: TfrmMain
       OnExecute = actListMembershipExecute
     end
     object actBarcodeRequest: TAction
-      Category = 'Inventory'
+      Category = 'Merchandise'
       Caption = 'actBarcodeRequest'
+      OnExecute = actBarcodeRequestExecute
     end
     object actListWastage: TAction
       Category = 'Inventory'
@@ -599,6 +601,7 @@ object frmMain: TfrmMain
     object actListPOCancel: TAction
       Category = 'PO'
       Caption = 'List PO Cancel'
+      OnExecute = actListPOCancelExecute
     end
     object actListingRankingCNWastage: TAction
       Category = 'Inventory'
@@ -623,6 +626,7 @@ object frmMain: TfrmMain
     object actListDailyTransaction: TAction
       Category = 'SupvCashier'
       Caption = 'Listing Daily Transaction'
+      OnExecute = actListDailyTransactionExecute
     end
     object actPOBonus: TAction
       Category = 'PO'
@@ -652,6 +656,7 @@ object frmMain: TfrmMain
     object actUbahQtyPO: TAction
       Category = 'PO'
       Caption = 'actUbahQtyPO'
+      OnExecute = actUbahQtyPOExecute
     end
     object actStokBarang: TAction
       Category = 'Inventory'
@@ -691,7 +696,9 @@ object frmMain: TfrmMain
       Caption = 'actWastageRealList'
     end
     object actDiscMember: TAction
+      Category = 'CustomerSupport'
       Caption = 'actDiscMember'
+      OnExecute = actDiscMemberExecute
     end
     object actChangeStatusPOS: TAction
       Caption = 'actChangeStatusPOS'
@@ -714,6 +721,7 @@ object frmMain: TfrmMain
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
       Caption = 'actLapInvMovementQty'
+      OnExecute = actLapInvMovementQtyExecute
     end
     object actShipmentAgent: TAction
       Category = 'Inventory'
@@ -762,6 +770,11 @@ object frmMain: TfrmMain
     object actUser: TAction
       Category = 'EOD'
       Caption = 'actUser'
+    end
+    object actLaporanReturSupplier: TAction
+      Category = 'Inventory'
+      Caption = 'actLaporanReturSupplier'
+      OnExecute = actLaporanReturSupplierExecute
     end
   end
 end
