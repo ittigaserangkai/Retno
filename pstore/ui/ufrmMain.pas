@@ -183,7 +183,10 @@ type
     actEodLpk: TAction;
     actUser: TAction;
     actLaporanReturSupplier: TAction;
+    actactListMemberTransaction: TAction;
+    actRafaksiSupplier: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
+    procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
     procedure actBarcodeRequestExecute(Sender: TObject);
@@ -226,6 +229,7 @@ type
     procedure actPrintWorksheetExecute(Sender: TObject);
     procedure actProductExecute(Sender: TObject);
     procedure actProductForSellingExecute(Sender: TObject);
+    procedure actRafaksiSupplierExecute(Sender: TObject);
     procedure actReprintNotaExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
     procedure actResetCashierExecute(Sender: TObject);
@@ -295,11 +299,16 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
   ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
   ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
-  ufrmDiscountMember;
+  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
     frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actactListMemberTransactionExecute(Sender: TObject);
+begin
+  frmListMemberTransaction := TfrmListMemberTransaction.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actAdjustmentCashierExecute(Sender: TObject);
@@ -649,6 +658,11 @@ end;
 procedure TfrmMain.actProductForSellingExecute(Sender: TObject);
 begin
     frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actRafaksiSupplierExecute(Sender: TObject);
+begin
+       frmRafaksi := TfrmRafaksi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actReprintNotaExecute(Sender: TObject);

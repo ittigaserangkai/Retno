@@ -173,7 +173,10 @@ uses
   ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
   ufrmDiscountMember in '..\module\customer_support\ufrmDiscountMember.pas' {frmDiscountMember},
-  ufrmDialogDiscountMember in '..\module\customer_support\ufrmDialogDiscountMember.pas' {frmDialogDiscountMember};
+  ufrmDialogDiscountMember in '..\module\customer_support\ufrmDialogDiscountMember.pas' {frmDialogDiscountMember},
+  ufrmListMemberTransaction in '..\module\cashier_supv\ufrmListMemberTransaction.pas' {frmListMemberTransaction},
+  ufrmRafaksi in '..\module\inventory\ufrmRafaksi.pas' {frmRafaksi},
+  ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi};
 
 {$R *.res}
 

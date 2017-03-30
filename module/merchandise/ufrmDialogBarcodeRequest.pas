@@ -7,12 +7,11 @@ uses
   ufrmMasterDialogBrowse, StdCtrls, ExtCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
-  Vcl.Menus, AdvUtil, cxLabel, AdvObj, cxButtons, cxTextEdit, cxCurrencyEdit,
-  System.Actions, Vcl.ActnList,
-  ufraFooterDialog3Button, cxGridLevel, cxClasses, cxGridCustomView,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  Vcl.ComCtrls, dxCore, cxDateUtils, cxButtonEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar;
+  Vcl.Menus, cxLabel, Vcl.ComCtrls, dxCore, cxDateUtils, cxButtonEdit,
+  cxButtons, cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button, cxGridLevel, cxClasses,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
+  cxGrid;
 
 type
   TProcessType = (ptAdd, ptEdit, ptNone);

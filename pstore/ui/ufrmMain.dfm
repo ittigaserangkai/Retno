@@ -776,5 +776,15 @@ object frmMain: TfrmMain
       Caption = 'actLaporanReturSupplier'
       OnExecute = actLaporanReturSupplierExecute
     end
+    object actactListMemberTransaction: TAction
+      Category = 'SupvCashier'
+      Caption = 'actactListMemberTransaction'
+      OnExecute = actactListMemberTransactionExecute
+    end
+    object actRafaksiSupplier: TAction
+      Category = 'Inventory'
+      Caption = 'actRafaksiSupplier'
+      OnExecute = actRafaksiSupplierExecute
+    end
   end
 end
