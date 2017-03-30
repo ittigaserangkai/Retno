@@ -90,7 +90,7 @@ uses
   ufraAlokasiStock in '..\module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
   ufrmDialogProduct in '..\module\product\ufrmDialogProduct.pas' {frmDialogProduct},
   uModBarang in '..\model\uModBarang.pas',
-  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
   uSpecialKey in '..\classes\uSpecialKey.pas',
@@ -143,7 +143,8 @@ uses
   ufrmDisplayLastTransactionNo in '..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas' {frmDisplayLastTransactionNo},
   ufrmDisplayCCAndCashback in '..\module\cashier_supv\ufrmDisplayCCAndCashback.pas' {frmDisplayCCAndCashback},
   ufrmAdjustmentCashback in '..\module\cashier_supv\ufrmAdjustmentCashback.pas' {frmAdjustmentCashback},
-  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback};
+  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback},
+  uModRefPajak in '..\model\uModRefPajak.pas';
 
 {$R *.res}
 

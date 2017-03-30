@@ -1,7 +1,7 @@
 unit uModMember;
 
 interface
-uses uModApp, uModTipePerusahaan;
+uses uModApp, uModTipePerusahaan, uModRefAgama;
 type
   TModMemberActivasi = class;
   TModMemberKeluarga = Class;
@@ -15,7 +15,7 @@ type
     FRefDiscMember: TModRefDiscMember;
     FRefGrupMember: TModRefGrupMember;
     FMEMBER_CARD_NO: String;
-    FMEMBER_AGAMA_ID: Integer;
+    FMEMBER_AGAMA: TModRefAgama;
     FMEMBER_ADDRESS: String;
     FMEMBER_IS_ACTIVE: Integer;
     FMEMBER_IS_VALID: Integer;
@@ -54,7 +54,8 @@ type
     property RefGrupMember: TModRefGrupMember read FRefGrupMember write
         FRefGrupMember;
     property MEMBER_CARD_NO: String read FMEMBER_CARD_NO write FMEMBER_CARD_NO;
-    property MEMBER_AGAMA_ID: Integer read FMEMBER_AGAMA_ID write FMEMBER_AGAMA_ID;
+    [AttributeOfForeign('REF$AGAMA_ID')]
+    property MEMBER_AGAMA: TModRefAgama read FMEMBER_AGAMA write FMEMBER_AGAMA;
     property MEMBER_ADDRESS: String read FMEMBER_ADDRESS write FMEMBER_ADDRESS;
     property MEMBER_IS_ACTIVE: Integer read FMEMBER_IS_ACTIVE write
         FMEMBER_IS_ACTIVE;
