@@ -33,6 +33,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure fraFooter5Button1btnCloseClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -56,6 +57,12 @@ begin
   inherited;
   lblHeader.Caption := 'UNIT OF MEASURE (UOM)';
   actRefreshSatuanExecute(Self);
+end;
+
+procedure TfrmSatuan.fraFooter5Button1btnCloseClick(Sender: TObject);
+begin
+  inherited;
+  Self.Close;
 end;
 
 procedure TfrmSatuan.actAddSatuanExecute(Sender: TObject);
@@ -102,6 +109,8 @@ procedure TfrmSatuan.actDeleteSatuanExecute(Sender: TObject);
 //  aUOM: string;
 begin
   inherited;
+  cxGrdBrowse.ExportToXLS();
+// frmDialogSatuan.LoadData(cxgrid);
  {
   aUOM := strgGrid.Cells[_kolKode,strgGrid.Row];
   if (CommonDlg.Confirm('Are you sure you wish to delete UOM (Code: '

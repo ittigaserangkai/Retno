@@ -20,12 +20,18 @@ inherited frmRafaksi: TfrmRafaksi
       Width = 762
       Height = 221
       TabOrder = 1
+      ExplicitLeft = 1
+      ExplicitTop = 122
+      ExplicitWidth = 762
+      ExplicitHeight = 221
       ClientRectBottom = 220
       ClientRectRight = 761
       inherited tsBrowse: TcxTabSheet
         inherited cxGrid: TcxGrid
           Width = 760
           Height = 219
+          ExplicitWidth = 760
+          ExplicitHeight = 219
         end
       end
     end
@@ -1231,12 +1237,15 @@ inherited frmRafaksi: TfrmRafaksi
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 471
+      ExplicitLeft = 471
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 587
+      ExplicitLeft = 587
     end
     inherited btnSearch: TcxButton
       Left = 682
+      ExplicitLeft = 682
     end
     inherited lblsdFilter: TcxLabel
       Left = 563
@@ -1247,8 +1256,11 @@ inherited frmRafaksi: TfrmRafaksi
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 377
     Width = 764
+    ExplicitTop = 377
+    ExplicitWidth = 764
     inherited pnlFooter: TPanel
       Width = 764
+      ExplicitWidth = 764
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -1267,9 +1279,10 @@ inherited frmRafaksi: TfrmRafaksi
     end
     inherited pnlShortCut: TPanel
       Width = 764
+      ExplicitWidth = 764
       inherited lbEscape: TLabel
         Left = 690
-        Height = 17
+        ExplicitLeft = 690
       end
     end
   end

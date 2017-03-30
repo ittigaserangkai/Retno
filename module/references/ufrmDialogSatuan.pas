@@ -21,7 +21,7 @@ type
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure btnDeleteClick(Sender: TObject);
+    procedure actDeleteExecute(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FFormMode: TFormMode;
@@ -51,23 +51,31 @@ uses uTSCommonDlg, uConn, DB;
 
 {$R *.dfm}
 
+procedure TfrmDialogSatuan.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  FIsProcessSuccessfull := False;
+
+  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
+    Exit;
+
+  try
+    FIsProcessSuccessfull := DMClient.CrudClient.DeleteFromDB(Satuan);
+    TAppUtils.Information('Berhasil Hapus Data');
+    Self.Close;
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
+  end;
+end;
+
 procedure TfrmDialogSatuan.actSaveExecute(Sender: TObject);
 begin
   inherited;
   FIsProcessSuccessfull := False;
 
-  if edtCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('CODE');
-    edtCode.SetFocus;
+  if not ValidateEmptyCtrl([1]) then
     Exit;
-  end;
-  if edtName.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME');
-    edtName.SetFocus;
-    Exit;
-  end;
 
   Satuan.SAT_CODE := edtCode.Text;
   Satuan.SAT_GROUP := cbbGroup.Text;
@@ -100,23 +108,6 @@ procedure TfrmDialogSatuan.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmDialogSatuan := nil;
-end;
-
-procedure TfrmDialogSatuan.btnDeleteClick(Sender: TObject);
-begin
-  inherited;
-  FIsProcessSuccessfull := False;
-
-  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
-    Exit;
-
-  try
-    FIsProcessSuccessfull := DMClient.CrudClient.DeleteFromDB(Satuan);
-    TAppUtils.Information('Berhasil Hapus Data');
-  except
-    on E : Exception do
-      TAppUtils.Error(E.Message);
-  end;
 end;
 
 procedure TfrmDialogSatuan.FormCreate(Sender: TObject);
@@ -152,6 +143,7 @@ begin
     edtCode.Text := FSatuan.SAT_CODE;
     edtName.Text := FSatuan.SAT_NAME;
     cbbGroup.ItemIndex := cbbGroup.Items.IndexOf(FSatuan.SAT_GROUP);
+    footerDialogMaster.btnDelete.Enabled := True;
   end;
 end;
 

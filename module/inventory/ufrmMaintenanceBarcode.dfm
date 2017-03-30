@@ -322,7 +322,7 @@ inherited frmMaintenanceBarcode: TfrmMaintenanceBarcode
   end
   inherited pnlHeader: TPanel
     Width = 635
-    ExplicitWidth = 636
+    ExplicitWidth = 635
     inherited lblHeader: TLabel
       Width = 131
       Caption = 'MAINTENANCE BARCODE'
@@ -330,7 +330,7 @@ inherited frmMaintenanceBarcode: TfrmMaintenanceBarcode
     end
     inherited lblFilterData: TcxLabel
       Left = 281
-      ExplicitLeft = 282
+      ExplicitLeft = 281
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -349,7 +349,7 @@ inherited frmMaintenanceBarcode: TfrmMaintenanceBarcode
     end
     inherited lblsdFilter: TcxLabel
       Left = 434
-      ExplicitLeft = 435
+      ExplicitLeft = 434
       AnchorY = 17
     end
   end
@@ -390,8 +390,7 @@ inherited frmMaintenanceBarcode: TfrmMaintenanceBarcode
       end
       inherited lbEscape: TLabel
         Left = 561
-        Height = 17
-        ExplicitLeft = 562
+        ExplicitLeft = 561
       end
     end
   end
@@ -419,166 +418,6 @@ inherited frmMaintenanceBarcode: TfrmMaintenanceBarcode
       Caption = 'Update'
       ImageIndex = 10
       OnExecute = actUpdateBarcodeExecute
-    end
-  end
-  object frxBarCodeObject1: TfrxBarCodeObject
-    Left = 558
-    Top = 11
-  end
-  object udsBarcode: TfrxUserDataSet
-    UserName = 'udsBarcode'
-    OnCheckEOF = udsBarcodeCheckEOF
-    OnFirst = udsBarcodeFirst
-    OnNext = udsBarcodeNext
-    OnPrior = udsBarcodePrior
-    Left = 557
-    Top = 98
-  end
-  object frxrprtReport1: TfrxReport
-    Version = '5.3.16'
-    DotMatrixReport = False
-    EngineOptions.MaxMemSize = 10000000
-    IniFile = '\Software\Fast Reports'
-    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator]
-    PreviewOptions.Zoom = 1.000000000000000000
-    PrintOptions.Printer = 'Default'
-    PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 39442.448408159700000000
-    ReportOptions.LastChange = 39941.376333912000000000
-    ScriptLanguage = 'PascalScript'
-    ScriptText.Strings = (
-      'procedure BarCode1OnBeforePrint(Sender: TfrxComponent);'
-      'begin'
-      '  Barcode1.Text := <barcode>;'
-      'end;'
-      ''
-      'begin'
-      ''
-      'end.')
-    OnGetValue = frxrprtReport1GetValue
-    Left = 560
-    Top = 50
-    Datasets = <
-      item
-        DataSet = udsBarcode
-        DataSetName = 'udsBarcode'
-      end>
-    Variables = <>
-    Style = <>
-    object Page1: TfrxReportPage
-      PaperWidth = 43.000000000000000000
-      PaperHeight = 25.000000000000000000
-      PaperSize = 256
-      HGuides.Strings = (
-        '98,26778')
-      object MasterData1: TfrxMasterData
-        FillType = ftBrush
-        Height = 75.590600000000000000
-        Top = 18.897650000000000000
-        Width = 162.519790000000000000
-        DataSet = udsBarcode
-        DataSetName = 'udsBarcode'
-        RowCount = 0
-        object BarCode1: TfrxBarCodeView
-          Left = 10.838590000000000000
-          Top = 17.677180000000000000
-          Width = 128.000000000000000000
-          Height = 41.133890000000000000
-          BarType = bcCode39
-          HAlign = haCenter
-          Rotation = 0
-          ShowText = False
-          Text = '12345678'
-          WideBarRatio = 2.000000000000000000
-          Zoom = 1.000000000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -12
-          Font.Name = 'Arial'
-          Font.Style = []
-        end
-        object nama_barang: TfrxMemoView
-          Left = 9.779530000000000000
-          Top = 53.031540000000010000
-          Width = 125.228510000000000000
-          Height = 19.338590000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -8
-          Font.Name = 'Arial Narrow'
-          Font.Style = []
-          Fill.BackColor = clWhite
-          Memo.UTF8W = (
-            '[nama_barang]')
-          ParentFont = False
-        end
-        object plu: TfrxMemoView
-          Left = 10.118120000000000000
-          Top = 1.000000000000000000
-          Width = 128.504020000000000000
-          Height = 16.118120000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -12
-          Font.Name = 'Arial Narrow'
-          Font.Style = []
-          Fill.BackColor = clWhite
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '[plu]')
-          ParentFont = False
-        end
-        object kat: TfrxMemoView
-          Left = 139.842610000000000000
-          Top = 17.897650000000000000
-          Width = 18.897650000000000000
-          Height = 61.472480000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -12
-          Font.Name = 'Arial Narrow'
-          Font.Style = []
-          Fill.BackColor = clWhite
-          Memo.UTF8W = (
-            '[kat]')
-          ParentFont = False
-          Rotation = 270
-          VAlign = vaCenter
-        end
-        object harga: TfrxMemoView
-          Left = 102.631330000000000000
-          Top = 40.354360000000000000
-          Width = 33.920000000000000000
-          Height = 18.118120000000000000
-          AutoWidth = True
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Arial Narrow'
-          Font.Style = [fsBold]
-          Fill.BackColor = clWhite
-          HAlign = haRight
-          Memo.UTF8W = (
-            '[harga]')
-          ParentFont = False
-        end
-        object Rp: TfrxMemoView
-          Left = 10.338590000000000000
-          Top = 40.133890000000000000
-          Width = 20.640000000000000000
-          Height = 16.118120000000000000
-          AutoWidth = True
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Arial Narrow'
-          Font.Style = [fsBold]
-          Fill.BackColor = clWhite
-          Memo.UTF8W = (
-            'Rp. ')
-          ParentFont = False
-        end
-      end
     end
   end
 end

@@ -9,7 +9,7 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
   cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
-  AdvObj, cxCurrencyEdit, System.Actions, ufraFooter4Button, cxButtons,
+  cxCurrencyEdit, System.Actions, ufraFooter4Button, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC;
@@ -18,8 +18,6 @@ type
   TBarcodeSize = (bsPriceTag, bsPluExCode, bsDesciption, bsSubGrupPlu, bsPrice);
   TSearchFor = (sfPLU, sfCatalog, sfPO, sfNone);
   TfrmMaintenanceBarcode = class(TfrmMasterBrowse)
-    frxBarCodeObject1: TfrxBarCodeObject;
-    udsBarcode: TfrxUserDataSet;
     pnl1: TPanel;
     lbl1: TLabel;
     lblPrice: TLabel;
@@ -47,7 +45,6 @@ type
     edtOutletNm: TEdit;
     Label3: TLabel;
     chkUpdate: TCheckBox;
-    frxrprtReport1: TfrxReport;
     actDeleteRow: TAction;
     actUpdateBarcode: TAction;
     btnUpBarCode: TcxButton;
@@ -356,98 +353,98 @@ procedure TfrmMaintenanceBarcode.frxrprtReport1GetValue(const VarName: String;
   var Value: Variant);
 begin
   inherited;
-  if FSizeOfBarcode = bsPriceTag then
-  begin
-    if CompareText(VarName, 'nama_barang') = 0 then
-      Value := slNamaBrg[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'plu') = 0 then
-      Value := slPlu[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'ext_code') = 0 then
-      Value := slExtCode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'barcode') = 0 then
-      Value := slBarcode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'harga') = 0 then
-      Value := slPrice[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'subgrup') = 0 then
-      Value := slSubGrup[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'tgl') = 0 then
-      Value := slTgl[udsBarcode.RecNo]; 
-
-  end
-  else if FSizeOfBarcode = bsPluExCode then
-  begin
-    if CompareText(VarName, 'nama_barang') = 0 then
-      Value := slNamaBrg[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'plu') = 0 then
-      Value := slPlu[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'excode') = 0 then
-      Value := slExtCode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'barcode') = 0 then
-      Value := slBarcode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'subgrup') = 0 then
-      Value := slSubGrup[udsBarcode.RecNo];
-  end
-  else if FSizeOfBarcode = bsDesciption then
-  begin
-    if CompareText(VarName, 'nama_barang') = 0 then
-      Value := slNamaBrg[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'plu') = 0 then
-      Value := slPlu[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'barcode') = 0 then
-      Value := slBarcode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'Desc') = 0 then
-      Value := slDescription[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'subgrup') = 0 then
-      Value := slSubGrup[udsBarcode.RecNo];
-  end
-  else if FSizeOfBarcode = bsSubGrupPlu then
-  begin
-    if CompareText(VarName, 'nama_barang') = 0 then
-      Value := slNamaBrg[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'plu') = 0 then
-      Value := slPlu[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'barcode') = 0 then
-      Value := slBarcode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'subgrup') = 0 then
-      Value := slSubGrup[udsBarcode.RecNo];
-      
-    if CompareText(VarName, 'outlet') = 0 then
-      Value := slOutlet[udsBarcode.RecNo];
-  end
-  else if FSizeOfBarcode = bsPrice then
-  begin
-    if CompareText(VarName, 'nama_barang') = 0 then
-      Value := slNamaBrg[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'plu') = 0 then
-      Value := slPlu[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'barcode') = 0 then
-      Value := slBarcode[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'harga') = 0 then
-      Value := slPrice[udsBarcode.RecNo];
-
-    if CompareText(VarName, 'kat') = 0 then
-      Value := slKatCode[udsBarcode.RecNo];
-  end
+//  if FSizeOfBarcode = bsPriceTag then
+//  begin
+//    if CompareText(VarName, 'nama_barang') = 0 then
+//      Value := slNamaBrg[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'plu') = 0 then
+//      Value := slPlu[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'ext_code') = 0 then
+//      Value := slExtCode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'barcode') = 0 then
+//      Value := slBarcode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'harga') = 0 then
+//      Value := slPrice[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'subgrup') = 0 then
+//      Value := slSubGrup[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'tgl') = 0 then
+//      Value := slTgl[udsBarcode.RecNo];
+//
+//  end
+//  else if FSizeOfBarcode = bsPluExCode then
+//  begin
+//    if CompareText(VarName, 'nama_barang') = 0 then
+//      Value := slNamaBrg[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'plu') = 0 then
+//      Value := slPlu[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'excode') = 0 then
+//      Value := slExtCode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'barcode') = 0 then
+//      Value := slBarcode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'subgrup') = 0 then
+//      Value := slSubGrup[udsBarcode.RecNo];
+//  end
+//  else if FSizeOfBarcode = bsDesciption then
+//  begin
+//    if CompareText(VarName, 'nama_barang') = 0 then
+//      Value := slNamaBrg[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'plu') = 0 then
+//      Value := slPlu[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'barcode') = 0 then
+//      Value := slBarcode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'Desc') = 0 then
+//      Value := slDescription[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'subgrup') = 0 then
+//      Value := slSubGrup[udsBarcode.RecNo];
+//  end
+//  else if FSizeOfBarcode = bsSubGrupPlu then
+//  begin
+//    if CompareText(VarName, 'nama_barang') = 0 then
+//      Value := slNamaBrg[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'plu') = 0 then
+//      Value := slPlu[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'barcode') = 0 then
+//      Value := slBarcode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'subgrup') = 0 then
+//      Value := slSubGrup[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'outlet') = 0 then
+//      Value := slOutlet[udsBarcode.RecNo];
+//  end
+//  else if FSizeOfBarcode = bsPrice then
+//  begin
+//    if CompareText(VarName, 'nama_barang') = 0 then
+//      Value := slNamaBrg[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'plu') = 0 then
+//      Value := slPlu[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'barcode') = 0 then
+//      Value := slBarcode[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'harga') = 0 then
+//      Value := slPrice[udsBarcode.RecNo];
+//
+//    if CompareText(VarName, 'kat') = 0 then
+//      Value := slKatCode[udsBarcode.RecNo];
+//  end
 end;
 
 procedure TfrmMaintenanceBarcode.actUpdateBarcodeExecute(Sender: TObject);

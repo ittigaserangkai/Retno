@@ -136,8 +136,8 @@ begin
 end;
 
 procedure TfrmRafaksi.LoadDataToGrid(aRafaksiSupplier: Integer);
-var
-  i: Integer;
+//var
+//  i: Integer;
 begin
   inherited;
   {
@@ -252,8 +252,8 @@ begin
 end;
 
 procedure TfrmRafaksi.frftr5btn1btnRefreshClick(Sender: TObject);
-var
-  sSQL : string;
+//var
+//  sSQL : string;
 begin
   inherited;
 //  sSQL  := GetSQLSlipRafaksin(masternewunit.id, edtNoBukti.Text,
