@@ -107,9 +107,11 @@ object fraSellingPrice: TfraSellingPrice
         OptionsView.GroupByBox = False
         object cxGridViewSellingPriceColumn1: TcxGridDBColumn
           Caption = 'Kode Satuan'
+          Width = 67
         end
         object cxGridViewSellingPriceColumn2: TcxGridDBColumn
           Caption = 'Konversi Value'
+          Width = 77
         end
         object cxGridViewSellingPriceColumn3: TcxGridDBColumn
           Caption = 'Tipe Harga'
