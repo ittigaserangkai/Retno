@@ -143,7 +143,26 @@ uses
   ufrmDisplayLastTransactionNo in '..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas' {frmDisplayLastTransactionNo},
   ufrmDisplayCCAndCashback in '..\module\cashier_supv\ufrmDisplayCCAndCashback.pas' {frmDisplayCCAndCashback},
   ufrmAdjustmentCashback in '..\module\cashier_supv\ufrmAdjustmentCashback.pas' {frmAdjustmentCashback},
-  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback};
+  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback},
+  ufrmDialogDataCostumer in '..\module\customer_support\ufrmDialogDataCostumer.pas' {frmDialogDataCostumer},
+  ufrmDataCostumer in '..\module\customer_support\ufrmDataCostumer.pas' {frmDataCostumer},
+  ufrmMemberActivation in '..\module\customer_support\ufrmMemberActivation.pas' {frmMemberActivation},
+  ufrmSearchCardNo in '..\module\customer_support\ufrmSearchCardNo.pas' {frmDialogSearchCardNo},
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  ufrmSalesReportContrabon in '..\module\cashier_supv\ufrmSalesReportContrabon.pas' {frmSalesReportContrabon},
+  ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
+  ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
+  ufrmDailySalesReport in '..\module\cashier_supv\ufrmDailySalesReport.pas' {frmDailySalesReport},
+  ufrmReprintNota in '..\module\cashier_supv\ufrmReprintNota.pas' {frmReprintNota},
+  ufrmPurchaseOrder in '..\module\po\ufrmPurchaseOrder.pas' {frmPurchaseOrder},
+  ufrmWorksheet in '..\module\cashier_supv\ufrmWorksheet.pas' {frmWorksheet},
+  ufrmPopupGrid in '..\system\ufrmPopupGrid.pas' {frmPopupGrid},
+  ufrmMaintenanceBarcode in '..\module\inventory\ufrmMaintenanceBarcode.pas' {frmMaintenanceBarcode},
+  ufrmHistoryPO in '..\module\merchandise\ufrmHistoryPO.pas' {frmHistoryPO},
+  ufrmSupplier in '..\module\merchandise\ufrmSupplier.pas' {frmSupplier},
+  ufrmDialogSupplier in '..\module\merchandise\ufrmDialogSupplier.pas' {frmDialogSupplier},
+  ufrmDayOfPO in '..\module\merchandise\ufrmDayOfPO.pas' {frmDayofPO},
+  ufrmListMembership in '..\module\customer_support\ufrmListMembership.pas' {frmListMembership};
 
 {$R *.res}
 

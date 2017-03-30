@@ -5,7 +5,6 @@ inherited frmSupplier: TfrmSupplier
   ClientHeight = 486
   ClientWidth = 803
   OldCreateOrder = True
-  ExplicitTop = -28
   ExplicitWidth = 819
   ExplicitHeight = 525
   PixelsPerInch = 96

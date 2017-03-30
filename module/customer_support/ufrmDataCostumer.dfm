@@ -1,221 +1,108 @@
 inherited frmDataCostumer: TfrmDataCostumer
-  Width = 567
-  Height = 419
   Caption = 'frmDataCostumer'
+  ClientHeight = 383
+  ClientWidth = 569
   OldCreateOrder = True
-  OnActivate = FormActivate
+  ExplicitWidth = 585
+  ExplicitHeight = 422
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 559
-    Height = 306
-    object strgGrid: TAdvStringGrid
-      Left = 11
-      Top = 11
-      Width = 537
-      Height = 284
-      Cursor = crDefault
-      Align = alClient
-      ColCount = 5
-      DefaultRowHeight = 21
-      DefaultDrawing = False
-      FixedCols = 0
-      RowCount = 2
-      FixedRows = 1
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      GridLineWidth = 1
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSelect]
-      ParentFont = False
-      ScrollBars = ssBoth
-      TabOrder = 0
-      GridLineColor = clSilver
-      ActiveCellShow = False
-      ActiveCellFont.Charset = DEFAULT_CHARSET
-      ActiveCellFont.Color = clWindowText
-      ActiveCellFont.Height = -11
-      ActiveCellFont.Name = 'Tahoma'
-      ActiveCellFont.Style = [fsBold]
-      ActiveCellColor = clGray
-      ActiveCellColorTo = clNone
-      Bands.Active = True
-      Bands.PrimaryColor = 14935011
-      Bands.PrimaryLength = 1
-      Bands.SecondaryColor = clWindow
-      Bands.SecondaryLength = 1
-      Bands.Print = False
-      AutoNumAlign = False
-      AutoSize = False
-      VAlignment = vtaTop
-      EnhTextSize = False
-      EnhRowColMove = True
-      SizeWithForm = False
-      Multilinecells = False
-      DragDropSettings.OleAcceptFiles = True
-      DragDropSettings.OleAcceptText = True
-      SortSettings.AutoColumnMerge = False
-      SortSettings.Column = 0
-      SortSettings.Show = False
-      SortSettings.IndexShow = False
-      SortSettings.IndexColor = clYellow
-      SortSettings.Full = True
-      SortSettings.SingleColumn = False
-      SortSettings.IgnoreBlanks = False
-      SortSettings.BlankPos = blFirst
-      SortSettings.AutoFormat = True
-      SortSettings.Direction = sdAscending
-      SortSettings.InitSortDirection = sdAscending
-      SortSettings.FixedCols = False
-      SortSettings.NormalCellsOnly = False
-      SortSettings.Row = 0
-      SortSettings.UndoSort = False
-      FloatingFooter.Color = clBtnFace
-      FloatingFooter.Column = 0
-      FloatingFooter.FooterStyle = fsFixedLastRow
-      FloatingFooter.Visible = False
-      ControlLook.Color = clBlack
-      ControlLook.CheckSize = 15
-      ControlLook.RadioSize = 10
-      ControlLook.ControlStyle = csWinXP
-      ControlLook.DropDownAlwaysVisible = False
-      ControlLook.ProgressMarginX = 2
-      ControlLook.ProgressMarginY = 2
-      EnableBlink = False
-      EnableHTML = True
-      EnableWheel = True
-      Flat = False
-      Look = glXP
-      HintColor = clInfoBk
-      SelectionColor = 15387318
-      SelectionTextColor = clBlack
-      SelectionRectangle = False
-      SelectionResizer = False
-      SelectionRTFKeep = False
-      HintShowCells = False
-      HintShowLargeText = False
-      HintShowSizing = False
-      PrintSettings.FooterSize = 0
-      PrintSettings.HeaderSize = 0
-      PrintSettings.Time = ppNone
-      PrintSettings.Date = ppNone
-      PrintSettings.DateFormat = 'dd/mm/yyyy'
-      PrintSettings.PageNr = ppNone
-      PrintSettings.Title = ppNone
-      PrintSettings.Font.Charset = DEFAULT_CHARSET
-      PrintSettings.Font.Color = clWindowText
-      PrintSettings.Font.Height = -11
-      PrintSettings.Font.Name = 'MS Sans Serif'
-      PrintSettings.Font.Style = []
-      PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-      PrintSettings.FixedFont.Color = clWindowText
-      PrintSettings.FixedFont.Height = -11
-      PrintSettings.FixedFont.Name = 'MS Sans Serif'
-      PrintSettings.FixedFont.Style = []
-      PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-      PrintSettings.HeaderFont.Color = clWindowText
-      PrintSettings.HeaderFont.Height = -11
-      PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-      PrintSettings.HeaderFont.Style = []
-      PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-      PrintSettings.FooterFont.Color = clWindowText
-      PrintSettings.FooterFont.Height = -11
-      PrintSettings.FooterFont.Name = 'MS Sans Serif'
-      PrintSettings.FooterFont.Style = []
-      PrintSettings.Borders = pbSingle
-      PrintSettings.BorderStyle = psSolid
-      PrintSettings.Centered = True
-      PrintSettings.RepeatFixedRows = False
-      PrintSettings.RepeatFixedCols = False
-      PrintSettings.LeftSize = 0
-      PrintSettings.RightSize = 0
-      PrintSettings.ColumnSpacing = 0
-      PrintSettings.RowSpacing = 0
-      PrintSettings.TitleSpacing = 0
-      PrintSettings.Orientation = poPortrait
-      PrintSettings.PageNumberOffset = 0
-      PrintSettings.MaxPagesOffset = 0
-      PrintSettings.FixedWidth = 0
-      PrintSettings.FixedHeight = 0
-      PrintSettings.UseFixedHeight = False
-      PrintSettings.UseFixedWidth = False
-      PrintSettings.FitToPage = fpNever
-      PrintSettings.PageNumSep = '/'
-      PrintSettings.NoAutoSize = False
-      PrintSettings.NoAutoSizeRow = False
-      PrintSettings.PrintGraphics = False
-      PrintSettings.UseDisplayFont = True
-      HTMLSettings.Width = 100
-      HTMLSettings.XHTML = False
-      Navigation.AdvanceDirection = adLeftRight
-      Navigation.InsertPosition = pInsertBefore
-      Navigation.HomeEndKey = heFirstLastColumn
-      Navigation.TabToNextAtEnd = False
-      Navigation.TabAdvanceDirection = adLeftRight
-      ColumnSize.Location = clRegistry
-      CellNode.Color = clSilver
-      CellNode.ExpandOne = False
-      CellNode.NodeColor = clBlack
-      CellNode.NodeIndent = 12
-      CellNode.ShowTree = True
-      CellNode.TreeColor = clSilver
-      MaxEditLength = 0
-      Grouping.HeaderColor = clNone
-      Grouping.HeaderColorTo = clNone
-      Grouping.HeaderTextColor = clNone
-      Grouping.MergeHeader = False
-      Grouping.MergeSummary = False
-      Grouping.Summary = False
-      Grouping.SummaryColor = clNone
-      Grouping.SummaryColorTo = clNone
-      Grouping.SummaryTextColor = clNone
-      IntelliPan = ipVertical
-      URLColor = clBlue
-      URLShow = False
-      URLFull = False
-      URLEdit = False
-      ScrollType = ssNormal
-      ScrollColor = clNone
-      ScrollWidth = 16
-      ScrollSynch = False
-      ScrollProportional = False
-      ScrollHints = shNone
-      OemConvert = False
-      FixedFooters = 0
-      FixedRightCols = 0
-      FixedColWidth = 64
-      FixedRowHeight = 21
-      FixedFont.Charset = DEFAULT_CHARSET
-      FixedFont.Color = clWindowText
-      FixedFont.Height = -11
-      FixedFont.Name = 'Tahoma'
-      FixedFont.Style = [fsBold]
-      FixedAsButtons = False
-      FloatFormat = '%.2f'
-      IntegralHeight = False
-      WordWrap = True
-      Lookup = False
-      LookupCaseSensitive = False
-      LookupHistory = False
-      BackGround.Top = 0
-      BackGround.Left = 0
-      BackGround.Display = bdTile
-      BackGround.Cells = bcNormal
-      Filter = <>
+    Width = 569
+    Height = 238
+    ExplicitWidth = 558
+    ExplicitHeight = 238
+    inherited pgcBrowse: TcxPageControl
+      Width = 547
+      Height = 216
+      ExplicitWidth = 536
+      ExplicitHeight = 216
+      ClientRectBottom = 215
+      ClientRectRight = 546
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 534
+        ExplicitHeight = 214
+        inherited cxGrid: TcxGrid
+          Width = 545
+          Height = 214
+          ExplicitWidth = 534
+          ExplicitHeight = 214
+        end
+      end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 559
+    Width = 569
+    ExplicitWidth = 569
+    inherited lblFilterData: TcxLabel
+      Left = 215
+      ExplicitLeft = 215
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 276
+      ExplicitLeft = 265
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 392
+      ExplicitLeft = 381
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 487
+      ExplicitLeft = 476
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 368
+      ExplicitLeft = 368
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 327
+    Width = 569
+    TabOrder = 3
+    ExplicitTop = 327
+    ExplicitWidth = 558
+    inherited pnlFooter: TPanel
+      Width = 569
+      ExplicitWidth = 558
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 492
+        Action = actClose
+        ExplicitLeft = 481
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
+    end
+    inherited pnlShortCut: TPanel
+      Width = 569
+      ExplicitWidth = 558
+      inherited lbEscape: TLabel
+        Left = 495
+        ExplicitLeft = 495
+      end
+    end
+  end
+  inline fraFooter5Button1: TfraFooter5Button [3]
     Left = 0
-    Top = 336
-    Width = 559
+    Top = 271
+    Width = 569
     Height = 56
     Align = alBottom
-    AutoScroll = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -223,29 +110,43 @@ inherited frmDataCostumer: TfrmDataCostumer
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 271
+    ExplicitWidth = 558
     inherited pnlFooter: TPanel
-      Width = 559
-      inherited btnClose: TsuiButton
-        Left = 477
+      Width = 569
+      ExplicitWidth = 558
+      inherited btnClose: TcxButton
+        Left = 487
+        ExplicitLeft = 476
       end
-      inherited btnAdd: TsuiButton
+      inherited btnAdd: TcxButton
         Action = actAddDataCostumer
       end
-      inherited btnUpdate: TsuiButton
+      inherited btnUpdate: TcxButton
         Action = actEditDataCostumer
       end
-      inherited btnDelete: TsuiButton
+      inherited btnDelete: TcxButton
         Action = actDeleteDataCostumer
       end
-      inherited btnRefresh: TsuiButton
+      inherited btnRefresh: TcxButton
         Action = actRefreshDataCostumer
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 559
+      Width = 569
+      ExplicitWidth = 558
       inherited lbl5: TLabel
-        Left = 469
+        Left = 479
+        ExplicitLeft = 469
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
   object actlstInputSupplierForNotSO: TActionList
@@ -253,19 +154,15 @@ inherited frmDataCostumer: TfrmDataCostumer
     Top = 38
     object actAddDataCostumer: TAction
       Caption = 'A&dd'
-      OnExecute = actAddDataCostumerExecute
     end
     object actEditDataCostumer: TAction
       Caption = '&Edit'
-      OnExecute = actEditDataCostumerExecute
     end
     object actDeleteDataCostumer: TAction
       Caption = 'Delete'
-      OnExecute = actDeleteDataCostumerExecute
     end
     object actRefreshDataCostumer: TAction
       Caption = 'Refresh'
-      OnExecute = actRefreshDataCostumerExecute
     end
   end
 end

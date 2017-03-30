@@ -96,7 +96,6 @@ begin
   inherited;
   lblHeader.Caption := 'CREDIT CARD AND DISCOUNT';
 
-//  FSetAdvGrid := TSetAdvGrid.CreateWithAdvGrd(Self, AdvStrGrid);
 //  FCC := TCreditCard.CreateWithUser(Self, FLoginId);
   iY := 1;
   ParseDataGrid();
