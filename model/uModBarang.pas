@@ -86,6 +86,7 @@ type
     FBRG_IS_VALIDATE: Integer;
     FBRG_LASTCOST: Double;
     FBRG_LENGTH: string;
+    FBRG_NAME_PURCHASE: String;
     FBRG_NILAI_RAFAKSI: Double;
     FBRG_PKM_AVERAGE: String;
     FBRG_QTY_RAFAKSI: Double;
@@ -136,6 +137,8 @@ type
     property BRG_IS_VALIDATE: Integer read FBRG_IS_VALIDATE write FBRG_IS_VALIDATE;
     property BRG_LASTCOST: Double read FBRG_LASTCOST write FBRG_LASTCOST;
     property BRG_LENGTH: string read FBRG_LENGTH write FBRG_LENGTH;
+    property BRG_NAME_PURCHASE: String read FBRG_NAME_PURCHASE write
+        FBRG_NAME_PURCHASE;
     property BRG_NILAI_RAFAKSI: Double read FBRG_NILAI_RAFAKSI write
         FBRG_NILAI_RAFAKSI;
     property BRG_PKM_AVERAGE: String read FBRG_PKM_AVERAGE write FBRG_PKM_AVERAGE;

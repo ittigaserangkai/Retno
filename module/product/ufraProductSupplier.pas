@@ -345,7 +345,7 @@ begin
 
   lblAdd.Enabled := pnlAddEdit.Enabled;
   lblEdit.Enabled := pnlAddEdit.Enabled;
-  lblDelete.Enabled := pnlAddEdit.Enabled;    
+  lblDelete.Enabled := pnlAddEdit.Enabled;
   FisIptPurchase := True;
 end;
 
@@ -365,7 +365,6 @@ begin
 end;
 
 procedure TfraProductSupplier.lblAddClick(Sender: TObject);
-
 begin
   actAddExecute(nil);
 end;
@@ -373,8 +372,6 @@ end;
 procedure TfraProductSupplier.lblEditClick(Sender: TObject);
 begin
   actEditExecute(nil);
-
-
 end;
 
 procedure TfraProductSupplier.strgGridRowChanging(Sender: TObject; OldRow,
