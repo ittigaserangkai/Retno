@@ -37,8 +37,11 @@ uses
   uModMataUang in '..\model\uModMataUang.pas',
   uModTipeBonus in '..\model\uModTipeBonus.pas',
   uServerDSProvider in 'unit\uServerDSProvider.pas',
+  uModDocument in '..\model\uModDocument.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
+  uModTipePo in '..\model\uModTipePo.pas',
   uModRefPajak in '..\model\uModRefPajak.pas';
+  uModAgama in '..\model\uModAgama.pas';
 
 {$R *.res}
 

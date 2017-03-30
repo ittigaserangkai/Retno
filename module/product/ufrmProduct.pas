@@ -247,6 +247,7 @@ begin
   inherited;
   lblHeader.Caption := 'PRODUCT MASTER';
   Self.AutoRefreshData := True;
+  pgcBrowse.ActivePage := tsBrowse;
 end;
 
 procedure TfrmProduct.GetStockUOMRP;

@@ -9,6 +9,8 @@ inherited frmDialogCompany: TfrmDialogCompany
   inherited pnlBody: TPanel
     Width = 386
     Height = 125
+    ExplicitWidth = 386
+    ExplicitHeight = 125
     object lblCode: TLabel
       Left = 16
       Top = 16
@@ -26,6 +28,7 @@ inherited frmDialogCompany: TfrmDialogCompany
       Caption = 'Name'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 54
       Top = 14
       Width = 113
@@ -37,6 +40,7 @@ inherited frmDialogCompany: TfrmDialogCompany
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 54
       Top = 44
       Width = 267
@@ -51,50 +55,62 @@ inherited frmDialogCompany: TfrmDialogCompany
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 125
     Width = 386
+    ExplicitTop = 125
+    ExplicitWidth = 386
     inherited pnlFooter: TPanel
       Width = 386
+      ExplicitWidth = 386
       inherited btnClose: TcxButton
         Left = 309
         Action = actCancel
+        ExplicitLeft = 309
       end
       inherited btnSave: TcxButton
         Left = 216
         Action = actSave
+        ExplicitLeft = 216
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 139
+        ExplicitLeft = 139
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 386
+      ExplicitWidth = 386
       inherited lbCTRLEnter: TLabel
         Left = 211
         Height = 15
+        ExplicitLeft = 211
       end
       inherited lbEscape: TLabel
         Left = 302
         Height = 15
+        ExplicitLeft = 302
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
+      inherited lblCTRLP: TLabel
+        Left = 135
+        ExplicitLeft = 135
+      end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Images = DMClient.imgListButton
     Left = 464
     Top = 24
     inherited actDelete: TAction
-      ImageIndex = 8
       OnExecute = actDeleteExecute
     end
     inherited actSave: TAction
-      ImageIndex = 32
       OnExecute = actSaveExecute
     end
     inherited actCancel: TAction
       Caption = 'Cancel'
-      ImageIndex = 4
     end
   end
 end

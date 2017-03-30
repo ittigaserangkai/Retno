@@ -170,9 +170,9 @@ begin
   UnitStore.COMPANY             := TModCompany.CreateID(cbbCompany.EditValue);
   UnitStore.AUTAPP              := TModAutApp.CreateID(cbbAppType.EditValue);
 
-  UnitStore.UNT_IS_HO           := TAppUtils.BoolToInt(UnitStore.UNT_IS_HO = 1);
-  UnitStore.UNT_IS_STORE        := TAppUtils.BoolToInt(UnitStore.UNT_IS_STORE = 1);
-  UnitStore.UNT_IS_WH           := TAppUtils.BoolToInt(UnitStore.UNT_IS_WH = 1);
+  UnitStore.UNT_IS_HO           := TAppUtils.BoolToInt(rgTipeUnit.ItemIndex = 0);
+  UnitStore.UNT_IS_STORE        := TAppUtils.BoolToInt(rgTipeUnit.ItemIndex = 1);
+  UnitStore.UNT_IS_WH           := TAppUtils.BoolToInt(rgTipeUnit.ItemIndex = 2);
 
   UnitStore.UNT_ADR             := edAddress.Text;
   UnitStore.UNT_ZIP             := edZIP.Text;

@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls;
+  Dialogs, ufrmMasterDialog, ExtCtrls, StdCtrls, System.Actions, Vcl.ActnList,
+  ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -20,6 +20,7 @@ type
     edtPhone: TEdit;
     Label1: TLabel;
     edtCode: TEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -49,9 +50,30 @@ var
 
 implementation
 
-uses uConn, uDataCustomer,  uGTSUICommonDlg;
+uses DB, uTSCommonDlg;
 
 {$R *.dfm}
+
+procedure TfrmDialogDataCostumer.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  {
+  if strgGrid.Cells[5,strgGrid.Row]='' then Exit;
+  if (CommonDlg.Confirm('Are you sure you wish to delete Data Customer (Customer Name: '+ strgGrid.Cells[1,strgGrid.Row] +')?') = mrNo) then
+    Exit;
+  SetLength(arr,1);
+  arr[0].tipe:= ptInteger;
+  arr[0].data:= strgGrid.Cells[5,strgGrid.Row];
+  if not assigned(DataCustomer) then
+    DataCustomer := TDataCustomer.Create;
+  if DataCustomer.DeleteDataCustomer(arr) then
+  begin
+    actRefreshDataCostumerExecute(Self);
+    CommonDlg.ShowConfirmSuccessfull(atDelete);
+  end;
+  strgGrid.SetFocus;
+  }
+end;
 
 procedure TfrmDialogDataCostumer.SetFormMode(const Value: TFormMode);
 begin
@@ -83,12 +105,13 @@ begin
 end;
 
 procedure TfrmDialogDataCostumer.showDataEdit(Id: Integer);
-var data: TResultDataSet;
-    arr: TArr;
+var data: TDataSet;
+//    arr: TArr;
 begin
-  SetLength(arr,1);
+  {SetLength(arr,1);
   arr[0].tipe:= ptInteger;
   arr[0].data:= Id;
+
   if not assigned(DataCustomer) then
     DataCustomer := TDataCustomer.Create;
   data:= DataCustomer.GetListCustomer(arr);
@@ -97,6 +120,7 @@ begin
   edtAddress.Text:= data.fieldbyname('CUSTV_ADDRESS').AsString;
   edtPhone.Text:= data.fieldbyname('CUSTV_TELP').AsString;
   edtContact.Text:= data.fieldbyname('CUSTV_CONTACT_PERSON').AsString;
+  }
 end;
 
 procedure TfrmDialogDataCostumer.prepareAddData;
@@ -119,9 +143,9 @@ begin
 end;
 
 function TfrmDialogDataCostumer.SaveData: boolean;
-var arrParam: TArr;
+//var arrParam: TArr;
 begin
-  if not assigned(DataCustomer) then
+  {if not assigned(DataCustomer) then
     DataCustomer := TDataCustomer.Create;
   SetLength(arrParam,6);
   arrParam[0].tipe := ptString;
@@ -141,11 +165,13 @@ begin
   except
     Result:= False;
   end;
+  }
 end;
 
 function TfrmDialogDataCostumer.UpdateData: boolean;
-var arrParam: TArr;
+//var arrParam: TArr;
 begin
+  {
   if not assigned(DataCustomer) then
     DataCustomer := TDataCustomer.Create;
   SetLength(arrParam,7);
@@ -168,6 +194,7 @@ begin
   except
     Result:= False;
   end;
+  }
 end;
 
 procedure TfrmDialogDataCostumer.footerDialogMasterbtnSaveClick(

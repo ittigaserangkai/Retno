@@ -80,7 +80,7 @@ inherited frmDialogFinalPayment: TfrmDialogFinalPayment
     object edtClock: TcxTimeEdit
       Left = 96
       Top = 6
-      EditValue = 0
+      EditValue = 0d
       TabOrder = 3
       Width = 81
     end

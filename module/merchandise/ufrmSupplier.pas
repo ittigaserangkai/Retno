@@ -167,8 +167,7 @@ var
 
 implementation
 
-uses ufrmDayOfPO, ufrmOutstandingPO, uTSCommonDlg,
-  ufrmSearchSupplier, ufraHistoriPOByProduct;
+uses ufrmDayOfPO, uTSCommonDlg, ufrmSearchSupplier, ufraHistoriPOByProduct;
 
 {$R *.dfm}
 

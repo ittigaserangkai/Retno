@@ -97,6 +97,8 @@ inherited frmSatuan: TfrmSatuan
       ExplicitWidth = 542
       inherited btnClose: TcxButton
         Left = 460
+        ModalResult = 8
+        OnClick = fraFooter5Button1btnCloseClick
         ExplicitLeft = 460
       end
       inherited btnAdd: TcxButton
@@ -107,6 +109,8 @@ inherited frmSatuan: TfrmSatuan
       end
       inherited btnDelete: TcxButton
         Action = actDeleteSatuan
+        Caption = 'Export'
+        OptionsImage.ImageIndex = 34
       end
       inherited btnRefresh: TcxButton
         Action = actRefreshSatuan

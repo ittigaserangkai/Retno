@@ -49,27 +49,20 @@ end;
 procedure TfrmDialogCompany.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if edtCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('CODE');
-    edtCode.SetFocus;
+  if not ValidateEmptyCtrl([1]) then
     Exit;
-  end;
-  if edtName.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME');
-    edtName.SetFocus;
-    Exit;
-  end;
-
 
   if TAppUtils.ConfirmSimpan then
   begin
-    Company.COMP_CODE := edtCode.Text;
-    Company.COMP_NAME := edtName.Text;
+    try
+      Company.COMP_CODE := edtCode.Text;
+      Company.COMP_NAME := edtName.Text;
 
-    if DMClient.CrudClient.SaveToDB(FCompany) then
-      ModalResult := mrOk;
+      if DMClient.CrudClient.SaveToDB(FCompany) then
+        ModalResult := mrOk;
+    except
+      raise;
+    end;
 
 
   end;

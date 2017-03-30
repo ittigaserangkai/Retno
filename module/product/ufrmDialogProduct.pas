@@ -9,7 +9,8 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxCurrencyEdit, cxCheckBox, ufraFooterDialog3Button, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxSpinEdit, cxGroupBox, uModBank, uModBarang, uInterface;
+  cxSpinEdit, cxGroupBox, uModBank, uModBarang, uInterface, dxBarBuiltInMenu,
+  cxPC;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -45,6 +46,7 @@ type
     cbStock: TcxComboBox;
     cxLookupTipeBarang: TcxExtLookupComboBox;
     cxLookupSatuan: TcxExtLookupComboBox;
+    cxLookupSatPurchase: TcxExtLookupComboBox;
     cxLookupOutlet: TcxExtLookupComboBox;
     cxLookupLocation: TcxExtLookupComboBox;
     cxLookupJenisPajak: TcxExtLookupComboBox;
@@ -64,7 +66,6 @@ type
     lbPLUPurchase: TLabel;
     edtPLUPurchase: TcxTextEdit;
     edtProductPurchase: TcxTextEdit;
-    cxExtLookupComboBox1: TcxExtLookupComboBox;
     lbUOMPurchase: TLabel;
     cxGroupBox2: TcxGroupBox;
     lbPKMAvg: TLabel;
@@ -84,6 +85,10 @@ type
     chkIsBasic: TcxCheckBox;
     chkIsGalon: TcxCheckBox;
     edtSSBARANG: TcxSpinEdit;
+    pgcMain: TcxPageControl;
+    tsInfo: TcxTabSheet;
+    tsSupplier: TcxTabSheet;
+    tsSellingPrice: TcxTabSheet;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -247,6 +252,8 @@ begin
       'REF$TIPE_BARANG_ID', 'TPBRG_NAME', ['REF$TIPE_BARANG_ID'], Self );
     cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,
       'ref$satuan_id', 'SAT_NAME', ['ref$satuan_id'], Self);
+    cxLookupSatPurchase.LoadFromDS(Satuan_GetDSLookup,
+      'ref$satuan_id', 'SAT_NAME', ['ref$satuan_id'], Self);
     cxLookupOutlet.LoadFromDS(Outlet_GetDSLookup,
       'REF$OUTLET_ID', 'OUTLET_NAME', ['REF$OUTLET_ID'], Self);
     cxLookupMerchan.LoadFromDS(Merchandise_GetDSLookup,
@@ -292,23 +299,26 @@ end;
 
 procedure TfrmDialogProduct.UpdateData;
 begin
-  ModBarang.BRG_CODE          := edtProductCode.Text;
-  ModBarang.BRG_NAME          := edtProductName.Text;
-  ModBarang.BRG_CATALOG       := edtCatalog.Text;
-  ModBarang.BRG_ALIAS         := edtShortName.Text;
-  ModBarang.Merk              := TModMerk.CreateID(cxLookupMerk.EditValue);
+  ModBarang.BRG_CODE            := edtProductCode.Text;
+  ModBarang.BRG_NAME            := edtProductName.Text;
+  ModBarang.BRG_CODE_PURCHASE   := edtPLUPurchase.Text;
+  ModBarang.BRG_NAME_PURCHASE   := edtProductPurchase.Text;
+  ModBarang.BRG_CATALOG         := edtCatalog.Text;
+  ModBarang.BRG_ALIAS           := edtShortName.Text;
+  ModBarang.Merk                := TModMerk.CreateID(cxLookupMerk.EditValue);
 
-  ModBarang.SAFETY_STOCK      := edtSSBARANG.Value;
-  ModBarang.TipeBarang        := TModTipeBarang.CreateID(cxLookupTipeBarang.EditValue);
-  ModBarang.SATUAN_STOCK      := TModSatuan.CreateID(cxLookupSatuan.EditValue);
-  ModBarang.Outlet            := TModOutlet.CreateID(cxLookupOutlet.EditValue);
-  ModBarang.Lokasi            := TModlokasi.CreateID(cxLookupLocation.EditValue);
-  ModBarang.Merchandise       := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
-  ModBarang.MerchandiseGroup  := TModMerchandiseGroup.CreateID(cxLookupMerchanGroup.EditValue);
-  ModBarang.Kategori          := TModKategori.CreateID(cxLookupKategori.EditValue);
-  ModBarang.RefPajak          := TModRefPajak.CreateID(cxLookupJenisPajak.EditValue);
-  ModBarang.BRG_IS_CS         := TAppUtils.BoolToInt(cbStock.ItemIndex=1);
-  ModBarang.BRG_IS_STOCK      := TAppUtils.BoolToInt(cbStock.ItemIndex=0);
+  ModBarang.SAFETY_STOCK        := edtSSBARANG.Value;
+  ModBarang.TipeBarang          := TModTipeBarang.CreateID(cxLookupTipeBarang.EditValue);
+  ModBarang.SATUAN_STOCK        := TModSatuan.CreateID(cxLookupSatuan.EditValue);
+  ModBarang.SATUAN_PURCHASE     := TModSatuan.CreateID(cxLookupSatPurchase.EditValue);
+  ModBarang.Outlet              := TModOutlet.CreateID(cxLookupOutlet.EditValue);
+  ModBarang.Lokasi              := TModlokasi.CreateID(cxLookupLocation.EditValue);
+  ModBarang.Merchandise         := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
+  ModBarang.MerchandiseGroup    := TModMerchandiseGroup.CreateID(cxLookupMerchanGroup.EditValue);
+  ModBarang.Kategori            := TModKategori.CreateID(cxLookupKategori.EditValue);
+  ModBarang.RefPajak            := TModRefPajak.CreateID(cxLookupJenisPajak.EditValue);
+  ModBarang.BRG_IS_CS           := TAppUtils.BoolToInt(cbStock.ItemIndex=1);
+  ModBarang.BRG_IS_STOCK        := TAppUtils.BoolToInt(cbStock.ItemIndex=0);
 
   ModBarang.BRG_IS_ACTIVE       := TAppUtils.BoolToInt(cbActive.Checked);
   ModBarang.BRG_IS_BASIC        := TAppUtils.BoolToInt(chkIsBasic.Checked);
@@ -328,12 +338,15 @@ begin
   FModBarang := DMClient.CrudClient.Retrieve(TModBarang.ClassName, aID) as TModBarang;
   edtProductCode.Text             := ModBarang.BRG_CODE;
   edtProductName.Text             := ModBarang.BRG_NAME;
+  edtPLUPurchase.Text             := ModBarang.BRG_CODE_PURCHASE;
+  edtProductPurchase.Text         := ModBarang.BRG_NAME_PURCHASE;
   edtCatalog.Text                 := ModBarang.BRG_CATALOG;
   edtShortName.Text               := ModBarang.BRG_ALIAS;
   edtSSBARANG.Value               := ModBarang.SAFETY_STOCK;
   cxLookupMerk.EditValue          := ModBarang.Merk.ID;
   cxLookupTipeBarang.EditValue    := ModBarang.TipeBarang.ID;
   cxLookupSatuan.EditValue        := ModBarang.SATUAN_STOCK.ID;
+  cxLookupSatPurchase.EditValue   := ModBarang.SATUAN_PURCHASE.ID;
   cxLookupOutlet.EditValue        := ModBarang.Outlet.ID;
   cxLookupLocation.EditValue      := ModBarang.Lokasi.ID;
   cxLookupMerchan.EditValue       := ModBarang.Merchandise.ID;

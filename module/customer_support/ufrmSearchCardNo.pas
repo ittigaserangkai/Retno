@@ -4,18 +4,20 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  Grids, BaseGrid, AdvGrid, SUIButton, StdCtrls, uConn;
+  Dialogs, ufrmMasterDialogBrowse, ExtCtrls,
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, Vcl.Menus,
+  cxButtons, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, Vcl.StdCtrls;
 
 type
   TModul = (tmMutasiStock, tmCardNoIGRA, tmReturDmg, tmReturRep, tmDoForReplace, tmWastageDmg, tmWastageObrl, tmNull);
-  TfrmDialogSearchCardNo = class(TfrmMasterDialog)
+  TfrmDialogSearchCardNo = class(TfrmMasterDialogBrowse)
     pnl1: TPanel;
     lbl2: TLabel;
     edtCardNoName: TEdit;
-    btnSearch: TsuiButton;
-    pnl2: TPanel;
-    strgGrid: TAdvStringGrid;
+    btnSearch: TcxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -26,10 +28,6 @@ type
     procedure edtCardNoNameKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure strgGridDblClickCell(Sender: TObject; ARow, ACol: Integer);
-    procedure footerDialogMasterbtnSaveExit(Sender: TObject);
-    procedure footerDialogMasterbtnCloseExit(Sender: TObject);
-    procedure footerDialogMasterbtnSaveEnter(Sender: TObject);
-    procedure footerDialogMasterbtnCloseEnter(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     procedure SetIsProcessSuccessfull(const Value: boolean);
@@ -48,8 +46,6 @@ var
 
 implementation
 
-uses uSearchCardNo, suithemes;
-
 {$R *.dfm}
 
 procedure TfrmDialogSearchCardNo.FormClose(Sender: TObject;
@@ -66,14 +62,12 @@ begin
 end;
 
 procedure TfrmDialogSearchCardNo.FormShow(Sender: TObject);
-var dataBarang: TResultDataSet;
+var dataBarang: TDataSet;
     i, countData: integer;
-    arrParam: TArr;
 begin
-  SetLength(arrParam,1);
+  {SetLength(arrParam,1);
   arrParam[0].tipe := ptInteger;
   arrParam[0].data := untID;
-  dataBarang := SearchCardNo.GetListCardNoAll(arrParam);
   countData := dataBarang.RecordCount;
 
   with strgGrid do
@@ -108,6 +102,7 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
 procedure TfrmDialogSearchCardNo.SetIsProcessSuccessfull(
@@ -119,7 +114,7 @@ end;
 procedure TfrmDialogSearchCardNo.footerDialogMasterbtnSaveClick(
   Sender: TObject);
 begin
-  CardNoName := strgGrid.Cells[0,strgGrid.Row];
+//  CardNoName := strgGrid.Cells[0,strgGrid.Row];
   IsProcessSuccessfull := True;
   Close;
 end;
@@ -128,7 +123,7 @@ procedure TfrmDialogSearchCardNo.FindDataOnGrid(AText: String);
 var
   resPoint: TPoint;
 begin
-  if (AText <> '') then
+  {if (AText <> '') then
   begin
     resPoint := strgGrid.Find(Point(0,0),AText,[fnIncludeFixed]);
     if (resPoint.Y <> -1) then
@@ -137,6 +132,7 @@ begin
       strgGrid.SelectRows(resPoint.Y, 1);
     end;
   end;
+  }
 end;
 
 procedure TfrmDialogSearchCardNo.edtCardNoNameChange(Sender: TObject);
@@ -149,7 +145,7 @@ procedure TfrmDialogSearchCardNo.strgGridKeyDown(Sender: TObject;
 begin
   {add by didit: 19112007}
   if (Key = VK_UP) then
-    if (strgGrid.Row = 1) then
+//    if (strgGrid.Row = 1) then
     begin
       edtCardNoName.SetFocus;
       edtCardNoName.SelectAll;
@@ -162,9 +158,8 @@ end;
 procedure TfrmDialogSearchCardNo.edtCardNoNameKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin         
-  {add by didit: 19112007}
   if (Key=VK_Down) then
-    strgGrid.SetFocus;
+    cxGrid.SetFocus;
 end;
 
 procedure TfrmDialogSearchCardNo.strgGridDblClickCell(Sender: TObject;
@@ -172,34 +167,6 @@ procedure TfrmDialogSearchCardNo.strgGridDblClickCell(Sender: TObject;
 begin
   inherited;
   footerDialogMasterbtnSaveClick(Sender);
-end;
-
-procedure TfrmDialogSearchCardNo.footerDialogMasterbtnSaveExit(
-  Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmDialogSearchCardNo.footerDialogMasterbtnCloseExit(
-  Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmDialogSearchCardNo.footerDialogMasterbtnSaveEnter(
-  Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmDialogSearchCardNo.footerDialogMasterbtnCloseEnter(
-  Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
 end;
 
 end.

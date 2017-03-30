@@ -4,19 +4,21 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter1Button, Grids,
-  BaseGrid, AdvGrid, ufraFooter5Button, ActnList, uConn, SUIButton, Mask,
-  JvToolEdit, JvLabel, JvEdit, AdvEdit, AdvEdBtn, uNewMemberActivation,
-  AsgFindDialog, JvExStdCtrls, JvValidateEdit, JvExMask, AdvObj, JvExControls;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ActnList, Mask,
+  System.Actions, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
+  Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, cxButtonEdit, cxCurrencyEdit,
+  ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
 
 type
-  TfrmMemberActivation = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmMemberActivation = class(TfrmMasterBrowse)
     pnl1: TPanel;
-    strgGrid: TAdvStringGrid;
     actlst1: TActionList;
-    lblCheckAll: TJvLabel;
-    lblClearAll: TJvLabel;
+    lblCheckAll: TcxLabel;
+    lblClearAll: TcxLabel;
     actMemberActivation: TAction;
     pnl4: TPanel;
     lbl5: TLabel;
@@ -25,32 +27,29 @@ type
     lbl14: TLabel;
     lbl15: TLabel;
     edtDocStatus: TEdit;
-    dtValidFrom: TJvDateEdit;
-    dtValidTo: TJvDateEdit;
-    dtRegister: TJvDateEdit;
+    dtValidFrom: TcxDateEdit;
+    dtValidTo: TcxDateEdit;
+    dtRegister: TcxDateEdit;
     edtPrintedStatus: TEdit;
     edtCompName: TEdit;
     pnl2: TPanel;
-    pnl3: TPanel;
-    btnShow: TsuiButton;
     lbl17: TLabel;
     lbl2: TLabel;
-    edtMemberCardFee: TJvValidateEdit;
+    edtMemberCardFee: TcxCurrencyEdit;
     rbByMember: TRadioButton;
     rbBySelected: TRadioButton;
-    edtCardNo: TAdvEditBtn;
-    edCompany: TAdvEditBtn;
-    grdFindMember: TAdvGridFindDialog;
+    edtCardNo: TcxButtonEdit;
+    edCompany: TcxButtonEdit;
     mmo1: TMemo;
+    procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure actMemberActivationExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure lblCheckAllClick(Sender: TObject);
     procedure lblClearAllClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure btnShowClick(Sender: TObject);
     procedure strgGridRowChanging(Sender: TObject; OldRow, NewRow: Integer;
       var Allow: Boolean);
     procedure FormShow(Sender: TObject);
@@ -62,15 +61,9 @@ type
     procedure edtCardNoExit(Sender: TObject);
     procedure edCompanyEnter(Sender: TObject);
     procedure edCompanyExit(Sender: TObject);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
     procedure edCompanyClickBtn(Sender: TObject);
-    procedure strgGridGetCellColor(Sender: TObject; ARow, ACol: Integer;
-      AState: TGridDrawState; ABrush: TBrush; AFont: TFont);
-    procedure btnShowEnter(Sender: TObject);
-    procedure btnShowExit(Sender: TObject);
   private
-    dataMemberActivate: TResultDataSet;
+    dataMemberActivate: TDataSet;
     FJmlBulanValid: Integer;
     untID : Integer;
 //    FMemberGrupID: Integer;
@@ -92,10 +85,140 @@ var
 
 implementation
 
-uses uGTSUICommonDlg, uMemberActivation, uConstanta, 
-  ufrmSearchCardNo, suithemes, uMemberShip, uRMSUnit, uNewMembership, DateUtils, DB;
+uses uTSCommonDlg, uConstanta, ufrmSearchCardNo, DateUtils;
 
 {$R *.dfm}
+{
+// isi kolom grid
+ID CARD NO.
+MEMBER NAME
+CARD TYPE
+TYPE MEMBER
+STATUS
+}
+
+procedure TfrmMemberActivation.actAddExecute(Sender: TObject);
+var
+  chkStatue{,ActiveStatue1,ActiveStatue2}: Boolean;
+	iIsAktivasi: SmallInt;
+	iIsReaktivasi: SmallInt;
+	dFeeReaktivasi: Double;
+	dFeeAktivasi: Double;
+  IsProcessSuccessfull: Boolean;
+  intI: Integer;
+  MemberID: Integer;
+  sPesan : String;
+  found : Boolean;
+begin
+  inherited;
+  sPesan := '';
+  if dtValidFrom.Date < EncodeDate(2000,12,1) then
+  begin
+    CommonDlg.ShowError('Date Valid From ' + ER_EMPTY);
+    dtValidFrom.SetFocus;
+    Exit;
+  end;
+
+  if dtValidTo.Date < EncodeDate(2000,12,1) then
+  begin
+    CommonDlg.ShowError('Date Valid To ' + ER_EMPTY);
+    dtValidTo.SetFocus;
+    Exit;
+  end;
+  {
+  if not IsValidDateKarenaEOD(masternewunit.id,cGetServerTime,FMasterIsStore) then
+    Exit;
+
+  if not Assigned(MemberActivation) then MemberActivation := TMemberActivation.Create;
+  IsProcessSuccessfull := False;
+
+  found := False;
+  for intI := strgGrid.FixedRows to strgGrid.RowCount-1 do
+  begin
+    strgGrid.GetCheckBoxState(0,strgGrid.Row,chkStatue);
+    if chkStatue then
+      found := True;
+  end;
+  if not found then
+  begin
+    CommonDlg.ShowError('Tidak ada Member Yang dipilih (check)');
+    exit;
+  end;
+
+  if strgGrid.RowCount > 1 then
+  for intI := 1 to strgGrid.RowCount - 1 do
+  begin
+    if strgGrid.Cells[1,intI] = '' then Continue;
+    if Trim(strgGrid.Cells[5,intI]) = 'ACTIVE' then
+    begin
+      sPesan :=  sPesan + #13 + 'Status Member : ' + strgGrid.Cells[2,intI] + ' sudah Aktif';
+      Continue;
+    end;
+
+    strgGrid.SelectRows(intI,1);
+    strgGrid.GetCheckBoxState(0,strgGrid.Row,chkStatue);
+    MemberID := StrToInt(strgGrid.Cells[6,intI]);
+
+    if chkStatue then
+    begin
+      with TNewMemberActivation.CreateWithUser(Self,FLoginId,masternewunit.id) do
+      begin
+        try
+					dFeeAktivasi := 0;
+          dFeeReaktivasi := 0;
+          iIsReaktivasi := 0;
+          iIsAktivasi := 0;
+          if strgGrid.Cells[14,intI] = '1' then
+          begin
+            dFeeReaktivasi := StrToFloat(strgGrid.Cells[12,intI]);
+            iIsReaktivasi := 1;
+          end
+          else
+          begin
+            dFeeAktivasi := StrToFloat(strgGrid.Cells[12,intI]);
+            iIsAktivasi := 1;
+          end;
+
+          UpdateData(dFeeAktivasi,
+          	dFeeReaktivasi,
+            0,
+            iIsAktivasi,
+            StrToInt(strgGrid.Cells[13,intI]),
+            iIsReaktivasi,
+            MemberID,
+            masternewunit.id,
+            dtValidFrom.Date,
+            dtValidTo.Date);
+
+          if SaveToDB then
+          begin
+          	IsProcessSuccessfull := Member.SetActiveAndValidSaveToDB;
+          end;
+        finally
+          Free;
+        end;
+      end;
+
+    end;
+  end; // for to do
+
+  if IsProcessSuccessfull then
+  begin
+    cCommitTrans;
+    CommonDlg.ShowConfirmGlobal('Berhasil Menyimpan Data');
+	  ClearFormComponent;
+  end
+  else
+  begin
+    cRollbackTrans;
+    if sPesan <> '' then
+      CommonDlg.ShowError('Gagal Menyimpan Data' +sPesan)
+    else
+      CommonDlg.ShowError('Gagal Menyimpan Data' )
+  end;}
+
+end;
+
 
 procedure TfrmMemberActivation.FormClose(Sender: TObject;
   var Action: TCloseAction);
@@ -114,7 +237,7 @@ begin
   untID := arrVar[0];
   }
 
-  untID := masternewunit.id;
+  untID := masternewunit;
   lblHeader.Caption := 'MEMBER ACTIVATION';
 end;
 
@@ -127,10 +250,8 @@ end;
 procedure TfrmMemberActivation.ParseDataGrid;
 var intI: Integer;
   sSQL: string;
-//    arrParam: TArr;
-//    tempBool: Boolean;
 begin
-  if not Assigned(MemberActivation) then MemberActivation := TMemberActivation.Create;
+  {if not Assigned(MemberActivation) then MemberActivation := TMemberActivation.Create;
 
   if rbByMember.Checked then
   begin
@@ -198,19 +319,7 @@ begin
       with strgGrid do
       begin
         AddCheckBox(0,intI,False,False);
-        {
-        if (dataMemberActivate.FieldByName('MEMBER_IS_ACTIVE').AsInteger = 1)
-        and (dataMemberActivate.FieldByName('MEMBER_IS_VALID').AsInteger = 0) then
-        begin
-          tempCanEdit := True;
-          strgGrid.OnCanEditCell(Self,intI,0,tempBool);
-        end
-        else
-        begin
-          tempCanEdit := False;
-          strgGrid.OnCanEditCell(Self,intI,0,tempBool);
-        end;
-        }
+
         tempCanEdit := True;
         
         Cells[1,intI] := dataMemberActivate.FieldByName('MEMBER_CARD_NO').AsString;
@@ -275,10 +384,12 @@ begin
   strgGrid.AutoSize := true;
   strgGrid.FixedRows := 1;
   strgGrid.AutoSizeColumns(True, 5);
+  }
 end;
 
 procedure TfrmMemberActivation.ParseHeaderGrid(jmlData: Integer);
 begin
+  {
   with strgGrid do
   begin
     Clear;
@@ -313,194 +424,20 @@ begin
     FixedRows := 1;
     AutoSize := true;
   end;
+  }
 end;
 
-procedure TfrmMemberActivation.actMemberActivationExecute(Sender: TObject);
-var
-  chkStatue{,ActiveStatue1,ActiveStatue2}: Boolean;
-	iIsAktivasi: SmallInt;
-	iIsReaktivasi: SmallInt;
-	dFeeReaktivasi: Double;
-	dFeeAktivasi: Double;
-  IsProcessSuccessfull: Boolean;
-  intI: Integer;
-  MemberID: Integer;
-  sPesan : String;
-  found : Boolean;
+procedure TfrmMemberActivation.actRefreshExecute(Sender: TObject);
 begin
-  sPesan := '';
-  if dtValidFrom.Date < EncodeDate(2000,12,1) then
-  begin
-    CommonDlg.ShowError('Date Valid From ' + ER_EMPTY);
-    dtValidFrom.SetFocus;
-    Exit;
-  end;
-
-  if dtValidTo.Date < EncodeDate(2000,12,1) then
-  begin
-    CommonDlg.ShowError('Date Valid To ' + ER_EMPTY);
-    dtValidTo.SetFocus;
-    Exit;
-  end;
-
-  if not IsValidDateKarenaEOD(masternewunit.id,cGetServerTime,FMasterIsStore) then
-    Exit;
-
-  if not Assigned(MemberActivation) then MemberActivation := TMemberActivation.Create;
-  IsProcessSuccessfull := False;
-
-  found := False;
-  for intI := strgGrid.FixedRows to strgGrid.RowCount-1 do
-  begin
-    strgGrid.GetCheckBoxState(0,strgGrid.Row,chkStatue);
-    if chkStatue then
-      found := True;
-  end;
-  if not found then
-  begin
-    CommonDlg.ShowError('Tidak ada Member Yang dipilih (check)');
-    exit;
-  end;
-
-  if strgGrid.RowCount > 1 then
-  for intI := 1 to strgGrid.RowCount - 1 do
-  begin
-    if strgGrid.Cells[1,intI] = '' then Continue;
-    if Trim(strgGrid.Cells[5,intI]) = 'ACTIVE' then
-    begin
-      sPesan :=  sPesan + #13 + 'Status Member : ' + strgGrid.Cells[2,intI] + ' sudah Aktif';
-      Continue;
-    end;
-
-    strgGrid.SelectRows(intI,1);
-    strgGrid.GetCheckBoxState(0,strgGrid.Row,chkStatue);
-    MemberID := StrToInt(strgGrid.Cells[6,intI]);
-
-    if chkStatue then
-    begin
-      with TNewMemberActivation.CreateWithUser(Self,FLoginId,masternewunit.id) do
-      begin
-        try
-{
-procedure TNewMemberActivation.UpdateData(AFeeActivasi: Double; AFeeReactivasi:
-        Double; AID: Integer; AIsActivasi: Integer; AIsPrintCard: Integer;
-        AIsReactivasi: Integer; AMember_ID: Integer; ANewUnit_ID: Integer;
-        AValidDateFrom: TDateTime; AValidDateTo: TDateTime);
-}
-					dFeeAktivasi := 0;
-          dFeeReaktivasi := 0;
-          iIsReaktivasi := 0;
-          iIsAktivasi := 0;
-          if strgGrid.Cells[14,intI] = '1' then
-          begin
-            dFeeReaktivasi := StrToFloat(strgGrid.Cells[12,intI]);
-            iIsReaktivasi := 1;
-          end
-          else
-          begin
-            dFeeAktivasi := StrToFloat(strgGrid.Cells[12,intI]);
-            iIsAktivasi := 1;
-          end;
-
-          UpdateData(dFeeAktivasi,
-          	dFeeReaktivasi,
-            0,
-            iIsAktivasi,
-            StrToInt(strgGrid.Cells[13,intI]),
-            iIsReaktivasi,
-            MemberID,
-            masternewunit.id,
-            dtValidFrom.Date,
-            dtValidTo.Date);
-
-          if SaveToDB then
-          begin
-          	IsProcessSuccessfull := Member.SetActiveAndValidSaveToDB;
-          end;
-        finally
-          Free;
-        end;
-      end;
-
-{
-      SetLength(arrParam,9);
-      arrParam[0].tipe := ptInteger;
-      arrParam[0].data := MemberID;
-
-      //jika belum pernah ada activasi maka activasi
-      if MemberActivation.getJmlActivasi(MemberID) < 1 then
-      begin
-        arrParam[1].tipe := ptInteger;
-        arrParam[1].data := 1; //activasi
-        arrParam[2].tipe := ptInteger;
-        arrParam[2].data := 0; //reactivasi
-        arrParam[6].tipe := ptCurrency;
-        arrParam[6].data := edtMemberCardFee.Value;
-        arrParam[7].tipe := ptCurrency;
-        arrParam[7].data := 0;
-      end
-      else // jika sudah pernah di activkan maka reactivasi
-      begin
-        arrParam[1].tipe := ptInteger;
-        arrParam[1].data := 0; //activasi
-        arrParam[2].tipe := ptInteger;
-        arrParam[2].data := 1; //reactivasi
-        arrParam[6].tipe := ptCurrency;
-        arrParam[6].data := 0;
-        arrParam[7].tipe := ptCurrency;
-        arrParam[7].data := edtMemberCardFee.Value;
-      end;
-
-      arrParam[3].tipe := ptDateTime;
-      arrParam[3].data := dtValidFrom.Date;
-      arrParam[4].tipe := ptDateTime;
-      arrParam[4].data := dtValidTo.Date;
-      arrParam[5].tipe := ptInteger;
-      arrParam[5].data := 0;
-      arrParam[8].tipe := ptInteger;
-      arrParam[8].data := FLoginId;
-
-      if MemberActivation.AddMemberActivation(arrParam) then
-        ActiveStatue1 := True;
-
-      //update member active & valid
-      SetLength(arrParam,4);
-      arrParam[0].tipe := ptInteger;
-      arrParam[0].data := 1;
-      arrParam[1].tipe := ptDateTime;
-      arrParam[1].data := dtRegister.Date;
-      arrParam[2].tipe := ptInteger;
-      arrParam[2].data := FLoginId;
-      arrParam[3].tipe := ptInteger;
-      arrParam[3].data := MemberID;
-
-      if MemberActivation.UpdateMember(arrParam) then
-        ActiveStatue2 := True;
-}
-    end;
-  end; // for to do
-
-  if IsProcessSuccessfull then
-  begin
-    cCommitTrans;
-    CommonDlg.ShowConfirmGlobal('Berhasil Menyimpan Data');
-	  ClearFormComponent;
-  end
-  else
-  begin
-    cRollbackTrans;
-    if sPesan <> '' then
-      CommonDlg.ShowError('Gagal Menyimpan Data' +sPesan)
-    else
-      CommonDlg.ShowError('Gagal Menyimpan Data' )
-  end;
-
+  inherited;
+  ParseDataGrid();
 end;
 
 procedure TfrmMemberActivation.lblCheckAllClick(Sender: TObject);
 var i: Integer;
 begin
   // put your code here
+  {
   with strgGrid do
   begin
     for i:=0 to RowCount-1 do
@@ -508,19 +445,21 @@ begin
       SetCheckBoxState(0,i,true);
     end;
   end;
+  }
 end;
 
 procedure TfrmMemberActivation.lblClearAllClick(Sender: TObject);
 var i: Integer;
 begin
   // put your code here
-  with strgGrid do
+  {with strgGrid do
   begin
     for i:=0 to RowCount-1 do
     begin
       SetCheckBoxState(0,i,False);
     end;
   end;
+  }
 end;
 
 procedure TfrmMemberActivation.FormKeyUp(Sender: TObject; var Key: Word;
@@ -533,58 +472,32 @@ begin
   end
   else if Key = VK_F9 then
   begin
-    actMemberActivationExecute(Self);
+    actAddExecute(Self);
   end
   else if (UpperCase(Chr(Key)) = 'F') and (ssCtrl in Shift) then
   begin
-    grdFindMember.Execute;
+//    grdFindMember.Execute;
   end;
 
-end;
-
-procedure TfrmMemberActivation.btnShowClick(Sender: TObject);
-begin
-  inherited;
-  ParseDataGrid();
 end;
 
 procedure TfrmMemberActivation.strgGridRowChanging(Sender: TObject; OldRow,
   NewRow: Integer; var Allow: Boolean);
 begin
   inherited;
-  if strgGrid.Cells[1, NewRow] <> '' then
+//  if strgGrid.Cells[1, NewRow] <> '' then
     ParseDetailRow(NewRow);
 end;
 
-//function TfrmMemberActivation.checkIsValid(dateFrom,dateTo: TDateTime): SmallInt;
-//var dateNow: TDateTime;
-//begin
-  //init
-//  Result := 0;
-
-//  if not Assigned(MemberActivation) then MemberActivation := TMemberActivation.Create;
-
-//  dateNow := MemberActivation.getServerDate;
-
-//  if dateTo <= dateNow then Result := 0
-//  else
-//  begin
-//    if dateFrom < dateTo then Result := 1;
-//  end;
-//end;
-
 procedure TfrmMemberActivation.FormShow(Sender: TObject);
-//var
-	//iJmlBulanValid: Integer;
-//	sSQL: string;
 begin
   inherited;
   try
-    FJmlBulanValid := StrToInt(getGlobalVar('MEMBER_VALID_MONTH'));
+//    FJmlBulanValid := StrToInt(getGlobalVar('MEMBER_VALID_MONTH'));
   except
     FJmlBulanValid := 12;
   end;
-  dtValidFrom.Date := cGetServerTime;
+//  dtValidFrom.Date := cGetServerTime;
   dtValidTo.Date := IncMonth(dtValidFrom.Date,FJmlBulanValid);
   dtValidTo.Date := IncDay(dtValidTo.Date,-1);
   edtCardNo.SetFocus;
@@ -606,6 +519,7 @@ end;
 
 procedure TfrmMemberActivation.ParseDetailRow(ARow: Integer);
 begin
+  {
   if strgGrid.Cells[1,ARow] = '' then Exit;
   
   edtCompName.Text := strgGrid.Cells[7, ARow];
@@ -636,13 +550,14 @@ begin
     dtValidTo.Text  := '  -  -    ';
     fraFooter5Button1.btnAdd.Caption:= 'Activate';
   end;
+  }
 end;
 
 procedure TfrmMemberActivation.ClearFormComponent;
 begin
   edtCardNo.Clear;
-  strgGrid.RowCount := 2;
-  strgGrid.ClearRows(1, strgGrid.RowCount);
+//  strgGrid.RowCount := 2;
+//  strgGrid.ClearRows(1, strgGrid.RowCount);
   edtCompName.Clear;
   edtDocStatus.Clear;
   dtRegister.Clear;
@@ -658,7 +573,8 @@ var
 begin
   sSQL := 'SELECT MEMBER_NAME, MEMBER_CARD_NO, MEMBER_ADDRESS '
     + 'FROM MEMBER '
-    + 'WHERE MEMBER_UNT_ID = ' + IntToStr(masternewunit.id);  
+    + 'WHERE MEMBER_UNT_ID = ' + IntToStr(masternewunit);
+  {
   with cLookUp('Daftar Member',sSQL) do
   begin
     try
@@ -670,6 +586,7 @@ begin
       Free;
     end;
   end;    // with;
+  }
 end;
 
 procedure TfrmMemberActivation.edtCardNoClickBtn(Sender: TObject);
@@ -684,8 +601,8 @@ begin
   rbByMember.Checked := True;
   if edtCardNo.Tag = 0 then
   begin
-    edtCardNo.Font.Style := [];
-    edtCardNo.Font.Color := clWindowText;
+    edtCardNo.Style.Font.Style := [];
+    edtCardNo.Style.Font.Color := clWindowText;
     edtCardNo.Clear;
     edtCardNo.Tag := 1;
   end;
@@ -696,8 +613,8 @@ begin
   inherited;
   if Trim(edtCardNo.Text) = '' then
   begin
-    edtCardNo.Font.Style := [fsItalic];
-    edtCardNo.Font.Color := clSilver;
+    edtCardNo.Style.Font.Style := [fsItalic];
+    edtCardNo.Style.Font.Color := clSilver;
     edtCardNo.Text := '[Input Card Number]';
     edtCardNo.Tag := 0;
   end;
@@ -709,8 +626,8 @@ begin
   rbBySelected.Checked := True;
   if edCompany.Tag = 0 then
   begin
-    edCompany.Font.Style := [];
-    edCompany.Font.Color := clWindowText;
+    edCompany.Style.Font.Style := [];
+    edCompany.Style.Font.Color := clWindowText;
     edCompany.Clear;
     edCompany.Tag := 1;
   end;
@@ -721,8 +638,8 @@ begin
   inherited;
   if Trim(edCompany.Text) = '' then
   begin
-    edCompany.Font.Style := [fsItalic];
-    edCompany.Font.Color := clSilver;
+    edCompany.Style.Font.Style := [fsItalic];
+    edCompany.Style.Font.Color := clSilver;
     edCompany.Text := '[Select Company]';
     edCompany.Tag := 0;
   end;
@@ -734,7 +651,8 @@ var
 begin
   sSQL := 'SELECT GROMEMBER_NAME, GROMEMBER_ADDRESS, GROMEMBER_KELURAHAN, GROMEMBER_KOTA '
     + 'FROM REF$GRUP_MEMBER '
-    + 'WHERE GROMEMBER_UNT_ID = ' + IntToStr(masternewunit.id);  
+    + 'WHERE GROMEMBER_UNT_ID = ' + IntToStr(masternewunit);
+  {
   with cLookUp('Daftar Grup Member',sSQL) do
   begin
     try
@@ -746,49 +664,13 @@ begin
       Free;
     end;
   end;    // with;
-end;
-
-procedure TfrmMemberActivation.strgGridGetAlignment(Sender: TObject; ARow,
-  ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-begin
-  inherited;
-  if ARow = 0 then
-  begin
-    //HAlign := taCenter;
-  end;
-  if ACol = 0 then
-  begin
-    HAlign := taCenter;
-  end;  
-      
+  }
 end;
 
 procedure TfrmMemberActivation.edCompanyClickBtn(Sender: TObject);
 begin
   inherited;
   LookUpMemberGrup;
-end;
-
-procedure TfrmMemberActivation.strgGridGetCellColor(Sender: TObject; ARow,
-  ACol: Integer; AState: TGridDrawState; ABrush: TBrush; AFont: TFont);
-begin
-  inherited;
-  if (ARow mod 2) = 0 then
-    ABrush.Color := $00E6E6E6
-  else
-    ABrush.Color := clWhite;
-end;
-
-procedure TfrmMemberActivation.btnShowEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmMemberActivation.btnShowExit(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
 end;
 
 end.

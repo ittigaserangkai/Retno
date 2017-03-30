@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, SUIButton, ComCtrls,
-  ufraFooter5Button, ActnList;
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ComCtrls, ufraFooter5Button,
+  ActnList, System.Actions;
 
 type
   TfrmListMembership = class(TfrmMaster)
@@ -15,7 +15,6 @@ type
     dtpTo: TDateTimePicker;
     Label1: TLabel;
     cbbPilih: TComboBox;
-    btnPrint: TsuiButton;
     fraFooter5Button1: TfraFooter5Button;
     actlstMembership: TActionList;
     actListPrintMembership: TAction;
@@ -24,8 +23,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure btnPrintEnter(Sender: TObject);
-    procedure btnPrintExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,8 +34,8 @@ var
 
 implementation
 
-uses uMemberShip, uConn, suithemes, uConstanta,  ufrmDialogPrintPreview,
-  DateUtils, uRMSUnit, udmReportNew;
+uses uConstanta,  ufrmDialogPrintPreview, DateUtils, uRetnoUnit, uDMReport,
+     uAppUtils;
 
 {$R *.dfm}
 
@@ -121,18 +118,18 @@ begin
 
   if cbbPilih.ItemIndex = 0 then
   Begin
-  sSQL := 'select ' + GetCompanyHeader(FLoginFullname, MasterNewunit.Nama, dtpFrom.Date, dtpTo.Date)
+  sSQL := 'select '
        + ' m.* from member m'
        + ' inner join ref$tipe_member tp on tp.tpmember_id=m.member_tpmember_id '
        + ' where m.member_registered_date between '
-       + QuotD(dtpFrom.Date) + ' and ' + QuotD(dtpTo.Date)
-       + ' and m.MEMBER_UNT_ID = ' + IntToStr(MasterNewUnit.ID)
+       + TAppUtils.QuotD(dtpFrom.Date) + ' and ' + TAppUtils.QuotD(dtpTo.Date)
+       + ' and m.MEMBER_UNT_ID = ' + IntToStr(MasterNewUnit)
        + ' order by m.member_registered_date' ;
-  dmReportNew.EksekusiReport('ListMembership', sSQL, '', True);
+//  dmReportNew.EksekusiReport('ListMembership', sSQL, '', True);
   End
   Else if cbbPilih.ItemIndex = 1 then             // -- Aktifasi
   Begin
-  sSQL := 'select ' + GetCompanyHeader(FLoginFullname, MasterNewunit.Nama, dtpFrom.Date, dtpTo.Date)
+  sSQL := 'select '
        + ' ma.memberact_id, ma.date_create, m.member_id, m.member_card_no,'
        + ' m.member_name,ma.memberact_valid_date_to, ma.memberact_fee_activasi '
        + ' as "Biaya Kartu", ma.memberact_is_reactivasi '
@@ -140,17 +137,17 @@ begin
        + ' inner join member m '
        + ' on (m.member_id=ma.memberact_member_id '
        + ' and m.member_unt_id=ma.memberact_member_unt_id) '
-       + ' where (cast(ma.date_create as Date) between ' + QuotD(dtpFrom.Date)
-       + ' and ' + QuotD(dtpTo.Date) + ')'
+       + ' where (cast(ma.date_create as Date) between ' + TAppUtils.QuotD(dtpFrom.Date)
+       + ' and ' + TAppUtils.QuotD(dtpTo.Date) + ')'
        //+ ' and ma.memberact_fee_activasi <> 0 '
        + ' and ma.memberact_is_activasi = 1 '
-       + ' and ma.MEMBERACT_UNT_ID = ' + IntToStr(MasterNewUnit.ID)
+       + ' and ma.MEMBERACT_UNT_ID = ' + IntToStr(MasterNewUnit)
        + ' order by ma.date_create' ;
-  dmReportNew.EksekusiReport('ListBiayaAktifasiMember', sSQL, '', True);
+//  dmReportNew.EksekusiReport('ListBiayaAktifasiMember', sSQL, '', True);
   End
   Else if cbbPilih.ItemIndex = 2 then        // -- Reaktifasi
   Begin
-  sSQL := 'select ' + GetCompanyHeader(FLoginFullname, MasterNewunit.Nama, dtpFrom.Date, dtpTo.Date)
+  sSQL := 'select '
        + ' ma.memberact_id, ma.date_create, m.member_id, m.member_card_no,'
        + ' m.member_name,ma.memberact_valid_date_to, ma.memberact_fee_reactivasi '
        + ' as "Biaya Kartu", ma.memberact_is_reactivasi '
@@ -158,13 +155,13 @@ begin
        + ' inner join member m '
        + ' on (m.member_id=ma.memberact_member_id '
        + ' and m.member_unt_id=ma.memberact_member_unt_id) '
-       + ' where (cast(ma.date_create as Date) between ' + QuotD(dtpFrom.Date)
-       + ' and ' + QuotD(dtpTo.Date) + ')'
+       + ' where (cast(ma.date_create as Date) between ' + TAppUtils.QuotD(dtpFrom.Date)
+       + ' and ' + TAppUtils.QuotD(dtpTo.Date) + ')'
        //+ ' and ma.memberact_fee_reactivasi <> 0 '
        + ' and ma.memberact_is_reactivasi = 1 '
-       + ' and ma.MEMBERACT_UNT_ID = ' + IntToStr(MasterNewUnit.ID)
+       + ' and ma.MEMBERACT_UNT_ID = ' + IntToStr(MasterNewUnit)
        + ' order by ma.date_create' ;
-  dmReportNew.EksekusiReport('ListBiayaReaktifasiMember', sSQL, '', True);
+//  dmReportNew.EksekusiReport('ListBiayaReaktifasiMember', sSQL, '', True);
   End;
 
 end;
@@ -183,18 +180,6 @@ begin
     actListPrintMembershipExecute(Self);
   if (Key = VK_Escape) and (ssctrl in Shift) then
     Close;
-end;
-
-procedure TfrmListMembership.btnPrintEnter(Sender: TObject);
-begin
-  inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmListMembership.btnPrintExit(Sender: TObject);
-begin
-  inherited;  
-  (Sender as TsuiButton).UIStyle := BlueGlass;
 end;
 
 end.

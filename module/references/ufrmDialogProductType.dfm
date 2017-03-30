@@ -13,6 +13,7 @@ inherited frmDialogProductType: TfrmDialogProductType
   inherited pnlBody: TPanel
     Width = 396
     Height = 81
+    ExplicitTop = -1
     ExplicitWidth = 396
     ExplicitHeight = 81
     object lbl1: TLabel
@@ -32,6 +33,7 @@ inherited frmDialogProductType: TfrmDialogProductType
       Caption = 'Name'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 84
       Top = 13
       Width = 73
@@ -42,6 +44,7 @@ inherited frmDialogProductType: TfrmDialogProductType
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 84
       Top = 40
       Width = 277
@@ -73,6 +76,9 @@ inherited frmDialogProductType: TfrmDialogProductType
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 149
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 396
@@ -89,6 +95,9 @@ inherited frmDialogProductType: TfrmDialogProductType
       end
       inherited lbCTRLDel: TLabel
         Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 145
       end
     end
   end

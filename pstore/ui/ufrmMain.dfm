@@ -213,6 +213,7 @@ object frmMain: TfrmMain
     object actCancellingPO: TAction
       Category = 'PO'
       Caption = '&Cancellation PO'
+      OnExecute = actCancellingPOExecute
     end
     object actChangeStatusPO: TAction
       Category = 'PO'
@@ -390,26 +391,32 @@ object frmMain: TfrmMain
     object actMemberShip: TAction
       Category = 'CustomerSupport'
       Caption = 'MemberShip'
+      OnExecute = actMemberShipExecute
     end
     object actMemberActivation: TAction
       Category = 'CustomerSupport'
       Caption = 'Member Activation'
+      OnExecute = actMemberActivationExecute
     end
     object actPrintPO: TAction
       Category = 'PO'
       Caption = 'Prin&t PO'
+      OnExecute = actPrintPOExecute
     end
     object actCrazyPrice: TAction
       Category = 'Trader'
       Caption = 'Crazy Price'
+      OnExecute = actCrazyPriceExecute
     end
     object actDataCostumer: TAction
       Category = 'CustomerSupport'
       Caption = 'Data Costumer'
+      OnExecute = actDataCostumerExecute
     end
     object actSalesReportContrabon: TAction
       Category = 'CustomerSupport'
       Caption = '&Sales Report Contrabon'
+      OnExecute = actSalesReportContrabonExecute
     end
     object actVoucherBotol: TAction
       Category = 'CustomerSupport'
@@ -418,6 +425,7 @@ object frmMain: TfrmMain
     object actShift: TAction
       Category = 'SupvCashier'
       Caption = 'actShift'
+      OnExecute = actShiftExecute
     end
     object actCustomerAgreement: TAction
       Category = 'CustomerSupport'
@@ -442,10 +450,12 @@ object frmMain: TfrmMain
     object actDailySalesReport: TAction
       Category = 'SupvCashier'
       Caption = 'Daily Sales Report'
+      OnExecute = actDailySalesReportExecute
     end
     object actReprintNota: TAction
       Category = 'SupvCashier'
       Caption = 'actReprintNota'
+      OnExecute = actReprintNotaExecute
     end
     object actCashierCollectionReport: TAction
       Category = 'SupvCashier'
@@ -462,10 +472,12 @@ object frmMain: TfrmMain
     object actPrintPurchaseOrder: TAction
       Category = 'PO'
       Caption = 'actPrintPurchaseOrder'
+      OnExecute = actPrintPurchaseOrderExecute
     end
     object actPrintWorksheet: TAction
       Category = 'SupvCashier'
       Caption = 'actPrintWorksheet'
+      OnExecute = actPrintWorksheetExecute
     end
     object actListingPOByMerchandisingGroup: TAction
       Category = 'PO'
@@ -514,6 +526,7 @@ object frmMain: TfrmMain
     object actMaintenanceBarcode: TAction
       Category = 'Inventory'
       Caption = 'actMaintenanceBarcode'
+      OnExecute = actMaintenanceBarcodeExecute
     end
     object actLokasiStokOpnam: TAction
       Category = 'Inventory'
@@ -526,14 +539,17 @@ object frmMain: TfrmMain
     object actProduct: TAction
       Category = 'Merchandise'
       Caption = '&Product'
+      OnExecute = actProductExecute
     end
     object actSupplier: TAction
       Category = 'Merchandise'
       Caption = '&Supplier'
+      OnExecute = actSupplierExecute
     end
     object actHistoryPO: TAction
       Category = 'PO'
       Caption = 'actHistoryPO'
+      OnExecute = actHistoryPOExecute
     end
     object actListingReceivingProduct: TAction
       Category = 'Inventory'
@@ -566,14 +582,17 @@ object frmMain: TfrmMain
     object actDisplayPO: TAction
       Category = 'PO'
       Caption = 'actDisplayPO'
+      OnExecute = actDisplayPOExecute
     end
     object actListMembership: TAction
       Category = 'CustomerSupport'
       Caption = 'List Membership'
+      OnExecute = actListMembershipExecute
     end
     object actBarcodeRequest: TAction
-      Category = 'Inventory'
+      Category = 'Merchandise'
       Caption = 'actBarcodeRequest'
+      OnExecute = actBarcodeRequestExecute
     end
     object actListWastage: TAction
       Category = 'Inventory'
@@ -582,6 +601,7 @@ object frmMain: TfrmMain
     object actListPOCancel: TAction
       Category = 'PO'
       Caption = 'List PO Cancel'
+      OnExecute = actListPOCancelExecute
     end
     object actListingRankingCNWastage: TAction
       Category = 'Inventory'
@@ -606,6 +626,7 @@ object frmMain: TfrmMain
     object actListDailyTransaction: TAction
       Category = 'SupvCashier'
       Caption = 'Listing Daily Transaction'
+      OnExecute = actListDailyTransactionExecute
     end
     object actPOBonus: TAction
       Category = 'PO'
@@ -635,6 +656,7 @@ object frmMain: TfrmMain
     object actUbahQtyPO: TAction
       Category = 'PO'
       Caption = 'actUbahQtyPO'
+      OnExecute = actUbahQtyPOExecute
     end
     object actStokBarang: TAction
       Category = 'Inventory'
@@ -674,7 +696,9 @@ object frmMain: TfrmMain
       Caption = 'actWastageRealList'
     end
     object actDiscMember: TAction
+      Category = 'CustomerSupport'
       Caption = 'actDiscMember'
+      OnExecute = actDiscMemberExecute
     end
     object actChangeStatusPOS: TAction
       Caption = 'actChangeStatusPOS'
@@ -697,6 +721,7 @@ object frmMain: TfrmMain
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
       Caption = 'actLapInvMovementQty'
+      OnExecute = actLapInvMovementQtyExecute
     end
     object actShipmentAgent: TAction
       Category = 'Inventory'
@@ -745,6 +770,21 @@ object frmMain: TfrmMain
     object actUser: TAction
       Category = 'EOD'
       Caption = 'actUser'
+    end
+    object actLaporanReturSupplier: TAction
+      Category = 'Inventory'
+      Caption = 'actLaporanReturSupplier'
+      OnExecute = actLaporanReturSupplierExecute
+    end
+    object actactListMemberTransaction: TAction
+      Category = 'SupvCashier'
+      Caption = 'actactListMemberTransaction'
+      OnExecute = actactListMemberTransactionExecute
+    end
+    object actRafaksiSupplier: TAction
+      Category = 'Inventory'
+      Caption = 'actRafaksiSupplier'
+      OnExecute = actRafaksiSupplierExecute
     end
   end
 end

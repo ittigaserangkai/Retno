@@ -4,26 +4,29 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  BaseGrid, AdvGrid, ActnList;
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, System.Actions, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  ufraFooter5Button, Vcl.ActnList;
 
 type
-  TfrmDataCostumer = class(TfrmMaster)
+  TfrmDataCostumer = class(TfrmMasterBrowse)
     fraFooter5Button1: TfraFooter5Button;
     actlstInputSupplierForNotSO: TActionList;
     actAddDataCostumer: TAction;
     actEditDataCostumer: TAction;
     actDeleteDataCostumer: TAction;
     actRefreshDataCostumer: TAction;
-    strgGrid: TAdvStringGrid;
-    procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure actAddDataCostumerExecute(Sender: TObject);
-    procedure actEditDataCostumerExecute(Sender: TObject);
-    procedure actDeleteDataCostumerExecute(Sender: TObject);
-    procedure actRefreshDataCostumerExecute(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     procedure ParseHeaderGrid();
@@ -37,16 +40,9 @@ var
 
 implementation
 
-uses  ufrmDialogDataCostumer, uGTSUICommonDlg, DateUtils, uConn,
-  uDataCustomer, DB;
+uses  ufrmDialogDataCostumer, uTSCommonDlg, DateUtils;
 
 {$R *.dfm}
-
-procedure TfrmDataCostumer.FormActivate(Sender: TObject);
-begin
-  inherited;
-  //frmMain.CreateMenu((Sender as TForm));
-end;
 
 procedure TfrmDataCostumer.FormClose(Sender: TObject;
   var Action: TCloseAction);
@@ -61,7 +57,7 @@ begin
   inherited;
   Self.Caption := 'DATA CUSTOMER';
   lblHeader.Caption := Self.Caption;
-  actRefreshDataCostumerExecute(Self);
+  actRefreshExecute(Self);
 end;
 
 procedure TfrmDataCostumer.FormDestroy(Sender: TObject);
@@ -70,29 +66,29 @@ begin
   frmDataCostumer := nil;
 end;
 
-procedure TfrmDataCostumer.actAddDataCostumerExecute(Sender: TObject);
+procedure TfrmDataCostumer.actAddExecute(Sender: TObject);
 begin
   inherited;
   if not Assigned(frmDialogDataCostumer) then
     Application.CreateForm(TfrmDialogDataCostumer, frmDialogDataCostumer);
-  frmDialogDataCostumer.frmSuiMasterDialog.Caption := 'Add Data Customer';
+  frmDialogDataCostumer.Caption := 'Add Data Customer';
   frmDialogDataCostumer.FormMode:=fmAdd;
 
   SetFormPropertyAndShowDialog(frmDialogDataCostumer);
   if (frmDialogDataCostumer.IsProcessSuccessfull) then
   begin
-    actRefreshDataCostumerExecute(Self);
+    actRefreshExecute(Self);
     CommonDlg.ShowConfirmSuccessfull(atAdd);
   end;
 
   frmDialogDataCostumer.Free;
-  strgGrid.SetFocus;
+  cxGrid.SetFocus;
 end;
 
-procedure TfrmDataCostumer.actEditDataCostumerExecute(Sender: TObject);
+procedure TfrmDataCostumer.actEditExecute(Sender: TObject);
 begin
-  inherited;         
-  if strgGrid.Cells[5,strgGrid.Row]='' then Exit;
+  inherited;
+  {if strgGrid.Cells[5,strgGrid.Row]='' then Exit;
   if not Assigned(frmDialogDataCostumer) then
     Application.CreateForm(TfrmDialogDataCostumer, frmDialogDataCostumer);
   frmDialogDataCostumer.frmSuiMasterDialog.Caption := 'Edit Data Customer';
@@ -108,29 +104,10 @@ begin
 
   frmDialogDataCostumer.Free;
   strgGrid.SetFocus;
+  }
 end;
 
-procedure TfrmDataCostumer.actDeleteDataCostumerExecute(Sender: TObject);
-var arr: TArr;
-begin
-  inherited;
-  if strgGrid.Cells[5,strgGrid.Row]='' then Exit;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Data Customer (Customer Name: '+ strgGrid.Cells[1,strgGrid.Row] +')?') = mrNo) then
-    Exit;
-  SetLength(arr,1);
-  arr[0].tipe:= ptInteger;
-  arr[0].data:= strgGrid.Cells[5,strgGrid.Row];
-  if not assigned(DataCustomer) then
-    DataCustomer := TDataCustomer.Create;
-  if DataCustomer.DeleteDataCustomer(arr) then
-  begin
-    actRefreshDataCostumerExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atDelete);
-  end;
-  strgGrid.SetFocus;
-end;
-
-procedure TfrmDataCostumer.actRefreshDataCostumerExecute(Sender: TObject);
+procedure TfrmDataCostumer.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   ParseDataGrid();
@@ -138,6 +115,7 @@ end;
 
 procedure TfrmDataCostumer.ParseHeaderGrid();
 begin
+  {
   with strgGrid do
   begin
     Clear;
@@ -150,13 +128,14 @@ begin
     Cells[4,0]:= 'CONTACT PERSON';
     AutoSize:= True;
   end;
+  }
 end;
 
 procedure TfrmDataCostumer.ParseDataGrid;
-var data: TResultDataSet;
-    arr: TArr;
+var data: TDataSet;
     i: Integer;
 begin
+  {
   ParseHeaderGrid;
   SetLength(arr,0);
   if not assigned(DataCustomer) then
@@ -182,12 +161,13 @@ begin
       AutoSize:= True;
     end;
   end;
+  }
 end;
 
 procedure TfrmDataCostumer.FormShow(Sender: TObject);
 begin
   inherited;
-  strgGrid.SetFocus;
+  cxGrid.SetFocus;
 end;
 
 end.

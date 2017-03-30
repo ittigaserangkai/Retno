@@ -166,6 +166,12 @@ type
     FAgama_GetDSLookupCommand_Cache: TDSRestCommand;
     FTipeBonus_GetDSOverviewCommand: TDSRestCommand;
     FTipeBonus_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FDocument_GetDSOverviewCommand: TDSRestCommand;
+    FDocument_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FAgama_GetDSOverviewCommand: TDSRestCommand;
+    FAgama_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FTipePO_GetDSOverviewCommand: TDSRestCommand;
+    FTipePO_GetDSOverviewCommand_Cache: TDSRestCommand;
     FTipeCN_GetDSOverviewCommand: TDSRestCommand;
     FTipeCN_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
@@ -274,6 +280,12 @@ type
     function Agama_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeBonus_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeBonus_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Document_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Document_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Agama_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Agama_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function TipePO_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function TipePO_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeCN_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeCN_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
@@ -869,6 +881,36 @@ const
   );
 
   TDSProvider_TipeBonus_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Document_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Document_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Agama_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Agama_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_TipePO_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_TipePO_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -2677,6 +2719,93 @@ begin
   Result := TDSRestCachedDataSet.Create(FTipeBonus_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Document_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FDocument_GetDSOverviewCommand = nil then
+  begin
+    FDocument_GetDSOverviewCommand := FConnection.CreateCommand;
+    FDocument_GetDSOverviewCommand.RequestType := 'GET';
+    FDocument_GetDSOverviewCommand.Text := 'TDSProvider.Document_GetDSOverview';
+    FDocument_GetDSOverviewCommand.Prepare(TDSProvider_Document_GetDSOverview);
+  end;
+  FDocument_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FDocument_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FDocument_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Document_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FDocument_GetDSOverviewCommand_Cache = nil then
+  begin
+    FDocument_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FDocument_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FDocument_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Document_GetDSOverview';
+    FDocument_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Document_GetDSOverview_Cache);
+  end;
+  FDocument_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FDocument_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.Agama_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FAgama_GetDSOverviewCommand = nil then
+  begin
+    FAgama_GetDSOverviewCommand := FConnection.CreateCommand;
+    FAgama_GetDSOverviewCommand.RequestType := 'GET';
+    FAgama_GetDSOverviewCommand.Text := 'TDSProvider.Agama_GetDSOverview';
+    FAgama_GetDSOverviewCommand.Prepare(TDSProvider_Agama_GetDSOverview);
+  end;
+  FAgama_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FAgama_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FAgama_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Agama_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FAgama_GetDSOverviewCommand_Cache = nil then
+  begin
+    FAgama_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FAgama_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FAgama_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Agama_GetDSOverview';
+    FAgama_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Agama_GetDSOverview_Cache);
+  end;
+  FAgama_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FAgama_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.TipePO_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FTipePO_GetDSOverviewCommand = nil then
+  begin
+    FTipePO_GetDSOverviewCommand := FConnection.CreateCommand;
+    FTipePO_GetDSOverviewCommand.RequestType := 'GET';
+    FTipePO_GetDSOverviewCommand.Text := 'TDSProvider.TipePO_GetDSOverview';
+    FTipePO_GetDSOverviewCommand.Prepare(TDSProvider_TipePO_GetDSOverview);
+  end;
+  FTipePO_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FTipePO_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FTipePO_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.TipePO_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FTipePO_GetDSOverviewCommand_Cache = nil then
+  begin
+    FTipePO_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FTipePO_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FTipePO_GetDSOverviewCommand_Cache.Text := 'TDSProvider.TipePO_GetDSOverview';
+    FTipePO_GetDSOverviewCommand_Cache.Prepare(TDSProvider_TipePO_GetDSOverview_Cache);
+  end;
+  FTipePO_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FTipePO_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.TipeCN_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FTipeCN_GetDSOverviewCommand = nil then
@@ -2820,6 +2949,12 @@ begin
   FAgama_GetDSLookupCommand_Cache.DisposeOf;
   FTipeBonus_GetDSOverviewCommand.DisposeOf;
   FTipeBonus_GetDSOverviewCommand_Cache.DisposeOf;
+  FDocument_GetDSOverviewCommand.DisposeOf;
+  FDocument_GetDSOverviewCommand_Cache.DisposeOf;
+  FAgama_GetDSOverviewCommand.DisposeOf;
+  FAgama_GetDSOverviewCommand_Cache.DisposeOf;
+  FTipePO_GetDSOverviewCommand.DisposeOf;
+  FTipePO_GetDSOverviewCommand_Cache.DisposeOf;
   FTipeCN_GetDSOverviewCommand.DisposeOf;
   FTipeCN_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;

@@ -313,17 +313,18 @@ begin
 end;
 
 function TfrmAdjustmentCashback.GetIDAdj: Integer;
-var
-  iAid: Integer;
-  sSQL: string;
+//var
+//  iAid: Integer;
+//  sSQL: string;
 begin
-  sSQL := 'SELECT ADJCASH_ID, ADJCASH_TRANS_NO, TRANS_DATE '
-        + 'FROM ADJUSTMENT_CASHBACK '
-        + ' LEFT OUTER JOIN TRANSAKSI ON (TRANS_NO=ADJCASH_TRANS_NO) '
-        + '   AND (TRANS_UNT_ID=ADJCASH_TRANS_UNT_ID) '
-        + ' WHERE ADJCASH_DATE = ' + TApputils.QuotD(dtAdjustment.Date)
-        + ' AND ADJCASH_UNT_ID = ' + IntToStr(masternewunit)
-        + ' and ADJCASH_TRANS_NO = '+ QuotedStr(edtNoTrans.Text);
+  Result := 0;
+//  sSQL := 'SELECT ADJCASH_ID, ADJCASH_TRANS_NO, TRANS_DATE '
+//        + 'FROM ADJUSTMENT_CASHBACK '
+//        + ' LEFT OUTER JOIN TRANSAKSI ON (TRANS_NO=ADJCASH_TRANS_NO) '
+//        + '   AND (TRANS_UNT_ID=ADJCASH_TRANS_UNT_ID) '
+//        + ' WHERE ADJCASH_DATE = ' + TApputils.QuotD(dtAdjustment.Date)
+//        + ' AND ADJCASH_UNT_ID = ' + IntToStr(masternewunit)
+//        + ' and ADJCASH_TRANS_NO = '+ QuotedStr(edtNoTrans.Text);
   {
   with cOpenQuery(sSQL) do
   begin

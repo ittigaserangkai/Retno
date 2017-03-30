@@ -33,6 +33,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure fraFooter5Button1btnCloseClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -58,6 +59,12 @@ begin
   actRefreshSatuanExecute(Self);
 end;
 
+procedure TfrmSatuan.fraFooter5Button1btnCloseClick(Sender: TObject);
+begin
+  inherited;
+  Self.Close;
+end;
+
 procedure TfrmSatuan.actAddSatuanExecute(Sender: TObject);
 begin
   inherited;
@@ -72,7 +79,7 @@ begin
     if (frmDialogSatuan.IsProcessSuccessfull) then
     begin
       actRefreshSatuanExecute(Self);
-      CommonDlg.ShowConfirm(atAdd);
+//      CommonDlg.ShowConfirm(atAdd);
     end;
 
 
@@ -102,6 +109,8 @@ procedure TfrmSatuan.actDeleteSatuanExecute(Sender: TObject);
 //  aUOM: string;
 begin
   inherited;
+  cxGrdBrowse.ExportToXLS();
+// frmDialogSatuan.LoadData(cxgrid);
  {
   aUOM := strgGrid.Cells[_kolKode,strgGrid.Row];
   if (CommonDlg.Confirm('Are you sure you wish to delete UOM (Code: '

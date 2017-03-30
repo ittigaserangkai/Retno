@@ -99,7 +99,6 @@ inherited frmCreditCard: TfrmCreditCard
       ExplicitWidth = 703
       inherited lbEscape: TLabel
         Left = 629
-        Height = 17
         ExplicitLeft = 629
       end
     end

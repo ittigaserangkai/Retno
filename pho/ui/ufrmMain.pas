@@ -10,7 +10,7 @@ uses
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
-  ufrmTipeCN;
+  ufrmTipeCN, ufrmDocument, ufrmTipePO, ufrmAgama;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -298,6 +298,12 @@ type
     ipeBonus1: TMenuItem;
     actTipeCN: TAction;
     ipeCN1: TMenuItem;
+    actDocument: TAction;
+    Document1: TMenuItem;
+    actTipePO: TAction;
+    ipePO1: TMenuItem;
+    actAgama: TAction;
+    MasterAgama1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -309,10 +315,12 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
+    procedure actDocumentExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
     procedure actGudangExecute(Sender: TObject);
+    procedure actAgamaExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
@@ -360,6 +368,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
+    procedure actTipePOExecute(Sender: TObject);
     procedure actUnitExecute(Sender: TObject);
     procedure actUnitStoreExecute(Sender: TObject);
     procedure actVoucherExecute(Sender: TObject);
@@ -449,6 +458,7 @@ begin
     frmMain.FPanelLoading := nil;
   end;
 end;
+
 
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
@@ -557,6 +567,11 @@ begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actDocumentExecute(Sender: TObject);
+begin
+  frmDocument := TfrmDocument.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
 begin
     frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
@@ -570,6 +585,11 @@ end;
 procedure TfrmMain.actGudangExecute(Sender: TObject);
 begin
   frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actAgamaExecute(Sender: TObject);
+begin
+   frmAgama := TfrmAgama.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMataUangExecute(Sender: TObject);
@@ -872,6 +892,11 @@ end;
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
 begin
     frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actTipePOExecute(Sender: TObject);
+begin
+  frmTipePO := TfrmTipePO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actUnitExecute(Sender: TObject);

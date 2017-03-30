@@ -32,6 +32,7 @@ type
     lbTelepon: TLabel;
     cxLookUpUnit: TcxExtLookupComboBox;
     lbCabang: TLabel;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -50,10 +51,26 @@ var
 implementation
 
 uses
-  uDMClient, udxUtils, uModUnit, uAppUtils;
+  uDMClient, udxUtils, uModUnit, uAppUtils, uConstanta;
 
 
 {$R *.dfm}
+
+procedure TfrmDialogGudang.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+    if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE)<>True then exit;
+
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModGudang);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult:=mrOk;
+
+  Except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    Raise;
+  end;
+end;
 
 procedure TfrmDialogGudang.actSaveExecute(Sender: TObject);
 begin
