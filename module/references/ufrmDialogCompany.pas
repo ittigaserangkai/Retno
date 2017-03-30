@@ -65,11 +65,15 @@ begin
 
   if TAppUtils.ConfirmSimpan then
   begin
-    Company.COMP_CODE := edtCode.Text;
-    Company.COMP_NAME := edtName.Text;
+    try
+      Company.COMP_CODE := edtCode.Text;
+      Company.COMP_NAME := edtName.Text;
 
-    if DMClient.CrudClient.SaveToDB(FCompany) then
-      ModalResult := mrOk;
+      if DMClient.CrudClient.SaveToDB(FCompany) then
+        ModalResult := mrOk;
+    except
+      raise;
+    end;
 
 
   end;

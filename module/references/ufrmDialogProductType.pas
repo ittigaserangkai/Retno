@@ -21,6 +21,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
     FProductTypeId: Integer;
@@ -58,7 +59,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConn, DB, uApputils, uConstanta;
+uses uTSCommonDlg, uConn, DB, uApputils, uConstanta,uDXUtils;
 
 {$R *.dfm}
 
@@ -239,6 +240,12 @@ begin
   Action := caFree;
 end;
 
+procedure TfrmDialogProductType.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
+end;
+
 procedure TfrmDialogProductType.FormDestroy(Sender: TObject);
 begin
   inherited;
@@ -270,6 +277,9 @@ end;
 
 procedure TfrmDialogProductType.SimpanData;
 begin
+  if not ValidateEmptyCtrl([1]) then
+    Exit;
+
   MODTipeBarang.TPBRG_CODE := edtCode.Text;
   MODTipeBarang.TPBRG_NAME := edtName.Text;
 
@@ -278,7 +288,7 @@ begin
     TAppUtils.Information('Simpan Berhasil.');
     Self.ModalResult := mrOk;
   except
-    TAppUtils.Error('Gagal Menyimpan Data.');
+//    TAppUtils.Error('Gagal Menyimpan Data.');
     Raise
   end;
 end;

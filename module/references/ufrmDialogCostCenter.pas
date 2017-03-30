@@ -70,11 +70,15 @@ begin
 
   if TAppUtils.ConfirmSimpan then
   begin
-    CostCenter.COCTER_CODE := edtCode.Text;
-    CostCenter.COCTER_NAME := edtName.Text;
+    try
+      CostCenter.COCTER_CODE := edtCode.Text;
+      CostCenter.COCTER_NAME := edtName.Text;
 
-    if DMClient.CrudClient.SaveToDB(FCostCenter) then
-      ModalResult := mrOk;
+      if DMClient.CrudClient.SaveToDB(FCostCenter) then
+        ModalResult := mrOk;
+    except
+      raise;
+    end;
 
 
   end;

@@ -13,6 +13,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property TPBRG_CODE: string read FTPBRG_CODE write FTPBRG_CODE;
     property TPBRG_NAME: string read FTPBRG_NAME write FTPBRG_NAME;
   end;
