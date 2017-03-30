@@ -13,71 +13,70 @@ inherited frmDialogGudang: TfrmDialogGudang
   inherited pnlBody: TPanel
     Width = 514
     Height = 339
-    ExplicitTop = -1
     ExplicitWidth = 514
-    ExplicitHeight = 281
+    ExplicitHeight = 339
     object lbFax: TLabel
       Left = 20
       Top = 134
-      Width = 26
+      Width = 18
       Height = 16
-      Caption = 'lbFax'
+      Caption = 'FAX'
     end
     object lbKota: TLabel
       Left = 20
       Top = 164
-      Width = 31
+      Width = 25
       Height = 16
-      Caption = 'lbKota'
+      Caption = 'KOTA'
     end
     object lbKodePos: TLabel
       Left = 20
       Top = 194
-      Width = 48
+      Width = 49
       Height = 16
-      Caption = 'lbKodePos'
+      Caption = 'KODE POS'
     end
     object lbKontak: TLabel
       Left = 20
       Top = 224
-      Width = 43
+      Width = 38
       Height = 16
-      Caption = 'lbKontak'
+      Caption = 'KONTAK'
     end
     object lbKode: TLabel
       Left = 20
       Top = 14
-      Width = 32
+      Width = 27
       Height = 16
-      Caption = 'lbKode'
+      Caption = 'KODE'
     end
     object lbNama: TLabel
       Left = 20
       Top = 44
-      Width = 35
+      Width = 27
       Height = 16
-      Caption = 'lbNama'
+      Caption = 'NAMA'
     end
     object lbAlamat: TLabel
       Left = 20
       Top = 74
-      Width = 41
+      Width = 37
       Height = 16
-      Caption = 'lbAlamat'
+      Caption = 'ALAMAT'
     end
     object lbTelepon: TLabel
       Left = 20
       Top = 104
       Width = 45
       Height = 16
-      Caption = 'lbTelepon'
+      Caption = 'TELEPON'
     end
     object lbCabang: TLabel
       Left = 20
       Top = 254
-      Width = 45
+      Width = 39
       Height = 16
-      Caption = 'lbCabang'
+      Caption = 'CABANG'
     end
     object edKode: TcxTextEdit
       Tag = 1
@@ -139,7 +138,7 @@ inherited frmDialogGudang: TfrmDialogGudang
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 339
     Width = 514
-    ExplicitTop = 281
+    ExplicitTop = 339
     ExplicitWidth = 514
     inherited pnlFooter: TPanel
       Width = 514
@@ -156,6 +155,10 @@ inherited frmDialogGudang: TfrmDialogGudang
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+      end
+      inherited btnPrint: TcxButton
+        Left = 267
+        ExplicitLeft = 267
       end
     end
     inherited pnlSortCut: TPanel
@@ -177,11 +180,17 @@ inherited frmDialogGudang: TfrmDialogGudang
       inherited lbCTRLDel: TLabel
         Height = 15
       end
+      inherited lblCTRLP: TLabel
+        Left = 260
+      end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 424
     Top = 112
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

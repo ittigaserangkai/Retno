@@ -253,7 +253,7 @@ inherited frmDisplayCCAndCashback: TfrmDisplayCCAndCashback
       ExplicitWidth = 785
       inherited lbEscape: TLabel
         Left = 711
-        Height = 17
+        ExplicitLeft = 711
       end
     end
   end

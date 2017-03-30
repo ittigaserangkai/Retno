@@ -242,18 +242,13 @@ inherited frmDialogSearchSupplier: TfrmDialogSearchSupplier
       inherited lbCTRLEnter: TLabel
         Left = 320
         Width = 92
-        Height = 15
         Caption = 'Ctrl-Enter [Select]'
         ExplicitLeft = 320
         ExplicitWidth = 92
       end
       inherited lbEscape: TLabel
         Left = 418
-        Height = 15
         ExplicitLeft = 418
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end

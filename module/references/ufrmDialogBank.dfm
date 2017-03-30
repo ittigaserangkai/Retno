@@ -171,31 +171,40 @@ inherited frmDialogBank: TfrmDialogBank
       ExplicitWidth = 505
       inherited btnClose: TcxButton
         Left = 428
+        Action = actCancel
         ExplicitLeft = 428
       end
       inherited btnSave: TcxButton
-        Left = 325
+        Left = 335
         Action = actSave
-        ExplicitLeft = 325
+        ExplicitLeft = 335
+        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = actDelete
         OnClick = btnDeleteClick
+      end
+      inherited btnPrint: TcxButton
+        Left = 258
+        ExplicitLeft = 258
       end
     end
     inherited pnlSortCut: TPanel
       Width = 505
       ExplicitWidth = 505
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 330
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 421
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 254
       end
     end
   end

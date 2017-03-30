@@ -108,8 +108,8 @@ begin
 end;
 
 procedure TfrmDialogSearchSupplier.FindDataOnGrid(AText: String);
-var
-  resPoint: TPoint;
+//var
+//  resPoint: TPoint;
 begin
   if (AText <> '') then
   begin
@@ -179,7 +179,7 @@ begin
 end;
 
 procedure TfrmDialogSearchSupplier.FormShow(Sender: TObject);
-var i, countData : integer;
+//var i, countData : integer;
 begin
   {if not Assigned(SearchSupplier) then SearchSupplier := TSearchSupplier.Create;
 
@@ -235,7 +235,7 @@ begin
 end;
 
 procedure TfrmDialogSearchSupplier.ParserGrid(jmlData: Integer);
-var i: Integer;
+//var i: Integer;
 begin
  { with strgGrid do
   begin

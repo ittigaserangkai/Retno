@@ -331,9 +331,6 @@ inherited frmAdjustmentCashback: TfrmAdjustmentCashback
   inherited pnlHeader: TPanel
     Width = 678
     ExplicitWidth = 678
-    inherited lblHeader: TLabel
-      Height = 18
-    end
   end
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0

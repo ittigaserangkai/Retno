@@ -8,9 +8,11 @@ uses
   Vcl.ActnList, ufraFooterDialog3Button, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxMaskEdit, cxSpinEdit,
   cxTimeEdit, cxTextEdit, cxCurrencyEdit;
+  // tambahan
+  // Ini juga tambahan
 
 type
-  TFormMode = (fmAdd, fmEdit);
+//  TFormMode = (fmAdd, fmEdit);
 
   TfrmDialogFinalPayment = class(TfrmMasterDialog)
     lbl4: TLabel;
@@ -29,10 +31,10 @@ type
     procedure edtFinPay1Enter(Sender: TObject);
   private
     FIsProcessSuccessfull: boolean;
-    FFormMode: TFormMode;
+//    FFormMode: TFormMode;
     FNominalEdit: Double;
     FNominalSisa: Double;
-    procedure SetFormMode(const Value: TFormMode);
+//    procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
   public
     { Public declarations }
@@ -44,7 +46,7 @@ type
     property NominalEdit: Double read FNominalEdit write FNominalEdit;
     property NominalSisa: Double read FNominalSisa write FNominalSisa;
   published
-    property FormMode: TFormMode read FFormMode write SetFormMode;
+//    property FormMode: TFormMode read FFormMode write SetFormMode;
     property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
@@ -70,10 +72,10 @@ begin
   frmDialogFinalPayment := nil;
 end;
 
-procedure TfrmDialogFinalPayment.SetFormMode(const Value: TFormMode);
-begin
-  FFormMode := Value;
-end;
+//procedure TfrmDialogFinalPayment.SetFormMode(const Value: TFormMode);
+//begin
+//  FFormMode := Value;
+//end;
 
 procedure TfrmDialogFinalPayment.SetIsProcessSuccessfull(
   const Value: boolean);

@@ -177,6 +177,15 @@ object frmMain: TfrmMain
       object UnitStore1: TMenuItem
         Action = actUnitStore
       end
+      object Document1: TMenuItem
+        Action = actDocument
+      end
+      object ipePO1: TMenuItem
+        Action = actTipePO
+      end
+      object MasterAgama1: TMenuItem
+        Action = actAgama
+      end
     end
     object CustomerSupport1: TMenuItem
       Caption = 'Membership'
@@ -1222,6 +1231,21 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Tipe CN'
       OnExecute = actTipeCNExecute
+    end
+    object actDocument: TAction
+      Category = 'References'
+      Caption = 'Document'
+      OnExecute = actDocumentExecute
+    end
+    object actTipePO: TAction
+      Category = 'References'
+      Caption = 'Tipe PO'
+      OnExecute = actTipePOExecute
+    end
+    object actAgama: TAction
+      Category = 'References'
+      Caption = 'Master Agama'
+      OnExecute = actAgamaExecute
     end
   end
   object AppEvents: TApplicationEvents

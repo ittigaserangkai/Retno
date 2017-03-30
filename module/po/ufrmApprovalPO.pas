@@ -51,7 +51,7 @@ type
       Shift: TShiftState);
   private
 //    FPO : TPO;
-    procedure LoadDataPO;
+//    procedure LoadDataPO;
     procedure ParseHeaderGrid;
   public
     procedure LoadDataToCbbMerchanGrup;
@@ -82,9 +82,9 @@ uses ufrmSearchSupplier, uTSCommonDlg, uConstanta, StrUtils;
 {$R *.dfm}
 
 procedure TfrmApprovallPO.actAddExecute(Sender: TObject);
-var
-  i: integer;
-  state: Boolean;
+//var
+//  i: integer;
+//  state: Boolean;
 begin
   {
   for i := strgGrid.FixedRows to strgGrid.RowCount - 1 do
@@ -226,13 +226,13 @@ begin
   ParseHeaderGrid;
 end;
 
-procedure TfrmApprovallPO.LoadDataPO;
-var
-  sFilterNoPO, sFilterSuplier, sFilterDate, sFilterMerchan: string;
-  NOPO: string;
-  i: Integer;
-  sSQL: string;
-begin
+//procedure TfrmApprovallPO.LoadDataPO;
+//var
+//  sFilterNoPO, sFilterSuplier, sFilterDate, sFilterMerchan: string;
+//  NOPO: string;
+//  i: Integer;
+//  sSQL: string;
+//begin
    {
    sFilterMerchan := ' and mg.MERCHANGRUP_MERCHAN_ID= '+IntToStr(cGetIDfromCombo(cbbMerchanGroup))+' ';
 
@@ -313,7 +313,7 @@ begin
 
    HapusBarisKosong(strgGrid,1);
    }
-end;
+//end;
 
 procedure TfrmApprovallPO.ParseHeaderGrid();
 begin
@@ -347,9 +347,9 @@ end;
 
 procedure TfrmApprovallPO.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var
-  _isChecked: Boolean;
-  i: Integer;
+//var
+//  _isChecked: Boolean;
+//  i: Integer;
 begin
   inherited;
   if (Key = 13) and (ssctrl in Shift) then
@@ -419,7 +419,7 @@ end;
 
 procedure TfrmApprovallPO.strgGridKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var sSql : string;
+//var sSql : string;
 begin
   inherited;
   {if Key= vk_f5 then

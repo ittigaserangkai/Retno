@@ -373,6 +373,9 @@ inherited frmDialogUnit: TfrmDialogUnit
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 605
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 852
@@ -389,6 +392,9 @@ inherited frmDialogUnit: TfrmDialogUnit
       end
       inherited lbCTRLDel: TLabel
         Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 601
       end
     end
   end
