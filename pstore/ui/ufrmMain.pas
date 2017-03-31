@@ -89,7 +89,6 @@ type
     actImportSync: TAction;
     actPOFromTrader: TAction;
     actTrader: TAction;
-    actDOForAsgross: TAction;
     actMemberShip: TAction;
     actMemberActivation: TAction;
     actPrintPO: TAction;
@@ -185,6 +184,7 @@ type
     actLaporanReturSupplier: TAction;
     actactListMemberTransaction: TAction;
     actRafaksiSupplier: TAction;
+    actReturTrader: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -233,6 +233,7 @@ type
     procedure actReprintNotaExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
     procedure actResetCashierExecute(Sender: TObject);
+    procedure actReturTraderExecute(Sender: TObject);
     procedure actSalesReportContrabonExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
@@ -299,7 +300,7 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
   ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
   ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
-  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi;
+  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -678,6 +679,11 @@ end;
 procedure TfrmMain.actResetCashierExecute(Sender: TObject);
 begin
     frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actReturTraderExecute(Sender: TObject);
+begin
+   frmReturTrader := TfrmReturTrader.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSalesReportContrabonExecute(Sender: TObject);

@@ -7,7 +7,8 @@ uses
   Dialogs, ufrmMasterDialog, JvEdit, Grids, BaseGrid, AdvGrid,
   JvLabel, cbxbase, dblup1a, StdCtrls, Mask, JvToolEdit,
   ufraFooterDialog2Button, ExtCtrls, SUIForm, DB, Jclstrings, uRMSUnit,
-  uPOAssgrosNew, AdvObj, JvExStdCtrls, JvValidateEdit, JvExMask;
+  uPOAssgrosNew, AdvObj, JvExStdCtrls, JvValidateEdit, JvExMask, AdvUtil,
+  AdvCombo, ColCombo, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
 
 type
   TFormMode = (fmAddDOAssgros, fmDetilDO, fmRealisasi, fmEditRealisasi, fmDetil, fmDetilRealisasi);

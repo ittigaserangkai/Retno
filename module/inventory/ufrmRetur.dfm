@@ -14,11 +14,10 @@ inherited frmRetur: TfrmRetur
     Height = 286
     ExplicitTop = 151
     ExplicitWidth = 634
-    ExplicitHeight = 404
+    ExplicitHeight = 286
     inherited pgcBrowse: TcxPageControl
       Width = 612
       Height = 264
-      ExplicitTop = 129
       ExplicitWidth = 612
       ExplicitHeight = 264
       ClientRectBottom = 263
@@ -118,6 +117,7 @@ inherited frmRetur: TfrmRetur
       ExplicitWidth = 634
       inherited lbEscape: TLabel
         Left = 560
+        Height = 17
         ExplicitLeft = 560
       end
     end
@@ -130,9 +130,6 @@ inherited frmRetur: TfrmRetur
     Align = alTop
     BevelWidth = 2
     TabOrder = 3
-    ExplicitLeft = 11
-    ExplicitTop = 11
-    ExplicitWidth = 612
     object lblNoBukti: TLabel
       Left = 24
       Top = 29
@@ -182,10 +179,10 @@ inherited frmRetur: TfrmRetur
       TabOrder = 5
     end
     object dtDate: TcxDateEdit
-      Left = 399
+      Left = 407
       Top = 29
       TabOrder = 2
-      Width = 121
+      Width = 122
     end
     object edtMerchannama: TEdit
       Left = 222

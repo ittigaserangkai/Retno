@@ -176,7 +176,9 @@ uses
   ufrmDialogDiscountMember in '..\module\customer_support\ufrmDialogDiscountMember.pas' {frmDialogDiscountMember},
   ufrmListMemberTransaction in '..\module\cashier_supv\ufrmListMemberTransaction.pas' {frmListMemberTransaction},
   ufrmRafaksi in '..\module\inventory\ufrmRafaksi.pas' {frmRafaksi},
-  ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi};
+  ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi},
+  ufrmReturTrader in '..\module\inventory\ufrmReturTrader.pas' {frmReturTrader},
+  ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader};
 
 {$R *.res}
 
