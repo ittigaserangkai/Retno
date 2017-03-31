@@ -3,9 +3,12 @@ unit uModBarang;
 interface
 
 uses
-  uModApp, uModRefPajak, uModAuthApp, uModSatuan, uModOutlet, uModSuplier;
+  uModApp, uModRefPajak, uModAuthApp, uModSatuan, uModOutlet, uModSuplier,
+  System.Generics.Collections;
 
 type
+  TModBarangSupplier = class;
+
   TModTipeBarang = class(TModApp)
   private
     FTPBRG_CODE: string;
@@ -17,7 +20,6 @@ type
     property TPBRG_NAME: string read FTPBRG_NAME write FTPBRG_NAME;
   end;
 
-type
   TModMerk = class(TModApp)
   private
     FMERK_NAME: string;
@@ -94,6 +96,7 @@ type
     FBRG_UOM_VOLUME: Integer;
     FBRG_UOM_WEIGHT: string;
     FBRG_WIDTH: string;
+    FSuppliers: TObjectList<TModBarangSupplier>;
     FMerchandise: TModMerchandise;
     FMerchandiseGroup: TModMerchandiseGroup;
     FKategori: TModKategori;
@@ -104,8 +107,11 @@ type
     FSAFETY_STOCK: Double;
     FSATUAN_PURCHASE: TModSatuan;
     FTipeBarang: TModTipeBarang;
+    function GetSuppliers: TObjectList<TModBarangSupplier>;
   public
     class function GetTableName: string; override;
+    property Suppliers: TObjectList<TModBarangSupplier> read GetSuppliers write
+        FSuppliers;
   published
     property BRG_CODE: String read FBRG_CODE write FBRG_CODE;
     property BRG_NAME: String read FBRG_NAME write FBRG_NAME;
@@ -174,6 +180,7 @@ type
 
   TModBarangSupplier = class(TModApp)
   private
+    FBARANG: TModBarang;
     FBRGSUP_BUY_PRICE: Double;
     FBRGSUP_DISC1: Double;
     FBRGSUP_DISC2: Double;
@@ -183,7 +190,6 @@ type
     FBRGSUP_DELIVERY_TIME: Integer;
     FBRGSUP_IS_ENABLE_CN: Integer;
     FBRGSUP_EXPIRE_TIME: Integer;
-    FBRGSUP_EXPIRE_TIME1: Integer;
     FBRGSUP_STOCK_IN_ORDER: Double;
     FBRGSUP_MIN_ORDER: Double;
     FBRGSUP_MAX_ORDER: Double;
@@ -191,12 +197,14 @@ type
     FBRGSUP_IS_BKP: Integer;
     FBRGSUP_IS_ACTIVE: Integer;
     FBRGSUP_FEE: Integer;
-    FBRGSUP_MARK_UP: Integer;
+    FBRGSUP_MARK_UP: Double;
     FSATUAN_PURCHASE: TModSatuan;
     FSupplier: TModSuplier;
   public
     class function GetTableName: string; override;
   published
+    [AttributeOfHeader]
+    property BARANG: TModBarang read FBARANG write FBARANG;
     property BRGSUP_BUY_PRICE: Double read FBRGSUP_BUY_PRICE write
         FBRGSUP_BUY_PRICE;
     property BRGSUP_DISC1: Double read FBRGSUP_DISC1 write FBRGSUP_DISC1;
@@ -212,8 +220,6 @@ type
         FBRGSUP_IS_ENABLE_CN;
     property BRGSUP_EXPIRE_TIME: Integer read FBRGSUP_EXPIRE_TIME write
         FBRGSUP_EXPIRE_TIME;
-    property BRGSUP_EXPIRE_TIME1: Integer read FBRGSUP_EXPIRE_TIME1 write
-        FBRGSUP_EXPIRE_TIME1;
     property BRGSUP_STOCK_IN_ORDER: Double read FBRGSUP_STOCK_IN_ORDER write
         FBRGSUP_STOCK_IN_ORDER;
     property BRGSUP_MIN_ORDER: Double read FBRGSUP_MIN_ORDER write
@@ -226,7 +232,7 @@ type
     property BRGSUP_IS_ACTIVE: Integer read FBRGSUP_IS_ACTIVE write
         FBRGSUP_IS_ACTIVE;
     property BRGSUP_FEE: Integer read FBRGSUP_FEE write FBRGSUP_FEE;
-    property BRGSUP_MARK_UP: Integer read FBRGSUP_MARK_UP write FBRGSUP_MARK_UP;
+    property BRGSUP_MARK_UP: Double read FBRGSUP_MARK_UP write FBRGSUP_MARK_UP;
     [AttributeOfForeign('REF$SATUAN_PURCHASE')]
     property SATUAN_PURCHASE: TModSatuan read FSATUAN_PURCHASE write
         FSATUAN_PURCHASE;
@@ -247,6 +253,13 @@ end;
 class function TModMerk.GetTableName: String;
 begin
   Result := 'MERK';
+end;
+
+function TModBarang.GetSuppliers: TObjectList<TModBarangSupplier>;
+begin
+  If not Assigned(FSuppliers) then
+    FSuppliers := TObjectList<TModBarangSupplier>.Create;
+  Result := FSuppliers;
 end;
 
 class function TModBarang.GetTableName: string;

@@ -18,6 +18,7 @@ inherited frmProduct: TfrmProduct
     inherited pgcBrowse: TcxPageControl
       Width = 902
       Height = 479
+      Properties.ActivePage = tsProductInfo
       Properties.HideTabs = False
       ExplicitWidth = 902
       ExplicitHeight = 479

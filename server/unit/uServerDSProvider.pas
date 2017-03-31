@@ -62,6 +62,7 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function Suplier_GetDSLookup: TDataSet;
     function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
 
@@ -562,6 +563,15 @@ begin
   S := 'select AGAMA_NAME, REF$AGAMA_ID'
   +' from'
   +' REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Suplier_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT SUPLIER_ID, SUP_NAME, SUP_CODE, SUP_ADDRESS FROM SUPLIER'
+      +' WHERE SUP_IS_ACTIVE=1';
   Result := TDBUtils.OpenQuery(S);
 end;
 
