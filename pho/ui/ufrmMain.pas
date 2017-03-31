@@ -320,7 +320,6 @@ type
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
     procedure actGudangExecute(Sender: TObject);
-    procedure actAgamaExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
@@ -368,7 +367,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure miConnectionDatabaseClick(Sender: TObject);
     procedure actTipePembayaranExecute(Sender: TObject);
-    procedure actTipePOExecute(Sender: TObject);
     procedure actUnitExecute(Sender: TObject);
     procedure actUnitStoreExecute(Sender: TObject);
     procedure actVoucherExecute(Sender: TObject);
@@ -585,11 +583,6 @@ end;
 procedure TfrmMain.actGudangExecute(Sender: TObject);
 begin
   frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actAgamaExecute(Sender: TObject);
-begin
-   frmAgama := TfrmAgama.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMataUangExecute(Sender: TObject);
@@ -892,11 +885,6 @@ end;
 procedure TfrmMain.actTipePengirimanPOExecute(Sender: TObject);
 begin
     frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actTipePOExecute(Sender: TObject);
-begin
-  frmTipePO := TfrmTipePO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actUnitExecute(Sender: TObject);

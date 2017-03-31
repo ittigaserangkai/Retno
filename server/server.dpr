@@ -38,10 +38,10 @@ uses
   uModTipeBonus in '..\model\uModTipeBonus.pas',
   uServerDSProvider in 'unit\uServerDSProvider.pas',
   uModDocument in '..\model\uModDocument.pas',
-  uModRefAgama in '..\model\uModRefAgama.pas',
   uModTipePo in '..\model\uModTipePo.pas',
-  uModRefPajak in '..\model\uModRefPajak.pas';
-  uModAgama in '..\model\uModAgama.pas';
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas';
+
 
 {$R *.res}
 
