@@ -135,7 +135,11 @@ begin
     actSave.Execute;
     Key := VK_CANCEL;
   end;
-  if(Key = VK_ESCAPE) then actCancel.Execute;
+  if(Key = VK_ESCAPE) then
+  begin
+    If TAppUtils.Confirm('Anda yakin ingin menutup form ini?') then
+      actCancel.Execute;
+  end;
 end;
 
 procedure TfrmMasterDialog.GetUserModule;

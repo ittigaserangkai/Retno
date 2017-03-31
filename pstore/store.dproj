@@ -675,7 +675,14 @@
             <Form>frmDialogRafaksi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModRefAgama.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmReturTrader.pas">
+            <Form>frmReturTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogReturTrader.pas">
+            <Form>frmDialogReturTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -702,7 +709,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
-                <DeployFile LocalName="..\bin\store.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\build\Retno\bin\store.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>store.exe</RemoteName>
                         <Overwrite>true</Overwrite>

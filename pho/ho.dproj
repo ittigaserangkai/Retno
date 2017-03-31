@@ -3,7 +3,7 @@
         <ProjectGuid>{A129B2AD-FBEC-4746-A4D0-AE2BB4DF269A}</ProjectGuid>
         <MainSource>ho.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>

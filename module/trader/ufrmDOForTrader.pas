@@ -1,32 +1,33 @@
-unit ufrmDOForAsGross;
+unit ufrmDOForTrader;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, Mask, JvToolEdit, Grids,
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, Mask, JvToolEdit, Grids,
   BaseGrid, AdvGrid, ufraFooter5Button, ActnList, DB,
   SUIButton, uConn, JclStrings, cbxbase, dblup1a, JvEdit, uPOAssgrosNew,
-  JvExStdCtrls, JvValidateEdit, AdvObj, JvExMask;
+  JvExStdCtrls, JvValidateEdit, AdvObj, JvExMask, AdvUtil, System.Actions,
+  AdvCombo, ColCombo;
 
 type
-  TfrmDoForAsGross = class(TfrmMaster)
+  TfrmDOForTrader = class(TfrmMasterBrowse)
     Panel1: TPanel;
     fraFooter5Button1: TfraFooter5Button;
     Panel2: TPanel;
     strgGrid: TAdvStringGrid;
     lbl1: TLabel;
-    dtTgl1: TJvDateEdit;
+    dtTgl1: TcxDateEdit;
     actlstDOForTrader: TActionList;
     actCreateDOTrader: TAction;
     actDetilPOTrader: TAction;
     actDeleteDOTrader: TAction;
-    dtTgl2: TJvDateEdit;
+    dtTgl2: TcxDateEdit;
     lblPilih: TLabel;
     cbPilih: TComboBox;
-    btnShow: TsuiButton;
+    btnShow: TcxButton;
     Label1: TLabel;
-    btnShowReport: TsuiButton;
+    btnShowReport: TcxButton;
     pnlBayar: TPanel;
     Label2: TLabel;
     Label3: TLabel;
@@ -35,18 +36,18 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    btnPrintReal: TsuiButton;
+    btnPrintReal: TcxButton;
     edtNoTransaksi: TEdit;
     edtNoKartu: TEdit;
     edtNoOtorisasi: TEdit;
-    cbpKasir: TColumnComboBox;
-    cbpCredit: TColumnComboBox;
-    btnBatal: TsuiButton;
+    cbpKasir: TcxExtLookupComboBox;
+    cbpCredit: TcxExtLookupComboBox;
+    btnBatal: TcxButton;
     edtNoDO: TEdit;
     Label9: TLabel;
-    btnPrintDOwoDisc: TsuiButton;
-    currCash: TJvValidateEdit;
-    currCredit: TJvValidateEdit;
+    btnPrintDOwoDisc: TcxButton;
+    currCash: TcxCurrencyEdit;
+    currCredit: TcxCurrencyEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -130,7 +131,7 @@ type
   end;
 
 var
-  frmDoForAsGross: TfrmDoForAsGross;
+  frmDOForTrader: TfrmDOForTrader;
 
 implementation
 
@@ -154,26 +155,26 @@ const
 {$R *.dfm}
 
 
-procedure TfrmDoForAsGross.FormClose(Sender: TObject;
+procedure TfrmDOForTrader.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
   Action := caFree;
 end;
 
-procedure TfrmDoForAsGross.FormDestroy(Sender: TObject);
+procedure TfrmDOForTrader.FormDestroy(Sender: TObject);
 begin
   inherited;
-  frmDoForAsGross := nil;
+  frmDOForTrader := nil;
 end;
 
-procedure TfrmDoForAsGross.FormCreate(Sender: TObject);
+procedure TfrmDOForTrader.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'DO FOR ASSGROS';
 end;
 
-procedure TfrmDoForAsGross.FormShow(Sender: TObject);
+procedure TfrmDOForTrader.FormShow(Sender: TObject);
 begin
   dtTgl1.Date := now;
   dtTgl2.Date := now;
@@ -193,7 +194,7 @@ begin
   btnShowClick(nil);
 end;
 
-procedure TfrmDoForAsGross.ParseHeaderGrid;
+procedure TfrmDOForTrader.ParseHeaderGrid;
 begin
   with strgGrid do
   begin
@@ -235,7 +236,7 @@ begin
   end;
 end;
 
-procedure TfrmDoForAsGross.dtTgl1KeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.dtTgl1KeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key = VK_RETURN) then
@@ -245,7 +246,7 @@ begin
 end;
 
 {
-procedure TfrmDoForAsGross.ParseDataPOAssgros(ADate: TDateTime);
+procedure TfrmDOForTrader.ParseDataPOAssgros(ADate: TDateTime);
 var
   i: integer;
   aParams: TArr;
@@ -285,7 +286,7 @@ begin
   //ReviewDataPOAssgrosStatus;
 end;
 }
-procedure TfrmDoForAsGross.strgGridCanEditCell(Sender: TObject; ARow,
+procedure TfrmDOForTrader.strgGridCanEditCell(Sender: TObject; ARow,
   ACol: Integer; var CanEdit: Boolean);
 begin
   if (ACol in [0,7]) then
@@ -295,7 +296,7 @@ begin
 end;
 
 {
-function TfrmDoForAsGross.CheckPOAssgrosIsCompleted(APONo: string;
+function TfrmDOForTrader.CheckPOAssgrosIsCompleted(APONo: string;
   AUnitId: integer): boolean;
 var
   aParams: TArr;
@@ -315,7 +316,7 @@ begin
 end;
 }
 
-{procedure TfrmDoForAsGross.ReviewDataPOAssgrosStatus;
+{procedure TfrmDOForTrader.ReviewDataPOAssgrosStatus;
 var
   i,UnitId: integer;
   isCompleted: boolean;
@@ -352,7 +353,7 @@ begin
 end;
 }
 
-procedure TfrmDoForAsGross.actCreateDOTraderExecute(Sender: TObject);
+procedure TfrmDOForTrader.actCreateDOTraderExecute(Sender: TObject);
 var
   i: integer;
   isPrint: boolean;
@@ -374,7 +375,7 @@ begin
     CommonDlg.ShowConfirmGlobal(PRINT_DO_FOR_ASSGROS_SUCCESSFULLY);
 end;
 
-procedure TfrmDoForAsGross.actDetilPOTraderExecute(Sender: TObject);
+procedure TfrmDOForTrader.actDetilPOTraderExecute(Sender: TObject);
 begin
 //  if not assigned(frmDetilPOFromTrader) then
 //    frmDetilPOFromTrader := TfrmDetilPOFromTrader.Create(Application);
@@ -384,7 +385,7 @@ begin
     actCreateDOTraderExecute(Self);
 end;
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnAddClick(Sender: TObject);
+procedure TfrmDOForTrader.fraFooter5Button1btnAddClick(Sender: TObject);
 //var
   //NoDO: string;
 begin
@@ -401,7 +402,7 @@ begin
   btnShowClick(Self);
 end;
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnUpdateClick(Sender: TObject);
+procedure TfrmDOForTrader.fraFooter5Button1btnUpdateClick(Sender: TObject);
 begin
   if cbPilih.ItemIndex = 0 then // Lihat PO Detil
   begin
@@ -441,7 +442,7 @@ begin
   end;
 end;
 
-procedure TfrmDoForAsGross.FormKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if(Key = Ord('C'))and(ssctrl in Shift) then        //dulunya ctrl T
@@ -452,12 +453,12 @@ begin
     GetAndRunButton('btnRefresh');
 end;
 
-procedure TfrmDoForAsGross.PrintDOForAssgros(APOASNo: string);
+procedure TfrmDOForTrader.PrintDOForAssgros(APOASNo: string);
 begin
 //
 end;
 
-{procedure TfrmDoForAsGross.actDeleteDOTraderExecute(Sender: TObject);
+{procedure TfrmDOForTrader.actDeleteDOTraderExecute(Sender: TObject);
 var
   _bResult: Boolean;
   _DONo: string;
@@ -497,7 +498,7 @@ begin
 end;
 }
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnRefreshClick(
+procedure TfrmDOForTrader.fraFooter5Button1btnRefreshClick(
   Sender: TObject);
 begin
   if cbPilih.ItemIndex = 2 then
@@ -520,7 +521,7 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.btnShowClick(Sender: TObject);
+procedure TfrmDOForTrader.btnShowClick(Sender: TObject);
 begin
   inherited;
   btnShowReport.Visible := false;
@@ -562,7 +563,7 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.ShowDODelivered;
+procedure TfrmDOForTrader.ShowDODelivered;
 var
   aData: TResultDataSet;
   i: Integer;
@@ -619,7 +620,7 @@ begin
   end;
 end;
 
-procedure TfrmDoForAsGross.ShowPOFromAsGross;
+procedure TfrmDOForTrader.ShowPOFromAsGross;
 var
   aData: TResultDataSet;
   i: Integer;
@@ -671,7 +672,7 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnDeleteClick(
+procedure TfrmDOForTrader.fraFooter5Button1btnDeleteClick(
   Sender: TObject);
 //var
 //  NoDO: String;
@@ -692,7 +693,7 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.btnShowReportClick(Sender: TObject);
+procedure TfrmDOForTrader.btnShowReportClick(Sender: TObject);
 var
   sStatus: string;
   sUntaianNoDO: string;
@@ -723,7 +724,7 @@ begin
   DoSlipDoKring(sUntaianNoDO,sStatus, masternewunit.id, FLoginUsername,MasterNewunit.Nama,cgetServerTime, cgetServerTime);
 end;
 
-procedure TfrmDoForAsGross.PrepareReport(ANoDO: String; ACaption: string);
+procedure TfrmDOForTrader.PrepareReport(ANoDO: String; ACaption: string);
 var
   s: string;
 begin
@@ -792,7 +793,7 @@ begin
   end;
 end;
 
-procedure TfrmDoForAsGross.ShowDORealisasi;
+procedure TfrmDOForTrader.ShowDORealisasi;
 var
   aData: TResultDataSet;
   i: Integer;
@@ -848,7 +849,7 @@ begin
   end;
 end;
 
-procedure TfrmDoForAsGross.PrepareReportKasir(const AData: TResultDataSet);
+procedure TfrmDOForTrader.PrepareReportKasir(const AData: TResultDataSet);
 var
   _total_qty,
   _total_harga: Real;
@@ -915,7 +916,7 @@ begin
   frmDialogPrintKasirPreview.Free;
 end;
 
-procedure TfrmDoForAsGross.btnPrintRealClick(Sender: TObject);
+procedure TfrmDOForTrader.btnPrintRealClick(Sender: TObject);
 begin
   inherited;
   PrepareReport(strgGrid.Cells[1, strgGrid.Row], CAPTION_PRINT_DO_REALISASI);
@@ -923,7 +924,7 @@ begin
   btnShowClick(Sender);
 end;
 
-{procedure TfrmDoForAsGross.PrepareComboBeforePrintRealisasi(ADONo: string);
+{procedure TfrmDOForTrader.PrepareComboBeforePrintRealisasi(ADONo: string);
 var
   _data: TResultDataSet;
   i: integer;
@@ -1001,14 +1002,14 @@ begin
 end;
 }
 
-procedure TfrmDoForAsGross.btnBatalClick(Sender: TObject);
+procedure TfrmDOForTrader.btnBatalClick(Sender: TObject);
 begin
   inherited;
   pnlBayar.Visible := false;
   btnShowClick(Sender);
 end;
 
-procedure TfrmDoForAsGross.strgGridGetFloatFormat(Sender: TObject; ACol,
+procedure TfrmDOForTrader.strgGridGetFloatFormat(Sender: TObject; ACol,
   ARow: Integer; var IsFloat: Boolean; var FloatFormat: String);
 begin
   inherited;
@@ -1019,19 +1020,19 @@ begin
     IsFloat := False;
 end;
 
-procedure TfrmDoForAsGross.cbpKasirChange(Sender: TObject);
+procedure TfrmDOForTrader.cbpKasirChange(Sender: TObject);
 begin
   inherited;
   cbpKasir.Text := cbpKasir.Cells[2, cbpKasir.Row];
 end;
 
-procedure TfrmDoForAsGross.cbpCreditChange(Sender: TObject);
+procedure TfrmDOForTrader.cbpCreditChange(Sender: TObject);
 begin
   inherited;
   cbpCredit.Text := cbpCredit.Cells[2, cbpCredit.Row];
 end;
 
-procedure TfrmDoForAsGross.cbpCreditKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.cbpCreditKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -1043,7 +1044,7 @@ begin
     edtNoKartu.SetFocus;
 end;
 
-procedure TfrmDoForAsGross.cbpKasirKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.cbpKasirKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -1055,7 +1056,7 @@ begin
     currCash.SetFocus;
 end;
 
-procedure TfrmDoForAsGross.currCashChange(Sender: TObject);
+procedure TfrmDOForTrader.currCashChange(Sender: TObject);
 begin
   inherited;
   if (FTotalDO - currCash.Value) < 0 then
@@ -1063,7 +1064,7 @@ begin
   currCredit.Value := FTotalDO - currCash.Value;
 end;
 
-procedure TfrmDoForAsGross.currCreditChange(Sender: TObject);
+procedure TfrmDOForTrader.currCreditChange(Sender: TObject);
 begin
   inherited;
   if (FTotalDO - currCredit.Value) < 0 then
@@ -1071,7 +1072,7 @@ begin
   currCash.Value := FTotalDO - currCredit.Value;
 end;
 
-procedure TfrmDoForAsGross.strgGridGetAlignment(Sender: TObject; ARow,
+procedure TfrmDOForTrader.strgGridGetAlignment(Sender: TObject; ARow,
   ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
 begin
   inherited;
@@ -1083,7 +1084,7 @@ begin
     HAlign := taLeftJustify;
 end;
 
-procedure TfrmDoForAsGross.currCashKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.currCashKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -1091,7 +1092,7 @@ begin
     currCredit.SetFocus;
 end;
 
-procedure TfrmDoForAsGross.currCreditKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.currCreditKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -1099,7 +1100,7 @@ begin
     cbpCredit.SetFocus;
 end;
 
-procedure TfrmDoForAsGross.edtNoKartuKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.edtNoKartuKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
@@ -1107,7 +1108,7 @@ begin
     edtNoOtorisasi.SetFocus;
 end;
 
-procedure TfrmDoForAsGross.edtNoOtorisasiKeyUp(Sender: TObject;
+procedure TfrmDOForTrader.edtNoOtorisasiKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
@@ -1115,7 +1116,7 @@ begin
     btnPrintReal.SetFocus;
 end;
 
-procedure TfrmDoForAsGross.btnPrintDOwoDiscClick(Sender: TObject);
+procedure TfrmDOForTrader.btnPrintDOwoDiscClick(Sender: TObject);
 begin
   inherited;
   if strgGrid.IsSelected(strgGrid.Col, strgGrid.Row) then
@@ -1126,7 +1127,7 @@ begin
     CommonDlg.ShowError('Select Row in the Grid First');
 end;
 
-procedure TfrmDoForAsGross.cbPilihChange(Sender: TObject);
+procedure TfrmDOForTrader.cbPilihChange(Sender: TObject);
 begin
   inherited;
   if cbPilih.Text = PILIH_DO_REALISASI then
@@ -1136,44 +1137,44 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.btnShowEnter(Sender: TObject);
+procedure TfrmDOForTrader.btnShowEnter(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+  (Sender as TcxButton).UIStyle := DeepBlue;
 end;
 
-procedure TfrmDoForAsGross.btnShowReportEnter(Sender: TObject);
+procedure TfrmDOForTrader.btnShowReportEnter(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+  (Sender as TcxButton).UIStyle := DeepBlue;
 end;
 
-procedure TfrmDoForAsGross.btnPrintDOwoDiscEnter(Sender: TObject);
+procedure TfrmDOForTrader.btnPrintDOwoDiscEnter(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+  (Sender as TcxButton).UIStyle := DeepBlue;
 end;
 
-procedure TfrmDoForAsGross.btnPrintRealEnter(Sender: TObject);
+procedure TfrmDOForTrader.btnPrintRealEnter(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+  (Sender as TcxButton).UIStyle := DeepBlue;
 end;
 
-procedure TfrmDoForAsGross.btnBatalEnter(Sender: TObject);
+procedure TfrmDOForTrader.btnBatalEnter(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+  (Sender as TcxButton).UIStyle := DeepBlue;
 end;
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnAddEnter(Sender: TObject);
+procedure TfrmDOForTrader.fraFooter5Button1btnAddEnter(Sender: TObject);
 begin
   inherited;
   fraFooter5Button1.btnAddEnter(Sender);
 
 end;
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnUpdateEnter(
+procedure TfrmDOForTrader.fraFooter5Button1btnUpdateEnter(
   Sender: TObject);
 begin
   inherited;
@@ -1181,7 +1182,7 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.fraFooter5Button1btnRefreshEnter(
+procedure TfrmDOForTrader.fraFooter5Button1btnRefreshEnter(
   Sender: TObject);
 begin
   inherited;
@@ -1189,37 +1190,37 @@ begin
 
 end;
 
-procedure TfrmDoForAsGross.btnPrintRealExit(Sender: TObject);
+procedure TfrmDOForTrader.btnPrintRealExit(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+  (Sender as TcxButton).UIStyle := BlueGlass;
 end;
 
-procedure TfrmDoForAsGross.btnBatalExit(Sender: TObject);
+procedure TfrmDOForTrader.btnBatalExit(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+  (Sender as TcxButton).UIStyle := BlueGlass;
 end;
 
-procedure TfrmDoForAsGross.btnPrintDOwoDiscExit(Sender: TObject);
+procedure TfrmDOForTrader.btnPrintDOwoDiscExit(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+  (Sender as TcxButton).UIStyle := BlueGlass;
 end;
 
-procedure TfrmDoForAsGross.btnShowReportExit(Sender: TObject);
+procedure TfrmDOForTrader.btnShowReportExit(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+  (Sender as TcxButton).UIStyle := BlueGlass;
 end;
 
-procedure TfrmDoForAsGross.btnShowExit(Sender: TObject);
+procedure TfrmDOForTrader.btnShowExit(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+  (Sender as TcxButton).UIStyle := BlueGlass;
 end;
 
-function TfrmDoForAsGross.GetUntaianNomorDO: string;
+function TfrmDOForTrader.GetUntaianNomorDO: string;
 var
   isChecked: Boolean;
   i: Integer;
@@ -1237,7 +1238,7 @@ begin
   Result := Copy(Result,0,length(Result) - 1);
 end;
 
-procedure TfrmDoForAsGross.strgGridKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.strgGridKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   IsChecked: Boolean;
@@ -1257,7 +1258,7 @@ begin
   end;
 end;
 
-procedure TfrmDoForAsGross.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmDOForTrader.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
 //  inherited;
