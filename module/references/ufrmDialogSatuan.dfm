@@ -40,6 +40,7 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       Caption = 'Group'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 86
       Top = 14
       Width = 113
@@ -51,6 +52,7 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 86
       Top = 44
       Width = 267
@@ -101,10 +103,11 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       end
       inherited btnDelete: TcxButton
         Action = actDelete
-        OnClick = btnDeleteClick
+        Enabled = False
       end
       inherited btnPrint: TcxButton
         Left = 126
+        Visible = False
         ExplicitLeft = 126
       end
     end
@@ -131,6 +134,9 @@ inherited frmDialogSatuan: TfrmDialogSatuan
     end
   end
   inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

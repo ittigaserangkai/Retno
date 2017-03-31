@@ -28,6 +28,7 @@ inherited frmDialogCompany: TfrmDialogCompany
       Caption = 'Name'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 54
       Top = 14
       Width = 113
@@ -39,6 +40,7 @@ inherited frmDialogCompany: TfrmDialogCompany
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 54
       Top = 44
       Width = 267
@@ -73,6 +75,7 @@ inherited frmDialogCompany: TfrmDialogCompany
       end
       inherited btnPrint: TcxButton
         Left = 139
+        ExplicitLeft = 139
       end
     end
     inherited pnlSortCut: TPanel
@@ -93,6 +96,7 @@ inherited frmDialogCompany: TfrmDialogCompany
       end
       inherited lblCTRLP: TLabel
         Left = 135
+        ExplicitLeft = 135
       end
     end
   end

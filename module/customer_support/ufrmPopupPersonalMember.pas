@@ -149,21 +149,21 @@ begin
   if not Assigned(frmDialogPersonalMember) then
       frmDialogPersonalMember := TfrmDialogPersonalMember.Create(Self);
 
-  frmDialogPersonalMember.MemberID := MemberID;
-  frmDialogPersonalMember.DialogUnit := FSelfUnitID;
-
-  frmDialogPersonalMember.edtMemberName.Text := edtMemberName.Text;
-  frmDialogPersonalMember.edtCardNo.Text     := edtCardNo.Text;
-  frmDialogPersonalMember.Modul              := mPopUpPersonalMember;
-
-
-  frmDialogPersonalMember.DialogUnit := FSelfUnitID;
-  frmDialogPersonalMember.ShowModal;
-  if frmDialogPersonalMember.IsProcessSuccessfull then
-  begin
-    ParseDataGrid();
-//    frmMemberShip.actRefreshMemberShipExecute(Self);
-  end;
+//  frmDialogPersonalMember.MemberID := MemberID;
+//  frmDialogPersonalMember.DialogUnit := FSelfUnitID;
+//
+//  frmDialogPersonalMember.edtMemberName.Text := edtMemberName.Text;
+//  frmDialogPersonalMember.edtCardNo.Text     := edtCardNo.Text;
+//  frmDialogPersonalMember.Modul              := mPopUpPersonalMember;
+//
+//
+//  frmDialogPersonalMember.DialogUnit := FSelfUnitID;
+//  frmDialogPersonalMember.ShowModal;
+//  if frmDialogPersonalMember.IsProcessSuccessfull then
+//  begin
+//    ParseDataGrid();
+////    frmMemberShip.actRefreshMemberShipExecute(Self);
+//  end;
 end;
 
 end.

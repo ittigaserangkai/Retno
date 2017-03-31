@@ -92,7 +92,7 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
@@ -193,9 +193,9 @@ uses
   ufrmTipeBonus in '..\module\references\ufrmTipeBonus.pas' {frmTipeBonus},
   uModTipeCN in '..\model\uModTipeCN.pas',
   ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN},
+  ufrmDialogPersonalMember in '..\module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
   ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
-  ufrmTipePO in '..\module\po\ufrmTipePO.pas' {frmTipePO},
-  ufrmAgama in '..\module\references\ufrmAgama.pas' {frmAgama};
+  uModRefPajak in '..\model\uModRefPajak.pas';
 
 {$R *.res}
 
@@ -206,5 +206,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmDialogPersonalMember, frmDialogPersonalMember);
   Application.Run;
 end.

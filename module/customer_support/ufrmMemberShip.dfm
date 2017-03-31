@@ -12,15 +12,13 @@ inherited frmMemberShip: TfrmMemberShip
   inherited pnlBody: TPanel
     Width = 773
     Height = 433
-    ExplicitLeft = -2
-    ExplicitTop = 38
-    ExplicitWidth = 780
+    ExplicitWidth = 773
     ExplicitHeight = 433
     inherited pgcBrowse: TcxPageControl
       Width = 751
       Height = 411
       Properties.HideTabs = False
-      ExplicitWidth = 758
+      ExplicitWidth = 751
       ExplicitHeight = 411
       ClientRectBottom = 410
       ClientRectRight = 750
@@ -28,12 +26,12 @@ inherited frmMemberShip: TfrmMemberShip
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 24
-        ExplicitWidth = 756
+        ExplicitWidth = 749
         ExplicitHeight = 386
         inherited cxGrid: TcxGrid
           Width = 749
           Height = 386
-          ExplicitWidth = 756
+          ExplicitWidth = 749
           ExplicitHeight = 386
         end
       end
@@ -524,17 +522,17 @@ inherited frmMemberShip: TfrmMemberShip
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 480
-      ExplicitLeft = 487
+      ExplicitLeft = 480
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 596
-      ExplicitLeft = 603
+      ExplicitLeft = 596
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 691
-      ExplicitLeft = 698
+      ExplicitLeft = 691
     end
     inherited lblsdFilter: TcxLabel
       Left = 572
@@ -546,10 +544,10 @@ inherited frmMemberShip: TfrmMemberShip
     Top = 466
     Width = 773
     ExplicitTop = 466
-    ExplicitWidth = 780
+    ExplicitWidth = 773
     inherited pnlFooter: TPanel
       Width = 773
-      ExplicitWidth = 780
+      ExplicitWidth = 773
       inherited btnAdd: TcxButton
         Action = actAddMemberShip
       end
@@ -562,7 +560,7 @@ inherited frmMemberShip: TfrmMemberShip
       inherited btnClose: TcxButton
         Left = 696
         Action = actClose
-        ExplicitLeft = 703
+        ExplicitLeft = 696
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -570,9 +568,10 @@ inherited frmMemberShip: TfrmMemberShip
     end
     inherited pnlShortCut: TPanel
       Width = 773
-      ExplicitWidth = 780
+      ExplicitWidth = 773
       inherited lbEscape: TLabel
         Left = 699
+        Height = 17
         ExplicitLeft = 699
       end
     end

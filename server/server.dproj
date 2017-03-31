@@ -129,7 +129,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\lib\uDSUtils.pas"/>
         <DCCReference Include="unit\uServerClasses.pas"/>
         <DCCReference Include="..\model\uModAuthApp.pas"/>
-        <DCCReference Include="..\model\uModRefPajak.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
         <DCCReference Include="..\model\uModMember.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
@@ -138,7 +137,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModCostCenter.pas"/>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
-        <DCCReference Include="unit\uServerDSProvider.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModUnit.pas"/>
         <DCCReference Include="..\lib\uTSINIFile.pas"/>
@@ -148,9 +146,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="..\model\uModMataUang.pas"/>
         <DCCReference Include="..\model\uModTipeBonus.pas"/>
+        <DCCReference Include="unit\uServerDSProvider.pas"/>
         <DCCReference Include="..\model\uModDocument.pas"/>
         <DCCReference Include="..\model\uModTipePo.pas"/>
-        <DCCReference Include="..\model\uModAgama.pas"/>
+        <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="..\model\uModRefAgama.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\ServerFunctionExecutor.js"/>
         <None Include="js\json2.js"/>
@@ -200,7 +200,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
-                <DeployFile LocalName="js\ServerFunctionExecutor.js" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="js\ServerFunctionExecutor-min.js" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -392,6 +392,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="js\ServerFunctionExecutor.js" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="js\CallbackFramework.js" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -405,12 +411,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="css\ServerFunctionInvoker.css" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="js\ServerFunctionExecutor-min.js" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
