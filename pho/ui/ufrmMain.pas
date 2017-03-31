@@ -10,7 +10,7 @@ uses
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
-  ufrmTipeCN, ufrmDocument, ufrmTipePO, ufrmAgama;
+  ufrmTipeCN, ufrmDocument;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);

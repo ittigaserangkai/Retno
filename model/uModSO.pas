@@ -3,23 +3,22 @@ unit uModSO;
 interface
 
 uses
-  uModApp, uModUnit, uModBarang;
+  uModApp, uModUnit, uModBarang, uModSuplier;
 
 
 type
   TModSO = class(TModApp)
   private
     FAUTUNIT: TModUnit;
-    FREF_MERCHANDISE_GRUP: TModMerchandiseGroup;
+    FMERCHANDISEGROUP: TModMerchandiseGroup;
     FSO_DATE: TDatetime;
     FSO_NO: string;
+  public
+    AttributeOfForeign;
   published
-    [AttributeOfForeign('AUT$UNIT_ID')]
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
-
-    [AttributeOfForeign('REF$MERCHANDISE_GRUP_ID')]
-    property REF_MERCHANDISE_GRUP: TModMerchandiseGroup read FREF_MERCHANDISE_GRUP
-        write FREF_MERCHANDISE_GRUP;
+    property MERCHANDISEGROUP: TModMerchandiseGroup read FMERCHANDISEGROUP
+        write FMERCHANDISEGROUP;
     property SO_DATE: TDatetime read FSO_DATE write FSO_DATE;
     property SO_NO: string read FSO_NO write FSO_NO;
   end;

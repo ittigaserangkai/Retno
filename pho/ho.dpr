@@ -195,8 +195,10 @@ uses
   ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN},
   ufrmDialogPersonalMember in '..\module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
   ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
-  uModRefPajak in '..\model\uModRefPajak.pas';
-  ufrmTipePO in '..\module\po\ufrmTipePO.pas' {frmTipePO},
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModSO in '..\model\uModSO.pas';
+
+ufrmTipePO in '..\module\po\ufrmTipePO.pas' {frmTipePO},
   ufrmAgama in '..\module\references\ufrmAgama.pas' {frmAgama};
 
 {$R *.res}
