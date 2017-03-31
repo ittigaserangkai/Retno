@@ -179,6 +179,7 @@ type
     property TipeBarang: TModTipeBarang read FTipeBarang write FTipeBarang;
   end;
 
+  [AttrUpdateDetails]
   TModBarangSupplier = class(TModApp)
   private
     FBARANG: TModBarang;

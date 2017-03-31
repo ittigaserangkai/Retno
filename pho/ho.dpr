@@ -206,6 +206,5 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmDialogPersonalMember, frmDialogPersonalMember);
   Application.Run;
 end.

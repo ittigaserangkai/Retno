@@ -40,6 +40,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       Properties.TabHeight = 30
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
+      OnChange = pgcMainChange
       ClientRectBottom = 386
       ClientRectRight = 772
       ClientRectTop = 32
@@ -607,7 +608,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 44
+            Top = 50
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -616,7 +617,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 2
             Transparent = True
-            ExplicitWidth = 121
+            ExplicitTop = 44
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -630,12 +631,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 0
             Transparent = True
-            ExplicitWidth = 121
           end
           object cbisDecimal: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 65
+            Top = 74
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -645,12 +645,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 3
             Transparent = True
             ExplicitTop = 71
-            ExplicitWidth = 121
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 86
+            Top = 98
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -660,12 +659,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 4
             Transparent = True
             ExplicitTop = 95
-            ExplicitWidth = 121
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 128
+            Top = 146
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -675,12 +673,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 6
             Transparent = True
             ExplicitTop = 140
-            ExplicitWidth = 121
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 107
+            Top = 122
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -690,12 +687,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 5
             Transparent = True
             ExplicitTop = 119
-            ExplicitWidth = 121
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 23
+            Top = 26
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -704,13 +700,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 1
             Transparent = True
-            ExplicitTop = 26
-            ExplicitWidth = 121
           end
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 149
+            Top = 170
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -720,8 +714,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
-            ExplicitTop = 170
-            ExplicitWidth = 121
           end
         end
         object gbPurchase: TcxGroupBox
@@ -1445,9 +1437,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSellingPrice: TcxTabSheet
         Caption = 'F3 [Selling Price]'
         ImageIndex = 37
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
   end

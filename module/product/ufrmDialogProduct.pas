@@ -169,6 +169,7 @@ type
     procedure cxGrdDBSupplierCellClick(Sender: TcxCustomGridTableView;
         ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
         TShiftState; var AHandled: Boolean);
+    procedure pgcMainChange(Sender: TObject);
   private
     FCDSSupp: TClientDataset;
     FModBarang: TModBarang;
@@ -443,6 +444,7 @@ begin
   if not Assigned(FCDSSupp) then
   begin
     FCDSSupp := TClientDataSet.Create(Self);
+    FCDSSupp.AddField('ID', ftString);
     FCDSSupp.AddField('SupplierID', ftString);
     FCDSSupp.AddField('SupplierName', ftString);
     FCDSSupp.AddField('TOP', ftInteger);
@@ -516,9 +518,9 @@ begin
     cxLookupKategori.SetMultiPurposeLookup;
     cxLookupMerk.SetMultiPurposeLookup;
 
-    cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_NAME', Self);
-    cxLookupSatPurchase.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_NAME', Self);
-    cxLookupBRSUom.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_NAME', Self);
+    cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupSatPurchase.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupBRSUom.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
 
     //meh optimasi , bisa g 1 dataset utk bbrp provider
 //    lDS := Satuan_GetDSLookup;
@@ -629,6 +631,7 @@ begin
   begin
     lBS := ModBarang.Suppliers[i];
     CDSSupp.Append;
+    CDSSupp.FieldByName('ID').AsString            := lBS.ID;
     CDSSupp.FieldByName('SupplierID').AsString    := lBS.Supplier.ID;
     If cxLookupSupplier.DS.Locate('Suplier_ID', lBS.Supplier.ID, [loCaseInsensitive]) then
       CDSSupp.FieldByName('SupplierName').AsString  := cxLookupSupplier.DS.FieldByName('SUP_NAME').AsString;
@@ -657,6 +660,13 @@ begin
   LoadSupplierRow;
 end;
 
+procedure TfrmDialogProduct.pgcMainChange(Sender: TObject);
+begin
+  inherited;
+  If pgcMain.ActivePage = tsSupplier then
+    cxLookupSupplier.SetFocus;
+end;
+
 procedure TfrmDialogProduct.UpdateDataSupplier;
 var
   i: Integer;
@@ -666,7 +676,7 @@ begin
   CDSSupp.First;
   while not CDSSupp.eof do
   begin
-    lBS                       := TModBarangSupplier.Create;
+    lBS                       := TModBarangSupplier.CreateID(CDSSupp.FieldByName('ID').AsString);
     lBS.Supplier              := TModSuplier.CreateID(CDSSupp.FieldByName('SupplierID').AsString);
     lBS.SATUAN_PURCHASE       := TModSatuan.CreateID(CDSSupp.FieldByName('UOM').AsString);
 

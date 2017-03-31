@@ -23,6 +23,8 @@ type
   AttributeOfHeader = class(AttributeOfForeign)
   end;
 
+  AttrUpdateDetails = class(TCustomAttribute)
+  end;
 
 {$TYPEINFO ON}
   TModApp = class;
