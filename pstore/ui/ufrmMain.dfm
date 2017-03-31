@@ -384,10 +384,6 @@ object frmMain: TfrmMain
       Category = 'Trader'
       Caption = 'Master &Trader'
     end
-    object actDOForAsgross: TAction
-      Category = 'Asgross'
-      Caption = '&DO For Asgross'
-    end
     object actMemberShip: TAction
       Category = 'CustomerSupport'
       Caption = 'MemberShip'
@@ -785,6 +781,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'actRafaksiSupplier'
       OnExecute = actRafaksiSupplierExecute
+    end
+    object actReturTrader: TAction
+      Category = 'Trader'
+      Caption = 'actReturTrader'
+      OnExecute = actReturTraderExecute
     end
   end
 end
