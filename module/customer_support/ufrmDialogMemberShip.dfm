@@ -6,7 +6,6 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
   ClientWidth = 742
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitTop = -49
   ExplicitWidth = 758
   ExplicitHeight = 511
   PixelsPerInch = 96
@@ -315,17 +314,28 @@ inherited frmDialogMemberShip: TfrmDialogMemberShip
         Action = actDelete
         Visible = False
       end
+      inherited btnPrint: TcxButton
+        Left = 495
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 742
       ExplicitWidth = 742
       inherited lbCTRLEnter: TLabel
         Left = 567
+        Height = 15
         ExplicitLeft = 567
       end
       inherited lbEscape: TLabel
         Left = 658
+        Height = 15
         ExplicitLeft = 658
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 491
       end
     end
   end

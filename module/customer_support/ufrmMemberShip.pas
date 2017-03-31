@@ -85,28 +85,27 @@ var
 
 implementation
 
-uses ufrmDialogMemberShip, uTSCommonDlg,
-  uRetnoUnit;
+uses uTSCommonDlg, uRetnoUnit, ufrmDialogPersonalMember;
 
 {$R *.dfm}
 
 procedure TfrmMemberShip.actAddMemberShipExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogMembership);
+  ShowDialogForm(TfrmDialogPersonalMember);
 end;
 
 procedure TfrmMemberShip.actEditMemberShipExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogMembership, cxGridView.DS.FieldByName('REF$GRUP_MEMBER_ID').AsString)
+  ShowDialogForm(TfrmDialogPersonalMember, cxGridView.DS.FieldByName('MEMBER_ID').AsString)
 end;
 
 procedure TfrmMemberShip.RefreshData;
 begin
   inherited;
   cxGridView.LoadFromDS(DMClient.DSProviderClient.Member_GetDSOverview(), SELF);
-  cxGridView.SetVisibleColumns(['MEMBER_ID'], False);
+  cxGridView.SetVisibleColumns(['MEMBER_ID','REF$GRUP_MEMBER_ID','REF$DISC_MEMBER_ID','REF$POIN_MEMBER_ID','MEMBER_ACTIVASI_ID','MEMBER_KELUARGA_ID'], False);
 end;
 
 end.

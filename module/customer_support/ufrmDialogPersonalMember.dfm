@@ -134,7 +134,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Left = 242
         Top = 35
         TabOrder = 2
-        OnKeyPress = dtLahirKeyPress
         Width = 97
       end
       object edtTempatLhr: TEdit
@@ -146,7 +145,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Ctl3D = False
         ParentCtl3D = False
         TabOrder = 1
-        OnKeyPress = edtTempatLhrKeyPress
       end
       object edtNoIdentts: TEdit
         Left = 117
@@ -157,7 +155,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Ctl3D = False
         ParentCtl3D = False
         TabOrder = 3
-        OnKeyPress = edtNoIdenttsKeyPress
       end
       object edtAlamat: TEdit
         Left = 117
@@ -167,8 +164,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 6
-        OnKeyPress = edtAlamatKeyPress
+        TabOrder = 5
       end
       object edtRt: TEdit
         Left = 117
@@ -178,8 +174,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 7
-        OnKeyPress = edtRtKeyPress
+        TabOrder = 6
       end
       object edtKecamatan: TEdit
         Left = 117
@@ -189,8 +184,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 10
-        OnKeyPress = edtKecamatanKeyPress
+        TabOrder = 9
       end
       object edtKelurahan: TEdit
         Left = 312
@@ -200,8 +194,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 9
-        OnKeyPress = edtKelurahanKeyPress
+        TabOrder = 8
       end
       object edtRw: TEdit
         Left = 161
@@ -211,8 +204,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 8
-        OnKeyPress = edtRwKeyPress
+        TabOrder = 7
       end
       object edtKota: TEdit
         Left = 312
@@ -222,8 +214,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 11
-        OnKeyPress = edtKotaKeyPress
+        TabOrder = 10
       end
       object edtPostCode: TEdit
         Left = 117
@@ -234,8 +225,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Ctl3D = False
         MaxLength = 5
         ParentCtl3D = False
-        TabOrder = 12
-        OnKeyPress = edtPostCodeKeyPress
+        TabOrder = 11
       end
       object edtTelp: TEdit
         Left = 341
@@ -245,20 +235,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 13
-        OnKeyPress = edtTelpKeyPress
-      end
-      object edtJmlTanggungan: TEdit
-        Left = 352
-        Top = 227
-        Width = 109
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 15
-        Text = '0'
-        OnKeyPress = edtJmlTanggunganKeyPress
+        TabOrder = 12
       end
       object cbbGender: TComboBox
         Left = 117
@@ -273,7 +250,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ParentCtl3D = False
         TabOrder = 4
         Text = 'PRIA'
-        OnKeyPress = cbbGenderKeyPress
         Items.Strings = (
           'WANITA'
           'PRIA')
@@ -291,7 +267,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ParentCtl3D = False
         TabOrder = 0
         Text = 'WNI'
-        OnKeyPress = cbbWarganegaraKeyPress
         Items.Strings = (
           'WNA'
           'WNI')
@@ -306,9 +281,8 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Ctl3D = False
         ItemIndex = 0
         ParentCtl3D = False
-        TabOrder = 14
+        TabOrder = 13
         Text = 'SINGLE'
-        OnKeyPress = cbbStatusKeyPress
         Items.Strings = (
           'SINGLE'
           'MARRIED')
@@ -316,29 +290,21 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       object edtPndptn: TcxCurrencyEdit
         Left = 352
         Top = 251
-        TabOrder = 16
-        OnKeyPress = edtPndptnKeyPress
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        TabOrder = 14
         Width = 109
       end
-      object cbpAgama: TComboBox
+      object edtJmlTanggungan: TcxSpinEdit
+        Left = 352
+        Top = 227
+        TabOrder = 15
+        Width = 109
+      end
+      object cbpAgama: TcxExtLookupComboBox
         Left = 117
         Top = 107
-        Width = 120
-        Height = 24
-        BevelKind = bkSoft
-        Style = csDropDownList
-        CharCase = ecUpperCase
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 5
-        OnKeyPress = cbpAgamaKeyPress
-        Items.Strings = (
-          'ISLAM'
-          'KRISTEN'
-          'KATHOLIK'
-          'HINDU'
-          'BUDHA'
-          'LAINNYA')
+        TabOrder = 16
+        Width = 145
       end
     end
     object pnl3: TPanel
@@ -365,7 +331,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Height = 16
         Caption = 'Card No.'
       end
-      object edtMemberName: TEdit
+      object edtName: TEdit
         Left = 118
         Top = 9
         Width = 120
@@ -374,7 +340,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Ctl3D = False
         ParentCtl3D = False
         TabOrder = 0
-        OnKeyPress = edtMemberNameKeyPress
       end
       object edtCardNo: TEdit
         Left = 342
@@ -387,7 +352,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 1
-        OnKeyPress = edtCardNoKeyPress
       end
     end
   end
@@ -405,13 +369,16 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ExplicitLeft = 413
       end
       inherited btnSave: TcxButton
-        Left = 310
+        Left = 320
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 310
+        ExplicitLeft = 320
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+      end
+      inherited btnPrint: TcxButton
+        Left = 243
+        ExplicitLeft = 243
       end
     end
     inherited pnlSortCut: TPanel
@@ -419,12 +386,31 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       ExplicitWidth = 490
       inherited lbCTRLEnter: TLabel
         Left = 315
+        Height = 15
         ExplicitLeft = 315
       end
       inherited lbEscape: TLabel
         Left = 406
+        Height = 15
         ExplicitLeft = 406
       end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 239
+        ExplicitLeft = 239
+      end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    Left = 462
+    Top = 47
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

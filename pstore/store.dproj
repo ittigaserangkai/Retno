@@ -79,19 +79,19 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.2017.3.1;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2.2017.3.1;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.2017.3.3;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2.2017.3.1;Comments=</VerInfo_Keys>
         <VerInfo_Release>3</VerInfo_Release>
-        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Build>3</VerInfo_Build>
         <VerInfo_MinorVer>2017</VerInfo_MinorVer>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
@@ -543,6 +543,139 @@
             <Form>frmDialogAdjustmentCashback</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogDataCostumer.pas">
+            <Form>frmDialogDataCostumer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDataCostumer.pas">
+            <Form>frmDataCostumer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmMemberActivation.pas">
+            <Form>frmMemberActivation</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmSearchCardNo.pas">
+            <Form>frmDialogSearchCardNo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmCetakPO.pas">
+            <Form>frmCetakPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmSalesReportContrabon.pas">
+            <Form>frmSalesReportContrabon</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmShift.pas">
+            <Form>frmShift</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogShift.pas">
+            <Form>frmDialogShift</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDailySalesReport.pas">
+            <Form>frmDailySalesReport</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmReprintNota.pas">
+            <Form>frmReprintNota</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmPurchaseOrder.pas">
+            <Form>frmPurchaseOrder</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmWorksheet.pas">
+            <Form>frmWorksheet</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmPopupGrid.pas">
+            <Form>frmPopupGrid</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmMaintenanceBarcode.pas">
+            <Form>frmMaintenanceBarcode</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmHistoryPO.pas">
+            <Form>frmHistoryPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmSupplier.pas">
+            <Form>frmSupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogSupplier.pas">
+            <Form>frmDialogSupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDayOfPO.pas">
+            <Form>frmDayofPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmListMembership.pas">
+            <Form>frmListMembership</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmDialogBarcodeRequest.pas">
+            <Form>frmDialogBarcodeRequest</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmBarcodeRequest.pas">
+            <Form>frmBarcodeRequest</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmListPOCancel.pas">
+            <Form>frmListPOCancel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmListDailyTransaction.pas">
+            <Form>frmListDailyTransaction</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogDetilPayment.pas">
+            <Form>frmDialogDetilPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogViewDetilTransaksi.pas">
+            <Form>frmDialogViewDetilTransaksi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\po\ufrmUbahQTYPO.pas">
+            <Form>frmUbahQTYPO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmInvMovementQTY.pas">
+            <Form>frmInvMovementQTY</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmLaporanRetur.pas">
+            <Form>frmLaporanRetur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDiscountMember.pas">
+            <Form>frmDiscountMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogDiscountMember.pas">
+            <Form>frmDialogDiscountMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmListMemberTransaction.pas">
+            <Form>frmListMemberTransaction</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmRafaksi.pas">
+            <Form>frmRafaksi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogRafaksi.pas">
+            <Form>frmDialogRafaksi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModRefAgama.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -569,7 +702,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
-                <DeployFile LocalName="..\..\build\Retno\bin\store.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\bin\store.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>store.exe</RemoteName>
                         <Overwrite>true</Overwrite>

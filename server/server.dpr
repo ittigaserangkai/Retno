@@ -19,7 +19,6 @@ uses
   uDSUtils in '..\lib\uDSUtils.pas',
   uServerClasses in 'unit\uServerClasses.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
-  uModRefPajak in '..\model\uModRefPajak.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModMember in '..\model\uModMember.pas',
   uModOutlet in '..\model\uModOutlet.pas',
@@ -28,7 +27,6 @@ uses
   uModCostCenter in '..\model\uModCostCenter.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
-  uServerDSProvider in 'unit\uServerDSProvider.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModUnit in '..\model\uModUnit.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
@@ -38,9 +36,12 @@ uses
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModMataUang in '..\model\uModMataUang.pas',
   uModTipeBonus in '..\model\uModTipeBonus.pas',
+  uServerDSProvider in 'unit\uServerDSProvider.pas',
   uModDocument in '..\model\uModDocument.pas',
   uModTipePo in '..\model\uModTipePo.pas',
-  uModAgama in '..\model\uModAgama.pas';
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas';
+
 
 {$R *.res}
 

@@ -12,28 +12,28 @@ inherited frmHistoryPO: TfrmHistoryPO
   inherited pnlBody: TPanel
     Width = 643
     Height = 318
-    ExplicitWidth = 120
-    ExplicitHeight = 254
+    ExplicitWidth = 643
+    ExplicitHeight = 318
     inherited pgcBrowse: TcxPageControl
-      Top = 153
+      Top = 121
       Width = 621
-      Height = 154
+      Height = 186
       TabOrder = 1
       ExplicitTop = 153
-      ExplicitWidth = 98
-      ExplicitHeight = 90
-      ClientRectBottom = 153
+      ExplicitWidth = 621
+      ExplicitHeight = 154
+      ClientRectBottom = 185
       ClientRectRight = 620
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 96
-        ExplicitHeight = 88
+        ExplicitWidth = 619
+        ExplicitHeight = 152
         inherited cxGrid: TcxGrid
           Width = 619
-          Height = 152
-          ExplicitWidth = 96
-          ExplicitHeight = 88
+          Height = 184
+          ExplicitWidth = 619
+          ExplicitHeight = 152
         end
       end
     end
@@ -41,43 +41,28 @@ inherited frmHistoryPO: TfrmHistoryPO
       Left = 11
       Top = 11
       Width = 621
-      Height = 142
+      Height = 110
       Align = alTop
       BorderWidth = 10
       Color = 15198183
       TabOrder = 0
-      ExplicitTop = 19
-      object lbl1: TLabel
-        Left = 16
-        Top = 8
-        Width = 37
-        Height = 16
-        Caption = 'Periode'
-      end
-      object lbl2: TLabel
-        Left = 192
-        Top = 8
-        Width = 11
-        Height = 16
-        Caption = 'To'
-      end
       object lbl3: TLabel
         Left = 16
-        Top = 32
+        Top = 0
         Width = 39
         Height = 16
         Caption = 'Division'
       end
       object lbl4: TLabel
         Left = 16
-        Top = 59
+        Top = 27
         Width = 67
         Height = 16
         Caption = 'Supplier Code'
       end
       object schckgrpStatusPO: TcxCheckGroup
         Left = 11
-        Top = 82
+        Top = 50
         Align = alBottom
         Caption = 'PO Status'
         ParentFont = False
@@ -91,36 +76,35 @@ inherited frmHistoryPO: TfrmHistoryPO
           end
           item
           end>
-        TabOrder = 4
+        TabOrder = 2
         Height = 49
         Width = 599
       end
-      object dtTglFrom: TcxDateEdit
-        Left = 88
-        Top = 6
-        TabOrder = 0
-        Width = 89
-      end
-      object dtTglTo: TcxDateEdit
-        Left = 216
-        Top = 6
-        TabOrder = 1
-        Width = 89
-      end
       object edtSupplierCode: TEdit
         Left = 88
-        Top = 59
+        Top = 27
         Width = 121
         Height = 22
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 2
+        TabOrder = 0
         OnKeyUp = edtSupplierCodeKeyUp
       end
       object edtSuplierName: TEdit
         Left = 216
-        Top = 59
+        Top = 27
+        Width = 297
+        Height = 22
+        CharCase = ecUpperCase
+        Color = 15198183
+        Ctl3D = False
+        ParentCtl3D = False
+        TabOrder = 1
+      end
+      object edtMercNm: TEdit
+        Left = 216
+        Top = 3
         Width = 297
         Height = 22
         CharCase = ecUpperCase
@@ -129,28 +113,16 @@ inherited frmHistoryPO: TfrmHistoryPO
         ParentCtl3D = False
         TabOrder = 3
       end
-      object btnShow: TcxButton
-        Left = 523
-        Top = 57
-        Width = 72
-        Height = 27
-        Cursor = crHandPoint
-        Caption = 'Show'
-        OptionsImage.ImageIndex = 18
-        OptionsImage.Images = DMClient.imgListButton
-        TabOrder = 6
-        OnClick = btnShowClick
-      end
-      object edtMercNm: TEdit
-        Left = 216
-        Top = 35
-        Width = 297
+      object edtDivisionCode: TEdit
+        Left = 88
+        Top = 3
+        Width = 121
         Height = 22
         CharCase = ecUpperCase
-        Color = 15198183
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 5
+        TabOrder = 4
+        OnKeyUp = edtSupplierCodeKeyUp
       end
     end
   end
@@ -169,17 +141,17 @@ inherited frmHistoryPO: TfrmHistoryPO
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 350
-      ExplicitLeft = -173
+      ExplicitLeft = 350
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 466
-      ExplicitLeft = -57
+      ExplicitLeft = 466
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 561
-      ExplicitLeft = 38
+      ExplicitLeft = 561
     end
     inherited lblsdFilter: TcxLabel
       Left = 442
@@ -190,11 +162,11 @@ inherited frmHistoryPO: TfrmHistoryPO
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 351
     Width = 643
-    ExplicitTop = -112
-    ExplicitWidth = 120
+    ExplicitTop = 351
+    ExplicitWidth = 643
     inherited pnlFooter: TPanel
       Width = 643
-      ExplicitWidth = 120
+      ExplicitWidth = 643
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -207,7 +179,7 @@ inherited frmHistoryPO: TfrmHistoryPO
       inherited btnClose: TcxButton
         Left = 566
         Action = actClose
-        ExplicitLeft = 43
+        ExplicitLeft = 566
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -215,9 +187,10 @@ inherited frmHistoryPO: TfrmHistoryPO
     end
     inherited pnlShortCut: TPanel
       Width = 643
-      ExplicitWidth = 120
+      ExplicitWidth = 643
       inherited lbEscape: TLabel
         Left = 569
+        Height = 17
         ExplicitLeft = 569
       end
     end

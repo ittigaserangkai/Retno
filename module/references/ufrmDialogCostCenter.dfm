@@ -28,6 +28,7 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       Caption = 'Name'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 54
       Top = 14
       Width = 113
@@ -39,6 +40,7 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 54
       Top = 44
       Width = 267
@@ -71,6 +73,10 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 195
+        ExplicitLeft = 195
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 442
@@ -87,6 +93,10 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       end
       inherited lbCTRLDel: TLabel
         Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 191
+        ExplicitLeft = 191
       end
     end
   end

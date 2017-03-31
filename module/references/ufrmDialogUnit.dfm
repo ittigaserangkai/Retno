@@ -374,7 +374,7 @@ inherited frmDialogUnit: TfrmDialogUnit
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        ExplicitLeft = 307
+        Left = 605
       end
     end
     inherited pnlSortCut: TPanel
@@ -382,19 +382,19 @@ inherited frmDialogUnit: TfrmDialogUnit
       ExplicitWidth = 852
       inherited lbCTRLEnter: TLabel
         Left = 677
-        Height = 16
+        Height = 15
         ExplicitLeft = 677
       end
       inherited lbEscape: TLabel
         Left = 768
-        Height = 16
+        Height = 15
         ExplicitLeft = 768
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
+        Height = 15
       end
       inherited lblCTRLP: TLabel
-        ExplicitLeft = 303
+        Left = 601
       end
     end
   end

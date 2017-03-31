@@ -54,27 +54,20 @@ end;
 procedure TfrmDialogCostCenter.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if edtCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('CODE');
-    edtCode.SetFocus;
+  if not ValidateEmptyCtrl([1]) then
     Exit;
-  end;
-  if edtName.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME');
-    edtName.SetFocus;
-    Exit;
-  end;
-
 
   if TAppUtils.ConfirmSimpan then
   begin
-    CostCenter.COCTER_CODE := edtCode.Text;
-    CostCenter.COCTER_NAME := edtName.Text;
+    try
+      CostCenter.COCTER_CODE := edtCode.Text;
+      CostCenter.COCTER_NAME := edtName.Text;
 
-    if DMClient.CrudClient.SaveToDB(FCostCenter) then
-      ModalResult := mrOk;
+      if DMClient.CrudClient.SaveToDB(FCostCenter) then
+        ModalResult := mrOk;
+    except
+      raise;
+    end;
 
 
   end;

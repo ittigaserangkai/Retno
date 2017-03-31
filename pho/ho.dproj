@@ -68,12 +68,12 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Build>3</VerInfo_Build>
         <VerInfo_Release>3</VerInfo_Release>
         <VerInfo_MinorVer>2017</VerInfo_MinorVer>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.2017.3.1;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.2017.3.3;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -335,7 +335,7 @@
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
-        <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="..\model\uModRefAgama.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>
@@ -631,18 +631,15 @@
             <Form>frmTipeCN</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogPersonalMember.pas">
+            <Form>frmDialogPersonalMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="..\module\references\ufrmDocument.pas">
             <Form>frmDocument</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\po\ufrmTipePO.pas">
-            <Form>frmTipePO</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\module\references\ufrmAgama.pas">
-            <Form>frmAgama</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
+        <DCCReference Include="..\model\uModRefPajak.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

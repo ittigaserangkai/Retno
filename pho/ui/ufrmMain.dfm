@@ -1240,12 +1240,10 @@ object frmMain: TfrmMain
     object actTipePO: TAction
       Category = 'References'
       Caption = 'Tipe PO'
-      OnExecute = actTipePOExecute
     end
     object actAgama: TAction
       Category = 'References'
       Caption = 'Master Agama'
-      OnExecute = actAgamaExecute
     end
   end
   object AppEvents: TApplicationEvents

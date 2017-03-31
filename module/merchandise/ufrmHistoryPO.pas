@@ -17,19 +17,15 @@ type
   TfrmHistoryPO = class(TfrmMasterBrowse)
     pnlTop: TPanel;
     schckgrpStatusPO: TcxCheckGroup;
-    lbl1: TLabel;
-    dtTglFrom: TcxDateEdit;
-    dtTglTo: TcxDateEdit;
-    lbl2: TLabel;
     lbl3: TLabel;
     lbl4: TLabel;
     edtSupplierCode: TEdit;
     edtSuplierName: TEdit;
-    btnShow: TcxButton;
     edtMercNm: TEdit;
+    edtDivisionCode: TEdit;
+    procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure btnShowClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edtSupplierCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -57,20 +53,7 @@ uses  uTSCommonDlg, uConstanta, ufrmSearchSupplier, ufrmDisplayPO, uRetnoUnit;
 
 {$R *.dfm}
 
-procedure TfrmHistoryPO.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-  Action := caFree;
-end;
-
-procedure TfrmHistoryPO.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  frmHistoryPO := nil;
-end;
-
-procedure TfrmHistoryPO.btnShowClick(Sender: TObject);
+procedure TfrmHistoryPO.actRefreshExecute(Sender: TObject);
 var i: Integer;
     strTemp: string;
 begin
@@ -87,6 +70,19 @@ begin
   ParseDataPO(strTemp);
   IsiDataSupplier;
 //  strgGrid.AutoSizeColumns(True, 5);
+end;
+
+procedure TfrmHistoryPO.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  Action := caFree;
+end;
+
+procedure TfrmHistoryPO.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  frmHistoryPO := nil;
 end;
 
 function TfrmHistoryPO.GetListMerchandiseByUnitId: TDataSet;
@@ -174,8 +170,8 @@ begin
   inherited;
   ParseComboMerchandise;
   ParseListStatusPO;
-  dtTglFrom.Date := Date;
-  dtTglTo.Date := Date;
+  dtAwalFilter.Date := Date;
+  dtAkhirFilter.Date := Date;
 end;
 
 procedure TfrmHistoryPO.edtSupplierCodeKeyUp(Sender: TObject;

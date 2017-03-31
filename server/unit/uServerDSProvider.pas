@@ -59,6 +59,7 @@ type
     function Propinsi_GetDSLookUp: TDataSet;
     function Kabupaten_GetDSLookUp: TDataSet;
     function MataUang_GetDSOverview: TDataSet;
+    function Agama_GetDSLookup: TDataSet;
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
@@ -127,11 +128,11 @@ function TDSProvider.Member_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select A.MEMBER_ID, A.MEMBER_CARD_NO AS NOMOR_KARTU, A.MEMBER_NAME AS NAMA, '
+  S := 'select A.MEMBER_ID, A.MEMBER_CARD_NO AS NOMOR_KARTU, A.MEMBER_KTP_NO AS NO_IDENTITAS, A.MEMBER_NAME AS NAMA, '
     +' A.MEMBER_ADDRESS+'', ''+A.MEMBER_KELURAHAN+'', ''+A.MEMBER_KECAMATAN AS ALAMAT, A.MEMBER_KOTA AS KOTA,'
+    +' A.MEMBER_POST_CODE AS POST_CODE, A.MEMBER_TELP, '
     +' A.MEMBER_PLACE_OF_BIRTH AS TEMPAT_LAHIR, A.MEMBER_DATE_OF_BIRTH AS TANGGAL_LAHIR,'
     +' B.AGAMA_NAME AS AGAMA,'
-    +' A.MEMBER_KTP_NO AS NOMOR_IDENTITAS,'
     +' CASE WHEN A.MEMBER_SEX = 0 THEN ''L'' ELSE ''P'' END AS JK, '
     +' CASE WHEN A.IS_TRADER = 0 THEN ''END USER'' ELSE ''TRADER'' END AS KELOMPOK,'
     +' F.TPMEMBER_NAME AS TIPE_MEMBER, '
@@ -533,6 +534,14 @@ begin
   S := 'select REF$MATAUANG_ID, UANG_CODE, UANG_SYMBOL, UANG_NAME, UANG_SCALE'
   +' from'
   +' REF$MATAUANG';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Agama_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$AGAMA_ID, AGAMA_NAME from REF$AGAMA';
   Result := TDBUtils.OpenQuery(S);
 end;
 
