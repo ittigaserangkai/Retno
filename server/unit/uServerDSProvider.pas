@@ -63,6 +63,8 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function RefWilayah_GetDSLookup: TDataSet;
+    function RefTipeMember_GetDSLookup: TDataSet;
     function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
 
@@ -571,6 +573,22 @@ begin
   S := 'select AGAMA_NAME, REF$AGAMA_ID'
   +' from'
   +' REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefWilayah_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select * FROM REF$WILAYAH';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeMember_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT REF$TIPE_MEMBER_ID, TPMEMBER_NAME from REF$TIPE_MEMBER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

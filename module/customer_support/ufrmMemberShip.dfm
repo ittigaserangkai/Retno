@@ -5,6 +5,7 @@ inherited frmMemberShip: TfrmMemberShip
   ClientHeight = 522
   ClientWidth = 773
   OldCreateOrder = True
+  ExplicitTop = -116
   ExplicitWidth = 789
   ExplicitHeight = 561
   PixelsPerInch = 96
@@ -24,7 +25,6 @@ inherited frmMemberShip: TfrmMemberShip
       ClientRectRight = 750
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
         ExplicitTop = 24
         ExplicitWidth = 749
         ExplicitHeight = 386
@@ -355,7 +355,6 @@ inherited frmMemberShip: TfrmMemberShip
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          ExplicitWidth = 756
           object lbl5: TLabel
             Left = 8
             Top = 36
@@ -523,12 +522,10 @@ inherited frmMemberShip: TfrmMemberShip
     inherited dtAwalFilter: TcxDateEdit
       Left = 480
       ExplicitLeft = 480
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 596
       ExplicitLeft = 596
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 691
@@ -549,10 +546,10 @@ inherited frmMemberShip: TfrmMemberShip
       Width = 773
       ExplicitWidth = 773
       inherited btnAdd: TcxButton
-        Action = actAddMemberShip
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditMemberShip
+        Action = actEdit
       end
       inherited btnPrint: TcxButton
         Action = actPrint
@@ -571,9 +568,19 @@ inherited frmMemberShip: TfrmMemberShip
       ExplicitWidth = 773
       inherited lbEscape: TLabel
         Left = 699
-        Height = 17
         ExplicitLeft = 699
       end
+      inherited lbCTRLP: TLabel
+        ExplicitLeft = 271
+      end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
   object actlst1: TActionList
@@ -581,11 +588,9 @@ inherited frmMemberShip: TfrmMemberShip
     Top = 49
     object actAddMemberShip: TAction
       Caption = 'Add'
-      OnExecute = actAddMemberShipExecute
     end
     object actEditMemberShip: TAction
       Caption = 'Edit'
-      OnExecute = actEditMemberShipExecute
     end
     object actDeleteMemberShip: TAction
       Caption = 'Delete'
