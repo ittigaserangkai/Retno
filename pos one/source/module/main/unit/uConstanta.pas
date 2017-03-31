@@ -3,7 +3,7 @@ unit uConstanta;
 interface
 
 uses Windows, SysUtils, Classes, Messages;
-
+// biar bisa dpull
 const
   // core
   CONFIG_FILE = 'config.ini';
