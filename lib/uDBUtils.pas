@@ -218,6 +218,7 @@ var
 begin
   DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
+  lModItem := nil;
 
   if (AObject.ID = '') or (AObject.ObjectState = 1) then
     SS.Add(TDBUtils.GetSQLInsert(AObject))
