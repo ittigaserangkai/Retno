@@ -3,7 +3,7 @@ unit uServerDSProvider;
 interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModUnit, uAppUtils;
+  StrUtils, uModUnit;
 
 type
   {$METHODINFO ON}
@@ -614,9 +614,9 @@ function TDSProvider.SO_GetDSOverview(ATglAwal , ATglAtglAkhir : TDateTime;
 var
   sSQL: string;
 begin
-  sSQL := 'select * from V_SO ' +
-          ' where SO_DATE between ' + TAppUtils.QuotDt(StartOfTheDay(ATglAwal)) +
-          ' and ' + TAppUtils.QuotDt(EndOfTheDay(ATglAtglAkhir));
+  sSQL := 'select * from V_SO ' ;
+//          ' where SO_DATE between ' + TAppUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+//          ' and ' + TAppUtils.QuotDt(EndOfTheDay(ATglAtglAkhir));
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
