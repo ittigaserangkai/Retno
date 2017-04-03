@@ -1,4 +1,4 @@
-inherited frmDoForAsGross: TfrmDoForAsGross
+inherited frmDOForTrader: TfrmDOForTrader
   Left = 289
   Top = 80
   Caption = 'DO For Assgros'
@@ -15,8 +15,8 @@ inherited frmDoForAsGross: TfrmDoForAsGross
     BevelInner = bvLowered
     BevelOuter = bvSpace
     BorderWidth = 0
-    ExplicitWidth = 120
-    ExplicitHeight = 356
+    ExplicitWidth = 675
+    ExplicitHeight = 359
     object Panel1: TPanel
       Left = 2
       Top = 2
@@ -25,7 +25,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
       Align = alTop
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 116
       object lbl1: TLabel
         Left = 14
         Top = 7
@@ -47,7 +46,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         Height = 16
         Caption = 'To'
       end
-      object dtTgl1: TJvDateEdit
+      object dtTgl1: TcxDateEdit
         Left = 104
         Top = 6
         Width = 89
@@ -60,7 +59,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         TabOrder = 0
         OnKeyUp = dtTgl1KeyUp
       end
-      object dtTgl2: TJvDateEdit
+      object dtTgl2: TcxDateEdit
         Left = 217
         Top = 6
         Width = 89
@@ -85,7 +84,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         TabOrder = 2
         OnChange = cbPilihChange
       end
-      object btnShow: TsuiButton
+      object btnShow: TcxButton
         Left = 256
         Top = 30
         Width = 49
@@ -110,9 +109,8 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         Spacing = 4
         MouseContinuouslyDownInterval = 100
         OnClick = btnShowClick
-        ResHandle = 0
       end
-      object btnShowReport: TsuiButton
+      object btnShowReport: TcxButton
         Left = 312
         Top = 30
         Width = 153
@@ -138,9 +136,8 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         Spacing = 4
         MouseContinuouslyDownInterval = 100
         OnClick = btnShowReportClick
-        ResHandle = 0
       end
-      object btnPrintDOwoDisc: TsuiButton
+      object btnPrintDOwoDisc: TcxButton
         Left = 472
         Top = 30
         Width = 129
@@ -166,7 +163,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         Spacing = 4
         MouseContinuouslyDownInterval = 100
         OnClick = btnPrintDOwoDiscClick
-        ResHandle = 0
       end
     end
     object Panel2: TPanel
@@ -178,8 +174,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
       BorderWidth = 10
       Caption = 'Panel2'
       TabOrder = 1
-      ExplicitWidth = 116
-      ExplicitHeight = 284
       object strgGrid: TAdvStringGrid
         Left = 11
         Top = 11
@@ -203,6 +197,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         ScrollBars = ssBoth
         TabOrder = 0
         OnKeyDown = strgGridKeyDown
+        HoverRowCells = [hcNormal, hcSelected]
         OnGetAlignment = strgGridGetAlignment
         OnCanEditCell = strgGridCanEditCell
         OnGetFloatFormat = strgGridGetFloatFormat
@@ -240,12 +235,26 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         FilterDropDown.Font.Name = 'Tahoma'
         FilterDropDown.Font.Style = []
         FilterDropDownClear = '(All)'
+        FilterEdit.TypeNames.Strings = (
+          'Starts with'
+          'Ends with'
+          'Contains'
+          'Not contains'
+          'Equal'
+          'Not equal'
+          'Larger than'
+          'Smaller than'
+          'Clear')
         FixedFont.Charset = DEFAULT_CHARSET
         FixedFont.Color = clWindowText
         FixedFont.Height = -11
         FixedFont.Name = 'Tahoma'
         FixedFont.Style = [fsBold]
         FloatFormat = '%.2f'
+        HoverButtons.Buttons = <>
+        HoverButtons.Position = hbLeftFromColumnLeft
+        HTMLSettings.ImageFolder = 'images'
+        HTMLSettings.ImageBaseName = 'img'
         PrintSettings.DateFormat = 'dd/mm/yyyy'
         PrintSettings.Font.Charset = DEFAULT_CHARSET
         PrintSettings.Font.Color = clWindowText
@@ -274,9 +283,18 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         SearchFooter.Font.Height = -11
         SearchFooter.Font.Name = 'Tahoma'
         SearchFooter.Font.Style = []
+        SortSettings.DefaultFormat = ssAutomatic
         SortSettings.Column = 0
-        Version = '5.8.0.2'
-        ExplicitHeight = 262
+        Version = '8.1.3.0'
+        ColWidths = (
+          64
+          64
+          64
+          64
+          64)
+        RowHeights = (
+          21
+          21)
       end
       object pnlBayar: TPanel
         Left = 437
@@ -291,8 +309,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         ParentCtl3D = False
         TabOrder = 1
         Visible = False
-        ExplicitLeft = -118
-        ExplicitHeight = 262
         object Label2: TLabel
           Left = 12
           Top = 45
@@ -349,7 +365,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           Height = 16
           Caption = 'No. DO'
         end
-        object btnPrintReal: TsuiButton
+        object btnPrintReal: TcxButton
           Left = 32
           Top = 212
           Width = 65
@@ -374,7 +390,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           Spacing = 4
           MouseContinuouslyDownInterval = 100
           OnClick = btnPrintRealClick
-          ResHandle = 0
         end
         object edtNoTransaksi: TEdit
           Left = 80
@@ -406,59 +421,73 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           TabOrder = 3
           OnKeyUp = edtNoOtorisasiKeyUp
         end
-        object cbpKasir: TColumnComboBox
+        object cbpKasir: TcxExtLookupComboBox
           Left = 80
           Top = 40
           Width = 125
           Height = 24
-          ColCount = 2
+          Color = clWindow
+          Version = '1.5.0.1'
+          Visible = True
           Ctl3D = False
-          DefaultRowHeight = 24
-          DropDownCount = 8
-          DropDownWidth = 0
-          ListColor = clWindow
-          ListDefaultDrawing = True
-          ListCursor = crDefault
-          Options = [loColLines, loRowLines, loThumbTracking]
-          RowCount = 1
-          Style = csIncSrchEdit
+          Columns = <>
+          ComboItems = <>
+          EditColumn = -1
+          EditHeight = 18
+          EmptyText = ''
+          EmptyTextStyle = []
+          DropWidth = 0
+          DropHeight = 200
+          Enabled = True
+          GridLines = False
+          ItemIndex = -1
+          LookupColumn = 0
+          LabelCaption = ''
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
           ParentCtl3D = False
+          SortColumn = 0
           TabOrder = 0
-          TitleColor = 10150911
-          ListParentColor = False
           OnChange = cbpKasirChange
           OnKeyUp = cbpKasirKeyUp
-          Cells = (
-            ''
-            '')
         end
-        object cbpCredit: TColumnComboBox
+        object cbpCredit: TcxExtLookupComboBox
           Left = 80
           Top = 136
           Width = 125
           Height = 24
-          ColCount = 2
+          Color = clWindow
+          Version = '1.5.0.1'
+          Visible = True
           Ctl3D = False
-          DefaultRowHeight = 24
-          DropDownCount = 8
-          DropDownWidth = 0
-          ListColor = clWindow
-          ListDefaultDrawing = True
-          ListCursor = crDefault
-          Options = [loColLines, loRowLines, loThumbTracking]
-          RowCount = 1
-          Style = csIncSrchEdit
+          Columns = <>
+          ComboItems = <>
+          EditColumn = -1
+          EditHeight = 18
+          EmptyText = ''
+          EmptyTextStyle = []
+          DropWidth = 0
+          DropHeight = 200
+          Enabled = True
+          GridLines = False
+          ItemIndex = -1
+          LookupColumn = 0
+          LabelCaption = ''
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
           ParentCtl3D = False
+          SortColumn = 0
           TabOrder = 1
-          TitleColor = 10150911
-          ListParentColor = False
           OnChange = cbpCreditChange
           OnKeyUp = cbpCreditKeyUp
-          Cells = (
-            ''
-            '')
         end
-        object btnBatal: TsuiButton
+        object btnBatal: TcxButton
           Left = 120
           Top = 212
           Width = 65
@@ -483,7 +512,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           Spacing = 4
           MouseContinuouslyDownInterval = 100
           OnClick = btnBatalClick
-          ResHandle = 0
         end
         object edtNoDO: TEdit
           Left = 80
@@ -495,7 +523,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           ReadOnly = True
           TabOrder = 6
         end
-        object currCash: TJvValidateEdit
+        object currCash: TcxCurrencyEdit
           Left = 81
           Top = 89
           Width = 121
@@ -506,7 +534,7 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           CriticalPoints.MinValueIncluded = False
           TabOrder = 8
         end
-        object currCredit: TJvValidateEdit
+        object currCredit: TcxCurrencyEdit
           Left = 81
           Top = 113
           Width = 121
@@ -522,7 +550,10 @@ inherited frmDoForAsGross: TfrmDoForAsGross
   end
   inherited pnlHeader: TPanel
     Width = 675
-    ExplicitWidth = 120
+    ExplicitWidth = 675
+    inherited lblHeader: TLabel
+      Height = 18
+    end
   end
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0
@@ -537,38 +568,38 @@ inherited frmDoForAsGross: TfrmDoForAsGross
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 389
+    ExplicitWidth = 675
     inherited pnlFooter: TPanel
       Width = 675
-      ExplicitWidth = 120
+      ExplicitWidth = 675
       inherited bvlSeparator: TBevel
         Left = 154
         ExplicitLeft = 154
       end
-      inherited btnClose: TsuiButton
+      inherited btnClose: TcxButton
         Left = 593
-        ExplicitLeft = 38
+        ExplicitLeft = 593
       end
-      inherited btnAdd: TsuiButton
+      inherited btnAdd: TcxButton
         Width = 134
         Caption = 'Create DO Assgros'
         OnEnter = fraFooter5Button1btnAddEnter
         OnClick = fraFooter5Button1btnAddClick
         ExplicitWidth = 134
       end
-      inherited btnUpdate: TsuiButton
+      inherited btnUpdate: TcxButton
         Left = 166
         Caption = 'Detil'
         OnEnter = fraFooter5Button1btnUpdateEnter
         OnClick = fraFooter5Button1btnUpdateClick
         ExplicitLeft = 166
       end
-      inherited btnDelete: TsuiButton
+      inherited btnDelete: TcxButton
         Left = 333
         Width = 108
         Caption = '&Realiasasi DO'
-        Glyph.Data = {
+        OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
           18000000000000060000C40E0000C40E00000000000000000000FF00FFFF00FF
           FF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
@@ -623,11 +654,10 @@ inherited frmDoForAsGross: TfrmDoForAsGross
         ExplicitLeft = 333
         ExplicitWidth = 108
       end
-      inherited btnRefresh: TsuiButton
+      inherited btnRefresh: TcxButton
         Left = 248
         Caption = '&Edit'
-        OnEnter = fraFooter5Button1btnRefreshEnter
-        Glyph.Data = {
+        OptionsImage.Glyph.Data = {
           76010000424D7601000000000000760000002800000020000000100000000100
           04000000000000010000120B0000120B00001000000000000000000000000000
           800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
@@ -640,18 +670,19 @@ inherited frmDoForAsGross: TfrmDoForAsGross
           FFF03337777373333FF7333330B0FFFF00003333373733FF777733330B0FF00F
           0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
           00333377737FFFFF773333303300000003333337337777777333}
+        OnEnter = fraFooter5Button1btnRefreshEnter
         OnClick = fraFooter5Button1btnRefreshClick
         ExplicitLeft = 248
       end
     end
     inherited pnlSortCut: TPanel
       Width = 675
-      ExplicitWidth = 120
+      ExplicitWidth = 675
       inherited lbl1: TLabel
-        Left = 8
+        Left = 444
         Width = 140
         Caption = 'CTRL-C [Create DO Assgros]'
-        ExplicitLeft = 8
+        ExplicitLeft = 444
         ExplicitWidth = 140
       end
       inherited lbl2: TLabel
@@ -678,10 +709,6 @@ inherited frmDoForAsGross: TfrmDoForAsGross
       inherited lbl5: TLabel
         Left = 585
         ExplicitLeft = 593
-      end
-      inherited Label1: TLabel
-        Left = 444
-        ExplicitLeft = 444
       end
     end
   end

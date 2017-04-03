@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar, ufrmSO;
+  cxLookAndFeelPainters, dxStatusBar;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -89,7 +89,6 @@ type
     actImportSync: TAction;
     actPOFromTrader: TAction;
     actTrader: TAction;
-    actDOForAsgross: TAction;
     actMemberShip: TAction;
     actMemberActivation: TAction;
     actPrintPO: TAction;
@@ -185,8 +184,7 @@ type
     actLaporanReturSupplier: TAction;
     actactListMemberTransaction: TAction;
     actRafaksiSupplier: TAction;
-    SuggestionOrder1: TMenuItem;
-    CreateSuggestionOrder1: TMenuItem;
+    actReturTrader: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -235,6 +233,7 @@ type
     procedure actReprintNotaExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
     procedure actResetCashierExecute(Sender: TObject);
+    procedure actReturTraderExecute(Sender: TObject);
     procedure actSalesReportContrabonExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
@@ -301,7 +300,7 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
   ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
   ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
-  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi;
+  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -367,8 +366,7 @@ end;
 
 procedure TfrmMain.actCreateSOExecute(Sender: TObject);
 begin
-  frmSO := TfrmSO.Create(Self);
-
+    frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
 end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
@@ -681,6 +679,11 @@ end;
 procedure TfrmMain.actResetCashierExecute(Sender: TObject);
 begin
     frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actReturTraderExecute(Sender: TObject);
+begin
+   frmReturTrader := TfrmReturTrader.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSalesReportContrabonExecute(Sender: TObject);

@@ -164,9 +164,7 @@ end;
 procedure TfrmDialogUnit.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if not ValidateEmptyCtrl([1], True) then
-    Exit;
-
+  if not ValidateEmptyCtrl then Exit;
   UnitStore.COMPANY             := TModCompany.CreateID(cbbCompany.EditValue);
   UnitStore.AUTAPP              := TModAutApp.CreateID(cbbAppType.EditValue);
 

@@ -29,11 +29,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 495
-      ClientRectLeft = 4
-      ClientRectRight = 648
+      ClientRectBottom = 499
+      ClientRectRight = 652
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = 'Supplier'
@@ -685,8 +684,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object pnl1: TPanel
           Left = 0
-          Top = 210
-          Width = 644
+          Top = 214
+          Width = 652
           Height = 258
           Align = alBottom
           Caption = 'Change contact supplier for Merchandise Group'
@@ -1107,16 +1106,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ExplicitWidth = 656
       inherited lbCTRLEnter: TLabel
         Left = 481
-        Height = 15
         ExplicitLeft = 481
       end
       inherited lbEscape: TLabel
         Left = 572
-        Height = 15
         ExplicitLeft = 572
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 405

@@ -57,7 +57,9 @@ type
     procedure LoadFromSQL(aSQL, IDField, DisplayField: String; HideFields: Array Of
         String; aOwnerForm: TComponent);
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
-        HideFields: Array Of String; aOwnerForm: TComponent);
+        HideFields: Array Of String; aOwnerForm: TComponent); overload;
+    procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
+        aOwnerForm: TComponent); overload;
     procedure SetMultiPurposeLookup;
   end;
 
@@ -65,8 +67,12 @@ type
   public
     function CDS: TClientDataSet;
     function DS: TDataset;
-    procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
+    procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent);
+    procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
+        HideFields: Array Of String; aOwnerForm: TComponent); overload;
+    procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
+        aOwnerForm: TComponent); overload;
     procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
   end;
@@ -110,8 +116,8 @@ type
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
-    procedure LoadFromCDS(ACDS: TClientDataSet; AutoFormat: Boolean = True;
-        DoBestFit: Boolean = True);
+    procedure LoadFromCDS(ACDS: TClientDataSet; DoCreateAllItem: Boolean = True;
+        DoBestFit: Boolean = True; AutoFormat: Boolean = True);
     procedure LoadFromSQL(aSQL: String; aOwner: TComponent); overload;
     procedure LoadFromSQL(aSQL: String); overload;
     procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent); overload;
@@ -146,9 +152,10 @@ type
     procedure OnKeyEnter(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     procedure AssignKeyDownEvent;
-    procedure ClearByTag(Tag: TTag);
-    function ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean = True):
-        Boolean;
+    function CheckControlParent(ChildCtrl, ParentCtrl: TWinControl): Boolean;
+    procedure ClearByTag(Tag: TTag; ParentCtrl: TWinControl = nil);
+    function ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean = True;
+        ParentCtrl: TWinControl = nil): Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
     function SetFocusRec(aWinCTRL: TWinControl): Boolean;
   end;
@@ -471,6 +478,17 @@ begin
   //membuat cds sesuai owner form agar di free on destroy
   lCDS := TDBUtils.DSToCDS(aDataSet, aOwnerForm);
   Self.LoadFromCDS(lCDS, IDField, DisplayField, HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupPropHelper.LoadFromDS(aDataSet: TDataSet; IDField,
+    DisplayField: String; aOwnerForm: TComponent);
+var
+  lCDS: TClientDataSet;
+begin
+  //method ini hanya digunakan sekali saja,
+  //membuat cds sesuai owner form agar di free on destroy
+  lCDS := TDBUtils.DSToCDS(aDataSet, aOwnerForm);
+  Self.LoadFromCDS(lCDS, IDField, DisplayField, [IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
@@ -831,8 +849,8 @@ begin
   Result := Self.GetFooterSummary(Self.GetColumnByFieldName(sFieldName));
 end;
 
-procedure TcxDBGridHelper.LoadFromCDS(ACDS: TClientDataSet; AutoFormat: Boolean
-    = True; DoBestFit: Boolean = True);
+procedure TcxDBGridHelper.LoadFromCDS(ACDS: TClientDataSet; DoCreateAllItem:
+    Boolean = True; DoBestFit: Boolean = True; AutoFormat: Boolean = True);
 begin
   if not Assigned(ACDS) then exit;
   If not Assigned(Self.DataController.DataSource) then
@@ -840,7 +858,8 @@ begin
     Self.DataController.DataSource := TDataSource.Create(Self);
   end;
   Self.DataController.DataSource.DataSet := ACDS;
-  Self.DataController.CreateAllItems(True);
+  If DoCreateAllItem then
+    Self.DataController.CreateAllItems(True);
 
   if AutoFormat then
   begin
@@ -993,6 +1012,7 @@ procedure TcxDBGridHelper.SetExtLookupCombo(ExtLookupProp:
     TcxExtLookupComboBoxProperties; IDField, DisplayField: String; HideIDField:
     Boolean = True);
 begin
+  if not Assigned(ExtLookupProp) then exit;
   with ExtLookupProp do
   begin
     View              := Self;
@@ -1026,9 +1046,11 @@ begin
     if C is TEdit then
       If not Assigned(TEdit(C).OnKeyDown) then
         TEdit(C).OnKeyDown := OnKeyEnter;
-    if C is TcxTextEdit then
-      If not Assigned(TcxTextEdit(C).OnKeyDown) then
-        TcxTextEdit(C).OnKeyDown := OnKeyEnter;
+    if C is TCheckBox then
+      if not Assigned(TCheckBox(C).OnKeyDown) then
+        TCheckBox(C).OnKeyDown := OnKeyEnter;
+
+    //------ devexpress ---------//
     if C is TcxExtLookupComboBox then
     begin
       //bug: lookup standar, ketika user memilih dengan keyboard panah, lalu enter tidak ngefek
@@ -1043,31 +1065,14 @@ begin
       //3rd onEnter send tab key
       if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
         TcxExtLookupComboBox(C).OnKeyDown:= OnKeyEnter;
-    end;
-    if C is TcxComboBox then
-      if not Assigned(TcxComboBox(C).OnKeyDown) then
-        TcxComboBox(C).OnKeyDown := OnKeyEnter;
-    if C is TComboBox then
-      if not Assigned(TComboBox(C).OnKeyDown) then
-        TComboBox(C).OnKeyDown := OnKeyEnter;
-    if C is TMaskedit then
-      if not Assigned(TMaskedit(C).OnKeyDown) then
-        TMaskedit(C).OnKeyDown := OnKeyEnter;
-    if C is TcxCheckBox then
-      if not Assigned(TcxCheckBox(C).OnKeyDown) then
-        TcxCheckBox(C).OnKeyDown := OnKeyEnter;
-
-    if C is TCheckBox then
-      if not Assigned(TCheckBox(C).OnKeyDown) then
-        TCheckBox(C).OnKeyDown := OnKeyEnter;
-
-    if C is TcxSpinEdit then
-      if not Assigned(TcxSpinEdit(C).OnKeyDown) then
-        TcxSpinEdit(C).OnKeyDown := OnKeyEnter;
+    end
+    else If C.InheritsFrom(TcxCustomEdit) then  //for all devexpress
+      If not Assigned(TcxCustomEdit(C).OnKeyDown) then
+        TcxCustomEdit(C).OnKeyDown := OnKeyEnter;
   end;
 end;
 
-procedure TFormHelper.ClearByTag(Tag: TTag);
+procedure TFormHelper.ClearByTag(Tag: TTag; ParentCtrl: TWinControl = nil);
 var
   C: TComponent;
   i: Integer;
@@ -1076,20 +1081,39 @@ begin
   begin
     C := Self.Components[i];
     if not (C.Tag in Tag) then continue;
+
+    if not C.InheritsFrom(TWinControl) then continue;
+    if ParentCtrl <> nil then
+      if not CheckControlParent(TWinControl(C), ParentCtrl) then
+        continue;
     if C is TEdit then TEdit(C).Clear;
     if C is TDateTimePicker then TDateTimePicker(C).Date := Now;
-    if C is TcxTextEdit then TcxTextEdit(C).Clear;
-    if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
-    if C is TcxComboBox then TcxComboBox(C).Clear;
-    if C is TcxCheckBox then TcxCheckBox(C).Clear;
-    if C is TcxSpinEdit then TcxSpinEdit(C).Clear;
-    if C is TcxDateEdit then TcxDateEdit(C).Date := Now;
+//    if C is TcxTextEdit then TcxTextEdit(C).Clear;
+//    if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
+//    if C is TcxComboBox then TcxComboBox(C).Clear;
+//    if C is TcxCheckBox then TcxCheckBox(C).Clear;
+//    if C is TcxSpinEdit then TcxSpinEdit(C).Clear;
 
+    if C is TcxDateEdit then TcxDateEdit(C).Date := Now
+    else if C is TcxCurrencyEdit then TcxCurrencyEdit(C).Value := 0
+    else if C is TcxSpinEdit then TcxSpinEdit(C).Value := 0
+    else If C.InheritsFrom(TcxCustomEdit) then
+      TcxCustomEdit(C).Clear;
   end;
 end;
 
+function TFormHelper.CheckControlParent(ChildCtrl, ParentCtrl: TWinControl):
+    Boolean;
+begin
+  Result := ChildCtrl.Parent = ParentCtrl;
+  if Result then exit;
+
+  If ChildCtrl.Parent <> nil then
+    Result := CheckControlParent(ChildCtrl.Parent, ParentCtrl);
+end;
+
 function TFormHelper.ValidateEmptyCtrl(Tag: TTag = [1]; ShowWarning: Boolean =
-    True): Boolean;
+    True; ParentCtrl: TWinControl = nil): Boolean;
 var
   C: TComponent;
   i: Integer;
@@ -1106,14 +1130,19 @@ begin
     C := Self.Components[i];
     if not (C.Tag in Tag) then continue;
     if not C.InheritsFrom(TWinControl) then continue;
+    if ParentCtrl <> nil then
+      if not CheckControlParent(TWinControl(C), ParentCtrl) then
+        continue;
+
     if C is TcxExtLookupComboBox then
       IsEmpty := VarIsNull(TcxExtLookupComboBox(C).EditValue)
-    else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
     else if C is TComboBox then IsEmpty := TComboBox(C).ItemIndex = -1
-    else if C is TcxTextEdit then IsEmpty := TcxTextEdit(C).Text = ''
     else if C is TEdit then IsEmpty := TEdit(C).Text = ''
-    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
-    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
+    else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
+    else if C is TcxTextEdit then IsEmpty := TcxTextEdit(C).Text = '';
+//    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
+//    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
+
     if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
     begin
       EmptyCtrl := TWinControl(C);
@@ -1204,11 +1233,24 @@ begin
     Result := nil;
 end;
 
+procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
+    DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
+begin
+  Self.Properties.LoadFromCDS(aCDS, IDField, DisplayField, HideFields, aOwnerForm);
+end;
+
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
     DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
 begin
   Self.Properties.LoadFromDS(aDataSet, IDField, DisplayField,
     HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,
+    DisplayField: String; aOwnerForm: TComponent);
+begin
+  Self.Properties.LoadFromDS(aDataSet, IDField, DisplayField,
+    [IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupComboHelper.SetDefaultValue(TriggerEvents: Boolean =

@@ -14,6 +14,13 @@ uses
   uModApp, uModTest, uTSINIFile;
 
 type
+  TCDSHelper = class helper for TClientDataSet
+  private
+  public
+    procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
+        = 256);
+  end;
+
   TDBUtils = class(TObject)
   private
     class function GenerateSQLInsert(AObject : TModApp): string; overload;
@@ -196,16 +203,22 @@ end;
 
 class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
 var
+  a: TCustomAttribute;
   ctx : TRttiContext;
+  DoUpdateDetails: Boolean;
   meth : TRttiMethod;
   prop, propItem : TRttiProperty;
   rt : TRttiType;
   i : Integer;
+  IDItems: string;
   lObj : TObject;
   lModItem : TModApp;
   value : TValue;
+  SSItems: TStrings;
 begin
+  DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
+  lModItem := nil;
 
   if (AObject.ID = '') or (AObject.ObjectState = 1) then
     SS.Add(TDBUtils.GetSQLInsert(AObject))
@@ -222,24 +235,56 @@ begin
       begin
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
-        for i := 0 to value.GetArrayLength - 1 do
-        begin
-          lObj := value.GetArrayElement(i).AsObject;
-          If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
-          lModItem := TModApp(lObj);
+        IDItems := '';
+        SSItems := TStringList.Create;
+        Try
+          for i := 0 to value.GetArrayLength - 1 do
+          begin
+            lObj := value.GetArrayElement(i).AsObject;
+            If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+            lModItem := TModApp(lObj);
 
-          if i = 0 then
-            SS.Add( Format(SQL_Delete,[lModItem.GetTableName,
-              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID) ]) );
+            if i = 0 then //check operation at 1st loop
+              for a in ctx.GetType(lModItem.ClassType).GetAttributes do
+                if a is AttrUpdateDetails then DoUpdateDetails := True;
 
-          //dengan method dibawah, client tidak wajib menset moditem.header := modheader
-          propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            //dengan method dibawah, client tidak wajib menset moditem.header := modheader
+            propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            if propItem.PropertyType.TypeKind = tkClass then
+              propItem.SetValue(lModItem, AObject);
 
-          if propItem.PropertyType.TypeKind = tkClass then
-            propItem.SetValue(lModItem, AObject);
+            If DoUpdateDetails then
+            begin
+              lModItem.ObjectState := 3; //check if update
+              if lModItem.ID <> '' then
+              begin
+                if IDItems <> '' then IDItems := IDItems + ',';
+                IDItems := IDItems + QuotedStr(lModItem.ID);
+              end;
+            end else
+              lModItem.ObjectState := 1; //always insert
 
-          GenerateSQL(lModItem,SS);
-        end;
+            GenerateSQL(lModItem,SSItems);
+          end;
+
+          If DoUpdateDetails then
+          begin
+            if IDItems <> '' then
+            begin
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)
+                + ' and ' + lModItem.GetPrimaryField + ' not in('+ IDItems +')'
+                ]));
+            end;
+          end else
+          begin
+            SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+          end;
+          if SSItems.Text <> '' then SS.AddStrings(SSItems);
+        Finally
+          SSItems.Free;
+        End;
       end;
     end;
   end;
@@ -648,74 +693,77 @@ begin
   begin
     for prop in rt.GetProperties() do
     begin
-      if prop.Visibility <> mvPublished then continue;
-
       if (not prop.IsWritable) then Continue;
-
-
       FieldName := AObject.FieldNameOf(prop);
 
-      If ADataSet.FieldByName(FieldName).DataType in [ftDate,ftDateTime,ftTimeStamp] then
+      //published has fields on dataset
+      if prop.Visibility = mvPublished then
       begin
-        prop.SetValue(
-          AObject,
-          TValue.From<TDateTime>(ADataSet.FieldByName(FieldName).AsDateTime)
-        );
-      end else
+        If (ADataSet.FieldByName(FieldName).DataType in [ftDate,ftDateTime,ftTimeStamp]) then
+        begin
+          prop.SetValue(
+            AObject,
+            TValue.From<TDateTime>(ADataSet.FieldByName(FieldName).AsDateTime)
+          );
+        end else
+        begin
+          case prop.PropertyType.TypeKind of
+            tkInteger : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsInteger );
+            tkFloat   : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsFloat );
+            tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
+            tkClass   : begin
+                          meth := prop.PropertyType.GetMethod('ToArray');
+                          if not Assigned(meth) then
+                          begin
+                            meth          := prop.PropertyType.GetMethod('Create');
+                            lAppObject    := TModApp(meth.Invoke(
+                              prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+                            lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
+                            prop.SetValue(AOBject, lAppObject);
+                          end;
+                        end;
+          else
+            prop.SetValue(AObject,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
+          end;
+        end;
+      end else  //public object list
       begin
-        case prop.PropertyType.TypeKind of
-          tkInteger : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsInteger );
-          tkFloat   : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsFloat );
-          tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
-          tkClass   :
+        if prop.PropertyType.TypeKind = tkClass then
+        begin
+          meth := prop.PropertyType.GetMethod('ToArray');
+          if Assigned(meth) then
           begin
-            meth := prop.PropertyType.GetMethod('ToArray');
-            if Assigned(meth) then
+            lObjectList := prop.GetValue(AOBject).AsObject;
+            sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+            sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+
+            rtItem := ctx.FindType(sGenericItemClassName);
+            meth := prop.PropertyType.GetMethod('Add');
+            if Assigned(meth) and Assigned(rtItem) then
             begin
-              lObjectList := prop.GetValue(AOBject).AsObject;
-              sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
-              sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
-
-              rtItem := ctx.FindType(sGenericItemClassName);
-              meth := prop.PropertyType.GetMethod('Add');
-
-              if Assigned(meth) and Assigned(rtItem) then
-              begin
-                //sayangny utk akses rtti object harus ada dulu, jadi create dulu
-                lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
-                lAppObjectItem  := lAppClass.Create;
-                sSQL := 'select * from ' + lAppObjectItem.GetTableName
-                        + ' where ' + lAppObjectItem.GetHeaderField
-                        + ' = ' + QuotedStr(ADataSet.FieldByName('ID').AsString);
-                lAppObjectItem.Free;
-                //
-
-                QQ := TDBUtils.OpenQuery(sSQL, nil);
-                try
-                  while not QQ.Eof do
-                  begin
-                    lAppObjectItem := lAppClass.Create;
-                    SetFromDatast(lAppObjectItem, QQ);
-                    meth.Invoke(lObjectList,[lAppObjectItem]);
-                    QQ.Next;
-                  end;
-                finally
-                  QQ.Free;
+              //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+              lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
+              lAppObjectItem  := lAppClass.Create;
+              sSQL := 'select * from ' + lAppObjectItem.GetTableName
+                    + ' where ' + lAppObjectItem.GetHeaderField
+                    + ' = ' + QuotedStr(ADataSet.FieldByName(AOBject.GetPrimaryField).AsString);
+              lAppObjectItem.Free;
+              QQ := TDBUtils.OpenQuery(sSQL, nil);
+              try
+                while not QQ.Eof do
+                begin
+                  lAppObjectItem := lAppClass.Create;
+                  SetFromDatast(lAppObjectItem, QQ);
+                  meth.Invoke(lObjectList,[lAppObjectItem]);
+                  QQ.Next;
                 end;
-
+              finally
+                QQ.Free;
               end;
-            end else begin
-              meth          := prop.PropertyType.GetMethod('Create');
-              lAppObject    := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-
-              lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
-              prop.SetValue(AOBject, lAppObject);
             end;
           end;
-        else
-          prop.SetValue(AObject,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
-        end;
-      end;
+        end;  //object list assignment
+      end;  //prop.visibility check
     end;
   end;
 
@@ -779,6 +827,80 @@ begin
 
   if FDTransaction.Active then
     FDTransaction.RollBack;
+end;
+
+procedure TCDSHelper.AddField(AFieldName: String; AFieldType: TFieldType;
+    ALength: Integer = 256);
+var
+  DTF: TDateTimeField;
+  SF: TStringField;
+  BF: TBlobField;
+  BL: TBooleanField;
+  FF: TFloatField;
+  MF: TMemoField;
+  F: TField;
+begin
+  Case aFieldType of
+    ftDateTime:
+      begin
+        DTF           := TDateTimeField.Create(Self);
+        DTF.Name      := Self.Name + 'col' + AFieldName + IntToStr(Integer(DTF));
+        DTF.FieldName := AFieldName;
+        DTF.DataSet   := Self;
+      end;
+    ftDate:
+      begin
+        DTF := TDateField.Create(Self);
+        DTF.Name      := Self.Name + 'col' + AFieldName + IntToStr(Integer(DTF));
+        DTF.FieldName := AFieldName;
+        DTF.DataSet   := Self;
+      end;
+    ftString:
+      begin
+        SF            := TStringField.Create(Self);
+        SF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(SF));
+        SF.FieldName  := AFieldName;
+        SF.Size       := aLength;
+        SF.DataSet    := Self;
+      end;
+    ftBlob:
+      begin
+        BF            := TBlobField.Create(Self);
+        BF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(BF));
+        BF.FieldName  := AFieldName;
+        BF.DataSet    := Self;
+      end;
+    ftFloat:
+      begin
+        FF            := TFloatField.Create(Self);
+        FF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(FF));
+        FF.FieldName  := AFieldName;
+        FF.DataSet    := Self;
+      end;
+    ftMemo:
+      begin
+        MF            := TMemoField.Create(Self);
+        MF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(MF));
+        MF.FieldName  := AFieldName;
+        MF.Size       := aLength;
+        MF.DataSet    := Self;
+      end;
+    ftSmallInt, ftInteger:
+      begin
+        F := TIntegerField.Create(Self);
+        TIntegerField(F).Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(F));
+        TIntegerField(F).FieldName  := AFieldName;
+        TIntegerField(F).DataSet    := Self;
+      end;
+    ftBoolean:
+      begin
+        BL            := TBooleanField.Create(Self);
+        BL.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(BL));
+        BL.FieldName  := AFieldName;
+        BL.DataSet    := Self;
+      end;
+  end;
+
 end;
 
 end.

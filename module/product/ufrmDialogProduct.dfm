@@ -2,38 +2,51 @@ inherited frmDialogProduct: TfrmDialogProduct
   Left = 307
   Top = 98
   Caption = 'Update Data Barang'
-  ClientHeight = 423
+  ClientHeight = 446
   ClientWidth = 776
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
   ExplicitWidth = 792
-  ExplicitHeight = 462
+  ExplicitHeight = 485
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 776
-    Height = 367
+    Height = 390
     ExplicitWidth = 776
-    ExplicitHeight = 367
+    ExplicitHeight = 390
     object pgcMain: TcxPageControl
       Left = 2
       Top = 2
       Width = 772
-      Height = 363
+      Height = 386
       Align = alClient
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
       ParentBackground = False
       ParentColor = False
+      ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsInfo
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 363
+      Properties.Images = DMClient.imgListButton
+      Properties.Style = 6
+      Properties.TabHeight = 30
+      LookAndFeel.Kind = lfUltraFlat
+      LookAndFeel.NativeStyle = False
+      OnChange = pgcMainChange
+      ClientRectBottom = 386
       ClientRectRight = 772
-      ClientRectTop = 27
+      ClientRectTop = 32
       object tsInfo: TcxTabSheet
-        Caption = 'Informasi Barang'
-        ImageIndex = 0
+        Caption = 'F1 [Informasi Barang]'
+        ImageIndex = 26
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -525,6 +538,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           HelpType = htKeyword
           HelpKeyword = 'Kode Produk'
           Properties.CharCase = ecUpperCase
+          Properties.MaxLength = 6
           Style.LookAndFeel.NativeStyle = False
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
@@ -746,6 +760,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Width = 225
           end
           object cxLookupSatPurchase: TcxExtLookupComboBox
+            Tag = 1
             Left = 88
             Top = 67
             Style.LookAndFeel.NativeStyle = False
@@ -804,19 +819,631 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
       end
       object tsSupplier: TcxTabSheet
-        Caption = 'Barang Supplier'
-        ImageIndex = 1
+        Caption = 'F2 [Barang Supplier]'
+        ImageIndex = 10
+        object gbSupplier: TcxGroupBox
+          Left = 0
+          Top = 138
+          Align = alBottom
+          PanelStyle.Active = True
+          Style.BorderStyle = ebsNone
+          TabOrder = 0
+          Height = 216
+          Width = 772
+          object lbSupplier: TLabel
+            Left = 72
+            Top = 10
+            Width = 39
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Supplier'
+          end
+          object lbDays1: TLabel
+            Left = 173
+            Top = 35
+            Width = 24
+            Height = 16
+            Caption = 'Days'
+          end
+          object lbTOP: TLabel
+            Left = 92
+            Top = 35
+            Width = 19
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'TOP'
+          end
+          object lbDays2: TLabel
+            Left = 173
+            Top = 60
+            Width = 24
+            Height = 16
+            Caption = 'Days'
+          end
+          object lbDays3: TLabel
+            Left = 173
+            Top = 85
+            Width = 24
+            Height = 16
+            Caption = 'Days'
+          end
+          object Label6: TLabel
+            Left = 39
+            Top = 110
+            Width = 72
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'UOM Purchase'
+          end
+          object Label7: TLabel
+            Left = 37
+            Top = 135
+            Width = 74
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Stock In Order'
+          end
+          object lbExpiredDate: TLabel
+            Left = 47
+            Top = 60
+            Width = 64
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Expired Time'
+          end
+          object lbDeliveryTime: TLabel
+            Left = 44
+            Top = 85
+            Width = 67
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Delivery Time'
+          end
+          object Label10: TLabel
+            Left = 61
+            Top = 160
+            Width = 50
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Min Order'
+          end
+          object lbSellingPrice: TLabel
+            Left = 246
+            Top = 35
+            Width = 58
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Selling Price'
+          end
+          object lbPurchasePrice: TLabel
+            Left = 227
+            Top = 60
+            Width = 74
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Purchase Price'
+          end
+          object lbDisc1: TLabel
+            Left = 274
+            Top = 85
+            Width = 30
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Disc 1'
+          end
+          object Label15: TLabel
+            Left = 360
+            Top = 85
+            Width = 7
+            Height = 16
+            Alignment = taRightJustify
+            Caption = '%'
+          end
+          object Label16: TLabel
+            Left = 360
+            Top = 110
+            Width = 7
+            Height = 16
+            Alignment = taRightJustify
+            Caption = '%'
+          end
+          object lbDisc2: TLabel
+            Left = 274
+            Top = 110
+            Width = 30
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Disc 2'
+          end
+          object lbDisc3: TLabel
+            Left = 274
+            Top = 135
+            Width = 30
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Disc 3'
+          end
+          object lbPurchaseNet: TLabel
+            Left = 237
+            Top = 160
+            Width = 67
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Purchase Net'
+          end
+          object lbMargin: TLabel
+            Left = 267
+            Top = 187
+            Width = 34
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Margin'
+          end
+          object Label21: TLabel
+            Left = 360
+            Top = 185
+            Width = 7
+            Height = 16
+            Alignment = taRightJustify
+            Caption = '%'
+          end
+          object Label1: TLabel
+            Left = 58
+            Top = 185
+            Width = 53
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Max Order'
+          end
+          object cxLookupSupplier: TcxExtLookupComboBox
+            Tag = 1
+            Left = 117
+            Top = 7
+            Hint = 'Klik F5 untuk membuat Master Baru'
+            ParentShowHint = False
+            Properties.CharCase = ecUpperCase
+            Properties.ImmediatePost = True
+            ShowHint = True
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 0
+            Width = 290
+          end
+          object spTOP: TcxSpinEdit
+            Left = 117
+            Top = 32
+            Properties.ReadOnly = True
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 1
+            Width = 53
+          end
+          object spExpiredTime: TcxSpinEdit
+            Left = 117
+            Top = 57
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 2
+            Width = 53
+          end
+          object spDelivery: TcxSpinEdit
+            Left = 117
+            Top = 82
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 3
+            Width = 53
+          end
+          object cxLookupBRSUom: TcxExtLookupComboBox
+            Tag = 1
+            Left = 117
+            Top = 107
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 4
+            Width = 109
+          end
+          object crStockInOrder: TcxCurrencyEdit
+            Left = 117
+            Top = 132
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 5
+            Width = 50
+          end
+          object crMinOrder: TcxCurrencyEdit
+            Left = 117
+            Top = 157
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 6
+            Width = 50
+          end
+          object crMaxOrder: TcxCurrencyEdit
+            Left = 117
+            Top = 182
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 7
+            Width = 50
+          end
+          object gbSuppOption: TcxGroupBox
+            Left = 413
+            Top = 29
+            PanelStyle.Active = True
+            Style.BorderStyle = ebsNone
+            TabOrder = 15
+            Transparent = True
+            Height = 149
+            Width = 132
+            object ckActive: TcxCheckBox
+              AlignWithMargins = True
+              Left = 5
+              Top = 26
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              Align = alTop
+              Caption = 'Active'
+              Properties.ImmediatePost = True
+              State = cbsChecked
+              TabOrder = 1
+              Transparent = True
+              ExplicitTop = 23
+            end
+            object ckPrimer: TcxCheckBox
+              AlignWithMargins = True
+              Left = 5
+              Top = 2
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              Align = alTop
+              Caption = 'Supplier Primer'
+              Properties.ImmediatePost = True
+              State = cbsChecked
+              TabOrder = 0
+              Transparent = True
+            end
+            object ckBKP: TcxCheckBox
+              AlignWithMargins = True
+              Left = 5
+              Top = 50
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              Align = alTop
+              Caption = 'Barang Kena Pajak'
+              Properties.ImmediatePost = True
+              State = cbsChecked
+              TabOrder = 2
+              Transparent = True
+            end
+            object ckEnableCN: TcxCheckBox
+              AlignWithMargins = True
+              Left = 5
+              Top = 74
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              Align = alTop
+              Caption = 'Enable CN'
+              Properties.ImmediatePost = True
+              State = cbsChecked
+              TabOrder = 3
+              Transparent = True
+              OnKeyDown = ckEnableCNKeyDown
+            end
+          end
+          object crBRSSellingPrice: TcxCurrencyEdit
+            Left = 307
+            Top = 32
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 8
+            Width = 100
+          end
+          object crBRSPurchasePrice: TcxCurrencyEdit
+            Left = 307
+            Top = 57
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 9
+            Width = 100
+          end
+          object crBRSDisc1: TcxCurrencyEdit
+            Left = 307
+            Top = 82
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 10
+            Width = 52
+          end
+          object crBRSDisc2: TcxCurrencyEdit
+            Left = 307
+            Top = 107
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 11
+            Width = 52
+          end
+          object crBRSDisc3: TcxCurrencyEdit
+            Left = 307
+            Top = 132
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 12
+            Width = 100
+          end
+          object crPurchaseNet: TcxCurrencyEdit
+            Left = 307
+            Top = 157
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 13
+            Width = 100
+          end
+          object crBRSMargin: TcxCurrencyEdit
+            Left = 307
+            Top = 182
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 14
+            Width = 52
+          end
+        end
+        object gbSupplierGrid: TcxGroupBox
+          Left = 0
+          Top = 0
+          Align = alClient
+          PanelStyle.Active = True
+          Style.BorderStyle = ebsNone
+          TabOrder = 1
+          Height = 138
+          Width = 772
+          object pnlGridSupplierBtn: TcxGroupBox
+            Left = 2
+            Top = 109
+            Align = alBottom
+            PanelStyle.Active = True
+            Style.BorderStyle = ebsNone
+            Style.Edges = [bRight, bBottom]
+            TabOrder = 0
+            Height = 27
+            Width = 768
+            object lbSuppShortCut1: TLabel
+              AlignWithMargins = True
+              Left = 514
+              Top = 6
+              Width = 249
+              Height = 18
+              Margins.Top = 4
+              Margins.Bottom = 1
+              Align = alRight
+              Caption = 'ALT-T [Tambah]  | ALT-U [Update]  |  ALT-D [Delete]'
+              Enabled = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              ExplicitHeight = 16
+            end
+            object btnDelSupp: TcxButton
+              AlignWithMargins = True
+              Left = 168
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Delete'
+              OptionsImage.ImageIndex = 8
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 0
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnDelSuppClick
+            end
+            object btnAddSupp: TcxButton
+              AlignWithMargins = True
+              Left = 2
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Tambah'
+              LookAndFeel.Kind = lfUltraFlat
+              OptionsImage.ImageIndex = 0
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 1
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnAddSuppClick
+            end
+            object btnUpdateSupp: TcxButton
+              AlignWithMargins = True
+              Left = 85
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Update'
+              OptionsImage.ImageIndex = 13
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 2
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnUpdateSuppClick
+            end
+          end
+          object cxGridSupplier: TcxGrid
+            Left = 2
+            Top = 2
+            Width = 768
+            Height = 107
+            Align = alClient
+            TabOrder = 1
+            TabStop = False
+            object cxGrdDBSupplier: TcxGridDBTableView
+              Navigator.Buttons.CustomButtons = <>
+              OnCellClick = cxGrdDBSupplierCellClick
+              DataController.Summary.DefaultGroupSummaryItems = <>
+              DataController.Summary.FooterSummaryItems = <>
+              DataController.Summary.SummaryGroups = <>
+              FilterRow.ApplyChanges = fracImmediately
+              OptionsData.CancelOnExit = False
+              OptionsData.Deleting = False
+              OptionsData.DeletingConfirmation = False
+              OptionsData.Editing = False
+              OptionsData.Inserting = False
+              OptionsSelection.CellSelect = False
+              OptionsView.GroupByBox = False
+              object clSuppSupplier: TcxGridDBColumn
+                Caption = 'Supplier'
+                DataBinding.FieldName = 'SupplierName'
+                PropertiesClassName = 'TcxTextEditProperties'
+                Width = 233
+              end
+              object clSuppPurchasePrice: TcxGridDBColumn
+                Caption = 'Purchase Price'
+                DataBinding.FieldName = 'PurchasePrice'
+                Width = 79
+              end
+              object clSuppDisc1: TcxGridDBColumn
+                Caption = 'Disc 1 (%)'
+                DataBinding.FieldName = 'Disc1'
+                Width = 53
+              end
+              object clSuppDisc2: TcxGridDBColumn
+                Caption = 'Disc 2 (%)'
+                DataBinding.FieldName = 'Disc2'
+                Width = 53
+              end
+              object clSuppDisc3: TcxGridDBColumn
+                Caption = 'Disc 3'
+                DataBinding.FieldName = 'Disc3'
+              end
+              object clSuppPriceNet: TcxGridDBColumn
+                Caption = 'Purchase Price Net'
+                DataBinding.FieldName = 'PurchaseNet'
+                Width = 100
+              end
+              object clSuppMargin: TcxGridDBColumn
+                Caption = 'Margin (%)'
+                DataBinding.FieldName = 'Margin'
+                Width = 57
+              end
+              object clSuppActive: TcxGridDBColumn
+                DataBinding.FieldName = 'Active'
+                Width = 37
+              end
+              object clSuppPrimer: TcxGridDBColumn
+                Caption = 'Primer'
+                DataBinding.FieldName = 'IsPrimer'
+                Width = 49
+              end
+            end
+            object cxGridSupplierLevel1: TcxGridLevel
+              GridView = cxGrdDBSupplier
+            end
+          end
+        end
       end
       object tsSellingPrice: TcxTabSheet
-        Caption = 'Selling Price'
-        ImageIndex = 2
+        Caption = 'F3 [Selling Price]'
+        ImageIndex = 37
       end
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 367
+    Top = 390
     Width = 776
-    ExplicitTop = 367
+    ExplicitTop = 390
     ExplicitWidth = 776
     inherited pnlFooter: TPanel
       Width = 776
@@ -862,8 +1489,8 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 360
-    Top = 360
+    Left = 696
+    Top = 312
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
