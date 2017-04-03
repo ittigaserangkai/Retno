@@ -40,8 +40,8 @@ uses
   uModDocument in '..\model\uModDocument.pas',
   uModTipePo in '..\model\uModTipePo.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
-  uModRefAgama in '..\model\uModRefAgama.pas';
-
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  uAppUtils in '..\lib\uAppUtils.pas';
 
 {$R *.res}
 

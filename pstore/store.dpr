@@ -177,7 +177,9 @@ uses
   ufrmListMemberTransaction in '..\module\cashier_supv\ufrmListMemberTransaction.pas' {frmListMemberTransaction},
   ufrmRafaksi in '..\module\inventory\ufrmRafaksi.pas' {frmRafaksi},
   ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi},
-  uModRefAgama in '..\model\uModRefAgama.pas';
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  ufrmSO in '..\module\so\ufrmSO.pas' {frmSO},
+  ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO};
 
 {$R *.res}
 
@@ -188,5 +190,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmDialogSO, frmDialogSO);
   Application.Run;
 end.

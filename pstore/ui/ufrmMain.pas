@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar;
+  cxLookAndFeelPainters, dxStatusBar, ufrmSO;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -185,6 +185,8 @@ type
     actLaporanReturSupplier: TAction;
     actactListMemberTransaction: TAction;
     actRafaksiSupplier: TAction;
+    SuggestionOrder1: TMenuItem;
+    CreateSuggestionOrder1: TMenuItem;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -365,7 +367,8 @@ end;
 
 procedure TfrmMain.actCreateSOExecute(Sender: TObject);
 begin
-    frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
+  frmSO := TfrmSO.Create(Self);
+
 end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
