@@ -636,23 +636,11 @@ inherited frmCreateSO: TfrmCreateSO
       end
     end
     object sgBarangNotForSo: TStringGrid
-      Left = 392
-      Top = 280
+      Left = 160
+      Top = 232
       Width = 320
       Height = 120
       TabOrder = 2
-      ColWidths = (
-        64
-        64
-        64
-        64
-        64)
-      RowHeights = (
-        24
-        24
-        24
-        24
-        24)
     end
     object gridTemp: TStringGrid
       Left = 24
@@ -660,18 +648,6 @@ inherited frmCreateSO: TfrmCreateSO
       Width = 320
       Height = 142
       TabOrder = 3
-      ColWidths = (
-        64
-        64
-        64
-        64
-        64)
-      RowHeights = (
-        24
-        24
-        24
-        24
-        24)
     end
   end
   inherited pnlHeader: TPanel

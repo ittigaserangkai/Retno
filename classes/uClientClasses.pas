@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 03/30/17 11:37:10 AM
+// 04/03/17 1:30:38 PM
 //
 
 unit uClientClasses;
@@ -33,7 +33,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function Hallo(const ARequestFilter: string = ''): string;
+    function Hallo(aTanggal: TDateTime; const ARequestFilter: string = ''): string;
   end;
 
   TCrudClient = class(TDSAdminRestClient)
@@ -162,6 +162,8 @@ type
     FKabupaten_GetDSLookUpCommand_Cache: TDSRestCommand;
     FMataUang_GetDSOverviewCommand: TDSRestCommand;
     FMataUang_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FAgama_GetDSLookupCommand: TDSRestCommand;
+    FAgama_GetDSLookupCommand_Cache: TDSRestCommand;
     FTipeBonus_GetDSOverviewCommand: TDSRestCommand;
     FTipeBonus_GetDSOverviewCommand_Cache: TDSRestCommand;
     FDocument_GetDSOverviewCommand: TDSRestCommand;
@@ -276,6 +278,8 @@ type
     function Kabupaten_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function MataUang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function MataUang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Agama_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function Agama_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeBonus_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeBonus_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Document_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -314,8 +318,9 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TTestMethod_Hallo: array [0..0] of TDSRestParameterMetaData =
+  TTestMethod_Hallo: array [0..1] of TDSRestParameterMetaData =
   (
+    (Name: 'aTanggal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -865,6 +870,16 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_Agama_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Agama_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_TipeBonus_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -972,7 +987,7 @@ begin
   inherited;
 end;
 
-function TTestMethodClient.Hallo(const ARequestFilter: string): string;
+function TTestMethodClient.Hallo(aTanggal: TDateTime; const ARequestFilter: string): string;
 begin
   if FHalloCommand = nil then
   begin
@@ -981,8 +996,9 @@ begin
     FHalloCommand.Text := 'TTestMethod.Hallo';
     FHalloCommand.Prepare(TTestMethod_Hallo);
   end;
+  FHalloCommand.Parameters[0].Value.AsDateTime := aTanggal;
   FHalloCommand.Execute(ARequestFilter);
-  Result := FHalloCommand.Parameters[0].Value.GetWideString;
+  Result := FHalloCommand.Parameters[1].Value.GetWideString;
 end;
 
 constructor TTestMethodClient.Create(ARestConnection: TDSRestConnection);
@@ -2661,6 +2677,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FMataUang_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Agama_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FAgama_GetDSLookupCommand = nil then
+  begin
+    FAgama_GetDSLookupCommand := FConnection.CreateCommand;
+    FAgama_GetDSLookupCommand.RequestType := 'GET';
+    FAgama_GetDSLookupCommand.Text := 'TDSProvider.Agama_GetDSLookup';
+    FAgama_GetDSLookupCommand.Prepare(TDSProvider_Agama_GetDSLookup);
+  end;
+  FAgama_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FAgama_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FAgama_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Agama_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FAgama_GetDSLookupCommand_Cache = nil then
+  begin
+    FAgama_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FAgama_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FAgama_GetDSLookupCommand_Cache.Text := 'TDSProvider.Agama_GetDSLookup';
+    FAgama_GetDSLookupCommand_Cache.Prepare(TDSProvider_Agama_GetDSLookup_Cache);
+  end;
+  FAgama_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FAgama_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.TipeBonus_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FTipeBonus_GetDSOverviewCommand = nil then
@@ -2945,6 +2990,8 @@ begin
   FKabupaten_GetDSLookUpCommand_Cache.DisposeOf;
   FMataUang_GetDSOverviewCommand.DisposeOf;
   FMataUang_GetDSOverviewCommand_Cache.DisposeOf;
+  FAgama_GetDSLookupCommand.DisposeOf;
+  FAgama_GetDSLookupCommand_Cache.DisposeOf;
   FTipeBonus_GetDSOverviewCommand.DisposeOf;
   FTipeBonus_GetDSOverviewCommand_Cache.DisposeOf;
   FDocument_GetDSOverviewCommand.DisposeOf;

@@ -447,6 +447,10 @@ begin
   aView.LoadFromCDS(aCDS, True, False);
   aView.SetVisibleColumns(HideFields,False);
   aView.SetExtLookupCombo(Self, IDField, DisplayField, False);
+  aView.FindPanel.DisplayMode := fpdmManual;
+  aView.FindPanel.ClearFindFilterTextOnClose := True;
+//  aView.FindPanel.FocusViewOnApplyFilter := True;
+
 
   If Self.GetOwner is TcxExtLookupComboBox then
   begin
@@ -493,6 +497,7 @@ end;
 
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
 begin
+  //new feature dx 15 : findpanel
   AutoSearchOnPopup  := True;
   FocusPopup         := True;
   DropDownAutoSize   := True;
@@ -508,12 +513,13 @@ begin
     Self.View.DataController.Filter.Options := [fcoCaseInsensitive];
 
     TcxGridDBTableView(Self.View).FilterRow.InfoText
-      := 'Click Here & Press F2 To Define Filter (use "%" for parsial word)';
+      := 'Ketik di sini (per kolom) atau CTRL+F untuk mencari di semua kolom';
     TcxGridDBTableView(Self.View).FilterRow.Visible       := True;
     TcxGridDBTableView(Self.View).FilterRow.ApplyChanges  := fracImmediately;
   end;
   If not Assigned(Self.OnInitPopup) then
     Self.OnInitPopup := TcxExtLookup.OnInitPopupCustom;
+
 end;
 
 procedure TcxDBTreeHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:

@@ -102,6 +102,12 @@ object frmMain: TfrmMain
         Caption = 'Global Parameter'
       end
     end
+    object SuggestionOrder1: TMenuItem
+      Caption = 'Suggestion Order'
+      object CreateSuggestionOrder1: TMenuItem
+        Action = actCreateSO
+      end
+    end
     object mmWindow: TMenuItem
       Caption = '&Window'
       object miCascade1: TMenuItem

@@ -14,11 +14,11 @@ uses
   uModApp, uModTest, uTSINIFile;
 
 type
-  TCDSHelper = class helper for TClientDataSet
+  TCDSHelper = class helper for TDataSet
   private
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
-        = 256);
+        = 256; IsCalculated: Boolean = False);
   end;
 
   TDBUtils = class(TObject)
@@ -203,16 +203,22 @@ end;
 
 class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
 var
+  a: TCustomAttribute;
   ctx : TRttiContext;
+  DoUpdateDetails: Boolean;
   meth : TRttiMethod;
   prop, propItem : TRttiProperty;
   rt : TRttiType;
   i : Integer;
+  IDItems: string;
   lObj : TObject;
   lModItem : TModApp;
   value : TValue;
+  SSItems: TStrings;
 begin
+  DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
+  lModItem := nil;
 
   if (AObject.ID = '') or (AObject.ObjectState = 1) then
     SS.Add(TDBUtils.GetSQLInsert(AObject))
@@ -229,24 +235,56 @@ begin
       begin
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
-        for i := 0 to value.GetArrayLength - 1 do
-        begin
-          lObj := value.GetArrayElement(i).AsObject;
-          If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
-          lModItem := TModApp(lObj);
+        IDItems := '';
+        SSItems := TStringList.Create;
+        Try
+          for i := 0 to value.GetArrayLength - 1 do
+          begin
+            lObj := value.GetArrayElement(i).AsObject;
+            If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+            lModItem := TModApp(lObj);
 
-          if i = 0 then
-            SS.Add( Format(SQL_Delete,[lModItem.GetTableName,
-              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID) ]) );
+            if i = 0 then //check operation at 1st loop
+              for a in ctx.GetType(lModItem.ClassType).GetAttributes do
+                if a is AttrUpdateDetails then DoUpdateDetails := True;
 
-          //dengan method dibawah, client tidak wajib menset moditem.header := modheader
-          propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            //dengan method dibawah, client tidak wajib menset moditem.header := modheader
+            propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            if propItem.PropertyType.TypeKind = tkClass then
+              propItem.SetValue(lModItem, AObject);
 
-          if propItem.PropertyType.TypeKind = tkClass then
-            propItem.SetValue(lModItem, AObject);
+            If DoUpdateDetails then
+            begin
+              lModItem.ObjectState := 3; //check if update
+              if lModItem.ID <> '' then
+              begin
+                if IDItems <> '' then IDItems := IDItems + ',';
+                IDItems := IDItems + QuotedStr(lModItem.ID);
+              end;
+            end else
+              lModItem.ObjectState := 1; //always insert
 
-          GenerateSQL(lModItem,SS);
-        end;
+            GenerateSQL(lModItem,SSItems);
+          end;
+
+          If DoUpdateDetails then
+          begin
+            if IDItems <> '' then
+            begin
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)
+                + ' and ' + lModItem.GetPrimaryField + ' not in('+ IDItems +')'
+                ]));
+            end;
+          end else
+          begin
+            SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+          end;
+          if SSItems.Text <> '' then SS.AddStrings(SSItems);
+        Finally
+          SSItems.Free;
+        End;
       end;
     end;
   end;
@@ -792,7 +830,7 @@ begin
 end;
 
 procedure TCDSHelper.AddField(AFieldName: String; AFieldType: TFieldType;
-    ALength: Integer = 256);
+    ALength: Integer = 256; IsCalculated: Boolean = False);
 var
   DTF: TDateTimeField;
   SF: TStringField;
@@ -831,6 +869,7 @@ begin
         BF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(BF));
         BF.FieldName  := AFieldName;
         BF.DataSet    := Self;
+        BF.Calculated := IsCalculated;
       end;
     ftFloat:
       begin

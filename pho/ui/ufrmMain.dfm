@@ -292,6 +292,10 @@ object frmMain: TfrmMain
       object ipeCN1: TMenuItem
         Action = actTipeCN
       end
+      object test1: TMenuItem
+        Caption = 'test'
+        OnClick = test1Click
+      end
     end
     object Inventory1: TMenuItem
       Caption = 'Inventory'

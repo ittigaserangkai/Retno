@@ -178,7 +178,8 @@ uses
   ufrmRafaksi in '..\module\inventory\ufrmRafaksi.pas' {frmRafaksi},
   ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi},
   ufrmReturTrader in '..\module\inventory\ufrmReturTrader.pas' {frmReturTrader},
-  ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader};
+  ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader},
+  uModRefAgama in '..\model\uModRefAgama.pas';
 
 {$R *.res}
 

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -300,7 +300,8 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
   ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
   ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
-  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader;
+  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader,
+  ufrmCXLookup;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin

@@ -3,7 +3,7 @@ unit uServerDSProvider;
 interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils;
+  StrUtils, uModUnit;
 
 type
   {$METHODINFO ON}
@@ -68,11 +68,15 @@ type
     function RefTipeMember_GetDSLookup: TDataSet;
     function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
+    function SO_GetDSOverview(ATglAwal , ATglAtglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataSet;
 
 
   end;
   {$METHODINFO OFF}
 implementation
+uses
+  System.DateUtils;
 
 function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
@@ -622,6 +626,18 @@ begin
   +' from'
   +' REF$TIPE_CN';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SO_GetDSOverview(ATglAwal , ATglAtglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_SO ' ;
+//          ' where SO_DATE between ' + TAppUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+//          ' and ' + TAppUtils.QuotDt(EndOfTheDay(ATglAtglAkhir));
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 end.

@@ -3,27 +3,42 @@ unit uModSO;
 interface
 
 uses
-  uModApp, uModUnit, uModBarang;
+  uModApp, uModUnit, uModBarang, uModSupplier;
 
 
 type
   TModSO = class(TModApp)
   private
     FAUTUNIT: TModUnit;
-    FREF_MERCHANDISE_GRUP: TModMerchandiseGroup;
+    FMERCHANDISEGROUP: TModMerchandiseGroup;
     FSO_DATE: TDatetime;
     FSO_NO: string;
+    FSUPPLIER: TModSuplier;
+    function GetSODetil(Index: Integer): TSODetil;
+    procedure SetSODetil(Index: Integer; Value: TSODetil);
+  public
+    AttributeOfForeign;
+    property SODetil[Index: Integer]: TSODetil read GetSODetil write SetSODetil;
   published
-    [AttributeOfForeign('AUT$UNIT_ID')]
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
-
-    [AttributeOfForeign('REF$MERCHANDISE_GRUP_ID')]
-    property REF_MERCHANDISE_GRUP: TModMerchandiseGroup read FREF_MERCHANDISE_GRUP
-        write FREF_MERCHANDISE_GRUP;
+    property MERCHANDISEGROUP: TModMerchandiseGroup read FMERCHANDISEGROUP
+        write FMERCHANDISEGROUP;
     property SO_DATE: TDatetime read FSO_DATE write FSO_DATE;
     property SO_NO: string read FSO_NO write FSO_NO;
+    property SUPPLIER: TModSuplier read FSUPPLIER write FSUPPLIER;
   end;
 
 implementation
+
+{
+************************************ TModSO ************************************
+}
+function TModSO.GetSODetil(Index: Integer): TSODetil;
+begin
+end;
+
+procedure TModSO.SetSODetil(Index: Integer; Value: TSODetil);
+begin
+end;
 
 end.
