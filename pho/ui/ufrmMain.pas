@@ -1077,7 +1077,7 @@ end;
 
 procedure TfrmMain.test1Click(Sender: TObject);
 begin
-  With TfrmCXLookup.Execute('TDSProvider.Suplier_GetDSLookup')  do
+  With TfrmCXLookup.Execute('Contoh lookup','TDSProvider.Suplier_GetDSLookup')  do
   begin
     Try
       HideFields(['Suplier_ID']);
