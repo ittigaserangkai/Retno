@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 03/31/17 3:23:36 PM
+// 04/03/17 1:30:38 PM
 //
 
 unit uClientClasses;
@@ -33,7 +33,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function Hallo(const ARequestFilter: string = ''): string;
+    function Hallo(aTanggal: TDateTime; const ARequestFilter: string = ''): string;
   end;
 
   TCrudClient = class(TDSAdminRestClient)
@@ -318,8 +318,9 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TTestMethod_Hallo: array [0..0] of TDSRestParameterMetaData =
+  TTestMethod_Hallo: array [0..1] of TDSRestParameterMetaData =
   (
+    (Name: 'aTanggal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -986,7 +987,7 @@ begin
   inherited;
 end;
 
-function TTestMethodClient.Hallo(const ARequestFilter: string): string;
+function TTestMethodClient.Hallo(aTanggal: TDateTime; const ARequestFilter: string): string;
 begin
   if FHalloCommand = nil then
   begin
@@ -995,8 +996,9 @@ begin
     FHalloCommand.Text := 'TTestMethod.Hallo';
     FHalloCommand.Prepare(TTestMethod_Hallo);
   end;
+  FHalloCommand.Parameters[0].Value.AsDateTime := aTanggal;
   FHalloCommand.Execute(ARequestFilter);
-  Result := FHalloCommand.Parameters[0].Value.GetWideString;
+  Result := FHalloCommand.Parameters[1].Value.GetWideString;
 end;
 
 constructor TTestMethodClient.Create(ARestConnection: TDSRestConnection);

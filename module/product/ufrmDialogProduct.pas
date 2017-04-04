@@ -202,7 +202,7 @@ implementation
 
 uses
   uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk,
-  uModOutlet, uModRefPajak, uModSuplier, uDBUtils;
+  uModOutlet, uModRefPajak, uModSuplier, uDBUtils, ufrmCXLookup;
 
 {$R *.dfm}
 
@@ -292,6 +292,10 @@ begin
   ClearSupplier;
   Application.ProcessMessages;
   cxLookupSupplier.SetFocus;
+  With TfrmCXLookup.Create(DMCLient.restConn) do
+  begin
+    ShowModal;
+  end;
 end;
 
 procedure TfrmDialogProduct.btnDelSuppClick(Sender: TObject);

@@ -304,6 +304,7 @@ type
     ipePO1: TMenuItem;
     actAgama: TAction;
     MasterAgama1: TMenuItem;
+    test1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -374,6 +375,7 @@ type
     procedure AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
+    procedure test1Click(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -419,7 +421,7 @@ uses
   ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
-  ufrmLaporanRetur, ufrmGudang, ufrmMataUang;
+  ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient;
 
 {$R *.dfm}
 
@@ -1071,6 +1073,20 @@ begin
     EnableSubMenu(miConnectionDatabase, true);
     EnableSubMenu(miGlobalParameter, false);
   End;
+end;
+
+procedure TfrmMain.test1Click(Sender: TObject);
+begin
+  With TfrmCXLookup.Execute('TDSProvider.Suplier_GetDSLookup')  do
+  begin
+    Try
+      HideFields(['Suplier_ID']);
+      if ShowModal = mrOk then
+        showmessage(CDS.FieldByName('Suplier_ID').AsString);
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 end.

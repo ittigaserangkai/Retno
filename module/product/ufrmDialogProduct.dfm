@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsInfo
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Style = 6
@@ -1471,16 +1471,11 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 776
       inherited lbCTRLEnter: TLabel
         Left = 601
-        Height = 15
         ExplicitLeft = 601
       end
       inherited lbEscape: TLabel
         Left = 692
-        Height = 15
         ExplicitLeft = 692
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 525

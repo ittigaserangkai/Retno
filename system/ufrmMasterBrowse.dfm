@@ -3,7 +3,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   ClientHeight = 403
   ClientWidth = 701
   OnKeyDown = nil
-  ExplicitTop = -30
   ExplicitWidth = 717
   ExplicitHeight = 442
   PixelsPerInch = 96
@@ -239,8 +238,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited btnClose: TcxButton
         Left = 624
         Action = actClose
-        ExplicitLeft = 625
-        ExplicitTop = 3
+        ExplicitLeft = 624
       end
       inherited cxButton1: TcxButton
         Action = actExport

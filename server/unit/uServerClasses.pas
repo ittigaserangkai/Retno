@@ -10,7 +10,7 @@ type
   {$METHODINFO ON}
   TTestMethod = class(TComponent)
   public
-    function Hallo: String;
+    function Hallo(aTanggal: TDateTime): String;
   end;
 
   TCrud = class(TComponent)
@@ -31,9 +31,9 @@ type
 
 implementation
 
-function TTestMethod.Hallo: String;
+function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
-  Result := 'Hello Word';
+  Result := 'Hello Word ' + DateToStr(aTanggal);
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;

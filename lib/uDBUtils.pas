@@ -14,11 +14,11 @@ uses
   uModApp, uModTest, uTSINIFile;
 
 type
-  TCDSHelper = class helper for TClientDataSet
+  TCDSHelper = class helper for TDataSet
   private
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
-        = 256);
+        = 256; IsCalculated: Boolean = False);
   end;
 
   TDBUtils = class(TObject)
@@ -830,7 +830,7 @@ begin
 end;
 
 procedure TCDSHelper.AddField(AFieldName: String; AFieldType: TFieldType;
-    ALength: Integer = 256);
+    ALength: Integer = 256; IsCalculated: Boolean = False);
 var
   DTF: TDateTimeField;
   SF: TStringField;
@@ -869,6 +869,7 @@ begin
         BF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(BF));
         BF.FieldName  := AFieldName;
         BF.DataSet    := Self;
+        BF.Calculated := IsCalculated;
       end;
     ftFloat:
       begin

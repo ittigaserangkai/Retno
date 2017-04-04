@@ -195,7 +195,8 @@ uses
   ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN},
   ufrmDialogPersonalMember in '..\module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
   ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
-  uModRefPajak in '..\model\uModRefPajak.pas';
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
 
 {$R *.res}
 
