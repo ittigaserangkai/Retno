@@ -86,13 +86,11 @@ uses
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
-  uModAccount in '..\model\uModAccount.pas',
   uModApp in '..\model\uModApp.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRefAgama in '..\model\uModRefAgama.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
@@ -196,7 +194,7 @@ uses
   ufrmDialogPersonalMember in '..\module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
   ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
   uModRefPajak in '..\model\uModRefPajak.pas',
-  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
+  uModRefAgama in '..\model\uModRefAgama.pas';
 
 {$R *.res}
 

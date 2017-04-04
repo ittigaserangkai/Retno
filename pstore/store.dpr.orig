@@ -95,11 +95,6 @@ uses
   ufrmDialogMerk in '..\module\product\ufrmDialogMerk.pas' {frmDialogMerk},
   uSpecialKey in '..\classes\uSpecialKey.pas',
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
-<<<<<<< HEAD
-  uModSO in '..\model\uModSO.pas',
-  uModUnit in '..\model\uModUnit.pas',
-  uModPropinsi in '..\model\uModPropinsi.pas';
-=======
   ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
   uDMReport in '..\system\uDMReport.pas' {dmReport},
   HPHELP in '..\lib\HPHELP.PAS',
@@ -148,8 +143,48 @@ uses
   ufrmDisplayLastTransactionNo in '..\module\cashier_supv\ufrmDisplayLastTransactionNo.pas' {frmDisplayLastTransactionNo},
   ufrmDisplayCCAndCashback in '..\module\cashier_supv\ufrmDisplayCCAndCashback.pas' {frmDisplayCCAndCashback},
   ufrmAdjustmentCashback in '..\module\cashier_supv\ufrmAdjustmentCashback.pas' {frmAdjustmentCashback},
-  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback};
->>>>>>> 4a836c1a95c15535638ac150a0530cb9d3dc4c8b
+  ufrmDialogAdjustmentCashback in '..\module\cashier_supv\ufrmDialogAdjustmentCashback.pas' {frmDialogAdjustmentCashback},
+  ufrmDialogDataCostumer in '..\module\customer_support\ufrmDialogDataCostumer.pas' {frmDialogDataCostumer},
+  ufrmDataCostumer in '..\module\customer_support\ufrmDataCostumer.pas' {frmDataCostumer},
+  ufrmMemberActivation in '..\module\customer_support\ufrmMemberActivation.pas' {frmMemberActivation},
+  ufrmSearchCardNo in '..\module\customer_support\ufrmSearchCardNo.pas' {frmDialogSearchCardNo},
+  ufrmCetakPO in '..\module\merchandise\ufrmCetakPO.pas' {frmCetakPO},
+  ufrmSalesReportContrabon in '..\module\cashier_supv\ufrmSalesReportContrabon.pas' {frmSalesReportContrabon},
+  ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
+  ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
+  ufrmDailySalesReport in '..\module\cashier_supv\ufrmDailySalesReport.pas' {frmDailySalesReport},
+  ufrmReprintNota in '..\module\cashier_supv\ufrmReprintNota.pas' {frmReprintNota},
+  ufrmPurchaseOrder in '..\module\po\ufrmPurchaseOrder.pas' {frmPurchaseOrder},
+  ufrmWorksheet in '..\module\cashier_supv\ufrmWorksheet.pas' {frmWorksheet},
+  ufrmPopupGrid in '..\system\ufrmPopupGrid.pas' {frmPopupGrid},
+  ufrmMaintenanceBarcode in '..\module\inventory\ufrmMaintenanceBarcode.pas' {frmMaintenanceBarcode},
+  ufrmHistoryPO in '..\module\merchandise\ufrmHistoryPO.pas' {frmHistoryPO},
+  ufrmSupplier in '..\module\merchandise\ufrmSupplier.pas' {frmSupplier},
+  ufrmDialogSupplier in '..\module\merchandise\ufrmDialogSupplier.pas' {frmDialogSupplier},
+  ufrmDayOfPO in '..\module\merchandise\ufrmDayOfPO.pas' {frmDayofPO},
+  ufrmListMembership in '..\module\customer_support\ufrmListMembership.pas' {frmListMembership},
+  ufrmDialogBarcodeRequest in '..\module\merchandise\ufrmDialogBarcodeRequest.pas' {frmDialogBarcodeRequest},
+  ufrmBarcodeRequest in '..\module\merchandise\ufrmBarcodeRequest.pas' {frmBarcodeRequest},
+  ufrmListPOCancel in '..\module\po\ufrmListPOCancel.pas' {frmListPOCancel},
+  ufrmListDailyTransaction in '..\module\cashier_supv\ufrmListDailyTransaction.pas' {frmListDailyTransaction},
+  ufrmDialogDetilPayment in '..\module\cashier_supv\ufrmDialogDetilPayment.pas' {frmDialogDetilPayment},
+  ufrmDialogViewDetilTransaksi in '..\module\cashier_supv\ufrmDialogViewDetilTransaksi.pas' {frmDialogViewDetilTransaksi},
+  ufrmUbahQTYPO in '..\module\po\ufrmUbahQTYPO.pas' {frmUbahQTYPO},
+  ufrmInvMovementQTY in '..\module\inventory\ufrmInvMovementQTY.pas' {frmInvMovementQTY},
+  ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
+  ufrmDiscountMember in '..\module\customer_support\ufrmDiscountMember.pas' {frmDiscountMember},
+  ufrmDialogDiscountMember in '..\module\customer_support\ufrmDialogDiscountMember.pas' {frmDialogDiscountMember},
+  ufrmListMemberTransaction in '..\module\cashier_supv\ufrmListMemberTransaction.pas' {frmListMemberTransaction},
+  ufrmRafaksi in '..\module\inventory\ufrmRafaksi.pas' {frmRafaksi},
+  ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi},
+<<<<<<< HEAD
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  ufrmSO in '..\module\so\ufrmSO.pas' {frmSO},
+  ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO};
+=======
+  ufrmReturTrader in '..\module\inventory\ufrmReturTrader.pas' {frmReturTrader},
+  ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader};
+>>>>>>> 4be227871f9dd1e40d9204d68806cd6ed96530c3
 
 {$R *.res}
 
@@ -160,5 +195,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmDialogSO, frmDialogSO);
   Application.Run;
 end.

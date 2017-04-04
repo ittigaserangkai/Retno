@@ -3,7 +3,7 @@
         <ProjectGuid>{A129B2AD-FBEC-4746-A4D0-AE2BB4DF269A}</ProjectGuid>
         <MainSource>ho.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
@@ -68,8 +68,12 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_Build>3</VerInfo_Build>
+        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_MinorVer>2017</VerInfo_MinorVer>
+        <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.2017.3.3;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -331,7 +335,7 @@
         <DCCReference Include="..\model\uModBank.pas"/>
         <DCCReference Include="..\model\uModCompany.pas"/>
         <DCCReference Include="..\model\uModOutlet.pas"/>
-        <DCCReference Include="..\model\uModRefPajak.pas"/>
+        <DCCReference Include="..\model\uModRefAgama.pas"/>
         <DCCReference Include="..\model\uModRekening.pas"/>
         <DCCReference Include="..\model\uModTest.pas"/>
         <DCCReference Include="..\model\uModTipeKupon.pas"/>
@@ -389,9 +393,6 @@
         </DCCReference>
         <DCCReference Include="..\system\ufrmMasterDialogBrowse.pas">
             <Form>frmMasterDialogBrowse</Form>
-        </DCCReference>
-        <DCCReference Include="..\module\merchandise\ufrmReprintNP.pas">
-            <Form>frmReprintNP</Form>
         </DCCReference>
         <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModBarang.pas"/>
@@ -483,6 +484,10 @@
         </DCCReference>
         <DCCReference Include="..\module\finance\ufrmElectricCustomer.pas">
             <Form>frmElectricCustomer</Form>
+        </DCCReference>
+        <DCCReference Include="..\module\merchandise\ufrmQuotationHargaBeli.pas">
+            <Form>frmQuotationHargaBeli</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\merchandise\ufrmDialogQuotationHargaBeli.pas">
             <Form>frmDialogQuotationHargaBeli</Form>
@@ -590,13 +595,8 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\model\uModPropinsi.pas"/>
-<<<<<<< HEAD
         <DCCReference Include="..\module\inventory\ufrmDSI.pas">
             <Form>frmDSI</Form>
-=======
-        <DCCReference Include="..\module\merchandise\ufrmQuotationHargaBeli.pas">
-            <Form>frmQuotationHargaBeli</Form>
->>>>>>> 194c4afda473e4d28d8a5c4d118f78b4fa9818b2
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\inventory\ufrmGudang.pas">
@@ -608,6 +608,42 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\model\uModGudang.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmReprintNP.pas">
+            <Form>frmReprintNP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmGoodsReceiving.pas">
+            <Form>frmGoodsReceiving</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModMataUang.pas"/>
+        <DCCReference Include="..\module\references\ufrmMataUang.pas">
+            <Form>frmMataUang</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModTipeBonus.pas"/>
+        <DCCReference Include="..\module\references\ufrmTipeBonus.pas">
+            <Form>frmTipeBonus</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModTipeCN.pas"/>
+        <DCCReference Include="..\module\references\ufrmTipeCN.pas">
+            <Form>frmTipeCN</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\customer_support\ufrmDialogPersonalMember.pas">
+            <Form>frmDialogPersonalMember</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\references\ufrmDocument.pas">
+            <Form>frmDocument</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModRefPajak.pas"/>
+<<<<<<< HEAD
+        <DCCReference Include="..\model\uModSO.pas"/>
+=======
+>>>>>>> 38e6fc804ff0512fa353abb17ac1a4d9b49c034b
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
