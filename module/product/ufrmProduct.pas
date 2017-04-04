@@ -934,6 +934,7 @@ procedure TfrmProduct.RefreshData;
 begin
   inherited;
   cxGridView.LoadFromDS(DMClient.DSProviderClient.Barang_GetDSOverview, Self);
+  cxGridView.SetVisibleColumns(['Barang_ID'], False);
 end;
 
 end.

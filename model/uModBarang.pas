@@ -8,6 +8,8 @@ uses
 
 type
   TModBarangSupplier = class;
+  TModKonversi = class;
+  TModTipeHarga = class;
 
   TModTipeBarang = class(TModApp)
   private
@@ -107,12 +109,15 @@ type
     FRefPajak: TModRefPajak;
     FSAFETY_STOCK: Double;
     FSATUAN_PURCHASE: TModSatuan;
+    FKonversi: TObjectList<TModKonversi>;
     FTipeBarang: TModTipeBarang;
     function GetSuppliers: TObjectList<TModBarangSupplier>;
+    function GetKonversi: TObjectList<TModKonversi>;
   public
     class function GetTableName: string; override;
     property Suppliers: TObjectList<TModBarangSupplier> read GetSuppliers write
         FSuppliers;
+    property Konversi: TObjectList<TModKonversi> read GetKonversi write FKonversi;
   published
     property BRG_CODE: String read FBRG_CODE write FBRG_CODE;
     property BRG_NAME: String read FBRG_NAME write FBRG_NAME;
@@ -242,6 +247,42 @@ type
     property Supplier: TModSuplier read FSupplier write FSupplier;
   end;
 
+  [AttrUpdateDetails]
+  TModKonversi = class(TModApp)
+  private
+    FBarang: TModBarang;
+    FKONVSAT_BARCODE: String;
+    FKONVSAT_SCALE: Double;
+    FSatuan: TModSatuan;
+  public
+    class function GetTableName: string; override;
+  published
+    [AttributeOfHeader]
+    property Barang: TModBarang read FBarang write FBarang;
+    property KONVSAT_BARCODE: String read FKONVSAT_BARCODE write FKONVSAT_BARCODE;
+    property KONVSAT_SCALE: Double read FKONVSAT_SCALE write FKONVSAT_SCALE;
+    [AttributeOfForeign('Ref$Satuan_ID')]
+    property Satuan: TModSatuan read FSatuan write FSatuan;
+  end;
+
+  TModTipeHarga = class(TModApp)
+  private
+    FTPHRG_CODE: string;
+    FTPHRG_NAME: string;
+    FTPHRG_MARKUP: Double;
+    FTPHRG_IS_CALC: Integer;
+    FTPHRG_IS_TEMPLATE: Integer;
+  public
+    class function GetTableName: String; override;
+  published
+    property TPHRG_CODE: string read FTPHRG_CODE write FTPHRG_CODE;
+    property TPHRG_NAME: string read FTPHRG_NAME write FTPHRG_NAME;
+    property TPHRG_MARKUP: Double read FTPHRG_MARKUP write FTPHRG_MARKUP;
+    property TPHRG_IS_CALC: Integer read FTPHRG_IS_CALC write FTPHRG_IS_CALC;
+    property TPHRG_IS_TEMPLATE: Integer read FTPHRG_IS_TEMPLATE write
+        FTPHRG_IS_TEMPLATE;
+  end;
+
 
 
 implementation
@@ -264,6 +305,13 @@ begin
   Result := FSuppliers;
 end;
 
+function TModBarang.GetKonversi: TObjectList<TModKonversi>;
+begin
+  If not Assigned(FKonversi) then
+    FKonversi := TObjectList<TModKonversi>.Create;
+  Result := FKonversi;
+end;
+
 class function TModBarang.GetTableName: string;
 begin
   Result := 'BARANG';
@@ -279,6 +327,16 @@ begin
   Result := 'BARANG_SUPLIER';
 end;
 
+class function TModKonversi.GetTableName: string;
+begin
+  Result := 'REF$KONVERSI_SATUAN';
+end;
+
+class function TModTipeHarga.GetTableName: String;
+begin
+  Result := 'REF$TIPE_HARGA';
+end;
+
 initialization
   TModMerchandise.RegisterRTTI;
   TModMerchandiseGroup.RegisterRTTI;
@@ -289,5 +347,7 @@ initialization
   TModLokasi.RegisterRTTI;
   TModBarang.RegisterRTTI;
   TModBarangSupplier.RegisterRTTI;
+  TModKonversi.RegisterRTTI;
+  TModTipeHarga.RegisterRTTI;
 
 end.

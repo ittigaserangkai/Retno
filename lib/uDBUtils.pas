@@ -211,14 +211,17 @@ var
   rt : TRttiType;
   i : Integer;
   IDItems: string;
+  lAppClassItem: TModAppClass;
   lObj : TObject;
   lModItem : TModApp;
+  lObjectList: TObject;
+  rtItem: TRttiType;
+  sGenericItemClassName: string;
   value : TValue;
   SSItems: TStrings;
 begin
   DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
-  lModItem := nil;
 
   if (AObject.ID = '') or (AObject.ObjectState = 1) then
     SS.Add(TDBUtils.GetSQLInsert(AObject))
@@ -227,12 +230,20 @@ begin
 
   for prop in rt.GetProperties do
   begin
+    lModItem := nil;
     If not Assigned(prop) then continue;
     If prop.PropertyType.TypeKind = tkClass then
     begin
       meth := prop.PropertyType.GetMethod('ToArray');
       if Assigned(meth) then
       begin
+        lObjectList := prop.GetValue(AOBject).AsObject;
+        sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+        sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+        rtItem := ctx.FindType(sGenericItemClassName);
+        //obj item class
+        lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
+
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
         IDItems := '';
@@ -267,20 +278,27 @@ begin
             GenerateSQL(lModItem,SSItems);
           end;
 
-          If DoUpdateDetails then
+          If Assigned(lModItem) then
           begin
-            if IDItems <> '' then
-            begin
+            If (DoUpdateDetails) and (IDItems<>'') then
               SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
                 lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)
                 + ' and ' + lModItem.GetPrimaryField + ' not in('+ IDItems +')'
-                ]));
-            end;
-          end else
+                ]))
+            else
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+          end else  //if lModItem = nil, force it
           begin
-            SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
-              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+            lModitem := lAppClassItem.Create;
+            Try
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+            Finally
+              lModItem.Free;
+            End;
           end;
+
           if SSItems.Text <> '' then SS.AddStrings(SSItems);
         Finally
           SSItems.Free;
@@ -736,8 +754,8 @@ begin
             lObjectList := prop.GetValue(AOBject).AsObject;
             sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
             sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
-
             rtItem := ctx.FindType(sGenericItemClassName);
+
             meth := prop.PropertyType.GetMethod('Add');
             if Assigned(meth) and Assigned(rtItem) then
             begin

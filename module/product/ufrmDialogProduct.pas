@@ -152,6 +152,27 @@ type
     btnUpdateSupp: TcxButton;
     lbSuppShortCut1: TLabel;
     Label1: TLabel;
+    gbSellingPrice: TcxGroupBox;
+    gbSellingPriceGrid: TcxGroupBox;
+    cxGroupBox5: TcxGroupBox;
+    Label29: TLabel;
+    btnDeletePrice: TcxButton;
+    btnAddPrice: TcxButton;
+    btnUpdatePrice: TcxButton;
+    cxGridSellingPrice: TcxGrid;
+    cxGrdDBSellingPrice: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrdDBSellingPriceColumn1: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn2: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn3: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn4: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn5: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn6: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn7: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn8: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn9: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn10: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn11: TcxGridDBColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -292,10 +313,6 @@ begin
   ClearSupplier;
   Application.ProcessMessages;
   cxLookupSupplier.SetFocus;
-  With TfrmCXLookup.Create(DMCLient.restConn) do
-  begin
-    ShowModal;
-  end;
 end;
 
 procedure TfrmDialogProduct.btnDelSuppClick(Sender: TObject);

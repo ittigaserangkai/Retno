@@ -6,6 +6,7 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 924
   KeyPreview = True
   OldCreateOrder = True
+  ExplicitLeft = -198
   ExplicitWidth = 940
   ExplicitHeight = 629
   PixelsPerInch = 96

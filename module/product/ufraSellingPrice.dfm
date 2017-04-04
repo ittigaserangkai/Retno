@@ -2,7 +2,7 @@ object fraSellingPrice: TfraSellingPrice
   Left = 0
   Top = 0
   Width = 792
-  Height = 313
+  Height = 477
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -32,14 +32,15 @@ object fraSellingPrice: TfraSellingPrice
     Left = 0
     Top = 23
     Width = 792
-    Height = 121
+    Height = 285
     Align = alClient
     BevelOuter = bvLowered
     BorderWidth = 20
     TabOrder = 1
+    ExplicitHeight = 121
     DesignSize = (
       792
-      121)
+      285)
     object lblClose: TcxLabel
       Left = 766
       Top = 5
@@ -94,9 +95,10 @@ object fraSellingPrice: TfraSellingPrice
       Left = 21
       Top = 21
       Width = 750
-      Height = 79
+      Height = 243
       Align = alClient
       TabOrder = 0
+      ExplicitHeight = 79
       object cxGridViewSellingPrice: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridViewSellingPriceEditing
@@ -160,7 +162,7 @@ object fraSellingPrice: TfraSellingPrice
   end
   object pnlAddEdit: TPanel
     Left = 0
-    Top = 144
+    Top = 308
     Width = 792
     Height = 169
     Align = alBottom
@@ -168,6 +170,7 @@ object fraSellingPrice: TfraSellingPrice
     BevelOuter = bvLowered
     Color = 15198183
     TabOrder = 2
+    ExplicitTop = 144
     DesignSize = (
       792
       169)
@@ -629,8 +632,8 @@ object fraSellingPrice: TfraSellingPrice
     end
   end
   object actSellPrice: TActionList
-    Left = 624
-    Top = 59
+    Left = 656
+    Top = 65531
     object actAddSellPrice: TAction
       Caption = 'actAddSellPrice'
       OnExecute = Action1Execute

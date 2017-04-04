@@ -1369,6 +1369,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Align = alClient
             TabOrder = 1
             TabStop = False
+            ExplicitTop = 3
             object cxGrdDBSupplier: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               OnCellClick = cxGrdDBSupplierCellClick
@@ -1437,6 +1438,180 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSellingPrice: TcxTabSheet
         Caption = 'F3 [Selling Price]'
         ImageIndex = 37
+        object gbSellingPrice: TcxGroupBox
+          Left = 0
+          Top = 138
+          Align = alBottom
+          PanelStyle.Active = True
+          Style.BorderStyle = ebsNone
+          TabOrder = 0
+          Height = 216
+          Width = 772
+        end
+        object gbSellingPriceGrid: TcxGroupBox
+          Left = 0
+          Top = 0
+          Align = alClient
+          PanelStyle.Active = True
+          Style.BorderStyle = ebsNone
+          TabOrder = 1
+          ExplicitTop = 8
+          Height = 138
+          Width = 772
+          object cxGroupBox5: TcxGroupBox
+            Left = 2
+            Top = 109
+            Align = alBottom
+            PanelStyle.Active = True
+            Style.BorderStyle = ebsNone
+            Style.Edges = [bRight, bBottom]
+            TabOrder = 0
+            ExplicitLeft = 3
+            ExplicitTop = 112
+            Height = 27
+            Width = 768
+            object Label29: TLabel
+              AlignWithMargins = True
+              Left = 514
+              Top = 6
+              Width = 249
+              Height = 18
+              Margins.Top = 4
+              Margins.Bottom = 1
+              Align = alRight
+              Caption = 'ALT-T [Tambah]  | ALT-U [Update]  |  ALT-D [Delete]'
+              Enabled = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              ExplicitHeight = 16
+            end
+            object btnDeletePrice: TcxButton
+              AlignWithMargins = True
+              Left = 168
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Delete'
+              OptionsImage.ImageIndex = 8
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 0
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnDelSuppClick
+            end
+            object btnAddPrice: TcxButton
+              AlignWithMargins = True
+              Left = 2
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Tambah'
+              LookAndFeel.Kind = lfUltraFlat
+              OptionsImage.ImageIndex = 0
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 1
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnAddSuppClick
+            end
+            object btnUpdatePrice: TcxButton
+              AlignWithMargins = True
+              Left = 85
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Update'
+              OptionsImage.ImageIndex = 13
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 2
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnUpdateSuppClick
+            end
+          end
+          object cxGridSellingPrice: TcxGrid
+            Left = 2
+            Top = 2
+            Width = 768
+            Height = 107
+            Align = alClient
+            TabOrder = 1
+            TabStop = False
+            object cxGrdDBSellingPrice: TcxGridDBTableView
+              Navigator.Buttons.CustomButtons = <>
+              OnCellClick = cxGrdDBSupplierCellClick
+              DataController.Summary.DefaultGroupSummaryItems = <>
+              DataController.Summary.FooterSummaryItems = <>
+              DataController.Summary.SummaryGroups = <>
+              FilterRow.ApplyChanges = fracImmediately
+              OptionsData.CancelOnExit = False
+              OptionsData.Deleting = False
+              OptionsData.DeletingConfirmation = False
+              OptionsData.Editing = False
+              OptionsData.Inserting = False
+              OptionsSelection.CellSelect = False
+              OptionsView.GroupByBox = False
+              object cxGrdDBSellingPriceColumn1: TcxGridDBColumn
+                Caption = 'Satuan'
+              end
+              object cxGrdDBSellingPriceColumn2: TcxGridDBColumn
+                Caption = 'Konversi'
+              end
+              object cxGrdDBSellingPriceColumn3: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn4: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn5: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn6: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn7: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn8: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn9: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn10: TcxGridDBColumn
+              end
+              object cxGrdDBSellingPriceColumn11: TcxGridDBColumn
+              end
+            end
+            object cxGridLevel1: TcxGridLevel
+              GridView = cxGrdDBSellingPrice
+            end
+          end
+        end
       end
     end
   end
@@ -1471,11 +1646,16 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 776
       inherited lbCTRLEnter: TLabel
         Left = 601
+        Height = 15
         ExplicitLeft = 601
       end
       inherited lbEscape: TLabel
         Left = 692
+        Height = 15
         ExplicitLeft = 692
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 525
