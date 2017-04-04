@@ -247,10 +247,19 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     inherited pnlShortCut: TPanel
       Width = 701
       ExplicitWidth = 701
+      inherited lbCTRLE: TLabel
+        Width = 70
+        Caption = 'CTRL-M [Edit]'
+        ExplicitTop = 3
+        ExplicitWidth = 70
+      end
       inherited lbEscape: TLabel
         Left = 627
         Height = 17
         ExplicitLeft = 627
+      end
+      inherited lbCTRLP: TLabel
+        Left = 271
       end
     end
   end
@@ -266,7 +275,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     object actEdit: TAction
       Caption = '&Edit / Lihat'
       ImageIndex = 10
-      ShortCut = 16453
+      ShortCut = 16461
     end
     object actClose: TAction
       Caption = 'Close'

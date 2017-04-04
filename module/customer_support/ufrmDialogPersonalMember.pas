@@ -10,7 +10,7 @@ uses
   cxCalendar, ufraFooterDialog3Button, DB, System.Actions, Vcl.ActnList,
   uClientClasses, uModMember, uDBUtils, uDMClient, uInterface, uAppUtils,
   cxSpinEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  Datasnap.DBClient;
+  Datasnap.DBClient, uDXUtils;
 
 type
   TModul = (mPopUpPersonalMember, mDialogMemberShip);
@@ -38,7 +38,6 @@ type
     edtAlamat: TEdit;
     edtRt: TEdit;
     edtKecamatan: TEdit;
-    edtKelurahan: TEdit;
     edtRw: TEdit;
     edtKota: TEdit;
     edtPostCode: TEdit;
@@ -54,20 +53,42 @@ type
     edtPndptn: TcxCurrencyEdit;
     edtJmlTanggungan: TcxSpinEdit;
     cbpAgama: TcxExtLookupComboBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    cbpTipeBayar: TcxExtLookupComboBox;
+    Label3: TLabel;
+    edtTOP: TcxSpinEdit;
+    cbpKelompok: TComboBox;
+    Label4: TLabel;
+    edtLeadTime: TcxSpinEdit;
+    Label5: TLabel;
+    edtPlafon: TcxCurrencyEdit;
+    Label6: TLabel;
+    cbpMember: TcxExtLookupComboBox;
+    cbpKelurahan: TcxExtLookupComboBox;
     procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
+    procedure cbpKelurahanPropertiesEditValueChanged(Sender: TObject);
   private
     FCrud: TCrudClient;
     FModMember: TModMember;
     FCDSAgama: tclientDataset;
+    FCDSTipeBayar: tclientDataset;
+    FCDSTipeMember: tclientDataset;
     FDsProvider: TDSProviderClient;
+    procedure ClearForm;
     function GetCDSAgama: tclientDataset;
+    function GetCDSTipeBayar: tclientDataset;
+    function GetCDSTipeMember: tclientDataset;
     function GetCrud: TCrudClient;
     function GetDsProvider: TDSProviderClient;
     function GetModMember: TModMember;
     procedure SimpanData;
     property CDSAgama: tclientDataset read GetCDSAgama write FCDSAgama;
+    property CDSTipeBayar: tclientDataset read GetCDSTipeBayar write FCDSTipeBayar;
+    property CDSTipeMember: tclientDataset read GetCDSTipeMember write
+        FCDSTipeMember;
     property Crud: TCrudClient read GetCrud write FCrud;
     property DsProvider: TDSProviderClient read GetDsProvider write FDsProvider;
     property ModMember: TModMember read GetModMember write FModMember;
@@ -81,15 +102,23 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConstanta, ufrmDialogMemberShip, uRetnoUnit, uDXUtils,
+uses uTSCommonDlg, uConstanta, ufrmDialogMemberShip, uRetnoUnit,
   uModRefAgama;
 
 {$R *.dfm}
 
 procedure TfrmDialogPersonalMember.FormCreate(Sender: TObject);
+var dsAgama : TDataSet;
 begin
   inherited;
   cbpAgama.Properties.LoadFromCDS(CDSAgama,'REF$AGAMA_ID', 'AGAMA_NAME', ['REF$AGAMA_ID'] , self);
+  cbpMember.Properties.LoadFromCDS(CDSTipeMember,'REF$TIPE_MEMBER_ID', 'TPMEMBER_NAME', ['REF$TIPE_MEMBER_ID'] , self);
+  cbpTipeBayar.Properties.LoadFromCDS(CDSTipeBayar,'REF$TIPE_PEMBAYARAN_ID', 'TPBYR_NAME', ['REF$TIPE_PEMBAYARAN_ID'] , self);
+  cbpKelurahan.LoadFromDS(DMClient.DSProviderClient.RefWilayah_GetDSLookup,
+    'REF$WILAYAH_ID','KELURAHAN',['REF$WILAYAH_ID'], SELF);
+  cbpKelurahan.SetMultiPurposeLookup;
+  ClearForm;
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogPersonalMember.actDeleteExecute(Sender: TObject);
@@ -112,11 +141,47 @@ begin
   SimpanData;
 end;
 
+procedure TfrmDialogPersonalMember.cbpKelurahanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  edtKecamatan.Text             := cbpKelurahan.DS.FieldByName('kecamatan').AsString;
+  edtKota.Text                  := cbpKelurahan.DS.FieldByName('kabupaten').AsString;
+  edtPostCode.Text              := cbpKelurahan.DS.FieldByName('kodepos').AsString;
+end;
+
+procedure TfrmDialogPersonalMember.ClearForm;
+begin
+  ClearbyTag([0,1]);
+  cbpAgama.SetDefaultValue;
+  cbpKelompok.ItemIndex := 0;
+  cbpMember.SetDefaultValue;
+  cbpTipeBayar.SetDefaultValue;
+end;
+
 function TfrmDialogPersonalMember.GetCDSAgama: tclientDataset;
 begin
   if not assigned(FCDSAgama) then
     FCDSAgama := Tdbutils.DSToCDS(DsProvider.Agama_GetDSLookup, self);
-  Result := FCDSAgama;
+    Result := FCDSAgama;
+end;
+
+function TfrmDialogPersonalMember.GetCDSTipeBayar: tclientDataset;
+begin
+  if not assigned(FCDSTipeBayar) then
+  Begin
+    FCDSTipeBayar := Tdbutils.DSToCDS(DsProvider.TipePembayaran_GetDSOverview, self);
+    FCDSTipeBayar.IndexFieldNames := 'TPBYR_CODE';
+    FCDSTipeBayar.First;
+  End;
+  Result := FCDSTipeBayar;
+end;
+
+function TfrmDialogPersonalMember.GetCDSTipeMember: tclientDataset;
+begin
+  if not assigned(FCDSTipeMember) then
+    FCDSTipeMember := Tdbutils.DSToCDS(DsProvider.RefTipeMember_GetDSLookup, self);
+  Result := FCDSTipeMember;
 end;
 
 function TfrmDialogPersonalMember.GetCrud: TCrudClient;
@@ -154,7 +219,7 @@ begin
   edtAlamat.Text               := ModMember.MEMBER_ADDRESS;
   edtRt.Text                   := ModMember.MEMBER_RT;
   edtRw.Text                   := ModMember.MEMBER_RW;
-  edtKelurahan.Text            := ModMember.MEMBER_KELURAHAN;
+  cbpKelurahan.Text            := ModMember.MEMBER_KELURAHAN;
   edtKecamatan.Text            := ModMember.MEMBER_KECAMATAN;
   edtKota.Text                 := ModMember.MEMBER_KOTA;
   edtPostCode.Text             := ModMember.MEMBER_POST_CODE;
@@ -162,29 +227,41 @@ begin
   cbbStatus.ItemIndex          := ModMember.MEMBER_IS_MARRIED;
   edtJmlTanggungan.Value       := ModMember.MEMBER_JML_TANGGUNGAN;
   edtPndptn.Value              := ModMember.MEMBER_PENDAPATAN;
+  cbpKelompok.ItemIndex        := ModMember.IS_TRADER;
+  cbpMember.EditValue          := ModMember.RefTipeMember.ID;
+  cbpTipeBayar.EditValue       := ModMember.MEMBER_TIPE_BAYAR.ID;
+  edtTOP.Value                 := ModMember.MEMBER_TOP;
+  edtLeadTime.Value            := ModMember.MEMBER_LEAD_TIME;
+  edtPlafon.Value              := ModMember.MEMBER_PLAFON;
 end;
 
 procedure TfrmDialogPersonalMember.SimpanData;
 begin
-  ModMember.MEMBER_NAME := edtName.Text;
-  ModMember.MEMBER_CARD_NO := edtCardNo.Text;
-  ModMember.MEMBER_IS_WNI := cbbWarganegara.ItemIndex;
-  ModMember.MEMBER_PLACE_OF_BIRTH := edtTempatLhr.Text;
-  ModMember.MEMBER_DATE_OF_BIRTH := dtLahir.Date;
-  ModMember.MEMBER_KTP_NO := edtNoIdentts.Text;
-  ModMember.MEMBER_SEX := cbbGender.ItemIndex;
-  ModMember.MEMBER_AGAMA := TModRefAgama.CreateID(cbpAgama.EditValue);
-  ModMember.MEMBER_ADDRESS := edtAlamat.Text;
-  ModMember.MEMBER_RT := edtRt.Text;
-  ModMember.MEMBER_RW := edtRw.Text;
-  ModMember.MEMBER_KELURAHAN := edtKelurahan.Text;
-  ModMember.MEMBER_KECAMATAN := edtKecamatan.Text;
-  ModMember.MEMBER_KOTA := edtKota.Text;
-  ModMember.MEMBER_POST_CODE := edtPostCode.Text;
-  ModMember.MEMBER_TELP := edtTelp.Text;
-  ModMember.MEMBER_IS_MARRIED := cbbStatus.ItemIndex;
-  ModMember.MEMBER_JML_TANGGUNGAN := edtJmlTanggungan.Value;
-  ModMember.MEMBER_PENDAPATAN := edtPndptn.Value;
+  ModMember.MEMBER_NAME                     := edtName.Text;
+  ModMember.MEMBER_CARD_NO                  := edtCardNo.Text;
+  ModMember.MEMBER_IS_WNI                   := cbbWarganegara.ItemIndex;
+  ModMember.MEMBER_PLACE_OF_BIRTH           := edtTempatLhr.Text;
+  ModMember.MEMBER_DATE_OF_BIRTH            := dtLahir.Date;
+  ModMember.MEMBER_KTP_NO                   := edtNoIdentts.Text;
+  ModMember.MEMBER_SEX                      := cbbGender.ItemIndex;
+  ModMember.MEMBER_AGAMA                    := TModRefAgama.CreateID(cbpAgama.EditValue);
+  ModMember.MEMBER_ADDRESS                  := edtAlamat.Text;
+  ModMember.MEMBER_RT                       := edtRt.Text;
+  ModMember.MEMBER_RW                       := edtRw.Text;
+  ModMember.MEMBER_KELURAHAN                := cbpKelurahan.Text;
+  ModMember.MEMBER_KECAMATAN                := edtKecamatan.Text;
+  ModMember.MEMBER_KOTA                     := edtKota.Text;
+  ModMember.MEMBER_POST_CODE                := edtPostCode.Text;
+  ModMember.MEMBER_TELP                     := edtTelp.Text;
+  ModMember.MEMBER_IS_MARRIED               := cbbStatus.ItemIndex;
+  ModMember.MEMBER_JML_TANGGUNGAN           := edtJmlTanggungan.Value;
+  ModMember.MEMBER_PENDAPATAN               := edtPndptn.Value;
+  ModMember.IS_TRADER                       := cbpKelompok.ItemIndex;
+  ModMember.RefTipeMember.ID                := cbpMember.EditValue;
+  ModMember.MEMBER_TIPE_BAYAR.ID            := cbpTipeBayar.EditValue;
+  ModMember.MEMBER_TOP                      := edtTOP.Value;
+  ModMember.MEMBER_LEAD_TIME                := edtLeadTime.Value;
+  ModMember.MEMBER_PLAFON                   := edtPlafon.Value;
 
   try
     Crud.SaveToDB(ModMember);

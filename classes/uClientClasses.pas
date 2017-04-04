@@ -1,13 +1,13 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/03/17 1:30:38 PM
+// 4/4/2017 9:18:52 AM
 //
 
 unit uClientClasses;
 
 interface
 
-uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, Data.DBXJSONReflect;
+uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, uModUnit, Data.DBXJSONReflect;
 
 type
 
@@ -170,12 +170,18 @@ type
     FDocument_GetDSOverviewCommand_Cache: TDSRestCommand;
     FAgama_GetDSOverviewCommand: TDSRestCommand;
     FAgama_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRefWilayah_GetDSLookupCommand: TDSRestCommand;
+    FRefWilayah_GetDSLookupCommand_Cache: TDSRestCommand;
     FSuplier_GetDSLookupCommand: TDSRestCommand;
     FSuplier_GetDSLookupCommand_Cache: TDSRestCommand;
+    FRefTipeMember_GetDSLookupCommand: TDSRestCommand;
+    FRefTipeMember_GetDSLookupCommand_Cache: TDSRestCommand;
     FTipePO_GetDSOverviewCommand: TDSRestCommand;
     FTipePO_GetDSOverviewCommand_Cache: TDSRestCommand;
     FTipeCN_GetDSOverviewCommand: TDSRestCommand;
     FTipeCN_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FSO_GetDSOverviewCommand: TDSRestCommand;
+    FSO_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -286,12 +292,18 @@ type
     function Document_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Agama_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Agama_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RefWilayah_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function RefWilayah_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Suplier_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Suplier_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RefTipeMember_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function RefTipeMember_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipePO_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipePO_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeCN_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeCN_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function SO_GetDSOverview(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -910,12 +922,32 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_RefWilayah_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RefWilayah_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_Suplier_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
   TDSProvider_Suplier_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RefTipeMember_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RefTipeMember_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -937,6 +969,22 @@ const
 
   TDSProvider_TipeCN_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_SO_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAtglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_SO_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAtglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -2793,6 +2841,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FAgama_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.RefWilayah_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FRefWilayah_GetDSLookupCommand = nil then
+  begin
+    FRefWilayah_GetDSLookupCommand := FConnection.CreateCommand;
+    FRefWilayah_GetDSLookupCommand.RequestType := 'GET';
+    FRefWilayah_GetDSLookupCommand.Text := 'TDSProvider.RefWilayah_GetDSLookup';
+    FRefWilayah_GetDSLookupCommand.Prepare(TDSProvider_RefWilayah_GetDSLookup);
+  end;
+  FRefWilayah_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRefWilayah_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRefWilayah_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RefWilayah_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRefWilayah_GetDSLookupCommand_Cache = nil then
+  begin
+    FRefWilayah_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FRefWilayah_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FRefWilayah_GetDSLookupCommand_Cache.Text := 'TDSProvider.RefWilayah_GetDSLookup';
+    FRefWilayah_GetDSLookupCommand_Cache.Prepare(TDSProvider_RefWilayah_GetDSLookup_Cache);
+  end;
+  FRefWilayah_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRefWilayah_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.Suplier_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FSuplier_GetDSLookupCommand = nil then
@@ -2820,6 +2897,35 @@ begin
   end;
   FSuplier_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FSuplier_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.RefTipeMember_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FRefTipeMember_GetDSLookupCommand = nil then
+  begin
+    FRefTipeMember_GetDSLookupCommand := FConnection.CreateCommand;
+    FRefTipeMember_GetDSLookupCommand.RequestType := 'GET';
+    FRefTipeMember_GetDSLookupCommand.Text := 'TDSProvider.RefTipeMember_GetDSLookup';
+    FRefTipeMember_GetDSLookupCommand.Prepare(TDSProvider_RefTipeMember_GetDSLookup);
+  end;
+  FRefTipeMember_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRefTipeMember_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRefTipeMember_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RefTipeMember_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRefTipeMember_GetDSLookupCommand_Cache = nil then
+  begin
+    FRefTipeMember_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FRefTipeMember_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FRefTipeMember_GetDSLookupCommand_Cache.Text := 'TDSProvider.RefTipeMember_GetDSLookup';
+    FRefTipeMember_GetDSLookupCommand_Cache.Prepare(TDSProvider_RefTipeMember_GetDSLookup_Cache);
+  end;
+  FRefTipeMember_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRefTipeMember_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
 function TDSProviderClient.TipePO_GetDSOverview(const ARequestFilter: string): TDataSet;
@@ -2878,6 +2984,65 @@ begin
   end;
   FTipeCN_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FTipeCN_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.SO_GetDSOverview(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FSO_GetDSOverviewCommand = nil then
+  begin
+    FSO_GetDSOverviewCommand := FConnection.CreateCommand;
+    FSO_GetDSOverviewCommand.RequestType := 'POST';
+    FSO_GetDSOverviewCommand.Text := 'TDSProvider."SO_GetDSOverview"';
+    FSO_GetDSOverviewCommand.Prepare(TDSProvider_SO_GetDSOverview);
+  end;
+  FSO_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FSO_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAtglAkhir;
+  if not Assigned(AUnit) then
+    FSO_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSO_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSO_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSO_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FSO_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FSO_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FSO_GetDSOverviewCommand_Cache = nil then
+  begin
+    FSO_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FSO_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FSO_GetDSOverviewCommand_Cache.Text := 'TDSProvider."SO_GetDSOverview"';
+    FSO_GetDSOverviewCommand_Cache.Prepare(TDSProvider_SO_GetDSOverview_Cache);
+  end;
+  FSO_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FSO_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAtglAkhir;
+  if not Assigned(AUnit) then
+    FSO_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSO_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSO_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSO_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FSO_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
@@ -2998,12 +3163,18 @@ begin
   FDocument_GetDSOverviewCommand_Cache.DisposeOf;
   FAgama_GetDSOverviewCommand.DisposeOf;
   FAgama_GetDSOverviewCommand_Cache.DisposeOf;
+  FRefWilayah_GetDSLookupCommand.DisposeOf;
+  FRefWilayah_GetDSLookupCommand_Cache.DisposeOf;
   FSuplier_GetDSLookupCommand.DisposeOf;
   FSuplier_GetDSLookupCommand_Cache.DisposeOf;
+  FRefTipeMember_GetDSLookupCommand.DisposeOf;
+  FRefTipeMember_GetDSLookupCommand_Cache.DisposeOf;
   FTipePO_GetDSOverviewCommand.DisposeOf;
   FTipePO_GetDSOverviewCommand_Cache.DisposeOf;
   FTipeCN_GetDSOverviewCommand.DisposeOf;
   FTipeCN_GetDSOverviewCommand_Cache.DisposeOf;
+  FSO_GetDSOverviewCommand.DisposeOf;
+  FSO_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

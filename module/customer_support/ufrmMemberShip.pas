@@ -70,8 +70,8 @@ type
     lbl18: TLabel;
     btnShow: TcxButton;
     cxTabSheet1: TcxTabSheet;
-    procedure actAddMemberShipExecute(Sender: TObject);
-    procedure actEditMemberShipExecute(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
   protected
     procedure RefreshData; override;
@@ -89,13 +89,13 @@ uses uTSCommonDlg, uRetnoUnit, ufrmDialogPersonalMember;
 
 {$R *.dfm}
 
-procedure TfrmMemberShip.actAddMemberShipExecute(Sender: TObject);
+procedure TfrmMemberShip.actAddExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogPersonalMember);
 end;
 
-procedure TfrmMemberShip.actEditMemberShipExecute(Sender: TObject);
+procedure TfrmMemberShip.actEditExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogPersonalMember, cxGridView.DS.FieldByName('MEMBER_ID').AsString)
