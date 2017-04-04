@@ -13,8 +13,6 @@ uses
   Datasnap.DBClient, uDXUtils;
 
 type
-  TFormMode = (fmAdd, fmEdit);
-
   TModul = (mPopUpPersonalMember, mDialogMemberShip);
   
   TfrmDialogPersonalMember = class(TfrmMasterDialog, iCrudable)
