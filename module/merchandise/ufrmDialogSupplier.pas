@@ -273,13 +273,8 @@ end;
 function TfrmDialogSupplier.GetCDSItems: TClientDataSet;
 begin
   if not assigned(FCDSItems) then
-  begin
-    FCDSItems := TDBUtils.CreateObjectDataSet(TModSuplierMerchanGroup, Self)
-//    FCDSItems := TClientDataSet.Create(self);
-//    FCDSItems.AddField('ID',ftInteger);
-//    FCDSItems.AddField('Nama',ftString);
-//    FCDSItems.CreateDataSet;
-  end;
+    FCDSItems := TDBUtils.CreateObjectDataSet(TModSuplierMerchanGroup, Self);
+
   Result := FCDSItems;
 end;
 
@@ -364,11 +359,11 @@ begin
   CDSItems.EmptyDataSet;  //kosongkan grid
   for i := 0 to ModSupplier.SuplierMerchanGroups.Count-1 do
   begin
-    CDSItems.Append;
     //ambil dari object list baris ke - i
     lModSuppGroup := ModSupplier.SuplierMerchanGroups[i];
-    //isikan ke grid
-    TDBUtils.UpdateToDataset(lModSuppGroup, CDSItems);
+
+    CDSItems.Append;
+    lModSuppGroup.UpdateToDataset(CDSItems);  //isikan ke grid
     CDSItems.Post;
   end;
 
@@ -433,7 +428,7 @@ begin
   while not CDSItems.eof do //loop selama record masih ada
   begin
     lModSuppGroup := TModSuplierMerchanGroup.Create;
-    TDBUtils.SetFromDataset(lModSuppGroup, CDSItems, False);
+    lModSuppGroup.SetFromDataset(CDSItems);
     // kode diatas otomatis mengisi object dengan nilai yang ada di CDSItems
 
     //isi object list dengan lModSuppGroup

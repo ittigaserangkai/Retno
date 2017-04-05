@@ -52,14 +52,12 @@ type
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject : TModApp; AID : String);
     class procedure LoadByCode(AOBject : TModApp; AID : String);
-    class procedure SetFromDataset(AOBject: TModApp; ADataSet: TDataset;
-        UsingFieldName: Boolean);
+    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
     class function OpenQuery(ASQL: String; AOwner: TComponent = nil): TFDQuery;
     class procedure RollBack;
-    class procedure UpdateToDataset(AOBject: TModApp; ADataSet: TDataset);
   end;
 
 var
@@ -713,7 +711,7 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  SetFromDataset(AObject, Q, True);
+  LoadFromDataset(AObject, Q);
 end;
 
 class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
@@ -724,11 +722,10 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  SetFromDataset(AObject, Q, True);
+  LoadFromDataset(AObject, Q);
 end;
 
-class procedure TDBUtils.SetFromDataset(AOBject: TModApp; ADataSet: TDataset;
-    UsingFieldName: Boolean);
+class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
 var
   sSQL: string;
   ctx : TRttiContext;
@@ -749,11 +746,7 @@ begin
     for prop in rt.GetProperties() do
     begin
       if (not prop.IsWritable) then Continue;
-
-      If UsingFieldName then
-        FieldName := AObject.FieldNameOf(prop)
-      else
-        FieldName := prop.Name;
+      FieldName := AObject.FieldNameOf(prop);
 
       //published has fields on dataset
       if prop.Visibility = mvPublished then
@@ -812,7 +805,7 @@ begin
                 while not QQ.Eof do
                 begin
                   lAppObjectItem := lAppClass.Create;
-                  SetFromDataset(lAppObjectItem, QQ, True);
+                  LoadFromDataset(lAppObjectItem, QQ);
                   meth.Invoke(lObjectList,[lAppObjectItem]);
                   QQ.Next;
                 end;
@@ -886,38 +879,6 @@ begin
 
   if FDTransaction.Active then
     FDTransaction.RollBack;
-end;
-
-class procedure TDBUtils.UpdateToDataset(AOBject: TModApp; ADataSet: TDataset);
-var
-  a: TCustomAttribute;
-  aFieldType: TFieldType;
-  ctx : TRttiContext;
-  lObj: TObject;
-  rt : TRttiType;
-  prop : TRttiProperty;
-begin
-  rt := ctx.GetType(AOBject.ClassType);
-  for prop in rt.GetProperties do
-  begin
-    If prop.Visibility <> mvPublished then continue;
-    case prop.PropertyType.TypeKind of
-      tkInteger, tkInt64 :
-        ADataSet.FieldByName(prop.Name).AsInteger := prop.GetValue(AObject).AsInteger;
-      tkFloat :
-        ADataSet.FieldByName(prop.Name).AsFloat := prop.GetValue(AObject).AsExtended;
-      tkUString :
-        ADataSet.FieldByName(prop.Name).AsString := prop.GetValue(AObject).AsString;
-      tkClass :
-      begin
-        lObj := prop.GetValue(AOBject).AsObject;
-        if lObj.InheritsFrom(TModApp) then
-          ADataSet.FieldByName(prop.Name).AsString := TModApp(lObj).ID;
-      end
-    else
-      ADataSet.FieldByName(prop.Name).AsVariant := prop.GetValue(AObject).AsVariant
-    end;
-  end;
 end;
 
 procedure TCDSHelper.AddField(AFieldName: String; AFieldType: TFieldType;

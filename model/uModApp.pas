@@ -3,7 +3,8 @@ unit uModApp;
 interface
 
 uses
-  SysUtils, System.Rtti, System.TypInfo, Datasnap.DBClient, System.Classes;
+  SysUtils, System.Rtti, System.TypInfo, Datasnap.DBClient, System.Classes,
+  Data.DB;
 
 type
 
@@ -54,6 +55,8 @@ type
         TRttiProperty;
     function QuotValue(AProp: TRttiProperty): String;
     class procedure RegisterRTTI;
+    procedure SetFromDataset(ADataSet: TDataset);
+    procedure UpdateToDataset(ADataSet: TDataset);
 
     property ObjectState: Integer read FObjectState write FObjectState;   // 1 Baru, 3 Edit, 5 Hapus
   published
@@ -77,7 +80,7 @@ type
 implementation
 
 uses
-  StrUtils;
+  StrUtils, uDBUtils;
 
 constructor AttributeOfCustom.Create(aCustomField: string = '');
 begin
@@ -230,6 +233,93 @@ begin
   //dummy method agar rtti diregister secara full
   //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
   //jalankan di initialization section
+end;
+
+procedure TModApp.SetFromDataset(ADataSet: TDataset);
+var
+  sSQL: string;
+  ctx : TRttiContext;
+  FieldName : string;
+  lAppObject : TModApp;
+  lAppClass : TModAppClass;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  meth : TRttiMethod;
+  sGenericItemClassName: string;
+begin
+  rt := ctx.GetType(Self.ClassType);
+  if not ADataSet.IsEmpty then
+  begin
+    for prop in rt.GetProperties() do
+    begin
+      if (not prop.IsWritable) then Continue;
+
+//      If UsingFieldName then
+//        FieldName := Self.FieldNameOf(prop)
+//      else
+        FieldName := prop.Name;
+
+      //published has fields on dataset
+      if prop.Visibility <> mvPublished then continue;
+      If (ADataSet.FieldByName(FieldName).DataType in [ftDate,ftDateTime,ftTimeStamp]) then
+      begin
+        prop.SetValue(Self,TValue.From<TDateTime>(ADataSet.FieldByName(FieldName).AsDateTime));
+      end else
+      begin
+        case prop.PropertyType.TypeKind of
+          tkInteger : prop.SetValue(Self,ADataSet.FieldByName(FieldName).AsInteger );
+          tkFloat   : prop.SetValue(Self,ADataSet.FieldByName(FieldName).AsFloat );
+          tkUString : prop.SetValue(Self,ADataSet.FieldByName(FieldName).AsString );
+          tkClass   : begin
+                        meth := prop.PropertyType.GetMethod('ToArray');
+                        if not Assigned(meth) then
+                        begin
+                          meth          := prop.PropertyType.GetMethod('Create');
+                          lAppObject    := TModApp(meth.Invoke(
+                            prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+                          lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
+                          prop.SetValue(Self, lAppObject);
+                        end;
+                      end;
+        else
+          prop.SetValue(Self,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
+        end;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TModApp.UpdateToDataset(ADataSet: TDataset);
+var
+  a: TCustomAttribute;
+  aFieldType: TFieldType;
+  ctx : TRttiContext;
+  lObj: TObject;
+  rt : TRttiType;
+  prop : TRttiProperty;
+begin
+  rt := ctx.GetType(Self.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+    case prop.PropertyType.TypeKind of
+      tkInteger, tkInt64 :
+        ADataSet.FieldByName(prop.Name).AsInteger := prop.GetValue(Self).AsInteger;
+      tkFloat :
+        ADataSet.FieldByName(prop.Name).AsFloat := prop.GetValue(Self).AsExtended;
+      tkUString :
+        ADataSet.FieldByName(prop.Name).AsString := prop.GetValue(Self).AsString;
+      tkClass :
+      begin
+        lObj := prop.GetValue(Self).AsObject;
+        if lObj.InheritsFrom(TModApp) then
+          ADataSet.FieldByName(prop.Name).AsString := TModApp(lObj).ID;
+      end
+    else
+      ADataSet.FieldByName(prop.Name).AsVariant := prop.GetValue(Self).AsVariant
+    end;
+  end;
 end;
 
 end.
