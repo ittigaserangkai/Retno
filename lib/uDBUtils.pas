@@ -3,7 +3,7 @@ unit uDBUtils;
 interface
 uses
   System.Rtti, typinfo, SysUtils, StrUtils,
-  Forms, DBClient,
+  Forms, Datasnap.DBClient,
   Provider, Generics.Collections, System.Classes, StdCtrls,
   FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
   FireDAC.Phys.PG, FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.ODBCBase,
@@ -32,6 +32,8 @@ type
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
+    class function CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
+        TComponent): TClientDataSet;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
     class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
@@ -50,12 +52,14 @@ type
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject : TModApp; AID : String);
     class procedure LoadByCode(AOBject : TModApp; AID : String);
-    class procedure SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
+    class procedure SetFromDataset(AOBject: TModApp; ADataSet: TDataset;
+        UsingFieldName: Boolean);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
     class function OpenQuery(ASQL: String; AOwner: TComponent = nil): TFDQuery;
     class procedure RollBack;
+    class procedure UpdateToDataset(AOBject: TModApp; ADataSet: TDataset);
   end;
 
 var
@@ -116,6 +120,38 @@ begin
     Result := True;
   end;
 
+end;
+
+class function TDBUtils.CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
+    TComponent): TClientDataSet;
+var
+  a: TCustomAttribute;
+  aFieldType: TFieldType;
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+begin
+  Result := TClientDataSet.Create(aOwner);
+  rt := ctx.GetType(aObjectClass);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+    case prop.PropertyType.TypeKind of
+      tkInteger : aFieldType := ftInteger;
+      tkFloat :
+      begin
+        if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+          aFieldType := ftDateTime
+        else
+          aFieldType := ftFloat;
+      end;
+      tkUString, tkString, tkWideString, tkClass : aFieldType := ftString;
+    else
+      aFieldType := ftString;
+    end;
+    Result.AddField(prop.Name, aFieldType );
+  end;
+  Result.CreateDataSet;
 end;
 
 class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent;
@@ -677,7 +713,7 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  SetFromDatast(AObject, Q);
+  SetFromDataset(AObject, Q, True);
 end;
 
 class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
@@ -688,10 +724,11 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  SetFromDatast(AObject, Q);
+  SetFromDataset(AObject, Q, True);
 end;
 
-class procedure TDBUtils.SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
+class procedure TDBUtils.SetFromDataset(AOBject: TModApp; ADataSet: TDataset;
+    UsingFieldName: Boolean);
 var
   sSQL: string;
   ctx : TRttiContext;
@@ -712,7 +749,11 @@ begin
     for prop in rt.GetProperties() do
     begin
       if (not prop.IsWritable) then Continue;
-      FieldName := AObject.FieldNameOf(prop);
+
+      If UsingFieldName then
+        FieldName := AObject.FieldNameOf(prop)
+      else
+        FieldName := prop.Name;
 
       //published has fields on dataset
       if prop.Visibility = mvPublished then
@@ -771,7 +812,7 @@ begin
                 while not QQ.Eof do
                 begin
                   lAppObjectItem := lAppClass.Create;
-                  SetFromDatast(lAppObjectItem, QQ);
+                  SetFromDataset(lAppObjectItem, QQ, True);
                   meth.Invoke(lObjectList,[lAppObjectItem]);
                   QQ.Next;
                 end;
@@ -845,6 +886,38 @@ begin
 
   if FDTransaction.Active then
     FDTransaction.RollBack;
+end;
+
+class procedure TDBUtils.UpdateToDataset(AOBject: TModApp; ADataSet: TDataset);
+var
+  a: TCustomAttribute;
+  aFieldType: TFieldType;
+  ctx : TRttiContext;
+  lObj: TObject;
+  rt : TRttiType;
+  prop : TRttiProperty;
+begin
+  rt := ctx.GetType(AOBject.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+    case prop.PropertyType.TypeKind of
+      tkInteger, tkInt64 :
+        ADataSet.FieldByName(prop.Name).AsInteger := prop.GetValue(AObject).AsInteger;
+      tkFloat :
+        ADataSet.FieldByName(prop.Name).AsFloat := prop.GetValue(AObject).AsExtended;
+      tkUString :
+        ADataSet.FieldByName(prop.Name).AsString := prop.GetValue(AObject).AsString;
+      tkClass :
+      begin
+        lObj := prop.GetValue(AOBject).AsObject;
+        if lObj.InheritsFrom(TModApp) then
+          ADataSet.FieldByName(prop.Name).AsString := TModApp(lObj).ID;
+      end
+    else
+      ADataSet.FieldByName(prop.Name).AsVariant := prop.GetValue(AObject).AsVariant
+    end;
+  end;
 end;
 
 procedure TCDSHelper.AddField(AFieldName: String; AFieldType: TFieldType;

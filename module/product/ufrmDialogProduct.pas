@@ -13,7 +13,7 @@ uses
   cxPC, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   Data.DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxSplitter,
-  cxHyperLinkEdit, Vcl.Menus, cxButtons, Datasnap.DBClient;
+  cxHyperLinkEdit, Vcl.Menus, cxButtons, Datasnap.DBClient, cxLabel;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -173,6 +173,19 @@ type
     cxGrdDBSellingPriceColumn9: TcxGridDBColumn;
     cxGrdDBSellingPriceColumn10: TcxGridDBColumn;
     cxGrdDBSellingPriceColumn11: TcxGridDBColumn;
+    tsKonversi: TcxTabSheet;
+    cxGroupBox1: TcxGroupBox;
+    cxGroupBox3: TcxGroupBox;
+    Label2: TLabel;
+    btnDelKonv: TcxButton;
+    btnAddKonversi: TcxButton;
+    cxGrid1: TcxGrid;
+    cxGrdKonversi: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    cxGrdKonversiColumn1: TcxGridDBColumn;
+    cxGrdKonversiColumn2: TcxGridDBColumn;
+    cxLabel1: TcxLabel;
+    cxGrdKonversiColumn3: TcxGridDBColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -191,8 +204,11 @@ type
         ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
         TShiftState; var AHandled: Boolean);
     procedure pgcMainChange(Sender: TObject);
+    procedure btnAddKonversiClick(Sender: TObject);
+    procedure btnDelKonvClick(Sender: TObject);
   private
     FCDSSupp: TClientDataset;
+    FCDSKonv: TClientDataset;
     FModBarang: TModBarang;
     procedure AddSupplier;
     procedure LoadSupplierRow;
@@ -200,6 +216,7 @@ type
     procedure ClearSupplier;
     procedure FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
     function GetCDSSupp: TClientDataset;
+    function GetCDSKonv: TClientDataset;
     function GetModBarang: TModBarang;
     procedure InitGrid;
     procedure InitLookup;
@@ -209,6 +226,7 @@ type
     procedure UpdateDataSupplier;
     function ValidateData: Boolean;
     property CDSSupp: TClientDataset read GetCDSSupp write FCDSSupp;
+    property CDSKonv: TClientDataset read GetCDSKonv write FCDSKonv;
     property ModBarang: TModBarang read GetModBarang write FModBarang;
   public
     procedure LoadData(AID: String);
@@ -307,12 +325,24 @@ begin
 
 end;
 
+procedure TfrmDialogProduct.btnAddKonversiClick(Sender: TObject);
+begin
+  inherited;
+  CDSKonv.Append;
+end;
+
 procedure TfrmDialogProduct.btnAddSuppClick(Sender: TObject);
 begin
   inherited;
   ClearSupplier;
   Application.ProcessMessages;
   cxLookupSupplier.SetFocus;
+end;
+
+procedure TfrmDialogProduct.btnDelKonvClick(Sender: TObject);
+begin
+  inherited;
+  if not CDSKonv.Eof then CDSKonv.Delete;
 end;
 
 procedure TfrmDialogProduct.btnDelSuppClick(Sender: TObject);
@@ -449,8 +479,9 @@ begin
   inherited;
   case Key of
     VK_F1 : pgcMain.ActivePage := tsInfo;
-    VK_F2 : pgcMain.ActivePage := tsSupplier;
-    VK_F3 : pgcMain.ActivePage := tsSellingPrice;
+    VK_F2 : pgcMain.ActivePage := tsKonversi;
+    VK_F3 : pgcMain.ActivePage := tsSupplier;
+    VK_F4 : pgcMain.ActivePage := tsSellingPrice;
   end;
 end;
 
@@ -491,6 +522,19 @@ begin
   Result := FCDSSupp;
 end;
 
+function TfrmDialogProduct.GetCDSKonv: TClientDataset;
+begin
+  if not Assigned(FCDSKonv) then
+  begin
+    FCDSKonv := TClientDataSet.Create(Self);
+    FCDSKonv.AddField('Satuan', ftString);
+    FCDSKonv.AddField('Konversi', ftFloat);
+    FCDSKonv.AddField('BarCode', ftInteger);
+    FCDSKonv.CreateDataSet;
+  end;
+  Result := FCDSKonv;
+end;
+
 function TfrmDialogProduct.GetModBarang: TModBarang;
 begin
   if not Assigned(FModBarang) then
@@ -501,11 +545,12 @@ end;
 procedure TfrmDialogProduct.InitGrid;
 begin
   cxGrdDBSupplier.LoadFromCDS(CDSSupp, False);
+  cxGrdKonversi.LoadFromCDS(CDSKonv, False);
 end;
 
 procedure TfrmDialogProduct.InitLookup;
-//var
-//  lDS: TDataSet;
+var
+  lCDS: TClientDataSet;
 begin
   With DMClient.DSProviderClient do
   begin
@@ -532,6 +577,7 @@ begin
     cxLookupMerk.LoadFromDS(Merk_GetDSLookUp,'MERK_ID', 'MERK_NAME' , Self);
     cxLookupSupplier.LoadFromDS(Suplier_GetDSLookup,
       'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
+
     cxLookupSupplier.SetMultiPurposeLookup;
     cxLookupMerchan.SetMultiPurposeLookup;
     cxLookupMerchanGroup.SetMultiPurposeLookup;
@@ -539,22 +585,20 @@ begin
     cxLookupKategori.SetMultiPurposeLookup;
     cxLookupMerk.SetMultiPurposeLookup;
 
-    cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupSatPurchase.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupBRSUom.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
+//    cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
+//    cxLookupSatPurchase.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
+//    cxLookupBRSUom.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
 
-    //meh optimasi , bisa g 1 dataset utk bbrp provider
-//    lDS := Satuan_GetDSLookup;
-//    Try
-//      cxLookupSatuan.LoadFromDS(TDBUtils.DSToCDS(lDS, Self, False),
-//      'ref$satuan_id', 'SAT_NAME', Self);
-//      cxLookupSatPurchase.LoadFromDS(TDBUtils.DSToCDS(lDS, Self, False),
-//        'ref$satuan_id', 'SAT_NAME', Self);
-//      cxLookupBRSUom.LoadFromDS(TDBUtils.DSToCDS(lDS, Self, False),
-//        'ref$satuan_id', 'SAT_NAME', Self);
-//    Finally
-//      lDS.Free;
-//    End;
+//    meh optimasi , bisa g 1 dataset utk bbrp provider
+    lCDS := TDBUtils.DSToCDS(Satuan_GetDSLookup, Self);
+
+    cxLookupSatuan.LoadFromCDS(lCDS,
+    'ref$satuan_id', 'SAT_NAME', Self);
+    cxLookupSatPurchase.LoadFromCDS(lCDS,
+      'ref$satuan_id', 'SAT_NAME', Self);
+    cxLookupBRSUom.LoadFromCDS(lCDS,
+      'ref$satuan_id', 'SAT_NAME', Self);
+
   end;
   //inisialisasi
 end;
@@ -730,6 +774,10 @@ function TfrmDialogProduct.ValidateData: Boolean;
 begin
   Result := False;
   If not ValidateEmptyCtrl([1], True, tsInfo) then exit;
+
+
+
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_SAVE) then exit;
   Result := True;
 end;
 

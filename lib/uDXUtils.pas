@@ -68,7 +68,9 @@ type
     function CDS: TClientDataSet;
     function DS: TDataset;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
-        HideFields: Array Of String; aOwnerForm: TComponent);
+        HideFields: Array Of String; aOwnerForm: TComponent); overload;
+    procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
+        aOwnerForm: TComponent); overload;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
@@ -1243,6 +1245,12 @@ procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
     DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
 begin
   Self.Properties.LoadFromCDS(aCDS, IDField, DisplayField, HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
+    DisplayField: String; aOwnerForm: TComponent);
+begin
+  Self.Properties.LoadFromCDS(aCDS, IDField, DisplayField, [IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,

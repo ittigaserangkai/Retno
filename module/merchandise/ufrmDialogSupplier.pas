@@ -156,33 +156,34 @@ type
     cbpBankCodeMer: TcxButtonEdit;
     edtBankBranch: TcxTextEdit;
     edtBankAddrss: TcxTextEdit;
-    cxGrdDBSupplierMerchanColumn1: TcxGridDBColumn;
-    cxGrdDBSupplierMerchanColumn2: TcxGridDBColumn;
     cxLookupMerchGroup: TcxExtLookupComboBox;
     cxLookupPaymentType: TcxExtLookupComboBox;
+    clSupMerchanGroup: TcxGridDBColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure btnUpdateSuppClick(Sender: TObject);
     procedure btnAddSuppClick(Sender: TObject);
     procedure btnDelSuppClick(Sender: TObject);
     procedure cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
         TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
         TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+    procedure btnUpdateSuppClick(Sender: TObject);
 
 
   private
     FCDSItems: TClientDataSet;
-    FModSupGrup: TModSuplierMerchanGroup;
+    FIsUpdateSupplier: Boolean;
     FModSupplier: TModSuplier;
     function GetCDSItems: TClientDataSet;
     function GetModSupplier: TModSuplier;
-    procedure LoadDetail;
-    procedure ShowDetail(AIDObject: Integer);
+    procedure InitLookup;
+    procedure ShowDetail(AIDObject: String);
     procedure SimpanData;
+    procedure UpdateDetail;
     property CDSItems: TClientDataSet read GetCDSItems write FCDSItems;
-    property ModSupGrup: TModSuplierMerchanGroup read FModSupGrup write FModSupGrup;
+    property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
+        FIsUpdateSupplier;
     property ModSupplier: TModSuplier read GetModSupplier write FModSupplier;
 
 
@@ -225,43 +226,21 @@ end;
 procedure TfrmDialogSupplier.btnAddSuppClick(Sender: TObject);
 begin
   inherited;
-  FModSupGrup := nil;
   Self.ClearByTag([0,1], pgcMerchan);
+  IsUpdateSupplier := False;
 end;
 
 procedure TfrmDialogSupplier.btnDelSuppClick(Sender: TObject);
-var
-  idx: Integer;
-  LModSup: TModSuplierMerchanGroup;
 begin
   inherited;
   if not CDSItems.Eof then
-  begin
-    LModSup := TModSuplierMerchanGroup(CDSItems.FieldByName('ID').AsInteger);
-    if assigned(LModSup) then
-    begin
-      idx := ModSupplier.SuplierMerchanGroups.IndexOf(LModSup);
-      ModSupplier.SuplierMerchanGroups.Delete(idx);
-      CDSItems.Delete;
-    end;
-  end;
-
+    CDSItems.Delete;
 end;
 
 procedure TfrmDialogSupplier.btnUpdateSuppClick(Sender: TObject);
 begin
   inherited;
-  if not assigned(FModSupGrup) then
-  begin
-    FModSupGrup := TModSuplierMerchanGroup.Create;
-    ModSupplier.SuplierMerchanGroups.Add(ModSupGrup);
-  end;
-
-  ModSupGrup.MERCHANDISE_GRUP := TModMerchandiseGroup.CreateID(cxLookupMerchGroup.EditValue);
-  ModSupGrup.SUPMG_CREDIT_LIMIT := curedtCreditLmt.Value;
-
-
-  LoadDetail;
+  UpdateDetail;
 end;
 
 procedure TfrmDialogSupplier.cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
@@ -269,7 +248,8 @@ procedure TfrmDialogSupplier.cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
     TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  ShowDetail(CDSItems.FieldByName('ID').AsInteger);
+  if not CDSItems.eof then
+    ShowDetail(CDSItems.FieldByName('ID').AsString);
 end;
 
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
@@ -278,10 +258,51 @@ begin
   pc1.ActivePage := tsSupplier;
   Self.AssignKeyDownEvent;
 
+  InitLookup;
+
+  cxGrdDBSupplierMerchan.LoadFromCDS(CDSItems);
+  IsUpdateSupplier := False;
+end;
+
+procedure TfrmDialogSupplier.FormShow(Sender: TObject);
+begin
+  inherited;
+  edtSupCode.SetFocus;
+end;
+
+function TfrmDialogSupplier.GetCDSItems: TClientDataSet;
+begin
+  if not assigned(FCDSItems) then
+  begin
+    FCDSItems := TDBUtils.CreateObjectDataSet(TModSuplierMerchanGroup, Self)
+//    FCDSItems := TClientDataSet.Create(self);
+//    FCDSItems.AddField('ID',ftInteger);
+//    FCDSItems.AddField('Nama',ftString);
+//    FCDSItems.CreateDataSet;
+  end;
+  Result := FCDSItems;
+end;
+
+function TfrmDialogSupplier.GetModSupplier: TModSuplier;
+begin
+  if not Assigned(FModSupplier) then
+    FModSupplier := TModSuplier.Create;
+  Result := FModSupplier;
+end;
+
+procedure TfrmDialogSupplier.InitLookup;
+begin
   cxLookupMerchGroup.LoadFromDS(
     DMClient.DSProviderClient.MerchandiseGroup_GetDSLookup,
-      'REF$MERCHANDISE_GRUP_ID','MERCHANGRUP_NAME',self
-    );
+    'REF$MERCHANDISE_GRUP_ID','MERCHANGRUP_NAME',
+    ['REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'],self
+  );
+
+//  TcxExtLookupComboBoxProperties(clSupMerchanGroup.Properties).LoadFromDS(
+//    DMClient.DSProviderClient.MerchandiseGroup_GetDSLookup,
+//    'REF$MERCHANDISE_GRUP_ID','MERCHANGRUP_NAME',
+//    ['REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'],self
+//  );
 
   cxLookUpBank.LoadFromDS(
     DMClient.DSProviderClient.Bank_GetDSLookup,
@@ -304,39 +325,17 @@ begin
       'SUPLIER_GROUP_ID', 'GROUP_NAME', ['SUPLIER_GROUP_ID'],self
     );
 
-  cxGrdDBSupplierMerchan.LoadFromCDS(CDSItems);
-end;
-
-procedure TfrmDialogSupplier.FormShow(Sender: TObject);
-begin
-  inherited;
-  edtSupCode.SetFocus;
-end;
-
-function TfrmDialogSupplier.GetCDSItems: TClientDataSet;
-begin
-  if not assigned(FCDSItems) then
-  begin
-    FCDSItems := TClientDataSet.Create(self);
-    FCDSItems.AddField('ID',ftInteger);
-    FCDSItems.AddField('Nama',ftString);
-    FCDSItems.CreateDataSet;
-  end;
-  Result := FCDSItems;
-end;
-
-function TfrmDialogSupplier.GetModSupplier: TModSuplier;
-begin
-  if not Assigned(FModSupplier) then
-    FModSupplier := TModSuplier.Create;
-  Result := FModSupplier;
 end;
 
 procedure TfrmDialogSupplier.LoadData(ID: String);
+var
+  i: Integer;
+  lModSuppGroup: TModSuplierMerchanGroup;
 begin
   if Assigned(FModSupplier) then FreeAndNil(FModSupplier);
   FModSupplier := DMclient.CrudClient.Retrieve(TModSuplier.ClassName, ID) as TModSuplier;
 
+  //load header
   edtSupCode.Text               := ModSupplier.SUP_CODE;
   cxLookupTipePerush.EditValue  := ModSupplier.TIPE_PERUSAHAAN.ID;
   edtSupName.Text               := ModSupplier.SUP_NAME;
@@ -360,41 +359,43 @@ begin
   cxLookUpSuppGroup.EditValue   := ModSupplier.SUPLIER_GROUP.ID;
   chkSupActive.Checked          := ModSupplier.SUP_IS_ACTIVE=1;
 
-  LoadDetail;
-end;
+  //load detail
 
-procedure TfrmDialogSupplier.LoadDetail;
-var
-  I: Integer;
-  LSupMerchan: TModSuplierMerchanGroup;
-begin
-  if not Assigned(FModSupplier) then Exit;
-  CDSItems.EmptyDataSet;
+  CDSItems.EmptyDataSet;  //kosongkan grid
   for i := 0 to ModSupplier.SuplierMerchanGroups.Count-1 do
   begin
-    LSupMerchan := ModSupplier.SuplierMerchanGroups[i];
     CDSItems.Append;
-    CDSItems.FieldByName('ID').AsInteger := Integer(LSupMerchan);
-    if cxLookupMerchGroup.DS.Locate('REF$MERCHANDISE_GRUP_ID',LSupMerchan.MERCHANDISE_GRUP.ID,[loCaseInsensitive]) then
-      CDSItems.FieldByName('Nama').AsString := cxLookupMerchGroup.DS.FieldByName('MERCHANGRUP_NAME').AsString;
+    //ambil dari object list baris ke - i
+    lModSuppGroup := ModSupplier.SuplierMerchanGroups[i];
+    //isikan ke grid
+    TDBUtils.UpdateToDataset(lModSuppGroup, CDSItems);
     CDSItems.Post;
   end;
 
 end;
 
-procedure TfrmDialogSupplier.ShowDetail(AIDObject: Integer);
+procedure TfrmDialogSupplier.ShowDetail(AIDObject: String);
 begin
-  if AIDObject = 0 then exit;
-  ModSupGrup := TModSuplierMerchanGroup(AIDObject);
-  cxLookupMerchGroup.EditValue := ModSupGrup.MERCHANDISE_GRUP.ID;
-  curedtCreditLmt.Value := ModSupGrup.SUPMG_CREDIT_LIMIT;
+  if CDSItems.Eof then exit;  //exit jika tidak ada record yang dipilih
+
+  //isi kan form dari CDSItems, contoh :
+
+  cxLookupMerchGroup.EditValue := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
+  edtExtdDesc.EditValue := CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString;
+  curedtCreditLmt.Value := CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat;
+
+  //....... lanjutkan
+
+  IsUpdateSupplier := True;
 end;
 
 procedure TfrmDialogSupplier.SimpanData;
+var
+  lModSuppGroup: TModSuplierMerchanGroup;
 begin
   if not ValidateEmptyCtrl then exit;
 
-
+  //simpan header tab 1
   ModSupplier.SUP_CODE := edtSupCode.Text;
   if not VarIsNull(cxLookupTipePerush.EditValue) then
     ModSupplier.TIPE_PERUSAHAAN := TModTipePerusahaan.CreateID(cxLookupTipePerush.EditValue);
@@ -425,6 +426,21 @@ begin
   else
     ModSupplier.SUP_IS_ACTIVE := 0;
 
+  //simpan detail, tab supplier
+  ModSupplier.SuplierMerchanGroups.Clear;  //kosongkan object list dulu
+
+  CDSItems.First; //ke record pertama
+  while not CDSItems.eof do //loop selama record masih ada
+  begin
+    lModSuppGroup := TModSuplierMerchanGroup.Create;
+    TDBUtils.SetFromDataset(lModSuppGroup, CDSItems, False);
+    // kode diatas otomatis mengisi object dengan nilai yang ada di CDSItems
+
+    //isi object list dengan lModSuppGroup
+    ModSupplier.SuplierMerchanGroups.Add(lModSuppGroup);
+    CDSItems.Next; //maju ke record berikutnya
+  end;
+
   try
     DMClient.CrudClient.SaveToDB(ModSupplier);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
@@ -433,6 +449,22 @@ begin
     TAppUtils.Error(ER_INSERT_FAILED);
     raise;
   end;
+end;
+
+procedure TfrmDialogSupplier.UpdateDetail;
+begin
+  if IsUpdateSupplier then //jika user click grid
+    CDSItems.Edit
+  else
+    CDSItems.Append; //jika user klik tombol tambah
+
+  //isikan property ke sini , contoh :
+  CDSItems.FieldByName('MERCHANDISE_GRUP').AsString   := cxLookupMerchGroup.EditValue;
+  CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat  := curedtCreditLmt.Value;
+  CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString  := edtExtdDesc.Text;
+  // ..... lanjutkan
+
+  CDSItems.Post;
 end;
 
 end.

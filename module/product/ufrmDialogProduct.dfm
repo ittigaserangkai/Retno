@@ -2,26 +2,26 @@ inherited frmDialogProduct: TfrmDialogProduct
   Left = 307
   Top = 98
   Caption = 'Update Data Barang'
-  ClientHeight = 446
-  ClientWidth = 776
+  ClientHeight = 422
+  ClientWidth = 917
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 792
-  ExplicitHeight = 485
+  ExplicitWidth = 933
+  ExplicitHeight = 461
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 776
-    Height = 390
+    Width = 917
+    Height = 366
     ExplicitWidth = 776
     ExplicitHeight = 390
     object pgcMain: TcxPageControl
       Left = 2
       Top = 2
-      Width = 772
-      Height = 386
+      Width = 913
+      Height = 362
       Align = alClient
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
@@ -33,20 +33,31 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsInfo
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
-      Properties.Style = 6
-      Properties.TabHeight = 30
+      Properties.Rotate = True
+      Properties.TabCaptionAlignment = taLeftJustify
+      Properties.TabHeight = 45
+      Properties.TabPosition = tpLeft
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = False
       OnChange = pgcMainChange
-      ClientRectBottom = 386
-      ClientRectRight = 772
-      ClientRectTop = 32
+      ExplicitLeft = -126
+      ExplicitTop = 3
+      ExplicitWidth = 772
+      ExplicitHeight = 386
+      ClientRectBottom = 362
+      ClientRectLeft = 143
+      ClientRectRight = 913
+      ClientRectTop = 0
       object tsInfo: TcxTabSheet
         Caption = 'F1 [Informasi Barang]'
         ImageIndex = 26
+        ExplicitLeft = 0
+        ExplicitTop = 32
+        ExplicitWidth = 772
+        ExplicitHeight = 354
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -818,18 +829,176 @@ inherited frmDialogProduct: TfrmDialogProduct
           Width = 41
         end
       end
+      object tsKonversi: TcxTabSheet
+        Caption = 'F2 [Konversi Satuan]'
+        ImageIndex = 34
+        ExplicitLeft = -224
+        ExplicitTop = -72
+        ExplicitWidth = 772
+        ExplicitHeight = 354
+        object cxGroupBox1: TcxGroupBox
+          Left = 0
+          Top = 0
+          Align = alClient
+          PanelStyle.Active = True
+          Style.BorderStyle = ebsNone
+          TabOrder = 0
+          Height = 362
+          Width = 770
+          object cxGroupBox3: TcxGroupBox
+            Left = 2
+            Top = 333
+            Align = alBottom
+            PanelStyle.Active = True
+            Style.BorderStyle = ebsNone
+            Style.Edges = [bRight, bBottom]
+            TabOrder = 0
+            Height = 27
+            Width = 766
+            object Label2: TLabel
+              AlignWithMargins = True
+              Left = 600
+              Top = 6
+              Width = 161
+              Height = 18
+              Margins.Top = 4
+              Margins.Bottom = 1
+              Align = alRight
+              Caption = 'ALT-T [Tambah]  |  ALT-D [Delete]'
+              Enabled = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              ExplicitLeft = 512
+              ExplicitHeight = 16
+            end
+            object btnDelKonv: TcxButton
+              AlignWithMargins = True
+              Left = 85
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Delete'
+              OptionsImage.ImageIndex = 8
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 0
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnDelKonvClick
+              ExplicitLeft = 168
+            end
+            object btnAddKonversi: TcxButton
+              AlignWithMargins = True
+              Left = 2
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Tambah'
+              LookAndFeel.Kind = lfUltraFlat
+              OptionsImage.ImageIndex = 0
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 1
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnAddKonversiClick
+            end
+          end
+          object cxGrid1: TcxGrid
+            Left = 2
+            Top = 22
+            Width = 766
+            Height = 311
+            Align = alClient
+            TabOrder = 1
+            TabStop = False
+            LookAndFeel.NativeStyle = False
+            ExplicitTop = 2
+            ExplicitHeight = 331
+            object cxGrdKonversi: TcxGridDBTableView
+              Navigator.Buttons.CustomButtons = <>
+              OnCellClick = cxGrdDBSupplierCellClick
+              DataController.Summary.DefaultGroupSummaryItems = <>
+              DataController.Summary.FooterSummaryItems = <>
+              DataController.Summary.SummaryGroups = <>
+              FilterRow.ApplyChanges = fracImmediately
+              OptionsBehavior.FocusCellOnTab = True
+              OptionsBehavior.GoToNextCellOnEnter = True
+              OptionsBehavior.FocusCellOnCycle = True
+              OptionsSelection.CellSelect = False
+              OptionsView.GroupByBox = False
+              object cxGrdKonversiColumn1: TcxGridDBColumn
+                Caption = 'Satuan'
+                Width = 83
+              end
+              object cxGrdKonversiColumn2: TcxGridDBColumn
+                Caption = 'Konversi'
+                Width = 68
+              end
+              object cxGrdKonversiColumn3: TcxGridDBColumn
+                Caption = 'Barcode'
+                Width = 406
+              end
+            end
+            object cxGridLevel2: TcxGridLevel
+              GridView = cxGrdKonversi
+            end
+          end
+          object cxLabel1: TcxLabel
+            Left = 2
+            Top = 2
+            Align = alTop
+            Caption = '** Konversi terhadap satuan terkecil , misal ke PCS **'
+            ParentFont = False
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -11
+            Style.Font.Name = 'Trebuchet MS'
+            Style.Font.Style = [fsItalic]
+            Style.IsFontAssigned = True
+            Properties.Alignment.Horz = taRightJustify
+            AnchorX = 768
+          end
+        end
+      end
       object tsSupplier: TcxTabSheet
-        Caption = 'F2 [Barang Supplier]'
+        Caption = 'F3 [Barang Supplier]'
         ImageIndex = 10
+        ExplicitLeft = 0
+        ExplicitTop = 32
+        ExplicitWidth = 772
+        ExplicitHeight = 354
         object gbSupplier: TcxGroupBox
           Left = 0
-          Top = 138
+          Top = 146
           Align = alBottom
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
+          ExplicitTop = 138
+          ExplicitWidth = 772
           Height = 216
-          Width = 772
+          Width = 770
           object lbSupplier: TLabel
             Left = 72
             Top = 10
@@ -1259,21 +1428,25 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 1
-          Height = 138
-          Width = 772
+          ExplicitWidth = 772
+          ExplicitHeight = 138
+          Height = 146
+          Width = 770
           object pnlGridSupplierBtn: TcxGroupBox
             Left = 2
-            Top = 109
+            Top = 117
             Align = alBottom
             PanelStyle.Active = True
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
+            ExplicitTop = 109
+            ExplicitWidth = 768
             Height = 27
-            Width = 768
+            Width = 766
             object lbSuppShortCut1: TLabel
               AlignWithMargins = True
-              Left = 514
+              Left = 512
               Top = 6
               Width = 249
               Height = 18
@@ -1288,6 +1461,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
+              ExplicitLeft = 514
               ExplicitHeight = 16
             end
             object btnDelSupp: TcxButton
@@ -1364,12 +1538,15 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cxGridSupplier: TcxGrid
             Left = 2
             Top = 2
-            Width = 768
-            Height = 107
+            Width = 766
+            Height = 115
             Align = alClient
             TabOrder = 1
             TabStop = False
-            ExplicitTop = 3
+            LookAndFeel.Kind = lfUltraFlat
+            LookAndFeel.NativeStyle = False
+            ExplicitWidth = 768
+            ExplicitHeight = 107
             object cxGrdDBSupplier: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               OnCellClick = cxGrdDBSupplierCellClick
@@ -1436,17 +1613,23 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
       end
       object tsSellingPrice: TcxTabSheet
-        Caption = 'F3 [Selling Price]'
+        Caption = 'F4 [Selling Price]'
         ImageIndex = 37
+        ExplicitLeft = 0
+        ExplicitTop = 32
+        ExplicitWidth = 772
+        ExplicitHeight = 354
         object gbSellingPrice: TcxGroupBox
           Left = 0
-          Top = 138
+          Top = 146
           Align = alBottom
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
+          ExplicitTop = 138
+          ExplicitWidth = 772
           Height = 216
-          Width = 772
+          Width = 770
         end
         object gbSellingPriceGrid: TcxGroupBox
           Left = 0
@@ -1455,24 +1638,25 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 1
-          ExplicitTop = 8
-          Height = 138
-          Width = 772
+          ExplicitWidth = 772
+          ExplicitHeight = 138
+          Height = 146
+          Width = 770
           object cxGroupBox5: TcxGroupBox
             Left = 2
-            Top = 109
+            Top = 117
             Align = alBottom
             PanelStyle.Active = True
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
-            ExplicitLeft = 3
-            ExplicitTop = 112
+            ExplicitTop = 109
+            ExplicitWidth = 768
             Height = 27
-            Width = 768
+            Width = 766
             object Label29: TLabel
               AlignWithMargins = True
-              Left = 514
+              Left = 512
               Top = 6
               Width = 249
               Height = 18
@@ -1487,6 +1671,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
+              ExplicitLeft = 514
               ExplicitHeight = 16
             end
             object btnDeletePrice: TcxButton
@@ -1563,11 +1748,13 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cxGridSellingPrice: TcxGrid
             Left = 2
             Top = 2
-            Width = 768
-            Height = 107
+            Width = 766
+            Height = 115
             Align = alClient
             TabOrder = 1
             TabStop = False
+            ExplicitWidth = 768
+            ExplicitHeight = 107
             object cxGrdDBSellingPrice: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               OnCellClick = cxGrdDBSupplierCellClick
@@ -1616,20 +1803,20 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 390
-    Width = 776
+    Top = 366
+    Width = 917
     ExplicitTop = 390
     ExplicitWidth = 776
     inherited pnlFooter: TPanel
-      Width = 776
+      Width = 917
       ExplicitWidth = 776
       inherited btnClose: TcxButton
-        Left = 699
+        Left = 840
         Action = actDelete
         ExplicitLeft = 699
       end
       inherited btnSave: TcxButton
-        Left = 606
+        Left = 747
         Action = actSave
         ExplicitLeft = 606
       end
@@ -1637,35 +1824,30 @@ inherited frmDialogProduct: TfrmDialogProduct
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 529
+        Left = 670
         ExplicitLeft = 529
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 776
+      Width = 917
       ExplicitWidth = 776
       inherited lbCTRLEnter: TLabel
-        Left = 601
-        Height = 15
+        Left = 742
         ExplicitLeft = 601
       end
       inherited lbEscape: TLabel
-        Left = 692
-        Height = 15
+        Left = 833
         ExplicitLeft = 692
       end
-      inherited lbCTRLDel: TLabel
-        Height = 15
-      end
       inherited lblCTRLP: TLabel
-        Left = 525
+        Left = 666
         ExplicitLeft = 525
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 696
-    Top = 312
+    Left = 608
+    Top = 264
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end

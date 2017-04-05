@@ -3,7 +3,7 @@ unit uModApp;
 interface
 
 uses
-  SysUtils, System.Rtti, System.TypInfo;
+  SysUtils, System.Rtti, System.TypInfo, Datasnap.DBClient, System.Classes;
 
 type
 
@@ -71,6 +71,7 @@ type
 
 
   TModAppClass = class of TModApp;
+
 //  TModAppClassItem = class of TModAppItem;
 
 implementation

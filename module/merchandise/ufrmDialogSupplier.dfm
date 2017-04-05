@@ -438,6 +438,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Style = []
               ParentFont = False
               OnClick = btnDelSuppClick
+              ExplicitTop = 3
             end
             object btnAddSupp: TcxButton
               AlignWithMargins = True
@@ -485,7 +486,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Style = []
               ParentFont = False
               OnClick = btnUpdateSuppClick
-              ExplicitTop = 0
             end
           end
           object cxGridSupplier: TcxGrid
@@ -510,15 +510,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               OptionsData.Inserting = False
               OptionsSelection.CellSelect = False
               OptionsView.GroupByBox = False
-              object cxGrdDBSupplierMerchanColumn1: TcxGridDBColumn
-                Caption = 'Category'
-                DataBinding.FieldName = 'Nama'
-                Width = 361
-              end
-              object cxGrdDBSupplierMerchanColumn2: TcxGridDBColumn
-                Caption = 'Category_ID'
-                DataBinding.FieldName = 'ID'
-                Width = 97
+              object clSupMerchanGroup: TcxGridDBColumn
+                DataBinding.FieldName = 'MERCHANDISE_GRUP'
+                PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+                Width = 129
               end
             end
             object cxGridSupplierLevel1: TcxGridLevel
@@ -1145,16 +1140,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ExplicitWidth = 671
       inherited lbCTRLEnter: TLabel
         Left = 496
-        Height = 15
         ExplicitLeft = 496
       end
       inherited lbEscape: TLabel
         Left = 587
-        Height = 15
         ExplicitLeft = 587
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 420
