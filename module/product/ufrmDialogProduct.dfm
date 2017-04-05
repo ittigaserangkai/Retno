@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsKonversi
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -858,7 +858,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             PanelStyle.Active = True
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
-            TabOrder = 0
+            TabOrder = 1
             ExplicitWidth = 766
             Height = 27
             Width = 772
@@ -929,21 +929,21 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Style = []
               ParentFont = False
               OnClick = btnAddKonversiClick
+              ExplicitTop = 0
             end
           end
-          object cxGrid1: TcxGrid
+          object cxGridKonversi: TcxGrid
             Left = 2
             Top = 22
             Width = 772
             Height = 311
             Align = alClient
-            TabOrder = 1
-            TabStop = False
+            TabOrder = 0
             LookAndFeel.NativeStyle = False
             ExplicitTop = 2
             ExplicitWidth = 766
             ExplicitHeight = 331
-            object cxGrdKonversi: TcxGridDBTableView
+            object cxGrdDBKonversi: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               OnCellClick = cxGrdDBSupplierCellClick
               DataController.Summary.DefaultGroupSummaryItems = <>
@@ -951,31 +951,39 @@ inherited frmDialogProduct: TfrmDialogProduct
               DataController.Summary.SummaryGroups = <>
               FilterRow.ApplyChanges = fracImmediately
               OptionsBehavior.FocusCellOnTab = True
+              OptionsBehavior.FocusFirstCellOnNewRecord = True
               OptionsBehavior.GoToNextCellOnEnter = True
               OptionsBehavior.FocusCellOnCycle = True
-              OptionsSelection.CellSelect = False
+              OptionsData.Appending = True
               OptionsView.GroupByBox = False
-              object cxGrdKonversiColumn1: TcxGridDBColumn
-                Caption = 'Satuan'
+              object clKonvSatuan: TcxGridDBColumn
+                DataBinding.FieldName = 'Satuan'
+                PropertiesClassName = 'TcxExtLookupComboBoxProperties'
                 Width = 83
               end
-              object cxGrdKonversiColumn2: TcxGridDBColumn
+              object clKonvValue: TcxGridDBColumn
                 Caption = 'Konversi'
+                DataBinding.FieldName = 'KONVSAT_SCALE'
+                PropertiesClassName = 'TcxCurrencyEditProperties'
+                Properties.AssignedValues.DisplayFormat = True
+                Properties.Nullable = False
                 Width = 68
               end
-              object cxGrdKonversiColumn3: TcxGridDBColumn
+              object clKonvBarcode: TcxGridDBColumn
                 Caption = 'Barcode'
+                DataBinding.FieldName = 'KONVSAT_BARCODE'
                 Width = 406
               end
             end
             object cxGridLevel2: TcxGridLevel
-              GridView = cxGrdKonversi
+              GridView = cxGrdDBKonversi
             end
           end
           object cxLabel1: TcxLabel
             Left = 2
             Top = 2
             Align = alTop
+            AutoSize = False
             Caption = '** Konversi terhadap satuan terkecil , misal ke PCS **'
             ParentFont = False
             Style.Font.Charset = DEFAULT_CHARSET
@@ -985,7 +993,8 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.Font.Style = [fsItalic]
             Style.IsFontAssigned = True
             Properties.Alignment.Horz = taRightJustify
-            ExplicitWidth = 766
+            Height = 20
+            Width = 772
             AnchorX = 774
           end
         end
@@ -1654,6 +1663,71 @@ inherited frmDialogProduct: TfrmDialogProduct
           ExplicitWidth = 772
           Height = 216
           Width = 776
+          object Label3: TLabel
+            Left = 14
+            Top = 9
+            Width = 54
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Tipe Harga'
+          end
+          object Label4: TLabel
+            Left = 34
+            Top = 34
+            Width = 34
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Satuan'
+          end
+          object Label5: TLabel
+            Left = 25
+            Top = 58
+            Width = 43
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Konversi'
+          end
+          object cxExtLookupComboBox1: TcxExtLookupComboBox
+            Tag = 1
+            Left = 74
+            Top = 6
+            Hint = 'Klik F5 untuk membuat Master Baru'
+            ParentShowHint = False
+            Properties.CharCase = ecUpperCase
+            Properties.ImmediatePost = True
+            ShowHint = True
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 0
+            Width = 156
+          end
+          object cxExtLookupComboBox2: TcxExtLookupComboBox
+            Tag = 1
+            Left = 74
+            Top = 31
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 1
+            Width = 82
+          end
+          object cxCurrencyEdit1: TcxCurrencyEdit
+            Left = 74
+            Top = 55
+            EditValue = 0.000000000000000000
+            Properties.Alignment.Horz = taLeftJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
+            Style.LookAndFeel.NativeStyle = False
+            StyleDisabled.LookAndFeel.NativeStyle = False
+            StyleFocused.LookAndFeel.NativeStyle = False
+            StyleHot.LookAndFeel.NativeStyle = False
+            TabOrder = 2
+            Width = 52
+          end
         end
         object gbSellingPriceGrid: TcxGroupBox
           Left = 0
@@ -1777,6 +1851,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Align = alClient
             TabOrder = 1
             TabStop = False
+            LookAndFeel.NativeStyle = False
             ExplicitWidth = 768
             ExplicitHeight = 107
             object cxGrdDBSellingPrice: TcxGridDBTableView
@@ -1793,30 +1868,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsData.Inserting = False
               OptionsSelection.CellSelect = False
               OptionsView.GroupByBox = False
-              object cxGrdDBSellingPriceColumn1: TcxGridDBColumn
-                Caption = 'Satuan'
-              end
-              object cxGrdDBSellingPriceColumn2: TcxGridDBColumn
-                Caption = 'Konversi'
-              end
-              object cxGrdDBSellingPriceColumn3: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn4: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn5: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn6: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn7: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn8: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn9: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn10: TcxGridDBColumn
-              end
-              object cxGrdDBSellingPriceColumn11: TcxGridDBColumn
-              end
             end
             object cxGridLevel1: TcxGridLevel
               GridView = cxGrdDBSellingPrice
@@ -1870,8 +1921,8 @@ inherited frmDialogProduct: TfrmDialogProduct
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 776
-    Top = 192
+    Left = 712
+    Top = 168
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end

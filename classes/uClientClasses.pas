@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 4/4/2017 9:18:52 AM
+// 04/05/17 4:25:07 PM
 //
 
 unit uClientClasses;
@@ -44,6 +44,7 @@ type
     FOpenQueryCommand_Cache: TDSRestCommand;
     FRetrieveCommand: TDSRestCommand;
     FRetrieveCommand_Cache: TDSRestCommand;
+    FSaveToDBFilterCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
@@ -57,6 +58,7 @@ type
     function OpenQuery_Cache(S: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Retrieve(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
     function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function SaveToDBFilter(AObject: TModApp; FilterClass: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
@@ -372,6 +374,13 @@ const
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrud_SaveToDBFilter: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: 'FilterClass'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
   TCrud_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
@@ -1190,6 +1199,33 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TCrudClient.SaveToDBFilter(AObject: TModApp; FilterClass: string; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBFilterCommand = nil then
+  begin
+    FSaveToDBFilterCommand := FConnection.CreateCommand;
+    FSaveToDBFilterCommand.RequestType := 'POST';
+    FSaveToDBFilterCommand.Text := 'TCrud."SaveToDBFilter"';
+    FSaveToDBFilterCommand.Prepare(TCrud_SaveToDBFilter);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBFilterCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBFilterCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBFilterCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBFilterCommand.Parameters[1].Value.SetWideString(FilterClass);
+  FSaveToDBFilterCommand.Execute(ARequestFilter);
+  Result := FSaveToDBFilterCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
 begin
   if FSaveToDBIDCommand = nil then
@@ -1298,6 +1334,7 @@ begin
   FOpenQueryCommand_Cache.DisposeOf;
   FRetrieveCommand.DisposeOf;
   FRetrieveCommand_Cache.DisposeOf;
+  FSaveToDBFilterCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;

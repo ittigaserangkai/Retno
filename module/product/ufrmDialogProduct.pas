@@ -161,30 +161,25 @@ type
     cxGridSellingPrice: TcxGrid;
     cxGrdDBSellingPrice: TcxGridDBTableView;
     cxGridLevel1: TcxGridLevel;
-    cxGrdDBSellingPriceColumn1: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn2: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn3: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn4: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn5: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn6: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn7: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn8: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn9: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn10: TcxGridDBColumn;
-    cxGrdDBSellingPriceColumn11: TcxGridDBColumn;
     tsKonversi: TcxTabSheet;
     cxGroupBox1: TcxGroupBox;
     cxGroupBox3: TcxGroupBox;
     Label2: TLabel;
     btnDelKonv: TcxButton;
     btnAddKonversi: TcxButton;
-    cxGrid1: TcxGrid;
-    cxGrdKonversi: TcxGridDBTableView;
+    cxGridKonversi: TcxGrid;
+    cxGrdDBKonversi: TcxGridDBTableView;
     cxGridLevel2: TcxGridLevel;
-    cxGrdKonversiColumn1: TcxGridDBColumn;
-    cxGrdKonversiColumn2: TcxGridDBColumn;
+    clKonvSatuan: TcxGridDBColumn;
+    clKonvValue: TcxGridDBColumn;
     cxLabel1: TcxLabel;
-    cxGrdKonversiColumn3: TcxGridDBColumn;
+    clKonvBarcode: TcxGridDBColumn;
+    Label3: TLabel;
+    cxExtLookupComboBox1: TcxExtLookupComboBox;
+    Label4: TLabel;
+    cxExtLookupComboBox2: TcxExtLookupComboBox;
+    cxCurrencyEdit1: TcxCurrencyEdit;
+    Label5: TLabel;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -228,10 +223,10 @@ type
     procedure CalculateMargin(Sender: TObject);
     procedure InitGrid;
     procedure InitLookup;
-    procedure LoadSupplier;
+    procedure LoadItems;
     procedure SaveData;
     procedure UpdateData;
-    procedure UpdateDataSupplier;
+    procedure UpdateDataItem;
     function ValidateData: Boolean;
     property CDSSupp: TClientDataset read GetCDSSupp write FCDSSupp;
     property CDSKonv: TClientDataset read GetCDSKonv write FCDSKonv;
@@ -338,7 +333,13 @@ end;
 procedure TfrmDialogProduct.btnAddKonversiClick(Sender: TObject);
 begin
   inherited;
-  CDSKonv.Append;
+  cxGridKonversi.SetFocus;
+  cxGrdDBKonversi.Focused := True;
+  cxGrdDBKonversi.DataController.Append;
+  cxGrdDBKonversi.DataController.FocusedRecordIndex :=
+    cxGrdDBKonversi.DataController.RecordCount-1;
+  cxGrdDBKonversi.GetColumnByFieldName('Satuan').Focused := True;
+
 end;
 
 procedure TfrmDialogProduct.btnAddSuppClick(Sender: TObject);
@@ -621,8 +622,8 @@ end;
 
 procedure TfrmDialogProduct.InitGrid;
 begin
-  cxGrdDBSupplier.LoadFromCDS(CDSSupp, False);
-  cxGrdKonversi.LoadFromCDS(CDSKonv, False);
+  cxGrdDBSupplier.LoadFromCDS(CDSSupp, False, False);
+  cxGrdDBKonversi.LoadFromCDS(CDSKonv, False, False);
 end;
 
 procedure TfrmDialogProduct.InitLookup;
@@ -660,12 +661,11 @@ begin
     cxLookupMerk.SetMultiPurposeLookup;
 
     lCDS := TDBUtils.DSToCDS(Satuan_GetDSLookup, Self);
-    cxLookupSatuan.LoadFromCDS(lCDS,
-    'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupSatPurchase.LoadFromCDS(lCDS,
-      'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupBRSUom.LoadFromCDS(lCDS,
-      'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupSatuan.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupSatPurchase.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupBRSUom.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    TcxExtLookupComboBoxProperties(clKonvSatuan.Properties).LoadFromCDS(
+      lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
 
     lCDS := TDBUtils.DSToCDS(Suplier_GetDSLookup, Self);
     cxLookupSupplier.LoadFromCDS(lCDS,'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
@@ -683,6 +683,7 @@ begin
   UpdateData;
   Try
     ModBarang.ID := DMClient.CrudClient.SaveToDBID(ModBarang);
+//    DMClient.CrudClient.SaveToDBFilter(ModBarang,TModKonversi.ClassName);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     Self.ModalResult := mrOk;
   except
@@ -724,7 +725,7 @@ begin
   ModBarang.BRG_IS_GALON        := TAppUtils.BoolToInt(chkIsGalon.Checked);
 //  ModBarang.BRG_IS_VALIDATE     := TAppUtils.BoolToInt(chkIsBasic.Checked);
 
-  UpdateDataSupplier;
+  UpdateDataItem;
 end;
 
 procedure TfrmDialogProduct.LoadData(AID: String);
@@ -757,14 +758,18 @@ begin
   chkIsDiscAMC.Checked            := ModBarang.BRG_IS_DISC_GMC = 1;
   chkIsGalon.Checked              := ModBarang.BRG_IS_GALON = 1;
 
-  LoadSupplier;
+  LoadItems;
 end;
 
-procedure TfrmDialogProduct.LoadSupplier;
+procedure TfrmDialogProduct.LoadItems;
 var
   i: Integer;
   lBS: TModBarangSupplier;
+  lKonv: TModKonversi;
 begin
+  CDSSupp.EmptyDataSet;
+  CDSKonv.EmptyDataSet;
+
   for i := 0 to ModBarang.Suppliers.Count-1 do
   begin
     lBS := ModBarang.Suppliers[i];
@@ -773,7 +778,17 @@ begin
     CDSSupp.Post;
   end;
 
+  for i := 0 to ModBarang.Konversi.Count-1 do
+  begin
+    lKonv := ModBarang.Konversi[i];
+    CDSKonv.Append;
+    lKonv.UpdateToDataset(CDSKonv);
+    CDSKonv.Post;
+  end;
+
   CDSSupp.First;
+  CDSKonv.First;
+
   LoadSupplierRow;
 end;
 
@@ -781,15 +796,23 @@ procedure TfrmDialogProduct.pgcMainChange(Sender: TObject);
 begin
   inherited;
   If pgcMain.ActivePage = tsSupplier then
-    cxLookupSupplier.SetFocus;
+    cxLookupSupplier.SetFocus
+  else if pgcMain.ActivePage = tsKonversi then
+  begin
+    if CDSKonv.RecordCount = 0 then
+      btnAddKonversi.Click;
+  end;
 end;
 
-procedure TfrmDialogProduct.UpdateDataSupplier;
+procedure TfrmDialogProduct.UpdateDataItem;
 var
   i: Integer;
   lBS: TModBarangSupplier;
+  lKonv: TModKonversi;
 begin
   ModBarang.Suppliers.Clear;
+  ModBarang.Konversi.Clear;
+
   CDSSupp.First;
   while not CDSSupp.eof do
   begin
@@ -797,6 +820,15 @@ begin
     lBS.SetFromDataset(CDSSupp);
     ModBarang.Suppliers.Add(lBS);
     CDSSupp.Next;
+  end;
+
+  CDSKonv.First;
+  while not CDSKonv.eof do
+  begin
+    lKonv := TModKonversi.Create;
+    lKonv.SetFromDataset(CDSKonv);
+    ModBarang.Konversi.Add(lKonv);
+    CDSKonv.Next;
   end;
 end;
 

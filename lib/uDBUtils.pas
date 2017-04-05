@@ -42,8 +42,10 @@ type
         overload;
     class function ExecuteSQL(ASQLs: TStrings; DoCommit: Boolean = True): Boolean;
         overload;
-    class procedure GenerateSQL(AObject: TModApp; SS: TStrings); overload;
-    class function GenerateSQL(AObject: TModApp): TStrings; overload;
+    class procedure GenerateSQL(AObject: TModApp; SS: TStrings; FilterClasses:
+        Array Of String); overload;
+    class function GenerateSQL(AObject: TModApp; FilterClasses: Array Of String):
+        TStrings; overload;
     class procedure GenerateSQLDelete(AObject: TModApp; SS: TStrings); overload;
     class function GenerateSQLDelete(AObject: TModApp): TStrings; overload;
     class function GenerateSQLSelect(AObject : TModApp): string;
@@ -235,7 +237,8 @@ begin
   FreeAndNIl(Q);
 end;
 
-class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
+class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings;
+    FilterClasses: Array Of String);
 var
   a: TCustomAttribute;
   ctx : TRttiContext;
@@ -253,14 +256,39 @@ var
   sGenericItemClassName: string;
   value : TValue;
   SSItems: TStrings;
+
+  function ClassInFilter(aClassType: TModAppClass): Boolean;
+  var
+    n: Integer;
+  begin
+    if Length(FilterClasses) > 0 then
+    begin
+      for n := Low(FilterClasses) to High(FilterClasses) do
+      begin
+        Result := (UpperCase(aClassType.ClassName) = UpperCase(FilterClasses[n]))
+          or (UpperCase(aClassType.QualifiedClassName) = UpperCase(FilterClasses[n]));
+        If Result then exit;
+      end;
+    end else
+      Result := True;
+  end;
+
 begin
+  //04-05-17 : tambahan FilterClasses utk memfilter :
+  //1. simpan hanya header
+  //2. simpan item nya saja ? karena simpan item tetap butuh delete where header...
+  //contoh penggunaan :  model barang memiliki detail barang_harga_jual, hanya butuh menimpan harga jual saja
+
   DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
 
-  if (AObject.ID = '') or (AObject.ObjectState = 1) then
-    SS.Add(TDBUtils.GetSQLInsert(AObject))
-  else
-    SS.Add(TDBUtils.GetSQLUpdate(AObject));
+  If ClassInFilter(TModAppClass(AObject.ClassType)) then
+  begin
+    if (AObject.ID = '') or (AObject.ObjectState = 1) then
+      SS.Add(TDBUtils.GetSQLInsert(AObject))
+    else
+      SS.Add(TDBUtils.GetSQLUpdate(AObject));
+  end;
 
   for prop in rt.GetProperties do
   begin
@@ -274,9 +302,14 @@ begin
         lObjectList := prop.GetValue(AOBject).AsObject;
         sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
         sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+
+
         rtItem := ctx.FindType(sGenericItemClassName);
         //obj item class
         lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
+
+        //filter class
+        if not ClassInFilter(lAppClassItem) then continue;
 
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
@@ -309,7 +342,7 @@ begin
             end else
               lModItem.ObjectState := 1; //always insert
 
-            GenerateSQL(lModItem,SSItems);
+            GenerateSQL(lModItem,SSItems,[]);
           end;
 
           If Assigned(lModItem) then
@@ -343,10 +376,11 @@ begin
 
 end;
 
-class function TDBUtils.GenerateSQL(AObject: TModApp): TStrings;
+class function TDBUtils.GenerateSQL(AObject: TModApp; FilterClasses: Array Of
+    String): TStrings;
 begin
   Result := TStringList.Create;
-  Self.GenerateSQL(AObject, Result);
+  Self.GenerateSQL(AObject, Result, FilterClasses);
 end;
 
 class procedure TDBUtils.GenerateSQLDelete(AObject: TModApp; SS: TStrings);

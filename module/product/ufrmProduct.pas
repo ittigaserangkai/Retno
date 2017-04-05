@@ -257,7 +257,7 @@ var
   dtAkhir   : TDateTime;
 begin
 
-//  dtAwal  := StartOfAMonth(YearOf(cGetServerTime), MonthOf(cGetServerTime));
+  dtAwal  := StartOfTheMonth(Now());
   dtAkhir := EndOfTheMonth(dtAwal);
   sSQL := 'select SUM(RUPIAH), SUM(QTY) from SP_KARTOK(' + TAppUtils.Quot(cbpProductCode.Text)
 //                  + ',' + IntToStr(MasterNewUnit.ID) + ',' + TAppUtils.QuotD(dtAwal) + ','

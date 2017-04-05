@@ -7,13 +7,13 @@ uses
   cxExportPivotGridLink, cxGridDBBandedTableView, cxDBPivotGrid, cxCurrencyEdit,
   cxCustomPivotGrid, cxGridBandedTableView, cxDBExtLookupComboBox, cxCustomData,
   cxFilter, cxGridCustomTableView, cxDBTL, cxTLExportLink,cxCalendar, Dialogs,
-  SysUtils, cxGridDBDataDefinitions, System.Classes, DBClient, uAppUtils,
+  SysUtils, cxGridDBDataDefinitions, System.Classes, uAppUtils,
   uDBUtils, cxDropDownEdit, cxGridTableView, StrUtils, System.Contnrs,
   Vcl.Controls, Vcl.Forms, Windows, Messages, Variants, Graphics, ExtCtrls,
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
-  cxPC, Vcl.ComCtrls, Vcl.Mask;
+  cxPC, Vcl.ComCtrls, Vcl.Mask, Datasnap.DBClient;
 
 
 type
@@ -53,7 +53,9 @@ type
   TcxExtLookupPropHelper = class helper for TcxExtLookupComboBoxProperties
   public
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
-        HideFields: Array Of String; aOwnerForm: TComponent);
+        HideFields: Array Of String; aOwnerForm: TComponent); overload;
+    procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
+        aOwnerForm: TComponent); overload;
     procedure LoadFromSQL(aSQL, IDField, DisplayField: String; HideFields: Array Of
         String; aOwnerForm: TComponent);
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
@@ -462,6 +464,12 @@ begin
         aView.VisibleColumns[0].Width := TcxExtLookupComboBox(Self.GetOwner).Width
     end;
   end;
+end;
+
+procedure TcxExtLookupPropHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
+    DisplayField: String; aOwnerForm: TComponent);
+begin
+  Self.LoadFromCDS(aCDS, IDField, DisplayField,[IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupPropHelper.LoadFromSQL(aSQL, IDField, DisplayField: String;
