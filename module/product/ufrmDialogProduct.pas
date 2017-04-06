@@ -175,11 +175,44 @@ type
     cxLabel1: TcxLabel;
     clKonvBarcode: TcxGridDBColumn;
     Label3: TLabel;
-    cxExtLookupComboBox1: TcxExtLookupComboBox;
+    cxLookupTipeHarga: TcxExtLookupComboBox;
     Label4: TLabel;
-    cxExtLookupComboBox2: TcxExtLookupComboBox;
-    cxCurrencyEdit1: TcxCurrencyEdit;
+    cxLookupSatuanJual: TcxExtLookupComboBox;
+    crKonversi: TcxCurrencyEdit;
     Label5: TLabel;
+    pnlSellingPriceProp: TcxGroupBox;
+    crSellingPrice: TcxCurrencyEdit;
+    Label8: TLabel;
+    Label9: TLabel;
+    crDiscPercent: TcxCurrencyEdit;
+    crDiscRP: TcxCurrencyEdit;
+    Label11: TLabel;
+    crSellingPriceNet: TcxCurrencyEdit;
+    crSellingPriceCoret: TcxCurrencyEdit;
+    crMargin: TcxCurrencyEdit;
+    Label14: TLabel;
+    Label13: TLabel;
+    pnlSellingPriceDisc: TcxGroupBox;
+    ckLimitCrazyPrice: TcxCheckBox;
+    ckIsADS: TcxCheckBox;
+    ckIsMailer: TcxCheckBox;
+    Label12: TLabel;
+    crLimitQTYCrazy: TcxCurrencyEdit;
+    crLimitPriceCrazy: TcxCurrencyEdit;
+    crLimitPriceADS: TcxCurrencyEdit;
+    crLimitQTYADS: TcxCurrencyEdit;
+    Label17: TLabel;
+    Label18: TLabel;
+    crMarkUP: TcxCurrencyEdit;
+    crMaxQTYDisc: TcxCurrencyEdit;
+    Label19: TLabel;
+    crLastPurchasePrice: TcxCurrencyEdit;
+    Label20: TLabel;
+    Label22: TLabel;
+    crAveragePrice: TcxCurrencyEdit;
+    Label23: TLabel;
+    cxTabSheet1: TcxTabSheet;
+    cxTabSheet2: TcxTabSheet;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -207,9 +240,13 @@ type
     procedure crPurchaseNetPropertiesEditValueChanged(Sender: TObject);
     procedure crBRSMarginPropertiesEditValueChanged(Sender: TObject);
     procedure crBRSSellingPricePropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookupSatuanJualPropertiesEditValueChanged(Sender: TObject);
   private
     FCDSSupp: TClientDataset;
     FCDSKonv: TClientDataset;
+    FCDSAvailableKonv: TClientDataSet;
+    FCDSHargaJual: TClientDataset;
+    FCDSSatuan: TClientDataset;
     FIsUpdateSupplier: Boolean;
     FModBarang: TModBarang;
     procedure AddSupplier;
@@ -221,15 +258,23 @@ type
     function GetCDSKonv: TClientDataset;
     function GetModBarang: TModBarang;
     procedure CalculateMargin(Sender: TObject);
+    function GetCDSAvailableKonv: TClientDataSet;
+    function GetCDSHargaJual: TClientDataset;
+    function GetCDSSatuan: TClientDataset;
     procedure InitGrid;
     procedure InitLookup;
     procedure LoadItems;
     procedure SaveData;
+    procedure UpdateAvailableSat;
     procedure UpdateData;
     procedure UpdateDataItem;
     function ValidateData: Boolean;
+    property CDSAvailableKonv: TClientDataSet read GetCDSAvailableKonv write
+        FCDSAvailableKonv;
     property CDSSupp: TClientDataset read GetCDSSupp write FCDSSupp;
     property CDSKonv: TClientDataset read GetCDSKonv write FCDSKonv;
+    property CDSHargaJual: TClientDataset read GetCDSHargaJual write FCDSHargaJual;
+    property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
     property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
         FIsUpdateSupplier;
     property ModBarang: TModBarang read GetModBarang write FModBarang;
@@ -486,6 +531,13 @@ begin
   Self.OnEditValueChanged(cxLookupMerk);
 end;
 
+procedure TfrmDialogProduct.cxLookupSatuanJualPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  crKonversi.Value := CDSAvailableKonv.FieldByName('Konversi').AsFloat;
+end;
+
 procedure TfrmDialogProduct.cxLookupSubGroupPropertiesEditValueChanged(
   Sender: TObject);
 begin
@@ -620,6 +672,34 @@ begin
   end;
 end;
 
+function TfrmDialogProduct.GetCDSAvailableKonv: TClientDataSet;
+begin
+  If not Assigned(FCDSAvailableKonv) then
+  begin
+    FCDSAvailableKonv := TClientDataSet.Create(Self);
+    FCDSAvailableKonv.AddField('ID', ftString);
+    FCDSAvailableKonv.AddField('Satuan', ftString);
+    FCDSAvailableKonv.AddField('Konversi', ftFloat);
+    FCDSAvailableKonv.CreateDataSet;
+  end;
+  Result := FCDSAvailableKonv;
+end;
+
+function TfrmDialogProduct.GetCDSHargaJual: TClientDataset;
+begin
+  if not Assigned(FCDSHargaJual) then
+    FCDSHargaJual := TDBUtils.CreateObjectDataSet(TModKonversi, Self);
+  Result := FCDSHargaJual;
+end;
+
+function TfrmDialogProduct.GetCDSSatuan: TClientDataset;
+begin
+  if not Assigned(FCDSSatuan) then
+    FCDSSatuan := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.Satuan_GetDSLookup, Self);
+  Result := FCDSSatuan;
+end;
+
 procedure TfrmDialogProduct.InitGrid;
 begin
   cxGrdDBSupplier.LoadFromCDS(CDSSupp, False, False);
@@ -632,6 +712,7 @@ var
 begin
   With DMClient.DSProviderClient do
   begin
+    //tab Informasi
     cxLookupTipeBarang.LoadFromDS(RefTipeBarang_GetDSLookup,
       'REF$TIPE_BARANG_ID', 'TPBRG_NAME',  Self );
 
@@ -660,18 +741,24 @@ begin
     cxLookupKategori.SetMultiPurposeLookup;
     cxLookupMerk.SetMultiPurposeLookup;
 
-    lCDS := TDBUtils.DSToCDS(Satuan_GetDSLookup, Self);
-    cxLookupSatuan.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupSatPurchase.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupBRSUom.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    //satuan all tab
+    cxLookupSatuan.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupSatPurchase.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupBRSUom.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
     TcxExtLookupComboBoxProperties(clKonvSatuan.Properties).LoadFromCDS(
-      lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+      CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
 
+    //supplier all tab
     lCDS := TDBUtils.DSToCDS(Suplier_GetDSLookup, Self);
     cxLookupSupplier.LoadFromCDS(lCDS,'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
     TcxExtLookupComboBoxProperties(clSuppSupplier.Properties).LoadFromCDS(lCDS,
       'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
     cxLookupSupplier.SetMultiPurposeLookup;
+
+    //tab Harga Jual
+    cxLookupTipeHarga.LoadFromDS(TipeHarga_GetDSLookup,
+      'REF$TIPE_HARGA_ID', 'TPHRG_NAME',  Self );
+    cxLookupSatuanJual.LoadFromCDS(CDSAvailableKonv, 'ID', 'Satuan', Self);
 
   end;
   //inisialisasi
@@ -803,7 +890,43 @@ begin
   begin
     if CDSKonv.RecordCount = 0 then
       btnAddKonversi.Click;
+  end else If pgcMain.ActivePage = tsSellingPrice then
+  begin
+    UpdateAvailableSat;
   end;
+end;
+
+procedure TfrmDialogProduct.UpdateAvailableSat;
+var
+  lCDS: TClientDataSet;
+  lModKonv: TModKonversi;
+begin
+  CDSAvailableKonv.EmptyDataSet;
+  lCDS := TClientDataSet.Create(Self);
+  lModKonv := TModKonversi.Create; //mempermudah akses saja
+  Try
+    lCDS.CloneCursor(CDSKonv, True);
+    lCDS.First;
+    while not lCDS.Eof do
+    begin
+      lModKonv.SetFromDataset(lCDS);
+      CDSAvailableKonv.Append;
+      CDSAvailableKonv.FieldByName('ID').AsString := lModKonv.ID;
+      CDSAvailableKonv.FieldByName('Konversi').AsFloat := lModKonv.KONVSAT_SCALE;
+
+      if CDSSatuan.Locate('Ref$Satuan_ID', lModKonv.Satuan.ID, [loCaseInsensitive]) then
+        CDSAvailableKonv.FieldByName('Satuan').AsString := CDSSatuan.FieldByName('SAT_CODE').AsString;
+
+      CDSAvailableKonv.Post;
+
+      lCDS.Next;
+    end;
+
+    cxLookupSatuanJual.Properties.View.ApplyBestFit();
+  Finally
+    lModKonv.Free;
+    lCDS.Free;
+  End;
 end;
 
 procedure TfrmDialogProduct.UpdateDataItem;
