@@ -246,7 +246,7 @@ implementation
 
 uses
   uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk,
-  uModOutlet, uModRefPajak, uModSuplier, uDBUtils, ufrmCXLookup;
+  uModOutlet, uModRefPajak, uModSuplier, uDBUtils, ufrmCXLookup, uModApp;
 
 {$R *.dfm}
 
@@ -683,7 +683,9 @@ begin
   UpdateData;
   Try
     ModBarang.ID := DMClient.CrudClient.SaveToDBID(ModBarang);
-//    DMClient.CrudClient.SaveToDBFilter(ModBarang,TModKonversi.ClassName);
+//    ModBarang.FilterKind := fckInclude;
+//    ModBarang.AddFilterClass(TModBarang);
+//    DMClient.CrudClient.SaveToDBLog(ModBarang);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     Self.ModalResult := mrOk;
   except

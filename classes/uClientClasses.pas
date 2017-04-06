@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/05/17 4:25:07 PM
+// 04/06/17 11:04:34 AM
 //
 
 unit uClientClasses;
@@ -44,7 +44,7 @@ type
     FOpenQueryCommand_Cache: TDSRestCommand;
     FRetrieveCommand: TDSRestCommand;
     FRetrieveCommand_Cache: TDSRestCommand;
-    FSaveToDBFilterCommand: TDSRestCommand;
+    FSaveToDBLogCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
@@ -58,7 +58,7 @@ type
     function OpenQuery_Cache(S: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Retrieve(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
     function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
-    function SaveToDBFilter(AObject: TModApp; FilterClass: string; const ARequestFilter: string = ''): Boolean;
+    function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
@@ -172,6 +172,8 @@ type
     FDocument_GetDSOverviewCommand_Cache: TDSRestCommand;
     FAgama_GetDSOverviewCommand: TDSRestCommand;
     FAgama_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FTipeHarga_GetDSLookupCommand: TDSRestCommand;
+    FTipeHarga_GetDSLookupCommand_Cache: TDSRestCommand;
     FRefWilayah_GetDSLookupCommand: TDSRestCommand;
     FRefWilayah_GetDSLookupCommand_Cache: TDSRestCommand;
     FSuplier_GetDSLookupCommand: TDSRestCommand;
@@ -294,6 +296,8 @@ type
     function Document_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Agama_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Agama_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function TipeHarga_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function TipeHarga_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RefWilayah_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function RefWilayah_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Suplier_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -376,10 +380,9 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrud_SaveToDBFilter: array [0..2] of TDSRestParameterMetaData =
+  TCrud_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
-    (Name: 'FilterClass'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -931,6 +934,16 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_TipeHarga_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_TipeHarga_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_RefWilayah_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -1199,31 +1212,30 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-function TCrudClient.SaveToDBFilter(AObject: TModApp; FilterClass: string; const ARequestFilter: string): Boolean;
+function TCrudClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
-  if FSaveToDBFilterCommand = nil then
+  if FSaveToDBLogCommand = nil then
   begin
-    FSaveToDBFilterCommand := FConnection.CreateCommand;
-    FSaveToDBFilterCommand.RequestType := 'POST';
-    FSaveToDBFilterCommand.Text := 'TCrud."SaveToDBFilter"';
-    FSaveToDBFilterCommand.Prepare(TCrud_SaveToDBFilter);
+    FSaveToDBLogCommand := FConnection.CreateCommand;
+    FSaveToDBLogCommand.RequestType := 'POST';
+    FSaveToDBLogCommand.Text := 'TCrud."SaveToDBLog"';
+    FSaveToDBLogCommand.Prepare(TCrud_SaveToDBLog);
   end;
   if not Assigned(AObject) then
-    FSaveToDBFilterCommand.Parameters[0].Value.SetNull
+    FSaveToDBLogCommand.Parameters[0].Value.SetNull
   else
   begin
-    FMarshal := TDSRestCommand(FSaveToDBFilterCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    FMarshal := TDSRestCommand(FSaveToDBLogCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
     try
-      FSaveToDBFilterCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      FSaveToDBLogCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
       if FInstanceOwner then
         AObject.Free
     finally
       FreeAndNil(FMarshal)
     end
     end;
-  FSaveToDBFilterCommand.Parameters[1].Value.SetWideString(FilterClass);
-  FSaveToDBFilterCommand.Execute(ARequestFilter);
-  Result := FSaveToDBFilterCommand.Parameters[2].Value.GetBoolean;
+  FSaveToDBLogCommand.Execute(ARequestFilter);
+  Result := FSaveToDBLogCommand.Parameters[1].Value.GetBoolean;
 end;
 
 function TCrudClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
@@ -1334,7 +1346,7 @@ begin
   FOpenQueryCommand_Cache.DisposeOf;
   FRetrieveCommand.DisposeOf;
   FRetrieveCommand_Cache.DisposeOf;
-  FSaveToDBFilterCommand.DisposeOf;
+  FSaveToDBLogCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
@@ -2878,6 +2890,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FAgama_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.TipeHarga_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FTipeHarga_GetDSLookupCommand = nil then
+  begin
+    FTipeHarga_GetDSLookupCommand := FConnection.CreateCommand;
+    FTipeHarga_GetDSLookupCommand.RequestType := 'GET';
+    FTipeHarga_GetDSLookupCommand.Text := 'TDSProvider.TipeHarga_GetDSLookup';
+    FTipeHarga_GetDSLookupCommand.Prepare(TDSProvider_TipeHarga_GetDSLookup);
+  end;
+  FTipeHarga_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FTipeHarga_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FTipeHarga_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.TipeHarga_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FTipeHarga_GetDSLookupCommand_Cache = nil then
+  begin
+    FTipeHarga_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FTipeHarga_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FTipeHarga_GetDSLookupCommand_Cache.Text := 'TDSProvider.TipeHarga_GetDSLookup';
+    FTipeHarga_GetDSLookupCommand_Cache.Prepare(TDSProvider_TipeHarga_GetDSLookup_Cache);
+  end;
+  FTipeHarga_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FTipeHarga_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.RefWilayah_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FRefWilayah_GetDSLookupCommand = nil then
@@ -3200,6 +3241,8 @@ begin
   FDocument_GetDSOverviewCommand_Cache.DisposeOf;
   FAgama_GetDSOverviewCommand.DisposeOf;
   FAgama_GetDSOverviewCommand_Cache.DisposeOf;
+  FTipeHarga_GetDSLookupCommand.DisposeOf;
+  FTipeHarga_GetDSLookupCommand_Cache.DisposeOf;
   FRefWilayah_GetDSLookupCommand.DisposeOf;
   FRefWilayah_GetDSLookupCommand_Cache.DisposeOf;
   FSuplier_GetDSLookupCommand.DisposeOf;

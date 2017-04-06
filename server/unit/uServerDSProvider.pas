@@ -63,6 +63,7 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function TipeHarga_GetDSLookup: TDataSet;
     function RefWilayah_GetDSLookup: TDataSet;
     function Suplier_GetDSLookup: TDataSet;
     function RefTipeMember_GetDSLookup: TDataSet;
@@ -578,6 +579,14 @@ begin
   S := 'select AGAMA_NAME, REF$AGAMA_ID'
   +' from'
   +' REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeHarga_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_HARGA_ID, TPHRG_NAME ,TPHRG_MARKUP, TPHRG_IS_CALC from Ref$Tipe_harga';
   Result := TDBUtils.OpenQuery(S);
 end;
 
