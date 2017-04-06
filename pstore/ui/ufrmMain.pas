@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -301,7 +301,7 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
   ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
   ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader,
-  ufrmSO;
+  ufrmCXLookup;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -367,7 +367,7 @@ end;
 
 procedure TfrmMain.actCreateSOExecute(Sender: TObject);
 begin
-  frmSO := TfrmSO.Create(Self);
+    frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
 end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);

@@ -30,7 +30,6 @@ type
     procedure FormDeactivate(Sender: TObject);
   private
     FCDSBrowse: tClientDataset;
-    function GetData(): TDataSet;
     property CDSBrowse: tClientDataset read FCDSBrowse write FCDSBrowse;
 
   protected
@@ -100,14 +99,6 @@ procedure TfrmTipePerusahaan.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   RefreshData;
-end;
-
-function TfrmTipePerusahaan.GetData(): TDataSet;
-var
-  arrParam: TArr;
-begin
-  arrParam := nil;
-//  Result := TipePerusahaan.GetDataTipePerusahaan(arrParam);
 end;
 
 procedure TfrmTipePerusahaan.FormClose(Sender: TObject;

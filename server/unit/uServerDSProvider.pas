@@ -63,7 +63,9 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function RefWilayah_GetDSLookup: TDataSet;
     function Suplier_GetDSLookup: TDataSet;
+    function RefTipeMember_GetDSLookup: TDataSet;
     function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
     function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
@@ -585,6 +587,23 @@ var
 begin
   S := 'SELECT SUPLIER_ID, SUP_NAME, SUP_CODE, SUP_ADDRESS FROM SUPLIER'
       +' WHERE SUP_IS_ACTIVE=1';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+
+function TDSProvider.RefWilayah_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select * FROM REF$WILAYAH';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeMember_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT REF$TIPE_MEMBER_ID, TPMEMBER_NAME from REF$TIPE_MEMBER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

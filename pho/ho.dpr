@@ -195,7 +195,7 @@ uses
   ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
-  uModPO in '..\model\uModPO.pas';
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
 
 {$R *.res}
 

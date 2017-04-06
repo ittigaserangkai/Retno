@@ -7,13 +7,13 @@ uses
   cxExportPivotGridLink, cxGridDBBandedTableView, cxDBPivotGrid, cxCurrencyEdit,
   cxCustomPivotGrid, cxGridBandedTableView, cxDBExtLookupComboBox, cxCustomData,
   cxFilter, cxGridCustomTableView, cxDBTL, cxTLExportLink,cxCalendar, Dialogs,
-  SysUtils, cxGridDBDataDefinitions, System.Classes, DBClient, uAppUtils,
+  SysUtils, cxGridDBDataDefinitions, System.Classes, uAppUtils,
   uDBUtils, cxDropDownEdit, cxGridTableView, StrUtils, System.Contnrs,
   Vcl.Controls, Vcl.Forms, Windows, Messages, Variants, Graphics, ExtCtrls,
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
-  cxPC, Vcl.ComCtrls, Vcl.Mask;
+  cxPC, Vcl.ComCtrls, Vcl.Mask, Datasnap.DBClient;
 
 
 type
@@ -53,7 +53,9 @@ type
   TcxExtLookupPropHelper = class helper for TcxExtLookupComboBoxProperties
   public
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
-        HideFields: Array Of String; aOwnerForm: TComponent);
+        HideFields: Array Of String; aOwnerForm: TComponent); overload;
+    procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
+        aOwnerForm: TComponent); overload;
     procedure LoadFromSQL(aSQL, IDField, DisplayField: String; HideFields: Array Of
         String; aOwnerForm: TComponent);
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
@@ -68,7 +70,9 @@ type
     function CDS: TClientDataSet;
     function DS: TDataset;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
-        HideFields: Array Of String; aOwnerForm: TComponent);
+        HideFields: Array Of String; aOwnerForm: TComponent); overload;
+    procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
+        aOwnerForm: TComponent); overload;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
@@ -447,6 +451,10 @@ begin
   aView.LoadFromCDS(aCDS, True, False);
   aView.SetVisibleColumns(HideFields,False);
   aView.SetExtLookupCombo(Self, IDField, DisplayField, False);
+  aView.FindPanel.DisplayMode := fpdmManual;
+  aView.FindPanel.ClearFindFilterTextOnClose := True;
+//  aView.FindPanel.FocusViewOnApplyFilter := True;
+
 
   If Self.GetOwner is TcxExtLookupComboBox then
   begin
@@ -456,6 +464,12 @@ begin
         aView.VisibleColumns[0].Width := TcxExtLookupComboBox(Self.GetOwner).Width
     end;
   end;
+end;
+
+procedure TcxExtLookupPropHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
+    DisplayField: String; aOwnerForm: TComponent);
+begin
+  Self.LoadFromCDS(aCDS, IDField, DisplayField,[IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupPropHelper.LoadFromSQL(aSQL, IDField, DisplayField: String;
@@ -493,6 +507,7 @@ end;
 
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
 begin
+  //new feature dx 15 : findpanel
   AutoSearchOnPopup  := True;
   FocusPopup         := True;
   DropDownAutoSize   := True;
@@ -508,12 +523,13 @@ begin
     Self.View.DataController.Filter.Options := [fcoCaseInsensitive];
 
     TcxGridDBTableView(Self.View).FilterRow.InfoText
-      := 'Click Here & Press F2 To Define Filter (use "%" for parsial word)';
+      := 'Ketik di sini (per kolom) atau CTRL+F untuk mencari di semua kolom';
     TcxGridDBTableView(Self.View).FilterRow.Visible       := True;
     TcxGridDBTableView(Self.View).FilterRow.ApplyChanges  := fracImmediately;
   end;
   If not Assigned(Self.OnInitPopup) then
     Self.OnInitPopup := TcxExtLookup.OnInitPopupCustom;
+
 end;
 
 procedure TcxDBTreeHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
@@ -1237,6 +1253,12 @@ procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
     DisplayField: String; HideFields: Array Of String; aOwnerForm: TComponent);
 begin
   Self.Properties.LoadFromCDS(aCDS, IDField, DisplayField, HideFields, aOwnerForm);
+end;
+
+procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,
+    DisplayField: String; aOwnerForm: TComponent);
+begin
+  Self.Properties.LoadFromCDS(aCDS, IDField, DisplayField, [IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromDS(aDataSet: TDataSet; IDField,

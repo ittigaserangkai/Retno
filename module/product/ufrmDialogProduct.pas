@@ -13,7 +13,7 @@ uses
   cxPC, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   Data.DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxSplitter,
-  cxHyperLinkEdit, Vcl.Menus, cxButtons, Datasnap.DBClient;
+  cxHyperLinkEdit, Vcl.Menus, cxButtons, Datasnap.DBClient, cxLabel;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -134,7 +134,7 @@ type
     lbDisc3: TLabel;
     crBRSDisc3: TcxCurrencyEdit;
     lbPurchaseNet: TLabel;
-    crPurchaseNet: TcxCurrencyEdit;
+    crBRSPurchaseNet: TcxCurrencyEdit;
     lbMargin: TLabel;
     crBRSMargin: TcxCurrencyEdit;
     Label21: TLabel;
@@ -143,7 +143,6 @@ type
     clSuppDisc1: TcxGridDBColumn;
     clSuppDisc2: TcxGridDBColumn;
     clSuppDisc3: TcxGridDBColumn;
-    clSuppPriceNet: TcxGridDBColumn;
     clSuppMargin: TcxGridDBColumn;
     clSuppActive: TcxGridDBColumn;
     clSuppPrimer: TcxGridDBColumn;
@@ -152,6 +151,35 @@ type
     btnUpdateSupp: TcxButton;
     lbSuppShortCut1: TLabel;
     Label1: TLabel;
+    gbSellingPrice: TcxGroupBox;
+    gbSellingPriceGrid: TcxGroupBox;
+    cxGroupBox5: TcxGroupBox;
+    Label29: TLabel;
+    btnDeletePrice: TcxButton;
+    btnAddPrice: TcxButton;
+    btnUpdatePrice: TcxButton;
+    cxGridSellingPrice: TcxGrid;
+    cxGrdDBSellingPrice: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    tsKonversi: TcxTabSheet;
+    cxGroupBox1: TcxGroupBox;
+    cxGroupBox3: TcxGroupBox;
+    Label2: TLabel;
+    btnDelKonv: TcxButton;
+    btnAddKonversi: TcxButton;
+    cxGridKonversi: TcxGrid;
+    cxGrdDBKonversi: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    clKonvSatuan: TcxGridDBColumn;
+    clKonvValue: TcxGridDBColumn;
+    cxLabel1: TcxLabel;
+    clKonvBarcode: TcxGridDBColumn;
+    Label3: TLabel;
+    cxExtLookupComboBox1: TcxExtLookupComboBox;
+    Label4: TLabel;
+    cxExtLookupComboBox2: TcxExtLookupComboBox;
+    cxCurrencyEdit1: TcxCurrencyEdit;
+    Label5: TLabel;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -170,8 +198,19 @@ type
         ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
         TShiftState; var AHandled: Boolean);
     procedure pgcMainChange(Sender: TObject);
+    procedure btnAddKonversiClick(Sender: TObject);
+    procedure btnDelKonvClick(Sender: TObject);
+    procedure crBRSPurchasePricePropertiesEditValueChanged(Sender: TObject);
+    procedure crBRSDisc1PropertiesEditValueChanged(Sender: TObject);
+    procedure crBRSDisc2PropertiesEditValueChanged(Sender: TObject);
+    procedure crBRSDisc3PropertiesEditValueChanged(Sender: TObject);
+    procedure crPurchaseNetPropertiesEditValueChanged(Sender: TObject);
+    procedure crBRSMarginPropertiesEditValueChanged(Sender: TObject);
+    procedure crBRSSellingPricePropertiesEditValueChanged(Sender: TObject);
   private
     FCDSSupp: TClientDataset;
+    FCDSKonv: TClientDataset;
+    FIsUpdateSupplier: Boolean;
     FModBarang: TModBarang;
     procedure AddSupplier;
     procedure LoadSupplierRow;
@@ -179,15 +218,20 @@ type
     procedure ClearSupplier;
     procedure FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
     function GetCDSSupp: TClientDataset;
+    function GetCDSKonv: TClientDataset;
     function GetModBarang: TModBarang;
+    procedure CalculateMargin(Sender: TObject);
     procedure InitGrid;
     procedure InitLookup;
-    procedure LoadSupplier;
+    procedure LoadItems;
     procedure SaveData;
     procedure UpdateData;
-    procedure UpdateDataSupplier;
+    procedure UpdateDataItem;
     function ValidateData: Boolean;
     property CDSSupp: TClientDataset read GetCDSSupp write FCDSSupp;
+    property CDSKonv: TClientDataset read GetCDSKonv write FCDSKonv;
+    property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
+        FIsUpdateSupplier;
     property ModBarang: TModBarang read GetModBarang write FModBarang;
   public
     procedure LoadData(AID: String);
@@ -202,7 +246,7 @@ implementation
 
 uses
   uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk,
-  uModOutlet, uModRefPajak, uModSuplier, uDBUtils;
+  uModOutlet, uModRefPajak, uModSuplier, uDBUtils, ufrmCXLookup;
 
 {$R *.dfm}
 
@@ -230,30 +274,30 @@ procedure TfrmDialogProduct.AddSupplier;
 begin
   if not ValidateEmptyCtrl([1], True, gbSupplier) then exit;
 
-  if CDSSupp.Locate('SupplierID', cxLookupSupplier.EditValue, [loCaseInsensitive]) then
+  if IsUpdateSupplier then
     CDSSupp.Edit
   else
     CDSSupp.Append;
-  CDSSupp.FieldByName('SupplierID').AsString := cxLookupSupplier.EditValue;
-  CDSSupp.FieldByName('SupplierName').AsString := cxLookupSupplier.Text;
-  CDSSupp.FieldByName('TOP').AsInteger := spTOP.Value;
-  CDSSupp.FieldByName('ExpiredTime').AsInteger := spExpiredTime.Value;
-  CDSSupp.FieldByName('DeliveryTime').AsInteger := spDelivery.Value;
-  CDSSupp.FieldByName('UOM').AsString := cxLookupBRSUom.EditValue;
-  CDSSupp.FieldByName('StockInOrder').AsFloat := crStockInOrder.Value;
-  CDSSupp.FieldByName('IsBKP').AsInteger := TAppUtils.BoolToInt(ckBKP.Checked);
-  CDSSupp.FieldByName('IsPrimer').AsInteger := TAppUtils.BoolToInt(ckPrimer.Checked);
-  CDSSupp.FieldByName('EnableCN').AsInteger := TAppUtils.BoolToInt(ckEnableCN.Checked);
-  CDSSupp.FieldByName('Active').AsInteger := TAppUtils.BoolToInt(ckActive.Checked);
-  CDSSupp.FieldByName('SellingPrice').AsFloat := crBRSSellingPrice.Value;
-  CDSSupp.FieldByName('PurchasePrice').AsFloat := crBRSPurchasePrice.Value;
-  CDSSupp.FieldByName('Disc1').AsFloat := crBRSDisc1.Value;
-  CDSSupp.FieldByName('Disc2').AsFloat := crBRSDisc2.Value;
-  CDSSupp.FieldByName('Disc3').AsFloat := crBRSDisc3.Value;
-  CDSSupp.FieldByName('PurchaseNet').AsFloat := crPurchaseNet.Value;
-  CDSSupp.FieldByName('Margin').AsFloat := crBRSMargin.Value;
-  CDSSupp.FieldByName('MinOrder').AsFloat := crMinOrder.Value;
-  CDSSupp.FieldByName('MaxOrder').AsFloat := crMaxOrder.Value;
+
+  CDSSupp.FieldByName('Supplier').AsString := cxLookupSupplier.EditValue;
+  CDSSupp.FieldByName('BRGSUP_EXPIRE_TIME').AsInteger := spExpiredTime.Value;
+  CDSSupp.FieldByName('BRGSUP_DELIVERY_TIME').AsInteger := spDelivery.Value;
+  CDSSupp.FieldByName('SATUAN_PURCHASE').AsString := cxLookupBRSUom.EditValue;
+  CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat := crStockInOrder.Value;
+  CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger := TAppUtils.BoolToInt(ckBKP.Checked);
+  CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger := TAppUtils.BoolToInt(ckPrimer.Checked);
+  CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(ckEnableCN.Checked);
+  CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger := TAppUtils.BoolToInt(ckActive.Checked);
+//  CDSSupp.FieldByName('SellingPrice').AsFloat := crBRSSellingPrice.Value;
+  CDSSupp.FieldByName('BRGSUP_BUY_PRICE').AsFloat := crBRSPurchasePrice.Value;
+  CDSSupp.FieldByName('BRGSUP_DISC1').AsFloat := crBRSDisc1.Value;
+  CDSSupp.FieldByName('BRGSUP_DISC2').AsFloat := crBRSDisc2.Value;
+  CDSSupp.FieldByName('BRGSUP_DISC3').AsFloat := crBRSDisc3.Value;
+//  CDSSupp.FieldByName('PurchaseNet').AsFloat := crPurchaseNet.Value;
+  CDSSupp.FieldByName('BRGSUP_MARK_UP').AsFloat := crBRSMargin.Value;
+  CDSSupp.FieldByName('BRGSUP_MIN_ORDER').AsFloat := crMinOrder.Value;
+  CDSSupp.FieldByName('BRGSUP_MAX_ORDER').AsFloat := crMaxOrder.Value;
+
   CDSSupp.Post;
 
   cxGrdDBSupplier.ApplyBestFit;
@@ -264,25 +308,37 @@ procedure TfrmDialogProduct.LoadSupplierRow;
 begin
   if CDSSupp.Eof then exit;
 
-  cxLookupSupplier.EditValue  := CDSSupp.FieldByName('SupplierID').AsString;
-  spTOP.Value                 := CDSSupp.FieldByName('TOP').AsInteger;
-  spExpiredTime.Value         := CDSSupp.FieldByName('ExpiredTime').AsInteger;
-  spDelivery.Value            := CDSSupp.FieldByName('DeliveryTime').AsInteger;
-  cxLookupBRSUom.EditValue    := CDSSupp.FieldByName('UOM').AsString;
-  crStockInOrder.Value        := CDSSupp.FieldByName('StockInOrder').AsFloat;
-  ckBKP.Checked               := CDSSupp.FieldByName('IsBKP').AsInteger = 1;
-  ckPrimer.Checked            := CDSSupp.FieldByName('IsPrimer').AsInteger = 1;
-  ckEnableCN.Checked          := CDSSupp.FieldByName('EnableCN').AsInteger = 1;
-  ckActive.Checked            := CDSSupp.FieldByName('Active').AsInteger = 1;
-  crBRSSellingPrice.Value     := CDSSupp.FieldByName('SellingPrice').AsFloat;
-  crBRSPurchasePrice.Value    := CDSSupp.FieldByName('PurchasePrice').AsFloat;
-  crBRSDisc1.Value            := CDSSupp.FieldByName('Disc1').AsFloat;
-  crBRSDisc2.Value            := CDSSupp.FieldByName('Disc2').AsFloat;
-  crBRSDisc3.Value            := CDSSupp.FieldByName('Disc3').AsFloat;
-  crPurchaseNet.Value         := CDSSupp.FieldByName('PurchaseNet').AsFloat;
-  crBRSMargin.Value           := CDSSupp.FieldByName('Margin').AsFloat;
-  crMinOrder.Value            := CDSSupp.FieldByName('MinOrder').AsFloat;
-  crMaxOrder.Value            := CDSSupp.FieldByName('MaxOrder').AsFloat;
+  cxLookupSupplier.EditValue  := CDSSupp.FieldByName('Supplier').AsString;
+  spExpiredTime.Value         := CDSSupp.FieldByName('BRGSUP_EXPIRE_TIME').AsInteger;
+  spDelivery.Value            := CDSSupp.FieldByName('BRGSUP_DELIVERY_TIME').AsInteger;
+  cxLookupBRSUom.EditValue    := CDSSupp.FieldByName('SATUAN_PURCHASE').AsString;
+  crStockInOrder.Value        := CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat;
+  ckBKP.Checked               := CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger = 1;
+  ckPrimer.Checked            := CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger = 1;
+  ckEnableCN.Checked          := CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger = 1;
+  ckActive.Checked            := CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger = 1;
+//  crBRSSellingPrice.Value     := CDSSupp.FieldByName('SellingPrice').AsFloat;
+  crBRSPurchasePrice.Value    := CDSSupp.FieldByName('BRGSUP_BUY_PRICE').AsFloat;
+  crBRSDisc1.Value            := CDSSupp.FieldByName('BRGSUP_DISC1').AsFloat;
+  crBRSDisc2.Value            := CDSSupp.FieldByName('BRGSUP_DISC2').AsFloat;
+  crBRSDisc3.Value            := CDSSupp.FieldByName('BRGSUP_DISC3').AsFloat;
+//  crPurchaseNet.Value         := CDSSupp.FieldByName('PurchaseNet').AsFloat;
+  crBRSMargin.Value           := CDSSupp.FieldByName('BRGSUP_MARK_UP').AsFloat;
+  crMinOrder.Value            := CDSSupp.FieldByName('BRGSUP_MIN_ORDER').AsFloat;
+  crMaxOrder.Value            := CDSSupp.FieldByName('BRGSUP_MAX_ORDER').AsFloat;
+
+  IsUpdateSupplier := True;
+end;
+
+procedure TfrmDialogProduct.btnAddKonversiClick(Sender: TObject);
+begin
+  inherited;
+  cxGridKonversi.SetFocus;
+  cxGrdDBKonversi.Focused := True;
+  cxGrdDBKonversi.DataController.Append;
+  cxGrdDBKonversi.DataController.FocusedRecordIndex :=
+    cxGrdDBKonversi.DataController.RecordCount-1;
+  cxGrdDBKonversi.GetColumnByFieldName('Satuan').Focused := True;
 
 end;
 
@@ -290,8 +346,15 @@ procedure TfrmDialogProduct.btnAddSuppClick(Sender: TObject);
 begin
   inherited;
   ClearSupplier;
+  IsUpdateSupplier := False;
   Application.ProcessMessages;
   cxLookupSupplier.SetFocus;
+end;
+
+procedure TfrmDialogProduct.btnDelKonvClick(Sender: TObject);
+begin
+  inherited;
+  if not CDSKonv.Eof then CDSKonv.Delete;
 end;
 
 procedure TfrmDialogProduct.btnDelSuppClick(Sender: TObject);
@@ -342,6 +405,55 @@ begin
   ckActive.Checked := True;
   ckBKP.Checked := True;
   ckEnableCN.Checked := True;
+end;
+
+procedure TfrmDialogProduct.crBRSDisc1PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
+end;
+
+procedure TfrmDialogProduct.crBRSDisc2PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
+end;
+
+procedure TfrmDialogProduct.crBRSDisc3PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
+end;
+
+procedure TfrmDialogProduct.crBRSMarginPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
+end;
+
+procedure TfrmDialogProduct.crBRSPurchasePricePropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
+end;
+
+procedure TfrmDialogProduct.crBRSSellingPricePropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
+end;
+
+procedure TfrmDialogProduct.crPurchaseNetPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculateMargin(Sender);
 end;
 
 procedure TfrmDialogProduct.cxGrdDBSupplierCellClick(Sender:
@@ -428,8 +540,9 @@ begin
   inherited;
   case Key of
     VK_F1 : pgcMain.ActivePage := tsInfo;
-    VK_F2 : pgcMain.ActivePage := tsSupplier;
-    VK_F3 : pgcMain.ActivePage := tsSellingPrice;
+    VK_F2 : pgcMain.ActivePage := tsKonversi;
+    VK_F3 : pgcMain.ActivePage := tsSupplier;
+    VK_F4 : pgcMain.ActivePage := tsSellingPrice;
   end;
 end;
 
@@ -443,31 +556,39 @@ function TfrmDialogProduct.GetCDSSupp: TClientDataset;
 begin
   if not Assigned(FCDSSupp) then
   begin
-    FCDSSupp := TClientDataSet.Create(Self);
-    FCDSSupp.AddField('ID', ftString);
-    FCDSSupp.AddField('SupplierID', ftString);
-    FCDSSupp.AddField('SupplierName', ftString);
-    FCDSSupp.AddField('TOP', ftInteger);
-    FCDSSupp.AddField('ExpiredTime', ftInteger);
-    FCDSSupp.AddField('DeliveryTime', ftInteger);
-    FCDSSupp.AddField('UOM', ftString);
-    FCDSSupp.AddField('StockInOrder', ftFloat);
-    FCDSSupp.AddField('IsBKP', ftInteger);
-    FCDSSupp.AddField('IsPrimer', ftInteger);
-    FCDSSupp.AddField('EnableCN', ftInteger);
-    FCDSSupp.AddField('Active', ftInteger);
-    FCDSSupp.AddField('SellingPrice', ftFloat);
-    FCDSSupp.AddField('PurchasePrice', ftFloat);
-    FCDSSupp.AddField('Disc1', ftFloat);
-    FCDSSupp.AddField('Disc2', ftFloat);
-    FCDSSupp.AddField('Disc3', ftFloat);
-    FCDSSupp.AddField('PurchaseNet', ftFloat);
-    FCDSSupp.AddField('Margin', ftFloat);
-    FCDSSupp.AddField('MinOrder', ftFloat);
-    FCDSSupp.AddField('MaxOrder', ftFloat);
-    FCDSSupp.CreateDataSet;
+    FCDSSupp := TDBUtils.CreateObjectDataSet(TModBarangSupplier, Self)
+//    FCDSSupp := TClientDataSet.Create(Self);
+//    FCDSSupp.AddField('ID', ftString);
+//    FCDSSupp.AddField('SupplierID', ftString);
+//    FCDSSupp.AddField('SupplierName', ftString);
+//    FCDSSupp.AddField('TOP', ftInteger);
+//    FCDSSupp.AddField('ExpiredTime', ftInteger);
+//    FCDSSupp.AddField('DeliveryTime', ftInteger);
+//    FCDSSupp.AddField('UOM', ftString);
+//    FCDSSupp.AddField('StockInOrder', ftFloat);
+//    FCDSSupp.AddField('IsBKP', ftInteger);
+//    FCDSSupp.AddField('IsPrimer', ftInteger);
+//    FCDSSupp.AddField('EnableCN', ftInteger);
+//    FCDSSupp.AddField('Active', ftInteger);
+//    FCDSSupp.AddField('SellingPrice', ftFloat);
+//    FCDSSupp.AddField('PurchasePrice', ftFloat);
+//    FCDSSupp.AddField('Disc1', ftFloat);
+//    FCDSSupp.AddField('Disc2', ftFloat);
+//    FCDSSupp.AddField('Disc3', ftFloat);
+//    FCDSSupp.AddField('PurchaseNet', ftFloat);
+//    FCDSSupp.AddField('Margin', ftFloat);
+//    FCDSSupp.AddField('MinOrder', ftFloat);
+//    FCDSSupp.AddField('MaxOrder', ftFloat);
+//    FCDSSupp.CreateDataSet;
   end;
   Result := FCDSSupp;
+end;
+
+function TfrmDialogProduct.GetCDSKonv: TClientDataset;
+begin
+  if not Assigned(FCDSKonv) then
+    FCDSKonv := TDBUtils.CreateObjectDataSet(TModKonversi, Self);
+  Result := FCDSKonv;
 end;
 
 function TfrmDialogProduct.GetModBarang: TModBarang;
@@ -477,14 +598,37 @@ begin
   Result := FModBarang;
 end;
 
+procedure TfrmDialogProduct.CalculateMargin(Sender: TObject);
+var
+  dDiskon: Double;
+  dNet: Double;
+begin
+  //disc bertingkat gak ya?
+  dDiskon := crBRSDisc1.Value/100 * crBRSPurchasePrice.Value;
+  dDiskon := dDiskon + (crBRSDisc2.Value/100 * crBRSPurchasePrice.Value);
+  dDiskon := dDiskon + crBRSDisc3.Value;
+  dNet := crBRSPurchasePrice.Value - dDiskon;
+  crBRSPurchaseNet.Value := dNet;
+
+  if Sender = crBRSSellingPrice then
+  begin
+    if dNet <> 0 then
+      crBRSMargin.Value := (crBRSSellingPrice.Value - dNet) / dNet * 100;
+  end else
+  begin
+    crBRSSellingPrice.Value := (100+crBRSMargin.Value)/100 * dNet;
+  end;
+end;
+
 procedure TfrmDialogProduct.InitGrid;
 begin
-  cxGrdDBSupplier.LoadFromCDS(CDSSupp, False);
+  cxGrdDBSupplier.LoadFromCDS(CDSSupp, False, False);
+  cxGrdDBKonversi.LoadFromCDS(CDSKonv, False, False);
 end;
 
 procedure TfrmDialogProduct.InitLookup;
-//var
-//  lDS: TDataSet;
+var
+  lCDS: TClientDataSet;
 begin
   With DMClient.DSProviderClient do
   begin
@@ -509,31 +653,26 @@ begin
     cxLookupJenisPajak.LoadFromDS(RefPajak_GetDSLookup,
       'REF$PAJAK_ID', 'PJK_NAME' ,Self);
     cxLookupMerk.LoadFromDS(Merk_GetDSLookUp,'MERK_ID', 'MERK_NAME' , Self);
-    cxLookupSupplier.LoadFromDS(Suplier_GetDSLookup,
-      'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
-    cxLookupSupplier.SetMultiPurposeLookup;
+
     cxLookupMerchan.SetMultiPurposeLookup;
     cxLookupMerchanGroup.SetMultiPurposeLookup;
     cxLookupSubGroup.SetMultiPurposeLookup;
     cxLookupKategori.SetMultiPurposeLookup;
     cxLookupMerk.SetMultiPurposeLookup;
 
-    cxLookupSatuan.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupSatPurchase.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupBRSUom.LoadFromDS(Satuan_GetDSLookup,'ref$satuan_id', 'SAT_CODE', Self);
+    lCDS := TDBUtils.DSToCDS(Satuan_GetDSLookup, Self);
+    cxLookupSatuan.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupSatPurchase.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupBRSUom.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    TcxExtLookupComboBoxProperties(clKonvSatuan.Properties).LoadFromCDS(
+      lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
 
-    //meh optimasi , bisa g 1 dataset utk bbrp provider
-//    lDS := Satuan_GetDSLookup;
-//    Try
-//      cxLookupSatuan.LoadFromDS(TDBUtils.DSToCDS(lDS, Self, False),
-//      'ref$satuan_id', 'SAT_NAME', Self);
-//      cxLookupSatPurchase.LoadFromDS(TDBUtils.DSToCDS(lDS, Self, False),
-//        'ref$satuan_id', 'SAT_NAME', Self);
-//      cxLookupBRSUom.LoadFromDS(TDBUtils.DSToCDS(lDS, Self, False),
-//        'ref$satuan_id', 'SAT_NAME', Self);
-//    Finally
-//      lDS.Free;
-//    End;
+    lCDS := TDBUtils.DSToCDS(Suplier_GetDSLookup, Self);
+    cxLookupSupplier.LoadFromCDS(lCDS,'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
+    TcxExtLookupComboBoxProperties(clSuppSupplier.Properties).LoadFromCDS(lCDS,
+      'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
+    cxLookupSupplier.SetMultiPurposeLookup;
+
   end;
   //inisialisasi
 end;
@@ -544,6 +683,7 @@ begin
   UpdateData;
   Try
     ModBarang.ID := DMClient.CrudClient.SaveToDBID(ModBarang);
+//    DMClient.CrudClient.SaveToDBFilter(ModBarang,TModKonversi.ClassName);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     Self.ModalResult := mrOk;
   except
@@ -585,8 +725,7 @@ begin
   ModBarang.BRG_IS_GALON        := TAppUtils.BoolToInt(chkIsGalon.Checked);
 //  ModBarang.BRG_IS_VALIDATE     := TAppUtils.BoolToInt(chkIsBasic.Checked);
 
-  UpdateDataSupplier;
-
+  UpdateDataItem;
 end;
 
 procedure TfrmDialogProduct.LoadData(AID: String);
@@ -619,44 +758,37 @@ begin
   chkIsDiscAMC.Checked            := ModBarang.BRG_IS_DISC_GMC = 1;
   chkIsGalon.Checked              := ModBarang.BRG_IS_GALON = 1;
 
-  LoadSupplier;
+  LoadItems;
 end;
 
-procedure TfrmDialogProduct.LoadSupplier;
+procedure TfrmDialogProduct.LoadItems;
 var
   i: Integer;
   lBS: TModBarangSupplier;
+  lKonv: TModKonversi;
 begin
+  CDSSupp.EmptyDataSet;
+  CDSKonv.EmptyDataSet;
+
   for i := 0 to ModBarang.Suppliers.Count-1 do
   begin
     lBS := ModBarang.Suppliers[i];
     CDSSupp.Append;
-    CDSSupp.FieldByName('ID').AsString            := lBS.ID;
-    CDSSupp.FieldByName('SupplierID').AsString    := lBS.Supplier.ID;
-    If cxLookupSupplier.DS.Locate('Suplier_ID', lBS.Supplier.ID, [loCaseInsensitive]) then
-      CDSSupp.FieldByName('SupplierName').AsString  := cxLookupSupplier.DS.FieldByName('SUP_NAME').AsString;
-//    CDSSupp.FieldByName('TOP').AsInteger          := lBS.Supplier.TOP;
-    CDSSupp.FieldByName('ExpiredTime').AsInteger  := lBS.BRGSUP_EXPIRE_TIME;
-    CDSSupp.FieldByName('DeliveryTime').AsInteger := lBS.BRGSUP_DELIVERY_TIME;
-    CDSSupp.FieldByName('UOM').AsString           := lBS.SATUAN_PURCHASE.ID;
-    CDSSupp.FieldByName('StockInOrder').AsFloat   := lBS.BRGSUP_STOCK_IN_ORDER;
-    CDSSupp.FieldByName('IsBKP').AsInteger        := lBS.BRGSUP_IS_BKP;
-    CDSSupp.FieldByName('IsPrimer').AsInteger     := lBS.BRGSUP_IS_PRIMARY;
-    CDSSupp.FieldByName('EnableCN').AsInteger     := lBS.BRGSUP_IS_ENABLE_CN;
-    CDSSupp.FieldByName('Active').AsInteger       := lBS.BRGSUP_IS_ACTIVE;
-    CDSSupp.FieldByName('PurchasePrice').AsFloat  := lBS.BRGSUP_BUY_PRICE;
-    CDSSupp.FieldByName('Disc1').AsFloat          := lBS.BRGSUP_DISC1;
-    CDSSupp.FieldByName('Disc2').AsFloat          := lBS.BRGSUP_DISC2;
-    CDSSupp.FieldByName('Disc3').AsFloat          := lBS.BRGSUP_DISC3;
-    CDSSupp.FieldByName('Margin').AsFloat         := lBS.BRGSUP_MARK_UP;
-
-    //hitung dari margin nanti :
-//    CDSSupp.FieldByName('SellingPrice').AsFloat   := lBS.BRGSUP_BUY_PRICE;
-//    CDSSupp.FieldByName('PurchaseNet').AsFloat    := lBS.BRGSUP_EXPIRE_TIME;
+    lBS.UpdateToDataset(CDSSupp);
     CDSSupp.Post;
   end;
 
+  for i := 0 to ModBarang.Konversi.Count-1 do
+  begin
+    lKonv := ModBarang.Konversi[i];
+    CDSKonv.Append;
+    lKonv.UpdateToDataset(CDSKonv);
+    CDSKonv.Post;
+  end;
+
   CDSSupp.First;
+  CDSKonv.First;
+
   LoadSupplierRow;
 end;
 
@@ -664,44 +796,39 @@ procedure TfrmDialogProduct.pgcMainChange(Sender: TObject);
 begin
   inherited;
   If pgcMain.ActivePage = tsSupplier then
-    cxLookupSupplier.SetFocus;
+    cxLookupSupplier.SetFocus
+  else if pgcMain.ActivePage = tsKonversi then
+  begin
+    if CDSKonv.RecordCount = 0 then
+      btnAddKonversi.Click;
+  end;
 end;
 
-procedure TfrmDialogProduct.UpdateDataSupplier;
+procedure TfrmDialogProduct.UpdateDataItem;
 var
   i: Integer;
   lBS: TModBarangSupplier;
+  lKonv: TModKonversi;
 begin
   ModBarang.Suppliers.Clear;
+  ModBarang.Konversi.Clear;
+
   CDSSupp.First;
   while not CDSSupp.eof do
   begin
-    lBS                       := TModBarangSupplier.CreateID(CDSSupp.FieldByName('ID').AsString);
-    lBS.Supplier              := TModSuplier.CreateID(CDSSupp.FieldByName('SupplierID').AsString);
-    lBS.SATUAN_PURCHASE       := TModSatuan.CreateID(CDSSupp.FieldByName('UOM').AsString);
-
-    lBS.BRGSUP_BUY_PRICE      := CDSSupp.FieldByName('PurchasePrice').AsFloat;
-    lBS.BRGSUP_DISC1          := CDSSupp.FieldByName('Disc1').AsFloat;
-    lBS.BRGSUP_DISC2          := CDSSupp.FieldByName('Disc2').AsFloat;
-    lBS.BRGSUP_DISC3          := CDSSupp.FieldByName('Disc3').AsFloat;
-    lBS.BRGSUP_MARK_UP        := CDSSupp.FieldByName('Margin').AsFloat;
-
-    lBS.BRGSUP_EXPIRE_TIME    := CDSSupp.FieldByName('ExpiredTime').AsInteger;
-    lBS.BRGSUP_DELIVERY_TIME  := CDSSupp.FieldByName('DeliveryTime').AsInteger;
-
-    lBS.BRGSUP_STOCK_IN_ORDER := CDSSupp.FieldByName('StockInOrder').AsFloat;
-    lBS.BRGSUP_MIN_ORDER      := CDSSupp.FieldByName('MinOrder').AsFloat;
-    lBS.BRGSUP_MAX_ORDER      := CDSSupp.FieldByName('MaxOrder').AsFloat;
-
-    lBS.BRGSUP_IS_PRIMARY     := CDSSupp.FieldByName('IsPrimer').AsInteger;
-    lBS.BRGSUP_IS_ACTIVE      := CDSSupp.FieldByName('Active').AsInteger;
-    lBS.BRGSUP_IS_ENABLE_CN   := CDSSupp.FieldByName('EnableCN').AsInteger;
-    lBS.BRGSUP_IS_BKP         := CDSSupp.FieldByName('IsBKP').AsInteger;
-
-
-
+    lBS := TModBarangSupplier.Create;
+    lBS.SetFromDataset(CDSSupp);
     ModBarang.Suppliers.Add(lBS);
     CDSSupp.Next;
+  end;
+
+  CDSKonv.First;
+  while not CDSKonv.eof do
+  begin
+    lKonv := TModKonversi.Create;
+    lKonv.SetFromDataset(CDSKonv);
+    ModBarang.Konversi.Add(lKonv);
+    CDSKonv.Next;
   end;
 end;
 
@@ -709,6 +836,10 @@ function TfrmDialogProduct.ValidateData: Boolean;
 begin
   Result := False;
   If not ValidateEmptyCtrl([1], True, tsInfo) then exit;
+
+
+
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_SAVE) then exit;
   Result := True;
 end;
 

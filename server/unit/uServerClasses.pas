@@ -10,7 +10,7 @@ type
   {$METHODINFO ON}
   TTestMethod = class(TComponent)
   public
-    function Hallo: String;
+    function Hallo(aTanggal: TDateTime): String;
   end;
 
   TCrud = class(TComponent)
@@ -23,6 +23,7 @@ type
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function SaveToDBFilter(AObject: TModApp; FilterClass: String = ''): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
@@ -31,30 +32,14 @@ type
 
 implementation
 
-function TTestMethod.Hallo: String;
+function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
-  Result := 'Hello Word';
+  Result := 'Hello Word ' + DateToStr(aTanggal);
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
-var
-  lSS: TStrings;
 begin
-  Result := False;
-  if not ValidateCode(AObject) then exit;
-  lSS := TDBUtils.GenerateSQL(AObject);
-  Try
-    Try
-      TDBUtils.ExecuteSQL(lSS, False);
-      TDBUtils.Commit;
-      Result := True;
-    except
-      TDBUtils.RollBack;
-      raise;
-    End;
-  Finally
-    lSS.Free;
-  End;
+  Result := SaveToDBFilter(AObject)
 end;
 
 function TCrud.DeleteFromDB(AObject: TModApp): Boolean;
@@ -98,18 +83,26 @@ begin
   Result := Self.Retrieve(lClass, AID);
 end;
 
-function TCrud.SaveToDBID(AObject: TModApp): String;
+function TCrud.SaveToDBFilter(AObject: TModApp; FilterClass: String = ''):
+    Boolean;
 var
+  FilterClasses: Array Of String;
   lSS: TStrings;
 begin
-  Result := '';
+  //too bad rest server can't handle array of string.. -___-
+  If FilterClass <> '' then
+    FilterClasses := [FilterClass]
+  else
+    FilterClasses := [];
+
+  Result := False;
   if not ValidateCode(AObject) then exit;
-  lSS := TDBUtils.GenerateSQL(AObject);
+  lSS := TDBUtils.GenerateSQL(AObject,FilterClasses);
   Try
     Try
       TDBUtils.ExecuteSQL(lSS, False);
       TDBUtils.Commit;
-      Result := AObject.ID
+      Result := True;
     except
       TDBUtils.RollBack;
       raise;
@@ -117,6 +110,14 @@ begin
   Finally
     lSS.Free;
   End;
+end;
+
+function TCrud.SaveToDBID(AObject: TModApp): String;
+var
+  lSS: TStrings;
+begin
+  Result := '';
+  If SaveToDB(AObject) then Result := AObject.ID;
 end;
 
 function TCrud.StringToClass(ModClassName: string): TModAppClass;
@@ -141,7 +142,7 @@ end;
 
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
 begin
-  Result := TDBUtils.GenerateSQL(AObject);
+  Result := TDBUtils.GenerateSQL(AObject,[]);
 end;
 
 function TCrud.ValidateCode(AOBject: TModApp): Boolean;

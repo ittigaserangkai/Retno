@@ -1,105 +1,67 @@
-inherited frmMasterBrowse: TfrmMasterBrowse
-  Caption = 'form Master Browse Data'
-  ClientHeight = 403
-  ClientWidth = 701
-  OnKeyDown = nil
-  ExplicitWidth = 717
-  ExplicitHeight = 442
+object frmCXLookup: TfrmCXLookup
+  Left = 0
+  Top = 0
+  BorderStyle = bsToolWindow
+  ClientHeight = 389
+  ClientWidth = 686
+  Color = clWindow
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
-  TextHeight = 16
-  inherited pnlBody: TPanel
-    Top = 33
-    Width = 701
-    Height = 314
-    Color = clWindow
-    ExplicitTop = 33
-    ExplicitWidth = 701
-    ExplicitHeight = 314
-    object pgcBrowse: TcxPageControl
-      Left = 11
-      Top = 11
-      Width = 679
-      Height = 292
-      Align = alClient
-      TabOrder = 0
-      Properties.ActivePage = tsBrowse
-      Properties.CustomButtons.Buttons = <>
-      Properties.HideTabs = True
-      Properties.Options = [pcoAlwaysShowGoDialogButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize, pcoUsePageColorForTab]
-      LookAndFeel.Kind = lfFlat
-      LookAndFeel.NativeStyle = False
-      ClientRectBottom = 291
-      ClientRectLeft = 1
-      ClientRectRight = 678
-      ClientRectTop = 1
-      object tsBrowse: TcxTabSheet
-        Caption = 'Browse Data'
-        ImageIndex = 0
-        ParentColor = False
-        object cxGrid: TcxGrid
-          Left = 0
-          Top = 0
-          Width = 677
-          Height = 290
-          Align = alClient
-          TabOrder = 0
-          LockedStateImageOptions.Text = 'Mohon ditunggu...'
-          LookAndFeel.NativeStyle = False
-          object cxGridView: TcxGridDBTableView
-            Navigator.Buttons.CustomButtons = <>
-            FindPanel.DisplayMode = fpdmManual
-            FindPanel.InfoText = 'ketik teks yang dicari...'
-            DataController.Filter.Options = [fcoCaseInsensitive]
-            DataController.Summary.DefaultGroupSummaryItems = <>
-            DataController.Summary.FooterSummaryItems = <>
-            DataController.Summary.SummaryGroups = <>
-            FilterRow.InfoText = 
-              'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
-              'er'
-            FilterRow.Visible = True
-            FilterRow.ApplyChanges = fracImmediately
-            NewItemRow.InfoText = 'Baris baru'
-            OptionsData.Editing = False
-            OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
-            OptionsView.GroupByBox = False
-            Styles.ContentEven = DMClient.cxStyleGridHeader
-            Styles.Header = DMClient.cxStyleGridEven
-          end
-          object cxlvMaster: TcxGridLevel
-            GridView = cxGridView
-          end
-        end
-      end
-    end
-  end
-  inherited pnlHeader: TPanel
-    Width = 701
+  TextHeight = 13
+  object pnlHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 686
     Height = 33
-    ExplicitWidth = 701
-    ExplicitHeight = 33
-    inherited lblHeader: TLabel
-      Left = 6
+    Align = alTop
+    BevelEdges = [beLeft, beTop, beRight]
+    BevelKind = bkTile
+    BevelOuter = bvNone
+    Color = 14079702
+    TabOrder = 1
+    ExplicitWidth = 676
+    object lblHeader: TLabel
+      AlignWithMargins = True
+      Left = 5
+      Top = 7
+      Width = 146
       Height = 21
       Margins.Left = 5
-      ExplicitLeft = 6
+      Margins.Top = 7
+      Align = alLeft
+      Caption = 'LABEL HEADER GOES HERE..'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitHeight = 14
     end
     object lblFilterData: TcxLabel
-      Left = 347
-      Top = 1
+      Left = 329
+      Top = 0
       Align = alRight
       AutoSize = False
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      Visible = False
+      ExplicitLeft = 319
       Height = 31
       Width = 58
-      AnchorY = 17
+      AnchorY = 16
     end
-    object dtAwalFilter: TcxDateEdit
+    object StartDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 408
-      Top = 5
+      Left = 390
+      Top = 4
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
@@ -108,13 +70,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      Visible = False
+      ExplicitLeft = 380
       Width = 89
     end
-    object dtAkhirFilter: TcxDateEdit
+    object EndDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 524
-      Top = 5
+      Left = 506
+      Top = 4
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
@@ -123,20 +85,20 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
-      Visible = False
+      ExplicitLeft = 496
       Width = 89
     end
-    object btnSearch: TcxButton
+    object btnRefresh: TcxButton
       AlignWithMargins = True
-      Left = 619
-      Top = 3
+      Left = 601
+      Top = 2
       Width = 78
       Height = 27
       Cursor = crHandPoint
       Margins.Top = 2
       Margins.Bottom = 2
       Align = alRight
-      Action = actRefresh
+      Caption = '&Refresh'
       OptionsImage.Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         1800000000000006000000000000000000000000000000000000FF00FFFF00FF
@@ -190,11 +152,13 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         7F7F7F7F7F7F7F7F9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF}
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
+      OnClick = btnRefreshClick
+      ExplicitLeft = 591
     end
     object lblsdFilter: TcxLabel
       AlignWithMargins = True
-      Left = 500
-      Top = 4
+      Left = 482
+      Top = 3
       Margins.Left = 0
       Margins.Right = 0
       Align = alRight
@@ -202,100 +166,154 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      Visible = False
+      ExplicitLeft = 472
       Height = 25
       Width = 21
-      AnchorY = 17
+      AnchorY = 16
     end
   end
-  inline fraFooter4Button1: TfraFooter4Button
+  object Panel1: TPanel
     Left = 0
-    Top = 347
-    Width = 701
-    Height = 56
+    Top = 354
+    Width = 686
+    Height = 35
     Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
+    BevelKind = bkTile
+    BevelOuter = bvNone
+    Color = 14079702
     TabOrder = 2
-    ExplicitTop = 347
-    ExplicitWidth = 701
-    inherited pnlFooter: TPanel
-      Width = 701
-      ExplicitWidth = 701
-      inherited btnAdd: TcxButton
-        Action = actAdd
-      end
-      inherited btnUpdate: TcxButton
-        Action = actEdit
-      end
-      inherited btnPrint: TcxButton
-        Action = actPrint
-      end
-      inherited btnClose: TcxButton
-        Left = 624
-        Action = actClose
-        ExplicitLeft = 624
-      end
-      inherited cxButton1: TcxButton
-        Action = actExport
-      end
+    ExplicitTop = 344
+    ExplicitWidth = 676
+    object btnClose: TcxButton
+      AlignWithMargins = True
+      Left = 607
+      Top = 2
+      Width = 72
+      Height = 27
+      Cursor = crHandPoint
+      Margins.Top = 2
+      Margins.Bottom = 2
+      Align = alRight
+      Cancel = True
+      Caption = 'Close'
+      OptionsImage.ImageIndex = 6
+      OptionsImage.Images = DMClient.imgListButton
+      TabOrder = 0
+      OnClick = btnCloseClick
+      ExplicitLeft = 597
     end
-    inherited pnlShortCut: TPanel
-      Width = 701
-      ExplicitWidth = 701
-      inherited lbCTRLE: TLabel
-        Width = 70
-        Caption = 'CTRL-M [Edit]'
-        ExplicitTop = 3
-        ExplicitWidth = 70
-      end
-      inherited lbEscape: TLabel
-        Left = 627
-        Height = 17
-        ExplicitLeft = 627
-      end
-      inherited lbCTRLP: TLabel
-        Left = 271
-      end
+    object btnOK: TcxButton
+      AlignWithMargins = True
+      Left = 521
+      Top = 2
+      Width = 80
+      Height = 27
+      Cursor = crHandPoint
+      Margins.Top = 2
+      Margins.Bottom = 2
+      Align = alRight
+      Caption = 'Select'
+      OptionsImage.ImageIndex = 13
+      OptionsImage.Images = DMClient.imgListButton
+      TabOrder = 1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = btnOKClick
+      ExplicitLeft = 511
     end
   end
-  object actlstBrowse: TActionList
-    Images = DMClient.imgListButton
-    Left = 568
-    Top = 152
-    object actAdd: TAction
-      Caption = 'A&dd'
-      ImageIndex = 2
-      ShortCut = 16451
+  object Panel2: TPanel
+    Left = 0
+    Top = 333
+    Width = 686
+    Height = 21
+    Align = alBottom
+    BevelEdges = [beLeft, beTop, beRight]
+    BevelKind = bkTile
+    BevelOuter = bvNone
+    Color = 14079702
+    TabOrder = 3
+    ExplicitTop = 323
+    ExplicitWidth = 676
+    object lbEscape: TLabel
+      AlignWithMargins = True
+      Left = 607
+      Top = 1
+      Width = 72
+      Height = 17
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alRight
+      Caption = 'Escape [Close]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitLeft = 597
+      ExplicitHeight = 16
     end
-    object actEdit: TAction
-      Caption = '&Edit / Lihat'
-      ImageIndex = 10
-      ShortCut = 16461
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 522
+      Top = 1
+      Width = 69
+      Height = 17
+      Margins.Top = 1
+      Margins.Right = 13
+      Margins.Bottom = 1
+      Align = alRight
+      Caption = 'Enter [Select]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitLeft = 512
+      ExplicitHeight = 16
     end
-    object actClose: TAction
-      Caption = 'Close'
-      ImageIndex = 8
-      OnExecute = actCloseExecute
+  end
+  object cxGrid: TcxGrid
+    Left = 0
+    Top = 33
+    Width = 686
+    Height = 300
+    Align = alClient
+    TabOrder = 0
+    LockedStateImageOptions.Text = 'Mohon ditunggu...'
+    LookAndFeel.NativeStyle = False
+    ExplicitWidth = 676
+    ExplicitHeight = 290
+    object cxGridView: TcxGridDBTableView
+      OnDblClick = cxGridViewDblClick
+      OnKeyDown = cxGridViewKeyDown
+      Navigator.Buttons.CustomButtons = <>
+      FindPanel.DisplayMode = fpdmManual
+      FindPanel.InfoText = 'ketik teks yang dicari...'
+      DataController.Filter.Options = [fcoCaseInsensitive]
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      FilterRow.InfoText = 
+        'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
+        'er'
+      FilterRow.Visible = True
+      FilterRow.ApplyChanges = fracImmediately
+      NewItemRow.InfoText = 'Baris baru'
+      OptionsData.Editing = False
+      OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+      OptionsView.GroupByBox = False
+      Styles.ContentEven = DMClient.cxStyleGridHeader
+      Styles.Header = DMClient.cxStyleGridEven
     end
-    object actPrint: TAction
-      Caption = '&Print'
-      ImageIndex = 28
-      ShortCut = 16464
-    end
-    object actRefresh: TAction
-      Caption = '&Refresh'
-      ImageIndex = 30
-      OnExecute = actRefreshExecute
-    end
-    object actExport: TAction
-      Caption = 'E&xport'
-      ImageIndex = 34
-      OnExecute = actExportExecute
+    object cxlvMaster: TcxGridLevel
+      GridView = cxGridView
     end
   end
 end

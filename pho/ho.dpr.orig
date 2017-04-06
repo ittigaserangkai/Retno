@@ -86,13 +86,11 @@ uses
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
-  uModAccount in '..\model\uModAccount.pas',
   uModApp in '..\model\uModApp.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRefAgama in '..\model\uModRefAgama.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
@@ -195,15 +193,13 @@ uses
   ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN},
   ufrmDialogPersonalMember in '..\module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
   ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
-<<<<<<< HEAD
   uModRefPajak in '..\model\uModRefPajak.pas',
-  uModSO in '..\model\uModSO.pas';
-
-ufrmTipePO in '..\module\po\ufrmTipePO.pas' {frmTipePO},
-  ufrmAgama in '..\module\references\ufrmAgama.pas' {frmAgama};
+  uModRefAgama in '..\model\uModRefAgama.pas',
+<<<<<<< HEAD
+  uModPO in '..\model\uModPO.pas';
 =======
-  uModRefPajak in '..\model\uModRefPajak.pas';
->>>>>>> 38e6fc804ff0512fa353abb17ac1a4d9b49c034b
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
+>>>>>>> f358be0fdfcf915cdcfb3b31759abac32c00eaa8
 
 {$R *.res}
 
@@ -214,6 +210,5 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmDialogPersonalMember, frmDialogPersonalMember);
   Application.Run;
 end.
