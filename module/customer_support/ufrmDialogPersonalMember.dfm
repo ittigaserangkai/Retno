@@ -3,28 +3,29 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
   Top = 145
   Caption = 'Dialog Personal Member'
   ClientHeight = 384
-  ClientWidth = 490
+  ClientWidth = 604
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 506
+  ExplicitWidth = 620
   ExplicitHeight = 423
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 490
+    Width = 604
     Height = 328
     ExplicitWidth = 490
     ExplicitHeight = 328
     object pnl1: TPanel
       Left = 2
       Top = 43
-      Width = 486
+      Width = 600
       Height = 283
       Align = alClient
       BevelOuter = bvLowered
       BorderWidth = 20
       Color = 15198183
       TabOrder = 0
+      ExplicitWidth = 486
       object lbl1: TLabel
         Left = 22
         Top = 13
@@ -310,13 +311,14 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
     object pnl3: TPanel
       Left = 2
       Top = 2
-      Width = 486
+      Width = 600
       Height = 41
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 1
+      ExplicitWidth = 486
       object lbl4: TLabel
         Left = 27
         Top = 12
@@ -357,19 +359,19 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 328
-    Width = 490
+    Width = 604
     ExplicitTop = 328
     ExplicitWidth = 490
     inherited pnlFooter: TPanel
-      Width = 490
+      Width = 604
       ExplicitWidth = 490
       inherited btnClose: TcxButton
-        Left = 413
+        Left = 527
         Action = actCancel
         ExplicitLeft = 413
       end
       inherited btnSave: TcxButton
-        Left = 320
+        Left = 434
         Action = actSave
         ExplicitLeft = 320
       end
@@ -377,20 +379,20 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 243
+        Left = 357
         ExplicitLeft = 243
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 490
+      Width = 604
       ExplicitWidth = 490
       inherited lbCTRLEnter: TLabel
-        Left = 315
+        Left = 429
         Height = 15
         ExplicitLeft = 315
       end
       inherited lbEscape: TLabel
-        Left = 406
+        Left = 520
         Height = 15
         ExplicitLeft = 406
       end
@@ -398,7 +400,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 239
+        Left = 353
         ExplicitLeft = 239
       end
     end

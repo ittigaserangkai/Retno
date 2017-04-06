@@ -130,7 +130,6 @@ uses
   ufrmDialogCashDropping in '..\module\cashier_supv\ufrmDialogCashDropping.pas' {frmDialogCashDropping},
   ufrmPopupHistCD in '..\module\cashier_supv\ufrmPopupHistCD.pas' {frmPopupHistCD},
   ufrmResetCashier in '..\module\cashier_supv\ufrmResetCashier.pas' {frmResetCashier},
-  uModSuplier in '..\model\uModSuplier.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
   ufrmReturNota in '..\module\cashier_supv\ufrmReturNota.pas' {frmReturNota},
@@ -179,7 +178,11 @@ uses
   ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi},
   ufrmReturTrader in '..\module\inventory\ufrmReturTrader.pas' {frmReturTrader},
   ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader},
-  uModRefAgama in '..\model\uModRefAgama.pas';
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  ufrmSO in '..\module\so\ufrmSO.pas' {frmSO},
+  ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO},
+  uModSO in '..\model\uModSO.pas',
+  uModSuplier in '..\model\uModSuplier.pas';
 
 {$R *.res}
 

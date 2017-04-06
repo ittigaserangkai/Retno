@@ -55,6 +55,14 @@ type
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
     class function OpenQuery(ASQL: String; AOwner: TComponent = nil): TFDQuery;
+    class function Quot(aString : String): String;
+    class function QuotD(aDate : TDateTime; aTambahJam235959 : Boolean = false):
+        String;
+    class function QuotDLong(aDate : TDateTime): String;
+    class function QuotDt(aDate : TDateTime): String; overload;
+    class function QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean): String;
+        overload;
+    class function QuotF(ANumber : Double): String;
     class procedure RollBack;
   end;
 
@@ -818,6 +826,50 @@ begin
   Result.Connection := FDConnection;
   Result.SQL.Text := ASQL;
   Result.Open;
+end;
+
+class function TDBUtils.Quot(aString : String): String;
+begin
+    result := QuotedSTr(trim(Astring));
+end;
+
+class function TDBUtils.QuotD(aDate : TDateTime; aTambahJam235959 : Boolean =
+    false): String;
+begin
+    if not aTambahJam235959 then
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy', aDate));
+    end else
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
+    end;
+end;
+
+class function TDBUtils.QuotDLong(aDate : TDateTime): String;
+begin
+    result := Quot(FormatDateTime('dd mmm yyyy', aDate));
+end;
+
+class function TDBUtils.QuotDt(aDate : TDateTime): String;
+begin
+    result := Quot(FormatDateTime('mm/dd/yyyy hh:mm:ss', aDate));
+end;
+
+class function TDBUtils.QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean):
+    String;
+begin
+    if not aTambahJam235959 then
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy hh:mm:ss', aDate));
+    end else
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
+    end;
+end;
+
+class function TDBUtils.QuotF(ANumber : Double): String;
+begin
+  Result := QuotedSTr(trim(FloatToStr(ANumber)));
 end;
 
 class procedure TDBUtils.RollBack;

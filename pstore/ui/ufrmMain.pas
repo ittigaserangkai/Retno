@@ -300,7 +300,8 @@ uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
   ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
   ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
   ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
-  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader;
+  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader,
+  ufrmSO;
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -366,7 +367,7 @@ end;
 
 procedure TfrmMain.actCreateSOExecute(Sender: TObject);
 begin
-    frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
+  frmSO := TfrmSO.Create(Self);
 end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
