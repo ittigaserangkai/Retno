@@ -1282,7 +1282,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Transparent = True
               ExplicitTop = 23
             end
-            object ckPrimer: TcxCheckBox
+            object ckPrimarySupp: TcxCheckBox
               AlignWithMargins = True
               Left = 5
               Top = 2
@@ -1692,7 +1692,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.00;(,0.00)'
             Properties.ReadOnly = True
-            Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
             Style.Color = clInfoBk
             Style.LookAndFeel.NativeStyle = False
             StyleDisabled.LookAndFeel.NativeStyle = False
@@ -1769,7 +1768,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
+              Properties.OnEditValueChanged = crSellingPricePropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1777,13 +1776,13 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 0
               Width = 109
             end
-            object crDiscPercent: TcxCurrencyEdit
+            object crSellDiscPercent: TcxCurrencyEdit
               Left = 115
               Top = 28
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
+              Properties.OnEditValueChanged = crSellDiscPercentPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1791,13 +1790,13 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 1
               Width = 109
             end
-            object crDiscRP: TcxCurrencyEdit
+            object crSellDiscRP: TcxCurrencyEdit
               Left = 115
               Top = 53
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
+              Properties.OnEditValueChanged = crSellDiscRPPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1814,7 +1813,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
               Properties.ReadOnly = True
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.Color = clInfoBk
               Style.Font.Charset = DEFAULT_CHARSET
               Style.Font.Color = clWindowText
@@ -1831,11 +1829,10 @@ inherited frmDialogProduct: TfrmDialogProduct
             end
             object crSellingPriceCoret: TcxCurrencyEdit
               Left = 115
-              Top = 101
+              Top = 102
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1843,7 +1840,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 4
               Width = 109
             end
-            object crMargin: TcxCurrencyEdit
+            object crSellMargin: TcxCurrencyEdit
               Left = 115
               Top = 126
               TabStop = False
@@ -1851,7 +1848,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
               Properties.ReadOnly = True
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.Color = clInfoBk
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
@@ -1941,7 +1937,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1955,7 +1950,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1963,13 +1957,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 2
               Width = 133
             end
-            object crLimitPriceADS: TcxCurrencyEdit
+            object crPriceADS: TcxCurrencyEdit
               Left = 212
               Top = 29
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1977,13 +1970,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 5
               Width = 133
             end
-            object crLimitQTYADS: TcxCurrencyEdit
+            object crQTYADS: TcxCurrencyEdit
               Left = 158
               Top = 29
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -1991,13 +1983,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 4
               Width = 52
             end
-            object crMarkUP: TcxCurrencyEdit
+            object crSellMarkUP: TcxCurrencyEdit
               Left = 87
               Top = 78
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -2011,7 +2002,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               EditValue = 0.000000000000000000
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
               StyleFocused.LookAndFeel.NativeStyle = False
@@ -2027,7 +2017,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
               Properties.ReadOnly = True
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.Color = clInfoBk
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
@@ -2044,7 +2033,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0.00;(,0.00)'
               Properties.ReadOnly = True
-              Properties.OnEditValueChanged = crBRSMarginPropertiesEditValueChanged
               Style.Color = clInfoBk
               Style.LookAndFeel.NativeStyle = False
               StyleDisabled.LookAndFeel.NativeStyle = False
@@ -2114,7 +2102,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              OnClick = btnDelSuppClick
+              OnClick = btnDeletePriceClick
             end
             object btnAddPrice: TcxButton
               AlignWithMargins = True
@@ -2138,7 +2126,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              OnClick = btnAddSuppClick
+              OnClick = btnAddPriceClick
             end
             object btnUpdatePrice: TcxButton
               AlignWithMargins = True
@@ -2161,7 +2149,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              OnClick = btnUpdateSuppClick
+              OnClick = btnUpdatePriceClick
             end
           end
           object cxGridSellingPrice: TcxGrid
@@ -2175,7 +2163,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             LookAndFeel.NativeStyle = False
             object cxGrdDBSellingPrice: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
-              OnCellClick = cxGrdDBSupplierCellClick
+              OnCellClick = cxGrdDBSellingPriceCellClick
               DataController.Summary.DefaultGroupSummaryItems = <>
               DataController.Summary.FooterSummaryItems = <>
               DataController.Summary.SummaryGroups = <>
@@ -2187,6 +2175,48 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsData.Inserting = False
               OptionsSelection.CellSelect = False
               OptionsView.GroupByBox = False
+              object clSellTipeHarga: TcxGridDBColumn
+                Caption = 'Tipe Harga'
+                DataBinding.FieldName = 'TipeHarga'
+                PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+                HeaderAlignmentHorz = taCenter
+                Width = 142
+              end
+              object clSellSatuan: TcxGridDBColumn
+                DataBinding.FieldName = 'Satuan'
+                PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+                HeaderAlignmentHorz = taCenter
+                Width = 81
+              end
+              object clSellPrice: TcxGridDBColumn
+                Caption = 'Selling Price'
+                DataBinding.FieldName = 'BHJ_SELL_PRICE'
+                HeaderAlignmentHorz = taRightJustify
+                Width = 107
+              end
+              object clSellDiscPercent: TcxGridDBColumn
+                Caption = 'Disc %'
+                DataBinding.FieldName = 'BHJ_DISC_PERSEN'
+                HeaderAlignmentHorz = taRightJustify
+                Width = 83
+              end
+              object clSellDiscRP: TcxGridDBColumn
+                Caption = 'Disc RP'
+                DataBinding.FieldName = 'BHJ_DISC_NOMINAL'
+                HeaderAlignmentHorz = taRightJustify
+                Width = 70
+              end
+              object clSellPriceMargin: TcxGridDBColumn
+                Caption = 'Margin'
+                DataBinding.FieldName = 'BHJ_MARK_UP'
+                HeaderAlignmentHorz = taRightJustify
+              end
+              object cxGrdDBSellingPriceColumn1: TcxGridDBColumn
+                Caption = 'Sellilng Price Net'
+                DataBinding.FieldName = 'BHJ_SELL_PRICE_DISC'
+                HeaderAlignmentHorz = taRightJustify
+                Width = 117
+              end
             end
             object cxGridLevel1: TcxGridLevel
               GridView = cxGrdDBSellingPrice

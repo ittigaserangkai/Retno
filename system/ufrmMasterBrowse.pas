@@ -109,6 +109,8 @@ begin
     Result := frm.ShowModal;
     if (AutoRefreshData) and (Result = mrOk) then
       RefreshData;
+
+    Self.SetFocusRec(cxGrid);
   Finally
     FreeAndNil(frm);
   End;

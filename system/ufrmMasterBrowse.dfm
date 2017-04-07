@@ -260,6 +260,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       end
       inherited lbCTRLP: TLabel
         Left = 271
+        ExplicitLeft = 271
       end
     end
   end
