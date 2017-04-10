@@ -182,16 +182,18 @@ uses
   ufrmSO in '..\module\so\ufrmSO.pas' {frmSO},
   ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO},
   uModSO in '..\model\uModSO.pas',
-  uModSuplier in '..\model\uModSuplier.pas';
+  uModSuplier in '..\model\uModSuplier.pas',
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
+  ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TdmReport, dmReport);
   Application.Run;
 end.

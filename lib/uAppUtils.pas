@@ -9,6 +9,7 @@ uses
 type
   TAppUtils = class(TObject)
   private
+  protected
   public
     class function BacaRegistry(aNama: String; aPath : String = ''): string;
     class function BacaRegistry1(aNama: String; aPath : String = ''): string;

@@ -86,7 +86,6 @@ type
     property DsProvider: TDSProviderClient read GetDsProvider write FDsProvider;
     property ModRekening: TModRekening read GetModRekening write FModRekening;
   public
-    procedure HapusRekIfada(jenis : string; aheaderid : Integer);
     procedure LoadData(ID: String);
     property IsProcessSuccesfull: Boolean read FIsProcessSuccesfull write SetIsProcessSuccesfull;
     property StatusForm: TStatusForm read FStatusForm write SetStatusForm;
@@ -382,31 +381,6 @@ begin
   if not Assigned(FModRekening) then
     FModRekening := TModRekening.Create();
   Result := FModRekening;
-end;
-
-procedure TfrmDialogRekening.HapusRekIfada(jenis : string; aheaderid : Integer);
-var
-  sSql : string;
-begin
-   if jenis='BS' then
-      begin
-       sSql := ' delete from rekening_bs where'
-             + ' rekbs_code = ' + QuotedStr(Trim(edtRekCode.Text))
-             + ' and rekbs_comp_id = ' + IntToStr(DialogCompany);
-      end
-   else if jenis='PL' then
-      begin
-       sSql := ' delete from rekening_pl where'
-             + ' rekpl_code = ' + QuotedStr(Trim(edtRekCode.Text))
-             + ' and rekpl_comp_id = ' + IntToStr(DialogCompany);
-      end;
-//    if not cExecSQL(sSql, False, aheaderid) then
-//    begin
-//      CommonDlg.ShowError('Gagal Hapus');
-//      cRollbackTrans;
-//      Exit;
-//    end;
-
 end;
 
 procedure TfrmDialogRekening.LoadData(ID: String);

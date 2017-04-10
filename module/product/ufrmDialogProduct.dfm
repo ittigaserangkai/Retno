@@ -624,7 +624,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 50
+            Top = 44
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -633,7 +633,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 2
             Transparent = True
-            ExplicitTop = 44
+            ExplicitWidth = 121
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -647,11 +647,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 0
             Transparent = True
+            ExplicitWidth = 121
           end
           object cbisDecimal: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 74
+            Top = 65
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -661,11 +662,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 3
             Transparent = True
             ExplicitTop = 71
+            ExplicitWidth = 121
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 98
+            Top = 86
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -675,11 +677,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 4
             Transparent = True
             ExplicitTop = 95
+            ExplicitWidth = 121
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 146
+            Top = 128
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -689,11 +692,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 6
             Transparent = True
             ExplicitTop = 140
+            ExplicitWidth = 121
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 122
+            Top = 107
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -703,11 +707,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 5
             Transparent = True
             ExplicitTop = 119
+            ExplicitWidth = 121
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 26
+            Top = 23
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -716,11 +721,13 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 1
             Transparent = True
+            ExplicitTop = 26
+            ExplicitWidth = 121
           end
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 170
+            Top = 149
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -730,6 +737,8 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
+            ExplicitTop = 170
+            ExplicitWidth = 121
           end
         end
         object gbPurchase: TcxGroupBox
@@ -837,10 +846,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsKonversi: TcxTabSheet
         Caption = 'F2 [Konversi Satuan]'
         ImageIndex = 34
-        ExplicitLeft = -224
-        ExplicitTop = -72
-        ExplicitWidth = 772
-        ExplicitHeight = 354
         object cxGroupBox1: TcxGroupBox
           Left = 0
           Top = 0
@@ -848,7 +853,6 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
-          ExplicitWidth = 770
           Height = 362
           Width = 776
           object cxGroupBox3: TcxGroupBox
@@ -859,7 +863,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 1
-            ExplicitWidth = 766
             Height = 27
             Width = 772
             object Label2: TLabel
@@ -879,7 +882,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              ExplicitLeft = 512
               ExplicitHeight = 16
             end
             object btnDelKonv: TcxButton
@@ -1014,7 +1016,6 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsNone
           TabOrder = 0
           ExplicitTop = 138
-          ExplicitWidth = 772
           Height = 216
           Width = 776
           object lbSupplier: TLabel
@@ -1294,7 +1295,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckActive: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 26
+              Top = 23
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1304,7 +1305,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 1
               Transparent = True
-              ExplicitTop = 23
+              ExplicitWidth = 121
             end
             object ckPrimer: TcxCheckBox
               AlignWithMargins = True
@@ -1319,11 +1320,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 0
               Transparent = True
+              ExplicitWidth = 121
             end
             object ckBKP: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 74
+              Top = 65
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1334,11 +1336,13 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 2
               Transparent = True
               ExplicitLeft = 7
+              ExplicitTop = 74
+              ExplicitWidth = 121
             end
             object ckEnableCN: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 50
+              Top = 44
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1350,6 +1354,8 @@ inherited frmDialogProduct: TfrmDialogProduct
               Transparent = True
               OnKeyDown = ckEnableCNKeyDown
               ExplicitLeft = 13
+              ExplicitTop = 50
+              ExplicitWidth = 121
             end
           end
           object crBRSSellingPrice: TcxCurrencyEdit
@@ -1460,8 +1466,6 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 1
-          ExplicitWidth = 772
-          ExplicitHeight = 138
           Height = 146
           Width = 776
           object pnlGridSupplierBtn: TcxGroupBox
@@ -1473,7 +1477,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
             ExplicitTop = 109
-            ExplicitWidth = 768
             Height = 27
             Width = 772
             object lbSuppShortCut1: TLabel
@@ -1493,7 +1496,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              ExplicitLeft = 514
               ExplicitHeight = 16
             end
             object btnDelSupp: TcxButton
@@ -1660,7 +1662,6 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsNone
           TabOrder = 0
           ExplicitTop = 138
-          ExplicitWidth = 772
           Height = 216
           Width = 776
           object Label3: TLabel
@@ -1736,8 +1737,6 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 1
-          ExplicitWidth = 772
-          ExplicitHeight = 138
           Height = 146
           Width = 776
           object cxGroupBox5: TcxGroupBox
@@ -1749,7 +1748,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
             ExplicitTop = 109
-            ExplicitWidth = 768
             Height = 27
             Width = 772
             object Label29: TLabel
@@ -1769,7 +1767,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              ExplicitLeft = 514
               ExplicitHeight = 16
             end
             object btnDeletePrice: TcxButton

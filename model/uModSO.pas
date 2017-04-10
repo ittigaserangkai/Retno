@@ -4,26 +4,26 @@ interface
 
 uses
   uModApp, uModSatuan, uModUnit, uModBarang, uModSuplier,
-  System.Generics.Collections;
+  System.Generics.Collections, System.SysUtils;
 
 
 type
+  TSODetils = class;
   TModSODetil = class;
-  TSODetils = class(TObjectList<TModSODetil>);
+
   TModSO = class(TModApp)
   private
     FAUTUNIT: TModUnit;
-    FMERCHANDISE: TModMerchandise;
+    FMerchandise: TModMerchandise;
     FMerchandise2: TModMerchandise;
-    FSODetils: Tobjectlist<TModSODetil>;
-    FSODetils2: TSODetils;
+    FSODetils: TSODetils;
     FSO_DATE: TDatetime;
     FSO_NO: string;
     FSUPPLIER: TModSuplier;
+    function GetSODetils: TSODetils;
   public
-    property Merchandise: TModMerchandise read FMerchandise2 write
-        FMerchandise2;
-    property SODetils: TSODetils read FSODetils2 write FSODetils2;
+    property Merchandise: TModMerchandise read FMerchandise write FMerchandise;
+    property SODetils: TSODetils read GetSODetils write FSODetils;
   published
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
     property SO_DATE: TDatetime read FSO_DATE write FSO_DATE;
@@ -31,7 +31,7 @@ type
     property SUPPLIER: TModSuplier read FSUPPLIER write FSUPPLIER;
   end;
 
-  TSODetil = class(TModApp)
+  TModSODetil = class(TModApp)
   private
     FBARANG: TModBarang;
     FBARANGSUPPLIER: TModBarangSupplier;
@@ -72,23 +72,51 @@ type
 
   TSODetils = class(TObjectList<TModSODetil>)
   private
-    function GetSODetil(Index: Integer): TSODetil;
-    procedure SetSODetil(Index: Integer; Value: TSODetil);
+    function GetSODetil(Index: Integer): TModSODetil;
+    procedure SetSODetil(Index: Integer; Value: TModSODetil);
   public
-    property SODetil[Index: Integer]: TSODetil read GetSODetil write SetSODetil;
+    destructor Destroy; override;
+    property SODetil[Index: Integer]: TModSODetil read GetSODetil write SetSODetil;
   end;
 
 implementation
 
+destructor TSODetils.Destroy;
+var
+  I: Integer;
+begin
+  inherited;
+  for I := 0 to Count - 1 do
+  begin
+    Self[i].Free;
+  end;
+
+end;
+
 {
 ********************************** TSODetils ***********************************
 }
-function TSODetils.GetSODetil(Index: Integer): TSODetil;
+function TSODetils.GetSODetil(Index: Integer): TModSODetil;
 begin
+  Result := Self[Index];
 end;
 
-procedure TSODetils.SetSODetil(Index: Integer; Value: TSODetil);
+procedure TSODetils.SetSODetil(Index: Integer; Value: TModSODetil);
 begin
+  if Self[Index] <> nil then
+  begin
+    Self[Index].Free;
+  end;
+
+  Self[Index] := Value;
+end;
+
+function TModSO.GetSODetils: TSODetils;
+begin
+  if FSODetils = nil then
+    FSODetils := TSODetils.Create(False);
+
+  Result := FSODetils;
 end;
 
 end.

@@ -11,7 +11,8 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxDBExtLookupComboBox,
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxClasses, cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit;
+  cxClasses, cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit, uDXUtils,
+  uModSO;
 
 type
   TfrmDialogSO = class(TfrmMasterDialog)
@@ -54,7 +55,12 @@ type
     cbbSupplierMerchGroup: TcxExtLookupComboBox;
     lblSuppMerGroup: TLabel;
     lblSuppMerGroupOpsional: TLabel;
+    procedure FormDestroy(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
   private
+    FSO: TModSO;
+    function GetSO: TModSO;
+    property SO: TModSO read GetSO write FSO;
     { Private declarations }
   public
     { Public declarations }
@@ -66,5 +72,30 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmDialogSO.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  SO.Free;
+end;
+
+procedure TfrmDialogSO.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  if not ValidateEmptyCtrl([1]) then
+    Exit;
+
+  SO.SO_NO := edtNoSO.Text;
+//  SO.AUTUNIT :=
+
+end;
+
+function TfrmDialogSO.GetSO: TModSO;
+begin
+  if FSO = nil then
+    FSO := TModSO.Create;
+
+  Result := FSO;
+end;
 
 end.

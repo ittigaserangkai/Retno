@@ -2,6 +2,7 @@ inherited frmDialogSO: TfrmDialogSO
   Caption = 'Dialog Suggestion Order'
   ClientHeight = 359
   ClientWidth = 768
+  OnDestroy = FormDestroy
   ExplicitWidth = 784
   ExplicitHeight = 398
   PixelsPerInch = 96
@@ -9,6 +10,8 @@ inherited frmDialogSO: TfrmDialogSO
   inherited pnlBody: TPanel
     Width = 768
     Height = 303
+    ExplicitWidth = 768
+    ExplicitHeight = 303
     object pnlTop: TPanel
       Left = 2
       Top = 2
@@ -19,8 +22,6 @@ inherited frmDialogSO: TfrmDialogSO
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
-      ExplicitLeft = 4
-      ExplicitTop = -4
       object lbl1: TLabel
         Left = 73
         Top = 7
@@ -84,8 +85,6 @@ inherited frmDialogSO: TfrmDialogSO
         BevelOuter = bvLowered
         Color = 15198183
         TabOrder = 5
-        ExplicitTop = 63
-        ExplicitWidth = 546
         object lbl4: TLabel
           Left = 230
           Top = 8
@@ -360,10 +359,6 @@ inherited frmDialogSO: TfrmDialogSO
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitLeft = 11
-      ExplicitTop = 11
-      ExplicitWidth = 777
-      ExplicitHeight = 280
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -443,39 +438,56 @@ inherited frmDialogSO: TfrmDialogSO
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 303
     Width = 768
+    ExplicitTop = 303
+    ExplicitWidth = 768
     inherited pnlFooter: TPanel
       Width = 768
+      ExplicitWidth = 768
       inherited btnClose: TcxButton
         Left = 691
         Action = actCancel
+        ExplicitLeft = 691
       end
       inherited btnSave: TcxButton
         Left = 598
         Action = actSave
+        ExplicitLeft = 598
+        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
         Left = 521
+        ExplicitLeft = 521
+        ExplicitTop = 5
       end
     end
     inherited pnlSortCut: TPanel
       Width = 768
+      ExplicitWidth = 768
       inherited lbCTRLEnter: TLabel
         Left = 593
         Height = 15
+        ExplicitLeft = 593
       end
       inherited lbEscape: TLabel
         Left = 684
         Height = 15
+        ExplicitLeft = 684
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 517
+        ExplicitLeft = 517
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
