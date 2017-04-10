@@ -37,15 +37,15 @@ type
     procedure SetProductTypeId(const Value: Integer);
     procedure ShowDataEdit(AProductTypeId: integer);
     procedure PrepareAddData();
-    function SaveProductType: boolean;
+//    function SaveProductType: boolean;
     procedure SimpanData;
-    function UpdateProductType: boolean;
+//    function UpdateProductType: boolean;
     property Crud: TCrudClient read GetCrud write FCrud;
     property ModTipeBarang: TModTipeBarang read GetModTipeBarang write
         FModTipeBarang;
 
   public
-    function cekProduk(aKodeBaru : string): Boolean;
+//    function cekProduk(aKodeBaru : string): Boolean;
     procedure LoadData(ID: String);
     { Public declarations }
   published
@@ -83,23 +83,23 @@ begin
   SimpanData();
 end;
 
-function TfrmDialogProductType.cekProduk(aKodeBaru : string): Boolean;
-var
-  sKodeLama: string;
-  i: Integer;
-begin
-  Result := False ;
-  {for i := 1 to frmProductType.strgGrid.RowCount - 1 do
-  begin
-     sKodeLama := frmProductType.strgGrid.Cells[0, i];
-     if aKodeBaru = sKodeLama then
-     begin
-       Result := True;
-       Break;
-     end;
-  end;
-  }
-end;
+//function TfrmDialogProductType.cekProduk(aKodeBaru : string): Boolean;
+//var
+//  sKodeLama: string;
+//  i: Integer;
+//begin
+//  Result := False ;
+//  {for i := 1 to frmProductType.strgGrid.RowCount - 1 do
+//  begin
+//     sKodeLama := frmProductType.strgGrid.Cells[0, i];
+//     if aKodeBaru = sKodeLama then
+//     begin
+//       Result := True;
+//       Break;
+//     end;
+//  end;
+//  }
+//end;
 
 { TfrmDialogProductType }
 
@@ -119,118 +119,118 @@ begin
   FProductTypeId := Value;
 end;
 
-function TfrmDialogProductType.SaveProductType: boolean;
-var
-  aKode: string;
-  ANama: string;
+//function TfrmDialogProductType.SaveProductType: boolean;
+//var
+//  aKode: string;
+//  ANama: string;
+//
+//begin
+//  //=========R ==============
+//  result := false;
+//  if edtCode.Text='' then
+//  begin
+//    CommonDlg.ShowErrorEmpty('KODE');
+//    edtCode.SetFocus;
+//    Exit;
+//  end;
+//  if edtName.Text='' then
+//  begin
+//    CommonDlg.ShowErrorEmpty('NAME ');
+//    edtName.SetFocus;
+//    Exit;
+//  end;
+//  if cekProduk(Trim(UpperCase(edtCode.Text))) then
+//  begin
+//    CommonDlg.ShowMessage('Nama Produk ' + edtCode.Text + ' telah terdaftar');
+//    edtCode.SetFocus;
+//    Exit;
+//  end;
+//
+//  aIDLokal := 0;
+//  aKode := UpperCase(edtCode.Text);
+//  ANama := UpperCase(edtName.Text);
+//  {
+//  FTipeProduct.UpdateData(aIDLokal,aKode,ANama);
+//
+//  if FTipeProduct.ExecuteGenerateSQL then
+//  begin
+//    cCommitTrans;
+//    Result := True
+//  end
+//  else
+//  begin
+//    cRollbackTrans;
+//    Result := False;
+//    CommonDlg.ShowMessage('Pengisian tipe barang gagal');
+//  end
+//   }
+//
+//end;
 
-begin
-  //=========R ==============
-  result := false;
-  if edtCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('KODE');
-    edtCode.SetFocus;
-    Exit;
-  end;
-  if edtName.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME ');
-    edtName.SetFocus;
-    Exit;
-  end;
-  if cekProduk(Trim(UpperCase(edtCode.Text))) then
-  begin
-    CommonDlg.ShowMessage('Nama Produk ' + edtCode.Text + ' telah terdaftar');
-    edtCode.SetFocus;
-    Exit;
-  end;
-
-  aIDLokal := 0;
-  aKode := UpperCase(edtCode.Text);
-  ANama := UpperCase(edtName.Text);
-  {
-  FTipeProduct.UpdateData(aIDLokal,aKode,ANama);
-
-  if FTipeProduct.ExecuteGenerateSQL then
-  begin
-    cCommitTrans;
-    Result := True
-  end
-  else
-  begin
-    cRollbackTrans;
-    Result := False;
-    CommonDlg.ShowMessage('Pengisian tipe barang gagal');
-  end
-   }
-
-end;
-
-function TfrmDialogProductType.UpdateProductType: boolean;
-var
-  aIDLokal: Integer;
-  aKode: string;
-  ANama: string;
-begin
-  result := false;
-  if edtCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('CODE');
-    edtCode.SetFocus;
-    Exit;
-  end;
-  if edtName.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME');
-    edtName.SetFocus;
-    Exit;
-  end;
+//function TfrmDialogProductType.UpdateProductType: boolean;
+//var
+//  aIDLokal: Integer;
+//  aKode: string;
+//  ANama: string;
+//begin
+//  result := false;
+//  if edtCode.Text='' then
+//  begin
+//    CommonDlg.ShowErrorEmpty('CODE');
+//    edtCode.SetFocus;
+//    Exit;
+//  end;
+//  if edtName.Text='' then
+//  begin
+//    CommonDlg.ShowErrorEmpty('NAME');
+//    edtName.SetFocus;
+//    Exit;
+//  end;
 
 //  aIDLokal := FTipeProduct.ID ;
-  aKode := UpperCase(edtCode.Text);
-  ANama := UpperCase(edtName.Text);
+//  aKode := UpperCase(edtCode.Text);
+//  ANama := UpperCase(edtName.Text);
 
 //  FTipeProduct.UpdateData(aIDLokal,aKode,ANama);
 
 //  if FTipeProduct.ExecuteGenerateSQL then
-    Result := True;
+//    Result := True;
 //  else
-  begin
-    Result := False;
-    CommonDlg.ShowMessage('Update data gagal');
-  end;
-
-
-end;
+//  begin
+//    Result := False;
+//    CommonDlg.ShowMessage('Update data gagal');
+//  end;
+//
+//
+//end;
 
 procedure TfrmDialogProductType.FormShow(Sender: TObject);
 begin
   inherited;
 
-  if (FFormMode = fmEdit) then
-    ShowDataEdit(ProductTypeId)
-  else
-    PrepareAddData();
+//  if (FFormMode = fmEdit) then
+//    ShowDataEdit(ProductTypeId)
+//  else
+//    PrepareAddData();
 end;
 
 procedure TfrmDialogProductType.ShowDataEdit(AProductTypeId: integer);
-var
-  data: TDataSet;
+//var
+//  data: TDataSet;
 begin
 //  if not assigned(ProductType) then
 //    ProductType := TProductType.Create;
 //
 //  data:= ProductType.SearchDataProductType(AProductTypeId);
-  edtCode.Text := data.Fields[0].AsString;
-  edtName.Text := data.Fields[1].AsString;
+//  edtCode.Text := data.Fields[0].AsString;
+//  edtName.Text := data.Fields[1].AsString;
 
 end;
 
 procedure TfrmDialogProductType.PrepareAddData;
 begin
-  edtCode.Clear;
-  edtName.Clear;
+//  edtCode.Clear;
+//  edtName.Clear;
 end;
 
 procedure TfrmDialogProductType.FormClose(Sender: TObject;
@@ -243,7 +243,7 @@ end;
 procedure TfrmDialogProductType.FormCreate(Sender: TObject);
 begin
   inherited;
-  Self.AssignKeyDownEvent;
+//  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogProductType.FormDestroy(Sender: TObject);
@@ -280,8 +280,8 @@ begin
   if not ValidateEmptyCtrl([1]) then
     Exit;
 
-  MODTipeBarang.TPBRG_CODE := edtCode.Text;
-  MODTipeBarang.TPBRG_NAME := edtName.Text;
+  MODTipeBarang.TPBRG_CODE := trim(edtCode.Text);
+  MODTipeBarang.TPBRG_NAME := trim(edtName.Text);
 
   try
     Crud.SaveToDB(MODTipeBarang);

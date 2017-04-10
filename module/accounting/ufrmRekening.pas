@@ -18,15 +18,12 @@ uses
 type
   TfrmRekening = class(TfrmMaster)
     fraFooter5Button1: TfraFooter5Button;
-    pnlTop: TPanel;
-    lbl1: TLabel;
     pnlAll: TPanel;
     actlstRekening: TActionList;
     actAddRekening: TAction;
     actEditRekening: TAction;
     actDeleteRekening: TAction;
     actRefreshRekening: TAction;
-    cbpRekGroup: TcxLookupComboBox;
     strgGrid: TStringGrid;
     cxDBTreeList: TcxDBTreeList;
     cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn;
@@ -79,17 +76,20 @@ end;
 procedure TfrmRekening.actAddRekeningExecute(Sender: TObject);
 begin
   inherited;
-  if not Assigned(frmDialogRekening) then
-    frmDialogRekening := TfrmDialogRekening.Create(Application);
+//  if not Assigned(frmDialogRekening) then
+  frmDialogRekening := TfrmDialogRekening.Create(Application);
+  try
+  //  frmDialogRekening.Caption := 'Add Rekening';
+    frmDialogRekening.StatusForm := frNew;
+    SetFormPropertyAndShowDialog(frmDialogRekening);
 
-  frmDialogRekening.Caption := 'Add Rekening';
-  frmDialogRekening.StatusForm := frNew;
-  SetFormPropertyAndShowDialog(frmDialogRekening);
-
-  if (frmDialogRekening.IsProcessSuccesfull) then
-  begin
-    CommonDlg.ShowMessage(CONF_ADD_SUCCESSFULLY);
-    actRefreshRekeningExecute(Self);
+    if (frmDialogRekening.IsProcessSuccesfull) then
+    begin
+      CommonDlg.ShowMessage(CONF_ADD_SUCCESSFULLY);
+      actRefreshRekeningExecute(Self);
+    end;
+  finally
+    frmDialogRekening.Free;
   end;
 
   LoadData();
