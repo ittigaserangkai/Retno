@@ -174,6 +174,9 @@ inherited frmDialogRekening: TfrmDialogRekening
         Action = actDelete
         Visible = False
       end
+      inherited btnPrint: TcxButton
+        Left = 229
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 476
@@ -181,17 +184,19 @@ inherited frmDialogRekening: TfrmDialogRekening
       inherited lbCTRLEnter: TLabel
         Left = 301
         Height = 15
+        ExplicitLeft = 301
       end
       inherited lbEscape: TLabel
         Left = 392
         Height = 15
+        ExplicitLeft = 392
       end
       inherited lbCTRLDel: TLabel
         Height = 15
         Visible = False
-        ExplicitLeft = 3
-        ExplicitTop = 2
-        ExplicitHeight = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 225
       end
     end
   end

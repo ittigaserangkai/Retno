@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Store :: ASSALAAM HYPERMARKET'
+  Caption = 'ASSALAAM HYPERMARKET'
   ClientHeight = 488
   ClientWidth = 800
   Color = clBtnFace
@@ -88,6 +88,7 @@ object frmMain: TfrmMain
       object miExit1: TMenuItem
         Caption = 'Exit'
         ShortCut = 32883
+        OnClick = miExit1Click
       end
     end
     object mmSetting1: TMenuItem

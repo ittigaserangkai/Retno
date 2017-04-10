@@ -69,8 +69,8 @@ type
     function RefTipeMember_GetDSLookup: TDataSet;
     function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
-    function SO_GetDSOverview(ATglAwal , ATglAtglAkhir : TDateTime; AUnit :
-        TModUnit = nil): TDataSet;
+    function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
+        nil): TDataSet;
 
 
   end;
@@ -637,14 +637,14 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.SO_GetDSOverview(ATglAwal , ATglAtglAkhir : TDateTime;
-    AUnit : TModUnit = nil): TDataSet;
+function TDSProvider.SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+    TModUnit = nil): TDataSet;
 var
   sSQL: string;
 begin
-  sSQL := 'select * from V_SO ' ;
-//          ' where SO_DATE between ' + TAppUtils.QuotDt(StartOfTheDay(ATglAwal)) +
-//          ' and ' + TAppUtils.QuotDt(EndOfTheDay(ATglAtglAkhir));
+  sSQL := 'select * from V_SO ' +
+          ' where SO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;

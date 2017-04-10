@@ -52,6 +52,7 @@ type
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;
   end;
 
+  TMasterBrowseClass = class of TfrmMasterBrowse;
 var
   frmMasterBrowse: TfrmMasterBrowse;
 

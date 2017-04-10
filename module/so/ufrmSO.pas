@@ -58,7 +58,7 @@ begin
 
     FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
     cxGridView.LoadFromCDS(FCDS);
-    cxGridView.SetVisibleColumns(['AUT$UNIT_ID'],False);
+    cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'SO_ID'],False);
   finally
     TAppUtils.cCloseWaitWindow;
   end;
