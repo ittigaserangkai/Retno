@@ -39,7 +39,8 @@ uses
   uModDocument in '..\model\uModDocument.pas',
   uModTipePo in '..\model\uModTipePo.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
-  uModRefAgama in '..\model\uModRefAgama.pas';
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  uModQuotation in '..\model\uModQuotation.pas';
 
 {$R *.res}
 

@@ -50,17 +50,21 @@ type
     FLookupClient : TLookupClient;
     FCDS: TClientDataset;
     FCommandName: String;
+    FMultiSelect: Boolean;
     procedure HideDateParams;
     procedure RefreshDataSet;
     { Private declarations }
   public
-    constructor Create(ARestConn: TDSRestConnection); reintroduce;
+    constructor Create(ARestConn: TDSRestConnection; aMultiSelect: Boolean =
+        False); reintroduce;
     class function Execute(aCaption, aCommand: String; aStartDate: TDateTime = 0;
         aEndDate: TDateTime = 0): TfrmCXLookup;
     procedure HideFields(FieldNames: Array Of String);
     property CDS: TClientDataset read FCDS write FCDS;
     property CommandName: String read FCommandName write FCommandName;
     { Public declarations }
+  published
+    property MultiSelect: Boolean read FMultiSelect write FMultiSelect;
   end;
 
 var
@@ -95,10 +99,12 @@ begin
     Self.ModalResult := mrOk;
 end;
 
-constructor TfrmCXLookup.Create(ARestConn: TDSRestConnection);
+constructor TfrmCXLookup.Create(ARestConn: TDSRestConnection; aMultiSelect:
+    Boolean = False);
 begin
   inherited Create(Application);
   FLookupClient := TLookupClient.Create(ARestConn, False);
+  Self.MultiSelect := aMultiSelect;
 end;
 
 procedure TfrmCXLookup.cxGridViewDblClick(Sender: TObject);

@@ -124,6 +124,7 @@ type
     property HargaJual: TObjectList<TModBarangHargaJual> read GetHargaJual write
         FHargaJual;
   published
+    [AttributeOfCode]
     property BRG_CODE: String read FBRG_CODE write FBRG_CODE;
     property BRG_NAME: String read FBRG_NAME write FBRG_NAME;
     property BRG_ALIAS: String read FBRG_ALIAS write FBRG_ALIAS;
