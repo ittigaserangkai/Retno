@@ -22,21 +22,21 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Height = 272
       TabOrder = 1
       ExplicitLeft = 1
-      ExplicitTop = 97
+      ExplicitTop = 73
       ExplicitWidth = 645
-      ExplicitHeight = 248
+      ExplicitHeight = 272
       ClientRectBottom = 271
       ClientRectRight = 644
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 643
-        ExplicitHeight = 246
+        ExplicitHeight = 270
         inherited cxGrid: TcxGrid
           Width = 643
           Height = 270
           ExplicitWidth = 643
-          ExplicitHeight = 246
+          ExplicitHeight = 270
         end
       end
     end
