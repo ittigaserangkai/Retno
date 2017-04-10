@@ -23,7 +23,7 @@ type
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
-    function SaveToDBFilter(AObject: TModApp; FilterClass: String = ''): Boolean;
+    function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
@@ -38,8 +38,24 @@ begin
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
+var
+  lSS: TStrings;
 begin
-  Result := SaveToDBFilter(AObject)
+  Result := False;
+  if not ValidateCode(AObject) then exit;
+  lSS := TDBUtils.GenerateSQL(AObject);
+  Try
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+      TDBUtils.Commit;
+      Result := True;
+    except
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+    lSS.Free;
+  End;
 end;
 
 function TCrud.DeleteFromDB(AObject: TModApp): Boolean;
@@ -83,23 +99,16 @@ begin
   Result := Self.Retrieve(lClass, AID);
 end;
 
-function TCrud.SaveToDBFilter(AObject: TModApp; FilterClass: String = ''):
-    Boolean;
+function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
 var
-  FilterClasses: Array Of String;
   lSS: TStrings;
 begin
-  //too bad rest server can't handle array of string.. -___-
-  If FilterClass <> '' then
-    FilterClasses := [FilterClass]
-  else
-    FilterClasses := [];
-
   Result := False;
   if not ValidateCode(AObject) then exit;
-  lSS := TDBUtils.GenerateSQL(AObject,FilterClasses);
+  lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
+      lSS.SaveToFile(ExtractFilePath(ParamStr(0)) + '\SaveToDB.log');
       TDBUtils.ExecuteSQL(lSS, False);
       TDBUtils.Commit;
       Result := True;
@@ -113,8 +122,6 @@ begin
 end;
 
 function TCrud.SaveToDBID(AObject: TModApp): String;
-var
-  lSS: TStrings;
 begin
   Result := '';
   If SaveToDB(AObject) then Result := AObject.ID;
@@ -130,19 +137,19 @@ begin
   ctx := TRttiContext.Create;
   list := ctx.GetTypes;
   for typ in list do
+  begin
+    if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
     begin
-      if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
-        begin
-          Result := TModAppClass(typ.AsInstance.MetaClassType);
-          break;
-        end;
+      Result := TModAppClass(typ.AsInstance.MetaClassType);
+      break;
     end;
+  end;
   ctx.Free;
 end;
 
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
 begin
-  Result := TDBUtils.GenerateSQL(AObject,[]);
+  Result := TDBUtils.GenerateSQL(AObject);
 end;
 
 function TCrud.ValidateCode(AOBject: TModApp): Boolean;

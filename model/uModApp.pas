@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, System.Rtti, System.TypInfo, Datasnap.DBClient, System.Classes,
-  Data.DB;
+  Data.DB, System.Generics.Collections;
 
 type
 
@@ -27,22 +27,31 @@ type
   AttrUpdateDetails = class(TCustomAttribute)
   end;
 
+  TFilterClassKind = (fckNone = 0, fckInclude = 1, fckExclude = 2);
+
 {$TYPEINFO ON}
   TModApp = class;
 {$TYPEINFO OFF}
+  TModAppClass = class of TModApp;
+
+  TFilterClass = class;
 
   TModApp = class(TObject)
   private
     FDate_Create: TDatetime;
     FDate_Modify: TDatetime;
+    FCrudFilterKind: TFilterClassKind;
+    FFilterClasses: TObjectList<TFilterClass>;
     FID: string;
 
     FObjectState: Integer;
-
+    procedure SetCrudFilterKind(const Value: TFilterClassKind);
   protected
   public
     constructor Create; reintroduce;
     constructor CreateID(AID : String);
+    destructor Destroy; override;
+    procedure AddFilterCrud(aModClass: TModAppClass);
     function FieldNameOf(aprop: TRttiProperty): String;
     function GetCodeField: String;
     function GetCodeValue: String;
@@ -58,6 +67,10 @@ type
     procedure SetFromDataset(ADataSet: TDataset);
     procedure UpdateToDataset(ADataSet: TDataset);
 
+    property FilterClasses: TObjectList<TFilterClass> read FFilterClasses write
+        FFilterClasses;
+    property CrudFilterKind: TFilterClassKind read FCrudFilterKind write
+        SetCrudFilterKind;
     property ObjectState: Integer read FObjectState write FObjectState;   // 1 Baru, 3 Edit, 5 Hapus
   published
     property Date_Create: TDatetime read FDate_Create write FDate_Create;
@@ -65,17 +78,21 @@ type
     property ID: string read FID write FID;
   end;
 
+  TFilterClass = class(TObject)
+  strict private
+  private
+    FModClass: TModAppClass;
+    FModClassName: String;
+    FModClassQName: String;
+  public
+    constructor Create(aModClass: TModAppClass);
+    function CheckClass(aClassName: string): Boolean;
+    class procedure RegisterRTTI;
+    property ModClass: TModAppClass read FModClass write FModClass;
+    property ModClassName: String read FModClassName write FModClassName;
+    property ModClassQName: String read FModClassQName write FModClassQName;
+  end;
 
-//  TModAppItem = class(TModApp)
-//  public
-//    class function GetHeaderField: string; dynamic; abstract;
-//    procedure SetHeaderProperty(AHeaderProperty : TModApp); dynamic; abstract;
-//  end;
-
-
-  TModAppClass = class of TModApp;
-
-//  TModAppClassItem = class of TModAppItem;
 
 implementation
 
@@ -102,6 +119,21 @@ constructor TModApp.CreateID(AID: String);
 begin
   Self    := inherited Create;
   Self.ID := AID;
+end;
+
+destructor TModApp.Destroy;
+begin
+  inherited;
+  if Assigned(FFilterClasses) then
+    FreeAndNil(FFilterClasses);
+end;
+
+procedure TModApp.AddFilterCrud(aModClass: TModAppClass);
+begin
+  if Self.CrudFilterKind = fckNone then
+    Raise Exception.Create('Can''t set filter when CrudFilterKind = fckNone');
+
+  Self.FilterClasses.Add( TFilterClass.Create(aModClass) );
 end;
 
 function TModApp.FieldNameOf(aprop: TRttiProperty): String;
@@ -235,6 +267,18 @@ begin
   //jalankan di initialization section
 end;
 
+procedure TModApp.SetCrudFilterKind(const Value: TFilterClassKind);
+begin
+  FCrudFilterKind := Value;
+  If Value <> fckNone then
+  begin
+    if not Assigned(FFilterClasses) then
+      FFilterClasses := TObjectList<TFilterClass>.Create
+  end else begin
+    if Assigned(FFilterClasses) then FFilterClasses.Clear;
+  end;
+end;
+
 procedure TModApp.SetFromDataset(ADataSet: TDataset);
 var
   sSQL: string;
@@ -321,5 +365,31 @@ begin
     end;
   end;
 end;
+
+constructor TFilterClass.Create(aModClass: TModAppClass);
+begin
+  inherited Create;
+  Self.ModClass := aModClass;
+  //server tidak mengenali TModAppClass.. lol
+  Self.ModClassName := aModClass.ClassName;
+  Self.ModClassQName := aModClass.QualifiedClassName;
+end;
+
+function TFilterClass.CheckClass(aClassName: string): Boolean;
+begin
+  Result := (UpperCase(aClassName) = UpperCase(Self.ModClassName))
+    or (UpperCase(aClassName) = UpperCase(Self.ModClassQName))
+end;
+
+class procedure TFilterClass.RegisterRTTI;
+begin
+  //dummy method agar rtti diregister secara full
+  //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
+  //jalankan di initialization section
+end;
+
+
+initialization
+  TFilterClass.RegisterRTTI;
 
 end.

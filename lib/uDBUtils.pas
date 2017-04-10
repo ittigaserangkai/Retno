@@ -42,10 +42,8 @@ type
         overload;
     class function ExecuteSQL(ASQLs: TStrings; DoCommit: Boolean = True): Boolean;
         overload;
-    class procedure GenerateSQL(AObject: TModApp; SS: TStrings; FilterClasses:
-        Array Of String); overload;
-    class function GenerateSQL(AObject: TModApp; FilterClasses: Array Of String):
-        TStrings; overload;
+    class procedure GenerateSQL(AObject: TModApp; SS: TStrings); overload;
+    class function GenerateSQL(AObject: TModApp): TStrings; overload;
     class procedure GenerateSQLDelete(AObject: TModApp; SS: TStrings); overload;
     class function GenerateSQLDelete(AObject: TModApp): TStrings; overload;
     class function GenerateSQLSelect(AObject : TModApp): string;
@@ -133,7 +131,6 @@ end;
 class function TDBUtils.CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
     TComponent): TClientDataSet;
 var
-  a: TCustomAttribute;
   aFieldType: TFieldType;
   ctx : TRttiContext;
   rt : TRttiType;
@@ -245,8 +242,7 @@ begin
   FreeAndNIl(Q);
 end;
 
-class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings;
-    FilterClasses: Array Of String);
+class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
 var
   a: TCustomAttribute;
   ctx : TRttiContext;
@@ -266,27 +262,20 @@ var
   SSItems: TStrings;
 
   function ClassInFilter(aClassType: TModAppClass): Boolean;
-  var
-    n: Integer;
+  var n: Integer;
   begin
-    if Length(FilterClasses) > 0 then
+    Result := True; //default no filter
+    if (AObject.CrudFilterKind = fckNone) or (AObject.FilterClasses = nil) then exit;
+    Result := AObject.CrudFilterKind <> fckInclude; //default false jika inlucde, true jika exclude
+    for n := 0 to AObject.FilterClasses.Count-1 do  //server tidak bisa baca "class of.."
     begin
-      for n := Low(FilterClasses) to High(FilterClasses) do
-      begin
-        Result := (UpperCase(aClassType.ClassName) = UpperCase(FilterClasses[n]))
-          or (UpperCase(aClassType.QualifiedClassName) = UpperCase(FilterClasses[n]));
-        If Result then exit;
-      end;
-    end else
-      Result := True;
+      Result := AObject.FilterClasses[n].CheckClass(aClassType.ClassName);
+      if AObject.CrudFilterKind = fckExclude then Result := not Result;
+      If Result <>  (AObject.CrudFilterKind <> fckInclude) then exit;
+    end;
   end;
 
 begin
-  //04-05-17 : tambahan FilterClasses utk memfilter :
-  //1. simpan hanya header
-  //2. simpan item nya saja ? karena simpan item tetap butuh delete where header...
-  //contoh penggunaan :  model barang memiliki detail barang_harga_jual, hanya butuh menimpan harga jual saja
-
   DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
 
@@ -308,12 +297,13 @@ begin
       if Assigned(meth) then
       begin
         lObjectList := prop.GetValue(AOBject).AsObject;
+        if lObjectList = nil then continue;
+
         sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
         sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
-
-
         rtItem := ctx.FindType(sGenericItemClassName);
-        //obj item class
+
+        if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
         lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
 
         //filter class
@@ -350,7 +340,7 @@ begin
             end else
               lModItem.ObjectState := 1; //always insert
 
-            GenerateSQL(lModItem,SSItems,[]);
+            GenerateSQL(lModItem,SSItems);
           end;
 
           If Assigned(lModItem) then
@@ -384,11 +374,10 @@ begin
 
 end;
 
-class function TDBUtils.GenerateSQL(AObject: TModApp; FilterClasses: Array Of
-    String): TStrings;
+class function TDBUtils.GenerateSQL(AObject: TModApp): TStrings;
 begin
   Result := TStringList.Create;
-  Self.GenerateSQL(AObject, Result, FilterClasses);
+  Self.GenerateSQL(AObject, Result);
 end;
 
 class procedure TDBUtils.GenerateSQLDelete(AObject: TModApp; SS: TStrings);
@@ -414,6 +403,7 @@ begin
       meth := prop.PropertyType.GetMethod('ToArray');
       if Assigned(meth) then
       begin
+        if prop.GetValue(AOBject).AsObject = nil then continue;
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
         for i := 0 to value.GetArrayLength - 1 do
@@ -807,8 +797,10 @@ begin
             tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
             tkClass   : begin
                           meth := prop.PropertyType.GetMethod('ToArray');
-                          if not Assigned(meth) then
+                          if not Assigned(meth) then //bukan obj list
                           begin
+                            if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+
                             meth          := prop.PropertyType.GetMethod('Create');
                             lAppObject    := TModApp(meth.Invoke(
                               prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
@@ -828,6 +820,8 @@ begin
           if Assigned(meth) then
           begin
             lObjectList := prop.GetValue(AOBject).AsObject;
+            if lObjectList = nil then continue;
+
             sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
             sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
             rtItem := ctx.FindType(sGenericItemClassName);
@@ -836,6 +830,7 @@ begin
             if Assigned(meth) and Assigned(rtItem) then
             begin
               //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+              if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
               lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
               lAppObjectItem  := lAppClass.Create;
               sSQL := 'select * from ' + lAppObjectItem.GetTableName

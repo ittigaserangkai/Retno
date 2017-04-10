@@ -118,7 +118,7 @@ type
     Label10: TLabel;
     gbSuppOption: TcxGroupBox;
     ckActive: TcxCheckBox;
-    ckPrimer: TcxCheckBox;
+    ckPrimarySupp: TcxCheckBox;
     ckBKP: TcxCheckBox;
     ckEnableCN: TcxCheckBox;
     lbSellingPrice: TLabel;
@@ -175,11 +175,51 @@ type
     cxLabel1: TcxLabel;
     clKonvBarcode: TcxGridDBColumn;
     Label3: TLabel;
-    cxExtLookupComboBox1: TcxExtLookupComboBox;
+    cxLookupTipeHarga: TcxExtLookupComboBox;
     Label4: TLabel;
-    cxExtLookupComboBox2: TcxExtLookupComboBox;
-    cxCurrencyEdit1: TcxCurrencyEdit;
+    cxLookupSatuanJual: TcxExtLookupComboBox;
+    crKonversi: TcxCurrencyEdit;
     Label5: TLabel;
+    pnlSellingPriceProp: TcxGroupBox;
+    crSellingPrice: TcxCurrencyEdit;
+    Label8: TLabel;
+    Label9: TLabel;
+    crSellDiscPercent: TcxCurrencyEdit;
+    crSellDiscRP: TcxCurrencyEdit;
+    Label11: TLabel;
+    crSellingPriceNet: TcxCurrencyEdit;
+    crSellingPriceCoret: TcxCurrencyEdit;
+    crSellMargin: TcxCurrencyEdit;
+    Label14: TLabel;
+    Label13: TLabel;
+    pnlSellingPriceDisc: TcxGroupBox;
+    ckLimitCrazyPrice: TcxCheckBox;
+    ckIsADS: TcxCheckBox;
+    ckIsMailer: TcxCheckBox;
+    Label12: TLabel;
+    crLimitQTYCrazy: TcxCurrencyEdit;
+    crLimitPriceCrazy: TcxCurrencyEdit;
+    crPriceADS: TcxCurrencyEdit;
+    crQTYADS: TcxCurrencyEdit;
+    Label17: TLabel;
+    Label18: TLabel;
+    crSellMarkUP: TcxCurrencyEdit;
+    crMaxQTYDisc: TcxCurrencyEdit;
+    Label19: TLabel;
+    crLastPurchasePrice: TcxCurrencyEdit;
+    Label20: TLabel;
+    Label22: TLabel;
+    crAveragePrice: TcxCurrencyEdit;
+    Label23: TLabel;
+    cxTabSheet1: TcxTabSheet;
+    cxTabSheet2: TcxTabSheet;
+    clSellTipeHarga: TcxGridDBColumn;
+    clSellSatuan: TcxGridDBColumn;
+    clSellPrice: TcxGridDBColumn;
+    clSellDiscPercent: TcxGridDBColumn;
+    clSellDiscRP: TcxGridDBColumn;
+    clSellPriceMargin: TcxGridDBColumn;
+    cxGrdDBSellingPriceColumn1: TcxGridDBColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -207,12 +247,27 @@ type
     procedure crPurchaseNetPropertiesEditValueChanged(Sender: TObject);
     procedure crBRSMarginPropertiesEditValueChanged(Sender: TObject);
     procedure crBRSSellingPricePropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookupSatuanJualPropertiesEditValueChanged(Sender: TObject);
+    procedure btnAddPriceClick(Sender: TObject);
+    procedure btnUpdatePriceClick(Sender: TObject);
+    procedure btnDeletePriceClick(Sender: TObject);
+    procedure crSellingPricePropertiesEditValueChanged(Sender: TObject);
+    procedure crSellDiscPercentPropertiesEditValueChanged(Sender: TObject);
+    procedure crSellDiscRPPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGrdDBSellingPriceCellClick(Sender: TcxCustomGridTableView;
+        ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
+        TShiftState; var AHandled: Boolean);
   private
     FCDSSupp: TClientDataset;
     FCDSKonv: TClientDataset;
+    FCDSAvailableKonv: TClientDataSet;
+    FCDSHargaJual: TClientDataset;
+    FCDSSatuan: TClientDataset;
     FIsUpdateSupplier: Boolean;
+    FIsUpdateHrgJual: Boolean;
     FModBarang: TModBarang;
     procedure AddSupplier;
+    procedure AddHargaJual;
     procedure LoadSupplierRow;
     procedure ClearForm;
     procedure ClearSupplier;
@@ -221,17 +276,29 @@ type
     function GetCDSKonv: TClientDataset;
     function GetModBarang: TModBarang;
     procedure CalculateMargin(Sender: TObject);
+    procedure CalculatePrice(Sender: TObject);
+    function GetCDSAvailableKonv: TClientDataSet;
+    function GetCDSHargaJual: TClientDataset;
+    function GetCDSSatuan: TClientDataset;
     procedure InitGrid;
     procedure InitLookup;
     procedure LoadItems;
+    procedure LoadSellingPriceRow;
     procedure SaveData;
+    procedure SetDefaultInputSellPrice;
+    procedure UpdateAvailableSat;
     procedure UpdateData;
     procedure UpdateDataItem;
     function ValidateData: Boolean;
+    property CDSAvailableKonv: TClientDataSet read GetCDSAvailableKonv write
+        FCDSAvailableKonv;
     property CDSSupp: TClientDataset read GetCDSSupp write FCDSSupp;
     property CDSKonv: TClientDataset read GetCDSKonv write FCDSKonv;
+    property CDSHargaJual: TClientDataset read GetCDSHargaJual write FCDSHargaJual;
+    property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
     property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
         FIsUpdateSupplier;
+    property IsUpdateHrgJual: Boolean read FIsUpdateHrgJual write FIsUpdateHrgJual;
     property ModBarang: TModBarang read GetModBarang write FModBarang;
   public
     procedure LoadData(AID: String);
@@ -246,7 +313,7 @@ implementation
 
 uses
   uDXUtils, uDMClient,  uModSatuan, uAppUtils, uConstanta, ufrmDialogMerk,
-  uModOutlet, uModRefPajak, uModSuplier, uDBUtils, ufrmCXLookup;
+  uModOutlet, uModRefPajak, uModSuplier, uDBUtils, ufrmCXLookup, uModApp;
 
 {$R *.dfm}
 
@@ -271,6 +338,8 @@ begin
 end;
 
 procedure TfrmDialogProduct.AddSupplier;
+var
+  lCDS: TClientDataSet;
 begin
   if not ValidateEmptyCtrl([1], True, gbSupplier) then exit;
 
@@ -285,7 +354,7 @@ begin
   CDSSupp.FieldByName('SATUAN_PURCHASE').AsString := cxLookupBRSUom.EditValue;
   CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat := crStockInOrder.Value;
   CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger := TAppUtils.BoolToInt(ckBKP.Checked);
-  CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger := TAppUtils.BoolToInt(ckPrimer.Checked);
+  CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger := TAppUtils.BoolToInt(ckPrimarySupp.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(ckEnableCN.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger := TAppUtils.BoolToInt(ckActive.Checked);
 //  CDSSupp.FieldByName('SellingPrice').AsFloat := crBRSSellingPrice.Value;
@@ -298,10 +367,61 @@ begin
   CDSSupp.FieldByName('BRGSUP_MIN_ORDER').AsFloat := crMinOrder.Value;
   CDSSupp.FieldByName('BRGSUP_MAX_ORDER').AsFloat := crMaxOrder.Value;
 
+  if ckPrimarySupp.Checked then
+  begin
+    lCDS := TClientDataSet.Create(Self);
+    Try
+      lCDS.CloneCursor(CDSSupp, True);
+      lCDS.Filtered := True;
+      lCDS.Filter := 'BRGSUP_IS_PRIMARY = 1';
+      lCDS.First;
+      while not lCDS.Eof do
+      begin
+        lCDS.Edit;
+        lCDS.FieldByName('BRGSUP_IS_PRIMARY').AsInteger := 0;
+        lCDS.Post;
+        lCDS.Next;
+      end;
+    Finally
+      lCDS.Free;
+    End;
+  end;
+
   CDSSupp.Post;
 
   cxGrdDBSupplier.ApplyBestFit;
   btnAddSupp.Click;
+end;
+
+procedure TfrmDialogProduct.AddHargaJual;
+begin
+  if not ValidateEmptyCtrl([1], True, gbSellingPrice) then exit;
+
+  if IsUpdateHrgJual then
+    CDSHargaJual.Edit
+  else
+    CDSHargaJual.Append;
+
+  CDSHargaJual.FieldByName('TipeHarga').AsString := cxLookupTipeHarga.EditValue;
+  CDSHargaJual.FieldByName('Satuan').AsString := cxLookupSatuanJual.EditValue;
+  CDSHargaJual.FieldByName('BHJ_SELL_PRICE').AsFloat := crSellingPrice.EditValue;
+  CDSHargaJual.FieldByName('BHJ_DISC_PERSEN').AsFloat := crSellDiscPercent.EditValue;
+  CDSHargaJual.FieldByName('BHJ_DISC_NOMINAL').AsFloat := crSellDiscRP.EditValue;
+  CDSHargaJual.FieldByName('BHJ_SELL_PRICE_DISC').AsFloat := crSellingPriceNet.EditValue;
+  CDSHargaJual.FieldByName('BHJ_SELL_PRICE_CORET').AsFloat := crSellingPriceCoret.EditValue;
+  CDSHargaJual.FieldByName('BHJ_MARK_UP').AsFloat := crSellMarkUP.EditValue;
+  CDSHargaJual.FieldByName('BHJ_CONV_VALUE').AsFloat := crKonversi.EditValue;
+  CDSHargaJual.FieldByName('BHJ_MAX_QTY_DISC').AsFloat := crMaxQTYDisc.EditValue;
+  CDSHargaJual.FieldByName('BHJ_IS_MAILER').AsInteger := TAppUtils.BoolToInt( ckIsMailer.Checked );
+  CDSHargaJual.FieldByName('BHJ_IS_LIMIT_QTY').AsInteger := TAppUtils.BoolToInt( ckLimitCrazyPrice.Checked );
+  CDSHargaJual.FieldByName('BHJ_IS_QTY_SUBSIDY').AsInteger := TAppUtils.BoolToInt( ckIsADS.Checked );
+  CDSHargaJual.FieldByName('BHJ_LIMIT_QTY').AsFloat := crLimitQTYCrazy.EditValue;
+  CDSHargaJual.FieldByName('BHJ_LIMIT_QTY_PRICE').AsFloat := crLimitPriceCrazy.EditValue;
+  CDSHargaJual.FieldByName('BHJ_QTY_SUBSIDY').AsFloat := crQTYADS.EditValue;
+  CDSHargaJual.FieldByName('BHJ_QTY_SUBSIDY_PRICE').AsFloat := crPriceADS.EditValue;
+  CDSHargaJual.Post;
+//  cxGrdDBSellingPrice.ApplyBestFit;
+  btnAddPrice.Click;
 end;
 
 procedure TfrmDialogProduct.LoadSupplierRow;
@@ -314,7 +434,7 @@ begin
   cxLookupBRSUom.EditValue    := CDSSupp.FieldByName('SATUAN_PURCHASE').AsString;
   crStockInOrder.Value        := CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat;
   ckBKP.Checked               := CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger = 1;
-  ckPrimer.Checked            := CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger = 1;
+  ckPrimarySupp.Checked       := CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger = 1;
   ckEnableCN.Checked          := CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger = 1;
   ckActive.Checked            := CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger = 1;
 //  crBRSSellingPrice.Value     := CDSSupp.FieldByName('SellingPrice').AsFloat;
@@ -342,6 +462,16 @@ begin
 
 end;
 
+procedure TfrmDialogProduct.btnAddPriceClick(Sender: TObject);
+begin
+  inherited;
+  Self.ClearByTag([0,1], gbSellingPrice);
+  SetDefaultInputSellPrice;
+  IsUpdateHrgJual := False;
+  Application.ProcessMessages;
+  cxLookupTipeHarga.SetFocus;
+end;
+
 procedure TfrmDialogProduct.btnAddSuppClick(Sender: TObject);
 begin
   inherited;
@@ -349,6 +479,13 @@ begin
   IsUpdateSupplier := False;
   Application.ProcessMessages;
   cxLookupSupplier.SetFocus;
+end;
+
+procedure TfrmDialogProduct.btnDeletePriceClick(Sender: TObject);
+begin
+  inherited;
+  if CDSHargaJual.Eof then exit;
+  CDSHargaJual.Delete;
 end;
 
 procedure TfrmDialogProduct.btnDelKonvClick(Sender: TObject);
@@ -383,6 +520,12 @@ begin
   SelectFirst;
 end;
 
+procedure TfrmDialogProduct.btnUpdatePriceClick(Sender: TObject);
+begin
+  inherited;
+  AddHargaJual;
+end;
+
 procedure TfrmDialogProduct.btnUpdateSuppClick(Sender: TObject);
 begin
   inherited;
@@ -401,7 +544,7 @@ end;
 procedure TfrmDialogProduct.ClearSupplier;
 begin
   ClearByTag([0,1], gbSupplier);
-  ckPrimer.Checked := True;
+  ckPrimarySupp.Checked := True;
   ckActive.Checked := True;
   ckBKP.Checked := True;
   ckEnableCN.Checked := True;
@@ -456,6 +599,29 @@ begin
   CalculateMargin(Sender);
 end;
 
+procedure TfrmDialogProduct.crSellDiscPercentPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculatePrice(Sender);
+end;
+
+procedure TfrmDialogProduct.crSellDiscRPPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculatePrice(Sender);
+end;
+
+procedure TfrmDialogProduct.crSellingPricePropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalculatePrice(Sender);
+  if crSellingPriceCoret.Value = 0 then
+    crSellingPriceCoret.Value := crSellingPrice.Value;
+end;
+
 procedure TfrmDialogProduct.cxGrdDBSupplierCellClick(Sender:
     TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
     AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
@@ -484,6 +650,13 @@ begin
   inherited;
   edtShortName.Text := cxLookupMerk.Text + ' ' + edtProductName.Text;
   Self.OnEditValueChanged(cxLookupMerk);
+end;
+
+procedure TfrmDialogProduct.cxLookupSatuanJualPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  crKonversi.Value := CDSAvailableKonv.FieldByName('Konversi').AsFloat;
 end;
 
 procedure TfrmDialogProduct.cxLookupSubGroupPropertiesEditValueChanged(
@@ -556,30 +729,7 @@ function TfrmDialogProduct.GetCDSSupp: TClientDataset;
 begin
   if not Assigned(FCDSSupp) then
   begin
-    FCDSSupp := TDBUtils.CreateObjectDataSet(TModBarangSupplier, Self)
-//    FCDSSupp := TClientDataSet.Create(Self);
-//    FCDSSupp.AddField('ID', ftString);
-//    FCDSSupp.AddField('SupplierID', ftString);
-//    FCDSSupp.AddField('SupplierName', ftString);
-//    FCDSSupp.AddField('TOP', ftInteger);
-//    FCDSSupp.AddField('ExpiredTime', ftInteger);
-//    FCDSSupp.AddField('DeliveryTime', ftInteger);
-//    FCDSSupp.AddField('UOM', ftString);
-//    FCDSSupp.AddField('StockInOrder', ftFloat);
-//    FCDSSupp.AddField('IsBKP', ftInteger);
-//    FCDSSupp.AddField('IsPrimer', ftInteger);
-//    FCDSSupp.AddField('EnableCN', ftInteger);
-//    FCDSSupp.AddField('Active', ftInteger);
-//    FCDSSupp.AddField('SellingPrice', ftFloat);
-//    FCDSSupp.AddField('PurchasePrice', ftFloat);
-//    FCDSSupp.AddField('Disc1', ftFloat);
-//    FCDSSupp.AddField('Disc2', ftFloat);
-//    FCDSSupp.AddField('Disc3', ftFloat);
-//    FCDSSupp.AddField('PurchaseNet', ftFloat);
-//    FCDSSupp.AddField('Margin', ftFloat);
-//    FCDSSupp.AddField('MinOrder', ftFloat);
-//    FCDSSupp.AddField('MaxOrder', ftFloat);
-//    FCDSSupp.CreateDataSet;
+    FCDSSupp := TDBUtils.CreateObjectDataSet(TModBarangSupplier, Self);
   end;
   Result := FCDSSupp;
 end;
@@ -603,9 +753,10 @@ var
   dDiskon: Double;
   dNet: Double;
 begin
-  //disc bertingkat gak ya?
+  //disc bertingkat gak ya?   --> iya ternyata
   dDiskon := crBRSDisc1.Value/100 * crBRSPurchasePrice.Value;
-  dDiskon := dDiskon + (crBRSDisc2.Value/100 * crBRSPurchasePrice.Value);
+  dNet := crBRSPurchasePrice.Value - dDiskon;
+  dDiskon := dDiskon + (crBRSDisc2.Value/100 * dNet);
   dDiskon := dDiskon + crBRSDisc3.Value;
   dNet := crBRSPurchasePrice.Value - dDiskon;
   crBRSPurchaseNet.Value := dNet;
@@ -620,10 +771,66 @@ begin
   end;
 end;
 
+procedure TfrmDialogProduct.CalculatePrice(Sender: TObject);
+begin
+
+  if Sender = crSellDiscPercent then
+    crSellDiscRP.Value := crSellDiscPercent.Value/100 * crSellingPrice.Value
+  else
+  begin
+    if crSellingPrice.Value <> 0 then
+      crSellDiscPercent.Value := crSellDiscRP.Value/crSellingPrice.Value * 100
+    else begin
+      crSellDiscPercent.Value := 0;
+      crSellDiscRP.Value := 0;
+    end;
+  end;
+
+  crSellingPriceNet.Value :=  crSellingPrice.Value - crSellDiscRP.Value;
+
+end;
+
+procedure TfrmDialogProduct.cxGrdDBSellingPriceCellClick(Sender:
+    TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+    AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  inherited;
+  LoadSellingPriceRow;
+end;
+
+function TfrmDialogProduct.GetCDSAvailableKonv: TClientDataSet;
+begin
+  If not Assigned(FCDSAvailableKonv) then
+  begin
+    FCDSAvailableKonv := TClientDataSet.Create(Self);
+    FCDSAvailableKonv.AddField('ID', ftString);
+    FCDSAvailableKonv.AddField('Satuan', ftString);
+    FCDSAvailableKonv.AddField('Konversi', ftFloat);
+    FCDSAvailableKonv.CreateDataSet;
+  end;
+  Result := FCDSAvailableKonv;
+end;
+
+function TfrmDialogProduct.GetCDSHargaJual: TClientDataset;
+begin
+  if not Assigned(FCDSHargaJual) then
+    FCDSHargaJual := TDBUtils.CreateObjectDataSet(TModBarangHargaJual, Self);
+  Result := FCDSHargaJual;
+end;
+
+function TfrmDialogProduct.GetCDSSatuan: TClientDataset;
+begin
+  if not Assigned(FCDSSatuan) then
+    FCDSSatuan := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.Satuan_GetDSLookup, Self);
+  Result := FCDSSatuan;
+end;
+
 procedure TfrmDialogProduct.InitGrid;
 begin
   cxGrdDBSupplier.LoadFromCDS(CDSSupp, False, False);
   cxGrdDBKonversi.LoadFromCDS(CDSKonv, False, False);
+  cxGrdDBSellingPrice.LoadFromCDS(CDSHargaJual, False, False);
 end;
 
 procedure TfrmDialogProduct.InitLookup;
@@ -632,6 +839,7 @@ var
 begin
   With DMClient.DSProviderClient do
   begin
+    //tab Informasi
     cxLookupTipeBarang.LoadFromDS(RefTipeBarang_GetDSLookup,
       'REF$TIPE_BARANG_ID', 'TPBRG_NAME',  Self );
 
@@ -660,18 +868,28 @@ begin
     cxLookupKategori.SetMultiPurposeLookup;
     cxLookupMerk.SetMultiPurposeLookup;
 
-    lCDS := TDBUtils.DSToCDS(Satuan_GetDSLookup, Self);
-    cxLookupSatuan.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupSatPurchase.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupBRSUom.LoadFromCDS(lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+    //satuan all tab
+    cxLookupSatuan.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupSatPurchase.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupBRSUom.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
     TcxExtLookupComboBoxProperties(clKonvSatuan.Properties).LoadFromCDS(
-      lCDS, 'ref$satuan_id', 'SAT_CODE', Self);
+      CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
+    TcxExtLookupComboBoxProperties(clSellSatuan.Properties).LoadFromCDS(
+      CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
 
+    //supplier all tab
     lCDS := TDBUtils.DSToCDS(Suplier_GetDSLookup, Self);
     cxLookupSupplier.LoadFromCDS(lCDS,'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
     TcxExtLookupComboBoxProperties(clSuppSupplier.Properties).LoadFromCDS(lCDS,
       'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
     cxLookupSupplier.SetMultiPurposeLookup;
+
+    //tab Harga Jual
+    cxLookupTipeHarga.LoadFromDS(TipeHarga_GetDSLookup,
+      'REF$TIPE_HARGA_ID', 'TPHRG_NAME',  Self );
+    cxLookupSatuanJual.LoadFromCDS(CDSAvailableKonv, 'ID', 'Satuan', Self);
+    TcxExtLookupComboBoxProperties(clSellTipeHarga.Properties).LoadFromDS(
+      TipeHarga_GetDSLookup,'REF$TIPE_HARGA_ID', 'TPHRG_NAME',  Self );
 
   end;
   //inisialisasi
@@ -683,7 +901,9 @@ begin
   UpdateData;
   Try
     ModBarang.ID := DMClient.CrudClient.SaveToDBID(ModBarang);
-//    DMClient.CrudClient.SaveToDBFilter(ModBarang,TModKonversi.ClassName);
+//    ModBarang.FilterKind := fckInclude;
+//    ModBarang.AddFilterClass(TModBarang);
+//    DMClient.CrudClient.SaveToDBLog(ModBarang);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     Self.ModalResult := mrOk;
   except
@@ -765,10 +985,12 @@ procedure TfrmDialogProduct.LoadItems;
 var
   i: Integer;
   lBS: TModBarangSupplier;
+  lHJ: TModBarangHargaJual;
   lKonv: TModKonversi;
 begin
   CDSSupp.EmptyDataSet;
   CDSKonv.EmptyDataSet;
+  CDSHargaJual.EmptyDataSet;
 
   for i := 0 to ModBarang.Suppliers.Count-1 do
   begin
@@ -786,28 +1008,114 @@ begin
     CDSKonv.Post;
   end;
 
+  for i := 0 to ModBarang.HargaJual.Count-1 do
+  begin
+    lHJ := ModBarang.HargaJual[i];
+    CDSHargaJual.Append;
+    lHJ.UpdateToDataset(CDSHargaJual);
+    CDSHargaJual.Post;
+  end;
+
   CDSSupp.First;
   CDSKonv.First;
+  CDSHargaJual.First;
 
   LoadSupplierRow;
+end;
+
+procedure TfrmDialogProduct.LoadSellingPriceRow;
+begin
+  if CDSHargaJual.Eof then exit;
+
+  cxLookupTipeHarga.EditValue := CDSHargaJual.FieldByName('TipeHarga').AsString;
+  cxLookupSatuanJual.EditValue := CDSHargaJual.FieldByName('Satuan').AsString;
+  crSellingPrice.EditValue := CDSHargaJual.FieldByName('BHJ_SELL_PRICE').AsFloat;
+  crSellDiscPercent.EditValue := CDSHargaJual.FieldByName('BHJ_DISC_PERSEN').AsFloat;
+  crSellDiscRP.EditValue := CDSHargaJual.FieldByName('BHJ_DISC_NOMINAL').AsFloat;
+  crSellingPriceNet.EditValue := CDSHargaJual.FieldByName('BHJ_SELL_PRICE_DISC').AsFloat;
+  crSellingPriceCoret.EditValue := CDSHargaJual.FieldByName('BHJ_SELL_PRICE_CORET').AsFloat;
+  crSellMarkUP.EditValue := CDSHargaJual.FieldByName('BHJ_MARK_UP').AsFloat;
+  crKonversi.EditValue := CDSHargaJual.FieldByName('BHJ_CONV_VALUE').AsFloat;
+  crMaxQTYDisc.EditValue := CDSHargaJual.FieldByName('BHJ_MAX_QTY_DISC').AsFloat;
+  ckIsMailer.Checked := CDSHargaJual.FieldByName('BHJ_IS_MAILER').AsInteger = 1;
+  ckLimitCrazyPrice.Checked := CDSHargaJual.FieldByName('BHJ_IS_LIMIT_QTY').AsInteger = 1;
+  ckIsADS.Checked := CDSHargaJual.FieldByName('BHJ_IS_QTY_SUBSIDY').AsInteger = 1;
+  crLimitQTYCrazy.EditValue := CDSHargaJual.FieldByName('BHJ_LIMIT_QTY').AsFloat;
+  crLimitPriceCrazy.EditValue := CDSHargaJual.FieldByName('BHJ_LIMIT_QTY_PRICE').AsFloat;
+  crQTYADS.EditValue := CDSHargaJual.FieldByName('BHJ_QTY_SUBSIDY').AsFloat;
+crPriceADS.EditValue := CDSHargaJual.FieldByName('BHJ_QTY_SUBSIDY_PRICE').AsFloat;
+
+  IsUpdateHrgJual := True;
 end;
 
 procedure TfrmDialogProduct.pgcMainChange(Sender: TObject);
 begin
   inherited;
   If pgcMain.ActivePage = tsSupplier then
-    cxLookupSupplier.SetFocus
+    btnAddSupp.Click
   else if pgcMain.ActivePage = tsKonversi then
   begin
     if CDSKonv.RecordCount = 0 then
       btnAddKonversi.Click;
+  end else If pgcMain.ActivePage = tsSellingPrice then
+  begin
+    UpdateAvailableSat;
+    btnAddPrice.Click;
   end;
+end;
+
+procedure TfrmDialogProduct.SetDefaultInputSellPrice;
+begin
+  crSellMargin.Value := 0;
+  if CDSSupp.Locate('BRGSUP_IS_PRIMARY',1,[loCaseInsensitive]) then
+  begin
+    crSellMargin.Value := CDSSupp.FieldByName('BRGSUP_MARK_UP').AsFloat;
+    cxLookupSatuanJual.EditValue := CDSSupp.FieldByName('BRGSUP_MARK_UP').AsString;
+//    if CDSHargaJual.IsEmpty then    //kapan2 aja
+//    begin
+//      crSellingPrice.EditValue := //default dari supp
+//    end;
+  end;
+end;
+
+procedure TfrmDialogProduct.UpdateAvailableSat;
+var
+  lCDS: TClientDataSet;
+  lModKonv: TModKonversi;
+begin
+  CDSAvailableKonv.EmptyDataSet;
+  lCDS := TClientDataSet.Create(Self);
+  lModKonv := TModKonversi.Create; //mempermudah akses saja
+  Try
+    lCDS.CloneCursor(CDSKonv, True);
+    lCDS.First;
+    while not lCDS.Eof do
+    begin
+      lModKonv.SetFromDataset(lCDS);
+      CDSAvailableKonv.Append;
+      CDSAvailableKonv.FieldByName('ID').AsString := lModKonv.Satuan.ID;
+      CDSAvailableKonv.FieldByName('Konversi').AsFloat := lModKonv.KONVSAT_SCALE;
+
+      if CDSSatuan.Locate('Ref$Satuan_ID', lModKonv.Satuan.ID, [loCaseInsensitive]) then
+        CDSAvailableKonv.FieldByName('Satuan').AsString := CDSSatuan.FieldByName('SAT_CODE').AsString;
+
+      CDSAvailableKonv.Post;
+
+      lCDS.Next;
+    end;
+
+    cxLookupSatuanJual.Properties.View.ApplyBestFit();
+  Finally
+    lModKonv.Free;
+    lCDS.Free;
+  End;
 end;
 
 procedure TfrmDialogProduct.UpdateDataItem;
 var
   i: Integer;
   lBS: TModBarangSupplier;
+  lHJ: TModBarangHargaJual;
   lKonv: TModKonversi;
 begin
   ModBarang.Suppliers.Clear;
@@ -829,6 +1137,15 @@ begin
     lKonv.SetFromDataset(CDSKonv);
     ModBarang.Konversi.Add(lKonv);
     CDSKonv.Next;
+  end;
+
+  CDSHargaJual.First;
+  while not CDSHargaJual.eof do
+  begin
+    lHJ := TModBarangHargaJual.Create;
+    lHJ.SetFromDataset(CDSHargaJual);
+    ModBarang.HargaJual.Add(lHJ);
+    CDSHargaJual.Next;
   end;
 end;
 

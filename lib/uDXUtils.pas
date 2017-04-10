@@ -1104,16 +1104,10 @@ begin
         continue;
     if C is TEdit then TEdit(C).Clear;
     if C is TDateTimePicker then TDateTimePicker(C).Date := Now;
-//    if C is TcxTextEdit then TcxTextEdit(C).Clear;
-//    if C is TcxExtLookupComboBox then TcxExtLookupComboBox(C).Clear;
-//    if C is TcxComboBox then TcxComboBox(C).Clear;
-//    if C is TcxCheckBox then TcxCheckBox(C).Clear;
-//    if C is TcxSpinEdit then TcxSpinEdit(C).Clear;
-
     if C is TcxDateEdit then TcxDateEdit(C).Date := Now
     else if C is TcxCurrencyEdit then TcxCurrencyEdit(C).Value := 0
     else if C is TcxSpinEdit then TcxSpinEdit(C).Value := 0
-    else If C.InheritsFrom(TcxCustomEdit) then
+    else If C.InheritsFrom(TcxCustomEdit) then //standard devexpress parent
       TcxCustomEdit(C).Clear;
   end;
 end;
