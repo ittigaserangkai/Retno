@@ -15,12 +15,6 @@ uses
 
 type
   TfrmDataCostumer = class(TfrmMasterBrowse)
-    fraFooter5Button1: TfraFooter5Button;
-    actlstInputSupplierForNotSO: TActionList;
-    actAddDataCostumer: TAction;
-    actEditDataCostumer: TAction;
-    actDeleteDataCostumer: TAction;
-    actRefreshDataCostumer: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
