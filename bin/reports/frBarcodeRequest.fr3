@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TfrxReport Name="" DotMatrixReport="False" EngineOptions.MaxMemSize="10000000" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="2047" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" ReportOptions.CreateDate="39480.3822723148" ReportOptions.Description.Text="" ReportOptions.LastChange="39562.3395066551" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="044C65667403500103546F70020808446174617365747301010C2B00000020446174615365743D22667278444244617461736574312220446174615365744E616D653D2266724462220000095661726961626C65730100055374796C650100">
+  <TfrxReportPage Name="Page1" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" PaperWidth="250" PaperHeight="210" PaperSize="256" LeftMargin="5" RightMargin="5" TopMargin="5" BottomMargin="5" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxReportTitle Name="ReportTitle1" Height="143.62214" Left="0" Top="18.89765" Width="907.0872">
+      <TfrxMemoView Name="Memo2" Left="0" Top="0" Width="332.59864" Height="15.11812" Memo.Text="PT. ASSALAM NIAGA UTAMA - [param5]"/>
+      <TfrxMemoView Name="Memo3" Align="baCenter" Left="343.93723" Top="18.89765" Width="219.21274" Height="15.11812" HAlign="haCenter" Memo.Text="***BARCODE LABEL REQUESTITION***"/>
+      <TfrxMemoView Name="Memo6" Left="737.00835" Top="11.33859" Width="124.72449" Height="15.11812" Memo.Text="[Time] [Date]"/>
+      <TfrxMemoView Name="Memo7" Left="3.77953" Top="60.47248" Width="257.00804" Height="15.11812" Memo.Text="Date            : [param1]"/>
+      <TfrxMemoView Name="Memo8" Left="3.77953" Top="75.5906" Width="257.00804" Height="15.11812" Memo.Text="Transaction No. : [param0]"/>
+      <TfrxMemoView Name="Memo9" Left="3.77953" Top="45.35436" Width="257.00804" Height="15.11812" Memo.Text="Request By      : [Param2] [param3]"/>
+      <TfrxMemoView Name="Memo10" Left="0" Top="109.60637" Width="22.67718" Height="15.11812" Memo.Text="No"/>
+      <TfrxMemoView Name="Memo13" Left="26.45671" Top="109.60637" Width="355.27582" Height="15.11812" Memo.Text="Product Code &#38; Name"/>
+      <TfrxMemoView Name="Memo25" Left="449.76407" Top="109.60637" Width="90.70872" Height="15.11812" Memo.Text="No. Label Req"/>
+      <TfrxMemoView Name="Memo26" Left="548.03185" Top="109.60637" Width="94.48825" Height="15.11812" Memo.Text="Unit Price"/>
+      <TfrxMemoView Name="Memo28" Left="650.07916" Top="109.60637" Width="98.26778" Height="15.11812" HAlign="haRight" Memo.Text="Total Price"/>
+      <TfrxMemoView Name="Memo4" Left="0" Top="94.48825" Width="774.80365" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" Memo.Text="========================================================================================================================"/>
+      <TfrxMemoView Name="Memo5" Left="0" Top="128.50402" Width="774.80365" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" Memo.Text="========================================================================================================================"/>
+    </TfrxReportTitle>
+    <TfrxMasterData Name="MasterData1" Height="15.11812" Left="0" Top="222.99227" Width="907.0872" ColumnWidth="0" ColumnGap="0" DataSet="frxDBDataset1" DataSetName="frDb" RowCount="0">
+      <TfrxMemoView Name="Memo14" Left="90.70872" Top="0" Width="302.3624" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" Memo.Text="[frDB.&#34;BRG_NAME&#34;] [frDB.&#34;BRG_MERK&#34;]"/>
+      <TfrxMemoView Name="Memo15" Left="34.01577" Top="0" Width="49.13389" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" Memo.Text="[frDB.&#34;BARD_BRG_CODE&#34;]"/>
+      <TfrxMemoView Name="Memo18" Left="442.20501" Top="0" Width="79.37013" Height="15.11812" AutoWidth="True" DataSet="frxDBDataset1" DataSetName="frDb" HAlign="haRight" Memo.Text="[frDB.&#34;BARD_QTY&#34; #n%2,2n]"/>
+      <TfrxMemoView Name="Memo19" Left="532.91373" Top="0" Width="109.60637" Height="15.11812" AutoWidth="True" DataSet="frxDBDataset1" DataSetName="frDb" HAlign="haRight" Memo.Text="[frDB.&#34;BARD_SAT_PRICE&#34; #n%2,2n]"/>
+      <TfrxMemoView Name="Memo20" Left="665.19728" Top="0" Width="79.37013" Height="15.11812" AutoWidth="True" DataSet="frxDBDataset1" DataSetName="frDb" HAlign="haRight" Memo.Text="[frDB.&#34;BARD_TOTAL_PRICE&#34; #n%2,2n]"/>
+      <TfrxMemoView Name="Memo1" Left="-22.67718" Top="0" Width="49.13389" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" HAlign="haRight" Memo.Text="[Line]."/>
+    </TfrxMasterData>
+    <TfrxReportSummary Name="ReportSummary1" Height="188.9765" Left="0" Top="298.58287" Width="907.0872">
+      <TfrxMemoView Name="Memo35" Left="328.81911" Top="18.8976377952756" Width="109.60637" Height="15.11812" Memo.Text="Grant Total ---&#62;"/>
+      <TfrxMemoView Name="Memo36" Left="668.97681" Top="18.8976377952756" Width="75.5906" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" HAlign="haRight" Memo.Text="[SUM(&#60;frDb.&#34;BARD_TOTAL_PRICE&#34;&#62;) #n%2,2n]"/>
+      <TfrxMemoView Name="Memo38" Left="15.11812" Top="52.91342" Width="158.74026" Height="15.11812" HAlign="haCenter" Memo.Text="Prepared By,"/>
+      <TfrxMemoView Name="Memo39" Left="245.66945" Top="52.91342" Width="136.06308" Height="15.11812" HAlign="haCenter" Memo.Text="Requested By,"/>
+      <TfrxMemoView Name="Memo40" Left="15.11812" Top="124.72449" Width="158.74026" Height="15.11812" HAlign="haCenter" Memo.Text="[param4]"/>
+      <TfrxMemoView Name="Memo41" Left="241.88992" Top="124.72449" Width="139.84261" Height="15.11812" HAlign="haCenter" Memo.Text="(_______________)"/>
+      <TfrxMemoView Name="Memo42" Left="941.10297" Top="94.48825" Width="139.84261" Height="15.11812" HAlign="haCenter" Memo.Text="*** End Of Report ***"/>
+      <TfrxMemoView Name="Memo11" Left="0" Top="0" Width="774.80365" Height="15.11812" DataSet="frxDBDataset1" DataSetName="frDb" Memo.Text="========================================================================================================================"/>
+      <TfrxMemoView Name="Memo12" Left="442.20501" Top="18.8976377952756" Width="79.37013" Height="15.11812" AutoWidth="True" DataSet="frxDBDataset1" DataSetName="frDb" HAlign="haRight" Memo.Text="[SUM(&#60;frDB.&#34;BARD_QTY&#34;&#62;) #n%2,2n]"/>
+    </TfrxReportSummary>
+  </TfrxReportPage>
+</TfrxReport>

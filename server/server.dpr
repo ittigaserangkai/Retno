@@ -13,7 +13,6 @@ uses
   WebModuleRetnoUnit in 'WebModuleRetnoUnit.pas' {WebModuleRetno: TWebModule},
   uDBUtils in '..\lib\uDBUtils.pas',
   uModApp in '..\model\uModApp.pas',
-  uModAccount in '..\model\uModAccount.pas',
   uModBank in '..\model\uModBank.pas',
   uModTest in '..\model\uModTest.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
@@ -41,7 +40,6 @@ uses
   uModTipePo in '..\model\uModTipePo.pas',
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas';
-
 
 {$R *.res}
 

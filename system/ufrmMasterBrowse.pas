@@ -52,6 +52,7 @@ type
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;
   end;
 
+  TMasterBrowseClass = class of TfrmMasterBrowse;
 var
   frmMasterBrowse: TfrmMasterBrowse;
 
@@ -109,6 +110,8 @@ begin
     Result := frm.ShowModal;
     if (AutoRefreshData) and (Result = mrOk) then
       RefreshData;
+
+    Self.SetFocusRec(cxGrid);
   Finally
     FreeAndNil(frm);
   End;

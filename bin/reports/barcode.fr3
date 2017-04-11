@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TfrxReport Name="" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="2047" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" ReportOptions.CreateDate="39442,4484081597" ReportOptions.Description.Text="" ReportOptions.LastChange="39442,6454003241" ScriptLanguage="PascalScript" ScriptText.Text="procedure BarCode1OnBeforePrint(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10;  Barcode1.Text := &#60;barcode&#62;;&#13;&#10;end;&#13;&#10;&#13;&#10;begin&#13;&#10;&#13;&#10;end." PropData="044C656674023003546F70022008446174617365747301010C2E00000020446174615365743D22756473426172636F64652220446174615365744E616D653D22756473426172636F6465220000095661726961626C657301010C0E000000204E616D653D22204D795661722200010C0F000000204E616D653D22626172636F64652200010C18000000204E616D653D2274676C222056616C75653D2244617465220000055374796C650100">
+  <TfrxReportPage Name="Page1" PaperWidth="60" PaperHeight="40" PaperSize="256" LeftMargin="0" RightMargin="0" TopMargin="10" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxMasterData Name="MasterData1" Height="95,26778" Left="0" Top="18,89765" Width="226,7718" ColumnWidth="0" ColumnGap="0" DataSet="udsBarcode" DataSetName="udsBarcode" RowCount="0">
+      <TfrxMemoView Name="Memo3" Left="3,77953" Top="13,33859" Width="213,68522" Height="18,89765" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" Memo.Text="[nama_barang]" ParentFont="False"/>
+      <TfrxMemoView Name="Memo5" Left="5,33859" Top="64,47248" Width="75,5906" Height="13,89765" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" Memo.Text="[plu]" ParentFont="False"/>
+      <TfrxMemoView Name="Memo6" Left="38,57483" Top="27,67718" Width="178,31509" Height="34,01577" Font.Charset="1" Font.Color="0" Font.Height="-24" Font.Name="Arial" Font.Style="0" HAlign="haRight" Memo.Text="[harga #n%2,2n]" ParentFont="False"/>
+      <TfrxMemoView Name="Memo1" Left="3,77953" Top="29,45671" Width="34,01577" Height="30,23624" Font.Charset="1" Font.Color="0" Font.Height="-19" Font.Name="Arial" Font.Style="0" Memo.Text="Rp." ParentFont="False"/>
+      <TfrxMemoView Name="Memo2" Left="91,26778" Top="63,69295" Width="125,82684" Height="14,89765" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" Memo.Text="[ext_code]" ParentFont="False"/>
+      <TfrxBarCodeView Name="BarCode1" Left="87,92919" Top="80,37013" Width="129" Height="29,45671" BarType="bcCode39" Rotation="0" ShowText="False" Text="12345678" Zoom="1"/>
+      <TfrxMemoView Name="Memo4" Left="124,72449" Top="-1" Width="94,48825" Height="14,89765" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" Memo.Text="[tgl]" ParentFont="False"/>
+    </TfrxMasterData>
+  </TfrxReportPage>
+</TfrxReport>

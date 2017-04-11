@@ -3,7 +3,7 @@ unit uServerDSProvider;
 interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils;
+  StrUtils, uModUnit;
 
 type
   {$METHODINFO ON}
@@ -63,14 +63,21 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function TipeHarga_GetDSLookup: TDataSet;
+    function RefWilayah_GetDSLookup: TDataSet;
     function Suplier_GetDSLookup: TDataSet;
+    function RefTipeMember_GetDSLookup: TDataSet;
     function TipePO_GetDSOverview: TDataSet;
     function TipeCN_GetDSOverview: TDataSet;
+    function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
+        nil): TDataSet;
 
 
   end;
   {$METHODINFO OFF}
 implementation
+uses
+  System.DateUtils;
 
 function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
@@ -575,12 +582,37 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.TipeHarga_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_HARGA_ID, TPHRG_NAME ,TPHRG_MARKUP, TPHRG_IS_CALC from Ref$Tipe_harga';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Suplier_GetDSLookup: TDataSet;
 var
   S: string;
 begin
   S := 'SELECT SUPLIER_ID, SUP_NAME, SUP_CODE, SUP_ADDRESS FROM SUPLIER'
       +' WHERE SUP_IS_ACTIVE=1';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+
+function TDSProvider.RefWilayah_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'Select * FROM REF$WILAYAH';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RefTipeMember_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT REF$TIPE_MEMBER_ID, TPMEMBER_NAME from REF$TIPE_MEMBER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -603,6 +635,18 @@ begin
   +' from'
   +' REF$TIPE_CN';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+    TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_SO ' +
+          ' where SO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 end.

@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, IPPeerClient, Datasnap.DSClientRest, uClientClasses,
   System.ImageList, Vcl.ImgList, Vcl.Controls, uDBUtils, Data.DB,
-  Datasnap.DBClient, cxStyles, cxClasses;
+  Datasnap.DBClient, cxStyles, cxClasses, uModUnit;
 
 type
   TDMClient = class(TDataModule)
@@ -20,15 +20,18 @@ type
     FCrudClient: TCrudClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
+    FUnitStore: TModUnit;
     function GetCrudClient: TCrudClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
+    procedure SetUnitStore(const Value: TModUnit);
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
     { Private declarations }
   public
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
         FDSProviderClient;
+    property UnitStore: TModUnit read FUnitStore write SetUnitStore;
     { Public declarations }
   end;
 
@@ -51,7 +54,7 @@ var
 implementation
 
 uses
-  Datasnap.DSHTTPClient, Dialogs;
+  Datasnap.DSHTTPClient, Dialogs,uAppUtils;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -79,9 +82,16 @@ begin
 end;
 
 procedure TDMClient.DataModuleCreate(Sender: TObject);
+var
+  sIDUnit: string;
 begin
   RestConn.PreserveSessionID := False;
   //set true akan menyebabkan ada expired time di client
+
+  sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
+  if sIDUnit <> '' then
+    UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+
 end;
 
 function TDMClient.GetCrudClient: TCrudClient;
@@ -106,6 +116,12 @@ function TDMClient.GetInstanceOwner: Boolean;
 begin
   FInstanceOwner := False;
   Result := FInstanceOwner;
+end;
+
+procedure TDMClient.SetUnitStore(const Value: TModUnit);
+begin
+  FreeAndNil(FUnitStore);
+  FUnitStore := Value;
 end;
 
 end.

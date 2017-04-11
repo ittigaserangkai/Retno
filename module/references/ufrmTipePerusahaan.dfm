@@ -51,7 +51,7 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
   end
   inherited pnlHeader: TPanel
     Width = 570
-    ExplicitWidth = 546
+    ExplicitWidth = 570
     inherited lblHeader: TLabel
       Width = 98
       Caption = 'TIPE PERUSAHAAN'
@@ -59,7 +59,7 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     end
     inherited lblFilterData: TcxLabel
       Left = 216
-      ExplicitLeft = 192
+      ExplicitLeft = 216
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -76,7 +76,7 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
     end
     inherited lblsdFilter: TcxLabel
       Left = 369
-      ExplicitLeft = 345
+      ExplicitLeft = 369
       AnchorY = 17
     end
   end
@@ -111,7 +111,7 @@ inherited frmTipePerusahaan: TfrmTipePerusahaan
       ExplicitWidth = 546
       inherited lbEscape: TLabel
         Left = 496
-        Height = 17
+        ExplicitLeft = 496
       end
     end
   end

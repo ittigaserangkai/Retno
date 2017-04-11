@@ -10,7 +10,7 @@ type
   {$METHODINFO ON}
   TTestMethod = class(TComponent)
   public
-    function Hallo: String;
+    function Hallo(aTanggal: TDateTime): String;
   end;
 
   TCrud = class(TComponent)
@@ -23,6 +23,7 @@ type
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
@@ -31,9 +32,9 @@ type
 
 implementation
 
-function TTestMethod.Hallo: String;
+function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
-  Result := 'Hello Word';
+  Result := 'Hello Word ' + DateToStr(aTanggal);
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
@@ -98,18 +99,19 @@ begin
   Result := Self.Retrieve(lClass, AID);
 end;
 
-function TCrud.SaveToDBID(AObject: TModApp): String;
+function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
 var
   lSS: TStrings;
 begin
-  Result := '';
+  Result := False;
   if not ValidateCode(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
+      lSS.SaveToFile(ExtractFilePath(ParamStr(0)) + '\SaveToDB.log');
       TDBUtils.ExecuteSQL(lSS, False);
       TDBUtils.Commit;
-      Result := AObject.ID
+      Result := True;
     except
       TDBUtils.RollBack;
       raise;
@@ -117,6 +119,12 @@ begin
   Finally
     lSS.Free;
   End;
+end;
+
+function TCrud.SaveToDBID(AObject: TModApp): String;
+begin
+  Result := '';
+  If SaveToDB(AObject) then Result := AObject.ID;
 end;
 
 function TCrud.StringToClass(ModClassName: string): TModAppClass;
@@ -129,13 +137,13 @@ begin
   ctx := TRttiContext.Create;
   list := ctx.GetTypes;
   for typ in list do
+  begin
+    if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
     begin
-      if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
-        begin
-          Result := TModAppClass(typ.AsInstance.MetaClassType);
-          break;
-        end;
+      Result := TModAppClass(typ.AsInstance.MetaClassType);
+      break;
     end;
+  end;
   ctx.Free;
 end;
 

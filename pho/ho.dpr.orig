@@ -86,13 +86,11 @@ uses
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufraFooter4Button in '..\system\ufraFooter4Button.pas' {fraFooter4Button: TFrame},
-  uModAccount in '..\model\uModAccount.pas',
   uModApp in '..\model\uModApp.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRefPajak in '..\model\uModRefPajak.pas',
   uModRekening in '..\model\uModRekening.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
@@ -118,7 +116,6 @@ uses
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
-  ufrmReprintNP in '..\module\merchandise\ufrmReprintNP.pas' {frmReprintNP},
   uModSuplier in '..\model\uModSuplier.pas',
   uModBarang in '..\model\uModBarang.pas',
   ufrmDialogKategori in '..\module\product\ufrmDialogKategori.pas' {frmDialogKategori},
@@ -151,6 +148,7 @@ uses
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
+  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
   ufrmDialogQuotationHargaBeli in '..\module\merchandise\ufrmDialogQuotationHargaBeli.pas' {frmDialogQuotationHargaBeli},
   ufrmDialogQuotationMailerNeo in '..\module\merchandise\ufrmDialogQuotationMailerNeo.pas' {frmDialogQuotationMailerNeo},
   ufrmQuotationMailer in '..\module\merchandise\ufrmQuotationMailer.pas' {frmQuotationMailer},
@@ -181,14 +179,27 @@ uses
   ufrmLaporanRetur in '..\module\inventory\ufrmLaporanRetur.pas' {frmLaporanRetur},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
   uModPropinsi in '..\model\uModPropinsi.pas',
-<<<<<<< HEAD
   ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
-=======
-  ufrmQuotationHargaBeli in '..\module\merchandise\ufrmQuotationHargaBeli.pas' {frmQuotationHargaBeli},
->>>>>>> 194c4afda473e4d28d8a5c4d118f78b4fa9818b2
   ufrmGudang in '..\module\inventory\ufrmGudang.pas' {frmGudang},
   ufrmDialogGudang in '..\module\inventory\ufrmDialogGudang.pas' {frmDialogGudang},
-  uModGudang in '..\model\uModGudang.pas';
+  uModGudang in '..\model\uModGudang.pas',
+  ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
+  ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
+  uModMataUang in '..\model\uModMataUang.pas',
+  ufrmMataUang in '..\module\references\ufrmMataUang.pas' {frmMataUang},
+  uModTipeBonus in '..\model\uModTipeBonus.pas',
+  ufrmTipeBonus in '..\module\references\ufrmTipeBonus.pas' {frmTipeBonus},
+  uModTipeCN in '..\model\uModTipeCN.pas',
+  ufrmTipeCN in '..\module\references\ufrmTipeCN.pas' {frmTipeCN},
+  ufrmDialogPersonalMember in '..\module\customer_support\ufrmDialogPersonalMember.pas' {frmDialogPersonalMember},
+  ufrmDocument in '..\module\references\ufrmDocument.pas' {frmDocument},
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas',
+<<<<<<< HEAD
+  uModPO in '..\model\uModPO.pas';
+=======
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
+>>>>>>> f358be0fdfcf915cdcfb3b31759abac32c00eaa8
 
 {$R *.res}
 

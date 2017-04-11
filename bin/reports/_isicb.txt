@@ -1,0 +1,11 @@
+Tanggal / Jam : 04-03-2015  13:32:22
+No.Transaksi  : 02040315002
+POS / Kasir   : 02 / 0007 Kasir 7
+----------------------------------------
+Kode/Nama Kartu : 04   BCA DEBET-CARD  
+No. Kartu       :     -    -    -     
+No. Otorisasi   :                 
+----------------------------------------
+Tot Pengambilan : 250,000             
+Terbilang       : 
+[ Dua Ratus Lima Puluh Ribu Rupiah ]

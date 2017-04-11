@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -242,6 +242,7 @@ type
     procedure actUbahQtyPOExecute(Sender: TObject);
     procedure actWastageRealExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure miExit1Click(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -261,6 +262,7 @@ type
   public
     Host, IP: string;
     Port: integer;
+    class procedure ShowBorwseForm(BrowseFormClass: TMasterBrowseClass);
 //    property IsStore: Integer read FIsStore write FIsStore;
     property IsTesting: Boolean read FIsTesting write FIsTesting;
     { Public declarations }
@@ -283,24 +285,25 @@ type
 var
   frmMain: TfrmMain;
 
-implementation
-
 {$R *.dfm}
+implementation
+uses
+  uAppUtils, ufrmPilihUnit, ufrmActivatePOS, ufrmListMemberTransaction,
+  ufrmAdjustmentCashier, ufrmBarcodeRequest, ufrmBeginningBalancePOS,
+  ufrmCancellationPO, ufrmCashDropping, ufrmChangeStatusPO, ufrmCrazyPrice,
+  ufrmCreditCard, ufrmDailySalesReport, ufrmDataCostumer, ufrmDiscountMember,
+  ufrmDisplayPO, ufrmDSI, ufrmFinalPayment, ufrmGeneratePOForAll,
+  ufrmListingReceivingProduct, ufrmHistoryPO, ufrmInputProductForNotSO,
+  ufrmInputSupplierForNotSO, ufrmInvMovementQTY, ufrmLaporanRetur,
+  ufrmListDailyTransaction, ufrmListMembership, ufrmListPOCancel,
+  ufrmMaintenanceBarcode, ufrmMaintenancePassword, ufrmMemberActivation,
+  ufrmMemberShip, ufrmLogin, ufrmGeneratePOBonus, ufrmCetakPO,
+  ufrmPurchaseOrder, ufrmWorksheet, ufrmProduct, ufrmProductForSelling,
+  ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
+  ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
+  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal;
 
-uses udmMain, uNetUtils, uTSINIFile, uConstanta, uRetnoUnit, uTSCommonDlg,
-  ufrmLogin, ufrmInputSupplierForNotSO, ufrmInputProductForNotSO, ufrmCreateSO,
-  ufrmGeneratePOForAll, ufrmGeneratePOBonus, ufrmChangeStatusPO,
-  ufrmListingReceivingProduct, ufrmServiceLevel, ufrmDSI, ufrmWastageReal,
-  ufrmReprintNP, ufrmProductForSelling, ufrmActivatePOS,
-  ufrmBeginningBalancePOS, ufrmMaintenancePassword, ufrmFinalPayment,
-  ufrmAdjustmentCashier, ufrmCashDropping, ufrmCreditCard, ufrmResetCashier,
-  ufrmCrazyPrice, ufrmMemberShip, ufrmDataCostumer, ufrmMemberActivation,
-  ufrmCetakPO, ufrmSalesReportContrabon, ufrmShift, ufrmDailySalesReport,
-  ufrmReprintNota, ufrmPurchaseOrder, ufrmWorksheet, ufrmMaintenanceBarcode,
-  ufrmHistoryPO, ufrmProduct, ufrmDisplayPO, ufrmSupplier, ufrmListMembership,
-  ufrmBarcodeRequest, ufrmListPOCancel, ufrmCancellationPO,
-  ufrmListDailyTransaction, ufrmUbahQTYPO, ufrmInvMovementQTY, ufrmLaporanRetur,
-  ufrmDiscountMember, ufrmListMemberTransaction, ufrmRafaksi, ufrmReturTrader;
+
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
@@ -361,12 +364,12 @@ end;
 
 procedure TfrmMain.actCrazyPriceExecute(Sender: TObject);
 begin
-    frmCrazyPrice := TfrmCrazyPrice.CreateWithUser(Application,FFormProperty);
+  frmCrazyPrice := TfrmCrazyPrice.CreateWithUser(Application,FFormProperty);
 end;
 
 procedure TfrmMain.actCreateSOExecute(Sender: TObject);
 begin
-    frmCreateSO := TfrmCreateSO.CreateWithUser(Application,FFormProperty);
+  ShowBorwseForm(TfrmSO);
 end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
@@ -483,6 +486,12 @@ var
   iTemp: Integer;
   erMsg: string;
 begin
+
+  if (DMClient <> nil) and (DMClient.UnitStore <> nil) then
+  begin
+    Caption := 'ASSALAAM HYPERMARKET : ' + DMClient.UnitStore.UNT_NAME;
+  end;
+
   IsTesting := False;
   if ParamStr(1) = 'TESTING' then
   begin
@@ -530,9 +539,9 @@ begin
   SettingMainMenu(rNobody);
 
   // setting store - refresh server
-  GetIPFromHost(Host,IP,erMsg);
-  _INIWriteString(CONFIG_FILE, LOCAL_CLIENT, 'Localhost', IP);
-  Port := _INIReadInteger(CONFIG_FILE, LOCAL_CLIENT, 'LocalPort'); // must: 49516
+//  GetIPFromHost(Host,IP,erMsg);
+//  _INIWriteString(CONFIG_FILE, LOCAL_CLIENT, 'Localhost', IP);
+//  Port := _INIReadInteger(CONFIG_FILE, LOCAL_CLIENT, 'LocalPort'); // must: 49516
 
   {dmMain.tcpServerStore.Active := false;
   dmMain.tcpServerStore.Bindings.Clear;
@@ -551,10 +560,10 @@ begin
   }
 
   //Get global Variable
-  if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
-     igProd_Code_Length := iTemp;
-  if TryStrToInt(getGlobalVar('PRICEPRECISION'), iTemp) then
-     igPrice_Precision := iTemp;
+//  if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
+//     igProd_Code_Length := iTemp;
+//  if TryStrToInt(getGlobalVar('PRICEPRECISION'), iTemp) then
+//     igPrice_Precision := iTemp;
 end;
 
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);
@@ -567,9 +576,9 @@ begin
   if (LoginSuccessfull) then
   begin
 
-           FdefUnitId  := StrToInt(getGlobalVar('UNITID')); //unit dan db untuk wh dan ho dijadikan 1
+//           FdefUnitId  := StrToInt(getGlobalVar('UNITID')); //unit dan db untuk wh dan ho dijadikan 1
 
-    FFormProperty.FMasterIsStore := GetIsStoreUnitID(FdefUnitId);
+//    FFormProperty.FMasterIsStore := GetIsStoreUnitID(FdefUnitId);
 
 //    FGlobalProperty.LIstMerID     := GetListMerchanID(frmLogin.LoginID, frmLogin.LoginUntID);
 //    aListMerID                    := FGlobalProperty.LIstMerID;
@@ -594,7 +603,7 @@ begin
     }
 //    SetStatusHOSTORE;
 
-    lUnitId := FFormProperty.FSelfUnitId;
+//    lUnitId := FFormProperty.FSelfUnitId;
 
 //    OpenLoading(USER_LOGIN_LOADING);
 //    LoginExecute;
@@ -620,15 +629,15 @@ begin
   except
   end;
 
-  SettingMainMenu(rNobody);
-  SetAclstExim(True);
-  with sbMain do
-  begin
-    Panels[0].Text := 'User Login: ';
-    Panels[1].Text := 'Role: ';
-    Panels[2].Text := 'Database: ';
-    Panels[3].Text := 'EOD : ' + FormatDateTime('DD/MM/YYYY', GetLastEODDate(FFormProperty.FSelfUnitId));
-  end; // end with
+//  SettingMainMenu(rNobody);
+//  SetAclstExim(True);
+//  with sbMain do
+//  begin
+//    Panels[0].Text := 'User Login: ';
+//    Panels[1].Text := 'Role: ';
+//    Panels[2].Text := 'Database: ';
+//    Panels[3].Text := 'EOD : ' + FormatDateTime('DD/MM/YYYY', GetLastEODDate(FFormProperty.FSelfUnitId));
+//  end; // end with
 end;
 
 procedure TfrmMain.actPOBonusExecute(Sender: TObject);
@@ -735,19 +744,24 @@ end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  if (CommonDlg.Confirm('Are you sure you wish to quit ' + Application.Title +' ?') = mrYes) then
-  begin
-    if (actOnLogout.Enabled) then
-      actOnLogoutExecute(self);
-    CanClose := true;
-  end
-  else
-    CanClose := false;
+//  if (CommonDlg.Confirm('Are you sure you wish to quit ' + Application.Title +' ?') = mrYes) then
+//  begin
+//    if (actOnLogout.Enabled) then
+//      actOnLogoutExecute(self);
+//    CanClose := true;
+//  end
+//  else
+//    CanClose := false;
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
-  CommonDlg.ShowInformationAlert('Aplikasi Store', 'test Selamat Datang', mtCustom);
+//  CommonDlg.ShowInformationAlert('Aplikasi Store', 'test Selamat Datang', mtCustom);
+end;
+
+procedure TfrmMain.miExit1Click(Sender: TObject);
+begin
+  Application.Terminate;
 end;
 
 procedure TfrmMain.SetAclstExim(aEnable : Boolean);
@@ -773,6 +787,22 @@ begin
   EnableSubMenu(mmWindow, false);
   EnableSubMenu(miConnectionDatabase, true);
 
+end;
+
+class procedure TfrmMain.ShowBorwseForm(BrowseFormClass: TMasterBrowseClass);
+//var
+//  frm: TfrmMasterBrowse;
+begin
+  if (DMClient.UnitStore = nil) then
+  begin
+    TAppUtils.Warning('Unit Store Belum Dipilih');
+    frmPilihCabang := TfrmPilihCabang.Create(Application);
+    frmPilihCabang.ShowModal;
+
+    Exit;
+  end;
+
+  BrowseFormClass.Create(Application);
 end;
 
 end.

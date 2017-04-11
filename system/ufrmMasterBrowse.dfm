@@ -3,7 +3,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   ClientHeight = 403
   ClientWidth = 701
   OnKeyDown = nil
-  ExplicitTop = -30
   ExplicitWidth = 717
   ExplicitHeight = 442
   PixelsPerInch = 96
@@ -37,6 +36,10 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         Caption = 'Browse Data'
         ImageIndex = 0
         ParentColor = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
@@ -110,6 +113,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
     object dtAkhirFilter: TcxDateEdit
@@ -125,6 +129,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
     object btnSearch: TcxButton
@@ -239,8 +244,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       inherited btnClose: TcxButton
         Left = 624
         Action = actClose
-        ExplicitLeft = 625
-        ExplicitTop = 3
+        ExplicitLeft = 624
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -249,10 +253,19 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     inherited pnlShortCut: TPanel
       Width = 701
       ExplicitWidth = 701
+      inherited lbCTRLE: TLabel
+        Width = 70
+        Caption = 'CTRL-M [Edit]'
+        ExplicitTop = 3
+        ExplicitWidth = 70
+      end
       inherited lbEscape: TLabel
         Left = 627
-        Height = 17
         ExplicitLeft = 627
+      end
+      inherited lbCTRLP: TLabel
+        Left = 271
+        ExplicitLeft = 271
       end
     end
   end
@@ -268,7 +281,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     object actEdit: TAction
       Caption = '&Edit / Lihat'
       ImageIndex = 10
-      ShortCut = 16453
+      ShortCut = 16461
     end
     object actClose: TAction
       Caption = 'Close'

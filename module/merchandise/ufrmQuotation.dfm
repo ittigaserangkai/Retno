@@ -5,7 +5,6 @@ inherited frmQuotation: TfrmQuotation
   ClientHeight = 495
   ClientWidth = 769
   OldCreateOrder = True
-  ExplicitTop = 8
   ExplicitWidth = 785
   ExplicitHeight = 534
   PixelsPerInch = 96
@@ -29,15 +28,15 @@ inherited frmQuotation: TfrmQuotation
       ClientRectBottom = 185
       ClientRectRight = 766
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 759
-        ExplicitHeight = 178
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 765
+        ExplicitHeight = 184
         inherited cxGrid: TcxGrid
-          Width = 759
-          Height = 178
-          ExplicitWidth = 759
-          ExplicitHeight = 178
+          Width = 765
+          Height = 184
+          ExplicitWidth = 765
+          ExplicitHeight = 184
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               Caption = 'Is Parent'
@@ -94,6 +93,7 @@ inherited frmQuotation: TfrmQuotation
             end
             object cxGridViewColumn19: TcxGridDBColumn
               Caption = 'Konversi Value'
+              Width = 85
             end
             object cxGridViewColumn20: TcxGridDBColumn
               Caption = 'ID'
@@ -742,12 +742,12 @@ inherited frmQuotation: TfrmQuotation
     inherited dtAwalFilter: TcxDateEdit
       Left = 476
       ExplicitLeft = 476
-      ExplicitHeight = 21
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 592
       ExplicitLeft = 592
-      ExplicitHeight = 21
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 687
@@ -781,10 +781,16 @@ inherited frmQuotation: TfrmQuotation
         Action = actClose
         ExplicitLeft = 692
       end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
     inherited pnlShortCut: TPanel
+      Width = 769
+      ExplicitWidth = 769
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 695
+        Height = 17
       end
     end
   end

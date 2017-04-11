@@ -3,11 +3,13 @@ unit uModSuplier;
 interface
 
 uses
-  uModApp, uModTipePerusahaan, uModBank, uModTipePembayaran,  uModTipeKirimPO;
+  uModApp, uModTipePerusahaan, uModBank, uModTipePembayaran,  uModTipeKirimPO,
+  System.Generics.Collections;
 
 type
   TModSuplierGroup = class;
   TModTipeSuplier = class;
+  TModSuplierMerchanGroup = class;
 
   TModMerchandise = class(TModApp)
   private
@@ -83,6 +85,7 @@ type
     FSUP_TITLE: String;
     FTIPE_PERUSAHAAN: TModTipePerusahaan;
     FBANK: TModBank;
+    FSuplierMerchanGroups: tobjectlist<TModSuplierMerchanGroup>;
     FSUP_BANK_ACCOUNT_NO: String;
     FSUP_BANK_ACCOUNT_NAME: String;
     FSUP_SERVICE_LEVEL: Double;
@@ -95,8 +98,11 @@ type
     FSUP_BANK_BRANCH: String;
     FSUP_BANK_ADDRESS: String;
     FTIPE_SUPLIER: TModTipeSuplier;
+    function GetSuplierMerchanGroups: tobjectlist<TModSuplierMerchanGroup>;
   public
     class function GetTableName: String; override;
+    property SuplierMerchanGroups: tobjectlist<TModSuplierMerchanGroup> read
+        GetSuplierMerchanGroups write FSuplierMerchanGroups;
   published
     property BANK: TModBank read FBANK write FBANK;
     property SUPLIER_GROUP: TModSuplierGroup read FSUPLIER_GROUP write
@@ -158,7 +164,8 @@ type
     property TPSUP_NAME: String read FTPSUP_NAME write FTPSUP_NAME;
   end;
 
-type
+
+  [AttrUpdateDetails]
   TModSuplierMerchanGroup = class(TModApp)
   private
     FSUPLIER: TModSuplier;
@@ -204,6 +211,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfHeader]
     property SUPLIER: TModSuplier read FSUPLIER write FSUPLIER;
     [AttributeOfForeign('REF$MERCHANDISE_GRUP_ID')]    //relasi dg tabel lain yg butuh karakter unik
     property MERCHANDISE_GRUP: TModMerchandiseGroup read FMERCHANDISE_GRUP write
@@ -272,6 +280,15 @@ type
 
 
 implementation
+
+function TModSuplier.GetSuplierMerchanGroups:
+    Tobjectlist<TModSuplierMerchanGroup>;
+
+begin
+  if not assigned(FSuplierMerchanGroups) then
+    FSuplierMerchanGroups := Tobjectlist<TModSuplierMerchanGroup>.create;
+  Result := FSuplierMerchanGroups;
+end;
 
 class function TModSuplier.GetTableName: String;
 begin

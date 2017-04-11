@@ -8,6 +8,9 @@ uses
 
 type
   TModBarangSupplier = class;
+  TModKonversi = class;
+  TModTipeHarga = class;
+  TModBarangHargaJual = class;
 
   TModTipeBarang = class(TModApp)
   private
@@ -107,12 +110,19 @@ type
     FRefPajak: TModRefPajak;
     FSAFETY_STOCK: Double;
     FSATUAN_PURCHASE: TModSatuan;
+    FKonversi: TObjectList<TModKonversi>;
+    FHargaJual: TObjectList<TModBarangHargaJual>;
     FTipeBarang: TModTipeBarang;
     function GetSuppliers: TObjectList<TModBarangSupplier>;
+    function GetKonversi: TObjectList<TModKonversi>;
+    function GetHargaJual: TObjectList<TModBarangHargaJual>;
   public
     class function GetTableName: string; override;
     property Suppliers: TObjectList<TModBarangSupplier> read GetSuppliers write
         FSuppliers;
+    property Konversi: TObjectList<TModKonversi> read GetKonversi write FKonversi;
+    property HargaJual: TObjectList<TModBarangHargaJual> read GetHargaJual write
+        FHargaJual;
   published
     property BRG_CODE: String read FBRG_CODE write FBRG_CODE;
     property BRG_NAME: String read FBRG_NAME write FBRG_NAME;
@@ -179,6 +189,7 @@ type
     property TipeBarang: TModTipeBarang read FTipeBarang write FTipeBarang;
   end;
 
+  [AttrUpdateDetails]
   TModBarangSupplier = class(TModApp)
   private
     FBARANG: TModBarang;
@@ -241,6 +252,109 @@ type
     property Supplier: TModSuplier read FSupplier write FSupplier;
   end;
 
+  [AttrUpdateDetails]
+  TModKonversi = class(TModApp)
+  private
+    FBarang: TModBarang;
+    FKONVSAT_BARCODE: String;
+    FKONVSAT_SCALE: Double;
+    FSatuan: TModSatuan;
+  public
+    class function GetTableName: string; override;
+  published
+    [AttributeOfHeader]
+    property Barang: TModBarang read FBarang write FBarang;
+    property KONVSAT_BARCODE: String read FKONVSAT_BARCODE write FKONVSAT_BARCODE;
+    property KONVSAT_SCALE: Double read FKONVSAT_SCALE write FKONVSAT_SCALE;
+    [AttributeOfForeign('Ref$Satuan_ID')]
+    property Satuan: TModSatuan read FSatuan write FSatuan;
+  end;
+
+  TModTipeHarga = class(TModApp)
+  private
+    FTPHRG_CODE: string;
+    FTPHRG_NAME: string;
+    FTPHRG_MARKUP: Double;
+    FTPHRG_IS_CALC: Integer;
+    FTPHRG_IS_TEMPLATE: Integer;
+  public
+    class function GetTableName: String; override;
+  published
+    property TPHRG_CODE: string read FTPHRG_CODE write FTPHRG_CODE;
+    property TPHRG_NAME: string read FTPHRG_NAME write FTPHRG_NAME;
+    property TPHRG_MARKUP: Double read FTPHRG_MARKUP write FTPHRG_MARKUP;
+    property TPHRG_IS_CALC: Integer read FTPHRG_IS_CALC write FTPHRG_IS_CALC;
+    property TPHRG_IS_TEMPLATE: Integer read FTPHRG_IS_TEMPLATE write
+        FTPHRG_IS_TEMPLATE;
+  end;
+
+  TModBarangHargaJual = class(TModApp)
+  private
+    FBarang: TModBarang;
+    FBHJ_SELL_PRICE: Double;
+    FBHJ_DISC_PERSEN: Double;
+    FBHJ_DISC_NOMINAL: Double;
+    FBHJ_SELL_PRICE_DISC: Double;
+    FBHJ_SELL_PRICE_CORET: Double;
+    FBHJ_MARK_UP: Double;
+    FBHJ_IS_LIMIT_QTY: Integer;
+    FBHJ_IS_QTY_SUBSIDY: Integer;
+    FBHJ_LIMIT_QTY: Double;
+    FBHJ_LIMIT_QTY_PRICE: Double;
+    FBHJ_QTY_SUBSIDY: Double;
+    FBHJ_QTY_SUBSIDY_PRICE: Double;
+    FBHJ_CONV_VALUE: Double;
+    FBHJ_IS_MAILER: Integer;
+    FBHJ_MAX_QTY_DISC: Double;
+    FBHJ_MAILER_END_DATE: TDateTime;
+    FBHJ_LAST_SELL_PRICE: Double;
+    FBHJ_LAST_DISC: Double;
+    FBHJ_LAST_DISC_PERSEN: Double;
+    FBHJ_REMARK: string;
+    FSatuan: TModSatuan;
+    FTipeHarga: TModTipeHarga;
+  public
+    class function GetTableName: string; override;
+  published
+    [AttributeOfHeader]
+    property Barang: TModBarang read FBarang write FBarang;
+    property BHJ_SELL_PRICE: Double read FBHJ_SELL_PRICE write FBHJ_SELL_PRICE;
+    property BHJ_DISC_PERSEN: Double read FBHJ_DISC_PERSEN write FBHJ_DISC_PERSEN;
+    property BHJ_DISC_NOMINAL: Double read FBHJ_DISC_NOMINAL write
+        FBHJ_DISC_NOMINAL;
+    property BHJ_SELL_PRICE_DISC: Double read FBHJ_SELL_PRICE_DISC write
+        FBHJ_SELL_PRICE_DISC;
+    property BHJ_SELL_PRICE_CORET: Double read FBHJ_SELL_PRICE_CORET write
+        FBHJ_SELL_PRICE_CORET;
+    property BHJ_MARK_UP: Double read FBHJ_MARK_UP write FBHJ_MARK_UP;
+    property BHJ_IS_LIMIT_QTY: Integer read FBHJ_IS_LIMIT_QTY write
+        FBHJ_IS_LIMIT_QTY;
+    property BHJ_IS_QTY_SUBSIDY: Integer read FBHJ_IS_QTY_SUBSIDY write
+        FBHJ_IS_QTY_SUBSIDY;
+    property BHJ_LIMIT_QTY: Double read FBHJ_LIMIT_QTY write FBHJ_LIMIT_QTY;
+    property BHJ_LIMIT_QTY_PRICE: Double read FBHJ_LIMIT_QTY_PRICE write
+        FBHJ_LIMIT_QTY_PRICE;
+    property BHJ_QTY_SUBSIDY: Double read FBHJ_QTY_SUBSIDY write FBHJ_QTY_SUBSIDY;
+    property BHJ_QTY_SUBSIDY_PRICE: Double read FBHJ_QTY_SUBSIDY_PRICE write
+        FBHJ_QTY_SUBSIDY_PRICE;
+    property BHJ_CONV_VALUE: Double read FBHJ_CONV_VALUE write FBHJ_CONV_VALUE;
+    property BHJ_IS_MAILER: Integer read FBHJ_IS_MAILER write FBHJ_IS_MAILER;
+    property BHJ_MAX_QTY_DISC: Double read FBHJ_MAX_QTY_DISC write
+        FBHJ_MAX_QTY_DISC;
+    property BHJ_MAILER_END_DATE: TDateTime read FBHJ_MAILER_END_DATE write
+        FBHJ_MAILER_END_DATE;
+    property BHJ_LAST_SELL_PRICE: Double read FBHJ_LAST_SELL_PRICE write
+        FBHJ_LAST_SELL_PRICE;
+    property BHJ_LAST_DISC: Double read FBHJ_LAST_DISC write FBHJ_LAST_DISC;
+    property BHJ_LAST_DISC_PERSEN: Double read FBHJ_LAST_DISC_PERSEN write
+        FBHJ_LAST_DISC_PERSEN;
+    property BHJ_REMARK: string read FBHJ_REMARK write FBHJ_REMARK;
+    [AttributeOfForeign('Ref$Satuan_ID')]
+    property Satuan: TModSatuan read FSatuan write FSatuan;
+    [AttributeOfForeign('REF$TIPE_HARGA_ID')]
+    property TipeHarga: TModTipeHarga read FTipeHarga write FTipeHarga;
+  end;
+
 
 
 implementation
@@ -263,6 +377,20 @@ begin
   Result := FSuppliers;
 end;
 
+function TModBarang.GetKonversi: TObjectList<TModKonversi>;
+begin
+  If not Assigned(FKonversi) then
+    FKonversi := TObjectList<TModKonversi>.Create;
+  Result := FKonversi;
+end;
+
+function TModBarang.GetHargaJual: TObjectList<TModBarangHargaJual>;
+begin
+  If not Assigned(FHargaJual) then
+    FHargaJual := TObjectList<TModBarangHargaJual>.Create;
+  Result := FHargaJual;
+end;
+
 class function TModBarang.GetTableName: string;
 begin
   Result := 'BARANG';
@@ -278,6 +406,21 @@ begin
   Result := 'BARANG_SUPLIER';
 end;
 
+class function TModKonversi.GetTableName: string;
+begin
+  Result := 'REF$KONVERSI_SATUAN';
+end;
+
+class function TModTipeHarga.GetTableName: String;
+begin
+  Result := 'REF$TIPE_HARGA';
+end;
+
+class function TModBarangHargaJual.GetTableName: string;
+begin
+  Result := 'BARANG_HARGA_JUAL';
+end;
+
 initialization
   TModMerchandise.RegisterRTTI;
   TModMerchandiseGroup.RegisterRTTI;
@@ -288,5 +431,8 @@ initialization
   TModLokasi.RegisterRTTI;
   TModBarang.RegisterRTTI;
   TModBarangSupplier.RegisterRTTI;
+  TModKonversi.RegisterRTTI;
+  TModTipeHarga.RegisterRTTI;
+  TModBarangHargaJual.RegisterRTTI;
 
 end.

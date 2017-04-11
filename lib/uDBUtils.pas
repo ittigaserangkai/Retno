@@ -3,7 +3,7 @@ unit uDBUtils;
 interface
 uses
   System.Rtti, typinfo, SysUtils, StrUtils,
-  Forms, DBClient,
+  Forms, Datasnap.DBClient,
   Provider, Generics.Collections, System.Classes, StdCtrls,
   FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
   FireDAC.Phys.PG, FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.ODBCBase,
@@ -14,11 +14,11 @@ uses
   uModApp, uTSINIFile;
 
 type
-  TCDSHelper = class helper for TClientDataSet
+  TCDSHelper = class helper for TDataSet
   private
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
-        = 256);
+        = 256; IsCalculated: Boolean = False);
   end;
 
   TDBUtils = class(TObject)
@@ -32,6 +32,8 @@ type
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
+    class function CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
+        TComponent): TClientDataSet;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
     class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
@@ -50,11 +52,19 @@ type
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject : TModApp; AID : String);
     class procedure LoadByCode(AOBject : TModApp; AID : String);
-    class procedure SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
+    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
     class function OpenQuery(ASQL: String; AOwner: TComponent = nil): TFDQuery;
+    class function Quot(aString : String): String;
+    class function QuotD(aDate : TDateTime; aTambahJam235959 : Boolean = false):
+        String;
+    class function QuotDLong(aDate : TDateTime): String;
+    class function QuotDt(aDate : TDateTime): String; overload;
+    class function QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean): String;
+        overload;
+    class function QuotF(ANumber : Double): String;
     class procedure RollBack;
   end;
 
@@ -116,6 +126,37 @@ begin
     Result := True;
   end;
 
+end;
+
+class function TDBUtils.CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
+    TComponent): TClientDataSet;
+var
+  aFieldType: TFieldType;
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+begin
+  Result := TClientDataSet.Create(aOwner);
+  rt := ctx.GetType(aObjectClass);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+    case prop.PropertyType.TypeKind of
+      tkInteger : aFieldType := ftInteger;
+      tkFloat :
+      begin
+        if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+          aFieldType := ftDateTime
+        else
+          aFieldType := ftFloat;
+      end;
+      tkUString, tkString, tkWideString, tkClass : aFieldType := ftString;
+    else
+      aFieldType := ftString;
+    end;
+    Result.AddField(prop.Name, aFieldType );
+  end;
+  Result.CreateDataSet;
 end;
 
 class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent;
@@ -203,50 +244,130 @@ end;
 
 class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
 var
+  a: TCustomAttribute;
   ctx : TRttiContext;
+  DoUpdateDetails: Boolean;
   meth : TRttiMethod;
   prop, propItem : TRttiProperty;
   rt : TRttiType;
   i : Integer;
+  IDItems: string;
+  lAppClassItem: TModAppClass;
   lObj : TObject;
   lModItem : TModApp;
+  lObjectList: TObject;
+  rtItem: TRttiType;
+  sGenericItemClassName: string;
   value : TValue;
+  SSItems: TStrings;
+
+  function ClassInFilter(aClassType: TModAppClass): Boolean;
+  var n: Integer;
+  begin
+    Result := True; //default no filter
+    if (AObject.CrudFilterKind = fckNone) or (AObject.FilterClasses = nil) then exit;
+    Result := AObject.CrudFilterKind <> fckInclude; //default false jika inlucde, true jika exclude
+    for n := 0 to AObject.FilterClasses.Count-1 do  //server tidak bisa baca "class of.."
+    begin
+      Result := AObject.FilterClasses[n].CheckClass(aClassType.ClassName);
+      if AObject.CrudFilterKind = fckExclude then Result := not Result;
+      If Result <>  (AObject.CrudFilterKind <> fckInclude) then exit;
+    end;
+  end;
+
 begin
+  DoUpdateDetails := False;
   rt := ctx.GetType(AObject.ClassType);
 
-  if (AObject.ID = '') or (AObject.ObjectState = 1) then
-    SS.Add(TDBUtils.GetSQLInsert(AObject))
-  else
-    SS.Add(TDBUtils.GetSQLUpdate(AObject));
+  If ClassInFilter(TModAppClass(AObject.ClassType)) then
+  begin
+    if (AObject.ID = '') or (AObject.ObjectState = 1) then
+      SS.Add(TDBUtils.GetSQLInsert(AObject))
+    else
+      SS.Add(TDBUtils.GetSQLUpdate(AObject));
+  end;
 
   for prop in rt.GetProperties do
   begin
+    lModItem := nil;
     If not Assigned(prop) then continue;
     If prop.PropertyType.TypeKind = tkClass then
     begin
       meth := prop.PropertyType.GetMethod('ToArray');
       if Assigned(meth) then
       begin
+        lObjectList := prop.GetValue(AOBject).AsObject;
+        if lObjectList = nil then continue;
+
+        sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+        sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+        rtItem := ctx.FindType(sGenericItemClassName);
+
+        if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+        lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
+
+        //filter class
+        if not ClassInFilter(lAppClassItem) then continue;
+
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
-        for i := 0 to value.GetArrayLength - 1 do
-        begin
-          lObj := value.GetArrayElement(i).AsObject;
-          If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
-          lModItem := TModApp(lObj);
+        IDItems := '';
+        SSItems := TStringList.Create;
+        Try
+          for i := 0 to value.GetArrayLength - 1 do
+          begin
+            lObj := value.GetArrayElement(i).AsObject;
+            If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+            lModItem := TModApp(lObj);
 
-          if i = 0 then
-            SS.Add( Format(SQL_Delete,[lModItem.GetTableName,
-              lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID) ]) );
+            if i = 0 then //check operation at 1st loop
+              for a in ctx.GetType(lModItem.ClassType).GetAttributes do
+                if a is AttrUpdateDetails then DoUpdateDetails := True;
 
-          //dengan method dibawah, client tidak wajib menset moditem.header := modheader
-          propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            //dengan method dibawah, client tidak wajib menset moditem.header := modheader
+            propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            if propItem.PropertyType.TypeKind = tkClass then
+              propItem.SetValue(lModItem, AObject);
 
-          if propItem.PropertyType.TypeKind = tkClass then
-            propItem.SetValue(lModItem, AObject);
+            If DoUpdateDetails then
+            begin
+              lModItem.ObjectState := 3; //check if update
+              if lModItem.ID <> '' then
+              begin
+                if IDItems <> '' then IDItems := IDItems + ',';
+                IDItems := IDItems + QuotedStr(lModItem.ID);
+              end;
+            end else
+              lModItem.ObjectState := 1; //always insert
 
-          GenerateSQL(lModItem,SS);
-        end;
+            GenerateSQL(lModItem,SSItems);
+          end;
+
+          If Assigned(lModItem) then
+          begin
+            If (DoUpdateDetails) and (IDItems<>'') then
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)
+                + ' and ' + lModItem.GetPrimaryField + ' not in('+ IDItems +')'
+                ]))
+            else
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+          end else  //if lModItem = nil, force it
+          begin
+            lModitem := lAppClassItem.Create;
+            Try
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+            Finally
+              lModItem.Free;
+            End;
+          end;
+
+          if SSItems.Text <> '' then SS.AddStrings(SSItems);
+        Finally
+          SSItems.Free;
+        End;
       end;
     end;
   end;
@@ -282,6 +403,7 @@ begin
       meth := prop.PropertyType.GetMethod('ToArray');
       if Assigned(meth) then
       begin
+        if prop.GetValue(AOBject).AsObject = nil then continue;
         value  := meth.Invoke(prop.GetValue(AObject), []);
         Assert(value.IsArray);
         for i := 0 to value.GetArrayLength - 1 do
@@ -621,7 +743,7 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  SetFromDatast(AObject, Q);
+  LoadFromDataset(AObject, Q);
 end;
 
 class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
@@ -632,10 +754,10 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  SetFromDatast(AObject, Q);
+  LoadFromDataset(AObject, Q);
 end;
 
-class procedure TDBUtils.SetFromDatast(AOBject: TModApp; ADataSet: TDataset);
+class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
 var
   sSQL: string;
   ctx : TRttiContext;
@@ -675,8 +797,10 @@ begin
             tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
             tkClass   : begin
                           meth := prop.PropertyType.GetMethod('ToArray');
-                          if not Assigned(meth) then
+                          if not Assigned(meth) then //bukan obj list
                           begin
+                            if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+
                             meth          := prop.PropertyType.GetMethod('Create');
                             lAppObject    := TModApp(meth.Invoke(
                               prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
@@ -696,14 +820,17 @@ begin
           if Assigned(meth) then
           begin
             lObjectList := prop.GetValue(AOBject).AsObject;
+            if lObjectList = nil then continue;
+
             sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
             sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
-
             rtItem := ctx.FindType(sGenericItemClassName);
+
             meth := prop.PropertyType.GetMethod('Add');
             if Assigned(meth) and Assigned(rtItem) then
             begin
               //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+              if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
               lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
               lAppObjectItem  := lAppClass.Create;
               sSQL := 'select * from ' + lAppObjectItem.GetTableName
@@ -715,7 +842,7 @@ begin
                 while not QQ.Eof do
                 begin
                   lAppObjectItem := lAppClass.Create;
-                  SetFromDatast(lAppObjectItem, QQ);
+                  LoadFromDataset(lAppObjectItem, QQ);
                   meth.Invoke(lObjectList,[lAppObjectItem]);
                   QQ.Next;
                 end;
@@ -782,6 +909,50 @@ begin
   Result.Open;
 end;
 
+class function TDBUtils.Quot(aString : String): String;
+begin
+    result := QuotedSTr(trim(Astring));
+end;
+
+class function TDBUtils.QuotD(aDate : TDateTime; aTambahJam235959 : Boolean =
+    false): String;
+begin
+    if not aTambahJam235959 then
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy', aDate));
+    end else
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
+    end;
+end;
+
+class function TDBUtils.QuotDLong(aDate : TDateTime): String;
+begin
+    result := Quot(FormatDateTime('dd mmm yyyy', aDate));
+end;
+
+class function TDBUtils.QuotDt(aDate : TDateTime): String;
+begin
+    result := Quot(FormatDateTime('mm/dd/yyyy hh:mm:ss', aDate));
+end;
+
+class function TDBUtils.QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean):
+    String;
+begin
+    if not aTambahJam235959 then
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy hh:mm:ss', aDate));
+    end else
+    begin
+      Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
+    end;
+end;
+
+class function TDBUtils.QuotF(ANumber : Double): String;
+begin
+  Result := QuotedSTr(trim(FloatToStr(ANumber)));
+end;
+
 class procedure TDBUtils.RollBack;
 begin
   if FDTransaction = nil then
@@ -792,7 +963,7 @@ begin
 end;
 
 procedure TCDSHelper.AddField(AFieldName: String; AFieldType: TFieldType;
-    ALength: Integer = 256);
+    ALength: Integer = 256; IsCalculated: Boolean = False);
 var
   DTF: TDateTimeField;
   SF: TStringField;
@@ -831,6 +1002,7 @@ begin
         BF.Name       := Self.Name + 'col' + AFieldName + IntToStr(Integer(BF));
         BF.FieldName  := AFieldName;
         BF.DataSet    := Self;
+        BF.Calculated := IsCalculated;
       end;
     ftFloat:
       begin

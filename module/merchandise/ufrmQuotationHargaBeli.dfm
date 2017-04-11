@@ -762,6 +762,8 @@ inherited frmQuotationHargaBeli: TfrmQuotationHargaBeli
     end
   end
   inherited actlstBrowse: TActionList
+    Left = 600
+    Top = 120
     inherited actPrint: TAction
       OnExecute = actPrintExecute
     end

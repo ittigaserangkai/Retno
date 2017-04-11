@@ -1,7 +1,7 @@
 unit uModMember;
 
 interface
-uses uModApp, uModTipePerusahaan, uModRefAgama;
+uses uModApp, uModTipePerusahaan, uModRefAgama, uModTipePembayaran;
 type
   TModMemberActivasi = class;
   TModMemberKeluarga = Class;
@@ -17,6 +17,7 @@ type
     FMEMBER_CARD_NO: String;
     FMEMBER_AGAMA: TModRefAgama;
     FMEMBER_ADDRESS: String;
+    FMEMBER_TIPE_BAYAR: TModTipePembayaran;
     FMEMBER_IS_ACTIVE: Integer;
     FMEMBER_IS_VALID: Integer;
     FMEMBER_GROMEMBER_UNT_ID: Integer;
@@ -35,10 +36,14 @@ type
     FMEMBER_IS_WNI: integer;
     FMEMBER_PLACE_OF_BIRTH: string;
     FMEMBER_DATE_OF_BIRTH: TDateTime;
+    FIS_TRADER: Integer;
     FMEMBER_RT: String;
     FMEMBER_POST_CODE: String;
     FMEMBER_JML_TANGGUNGAN: String;
     FMEMBER_RW: String;
+    FMEMBER_PLAFON: Double;
+    FMEMBER_LEAD_TIME: Integer;
+    FMEMBER_TOP: Integer;
     FRefTipeMember: TModRefTipeMember;
   public
     class function GetTableName: String; override;
@@ -57,6 +62,9 @@ type
     [AttributeOfForeign('REF$AGAMA_ID')]
     property MEMBER_AGAMA: TModRefAgama read FMEMBER_AGAMA write FMEMBER_AGAMA;
     property MEMBER_ADDRESS: String read FMEMBER_ADDRESS write FMEMBER_ADDRESS;
+    [AttributeOfForeign('REF$TIPE_PEMBAYARAN_ID')]
+    property MEMBER_TIPE_BAYAR: TModTipePembayaran read FMEMBER_TIPE_BAYAR write
+        FMEMBER_TIPE_BAYAR;
     property MEMBER_IS_ACTIVE: Integer read FMEMBER_IS_ACTIVE write
         FMEMBER_IS_ACTIVE;
     property MEMBER_IS_VALID: Integer read FMEMBER_IS_VALID write FMEMBER_IS_VALID;
@@ -85,12 +93,17 @@ type
         FMEMBER_PLACE_OF_BIRTH;
     property MEMBER_DATE_OF_BIRTH: TDateTime read FMEMBER_DATE_OF_BIRTH write
         FMEMBER_DATE_OF_BIRTH;
+    property IS_TRADER: Integer read FIS_TRADER write FIS_TRADER;
     property MEMBER_RT: String read FMEMBER_RT write FMEMBER_RT;
     property MEMBER_POST_CODE: String read FMEMBER_POST_CODE write
         FMEMBER_POST_CODE;
     property MEMBER_JML_TANGGUNGAN: String read FMEMBER_JML_TANGGUNGAN write
         FMEMBER_JML_TANGGUNGAN;
     property MEMBER_RW: String read FMEMBER_RW write FMEMBER_RW;
+    property MEMBER_PLAFON: Double read FMEMBER_PLAFON write FMEMBER_PLAFON;
+    property MEMBER_LEAD_TIME: Integer read FMEMBER_LEAD_TIME write
+        FMEMBER_LEAD_TIME;
+    property MEMBER_TOP: Integer read FMEMBER_TOP write FMEMBER_TOP;
     [AttributeOfForeign('REF$TIPE_MEMBER_ID')]
     property RefTipeMember: TModRefTipeMember read FRefTipeMember write
         FRefTipeMember;

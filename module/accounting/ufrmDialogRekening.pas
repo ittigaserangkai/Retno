@@ -86,7 +86,6 @@ type
     property DsProvider: TDSProviderClient read GetDsProvider write FDsProvider;
     property ModRekening: TModRekening read GetModRekening write FModRekening;
   public
-    procedure HapusRekIfada(jenis : string; aheaderid : Integer);
     procedure LoadData(ID: String);
     property IsProcessSuccesfull: Boolean read FIsProcessSuccesfull write SetIsProcessSuccesfull;
     property StatusForm: TStatusForm read FStatusForm write SetStatusForm;
@@ -135,6 +134,7 @@ begin
   dbParentCode.Properties.SetMultiPurposeLookup;
   dbAccountGroup.Properties.LoadFromCDS(CDSRekeningGroup,'REF$GRUP_REKENING_ID', 'GROREK_NAME', ['REF$GRUP_REKENING_ID'] , self);
   dbAccountGroup.Properties.SetMultiPurposeLookup;
+  self.ClearByTag([0]);
 end;
 
 procedure TfrmDialogRekening.FormClose(Sender: TObject;
@@ -302,10 +302,18 @@ begin
 
   if dbAccountGroup.Text = '' then
   begin
-    CommonDlg.ShowError('Rekening Group Is Empty');
+    CommonDlg.ShowError('Account Group Is Empty');
     dbAccountGroup.SetFocus;
     Exit;
   end;
+
+  if dbParentCode.Text = '' then
+  begin
+    CommonDlg.ShowError('Parent Code Is Empty');
+    dbAccountGroup.SetFocus;
+    Exit;
+  end;
+
   Result := True;
 end;
 
@@ -382,31 +390,6 @@ begin
   if not Assigned(FModRekening) then
     FModRekening := TModRekening.Create();
   Result := FModRekening;
-end;
-
-procedure TfrmDialogRekening.HapusRekIfada(jenis : string; aheaderid : Integer);
-var
-  sSql : string;
-begin
-   if jenis='BS' then
-      begin
-       sSql := ' delete from rekening_bs where'
-             + ' rekbs_code = ' + QuotedStr(Trim(edtRekCode.Text))
-             + ' and rekbs_comp_id = ' + IntToStr(DialogCompany);
-      end
-   else if jenis='PL' then
-      begin
-       sSql := ' delete from rekening_pl where'
-             + ' rekpl_code = ' + QuotedStr(Trim(edtRekCode.Text))
-             + ' and rekpl_comp_id = ' + IntToStr(DialogCompany);
-      end;
-//    if not cExecSQL(sSql, False, aheaderid) then
-//    begin
-//      CommonDlg.ShowError('Gagal Hapus');
-//      cRollbackTrans;
-//      Exit;
-//    end;
-
 end;
 
 procedure TfrmDialogRekening.LoadData(ID: String);

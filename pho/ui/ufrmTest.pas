@@ -46,7 +46,7 @@ procedure TfrmTest.Button1Click(Sender: TObject);
 begin
   with TTestMethodClient.Create(DMClient.RestConn) do
   begin
-    showmessage(Hallo('test'));
+    showmessage(Hallo(0));
   end;
 end;
 

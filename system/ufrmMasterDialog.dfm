@@ -1,6 +1,7 @@
 object frmMasterDialog: TfrmMasterDialog
   Left = 561
   Top = 158
+  BorderIcons = [biSystemMenu]
   Caption = 'Form Master Dialog'
   ClientHeight = 332
   ClientWidth = 554
@@ -76,19 +77,15 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited lbCTRLEnter: TLabel
         Left = 379
-        Height = 15
         ExplicitLeft = 379
       end
       inherited lbEscape: TLabel
         Left = 470
-        Height = 15
         ExplicitLeft = 470
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 303
+        ExplicitLeft = 303
       end
     end
   end
