@@ -185,6 +185,7 @@ type
     actactListMemberTransaction: TAction;
     actRafaksiSupplier: TAction;
     actReturTrader: TAction;
+    GeneratePOForAll1: TMenuItem;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
