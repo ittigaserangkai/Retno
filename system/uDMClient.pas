@@ -89,7 +89,8 @@ begin
   //set true akan menyebabkan ada expired time di client
 
   sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
-  UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+  if sIDUnit <> '' then
+    UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
 
 end;
 

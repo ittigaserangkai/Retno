@@ -108,6 +108,9 @@ object frmMain: TfrmMain
       object CreateSuggestionOrder1: TMenuItem
         Action = actCreateSO
       end
+      object GeneratePOForAll1: TMenuItem
+        Action = actGeneratePOForAll
+      end
     end
     object mmWindow: TMenuItem
       Caption = '&Window'

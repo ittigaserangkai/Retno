@@ -17,31 +17,38 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     ExplicitHeight = 256
     object lbl3: TLabel
       Left = 18
-      Top = 6
+      Top = 9
       Width = 107
       Height = 16
       Caption = 'No. Suggestion Order'
     end
     object lbl4: TLabel
       Left = 85
-      Top = 29
+      Top = 36
       Width = 40
       Height = 16
       Caption = 'Date SO'
     end
     object lbl1: TLabel
       Left = 13
-      Top = 62
+      Top = 93
       Width = 115
       Height = 16
       Caption = 'Date Purchasing Order'
     end
     object bvl1: TBevel
       Left = 13
-      Top = 58
+      Top = 89
       Width = 254
       Height = 17
       Shape = bsTopLine
+    end
+    object lblSupplierMG: TLabel
+      Left = 86
+      Top = 64
+      Width = 39
+      Height = 16
+      Caption = 'Supplier'
     end
     object edtNoSO: TEdit
       Left = 133
@@ -57,19 +64,19 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     end
     object dtDateSO: TcxDateEdit
       Left = 133
-      Top = 29
+      Top = 32
       TabOrder = 2
       Width = 132
     end
     object dtDatePO: TcxDateEdit
       Left = 133
-      Top = 63
+      Top = 94
       TabOrder = 3
       Width = 132
     end
     object btnProcessPO: TcxButton
       Left = 152
-      Top = 86
+      Top = 122
       Width = 113
       Height = 27
       Cursor = crHandPoint
@@ -135,7 +142,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     end
     object btnDetailPO: TcxButton
       Left = 152
-      Top = 112
+      Top = 153
       Width = 113
       Height = 27
       Cursor = crHandPoint
@@ -148,6 +155,12 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+    end
+    object cbbSupplierMG: TcxExtLookupComboBox
+      Left = 133
+      Top = 60
+      TabOrder = 8
+      Width = 132
     end
   end
   inherited pnlHeader: TPanel

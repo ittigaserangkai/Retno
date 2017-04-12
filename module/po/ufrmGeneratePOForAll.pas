@@ -8,7 +8,8 @@ uses
   ActnList, ComCtrls, System.Actions,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, dxCore, cxDateUtils, Vcl.Menus, cxProgressBar, cxButtons,
-  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar;
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TSODetil  = array of record
@@ -69,6 +70,8 @@ type
     btn1: TcxButton;
     btnDetailPO: TcxButton;
     actDetailPO: TAction;
+    lblSupplierMG: TLabel;
+    cbbSupplierMG: TcxExtLookupComboBox;
     procedure actDetailPOExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

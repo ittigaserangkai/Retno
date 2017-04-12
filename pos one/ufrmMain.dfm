@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
   Left = 424
   Top = 216
-  Width = 650
-  Height = 480
   Caption = 'frmMain'
+  ClientHeight = 421
+  ClientWidth = 584
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object frmMain: TfrmMain
   object sbMain: TStatusBar
     Left = 0
     Top = 402
-    Width = 634
+    Width = 584
     Height = 19
     Panels = <
       item
@@ -56,7 +56,7 @@ object frmMain: TfrmMain
       end>
   end
   object mmoHelp: TMemo
-    Left = 313
+    Left = 263
     Top = 5
     Width = 321
     Height = 397
@@ -91,7 +91,7 @@ object frmMain: TfrmMain
   object pnlHeader: TPanel
     Left = 0
     Top = 0
-    Width = 634
+    Width = 584
     Height = 5
     Align = alTop
     TabOrder = 2
@@ -211,7 +211,6 @@ object frmMain: TfrmMain
       Caption = 'Admin'
       object miLoginAdmin: TMenuItem
         Caption = 'Login Admin'
-        OnClick = miLoginAdminClick
       end
       object miCashierSupv: TMenuItem
         Caption = '&Cashier Supervisor'
@@ -221,7 +220,6 @@ object frmMain: TfrmMain
         end
         object miMaintenancePassword: TMenuItem
           Caption = 'Maintenance &User And Password'
-          OnClick = miMaintenancePasswordClick
         end
         object miActivatePOS: TMenuItem
           Caption = '&Activate POS'
@@ -229,23 +227,18 @@ object frmMain: TfrmMain
         end
         object miBeginningBalancePOS: TMenuItem
           Caption = '&Beginning Balance POS'
-          OnClick = miBeginningBalancePOSClick
         end
         object miCashDroping: TMenuItem
           Caption = 'Cash &Dropping'
-          OnClick = miCashDropingClick
         end
         object miResetCashier: TMenuItem
           Caption = '&Reset Cashier'
-          OnClick = miResetCashierClick
         end
         object miFinalPayment: TMenuItem
           Caption = 'Closing Payment'
-          OnClick = miFinalPaymentClick
         end
         object miReturNotaCN: TMenuItem
           Caption = 'Retur &Nota (CN)'
-          OnClick = miReturNotaCNClick
         end
         object N6: TMenuItem
           Caption = '-'
@@ -264,26 +257,21 @@ object frmMain: TfrmMain
           Caption = 'References'
           object CreditCard1: TMenuItem
             Caption = 'Credit Card'
-            OnClick = CreditCard1Click
           end
         end
         object miDisplay: TMenuItem
           Caption = 'Di&splay'
           object DisplayCreditCardAndCashback1: TMenuItem
             Caption = 'CC And Cash Back'
-            OnClick = DisplayCreditCardAndCashback1Click
           end
           object DisplayLastTransactionNo1: TMenuItem
             Caption = 'Last Transaction No'
-            OnClick = DisplayLastTransactionNo1Click
           end
           object DisplayPOSMonitor1: TMenuItem
             Caption = 'POS Monitor'
-            OnClick = DisplayPOSMonitor1Click
           end
           object DisplayPOSTransaction1: TMenuItem
             Caption = 'POS Transaction'
-            OnClick = DisplayPOSTransaction1Click
           end
         end
         object N7: TMenuItem
@@ -291,26 +279,21 @@ object frmMain: TfrmMain
         end
         object miSalesReportContrabon: TMenuItem
           Caption = '&Sales Report Contrabon'
-          OnClick = miSalesReportContrabonClick
         end
         object miSalesReport: TMenuItem
           Caption = 'Sales Report By Cashier'
-          OnClick = miSalesReportClick
         end
         object ReprintNota1: TMenuItem
           Caption = 'Reprint Nota'
-          OnClick = ReprintNota1Click
         end
       end
       object miCustomerSupport: TMenuItem
         Caption = 'C&ustomer Support'
         object miMemberShip1: TMenuItem
           Caption = 'Membership'
-          OnClick = miMemberShip1Click
         end
         object miMemberActivation1: TMenuItem
           Caption = 'Member Activation'
-          OnClick = miMemberActivation1Click
         end
         object miVoucher1: TMenuItem
           Caption = 'Voucher'
@@ -318,7 +301,6 @@ object frmMain: TfrmMain
             Caption = 'Customer'
             object miDataCostumer1: TMenuItem
               Caption = 'Customer'
-              OnClick = miDataCostumer1Click
             end
             object miCostumerAgreement1: TMenuItem
               Caption = 'Customer Agreement'
@@ -357,7 +339,6 @@ object frmMain: TfrmMain
         end
         object miMaintenanceBarcode: TMenuItem
           Caption = 'Maintenance Barcode'
-          OnClick = miMaintenanceBarcodeClick
         end
       end
       object miEOD: TMenuItem
@@ -373,7 +354,7 @@ object frmMain: TfrmMain
     Left = 303
     Top = 147
     Bitmap = {
-      494C010103000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000400140010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -513,6 +494,7 @@ object frmMain: TfrmMain
       000000000000}
   end
   object eiMain: TExeInfo
+    Version = '1.3.3.0'
     Left = 376
     Top = 137
   end

@@ -74,9 +74,17 @@ type
     class function TulisRegistry(aName, aValue: String; sAppName : String = ''):
         Boolean;
     class procedure Warning(const Text: string);
-
+    //fungsi padding string
     class function StrPadLeft(const S: string; Len: Integer; C: Char): string;
     class function StrPadRight(const S: string; Len: Integer; C: Char): string;
+    class function StrPadLeftCut(const S: String; Len: Integer; C: Char): String;
+    class function StrRemoveChar(const S: String; const Source: Char): String;
+    //fungsi enkripsi
+    class function _Encrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
+    class function _Decrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
+    class function _MakeReadable(Input: string): string;
+    class function _MakeOriginal(Input: string): string;
+
   end;
 
 function GetAppVersionStr: string;
@@ -96,6 +104,10 @@ var
   PB1 : TProgressBar;
 
 const
+  START_KEY = 981; {Start default key}
+  MULTI_KEY = 12674; {Mult default key}
+  ADD_KEY = 35891;	{Add default key}
+
   _ColorBarisGrid                 : TColor = $00E1E1E1;
   _MSG_BERHASIL_SIMPAN            : String = 'Berhasil Menyimpan Data';
   _MSG_BERHASIL_SIMPAN_NOBUKTI    : String = 'Berhasil Menyimpan Data' + #13
@@ -116,6 +128,7 @@ const
                                     + 'Anda Akan Melakukan Design Report';
 
   sSpace: string = ' ';
+
 implementation
 
 uses
@@ -158,6 +171,7 @@ begin
     m.Free;
   end;
 end;
+
 function GetAppVersionStr: string;
 var
   Exe: string;
@@ -1041,6 +1055,105 @@ begin
     Result := S + StringOfChar(C, Len - L)
   else
     Result := S;
+end;
+
+class function TAppUtils.StrPadLeftCut(const S: String; Len: Integer; C: Char): String;
+var
+  L, i: Integer;
+  tmp : string;
+begin
+  L := Length(S);
+  if L < Len then
+  begin
+    tmp:= S;
+    for i:= 1 to (Len-L) do
+    begin
+      tmp:= C + tmp;
+    end;
+    Result:= tmp;
+  end
+  else
+
+  if (L = Len) then
+  begin
+    Result := S;
+  end
+  else
+  begin
+    tmp:= '';
+    for i:=1 to Len do
+      tmp := tmp + S[i];
+    Result := tmp;
+  end;
+end;
+
+class function TAppUtils.StrRemoveChar(const S: String; const Source: Char): String;
+var
+  I: Integer;
+begin
+  Result := '';
+
+  for I := 1 to Length(S) do
+    if S[I] <> Source then
+      Result := Result + S[I];
+end;
+
+{
+  @author     : Anatoly Podgoretsky
+               Base alghoritm from Borland
+  @modified by: Martin Djernæs, Yogatama
+}
+class function TAppUtils._Encrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
+var
+  i: Byte;
+begin
+  Result := '';
+  for i := 1 to Length(InString) do
+  begin
+    Result := Result + Chr(Ord(InString[i]) xor (START_KEY shr 8));
+    START_KEY := (Ord(Result[i]) + START_KEY) * MULTI_KEY + ADD_KEY;
+  end;
+end;
+
+{
+  @author     : Anatoly Podgoretsky
+               Base alghoritm from Borland
+  @modified by: Martin Djernæs, Yogatama
+}
+class function TAppUtils._Decrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
+var
+  i: Byte;
+begin
+  Result := '';
+  for i := 1 to Length(InString) do
+  begin
+    Result := Result + Chr(Ord(InString[i]) xor (START_KEY shr 8));
+    START_KEY := (Ord(InString[i]) + START_KEY) * MULTI_KEY + ADD_KEY;
+  end;
+end;
+
+class function TAppUtils._MakeReadable(Input: string): string;
+const
+  digit: array [0..15] of Char = ('0', '1', '2', '3', '4', '5', '6', '7',
+                                  '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+var
+  i: Byte;
+begin
+  Result := '';
+  for i := 1 to Length(Input) do
+    Result := Result + digit[Ord(Input[i]) shr 4] + digit[Ord(Input[i]) and $F];
+end;
+
+class function TAppUtils._MakeOriginal(Input: string): string;
+var
+  i: Byte;
+begin
+  Result := '';
+  i := 1;
+  while (i < Length(Input)) do begin
+    Result := Result + Chr(StrToInt('$' + Input[i] + Input[i + 1]));
+    i := i + 2;
+  end;
 end;
 
 end.

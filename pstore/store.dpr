@@ -74,7 +74,6 @@ uses
   ufrmDialogInputProductForNotSO in '..\module\so\ufrmDialogInputProductForNotSO.pas' {frmDialogInputProductForNotSO},
   ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
   ufrmGeneratePOForAll in '..\module\po\ufrmGeneratePOForAll.pas' {frmGeneratePOforAll},
-  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   ufrmGeneratePOBonus in '..\module\po\ufrmGeneratePOBonus.pas' {frmGeneratePOBonus},
   ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
@@ -184,7 +183,10 @@ uses
   uModSO in '..\model\uModSO.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-  ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang};
+  ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang},
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
+  ModPO in '..\model\ModPO.pas',
+  uModPO in '..\model\uModPO.pas';
 
 {$R *.res}
 

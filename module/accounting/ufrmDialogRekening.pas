@@ -134,6 +134,7 @@ begin
   dbParentCode.Properties.SetMultiPurposeLookup;
   dbAccountGroup.Properties.LoadFromCDS(CDSRekeningGroup,'REF$GRUP_REKENING_ID', 'GROREK_NAME', ['REF$GRUP_REKENING_ID'] , self);
   dbAccountGroup.Properties.SetMultiPurposeLookup;
+  self.ClearByTag([0]);
 end;
 
 procedure TfrmDialogRekening.FormClose(Sender: TObject;
@@ -301,10 +302,18 @@ begin
 
   if dbAccountGroup.Text = '' then
   begin
-    CommonDlg.ShowError('Rekening Group Is Empty');
+    CommonDlg.ShowError('Account Group Is Empty');
     dbAccountGroup.SetFocus;
     Exit;
   end;
+
+  if dbParentCode.Text = '' then
+  begin
+    CommonDlg.ShowError('Parent Code Is Empty');
+    dbAccountGroup.SetFocus;
+    Exit;
+  end;
+
   Result := True;
 end;
 
