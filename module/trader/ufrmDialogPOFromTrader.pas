@@ -941,7 +941,7 @@ begin
   ss  := TStringList.Create;
   try
     stmp  := cbTipeHarga.Text;
-    SS.LoadFromFile(cGetAppPath + FileNmHeader);
+    SS.LoadFromFile(TAppUtils.GetAppPath + FileNmHeader);
     for i := 0 to cbTipeHarga.Items.Count - 1 do
     begin
       if LowerCase(trim(cbTipeHarga.Items.Strings[i])) = LowerCase(trim(SS.Strings[0])) then

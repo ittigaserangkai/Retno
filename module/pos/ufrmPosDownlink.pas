@@ -72,7 +72,7 @@ var
 
 implementation
 uses
-  uRetnoUnit, DB, uTSCommonDlg, ufrmMain, uAppUtils;
+   DB, uTSCommonDlg, ufrmMain, uAppUtils, udmMain;
 {$R *.dfm}
 
 
@@ -108,7 +108,7 @@ var
   SS    : TStrings;
 
 begin
-  cShowWaitWindow('Please wait....');
+  TAppUtils.cShowWaitWindow('Please wait....');
   aList := TStringList.Create;
   try
     if chkDB.Checked then
@@ -221,14 +221,14 @@ begin
     end;
     }
   finally
-    cCloseWaitWindow;
+    TAppUtils.cCloseWaitWindow;
     aList.Free;
   end;
 end;
 
 procedure TfrmPosDownlink.FormShow(Sender: TObject);
 begin
-  FDefUnitID := StrToInt(getGlobalVar('UNITID'));
+  FDefUnitID := StrToInt(dmMain.getGlobalVar('UNITID'));
   FLDateImpKsr  := Gettanggal('KASIR');
   FLDateImpHrg  := Gettanggal('HARGA');
   FLDateImpVou  := Gettanggal('VOUCHER');

@@ -5,10 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Graphics, Controls, Forms,
   Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions,
-  System.Classes, Vcl.StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
-  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxCheckBox, cxSpinEdit, uDMClient, uClientClasses;
+  System.Classes, Vcl.StdCtrls;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -165,7 +162,7 @@ begin
          + ' AND U.USR_UNT_ID = '+ IntToStr(FLoginUnitId)
          + ' AND MOD.MOD_LABEL <> ' + QuotedStr(sTipe)
          + ' AND UPPER(MOD.MOD_NAME) = ' + QuotedStr(UpperCase(strNama));
-         
+  {
   with dmMain.qrMultiPurpose do
   begin
     SQL.Text := sSQL;
@@ -177,6 +174,7 @@ begin
       Next;
     end;
   end;
+  }
 end;
 
 procedure TfrmMasterDialog.SetDialogCompany(const Value: Integer);

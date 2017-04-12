@@ -288,9 +288,6 @@ inherited frmProductForSelling: TfrmProductForSelling
   inherited pnlHeader: TPanel
     Width = 694
     ExplicitWidth = 694
-    inherited lblHeader: TLabel
-      Height = 18
-    end
   end
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0

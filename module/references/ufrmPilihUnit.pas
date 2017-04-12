@@ -37,14 +37,14 @@ var
 
 implementation
 uses
-  uAppUtils, uDBUtils;
+  uAppUtils, uDBUtils, uRetnoUnit;
 
 {$R *.dfm}
 
 procedure TfrmPilihCabang.btnPilihClick(Sender: TObject);
 begin
-  DMClient.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, cbbUnit.EditValue));
-  TAppUtils.TulisRegistry('UnitStore', DMClient.UnitStore.ID);
+  TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, cbbUnit.EditValue));
+  TAppUtils.TulisRegistry('UnitStore', TRetno.UnitStore.ID);
 end;
 
 procedure TfrmPilihCabang.FormCreate(Sender: TObject);

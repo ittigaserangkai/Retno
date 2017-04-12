@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, Mask, ufraLookUpCC, uRetnoUnit, uSpell,
+  Dialogs, ExtCtrls, StdCtrls, Mask, ufraLookUpCC, uSpell,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
   cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids;
 
@@ -284,7 +284,7 @@ implementation
 
 uses
   uTSCommonDlg, Math, ufrmMain, DB, ufrmTransaksi, StrUtils, uConstanta,
-  HPHELP, DateUtils, uAppUtils ;
+  HPHELP, DateUtils, uAppUtils , udmMain;
 
 {$R *.dfm}
 
@@ -607,13 +607,13 @@ begin
   fraLookUpCC.LoadData(frmMain.UnitID, 0);
   try
     //CC_Minimum := StrToCurr(getGlobalVar('POS_CC_MIN'));
-    Cashback_Minimum    := StrToCurr(getGlobalVar('POS_CASHBACK_MIN'));
-    SisaUang_Maksimum   := StrToCurr(getGlobalVar('POS_SISAUANG_MAX'));
-    Cashback_Kelipatan  := StrToCurr(getGlobalVar('POS_CASHBACK_KELIPATAN'));
-    Cashback_Maximum    := StrToCurr(getGlobalVar('POS_CASHBACK_MAX'));
-    KonstantaPembulatan := StrToCurr(getGlobalVar('POS_PEMBULATAN'));
-    ShowFooterKembalian := StrToInt(getGlobalVar('POS_SHOW_SISAKEMBALIAN'));
-    TipeIDConcession    := StrToInt(getGlobalVar('POS_CONCESSION'));
+    Cashback_Minimum    := StrToCurr(dmMain.getGlobalVar('POS_CASHBACK_MIN'));
+    SisaUang_Maksimum   := StrToCurr(dmMain.getGlobalVar('POS_SISAUANG_MAX'));
+    Cashback_Kelipatan  := StrToCurr(dmMain.getGlobalVar('POS_CASHBACK_KELIPATAN'));
+    Cashback_Maximum    := StrToCurr(dmMain.getGlobalVar('POS_CASHBACK_MAX'));
+    KonstantaPembulatan := StrToCurr(dmMain.getGlobalVar('POS_PEMBULATAN'));
+    ShowFooterKembalian := StrToInt(dmMain.getGlobalVar('POS_SHOW_SISAKEMBALIAN'));
+    TipeIDConcession    := StrToInt(dmMain.getGlobalVar('POS_CONCESSION'));
   except
   end;
 end;
@@ -779,7 +779,7 @@ begin
       begin
         if SisaUang <= SisaUang_Maksimum then
         begin
-          cShowWaitWindow('Mencetak Struk');
+          TAppUtils.cShowWaitWindow('Mencetak Struk');
           Application.ProcessMessages;
           try
             if SaveToDB then
@@ -798,7 +798,7 @@ begin
               Self.Close;
             end;
           finally
-            cCloseWaitWindow;
+            TAppUtils.cCloseWaitWindow;
           end;
         end
         else
@@ -944,11 +944,13 @@ var
 //  lQ: TIBQuery;
   sDiscPersen : String;
   sPrice: string;
+  sReportPath: string;
 begin
   dTotalNonJB := 0;
   HideInfo;
   mmoBackup.Clear;
   mmoTemp.Clear;
+  sReportPath := TAppUtils.GetAppPath;
   //mmoBackup.Lines.LoadFromFile(cGetAppPath + 'utils\' + FILE_HEADER);
   //Application.ProcessMessages;
 
@@ -1025,7 +1027,7 @@ begin
         mmoIsiStruk.Lines.Add(sTemp);
         if Values[_KolDiscMan, i] > 0 then
         begin
-            DiscPersen  :=  RoundTo(Floats[_KolDiscMan,i] / Floats[_KolHarga,i] * 100, -2);
+            DiscPersen  :=  RoundTo(Values[_KolDiscMan,i] / Values[_KolHarga,i] * 100, -2);
             sDiscPersen := '(' + FloatToStr(DiscPersen) + '%)';
             While Length(sDiscPersen) < 10 do
             begin
@@ -1173,7 +1175,7 @@ begin
     sTemp := 'Sisa Kembalian: ' + FormatFloat('#,##0',Pembulatan);
     mmoFooterStruk.Lines.Add(TAppUtils.StrPadLeftCut(sTemp,Length(sTemp) + ((40 - Length(sTemp)) div 2),' '));
     mmoTemp.Clear;
-    mmoTemp.Lines.LoadFromFile(cGetAppPath + 'utils\' + FILE_FOOTER_SISA);
+    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER_SISA);
     mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
   end;
 
@@ -1189,18 +1191,18 @@ begin
     lQ.Free;
   end;
   }
-  mmoTemp.Lines.LoadFromFile(cGetAppPath + 'utils\' + FILE_FOOTER);
+  mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER);
   mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
   mmoBackup.Lines.AddStrings(mmoFooterStruk.Lines);
   Application.ProcessMessages;
 
   if (edtCashBack.Visible) and (edtCashBack.Value > 0) then
   begin
-    mmoTemp.Lines.LoadFromFile(cGetAppPath + 'utils\' + FILE_HEADER_CASHBACK);
+    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_HEADER_CASHBACK);
   end
   else
   begin
-    mmoTemp.Lines.LoadFromFile(cGetAppPath + 'utils\' + FILE_HEADER);
+    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_HEADER);
   end;
   mmoBackup.Lines.AddStrings(mmoTemp.Lines);
   for i := mmoTemp.Lines.Count + 1 to 4 do    // Iterate
@@ -1214,7 +1216,7 @@ begin
   try
     begin
       //PrintFile(outFile);
-      //outFile := cGetAppPath + 'utils\' + 'POS_STRUK.TXT';
+      //outFile := sReportPath + 'utils\' + 'POS_STRUK.TXT';
       //mmoBackup.Lines.SaveToFile(outFile);
 
       lPosTrans := TPOSTransaction.Create(Self);
@@ -1263,7 +1265,7 @@ begin
     CommonDlg.ShowMessage('Tekan OK untuk mulai mencetak struk cashback');
     aSpell := TSpell.Create;
 
-    //outFile := cGetAppPath + 'utils\' + FILE_ISI_CASHBACK;
+    //outFile := sReportPath + 'utils\' + FILE_ISI_CASHBACK;
     //if (FileExists(outFile)) then
        //DeleteFile(PChar(outFile));
 
@@ -1289,16 +1291,16 @@ begin
     mmoBackup.Lines.AddStrings(mmoIsiCB.Lines);
     Application.ProcessMessages;
 
-    PrintFile(cGetAppPath + 'utils\' + FILE_FOOTER_CASHBACK);
+    PrintFile(sReportPath + 'utils\' + FILE_FOOTER_CASHBACK);
     mmoTemp.Clear;
-    mmoTemp.Lines.LoadFromFile(cGetAppPath + 'utils\' + FILE_FOOTER_CASHBACK);
+    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER_CASHBACK);
     mmoBackup.Lines.AddStrings(mmoTemp.Lines);
-    //mmoBackup.Lines.SaveToFile(cGetAppPath + 'utils\' + 'POS_STRUK.TXT');
+    //mmoBackup.Lines.SaveToFile(sReportPath + 'utils\' + 'POS_STRUK.TXT');
     Application.ProcessMessages;
 
     aSpell.Destroy;
 //    PrintStrings(mmoBackup.Lines);
-    //PrintFile(cGetAppPath + 'utils\' + FILE_HEADER_CASHBACK);
+    //PrintFile(sReportPath + 'utils\' + FILE_HEADER_CASHBACK);
   end;
   //----------------------- end print struk cashback ---------------------------
 {
@@ -2340,7 +2342,7 @@ begin
   begin
     aSpell := TSpell.Create;
 
-    outFile := cGetAppPath + 'utils\' + FILE_VALIDASI;
+    outFile := TAppUtils.GetAppPath + 'utils\' + FILE_VALIDASI;
     if (FileExists(outFile)) then
        DeleteFile(PChar(outFile));
 
@@ -2381,7 +2383,7 @@ begin
   begin
     aSpell := TSpell.Create;
 
-    outFile := cGetAppPath + 'utils\' + FILE_VALIDASI;
+    outFile := TAppUtils.GetAppPath + 'utils\' + FILE_VALIDASI;
     if (FileExists(outFile)) then
        DeleteFile(PChar(outFile));
 
@@ -2398,7 +2400,7 @@ begin
 
     mmoIsiCB.Lines.SaveToFile(outFile);
 
-    outFile := cGetAppPath + 'utils\' + FILE_ISI_STRUK;
+    outFile := TAppUtils.GetAppPath + 'utils\' + FILE_ISI_STRUK;
     if (FileExists(outFile)) then
        DeleteFile(PChar(outFile));
 
@@ -2435,7 +2437,7 @@ begin
 
     Application.ProcessMessages;
 
-    outFile := cGetAppPath + 'utils\' + 'POS_VALID.TXT';
+    outFile := TAppUtils.GetAppPath + 'utils\' + 'POS_VALID.TXT';
     mmoBackup.Lines.SaveToFile(outFile);
     try
       begin

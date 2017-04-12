@@ -121,7 +121,6 @@ object fraDOKring: TfraDOKring
     TabOrder = 2
     ExplicitLeft = 56
     ExplicitTop = 192
-    ExplicitWidth = 121
     Width = 457
   end
   object pmLookup: TPopupMenu

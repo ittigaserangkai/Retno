@@ -42,7 +42,7 @@ var
 implementation
 
 uses
-  uRetnoUnit, ufrmMain, uTSCommonDlg, DB, uAppUtils;
+  ufrmMain, uTSCommonDlg, DB, uAppUtils;
 
 {$R *.dfm}
 
@@ -67,7 +67,7 @@ begin
       {$ELSE}
       try
         frmLogin.Caption := 'Selamat Datang di Assaalaam POS System';
-        edCashierID.Text := StrPadRight('',4 - Length(edCashierID.Text),'0') + edCashierID.Text;
+        edCashierID.Text := TAppUtils.StrPadRight('',4 - Length(edCashierID.Text),'0') + edCashierID.Text;
       except
       end;
       {$ENDIF}

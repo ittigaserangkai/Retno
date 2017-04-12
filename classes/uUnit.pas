@@ -159,7 +159,7 @@ type
     function LoadByID( aID : Integer ): Boolean;
     function LoadByKode( aKode : string): Boolean;
 //    class function GetRec(acOMpId: Integer; aUnitID : Integer = 0): TFDQuery;
-    procedure GetRecCompany(var Code: TcxButtonEdit; var Nm: TEdit);
+    procedure GetRecCompany(var Code: string; var Nm: TEdit);
     procedure GetRecApp(var Code: TcxButtonEdit; var Nm: TEdit);
     procedure GetRecPrshType(var Code: TcxButtonEdit; var Nm: TEdit);
     procedure GetRecKab(var Code: TcxButtonEdit; var Nm: TEdit; APropId: Integer); overload;
@@ -796,7 +796,7 @@ begin
 end;
 
 
-procedure TUnit.GetRecCompany(var Code: TcxButtonEdit; var Nm: TEdit);
+procedure TUnit.GetRecCompany(var Code: string; var Nm: TEdit);
 begin
   Company.GetCurCompany(Code, Nm);
 end;

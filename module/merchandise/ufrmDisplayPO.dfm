@@ -12,11 +12,34 @@ inherited frmDisplayPO: TfrmDisplayPO
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 773
-    Height = 456
+    Height = 397
     BevelInner = bvRaised
     BorderWidth = 0
     ExplicitWidth = 773
-    ExplicitHeight = 456
+    ExplicitHeight = 397
+    inherited pgcBrowse: TcxPageControl
+      Left = 2
+      Top = 126
+      Width = 769
+      Height = 205
+      TabOrder = 2
+      ExplicitLeft = 2
+      ExplicitTop = 126
+      ExplicitWidth = 769
+      ExplicitHeight = 149
+      ClientRectBottom = 204
+      ClientRectRight = 768
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 767
+        ExplicitHeight = 147
+        inherited cxGrid: TcxGrid
+          Width = 767
+          Height = 203
+          ExplicitWidth = 767
+          ExplicitHeight = 147
+        end
+      end
+    end
     object pnlTop: TPanel
       Left = 2
       Top = 2
@@ -392,273 +415,17 @@ inherited frmDisplayPO: TfrmDisplayPO
         OnClick = btnSlipNewClick
       end
     end
-    inline fraFooter5Button1: TfraFooter5Button
-      Left = 2
-      Top = 398
-      Width = 769
-      Height = 56
-      Align = alBottom
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 398
-      ExplicitWidth = 769
-      inherited pnlFooter: TPanel
-        Width = 769
-        ExplicitWidth = 769
-        inherited bvlSeparator: TBevel
-          Left = 89
-          Visible = False
-          ExplicitLeft = 89
-        end
-        inherited btnClose: TcxButton
-          Left = 687
-          ExplicitLeft = 687
-        end
-        inherited btnAdd: TcxButton
-          Action = actSaveGoodReceiving
-          OptionsImage.Glyph.Data = {
-            36060000424D3606000000000000360000002800000020000000100000000100
-            18000000000000060000C40E0000C40E00000000000000000000FF00FF663333
-            6633336633336633336633336633336633336633336633336633336633336633
-            33663333663333FF00FFFF00FF60606060606060606060606060606060606060
-            6060606060606060606060606060606060606060606060000000FF00FFD78300
-            FFCACC993300D4E3FFD4E3FFD4D4FFD4E3FFD4D4FFD4E3FFD4D4FFD4D4FF9933
-            00DE9A3E663333FF00FFFF00FF606060FFFFFF606060FFFFFFFFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFF606060FFFFFF606060FFFFFFFF00FFD78300
-            FFE2B4993300D4E3FFCC9999CC9999CC9999CC9999CC9999CC9999D4D4FF9933
-            00DE9A3E663333FF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFD78300
-            FFCACC993300D4E3FFD4E3FFD4E3FFD4E3FFD4D4FFD4E3FFD4D4FFD4E3FF9933
-            00DE9A3E663333FF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFD78300
-            FFE2B4993300F0D4FFCC9999CC9999CC9999CC9999CC9999CC9999D4D4FF9933
-            00DE9A3E663333FF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFD78300
-            FFCACC993300D4E3FFF0D4FFD4E3FFD4E3FFD4E3FFD4E3FFD4D4FFD4E3FF9933
-            00DE9A3E663333FF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFF606060FFFFFFFF00FFD78300
-            FFE2B4FFCACC993300993300993300993300993300993300993300993300CC99
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FF60606060606060606060
-            6060606060606060606060606060FF00FFFF00FF606060FFFFFFFF00FFD78300
-            FFCACCFFCC99FFCACCCC9999FFCACCCC9999FFCC99CC9999FFCC99CC9999CC99
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FFFFFFFFFFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF606060FFFFFFFF00FFD78300
-            FFE2B4FFCACCFFCC99FFCACCCC9999FFCACCCC9999FFCC99CC9999FFCC99CC99
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFD78300
-            FFCACCFFCC99FFCACCFFCC99FFCACCCC9999FFCACCCC9999FFCC99CC9999FFCC
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFD78300
-            FFE2B4FFCACC606060404040404040404040404040404040404040FFCC99CC99
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FF60606060606060606060
-            6060606060606060606060FF00FFFF00FFFF00FF606060FFFFFFFF00FFD78300
-            FFCACCFFCC99606060DCDCDCDCDCDCBFBFBF9F9F9FBFBFBF7F7F7F404040FFCC
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FF606060FFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFF606060FF00FFFF00FF606060FFFFFFFF00FFD78300
-            FFE2B4FFCACC606060DCDCDCFFFFFFDCDCDCBFBFBF9F9F9FBFBFBF404040CC99
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FF606060FFFFFFFF00FFFF
-            00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FF606060FFFFFFFF00FFD78300
-            FFCACCFFCC99606060DCDCDCFFFFFFDCDCDCDCDCDCBFBFBF9F9F9F404040CC99
-            99DE9A3E663333FF00FFFF00FF606060FFFFFFFF00FF606060FFFFFFFF00FFFF
-            00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FF606060FFFFFFFF00FFD78300
-            D78300D78300D78300D78300D78300D78300D78300D78300D78300D78300D783
-            00D78300FF00FFFF00FFFF00FF60606060606060606060606060606060606060
-            6060606060606060606060606060606060606060FFFFFFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF}
-          Visible = False
-        end
-        inherited btnUpdate: TcxButton
-          Left = 256
-          Width = 111
-          Caption = 'Cetak Ulang NP'
-          Visible = False
-          ExplicitLeft = 256
-          ExplicitWidth = 111
-        end
-        inherited btnDelete: TcxButton
-          Left = 414
-          Visible = False
-          ExplicitLeft = 414
-        end
-        inherited btnRefresh: TcxButton
-          Left = 97
-          Width = 90
-          Action = actClearGoodReceiving
-          OptionsImage.Glyph.Data = {
-            36060000424D3606000000000000360000002800000020000000100000000100
-            18000000000000060000C40E0000C40E00000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FF500000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFCC6600CC6600500000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFF606060FFFFFFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            CC6600D78300D78300CC6600500000FF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFFF00FF606060FF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFCC6600
-            FF9900DE9A3ED78300D78300CC6600500000FF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFFF00FFFF00FFFF00FF60
-            6060FFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFCC6600FFCC99
-            FF9900FF9900DE9A3ED78300D78300CC6600500000FF00FFFF00FFFF00FF5000
-            00500000500000500000606060FFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF
-            00FF606060FFFFFFFF00FFFF00FF606060606060606060606060D78300CC6600
-            CC6600FF9900FF9900DE9A3E500000500000500000FF00FFFF00FFFF00FFCC66
-            00CC6600CC6600500000606060606060606060FFFFFFFF00FFFF00FF60606060
-            6060606060FFFFFFFF00FFFF00FF606060FFFFFFFF00FF606060FF00FFFF00FF
-            CC6600FFAA00FF9900FF9900500000FF00FFFF00FFFF00FFFF00FFFF00FFCC66
-            00D78300CC6600500000FF00FFFF00FF606060FFFFFFFF00FFFF00FF606060FF
-            FFFFFFFFFFFFFFFFFF00FFFF00FF606060FFFFFFFF00FF606060FF00FFFF00FF
-            CC6600FFCC99FFAA00FF9900CC6600500000FF00FFFF00FFFF00FFCC6600D783
-            00D78300CC6600500000FF00FFFF00FF606060FFFFFFFF00FFFF00FFFF00FF60
-            6060FFFFFFFF00FFFF00FF606060FFFFFFFF00FFFFFFFF606060FF00FFFF00FF
-            FF00FFCC6600FFCC99FFAA00FF9900CC6600500000500000500000D78300D783
-            00D78300500000FF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFFF00FFFF
-            00FF606060606060606060FFFFFFFF00FFFF00FF606060FF00FFFF00FFFF00FF
-            FF00FFCC6600FFCC99FFCC99FFAA00FF9900CC6600CC6600CC6600DE9A3ED783
-            00D78300500000FF00FFFF00FFFF00FFFF00FF606060FFFFFFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFF606060FF00FFFF00FFFF00FF
-            FF00FFFF00FFCC6600FFCC99FFCC99FFAA00FF9900FF9900FF9900DE9A3EDE9A
-            3E500000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF606060FFFFFFFFFFFFFF
-            00FFFF00FFFF00FFFF00FFFFFFFFFFFFFF606060FF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFCC6600CC6600FFCC99FFAA00FF9900FF9900CC6600CC66
-            00FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF606060606060FF
-            FFFFFFFFFFFFFFFFFFFFFF606060606060FF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFCC6600CC6600CC6600CC6600FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF60
-            6060606060606060606060FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-          Visible = False
-          ExplicitLeft = 97
-          ExplicitWidth = 90
-        end
-      end
-      inherited pnlSortCut: TPanel
-        Width = 769
-        ExplicitWidth = 769
-        inherited lbl1: TLabel
-          Left = 10
-          Width = 79
-          Caption = 'CTRL-S [Simpan]'
-          Visible = False
-          ExplicitLeft = 10
-          ExplicitWidth = 79
-        end
-        inherited lbl2: TLabel
-          Left = 95
-          Width = 107
-          Caption = 'CTRL-F5 [Clear Value]'
-          Visible = False
-          ExplicitLeft = 95
-          ExplicitWidth = 107
-        end
-        inherited lbl3: TLabel
-          Left = 254
-          Width = 123
-          Caption = 'CTRL-C [Cetak Ulang NP]'
-          Visible = False
-          ExplicitLeft = 254
-          ExplicitWidth = 123
-        end
-        inherited lbl4: TLabel
-          Left = 435
-          Visible = False
-          ExplicitLeft = 435
-        end
-        inherited lbl5: TLabel
-          Left = 679
-          ExplicitLeft = 698
-        end
-      end
-    end
-    object pnl1: TPanel
-      Left = 2
-      Top = 126
-      Width = 769
-      Height = 208
-      Align = alClient
-      BevelOuter = bvLowered
-      BorderWidth = 5
-      Caption = 'pnl1'
-      TabOrder = 2
-      object cxGrid: TcxGrid
-        Left = 6
-        Top = 6
-        Width = 757
-        Height = 196
-        Align = alClient
-        TabOrder = 0
-        LockedStateImageOptions.Text = 'Mohon ditunggu...'
-        ExplicitLeft = 0
-        ExplicitTop = 137
-        ExplicitWidth = 610
-        ExplicitHeight = 102
-        object cxGridView: TcxGridDBTableView
-          Navigator.Buttons.CustomButtons = <>
-          FindPanel.InfoText = 'ketik teks yang dicari...'
-          DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
-          DataController.Summary.SummaryGroups = <>
-          FilterRow.InfoText = 'klik untuk memfilter data'
-          FilterRow.Visible = True
-          NewItemRow.InfoText = 'Baris baru'
-          OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
-          OptionsView.GroupByBox = False
-          object cxGridViewColumn1: TcxGridDBColumn
-            Caption = 'NO'
-          end
-          object cxGridViewColumn2: TcxGridDBColumn
-            Caption = 'KODE BARANG'
-          end
-          object cxGridViewColumn3: TcxGridDBColumn
-            Caption = 'NAMA BARANG'
-          end
-          object cxGridViewColumn4: TcxGridDBColumn
-            Caption = 'UOM'
-          end
-          object cxGridViewColumn5: TcxGridDBColumn
-            Caption = 'HARGA'
-          end
-          object cxGridViewColumn6: TcxGridDBColumn
-            Caption = 'QTY ORDER'
-          end
-          object cxGridViewColumn7: TcxGridDBColumn
-            Caption = 'QTY RECV'
-          end
-          object cxGridViewColumn8: TcxGridDBColumn
-            Caption = 'IS BONUS FOR BONUS'
-          end
-        end
-        object cxlvMaster: TcxGridLevel
-          GridView = cxGridView
-        end
-      end
-    end
     object pnl2: TPanel
       Left = 2
-      Top = 334
+      Top = 331
       Width = 769
       Height = 64
       Align = alBottom
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
-      TabOrder = 3
+      TabOrder = 1
+      ExplicitTop = 275
       object lbl18: TLabel
         Left = 15
         Top = 35
@@ -762,15 +529,61 @@ inherited frmDisplayPO: TfrmDisplayPO
   inherited pnlHeader: TPanel
     Width = 773
     ExplicitWidth = 773
-  end
-  object actlst1: TActionList
-    Left = 624
-    object actSaveGoodReceiving: TAction
-      Caption = 'Save'
+    inherited lblFilterData: TcxLabel
+      Left = 419
+      ExplicitLeft = 419
+      AnchorY = 17
     end
-    object actClearGoodReceiving: TAction
-      Caption = 'Clear Value'
-      OnExecute = actClearGoodReceivingExecute
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 480
+      ExplicitLeft = 480
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 596
+      ExplicitLeft = 596
+    end
+    inherited btnSearch: TcxButton
+      Left = 691
+      ExplicitLeft = 691
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 572
+      ExplicitLeft = 572
+      AnchorY = 17
+    end
+  end
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 430
+    Width = 773
+    ExplicitTop = 430
+    ExplicitWidth = 773
+    inherited pnlFooter: TPanel
+      Width = 773
+      ExplicitWidth = 773
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
+      inherited btnClose: TcxButton
+        Left = 696
+        Action = actClose
+        ExplicitLeft = 696
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
+    end
+    inherited pnlShortCut: TPanel
+      Width = 773
+      ExplicitWidth = 773
+      inherited lbEscape: TLabel
+        Left = 699
+      end
     end
   end
 end

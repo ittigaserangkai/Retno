@@ -51,7 +51,7 @@ var
 
 implementation
 
-Uses uRetnoUnit, uTSCommonDlg, udmMain, HPHelp, StrUtils;
+Uses uRetnoUnit, uTSCommonDlg, udmMain, HPHelp, StrUtils, uAppUtils;
 
 {$R *.dfm}
 
@@ -107,7 +107,7 @@ begin
         if AisTextReport then
         begin
           try
-            FTextReportFile       := cGetAppPath + aReportName + '.txt'; // StringReplace(sReportFile,ExtractFileExt(sReportFile),'.txt',[rfReplaceAll]);
+            FTextReportFile       := TAppUtils.GetAppPath + aReportName + '.txt'; // StringReplace(sReportFile,ExtractFileExt(sReportFile),'.txt',[rfReplaceAll]);
             mmo.Lines.LoadFromFile(FTextReportFile);
             mmo.Font.Size         := AFontSize;
             TePageControl1.ActivePageIndex := 0;

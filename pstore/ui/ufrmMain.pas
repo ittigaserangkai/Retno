@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -288,7 +288,7 @@ var
 {$R *.dfm}
 implementation
 uses
-  uAppUtils, ufrmPilihUnit, ufrmActivatePOS, ufrmListMemberTransaction,
+  uAppUtils, uRetnoUnit, ufrmPilihUnit, ufrmActivatePOS, ufrmListMemberTransaction,
   ufrmAdjustmentCashier, ufrmBarcodeRequest, ufrmBeginningBalancePOS,
   ufrmCancellationPO, ufrmCashDropping, ufrmChangeStatusPO, ufrmCrazyPrice,
   ufrmCreditCard, ufrmDailySalesReport, ufrmDataCostumer, ufrmDiscountMember,
@@ -485,12 +485,14 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  sIDUnit: string;
 begin
+  //setting unit toko
+  sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
+  if sIDUnit <> '' then
+    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
 
-  if (DMClient <> nil) and (DMClient.UnitStore <> nil) then
-  begin
-    Caption := 'ASSALAAM HYPERMARKET : ' + DMClient.UnitStore.UNT_NAME;
-  end;
+  Caption := 'ASSALAAM HYPERMARKET : ' + TRetno.UnitStore.UNT_NAME;
 
   IsTesting := False;
   if ParamStr(1) = 'TESTING' then
@@ -793,7 +795,7 @@ class procedure TfrmMain.ShowBorwseForm(BrowseFormClass: TMasterBrowseClass);
 //var
 //  frm: TfrmMasterBrowse;
 begin
-  if (DMClient.UnitStore = nil) then
+  if (TRetno.UnitStore = nil) then
   begin
     TAppUtils.Warning('Unit Store Belum Dipilih');
     frmPilihCabang := TfrmPilihCabang.Create(Application);

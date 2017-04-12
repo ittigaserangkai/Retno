@@ -39,7 +39,7 @@ var
 
 implementation
 
-uses uConstanta, uDMClient;
+uses uConstanta {$IFDEF POS};{$ELSE}, uDMClient;{$ENDIF}
 
 { TCommonDlg }
 
@@ -214,7 +214,9 @@ begin
     OptionsBehavior.DisplayTime := 10000;
     OptionsMessage.Text.Font.Name := 'Trebuchet MS';
     OptionsMessage.Text.Font.Size := 11;
+    {$IFNDEF POS}
     OptionsMessage.Images := DMClient.imgListIcon;
+    {$ENDIF}
 //    Position := poMainFormCenter;
 //    Text := pMessage;
   end;

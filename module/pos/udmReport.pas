@@ -10,7 +10,6 @@ type
   TdmReport = class(TDataModule)
     frxDBDataset: TfrxDBDataset;
     pMainReport: TfrxReport;
-    frxeText: TfrxTXTExport;
     frxlsxprt1: TfrxXLSExport;
     frxmlxprt1: TfrxXMLExport;
     procedure pMainReportGetValue(const VarName: String;
