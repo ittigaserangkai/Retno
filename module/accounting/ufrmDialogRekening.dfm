@@ -1,7 +1,7 @@
 inherited frmDialogRekening: TfrmDialogRekening
   Left = 532
   Top = 170
-  Caption = 'Account'
+  Caption = 'UPDATE REKENING'
   ClientHeight = 313
   ClientWidth = 476
   Constraints.MinHeight = 32
@@ -176,6 +176,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       end
       inherited btnPrint: TcxButton
         Left = 229
+        ExplicitLeft = 229
       end
     end
     inherited pnlSortCut: TPanel
@@ -197,6 +198,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       end
       inherited lblCTRLP: TLabel
         Left = 225
+        ExplicitLeft = 225
       end
     end
   end

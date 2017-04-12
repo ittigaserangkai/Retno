@@ -3,49 +3,29 @@ inherited frmRekening: TfrmRekening
   Top = 121
   Caption = 'Account'
   ClientHeight = 377
-  ClientWidth = 756
+  ClientWidth = 773
   OldCreateOrder = True
-  ExplicitWidth = 772
+  ExplicitWidth = 789
   ExplicitHeight = 416
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 756
+    Width = 773
     Height = 291
     ExplicitWidth = 756
     ExplicitHeight = 291
-    object pnlTop: TPanel
-      Left = 11
-      Top = 11
-      Width = 734
-      Height = 46
-      Align = alTop
-      Color = 15198183
-      TabOrder = 0
-      object lbl1: TLabel
-        Left = 8
-        Top = 16
-        Width = 67
-        Height = 16
-        Caption = 'Account Type'
-      end
-      object cbpRekGroup: TcxLookupComboBox
-        Left = 96
-        Top = 12
-        Properties.ListColumns = <>
-        TabOrder = 0
-        Width = 121
-      end
-    end
     object pnlAll: TPanel
       Left = 11
-      Top = 57
-      Width = 734
-      Height = 223
+      Top = 11
+      Width = 751
+      Height = 269
       Align = alClient
       BorderWidth = 10
       Color = 15198183
-      TabOrder = 1
+      TabOrder = 0
+      ExplicitTop = 57
+      ExplicitWidth = 734
+      ExplicitHeight = 223
       object strgGrid: TStringGrid
         Left = 584
         Top = 88
@@ -57,8 +37,8 @@ inherited frmRekening: TfrmRekening
       object cxDBTreeList: TcxDBTreeList
         Left = 11
         Top = 11
-        Width = 712
-        Height = 201
+        Width = 729
+        Height = 247
         Align = alClient
         Bands = <
           item
@@ -67,6 +47,8 @@ inherited frmRekening: TfrmRekening
         OptionsData.Editing = False
         RootValue = -1
         TabOrder = 1
+        ExplicitWidth = 712
+        ExplicitHeight = 201
         object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
           Visible = False
           DataBinding.FieldName = 'REK_CODE'
@@ -115,7 +97,7 @@ inherited frmRekening: TfrmRekening
     end
   end
   inherited pnlHeader: TPanel
-    Width = 756
+    Width = 773
     ExplicitWidth = 756
     inherited lblHeader: TLabel
       Width = 53
@@ -127,7 +109,7 @@ inherited frmRekening: TfrmRekening
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0
     Top = 321
-    Width = 756
+    Width = 773
     Height = 56
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
@@ -140,10 +122,10 @@ inherited frmRekening: TfrmRekening
     ExplicitTop = 321
     ExplicitWidth = 756
     inherited pnlFooter: TPanel
-      Width = 756
+      Width = 773
       ExplicitWidth = 756
       inherited btnClose: TcxButton
-        Left = 674
+        Left = 691
         OnClick = btnCloseClick
         ExplicitLeft = 674
       end
@@ -162,7 +144,7 @@ inherited frmRekening: TfrmRekening
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 756
+      Width = 773
       ExplicitWidth = 756
       inherited lbl3: TLabel
         Left = 263
@@ -174,20 +156,22 @@ inherited frmRekening: TfrmRekening
         ExplicitLeft = 167
       end
       inherited lbl5: TLabel
-        Left = 666
+        Left = 683
         ExplicitLeft = 644
       end
     end
   end
   object actlstRekening: TActionList
-    Left = 683
-    Top = 367
+    Left = 210
+    Top = 111
     object actAddRekening: TAction
       Caption = '&Add'
+      ShortCut = 16451
       OnExecute = actAddRekeningExecute
     end
     object actEditRekening: TAction
       Caption = '&Edit'
+      ShortCut = 16453
       OnExecute = actEditRekeningExecute
     end
     object actDeleteRekening: TAction
@@ -197,6 +181,7 @@ inherited frmRekening: TfrmRekening
     end
     object actRefreshRekening: TAction
       Caption = '&Refresh'
+      ShortCut = 16500
       OnExecute = actRefreshRekeningExecute
     end
   end

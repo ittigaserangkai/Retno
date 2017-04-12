@@ -4,9 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, ImgList, StrUtils, ExeInfo, uGTSUICommonDlg, IB,
-  uGTINIFile, uRMSUnit, ExtCtrls, ufrmPayment, StdCtrls, ufrmExportOfflinePOS, 
-  ufrmImportFromStore, uFormProperty, uGTEncDec;
+  Dialogs, Menus, ComCtrls, ImgList, StrUtils, ExeInfo, uTSCommonDlg,
+  uTSINIFile, uRetnoUnit, ExtCtrls, ufrmPayment, StdCtrls, ufrmExportOfflinePOS,
+  ufrmImportFromStore, uFormProperty, System.ImageList;
 
 type
   TfrmMain = class(TForm)
@@ -107,31 +107,12 @@ type
     procedure miTransactionPending1Click(Sender: TObject);
     procedure miLoginClick(Sender: TObject);
     procedure Bantuan1Click(Sender: TObject);
-    procedure miBeginningBalancePOSClick(Sender: TObject);
-    procedure miCashDropingClick(Sender: TObject);
-    procedure CreditCard1Click(Sender: TObject);
-    procedure DisplayCreditCardAndCashback1Click(Sender: TObject);
-    procedure DisplayLastTransactionNo1Click(Sender: TObject);
-    procedure DisplayPOSMonitor1Click(Sender: TObject);
-    procedure DisplayPOSTransaction1Click(Sender: TObject);
     procedure ExportDataPOS1Click(Sender: TObject);
     procedure ExportDataToMDBClick(Sender: TObject);
-    procedure miFinalPaymentClick(Sender: TObject);
     procedure ImportDataStore1Click(Sender: TObject);
     procedure ImportDataFromMDBClick(Sender: TObject);
-    procedure miLoginAdminClick(Sender: TObject);
-    procedure miMaintenancePasswordClick(Sender: TObject);
     procedure miMasterSellingProductClick(Sender: TObject);
-    procedure miDataCostumer1Click(Sender: TObject);
-    procedure miMaintenanceBarcodeClick(Sender: TObject);
-    procedure miMemberActivation1Click(Sender: TObject);
-    procedure miMemberShip1Click(Sender: TObject);
     procedure miProduct1Click(Sender: TObject);
-    procedure miResetCashierClick(Sender: TObject);
-    procedure miReturNotaCNClick(Sender: TObject);
-    procedure miSalesReportContrabonClick(Sender: TObject);
-    procedure ReprintNota1Click(Sender: TObject);
-    procedure miSalesReportClick(Sender: TObject);
     procedure UpdateMaster1Click(Sender: TObject);
   private
     FLoginUsername: string;
@@ -191,17 +172,10 @@ var
 implementation
 
 uses
-  UDM, udmMain, ufrmTransaksi, uConn, uConstanta, HPHELP, uNewPOS,
-  ufrmTransaksiKring, ufrmLogin, AdvGrid, BaseGrid, ufrmTransaksiPending,
-  ufrmPaymentKring, ufrmPosDownlink, uConnection, ufrmProductForSelling,
-  ufrmMaintenancePassword, ufrmActivatePOS, ufrmBeginningBalancePOS,
-  ufrmAdjustmentCashback, ufrmCashDropping, ufrmCreditCard,
-  ufrmDisplayCCAndCashback, ufrmDisplayLastTransactionNo,
-  ufrmDisplayPOSMonitor, ufrmFinalPayment, ufrmDataCostumer,
-  ufrmMemberShip, ufrmResetCashier, ufrmReturNota,
-  ufrmSalesReportContrabon, ufrmMemberActivation, ufrmLoginAdminStore,
-  ufrmDisplayPOSTransaction, ufrmReprintNota, ufrmImportFromMDB,
-  ufrmExportToMDB, ufrmMaintenanceBarcode, ufrmSalesReport;
+  udmMain, ufrmTransaksi, uConstanta, HPHELP, uAppUtils,
+  ufrmTransaksiKring, ufrmLogin, ufrmTransaksiPending,
+  ufrmPaymentKring, ufrmPosDownlink, ufrmImportFromMDB, ufrmExportToMDB,
+  ufrmProductForSelling;
 
 {$R *.dfm}
 
@@ -240,13 +214,13 @@ end;
 
 procedure TfrmMain.miActivatePOSClick(Sender: TObject);
 begin
-  frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+//  frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.miAdjustmentCashbackClick(Sender: TObject);
 begin
-  frmAdjustmentCashback := TfrmAdjustmentCashback.CreateWithUser(Application, FFormProperty);
-  frmAdjustmentCashback.Show;
+//  frmAdjustmentCashback := TfrmAdjustmentCashback.CreateWithUser(Application, FFormProperty);
+//  frmAdjustmentCashback.Show;
 end;
 
 procedure TfrmMain.EnableMenu;
@@ -282,8 +256,8 @@ begin
   	+ ':' + _INIReadString(CONFIG_FILE,DB_STORE,'DatabasePath');
 //  FIBUserStore := 'SYSDBA';
 //  FIBPasswordStore := 'masterkey';
-  FIBUserStore := _Decrypt(_MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
-  FIBPasswordStore := _Decrypt(_MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
+  FIBUserStore := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
+  FIBPasswordStore := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
 
 
   //POS DB
@@ -291,9 +265,9 @@ begin
   	+ ':' + _INIReadString(CONFIG_FILE,DB_POS,'DatabasePath');
 //  FIBUserPOS := 'SYSDBA';
 //  FIBPasswordPOS := 'masterkey';
-  FIBUserPOS := _Decrypt(_MakeOriginal(_INIReadString(CONFIG_FILE,DB_POS,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
-  FIBPasswordPOS := _Decrypt(_MakeOriginal(_INIReadString(CONFIG_FILE,DB_POS,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
-
+  FIBUserPOS := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_POS,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
+  FIBPasswordPOS := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_POS,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
+  {
   DM := TDM.Create(Application);
   dmMain := TdmMain.Create(Application);
 
@@ -306,9 +280,6 @@ begin
   DM.transPOS := dmMain.transGoro;
 
   IsPOSConnected := DM.dbPOS.Connected;
-
-  //dmMain.connGoro := DM.dbPOS;
-  //dmMain.transGoro := DM.transPOS;
 
   // Init locale settings
   DateSeparator := '-';
@@ -334,17 +305,12 @@ begin
   FFormProperty := TFormProperty.Create;
 
   Initialize;
-
+  }
   //CommonDlg.ShowMessage(DM.dbPOS.DatabaseName);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-//  if CommonDlg.Confirm('Apakah Anda ingin menutup aplikasi ?') = mrYes then
-//  else
-//  begin
-//    Action := caNone;
-//  end;
   CommonDlg.ShowMessage('Aplikasi akan ditutup.');
   begin
     Action := caFree;
@@ -365,14 +331,15 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(IBConn);
-  freeandnil(Cnn);
+//  FreeAndNil(IBConn);
+//  freeandnil(Cnn);
 end;
 
 function TfrmMain.GetTransactionNo(APOSCode: String; aActiveDate : TDateTime):
     String;
 begin
   Result := '';
+  {
   if IsPOSConnected then
   begin
     with TPOS.Create(Self) do
@@ -386,7 +353,8 @@ begin
         Free;
       end;
     end;    // with
-  end;  
+  end;
+  }
 end;
 
 function TfrmMain.Initialize: Boolean;
@@ -410,10 +378,9 @@ begin
         Panels[1].Text := 'POS DB : ' + FIBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
         Panels[2].Text := 'POS Code : ' + FPOSCode;
         Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
-        //Panels[6].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
       end;    // with
 
-
+    {
     Cnn := TConnection.create(frmMain.FIBServerStore,frmMain.FIBUserStore,
             frmMain.FIBPasswordStore, UnitID);
     try
@@ -429,6 +396,7 @@ begin
 
       TransNo := GetTransactionNo(FPOSCode, cGetServerDateTime);
       Result := True;
+      }
   except
       Result := False;
   end;
@@ -460,21 +428,21 @@ begin
   begin
     //Try Checking Transaction
     isValid := True;
-    with frmTransaksi.sgTransaksi do
+    with frmTransaksi.sgTransaksi.DataController do
     begin
       i := 1;
       while i < RowCount do
       begin
-        if Cells[_KolPairCode, i] <> '' then
+        if Values[_KolPairCode, i] <> '' then
         begin
             isValid := False;
-            fQtyAir := Floats[_KolJumlah, i];
+            fQtyAir := Values[_KolJumlah, i];
             j := 1;
             while j < RowCount do
             begin
-                if Cells[_KolPLU, j] = Cells[_KolPairCode, i] then
+                if Values[_KolPLU, j] = Values[_KolPairCode, i] then
                 begin
-                    if fQtyAir<=Floats[_KolJumlah, j] then
+                    if fQtyAir<=Values[_KolJumlah, j] then
                        isValid := True;
                 end;
                 j := j + 1;
@@ -491,30 +459,12 @@ begin
     end;
 
     frmTransaksi.ShowPayment;
-//    if (frmTransaksi.TotalRupiah > 0) and (not frmTransaksi.edHargaKontrabon.Visible) then
-//    begin
-//      frmTransaksi.TotalRupiahBarangAMC := frmTransaksi.HitungTotalRupiahBarangAMC;
-//      frmPayment := (ShowForm(TfrmPayment,wsMaximized)) as TfrmPayment;
-//			frmPayment.UpdateData(frmTransaksi.TotalRupiah,frmTransaksi.TotalRupiahBarangAMC,
-//      	frmTransaksi.DiscAMCPersen,frmTransaksi.TotalRupiahBarangCC, frmTransaksi.TotalRupiahBarangAMC);
-//      frmPayment.ResetVoucher;
-//      frmPayment.ShowTotalBayar;
-//    end;
+
   end
   else if frmTransaksiKring <> nil then
   begin
     frmTransaksiKring.ShowPayment;
-//    if (frmTransaksiKring.TotalRupiah > 0) then
-//    begin
-//      frmPaymentKring := (ShowForm(TfrmPaymentKring,wsMaximized)) as TfrmPaymentKring;
-//      frmPaymentKring.TotalBelanja  := frmTransaksiKring.TotalRupiah;
-//      frmPaymentKring.TotalBarangCC := frmTransaksiKring.TotalRupiahBarangCC;
-//      frmPaymentKring.DiscAMCRupiah := frmTransaksiKring.TotalDiscAMC;
-//      frmPaymentKring.DiscAMCPersen := frmTransaksiKring.DiscAMC;
-//      frmPaymentKring.TotalBarangAMC:= frmTransaksiKring.TotalRupiahBarangAMC;
-//      frmPaymentKring.ResetAll;
-//      frmPaymentKring.ShowTotalBayar;
-//    end;
+
   end;
 
 end;
@@ -523,13 +473,14 @@ procedure TfrmMain.PrintHeader1Click(Sender: TObject);
 var
   SS : TStrings;
 begin
-  SS := TStringList.Create;
+  {SS := TStringList.Create;
   Try
     SS.LoadFromFile(cGetAppPath + 'utils\' + FILE_HEADER);
     PrintStrings(SS);
   Finally
     SS.Free;
   end;
+  }
 end;
 
 procedure TfrmMain.miTransactionTraderClick(Sender: TObject);
@@ -539,7 +490,6 @@ begin
      if frmTransaksi.Showing then
      begin
         frmTransaksi.btnResetClick(Sender);
-//        Exit;
      end;
   Except
   end;
@@ -566,6 +516,7 @@ end;
 procedure TfrmMain.miLoginClick(Sender: TObject);
 begin
   frmLogin := (ShowForm(TfrmLogin,wsNormal)) as TfrmLogin;
+  {
   FFormProperty.FLoginId        := FUserID;
   FFormProperty.FLoginUnitId    := FLoginUnitId;
   FFormProperty.FLoginRole      := 'operator';
@@ -580,52 +531,12 @@ begin
 
   FFormProperty.FMasterIsStore := 0; //pos=0
   FFormProperty.FMasterIsHo    := 0;
+  }
 end;
 
 procedure TfrmMain.Bantuan1Click(Sender: TObject);
 begin
   mmoHelp.Visible := not mmoHelp.Visible;
-end;
-
-procedure TfrmMain.miBeginningBalancePOSClick(Sender: TObject);
-begin
-  frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.miCashDropingClick(Sender: TObject);
-begin
-  frmCashDropping := TfrmCashDropping.CreateWithUser(Application, FFormProperty);
-  frmCashDropping.Show;
-end;
-
-procedure TfrmMain.CreditCard1Click(Sender: TObject);
-begin
-  frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
-  frmCreditCard.Show;
-end;
-
-procedure TfrmMain.DisplayCreditCardAndCashback1Click(Sender: TObject);
-begin
-  frmDisplayCCAndCashback := TfrmDisplayCCAndCashback.CreateWithUser(Application, FFormProperty);
-  frmDisplayCCAndCashback.Show;
-end;
-
-procedure TfrmMain.DisplayLastTransactionNo1Click(Sender: TObject);
-begin
-  frmDisplayLastTransactionNo := TfrmDisplayLastTransactionNo.CreateWithUser(Application, FFormProperty);
-  frmDisplayLastTransactionNo.Show;
-end;
-
-procedure TfrmMain.DisplayPOSMonitor1Click(Sender: TObject);
-begin
-  frmDisplayPOSMonitor := TfrmDisplayPOSMonitor.CreateWithUser(Application, FFormProperty);
-  frmDisplayPOSMonitor.ShowWithId(FFormProperty.FSelfUnitId, Self.Top, Self.Left);
-end;
-
-procedure TfrmMain.DisplayPOSTransaction1Click(Sender: TObject);
-begin
-  frmDisplayPOSTransaction := TfrmDisplayPOSTransaction.CreateWithUser(Application, FFormProperty);
-  frmDisplayPOSTransaction.Show;
 end;
 
 procedure TfrmMain.ExportDataPOS1Click(Sender: TObject);
@@ -634,79 +545,10 @@ begin
   frmExportOfflinePOS.UnitID := frmMain.UnitID;
 end;
 
-procedure TfrmMain.miFinalPaymentClick(Sender: TObject);
-begin
-  frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
-  frmFinalPayment.Show;
-end;
-
 procedure TfrmMain.ImportDataStore1Click(Sender: TObject);
 begin
   frmImportFromStore := (ShowForm(TfrmImportFromStore,wsMaximized)) as TfrmImportFromStore;
   frmImportFromStore.UnitID := frmMain.UnitID;
-end;
-
-procedure TfrmMain.miLoginAdminClick(Sender: TObject);
-begin
-  frmLoginAdminStore := TfrmLoginAdminStore.Create(Application);
-  frmLoginAdminStore.ShowFormLogin(FPageLogin);
-
-  try
-    if (LoginSuccessfull) then
-    begin
-      FFormProperty.FLoginId        := frmLoginAdminStore.LoginID ;
-      FFormProperty.FLoginUnitId    := frmLoginAdminStore.LoginUntID;
-      FFormProperty.FLoginRole      := 'admin';
-      FFormProperty.FLoginUsername  := frmLoginAdminStore.LoginUserName;
-      FFormProperty.FFilePathReport := '.\UTILS\';
-      FFormProperty.FSelfUnitId     := frmLoginAdminStore.UnitID;
-      FFormProperty.FIpClient       := IP;
-      FFormProperty.FHostClient     := Host;
-      FFormProperty.FTipeApp        := TSTORE;
-
-      FFormProperty.FMasterIsStore := 1; //jika login pos = 0, admin = 1
-      FFormProperty.FMasterIsHo    := 0; //jika login pos = 0
-
-      lUnitId := FFormProperty.FSelfUnitId;
-
-      FFormProperty.FSelfCompanyID := 3;
-
-      EnableSubMenu(miLoginAdmin, true);
-//      if not assigned(MenuManagement) then
-//        MenuManagement := TMenuManagement.Create;
-//      with MenuManagement do
-//      begin
-//        UserId      := FFormProperty.FLoginId;
-//        UserUnt     := FFormProperty.FLoginUnitId;
-//        FSelfUnitID := FFormProperty.FSelfUnitId;
-//
-//        try
-//          setMenuUser;
-//        except
-//        end;
-//      end;
-
-{      // send message to refresh server: user_online on STORE
-      isSuccess := SendRefreshServerMessage(Format('REGISTER$STORE$%s$%d$%s$%s', [IP,Port,FFormProperty.FLoginFullname,'']));
-      if (isSuccess) then
-      begin
-        //suistbMain.Panels[3].Text := 'Connected to Refresh Server...';
-        IsRegisteredUserToRefreshServer := true;
-      end
-      else
-        //suistbMain.Panels[3].Text := 'Not connected to Refresh Server...';
-      Closeloading;
-}
-    end; // end if
-  finally
-    FreeAndNil(frmLoginAdminStore);
-  end;
-end;
-
-procedure TfrmMain.miMaintenancePasswordClick(Sender: TObject);
-begin
-  frmMaintenancePassword := TfrmMaintenancePassword.CreateWithUser(Application, FFormProperty);
-  frmMaintenancePassword.Show;
 end;
 
 procedure TfrmMain.miMasterSellingProductClick(Sender: TObject);
@@ -722,42 +564,6 @@ end;
 procedure TfrmMain.MDIChildDestroyed(const childHandle : THandle);
 begin
 // nothing
-end;
-
-procedure TfrmMain.miDataCostumer1Click(Sender: TObject);
-begin
-  frmDataCostumer := TfrmDataCostumer.CreateWithUser(Application,FFormProperty);
-  frmDataCostumer.Show;
-end;
-
-procedure TfrmMain.miMemberActivation1Click(Sender: TObject);
-begin
-  frmMemberActivation := TfrmMemberActivation.CreateWithUser(Application,FFormProperty);
-  frmMemberActivation.Show;
-end;
-
-procedure TfrmMain.miMemberShip1Click(Sender: TObject);
-begin
-  frmMemberShip := TfrmMemberShip.CreateWithUser(Application,FFormProperty);
-  frmMemberShip.Show;
-end;
-
-procedure TfrmMain.miResetCashierClick(Sender: TObject);
-begin
-  frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
-  frmResetCashier.Show;
-end;
-
-procedure TfrmMain.miReturNotaCNClick(Sender: TObject);
-begin
-  frmReturNota := TfrmReturNota.CreateWithUser(Application, FFormProperty);
-  frmReturNota.Show;
-end;
-
-procedure TfrmMain.miSalesReportContrabonClick(Sender: TObject);
-begin
-  frmSalesReportContrabon := TfrmSalesReportContrabon.CreateWithUser(Application, FFormProperty);
-  frmSalesReportContrabon.Show;
 end;
 
 procedure TfrmMain.SetLoginUsername(const Value: string);
@@ -790,42 +596,27 @@ end;
 procedure TfrmMain.ExportDataToMDBClick(Sender: TObject);
 begin
   frmExportToMDB := TfrmExportToMDB.CreateWithUser(Application, FFormProperty);
+  {
   frmExportToMDB.UserID   := FFormProperty.FLoginId;
   frmExportToMDB.UnitID   := FFormProperty.FLoginUnitId;
   frmExportToMDB.CompID   := FFormProperty.FSelfCompanyID;
   frmExportToMDB.PosCode  := FPOSCode;
+  }
 end;
 
 procedure TfrmMain.ImportDataFromMDBClick(Sender: TObject);
 begin
   frmImportFromMDB := TfrmImportFromMDB.CreateWithUser(Application, FFormProperty);
-  frmImportFromMDB.UserID   := FFormProperty.FLoginId;
+  {frmImportFromMDB.UserID   := FFormProperty.FLoginId;
   frmImportFromMDB.UnitID   := FFormProperty.FLoginUnitId;
   frmImportFromMDB.CompID   := FFormProperty.FSelfCompanyID;
   frmImportFromMDB.PosCode  := FPOSCode;
-end;
-
-procedure TfrmMain.miMaintenanceBarcodeClick(Sender: TObject);
-begin
-  frmMaintenanceBarcode := TfrmMaintenanceBarcode.CreateWithUser(Application, FFormProperty);
-  frmMaintenanceBarcode.Show;
+  }
 end;
 
 procedure TfrmMain.miProduct1Click(Sender: TObject);
 begin
   frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.ReprintNota1Click(Sender: TObject);
-begin
-  frmReprintNota := TfrmReprintNota.CreateWithUser(Application, FFormProperty);
-  frmReprintNota.Show;
-end;
-
-procedure TfrmMain.miSalesReportClick(Sender: TObject);
-begin
-  frmSalesReport := TfrmSalesReport.CreateWithUser(Application, FFormProperty);
-  frmSalesReport.Show;
 end;
 
 procedure TfrmMain.UpdateMaster1Click(Sender: TObject);
