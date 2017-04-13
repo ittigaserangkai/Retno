@@ -15,6 +15,7 @@ type
     class function GetTableName: String; override;
   published
     property PJK_NAME: String read FPJK_NAME write FPJK_NAME;
+    [AttributeOfCode]
     property PJK_CODE: String read FPJK_CODE write FPJK_CODE;
     property PJK_PPN: Double read FPJK_PPN write FPJK_PPN;
     property PJK_PPNBM: Double read FPJK_PPNBM write FPJK_PPNBM;

@@ -61,6 +61,7 @@ inherited frmDialogPajak: TfrmDialogPajak
       Caption = '%'
     end
     object edtNamaPajak: TEdit
+      Tag = 1
       Left = 69
       Top = 40
       Width = 276
@@ -71,6 +72,7 @@ inherited frmDialogPajak: TfrmDialogPajak
       TabOrder = 1
     end
     object edtCodePajak: TEdit
+      Tag = 1
       Left = 69
       Top = 12
       Width = 97
@@ -118,6 +120,7 @@ inherited frmDialogPajak: TfrmDialogPajak
       end
       inherited btnPrint: TcxButton
         Left = 284
+        ExplicitLeft = 284
       end
     end
     inherited pnlSortCut: TPanel
@@ -138,6 +141,7 @@ inherited frmDialogPajak: TfrmDialogPajak
       end
       inherited lblCTRLP: TLabel
         Left = 278
+        ExplicitLeft = 278
       end
     end
   end
