@@ -186,6 +186,7 @@ type
     actRafaksiSupplier: TAction;
     actReturTrader: TAction;
     GeneratePOForAll1: TMenuItem;
+    actPurchaseOrder: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -226,10 +227,10 @@ type
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actPOBonusExecute(Sender: TObject);
     procedure actPrintPOExecute(Sender: TObject);
-    procedure actPrintPurchaseOrderExecute(Sender: TObject);
     procedure actPrintWorksheetExecute(Sender: TObject);
     procedure actProductExecute(Sender: TObject);
     procedure actProductForSellingExecute(Sender: TObject);
+    procedure actPurchaseOrderExecute(Sender: TObject);
     procedure actRafaksiSupplierExecute(Sender: TObject);
     procedure actReprintNotaExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
@@ -299,10 +300,10 @@ uses
   ufrmListDailyTransaction, ufrmListMembership, ufrmListPOCancel,
   ufrmMaintenanceBarcode, ufrmMaintenancePassword, ufrmMemberActivation,
   ufrmMemberShip, ufrmLogin, ufrmGeneratePOBonus, ufrmCetakPO,
-  ufrmPurchaseOrder, ufrmWorksheet, ufrmProduct, ufrmProductForSelling,
+  {ufrmPurchaseOrder, }ufrmWorksheet, ufrmProduct, ufrmProductForSelling,
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
-  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal;
+  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder;
 
 
 
@@ -406,12 +407,12 @@ end;
 
 procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
 begin
-    frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
+  frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
 begin
-    frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
+//  frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
 end;
 
 procedure TfrmMain.actGoodsReceivingExecute(Sender: TObject);
@@ -421,7 +422,7 @@ end;
 
 procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
 begin
-    frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
+  frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actInputProductNotForSOExecute(Sender: TObject);
@@ -588,7 +589,7 @@ begin
     FFormProperty.FLoginRole      := frmLogin.LoginUserName;
     FFormProperty.FLoginUsername  := frmLogin.LoginUserName;
 //    FFormProperty.FFilePathReport := GetFilePathReport;
-    FFormProperty.FSelfUnitId     := FdefUnitId;
+//    FFormProperty.FSelfUnitId     := FdefUnitId;
     FFormProperty.FIpClient       := IP;
     FFormProperty.FHostClient     := Host;
     FFormProperty.FTipeApp        := THO;
@@ -648,17 +649,12 @@ end;
 
 procedure TfrmMain.actPrintPOExecute(Sender: TObject);
 begin
-    frmCetakPO := TfrmCetakPO.CreateWithUser(Application,FFormProperty);
-end;
-
-procedure TfrmMain.actPrintPurchaseOrderExecute(Sender: TObject);
-begin
-    frmPurchaseOrder := TfrmPurchaseOrder.CreateWithUser(Application, FFormProperty);
+  frmCetakPO := TfrmCetakPO.CreateWithUser(Application,FFormProperty);
 end;
 
 procedure TfrmMain.actPrintWorksheetExecute(Sender: TObject);
 begin
-    frmWorksheet := TfrmWorksheet.CreateWithUser(Application, FFormProperty);
+  frmWorksheet := TfrmWorksheet.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductExecute(Sender: TObject);
@@ -668,7 +664,12 @@ end;
 
 procedure TfrmMain.actProductForSellingExecute(Sender: TObject);
 begin
-    frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actPurchaseOrderExecute(Sender: TObject);
+begin
+  frmPurchaseOrder := TfrmPurchaseOrder.Create(Application);
 end;
 
 procedure TfrmMain.actRafaksiSupplierExecute(Sender: TObject);

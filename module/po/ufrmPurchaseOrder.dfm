@@ -1,10 +1,11 @@
 inherited frmPurchaseOrder: TfrmPurchaseOrder
   Left = 309
   Top = 194
-  Caption = 'Listing Purchase Order'
+  Caption = 'Purchase Order'
   ClientHeight = 435
   ClientWidth = 647
   OldCreateOrder = True
+  ExplicitTop = -62
   ExplicitWidth = 663
   ExplicitHeight = 474
   PixelsPerInch = 96
@@ -48,22 +49,22 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Align = alTop
       TabOrder = 0
       object lbl1: TLabel
-        Left = 16
-        Top = 39
+        Left = 48
+        Top = 43
         Width = 32
         Height = 16
         Caption = 'Status'
       end
       object lbl4: TLabel
-        Left = 15
-        Top = 11
+        Left = 14
+        Top = 15
         Width = 66
         Height = 16
         Caption = 'Kode Supplier'
       end
       object Label1: TLabel
         Left = 192
-        Top = 11
+        Top = 15
         Width = 11
         Height = 16
         Caption = 'To'
@@ -79,7 +80,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       end
       object edtBtnSuplier2: TcxButtonEdit
         Left = 210
-        Top = 10
+        Top = 11
         Properties.Buttons = <>
         TabOrder = 1
         Text = '0'
@@ -87,11 +88,11 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
         Width = 96
       end
       object cboStatusPO: TcxComboBox
-        Left = 88
-        Top = 38
+        Left = 87
+        Top = 39
         TabOrder = 2
         Text = 'cboStatusPO'
-        Width = 217
+        Width = 219
       end
     end
   end
@@ -99,9 +100,9 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     Width = 647
     ExplicitWidth = 647
     inherited lblHeader: TLabel
-      Width = 140
-      Caption = 'LISTING PURCHASE ORDER'
-      ExplicitWidth = 140
+      Width = 95
+      Caption = 'PURCHASE ORDER'
+      ExplicitWidth = 95
     end
     inherited lblFilterData: TcxLabel
       Left = 293
@@ -140,14 +141,24 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     inherited pnlFooter: TPanel
       Width = 647
       ExplicitWidth = 647
+      inherited bvlSeparator: TBevel
+        Left = 286
+        ExplicitLeft = 286
+      end
       inherited btnAdd: TcxButton
+        Width = 108
         Action = actAdd
+        ExplicitWidth = 108
       end
       inherited btnUpdate: TcxButton
+        Left = 116
         Action = actEdit
+        ExplicitLeft = 116
       end
       inherited btnPrint: TcxButton
+        Left = 300
         Action = actPrint
+        ExplicitLeft = 300
       end
       inherited btnClose: TcxButton
         Left = 570
@@ -155,7 +166,9 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
         ExplicitLeft = 570
       end
       inherited cxButton1: TcxButton
+        Left = 376
         Action = actExport
+        ExplicitLeft = 376
       end
     end
     inherited pnlShortCut: TPanel
@@ -169,6 +182,10 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     end
   end
   inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      Caption = 'Generate For All'
+      OnExecute = actAddExecute
+    end
     inherited actPrint: TAction
       OnExecute = actPrintExecute
     end

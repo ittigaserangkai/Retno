@@ -109,7 +109,7 @@ object frmMain: TfrmMain
         Action = actCreateSO
       end
       object GeneratePOForAll1: TMenuItem
-        Action = actGeneratePOForAll
+        Action = actPurchaseOrder
       end
     end
     object mmWindow: TMenuItem
@@ -214,7 +214,7 @@ object frmMain: TfrmMain
     object actGeneratePOForAll: TAction
       Category = 'PO'
       Caption = 'Generate PO For &All'
-      OnExecute = actGeneratePOForAllExecute
+      OnExecute = actPrintPOExecute
     end
     object actGeneratePOBySupplier: TAction
       Category = 'PO'
@@ -478,7 +478,6 @@ object frmMain: TfrmMain
     object actPrintPurchaseOrder: TAction
       Category = 'PO'
       Caption = 'actPrintPurchaseOrder'
-      OnExecute = actPrintPurchaseOrderExecute
     end
     object actPrintWorksheet: TAction
       Category = 'SupvCashier'
@@ -796,6 +795,11 @@ object frmMain: TfrmMain
       Category = 'Trader'
       Caption = 'actReturTrader'
       OnExecute = actReturTraderExecute
+    end
+    object actPurchaseOrder: TAction
+      Category = 'PO'
+      Caption = 'Purchase Order'
+      OnExecute = actPurchaseOrderExecute
     end
   end
 end

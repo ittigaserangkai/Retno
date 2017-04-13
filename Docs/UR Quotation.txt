@@ -1,0 +1,14 @@
+Existing
+Update harga jual ada bbrp cara : 
+1. Quotation harga beli
+2. Replace profit
+3. 
+
+
+Next
+1. Perubahan harga jual
+a. Master
+b. Quotation
+
+2. Quotaion KOntrabon
+- Input harga jual blm PPN

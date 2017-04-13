@@ -5,10 +5,13 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModApp, uModUnit, uModSO, uModSuplier, uModTipeKirimPO, System.Generics.Collections,
-  uModBarang;
+  uModBarang, uModSatuan;
 
 type
   TModPO = class;
+  TModTipePo = class(TModApp)
+  end;
+
   TModStatusPO = class(TModApp)
   private
     FSTAPO_CODE: string;
@@ -18,7 +21,7 @@ type
     property STAPO_NAME: string read FSTAPO_NAME write FSTAPO_NAME;
   end;
 
-  TPOItem = class(TModApp)
+  TModPOItem = class(TModApp)
   private
     FPOD_BARANG: TModBarang;
     FPOD_BARANG_SUPPLIER: TModBarangSupplier;
@@ -27,7 +30,7 @@ type
     FPOD_DISC3: Double;
     FPOD_DISC_TAMBAHAN: Double;
     FPOD_IS_BKP: Integer;
-    FPOD_IS_STOCK: Double;
+    FPOD_IS_STOCK: Integer;
     FPOD_PO: TModPO;
     FPOD_PPN: Double;
     FPOD_PPNBM: Double;
@@ -40,7 +43,7 @@ type
     FPOD_TOTAL_DISC: Double;
     FPOD_TOTAL_TAX: Double;
     FPOD_TOTAL_TEMP: Double;
-    FPOD_UOM: TModUnit;
+    FPOD_UOM: TModSatuan;
   public
     property POD_DISC2: Double read FPOD_DISC2 write FPOD_DISC2;
     property POD_DISC3: Double read FPOD_DISC3 write FPOD_DISC3;
@@ -52,7 +55,7 @@ type
     property POD_DISC_TAMBAHAN: Double read FPOD_DISC_TAMBAHAN write
         FPOD_DISC_TAMBAHAN;
     property POD_IS_BKP: Integer read FPOD_IS_BKP write FPOD_IS_BKP;
-    property POD_IS_STOCK: Double read FPOD_IS_STOCK write FPOD_IS_STOCK;
+    property POD_IS_STOCK: Integer read FPOD_IS_STOCK write FPOD_IS_STOCK;
     property POD_PO: TModPO read FPOD_PO write FPOD_PO;
     property POD_PPN: Double read FPOD_PPN write FPOD_PPN;
     property POD_PPNBM: Double read FPOD_PPNBM write FPOD_PPNBM;
@@ -66,21 +69,21 @@ type
     property POD_TOTAL_DISC: Double read FPOD_TOTAL_DISC write FPOD_TOTAL_DISC;
     property POD_TOTAL_TAX: Double read FPOD_TOTAL_TAX write FPOD_TOTAL_TAX;
     property POD_TOTAL_TEMP: Double read FPOD_TOTAL_TEMP write FPOD_TOTAL_TEMP;
-    property POD_UOM: TModUnit read FPOD_UOM write FPOD_UOM;
+    property POD_UOM: TModSatuan read FPOD_UOM write FPOD_UOM;
   end;
 
-  TPOItems = class(TObjectList)
-    TPOItem;
+  TModPOItems = class(TObjectList<TModPOItem>)
   private
-    function GetPOItemS(Index: Integer): TPOItem;
-    procedure SetPOItemS(Index: Integer; Value: TPOItem);
+    function GetModPOItemS(Index: Integer): TModPOItem;
+    procedure SetModPOItemS(Index: Integer; Value: TModPOItem);
   public
-    property POItemS[Index: Integer]: TPOItem read GetPOItemS write SetPOItemS;
+    property ModPOItemS[Index: Integer]: TModPOItem read GetModPOItemS write
+        SetModPOItemS;
   end;
 
   TModPO = class(TModApp)
   private
-    FPOItems: TPOItems;
+    FPOItems: TModPOItems;
     FPO_COLIE: Double;
     FPO_DATE: TDateTime;
     FPO_DELIVER_DATE: TDateTime;
@@ -104,7 +107,7 @@ type
     procedure SetPO_PPN(Value: Double);
     procedure SetPO_TOTAL(Value: Double);
   public
-    property POItems: TPOItems read FPOItems write FPOItems;
+    property POItems: TModPOItems read FPOItems write FPOItems;
   published
     property PO_COLIE: Double read FPO_COLIE write FPO_COLIE;
     property PO_DATE: TDateTime read FPO_DATE write FPO_DATE;
@@ -129,6 +132,7 @@ type
     property PO_TOTAL: Double read GetPO_TOTAL write SetPO_TOTAL;
     property PO_UNIT: TModUnit read FPO_UNIT write FPO_UNIT;
   end;
+
 
 
 
@@ -164,14 +168,16 @@ begin
 end;
 
 {
-*********************************** TPOItems ***********************************
+*********************************** TModPOItems ***********************************
 }
-function TPOItems.GetPOItemS(Index: Integer): TPOItem;
+function TModPOItems.GetModPOItemS(Index: Integer): TModPOItem;
 begin
+  Result := Self[Index];
 end;
 
-procedure TPOItems.SetPOItemS(Index: Integer; Value: TPOItem);
+procedure TModPOItems.SetModPOItemS(Index: Integer; Value: TModPOItem);
 begin
+  Self[Index] := Value;
 end;
 
 
