@@ -674,12 +674,6 @@ object frmPaymentKring: TfrmPaymentKring
             ExplicitHeight = 20
           end
         end
-        inherited cxGrid: TcxGrid
-          ExplicitLeft = 1
-          ExplicitTop = 32
-          ExplicitWidth = 242
-          ExplicitHeight = 125
-        end
       end
     end
     object mmoBackup: TMemo

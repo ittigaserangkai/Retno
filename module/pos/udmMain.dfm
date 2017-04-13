@@ -4,78 +4,55 @@ object dmMain: TdmMain
   OnDestroy = DataModuleDestroy
   Height = 355
   Width = 295
-  object connGoro: TIBDatabase
+  object connGoro: TFDConnection
     Params.Strings = (
       'user_name=op'
       'password=operator'
       'sql_role_name=operator')
     LoginPrompt = False
-    DefaultTransaction = transGoro
-    ServerType = 'IBServer'
     Left = 16
     Top = 8
   end
-  object transGoro: TIBTransaction
-    DefaultDatabase = connGoro
+  object transGoro: TFDTransaction
     Left = 16
     Top = 56
   end
-  object qrMultiPurpose: TIBQuery
-    Database = connGoro
+  object qrMultiPurpose: TFDQuery
     Transaction = transGoro
-    BufferChunks = 1000
-    CachedUpdates = False
-    ParamCheck = True
     Left = 88
     Top = 8
   end
-  object spMultiPurpose: TIBStoredProc
-    Database = connGoro
+  object spMultiPurpose: TFDStoredProc
     Transaction = transGoro
     Left = 88
     Top = 56
   end
-  object qrInsert: TIBQuery
-    Database = connGoro
+  object qrInsert: TFDQuery
     Transaction = transGoro
-    BufferChunks = 1000
-    CachedUpdates = False
-    ParamCheck = True
     Left = 168
     Top = 8
   end
-  object qrUpdate: TIBQuery
-    Database = connGoro
+  object qrUpdate: TFDQuery
     Transaction = transGoro
-    BufferChunks = 1000
-    CachedUpdates = False
-    ParamCheck = True
     Left = 168
     Top = 56
   end
-  object qrDelete: TIBQuery
-    Database = connGoro
+  object qrDelete: TFDQuery
     Transaction = transGoro
-    BufferChunks = 1000
-    CachedUpdates = False
-    ParamCheck = True
     Left = 168
     Top = 104
   end
-  object spInsert: TIBStoredProc
-    Database = connGoro
+  object spInsert: TFDStoredProc
     Transaction = transGoro
     Left = 224
     Top = 8
   end
-  object spUpdate: TIBStoredProc
-    Database = connGoro
+  object spUpdate: TFDStoredProc
     Transaction = transGoro
     Left = 224
     Top = 56
   end
-  object spDelete: TIBStoredProc
-    Database = connGoro
+  object spDelete: TFDStoredProc
     Transaction = transGoro
     Left = 224
     Top = 104
@@ -99,24 +76,17 @@ object dmMain: TdmMain
     Left = 24
     Top = 152
   end
-  object dbPOS: TIBDatabase
+  object dbPOS: TFDConnection
     LoginPrompt = False
-    DefaultTransaction = TransPOS
-    ServerType = 'IBServer'
     Left = 160
     Top = 256
   end
-  object TransPOS: TIBTransaction
-    DefaultDatabase = dbPOS
+  object TransPOS: TFDTransaction
     Left = 192
     Top = 256
   end
-  object QrPOS: TIBQuery
-    Database = dbPOS
+  object QrPOS: TFDQuery
     Transaction = TransPOS
-    BufferChunks = 1000
-    CachedUpdates = False
-    ParamCheck = True
     Left = 224
     Top = 256
   end

@@ -2,17 +2,26 @@ inherited frmExportToMDB: TfrmExportToMDB
   Left = 551
   Top = 303
   Caption = 'Export To MDB'
+  ClientHeight = 337
+  ClientWidth = 536
   OldCreateOrder = True
+  ExplicitWidth = 552
+  ExplicitHeight = 376
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
+    Width = 536
+    Height = 307
+    ExplicitWidth = 120
+    ExplicitHeight = 307
     object Panel1: TPanel
       Left = 11
       Top = 11
-      Width = 512
+      Width = 514
       Height = 70
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 98
       object Label1: TLabel
         Left = 16
         Top = 12
@@ -61,8 +70,8 @@ inherited frmExportToMDB: TfrmExportToMDB
     object mmoExport: TMemo
       Left = 11
       Top = 81
-      Width = 512
-      Height = 211
+      Width = 514
+      Height = 215
       Align = alClient
       Color = 12582911
       Ctl3D = False
@@ -70,10 +79,13 @@ inherited frmExportToMDB: TfrmExportToMDB
       ReadOnly = True
       TabOrder = 1
       WordWrap = False
-      ExplicitHeight = 199
+      ExplicitWidth = 98
+      ExplicitHeight = 211
     end
   end
   inherited pnlHeader: TPanel
+    Width = 536
+    ExplicitWidth = 120
     inherited lblHeader: TLabel
       Width = 104
       Caption = 'Export Data To MDB'

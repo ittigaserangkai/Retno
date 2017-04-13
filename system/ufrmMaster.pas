@@ -4,14 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, ufraFooter5Button, StdCtrls, ActnList,
-  uCompany, ufrmMasterDialog, uFormProperty, Grids, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter,
-  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxGridLevel,
-  cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, Vcl.Menus, cxButtons, Datasnap.DBClient,
-  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, cxCheckBox, cxSpinEdit;
+  Vcl.StdCtrls, Vcl.ExtCtrls, uCompany, uFormProperty, ufrmMasterDialog,
+  ActnList;
 
 type
 
@@ -24,8 +18,6 @@ type
     //procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
   private
     FMasterCompany: TCompany;
@@ -55,10 +47,6 @@ type
     constructor Create(AOwner: TComponent); override;
     constructor CreateWithUser(aOwner: TComponent; aFormProperty : TFormProperty);
         overload;
-//    constructor CreateWithUser(aOwner: TComponent; afrmMaster : TfrmMaster);
-//        overload;
-    procedure GetAndRunButton(AButtonName: string);
-    procedure DecorateFooter(var grid: TcxGrid; c, r: integer);
     procedure Authenticate;            
     function SetFormPropertyAndShowDialog(aFrmMasterDialog : TFrmMasterDialog;
         aIsModal: Boolean = True): Boolean;
@@ -69,7 +57,7 @@ var
 
 implementation
 
-uses udmMain, uTSCommonDlg;
+uses uTSCommonDlg;
 
 {$R *.dfm}
 
@@ -260,7 +248,7 @@ begin
          + ' AND U.USR_UNT_ID = '+ IntToStr(FLoginUnitId)
          + ' AND MOD.MOD_LABEL <> ' + QuotedStr(sTipe)
          + ' AND UPPER(MOD.MOD_NAME) = ' + QuotedStr(UpperCase(strNama));
-         
+  {
   with dmMain.qrMultiPurpose do begin
     SQL.Text := sSQL;
 //      'SELECT m.mod_action FROM aut$module m ' +
@@ -277,6 +265,7 @@ begin
         Next;
       end;
   end;
+  }
 end;
 
 {procedure TfrmMaster.FormCreate(Sender: TObject);
@@ -306,58 +295,9 @@ begin
 //  frmMain.pnlHeader.Hide;
 end;
 
-procedure TfrmMaster.GetAndRunButton(AButtonName: string);
-var
-  i,j: word;
-  btnFoo: TcxButton;
-begin
-  for i:=0 to ComponentCount-1 do
-    if (Components[i] is TfraFooter5Button) then
-    begin
-      for j:=0 to components[i].ComponentCount-1 do
-        if (components[i].Components[j].Name = AButtonName) then
-        begin
-          btnFoo := components[i].Components[j] as TcxButton;
-          btnFoo.Click;
-          exit;
-        end;
-    end;
-end;
-
 procedure TfrmMaster.FormActivate(Sender: TObject);
 begin
   //frmMain.pnlHeader.Hide;
-end;
-
-procedure TfrmMaster.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if(Key = Ord('C'))and(ssctrl in Shift) then
-    GetAndRunButton('btnAdd')
-  else if(Key = Ord('E'))and(ssctrl in Shift) then
-    GetAndRunButton('btnUpdate')
-  else if(Key = VK_DELETE)and(ssctrl in Shift) then
-    GetAndRunButton('btnDelete')
-  else if(Key = VK_F5)and(ssctrl in Shift) then
-    GetAndRunButton('btnRefresh');
-  //else if ( Key = VK_ESCAPE) then
-  //  Close;  
-end;
-
-procedure TfrmMaster.DecorateFooter(var grid: TcxGrid; c,
-  r: integer);
-begin
-{  with grid do begin
-    FloatingFooter.ColumnCalc[c] := acSUM;
-
-    //Cells[c, r] := FormatCell(Cells[c, r]);
-    Cells[c, r] := FormatCurr('#,##0.##', StrToCurr(Cells[c, r]));
-
-    FontStyles[c, r] := FontStyles[c, r] + [fsBold];
-
-    Alignments[c, r] := taRightJustify;
-  end;
-  }
 end;
 
 function TfrmMaster.GetMasterCompany: TCompany;

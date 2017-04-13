@@ -1,13 +1,17 @@
 inherited frmImportFromMDB: TfrmImportFromMDB
   Caption = 'Import From MDB'
+  ClientHeight = 337
   ClientWidth = 544
   OldCreateOrder = True
   ExplicitWidth = 560
+  ExplicitHeight = 376
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 544
+    Height = 307
     ExplicitWidth = 544
+    ExplicitHeight = 307
     object Panel1: TPanel
       Left = 11
       Top = 11
@@ -28,30 +32,15 @@ inherited frmImportFromMDB: TfrmImportFromMDB
         Width = 75
         Height = 25
         Caption = '&Import'
-        TabOrder = 1
-        OnClick = btnImportClick
-      end
-      object edtFileName: TEditBtn
-        Left = 64
-        Top = 9
-        Width = 369
-        Height = 22
-        ReturnIsTab = False
-        Flat = False
-        Etched = False
-        FocusBorder = False
-        RightAlign = False
         TabOrder = 0
-        Text = '0'
-        Version = '1.5.2.0'
-        OnClickBtn = edtFileNameClickBtn
+        OnClick = btnImportClick
       end
     end
     object mmoImport: TMemo
       Left = 11
       Top = 58
       Width = 522
-      Height = 222
+      Height = 238
       Align = alClient
       Color = 12582911
       Ctl3D = False
@@ -59,6 +48,20 @@ inherited frmImportFromMDB: TfrmImportFromMDB
       ReadOnly = True
       TabOrder = 1
       WordWrap = False
+      ExplicitHeight = 234
+    end
+    object edtFileName: TcxButtonEdit
+      Left = 72
+      Top = 18
+      Properties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.OnButtonClick = edtFileNamePropertiesButtonClick
+      TabOrder = 2
+      Text = 'edtFileName'
+      Width = 369
     end
   end
   inherited pnlHeader: TPanel

@@ -3,28 +3,32 @@ unit udmMain;
 interface
 
 uses
-  SysUtils, Classes, IBStoredProc, DB, IBCustomDataSet, IBQuery, IBDatabase,
+  SysUtils, Classes, DB,
   IdTCPConnection, IdTCPClient, IdBaseComponent, IdComponent, IdTCPServer,
-  Windows, uConstanta, AppEvnts, ADODB, IdCustomTCPServer;
+  Windows, uConstanta, AppEvnts, ADODB, IdCustomTCPServer, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet;
 
 type
   TdmMain = class(TDataModule)
-    connGoro: TIBDatabase;
-    transGoro: TIBTransaction;
-    qrMultiPurpose: TIBQuery;
-    spMultiPurpose: TIBStoredProc;
-    qrInsert: TIBQuery;
-    qrUpdate: TIBQuery;
-    qrDelete: TIBQuery;
-    spInsert: TIBStoredProc;
-    spUpdate: TIBStoredProc;
-    spDelete: TIBStoredProc;
+    connGoro: TFDConnection;
+    transGoro: TFDTransaction;
+    qrMultiPurpose: TFDQuery;
+    spMultiPurpose: TFDStoredProc;
+    qrInsert: TFDQuery;
+    qrUpdate: TFDQuery;
+    qrDelete: TFDQuery;
+    spInsert: TFDStoredProc;
+    spUpdate: TFDStoredProc;
+    spDelete: TFDStoredProc;
     tcpServerStore: TIdTCPServer;
     tcpClientStore: TIdTCPClient;
     appevnMain: TApplicationEvents;
-    dbPOS: TIBDatabase;
-    TransPOS: TIBTransaction;
-    QrPOS: TIBQuery;
+    dbPOS: TFDConnection;
+    TransPOS: TFDTransaction;
+    QrPOS: TFDQuery;
     adoConn: TADOConnection;
     adoQry: TADOQuery;
     adoCmd: TADOCommand;
@@ -44,6 +48,7 @@ type
     procedure DataModuleDestroy(Sender: TObject);
   private
   public
+    function getGlobalVar(aVarString : string): string;
     procedure sendMessageToMainForm(msg: Cardinal; Wparam: WPARAM; LParam: LPARAM);
   end;
 
@@ -56,6 +61,7 @@ uses
   uTSCommonDlg;
 
 {$R *.dfm}
+
 {
 procedure TdmMain.tcpServerStorecmdPOSTransactVoucherCommand(
   ASender: TIdCommand);
@@ -112,6 +118,26 @@ end;
 procedure TdmMain.DataModuleDestroy(Sender: TObject);
 begin
 //  FConnectionGuardian.Free;
+end;
+
+function TdmMain.getGlobalVar(aVarString : string): string;
+var
+  sSQL: string;
+begin
+  Result := '';
+//  sSQL := ' select PAR_VALUE '
+//          + ' from SYS$PARAMETER '
+//          + ' where PAR_NAME = ' + QuotedStr(aVarString) ;
+//
+//  with cOpenQuery(sSQL) do
+//  begin
+//    try
+//    if not FieldByName('PAR_VALUE').IsNull then
+//      Result := fieldbyname('PAR_VALUE').AsString;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 end.

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/06/17 11:04:34 AM
+// 4/12/2017 10:50:35 AM
 //
 
 unit uClientClasses;
@@ -308,8 +308,8 @@ type
     function TipePO_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeCN_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function TipeCN_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function SO_GetDSOverview(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
-    function SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function SO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -997,7 +997,7 @@ const
   TDSProvider_SO_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ATglAtglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
@@ -1005,7 +1005,7 @@ const
   TDSProvider_SO_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ATglAtglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -3064,7 +3064,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FTipeCN_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
-function TDSProviderClient.SO_GetDSOverview(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.SO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
 begin
   if FSO_GetDSOverviewCommand = nil then
   begin
@@ -3074,7 +3074,7 @@ begin
     FSO_GetDSOverviewCommand.Prepare(TDSProvider_SO_GetDSOverview);
   end;
   FSO_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
-  FSO_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAtglAkhir;
+  FSO_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
   if not Assigned(AUnit) then
     FSO_GetDSOverviewCommand.Parameters[2].Value.SetNull
   else
@@ -3095,7 +3095,7 @@ begin
     FSO_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAtglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FSO_GetDSOverviewCommand_Cache = nil then
   begin
@@ -3105,7 +3105,7 @@ begin
     FSO_GetDSOverviewCommand_Cache.Prepare(TDSProvider_SO_GetDSOverview_Cache);
   end;
   FSO_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
-  FSO_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAtglAkhir;
+  FSO_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
   if not Assigned(AUnit) then
     FSO_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
   else

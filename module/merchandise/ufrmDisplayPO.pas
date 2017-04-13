@@ -4,24 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button,
+  Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ufraFooter5Button,
 	ActnList, uRetnoUnit, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls,
   dxCore, cxDateUtils, System.Actions, cxCurrencyEdit, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxStyles, cxClasses, Vcl.Menus,
   cxButtons, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   Data.DB, cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridLevel, cxGridCustomView, cxGrid;
+  cxGridLevel, cxGridCustomView, cxGrid, dxBarBuiltInMenu, ufraFooter4Button,
+  cxLabel, cxPC;
 
 type
   TModul = (mMain, mHistoryPO);
 
-  TfrmDisplayPO = class(TfrmMaster)
+  TfrmDisplayPO = class(TfrmMasterBrowse)
     pnlTop: TPanel;
     lbl1: TLabel;
     edtPONo: TEdit;
-    fraFooter5Button1: TfraFooter5Button;
-    pnl1: TPanel;
     lbl5: TLabel;
     lbl6: TLabel;
     lbl7: TLabel;
@@ -69,26 +68,12 @@ type
     jvcuredtNilaiDisc: TcxCurrencyEdit;
     jvcuredtTotalDisc: TcxCurrencyEdit;
     lblStatusPO: TLabel;
-    actlst1: TActionList;
-    actSaveGoodReceiving: TAction;
-    actClearGoodReceiving: TAction;
     chkAllUnit: TCheckBox;
     btnBrowsePoNo: TcxButton;
     btnSlipNew: TcxButton;
     btnSlip: TcxButton;
     btnChekListNp: TcxButton;
     btnCetakNP: TcxButton;
-    cxGrid: TcxGrid;
-    cxGridView: TcxGridDBTableView;
-    cxlvMaster: TcxGridLevel;
-    cxGridViewColumn1: TcxGridDBColumn;
-    cxGridViewColumn2: TcxGridDBColumn;
-    cxGridViewColumn3: TcxGridDBColumn;
-    cxGridViewColumn4: TcxGridDBColumn;
-    cxGridViewColumn5: TcxGridDBColumn;
-    cxGridViewColumn6: TcxGridDBColumn;
-    cxGridViewColumn7: TcxGridDBColumn;
-    cxGridViewColumn8: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -105,7 +90,7 @@ type
     procedure strgGridCheckBoxClick(Sender: TObject; ACol, ARow: Integer;
       State: Boolean);
     procedure FormActivate(Sender: TObject);
-    procedure actClearGoodReceivingExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure btnSlipClick(Sender: TObject);
     procedure btnSlipNewClick(Sender: TObject);
     procedure strgGridGetFloatFormat(Sender: TObject; ACol, ARow: Integer;
@@ -198,7 +183,7 @@ begin
   lblStatusPO.Caption:='';
   //SetHeaderGrid;
   //strgGrid.Enabled:= False;
-  fraFooter5Button1.btnAdd.Enabled:= False;
+  fraFooter4Button1.btnAdd.Enabled:= False;
 end;
 
 procedure TfrmDisplayPO.FormCreate(Sender: TObject);
@@ -373,7 +358,7 @@ begin
   then
     btnCetakNP.Click;
   if((Key = 13) and (ssctrl in Shift))and
-     fraFooter5Button1.btnAdd.Enabled
+     fraFooter4Button1.btnAdd.Enabled
   then
     GetAndRunButton('btnAdd');
 end;
@@ -419,8 +404,9 @@ begin
   frmDisplayPO.Caption := 'DISPLAY PO';
 end;
 
-procedure TfrmDisplayPO.actClearGoodReceivingExecute(Sender: TObject);
+procedure TfrmDisplayPO.actRefreshExecute(Sender: TObject);
 begin
+  inherited;
   SetClearValue;
 end;
 

@@ -121,8 +121,6 @@ object fraLookupBarang: TfraLookupBarang
       OptionsData.Editing = False
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
-      Styles.ContentEven = DMClient.cxStyleGridHeader
-      Styles.Header = DMClient.cxStyleGridEven
       object cxcolPLU: TcxGridDBColumn
         Caption = 'PLU'
       end
