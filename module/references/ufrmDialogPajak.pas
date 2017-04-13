@@ -90,6 +90,8 @@ end;
 
 procedure TfrmDialogPajak.SimpanData;
 begin
+  if not ValidateEmptyCtrl then exit;
+  
   ModRefPajak.PJK_NAME  := edtNamaPajak.Text;
   ModRefPajak.PJK_CODE  := edtCodePajak.Text;
   ModRefPajak.PJK_PPN   := edtPPN.Value;

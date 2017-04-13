@@ -832,7 +832,7 @@ object frmPayment: TfrmPayment
       Left = 6
       Top = 6
       Width = 355
-      Height = 23
+      Height = 19
       TabStop = False
       Ctl3D = False
       Font.Charset = ANSI_CHARSET

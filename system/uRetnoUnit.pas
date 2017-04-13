@@ -3,7 +3,7 @@ unit uRetnoUnit;
 interface
 uses
   ExtCtrls, Controls, Graphics, uConstanta, udmMain, Windows, Classes, SysUtils,
-  Forms, uTSINIFile;
+  Forms, uTSINIFile, uAppUtils, uModUnit;
 
 type
   TTag = set of byte;
@@ -13,6 +13,17 @@ type
 
   TMutasiType = (TyOut, TyIn);
 
+  TRetno = class(TObject)
+  private
+  class var
+    FUnitStore: TModUnit;
+    class function GetUnitStore: TModUnit; static;
+    class procedure SetUnitStore(const Value: TModUnit); static;
+  protected
+  public
+    class property UnitStore: TModUnit read GetUnitStore write SetUnitStore;
+  end;
+
 function getGlobalVar(aVarString : string): string;
 
 function IsHODeveloperMode: Boolean;
@@ -20,8 +31,6 @@ function IsHODeveloperMode: Boolean;
 function IsStoreDeveloperMode: Boolean;
 
 function GetReportPath: string;
-
-function cGetAppPath: String;
 
 function GetIsStoreUnitID(aUnit_ID : Integer): Integer;
 
@@ -52,6 +61,7 @@ var
   lUnitId     : Integer;
   aListMerID  : TStrings;
   iMaxGen     : Integer = 5;
+  //dibawah ini dipindah ke variabel global database saja ya..
   //Product  ig=integer global
   igProd_Code_Length : Integer = 6;  // max 9 ya. integer safe , def = 6
   //Precision Harga di Transaksi End user dan Kring , def = -2
@@ -83,22 +93,17 @@ end;
 
 function IsHODeveloperMode: Boolean;
 begin
-  Result := UpperCase(cGetAppPath) = UpperCase('D:\SharedProjects\Projects\RMS One SQLServer\bin\');
+  Result := UpperCase(TAppUtils.GetAppPath) = UpperCase('D:\SharedProjects\Projects\RMS One SQLServer\bin\');
 end;
 
 function IsStoreDeveloperMode: Boolean;
 begin
-  Result := UpperCase(cGetAppPath) = UpperCase('D:\SharedProjects\Projects\RMS One SQLServer\bin\');
+  Result := UpperCase(TAppUtils.GetAppPath) = UpperCase('D:\SharedProjects\Projects\RMS One SQLServer\bin\');
 end;
 
 function GetReportPath: string;
 begin
   Result := _INIReadString(CONFIG_FILE, PATH_TEMPLATE, 'PathReport');;
-end;
-
-function cGetAppPath: String;
-begin
-     result := ExtractFilePath(application.ExeName);
 end;
 
 {function FormatedStringToFloat(aFormatedString : String): Double;
@@ -221,6 +226,19 @@ begin
     end;
   end;
 }
+end;
+
+class function TRetno.GetUnitStore: TModUnit;
+begin
+  if (FUnitStore)=nil then
+    FUnitStore := TModUnit.Create;
+  Result := FUnitStore;
+end;
+
+class procedure TRetno.SetUnitStore(const Value: TModUnit);
+begin
+  FreeAndNil(FUnitStore);
+  FUnitStore := Value;
 end;
 
 end.

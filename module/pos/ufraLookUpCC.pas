@@ -38,9 +38,6 @@ type
 
 implementation
 
-uses
-  uRetnoUnit;
-
 const
   _KolKode: Integer = 0;
   _KolNama: Integer = 1;

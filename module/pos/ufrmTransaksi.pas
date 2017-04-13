@@ -176,8 +176,7 @@ var
 implementation
 
 uses
-  ufrmMain, Math, uRetnoUnit, uConstanta, StrUtils;
-//  ufrmLookupBarang, uNewPajak
+  ufrmMain, Math, uConstanta, StrUtils, udmMain;
 
 {$R *.dfm}
 
@@ -522,7 +521,7 @@ end;
 function TfrmTransaksi.GetDefaultMember: String;
 begin
   Result := '';
-  Result := getGlobalVar('POS_DEF_CUST');
+  Result := dmMain.getGlobalVar('POS_DEF_CUST');
 end;
 
 function TfrmTransaksi.GetTotalHarga(ARow: Integer): Double;

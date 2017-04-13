@@ -25,7 +25,6 @@ object frmPosDownlink: TfrmPosDownlink
     BevelOuter = bvLowered
     Color = 14079702
     TabOrder = 0
-    ExplicitWidth = 618
     object lblHeader: TLabel
       Left = 8
       Top = 7
@@ -47,7 +46,6 @@ object frmPosDownlink: TfrmPosDownlink
     Height = 227
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 618
     object chkFile: TCheckBox
       Left = 24
       Top = 18

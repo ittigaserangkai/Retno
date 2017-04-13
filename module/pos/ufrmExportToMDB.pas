@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ComCtrls, ExtCtrls, uTSCommonDlg, uRetnoUnit,
+  Dialogs, ufrmMaster, StdCtrls, ComCtrls, ExtCtrls, uTSCommonDlg,
   uTSINIFile, uConstanta, Types, OleCtrls, DateUtils;
 
 type
