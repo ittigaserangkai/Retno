@@ -301,6 +301,7 @@ inherited frmCetakPO: TfrmCetakPO
       ExplicitWidth = 690
       inherited lbEscape: TLabel
         Left = 616
+        Height = 17
         ExplicitLeft = 616
       end
     end

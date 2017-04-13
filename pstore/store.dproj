@@ -702,7 +702,6 @@
             <Form>frmDialogDetailGeneratePO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\ModPO.pas"/>
         <DCCReference Include="..\model\uModPO.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

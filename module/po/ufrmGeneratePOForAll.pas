@@ -9,7 +9,8 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, dxCore, cxDateUtils, Vcl.Menus, cxProgressBar, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDBLookupEdit, cxDBExtLookupComboBox, ufrmMasterDialog,
+  ufraFooterDialog3Button;
 
 type
   TSODetil  = array of record
@@ -52,7 +53,7 @@ type
     BRG_IS_STOCK            : Byte;
   end;
 
-  TfrmGeneratePOforAll = class(TfrmMaster)
+  TfrmGeneratePOforAll = class(TfrmMasterDialog)
     fraFooter1Button1: TfraFooter1Button;
     edtNoSO: TEdit;
     lbl3: TLabel;
@@ -84,6 +85,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure edtNoSOKeyPress(Sender: TObject; var Key: Char);
     procedure FormActivate(Sender: TObject);
+    procedure pnlBodyDblClick(Sender: TObject);
   private
     isSOFound: Boolean;
     FIsGenerated: Boolean;
@@ -116,14 +118,14 @@ begin
     dtPO.Date:= Self.dtDatePO.Date;
     dtSO.Date:= Self.dtDateSO.Date;
     ShowModal;
-    Free;
+    FreeAndNil(frmDialogDetailGeneratePO);
   end;
 end;
 
 procedure TfrmGeneratePOforAll.FormCreate(Sender: TObject);
 begin
   inherited;
-  lblHeader.Caption := 'GENERATE PURCHASING ORDER FOR ALL';
+//  lblHeader.Caption := 'GENERATE PURCHASING ORDER FOR ALL';
   dtDatePO.Date := now;
   pbProcess.Position := 0;
 end;
@@ -438,6 +440,12 @@ begin
   inherited;
   frmGeneratePOforAll.Caption:= 'GENERATE PURCHASING ORDER FOR ALL';
 //  frmMain.CreateMenu((Sender as TForm));
+end;
+
+procedure TfrmGeneratePOforAll.pnlBodyDblClick(Sender: TObject);
+begin
+  inherited;
+  btnDetailPO.Enabled := not btnDetailPO.Enabled;
 end;
 
 end.

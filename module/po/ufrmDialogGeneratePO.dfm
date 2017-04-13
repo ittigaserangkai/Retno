@@ -30,9 +30,55 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
       Width = 773
       Height = 181
       TabOrder = 2
-      ExplicitTop = 157
+      ExplicitTop = 158
       ExplicitWidth = 773
       ExplicitHeight = 181
+      inherited cxGridView: TcxGridDBTableView
+        object cxgrdbclmnGridViewColumn1: TcxGridDBColumn
+          Caption = 'NO'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn2: TcxGridDBColumn
+          Caption = 'KODE'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn3: TcxGridDBColumn
+          Caption = 'NAMA'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn4: TcxGridDBColumn
+          Caption = 'SATUAN'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn5: TcxGridDBColumn
+          Caption = 'HARGA'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn6: TcxGridDBColumn
+          Caption = 'DISC1'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn7: TcxGridDBColumn
+          Caption = 'DISC2'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn8: TcxGridDBColumn
+          Caption = 'DISC3'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn9: TcxGridDBColumn
+          Caption = 'PPN'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn10: TcxGridDBColumn
+          Caption = 'PPNBM'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdbclmnGridViewColumn11: TcxGridDBColumn
+          Caption = 'TOTAL'
+          HeaderAlignmentHorz = taCenter
+        end
+      end
     end
     object pnl1: TPanel
       Left = 2
@@ -122,8 +168,6 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
         Align = alClient
         TabOrder = 0
         LockedStateImageOptions.Text = 'Mohon ditunggu...'
-        ExplicitLeft = 19
-        ExplicitTop = 19
         object grdParent: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -135,6 +179,66 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
           NewItemRow.InfoText = 'Baris baru'
           OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
           OptionsView.GroupByBox = False
+          object cxgrdbclmnParentColumn1: TcxGridDBColumn
+            Caption = 'NO'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn2: TcxGridDBColumn
+            Caption = 'NO PO'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn3: TcxGridDBColumn
+            Caption = 'TANGGAL'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn4: TcxGridDBColumn
+            Caption = 'SUPPLIER'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn5: TcxGridDBColumn
+            Caption = 'DUE DATE'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn6: TcxGridDBColumn
+            Caption = 'SO NO'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn7: TcxGridDBColumn
+            Caption = 'SO DATE'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn8: TcxGridDBColumn
+            Caption = 'COLIE'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn9: TcxGridDBColumn
+            Caption = 'SUBTOTAL'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn10: TcxGridDBColumn
+            Caption = 'PPN'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn11: TcxGridDBColumn
+            Caption = 'PPN BM'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
+          object cxgrdbclmnParentColumn12: TcxGridDBColumn
+            Caption = 'PURCHASE'
+            GroupSummaryAlignment = taCenter
+            HeaderAlignmentHorz = taCenter
+          end
         end
         object grdlvlParent: TcxGridLevel
           GridView = grdParent
@@ -164,6 +268,9 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 530
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 777
@@ -181,6 +288,9 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
       end
       inherited lbCTRLDel: TLabel
         Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 526
       end
     end
   end
