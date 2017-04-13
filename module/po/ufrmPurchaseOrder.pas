@@ -11,7 +11,8 @@ uses
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
-  cxButtonEdit, Data.DB;
+  cxButtonEdit, Data.DB, uDMClient, uAppUtils,uDBUtils,
+  uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll;
 
 type
   TfrmPurchaseOrder = class(TfrmMasterBrowse)
@@ -22,24 +23,25 @@ type
     edtBtnSuplier2: TcxButtonEdit;
     Label1: TLabel;
     cboStatusPO: TcxComboBox;
+    procedure actAddExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure edtBtnSuplier1ClickBtn(Sender: TObject);
     procedure edtBtnSuplier2ClickBtn(Sender: TObject);
     procedure edtBtnSuplier1KeyPress(Sender: TObject; var Key: Char);
     procedure edtBtnSuplier2KeyPress(Sender: TObject; var Key: Char);
   private
+    FCDS: TClientDataSet;
     { Private declarations }
     sSQL  : string;
 
   protected
     function GetSQLStatusPO: string; dynamic;
     function GetSupCode    : string; virtual;
+    procedure RefreshData; override;
   public
     { Public declarations }
   end;
@@ -55,6 +57,13 @@ implementation
 uses uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg;
 
 {$R *.dfm}
+
+procedure TfrmPurchaseOrder.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  frmGeneratePOForAll := TfrmGeneratePOForAll.Create(Self);
+  frmGeneratePOForAll.ShowModal;
+end;
 
 procedure TfrmPurchaseOrder.actPrintExecute(Sender: TObject);
 var
@@ -108,60 +117,10 @@ begin
 end;
 
 procedure TfrmPurchaseOrder.actRefreshExecute(Sender: TObject);
-var
-  strDtFrst     : string;
-  strDtNext     : string;
-  sStapo_ID,
-  sTmp          : string;
-  iPOUnitID     : integer;
-  sfilter       : string;
 begin
   inherited;
-//  iPOUnitID := GetPOUnitID(MasterNewUnit.ID);
-  if (cboStatusPO.Text = '') or (cboStatusPO.ItemIndex < 0) then
-  begin
-    CommonDlg.ShowErrorEmpty('Status PO');
-    cboStatusPO.SetFocus;
-    Exit;
-  end;
+  DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil);
 
-  if (edtBtnSuplier1.Text ='') and (edtBtnSuplier2.Text ='') then
-      sfilter :=''
-  else
-      sfilter := 'and s.SUP_CODE >= ' +  QuotedStr(edtBtnSuplier1.Text) + ' AND s.SUP_CODE <= ' +   QuotedStr(edtBtnSuplier2.Text);
-
-  FormatSettings.DateSeparator   := '/';   /// := kasih spasi , luruskan :=
-  FormatSettings.ShortDateFormat := 'mm/dd/yyyy';
-  strDtFrst       := FormatDateTime('mm/dd/yyyyy', dtAwalFilter.Date) + ' 00:00:00';
-  strDtNext       := FormatDateTime('mm/dd/yyyyy', dtAkhirFilter.Date) + ' 23:59:59';
-
-  sStapo_ID       := Trim(copy(cboStatusPO.Text,1, pos(' ',cboStatusPO.Text)));
-  sTmp            := trim(copy(cboStatusPO.Text, pos(' ',cboStatusPO.Text)+1,
-                          length(cboStatusPO.Text)- pos(' ',cboStatusPO.Text)));
-
-
-  /// := kasih spasi , luruskan := sampe sini
-  ///rtp.tppersh_code || '' '' || '
-  sSQL:= 'SELECT s.sup_code as "Suplier Code", smg.supmg_code as "Division Code", '
-        + ' s.sup_name as "Suplier", p.po_date'
-        + ' as "Tgl PO", p.po_no as "No PO", '
-        + ' p.po_so_no as "No SO", p.po_colie as "Colie", p.PO_DISC as "PO Disc", p.po_ppn as "PO PPn", '
-        + ' p.po_ppnbm as "PO PPNBM", p.PO_DISC + p.po_ppn + p.po_ppnbm as "PO Purchase", p.po_total as "PO Total" '
-        + ' from po p '
-        + ' inner join suplier_merchan_grup smg on p.po_supmg_sub_code = smg.supmg_sub_code  '
-        + ' inner join suplier s on smg.supmg_code = s.sup_code '
-        + ' left outer join ref$tipe_perusahaan rtp on s.sup_tppersh_id = rtp.tppersh_id '
-        + ' where  p.PO_DATE >= ' +   QuotedStr(strDtFrst)
-        + ' AND p.PO_DATE <= ' +   QuotedStr(strDtNext)
-        +  sfilter
-        + ' AND (p.PO_STAPO_ID = ' +   QuotedStr(sStapo_ID)
-        + ' ) '
-        + ' AND P.PO_UNT_ID = ' + IntToStr(iPOUnitID)
-        + ' ORDER BY s.SUP_CODE ASC,rtp.tppersh_code ASC, s.sup_name ASC, '
-        + ' po_date ASC, p.po_no ASC';
-
-//   cQueryToGrid(sSQL,Grid);
-//   Grid.AutoSize := True;
 end;
 
 procedure TfrmPurchaseOrder.FormClose(Sender: TObject;
@@ -184,41 +143,6 @@ begin
   dtAwalFilter.Date:= Now;
   dtAkhirFilter.Date:= Now;
 end;
-
-procedure TfrmPurchaseOrder.FormActivate(Sender: TObject);
-begin
-  inherited;
-  frmPurchaseOrder.Caption := 'LISTING PURCHASE ORDER';
-end;
-
-procedure TfrmPurchaseOrder.FormCreate(Sender: TObject);
-begin
-  inherited;
-  frmPurchaseOrder.Caption := 'LISTING PURCHASE ORDER';
-
-  edtBtnSuplier1.Text:='';
-  edtBtnSuplier2.Text:='';
-
-  sSQL:= GetSQLStatusPO;
-
-  cboStatusPO.Clear;
-  {
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      while not Eof do /// indentasinya kurang satu spasi
-      begin
-        cboStatusPO.Items.Add(Fields[0].Text);
-        Next;
-      end;
-    finally
-      Free;
-    end;
-  end;
-  }
-
-end;
-
 
 function TfrmPurchaseOrder.GetSQLStatusPO: string;
 begin
@@ -282,6 +206,21 @@ procedure TfrmPurchaseOrder.edtBtnSuplier2KeyPress(Sender: TObject;
 begin
   inherited;
   Key := UpCase(Key);
+end;
+
+procedure TfrmPurchaseOrder.RefreshData;
+begin
+  inherited;
+  try
+    TAppUtils.cShowWaitWindow('Mohon Ditunggu');
+    if Assigned(FCDS) then FreeAndNil(FCDS);
+
+    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+    cxGridView.LoadFromCDS(FCDS);
+    cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
+  finally
+    TAppUtils.cCloseWaitWindow;
+  end;
 end;
 
 end.

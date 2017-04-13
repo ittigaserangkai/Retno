@@ -11,10 +11,9 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 659
-    Height = 256
-    BorderWidth = 0
+    OnDblClick = pnlBodyDblClick
     ExplicitWidth = 659
-    ExplicitHeight = 256
+    ExplicitHeight = 230
     object lbl3: TLabel
       Left = 18
       Top = 9
@@ -49,6 +48,12 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Width = 39
       Height = 16
       Caption = 'Supplier'
+    end
+    object lblHeader: TLabel
+      Left = 0
+      Top = 0
+      Width = 3
+      Height = 16
     end
     object edtNoSO: TEdit
       Left = 133
@@ -92,26 +97,27 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       ParentFont = False
     end
     object pbProcess: TcxProgressBar
-      Left = 1
-      Top = 231
+      Left = 2
+      Top = 250
       Align = alBottom
       Position = 30.000000000000000000
       Properties.PeakValue = 30.000000000000000000
       TabOrder = 6
-      ExplicitTop = 234
-      Width = 657
+      ExplicitTop = 207
+      Width = 655
     end
     object pnl1: TPanel
-      Left = 1
-      Top = 202
-      Width = 657
+      Left = 2
+      Top = 221
+      Width = 655
       Height = 29
       Align = alBottom
       BevelOuter = bvNone
       Color = 15198183
       TabOrder = 7
+      ExplicitTop = 175
       DesignSize = (
-        657
+        655
         29)
       object lblKet: TLabel
         Left = 8
@@ -163,14 +169,55 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Width = 132
     end
   end
-  inherited pnlHeader: TPanel
+  inherited footerDialogMaster: TfraFooterDialog3Button
     Width = 659
+    Height = 10
+    Visible = False
     ExplicitWidth = 659
-    inherited lblHeader: TLabel
-      Height = 18
+    ExplicitHeight = 10
+    inherited pnlFooter: TPanel
+      Top = -25
+      Width = 659
+      ExplicitTop = 18
+      ExplicitWidth = 659
+      inherited btnClose: TcxButton
+        Left = 582
+        Action = actCancel
+        ExplicitLeft = 582
+      end
+      inherited btnSave: TcxButton
+        Left = 489
+        Action = actSave
+        ExplicitLeft = 489
+      end
+      inherited btnDelete: TcxButton
+        Action = actDelete
+      end
+      inherited btnPrint: TcxButton
+        Left = 412
+        ExplicitLeft = 412
+      end
+    end
+    inherited pnlSortCut: TPanel
+      Width = 659
+      ExplicitWidth = 659
+      inherited lbCTRLEnter: TLabel
+        Left = 484
+        Height = 15
+      end
+      inherited lbEscape: TLabel
+        Left = 575
+        Height = 15
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 408
+      end
     end
   end
-  inline fraFooter1Button1: TfraFooter1Button
+  inline fraFooter1Button1: TfraFooter1Button [2]
     Left = 0
     Top = 286
     Width = 659
@@ -183,6 +230,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    Visible = False
     ExplicitTop = 286
     ExplicitWidth = 659
     inherited pnlFooter: TPanel

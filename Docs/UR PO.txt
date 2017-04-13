@@ -1,0 +1,42 @@
+Generate PO dari SO
+
+a. Pemisahan PO
+1. Per Supplier
+2. Per 20 baris
+3. Per Group
+
+b. Colie : Total All Qty walopun beda satuan
+c. Disc : Disc1, Disc2 (%), Disc 3 (Rp)
+
+d. -Total Net : Blm PPN 
+e. -Dalam Grid PO Item Harga Beli blm dikalikan Qty
+
+f. -Cetak PO bisa bbrp kali
+g. - Service level dihitung dari Qty Rec vs Qty Order
+h. - Harga Saat PO bisa berbeda dengan GR, nanti ada adj +/-
+i. PO Resvisi 
+ - terjadi jika ada selisih harga
+ - Dinputn all barang berdasarkan SO dr PO Lama
+ - PO Lama dicancel manual/akan otomatis tercancel setelah 7 hari
+ - 
+
+j. PO Bonus
+  
+ - Bonus For Sales tidak selalu sama dengan barang utama
+ - Jika ada bonus for sales, maka akan mempengaruhi HPP
+ - Di operator PO tdk  adainputan po bonus, hanya diisi manual
+ - Bonus diinput padaa saat GR (kadang ada DO khusus bonus (ada 2 do, do normal, do bonus))
+ - Selama ini tdk digunakan
+
+k - Kolom potongan di slip PO adalah total semua disc
+
+
+
+
+
+
+========================== PERTANYAAN =================================
+1. Apakah 1 PO bisa direceived bbrp kali (1 po 1 received)
+2. Apakah PO bisa dibuat tanpa referensi SO. Jika bisa, caranya gmn ? (Tdk bisa SO)
+
+
