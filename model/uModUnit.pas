@@ -56,6 +56,7 @@ type
     property UNT_IS_WH: Integer read FUNT_IS_WH write FUNT_IS_WH;
     property UNT_IS_STORE: Integer read FUNT_IS_STORE write FUNT_IS_STORE;
     property UNT_ZIP: string read FUNT_ZIP write FUNT_ZIP;
+    [AttributeOfCode]
     property UNT_CODE: string read FUNT_CODE write FUNT_CODE;
     property UNT_CONTACT_PERSON: string read FUNT_CONTACT_PERSON write
         FUNT_CONTACT_PERSON;
