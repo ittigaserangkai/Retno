@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, ImgList, StrUtils, ExeInfo, uTSCommonDlg,
+  Dialogs, Menus, ComCtrls, ImgList, StrUtils, uTSCommonDlg,
   uTSINIFile, ExtCtrls, ufrmPayment, StdCtrls, ufrmExportOfflinePOS,
   ufrmImportFromStore, uFormProperty, System.ImageList;
 
@@ -32,7 +32,6 @@ type
     mmHelp: TMenuItem;
     sbMain: TStatusBar;
     ilMain: TImageList;
-    eiMain: TExeInfo;
     tmrMain: TTimer;
     PrintHeader1: TMenuItem;
     miTransactionPending1: TMenuItem;
