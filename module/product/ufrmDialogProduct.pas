@@ -16,8 +16,6 @@ uses
   cxHyperLinkEdit, Vcl.Menus, cxButtons, Datasnap.DBClient, cxLabel;
 
 type
-  TFormMode = (fmAdd, fmEdit);
-
 
   TfrmDialogProduct = class(TfrmMasterDialog, ICrudAble)
     lbProductCode: TLabel;
@@ -871,7 +869,7 @@ begin
     //satuan all tab
     cxLookupSatuan.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
     cxLookupSatPurchase.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
-    cxLookupBRSUom.LoadFromCDS(CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
+    cxLookupBRSUom.LoadFromCDS(CDSAvailableKonv, 'ID', 'Satuan', Self);
     TcxExtLookupComboBoxProperties(clKonvSatuan.Properties).LoadFromCDS(
       CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
     TcxExtLookupComboBoxProperties(clSellSatuan.Properties).LoadFromCDS(
@@ -1059,9 +1057,11 @@ begin
       btnAddKonversi.Click;
   end else If pgcMain.ActivePage = tsSellingPrice then
   begin
-    UpdateAvailableSat;
     btnAddPrice.Click;
   end;
+
+  if (pgcMain.ActivePage = tsSellingPrice) or (pgcMain.ActivePage = tsSupplier) then
+    UpdateAvailableSat;
 end;
 
 procedure TfrmDialogProduct.SetDefaultInputSellPrice;
@@ -1105,6 +1105,7 @@ begin
     end;
 
     cxLookupSatuanJual.Properties.View.ApplyBestFit();
+    cxLookupBRSUom.Properties.View.ApplyBestFit();
   Finally
     lModKonv.Free;
     lCDS.Free;

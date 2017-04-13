@@ -1,27 +1,28 @@
 inherited frmDialogSO: TfrmDialogSO
   Caption = 'Dialog Suggestion Order'
-  ClientHeight = 359
-  ClientWidth = 768
+  ClientHeight = 451
+  ClientWidth = 839
   OnDestroy = FormDestroy
-  ExplicitWidth = 784
-  ExplicitHeight = 398
+  ExplicitWidth = 855
+  ExplicitHeight = 490
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 768
-    Height = 303
+    Width = 839
+    Height = 395
     ExplicitWidth = 768
     ExplicitHeight = 303
     object pnlTop: TPanel
       Left = 2
       Top = 2
-      Width = 764
+      Width = 835
       Height = 127
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
+      ExplicitWidth = 764
       object lbl1: TLabel
         Left = 73
         Top = 7
@@ -78,13 +79,14 @@ inherited frmDialogSO: TfrmDialogSO
       object pnl1: TPanel
         Left = 2
         Top = 91
-        Width = 760
+        Width = 831
         Height = 34
         Align = alBottom
         BevelInner = bvRaised
         BevelOuter = bvLowered
         Color = 15198183
         TabOrder = 5
+        ExplicitWidth = 760
         object lbl4: TLabel
           Left = 230
           Top = 8
@@ -354,11 +356,15 @@ inherited frmDialogSO: TfrmDialogSO
     object cxGrid: TcxGrid
       Left = 2
       Top = 129
-      Width = 764
-      Height = 172
+      Width = 835
+      Height = 264
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
+      ExplicitLeft = 218
+      ExplicitTop = 133
+      ExplicitWidth = 764
+      ExplicitHeight = 193
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -393,6 +399,7 @@ inherited frmDialogSO: TfrmDialogSO
         end
         object cxGridViewColumn8: TcxGridDBColumn
           Caption = 'CURRENT STOCK'
+          Width = 97
         end
         object cxGridViewColumn9: TcxGridDBColumn
           Caption = 'UOM STOCK'
@@ -436,43 +443,41 @@ inherited frmDialogSO: TfrmDialogSO
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 303
-    Width = 768
+    Top = 395
+    Width = 839
     ExplicitTop = 303
     ExplicitWidth = 768
     inherited pnlFooter: TPanel
-      Width = 768
+      Width = 839
       ExplicitWidth = 768
       inherited btnClose: TcxButton
-        Left = 691
+        Left = 762
         Action = actCancel
         ExplicitLeft = 691
       end
       inherited btnSave: TcxButton
-        Left = 598
+        Left = 669
         Action = actSave
         ExplicitLeft = 598
-        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 521
+        Left = 592
         ExplicitLeft = 521
-        ExplicitTop = 5
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 768
+      Width = 839
       ExplicitWidth = 768
       inherited lbCTRLEnter: TLabel
-        Left = 593
+        Left = 664
         Height = 15
         ExplicitLeft = 593
       end
       inherited lbEscape: TLabel
-        Left = 684
+        Left = 755
         Height = 15
         ExplicitLeft = 684
       end
@@ -480,12 +485,14 @@ inherited frmDialogSO: TfrmDialogSO
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 517
+        Left = 588
         ExplicitLeft = 517
       end
     end
   end
   inherited actlstMasterDialog: TActionList
+    Left = 704
+    Top = 40
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

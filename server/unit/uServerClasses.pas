@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils;
+  StrUtils, uModSO;
 
 type
   {$METHODINFO ON}
@@ -28,9 +28,18 @@ type
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
 
+  TSuggestionOrder = class(TComponent)
+  public
+    function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String; aSupplier_ID:
+        String = ''): TDataSet;
+  end;
+
   {$METHODINFO OFF}
 
 implementation
+
+uses
+  System.Generics.Collections;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -176,6 +185,18 @@ begin
     raise Exception.Create(AOBject.GetTableName + '.' + AOBject.GetCodeField
       + ' : ' + AOBject.GetCodeValue + ' sudah ada di Database'
     );
+end;
+
+function TSuggestionOrder.GenerateSO(aTanggal: TDatetime; aMerchan_ID: String; aSupplier_ID:
+    String = ''): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from FN_GENERATESO(' + TDBUtils.QuotD(aTanggal) + ')'
+     + ' where MERCHAN_ID = ' + QuotedStr(aMerchan_ID);
+  if aSupplier_ID <> '' then
+    S := S + ' and SUPLIER_ID = ' + QuotedStr(aSupplier_ID);
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 end.

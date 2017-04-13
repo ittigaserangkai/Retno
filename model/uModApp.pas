@@ -281,7 +281,6 @@ end;
 
 procedure TModApp.SetFromDataset(ADataSet: TDataset);
 var
-  sSQL: string;
   ctx : TRttiContext;
   FieldName : string;
   lAppObject : TModApp;
