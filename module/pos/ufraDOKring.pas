@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  uRetnoUnit, Math, ufrmTransaksiKring;
+  Math, ufrmTransaksiKring;
 
 const
   _KolNomorDO: Integer = 0;

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, 
   StdCtrls, uRetnoUnit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
-  uInterface, uModSuplier, uAppUtils;
+  uInterface, uModSuplier, uAppUtils, uDXUtils;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -16,6 +16,7 @@ type
     lbl1: TLabel;
     edtCode: TEdit;
     lbl2: TLabel;
+    procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
   private
@@ -35,6 +36,12 @@ var
 implementation
  uses uTSCommonDlg,  ufrmSupplierType, uDMClient, uConstanta;
 {$R *.dfm}
+
+procedure TfrmDialogSupplierType.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
+end;
 
 procedure TfrmDialogSupplierType.actDeleteExecute(Sender: TObject);
 begin
@@ -74,6 +81,8 @@ end;
 
 procedure TfrmDialogSupplierType.SimpanData;
 begin
+  if not ValidateEmptyCtrl then exit;
+
   ModTipeSuplier.TPSUP_CODE  := edtCode.Text;
   ModTipeSuplier.TPSUP_NAME  := edtName.Text;
 

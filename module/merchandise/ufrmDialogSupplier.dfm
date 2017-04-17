@@ -911,6 +911,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object cxTabSheet2: TcxTabSheet
             Caption = 'Addreses'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object pnl1: TPanel
               Left = 0
               Top = 0

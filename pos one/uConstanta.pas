@@ -239,6 +239,14 @@ const
   _ColCount         : Integer = 29;
   {$ENDIF}
 
+  //dibawah ini dipindah ke variabel global database saja ya..
+  //Product  ig=integer global
+  igProd_Code_Length : Integer = 6;  // max 9 ya. integer safe , def = 6
+  //Precision Harga di Transaksi End user dan Kring , def = -2
+  igPrice_Precision  : Integer = -2;
+  //Precision Qty di Transaksi End user dan Kring , def = -3
+  igQty_Precision    : Integer = -3;
+
 implementation
 
 end.

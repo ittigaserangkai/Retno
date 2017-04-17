@@ -564,7 +564,7 @@ end;
 
 class function TAppUtils.GetAppPath: string;
 begin
-  Result := ExtractFilePath(ParamStr(0));
+  Result := ExtractFilePath(application.ExeName);//ParamStr(0));
 end;
 
 class function TAppUtils.GetAppVersion: string;

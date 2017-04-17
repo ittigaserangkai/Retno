@@ -10,7 +10,7 @@ uses
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
-  ufrmTipeCN, ufrmDocument;
+  ufrmTipeCN, ufrmDocument, uModUnit;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -658,6 +658,7 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  sIDUnit: string;
 begin
   FFormProperty   := TFormProperty.Create;
   FGlobalProperty := TGlobalProperty.Create;
@@ -697,6 +698,11 @@ begin
 
   // setting invisible panel unit
   pnlUnit.Visible := false;
+  //setting unit toko
+  sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
+  if sIDUnit <> '' then
+    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+
 end;
 
 procedure TfrmMain.actOnExitExecute(Sender: TObject);

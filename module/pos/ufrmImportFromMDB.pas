@@ -4,7 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, uTSCommonDlg, uRetnoUnit, EditBtn;
+  Dialogs, ufrmMaster, StdCtrls, ExtCtrls, uTSCommonDlg, cxGraphics,
+  cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
+  cxTextEdit, cxMaskEdit, cxButtonEdit;
 
 type
   TfrmImportFromMDB = class(TfrmMaster)
@@ -13,12 +15,13 @@ type
     mmoImport: TMemo;
     OpenDialog1: TOpenDialog;
     Label1: TLabel;
-    edtFileName: TEditBtn;
+    edtFileName: TcxButtonEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnImportClick(Sender: TObject);
-    procedure edtFileNameClickBtn(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
+    procedure edtFileNamePropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
 //    FCabang: TCabang;
 //    FCategory: TCategory;
@@ -74,13 +77,15 @@ begin
   end;
 end;
 
-procedure TfrmImportFromMDB.edtFileNameClickBtn(Sender: TObject);
+procedure TfrmImportFromMDB.edtFileNamePropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
 begin
   inherited;
   if OpenDialog1.Execute then
   begin
     edtFileName.Text := OpenDialog1.FileName;
   end;
+
 end;
 
 procedure TfrmImportFromMDB.FormKeyDown(Sender: TObject; var Key: Word; Shift:

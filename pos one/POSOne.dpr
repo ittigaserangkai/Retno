@@ -16,24 +16,20 @@ uses
   ufrmLogin in '..\module\pos\ufrmLogin.pas' {frmLogin},
   ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
-  ufraFooterDialog2Button in '..\system\ufraFooterDialog2Button.pas' {fraFooterDialog2Button: TFrame},
-  ufrmMasterDialog in '..\system\ufrmMasterDialog.pas' {frmMasterDialog},
   ufrmPosDownlink in '..\module\pos\ufrmPosDownlink.pas' {frmPosDownlink},
   ufrmImportFromStore in '..\module\pos\ufrmImportFromStore.pas' {frmImportFromStore},
   ufrmExportOfflinePOS in '..\module\pos\ufrmExportOfflinePOS.pas' {frmExportOfflinePOS},
   udmMain in '..\module\pos\udmMain.pas' {dmMain: TDataModule},
-  uFormProperty in '..\Classes\uFormProperty.pas',
   ufrmImportFromMDB in '..\module\pos\ufrmImportFromMDB.pas' {frmImportFromMDB},
   ufrmExportToMDB in '..\module\pos\ufrmExportToMDB.pas' {frmExportToMDB},
-  uTSCommonDlg in '..\system\uTSCommonDlg.pas',
   uTSINIFile in '..\lib\uTSINIFile.pas',
-  uModApp in '..\model\uModApp.pas',
-  uDBUtils in '..\lib\uDBUtils.pas',
   uSpell in '..\lib\uSpell.pas',
   HPHELP in '..\lib\HPHELP.PAS',
+  ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
+  uFormProperty in '..\system\uFormProperty.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
-  ufrmProductForSelling in '..\module\cashier_supv\ufrmProductForSelling.pas' {frmProductForSelling},
-  ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame};
+  uConstanta in 'uConstanta.pas',
+  uTSCommonDlg in '..\system\uTSCommonDlg.pas';
 
 {$R *.res}
 
@@ -41,6 +37,5 @@ begin
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmProductForSelling, frmProductForSelling);
   Application.Run;
 end.

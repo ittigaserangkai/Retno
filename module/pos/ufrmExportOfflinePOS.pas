@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls , IdBaseComponent,
-  IdMailBox;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls , IdBaseComponent, IdMailBox;
 
 type
   TfrmExportOfflinePOS = class(TForm)
@@ -39,7 +38,7 @@ var
   frmExportOfflinePOS: TfrmExportOfflinePOS;
 
 implementation
-uses uRetnoUnit, uTSCommonDlg, ufrmMain;
+uses uTSCommonDlg, ufrmMain, udmMain;
 
 {$R *.dfm}
 
@@ -48,7 +47,7 @@ var
   ssql:string;
 begin
 //  dtTanggal.DateTime := cGetServerTime;
-  FDefUnitID := StrToInt(getGlobalVar('UNITID'));
+  FDefUnitID := StrToInt(dmMain.getGlobalVar('UNITID'));
   sSQL := 'select UPRD_DATE from ULINK_PRD order by UPRD_DATE desc rows 1';
   {
   with cOpenQuery(sSQL) do

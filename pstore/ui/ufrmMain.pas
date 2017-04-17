@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
+  cxClasses, Vcl.AppEvnts;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -186,6 +187,9 @@ type
     actRafaksiSupplier: TAction;
     actReturTrader: TAction;
     GeneratePOForAll1: TMenuItem;
+    actPurchaseOrder: TAction;
+    AppEvents: TApplicationEvents;
+    LookAndFeelController: TcxLookAndFeelController;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -226,10 +230,10 @@ type
     procedure actOnLogoutExecute(Sender: TObject);
     procedure actPOBonusExecute(Sender: TObject);
     procedure actPrintPOExecute(Sender: TObject);
-    procedure actPrintPurchaseOrderExecute(Sender: TObject);
     procedure actPrintWorksheetExecute(Sender: TObject);
     procedure actProductExecute(Sender: TObject);
     procedure actProductForSellingExecute(Sender: TObject);
+    procedure actPurchaseOrderExecute(Sender: TObject);
     procedure actRafaksiSupplierExecute(Sender: TObject);
     procedure actReprintNotaExecute(Sender: TObject);
     procedure actReprintNPExecute(Sender: TObject);
@@ -242,6 +246,8 @@ type
     procedure actTileExecute(Sender: TObject);
     procedure actUbahQtyPOExecute(Sender: TObject);
     procedure actWastageRealExecute(Sender: TObject);
+    procedure AppEventsException(Sender: TObject; E: Exception);
+    procedure AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure FormShow(Sender: TObject);
     procedure miExit1Click(Sender: TObject);
   private
@@ -289,7 +295,7 @@ var
 {$R *.dfm}
 implementation
 uses
-  uAppUtils, ufrmPilihUnit, ufrmActivatePOS, ufrmListMemberTransaction,
+  uAppUtils, uRetnoUnit, ufrmPilihUnit, ufrmActivatePOS, ufrmListMemberTransaction,
   ufrmAdjustmentCashier, ufrmBarcodeRequest, ufrmBeginningBalancePOS,
   ufrmCancellationPO, ufrmCashDropping, ufrmChangeStatusPO, ufrmCrazyPrice,
   ufrmCreditCard, ufrmDailySalesReport, ufrmDataCostumer, ufrmDiscountMember,
@@ -299,10 +305,11 @@ uses
   ufrmListDailyTransaction, ufrmListMembership, ufrmListPOCancel,
   ufrmMaintenanceBarcode, ufrmMaintenancePassword, ufrmMemberActivation,
   ufrmMemberShip, ufrmLogin, ufrmGeneratePOBonus, ufrmCetakPO,
-  ufrmPurchaseOrder, ufrmWorksheet, ufrmProduct, ufrmProductForSelling,
+  {ufrmPurchaseOrder, }ufrmWorksheet, ufrmProduct, ufrmProductForSelling,
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
-  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal;
+  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
+  Datasnap.DSHTTPClient;
 
 
 
@@ -406,12 +413,12 @@ end;
 
 procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
 begin
-    frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
+  frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
 begin
-    frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
+//  frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
 end;
 
 procedure TfrmMain.actGoodsReceivingExecute(Sender: TObject);
@@ -421,7 +428,7 @@ end;
 
 procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
 begin
-    frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
+  frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actInputProductNotForSOExecute(Sender: TObject);
@@ -486,12 +493,14 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  sIDUnit: string;
 begin
+  //setting unit toko
+  sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
+  if sIDUnit <> '' then
+    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
 
-  if (DMClient <> nil) and (DMClient.UnitStore <> nil) then
-  begin
-    Caption := 'ASSALAAM HYPERMARKET : ' + DMClient.UnitStore.UNT_NAME;
-  end;
+  Caption := 'ASSALAAM HYPERMARKET : ' + TRetno.UnitStore.UNT_NAME;
 
   IsTesting := False;
   if ParamStr(1) = 'TESTING' then
@@ -588,7 +597,7 @@ begin
     FFormProperty.FLoginRole      := frmLogin.LoginUserName;
     FFormProperty.FLoginUsername  := frmLogin.LoginUserName;
 //    FFormProperty.FFilePathReport := GetFilePathReport;
-    FFormProperty.FSelfUnitId     := FdefUnitId;
+//    FFormProperty.FSelfUnitId     := FdefUnitId;
     FFormProperty.FIpClient       := IP;
     FFormProperty.FHostClient     := Host;
     FFormProperty.FTipeApp        := THO;
@@ -648,17 +657,12 @@ end;
 
 procedure TfrmMain.actPrintPOExecute(Sender: TObject);
 begin
-    frmCetakPO := TfrmCetakPO.CreateWithUser(Application,FFormProperty);
-end;
-
-procedure TfrmMain.actPrintPurchaseOrderExecute(Sender: TObject);
-begin
-    frmPurchaseOrder := TfrmPurchaseOrder.CreateWithUser(Application, FFormProperty);
+  frmCetakPO := TfrmCetakPO.CreateWithUser(Application,FFormProperty);
 end;
 
 procedure TfrmMain.actPrintWorksheetExecute(Sender: TObject);
 begin
-    frmWorksheet := TfrmWorksheet.CreateWithUser(Application, FFormProperty);
+  frmWorksheet := TfrmWorksheet.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actProductExecute(Sender: TObject);
@@ -668,7 +672,12 @@ end;
 
 procedure TfrmMain.actProductForSellingExecute(Sender: TObject);
 begin
-    frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actPurchaseOrderExecute(Sender: TObject);
+begin
+  frmPurchaseOrder := TfrmPurchaseOrder.Create(Application);
 end;
 
 procedure TfrmMain.actRafaksiSupplierExecute(Sender: TObject);
@@ -730,6 +739,29 @@ end;
 procedure TfrmMain.actWastageRealExecute(Sender: TObject);
 begin
     frmWastageReal := TfrmWastageReal.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
+var
+  Msg: string;
+begin
+  Msg := 'Ada kesalahan dengan pesan : ' + #13 +   E.Message;
+  if E is EHTTPProtocolException then
+    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
+
+  TAppUtils.Error(Msg);
+end;
+
+procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
+begin
+  if Msg.CharCode = 192 then
+  begin
+    with TfrmMouselesMenu.Create(Application) do
+    begin
+      ShowModal;
+    end;
+    Handled := True;
+  end;
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
@@ -794,7 +826,7 @@ class procedure TfrmMain.ShowBorwseForm(BrowseFormClass: TMasterBrowseClass);
 //var
 //  frm: TfrmMasterBrowse;
 begin
-  if (DMClient.UnitStore = nil) then
+  if (TRetno.UnitStore = nil) then
   begin
     TAppUtils.Warning('Unit Store Belum Dipilih');
     frmPilihCabang := TfrmPilihCabang.Create(Application);

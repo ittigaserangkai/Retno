@@ -38,6 +38,7 @@ type
     procedure actRefreshExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FAutoRefreshData: Boolean;
     { Private declarations }
@@ -46,6 +47,9 @@ type
         Integer;
     procedure RefreshData; dynamic; abstract;
   public
+//    constructor CreateWithUser(aOwner: TComponent; afrmMaster : TfrmMasterBrowse);
+//        overload;
+    procedure GetAndRunButton(AButtonName: string);
 
     { Public declarations }
   published
@@ -89,11 +93,45 @@ begin
   AutoRefreshData     := True;
 end;
 
+procedure TfrmMasterBrowse.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if(Key = Ord('C'))and(ssctrl in Shift) then
+    GetAndRunButton('btnAdd')
+  else if(Key = Ord('E'))and(ssctrl in Shift) then
+    GetAndRunButton('btnUpdate')
+  else if(Key = VK_DELETE)and(ssctrl in Shift) then
+    GetAndRunButton('btnDelete')
+  else if(Key = VK_F5)and(ssctrl in Shift) then
+    GetAndRunButton('btnRefresh');
+  //else if ( Key = VK_ESCAPE) then
+  //  Close;
+end;
+
 procedure TfrmMasterBrowse.FormShow(Sender: TObject);
 begin
   inherited;
   actRefresh.Execute;
   Self.cxGrid.SetFocus;
+end;
+
+procedure TfrmMasterBrowse.GetAndRunButton(AButtonName: string);
+var
+  i,j: word;
+  btnFoo: TcxButton;
+begin
+  for i:=0 to ComponentCount-1 do
+    if (Components[i] is TfraFooter4Button) then
+    begin
+      for j:=0 to components[i].ComponentCount-1 do
+        if (components[i].Components[j].Name = AButtonName) then
+        begin
+          btnFoo := components[i].Components[j] as TcxButton;
+          btnFoo.Click;
+          exit;
+        end;
+    end;
 end;
 
 function TfrmMasterBrowse.ShowDialogForm(DlgFormClass: TMasterDlgClass; AID:

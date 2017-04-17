@@ -52,7 +52,7 @@ type
 implementation
 
 uses
-  uRetnoUnit, StrUtils, Math, ufrmTransaksi;
+  StrUtils, Math, ufrmTransaksi;
 
 const
   _KolKode: Integer = 0;

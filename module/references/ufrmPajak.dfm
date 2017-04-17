@@ -17,12 +17,20 @@ inherited frmPajak: TfrmPajak
     inherited pgcBrowse: TcxPageControl
       Width = 718
       Height = 261
+      ExplicitWidth = 718
+      ExplicitHeight = 261
       ClientRectBottom = 260
       ClientRectRight = 717
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 716
+        ExplicitHeight = 259
         inherited cxGrid: TcxGrid
           Width = 716
           Height = 259
+          ExplicitWidth = 716
+          ExplicitHeight = 259
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               Caption = 'KODE PAJAK'
@@ -80,6 +88,11 @@ inherited frmPajak: TfrmPajak
   inherited pnlHeader: TPanel
     Width = 740
     ExplicitWidth = 740
+    inherited lblHeader: TLabel
+      Width = 80
+      Caption = 'MASTERPAJAK'
+      ExplicitWidth = 80
+    end
     inherited lblFilterData: TcxLabel
       Left = 386
       ExplicitLeft = 386
@@ -87,12 +100,17 @@ inherited frmPajak: TfrmPajak
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 447
+      ExplicitLeft = 447
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 563
+      ExplicitLeft = 563
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 658
+      ExplicitLeft = 658
     end
     inherited lblsdFilter: TcxLabel
       Left = 539
@@ -103,8 +121,11 @@ inherited frmPajak: TfrmPajak
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 316
     Width = 740
+    ExplicitTop = 316
+    ExplicitWidth = 740
     inherited pnlFooter: TPanel
       Width = 740
+      ExplicitWidth = 740
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -116,7 +137,9 @@ inherited frmPajak: TfrmPajak
         Action = actPrint
       end
       inherited btnClose: TcxButton
+        Left = 663
         Action = actClose
+        ExplicitLeft = 663
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -124,9 +147,11 @@ inherited frmPajak: TfrmPajak
     end
     inherited pnlShortCut: TPanel
       Width = 740
+      ExplicitWidth = 740
       inherited lbEscape: TLabel
         Left = 666
         Height = 17
+        ExplicitLeft = 666
       end
     end
   end

@@ -8,6 +8,7 @@ inherited frmDialogProduct: TfrmDialogProduct
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitLeft = -114
   ExplicitWidth = 933
   ExplicitHeight = 461
   PixelsPerInch = 96
@@ -33,7 +34,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSellingPrice
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True

@@ -255,10 +255,10 @@ object frmTransaksi: TfrmTransaksi
     Align = alTop
     TabOrder = 0
     object lblTotal: TLabel
-      Left = 165
+      Left = 694
       Top = 1
-      Width = 722
-      Height = 56
+      Width = 193
+      Height = 55
       Align = alClient
       Alignment = taRightJustify
       Caption = 'Rp. 0,00 '
@@ -270,15 +270,12 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitLeft = 694
-      ExplicitWidth = 193
-      ExplicitHeight = 55
     end
     object lbl2: TLabel
       Left = 1
       Top = 1
       Width = 164
-      Height = 56
+      Height = 55
       Align = alLeft
       Alignment = taRightJustify
       Caption = ' Total ='
@@ -290,14 +287,13 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitHeight = 55
     end
   end
   object edPLU: TEdit
     Left = 156
     Top = 455
     Width = 175
-    Height = 29
+    Height = 19
     Anchors = [akLeft, akBottom]
     Ctl3D = False
     Font.Charset = ANSI_CHARSET
@@ -341,8 +337,6 @@ object frmTransaksi: TfrmTransaksi
     inherited cxGrid: TcxGrid
       Width = 300
       Height = 43
-      ExplicitLeft = 0
-      ExplicitTop = 52
       ExplicitWidth = 300
       ExplicitHeight = 43
     end
@@ -367,8 +361,6 @@ object frmTransaksi: TfrmTransaksi
     inherited cxGrid: TcxGrid
       Width = 281
       Height = 67
-      ExplicitLeft = 0
-      ExplicitTop = 58
       ExplicitWidth = 281
       ExplicitHeight = 67
     end

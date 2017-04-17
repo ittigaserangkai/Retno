@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, ImgList, StrUtils, ExeInfo, uTSCommonDlg,
-  uTSINIFile, uRetnoUnit, ExtCtrls, ufrmPayment, StdCtrls, ufrmExportOfflinePOS,
+  Dialogs, Menus, ComCtrls, ImgList, StrUtils, uTSCommonDlg,
+  uTSINIFile, ExtCtrls, ufrmPayment, StdCtrls, ufrmExportOfflinePOS,
   ufrmImportFromStore, uFormProperty, System.ImageList;
 
 type
@@ -32,7 +32,6 @@ type
     mmHelp: TMenuItem;
     sbMain: TStatusBar;
     ilMain: TImageList;
-    eiMain: TExeInfo;
     tmrMain: TTimer;
     PrintHeader1: TMenuItem;
     miTransactionPending1: TMenuItem;
@@ -174,8 +173,7 @@ implementation
 uses
   udmMain, ufrmTransaksi, uConstanta, HPHELP, uAppUtils,
   ufrmTransaksiKring, ufrmLogin, ufrmTransaksiPending,
-  ufrmPaymentKring, ufrmPosDownlink, ufrmImportFromMDB, ufrmExportToMDB,
-  ufrmProductForSelling;
+  ufrmPaymentKring, ufrmPosDownlink, ufrmImportFromMDB, ufrmExportToMDB;
 
 {$R *.dfm}
 
@@ -553,7 +551,7 @@ end;
 
 procedure TfrmMain.miMasterSellingProductClick(Sender: TObject);
 begin
-  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+//  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.MDIChildCreated(const childHandle : THandle);
@@ -616,7 +614,7 @@ end;
 
 procedure TfrmMain.miProduct1Click(Sender: TObject);
 begin
-  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+//  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.UpdateMaster1Click(Sender: TObject);

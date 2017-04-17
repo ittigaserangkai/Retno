@@ -62,7 +62,7 @@ type
 implementation
 
 uses
-  uRetnoUnit, Math, ufrmTransaksi;
+  Math, ufrmTransaksi;
 
 const
   _KolPLU         : Integer = 0;

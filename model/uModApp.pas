@@ -93,6 +93,14 @@ type
     property ModClassQName: String read FModClassQName write FModClassQName;
   end;
 
+  TModCompItem = class(TComponent)
+  end;
+
+  TModComp = class(TComponent)
+  end;
+
+
+
 
 implementation
 

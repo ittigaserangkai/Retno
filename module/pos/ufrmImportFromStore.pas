@@ -39,7 +39,7 @@ var
   frmImportFromStore: TfrmImportFromStore;
 
 implementation
-uses uretnounit, uTSCommonDlg;
+uses uTSCommonDlg, uAppUtils;
 
 {$R *.dfm}
 
@@ -113,7 +113,7 @@ begin
       end;
     end;
 
-    SS.SaveToFile(cGetAppPath + 'InsertDataStore.txt');
+    SS.SaveToFile(TAppUtils.GetAppPath + 'InsertDataStore.txt');
 
     {
     if kExecuteSQLs(123, SS) then

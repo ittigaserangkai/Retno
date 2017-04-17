@@ -109,7 +109,7 @@ object frmMain: TfrmMain
         Action = actCreateSO
       end
       object GeneratePOForAll1: TMenuItem
-        Action = actGeneratePOForAll
+        Action = actPurchaseOrder
       end
     end
     object mmWindow: TMenuItem
@@ -214,7 +214,7 @@ object frmMain: TfrmMain
     object actGeneratePOForAll: TAction
       Category = 'PO'
       Caption = 'Generate PO For &All'
-      OnExecute = actGeneratePOForAllExecute
+      OnExecute = actPrintPOExecute
     end
     object actGeneratePOBySupplier: TAction
       Category = 'PO'
@@ -478,7 +478,6 @@ object frmMain: TfrmMain
     object actPrintPurchaseOrder: TAction
       Category = 'PO'
       Caption = 'actPrintPurchaseOrder'
-      OnExecute = actPrintPurchaseOrderExecute
     end
     object actPrintWorksheet: TAction
       Category = 'SupvCashier'
@@ -797,5 +796,21 @@ object frmMain: TfrmMain
       Caption = 'actReturTrader'
       OnExecute = actReturTraderExecute
     end
+    object actPurchaseOrder: TAction
+      Category = 'PO'
+      Caption = 'Purchase Order'
+      OnExecute = actPurchaseOrderExecute
+    end
+  end
+  object AppEvents: TApplicationEvents
+    OnException = AppEventsException
+    OnShortCut = AppEventsShortCut
+    Left = 32
+    Top = 280
+  end
+  object LookAndFeelController: TcxLookAndFeelController
+    NativeStyle = False
+    Left = 24
+    Top = 224
   end
 end
