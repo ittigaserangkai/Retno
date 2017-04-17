@@ -37,7 +37,6 @@ type
     cxGridViewColumn5: TcxGridDBColumn;
     cxGridViewColumn7: TcxGridDBColumn;
     cxGridViewColumn8: TcxGridDBColumn;
-    cxGridViewColumn9: TcxGridDBColumn;
     cxGridViewColumn11: TcxGridDBColumn;
     cxGridViewColumn12: TcxGridDBColumn;
     cxGridViewColumn13: TcxGridDBColumn;
@@ -49,7 +48,6 @@ type
     cxGridViewColumn19: TcxGridDBColumn;
     cxGridViewColumn20: TcxGridDBColumn;
     cxGridViewColumn31: TcxGridDBColumn;
-    cxGridViewColumn32: TcxGridDBColumn;
     cxlvMaster: TcxGridLevel;
     cbbMerchanGroup: TcxExtLookupComboBox;
     cbbSupplierMerchGroup: TcxExtLookupComboBox;

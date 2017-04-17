@@ -30,7 +30,7 @@ object frmMouselesMenu: TfrmMouselesMenu
       Left = 11
       Top = 11
       Width = 63
-      Height = 35
+      Height = 18
       Margins.Left = 10
       Margins.Top = 10
       Align = alLeft
@@ -41,7 +41,6 @@ object frmMouselesMenu: TfrmMouselesMenu
       Font.Name = 'Trebuchet MS'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitHeight = 18
     end
   end
   object pnlBot: TPanel
@@ -76,7 +75,7 @@ object frmMouselesMenu: TfrmMouselesMenu
       Left = 11
       Top = 11
       Width = 85
-      Height = 30
+      Height = 18
       Margins.Left = 10
       Margins.Top = 10
       Align = alLeft
@@ -87,7 +86,6 @@ object frmMouselesMenu: TfrmMouselesMenu
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 18
     end
     object edtPilihan: TEdit
       AlignWithMargins = True

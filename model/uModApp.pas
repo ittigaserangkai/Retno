@@ -93,6 +93,14 @@ type
     property ModClassQName: String read FModClassQName write FModClassQName;
   end;
 
+  TModCompItem = class(TComponent)
+  end;
+
+  TModComp = class(TComponent)
+  end;
+
+
+
 
 implementation
 
@@ -281,7 +289,6 @@ end;
 
 procedure TModApp.SetFromDataset(ADataSet: TDataset);
 var
-  sSQL: string;
   ctx : TRttiContext;
   FieldName : string;
   lAppObject : TModApp;

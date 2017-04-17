@@ -185,7 +185,8 @@ uses
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
   ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang},
   ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
-  uModPO in '..\model\uModPO.pas';
+  uModPO in '..\model\uModPO.pas',
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
 
 {$R *.res}
 

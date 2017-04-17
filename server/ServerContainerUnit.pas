@@ -72,6 +72,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TTestMethod, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrud, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TDSProvider, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TSuggestionOrder, DSServerClass.LifeCycle);
 end;
 
 

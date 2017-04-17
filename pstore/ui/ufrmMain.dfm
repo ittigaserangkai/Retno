@@ -13,6 +13,8 @@ object frmMain: TfrmMain
   FormStyle = fsMDIForm
   Menu = mmMainMenu
   OldCreateOrder = False
+  Visible = True
+  WindowState = wsMaximized
   OnCloseQuery = FormCloseQuery
   OnCreate = actOnCreateFormExecute
   OnShow = FormShow
@@ -801,5 +803,16 @@ object frmMain: TfrmMain
       Caption = 'Purchase Order'
       OnExecute = actPurchaseOrderExecute
     end
+  end
+  object AppEvents: TApplicationEvents
+    OnException = AppEventsException
+    OnShortCut = AppEventsShortCut
+    Left = 32
+    Top = 280
+  end
+  object LookAndFeelController: TcxLookAndFeelController
+    NativeStyle = False
+    Left = 24
+    Top = 224
   end
 end

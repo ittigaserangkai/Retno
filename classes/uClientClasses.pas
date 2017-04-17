@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 4/13/2017 3:53:11 PM
+// 04/17/17 8:40:25 AM
 //
 
 unit uClientClasses;
@@ -314,6 +314,18 @@ type
     function SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function PO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+  end;
+
+  TSuggestionOrderClient = class(TDSAdminRestClient)
+  private
+    FGenerateSOCommand: TDSRestCommand;
+    FGenerateSOCommand_Cache: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function GenerateSO(aTanggal: TDateTime; aMerchan_ID: string; aSupplier_ID: string; const ARequestFilter: string = ''): TDataSet;
+    function GenerateSO_Cache(aTanggal: TDateTime; aMerchan_ID: string; aSupplier_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   IDSRestCachedTModApp = interface(IDSRestCachedObject<TModApp>)
@@ -1027,6 +1039,22 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TSuggestionOrder_GenerateSO: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aTanggal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aMerchan_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TSuggestionOrder_GenerateSO_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aTanggal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aMerchan_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -3336,6 +3364,58 @@ begin
   FSO_GetDSOverviewCommand_Cache.DisposeOf;
   FPO_GetDSOverviewCommand.DisposeOf;
   FPO_GetDSOverviewCommand_Cache.DisposeOf;
+  inherited;
+end;
+
+function TSuggestionOrderClient.GenerateSO(aTanggal: TDateTime; aMerchan_ID: string; aSupplier_ID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FGenerateSOCommand = nil then
+  begin
+    FGenerateSOCommand := FConnection.CreateCommand;
+    FGenerateSOCommand.RequestType := 'GET';
+    FGenerateSOCommand.Text := 'TSuggestionOrder.GenerateSO';
+    FGenerateSOCommand.Prepare(TSuggestionOrder_GenerateSO);
+  end;
+  FGenerateSOCommand.Parameters[0].Value.AsDateTime := aTanggal;
+  FGenerateSOCommand.Parameters[1].Value.SetWideString(aMerchan_ID);
+  FGenerateSOCommand.Parameters[2].Value.SetWideString(aSupplier_ID);
+  FGenerateSOCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGenerateSOCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGenerateSOCommand.FreeOnExecute(Result);
+end;
+
+function TSuggestionOrderClient.GenerateSO_Cache(aTanggal: TDateTime; aMerchan_ID: string; aSupplier_ID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGenerateSOCommand_Cache = nil then
+  begin
+    FGenerateSOCommand_Cache := FConnection.CreateCommand;
+    FGenerateSOCommand_Cache.RequestType := 'GET';
+    FGenerateSOCommand_Cache.Text := 'TSuggestionOrder.GenerateSO';
+    FGenerateSOCommand_Cache.Prepare(TSuggestionOrder_GenerateSO_Cache);
+  end;
+  FGenerateSOCommand_Cache.Parameters[0].Value.AsDateTime := aTanggal;
+  FGenerateSOCommand_Cache.Parameters[1].Value.SetWideString(aMerchan_ID);
+  FGenerateSOCommand_Cache.Parameters[2].Value.SetWideString(aSupplier_ID);
+  FGenerateSOCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGenerateSOCommand_Cache.Parameters[3].Value.GetString);
+end;
+
+constructor TSuggestionOrderClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TSuggestionOrderClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TSuggestionOrderClient.Destroy;
+begin
+  FGenerateSOCommand.DisposeOf;
+  FGenerateSOCommand_Cache.DisposeOf;
   inherited;
 end;
 
