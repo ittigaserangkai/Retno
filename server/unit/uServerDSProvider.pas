@@ -3,7 +3,7 @@ unit uServerDSProvider;
 interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModUnit;
+  StrUtils, uModUnit, System.Generics.Collections;
 
 type
   {$METHODINFO ON}
@@ -72,7 +72,7 @@ type
     function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
         nil): TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
-        nil): TDataSet;
+        nil): Tobjectlist<TDataset>;
 
 
   end;
@@ -652,10 +652,12 @@ begin
 end;
 
 function TDSProvider.PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
-    TModUnit = nil): TDataSet;
+    TModUnit = nil): Tobjectlist<TDataset>;
 var
   sSQL: string;
 begin
+  Result := TObjectList<TDataSet>.Create;
+
   sSQL := 'select * from V_PO ' +
           ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
@@ -663,7 +665,8 @@ begin
   if AUnit <> nil then
     sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
-  Result := TDBUtils.OpenQuery(sSQL);
+  Result.Add(TDBUtils.OpenQuery(sSQL));
+  Result.Add(TDBUtils.OpenQuery(sSQL));
 end;
 
 end.
