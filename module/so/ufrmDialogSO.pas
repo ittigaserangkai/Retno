@@ -12,7 +12,7 @@ uses
   cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxDBExtLookupComboBox,
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxClasses, cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit, uDXUtils,
-  uModSO;
+  uModSO, Datasnap.DBClient, cxCheckBox, cxCurrencyEdit, cxSpinEdit;
 
 type
   TfrmDialogSO = class(TfrmMasterDialog)
@@ -30,35 +30,56 @@ type
     btnShow: TcxButton;
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
-    cxColNo: TcxGridDBColumn;
-    cxColStatus: TcxGridDBColumn;
-    cxGridViewColumn3: TcxGridDBColumn;
-    cxGridViewColumn4: TcxGridDBColumn;
-    cxGridViewColumn5: TcxGridDBColumn;
-    cxGridViewColumn7: TcxGridDBColumn;
-    cxGridViewColumn8: TcxGridDBColumn;
-    cxGridViewColumn11: TcxGridDBColumn;
-    cxGridViewColumn12: TcxGridDBColumn;
-    cxGridViewColumn13: TcxGridDBColumn;
-    cxGridViewColumn14: TcxGridDBColumn;
-    cxGridViewColumn15: TcxGridDBColumn;
-    cxGridViewColumn16: TcxGridDBColumn;
-    cxGridViewColumn17: TcxGridDBColumn;
-    cxGridViewColumn18: TcxGridDBColumn;
-    cxGridViewColumn19: TcxGridDBColumn;
-    cxGridViewColumn20: TcxGridDBColumn;
-    cxGridViewColumn31: TcxGridDBColumn;
+    clNo: TcxGridDBColumn;
+    clStatus: TcxGridDBColumn;
+    clPLU: TcxGridDBColumn;
+    clNamaBarang: TcxGridDBColumn;
+    clUOM: TcxGridDBColumn;
+    clMinOrder: TcxGridDBColumn;
+    clCurrStock: TcxGridDBColumn;
+    clQTYSO: TcxGridDBColumn;
+    clQTYOrder: TcxGridDBColumn;
+    clMaxOrder: TcxGridDBColumn;
+    clSuppCode: TcxGridDBColumn;
+    clSuppName: TcxGridDBColumn;
+    clLeadTime: TcxGridDBColumn;
+    clBuyPrice: TcxGridDBColumn;
+    clDisc1: TcxGridDBColumn;
+    clDisc2: TcxGridDBColumn;
+    clDisc3: TcxGridDBColumn;
+    clNetPrice: TcxGridDBColumn;
     cxlvMaster: TcxGridLevel;
-    cbbMerchanGroup: TcxExtLookupComboBox;
-    cbbSupplierMerchGroup: TcxExtLookupComboBox;
+    cxLookupMerchan: TcxExtLookupComboBox;
+    cxLookupSupplierMerchan: TcxExtLookupComboBox;
     lblSuppMerGroup: TLabel;
     lblSuppMerGroupOpsional: TLabel;
+    cxGridViewColumn1: TcxGridDBColumn;
+    clBarangID: TcxGridDBColumn;
+    clSupMerchan: TcxGridDBColumn;
+    clUOMID: TcxGridDBColumn;
+    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
+    procedure btnShowClick(Sender: TObject);
+    procedure clNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
+    procedure clStatusPropertiesEditValueChanged(Sender: TObject);
+    procedure clQTYOrderPropertiesEditValueChanged(Sender: TObject);
+    procedure btnToExcelClick(Sender: TObject);
+    procedure cxLookupSupplierMerchanPropertiesInitPopup(Sender: TObject);
+    procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
   private
-    FSO: TModSO;
-    function GetSO: TModSO;
-    property SO: TModSO read GetSO write FSO;
+    FCDS: TClientDataSet;
+    FModSO: TModSO;
+    procedure ClearForm;
+    procedure GenerateSO;
+    function GetCDS: TClientDataSet;
+    function GetModSO: TModSO;
+    procedure InitView;
+    procedure UpdateData;
+    function ValidateGenerate: Boolean;
+    property CDS: TClientDataSet read GetCDS write FCDS;
+    property ModSO: TModSO read GetModSO write FModSO;
     { Private declarations }
   public
     { Public declarations }
@@ -69,12 +90,35 @@ var
 
 implementation
 
+uses
+  uDBUtils, uDMClient, uAppUtils, uClientClasses, uModBarang, uModSuplier,
+  uModSatuan;
+
 {$R *.dfm}
+
+procedure TfrmDialogSO.btnShowClick(Sender: TObject);
+begin
+  inherited;
+  GenerateSO;
+end;
+
+procedure TfrmDialogSO.btnToExcelClick(Sender: TObject);
+begin
+  inherited;
+  cxGridView.ExportToXLS();
+end;
+
+procedure TfrmDialogSO.FormCreate(Sender: TObject);
+begin
+  inherited;
+  InitView;
+  ClearForm;
+end;
 
 procedure TfrmDialogSO.FormDestroy(Sender: TObject);
 begin
   inherited;
-  SO.Free;
+  if Assigned(FModSO) then FModSo.Free;
 end;
 
 procedure TfrmDialogSO.actSaveExecute(Sender: TObject);
@@ -83,17 +127,251 @@ begin
   if not ValidateEmptyCtrl([1]) then
     Exit;
 
-  SO.SO_NO := edtNoSO.Text;
-//  SO.AUTUNIT :=
+  UpdateData;
 
 end;
 
-function TfrmDialogSO.GetSO: TModSO;
+procedure TfrmDialogSO.ClearForm;
 begin
-  if FSO = nil then
-    FSO := TModSO.Create;
+  dtTgl.Date := Now();
+//  Self.ClearByTag([2],pnlTop);
+  edtNoSo.Text := DMClient.CrudClient.GenerateNo(TModSO.ClassName);
+end;
 
-  Result := FSO;
+procedure TfrmDialogSO.clNoGetDisplayText(Sender: TcxCustomGridTableItem;
+    ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  If Assigned(ARecord) then
+    AText := IntToStr(ARecord.RecordIndex +1);
+end;
+
+procedure TfrmDialogSO.clQTYOrderPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGridView.DataController.Post();
+
+  CDS.Edit;
+  CDS.FieldByName('Checked').AsBoolean := CDS.FieldByName('QTYOrder').AsFloat > 0;
+  CDS.Post;
+
+end;
+
+procedure TfrmDialogSO.clStatusPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGridView.DataController.Post;
+  CDS.Edit;
+  if CDS.FieldByName('Checked').AsBoolean then
+    CDS.FieldByName('QTYOrder').AsFloat := CDS.FieldByName('QTYSO').AsFloat
+  else
+    CDS.FieldByName('QTYOrder').AsFloat := 0;
+  CDS.Post;
+
+end;
+
+procedure TfrmDialogSO.cxLookupMerchanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxLookupSupplierMerchan.DS.Filtered := True;
+  cxLookupSupplierMerchan.DS.Filter := '[REF$MERCHANDISE_ID] = ' + QuotedStr(cxLookupMerchan.EditValue);
+
+end;
+
+procedure TfrmDialogSO.cxLookupSupplierMerchanPropertiesInitPopup(
+  Sender: TObject);
+begin
+  inherited;
+  if VarIsNull(cxLookupMerchan.EditValue) then
+    TAppUtils.Warning('Merchan Grup wajib diisi terlebih dahulu');
+end;
+
+procedure TfrmDialogSO.GenerateSO;
+var
+  lCDS: TClientDataSet;
+  lSO: TSuggestionOrderClient;
+  SupMerchanID: string;
+begin
+  if not ValidateGenerate then exit;
+
+  SupMerchanID := '';
+  If not VarIsNull(cxLookupSupplierMerchan.EditValue) then
+    SupMerchanID := cxLookupSupplierMerchan.EditValue;
+
+  lSO := TSuggestionOrderClient.Create(DMClient.RestConn, False);
+  lCDS := TClientDataSet(lSO.GenerateSO(dtTgl.Date, cxLookupMerchan.EditValue, SupMerchanID));
+  CDS.DisableControls;
+  Try
+    CDS.EmptyDataSet;
+    while not lCDS.eof do
+    begin
+      CDS.Append;
+
+      CDS.FieldByName('Checked').AsBoolean := True;
+      CDS.FieldByName('PLU').AsString := lCDS.FieldByName('KODEBARANG').AsString;
+      CDS.FieldByName('NamaBarang').AsString := lCDS.FieldByName('NAMABARANG').AsString;
+      CDS.FieldByName('UOM').AsString := lCDS.FieldByName('SATUAN').AsString;
+      CDS.FieldByName('MinOrder').AsFloat := lCDS.FieldByName('MINQTY').AsFloat;
+      CDS.FieldByName('MaxOrder').AsFloat :=  lCDS.FieldByName('MAXQTY').AsFloat;
+      CDS.FieldByName('STOCK').AsFloat := lCDS.FieldByName('STOCK').AsFloat;
+      CDS.FieldByName('ADS').AsFloat := lCDS.FieldByName('ADS').AsFloat;
+      CDS.FieldByName('QTYSO').AsFloat := lCDS.FieldByName('QTYSO').AsFloat;
+      CDS.FieldByName('QTYOrder').AsFloat := lCDS.FieldByName('QTYSO').AsFloat;
+      CDS.FieldByName('SupplierCode').AsString := lCDS.FieldByName('SupplierCode').AsString;
+      CDS.FieldByName('SupplierName').AsString := lCDS.FieldByName('SupplierName').AsString;
+      CDS.FieldByName('LeadTime').AsString := lCDS.FieldByName('LEADTIME').AsString;
+      CDS.FieldByName('BuyPrice').AsFloat := lCDS.FieldByName('BUYPRICE').AsFloat;
+      CDS.FieldByName('Disc1').AsFloat := lCDS.FieldByName('DISC1').AsFloat;
+      CDS.FieldByName('Disc2').AsFloat := lCDS.FieldByName('DISC2').AsFloat;
+      CDS.FieldByName('Disc3').AsFloat := lCDS.FieldByName('DISC3').AsFloat;
+      CDS.FieldByName('NetPrice').AsFloat := lCDS.FieldByName('NETPRICE').AsFloat;
+
+      CDS.FieldByName('BARANG_ID').AsString := lCDS.FieldByName('BARANG_ID').AsString;
+      CDS.FieldByName('SATUAN_ID').AsString := lCDS.FieldByName('NETPRICE').AsString;
+      CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString := lCDS.FieldByName('SUPLIER_MERCHAN_ID').AsString;
+
+      CDS.Post;
+      lCDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+    cxGridView.ApplyBestFit();
+    lSO.Free;
+    lCDS.Free;
+  End;
+end;
+
+function TfrmDialogSO.GetCDS: TClientDataSet;
+begin
+  If not Assigned(FCDS) then
+  begin
+    FCDS := TClientDataSet.Create(Self);
+    FCDS.AddField('No',ftInteger);
+    FCDS.AddField('Checked',ftBoolean);
+    FCDS.AddField('PLU',ftString);
+    FCDS.AddField('NamaBarang',ftString);
+    FCDS.AddField('UOM',ftString);
+    FCDS.AddField('MinOrder',ftFloat);
+    FCDS.AddField('MaxOrder',ftFloat);
+    FCDS.AddField('STOCK',ftFloat);
+    FCDS.AddField('ADS',ftFloat);
+    FCDS.AddField('QTYSO',ftFloat);
+    FCDS.AddField('QTYOrder',ftFloat);
+    FCDS.AddField('SupplierCode',ftString);
+    FCDS.AddField('SupplierName',ftString);
+    FCDS.AddField('LeadTime',ftString);
+    FCDS.AddField('BuyPrice',ftFloat);
+    FCDS.AddField('Disc1',ftFloat);
+    FCDS.AddField('Disc2',ftFloat);
+    FCDS.AddField('Disc3',ftFloat);
+    FCDS.AddField('NetPrice',ftFloat);
+
+    FCDS.AddField('Barang_ID',ftString);
+    FCDS.AddField('Satuan_ID',ftString);
+    FCDS.AddField('SUPLIER_MERCHAN_ID',ftString);
+
+    FCDS.CreateDataSet;
+  end;
+  Result := FCDS;
+end;
+
+function TfrmDialogSO.GetModSO: TModSO;
+begin
+  if not Assigned(FModSO) then
+    FModSO := TModSO.Create;
+  Result := FModSO;
+end;
+
+procedure TfrmDialogSO.InitView;
+begin
+  With DMClient.DSProviderClient do
+  begin
+    cxLookupSupplierMerchan.LoadFromDS(SuplierMerchan_GetDSLookup,
+      'SUPLIER_MERCHAN_GRUP_ID','SUP_NAME',
+      ['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'],
+      Self);
+
+    cxLookupMerchan.LoadFromDS(Merchandise_GetDSLookup,
+      'REF$MERCHANDISE_ID','MERCHAN_NAME' ,Self);
+  end;
+
+  cxLookupMerchan.SetDefaultValue();
+  //debug only
+  cxLookupMerchan.DS.Locate('MERCHAN_NAME','DRY FOOD', [loCaseInsensitive]);
+  cxLookupMerchan.EditValue := cxLookupMerchan.DS.FieldByName('REF$MERCHANDISE_ID').AsString;
+
+  cxGridView.LoadFromCDS(CDS);
+  //inisialisasi
+end;
+
+procedure TfrmDialogSO.UpdateData;
+var
+  lDetail: TModSODetail;
+  lDisc: Double;
+begin
+  ModSO.SO_DATE := dtTgl.Date;
+  ModSO.SO_NO := edtNoSO.Text;
+  ModSO.Merchandise := TModMerchandise.CreateID(cxLookupMerchan.EditValue);
+
+  If not VarIsNull(cxLookupSupplierMerchan.EditValue) then
+    ModSO.SupplierMerchan := TModSuplierMerchanGroup.CreateID(cxLookupSupplierMerchan.EditValue);
+
+  ModSO.AUTUNIT := nil; //diisi apa ya?
+  ModSO.SODetails.Clear;
+
+  CDS.DisableControls;
+  Try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      lDetail := TModSODetail.Create;
+      lDetail.BARANG := TModBarang.CreateID(CDS.FieldByName('Barang_ID').AsString);
+      lDetail.Satuan := TModSatuan.CreateID(CDS.FieldByName('Satuan_ID').AsString);
+      lDetail.SupplierMerchan :=
+        TModSuplierMerchanGroup.CreateID(CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString);
+
+      lDetail.SOD_QTY         := CDS.FieldByName('QTYSO').AsFloat;
+      lDetail.SOD_QTY_ORDER   := CDS.FieldByName('QTYORDER').AsFloat;
+      lDetail.SOD_PRICE       := CDS.FieldByName('BuyPrice').AsFloat;
+      lDetail.SOD_DISC1       := CDS.FieldByName('Disc1').AsFloat;
+      lDetail.SOD_DISC2       := CDS.FieldByName('Disc2').AsFloat;
+      lDetail.SOD_DISC3       := CDS.FieldByName('Disc3').AsFloat;
+      lDetail.SOD_IS_ORDERED  := TAppUtils.BoolToInt(CDS.FieldByName('Checked').AsBoolean);
+      lDetail.SOD_TOTAL       := CDS.FieldByName('NetPrice').AsFloat * lDetail.SOD_QTY_ORDER;
+
+      lDisc := (lDetail.SOD_DISC1/100) * lDetail.SOD_PRICE ;
+      lDisc := lDisc + ((lDetail.SOD_DISC2/100) * (lDetail.SOD_PRICE-lDisc)) ;
+      lDisc := lDisc + lDetail.SOD_DISC3;
+
+      lDetail.SOD_TOTAL_DISC  := lDetail.SOD_QTY_ORDER * lDisc;
+      ModSO.SODetails.Add(lDetail);
+      CDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
+
+end;
+
+function TfrmDialogSO.ValidateGenerate: Boolean;
+begin
+  Result := False;
+
+  if VarIsNull(cxLookupMerchan.EditValue) then
+  begin
+    TAppUtils.Warning('Merchan Grup wajib diisi');
+    cxLookupMerchan.SetFocus;
+    exit;
+  end;
+
+  if CDS.RecordCount > 0 then
+  begin
+    if not TAppUtils.Confirm('Grid akan direset, Anda yakin akan generate SO ?') then
+      exit;
+  end;
+
+  Result := True;
 end;
 
 end.

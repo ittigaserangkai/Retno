@@ -292,11 +292,11 @@ var
   ctx : TRttiContext;
   FieldName : string;
   lAppObject : TModApp;
-  lAppClass : TModAppClass;
+//  lAppClass : TModAppClass;
   rt : TRttiType;
   prop : TRttiProperty;
   meth : TRttiMethod;
-  sGenericItemClassName: string;
+//  sGenericItemClassName: string;
 begin
   rt := ctx.GetType(Self.ClassType);
   if not ADataSet.IsEmpty then
@@ -343,8 +343,8 @@ end;
 
 procedure TModApp.UpdateToDataset(ADataSet: TDataset);
 var
-  a: TCustomAttribute;
-  aFieldType: TFieldType;
+//  a: TCustomAttribute;
+//  aFieldType: TFieldType;
   ctx : TRttiContext;
   lObj: TObject;
   rt : TRttiType;
