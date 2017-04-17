@@ -7,6 +7,21 @@ uses
   Windows,  SqlExpr, System.UITypes;
 
 type
+  TEXEVersionData = record
+    CompanyName,
+    FileDescription,
+    FileVersion,
+    InternalName,
+    LegalCopyright,
+    LegalTrademarks,
+    OriginalFileName,
+    ProductName,
+    ProductVersion,
+    Comments,
+    PrivateBuild,
+    SpecialBuild: string;
+  end;
+
   TAppUtils = class(TObject)
   private
   protected
@@ -39,6 +54,10 @@ type
     class procedure FinalisasiProgressBar(ANomorPB : Integer = 0);
     class function GetAppPath: string;
     class function GetAppVersion: string;
+    class function GetAppVersionStr: string;
+    class function GetBuildInfo(var Version: string; AFileName: string = ''): boolean;
+    class function GetEXEVersionData(const FileName: string): TEXEVersionData;
+
     class function GetEnvirontmentVariable(Const AVarName : String): string;
     class function HitungKarakterLooping(AStringHitung : Char; AStringSource :
         String): Integer;
@@ -84,13 +103,7 @@ type
     class function _Decrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
     class function _MakeReadable(Input: string): string;
     class function _MakeOriginal(Input: string): string;
-
   end;
-
-function GetAppVersionStr: string;
-function GetAppVersionStrWMem: string;
-
-function GetBuildInfo(var Version: string; AFileName: string = ''): boolean;
 
 procedure SetIDCurrencyRegionalSetting;
 
@@ -102,6 +115,7 @@ var
   BusyCount: Integer;
   PB  : TProgressBar;
   PB1 : TProgressBar;
+  eiMain : TEXEVersionData;
 
 const
   START_KEY = 981; {Start default key}
@@ -134,45 +148,7 @@ implementation
 uses
   uTSCommonDlg;
 
-function GetAppVersionStrWMem: string;
-var
-  verblock:PVSFIXEDFILEINFO;
-  versionMS,versionLS:cardinal;
-  verlen:cardinal;
-  rs:TResourceStream;
-  m:TMemoryStream;
-  p:pointer;
-  s:cardinal;
-begin
-  m:=TMemoryStream.Create;
-  try
-    rs:=TResourceStream.CreateFromID(HInstance,1,RT_VERSION);
-    try
-      m.CopyFrom(rs,rs.Size);
-    finally
-      rs.Free;
-    end;
-    m.Position:=0;
-    if VerQueryValue(m.Memory,'\',pointer(verblock),verlen) then
-      begin
-        VersionMS:=verblock.dwFileVersionMS;
-        VersionLS:=verblock.dwFileVersionLS;
-        GetAppVersionStrWMem:=Application.Title+' '+
-          IntToStr(versionMS shr 16)+'.'+
-          IntToStr(versionMS and $FFFF)+'.'+
-          IntToStr(VersionLS shr 16)+'.'+
-          IntToStr(VersionLS and $FFFF);
-      end;
-    if VerQueryValue(m.Memory,PChar('\\StringFileInfo\\'+
-      IntToHex(GetThreadLocale,4)+IntToHex(GetACP,4)+'\\FileDescription'),p,s) or
-        VerQueryValue(m.Memory,'\\StringFileInfo\\040904E4\\FileDescription',p,s) then //en-us
-          GetAppVersionStrWMem:=PChar(p)+' '+GetAppVersionStrWMem;
-  finally
-    m.Free;
-  end;
-end;
-
-function GetAppVersionStr: string;
+class function TAppUtils.GetAppVersionStr: string;
 var
   Exe: string;
   Size, Handle: DWORD;
@@ -195,7 +171,7 @@ begin
      LongRec(FixedPtr.dwFileVersionLS).Lo]) //build
 end;
 
-function GetBuildInfo(var Version: string; AFileName: string = ''): boolean;
+class function TAppUtils.GetBuildInfo(var Version: string; AFileName: string = ''): boolean;
 var
   VerInfoSize: DWORD;
   VerInfo: Pointer;
@@ -1153,6 +1129,61 @@ begin
   while (i < Length(Input)) do begin
     Result := Result + Chr(StrToInt('$' + Input[i] + Input[i + 1]));
     i := i + 2;
+  end;
+end;
+
+class function TAppUtils.GetEXEVersionData(const FileName: string): TEXEVersionData;
+type
+  PLandCodepage = ^TLandCodepage;
+  TLandCodepage = record
+    wLanguage,
+    wCodePage: word;
+  end;
+var
+  dummy,
+  len: cardinal;
+  buf, pntr: pointer;
+  lang: string;
+begin
+  len := GetFileVersionInfoSize(PChar(FileName), dummy);
+  if len = 0 then
+    RaiseLastOSError;
+  GetMem(buf, len);
+  try
+    if not GetFileVersionInfo(PChar(FileName), 0, len, buf) then
+      RaiseLastOSError;
+
+    if not VerQueryValue(buf, '\VarFileInfo\Translation\', pntr, len) then
+      RaiseLastOSError;
+
+    lang := Format('%.4x%.4x', [PLandCodepage(pntr)^.wLanguage, PLandCodepage(pntr)^.wCodePage]);
+
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\CompanyName'), pntr, len){ and (@len <> nil)} then
+      result.CompanyName := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\FileDescription'), pntr, len){ and (@len <> nil)} then
+      result.FileDescription := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\FileVersion'), pntr, len){ and (@len <> nil)} then
+      result.FileVersion := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\InternalName'), pntr, len){ and (@len <> nil)} then
+      result.InternalName := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\LegalCopyright'), pntr, len){ and (@len <> nil)} then
+      result.LegalCopyright := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\LegalTrademarks'), pntr, len){ and (@len <> nil)} then
+      result.LegalTrademarks := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\OriginalFileName'), pntr, len){ and (@len <> nil)} then
+      result.OriginalFileName := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\ProductName'), pntr, len){ and (@len <> nil)} then
+      result.ProductName := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\ProductVersion'), pntr, len){ and (@len <> nil)} then
+      result.ProductVersion := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\Comments'), pntr, len){ and (@len <> nil)} then
+      result.Comments := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\PrivateBuild'), pntr, len){ and (@len <> nil)} then
+      result.PrivateBuild := PChar(pntr);
+    if VerQueryValue(buf, PChar('\StringFileInfo\' + lang + '\SpecialBuild'), pntr, len){ and (@len <> nil)} then
+      result.SpecialBuild := PChar(pntr);
+  finally
+    FreeMem(buf);
   end;
 end;
 

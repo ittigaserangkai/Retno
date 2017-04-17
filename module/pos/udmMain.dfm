@@ -113,4 +113,12 @@ object dmMain: TdmMain
     Left = 226
     Top = 216
   end
+  object FDSQLiteSecurity1: TFDSQLiteSecurity
+    Left = 24
+    Top = 112
+  end
+  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
+    Left = 39
+    Top = 208
+  end
 end

@@ -26,10 +26,15 @@ type
     chkKasir: TCheckBox;
     chkAll: TCheckBox;
     chkBank: TCheckBox;
+    btnLoadDB: TButton;
+    btnCheckDB: TButton;
+    lblState: TLabel;
     procedure btnOkClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
+    procedure btnCheckDBClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure btnLoadDBClick(Sender: TObject);
     procedure chkDBClick(Sender: TObject);
     procedure chkFileClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -1694,9 +1699,52 @@ begin
   end;
 end;
 
+procedure TfrmPosDownlink.btnCheckDBClick(Sender: TObject);
+begin
+  with dmMain do
+  begin
+    connGoro.Connected := False;
+    // Use TFDSQLiteSecurity.CheckEncryption to request database encryption status:
+    // <unencrypted> - database is unencrypted.
+    // <encrypted> - database is encrypted, but the algorythm / password is wrong.
+    // encryption algorythm name - database is encrypted, and the algorythm / password are correct.
+    FDSQLiteSecurity1.Database := edtFileNm.Text;
+    FDSQLiteSecurity1.Password := 'aes-ctr-128' + ':' + 'masterkey';
+    lblState.Caption := 'Encryption state: ' + FDSQLiteSecurity1.CheckEncryption;
+  end;
+
+end;
+
 procedure TfrmPosDownlink.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
+end;
+
+procedure TfrmPosDownlink.btnLoadDBClick(Sender: TObject);
+begin
+  with dmMain.connGoro do
+  begin
+    Connected := False;
+    Params.Clear;
+    Params.DriverID := 'SQLite';
+    Params.Database := edtFileNm.Text;
+    Connected := True;
+  end;
+
+  // Populate new empty unencrypted database.
+//  FDScript1.ExecuteScript(mmSQLScript.Lines);
+
+  //encript db
+  with dmMain do
+  begin
+    connGoro.Connected := False;
+    // Use TFDSQLiteSecurity.SetPassword to encrypt database. There the Password
+    // property value is of <encryption algorythm>:<password> format.
+    FDSQLiteSecurity1.Database := edtFileNm.Text;
+    FDSQLiteSecurity1.Password := 'aes-ctr-128' + ':' + 'masterkey';
+    FDSQLiteSecurity1.SetPassword;
+  end;
+
 end;
 
 procedure TfrmPosDownlink.chkDBClick(Sender: TObject);

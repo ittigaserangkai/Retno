@@ -9,7 +9,8 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet;
+  FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.SQLite,
+  FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef;
 
 type
   TdmMain = class(TDataModule)
@@ -32,6 +33,8 @@ type
     adoConn: TADOConnection;
     adoQry: TADOQuery;
     adoCmd: TADOCommand;
+    FDSQLiteSecurity1: TFDSQLiteSecurity;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
     {
     procedure tcpServerStorecmdPOSTransactVoucherCommand(
       ASender: TIdCommand);
@@ -54,11 +57,12 @@ type
 
 var
   dmMain: TdmMain;
+  sdbPath: string;
 
 implementation
 
 uses
-  uTSCommonDlg;
+  uTSCommonDlg, uAppUtils;
 
 {$R *.dfm}
 
@@ -111,8 +115,12 @@ end;
 
 procedure TdmMain.DataModuleCreate(Sender: TObject);
 begin
-//  FConnectionGuardian := TIBConnectionGuardian.Create;
-//  FConnectionGuardian.Database := connGoro;
+  connGoro.Connected := False;
+  sdbPath := TAppUtils.GetAppPath + '\db\dbPOS.sdb';
+  connGoro.Params.Clear;
+  connGoro.Params.DriverID := 'SQLite';
+  connGoro.Params.Database := sdbPath;
+  connGoro.Connected := True;
 end;
 
 procedure TdmMain.DataModuleDestroy(Sender: TObject);
