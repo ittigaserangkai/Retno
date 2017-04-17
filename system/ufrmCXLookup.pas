@@ -58,7 +58,9 @@ type
     constructor Create(ARestConn: TDSRestConnection; aMultiSelect: Boolean =
         False); reintroduce;
     class function Execute(aCaption, aCommand: String; aStartDate: TDateTime = 0;
-        aEndDate: TDateTime = 0): TfrmCXLookup;
+        aEndDate: TDateTime = 0): TfrmCXLookup; overload;
+    class function Execute(ADataSet: TClientDataSet; aCaption: String =
+        'Lookup Data'): TfrmCXLookup; overload;
     procedure HideFields(FieldNames: Array Of String);
     property CDS: TClientDataset read FCDS write FCDS;
     property CommandName: String read FCommandName write FCommandName;
@@ -128,6 +130,18 @@ begin
   Result.EndDate.Date       := aEndDate;
   if (aStartDate = 0) and (aEndDate = 0) then Result.HideDateParams;
   Result.RefreshDataSet;
+end;
+
+class function TfrmCXLookup.Execute(ADataSet: TClientDataSet; aCaption: String
+    = 'Lookup Data'): TfrmCXLookup;
+begin
+  Result                    := TfrmCXLookup.Create(DMClient.RestConn);
+  Result.lblHeader.Caption  := aCaption;
+  Result.HideDateParams;
+  Result.CDS := aDataSet;
+
+  Result.btnRefresh.Visible := False;
+  Result.cxGridView.LoadFromCDS(Result.CDS);
 end;
 
 procedure TfrmCXLookup.FormKeyDown(Sender: TObject; var Key: Word; Shift:
