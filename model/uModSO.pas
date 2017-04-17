@@ -15,7 +15,6 @@ type
     FAUTUNIT: TModUnit;
     FSODetails: TObjectList<TModSODetail>;
     FMerchandise: TModMerchandise;
-    FMerchandise2: TModMerchandise;
     FSO_DATE: TDatetime;
     FSO_NO: string;
     FSupplierMerchan: TModSuplierMerchanGroup;
@@ -29,6 +28,7 @@ type
     [AttributeOfForeign('REF$MERCHANDISE_ID')]
     property Merchandise: TModMerchandise read FMerchandise write FMerchandise;
     property SO_DATE: TDatetime read FSO_DATE write FSO_DATE;
+    [AttributeOfCode]
     property SO_NO: string read FSO_NO write FSO_NO;
     [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
     property SupplierMerchan: TModSuplierMerchanGroup read FSupplierMerchan write
@@ -47,11 +47,11 @@ type
     FSOD_IS_REGULAR: Integer;
     FSOD_PRICE: Double;
     FSOD_QTY: Double;
-    FSOD_QTY_ORDER: Integer;
+    FSOD_QTY_ORDER: Double;
     FSOD_TOTAL: Double;
     FSOD_TOTAL_DISC: Double;
-    FSUPPLIER: TModSuplier;
     FSatuan: TModSatuan;
+    FSupplierMerchan: TModSuplierMerchanGroup;
   published
     property BARANG: TModBarang read FBARANG write FBARANG;
     [AttributeOfHeader('SO_ID')]
@@ -64,13 +64,15 @@ type
     property SOD_IS_REGULAR: Integer read FSOD_IS_REGULAR write FSOD_IS_REGULAR;
     property SOD_PRICE: Double read FSOD_PRICE write FSOD_PRICE;
     property SOD_QTY: Double read FSOD_QTY write FSOD_QTY;
-    property SOD_QTY_ORDER: Integer read FSOD_QTY_ORDER write FSOD_QTY_ORDER;
+    property SOD_QTY_ORDER: Double read FSOD_QTY_ORDER write FSOD_QTY_ORDER;
     //1 soD_PRICE * SOD_QTY
     property SOD_TOTAL: Double read FSOD_TOTAL write FSOD_TOTAL;
     property SOD_TOTAL_DISC: Double read FSOD_TOTAL_DISC write FSOD_TOTAL_DISC;
-    property SUPPLIER: TModSuplier read FSUPPLIER write FSUPPLIER;
     [AttributeOfForeign('Ref$Satuan_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
+    [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
+    property SupplierMerchan: TModSuplierMerchanGroup read FSupplierMerchan write
+        FSupplierMerchan;
   end;
 
 implementation

@@ -9,6 +9,8 @@ type
   {$METHODINFO ON}
   TDSProvider = class(TComponent)
   private
+    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
+        nil): Tobjectlist<TDataset>;
   public
     function Bank_GetDSOverview: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
@@ -71,8 +73,6 @@ type
     function TipeCN_GetDSOverview: TDataSet;
     function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
         nil): TDataSet;
-    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
-        nil): Tobjectlist<TDataset>;
     function SuplierMerchan_GetDSLookup: TDataSet;
 
 

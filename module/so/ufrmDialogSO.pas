@@ -54,6 +54,9 @@ type
     lblSuppMerGroup: TLabel;
     lblSuppMerGroupOpsional: TLabel;
     cxGridViewColumn1: TcxGridDBColumn;
+    clBarangID: TcxGridDBColumn;
+    clSupMerchan: TcxGridDBColumn;
+    clUOMID: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -68,6 +71,7 @@ type
   private
     FCDS: TClientDataSet;
     FModSO: TModSO;
+    procedure ClearForm;
     procedure GenerateSO;
     function GetCDS: TClientDataSet;
     function GetModSO: TModSO;
@@ -87,7 +91,8 @@ var
 implementation
 
 uses
-  uDBUtils, uDMClient, uAppUtils, uClientClasses, uModBarang, uModSuplier;
+  uDBUtils, uDMClient, uAppUtils, uClientClasses, uModBarang, uModSuplier,
+  uModSatuan;
 
 {$R *.dfm}
 
@@ -107,7 +112,7 @@ procedure TfrmDialogSO.FormCreate(Sender: TObject);
 begin
   inherited;
   InitView;
-  dtTgl.Date := Now();
+  ClearForm;
 end;
 
 procedure TfrmDialogSO.FormDestroy(Sender: TObject);
@@ -124,6 +129,13 @@ begin
 
   UpdateData;
 
+end;
+
+procedure TfrmDialogSO.ClearForm;
+begin
+  dtTgl.Date := Now();
+//  Self.ClearByTag([2],pnlTop);
+  edtNoSo.Text := DMClient.CrudClient.GenerateNo(TModSO.ClassName);
 end;
 
 procedure TfrmDialogSO.clNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -162,8 +174,8 @@ procedure TfrmDialogSO.cxLookupMerchanPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-//  cxLookupSupplierMerchan.DS.Filtered := True;
-//  cxLookupSupplierMerchan.DS.Filter := '[REF$MERCHANDISE_ID] = ' + QuotedStr(cxLookupMerchan.EditValue);
+  cxLookupSupplierMerchan.DS.Filtered := True;
+  cxLookupSupplierMerchan.DS.Filter := '[REF$MERCHANDISE_ID] = ' + QuotedStr(cxLookupMerchan.EditValue);
 
 end;
 
@@ -215,6 +227,10 @@ begin
       CDS.FieldByName('Disc3').AsFloat := lCDS.FieldByName('DISC3').AsFloat;
       CDS.FieldByName('NetPrice').AsFloat := lCDS.FieldByName('NETPRICE').AsFloat;
 
+      CDS.FieldByName('BARANG_ID').AsString := lCDS.FieldByName('BARANG_ID').AsString;
+      CDS.FieldByName('SATUAN_ID').AsString := lCDS.FieldByName('NETPRICE').AsString;
+      CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString := lCDS.FieldByName('SUPLIER_MERCHAN_ID').AsString;
+
       CDS.Post;
       lCDS.Next;
     end;
@@ -251,6 +267,10 @@ begin
     FCDS.AddField('Disc3',ftFloat);
     FCDS.AddField('NetPrice',ftFloat);
 
+    FCDS.AddField('Barang_ID',ftString);
+    FCDS.AddField('Satuan_ID',ftString);
+    FCDS.AddField('SUPLIER_MERCHAN_ID',ftString);
+
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
@@ -268,8 +288,8 @@ begin
   With DMClient.DSProviderClient do
   begin
     cxLookupSupplierMerchan.LoadFromDS(SuplierMerchan_GetDSLookup,
-      'SUPLIER_MERCHAN_GRUP_ID','SUP_NAME', [],
-//      ['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'],
+      'SUPLIER_MERCHAN_GRUP_ID','SUP_NAME',
+      ['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'],
       Self);
 
     cxLookupMerchan.LoadFromDS(Merchandise_GetDSLookup,
@@ -286,6 +306,9 @@ begin
 end;
 
 procedure TfrmDialogSO.UpdateData;
+var
+  lDetail: TModSODetail;
+  lDisc: Double;
 begin
   ModSO.SO_DATE := dtTgl.Date;
   ModSO.SO_NO := edtNoSO.Text;
@@ -293,6 +316,41 @@ begin
 
   If not VarIsNull(cxLookupSupplierMerchan.EditValue) then
     ModSO.SupplierMerchan := TModSuplierMerchanGroup.CreateID(cxLookupSupplierMerchan.EditValue);
+
+  ModSO.AUTUNIT := nil; //diisi apa ya?
+  ModSO.SODetails.Clear;
+
+  CDS.DisableControls;
+  Try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      lDetail := TModSODetail.Create;
+      lDetail.BARANG := TModBarang.CreateID(CDS.FieldByName('Barang_ID').AsString);
+      lDetail.Satuan := TModSatuan.CreateID(CDS.FieldByName('Satuan_ID').AsString);
+      lDetail.SupplierMerchan :=
+        TModSuplierMerchanGroup.CreateID(CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString);
+
+      lDetail.SOD_QTY         := CDS.FieldByName('QTYSO').AsFloat;
+      lDetail.SOD_QTY_ORDER   := CDS.FieldByName('QTYORDER').AsFloat;
+      lDetail.SOD_PRICE       := CDS.FieldByName('BuyPrice').AsFloat;
+      lDetail.SOD_DISC1       := CDS.FieldByName('Disc1').AsFloat;
+      lDetail.SOD_DISC2       := CDS.FieldByName('Disc2').AsFloat;
+      lDetail.SOD_DISC3       := CDS.FieldByName('Disc3').AsFloat;
+      lDetail.SOD_IS_ORDERED  := TAppUtils.BoolToInt(CDS.FieldByName('Checked').AsBoolean);
+      lDetail.SOD_TOTAL       := CDS.FieldByName('NetPrice').AsFloat * lDetail.SOD_QTY_ORDER;
+
+      lDisc := (lDetail.SOD_DISC1/100) * lDetail.SOD_PRICE ;
+      lDisc := lDisc + ((lDetail.SOD_DISC2/100) * (lDetail.SOD_PRICE-lDisc)) ;
+      lDisc := lDisc + lDetail.SOD_DISC3;
+
+      lDetail.SOD_TOTAL_DISC  := lDetail.SOD_QTY_ORDER * lDisc;
+      ModSO.SODetails.Add(lDetail);
+      CDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
 
 end;
 

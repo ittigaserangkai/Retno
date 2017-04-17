@@ -217,7 +217,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       ExplicitWidth = 647
       inherited lbEscape: TLabel
         Left = 573
-        Height = 17
         ExplicitLeft = 573
       end
     end

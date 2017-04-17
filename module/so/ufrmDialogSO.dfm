@@ -3,7 +3,6 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
-  ExplicitTop = -151
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -11,8 +10,8 @@ inherited frmDialogSO: TfrmDialogSO
   inherited pnlBody: TPanel
     Width = 890
     Height = 505
-    ExplicitWidth = 839
-    ExplicitHeight = 395
+    ExplicitWidth = 890
+    ExplicitHeight = 505
     object pnlTop: TPanel
       Left = 2
       Top = 2
@@ -23,7 +22,8 @@ inherited frmDialogSO: TfrmDialogSO
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
-      ExplicitWidth = 835
+      ExplicitLeft = 50
+      ExplicitTop = -54
       object lbl1: TLabel
         Left = 73
         Top = 7
@@ -87,7 +87,6 @@ inherited frmDialogSO: TfrmDialogSO
         BevelOuter = bvLowered
         Color = 15198183
         TabOrder = 5
-        ExplicitWidth = 831
         object lbl4: TLabel
           Left = 203
           Top = 8
@@ -168,8 +167,6 @@ inherited frmDialogSO: TfrmDialogSO
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitLeft = -79
-      ExplicitTop = 177
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -368,6 +365,23 @@ inherited frmDialogSO: TfrmDialogSO
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
         end
+        object clBarangID: TcxGridDBColumn
+          DataBinding.FieldName = 'Barang_ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object clSupMerchan: TcxGridDBColumn
+          DataBinding.FieldName = 'SUPLIER_MERCHAN_ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
+        end
+        object clUOMID: TcxGridDBColumn
+          DataBinding.FieldName = 'Satuan_ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
+          IsCaptionAssigned = True
+        end
       end
       object cxlvMaster: TcxGridLevel
         GridView = cxGridView
@@ -377,39 +391,44 @@ inherited frmDialogSO: TfrmDialogSO
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 505
     Width = 890
-    ExplicitTop = 395
-    ExplicitWidth = 839
+    ExplicitTop = 505
+    ExplicitWidth = 890
     inherited pnlFooter: TPanel
       Width = 890
-      ExplicitWidth = 839
+      ExplicitWidth = 890
       inherited btnClose: TcxButton
         Left = 813
         Action = actCancel
-        ExplicitLeft = 762
+        ExplicitLeft = 813
       end
       inherited btnSave: TcxButton
         Left = 720
         Action = actSave
-        ExplicitLeft = 669
+        ExplicitLeft = 720
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
         Left = 643
-        ExplicitLeft = 592
+        ExplicitLeft = 643
       end
     end
     inherited pnlSortCut: TPanel
       Width = 890
-      ExplicitWidth = 839
+      ExplicitWidth = 890
       inherited lbCTRLEnter: TLabel
         Left = 715
-        ExplicitLeft = 664
+        Height = 15
+        ExplicitLeft = 715
       end
       inherited lbEscape: TLabel
         Left = 806
-        ExplicitLeft = 755
+        Height = 15
+        ExplicitLeft = 806
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 639

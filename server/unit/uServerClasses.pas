@@ -23,6 +23,9 @@ type
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; overload;
+    function GenerateNo(aClassName: string): String; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -106,6 +109,44 @@ begin
   If not Assigned(lClass) then
     Raise Exception.Create('Class ' + ModClassName + ' not found');
   Result := Self.Retrieve(lClass, AID);
+end;
+
+function TCrud.GenerateCustomNo(aTableName, aFieldName: string; aCountDigit:
+    Integer = 11): String;
+var
+  i: Integer;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  S := 'select max(' + aFieldName + ') from ' + aTableName;
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt( RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      free;
+    End;
+  end;
+  inc(lNum);
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := RightStr(Result, aCountDigit);
+end;
+
+function TCrud.GenerateNo(aClassName: string): String;
+var
+  lClass: TModAppClass;
+  lObj: TModApp;
+begin
+  lClass := Self.StringToClass(aClassName);
+  lObj := lClass.Create;
+  Try
+    Result := Self.GenerateCustomNo(lObj.GetTableName, lObj.GetCodeField, 11);
+  Finally
+    lObj.Free;
+  End;
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;

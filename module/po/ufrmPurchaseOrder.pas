@@ -128,7 +128,7 @@ end;
 procedure TfrmPurchaseOrder.actRefreshExecute(Sender: TObject);
 begin
   inherited;
-  DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil);
+//  DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil);
 
 end;
 
@@ -224,7 +224,7 @@ begin
     TAppUtils.cShowWaitWindow('Mohon Ditunggu');
     if Assigned(FCDS) then FreeAndNil(FCDS);
 
-    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+//    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
     cxGridView.LoadFromCDS(FCDS);
     cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
   finally
