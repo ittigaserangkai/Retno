@@ -23,6 +23,15 @@ type
     edtBtnSuplier2: TcxButtonEdit;
     Label1: TLabel;
     cboStatusPO: TcxComboBox;
+    cxgrdlvlPODetail: TcxGridLevel;
+    cxGridDBTableSODetail: TcxGridDBTableView;
+    cxgrdbclmnGridDBTableSODetailColumn1: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn2: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn3: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn4: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn5: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn6: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn7: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
