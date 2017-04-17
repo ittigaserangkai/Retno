@@ -1,16 +1,15 @@
 inherited frmDialogSO: TfrmDialogSO
   Caption = 'Dialog Suggestion Order'
-  ClientHeight = 451
+  ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
-  ExplicitTop = -28
   ExplicitWidth = 906
-  ExplicitHeight = 490
+  ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 890
-    Height = 395
+    Height = 505
     ExplicitWidth = 839
     ExplicitHeight = 395
     object pnlTop: TPanel
@@ -73,7 +72,7 @@ inherited frmDialogSO: TfrmDialogSO
       end
       object dtTgl: TcxDateEdit
         Left = 419
-        Top = 3
+        Top = 4
         TabOrder = 1
         Width = 195
       end
@@ -135,19 +134,20 @@ inherited frmDialogSO: TfrmDialogSO
         Width = 195
         Height = 27
         Cursor = crHandPoint
-        Caption = 'Show'
+        Caption = 'Generate'
         OptionsImage.ImageIndex = 30
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 4
+        OnClick = btnShowClick
       end
-      object cbbMerchanGroup: TcxExtLookupComboBox
+      object cxLookupMerchan: TcxExtLookupComboBox
         Left = 110
         Top = 30
         Properties.DropDownListStyle = lsFixedList
         TabOrder = 2
         Width = 195
       end
-      object cbbSupplierMerchGroup: TcxExtLookupComboBox
+      object cxLookupSupplier: TcxExtLookupComboBox
         Left = 419
         Top = 30
         TabOrder = 3
@@ -158,11 +158,13 @@ inherited frmDialogSO: TfrmDialogSO
       Left = 2
       Top = 129
       Width = 886
-      Height = 264
+      Height = 374
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
-      ExplicitWidth = 835
+      ExplicitLeft = -262
+      ExplicitTop = 101
+      ExplicitHeight = 264
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -174,73 +176,180 @@ inherited frmDialogSO: TfrmDialogSO
         NewItemRow.InfoText = 'Baris baru'
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.GroupByBox = False
-        object cxColNo: TcxGridDBColumn
+        object clNo: TcxGridDBColumn
           Caption = 'NO'
+          DataBinding.FieldName = 'No'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Options.Editing = False
           Width = 34
         end
-        object cxColStatus: TcxGridDBColumn
-          Caption = '[X]'
-          Width = 32
+        object clStatus: TcxGridDBColumn
+          Caption = '[x]'
+          DataBinding.FieldName = 'Checked'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ImmediatePost = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 25
         end
-        object cxGridViewColumn3: TcxGridDBColumn
-          Caption = 'PLU'
+        object clPLU: TcxGridDBColumn
+          DataBinding.FieldName = 'PLU'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn4: TcxGridDBColumn
+        object clNamaBarang: TcxGridDBColumn
           Caption = 'NAMA BARANG'
+          DataBinding.FieldName = 'NamaBarang'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 72
         end
-        object cxGridViewColumn5: TcxGridDBColumn
-          Caption = 'UOM'
+        object clUOM: TcxGridDBColumn
+          DataBinding.FieldName = 'UOM'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 55
         end
-        object cxGridViewColumn7: TcxGridDBColumn
+        object clMinOrder: TcxGridDBColumn
           Caption = 'MIN ORDER'
+          DataBinding.FieldName = 'MinOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn13: TcxGridDBColumn
+        object clMaxOrder: TcxGridDBColumn
           Caption = 'MAX ORDER'
+          DataBinding.FieldName = 'MaxOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn8: TcxGridDBColumn
+        object clCurrStock: TcxGridDBColumn
           Caption = 'CURRENT STOCK'
+          DataBinding.FieldName = 'CurrentStock'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 97
         end
-        object cxGridViewColumn11: TcxGridDBColumn
+        object clQTYSO: TcxGridDBColumn
           Caption = 'QTY SO'
+          DataBinding.FieldName = 'QTYSO'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn12: TcxGridDBColumn
+        object clQTYOrder: TcxGridDBColumn
           Caption = 'QTY ORDER'
+          DataBinding.FieldName = 'QTYOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = False
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 62
         end
-        object cxGridViewColumn14: TcxGridDBColumn
+        object clSuppCode: TcxGridDBColumn
           Caption = 'SUPPLIER CODE'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          DataBinding.FieldName = 'SupplierCode'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 82
         end
-        object cxGridViewColumn15: TcxGridDBColumn
+        object clSuppName: TcxGridDBColumn
           Caption = 'SUPPLIER NAME'
+          DataBinding.FieldName = 'SupplierName'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 81
         end
-        object cxGridViewColumn16: TcxGridDBColumn
+        object clLeadTime: TcxGridDBColumn
           Caption = 'LEAD TIME'
+          DataBinding.FieldName = 'LeadTime'
+          PropertiesClassName = 'TcxSpinEditProperties'
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 61
         end
-        object cxGridViewColumn17: TcxGridDBColumn
+        object clBuyPrice: TcxGridDBColumn
           Caption = 'BUY PRICE'
+          DataBinding.FieldName = 'BuyPrice'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 57
         end
-        object cxGridViewColumn18: TcxGridDBColumn
+        object clDisc1: TcxGridDBColumn
           Caption = 'DISC1'
+          DataBinding.FieldName = 'Disc1'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 34
         end
-        object cxGridViewColumn19: TcxGridDBColumn
+        object clDisc2: TcxGridDBColumn
           Caption = 'DISC2'
+          DataBinding.FieldName = 'Disc2'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 34
         end
-        object cxGridViewColumn20: TcxGridDBColumn
+        object clDisc3: TcxGridDBColumn
           Caption = 'DISC3'
+          DataBinding.FieldName = 'Disc3'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
           Width = 46
         end
-        object cxGridViewColumn31: TcxGridDBColumn
+        object clNetPrice: TcxGridDBColumn
           Caption = 'NET PRICE'
+          DataBinding.FieldName = 'NetPrice'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
       end
       object cxlvMaster: TcxGridLevel
@@ -249,7 +358,7 @@ inherited frmDialogSO: TfrmDialogSO
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 395
+    Top = 505
     Width = 890
     ExplicitTop = 395
     ExplicitWidth = 839

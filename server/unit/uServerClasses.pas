@@ -192,8 +192,8 @@ function TSuggestionOrder.GenerateSO(aTanggal: TDatetime; aMerchan_ID: String; a
 var
   S: string;
 begin
-  S := 'select * from FN_GENERATESO(' + TDBUtils.QuotD(aTanggal) + ')'
-     + ' where MERCHAN_ID = ' + QuotedStr(aMerchan_ID);
+  S := 'select * from FN_GENERATESO(' + TDBUtils.QuotD(aTanggal) + ','
+     +  QuotedStr(aMerchan_ID) +')';
   if aSupplier_ID <> '' then
     S := S + ' and SUPLIER_ID = ' + QuotedStr(aSupplier_ID);
   Result := TDBUtils.OpenQuery(S);
