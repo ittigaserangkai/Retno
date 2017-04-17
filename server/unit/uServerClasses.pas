@@ -30,8 +30,8 @@ type
 
   TSuggestionOrder = class(TComponent)
   public
-    function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String; aSupplier_ID:
-        String = ''): TDataSet;
+    function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
+        aSupplierMerchan_ID: String = ''): TDataSet;
   end;
 
   {$METHODINFO OFF}
@@ -187,15 +187,15 @@ begin
     );
 end;
 
-function TSuggestionOrder.GenerateSO(aTanggal: TDatetime; aMerchan_ID: String; aSupplier_ID:
-    String = ''): TDataSet;
+function TSuggestionOrder.GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
+    aSupplierMerchan_ID: String = ''): TDataSet;
 var
   S: string;
 begin
-  S := 'select * from FN_GENERATESO(' + TDBUtils.QuotD(aTanggal) + ','
-     +  QuotedStr(aMerchan_ID) +')';
-  if aSupplier_ID <> '' then
-    S := S + ' and SUPLIER_ID = ' + QuotedStr(aSupplier_ID);
+  S := 'select * from FN_GENERATESO(' + QuotedStr(aMerchan_ID) + ','
+    + TDBUtils.QuotD(aTanggal)  +')';
+  if aSupplierMerchan_ID <> '' then
+    S := S + ' where SUPLIER_MERCHAN_ID = ' + QuotedStr(aSupplierMerchan_ID);
   Result := TDBUtils.OpenQuery(S);
 end;
 

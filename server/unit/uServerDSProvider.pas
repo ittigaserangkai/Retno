@@ -73,6 +73,7 @@ type
         nil): TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
         nil): TDataSet;
+    function SuplierMerchan_GetDSLookup: TDataSet;
 
 
   end;
@@ -292,10 +293,11 @@ function TDSProvider.MerchandiseGroup_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select A.REF$MERCHANDISE_ID, A.REF$MERCHANDISE_GRUP_ID,'
+   S := 'select A.REF$MERCHANDISE_ID, A.REF$MERCHANDISE_GRUP_ID,'
       +' A.MERCHANGRUP_CODE, A.MERCHANGRUP_NAME, B.MERCHAN_NAME'
       +' from REF$MERCHANDISE_GRUP A'
       +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -664,6 +666,19 @@ begin
     sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select S.SUPLIER_MERCHAN_GRUP_ID, SP.SUP_CODE, SP.SUP_NAME,'
+    +' A.REF$MERCHANDISE_ID, A.REF$MERCHANDISE_GRUP_ID, A.MERCHANGRUP_NAME, B.MERCHAN_NAME'
+    +' from SUPLIER_MERCHAN_GRUP S'
+    +' INNER JOIN SUPLIER SP ON SP.SUPLIER_ID=S.SUPLIER_ID'
+    +' INNER JOIN REF$MERCHANDISE_GRUP A ON S.REF$MERCHANDISE_GRUP_ID=A.REF$MERCHANDISE_GRUP_ID'
+    +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID ';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 end.

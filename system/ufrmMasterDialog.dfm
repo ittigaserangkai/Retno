@@ -1,7 +1,7 @@
 object frmMasterDialog: TfrmMasterDialog
   Left = 561
   Top = 158
-  BorderIcons = [biSystemMenu]
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Form Master Dialog'
   ClientHeight = 332
   ClientWidth = 554
