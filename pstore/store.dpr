@@ -182,11 +182,11 @@ uses
   ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO},
   uModSO in '..\model\uModSO.pas',
   uModSuplier in '..\model\uModSuplier.pas',
-  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
   ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang},
   ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   uModPO in '..\model\uModPO.pas',
-  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu};
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
 
 {$R *.res}
 

@@ -3,6 +3,7 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
+  ExplicitTop = -142
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -104,6 +105,7 @@ inherited frmDialogSO: TfrmDialogSO
           OptionsImage.ImageIndex = 0
           OptionsImage.Images = DMClient.imgListButton
           TabOrder = 0
+          OnClick = btnAddOthersProdSOClick
         end
         object btnToExcel: TcxButton
           Left = 536

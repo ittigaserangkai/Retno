@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/17/17 3:39:33 PM
+// 04/17/17 4:37:12 PM
 //
 
 unit uClientClasses;
@@ -176,6 +176,8 @@ type
     FDocument_GetDSOverviewCommand_Cache: TDSRestCommand;
     FAgama_GetDSOverviewCommand: TDSRestCommand;
     FAgama_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBarangSupp_GetDSLookupCommand: TDSRestCommand;
+    FBarangSupp_GetDSLookupCommand_Cache: TDSRestCommand;
     FTipeHarga_GetDSLookupCommand: TDSRestCommand;
     FTipeHarga_GetDSLookupCommand_Cache: TDSRestCommand;
     FRefWilayah_GetDSLookupCommand: TDSRestCommand;
@@ -302,6 +304,8 @@ type
     function Document_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Agama_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Agama_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarangSupp_GetDSLookup(aMerchandise: string; const ARequestFilter: string = ''): TDataSet;
+    function BarangSupp_GetDSLookup_Cache(aMerchandise: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipeHarga_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function TipeHarga_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RefWilayah_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -965,6 +969,18 @@ const
 
   TDSProvider_Agama_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_BarangSupp_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMerchandise'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_BarangSupp_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMerchandise'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -2982,6 +2998,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FAgama_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.BarangSupp_GetDSLookup(aMerchandise: string; const ARequestFilter: string): TDataSet;
+begin
+  if FBarangSupp_GetDSLookupCommand = nil then
+  begin
+    FBarangSupp_GetDSLookupCommand := FConnection.CreateCommand;
+    FBarangSupp_GetDSLookupCommand.RequestType := 'GET';
+    FBarangSupp_GetDSLookupCommand.Text := 'TDSProvider.BarangSupp_GetDSLookup';
+    FBarangSupp_GetDSLookupCommand.Prepare(TDSProvider_BarangSupp_GetDSLookup);
+  end;
+  FBarangSupp_GetDSLookupCommand.Parameters[0].Value.SetWideString(aMerchandise);
+  FBarangSupp_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarangSupp_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarangSupp_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.BarangSupp_GetDSLookup_Cache(aMerchandise: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarangSupp_GetDSLookupCommand_Cache = nil then
+  begin
+    FBarangSupp_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FBarangSupp_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FBarangSupp_GetDSLookupCommand_Cache.Text := 'TDSProvider.BarangSupp_GetDSLookup';
+    FBarangSupp_GetDSLookupCommand_Cache.Prepare(TDSProvider_BarangSupp_GetDSLookup_Cache);
+  end;
+  FBarangSupp_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(aMerchandise);
+  FBarangSupp_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarangSupp_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.TipeHarga_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FTipeHarga_GetDSLookupCommand = nil then
@@ -3362,6 +3409,8 @@ begin
   FDocument_GetDSOverviewCommand_Cache.DisposeOf;
   FAgama_GetDSOverviewCommand.DisposeOf;
   FAgama_GetDSOverviewCommand_Cache.DisposeOf;
+  FBarangSupp_GetDSLookupCommand.DisposeOf;
+  FBarangSupp_GetDSLookupCommand_Cache.DisposeOf;
   FTipeHarga_GetDSLookupCommand.DisposeOf;
   FTipeHarga_GetDSLookupCommand_Cache.DisposeOf;
   FRefWilayah_GetDSLookupCommand.DisposeOf;
