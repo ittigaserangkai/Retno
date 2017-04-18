@@ -7,7 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -52
+  ExplicitTop = -88
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -543,15 +543,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object cxTabSheet1: TcxTabSheet
             Caption = 'Merchandise Group'
             ImageIndex = 0
-            object Label1: TLabel
-              Left = 311
-              Top = 154
-              Width = 67
-              Height = 16
-              Caption = 'BKP/NON BKP'
-            end
-            object Label10: TLabel
-              Left = 496
+            object lblPPN: TLabel
+              Left = 435
               Top = 155
               Width = 19
               Height = 16
@@ -697,31 +690,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Height = 16
               Caption = 'Outstanding Payment'
             end
-            object cbbBKP: TComboBox
-              Left = 385
-              Top = 150
-              Width = 103
-              Height = 24
-              BevelKind = bkSoft
-              Style = csDropDownList
-              Ctl3D = False
-              ParentCtl3D = False
-              TabOrder = 16
-              Items.Strings = (
-                'NON BKP'
-                'BKP')
-            end
-            object cbbPpn: TComboBox
-              Left = 521
-              Top = 150
-              Width = 103
-              Height = 24
-              BevelKind = bkSoft
-              Style = csDropDownList
-              Ctl3D = False
-              ParentCtl3D = False
-              TabOrder = 17
-            end
             object chkAllMer: TCheckBox
               Left = 526
               Top = 12
@@ -730,7 +698,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Caption = 'All Category'
               Checked = True
               State = cbChecked
-              TabOrder = 18
+              TabOrder = 17
+              Visible = False
             end
             object chkEnableCN: TCheckBox
               Left = 526
@@ -740,12 +709,12 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Caption = 'Enable Create CN'
               Checked = True
               State = cbChecked
-              TabOrder = 19
+              TabOrder = 18
             end
             object chkFee: TCheckBox
-              Left = 504
-              Top = 129
-              Width = 110
+              Left = 502
+              Top = 128
+              Width = 85
               Height = 17
               Caption = 'Fee for All'
               TabOrder = 15
@@ -914,6 +883,21 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 120
               Top = 105
               TabOrder = 4
+              Width = 123
+            end
+            object chkPKP: TCheckBox
+              Left = 385
+              Top = 154
+              Width = 44
+              Height = 17
+              Caption = 'PKP'
+              TabOrder = 16
+              OnClick = chkPKPClick
+            end
+            object cxLookupPPN: TcxExtLookupComboBox
+              Left = 460
+              Top = 151
+              TabOrder = 19
               Width = 123
             end
           end

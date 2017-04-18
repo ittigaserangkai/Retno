@@ -4,7 +4,7 @@ interface
 
 uses
   uModApp, uModTipePerusahaan, uModBank, uModTipePembayaran,  uModTipeKirimPO,
-  System.Generics.Collections;
+  System.Generics.Collections, uModRefPajak;
 
 type
   TModSuplierGroup = class;
@@ -202,11 +202,11 @@ type
     FSUPMG_BANK_ACCOUNT_NO: string;
     FSUPMG_BANK_ACCOUNT_NAME: string;
     FSUPMG_FEE: Double;
-    FSUPMG_IS_BKP: Integer;
+    FSUPMG_IS_PKP: Integer;
     FSUPMG_IS_ID_DIFF: Integer;
     FSUPMG_IS_FEE_4ALL: Integer;
     FSUPMG_HO_AUTHORIZE: Integer;
-    FSUPMG_PJK_ID: Integer;
+    FSUPMG_PAJAK: TModRefPajak;
     FSUPMG_DISC: Double;
     FSUPMG_NAME: string;
   public
@@ -263,14 +263,15 @@ type
     property SUPMG_BANK_ACCOUNT_NAME: string read FSUPMG_BANK_ACCOUNT_NAME write
         FSUPMG_BANK_ACCOUNT_NAME;
     property SUPMG_FEE: Double read FSUPMG_FEE write FSUPMG_FEE;
-    property SUPMG_IS_BKP: Integer read FSUPMG_IS_BKP write FSUPMG_IS_BKP;
+    property SUPMG_IS_PKP: Integer read FSUPMG_IS_PKP write FSUPMG_IS_PKP;
     property SUPMG_IS_ID_DIFF: Integer read FSUPMG_IS_ID_DIFF write
         FSUPMG_IS_ID_DIFF;
     property SUPMG_IS_FEE_4ALL: Integer read FSUPMG_IS_FEE_4ALL write
         FSUPMG_IS_FEE_4ALL;
     property SUPMG_HO_AUTHORIZE: Integer read FSUPMG_HO_AUTHORIZE write
         FSUPMG_HO_AUTHORIZE;
-    property SUPMG_PJK_ID: Integer read FSUPMG_PJK_ID write FSUPMG_PJK_ID;
+    [AttributeOfForeign('REF$PAJAK_ID')]
+    property SUPMG_PAJAK: TModRefPajak read FSUPMG_PAJAK write FSUPMG_PAJAK;
     property SUPMG_DISC: Double read FSUPMG_DISC write FSUPMG_DISC;
     property SUPMG_NAME: string read FSUPMG_NAME write FSUPMG_NAME;
   end;
