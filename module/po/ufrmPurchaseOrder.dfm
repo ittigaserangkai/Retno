@@ -5,7 +5,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
   ClientHeight = 435
   ClientWidth = 647
   OldCreateOrder = True
-  ExplicitTop = -62
+  ExplicitTop = -86
   ExplicitWidth = 663
   ExplicitHeight = 474
   PixelsPerInch = 96
@@ -38,6 +38,47 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
           Height = 270
           ExplicitWidth = 643
           ExplicitHeight = 270
+          object cxGridDBTableSODetail: TcxGridDBTableView [1]
+            Navigator.Buttons.CustomButtons = <>
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            Styles.ContentEven = DMClient.cxStyleGridEven
+            Styles.Header = DMClient.cxStyleGridHeader
+            object cxgrdbclmnGridDBTableSODetailColumn1: TcxGridDBColumn
+              Caption = 'Code'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxgrdbclmnGridDBTableSODetailColumn2: TcxGridDBColumn
+              Caption = 'Name'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxgrdbclmnGridDBTableSODetailColumn3: TcxGridDBColumn
+              Caption = 'UOM'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxgrdbclmnGridDBTableSODetailColumn4: TcxGridDBColumn
+              Caption = 'Qty Order'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxgrdbclmnGridDBTableSODetailColumn5: TcxGridDBColumn
+              Caption = 'Unit Price'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxgrdbclmnGridDBTableSODetailColumn6: TcxGridDBColumn
+              Caption = 'Disc'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxgrdbclmnGridDBTableSODetailColumn7: TcxGridDBColumn
+              Caption = 'Total'
+              HeaderAlignmentHorz = taCenter
+            end
+          end
+          inherited cxlvMaster: TcxGridLevel
+            object cxgrdlvlPODetail: TcxGridLevel
+              GridView = cxGridDBTableSODetail
+            end
+          end
         end
       end
     end
@@ -49,8 +90,8 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Align = alTop
       TabOrder = 0
       object lbl1: TLabel
-        Left = 48
-        Top = 43
+        Left = 339
+        Top = 15
         Width = 32
         Height = 16
         Caption = 'Status'
@@ -88,8 +129,8 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
         Width = 96
       end
       object cboStatusPO: TcxComboBox
-        Left = 87
-        Top = 39
+        Left = 385
+        Top = 11
         TabOrder = 2
         Text = 'cboStatusPO'
         Width = 219
@@ -176,7 +217,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       ExplicitWidth = 647
       inherited lbEscape: TLabel
         Left = 573
-        Height = 17
         ExplicitLeft = 573
       end
     end

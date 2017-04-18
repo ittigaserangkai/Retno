@@ -38,7 +38,7 @@ type
     FPOD_PPN_PERSEN: Integer;
     FPOD_PRICE: Double;
     FPOD_QTY_ORDER: Double;
-    FPOD_SODetil: TModSODetil;
+    FPOD_SODetail: TModSODetail;
     FPOD_TOTAL: Double;
     FPOD_TOTAL_DISC: Double;
     FPOD_TOTAL_TAX: Double;
@@ -64,7 +64,7 @@ type
     property POD_PPN_PERSEN: Integer read FPOD_PPN_PERSEN write FPOD_PPN_PERSEN;
     property POD_PRICE: Double read FPOD_PRICE write FPOD_PRICE;
     property POD_QTY_ORDER: Double read FPOD_QTY_ORDER write FPOD_QTY_ORDER;
-    property POD_SODetil: TModSODetil read FPOD_SODetil write FPOD_SODetil;
+    property POD_SODetail: TModSODetail read FPOD_SODetail write FPOD_SODetail;
     property POD_TOTAL: Double read FPOD_TOTAL write FPOD_TOTAL;
     property POD_TOTAL_DISC: Double read FPOD_TOTAL_DISC write FPOD_TOTAL_DISC;
     property POD_TOTAL_TAX: Double read FPOD_TOTAL_TAX write FPOD_TOTAL_TAX;
@@ -72,18 +72,9 @@ type
     property POD_UOM: TModSatuan read FPOD_UOM write FPOD_UOM;
   end;
 
-  TModPOItems = class(TObjectList<TModPOItem>)
-  private
-    function GetModPOItemS(Index: Integer): TModPOItem;
-    procedure SetModPOItemS(Index: Integer; Value: TModPOItem);
-  public
-    property ModPOItemS[Index: Integer]: TModPOItem read GetModPOItemS write
-        SetModPOItemS;
-  end;
-
   TModPO = class(TModApp)
   private
-    FPOItems: TModPOItems;
+    FPOItems: TObjectList<TModPOItem>;
     FPO_COLIE: Double;
     FPO_DATE: TDateTime;
     FPO_DELIVER_DATE: TDateTime;
@@ -107,7 +98,7 @@ type
     procedure SetPO_PPN(Value: Double);
     procedure SetPO_TOTAL(Value: Double);
   public
-    property POItems: TModPOItems read FPOItems write FPOItems;
+    property POItems: TObjectList<TModPOItem> read FPOItems write FPOItems;
   published
     property PO_COLIE: Double read FPO_COLIE write FPO_COLIE;
     property PO_DATE: TDateTime read FPO_DATE write FPO_DATE;
@@ -145,14 +136,17 @@ implementation
 }
 function TModPO.GetPO_DISC: Double;
 begin
+  Result := 0;
 end;
 
 function TModPO.GetPO_PPN: Double;
 begin
+  Result := 0;
 end;
 
 function TModPO.GetPO_TOTAL: Double;
 begin
+  Result := 0;
 end;
 
 procedure TModPO.SetPO_DISC(Value: Double);
@@ -165,19 +159,6 @@ end;
 
 procedure TModPO.SetPO_TOTAL(Value: Double);
 begin
-end;
-
-{
-*********************************** TModPOItems ***********************************
-}
-function TModPOItems.GetModPOItemS(Index: Integer): TModPOItem;
-begin
-  Result := Self[Index];
-end;
-
-procedure TModPOItems.SetModPOItemS(Index: Integer; Value: TModPOItem);
-begin
-  Self[Index] := Value;
 end;
 
 

@@ -23,6 +23,15 @@ type
     edtBtnSuplier2: TcxButtonEdit;
     Label1: TLabel;
     cboStatusPO: TcxComboBox;
+    cxgrdlvlPODetail: TcxGridLevel;
+    cxGridDBTableSODetail: TcxGridDBTableView;
+    cxgrdbclmnGridDBTableSODetailColumn1: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn2: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn3: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn4: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn5: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn6: TcxGridDBColumn;
+    cxgrdbclmnGridDBTableSODetailColumn7: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
@@ -119,7 +128,7 @@ end;
 procedure TfrmPurchaseOrder.actRefreshExecute(Sender: TObject);
 begin
   inherited;
-  DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil);
+//  DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil);
 
 end;
 
@@ -215,7 +224,7 @@ begin
     TAppUtils.cShowWaitWindow('Mohon Ditunggu');
     if Assigned(FCDS) then FreeAndNil(FCDS);
 
-    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+//    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
     cxGridView.LoadFromCDS(FCDS);
     cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
   finally

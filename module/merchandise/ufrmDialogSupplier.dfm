@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -40
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -29,7 +30,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsMerchandiseGroup
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 451
       ClientRectRight = 667
@@ -918,8 +919,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object pnl1: TPanel
               Left = 0
               Top = 0
-              Width = 667
-              Height = 246
+              Width = 651
+              Height = 242
               Align = alClient
               Color = clWhite
               TabOrder = 0

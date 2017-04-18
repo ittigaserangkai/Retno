@@ -1,27 +1,29 @@
 inherited frmDialogSO: TfrmDialogSO
   Caption = 'Dialog Suggestion Order'
-  ClientHeight = 359
-  ClientWidth = 768
+  ClientHeight = 561
+  ClientWidth = 890
   OnDestroy = FormDestroy
-  ExplicitWidth = 784
-  ExplicitHeight = 398
+  ExplicitWidth = 906
+  ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 768
-    Height = 303
-    ExplicitWidth = 768
-    ExplicitHeight = 303
+    Width = 890
+    Height = 505
+    ExplicitWidth = 890
+    ExplicitHeight = 505
     object pnlTop: TPanel
       Left = 2
       Top = 2
-      Width = 764
+      Width = 886
       Height = 127
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
+      ExplicitLeft = 50
+      ExplicitTop = -54
       object lbl1: TLabel
         Left = 73
         Top = 7
@@ -59,7 +61,7 @@ inherited frmDialogSO: TfrmDialogSO
       end
       object edtNoSO: TEdit
         Left = 110
-        Top = 4
+        Top = 5
         Width = 195
         Height = 22
         Ctl3D = False
@@ -71,14 +73,14 @@ inherited frmDialogSO: TfrmDialogSO
       end
       object dtTgl: TcxDateEdit
         Left = 419
-        Top = 3
+        Top = 4
         TabOrder = 1
         Width = 195
       end
       object pnl1: TPanel
         Left = 2
         Top = 91
-        Width = 760
+        Width = 882
         Height = 34
         Align = alBottom
         BevelInner = bvRaised
@@ -86,7 +88,7 @@ inherited frmDialogSO: TfrmDialogSO
         Color = 15198183
         TabOrder = 5
         object lbl4: TLabel
-          Left = 230
+          Left = 203
           Top = 8
           Width = 296
           Height = 16
@@ -95,62 +97,12 @@ inherited frmDialogSO: TfrmDialogSO
         object btnAddOthersProdSO: TcxButton
           Left = 8
           Top = 4
-          Width = 217
+          Width = 193
           Height = 25
           Cursor = crHandPoint
-          Caption = 'CTRL-A >> Add Other Products for SO'
-          OptionsImage.Glyph.Data = {
-            36060000424D3606000000000000360000002800000020000000100000000100
-            1800000000000006000000000000000000000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            FFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF500019500019FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9F9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333993300500019FF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333993300993300500019FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000993300993300993300500019FF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF0000009933009933009933009933005000
-            19FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000993300CC6600993300CC66009933
-            00500019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000CC6600993300CC6600993300CC66
-            00993300500019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FF9F9F9FFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000CC6600CC6600CC6600CC6600CC66
-            00CC6600663333FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900CC6600FF9900CC6600FF99
-            00663333FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900FF9900FF9900FF99006633
-            33FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900FF9900FF9900663333FF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FFE2B4FFE2B4663333FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FFFFDE663333FF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333663333FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9F9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-          OptionsImage.NumGlyphs = 2
+          Caption = 'CTRL-A  [Add Products for SO]'
+          OptionsImage.ImageIndex = 0
+          OptionsImage.Images = DMClient.imgListButton
           TabOrder = 0
         end
         object btnToExcel: TcxButton
@@ -160,59 +112,10 @@ inherited frmDialogSO: TfrmDialogSO
           Height = 25
           Cursor = crHandPoint
           Caption = 'To Excel'
-          OptionsImage.Glyph.Data = {
-            36060000424D3606000000000000360000002800000020000000100000000100
-            1800000000000006000000000000000000000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-            7F7F7F7F7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF
-            FF00FFFF00FFFF00FFBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBF
-            BFBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FDCDCDC7F
-            7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FF
-            FF00FF005032005032005032005032DCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBF
-            BFBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FF009900009900009900005032BFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDC
-            DCBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7FFF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FF00990033CC66009900005032DCDCDCDCDCDCDCDCDCBFBFBFDCDCDCBFBF
-            BFDCDCDCBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7FFF00FFFF00FF7F7F7FFF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900009900
-            00990000990033CC6633CC66005032005032005032005032DCDCDCBFBFBFDCDC
-            DCBFBFBFDCDCDC7F7F7FFFFFFFFFFFFFFFFFFF7F7F7FFF00FFFF00FF7F7F7FFF
-            FFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900CCFFCC
-            66FF9933CC6633CC6633CC6633CC66009900009900005032DCDCDCDCDCDCBFBF
-            BFDCDCDCBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FF7F7F7F7F
-            7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900CCFFCC
-            66FF9966FF9933CC6633CC6633CC6633CC66009900005032DCDCDCDCDCDCDCDC
-            DCBFBFBFDCDCDC7F7F7F7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFF009900009900
-            009900009900CCFFCC33CC66009900009900009900005032DCDCDCDCDCDCDCDC
-            DCDCDCDCBFBFBF7F7F7F7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF
-            00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FF009900CCFFCC66FF99005032FFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDC
-            DCBFBFBFDCDCDC7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FF7F7F7F7F
-            7F7F7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FF009900CCFFCC66FF99005032DCDCDCFFFFFFDCDCDCFFFFFFDCDCDCDCDC
-            DCDCDCDCBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FF009900009900009900005032FFFFFFDCDCDCFFFFFFDCDCDCFFFFFFDCDC
-            DCDCDCDCDCDCDC7F7F7FFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FFFF00FFFF00FFBFBFBFFFFFFFFFFFFFFFFFFFDCDCDCFFFFFFDCDCDCFFFF
-            FFDCDCDCBFBFBF7F7F7FFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7FFF
-            FFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FFFF00FFFF00FFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFDCDCDCFFFFFFDCDC
-            DCDCDCDCDCDCDC7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF
-            FF00FFFF00FFFF00FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBF7F7F7FFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F
-            7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F}
-          OptionsImage.NumGlyphs = 2
+          OptionsImage.ImageIndex = 34
+          OptionsImage.Images = DMClient.imgListButton
           TabOrder = 1
+          OnClick = btnToExcelClick
         end
         object btnAddFromPOTrader: TcxButton
           Left = 616
@@ -221,58 +124,9 @@ inherited frmDialogSO: TfrmDialogSO
           Height = 25
           Cursor = crHandPoint
           Caption = 'Add From PO Trader'
-          OptionsImage.Glyph.Data = {
-            36060000424D3606000000000000360000002800000020000000100000000100
-            1800000000000006000000000000000000000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            FFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF500019500019FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9F9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333993300500019FF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333993300993300500019FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000993300993300993300500019FF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF0000009933009933009933009933005000
-            19FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000993300CC6600993300CC66009933
-            00500019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000CC6600993300CC6600993300CC66
-            00993300500019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FF9F9F9FFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF000000CC6600CC6600CC6600CC6600CC66
-            00CC6600663333FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900CC6600FF9900CC6600FF99
-            00663333FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900FF9900FF9900FF99006633
-            33FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900FF9900FF9900663333FF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FFE2B4FFE2B4663333FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333FFFFDE663333FF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9FFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FF663333663333FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-            9F9F9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-          OptionsImage.NumGlyphs = 2
+          Enabled = False
+          OptionsImage.ImageIndex = 26
+          OptionsImage.Images = DMClient.imgListButton
           TabOrder = 2
         end
       end
@@ -282,71 +136,25 @@ inherited frmDialogSO: TfrmDialogSO
         Width = 195
         Height = 27
         Cursor = crHandPoint
-        Caption = 'Show'
-        OptionsImage.Glyph.Data = {
-          36060000424D3606000000000000360000002800000020000000100000000100
-          1800000000000006000000000000000000000000000000000000FF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          FFFFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF500019500019FF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9F9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333993300500019FF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333993300993300500019FF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF000000993300993300993300500019FF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF0000009933009933009933009933005000
-          19FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF000000993300CC6600993300CC66009933
-          00500019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FFFF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF000000CC6600993300CC6600993300CC66
-          00993300500019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FF9F9F9FFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF000000CC6600CC6600CC6600CC6600CC66
-          00CC6600663333FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900CC6600FF9900CC6600FF99
-          00663333FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900FF9900FF9900FF99006633
-          33FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333FF9900FF9900FF9900663333FF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFF00FFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333FFE2B4FFE2B4663333FF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFFFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333FFFFDE663333FF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9FFFFFFF9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FF663333663333FF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF9F
-          9F9F9F9F9FFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-        OptionsImage.NumGlyphs = 2
+        Caption = 'Generate'
+        OptionsImage.ImageIndex = 30
+        OptionsImage.Images = DMClient.imgListButton
         TabOrder = 4
+        OnClick = btnShowClick
       end
-      object cbbMerchanGroup: TcxExtLookupComboBox
+      object cxLookupMerchan: TcxExtLookupComboBox
         Left = 110
         Top = 30
         Properties.DropDownListStyle = lsFixedList
+        Properties.ImmediatePost = True
+        Properties.OnEditValueChanged = cxLookupMerchanPropertiesEditValueChanged
         TabOrder = 2
         Width = 195
       end
-      object cbbSupplierMerchGroup: TcxExtLookupComboBox
+      object cxLookupSupplierMerchan: TcxExtLookupComboBox
         Left = 419
         Top = 30
+        Properties.OnInitPopup = cxLookupSupplierMerchanPropertiesInitPopup
         TabOrder = 3
         Width = 195
       end
@@ -354,8 +162,8 @@ inherited frmDialogSO: TfrmDialogSO
     object cxGrid: TcxGrid
       Left = 2
       Top = 129
-      Width = 764
-      Height = 172
+      Width = 886
+      Height = 374
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
@@ -370,64 +178,209 @@ inherited frmDialogSO: TfrmDialogSO
         NewItemRow.InfoText = 'Baris baru'
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.GroupByBox = False
-        object cxColNo: TcxGridDBColumn
+        object clNo: TcxGridDBColumn
           Caption = 'NO'
+          DataBinding.FieldName = 'No'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          OnGetDisplayText = clNoGetDisplayText
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Options.Editing = False
+          Width = 34
         end
-        object cxColStatus: TcxGridDBColumn
-          Caption = 'Is Order'
+        object clStatus: TcxGridDBColumn
+          Caption = '[x]'
+          DataBinding.FieldName = 'Checked'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ImmediatePost = True
+          Properties.OnEditValueChanged = clStatusPropertiesEditValueChanged
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 25
         end
-        object cxGridViewColumn3: TcxGridDBColumn
-          Caption = 'PLU'
+        object clPLU: TcxGridDBColumn
+          DataBinding.FieldName = 'PLU'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn4: TcxGridDBColumn
+        object clNamaBarang: TcxGridDBColumn
           Caption = 'NAMA BARANG'
+          DataBinding.FieldName = 'NamaBarang'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 72
         end
-        object cxGridViewColumn5: TcxGridDBColumn
-          Caption = 'UOM'
+        object clUOM: TcxGridDBColumn
+          DataBinding.FieldName = 'UOM'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 55
         end
-        object cxGridViewColumn7: TcxGridDBColumn
+        object clMinOrder: TcxGridDBColumn
           Caption = 'MIN ORDER'
+          DataBinding.FieldName = 'MinOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn13: TcxGridDBColumn
+        object clMaxOrder: TcxGridDBColumn
           Caption = 'MAX ORDER'
+          DataBinding.FieldName = 'MaxOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn8: TcxGridDBColumn
-          Caption = 'CURRENT STOCK'
+        object clCurrStock: TcxGridDBColumn
+          DataBinding.FieldName = 'STOCK'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 36
         end
-        object cxGridViewColumn9: TcxGridDBColumn
-          Caption = 'UOM STOCK'
+        object cxGridViewColumn1: TcxGridDBColumn
+          DataBinding.FieldName = 'ADS'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          Width = 23
         end
-        object cxGridViewColumn11: TcxGridDBColumn
+        object clQTYSO: TcxGridDBColumn
           Caption = 'QTY SO'
+          DataBinding.FieldName = 'QTYSO'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn12: TcxGridDBColumn
+        object clQTYOrder: TcxGridDBColumn
           Caption = 'QTY ORDER'
+          DataBinding.FieldName = 'QTYOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = False
+          Properties.OnEditValueChanged = clQTYOrderPropertiesEditValueChanged
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 62
         end
-        object cxGridViewColumn14: TcxGridDBColumn
+        object clSuppCode: TcxGridDBColumn
           Caption = 'SUPPLIER CODE'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          DataBinding.FieldName = 'SupplierCode'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 82
         end
-        object cxGridViewColumn15: TcxGridDBColumn
+        object clSuppName: TcxGridDBColumn
           Caption = 'SUPPLIER NAME'
+          DataBinding.FieldName = 'SupplierName'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 81
         end
-        object cxGridViewColumn16: TcxGridDBColumn
+        object clLeadTime: TcxGridDBColumn
           Caption = 'LEAD TIME'
+          DataBinding.FieldName = 'LeadTime'
+          PropertiesClassName = 'TcxSpinEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 61
         end
-        object cxGridViewColumn17: TcxGridDBColumn
+        object clBuyPrice: TcxGridDBColumn
           Caption = 'BUY PRICE'
+          DataBinding.FieldName = 'BuyPrice'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 57
         end
-        object cxGridViewColumn18: TcxGridDBColumn
+        object clDisc1: TcxGridDBColumn
           Caption = 'DISC1'
+          DataBinding.FieldName = 'Disc1'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 34
         end
-        object cxGridViewColumn19: TcxGridDBColumn
+        object clDisc2: TcxGridDBColumn
           Caption = 'DISC2'
+          DataBinding.FieldName = 'Disc2'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 34
         end
-        object cxGridViewColumn20: TcxGridDBColumn
+        object clDisc3: TcxGridDBColumn
           Caption = 'DISC3'
+          DataBinding.FieldName = 'Disc3'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 46
         end
-        object cxGridViewColumn31: TcxGridDBColumn
+        object clNetPrice: TcxGridDBColumn
+          Caption = 'NET PRICE'
+          DataBinding.FieldName = 'NetPrice'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
-        object cxGridViewColumn32: TcxGridDBColumn
+        object clBarangID: TcxGridDBColumn
+          DataBinding.FieldName = 'Barang_ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object clSupMerchan: TcxGridDBColumn
+          DataBinding.FieldName = 'SUPLIER_MERCHAN_ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
+        end
+        object clUOMID: TcxGridDBColumn
+          DataBinding.FieldName = 'Satuan_ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
+          IsCaptionAssigned = True
         end
       end
       object cxlvMaster: TcxGridLevel
@@ -436,56 +389,56 @@ inherited frmDialogSO: TfrmDialogSO
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 303
-    Width = 768
-    ExplicitTop = 303
-    ExplicitWidth = 768
+    Top = 505
+    Width = 890
+    ExplicitTop = 505
+    ExplicitWidth = 890
     inherited pnlFooter: TPanel
-      Width = 768
-      ExplicitWidth = 768
+      Width = 890
+      ExplicitWidth = 890
       inherited btnClose: TcxButton
-        Left = 691
+        Left = 813
         Action = actCancel
-        ExplicitLeft = 691
+        ExplicitLeft = 813
       end
       inherited btnSave: TcxButton
-        Left = 598
+        Left = 720
         Action = actSave
-        ExplicitLeft = 598
-        ExplicitTop = 5
+        ExplicitLeft = 720
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 521
-        ExplicitLeft = 521
-        ExplicitTop = 5
+        Left = 643
+        ExplicitLeft = 643
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 768
-      ExplicitWidth = 768
+      Width = 890
+      ExplicitWidth = 890
       inherited lbCTRLEnter: TLabel
-        Left = 593
+        Left = 715
         Height = 15
-        ExplicitLeft = 593
+        ExplicitLeft = 715
       end
       inherited lbEscape: TLabel
-        Left = 684
+        Left = 806
         Height = 15
-        ExplicitLeft = 684
+        ExplicitLeft = 806
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 517
+        Left = 639
         ExplicitLeft = 517
       end
     end
   end
   inherited actlstMasterDialog: TActionList
+    Left = 704
+    Top = 40
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

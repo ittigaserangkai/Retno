@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils;
+  StrUtils, uModSO;
 
 type
   {$METHODINFO ON}
@@ -23,14 +23,26 @@ type
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; overload;
+    function GenerateNo(aClassName: string): String; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
 
+  TSuggestionOrder = class(TComponent)
+  public
+    function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
+        aSupplierMerchan_ID: String = ''): TDataSet;
+  end;
+
   {$METHODINFO OFF}
 
 implementation
+
+uses
+  System.Generics.Collections;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -97,6 +109,44 @@ begin
   If not Assigned(lClass) then
     Raise Exception.Create('Class ' + ModClassName + ' not found');
   Result := Self.Retrieve(lClass, AID);
+end;
+
+function TCrud.GenerateCustomNo(aTableName, aFieldName: string; aCountDigit:
+    Integer = 11): String;
+var
+  i: Integer;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  S := 'select max(' + aFieldName + ') from ' + aTableName;
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt( RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      free;
+    End;
+  end;
+  inc(lNum);
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := RightStr(Result, aCountDigit);
+end;
+
+function TCrud.GenerateNo(aClassName: string): String;
+var
+  lClass: TModAppClass;
+  lObj: TModApp;
+begin
+  lClass := Self.StringToClass(aClassName);
+  lObj := lClass.Create;
+  Try
+    Result := Self.GenerateCustomNo(lObj.GetTableName, lObj.GetCodeField, 11);
+  Finally
+    lObj.Free;
+  End;
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
@@ -176,6 +226,18 @@ begin
     raise Exception.Create(AOBject.GetTableName + '.' + AOBject.GetCodeField
       + ' : ' + AOBject.GetCodeValue + ' sudah ada di Database'
     );
+end;
+
+function TSuggestionOrder.GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
+    aSupplierMerchan_ID: String = ''): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from FN_GENERATESO(' + QuotedStr(aMerchan_ID) + ','
+    + TDBUtils.QuotD(aTanggal)  +')';
+  if aSupplierMerchan_ID <> '' then
+    S := S + ' where SUPLIER_MERCHAN_ID = ' + QuotedStr(aSupplierMerchan_ID);
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 end.

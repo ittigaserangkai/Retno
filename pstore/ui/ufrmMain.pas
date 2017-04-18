@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit;
+  cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
+  cxClasses, Vcl.AppEvnts;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -187,6 +188,8 @@ type
     actReturTrader: TAction;
     GeneratePOForAll1: TMenuItem;
     actPurchaseOrder: TAction;
+    AppEvents: TApplicationEvents;
+    LookAndFeelController: TcxLookAndFeelController;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -243,6 +246,8 @@ type
     procedure actTileExecute(Sender: TObject);
     procedure actUbahQtyPOExecute(Sender: TObject);
     procedure actWastageRealExecute(Sender: TObject);
+    procedure AppEventsException(Sender: TObject; E: Exception);
+    procedure AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure FormShow(Sender: TObject);
     procedure miExit1Click(Sender: TObject);
   private
@@ -303,7 +308,8 @@ uses
   {ufrmPurchaseOrder, }ufrmWorksheet, ufrmProduct, ufrmProductForSelling,
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
-  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder;
+  ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
+  Datasnap.DSHTTPClient, ufrmMouselessMenu;
 
 
 
@@ -733,6 +739,29 @@ end;
 procedure TfrmMain.actWastageRealExecute(Sender: TObject);
 begin
     frmWastageReal := TfrmWastageReal.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
+var
+  Msg: string;
+begin
+  Msg := 'Ada kesalahan dengan pesan : ' + #13 +   E.Message;
+  if E is EHTTPProtocolException then
+    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
+
+  TAppUtils.Error(Msg);
+end;
+
+procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
+begin
+  if Msg.CharCode = 192 then
+  begin
+    with TfrmMouselesMenu.Create(Application) do
+    begin
+      ShowModal;
+    end;
+    Handled := True;
+  end;
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
