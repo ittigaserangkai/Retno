@@ -32,6 +32,7 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
       FocusControl = edtCode
     end
     object edtName: TEdit
+      Tag = 1
       Left = 72
       Top = 41
       Width = 257
@@ -43,6 +44,7 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
       TabOrder = 1
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 72
       Top = 13
       Width = 79
@@ -77,6 +79,7 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
       end
       inherited btnPrint: TcxButton
         Left = 316
+        ExplicitLeft = 316
       end
     end
     inherited pnlSortCut: TPanel
@@ -97,6 +100,7 @@ inherited frmDialogSupplierType: TfrmDialogSupplierType
       end
       inherited lblCTRLP: TLabel
         Left = 312
+        ExplicitLeft = 312
       end
     end
   end
