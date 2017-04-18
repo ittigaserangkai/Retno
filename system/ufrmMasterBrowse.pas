@@ -113,6 +113,8 @@ begin
   dtAwalFilter.Date   := StartOfTheMonth(Now);
   dtAkhirFilter.Date  := Now;
   AutoRefreshData     := True;
+
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmMasterBrowse.FormKeyDown(Sender: TObject; var Key: Word;

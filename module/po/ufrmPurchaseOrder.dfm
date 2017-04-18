@@ -5,7 +5,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
   ClientHeight = 435
   ClientWidth = 647
   OldCreateOrder = True
-  ExplicitTop = -91
+  ExplicitTop = 7
   ExplicitWidth = 663
   ExplicitHeight = 474
   PixelsPerInch = 96
@@ -35,8 +35,10 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
           Width = 643
           Height = 302
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitLeft = 2
+          ExplicitTop = 3
           ExplicitWidth = 643
-          ExplicitHeight = 270
+          ExplicitHeight = 302
           inherited cxGridView: TcxGridDBTableView
             DataController.OnDetailExpanded = cxGridViewDataControllerDetailExpanded
           end
@@ -78,36 +80,29 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
         Caption = 'Kode Supplier'
       end
       object Label1: TLabel
-        Left = 186
+        Left = 195
         Top = 10
         Width = 11
         Height = 16
         Caption = 'To'
       end
-      object edtBtnSuplier1: TcxButtonEdit
-        Left = 87
-        Top = 6
-        Properties.Buttons = <>
-        TabOrder = 0
-        Text = '0'
-        OnKeyPress = edtBtnSuplier1KeyPress
-        Width = 95
-      end
-      object edtBtnSuplier2: TcxButtonEdit
-        Left = 201
-        Top = 6
-        Properties.Buttons = <>
-        TabOrder = 1
-        Text = '0'
-        OnKeyPress = edtBtnSuplier2KeyPress
-        Width = 96
-      end
-      object cboStatusPO: TcxComboBox
-        Left = 385
+      object cbbStatusPO: TcxExtLookupComboBox
+        Left = 377
         Top = 6
         TabOrder = 2
-        Text = 'cboStatusPO'
-        Width = 219
+        Width = 145
+      end
+      object cbbSupMGAkhir: TcxExtLookupComboBox
+        Left = 210
+        Top = 5
+        TabOrder = 1
+        Width = 105
+      end
+      object cbbSupMGAwal: TcxExtLookupComboBox
+        Left = 86
+        Top = 5
+        TabOrder = 0
+        Width = 105
       end
     end
   end

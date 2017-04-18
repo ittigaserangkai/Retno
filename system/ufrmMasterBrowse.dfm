@@ -3,7 +3,6 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   ClientHeight = 403
   ClientWidth = 701
   OnKeyDown = FormKeyDown
-  ExplicitTop = -92
   ExplicitWidth = 717
   ExplicitHeight = 442
   PixelsPerInch = 96

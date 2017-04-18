@@ -13,33 +13,33 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
   cxButtonEdit, Data.DB, uDMClient, uAppUtils,uDBUtils,
   uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll,
-        dxmdaset, cxGridDBDataDefinitions;
+        dxmdaset, cxGridDBDataDefinitions, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox;
 
 type
   TfrmPurchaseOrder = class(TfrmMasterBrowse)
     Panel1: TPanel;
     lbl1: TLabel;
     lbl4: TLabel;
-    edtBtnSuplier1: TcxButtonEdit;
-    edtBtnSuplier2: TcxButtonEdit;
     Label1: TLabel;
-    cboStatusPO: TcxComboBox;
     cxgrdlvlPODetail: TcxGridLevel;
     cxGridDBTableSODetail: TcxGridDBTableView;
+    cbbStatusPO: TcxExtLookupComboBox;
+    cbbSupMGAkhir: TcxExtLookupComboBox;
+    cbbSupMGAwal: TcxExtLookupComboBox;
+    procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure edtBtnSuplier1ClickBtn(Sender: TObject);
-    procedure edtBtnSuplier2ClickBtn(Sender: TObject);
-    procedure edtBtnSuplier1KeyPress(Sender: TObject; var Key: Char);
-    procedure edtBtnSuplier2KeyPress(Sender: TObject; var Key: Char);
   private
     FCDS: TClientDataSet;
     FCDSDetil: TClientDataSet;
     { Private declarations }
     sSQL  : string;
+    procedure InisialisasiDBBStatusPO;
+    procedure InisialisasiCBBSupMG(AExtLookupComboBox : TcxExtLookupComboBox);
     procedure RefreshDataPO;
     procedure RefreshDataPODetil;
 
@@ -63,6 +63,14 @@ uses uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg;
 
 {$R *.dfm}
 
+procedure TfrmPurchaseOrder.FormCreate(Sender: TObject);
+begin
+  inherited;
+  InisialisasiDBBStatusPO;
+  InisialisasiCBBSupMG(cbbSupMGAwal);
+  InisialisasiCBBSupMG(cbbSupMGAkhir);
+end;
+
 procedure TfrmPurchaseOrder.actAddExecute(Sender: TObject);
 begin
   inherited;
@@ -83,40 +91,40 @@ begin
   inherited;
 //  iPOUnitID := GetPOUnitID(MasterNewUnit.ID);
 
-  if (cboStatusPO.Text = '') or (cboStatusPO.ItemIndex < 0) then
-  begin
-    CommonDlg.ShowErrorEmpty('Status PO');
-    cboStatusPO.SetFocus;
-    Exit;
-  end;
-
-  FormatSettings.DateSeparator   := '/';
-  FormatSettings.ShortDateFormat := 'mm/dd/yyyy';
-  strDtFrst       := FormatDateTime('mm/dd/yyyyy', dtAwalFilter.Date) + ' 00:00:00';
-  strDtNext       := FormatDateTime('mm/dd/yyyyy', dtAkhirFilter.Date) + ' 23:59:59';
-  sStapo_ID       := Trim(copy(cboStatusPO.Text,1, pos(' ',cboStatusPO.Text)));
-  sTmp            := trim(copy(cboStatusPO.Text, pos(' ',cboStatusPO.Text)+1,
-                          length(cboStatusPO.Text)- pos(' ',cboStatusPO.Text)));
-
-  sSQL:= 'SELECT '
-        + ' s.sup_code, smg.supmg_code, '
-        + ' s.sup_name as sup_name, p.po_date '
-        + ' as po_date, p.po_no, '
-        + ' p.po_so_no, p.po_colie, p.PO_DISC, p.po_ppn, '
-        + ' p.po_ppnbm, p.PO_DISC + p.po_ppn + p.po_ppnbm as po_purchase, p.po_total '
-        + ' from po p '
-        + ' inner join suplier_merchan_grup smg on p.po_supmg_sub_code = smg.supmg_sub_code  '
-        + ' inner join suplier s on smg.supmg_code = s.sup_code  '
-        + ' left outer join ref$tipe_perusahaan rtp on s.sup_tppersh_id = rtp.tppersh_id '
-        + ' where s.SUP_CODE >= ' +  QuotedStr(edtBtnSuplier1.Text)
-        + ' AND s.SUP_CODE <= ' +   QuotedStr(edtBtnSuplier2.Text)
-        + ' AND p.PO_DATE >= ' +   QuotedStr(strDtFrst)
-        + ' AND p.PO_DATE <= ' +   QuotedStr(strDtNext)
-        + ' AND (p.PO_STAPO_ID = ' +   QuotedStr(sStapo_ID)
-        + ' ) '
-        + ' AND P.PO_UNT_ID = ' + IntToStr(iPOUnitID)
-        + ' ORDER BY s.SUP_CODE ASC,rtp.tppersh_code ASC, s.sup_name ASC, '
-        + ' po_date ASC, p.po_no ASC';
+//  if (cbbStatusPO.EditValue = null) or (cbbStatusPO.ItemIndex < 0) then
+//  begin
+//    CommonDlg.ShowErrorEmpty('Status PO');
+//    cbbStatusPO.SetFocus;
+//    Exit;
+//  end;
+//
+//  FormatSettings.DateSeparator   := '/';
+//  FormatSettings.ShortDateFormat := 'mm/dd/yyyy';
+//  strDtFrst       := FormatDateTime('mm/dd/yyyyy', dtAwalFilter.Date) + ' 00:00:00';
+//  strDtNext       := FormatDateTime('mm/dd/yyyyy', dtAkhirFilter.Date) + ' 23:59:59';
+//  sStapo_ID       := Trim(copy(cboStatusPO.Text,1, pos(' ',cboStatusPO.Text)));
+//  sTmp            := trim(copy(cboStatusPO.Text, pos(' ',cboStatusPO.Text)+1,
+//                          length(cboStatusPO.Text)- pos(' ',cboStatusPO.Text)));
+//
+//  sSQL:= 'SELECT '
+//        + ' s.sup_code, smg.supmg_code, '
+//        + ' s.sup_name as sup_name, p.po_date '
+//        + ' as po_date, p.po_no, '
+//        + ' p.po_so_no, p.po_colie, p.PO_DISC, p.po_ppn, '
+//        + ' p.po_ppnbm, p.PO_DISC + p.po_ppn + p.po_ppnbm as po_purchase, p.po_total '
+//        + ' from po p '
+//        + ' inner join suplier_merchan_grup smg on p.po_supmg_sub_code = smg.supmg_sub_code  '
+//        + ' inner join suplier s on smg.supmg_code = s.sup_code  '
+//        + ' left outer join ref$tipe_perusahaan rtp on s.sup_tppersh_id = rtp.tppersh_id '
+//        + ' where s.SUP_CODE >= ' +  QuotedStr(edtBtnSuplier1.Text)
+//        + ' AND s.SUP_CODE <= ' +   QuotedStr(edtBtnSuplier2.Text)
+//        + ' AND p.PO_DATE >= ' +   QuotedStr(strDtFrst)
+//        + ' AND p.PO_DATE <= ' +   QuotedStr(strDtNext)
+//        + ' AND (p.PO_STAPO_ID = ' +   QuotedStr(sStapo_ID)
+//        + ' ) '
+//        + ' AND P.PO_UNT_ID = ' + IntToStr(iPOUnitID)
+//        + ' ORDER BY s.SUP_CODE ASC,rtp.tppersh_code ASC, s.sup_name ASC, '
+//        + ' po_date ASC, p.po_no ASC';
 
 //      dmReportNew.EksekusiReport('frcetakPO_listing', sSQL,'',True);
 end;
@@ -174,36 +182,23 @@ begin
   }
 end;
 
-procedure TfrmPurchaseOrder.edtBtnSuplier1ClickBtn(Sender: TObject);
+procedure TfrmPurchaseOrder.InisialisasiDBBStatusPO;
+var
+  lcdsStatusPO: TClientDataSet;
 begin
-  inherited;
-
-  edtBtnSuplier1.Text := GetSupCode;
-
+  lcdsStatusPO := TDBUtils.DSToCDS(DMClient.DSProviderClient.StatusPO_GetDSLookup(), Self);
+  cbbStatusPO.Properties.LoadFromCDS(lcdsStatusPO,'ref$status_po_id','STAPO_NAME',['ref$status_po_id'],Self);
+  cbbStatusPO.Properties.SetMultiPurposeLookup;
 end;
 
-procedure TfrmPurchaseOrder.edtBtnSuplier2ClickBtn(Sender: TObject);
+procedure TfrmPurchaseOrder.InisialisasiCBBSupMG(AExtLookupComboBox :
+    TcxExtLookupComboBox);
+var
+  lcdsStatusSupMG: TClientDataSet;
 begin
-  inherited;
-
-  edtBtnSuplier2.Text := GetSupCode;
-
-end;
-
-
-
-procedure TfrmPurchaseOrder.edtBtnSuplier1KeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  Key := UpCase(Key);
-end;
-
-procedure TfrmPurchaseOrder.edtBtnSuplier2KeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  Key := UpCase(Key);
+  lcdsStatusSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
+  AExtLookupComboBox.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUP_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  AExtLookupComboBox.Properties.SetMultiPurposeLookup;
 end;
 
 procedure TfrmPurchaseOrder.RefreshData;
