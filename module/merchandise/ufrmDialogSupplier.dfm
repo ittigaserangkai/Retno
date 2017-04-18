@@ -7,7 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -40
+  ExplicitTop = -52
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -30,7 +30,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 451
       ClientRectRight = 667
@@ -415,7 +415,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              ExplicitLeft = 401
               ExplicitHeight = 16
             end
             object btnDelSupp: TcxButton
@@ -754,18 +753,22 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtAPEndB: TcxCurrencyEdit
               Left = 385
               Top = 31
+              TabStop = False
+              Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.ReadOnly = True
               TabOrder = 7
               Width = 135
             end
             object curedtCNBln: TcxCurrencyEdit
               Left = 385
               Top = 54
+              Properties.DisplayFormat = '0.00;(0.00)'
               TabOrder = 8
               Width = 135
             end
             object curedtCreditLmt: TcxCurrencyEdit
               Left = 120
-              Top = 129
+              Top = 128
               TabOrder = 5
               Width = 135
             end
@@ -778,15 +781,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtPaymnt: TcxCurrencyEdit
               Left = 489
               Top = 77
+              Properties.DisplayFormat = '0.00;(0.00)'
               TabOrder = 11
               Width = 131
-            end
-            object cxLookupPODeliver: TcxLookupComboBox
-              Left = 120
-              Top = 105
-              Properties.ListColumns = <>
-              TabOrder = 4
-              Width = 123
             end
             object dtLastPurchs: TcxDateEdit
               Left = 385
@@ -798,6 +795,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 574
               Top = 54
               ParentFont = False
+              Properties.DisplayFormat = '0.00;(0.00)'
               TabOrder = 9
               Width = 46
             end
@@ -900,17 +898,23 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               end
             end
             object cxLookupMerchGroup: TcxExtLookupComboBox
-              Left = 119
+              Left = 120
               Top = 5
               Properties.ImmediatePost = True
               TabOrder = 0
-              Width = 401
+              Width = 400
             end
             object cxLookupPaymentType: TcxExtLookupComboBox
-              Left = 119
+              Left = 120
               Top = 32
               TabOrder = 1
               Width = 166
+            end
+            object cxLookupPODeliver: TcxExtLookupComboBox
+              Left = 120
+              Top = 105
+              TabOrder = 4
+              Width = 123
             end
           end
           object cxTabSheet2: TcxTabSheet
@@ -919,8 +923,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object pnl1: TPanel
               Left = 0
               Top = 0
-              Width = 651
-              Height = 242
+              Width = 667
+              Height = 246
               Align = alClient
               Color = clWhite
               TabOrder = 0
