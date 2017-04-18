@@ -50,7 +50,7 @@ begin
       IntToStr(Win32MinorVersion) + ' build: ' +
       IntToStr(Win32BuildNumber) + ' (' + Win32CSDVersion + ')';
 
-  GetBuildInfo(s, Application.ExeName);
+  TAppUtils.GetBuildInfo(s, Application.ExeName);
   lbx5.Caption := '(Build no. ' + s + ')';
 end;
 

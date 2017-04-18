@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, cxLabel, ufraFooterDialog3Button;
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxLabel, ufraFooterDialog3Button,
+  System.Actions, Vcl.ActnList;
 
 type
   TfrmAbout = class(TfrmMasterDialog)
@@ -58,7 +59,7 @@ begin
       IntToStr(Win32MinorVersion) + ' build: ' +
       IntToStr(Win32BuildNumber) + ' (' + Win32CSDVersion + ')';
 
-  GetBuildInfo(s, Application.ExeName);
+  TAppUtils.GetBuildInfo(s, Application.ExeName);
   lbl5.Caption := '(Build no. ' + s + ')';
 end;
 
