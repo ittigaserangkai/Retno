@@ -9,8 +9,6 @@ type
   {$METHODINFO ON}
   TDSProvider = class(TComponent)
   private
-    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
-        nil): Tobjectlist<TDataset>;
   public
     function Bank_GetDSOverview: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
@@ -66,6 +64,10 @@ type
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
+    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
+        nil): TDataset;
+    function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
     function TipeHarga_GetDSLookup: TDataSet;
     function RefWilayah_GetDSLookup: TDataSet;
     function Suplier_GetDSLookup: TDataSet;
@@ -676,12 +678,10 @@ begin
 end;
 
 function TDSProvider.PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
-    TModUnit = nil): Tobjectlist<TDataset>;
+    TModUnit = nil): TDataset;
 var
   sSQL: string;
 begin
-  Result := TObjectList<TDataSet>.Create;
-
   sSQL := 'select * from V_PO ' +
           ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
@@ -689,8 +689,22 @@ begin
   if AUnit <> nil then
     sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
-  Result.Add(TDBUtils.OpenQuery(sSQL));
-  Result.Add(TDBUtils.OpenQuery(sSQL));
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_PO_DETIL ' +
+          ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
