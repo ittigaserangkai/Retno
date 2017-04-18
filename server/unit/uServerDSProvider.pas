@@ -64,10 +64,12 @@ type
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
-    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
-        nil): TDataset;
+    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+        AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
+        AUnit : TModUnit = nil): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function StatusPO_GetDSLookup: TDataSet;
     function TipeHarga_GetDSLookup: TDataSet;
     function RefWilayah_GetDSLookup: TDataSet;
     function Suplier_GetDSLookup: TDataSet;
@@ -677,8 +679,9 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
-    TModUnit = nil): TDataset;
+function TDSProvider.PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+    AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
+    AUnit : TModUnit = nil): TDataset;
 var
   sSQL: string;
 begin
@@ -687,7 +690,15 @@ begin
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   if AUnit <> nil then
-    sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  if Trim(AkodeSupplierMGAwal) <> '' then
+    sSQL := sSQL + ' KODE_SUPPLIER_MERCHANDISE_GROUP BETWEEN ' + QuotedStr(AkodeSupplierMGAwal)
+            + ' AND ' + QuotedStr(AKodeSupplierMGAkhir);
+
+  if TRIM(AStatusPOID) <> '' then
+    sSQL := sSQL + ' AND REF$STATUS_PO_ID = ' + QuotedStr(AStatusPOID);
+
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -705,6 +716,17 @@ begin
     sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.StatusPO_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select ref$status_po_id, STAPO_CODE,STAPO_NAME' +
+       ' from V_STATUSPO ' +
+       ' ORDER BY URUTAN ';
+
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
