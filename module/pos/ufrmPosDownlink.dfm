@@ -46,6 +46,13 @@ object frmPosDownlink: TfrmPosDownlink
     Height = 227
     Align = alTop
     TabOrder = 1
+    object lblState: TLabel
+      Left = 416
+      Top = 80
+      Width = 120
+      Height = 13
+      Caption = 'lblState: Encryption state:'
+    end
     object chkFile: TCheckBox
       Left = 24
       Top = 18
@@ -83,8 +90,8 @@ object frmPosDownlink: TfrmPosDownlink
       OnClick = btnOkClick
     end
     object btnClose: TButton
-      Left = 491
-      Top = 13
+      Left = 531
+      Top = 197
       Width = 74
       Height = 25
       Caption = 'Close'
@@ -172,6 +179,24 @@ object frmPosDownlink: TfrmPosDownlink
         Caption = 'Card'
         TabOrder = 6
       end
+    end
+    object btnLoadDB: TButton
+      Left = 416
+      Top = 40
+      Width = 75
+      Height = 25
+      Caption = 'Load DB'
+      TabOrder = 7
+      OnClick = btnLoadDBClick
+    end
+    object btnCheckDB: TButton
+      Left = 512
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'Check DB'
+      TabOrder = 8
+      OnClick = btnCheckDBClick
     end
   end
   object OpDlg: TOpenDialog

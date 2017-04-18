@@ -9,8 +9,6 @@ type
   {$METHODINFO ON}
   TDSProvider = class(TComponent)
   private
-    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
-        nil): Tobjectlist<TDataset>;
   public
     function Bank_GetDSOverview: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
@@ -65,6 +63,11 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
+    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
+        nil): TDataset;
+    function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
     function TipeHarga_GetDSLookup: TDataSet;
     function RefWilayah_GetDSLookup: TDataSet;
     function Suplier_GetDSLookup: TDataSet;
@@ -586,6 +589,27 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.BARANG_ID, D.SUPLIER_MERCHAN_GRUP_ID, E.REF$SATUAN_ID,'
+      +' A.BRG_CODE, A.BRG_NAME, E.SAT_CODE, C.SUP_CODE, C.SUP_NAME,'
+      +' F.MERCHANGRUP_NAME, G.MERCHAN_NAME'
+      +' FROM BARANG A'
+      +' INNER JOIN BARANG_SUPLIER B ON A.BARANG_ID=B.BARANG_ID'
+      +' INNER JOIN SUPLIER C ON B.SUPLIER_ID=C.SUPLIER_ID'
+      +' INNER JOIN SUPLIER_MERCHAN_GRUP D ON D.SUPLIER_ID = C.SUPLIER_ID'
+      +' AND A.REF$MERCHANDISE_GRUP_ID = D.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$SATUAN E ON A.REF$SATUAN_PURCHASE = E.REF$SATUAN_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP F ON F.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$MERCHANDISE G ON F.REF$MERCHANDISE_ID = G.REF$MERCHANDISE_ID'
+      +' WHERE C.SUP_IS_ACTIVE = 1'
+      +' AND A.REF$MERCHANDISE_ID = ' + QuotedStr(aMerchandise);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.TipeHarga_GetDSLookup: TDataSet;
 var
   S: string;
@@ -654,12 +678,10 @@ begin
 end;
 
 function TDSProvider.PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
-    TModUnit = nil): Tobjectlist<TDataset>;
+    TModUnit = nil): TDataset;
 var
   sSQL: string;
 begin
-  Result := TObjectList<TDataSet>.Create;
-
   sSQL := 'select * from V_PO ' +
           ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
@@ -667,8 +689,22 @@ begin
   if AUnit <> nil then
     sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
-  Result.Add(TDBUtils.OpenQuery(sSQL));
-  Result.Add(TDBUtils.OpenQuery(sSQL));
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_PO_DETIL ' +
+          ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;

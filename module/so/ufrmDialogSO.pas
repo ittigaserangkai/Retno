@@ -68,6 +68,7 @@ type
     procedure btnToExcelClick(Sender: TObject);
     procedure cxLookupSupplierMerchanPropertiesInitPopup(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
+    procedure btnAddOthersProdSOClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
     FModSO: TModSO;
@@ -92,9 +93,32 @@ implementation
 
 uses
   uDBUtils, uDMClient, uAppUtils, uClientClasses, uModBarang, uModSuplier,
-  uModSatuan;
+  uModSatuan, uConstanta, ufrmCXLookup;
 
 {$R *.dfm}
+
+procedure TfrmDialogSO.btnAddOthersProdSOClick(Sender: TObject);
+var
+  frm: TfrmCXLookup;
+  lCDS: TClientDataSet;
+begin
+  inherited;
+  lCDS := TDBUtils.DSToCDS(
+    DMClient.DSProviderClient.BarangSupp_GetDSLookup(cxLookupMerchan.EditValue),
+    Self
+  );
+  frm := TfrmCXLookup.Execute(lCDS);
+  Try
+    if frm.ShowModal = mrOk then
+    begin
+
+    end;
+  Finally
+    frm.Free;
+    lCDS.Free;
+  End;
+
+end;
 
 procedure TfrmDialogSO.btnShowClick(Sender: TObject);
 begin
@@ -124,10 +148,17 @@ end;
 procedure TfrmDialogSO.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if not ValidateEmptyCtrl([1]) then
-    Exit;
+  if not ValidateEmptyCtrl([1]) then Exit;
 
   UpdateData;
+  Try
+    ModSO.ID := DMClient.CrudClient.SaveToDBID(ModSO);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
+  End;
 
 end;
 
@@ -339,6 +370,7 @@ begin
       lDetail.SOD_DISC3       := CDS.FieldByName('Disc3').AsFloat;
       lDetail.SOD_IS_ORDERED  := TAppUtils.BoolToInt(CDS.FieldByName('Checked').AsBoolean);
       lDetail.SOD_TOTAL       := CDS.FieldByName('NetPrice').AsFloat * lDetail.SOD_QTY_ORDER;
+
 
       lDisc := (lDetail.SOD_DISC1/100) * lDetail.SOD_PRICE ;
       lDisc := lDisc + ((lDetail.SOD_DISC2/100) * (lDetail.SOD_PRICE-lDisc)) ;

@@ -114,6 +114,7 @@ inherited frmAbout: TfrmAbout
       ExplicitWidth = 272
       inherited btnClose: TcxButton
         Left = 190
+        Action = actCancel
         Caption = 'Close'
         OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
@@ -172,27 +173,19 @@ inherited frmAbout: TfrmAbout
       end
       inherited btnSave: TcxButton
         Left = 103
+        Action = actSave
         Enabled = False
         Visible = False
         ExplicitLeft = 103
       end
       inherited btnDelete: TcxButton
+        Action = actDelete
         Visible = False
       end
     end
     inherited pnlSortCut: TPanel
       Width = 272
       ExplicitWidth = 272
-      inherited lbl4: TLabel
-        Left = 107
-        Visible = False
-        ExplicitLeft = 117
-      end
-      inherited lbl5: TLabel
-        Left = 182
-        Visible = False
-        ExplicitLeft = 192
-      end
     end
   end
 end

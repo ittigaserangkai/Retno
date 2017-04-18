@@ -3,6 +3,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
   ClientHeight = 403
   ClientWidth = 701
   OnKeyDown = FormKeyDown
+  ExplicitTop = -92
   ExplicitWidth = 717
   ExplicitHeight = 442
   PixelsPerInch = 96
@@ -53,6 +54,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
             DataController.Summary.DefaultGroupSummaryItems = <>
             DataController.Summary.FooterSummaryItems = <>
             DataController.Summary.SummaryGroups = <>
+            DataController.OnDetailExpanded = cxGridViewDataControllerDetailExpanded
             FilterRow.InfoText = 
               'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
               'er'

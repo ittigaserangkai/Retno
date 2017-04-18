@@ -503,7 +503,7 @@ begin
 
   frmMain.Height  := 640;
   frmMain.Width   := 800;
-  frmMain.Caption := ExtractFileName(ParamStr(0)) + ' ver ' + GetAppVersionStr;
+  frmMain.Caption := ExtractFileName(ParamStr(0)) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
   actOnLogin.Enabled := true;
@@ -683,7 +683,7 @@ begin
 
   frmMain.Height := 640;
   frmMain.Width := 800;
-  frmMain.Caption := ParamStr(0) + ' ver ' + GetAppVersionStr;
+  frmMain.Caption := ParamStr(0) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
   actOnLogin.Enabled := true;

@@ -241,9 +241,9 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var
   iTemp: Integer;
 begin
-//  Self.Caption := eiMain.ProductName + ' v ' + eiMain.FileVersion;
+  eiMain := TAppUtils.GetEXEVersionData(Application.ExeName);
   {$IFDEF TSN}
-  Self.Caption := eiMain.ProductName + ' TISERA '+ ' v ' + eiMain.FileVersion;
+  Self.Caption := getprodu eiMain.ProductName + ' TISERA '+ ' v ' + eiMain.FileVersion;
   {$ELSE}
   Self.Caption := eiMain.ProductName + ' ASSALAAM HYPERMARKET '+ ' v ' + eiMain.FileVersion;
   {$ENDIF}

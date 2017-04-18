@@ -12,7 +12,8 @@ uses
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
   cxButtonEdit, Data.DB, uDMClient, uAppUtils,uDBUtils,
-  uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll;
+  uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll,
+        dxmdaset, cxGridDBDataDefinitions;
 
 type
   TfrmPurchaseOrder = class(TfrmMasterBrowse)
@@ -25,16 +26,8 @@ type
     cboStatusPO: TcxComboBox;
     cxgrdlvlPODetail: TcxGridLevel;
     cxGridDBTableSODetail: TcxGridDBTableView;
-    cxgrdbclmnGridDBTableSODetailColumn1: TcxGridDBColumn;
-    cxgrdbclmnGridDBTableSODetailColumn2: TcxGridDBColumn;
-    cxgrdbclmnGridDBTableSODetailColumn3: TcxGridDBColumn;
-    cxgrdbclmnGridDBTableSODetailColumn4: TcxGridDBColumn;
-    cxgrdbclmnGridDBTableSODetailColumn5: TcxGridDBColumn;
-    cxgrdbclmnGridDBTableSODetailColumn6: TcxGridDBColumn;
-    cxgrdbclmnGridDBTableSODetailColumn7: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -44,8 +37,11 @@ type
     procedure edtBtnSuplier2KeyPress(Sender: TObject; var Key: Char);
   private
     FCDS: TClientDataSet;
+    FCDSDetil: TClientDataSet;
     { Private declarations }
     sSQL  : string;
+    procedure RefreshDataPO;
+    procedure RefreshDataPODetil;
 
   protected
     function GetSQLStatusPO: string; dynamic;
@@ -123,13 +119,6 @@ begin
         + ' po_date ASC, p.po_no ASC';
 
 //      dmReportNew.EksekusiReport('frcetakPO_listing', sSQL,'',True);
-end;
-
-procedure TfrmPurchaseOrder.actRefreshExecute(Sender: TObject);
-begin
-  inherited;
-//  DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil);
-
 end;
 
 procedure TfrmPurchaseOrder.FormClose(Sender: TObject;
@@ -222,14 +211,37 @@ begin
   inherited;
   try
     TAppUtils.cShowWaitWindow('Mohon Ditunggu');
-    if Assigned(FCDS) then FreeAndNil(FCDS);
 
-//    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
-    cxGridView.LoadFromCDS(FCDS);
-    cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
+    RefreshDataPO;
+    RefreshDataPODetil;
+
+    cxGridDBTableSODetail.SetMasterKeyField('PO_ID');
+    cxGridDBTableSODetail.SetDetailKeyField('PO_ID');
+
   finally
     TAppUtils.cCloseWaitWindow;
   end;
+end;
+
+procedure TfrmPurchaseOrder.RefreshDataPO;
+begin
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
+end;
+
+procedure TfrmPurchaseOrder.RefreshDataPODetil;
+var
+  lvl: TcxGridLevel;
+begin
+  if Assigned(FCDSDetil) then FreeAndNil(FCDSDetil);
+
+  FCDSDetil := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverviewDetil(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+  cxGridDBTableSODetail.LoadFromCDS(FCDSDetil);
+  cxGridDBTableSODetail.SetVisibleColumns(['PO_DATE','AUT$UNIT_ID', 'PO_ID'],False);
+
 end;
 
 end.
