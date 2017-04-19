@@ -106,6 +106,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Left = 414
       Top = 4
       Align = alRight
+      Properties.DropDownListStyle = lsFixedList
       TabOrder = 2
       ExplicitLeft = 426
       Width = 89
@@ -115,6 +116,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Left = 282
       Top = 4
       Align = alRight
+      Properties.DropDownListStyle = lsFixedList
       TabOrder = 1
       ExplicitLeft = 294
       Width = 89
@@ -146,6 +148,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Left = 97
       Top = 4
       Align = alRight
+      Properties.DropDownListStyle = lsFixedList
       TabOrder = 0
       ExplicitLeft = 109
       Width = 112

@@ -39,7 +39,7 @@ type
     sSQL  : string;
     procedure InisialisasiDBBStatusPO;
     procedure InisialisasiCBBSupMGAkhir; overload;
-    procedure InisialisasiCBBSupMG;
+    procedure InisialisasiCBBSupMGAwal;
     procedure RefreshDataPO;
     procedure RefreshDataPODetil;
 
@@ -68,8 +68,8 @@ begin
   inherited;
   InisialisasiDBBStatusPO;
 
-//  InisialisasiCBBSupMGAkhir;
-  InisialisasiCBBSupMG;
+  InisialisasiCBBSupMGAkhir;
+  InisialisasiCBBSupMGAwal;
 end;
 
 procedure TfrmPurchaseOrder.actAddExecute(Sender: TObject);
@@ -197,11 +197,11 @@ var
   lcdsStatusSupMG: TClientDataSet;
 begin
   lcdsStatusSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
-  cbbSupMGAkhir.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUP_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  cbbSupMGAkhir.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPMG_CODE','SUPMG_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
   cbbSupMGAkhir.Properties.SetMultiPurposeLookup;
 end;
 
-procedure TfrmPurchaseOrder.InisialisasiCBBSupMG;
+procedure TfrmPurchaseOrder.InisialisasiCBBSupMGAwal;
 var
   lcdsStatusSupMG: TClientDataSet;
 begin
@@ -210,10 +210,7 @@ begin
   cbbSupMGAwal.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPMG_CODE','SUPMG_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
   cbbSupMGAwal.Properties.SetMultiPurposeLookup;
 
-  lcdsStatusSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
-
-  cbbSupMGAkhir.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPMG_CODE','SUPMG_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
-  cbbSupMGAkhir.Properties.SetMultiPurposeLookup;
+  
 end;
 
 procedure TfrmPurchaseOrder.RefreshData;
@@ -239,7 +236,7 @@ var
 begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
 
-  if VarIsNull(cbbStatusPO.EditValue) then
+  if cbbStatusPO.ItemIndex < 0 then
     sStatusPOId := ''
   else
     sStatusPOId := cbbStatusPO.EditValue;
