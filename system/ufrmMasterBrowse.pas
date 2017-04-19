@@ -11,7 +11,8 @@ uses
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, ufraFooter4Button, Vcl.Menus, cxButtons, System.Actions, Vcl.ActnList,
-  uInterface, ufrmMasterDialog, dxBarBuiltInMenu, cxPC, uDMClient, uClientClasses;
+  uInterface, ufrmMasterDialog, dxBarBuiltInMenu, cxPC, uDMClient, uClientClasses,
+  cxGridDBDataDefinitions;
 
 type
   TfrmMasterBrowse = class(TfrmMaster)
@@ -39,6 +40,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cxGridViewDataControllerDetailExpanded(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
     FAutoRefreshData: Boolean;
     { Private declarations }
@@ -85,12 +88,33 @@ begin
   RefreshData;
 end;
 
+procedure TfrmMasterBrowse.cxGridViewDataControllerDetailExpanded(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+var
+  ARecord: TcxCustomGridRecord;
+  ADetailView: TcxCustomGridView;
+begin
+  inherited;
+
+  ADataController.FocusedRecordIndex := ARecordIndex;
+  ADetailView := nil;
+
+  ARecord := TcxGridTableView(TcxGridDBDataController(ADataController).GridView).Controller.FocusedRecord;
+  if ARecord is TcxGridMasterDataRow then
+  with TcxGridMasterDataRow(ARecord) do
+  begin
+    ADetailView := ActiveDetailGridView;
+    TcxGridDBTableView(ADetailView).ApplyBestFit();
+  end;
+end;
 procedure TfrmMasterBrowse.FormCreate(Sender: TObject);
 begin
   inherited;
   dtAwalFilter.Date   := StartOfTheMonth(Now);
   dtAkhirFilter.Date  := Now;
   AutoRefreshData     := True;
+
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmMasterBrowse.FormKeyDown(Sender: TObject; var Key: Word;

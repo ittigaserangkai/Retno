@@ -53,6 +53,7 @@ inherited frmMasterBrowse: TfrmMasterBrowse
             DataController.Summary.DefaultGroupSummaryItems = <>
             DataController.Summary.FooterSummaryItems = <>
             DataController.Summary.SummaryGroups = <>
+            DataController.OnDetailExpanded = cxGridViewDataControllerDetailExpanded
             FilterRow.InfoText = 
               'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
               'er'

@@ -69,6 +69,7 @@ type
   public
     function CDS: TClientDataSet;
     function DS: TDataset;
+    function EditValueText: String;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
@@ -426,6 +427,9 @@ var
   aView: TcxGridDBTableView;
   i: Integer;
 begin
+  if aCDS = nil then
+    Exit;
+
   aRepo := nil;
   for i := 0 to aOwnerForm.ComponentCount - 1 do
   begin
@@ -508,6 +512,12 @@ end;
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
 begin
   //new feature dx 15 : findpanel
+  if Self.View = nil then
+    Exit;
+
+  if TcxGridDBTableView(Self.View).DS = nil then
+    Exit;
+
   AutoSearchOnPopup  := True;
   FocusPopup         := True;
   DropDownAutoSize   := True;
@@ -1241,6 +1251,14 @@ begin
     Result := TcxGridDBTableView(Self.Properties.View).DataController.DataSource.DataSet
   else
     Result := nil;
+end;
+
+function TcxExtLookupComboHelper.EditValueText: String;
+begin
+  if VarIsNull(EditValue) then
+    Result := ''
+  else
+    Result := EditValue;
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,

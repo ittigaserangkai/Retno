@@ -18,7 +18,6 @@ uses
   uMenuManagement in '..\system\uMenuManagement.pas',
   uFormProperty in '..\system\uFormProperty.pas',
   uGlobalProperty in '..\system\uGlobalProperty.pas',
-  uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmPajak in '..\module\references\ufrmPajak.pas' {frmPajak},
   ufrmDialogPajak in '..\module\references\ufrmDialogPajak.pas' {frmDialogPajak},
   uTSCommonDlg in '..\system\uTSCommonDlg.pas',
@@ -76,7 +75,6 @@ uses
   uSpecialKey in '..\classes\uSpecialKey.pas',
   ufrmSearchProduct in '..\module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
   ufrmSearchSupplier in '..\module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
-  uAppUtils in '..\lib\uAppUtils.pas',
   uConn in '..\lib\uConn.pas',
   uDBUtils in '..\lib\uDBUtils.pas',
   uDSUtils in '..\lib\uDSUtils.pas',
@@ -196,7 +194,9 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-  uModQuotation in '..\model\uModQuotation.pas';
+  uModQuotation in '..\model\uModQuotation.pas',
+  uRetnoUnit in '..\system\uRetnoUnit.pas',
+  uAppUtils in '..\lib\uAppUtils.pas';
 
 {$R *.res}
 

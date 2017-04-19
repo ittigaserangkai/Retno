@@ -3,41 +3,38 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
   Top = 194
   Caption = 'Purchase Order'
   ClientHeight = 435
-  ClientWidth = 647
+  ClientWidth = 825
   OldCreateOrder = True
-  ExplicitTop = -86
-  ExplicitWidth = 663
+  ExplicitWidth = 841
   ExplicitHeight = 474
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 647
+    Width = 825
     Height = 346
     BorderWidth = 0
-    ExplicitWidth = 647
+    ExplicitWidth = 825
     ExplicitHeight = 346
     inherited pgcBrowse: TcxPageControl
       Left = 1
-      Top = 73
-      Width = 645
-      Height = 272
-      TabOrder = 1
+      Top = 1
+      Width = 823
+      Height = 344
       ExplicitLeft = 1
-      ExplicitTop = 73
-      ExplicitWidth = 645
-      ExplicitHeight = 272
-      ClientRectBottom = 271
-      ClientRectRight = 644
+      ExplicitTop = 1
+      ExplicitWidth = 823
+      ExplicitHeight = 344
+      ClientRectBottom = 343
+      ClientRectRight = 822
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 643
-        ExplicitHeight = 270
+        ExplicitWidth = 821
+        ExplicitHeight = 342
         inherited cxGrid: TcxGrid
-          Width = 643
-          Height = 270
-          ExplicitWidth = 643
-          ExplicitHeight = 270
+          Width = 821
+          Height = 342
+          RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitWidth = 821
+          ExplicitHeight = 342
           object cxGridDBTableSODetail: TcxGridDBTableView [1]
             Navigator.Buttons.CustomButtons = <>
             DataController.Summary.DefaultGroupSummaryItems = <>
@@ -45,34 +42,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
             DataController.Summary.SummaryGroups = <>
             Styles.ContentEven = DMClient.cxStyleGridEven
             Styles.Header = DMClient.cxStyleGridHeader
-            object cxgrdbclmnGridDBTableSODetailColumn1: TcxGridDBColumn
-              Caption = 'Code'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxgrdbclmnGridDBTableSODetailColumn2: TcxGridDBColumn
-              Caption = 'Name'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxgrdbclmnGridDBTableSODetailColumn3: TcxGridDBColumn
-              Caption = 'UOM'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxgrdbclmnGridDBTableSODetailColumn4: TcxGridDBColumn
-              Caption = 'Qty Order'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxgrdbclmnGridDBTableSODetailColumn5: TcxGridDBColumn
-              Caption = 'Unit Price'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxgrdbclmnGridDBTableSODetailColumn6: TcxGridDBColumn
-              Caption = 'Disc'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxgrdbclmnGridDBTableSODetailColumn7: TcxGridDBColumn
-              Caption = 'Total'
-              HeaderAlignmentHorz = taCenter
-            end
           end
           inherited cxlvMaster: TcxGridLevel
             object cxgrdlvlPODetail: TcxGridLevel
@@ -82,106 +51,124 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
         end
       end
     end
-    object Panel1: TPanel
-      Left = 1
-      Top = 1
-      Width = 645
-      Height = 72
-      Align = alTop
-      TabOrder = 0
-      object lbl1: TLabel
-        Left = 339
-        Top = 15
-        Width = 32
-        Height = 16
-        Caption = 'Status'
-      end
-      object lbl4: TLabel
-        Left = 14
-        Top = 15
-        Width = 66
-        Height = 16
-        Caption = 'Kode Supplier'
-      end
-      object Label1: TLabel
-        Left = 192
-        Top = 15
-        Width = 11
-        Height = 16
-        Caption = 'To'
-      end
-      object edtBtnSuplier1: TcxButtonEdit
-        Left = 87
-        Top = 11
-        Properties.Buttons = <>
-        TabOrder = 0
-        Text = '0'
-        OnKeyPress = edtBtnSuplier1KeyPress
-        Width = 95
-      end
-      object edtBtnSuplier2: TcxButtonEdit
-        Left = 210
-        Top = 11
-        Properties.Buttons = <>
-        TabOrder = 1
-        Text = '0'
-        OnKeyPress = edtBtnSuplier2KeyPress
-        Width = 96
-      end
-      object cboStatusPO: TcxComboBox
-        Left = 385
-        Top = 11
-        TabOrder = 2
-        Text = 'cboStatusPO'
-        Width = 219
-      end
-    end
   end
   inherited pnlHeader: TPanel
-    Width = 647
-    ExplicitWidth = 647
+    Width = 825
+    ExplicitWidth = 825
     inherited lblHeader: TLabel
-      Width = 95
-      Caption = 'PURCHASE ORDER'
-      ExplicitWidth = 95
+      Width = 3
+      Caption = ''
+      ExplicitWidth = 3
     end
     inherited lblFilterData: TcxLabel
-      Left = 293
+      Left = 506
+      AutoSize = True
+      Caption = 'Periode'
       Visible = True
-      ExplicitLeft = 293
+      ExplicitLeft = 506
+      ExplicitWidth = 41
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 354
+      Left = 550
+      TabOrder = 3
       Visible = True
-      ExplicitLeft = 354
-      ExplicitHeight = 23
+      ExplicitLeft = 550
+      ExplicitWidth = 84
+      Width = 84
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 470
+      Left = 658
+      TabOrder = 4
       Visible = True
-      ExplicitLeft = 470
-      ExplicitHeight = 23
+      ExplicitLeft = 658
+      ExplicitWidth = 84
+      Width = 84
     end
     inherited btnSearch: TcxButton
-      Left = 565
-      ExplicitLeft = 565
+      Left = 748
+      Width = 73
+      TabOrder = 7
+      ExplicitLeft = 748
+      ExplicitWidth = 73
     end
     inherited lblsdFilter: TcxLabel
-      Left = 446
+      Left = 637
       Visible = True
-      ExplicitLeft = 446
+      ExplicitLeft = 637
+      ExplicitWidth = 18
+      Width = 18
+      AnchorY = 17
+    end
+    object cbbSupMGAkhir: TcxExtLookupComboBox
+      AlignWithMargins = True
+      Left = 414
+      Top = 4
+      Align = alRight
+      Properties.DropDownListStyle = lsFixedList
+      TabOrder = 2
+      Width = 89
+    end
+    object cbbSupMGAwal: TcxExtLookupComboBox
+      AlignWithMargins = True
+      Left = 282
+      Top = 4
+      Align = alRight
+      Properties.DropDownListStyle = lsFixedList
+      TabOrder = 1
+      Width = 89
+    end
+    object lblSupMG: TcxLabel
+      AlignWithMargins = True
+      Left = 215
+      Top = 4
+      Align = alRight
+      Caption = 'Supplier MG'
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      AnchorY = 17
+    end
+    object lblStatus: TcxLabel
+      AlignWithMargins = True
+      Left = 55
+      Top = 4
+      Align = alRight
+      Caption = 'Status'
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      AnchorY = 17
+    end
+    object cbbStatusPO: TcxExtLookupComboBox
+      AlignWithMargins = True
+      Left = 97
+      Top = 4
+      Align = alRight
+      Properties.DropDownListStyle = lsFixedList
+      TabOrder = 0
+      Width = 112
+    end
+    object lblTo: TcxLabel
+      AlignWithMargins = True
+      Left = 377
+      Top = 4
+      Align = alRight
+      AutoSize = False
+      Caption = ' to '
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      Height = 25
+      Width = 31
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 379
-    Width = 647
+    Width = 825
     ExplicitTop = 379
-    ExplicitWidth = 647
+    ExplicitWidth = 825
     inherited pnlFooter: TPanel
-      Width = 647
-      ExplicitWidth = 647
+      Width = 825
+      ExplicitWidth = 825
       inherited bvlSeparator: TBevel
         Left = 286
         ExplicitLeft = 286
@@ -202,9 +189,9 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
         ExplicitLeft = 300
       end
       inherited btnClose: TcxButton
-        Left = 570
+        Left = 748
         Action = actClose
-        ExplicitLeft = 570
+        ExplicitLeft = 748
       end
       inherited cxButton1: TcxButton
         Left = 376
@@ -213,11 +200,12 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 647
-      ExplicitWidth = 647
+      Width = 825
+      ExplicitWidth = 825
       inherited lbEscape: TLabel
-        Left = 573
-        ExplicitLeft = 573
+        Left = 751
+        Height = 17
+        ExplicitLeft = 751
       end
     end
   end
