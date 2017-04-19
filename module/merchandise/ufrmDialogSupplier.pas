@@ -160,8 +160,7 @@ type
     cxGridSupplierLevel1: TcxGridLevel;
     pgcMerchan: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
-    Label1: TLabel;
-    Label10: TLabel;
+    lblPPN: TLabel;
     Label11: TLabel;
     Label12: TLabel;
     Label2: TLabel;
@@ -182,8 +181,6 @@ type
     lbl37: TLabel;
     lbl45: TLabel;
     lbl9: TLabel;
-    cbbBKP: TComboBox;
-    cbbPpn: TComboBox;
     chkAllMer: TCheckBox;
     chkEnableCN: TCheckBox;
     chkFee: TCheckBox;
@@ -192,7 +189,6 @@ type
     curedtCreditLmt: TcxCurrencyEdit;
     curedtOutsdPaymnt: TcxCurrencyEdit;
     curedtPaymnt: TcxCurrencyEdit;
-    cxLookupPODeliver: TcxLookupComboBox;
     dtLastPurchs: TcxDateEdit;
     edtDisc: TcxCurrencyEdit;
     edtExtdDesc: TcxTextEdit;
@@ -240,6 +236,9 @@ type
     cxLookupPaymentType: TcxExtLookupComboBox;
     clSupMerchanGroup: TcxGridDBColumn;
     clTipePembayaran: TcxGridDBColumn;
+    cxLookupPODeliver: TcxExtLookupComboBox;
+    chkPKP: TCheckBox;
+    cxLookupPPN: TcxExtLookupComboBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -250,6 +249,7 @@ type
         TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
         TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
     procedure btnUpdateSuppClick(Sender: TObject);
+    procedure chkPKPClick(Sender: TObject);
 
 
   private
@@ -324,6 +324,13 @@ begin
   UpdateDetail;
 end;
 
+procedure TfrmDialogSupplier.chkPKPClick(Sender: TObject);
+begin
+  inherited;
+  lblPPN.Visible := chkPKP.Checked;
+  cxLookupPPN.Visible := chkPKP.Checked;
+end;
+
 procedure TfrmDialogSupplier.cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
     TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
     TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
@@ -343,6 +350,7 @@ begin
 
   cxGrdDBSupplierMerchan.LoadFromCDS(CDSItems, FALSE, FALSE);
   IsUpdateSupplier := False;
+  chkPKPClick(self);
 end;
 
 procedure TfrmDialogSupplier.FormShow(Sender: TObject);
@@ -410,6 +418,16 @@ begin
     DMClient.DSProviderClient.TipePembayaran_GetDSOverview,
       'REF$TIPE_PEMBAYARAN_ID', 'TPBYR_NAME', ['REF$TIPE_PEMBAYARAN_ID'],self
     );
+
+  cxLookupPODeliver.LoadFromDS(
+    DMClient.DSProviderClient.TipeKirimPO_GetDSOverview,
+      'REF$TIPE_KIRIM_PO_ID', 'TPKRMPO_NAME', ['REF$TIPE_KIRIM_PO_ID'],self
+    );
+
+  cxLookupPPN.LoadFromDS(
+    DMClient.DSProviderClient.RefPajak_GetDSLookup,
+      'REF$PAJAK_ID', 'PJK_NAME', ['REF$PAJAK_ID'],self
+    );
 end;
 
 procedure TfrmDialogSupplier.LoadData(ID: String);
@@ -468,32 +486,30 @@ begin
   cxLookupMerchGroup.EditValue := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
   cxLookupPaymentType.EditValue := CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString;
   edtTermOP.Text := CDSItems.FieldByName('SUPMG_TOP').AsString;
-//  edtLeadTime
-//  cxLookupPODeliver
+  edtLeadTime.Text := CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString;
+  cxLookupPODeliver.EditValue := CDSItems.FieldByName('TIPE_KIRIM_PO').AsString;
   curedtCreditLmt.Value := CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat;
   edtExtdDesc.EditValue := CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString;
-//  curedtAPEndB
-//  curedtCNBln
-//  edtDisc
-//  dtLastPurchs
-//  curedtPaymnt
-//  curedtOutsdPaymnt
-//  edtNoOfPO
-//  edtFee
-//  chkFee
-//  cbbBKP
-//  cbbPpn
-//  chkAllMer
-//  chkEnableCN
-//  chkMon
-//  chkTue
-//  chkWed
-//  chkThu
-//  chkFri
-//  chkSat
-//  chkSun
-
-
+  curedtAPEndB.Value := CDSItems.FieldByName('SUPMG_AP_ENDING_BALANCE').AsFloat;
+  curedtCNBln.Value := CDSItems.FieldByName('SUPMG_CN_BALANCE').AsFloat;
+  edtDisc.Text := CDSItems.FieldByName('SUPMG_DISC').AsString;
+  dtLastPurchs.Date := CDSItems.FieldByName('SUPMG_LAST_PURCHASE').AsDateTime;
+  curedtPaymnt.Value := CDSItems.FieldByName('SUPMG_LAST_PAYMENT').AsFloat;
+  curedtOutsdPaymnt.Value := CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat;
+  edtNoOfPO.Text := CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString;
+  edtFee.Text := CDSItems.FieldByName('SUPMG_FEE').AsString;
+  chkFee.Checked := CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger=1;
+  chkPKP.Checked := CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger=1;
+  cxLookupPPN.EditValue := CDSItems.FieldByName('SUPMG_PAJAK').AsString;
+//  chkAllMer.Checked := CDSItems.FieldByName('').AsInteger=1;  //belum tau gimana
+  chkEnableCN.Checked := CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger=1;
+  chkMon.Checked := CDSItems.FieldByName('SUPMG_IS_MON').AsInteger=1;
+  chkTue.Checked := CDSItems.FieldByName('SUPMG_IS_TUE').AsInteger=1;
+  chkWed.Checked := CDSItems.FieldByName('SUPMG_IS_WED').AsInteger=1;
+  chkThu.Checked := CDSItems.FieldByName('SUPMG_IS_THU').AsInteger=1;
+  chkFri.Checked := CDSItems.FieldByName('SUPMG_IS_FRI').AsInteger=1;
+  chkSat.Checked := CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger=1;
+  chkSun.Checked := CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger=1;
 
   IsUpdateSupplier := True;
 end;
@@ -572,6 +588,32 @@ begin
   CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString    := cxLookupPaymentType.EditValue;
   CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat  := curedtCreditLmt.Value;
   CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString  := edtExtdDesc.Text;
+  CDSItems.FieldByName('SUPMG_TOP').AsString          := edtTermOP.Text;
+  CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString    := edtLeadTime.Text;
+  CDSItems.FieldByName('SUPMG_DISC').AsString         := edtDisc.Text;
+  CDSItems.FieldByName('SUPMG_FEE').AsString          := edtFee.Text;
+  CDSItems.FieldByName('TIPE_KIRIM_PO').AsString      := cxLookupPODeliver.EditValue;
+// bagian ini hanya display, bukan untuk input [START]
+// aktifkan kl mau dipakke input
+//  CDSItems.FieldByName('SUPMG_AP_ENDING_BALANCE').AsFloat   := curedtAPEndB.Value;
+//  CDSItems.FieldByName('SUPMG_CN_BALANCE').AsFloat          := curedtCNBln.Value;
+//  CDSItems.FieldByName('SUPMG_DISC').AsString               := edtDisc.Text;
+//  CDSItems.FieldByName('SUPMG_LAST_PURCHASE').AsDateTime    := dtLastPurchs.Date;
+//  CDSItems.FieldByName('SUPMG_LAST_PAYMENT').AsFloat        := curedtPaymnt.Value;
+//  CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat := curedtOutsdPaymnt.Value;
+//  CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString           := edtNoOfPO.Text;
+// bagian ini hanya display, bukan untuk input [END]
+  CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger :=  TAppUtils.BoolToInt(chkFee.Checked);
+  CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(chkEnableCN.Checked);
+  CDSItems.FieldByName('SUPMG_IS_MON').AsInteger := TAppUtils.BoolToInt(chkMon.Checked);
+  CDSItems.FieldByName('SUPMG_IS_TUE').AsInteger := TAppUtils.BoolToInt(chkTue.Checked);
+  CDSItems.FieldByName('SUPMG_IS_WED').AsInteger := TAppUtils.BoolToInt(chkWed.Checked);
+  CDSItems.FieldByName('SUPMG_IS_THU').AsInteger := TAppUtils.BoolToInt(chkThu.Checked);
+  CDSItems.FieldByName('SUPMG_IS_FRI').AsInteger := TAppUtils.BoolToInt(chkFri.Checked);
+  CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger := TAppUtils.BoolToInt(chkSat.Checked);
+  CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger := TAppUtils.BoolToInt(chkSun.Checked);
+  CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger := TAppUtils.BoolToInt(chkPKP.Checked);
+  CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
   // ..... lanjutkan
 
   CDSItems.Post;
