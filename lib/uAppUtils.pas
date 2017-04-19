@@ -99,10 +99,12 @@ type
     class function StrPadLeftCut(const S: String; Len: Integer; C: Char): String;
     class function StrRemoveChar(const S: String; const Source: Char): String;
     //fungsi enkripsi
-    class function _Encrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
-    class function _Decrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
-    class function _MakeReadable(Input: string): string;
-    class function _MakeOriginal(Input: string): string;
+    class function _Encrypt(const InString: AnsiString; START_KEY, MULTI_KEY,
+        ADD_KEY: Integer): AnsiString;
+    class function _Decrypt(const InString: AnsiString; START_KEY, MULTI_KEY,
+        ADD_KEY: Integer): AnsiString;
+    class function _MakeReadable(Input: AnsiString): AnsiString;
+    class function _MakeOriginal(Input: AnsiString): AnsiString;
   end;
 
 procedure SetIDCurrencyRegionalSetting;
@@ -1079,7 +1081,8 @@ end;
                Base alghoritm from Borland
   @modified by: Martin Djernæs, Yogatama
 }
-class function TAppUtils._Encrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
+class function TAppUtils._Encrypt(const InString: AnsiString; START_KEY,
+    MULTI_KEY, ADD_KEY: Integer): AnsiString;
 var
   i: Byte;
 begin
@@ -1096,7 +1099,8 @@ end;
                Base alghoritm from Borland
   @modified by: Martin Djernæs, Yogatama
 }
-class function TAppUtils._Decrypt(const InString: string; START_KEY, MULTI_KEY, ADD_KEY: Integer): string;
+class function TAppUtils._Decrypt(const InString: AnsiString; START_KEY,
+    MULTI_KEY, ADD_KEY: Integer): AnsiString;
 var
   i: Byte;
 begin
@@ -1108,9 +1112,9 @@ begin
   end;
 end;
 
-class function TAppUtils._MakeReadable(Input: string): string;
+class function TAppUtils._MakeReadable(Input: AnsiString): AnsiString;
 const
-  digit: array [0..15] of Char = ('0', '1', '2', '3', '4', '5', '6', '7',
+  digit: array [0..15] of AnsiChar = ('0', '1', '2', '3', '4', '5', '6', '7',
                                   '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 var
   i: Byte;
@@ -1120,14 +1124,14 @@ begin
     Result := Result + digit[Ord(Input[i]) shr 4] + digit[Ord(Input[i]) and $F];
 end;
 
-class function TAppUtils._MakeOriginal(Input: string): string;
+class function TAppUtils._MakeOriginal(Input: AnsiString): AnsiString;
 var
   i: Byte;
 begin
   Result := '';
   i := 1;
   while (i < Length(Input)) do begin
-    Result := Result + Chr(StrToInt('$' + Input[i] + Input[i + 1]));
+    Result := Result + AnsiChar(StrToInt('$' + Input[i] + Input[i + 1]));
     i := i + 2;
   end;
 end;
