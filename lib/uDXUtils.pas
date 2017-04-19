@@ -69,6 +69,7 @@ type
   public
     function CDS: TClientDataSet;
     function DS: TDataset;
+    function EditValueText: String;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
@@ -1241,6 +1242,14 @@ begin
     Result := TcxGridDBTableView(Self.Properties.View).DataController.DataSource.DataSet
   else
     Result := nil;
+end;
+
+function TcxExtLookupComboHelper.EditValueText: String;
+begin
+  if VarIsNull(EditValue) then
+    Result := ''
+  else
+    Result := EditValue;
 end;
 
 procedure TcxExtLookupComboHelper.LoadFromCDS(aCDS: TClientDataSet; IDField,

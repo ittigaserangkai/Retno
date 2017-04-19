@@ -18,15 +18,14 @@ uses
 
 type
   TfrmPurchaseOrder = class(TfrmMasterBrowse)
-    Panel1: TPanel;
-    lbl1: TLabel;
-    lbl4: TLabel;
-    Label1: TLabel;
     cxgrdlvlPODetail: TcxGridLevel;
     cxGridDBTableSODetail: TcxGridDBTableView;
-    cbbStatusPO: TcxExtLookupComboBox;
     cbbSupMGAkhir: TcxExtLookupComboBox;
     cbbSupMGAwal: TcxExtLookupComboBox;
+    lblSupMG: TcxLabel;
+    lblStatus: TcxLabel;
+    cbbStatusPO: TcxExtLookupComboBox;
+    lblTo: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
@@ -39,7 +38,8 @@ type
     { Private declarations }
     sSQL  : string;
     procedure InisialisasiDBBStatusPO;
-    procedure InisialisasiCBBSupMG(AExtLookupComboBox : TcxExtLookupComboBox);
+    procedure InisialisasiCBBSupMGAkhir; overload;
+    procedure InisialisasiCBBSupMG;
     procedure RefreshDataPO;
     procedure RefreshDataPODetil;
 
@@ -67,8 +67,9 @@ procedure TfrmPurchaseOrder.FormCreate(Sender: TObject);
 begin
   inherited;
   InisialisasiDBBStatusPO;
-  InisialisasiCBBSupMG(cbbSupMGAwal);
-  InisialisasiCBBSupMG(cbbSupMGAkhir);
+
+//  InisialisasiCBBSupMGAkhir;
+  InisialisasiCBBSupMG;
 end;
 
 procedure TfrmPurchaseOrder.actAddExecute(Sender: TObject);
@@ -191,14 +192,28 @@ begin
   cbbStatusPO.Properties.SetMultiPurposeLookup;
 end;
 
-procedure TfrmPurchaseOrder.InisialisasiCBBSupMG(AExtLookupComboBox :
-    TcxExtLookupComboBox);
+procedure TfrmPurchaseOrder.InisialisasiCBBSupMGAkhir;
 var
   lcdsStatusSupMG: TClientDataSet;
 begin
   lcdsStatusSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
-  AExtLookupComboBox.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUP_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
-  AExtLookupComboBox.Properties.SetMultiPurposeLookup;
+  cbbSupMGAkhir.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUP_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  cbbSupMGAkhir.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmPurchaseOrder.InisialisasiCBBSupMG;
+var
+  lcdsStatusSupMG: TClientDataSet;
+begin
+  lcdsStatusSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
+
+  cbbSupMGAwal.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPMG_CODE','SUPMG_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  cbbSupMGAwal.Properties.SetMultiPurposeLookup;
+
+  lcdsStatusSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
+
+  cbbSupMGAkhir.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPMG_CODE','SUPMG_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  cbbSupMGAkhir.Properties.SetMultiPurposeLookup;
 end;
 
 procedure TfrmPurchaseOrder.RefreshData;
@@ -219,10 +234,17 @@ begin
 end;
 
 procedure TfrmPurchaseOrder.RefreshDataPO;
+var
+  sStatusPOId: string;
 begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
 
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+  if VarIsNull(cbbStatusPO.EditValue) then
+    sStatusPOId := ''
+  else
+    sStatusPOId := cbbStatusPO.EditValue;
+
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date,cbbSupMGAwal.EditValueText,cbbSupMGAkhir.EditValueText, sStatusPOId, nil),Self );
   cxGridView.LoadFromCDS(FCDS);
   cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
 end;

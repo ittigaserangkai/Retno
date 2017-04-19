@@ -693,7 +693,7 @@ begin
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   if Trim(AkodeSupplierMGAwal) <> '' then
-    sSQL := sSQL + ' KODE_SUPPLIER_MERCHANDISE_GROUP BETWEEN ' + QuotedStr(AkodeSupplierMGAwal)
+    sSQL := sSQL + ' and KODE_SUPPLIER_MERCHANDISE_GROUP BETWEEN ' + QuotedStr(AkodeSupplierMGAwal)
             + ' AND ' + QuotedStr(AKodeSupplierMGAkhir);
 
   if TRIM(AStatusPOID) <> '' then
@@ -722,7 +722,7 @@ function TDSProvider.StatusPO_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select ref$status_po_id, STAPO_CODE,STAPO_NAME' +
+  S := 'select ref$status_po_id, STAPO_NAME, STAPO_CODE' +
        ' from V_STATUSPO ' +
        ' ORDER BY URUTAN ';
 
@@ -733,7 +733,7 @@ function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select S.SUPLIER_MERCHAN_GRUP_ID, SP.SUP_CODE, SP.SUP_NAME,'
+  S := 'select S.SUPLIER_MERCHAN_GRUP_ID, SUPMG_CODE, SP.SUP_CODE, SP.SUP_NAME,'
     +' A.REF$MERCHANDISE_ID, A.REF$MERCHANDISE_GRUP_ID, A.MERCHANGRUP_NAME, B.MERCHAN_NAME'
     +' from SUPLIER_MERCHAN_GRUP S'
     +' INNER JOIN SUPLIER SP ON SP.SUPLIER_ID=S.SUPLIER_ID'
