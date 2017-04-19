@@ -78,6 +78,7 @@ type
     function TipeCN_GetDSOverview: TDataSet;
     function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
         nil): TDataSet;
+    function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
     function SuplierMerchan_GetDSLookup: TDataSet;
 
 
@@ -676,6 +677,10 @@ begin
           ' where SO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -718,6 +723,20 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select SO_ID,SO_NO, SO_DATE from V_SO where 1 = 1 ' ;
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
+  sSQL := sSQL + ' order by SO_NO';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.StatusPO_GetDSLookup: TDataSet;
 var
   S: string;
@@ -733,12 +752,7 @@ function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select S.SUPLIER_MERCHAN_GRUP_ID, SUPMG_CODE, SP.SUP_CODE, SP.SUP_NAME,'
-    +' A.REF$MERCHANDISE_ID, A.REF$MERCHANDISE_GRUP_ID, A.MERCHANGRUP_NAME, B.MERCHAN_NAME'
-    +' from SUPLIER_MERCHAN_GRUP S'
-    +' INNER JOIN SUPLIER SP ON SP.SUPLIER_ID=S.SUPLIER_ID'
-    +' INNER JOIN REF$MERCHANDISE_GRUP A ON S.REF$MERCHANDISE_GRUP_ID=A.REF$MERCHANDISE_GRUP_ID'
-    +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID ';
+  S := 'select * from V_SUPPLIER_MERCHANDISE_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 4/18/2017 2:17:42 PM
+// 4/19/2017 9:49:09 AM
 //
 
 unit uClientClasses;
@@ -198,6 +198,8 @@ type
     FTipeCN_GetDSOverviewCommand_Cache: TDSRestCommand;
     FSO_GetDSOverviewCommand: TDSRestCommand;
     FSO_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FSO_GetDSOLookUpCommand: TDSRestCommand;
+    FSO_GetDSOLookUpCommand_Cache: TDSRestCommand;
     FSuplierMerchan_GetDSLookupCommand: TDSRestCommand;
     FSuplierMerchan_GetDSLookupCommand_Cache: TDSRestCommand;
   public
@@ -332,6 +334,8 @@ type
     function TipeCN_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function SO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function SO_GetDSOLookUp(AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function SO_GetDSOLookUp_Cache(AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SuplierMerchan_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function SuplierMerchan_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
@@ -1116,6 +1120,18 @@ const
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_SO_GetDSOLookUp: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_SO_GetDSOLookUp_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -3475,6 +3491,61 @@ begin
   Result := TDSRestCachedDataSet.Create(FSO_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.SO_GetDSOLookUp(AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FSO_GetDSOLookUpCommand = nil then
+  begin
+    FSO_GetDSOLookUpCommand := FConnection.CreateCommand;
+    FSO_GetDSOLookUpCommand.RequestType := 'POST';
+    FSO_GetDSOLookUpCommand.Text := 'TDSProvider."SO_GetDSOLookUp"';
+    FSO_GetDSOLookUpCommand.Prepare(TDSProvider_SO_GetDSOLookUp);
+  end;
+  if not Assigned(AUnit) then
+    FSO_GetDSOLookUpCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSO_GetDSOLookUpCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSO_GetDSOLookUpCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSO_GetDSOLookUpCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FSO_GetDSOLookUpCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FSO_GetDSOLookUpCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.SO_GetDSOLookUp_Cache(AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FSO_GetDSOLookUpCommand_Cache = nil then
+  begin
+    FSO_GetDSOLookUpCommand_Cache := FConnection.CreateCommand;
+    FSO_GetDSOLookUpCommand_Cache.RequestType := 'POST';
+    FSO_GetDSOLookUpCommand_Cache.Text := 'TDSProvider."SO_GetDSOLookUp"';
+    FSO_GetDSOLookUpCommand_Cache.Prepare(TDSProvider_SO_GetDSOLookUp_Cache);
+  end;
+  if not Assigned(AUnit) then
+    FSO_GetDSOLookUpCommand_Cache.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSO_GetDSOLookUpCommand_Cache.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSO_GetDSOLookUpCommand_Cache.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSO_GetDSOLookUpCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FSO_GetDSOLookUpCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.SuplierMerchan_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FSuplierMerchan_GetDSLookupCommand = nil then
@@ -3644,6 +3715,8 @@ begin
   FTipeCN_GetDSOverviewCommand_Cache.DisposeOf;
   FSO_GetDSOverviewCommand.DisposeOf;
   FSO_GetDSOverviewCommand_Cache.DisposeOf;
+  FSO_GetDSOLookUpCommand.DisposeOf;
+  FSO_GetDSOLookUpCommand_Cache.DisposeOf;
   FSuplierMerchan_GetDSLookupCommand.DisposeOf;
   FSuplierMerchan_GetDSLookupCommand_Cache.DisposeOf;
   inherited;
