@@ -64,6 +64,7 @@ type
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
+    function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
@@ -610,6 +611,22 @@ begin
       +' AND A.REF$MERCHANDISE_ID = ' + QuotedStr(aMerchandise);
 
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
+var
+  S: String;
+begin
+  S := 'SELECT DBO.FN_NOMEMBER (' + quotedSTR( ATPMEMBER ) + ')';
+  Result := '';
+  with TDBUtils.OpenQuery(S) DO
+    Begin
+      try
+        Result := Fields[0].AsString;
+      finally
+        free;
+      end;
+    End;
 end;
 
 function TDSProvider.TipeHarga_GetDSLookup: TDataSet;

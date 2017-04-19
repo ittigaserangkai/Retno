@@ -294,7 +294,7 @@ begin
   Result := False;
   if (edtRekCode.Text = '') then
   begin
-    CommonDlg.ShowError('Rekening Code Is Empty');
+    CommonDlg.ShowError('Account Code Is Empty');
     edtRekCode.SetFocus;
     Exit;
   end;
