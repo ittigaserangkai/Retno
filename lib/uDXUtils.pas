@@ -143,6 +143,8 @@ type
         DisplayField: String; HideIDField: Boolean = True); overload;
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible:
+        Boolean); overload;
   end;
 
   TcxExtLookup= class(TcxExtLookupComboBoxProperties)
@@ -1041,6 +1043,21 @@ begin
   ExtLookupProp.PopupAutoSize := True;
   Self.OptionsBehavior.BestFitMaxRecordCount := 0;
   Self.ApplyBestFit;
+end;
+
+procedure TcxDBGridHelper.SetVisibleColumnsOnly(ColumnSets: Array Of String;
+    IsVisible: Boolean);
+var
+  i: Integer;
+begin
+  for i := 0 to Self.ColumnCount-1 do
+    Self.Columns[i].Visible := not IsVisible;
+
+  for i := Low(ColumnSets) to High(ColumnSets) do
+  begin
+    If Assigned(Self.GetColumnByFieldName(ColumnSets[i])) then
+      Self.GetColumnByFieldName(ColumnSets[i]).Visible := IsVisible;
+  end;
 end;
 
 class procedure TcxExtLookup.OnInitPopupCustom(Sender: TObject);

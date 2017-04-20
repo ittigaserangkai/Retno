@@ -51,6 +51,10 @@ type
     FSOD_TOTAL: Double;
     FSOD_TOTAL_DISC: Double;
     FSatuan: TModSatuan;
+    FSOD_ADS: Double;
+    FSOD_QTYSO: Double;
+    FSOD_STOCK: Double;
+    FSOD_ROP: Double;
     FSupplierMerchan: TModSuplierMerchanGroup;
   published
     property BARANG: TModBarang read FBARANG write FBARANG;
@@ -70,6 +74,10 @@ type
     property SOD_TOTAL_DISC: Double read FSOD_TOTAL_DISC write FSOD_TOTAL_DISC;
     [AttributeOfForeign('Ref$Satuan_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
+    property SOD_ADS: Double read FSOD_ADS write FSOD_ADS;
+    property SOD_QTYSO: Double read FSOD_QTYSO write FSOD_QTYSO;
+    property SOD_STOCK: Double read FSOD_STOCK write FSOD_STOCK;
+    property SOD_ROP: Double read FSOD_ROP write FSOD_ROP;
     [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
     property SupplierMerchan: TModSuplierMerchanGroup read FSupplierMerchan write
         FSupplierMerchan;
