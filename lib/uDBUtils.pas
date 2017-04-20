@@ -19,6 +19,8 @@ type
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
         = 256; IsCalculated: Boolean = False);
+    procedure SetFieldFrom(DestFieldName: String; SourceDataSet: TDataset;
+        SourceField: String = '');
   end;
 
   TDBUtils = class(TObject)
@@ -36,7 +38,6 @@ type
         TComponent): TClientDataSet;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
-    class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
     class procedure TemporaryForHideWarning;
     class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
         overload;
@@ -174,23 +175,6 @@ begin
     Result.Open;
 
     if FreeDataSet then aDataset.Free;
-  end;
-end;
-
-class procedure TDBUtils.DSToCDS(ADataset : TDataset; ACDS : TClientDataset);
-var
-  i: Integer;
-begin
-  ACDS.Open;
-  ACDS.EmptyDataSet;
-
-  while not ADataset.Eof do
-  begin
-    for i := 0 to ACDS.Fields.Count - 1 do
-    begin
-      ACDS.Append;
-      ACDS.Fields[i] := ADataset.FieldByName(ACDS.FieldDefs[i].Name);
-    end;
   end;
 end;
 
@@ -1035,6 +1019,13 @@ begin
       end;
   end;
 
+end;
+
+procedure TCDSHelper.SetFieldFrom(DestFieldName: String; SourceDataSet:
+    TDataset; SourceField: String = '');
+begin
+  if SourceField = '' then SourceField := DestFieldName;
+  Self.FieldValues[DestFieldName] := SourceDataSet.FieldValues[SourceField];
 end;
 
 end.

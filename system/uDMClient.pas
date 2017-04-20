@@ -15,6 +15,9 @@ type
     cxStyleGridEven: TcxStyle;
     cxStyleGridHeader: TcxStyle;
     imgListIcon: TImageList;
+    cxStyleMoneyGreen: TcxStyle;
+    cxStyleInfoBK: TcxStyle;
+    cxStyleSkyBlue: TcxStyle;
     procedure DataModuleCreate(Sender: TObject);
   private
     FCrudClient: TCrudClient;

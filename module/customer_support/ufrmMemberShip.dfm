@@ -568,10 +568,8 @@ inherited frmMemberShip: TfrmMemberShip
       ExplicitWidth = 773
       inherited lbEscape: TLabel
         Left = 699
+        Height = 17
         ExplicitLeft = 699
-      end
-      inherited lbCTRLP: TLabel
-        ExplicitLeft = 271
       end
     end
   end

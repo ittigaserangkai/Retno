@@ -3,7 +3,6 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
-  ExplicitTop = -142
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -23,8 +22,6 @@ inherited frmDialogSO: TfrmDialogSO
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 0
-      ExplicitLeft = 50
-      ExplicitTop = -54
       object lbl1: TLabel
         Left = 73
         Top = 7
@@ -89,23 +86,21 @@ inherited frmDialogSO: TfrmDialogSO
         Color = 15198183
         TabOrder = 5
         object lbl4: TLabel
-          Left = 203
+          Left = 168
           Top = 8
           Width = 296
           Height = 16
           Caption = '(Use this button to add product beyond SO schedulling day)'
         end
         object btnAddOthersProdSO: TcxButton
-          Left = 8
-          Top = 4
-          Width = 193
+          Left = 9
+          Top = 5
+          Width = 153
           Height = 25
           Cursor = crHandPoint
-          Caption = 'CTRL-A  [Add Products for SO]'
-          OptionsImage.ImageIndex = 0
+          Action = actAddProd
           OptionsImage.Images = DMClient.imgListButton
           TabOrder = 0
-          OnClick = btnAddOthersProdSOClick
         end
         object btnToExcel: TcxButton
           Left = 536
@@ -138,11 +133,9 @@ inherited frmDialogSO: TfrmDialogSO
         Width = 195
         Height = 27
         Cursor = crHandPoint
-        Caption = 'Generate'
-        OptionsImage.ImageIndex = 30
+        Action = actGenerate
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 4
-        OnClick = btnShowClick
       end
       object cxLookupMerchan: TcxExtLookupComboBox
         Left = 110
@@ -180,6 +173,17 @@ inherited frmDialogSO: TfrmDialogSO
         NewItemRow.InfoText = 'Baris baru'
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.GroupByBox = False
+        OptionsView.Indicator = True
+        object clStatus: TcxGridDBColumn
+          Caption = '[x]'
+          DataBinding.FieldName = 'Checked'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ImmediatePost = True
+          Properties.OnEditValueChanged = clStatusPropertiesEditValueChanged
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 35
+        end
         object clNo: TcxGridDBColumn
           Caption = 'NO'
           DataBinding.FieldName = 'No'
@@ -190,16 +194,6 @@ inherited frmDialogSO: TfrmDialogSO
           HeaderAlignmentVert = vaTop
           Options.Editing = False
           Width = 34
-        end
-        object clStatus: TcxGridDBColumn
-          Caption = '[x]'
-          DataBinding.FieldName = 'Checked'
-          PropertiesClassName = 'TcxCheckBoxProperties'
-          Properties.ImmediatePost = True
-          Properties.OnEditValueChanged = clStatusPropertiesEditValueChanged
-          HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
-          Width = 25
         end
         object clPLU: TcxGridDBColumn
           DataBinding.FieldName = 'PLU'
@@ -225,25 +219,14 @@ inherited frmDialogSO: TfrmDialogSO
           HeaderAlignmentVert = vaTop
           Width = 55
         end
-        object clMinOrder: TcxGridDBColumn
-          Caption = 'MIN ORDER'
-          DataBinding.FieldName = 'MinOrder'
+        object clROP: TcxGridDBColumn
+          Caption = 'MIN STOCK'
+          DataBinding.FieldName = 'ROP'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
-          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
-        end
-        object clMaxOrder: TcxGridDBColumn
-          Caption = 'MAX ORDER'
-          DataBinding.FieldName = 'MaxOrder'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = '0;(,0)'
-          Properties.ReadOnly = True
-          HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
+          Width = 70
         end
         object clCurrStock: TcxGridDBColumn
           DataBinding.FieldName = 'STOCK'
@@ -253,16 +236,48 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
-          Width = 36
+          Width = 38
         end
-        object cxGridViewColumn1: TcxGridDBColumn
+        object clLeadTime: TcxGridDBColumn
+          Caption = 'LEAD TIME'
+          DataBinding.FieldName = 'LeadTime'
+          PropertiesClassName = 'TcxSpinEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 61
+        end
+        object clADS: TcxGridDBColumn
           DataBinding.FieldName = 'ADS'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(0)'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 23
+          Width = 35
+        end
+        object clMinOrder: TcxGridDBColumn
+          Caption = 'MIN ORDER'
+          DataBinding.FieldName = 'MinOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 60
+        end
+        object clMaxOrder: TcxGridDBColumn
+          Caption = 'MAX ORDER'
+          DataBinding.FieldName = 'MaxOrder'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = '0;(,0)'
+          Properties.ReadOnly = True
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
         end
         object clQTYSO: TcxGridDBColumn
           Caption = 'QTY SO'
@@ -273,18 +288,16 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
+          Width = 55
         end
         object clQTYOrder: TcxGridDBColumn
           Caption = 'QTY ORDER'
-          DataBinding.FieldName = 'QTYOrder'
+          DataBinding.FieldName = 'QTY'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
-          Properties.ReadOnly = False
-          Properties.OnEditValueChanged = clQTYOrderPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
-          Width = 62
+          Width = 76
         end
         object clSuppCode: TcxGridDBColumn
           Caption = 'SUPPLIER CODE'
@@ -304,15 +317,6 @@ inherited frmDialogSO: TfrmDialogSO
           HeaderAlignmentVert = vaTop
           Width = 81
         end
-        object clLeadTime: TcxGridDBColumn
-          Caption = 'LEAD TIME'
-          DataBinding.FieldName = 'LeadTime'
-          PropertiesClassName = 'TcxSpinEditProperties'
-          Properties.ReadOnly = True
-          HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
-          Width = 61
-        end
         object clBuyPrice: TcxGridDBColumn
           Caption = 'BUY PRICE'
           DataBinding.FieldName = 'BuyPrice'
@@ -320,6 +324,7 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
           Width = 57
@@ -331,6 +336,7 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
           Width = 34
@@ -342,6 +348,7 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
           Width = 34
@@ -353,6 +360,7 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
           Width = 46
@@ -364,6 +372,7 @@ inherited frmDialogSO: TfrmDialogSO
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
         end
@@ -443,6 +452,18 @@ inherited frmDialogSO: TfrmDialogSO
     Top = 40
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    object actGenerate: TAction
+      Caption = 'CTRL-G [Generate SO]'
+      ImageIndex = 30
+      ShortCut = 16455
+      OnExecute = actGenerateExecute
+    end
+    object actAddProd: TAction
+      Caption = 'Add Other Product'
+      ImageIndex = 0
+      ShortCut = 16449
+      OnExecute = actAddProdExecute
     end
   end
 end

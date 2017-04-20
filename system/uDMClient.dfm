@@ -1364,6 +1364,18 @@ object DMClient: TDMClient
       Font.Name = 'Verdana'
       Font.Style = [fsBold]
     end
+    object cxStyleMoneyGreen: TcxStyle
+      AssignedValues = [svColor]
+      Color = clMoneyGreen
+    end
+    object cxStyleInfoBK: TcxStyle
+      AssignedValues = [svColor]
+      Color = clInfoBk
+    end
+    object cxStyleSkyBlue: TcxStyle
+      AssignedValues = [svColor]
+      Color = clSkyBlue
+    end
   end
   object imgListIcon: TImageList
     Height = 32

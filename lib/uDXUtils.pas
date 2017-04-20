@@ -19,12 +19,6 @@ uses
 type
   TTag = set of byte;
 
-  TcxGridTableViewHelper = class helper for TcxGridTableView
-  private
-  public
-    procedure ClearRows;
-  end;
-
   DataControllerHelper = class helper for TcxGridDataController
   private
   public
@@ -86,6 +80,8 @@ type
         aOwnerForm: TComponent); overload;
     procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
 
@@ -149,6 +145,8 @@ type
         DisplayField: String; HideIDField: Boolean = True); overload;
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
   TcxExtLookup= class(TcxExtLookupComboBoxProperties)
@@ -546,6 +544,13 @@ begin
   If not Assigned(Self.OnInitPopup) then
     Self.OnInitPopup := TcxExtLookup.OnInitPopupCustom;
 
+end;
+
+procedure TcxExtLookupPropHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
+    String; IsVisible: Boolean = True);
+begin
+  if not Assigned(Self.View) then exit;
+  TcxGridDBTableView(Self.View).SetVisibleColumnsOnly(ColumnSets, IsVisible);
 end;
 
 procedure TcxDBTreeHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
@@ -1058,6 +1063,21 @@ begin
   Self.ApplyBestFit;
 end;
 
+procedure TcxDBGridHelper.SetVisibleColumnsOnly(ColumnSets: Array Of String;
+    IsVisible: Boolean = True);
+var
+  i: Integer;
+begin
+  for i := 0 to Self.ColumnCount-1 do
+    Self.Columns[i].Visible := not IsVisible;
+
+  for i := Low(ColumnSets) to High(ColumnSets) do
+  begin
+    If Assigned(Self.GetColumnByFieldName(ColumnSets[i])) then
+      Self.GetColumnByFieldName(ColumnSets[i]).Visible := IsVisible;
+  end;
+end;
+
 class procedure TcxExtLookup.OnInitPopupCustom(Sender: TObject);
 begin
   If Sender is TcxExtLookupComboBox then
@@ -1336,6 +1356,12 @@ begin
   finally
     EndUpdate;
   end;
+end;
+
+procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
+    String; IsVisible: Boolean = True);
+begin
+  Self.Properties.SetVisibleColumnsOnly(ColumnSets, IsVisible);
 end;
 
 end.
