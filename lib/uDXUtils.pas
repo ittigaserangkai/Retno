@@ -1103,6 +1103,13 @@ begin
     if C is TCheckBox then
       if not Assigned(TCheckBox(C).OnKeyDown) then
         TCheckBox(C).OnKeyDown := OnKeyEnter;
+    if C is TComboBox then
+      if not Assigned(TComboBox(C).OnKeyDown) then
+        TComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TMaskEdit then
+      if not Assigned(TMaskEdit(C).OnKeyDown) then
+        TMaskEdit(C).OnKeyDown := OnKeyEnter;
+
 
     //------ devexpress ---------//
     if C is TcxExtLookupComboBox then

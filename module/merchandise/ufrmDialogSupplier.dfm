@@ -7,7 +7,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -88
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -32,11 +31,17 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       TabOrder = 0
       Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
+      OnChange = pc1Change
+      ExplicitLeft = 4
+      ExplicitTop = 3
       ClientRectBottom = 451
       ClientRectRight = 667
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = 'Supplier'
+        ExplicitLeft = 4
+        ExplicitWidth = 659
+        ExplicitHeight = 420
         object lbl3: TLabel
           Left = 66
           Top = 58
@@ -208,13 +213,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           HelpKeyword = 'Supplier Name'
           ParentFont = False
           Properties.CharCase = ecUpperCase
-          TabOrder = 1
+          TabOrder = 2
           Width = 298
         end
         object edtAddress: TcxTextEdit
           Left = 111
           Top = 55
-          TabOrder = 2
+          TabOrder = 3
           Text = '---'
           Width = 298
         end
@@ -222,43 +227,43 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Left = 111
           Top = 79
           Properties.CharCase = ecUpperCase
-          TabOrder = 3
+          TabOrder = 4
           Width = 95
         end
         object edtPostCode: TcxTextEdit
           Left = 304
           Top = 79
-          TabOrder = 4
+          TabOrder = 5
           Width = 106
         end
         object edtFax: TcxTextEdit
           Left = 304
           Top = 102
-          TabOrder = 6
+          TabOrder = 7
           Width = 106
         end
         object edtPhone: TcxTextEdit
           Left = 111
           Top = 103
-          TabOrder = 5
+          TabOrder = 6
           Width = 95
         end
         object edtContactP: TcxTextEdit
           Left = 111
           Top = 127
-          TabOrder = 7
+          TabOrder = 8
           Width = 187
         end
         object edtAccountName: TcxTextEdit
           Left = 111
           Top = 341
-          TabOrder = 18
+          TabOrder = 19
           Width = 211
         end
         object edtAccountNo: TcxTextEdit
           Left = 111
           Top = 317
-          TabOrder = 17
+          TabOrder = 18
           Width = 132
         end
         object cbbPKP: TComboBox
@@ -271,7 +276,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ItemIndex = 0
           ParentCtl3D = False
-          TabOrder = 10
+          TabOrder = 11
           Text = 'NON PKP'
           Items.Strings = (
             'NON PKP'
@@ -280,14 +285,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         object edtTaxNo: TcxTextEdit
           Left = 306
           Top = 175
-          TabOrder = 11
+          TabOrder = 12
           Visible = False
           Width = 104
         end
         object edtTitle: TcxTextEdit
           Left = 344
           Top = 125
-          TabOrder = 8
+          TabOrder = 9
           Width = 66
         end
         object medtNPWP: TMaskEdit
@@ -306,19 +311,19 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           MaxLength = 19
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 13
           Text = ''
         end
         object edtCabangBank: TcxTextEdit
           Left = 111
           Top = 269
-          TabOrder = 15
+          TabOrder = 16
           Width = 297
         end
         object edtAlamatBank: TcxTextEdit
           Left = 111
           Top = 293
-          TabOrder = 16
+          TabOrder = 17
           Width = 297
         end
         object chkSupActive: TCheckBox
@@ -333,36 +338,36 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Font.Name = 'Trebuchet MS'
           Font.Style = []
           ParentFont = False
-          TabOrder = 20
+          TabOrder = 21
         end
         object edtNPWPAlamat: TcxTextEdit
           Left = 111
           Top = 222
-          TabOrder = 13
+          TabOrder = 14
           Width = 298
         end
         object cxLookUpBank: TcxExtLookupComboBox
           Left = 111
           Top = 246
-          TabOrder = 14
+          TabOrder = 15
           Width = 299
         end
         object cxLookupTipePerush: TcxExtLookupComboBox
           Left = 278
           Top = 8
-          TabOrder = 0
+          TabOrder = 1
           Width = 132
         end
         object cxLookUpSuppGroup: TcxExtLookupComboBox
           Left = 111
           Top = 365
-          TabOrder = 19
+          TabOrder = 20
           Width = 299
         end
         object cxLookUpSupType: TcxExtLookupComboBox
           Left = 111
           Top = 150
-          TabOrder = 9
+          TabOrder = 10
           Width = 299
         end
         object edtSupCode: TcxTextEdit
@@ -373,12 +378,15 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           HelpKeyword = 'Supplier Name'
           ParentFont = False
           Properties.CharCase = ecUpperCase
-          TabOrder = 21
+          TabOrder = 0
           Width = 68
         end
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = 'Category'
+        ExplicitLeft = 4
+        ExplicitWidth = 659
+        ExplicitHeight = 420
         object gbSupplierGrid: TcxGroupBox
           Left = 0
           Top = 0
@@ -386,6 +394,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
+          ExplicitWidth = 659
+          ExplicitHeight = 147
           Height = 151
           Width = 667
           object pnlGridSupplierBtn: TcxGroupBox
@@ -396,6 +406,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
+            ExplicitTop = 118
+            ExplicitWidth = 655
             Height = 27
             Width = 663
             object lbSuppShortCut1: TLabel
@@ -496,6 +508,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Align = alClient
             TabOrder = 1
             TabStop = False
+            ExplicitWidth = 655
+            ExplicitHeight = 116
             object cxGrdDBSupplierMerchan: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               OnFocusedRecordChanged = cxGrdDBSupplierMerchanFocusedRecordChanged
@@ -535,14 +549,19 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = cxTabSheet1
+          Properties.ActivePage = tsA
           Properties.CustomButtons.Buttons = <>
+          ExplicitTop = 147
+          ExplicitWidth = 659
           ClientRectBottom = 273
           ClientRectRight = 667
           ClientRectTop = 27
-          object cxTabSheet1: TcxTabSheet
+          object tsMG: TcxTabSheet
             Caption = 'Merchandise Group'
             ImageIndex = 0
+            ExplicitLeft = 4
+            ExplicitWidth = 651
+            ExplicitHeight = 242
             object lblPPN: TLabel
               Left = 435
               Top = 155
@@ -901,9 +920,12 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Width = 123
             end
           end
-          object cxTabSheet2: TcxTabSheet
+          object tsA: TcxTabSheet
             Caption = 'Addreses'
             ImageIndex = 1
+            ExplicitLeft = 4
+            ExplicitWidth = 651
+            ExplicitHeight = 242
             object pnl1: TPanel
               Left = 0
               Top = 0
@@ -912,6 +934,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Align = alClient
               Color = clWhite
               TabOrder = 0
+              ExplicitWidth = 651
+              ExplicitHeight = 242
               object lbl30: TLabel
                 Left = 52
                 Top = 28
@@ -1075,6 +1099,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Height = 17
                 Caption = 'Make Different Contact'
                 TabOrder = 0
+                OnClick = chkIsDifClick
               end
               object cbpBankCodeMer: TcxButtonEdit
                 Left = 96
@@ -1136,16 +1161,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ExplicitWidth = 671
       inherited lbCTRLEnter: TLabel
         Left = 496
-        Height = 15
         ExplicitLeft = 496
       end
       inherited lbEscape: TLabel
         Left = 587
-        Height = 15
         ExplicitLeft = 587
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 420
@@ -1154,8 +1174,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 311
-    Top = 90
+    Left = 441
+    Top = 46
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
@@ -1164,8 +1184,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   object actSupplier: TActionList
-    Left = 320
-    Top = 144
+    Left = 446
+    Top = 97
     object actUpdateBank: TAction
       Caption = 'actUpdateBank'
     end
