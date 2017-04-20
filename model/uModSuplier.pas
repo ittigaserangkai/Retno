@@ -209,6 +209,7 @@ type
     FSUPMG_PAJAK: TModRefPajak;
     FSUPMG_DISC: Double;
     FSUPMG_NAME: string;
+    FSUPMG_IS_DIF_CONTACT: Integer;
   public
     class function GetTableName: String; override;
   published
@@ -274,11 +275,9 @@ type
     property SUPMG_PAJAK: TModRefPajak read FSUPMG_PAJAK write FSUPMG_PAJAK;
     property SUPMG_DISC: Double read FSUPMG_DISC write FSUPMG_DISC;
     property SUPMG_NAME: string read FSUPMG_NAME write FSUPMG_NAME;
+    property SUPMG_IS_DIF_CONTACT: Integer read FSUPMG_IS_DIF_CONTACT write
+        FSUPMG_IS_DIF_CONTACT;
   end;
-
-
-
-
 
 
 implementation

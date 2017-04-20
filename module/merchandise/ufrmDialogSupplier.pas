@@ -159,7 +159,7 @@ type
     cxGrdDBSupplierMerchan: TcxGridDBTableView;
     cxGridSupplierLevel1: TcxGridLevel;
     pgcMerchan: TcxPageControl;
-    cxTabSheet1: TcxTabSheet;
+    tsMG: TcxTabSheet;
     lblPPN: TLabel;
     Label11: TLabel;
     Label12: TLabel;
@@ -204,7 +204,7 @@ type
     chkFri: TCheckBox;
     chkSat: TCheckBox;
     chkSun: TCheckBox;
-    cxTabSheet2: TcxTabSheet;
+    tsA: TcxTabSheet;
     pnl1: TPanel;
     lbl30: TLabel;
     lbl31: TLabel;
@@ -249,13 +249,16 @@ type
         TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
         TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
     procedure btnUpdateSuppClick(Sender: TObject);
+    procedure chkIsDifClick(Sender: TObject);
     procedure chkPKPClick(Sender: TObject);
+    procedure pc1Change(Sender: TObject);
 
 
   private
     FCDSItems: TClientDataSet;
     FIsUpdateSupplier: Boolean;
     FModSupplier: TModSuplier;
+    procedure CopyAlamat;
     function GetCDSItems: TClientDataSet;
     function GetModSupplier: TModSuplier;
     procedure InitLookup;
@@ -324,11 +327,37 @@ begin
   UpdateDetail;
 end;
 
+procedure TfrmDialogSupplier.chkIsDifClick(Sender: TObject);
+begin
+  inherited;
+  CopyAlamat;
+  edtAddrMer.Enabled := chkIsDif.Checked;
+  edtCityMer.Enabled := chkIsDif.Checked;
+  edtPhoneMer.Enabled := chkIsDif.Checked;
+  edtPostCodeMer.Enabled := chkIsDif.Checked;
+  edtFaxMer.Enabled := chkIsDif.Checked;
+end;
+
 procedure TfrmDialogSupplier.chkPKPClick(Sender: TObject);
 begin
   inherited;
   lblPPN.Visible := chkPKP.Checked;
   cxLookupPPN.Visible := chkPKP.Checked;
+end;
+
+procedure TfrmDialogSupplier.CopyAlamat;
+begin
+  if chkIsDif.Checked then exit;
+
+//  if not chkIsDif.Checked then
+//  begin
+    edtAddrMer.Text := edtAddress.Text;
+    edtCityMer.Text := edtCity.Text;
+    edtPostCodeMer.Text := edtPostCode.Text;
+    edtPhoneMer.Text := edtPhone.Text;
+    edtFaxMer.Text := edtFax.Text;
+//  end;
+
 end;
 
 procedure TfrmDialogSupplier.cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
@@ -344,6 +373,7 @@ procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
 begin
   inherited;
   pc1.ActivePage := tsSupplier;
+  pgcMerchan.ActivePage := tsMG;
   Self.AssignKeyDownEvent;
 
   InitLookup;
@@ -477,32 +507,38 @@ begin
 
 end;
 
+procedure TfrmDialogSupplier.pc1Change(Sender: TObject);
+begin
+  inherited;
+  CopyAlamat;
+end;
+
 procedure TfrmDialogSupplier.ShowDetail(AIDObject: String);
 begin
   if CDSItems.Eof then exit;  //exit jika tidak ada record yang dipilih
 
   //isi kan form dari CDSItems, contoh :
 
-  cxLookupMerchGroup.EditValue := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
+  cxLookupMerchGroup.EditValue  := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
   cxLookupPaymentType.EditValue := CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString;
-  edtTermOP.Text := CDSItems.FieldByName('SUPMG_TOP').AsString;
-  edtLeadTime.Text := CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString;
-  cxLookupPODeliver.EditValue := CDSItems.FieldByName('TIPE_KIRIM_PO').AsString;
-  curedtCreditLmt.Value := CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat;
-  edtExtdDesc.EditValue := CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString;
-  curedtAPEndB.Value := CDSItems.FieldByName('SUPMG_AP_ENDING_BALANCE').AsFloat;
-  curedtCNBln.Value := CDSItems.FieldByName('SUPMG_CN_BALANCE').AsFloat;
-  edtDisc.Text := CDSItems.FieldByName('SUPMG_DISC').AsString;
-  dtLastPurchs.Date := CDSItems.FieldByName('SUPMG_LAST_PURCHASE').AsDateTime;
-  curedtPaymnt.Value := CDSItems.FieldByName('SUPMG_LAST_PAYMENT').AsFloat;
-  curedtOutsdPaymnt.Value := CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat;
-  edtNoOfPO.Text := CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString;
-  edtFee.Text := CDSItems.FieldByName('SUPMG_FEE').AsString;
-  chkFee.Checked := CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger=1;
-  chkPKP.Checked := CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger=1;
-  cxLookupPPN.EditValue := CDSItems.FieldByName('SUPMG_PAJAK').AsString;
-//  chkAllMer.Checked := CDSItems.FieldByName('').AsInteger=1;  //belum tau gimana
-  chkEnableCN.Checked := CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger=1;
+  edtTermOP.Text                := CDSItems.FieldByName('SUPMG_TOP').AsString;
+  edtLeadTime.Text              := CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString;
+  cxLookupPODeliver.EditValue   := CDSItems.FieldByName('TIPE_KIRIM_PO').AsString;
+  curedtCreditLmt.Value         := CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat;
+  edtExtdDesc.EditValue         := CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString;
+  curedtAPEndB.Value            := CDSItems.FieldByName('SUPMG_AP_ENDING_BALANCE').AsFloat;
+  curedtCNBln.Value             := CDSItems.FieldByName('SUPMG_CN_BALANCE').AsFloat;
+  edtDisc.Text                  := CDSItems.FieldByName('SUPMG_DISC').AsString;
+  dtLastPurchs.Date             := CDSItems.FieldByName('SUPMG_LAST_PURCHASE').AsDateTime;
+  curedtPaymnt.Value            := CDSItems.FieldByName('SUPMG_LAST_PAYMENT').AsFloat;
+  curedtOutsdPaymnt.Value       := CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat;
+  edtNoOfPO.Text                := CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString;
+  edtFee.Text                   := CDSItems.FieldByName('SUPMG_FEE').AsString;
+  chkFee.Checked                := CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger=1;
+  chkPKP.Checked                := CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger=1;
+  cxLookupPPN.EditValue         := CDSItems.FieldByName('SUPMG_PAJAK').AsString;
+//  chkAllMer.Checked             := CDSItems.FieldByName('').AsInteger=1;  //belum tau gimana
+  chkEnableCN.Checked           := CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger=1;
   chkMon.Checked := CDSItems.FieldByName('SUPMG_IS_MON').AsInteger=1;
   chkTue.Checked := CDSItems.FieldByName('SUPMG_IS_TUE').AsInteger=1;
   chkWed.Checked := CDSItems.FieldByName('SUPMG_IS_WED').AsInteger=1;
@@ -510,6 +546,10 @@ begin
   chkFri.Checked := CDSItems.FieldByName('SUPMG_IS_FRI').AsInteger=1;
   chkSat.Checked := CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger=1;
   chkSun.Checked := CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger=1;
+
+// tab sheet Alamat
+  chkIsDif.Checked := CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger = 1;
+  edtAddrMer.Text := CDSItems.FieldByName('SUPMG_ADDRESS').AsString;
 
   IsUpdateSupplier := True;
 end;
@@ -567,7 +607,7 @@ begin
   end;
 
   try
-    DMClient.CrudClient.SaveToDB(ModSupplier);
+    DMClient.CrudSupplierClient.SaveToDB(ModSupplier);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     self.ModalResult:=mrOk;
   except
@@ -614,7 +654,10 @@ begin
   CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger := TAppUtils.BoolToInt(chkSun.Checked);
   CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger := TAppUtils.BoolToInt(chkPKP.Checked);
   CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
-  // ..... lanjutkan
+
+// tab sheet Alamat
+  CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger := TAppUtils.BoolToInt(chkIsDif.Checked);
+  CDSItems.FieldByName('SUPMG_ADDRESS').AsString := edtAddrMer.Text;
 
   CDSItems.Post;
 end;
