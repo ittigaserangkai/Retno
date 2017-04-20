@@ -19,6 +19,7 @@ type
     procedure actAddExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   protected
     procedure RefreshData; override;
@@ -40,7 +41,7 @@ uses
 destructor TfrmSO.Destroy;
 begin
   inherited;
-  FreeAndNil(FCDS);
+//  FreeAndNil(FCDS);
 end;
 
 procedure TfrmSO.actAddExecute(Sender: TObject);
@@ -56,7 +57,10 @@ begin
     TAppUtils.cShowWaitWindow('Mohon Ditunggu');
     if Assigned(FCDS) then FreeAndNil(FCDS);
 
-    FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
+    CDS := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.SO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date, nil),
+      Self
+    );
     cxGridView.LoadFromCDS(FCDS);
     cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'SO_ID'],False);
   finally

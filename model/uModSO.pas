@@ -47,7 +47,6 @@ type
     FSOD_IS_REGULAR: Integer;
     FSOD_PRICE: Double;
     FSOD_QTY: Double;
-    FSOD_QTY_ORDER: Double;
     FSOD_TOTAL: Double;
     FSOD_TOTAL_DISC: Double;
     FSatuan: TModSatuan;
@@ -56,6 +55,8 @@ type
     FSOD_STOCK: Double;
     FSOD_ROP: Double;
     FSupplierMerchan: TModSuplierMerchanGroup;
+  public
+    class function GetTableName: String; override;
   published
     property BARANG: TModBarang read FBARANG write FBARANG;
     [AttributeOfHeader('SO_ID')]
@@ -68,7 +69,6 @@ type
     property SOD_IS_REGULAR: Integer read FSOD_IS_REGULAR write FSOD_IS_REGULAR;
     property SOD_PRICE: Double read FSOD_PRICE write FSOD_PRICE;
     property SOD_QTY: Double read FSOD_QTY write FSOD_QTY;
-    property SOD_QTY_ORDER: Double read FSOD_QTY_ORDER write FSOD_QTY_ORDER;
     //1 soD_PRICE * SOD_QTY
     property SOD_TOTAL: Double read FSOD_TOTAL write FSOD_TOTAL;
     property SOD_TOTAL_DISC: Double read FSOD_TOTAL_DISC write FSOD_TOTAL_DISC;
@@ -90,6 +90,11 @@ begin
   If not Assigned(FSODetails) then
     FSODetails := TObjectList<TModSODetail>.Create;
   Result := FSODetails;
+end;
+
+class function TModSODetail.GetTableName: String;
+begin
+  Result := 'SO_DETAIL';
 end;
 
 initialization

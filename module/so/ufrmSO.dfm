@@ -19,8 +19,6 @@ inherited frmSO: TfrmSO
       ClientRectBottom = 233
       ClientRectRight = 641
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
         ExplicitWidth = 640
         ExplicitHeight = 232
         inherited cxGrid: TcxGrid
@@ -50,13 +48,11 @@ inherited frmSO: TfrmSO
       Left = 371
       Visible = True
       ExplicitLeft = 371
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 487
       Visible = True
       ExplicitLeft = 487
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 582
@@ -100,7 +96,6 @@ inherited frmSO: TfrmSO
       ExplicitWidth = 664
       inherited lbEscape: TLabel
         Left = 590
-        Height = 17
         ExplicitLeft = 590
       end
     end

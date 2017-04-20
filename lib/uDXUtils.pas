@@ -63,6 +63,8 @@ type
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         aOwnerForm: TComponent); overload;
     procedure SetMultiPurposeLookup;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
@@ -80,6 +82,8 @@ type
         aOwnerForm: TComponent); overload;
     procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
 
@@ -143,8 +147,8 @@ type
         DisplayField: String; HideIDField: Boolean = True); overload;
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
-    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible:
-        Boolean); overload;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
   TcxExtLookup= class(TcxExtLookupComboBoxProperties)
@@ -542,6 +546,13 @@ begin
   If not Assigned(Self.OnInitPopup) then
     Self.OnInitPopup := TcxExtLookup.OnInitPopupCustom;
 
+end;
+
+procedure TcxExtLookupPropHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
+    String; IsVisible: Boolean = True);
+begin
+  if not Assigned(Self.View) then exit;
+  TcxGridDBTableView(Self.View).SetVisibleColumnsOnly(ColumnSets, IsVisible);
 end;
 
 procedure TcxDBTreeHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
@@ -1055,7 +1066,7 @@ begin
 end;
 
 procedure TcxDBGridHelper.SetVisibleColumnsOnly(ColumnSets: Array Of String;
-    IsVisible: Boolean);
+    IsVisible: Boolean = True);
 var
   i: Integer;
 begin
@@ -1331,6 +1342,12 @@ end;
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;
 begin
   Self.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
+    String; IsVisible: Boolean = True);
+begin
+  Self.Properties.SetVisibleColumnsOnly(ColumnSets, IsVisible);
 end;
 
 end.

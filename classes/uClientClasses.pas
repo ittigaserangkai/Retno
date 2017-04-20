@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 4/19/2017 9:49:09 AM
+// 04/20/17 8:32:34 AM
 //
 
 unit uClientClasses;
@@ -178,6 +178,7 @@ type
     FAgama_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarangSupp_GetDSLookupCommand: TDSRestCommand;
     FBarangSupp_GetDSLookupCommand_Cache: TDSRestCommand;
+    FGET_MEMBER_PAS_NOCommand: TDSRestCommand;
     FPO_GetDSOverviewCommand: TDSRestCommand;
     FPO_GetDSOverviewCommand_Cache: TDSRestCommand;
     FPO_GetDSOverviewDetilCommand: TDSRestCommand;
@@ -314,6 +315,7 @@ type
     function Agama_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: string; const ARequestFilter: string = ''): TDataSet;
     function BarangSupp_GetDSLookup_Cache(aMerchandise: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string = ''): string;
     function PO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function PO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOverviewDetil(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
@@ -998,6 +1000,12 @@ const
   (
     (Name: 'aMerchandise'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_GET_MEMBER_PAS_NO: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATPMEMBER'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
   TDSProvider_PO_GetDSOverview: array [0..6] of TDSRestParameterMetaData =
@@ -3105,6 +3113,20 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarangSupp_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSProviderClient.GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string): string;
+begin
+  if FGET_MEMBER_PAS_NOCommand = nil then
+  begin
+    FGET_MEMBER_PAS_NOCommand := FConnection.CreateCommand;
+    FGET_MEMBER_PAS_NOCommand.RequestType := 'GET';
+    FGET_MEMBER_PAS_NOCommand.Text := 'TDSProvider.GET_MEMBER_PAS_NO';
+    FGET_MEMBER_PAS_NOCommand.Prepare(TDSProvider_GET_MEMBER_PAS_NO);
+  end;
+  FGET_MEMBER_PAS_NOCommand.Parameters[0].Value.SetWideString(ATPMEMBER);
+  FGET_MEMBER_PAS_NOCommand.Execute(ARequestFilter);
+  Result := FGET_MEMBER_PAS_NOCommand.Parameters[1].Value.GetWideString;
+end;
+
 function TDSProviderClient.PO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
 begin
   if FPO_GetDSOverviewCommand = nil then
@@ -3695,6 +3717,7 @@ begin
   FAgama_GetDSOverviewCommand_Cache.DisposeOf;
   FBarangSupp_GetDSLookupCommand.DisposeOf;
   FBarangSupp_GetDSLookupCommand_Cache.DisposeOf;
+  FGET_MEMBER_PAS_NOCommand.DisposeOf;
   FPO_GetDSOverviewCommand.DisposeOf;
   FPO_GetDSOverviewCommand_Cache.DisposeOf;
   FPO_GetDSOverviewDetilCommand.DisposeOf;

@@ -12,7 +12,7 @@ uses
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, Vcl.StdCtrls, cxButtons, cxContainer, Vcl.ComCtrls,
   dxCore, cxDateUtils, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxLabel, Vcl.ExtCtrls, dxBarBuiltInMenu, cxPC;
+  cxLabel, Vcl.ExtCtrls, dxBarBuiltInMenu, cxPC, cxCheckBox;
 
 type
   TLookupClient = class(TDSAdminRestClient)
@@ -40,12 +40,24 @@ type
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
+    pmSelect: TPopupMenu;
+    CheckSelected1: TMenuItem;
+    UnCheckSelected1: TMenuItem;
+    N1: TMenuItem;
+    CheckAll1: TMenuItem;
+    UncheckAll1: TMenuItem;
     procedure btnRefreshClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
-    procedure cxGridViewDblClick(Sender: TObject);
+    procedure CheckAll1Click(Sender: TObject);
+    procedure CheckSelected1Click(Sender: TObject);
+    procedure cxGridViewCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
     procedure cxGridViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure UncheckAll1Click(Sender: TObject);
+    procedure UnCheckSelected1Click(Sender: TObject);
   private
     FLookupClient : TLookupClient;
     FCDS: TClientDataset;
@@ -54,7 +66,10 @@ type
     FMultiSelect: Boolean;
     function CopyDataset(Source: TDataset): TClientDataSet;
     procedure HideDateParams;
+    procedure InitView;
     procedure RefreshDataSet;
+    procedure SetCheckSelected(IsChecked: Boolean = True; IsSelectAll: Boolean =
+        False);
     procedure SetMultiSelect(const Value: Boolean);
     procedure SetResultData;
     property CDS: TClientDataset read FCDS write FCDS;
@@ -86,7 +101,7 @@ const
 implementation
 
 uses
-  uDBUtils, uDXUtils, System.DateUtils;
+  uDBUtils, uDXUtils, System.DateUtils, uAppUtils;
 
 {$R *.dfm}
 
@@ -108,6 +123,14 @@ begin
     Self.ModalResult := mrNone
   else begin
     SetResultData;
+    if MultiSelect then
+    begin
+      if Self.Data.RecordCount = 0 then
+      begin
+        TAppUtils.Warning('Tidak ada data yang dipilih');
+        exit;
+      end
+    end;
     if not Self.Data.Eof then
       Self.ModalResult := mrOk;
   end;
@@ -116,9 +139,19 @@ end;
 constructor TfrmCXLookup.Create(ARestConn: TDSRestConnection; aMultiSelect:
     Boolean = False);
 begin
-  inherited Create(Application);
+  inherited Create(nil);
   FLookupClient := TLookupClient.Create(ARestConn, False);
   Self.MultiSelect := aMultiSelect;
+end;
+
+procedure TfrmCXLookup.CheckAll1Click(Sender: TObject);
+begin
+  SetCheckSelected(True, True);
+end;
+
+procedure TfrmCXLookup.CheckSelected1Click(Sender: TObject);
+begin
+  SetCheckSelected(True);
 end;
 
 function TfrmCXLookup.CopyDataset(Source: TDataset): TClientDataSet;
@@ -127,9 +160,13 @@ var
   lFieldName: string;
   lRecNo: Integer;
 begin
+  Result := nil;
+  if Source = nil then exit;
+
   Result := TClientDataSet.Create(Self);
   Result.FieldDefs.Assign(Source.FieldDefs);
-  Result.AddField(check_flag,ftBoolean);
+  Result.FieldDefs.Add(check_flag, ftBoolean);
+//  Result.AddField(check_flag,ftBoolean);
 
   for i := 0 to Result.FieldDefs.Count-1 do
   begin
@@ -152,6 +189,7 @@ begin
     While not Source.Eof do
     begin
       Result.Append;
+      Result.FieldByName(check_flag).AsBoolean := False;
       for i:=0 to Source.FieldCount-1 do
       begin
         lFieldName := Source.Fields[i].FieldName;
@@ -168,9 +206,19 @@ begin
   end;
 end;
 
-procedure TfrmCXLookup.cxGridViewDblClick(Sender: TObject);
+procedure TfrmCXLookup.cxGridViewCellDblClick(Sender: TcxCustomGridTableView;
+    ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
+    TShiftState; var AHandled: Boolean);
 begin
-  btnOK.Click;
+  If not Self.MultiSelect then
+  begin
+    btnOK.Click;
+  end else
+  begin
+    CDS.Edit;
+    CDS.FieldByName(check_flag).AsBoolean := not CDS.FieldByName(check_flag).AsBoolean;
+    CDS.Post;
+  end;
 end;
 
 procedure TfrmCXLookup.cxGridViewKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -183,8 +231,8 @@ class function TfrmCXLookup.Execute(aCaption, aCommand: String; aStartDate:
     TDateTime = 0; aEndDate: TDateTime = 0; aMultiSelect: Boolean = False):
     TfrmCXLookup;
 begin
-  Result                    := TfrmCXLookup.Create(DMClient.RestConn);
-  Result.MultiSelect        := aMultiSelect;
+  Result                    := TfrmCXLookup.Create(DMClient.RestConn, aMultiSelect);
+//  Result.MultiSelect        := aMultiSelect;
   Result.lblHeader.Caption  := aCaption;
   Result.CommandName        := aCommand;
   Result.StartDate.Date     := aStartDate;
@@ -196,20 +244,25 @@ end;
 class function TfrmCXLookup.Execute(ADataSet: TClientDataSet; aMultiSelect:
     Boolean = False; aCaption: String = 'Lookup Data'): TfrmCXLookup;
 begin
-  Result                    := TfrmCXLookup.Create(DMClient.RestConn);
-  Result.MultiSelect        := aMultiSelect;
+  Result                    := TfrmCXLookup.Create(DMClient.RestConn, aMultiSelect);
   Result.lblHeader.Caption  := aCaption;
   Result.HideDateParams;
-  Result.CDS := aDataSet;
+
+  If aMultiSelect then
+    Result.CDS := Result.CopyDataset(aDataSet)
+  else
+    Result.CDS := aDataSet;
 
   Result.btnRefresh.Visible := False;
-  Result.cxGridView.LoadFromCDS(Result.CDS);
+  Result.initView;
+
 end;
 
 procedure TfrmCXLookup.FormKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
   If Key = VK_ESCAPE then Self.Close;
+  if Key = VK_RETURN then btnOK.Click;
 end;
 
 procedure TfrmCXLookup.HideDateParams;
@@ -225,9 +278,43 @@ begin
   Self.cxGridView.SetVisibleColumns(FieldNames, False);
 end;
 
+procedure TfrmCXLookup.InitView;
+var
+  i: Integer;
+  lCheckCol: TcxGridDBColumn;
+begin
+  if FCDS = nil then exit;
+  cxGridView.LoadFromCDS(CDS, True, False);
+
+  for i:=0 to cxGridView.ColumnCount-1 do
+  begin
+    cxGridView.Columns[i].Options.Editing := False;
+    If Assigned(cxGridView.Columns[i].Properties) then
+      cxGridView.Columns[i].Properties.ReadOnly := True;
+  end;
+//  exit;
+
+  lCheckCol := cxGridView.GetColumnByFieldName(check_flag);
+
+  if Assigned(lCheckCol) then
+  begin
+    lCheckCol.Options.Editing := True;
+    lCheckCol.DataBinding.ValueType := 'Boolean';
+    lCheckCol.PropertiesClass := TcxCheckBoxProperties;
+
+    lCheckCol.Properties.ReadOnly := False;
+    lCheckCol.Index := 0;
+    lCheckCol.Caption := ' [X] ';
+    TcxCheckBoxProperties(lCheckCol).ImmediatePost := True;
+  end;
+
+  cxGridView.ApplyBestFit;
+end;
+
 procedure TfrmCXLookup.ShowFieldsOnly(FieldNames: Array Of String);
 begin
   Self.cxGridView.SetVisibleColumnsOnly(FieldNames, True);
+  Self.cxGridView.SetVisibleColumns([check_flag], True);
 end;
 
 procedure TfrmCXLookup.RefreshDataSet;
@@ -246,21 +333,60 @@ begin
       CDS := Self.CopyDataset(ADataSet)
   end;
 
-  if CDS <> nil then
-  begin
-    cxGridView.LoadFromCDS(CDS);
+  if CDS <> nil then initView;
+end;
 
-    for i:=0 to cxGridView.ColumnCount-1 do
+procedure TfrmCXLookup.SetCheckSelected(IsChecked: Boolean = True; IsSelectAll:
+    Boolean = False);
+var
+  i: Integer;
+  lAfterPostNotify: TDataSetNotifyEvent;
+  lRecNo: Integer;
+begin
+  lAfterPostNotify  := CDS.AfterPost;
+  CDS.AfterPost     := nil;
+  cxGridView.DataController.BeginUpdate;
+  Try
+    If not Assigned(cxGridView.GetColumnByFieldName(check_flag)) then exit;
+//    If IsSelectAll then DCMain.SelectAll;
+
+    If not IsSelectAll then
     begin
-      if cxGridView.Columns[i].DataBinding.FieldName = check_flag then
-        continue;
-      cxGridView.Columns[i].Options.Editing := False;
-      If Assigned(cxGridView.Columns[i].Properties) then
-        cxGridView.Columns[i].Properties.ReadOnly := True;
+//      cShowProgressDlg('Checking Process',cxGridView.Controller.SelectedRecordCount);
+      for i := 0 to cxGridView.Controller.SelectedRecordCount-1 do
+      begin
+        cxGridView.Controller.SelectedRecords[i].Focused := True;
+        With cxGridView.DataController.DataSource.DataSet do
+        begin
+          Edit;
+          FieldByName(check_flag).AsBoolean := IsChecked;
+          Post;
+        end;
+//        cStepProgressDlg;
+      end;
+    end else //optimize performance for select all
+    begin
+//      cShowProgressDlg('Checking Process',CDS.RecordCount);
+      lRecNo := CDS.RecNo;
+      CDS.DisableControls;
+      CDS.First;
+      while not CDS.eof do
+      begin
+        CDS.Edit;
+        CDS.FieldByName(check_flag).AsBoolean := IsChecked;
+        CDS.Post;
+        CDS.Next;
+//        cStepProgressDlg;
+      end;
+      CDS.RecNo := lRecNo;
+      CDS.EnableControls;
     end;
-  end;
-
-
+//    If MultiSelect then CountSelected;
+  Finally
+//    cStopProgressDlg;
+    CDS.AfterPost := lAfterPostNotify;
+    cxGridView.DataController.EndUpdate;
+  End;
 end;
 
 procedure TfrmCXLookup.SetMultiSelect(const Value: Boolean);
@@ -292,6 +418,16 @@ begin
     FData.Filter := check_flag + ' = True ';
     FData.First;
   end;
+end;
+
+procedure TfrmCXLookup.UncheckAll1Click(Sender: TObject);
+begin
+  SetCheckSelected(False, True);
+end;
+
+procedure TfrmCXLookup.UnCheckSelected1Click(Sender: TObject);
+begin
+  SetCheckSelected(False);
 end;
 
 function TLookupClient.GetLookupData(aCommandName: String; aStartDate:

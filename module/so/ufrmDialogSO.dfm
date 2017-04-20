@@ -86,23 +86,21 @@ inherited frmDialogSO: TfrmDialogSO
         Color = 15198183
         TabOrder = 5
         object lbl4: TLabel
-          Left = 203
+          Left = 168
           Top = 8
           Width = 296
           Height = 16
           Caption = '(Use this button to add product beyond SO schedulling day)'
         end
         object btnAddOthersProdSO: TcxButton
-          Left = 8
-          Top = 4
-          Width = 193
+          Left = 9
+          Top = 5
+          Width = 153
           Height = 25
           Cursor = crHandPoint
-          Caption = 'CTRL-A  [Add Products for SO]'
-          OptionsImage.ImageIndex = 0
+          Action = actAddProd
           OptionsImage.Images = DMClient.imgListButton
           TabOrder = 0
-          OnClick = btnAddOthersProdSOClick
         end
         object btnToExcel: TcxButton
           Left = 536
@@ -176,6 +174,16 @@ inherited frmDialogSO: TfrmDialogSO
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        object clStatus: TcxGridDBColumn
+          Caption = '[x]'
+          DataBinding.FieldName = 'Checked'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ImmediatePost = True
+          Properties.OnEditValueChanged = clStatusPropertiesEditValueChanged
+          HeaderAlignmentHorz = taCenter
+          HeaderAlignmentVert = vaTop
+          Width = 35
+        end
         object clNo: TcxGridDBColumn
           Caption = 'NO'
           DataBinding.FieldName = 'No'
@@ -186,16 +194,6 @@ inherited frmDialogSO: TfrmDialogSO
           HeaderAlignmentVert = vaTop
           Options.Editing = False
           Width = 34
-        end
-        object clStatus: TcxGridDBColumn
-          Caption = '[x]'
-          DataBinding.FieldName = 'Checked'
-          PropertiesClassName = 'TcxCheckBoxProperties'
-          Properties.ImmediatePost = True
-          Properties.OnEditValueChanged = clStatusPropertiesEditValueChanged
-          HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
-          Width = 25
         end
         object clPLU: TcxGridDBColumn
           DataBinding.FieldName = 'PLU'
@@ -283,25 +281,23 @@ inherited frmDialogSO: TfrmDialogSO
         end
         object clQTYSO: TcxGridDBColumn
           Caption = 'QTY SO'
-          DataBinding.FieldName = 'QTY'
+          DataBinding.FieldName = 'QTYSO'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           HeaderAlignmentVert = vaTop
+          Width = 55
         end
         object clQTYOrder: TcxGridDBColumn
           Caption = 'QTY ORDER'
-          DataBinding.FieldName = 'QTYOrder'
+          DataBinding.FieldName = 'QTY'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = '0;(,0)'
-          Properties.ReadOnly = False
-          Properties.OnEditValueChanged = clQTYOrderPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
-          HeaderAlignmentVert = vaTop
-          Width = 62
+          Width = 76
         end
         object clSuppCode: TcxGridDBColumn
           Caption = 'SUPPLIER CODE'
@@ -462,6 +458,12 @@ inherited frmDialogSO: TfrmDialogSO
       ImageIndex = 30
       ShortCut = 16455
       OnExecute = actGenerateExecute
+    end
+    object actAddProd: TAction
+      Caption = 'Add Other Product'
+      ImageIndex = 0
+      ShortCut = 16449
+      OnExecute = actAddProdExecute
     end
   end
 end

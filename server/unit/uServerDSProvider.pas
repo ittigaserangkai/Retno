@@ -597,7 +597,7 @@ function TDSProvider.BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT  * FROM V_LOOKUP_BARANGSUP'
+  S := 'SELECT  * FROM V_BARANGSUP_LOOKUP'
       +' where REF$MERCHANDISE_ID = ' + QuotedStr(aMerchandise);
 
   Result := TDBUtils.OpenQuery(S);
