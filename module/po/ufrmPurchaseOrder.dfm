@@ -27,6 +27,8 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       ClientRectBottom = 343
       ClientRectRight = 822
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 821
         ExplicitHeight = 342
         inherited cxGrid: TcxGrid
@@ -35,6 +37,10 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
           RootLevelOptions.DetailTabsPosition = dtpTop
           ExplicitWidth = 821
           ExplicitHeight = 342
+          inherited cxGridView: TcxGridDBTableView
+            Styles.ContentEven = DMClient.cxStyleGridEven
+            Styles.Header = DMClient.cxStyleGridHeader
+          end
           object cxGridDBTableSODetail: TcxGridDBTableView [1]
             Navigator.Buttons.CustomButtons = <>
             DataController.Summary.DefaultGroupSummaryItems = <>
@@ -75,6 +81,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Visible = True
       ExplicitLeft = 550
       ExplicitWidth = 84
+      ExplicitHeight = 23
       Width = 84
     end
     inherited dtAkhirFilter: TcxDateEdit
@@ -83,6 +90,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Visible = True
       ExplicitLeft = 658
       ExplicitWidth = 84
+      ExplicitHeight = 23
       Width = 84
     end
     inherited btnSearch: TcxButton
@@ -181,6 +189,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       inherited btnUpdate: TcxButton
         Left = 116
         Action = actEdit
+        Caption = 'Revisi'
         ExplicitLeft = 116
       end
       inherited btnPrint: TcxButton
@@ -213,6 +222,9 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     inherited actAdd: TAction
       Caption = 'Generate For All'
       OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
     inherited actPrint: TAction
       OnExecute = actPrintExecute

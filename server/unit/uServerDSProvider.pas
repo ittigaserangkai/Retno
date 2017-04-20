@@ -727,7 +727,7 @@ function TDSProvider.SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
 var
   sSQL: string;
 begin
-  sSQL := 'select SO_ID,SO_NO, SO_DATE from V_SO where 1 = 1 ' ;
+  sSQL := 'select distinct SO_ID,SO_NO, SO_DATE from V_SO where 1 = 1 ' ;
 
   if AUnit <> nil then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);

@@ -186,7 +186,8 @@ uses
   ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
-  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
+  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision};
 
 {$R *.res}
 
@@ -197,5 +198,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TfrmPORevision, frmPORevision);
   Application.Run;
 end.

@@ -57,7 +57,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     object dtDateSO: TcxDateEdit
       Left = 133
       Top = 32
-      TabOrder = 2
+      TabOrder = 1
       Width = 132
     end
     object dtDatePO: TcxDateEdit
@@ -89,7 +89,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Align = alBottom
       Position = 30.000000000000000000
       Properties.PeakValue = 30.000000000000000000
-      TabOrder = 6
+      TabOrder = 7
       ExplicitTop = 253
       Width = 655
     end
@@ -101,7 +101,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Align = alBottom
       BevelOuter = bvNone
       Color = 15198183
-      TabOrder = 7
+      TabOrder = 8
       DesignSize = (
         655
         29)
@@ -123,7 +123,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Caption = 'F2'
       OptionsImage.ImageIndex = 26
       OptionsImage.Images = DMClient.imgListButton
-      TabOrder = 1
+      TabOrder = 6
       TabStop = False
       Visible = False
       Font.Charset = DEFAULT_CHARSET
@@ -153,7 +153,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     object cbbSupplierMG: TcxExtLookupComboBox
       Left = 133
       Top = 60
-      TabOrder = 8
+      TabOrder = 2
       Width = 132
     end
     object cbbSO: TcxExtLookupComboBox

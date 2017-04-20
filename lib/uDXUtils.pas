@@ -19,6 +19,12 @@ uses
 type
   TTag = set of byte;
 
+  TcxGridTableViewHelper = class helper for TcxGridTableView
+  private
+  public
+    procedure ClearRows;
+  end;
+
   DataControllerHelper = class helper for TcxGridDataController
   private
   public
@@ -1314,6 +1320,22 @@ end;
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;
 begin
   Self.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TcxGridTableViewHelper.ClearRows;
+var
+  I: Integer;
+begin
+  BeginUpdate;
+  try
+    for I := DataController.RecordCount - 1 downto 0 do
+    begin
+      DataController.FocusedRecordIndex := i;
+      DataController.DeleteFocused;
+    end;
+  finally
+    EndUpdate;
+  end;
 end;
 
 end.
