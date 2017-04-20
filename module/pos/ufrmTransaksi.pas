@@ -172,6 +172,7 @@ type
 
 var
   frmTransaksi: TfrmTransaksi;
+  sgHeader: TStringList;
 
 implementation
 
@@ -260,6 +261,7 @@ begin
 //    LoadPendingFromCSV(edNoPelanggan.Text);
 //    FServerDateTime      := cGetServerDateTime;
     edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
+    sgHeader := TStringList.Create;
   finally
     SetGridHeader_Transaksi;
     edPLU.Text := '';
@@ -929,7 +931,7 @@ begin
     + 'from member '
     + 'where member_card_no = ' + QuotedStr(AMemberNo)
     + ' and member_unt_id = ' + IntToStr(frmMain.UnitID);
-  {
+
   with cOpenQuery(sSQL) do
   begin
     try
@@ -950,8 +952,7 @@ begin
           TrMemberID := Fields[5].AsInteger;
           MemberCode := Fields[0].AsString;
 
-          sgHeader.DataController.Values[0,0] := edNoPelanggan.Text;
-          sgHeader.DataController.Values[1,0] := edNamaPelanggan.Text;
+          sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
           SaveTransactionToCSV(False);
         end;
       end
@@ -963,7 +964,6 @@ begin
       Free;
     end;
   end;
-  }
 end;
 
 procedure TfrmTransaksi.edNoPelangganExit(Sender: TObject);
@@ -996,7 +996,7 @@ begin
   if ASaveHeader then
   begin
     try
-//      sgHeader.SaveToCSV(cGetAppPath + 'trans_header.csv');
+      sgHeader.SaveToFile(ExtractFilePath(application.ExeName) + 'trans_header.csv');
     finally
 
     end;
@@ -1343,7 +1343,9 @@ end;
 
 procedure TfrmTransaksi.FormDestroy(Sender: TObject);
 begin
-     frmTransaksi := nil;
+  if Assigned(sgHeader) then
+     FreeAndNil(sgHeader);
+  frmTransaksi := nil;
 end;
 
 procedure TfrmTransaksi.FormKeyDown(Sender: TObject; var Key: Word;

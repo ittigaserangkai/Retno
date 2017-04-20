@@ -121,6 +121,7 @@ type
     FUserID: Integer;
     FFormProperty : TFormProperty;
     FPageLogin: string;
+    IsPOSConnected: Boolean;
     function Initialize: Boolean;
     procedure SetLoginUsername(const Value: string);
     procedure SetLoginUnitId(const Value: Integer);
@@ -134,14 +135,16 @@ type
     FBeginningBalanceID: Integer;
 
     //Store DB
-    FIBServerStore: String;
-    FIBUserStore: String;
-    FIBPasswordStore: String;
+    FDBServerStore: String;
+    FDBStore: String;
+    FDBUserStore: String;
+    FDBPasswordStore: String;
 
     //POS DB
-    FIBServerPOS: String;
-    FIBUserPOS: String;
-    FIBPasswordPOS: String;
+    FDBServerPOS: String;
+    FDBPOS: String;
+    FDBUserPOS: String;
+    FDBPasswordPOS: String;
 
     //POS & Cashier
     FPOSCode: String;
@@ -250,44 +253,45 @@ begin
   DisableMenu;
 
   //Store DB
-  FIBServerStore := _INIReadString(CONFIG_FILE,DB_STORE,'DatabaseHost')
-  	+ ':' + _INIReadString(CONFIG_FILE,DB_STORE,'DatabasePath');
-//  FIBUserStore := 'SYSDBA';
-//  FIBPasswordStore := 'masterkey';
-  FIBUserStore := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
-  FIBPasswordStore := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
-
+  FDBServerStore := _INIReadString(CONFIG_FILE,DB_STORE,'DatabaseHost');
+  FDBStore := _INIReadString(CONFIG_FILE,DB_STORE,'DatabasePath');
+//  FDBUserStore := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
+//  FDBPasswordStore := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_STORE,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
+  FDBUserStore := _INIReadString(CONFIG_FILE,DB_STORE,'UserIB');
+  FDBPasswordStore := _INIReadString(CONFIG_FILE,DB_STORE,'PasswordIB');
 
   //POS DB
-  FIBServerPOS := _INIReadString(CONFIG_FILE,DB_POS,'DatabaseHost')
-  	+ ':' + _INIReadString(CONFIG_FILE,DB_POS,'DatabasePath');
-//  FIBUserPOS := 'SYSDBA';
-//  FIBPasswordPOS := 'masterkey';
-  FIBUserPOS := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_POS,'UserIB')),START_KEY,MULTI_KEY,ADD_KEY);
-  FIBPasswordPOS := TAppUtils._Decrypt(TAppUtils._MakeOriginal(_INIReadString(CONFIG_FILE,DB_POS,'PasswordIB')),START_KEY,MULTI_KEY,ADD_KEY);
-  {
-  DM := TDM.Create(Application);
-  dmMain := TdmMain.Create(Application);
+  FDBServerPOS := _INIReadString(CONFIG_FILE,DB_POS,'DatabaseHost');
+  FDBPOS       := _INIReadString(CONFIG_FILE,DB_POS,'DatabasePath');
+  FDBUserPOS := _INIReadString(CONFIG_FILE,DB_POS,'UserIB');
+  FDBPasswordPOS := _INIReadString(CONFIG_FILE,DB_POS,'PasswordIB');
 
-  if not assigned(IBConn) then
+  with dmMain do
   begin
-    IBConn := TIBConnection.Create(CONFIG_FILE);
-    IBConn.Connect;
+    FMSSQLConnectionString := setConnectionString('MSSQL', FDBServerStore, FDBStore, FDBUserStore, FDBPasswordStore);
+    FSQLiteConnectionString := setConnectionString('SQLite', FDBServerPOS, FDBPOS, FDBUserPOS, FDBPasswordPOS);
+    connGoro.Connected := False;
+    dbPOS.Connected := False;
+    connGoro.ConnectionString := FMSSQLConnectionString;
+    dbPOS.ConnectionString    := FSQLiteConnectionString;
+//    dbPOS.Params.Values['Encrypt'] := 'aes-ctr-128';
+    connGoro.Connected := True;
+    dbPOS.Connected := True;
+    IsPOSConnected := dmMain.dbPOS.Connected;
   end;
-  DM.dbPOS := dmMain.connGoro;
-  DM.transPOS := dmMain.transGoro;
-
-  IsPOSConnected := DM.dbPOS.Connected;
 
   // Init locale settings
-  DateSeparator := '-';
-  DecimalSeparator := '.';
-  ThousandSeparator := ',';
-  CurrencyString := 'Rp';
-  CurrencyFormat := 2;
-  CurrencyDecimals := 2;
-  ShortDateFormat := 'dd-mm-yyyy';
-  LongDateFormat := 'd mmmm yyyy';
+  with FormatSettings do
+  begin
+    DateSeparator := '-';
+    DecimalSeparator := '.';
+    ThousandSeparator := ',';
+    CurrencyString := 'Rp';
+    CurrencyFormat := 2;
+    CurrencyDecimals := 2;
+    ShortDateFormat := 'dd-mm-yyyy';
+    LongDateFormat := 'd mmmm yyyy';
+  end;
 
   //FFilePathReport := GetFilePathReport;
   _INIWriteString(CONFIG_FILE, LOCAL_CLIENT, 'Localhost', IP);
@@ -303,7 +307,7 @@ begin
   FFormProperty := TFormProperty.Create;
 
   Initialize;
-  }
+
   //CommonDlg.ShowMessage(DM.dbPOS.DatabaseName);
 end;
 
@@ -362,7 +366,6 @@ begin
   //sementara manual dulu
   Try
       UnitID       := _INIReadInteger(CONFIG_FILE,DB_POS,'UnitID');
-//      lUnitId      := UnitID;
       FPOSCode     := _INIReadString(CONFIG_FILE,DB_POS,'POSCode');
       FCashierCode := '';
       FCashierName := '';
@@ -372,8 +375,8 @@ begin
 
       with sbMain do
       begin
-        Panels[0].Text := 'Store DB : ' + FIBServerStore;  //IfThen(IsStoreConnected,'','Not') + ' Connected';
-        Panels[1].Text := 'POS DB : ' + FIBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
+        Panels[0].Text := 'Store DB : ' + FDBServerStore;  //IfThen(IsStoreConnected,'','Not') + ' Connected';
+        Panels[1].Text := 'POS DB : ' + FDBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
         Panels[2].Text := 'POS Code : ' + FPOSCode;
         Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
       end;    // with

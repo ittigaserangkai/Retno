@@ -77,6 +77,11 @@ object dmMain: TdmMain
     Top = 152
   end
   object dbPOS: TFDConnection
+    Params.Strings = (
+      'Database=D:\SharedProjects\Projects\Retno\db\POS.sdb'
+      'Password=masterkey'
+      'Encrypt=aes-ctr-128'
+      'DriverID=SQLite')
     LoginPrompt = False
     Left = 160
     Top = 256
@@ -114,11 +119,16 @@ object dmMain: TdmMain
     Top = 216
   end
   object FDSQLiteSecurity1: TFDSQLiteSecurity
+    DriverLink = FDPhysSQLiteDriverLink1
     Left = 24
     Top = 112
   end
   object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
-    Left = 39
+    Left = 47
     Top = 208
+  end
+  object FDPhysMSSQLDriverLink1: TFDPhysMSSQLDriverLink
+    Left = 48
+    Top = 256
   end
 end

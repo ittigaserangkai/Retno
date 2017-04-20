@@ -1703,7 +1703,6 @@ procedure TfrmPosDownlink.btnCheckDBClick(Sender: TObject);
 begin
   with dmMain do
   begin
-    connGoro.Connected := False;
     // Use TFDSQLiteSecurity.CheckEncryption to request database encryption status:
     // <unencrypted> - database is unencrypted.
     // <encrypted> - database is encrypted, but the algorythm / password is wrong.
@@ -1712,7 +1711,6 @@ begin
     FDSQLiteSecurity1.Password := 'aes-ctr-128' + ':' + 'masterkey';
     lblState.Caption := 'Encryption state: ' + FDSQLiteSecurity1.CheckEncryption;
   end;
-
 end;
 
 procedure TfrmPosDownlink.btnCloseClick(Sender: TObject);
@@ -1722,22 +1720,10 @@ end;
 
 procedure TfrmPosDownlink.btnLoadDBClick(Sender: TObject);
 begin
-  with dmMain.connGoro do
-  begin
-    Connected := False;
-    Params.Clear;
-    Params.DriverID := 'SQLite';
-    Params.Database := edtFileNm.Text;
-    Connected := True;
-  end;
-
-  // Populate new empty unencrypted database.
-//  FDScript1.ExecuteScript(mmSQLScript.Lines);
-
   //encript db
   with dmMain do
   begin
-    connGoro.Connected := False;
+    dbPOS.Connected := False;
     // Use TFDSQLiteSecurity.SetPassword to encrypt database. There the Password
     // property value is of <encryption algorythm>:<password> format.
     FDSQLiteSecurity1.Database := edtFileNm.Text;
