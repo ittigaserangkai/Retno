@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModSO;
+  StrUtils, uModSO, uModSuplier, Datasnap.DBClient;
 
 type
   {$METHODINFO ON}
@@ -35,6 +35,11 @@ type
   public
     function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
         aSupplierMerchan_ID: String = ''): TDataSet;
+  end;
+
+  TPurchaseOrder = class(TComponent)
+  public
+    function GeneratePO(ANO_SO : String; ASupMG : TModSuplierMerchanGroup): Boolean;
   end;
 
   {$METHODINFO OFF}
@@ -238,6 +243,34 @@ begin
   if aSupplierMerchan_ID <> '' then
     S := S + ' where SUPLIER_MERCHAN_ID = ' + QuotedStr(aSupplierMerchan_ID);
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TPurchaseOrder.GeneratePO(ANO_SO : String; ASupMG :
+    TModSuplierMerchanGroup): Boolean;
+var
+  Q: TClientDataSet;
+  sSQL: string;
+begin
+  Result := False;
+
+  sSQL := 'select a.* from SO a' +
+          ' INNER JOIN SO_DETAIL b on a.SO_ID = b.SO_ID' +
+          ' INNER JOIN SUPLIER_MERCHAN_GRUP c on b.SUPLIER_MERCHAN_GRUP_ID = c.SUPLIER_MERCHAN_GRUP_ID' +
+          ' where a.so_no = ' + QuotedStr(ANO_SO);
+
+  if ASupMG <> nil then
+    sSQL := sSQL + ' and b.SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMG.ID);
+
+  sSQL := sSQL + ' ORDER BY c.SUPMG_CODE';
+
+  Q := TDBUtils.OpenDataset(sSQL);
+  try
+
+  finally
+    Q.Free;
+  end;
+
+  Result := True;
 end;
 
 end.

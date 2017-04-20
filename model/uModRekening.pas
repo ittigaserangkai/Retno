@@ -21,6 +21,7 @@ type
     [AttributeOfForeign('REF$GRUP_REKENING_ID')]
     property RekeningGroup: TModRekeningGroup read FRekeningGroup write
         FRekeningGroup;
+    [AttributeOfCode]
     property REK_CODE: String read FREK_CODE write FREK_CODE;
     [AttributeOfForeign('REKENING_PARENT_ID')]
     property REK_PARENT: TModRekening read FREK_PARENT write FREK_PARENT;

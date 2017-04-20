@@ -25,8 +25,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       BorderWidth = 20
       Color = 15198183
       TabOrder = 1
-      ExplicitLeft = 4
-      ExplicitTop = 44
       object lbl1: TLabel
         Left = 22
         Top = 13
@@ -390,6 +388,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       object cbpMember: TcxExtLookupComboBox
         Left = 603
         Top = 34
+        Properties.OnEditValueChanged = cbpMemberPropertiesEditValueChanged
         TabOrder = 18
         Width = 132
       end
@@ -456,9 +455,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ReadOnly = True
         TabOrder = 1
         Text = '01330001217'
-        ExplicitLeft = 353
-        ExplicitTop = 2
-        ExplicitHeight = 37
       end
     end
   end

@@ -11,34 +11,40 @@ inherited frmRekening: TfrmRekening
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 773
-    Height = 291
-    ExplicitWidth = 756
-    ExplicitHeight = 291
+    Height = 288
+    ExplicitWidth = 773
+    ExplicitHeight = 232
+    inherited pgcBrowse: TcxPageControl
+      Width = 751
+      Height = 266
+      TabOrder = 1
+      Visible = False
+      ClientRectBottom = 265
+      ClientRectRight = 750
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 749
+        ExplicitHeight = 208
+        inherited cxGrid: TcxGrid
+          Width = 749
+          Height = 264
+        end
+      end
+    end
     object pnlAll: TPanel
       Left = 11
       Top = 11
       Width = 751
-      Height = 269
+      Height = 266
       Align = alClient
       BorderWidth = 10
       Color = 15198183
       TabOrder = 0
-      ExplicitTop = 57
-      ExplicitWidth = 734
-      ExplicitHeight = 223
-      object strgGrid: TStringGrid
-        Left = 584
-        Top = 88
-        Width = 105
-        Height = 233
-        ColCount = 2
-        TabOrder = 0
-      end
+      ExplicitHeight = 210
       object cxDBTreeList: TcxDBTreeList
         Left = 11
         Top = 11
         Width = 729
-        Height = 247
+        Height = 244
         Align = alClient
         Bands = <
           item
@@ -46,9 +52,8 @@ inherited frmRekening: TfrmRekening
         Navigator.Buttons.CustomButtons = <>
         OptionsData.Editing = False
         RootValue = -1
-        TabOrder = 1
-        ExplicitWidth = 712
-        ExplicitHeight = 201
+        TabOrder = 0
+        ExplicitHeight = 188
         object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
           Visible = False
           DataBinding.FieldName = 'REK_CODE'
@@ -98,91 +103,63 @@ inherited frmRekening: TfrmRekening
   end
   inherited pnlHeader: TPanel
     Width = 773
-    ExplicitWidth = 756
+    ExplicitWidth = 773
     inherited lblHeader: TLabel
       Width = 53
-      Height = 18
       Caption = 'ACCOUNT'
       ExplicitWidth = 53
     end
+    inherited lblFilterData: TcxLabel
+      Left = 419
+      ExplicitLeft = 419
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 480
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 596
+    end
+    inherited btnSearch: TcxButton
+      Left = 691
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 572
+      ExplicitLeft = 572
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 321
     Width = 773
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 321
-    ExplicitWidth = 756
     inherited pnlFooter: TPanel
       Width = 773
-      ExplicitWidth = 756
-      inherited btnClose: TcxButton
-        Left = 691
-        OnClick = btnCloseClick
-        ExplicitLeft = 674
-      end
       inherited btnAdd: TcxButton
-        Action = actAddRekening
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditRekening
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteRekening
-        Visible = False
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshRekening
+      inherited btnClose: TcxButton
+        Action = actClose
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 773
-      ExplicitWidth = 756
-      inherited lbl3: TLabel
-        Left = 263
-        Visible = False
-        ExplicitLeft = 263
-      end
-      inherited lbl4: TLabel
-        Left = 167
-        ExplicitLeft = 167
-      end
-      inherited lbl5: TLabel
-        Left = 683
-        ExplicitLeft = 644
-      end
     end
   end
-  object actlstRekening: TActionList
-    Left = 210
-    Top = 111
-    object actAddRekening: TAction
-      Caption = '&Add'
-      ShortCut = 16451
-      OnExecute = actAddRekeningExecute
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
-    object actEditRekening: TAction
-      Caption = '&Edit'
-      ShortCut = 16453
-      OnExecute = actEditRekeningExecute
-    end
-    object actDeleteRekening: TAction
-      Caption = '&Delete'
-      Enabled = False
-      OnExecute = actDeleteRekeningExecute
-    end
-    object actRefreshRekening: TAction
-      Caption = '&Refresh'
-      ShortCut = 16500
-      OnExecute = actRefreshRekeningExecute
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

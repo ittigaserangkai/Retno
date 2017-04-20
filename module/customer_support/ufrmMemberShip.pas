@@ -98,7 +98,7 @@ end;
 procedure TfrmMemberShip.actEditExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogPersonalMember, cxGridView.DS.FieldByName('MEMBER_ID').AsString)
+  ShowDialogForm(TfrmDialogPersonalMember, cxGridView.DS.FieldByName('MEMBER_ID').AsString);
 end;
 
 procedure TfrmMemberShip.RefreshData;

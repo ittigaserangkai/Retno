@@ -24,7 +24,6 @@ object frmImportFromStore: TfrmImportFromStore
     BevelOuter = bvLowered
     Color = 15198183
     TabOrder = 0
-    ExplicitHeight = 291
     object Panel1: TPanel
       Left = 1
       Top = 1
@@ -48,36 +47,33 @@ object frmImportFromStore: TfrmImportFromStore
         TabOrder = 0
         OnClick = btnLoadClick
       end
-      object edtFileName: TEditBtn
-        Left = 64
-        Top = 9
-        Width = 369
-        Height = 21
-        ReturnIsTab = False
-        Flat = False
-        Etched = False
-        FocusBorder = False
-        RightAlign = False
-        TabOrder = 1
-        Text = '0'
-        Version = '1.5.2.0'
-        OnClickBtn = edtFileNameClickBtn
-      end
       object btSimpan: TButton
         Left = 518
         Top = 8
         Width = 75
         Height = 25
         Caption = 'Simpan'
-        TabOrder = 2
+        TabOrder = 1
         OnClick = btSimpanClick
+      end
+      object edtFileName: TcxButtonEdit
+        Left = 87
+        Top = 9
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.OnButtonClick = edtFileNamePropertiesButtonClick
+        TabOrder = 2
+        Width = 345
       end
     end
     object mmoImport: TMemo
       Left = 1
       Top = 48
       Width = 644
-      Height = 242
+      Height = 241
       Align = alClient
       Color = 12582911
       Ctl3D = False

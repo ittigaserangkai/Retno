@@ -239,6 +239,7 @@ const
   _ColCount         : Integer = 29;
   {$ENDIF}
 
+var
   //dibawah ini dipindah ke variabel global database saja ya..
   //Product  ig=integer global
   igProd_Code_Length : Integer = 6;  // max 9 ya. integer safe , def = 6

@@ -429,6 +429,9 @@ var
   aView: TcxGridDBTableView;
   i: Integer;
 begin
+  if aCDS = nil then
+    Exit;
+
   aRepo := nil;
   for i := 0 to aOwnerForm.ComponentCount - 1 do
   begin
@@ -511,6 +514,12 @@ end;
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
 begin
   //new feature dx 15 : findpanel
+  if Self.View = nil then
+    Exit;
+
+  if TcxGridDBTableView(Self.View).DS = nil then
+    Exit;
+
   AutoSearchOnPopup  := True;
   FocusPopup         := True;
   DropDownAutoSize   := True;
