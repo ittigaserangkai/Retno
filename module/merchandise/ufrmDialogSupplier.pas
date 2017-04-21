@@ -225,13 +225,11 @@ type
     edtPhoneMer: TcxTextEdit;
     edtContactMer: TcxTextEdit;
     edtTitleMer: TcxTextEdit;
-    edtBankCodeMer: TcxTextEdit;
-    edtBankAccNameMer: TcxTextEdit;
-    edtBankAccNoMer: TcxTextEdit;
+    edtAccountNameMer: TcxTextEdit;
+    edtAccountNoMer: TcxTextEdit;
     chkIsDif: TCheckBox;
-    cbpBankCodeMer: TcxButtonEdit;
-    edtBankBranch: TcxTextEdit;
-    edtBankAddrss: TcxTextEdit;
+    edtCabangBankMer: TcxTextEdit;
+    edtAlamatBankMer: TcxTextEdit;
     cxLookupMerchGroup: TcxExtLookupComboBox;
     cxLookupPaymentType: TcxExtLookupComboBox;
     clSupMerchanGroup: TcxGridDBColumn;
@@ -239,6 +237,7 @@ type
     cxLookupPODeliver: TcxExtLookupComboBox;
     chkPKP: TCheckBox;
     cxLookupPPN: TcxExtLookupComboBox;
+    cxLookUpBankMer: TcxExtLookupComboBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -251,20 +250,21 @@ type
     procedure btnUpdateSuppClick(Sender: TObject);
     procedure chkIsDifClick(Sender: TObject);
     procedure chkPKPClick(Sender: TObject);
-    procedure pc1Change(Sender: TObject);
+    procedure cxLookUpBankPropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookUpBankMerPropertiesEditValueChanged(Sender: TObject);
 
 
   private
     FCDSItems: TClientDataSet;
     FIsUpdateSupplier: Boolean;
     FModSupplier: TModSuplier;
-    procedure CopyAlamat;
     function GetCDSItems: TClientDataSet;
     function GetModSupplier: TModSuplier;
     procedure InitLookup;
     procedure ShowDetail(AIDObject: String);
     procedure SimpanData;
     procedure UpdateDetail;
+    function ValidateDetail: Boolean;
     property CDSItems: TClientDataSet read GetCDSItems write FCDSItems;
     property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
         FIsUpdateSupplier;
@@ -330,12 +330,18 @@ end;
 procedure TfrmDialogSupplier.chkIsDifClick(Sender: TObject);
 begin
   inherited;
-  CopyAlamat;
   edtAddrMer.Enabled := chkIsDif.Checked;
   edtCityMer.Enabled := chkIsDif.Checked;
   edtPhoneMer.Enabled := chkIsDif.Checked;
   edtPostCodeMer.Enabled := chkIsDif.Checked;
   edtFaxMer.Enabled := chkIsDif.Checked;
+  edtContactMer.Enabled := chkIsDif.Checked;
+  edtTitleMer.Enabled := chkIsDif.Checked;
+  cxLookUpBankMer.Enabled := chkIsDif.Checked;
+  edtCabangBankMer.Enabled := chkIsDif.Checked;
+  edtAlamatBankMer.Enabled := chkIsDif.Checked;
+  edtAccountNameMer.Enabled := chkIsDif.Checked;
+  edtAccountNoMer.Enabled := chkIsDif.Checked;
 end;
 
 procedure TfrmDialogSupplier.chkPKPClick(Sender: TObject);
@@ -345,21 +351,6 @@ begin
   cxLookupPPN.Visible := chkPKP.Checked;
 end;
 
-procedure TfrmDialogSupplier.CopyAlamat;
-begin
-  if chkIsDif.Checked then exit;
-
-//  if not chkIsDif.Checked then
-//  begin
-    edtAddrMer.Text := edtAddress.Text;
-    edtCityMer.Text := edtCity.Text;
-    edtPostCodeMer.Text := edtPostCode.Text;
-    edtPhoneMer.Text := edtPhone.Text;
-    edtFaxMer.Text := edtFax.Text;
-//  end;
-
-end;
-
 procedure TfrmDialogSupplier.cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
     TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
     TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
@@ -367,6 +358,24 @@ begin
   inherited;
   if not CDSItems.eof then
     ShowDetail(CDSItems.FieldByName('ID').AsString);
+end;
+
+procedure TfrmDialogSupplier.cxLookUpBankMerPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  if cxLookUpBankMer.DS.Eof then exit;
+  edtAlamatBankMer.Text := cxLookUpBankMer.DS.FieldByName('BANK_ADDRESS').AsString;
+  edtCabangBankMer.Text := cxLookUpBankMer.DS.FieldByName('BANK_BRANCH').AsString;
+end;
+
+procedure TfrmDialogSupplier.cxLookUpBankPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  if cxLookUpBank.DS.Eof then exit;
+  edtAlamatBank.Text := cxLookUpBank.DS.FieldByName('BANK_ADDRESS').AsString;
+  edtCabangBank.Text := cxLookUpBank.DS.FieldByName('BANK_BRANCH').AsString;
 end;
 
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
@@ -423,6 +432,13 @@ begin
       'BANK_ID','BANK_NAME',['BANK_ID'],self
     );
   cxLookUpBank.SetMultiPurposeLookup;
+
+  cxLookUpBankMer.LoadFromDS(
+    DMClient.DSProviderClient.Bank_GetDSLookup,
+      'BANK_ID','BANK_NAME',['BANK_ID'],self
+    );
+  cxLookUpBankMer.SetMultiPurposeLookup;
+
 
   cxLookupTipePerush.LoadFromDS(
     DMClient.DSProviderClient.TipePerusahaan_GetDSLookup,
@@ -507,12 +523,6 @@ begin
 
 end;
 
-procedure TfrmDialogSupplier.pc1Change(Sender: TObject);
-begin
-  inherited;
-  CopyAlamat;
-end;
-
 procedure TfrmDialogSupplier.ShowDetail(AIDObject: String);
 begin
   if CDSItems.Eof then exit;  //exit jika tidak ada record yang dipilih
@@ -550,6 +560,15 @@ begin
 // tab sheet Alamat
   chkIsDif.Checked := CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger = 1;
   edtAddrMer.Text := CDSItems.FieldByName('SUPMG_ADDRESS').AsString;
+  edtCityMer.Text := CDSItems.FieldByName('SUPMG_CITY').AsString;
+  edtPostCodeMer.Text := CDSItems.FieldByName('SUPMG_POST_CODE').AsString;
+  edtPhoneMer.Text := CDSItems.FieldByName('SUPMG_TELP').AsString;
+  edtFaxMer.Text := CDSItems.FieldByName('SUPMG_FAX').AsString;
+  edtContactMer.Text := CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString;
+  edtTitleMer.Text := CDSItems.FieldByName('SUPMG_TITLE').AsString;
+  cxLookUpBankMer.EditValue := CDSItems.FieldByName('BANK').AsString;
+  edtAccountNameMer.Text := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString;
+  edtAccountNoMer.Text := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString;
 
   IsUpdateSupplier := True;
 end;
@@ -618,6 +637,10 @@ end;
 
 procedure TfrmDialogSupplier.UpdateDetail;
 begin
+
+  if not ValidateDetail then
+    exit;
+
   if IsUpdateSupplier then //jika user click grid
     CDSItems.Edit
   else
@@ -630,8 +653,8 @@ begin
   CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString  := edtExtdDesc.Text;
   CDSItems.FieldByName('SUPMG_TOP').AsString          := edtTermOP.Text;
   CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString    := edtLeadTime.Text;
-  CDSItems.FieldByName('SUPMG_DISC').AsString         := edtDisc.Text;
   CDSItems.FieldByName('SUPMG_FEE').AsString          := edtFee.Text;
+  CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger :=  TAppUtils.BoolToInt(chkFee.Checked);
   CDSItems.FieldByName('TIPE_KIRIM_PO').AsString      := cxLookupPODeliver.EditValue;
 // bagian ini hanya display, bukan untuk input [START]
 // aktifkan kl mau dipakke input
@@ -643,7 +666,6 @@ begin
 //  CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat := curedtOutsdPaymnt.Value;
 //  CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString           := edtNoOfPO.Text;
 // bagian ini hanya display, bukan untuk input [END]
-  CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger :=  TAppUtils.BoolToInt(chkFee.Checked);
   CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(chkEnableCN.Checked);
   CDSItems.FieldByName('SUPMG_IS_MON').AsInteger := TAppUtils.BoolToInt(chkMon.Checked);
   CDSItems.FieldByName('SUPMG_IS_TUE').AsInteger := TAppUtils.BoolToInt(chkTue.Checked);
@@ -653,13 +675,44 @@ begin
   CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger := TAppUtils.BoolToInt(chkSat.Checked);
   CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger := TAppUtils.BoolToInt(chkSun.Checked);
   CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger := TAppUtils.BoolToInt(chkPKP.Checked);
-  CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
+  if not VarIsNull(cxLookupPPN.EditValue) then
+    CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
 
 // tab sheet Alamat
   CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger := TAppUtils.BoolToInt(chkIsDif.Checked);
-  CDSItems.FieldByName('SUPMG_ADDRESS').AsString := edtAddrMer.Text;
+  if chkIsDif.Checked then
+  begin
+    CDSItems.FieldByName('SUPMG_ADDRESS').AsString            := edtAddrMer.Text;
+    CDSItems.FieldByName('SUPMG_CITY').AsString               := edtCityMer.Text;
+    CDSItems.FieldByName('SUPMG_POST_CODE').AsString          := edtPostCodeMer.Text;
+    CDSItems.FieldByName('SUPMG_TELP').AsString               := edtPhoneMer.Text;
+    CDSItems.FieldByName('SUPMG_FAX').AsString                := edtFaxMer.Text;
+    CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString     := edtContactMer.Text;
+    CDSItems.FieldByName('SUPMG_TITLE').AsString              := edtTitleMer.Text;
+    CDSItems.FieldByName('BANK').AsString                     := cxLookUpBankMer.EditValue;
+    CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString  := edtAccountNameMer.Text;
+    CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString    :=  edtAccountNoMer.Text;
+  end;
 
   CDSItems.Post;
+end;
+
+function TfrmDialogSupplier.ValidateDetail: Boolean;
+begin
+  Result := False;
+
+//  if VarIsNull(cxLookupMerchGroup.EditValue) then
+//  begin
+//    TAppUtils.Warning('Kategori harus diisi');
+//    exit;
+//  end;
+
+  if not Self.ValidateEmptyCtrl([1,2], True, tsMg) then
+    exit;
+
+
+
+  Result := True;
 end;
 
 end.

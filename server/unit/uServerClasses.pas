@@ -80,10 +80,13 @@ var
 begin
   Result := False;
   if not ValidateCode(AObject) then exit;
+  if not BeforeSaveToDB(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
       TDBUtils.ExecuteSQL(lSS, False);
+      if not AfterSaveToDB(AObject) then exit;
+
       TDBUtils.Commit;
       Result := True;
     except
@@ -328,6 +331,7 @@ begin
       lModSupplier.SuplierMerchanGroups[i].SUPMG_CONTACT_PERSON := lModSupplier.SUP_CONTACT_PERSON;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_TITLE := lModSupplier.SUP_TITLE;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NO := lModSupplier.SUP_BANK_ACCOUNT_NO;
+      lModSupplier.SuplierMerchanGroups[i].BANK := lModSupplier.BANK;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NAME := lModSupplier.SUP_BANK_ACCOUNT_NAME;
     end;
 
