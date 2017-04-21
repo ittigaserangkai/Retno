@@ -12,11 +12,12 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uAppUtils,
-  uDXUtils, uDBUtils, Datasnap.DBClient, uDMClient, ufrmDialogSO;
+  uDXUtils, uDBUtils, Datasnap.DBClient, uDMClient, ufrmDialogSO, uInterface;
 
 type
   TfrmSO = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -48,6 +49,12 @@ procedure TfrmSO.actAddExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogSO);
+end;
+
+procedure TfrmSO.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogSO, CDS.FieldByName('SO_ID').AsString);
 end;
 
 procedure TfrmSO.RefreshData;

@@ -26,6 +26,8 @@ type
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
+    function RetrieveAll(ModClassName, AID: string): TModApp; overload;
+    function RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -152,6 +154,22 @@ begin
   Finally
     lObj.Free;
   End;
+end;
+
+function TCrud.RetrieveAll(ModClassName, AID: string): TModApp;
+var
+  lClass: TModAppClass;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+  Result := Self.RetrieveAll(lClass, AID);
+end;
+
+function TCrud.RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp;
+begin
+  Result := ModAppClass.Create;
+  TDBUtils.LoadFromDB(Result, AID, True);
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
