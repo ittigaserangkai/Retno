@@ -63,8 +63,6 @@ type
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         aOwnerForm: TComponent); overload;
     procedure SetMultiPurposeLookup;
-    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
-        = True); overload;
   end;
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
@@ -1103,6 +1101,13 @@ begin
     if C is TCheckBox then
       if not Assigned(TCheckBox(C).OnKeyDown) then
         TCheckBox(C).OnKeyDown := OnKeyEnter;
+    if C is TComboBox then
+      if not Assigned(TComboBox(C).OnKeyDown) then
+        TComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TMaskEdit then
+      if not Assigned(TMaskEdit(C).OnKeyDown) then
+        TMaskEdit(C).OnKeyDown := OnKeyEnter;
+
 
     //------ devexpress ---------//
     if C is TcxExtLookupComboBox then
@@ -1342,6 +1347,22 @@ end;
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;
 begin
   Self.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TcxGridTableViewHelper.ClearRows;
+var
+  I: Integer;
+begin
+  BeginUpdate;
+  try
+    for I := DataController.RecordCount - 1 downto 0 do
+    begin
+      DataController.FocusedRecordIndex := i;
+      DataController.DeleteFocused;
+    end;
+  finally
+    EndUpdate;
+  end;
 end;
 
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of

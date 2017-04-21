@@ -75,6 +75,7 @@ type
   TModPO = class(TModApp)
   private
     FPOItems: TObjectList<TModPOItem>;
+    FPO_NO_REF: string;
     FPO_COLIE: Double;
     FPO_DATE: TDateTime;
     FPO_DELIVER_DATE: TDateTime;
@@ -89,8 +90,9 @@ type
     FPO_STATUS_PO: TModStatusPO;
     FPO_SUPPLIER: TModSuplier;
     FPO_SUPPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup;
-    FPO_TIPE_PO: TModTipePo;
+    FPO_TOP: Integer;
     FPO_UNIT: TModUnit;
+    FPO_VALID_DATE: TDatetime;
     function GetPO_DISC: Double;
     function GetPO_PPN: Double;
     function GetPO_TOTAL: Double;
@@ -99,6 +101,7 @@ type
     procedure SetPO_TOTAL(Value: Double);
   public
     property POItems: TObjectList<TModPOItem> read FPOItems write FPOItems;
+    property PO_NO_REF: string read FPO_NO_REF write FPO_NO_REF;
   published
     property PO_COLIE: Double read FPO_COLIE write FPO_COLIE;
     property PO_DATE: TDateTime read FPO_DATE write FPO_DATE;
@@ -114,14 +117,26 @@ type
     property PO_PRINTCOUNT: Integer read FPO_PRINTCOUNT write FPO_PRINTCOUNT;
     property PO_SERVICE_LEVEL: Double read FPO_SERVICE_LEVEL write
         FPO_SERVICE_LEVEL;
+    [AttributeOfForeign('SO_ID')]
     property PO_SO: TModSO read FPO_SO write FPO_SO;
+
+    [AttributeOfForeign('REF$STATUS_PO_ID')]
     property PO_STATUS_PO: TModStatusPO read FPO_STATUS_PO write FPO_STATUS_PO;
+
+    [AttributeOfForeign('SUPLIER_ID')]
     property PO_SUPPLIER: TModSuplier read FPO_SUPPLIER write FPO_SUPPLIER;
+
+    [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
     property PO_SUPPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup read
         FPO_SUPPLIER_MERCHAN_GRUP write FPO_SUPPLIER_MERCHAN_GRUP;
-    property PO_TIPE_PO: TModTipePo read FPO_TIPE_PO write FPO_TIPE_PO;
+    property PO_TOP: Integer read FPO_TOP write FPO_TOP;
+
+
     property PO_TOTAL: Double read GetPO_TOTAL write SetPO_TOTAL;
+
+    [AttributeOfForeign('AUT$UNIT_ID')]
     property PO_UNIT: TModUnit read FPO_UNIT write FPO_UNIT;
+    property PO_VALID_DATE: TDatetime read FPO_VALID_DATE write FPO_VALID_DATE;
   end;
 
 
@@ -162,5 +177,6 @@ begin
 end;
 
 
-
+initialization
+  TModPO.RegisterRTTI;
 end.

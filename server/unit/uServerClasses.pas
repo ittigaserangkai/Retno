@@ -17,6 +17,9 @@ type
   private
     function StringToClass(ModClassName: string): TModAppClass;
     function ValidateCode(AOBject: TModApp): Boolean;
+  protected
+    function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
+    function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
   public
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
@@ -44,6 +47,11 @@ type
     function GeneratePO(ANO_SO : String; ASupMG : TModSuplierMerchanGroup): Boolean;
   end;
 
+  TCrudSupplier = class(TCrud)
+  public
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  end;
+
   {$METHODINFO OFF}
 
 implementation
@@ -54,6 +62,16 @@ uses
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
   Result := 'Hello Word ' + DateToStr(aTanggal);
+end;
+
+function TCrud.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
+end;
+
+function TCrud.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
@@ -289,6 +307,34 @@ begin
   end;
 
   Result := True;
+end;
+
+function TCrudSupplier.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lModSupplier: TModSuplier;
+  lSS: TStrings;
+  I: Integer;
+begin
+  lModSupplier := TModSuplier(AObject);
+  for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+  begin
+    if lModSupplier.SuplierMerchanGroups[i].SUPMG_IS_DIF_CONTACT = 0 then
+    begin
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_ADDRESS := lModSupplier.SUP_ADDRESS;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_CITY := lModSupplier.SUP_CITY;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_TELP := lModSupplier.SUP_TELP;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_FAX := lModSupplier.SUP_FAX;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_POST_CODE := lModSupplier.SUP_POST_CODE;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_CONTACT_PERSON := lModSupplier.SUP_CONTACT_PERSON;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_TITLE := lModSupplier.SUP_TITLE;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NO := lModSupplier.SUP_BANK_ACCOUNT_NO;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NAME := lModSupplier.SUP_BANK_ACCOUNT_NAME;
+    end;
+
+    Result := True;
+
+  end;
+
 end;
 
 end.

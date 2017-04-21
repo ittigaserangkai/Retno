@@ -336,7 +336,8 @@ procedure TfrmGeneratePOforAll.cbbSOPropertiesValidate(Sender: TObject;
   var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
 begin
   inherited;
-  dtDateSO.Date :=  FCDSSO.FieldByName('SO_DATE').AsDateTime;
+  if FCDSSO <> nil then
+    dtDateSO.Date :=  FCDSSO.FieldByName('SO_DATE').AsDateTime;
 end;
 
 procedure TfrmGeneratePOforAll.FormKeyUp(Sender: TObject; var Key: Word;

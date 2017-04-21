@@ -15,7 +15,7 @@ object DMClient: TDMClient
     Left = 72
     Top = 16
     Bitmap = {
-      494C010127003000780010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101270030007C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000A0000000010020000000000000A0
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000080808000FFFF
@@ -1347,12 +1347,13 @@ object DMClient: TDMClient
     Top = 88
     PixelsPerInch = 96
     object cxStyleGridEven: TcxStyle
-      AssignedValues = [svFont]
+      AssignedValues = [svColor, svFont]
+      Color = 14342874
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Trebuchet MS'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     object cxStyleGridHeader: TcxStyle
       AssignedValues = [svColor, svFont]
@@ -1360,8 +1361,8 @@ object DMClient: TDMClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
     end
     object cxStyleMoneyGreen: TcxStyle
       AssignedValues = [svColor]
@@ -1382,7 +1383,7 @@ object DMClient: TDMClient
     Left = 120
     Top = 16
     Bitmap = {
-      494C01011C0074008C0020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011C007400900020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
