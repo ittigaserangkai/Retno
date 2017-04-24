@@ -19,6 +19,8 @@ type
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
         = 256; IsCalculated: Boolean = False);
+    procedure SetFieldFrom(DestFieldName: String; SourceDataSet: TDataset;
+        SourceField: String = '');
   end;
 
   TDBUtils = class(TObject)
@@ -36,7 +38,6 @@ type
         TComponent): TClientDataSet;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
-    class procedure DSToCDS(ADataset : TDataset; ACDS : TClientDataset); overload;
     class procedure TemporaryForHideWarning;
     class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
         overload;
@@ -50,9 +51,11 @@ type
     class function GetNextID(AOBject : TModApp): Integer;
     class function GetNextIDGUID: TGuid;
     class function GetNextIDGUIDToString: string;
-    class procedure LoadFromDB(AOBject : TModApp; AID : String);
+    class procedure LoadFromDB(AOBject: TModApp; AID: String; ARetrieveProp:
+        Boolean = False);
     class procedure LoadByCode(AOBject : TModApp; AID : String);
-    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
+    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
+        ARetrieveProp: Boolean = False);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
@@ -174,23 +177,6 @@ begin
     Result.Open;
 
     if FreeDataSet then aDataset.Free;
-  end;
-end;
-
-class procedure TDBUtils.DSToCDS(ADataset : TDataset; ACDS : TClientDataset);
-var
-  i: Integer;
-begin
-  ACDS.Open;
-  ACDS.EmptyDataSet;
-
-  while not ADataset.Eof do
-  begin
-    for i := 0 to ACDS.Fields.Count - 1 do
-    begin
-      ACDS.Append;
-      ACDS.Fields[i] := ADataset.FieldByName(ACDS.FieldDefs[i].Name);
-    end;
   end;
 end;
 
@@ -735,7 +721,8 @@ begin
   Result  := Format(SQL_Delete,[AObject.GetTableName,sFilter]);
 end;
 
-class procedure TDBUtils.LoadFromDB(AOBject : TModApp; AID : String);
+class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String;
+    ARetrieveProp: Boolean = False);
 var
   Q: TFDQuery;
   sSQL: string;
@@ -743,7 +730,7 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  LoadFromDataset(AObject, Q);
+  LoadFromDataset(AObject, Q, ARetrieveProp);
 end;
 
 class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
@@ -757,7 +744,8 @@ begin
   LoadFromDataset(AObject, Q);
 end;
 
-class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
+class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
+    ARetrieveProp: Boolean = False);
 var
   sSQL: string;
   ctx : TRttiContext;
@@ -795,19 +783,24 @@ begin
             tkInteger : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsInteger );
             tkFloat   : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsFloat );
             tkUString : prop.SetValue(AObject,ADataSet.FieldByName(FieldName).AsString );
-            tkClass   : begin
-                          meth := prop.PropertyType.GetMethod('ToArray');
-                          if not Assigned(meth) then //bukan obj list
-                          begin
-                            if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+            tkClass   :
+            begin
+              meth := prop.PropertyType.GetMethod('ToArray');
+              if not Assigned(meth) then //bukan obj list
+              begin
+                if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+                meth            := prop.PropertyType.GetMethod('Create');
+                lAppObject      := TModApp(meth.Invoke(
+                prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
 
-                            meth          := prop.PropertyType.GetMethod('Create');
-                            lAppObject    := TModApp(meth.Invoke(
-                              prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-                            lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
-                            prop.SetValue(AOBject, lAppObject);
-                          end;
-                        end;
+                lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
+
+                if (ARetrieveProp) and (lAppObject.ID  <> '') then
+                  Self.LoadFromDB(lAppObject, lAppObject.ID );
+
+                prop.SetValue(AOBject, lAppObject);
+              end;
+            end;
           else
             prop.SetValue(AObject,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
           end;
@@ -842,7 +835,7 @@ begin
                 while not QQ.Eof do
                 begin
                   lAppObjectItem := lAppClass.Create;
-                  LoadFromDataset(lAppObjectItem, QQ);
+                  LoadFromDataset(lAppObjectItem, QQ, ARetrieveProp);
                   meth.Invoke(lObjectList,[lAppObjectItem]);
                   QQ.Next;
                 end;
@@ -1035,6 +1028,13 @@ begin
       end;
   end;
 
+end;
+
+procedure TCDSHelper.SetFieldFrom(DestFieldName: String; SourceDataSet:
+    TDataset; SourceField: String = '');
+begin
+  if SourceField = '' then SourceField := DestFieldName;
+  Self.FieldValues[DestFieldName] := SourceDataSet.FieldValues[SourceField];
 end;
 
 end.

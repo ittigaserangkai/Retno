@@ -47,11 +47,16 @@ type
     FSOD_IS_REGULAR: Integer;
     FSOD_PRICE: Double;
     FSOD_QTY: Double;
-    FSOD_QTY_ORDER: Double;
     FSOD_TOTAL: Double;
     FSOD_TOTAL_DISC: Double;
     FSatuan: TModSatuan;
+    FSOD_ADS: Double;
+    FSOD_QTYSO: Double;
+    FSOD_STOCK: Double;
+    FSOD_ROP: Double;
     FSupplierMerchan: TModSuplierMerchanGroup;
+  public
+    class function GetTableName: String; override;
   published
     property BARANG: TModBarang read FBARANG write FBARANG;
     [AttributeOfHeader('SO_ID')]
@@ -64,12 +69,15 @@ type
     property SOD_IS_REGULAR: Integer read FSOD_IS_REGULAR write FSOD_IS_REGULAR;
     property SOD_PRICE: Double read FSOD_PRICE write FSOD_PRICE;
     property SOD_QTY: Double read FSOD_QTY write FSOD_QTY;
-    property SOD_QTY_ORDER: Double read FSOD_QTY_ORDER write FSOD_QTY_ORDER;
     //1 soD_PRICE * SOD_QTY
     property SOD_TOTAL: Double read FSOD_TOTAL write FSOD_TOTAL;
     property SOD_TOTAL_DISC: Double read FSOD_TOTAL_DISC write FSOD_TOTAL_DISC;
     [AttributeOfForeign('Ref$Satuan_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
+    property SOD_ADS: Double read FSOD_ADS write FSOD_ADS;
+    property SOD_QTYSO: Double read FSOD_QTYSO write FSOD_QTYSO;
+    property SOD_STOCK: Double read FSOD_STOCK write FSOD_STOCK;
+    property SOD_ROP: Double read FSOD_ROP write FSOD_ROP;
     [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
     property SupplierMerchan: TModSuplierMerchanGroup read FSupplierMerchan write
         FSupplierMerchan;
@@ -82,6 +90,11 @@ begin
   If not Assigned(FSODetails) then
     FSODetails := TObjectList<TModSODetail>.Create;
   Result := FSODetails;
+end;
+
+class function TModSODetail.GetTableName: String;
+begin
+  Result := 'SO_DETAIL';
 end;
 
 initialization

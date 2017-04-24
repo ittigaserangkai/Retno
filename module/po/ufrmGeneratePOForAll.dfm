@@ -13,7 +13,6 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     Width = 659
     OnDblClick = pnlBodyDblClick
     ExplicitWidth = 659
-    ExplicitHeight = 230
     object lbl3: TLabel
       Left = 18
       Top = 9
@@ -43,11 +42,11 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Shape = bsTopLine
     end
     object lblSupplierMG: TLabel
-      Left = 86
+      Left = 20
       Top = 64
-      Width = 39
+      Width = 105
       Height = 16
-      Caption = 'Supplier'
+      Caption = 'Supplier Merchandise'
     end
     object lblHeader: TLabel
       Left = 0
@@ -55,22 +54,10 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Width = 3
       Height = 16
     end
-    object edtNoSO: TEdit
-      Left = 133
-      Top = 6
-      Width = 132
-      Height = 22
-      Ctl3D = False
-      MaxLength = 10
-      ParentCtl3D = False
-      TabOrder = 0
-      OnChange = edtNoSOChange
-      OnKeyPress = edtNoSOKeyPress
-    end
     object dtDateSO: TcxDateEdit
       Left = 133
       Top = 32
-      TabOrder = 2
+      TabOrder = 1
       Width = 132
     end
     object dtDatePO: TcxDateEdit
@@ -102,8 +89,8 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Align = alBottom
       Position = 30.000000000000000000
       Properties.PeakValue = 30.000000000000000000
-      TabOrder = 6
-      ExplicitTop = 207
+      TabOrder = 7
+      ExplicitTop = 253
       Width = 655
     end
     object pnl1: TPanel
@@ -114,8 +101,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Align = alBottom
       BevelOuter = bvNone
       Color = 15198183
-      TabOrder = 7
-      ExplicitTop = 175
+      TabOrder = 8
       DesignSize = (
         655
         29)
@@ -137,7 +123,9 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Caption = 'F2'
       OptionsImage.ImageIndex = 26
       OptionsImage.Images = DMClient.imgListButton
-      TabOrder = 1
+      TabOrder = 6
+      TabStop = False
+      Visible = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -165,7 +153,14 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     object cbbSupplierMG: TcxExtLookupComboBox
       Left = 133
       Top = 60
-      TabOrder = 8
+      TabOrder = 2
+      Width = 132
+    end
+    object cbbSO: TcxExtLookupComboBox
+      Left = 133
+      Top = 5
+      Properties.OnValidate = cbbSOPropertiesValidate
+      TabOrder = 0
       Width = 132
     end
   end
@@ -178,7 +173,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     inherited pnlFooter: TPanel
       Top = -25
       Width = 659
-      ExplicitTop = 18
+      ExplicitTop = -25
       ExplicitWidth = 659
       inherited btnClose: TcxButton
         Left = 582
@@ -204,16 +199,19 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       inherited lbCTRLEnter: TLabel
         Left = 484
         Height = 15
+        ExplicitLeft = 484
       end
       inherited lbEscape: TLabel
         Left = 575
         Height = 15
+        ExplicitLeft = 575
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 408
+        ExplicitLeft = 408
       end
     end
   end

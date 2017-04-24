@@ -5,7 +5,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
   ClientHeight = 435
   ClientWidth = 825
   OldCreateOrder = True
-  ExplicitLeft = -74
   ExplicitWidth = 841
   ExplicitHeight = 474
   PixelsPerInch = 96
@@ -28,6 +27,8 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       ClientRectBottom = 343
       ClientRectRight = 822
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 821
         ExplicitHeight = 342
         inherited cxGrid: TcxGrid
@@ -36,6 +37,10 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
           RootLevelOptions.DetailTabsPosition = dtpTop
           ExplicitWidth = 821
           ExplicitHeight = 342
+          inherited cxGridView: TcxGridDBTableView
+            Styles.ContentEven = DMClient.cxStyleGridEven
+            Styles.Header = DMClient.cxStyleGridHeader
+          end
           object cxGridDBTableSODetail: TcxGridDBTableView [1]
             Navigator.Buttons.CustomButtons = <>
             DataController.Summary.DefaultGroupSummaryItems = <>
@@ -74,16 +79,18 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Left = 550
       TabOrder = 3
       Visible = True
-      ExplicitLeft = 562
+      ExplicitLeft = 550
       ExplicitWidth = 84
+      ExplicitHeight = 23
       Width = 84
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 658
       TabOrder = 4
       Visible = True
-      ExplicitLeft = 670
+      ExplicitLeft = 658
       ExplicitWidth = 84
+      ExplicitHeight = 23
       Width = 84
     end
     inherited btnSearch: TcxButton
@@ -96,7 +103,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     inherited lblsdFilter: TcxLabel
       Left = 637
       Visible = True
-      ExplicitLeft = 649
+      ExplicitLeft = 637
       ExplicitWidth = 18
       Width = 18
       AnchorY = 17
@@ -108,7 +115,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Align = alRight
       Properties.DropDownListStyle = lsFixedList
       TabOrder = 2
-      ExplicitLeft = 426
       Width = 89
     end
     object cbbSupMGAwal: TcxExtLookupComboBox
@@ -118,7 +124,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Align = alRight
       Properties.DropDownListStyle = lsFixedList
       TabOrder = 1
-      ExplicitLeft = 294
       Width = 89
     end
     object lblSupMG: TcxLabel
@@ -129,7 +134,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Caption = 'Supplier MG'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 227
       AnchorY = 17
     end
     object lblStatus: TcxLabel
@@ -140,7 +144,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Caption = 'Status'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 67
       AnchorY = 17
     end
     object cbbStatusPO: TcxExtLookupComboBox
@@ -150,7 +153,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Align = alRight
       Properties.DropDownListStyle = lsFixedList
       TabOrder = 0
-      ExplicitLeft = 109
       Width = 112
     end
     object lblTo: TcxLabel
@@ -162,7 +164,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       Caption = ' to '
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 389
       Height = 25
       Width = 31
       AnchorY = 17
@@ -188,6 +189,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
       inherited btnUpdate: TcxButton
         Left = 116
         Action = actEdit
+        Caption = 'Revisi'
         ExplicitLeft = 116
       end
       inherited btnPrint: TcxButton
@@ -220,6 +222,9 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     inherited actAdd: TAction
       Caption = 'Generate For All'
       OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
     inherited actPrint: TAction
       OnExecute = actPrintExecute

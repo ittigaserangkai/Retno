@@ -15,18 +15,25 @@ type
     cxStyleGridEven: TcxStyle;
     cxStyleGridHeader: TcxStyle;
     imgListIcon: TImageList;
+    cxStyleMoneyGreen: TcxStyle;
+    cxStyleInfoBK: TcxStyle;
+    cxStyleSkyBlue: TcxStyle;
     procedure DataModuleCreate(Sender: TObject);
   private
     FCrudClient: TCrudClient;
+    FCrudSupplierClient: TCrudSupplierClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
     function GetCrudClient: TCrudClient;
+    function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
     { Private declarations }
   public
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
+    property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
+        write FCrudSupplierClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
         FDSProviderClient;
     { Public declarations }
@@ -91,6 +98,15 @@ begin
 
   FCrudClient := TCrudClient.Create(RestConn, InstanceOwner);
   Result := FCrudClient;
+end;
+
+function TDMClient.GetCrudSupplierClient: TCrudSupplierClient;
+begin
+  if FCrudSupplierClient <> nil then
+    FreeAndNil(FCrudSupplierClient);
+
+  FCrudSupplierClient := TCrudSupplierClient.Create(RestConn, InstanceOwner);
+  Result := FCrudSupplierClient;
 end;
 
 function TDMClient.GetDSProviderClient: TDSProviderClient;

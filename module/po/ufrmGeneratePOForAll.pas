@@ -10,7 +10,7 @@ uses
   cxContainer, cxEdit, dxCore, cxDateUtils, Vcl.Menus, cxProgressBar, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, ufrmMasterDialog,
-  ufraFooterDialog3Button;
+  ufraFooterDialog3Button, Datasnap.DBClient, uDBUtils, uDXUtils, uAppUtils, uDMClient;
 
 type
   TSODetil  = array of record
@@ -55,7 +55,6 @@ type
 
   TfrmGeneratePOforAll = class(TfrmMasterDialog)
     fraFooter1Button1: TfraFooter1Button;
-    edtNoSO: TEdit;
     lbl3: TLabel;
     lbl4: TLabel;
     dtDateSO: TcxDateEdit;
@@ -73,6 +72,7 @@ type
     actDetailPO: TAction;
     lblSupplierMG: TLabel;
     cbbSupplierMG: TcxExtLookupComboBox;
+    cbbSO: TcxExtLookupComboBox;
     procedure actDetailPOExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -86,12 +86,18 @@ type
     procedure edtNoSOKeyPress(Sender: TObject; var Key: Char);
     procedure FormActivate(Sender: TObject);
     procedure pnlBodyDblClick(Sender: TObject);
+    procedure cbbSOPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     isSOFound: Boolean;
     FIsGenerated: Boolean;
     DataSODetil: TSODetil;
+    FCDSSO: TClientDataSet;
+    FCDSSUPMG: TClientDataSet;
     FNoPO: string;
     FNoPODetil: Integer;
+    procedure InisialisasiCBBSO;
+    procedure InisialisasiCBBSupMG; overload;
     procedure SearchSONo(ASONo: String);
   public
     { Public declarations }
@@ -102,7 +108,7 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConstanta, ufrmSearchPO, ufrmSearchSO, DB, uAppUtils,
+uses uTSCommonDlg, uConstanta, ufrmSearchPO, ufrmSearchSO, DB,
   ufrmDialogGeneratePO, ufrmMain;
 
 {$R *.dfm}
@@ -114,7 +120,7 @@ begin
     frmDialogDetailGeneratePO := TfrmDialogDetailGeneratePO.Create(Application);
   with frmDialogDetailGeneratePO do
   begin
-    edtSO_NO.Text:= Self.edtNoSO.Text;
+//    edtSO_NO.Text:= Self.edtNoSO.Text;
     dtPO.Date:= Self.dtDatePO.Date;
     dtSO.Date:= Self.dtDateSO.Date;
     ShowModal;
@@ -128,6 +134,9 @@ begin
 //  lblHeader.Caption := 'GENERATE PURCHASING ORDER FOR ALL';
   dtDatePO.Date := now;
   pbProcess.Position := 0;
+
+  InisialisasiCBBSO;
+  InisialisasiCBBSUPMG
 end;
 
 procedure TfrmGeneratePOforAll.FormClose(Sender: TObject;
@@ -305,7 +314,7 @@ begin
     begin
       if frmDialogSearchSO.cbStatusSO.Text = 'GENERATED' then
       begin
-        edtNoSO.Text := NoSO;
+//        edtNoSO.Text := NoSO;
         dtDateSO.Date := SODate;
         FIsGenerated := True;
       end
@@ -321,6 +330,14 @@ begin
     end;
   end;
   frmDialogSearchSO.Free;
+end;
+
+procedure TfrmGeneratePOforAll.cbbSOPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+  if FCDSSO <> nil then
+    dtDateSO.Date :=  FCDSSO.FieldByName('SO_DATE').AsDateTime;
 end;
 
 procedure TfrmGeneratePOforAll.FormKeyUp(Sender: TObject; var Key: Word;
@@ -350,7 +367,7 @@ procedure TfrmGeneratePOforAll.FormShow(Sender: TObject);
 begin
   inherited;
   isSOFound:= False;
-  edtNoSO.Clear;
+//  edtNoSO.Clear;
   dtDatePO.Date:= Now;
 end;
 
@@ -358,11 +375,11 @@ procedure TfrmGeneratePOforAll.edtNoSOKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  if Key=#13 then
-    SearchSONo(TAppUtils.StrPadLeft(edtNoSO.Text, 10, '0'))
-  else
-  if not(Key in['0'..'9',Chr(VK_BACK)]) then
-    Key:=#0;
+//  if Key=#13 then
+//    SearchSONo(TAppUtils.StrPadLeft(edtNoSO.Text, 10, '0'))
+//  else
+//  if not(Key in['0'..'9',Chr(VK_BACK)]) then
+//    Key:=#0;
 end;
 
 procedure TfrmGeneratePOforAll.SearchSONo(ASONo: String);
@@ -440,6 +457,21 @@ begin
   inherited;
   frmGeneratePOforAll.Caption:= 'GENERATE PURCHASING ORDER FOR ALL';
 //  frmMain.CreateMenu((Sender as TForm));
+end;
+
+procedure TfrmGeneratePOforAll.InisialisasiCBBSO;
+begin
+  // SO_ID,SO_NO
+  FCDSSO := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOLookUp(nil), Self);
+  cbbSO.Properties.LoadFromCDS(FCDSSO,'SO_ID','SO_NO',['SO_ID'],Self);
+  cbbSO.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmGeneratePOforAll.InisialisasiCBBSupMG;
+begin
+  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
+  cbbSupplierMG.Properties.LoadFromCDS(FCDSSUPMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  cbbSupplierMG.Properties.SetMultiPurposeLookup;
 end;
 
 procedure TfrmGeneratePOforAll.pnlBodyDblClick(Sender: TObject);

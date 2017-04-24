@@ -41,7 +41,8 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
   uModQuotation in '..\model\uModQuotation.pas',
-  uModSO in '..\model\uModSO.pas';
+  uModSO in '..\model\uModSO.pas',
+  uModPO in '..\model\uModPO.pas';
 
 {$R *.res}
 

@@ -2,8 +2,8 @@ object frmCXLookup: TfrmCXLookup
   Left = 0
   Top = 0
   BorderStyle = bsToolWindow
-  ClientHeight = 389
-  ClientWidth = 686
+  ClientHeight = 421
+  ClientWidth = 694
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object frmCXLookup: TfrmCXLookup
   object pnlHeader: TPanel
     Left = 0
     Top = 0
-    Width = 686
+    Width = 694
     Height = 33
     Align = alTop
     BevelEdges = [beLeft, beTop, beRight]
@@ -26,6 +26,7 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 1
+    ExplicitWidth = 686
     object lblHeader: TLabel
       AlignWithMargins = True
       Left = 5
@@ -45,20 +46,21 @@ object frmCXLookup: TfrmCXLookup
       ExplicitHeight = 14
     end
     object lblFilterData: TcxLabel
-      Left = 329
+      Left = 337
       Top = 0
       Align = alRight
       AutoSize = False
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
+      ExplicitLeft = 329
       Height = 31
       Width = 58
       AnchorY = 16
     end
     object StartDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 390
+      Left = 398
       Top = 4
       Margins.Top = 4
       Margins.Bottom = 4
@@ -68,11 +70,12 @@ object frmCXLookup: TfrmCXLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
+      ExplicitLeft = 390
       Width = 89
     end
     object EndDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 506
+      Left = 514
       Top = 4
       Margins.Top = 4
       Margins.Bottom = 4
@@ -82,11 +85,12 @@ object frmCXLookup: TfrmCXLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
+      ExplicitLeft = 506
       Width = 89
     end
     object btnRefresh: TcxButton
       AlignWithMargins = True
-      Left = 601
+      Left = 609
       Top = 2
       Width = 78
       Height = 27
@@ -149,10 +153,11 @@ object frmCXLookup: TfrmCXLookup
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
       OnClick = btnRefreshClick
+      ExplicitLeft = 601
     end
     object lblsdFilter: TcxLabel
       AlignWithMargins = True
-      Left = 482
+      Left = 490
       Top = 3
       Margins.Left = 0
       Margins.Right = 0
@@ -161,6 +166,7 @@ object frmCXLookup: TfrmCXLookup
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
+      ExplicitLeft = 482
       Height = 25
       Width = 21
       AnchorY = 16
@@ -168,17 +174,19 @@ object frmCXLookup: TfrmCXLookup
   end
   object Panel1: TPanel
     Left = 0
-    Top = 354
-    Width = 686
+    Top = 386
+    Width = 694
     Height = 35
     Align = alBottom
     BevelKind = bkTile
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
+    ExplicitTop = 354
+    ExplicitWidth = 686
     object btnClose: TcxButton
       AlignWithMargins = True
-      Left = 607
+      Left = 615
       Top = 2
       Width = 72
       Height = 27
@@ -192,10 +200,11 @@ object frmCXLookup: TfrmCXLookup
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 0
       OnClick = btnCloseClick
+      ExplicitLeft = 607
     end
     object btnOK: TcxButton
       AlignWithMargins = True
-      Left = 521
+      Left = 529
       Top = 2
       Width = 80
       Height = 27
@@ -214,12 +223,13 @@ object frmCXLookup: TfrmCXLookup
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = btnOKClick
+      ExplicitLeft = 521
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 333
-    Width = 686
+    Top = 365
+    Width = 694
     Height = 21
     Align = alBottom
     BevelEdges = [beLeft, beTop, beRight]
@@ -227,9 +237,11 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 3
+    ExplicitTop = 333
+    ExplicitWidth = 686
     object lbEscape: TLabel
       AlignWithMargins = True
-      Left = 607
+      Left = 615
       Top = 1
       Width = 72
       Height = 17
@@ -243,11 +255,12 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 607
       ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
-      Left = 522
+      Left = 530
       Top = 1
       Width = 69
       Height = 17
@@ -262,24 +275,28 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 522
       ExplicitHeight = 16
     end
   end
   object cxGrid: TcxGrid
     Left = 0
     Top = 33
-    Width = 686
-    Height = 300
+    Width = 694
+    Height = 332
     Align = alClient
     TabOrder = 0
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
+    ExplicitWidth = 686
+    ExplicitHeight = 300
     object cxGridView: TcxGridDBTableView
-      OnDblClick = cxGridViewDblClick
+      PopupMenu = pmSelect
       OnKeyDown = cxGridViewKeyDown
       Navigator.Buttons.CustomButtons = <>
       FindPanel.DisplayMode = fpdmManual
       FindPanel.InfoText = 'ketik teks yang dicari...'
+      OnCellDblClick = cxGridViewCellDblClick
       DataController.Filter.Options = [fcoCaseInsensitive]
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -290,14 +307,42 @@ object frmCXLookup: TfrmCXLookup
       FilterRow.Visible = True
       FilterRow.ApplyChanges = fracImmediately
       NewItemRow.InfoText = 'Baris baru'
-      OptionsData.Editing = False
+      OptionsData.CancelOnExit = False
+      OptionsData.Deleting = False
+      OptionsData.DeletingConfirmation = False
+      OptionsData.Inserting = False
+      OptionsSelection.MultiSelect = True
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
+      OptionsView.Indicator = True
       Styles.ContentEven = DMClient.cxStyleGridHeader
       Styles.Header = DMClient.cxStyleGridEven
     end
     object cxlvMaster: TcxGridLevel
       GridView = cxGridView
+    end
+  end
+  object pmSelect: TPopupMenu
+    Left = 280
+    Top = 192
+    object CheckSelected1: TMenuItem
+      Caption = 'Check Selected'
+      OnClick = CheckSelected1Click
+    end
+    object UnCheckSelected1: TMenuItem
+      Caption = 'Uncheck Selected'
+      OnClick = UnCheckSelected1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object CheckAll1: TMenuItem
+      Caption = 'Check All'
+      OnClick = CheckAll1Click
+    end
+    object UncheckAll1: TMenuItem
+      Caption = 'Uncheck All'
+      OnClick = UncheckAll1Click
     end
   end
 end

@@ -7,7 +7,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -88
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -36,12 +35,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ClientRectRight = 667
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
-        Caption = 'Supplier'
+        Caption = '&Supplier'
         object lbl3: TLabel
-          Left = 66
+          Left = 65
           Top = 58
           Width = 39
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Address'
         end
         object lbl4: TLabel
@@ -49,6 +49,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Top = 80
           Width = 21
           Height = 16
+          Alignment = taRightJustify
           Caption = 'City'
         end
         object lbl18: TLabel
@@ -66,17 +67,19 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Fax No.'
         end
         object lbl5: TLabel
-          Left = 58
+          Left = 59
           Top = 105
           Width = 45
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Phone No'
         end
         object lbl6: TLabel
-          Left = 26
+          Left = 27
           Top = 127
           Width = 77
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Contact Person'
         end
         object lbl7: TLabel
@@ -84,41 +87,47 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Top = 152
           Width = 65
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Supplier Type'
         end
         object lbl8: TLabel
-          Left = 38
+          Left = 37
           Top = 178
           Width = 67
           Height = 16
+          Alignment = taRightJustify
           Caption = 'PKP/NON PKP'
         end
         object lbl10: TLabel
-          Left = 76
+          Left = 75
           Top = 202
           Width = 29
           Height = 16
+          Alignment = taRightJustify
           Caption = 'NPWP'
         end
         object lbl12: TLabel
-          Left = 54
+          Left = 80
           Top = 250
-          Width = 52
+          Width = 24
           Height = 16
-          Caption = 'Bank Code'
+          Alignment = taRightJustify
+          Caption = 'Bank'
         end
         object lbl13: TLabel
-          Left = 46
+          Left = 43
           Top = 322
           Width = 61
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Account No.'
         end
         object lbl14: TLabel
-          Left = 35
+          Left = 33
           Top = 345
           Width = 71
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Account Name'
         end
         object bvl2: TBevel
@@ -144,17 +153,19 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Tittle'
         end
         object Label5: TLabel
-          Left = 36
+          Left = 35
           Top = 35
           Width = 69
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Supplier Name'
         end
         object Label4: TLabel
-          Left = 21
+          Left = 20
           Top = 11
           Width = 84
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Suppl. Code/Tipe'
         end
         object Label6: TLabel
@@ -162,6 +173,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Top = 369
           Width = 56
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Supp Group'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
@@ -171,7 +183,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           ParentFont = False
         end
         object Lbl2: TLabel
-          Left = 70
+          Left = 69
           Top = 274
           Width = 35
           Height = 16
@@ -179,7 +191,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Branch'
         end
         object Label9: TLabel
-          Left = 67
+          Left = 65
           Top = 297
           Width = 39
           Height = 16
@@ -191,6 +203,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Top = 225
           Width = 65
           Height = 16
+          Alignment = taRightJustify
           Caption = 'Alamat NPWP'
         end
         object Label14: TLabel
@@ -208,13 +221,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           HelpKeyword = 'Supplier Name'
           ParentFont = False
           Properties.CharCase = ecUpperCase
-          TabOrder = 1
+          TabOrder = 2
           Width = 298
         end
         object edtAddress: TcxTextEdit
           Left = 111
           Top = 55
-          TabOrder = 2
+          TabOrder = 3
           Text = '---'
           Width = 298
         end
@@ -222,43 +235,43 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Left = 111
           Top = 79
           Properties.CharCase = ecUpperCase
-          TabOrder = 3
+          TabOrder = 4
           Width = 95
         end
         object edtPostCode: TcxTextEdit
           Left = 304
           Top = 79
-          TabOrder = 4
+          TabOrder = 5
           Width = 106
         end
         object edtFax: TcxTextEdit
           Left = 304
           Top = 102
-          TabOrder = 6
+          TabOrder = 7
           Width = 106
         end
         object edtPhone: TcxTextEdit
           Left = 111
           Top = 103
-          TabOrder = 5
+          TabOrder = 6
           Width = 95
         end
         object edtContactP: TcxTextEdit
           Left = 111
           Top = 127
-          TabOrder = 7
+          TabOrder = 8
           Width = 187
         end
         object edtAccountName: TcxTextEdit
           Left = 111
           Top = 341
-          TabOrder = 18
+          TabOrder = 19
           Width = 211
         end
         object edtAccountNo: TcxTextEdit
           Left = 111
           Top = 317
-          TabOrder = 17
+          TabOrder = 18
           Width = 132
         end
         object cbbPKP: TComboBox
@@ -271,7 +284,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Ctl3D = False
           ItemIndex = 0
           ParentCtl3D = False
-          TabOrder = 10
+          TabOrder = 11
           Text = 'NON PKP'
           Items.Strings = (
             'NON PKP'
@@ -280,14 +293,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         object edtTaxNo: TcxTextEdit
           Left = 306
           Top = 175
-          TabOrder = 11
+          TabOrder = 12
           Visible = False
           Width = 104
         end
         object edtTitle: TcxTextEdit
           Left = 344
           Top = 125
-          TabOrder = 8
+          TabOrder = 9
           Width = 66
         end
         object medtNPWP: TMaskEdit
@@ -306,19 +319,21 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           MaxLength = 19
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 13
           Text = ''
         end
         object edtCabangBank: TcxTextEdit
           Left = 111
           Top = 269
-          TabOrder = 15
+          Properties.ReadOnly = True
+          TabOrder = 16
           Width = 297
         end
         object edtAlamatBank: TcxTextEdit
           Left = 111
           Top = 293
-          TabOrder = 16
+          Properties.ReadOnly = True
+          TabOrder = 17
           Width = 297
         end
         object chkSupActive: TCheckBox
@@ -333,36 +348,37 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Font.Name = 'Trebuchet MS'
           Font.Style = []
           ParentFont = False
-          TabOrder = 20
+          TabOrder = 21
         end
         object edtNPWPAlamat: TcxTextEdit
           Left = 111
           Top = 222
-          TabOrder = 13
+          TabOrder = 14
           Width = 298
         end
         object cxLookUpBank: TcxExtLookupComboBox
           Left = 111
           Top = 246
-          TabOrder = 14
+          Properties.OnEditValueChanged = cxLookUpBankPropertiesEditValueChanged
+          TabOrder = 15
           Width = 299
         end
         object cxLookupTipePerush: TcxExtLookupComboBox
           Left = 278
           Top = 8
-          TabOrder = 0
+          TabOrder = 1
           Width = 132
         end
         object cxLookUpSuppGroup: TcxExtLookupComboBox
           Left = 111
           Top = 365
-          TabOrder = 19
+          TabOrder = 20
           Width = 299
         end
         object cxLookUpSupType: TcxExtLookupComboBox
           Left = 111
           Top = 150
-          TabOrder = 9
+          TabOrder = 10
           Width = 299
         end
         object edtSupCode: TcxTextEdit
@@ -373,12 +389,12 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           HelpKeyword = 'Supplier Name'
           ParentFont = False
           Properties.CharCase = ecUpperCase
-          TabOrder = 21
+          TabOrder = 0
           Width = 68
         end
       end
       object tsMerchandiseGroup: TcxTabSheet
-        Caption = 'Category'
+        Caption = '&Category'
         object gbSupplierGrid: TcxGroupBox
           Left = 0
           Top = 0
@@ -535,13 +551,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = cxTabSheet1
+          Properties.ActivePage = tsA
           Properties.CustomButtons.Buttons = <>
           ClientRectBottom = 273
           ClientRectRight = 667
           ClientRectTop = 27
-          object cxTabSheet1: TcxTabSheet
-            Caption = 'Merchandise Group'
+          object tsMG: TcxTabSheet
+            Caption = 'M&erchandise Group'
             ImageIndex = 0
             object lblPPN: TLabel
               Left = 435
@@ -731,7 +747,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtCNBln: TcxCurrencyEdit
               Left = 385
               Top = 54
+              TabStop = False
               Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.ReadOnly = True
               TabOrder = 8
               Width = 135
             end
@@ -744,27 +762,35 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtOutsdPaymnt: TcxCurrencyEdit
               Left = 385
               Top = 102
+              TabStop = False
+              Properties.ReadOnly = True
               TabOrder = 12
               Width = 136
             end
             object curedtPaymnt: TcxCurrencyEdit
               Left = 489
               Top = 77
+              TabStop = False
               Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.ReadOnly = True
               TabOrder = 11
               Width = 131
             end
             object dtLastPurchs: TcxDateEdit
               Left = 385
               Top = 77
+              TabStop = False
+              Properties.ReadOnly = True
               TabOrder = 10
               Width = 95
             end
             object edtDisc: TcxCurrencyEdit
               Left = 574
               Top = 54
+              TabStop = False
               ParentFont = False
               Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.ReadOnly = True
               TabOrder = 9
               Width = 46
             end
@@ -794,6 +820,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object edtNoOfPO: TcxTextEdit
               Left = 385
               Top = 125
+              TabStop = False
+              Properties.ReadOnly = True
               TabOrder = 13
               Width = 25
             end
@@ -867,19 +895,24 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               end
             end
             object cxLookupMerchGroup: TcxExtLookupComboBox
+              Tag = 1
               Left = 120
               Top = 5
+              HelpType = htKeyword
+              HelpKeyword = 'Kategori'
               Properties.ImmediatePost = True
               TabOrder = 0
               Width = 400
             end
             object cxLookupPaymentType: TcxExtLookupComboBox
+              Tag = 1
               Left = 120
               Top = 32
               TabOrder = 1
               Width = 166
             end
             object cxLookupPODeliver: TcxExtLookupComboBox
+              Tag = 2
               Left = 120
               Top = 105
               TabOrder = 4
@@ -891,6 +924,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Width = 44
               Height = 17
               Caption = 'PKP'
+              Checked = True
+              State = cbChecked
               TabOrder = 16
               OnClick = chkPKPClick
             end
@@ -901,8 +936,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Width = 123
             end
           end
-          object cxTabSheet2: TcxTabSheet
-            Caption = 'Addreses'
+          object tsA: TcxTabSheet
+            Caption = '&Addreses'
             ImageIndex = 1
             object pnl1: TPanel
               Left = 0
@@ -912,6 +947,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Align = alClient
               Color = clWhite
               TabOrder = 0
+              ExplicitLeft = 2
+              ExplicitTop = 1
               object lbl30: TLabel
                 Left = 52
                 Top = 28
@@ -962,11 +999,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Caption = 'Tittle'
               end
               object lbl42: TLabel
-                Left = 38
+                Left = 65
                 Top = 121
-                Width = 52
+                Width = 24
                 Height = 16
-                Caption = 'Bank Code'
+                Caption = 'Bank'
               end
               object lbl43: TLabel
                 Left = 33
@@ -1046,26 +1083,18 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 TabOrder = 7
                 Width = 80
               end
-              object edtBankCodeMer: TcxTextEdit
-                Left = 161
-                Top = 118
-                Enabled = False
-                TabOrder = 9
-                Text = 'telo'
-                Width = 247
-              end
-              object edtBankAccNameMer: TcxTextEdit
+              object edtAccountNameMer: TcxTextEdit
                 Left = 96
                 Top = 190
                 Enabled = False
-                TabOrder = 12
+                TabOrder = 11
                 Width = 279
               end
-              object edtBankAccNoMer: TcxTextEdit
+              object edtAccountNoMer: TcxTextEdit
                 Left = 96
                 Top = 213
                 Enabled = False
-                TabOrder = 13
+                TabOrder = 12
                 Width = 211
               end
               object chkIsDif: TCheckBox
@@ -1075,28 +1104,30 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Height = 17
                 Caption = 'Make Different Contact'
                 TabOrder = 0
+                OnClick = chkIsDifClick
               end
-              object cbpBankCodeMer: TcxButtonEdit
-                Left = 96
-                Top = 118
-                Enabled = False
-                Properties.Buttons = <>
-                TabOrder = 8
-                Text = '0'
-                Width = 63
-              end
-              object edtBankBranch: TcxTextEdit
+              object edtCabangBankMer: TcxTextEdit
                 Left = 96
                 Top = 142
                 Enabled = False
-                TabOrder = 10
+                Properties.ReadOnly = True
+                TabOrder = 9
                 Width = 312
               end
-              object edtBankAddrss: TcxTextEdit
+              object edtAlamatBankMer: TcxTextEdit
                 Left = 96
                 Top = 166
                 Enabled = False
-                TabOrder = 11
+                Properties.ReadOnly = True
+                TabOrder = 10
+                Width = 312
+              end
+              object cxLookUpBankMer: TcxExtLookupComboBox
+                Left = 96
+                Top = 118
+                Enabled = False
+                Properties.OnEditValueChanged = cxLookUpBankMerPropertiesEditValueChanged
+                TabOrder = 8
                 Width = 312
               end
             end
@@ -1154,8 +1185,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 311
-    Top = 90
+    Left = 441
+    Top = 46
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
@@ -1164,8 +1195,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   object actSupplier: TActionList
-    Left = 320
-    Top = 144
+    Left = 446
+    Top = 97
     object actUpdateBank: TAction
       Caption = 'actUpdateBank'
     end

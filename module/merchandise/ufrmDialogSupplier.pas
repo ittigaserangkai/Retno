@@ -159,7 +159,7 @@ type
     cxGrdDBSupplierMerchan: TcxGridDBTableView;
     cxGridSupplierLevel1: TcxGridLevel;
     pgcMerchan: TcxPageControl;
-    cxTabSheet1: TcxTabSheet;
+    tsMG: TcxTabSheet;
     lblPPN: TLabel;
     Label11: TLabel;
     Label12: TLabel;
@@ -204,7 +204,7 @@ type
     chkFri: TCheckBox;
     chkSat: TCheckBox;
     chkSun: TCheckBox;
-    cxTabSheet2: TcxTabSheet;
+    tsA: TcxTabSheet;
     pnl1: TPanel;
     lbl30: TLabel;
     lbl31: TLabel;
@@ -225,13 +225,11 @@ type
     edtPhoneMer: TcxTextEdit;
     edtContactMer: TcxTextEdit;
     edtTitleMer: TcxTextEdit;
-    edtBankCodeMer: TcxTextEdit;
-    edtBankAccNameMer: TcxTextEdit;
-    edtBankAccNoMer: TcxTextEdit;
+    edtAccountNameMer: TcxTextEdit;
+    edtAccountNoMer: TcxTextEdit;
     chkIsDif: TCheckBox;
-    cbpBankCodeMer: TcxButtonEdit;
-    edtBankBranch: TcxTextEdit;
-    edtBankAddrss: TcxTextEdit;
+    edtCabangBankMer: TcxTextEdit;
+    edtAlamatBankMer: TcxTextEdit;
     cxLookupMerchGroup: TcxExtLookupComboBox;
     cxLookupPaymentType: TcxExtLookupComboBox;
     clSupMerchanGroup: TcxGridDBColumn;
@@ -239,6 +237,7 @@ type
     cxLookupPODeliver: TcxExtLookupComboBox;
     chkPKP: TCheckBox;
     cxLookupPPN: TcxExtLookupComboBox;
+    cxLookUpBankMer: TcxExtLookupComboBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -249,7 +248,10 @@ type
         TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
         TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
     procedure btnUpdateSuppClick(Sender: TObject);
+    procedure chkIsDifClick(Sender: TObject);
     procedure chkPKPClick(Sender: TObject);
+    procedure cxLookUpBankPropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookUpBankMerPropertiesEditValueChanged(Sender: TObject);
 
 
   private
@@ -262,6 +264,7 @@ type
     procedure ShowDetail(AIDObject: String);
     procedure SimpanData;
     procedure UpdateDetail;
+    function ValidateDetail: Boolean;
     property CDSItems: TClientDataSet read GetCDSItems write FCDSItems;
     property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
         FIsUpdateSupplier;
@@ -324,6 +327,23 @@ begin
   UpdateDetail;
 end;
 
+procedure TfrmDialogSupplier.chkIsDifClick(Sender: TObject);
+begin
+  inherited;
+  edtAddrMer.Enabled := chkIsDif.Checked;
+  edtCityMer.Enabled := chkIsDif.Checked;
+  edtPhoneMer.Enabled := chkIsDif.Checked;
+  edtPostCodeMer.Enabled := chkIsDif.Checked;
+  edtFaxMer.Enabled := chkIsDif.Checked;
+  edtContactMer.Enabled := chkIsDif.Checked;
+  edtTitleMer.Enabled := chkIsDif.Checked;
+  cxLookUpBankMer.Enabled := chkIsDif.Checked;
+  edtCabangBankMer.Enabled := chkIsDif.Checked;
+  edtAlamatBankMer.Enabled := chkIsDif.Checked;
+  edtAccountNameMer.Enabled := chkIsDif.Checked;
+  edtAccountNoMer.Enabled := chkIsDif.Checked;
+end;
+
 procedure TfrmDialogSupplier.chkPKPClick(Sender: TObject);
 begin
   inherited;
@@ -340,10 +360,29 @@ begin
     ShowDetail(CDSItems.FieldByName('ID').AsString);
 end;
 
+procedure TfrmDialogSupplier.cxLookUpBankMerPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  if cxLookUpBankMer.DS.Eof then exit;
+  edtAlamatBankMer.Text := cxLookUpBankMer.DS.FieldByName('BANK_ADDRESS').AsString;
+  edtCabangBankMer.Text := cxLookUpBankMer.DS.FieldByName('BANK_BRANCH').AsString;
+end;
+
+procedure TfrmDialogSupplier.cxLookUpBankPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  if cxLookUpBank.DS.Eof then exit;
+  edtAlamatBank.Text := cxLookUpBank.DS.FieldByName('BANK_ADDRESS').AsString;
+  edtCabangBank.Text := cxLookUpBank.DS.FieldByName('BANK_BRANCH').AsString;
+end;
+
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
 begin
   inherited;
   pc1.ActivePage := tsSupplier;
+  pgcMerchan.ActivePage := tsMG;
   Self.AssignKeyDownEvent;
 
   InitLookup;
@@ -393,6 +432,13 @@ begin
       'BANK_ID','BANK_NAME',['BANK_ID'],self
     );
   cxLookUpBank.SetMultiPurposeLookup;
+
+  cxLookUpBankMer.LoadFromDS(
+    DMClient.DSProviderClient.Bank_GetDSLookup,
+      'BANK_ID','BANK_NAME',['BANK_ID'],self
+    );
+  cxLookUpBankMer.SetMultiPurposeLookup;
+
 
   cxLookupTipePerush.LoadFromDS(
     DMClient.DSProviderClient.TipePerusahaan_GetDSLookup,
@@ -483,26 +529,26 @@ begin
 
   //isi kan form dari CDSItems, contoh :
 
-  cxLookupMerchGroup.EditValue := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
+  cxLookupMerchGroup.EditValue  := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
   cxLookupPaymentType.EditValue := CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString;
-  edtTermOP.Text := CDSItems.FieldByName('SUPMG_TOP').AsString;
-  edtLeadTime.Text := CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString;
-  cxLookupPODeliver.EditValue := CDSItems.FieldByName('TIPE_KIRIM_PO').AsString;
-  curedtCreditLmt.Value := CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat;
-  edtExtdDesc.EditValue := CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString;
-  curedtAPEndB.Value := CDSItems.FieldByName('SUPMG_AP_ENDING_BALANCE').AsFloat;
-  curedtCNBln.Value := CDSItems.FieldByName('SUPMG_CN_BALANCE').AsFloat;
-  edtDisc.Text := CDSItems.FieldByName('SUPMG_DISC').AsString;
-  dtLastPurchs.Date := CDSItems.FieldByName('SUPMG_LAST_PURCHASE').AsDateTime;
-  curedtPaymnt.Value := CDSItems.FieldByName('SUPMG_LAST_PAYMENT').AsFloat;
-  curedtOutsdPaymnt.Value := CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat;
-  edtNoOfPO.Text := CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString;
-  edtFee.Text := CDSItems.FieldByName('SUPMG_FEE').AsString;
-  chkFee.Checked := CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger=1;
-  chkPKP.Checked := CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger=1;
-  cxLookupPPN.EditValue := CDSItems.FieldByName('SUPMG_PAJAK').AsString;
-//  chkAllMer.Checked := CDSItems.FieldByName('').AsInteger=1;  //belum tau gimana
-  chkEnableCN.Checked := CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger=1;
+  edtTermOP.Text                := CDSItems.FieldByName('SUPMG_TOP').AsString;
+  edtLeadTime.Text              := CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString;
+  cxLookupPODeliver.EditValue   := CDSItems.FieldByName('TIPE_KIRIM_PO').AsString;
+  curedtCreditLmt.Value         := CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat;
+  edtExtdDesc.EditValue         := CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString;
+  curedtAPEndB.Value            := CDSItems.FieldByName('SUPMG_AP_ENDING_BALANCE').AsFloat;
+  curedtCNBln.Value             := CDSItems.FieldByName('SUPMG_CN_BALANCE').AsFloat;
+  edtDisc.Text                  := CDSItems.FieldByName('SUPMG_DISC').AsString;
+  dtLastPurchs.Date             := CDSItems.FieldByName('SUPMG_LAST_PURCHASE').AsDateTime;
+  curedtPaymnt.Value            := CDSItems.FieldByName('SUPMG_LAST_PAYMENT').AsFloat;
+  curedtOutsdPaymnt.Value       := CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat;
+  edtNoOfPO.Text                := CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString;
+  edtFee.Text                   := CDSItems.FieldByName('SUPMG_FEE').AsString;
+  chkFee.Checked                := CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger=1;
+  chkPKP.Checked                := CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger=1;
+  cxLookupPPN.EditValue         := CDSItems.FieldByName('SUPMG_PAJAK').AsString;
+//  chkAllMer.Checked             := CDSItems.FieldByName('').AsInteger=1;  //belum tau gimana
+  chkEnableCN.Checked           := CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger=1;
   chkMon.Checked := CDSItems.FieldByName('SUPMG_IS_MON').AsInteger=1;
   chkTue.Checked := CDSItems.FieldByName('SUPMG_IS_TUE').AsInteger=1;
   chkWed.Checked := CDSItems.FieldByName('SUPMG_IS_WED').AsInteger=1;
@@ -510,6 +556,19 @@ begin
   chkFri.Checked := CDSItems.FieldByName('SUPMG_IS_FRI').AsInteger=1;
   chkSat.Checked := CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger=1;
   chkSun.Checked := CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger=1;
+
+// tab sheet Alamat
+  chkIsDif.Checked := CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger = 1;
+  edtAddrMer.Text := CDSItems.FieldByName('SUPMG_ADDRESS').AsString;
+  edtCityMer.Text := CDSItems.FieldByName('SUPMG_CITY').AsString;
+  edtPostCodeMer.Text := CDSItems.FieldByName('SUPMG_POST_CODE').AsString;
+  edtPhoneMer.Text := CDSItems.FieldByName('SUPMG_TELP').AsString;
+  edtFaxMer.Text := CDSItems.FieldByName('SUPMG_FAX').AsString;
+  edtContactMer.Text := CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString;
+  edtTitleMer.Text := CDSItems.FieldByName('SUPMG_TITLE').AsString;
+  cxLookUpBankMer.EditValue := CDSItems.FieldByName('BANK').AsString;
+  edtAccountNameMer.Text := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString;
+  edtAccountNoMer.Text := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString;
 
   IsUpdateSupplier := True;
 end;
@@ -567,7 +626,7 @@ begin
   end;
 
   try
-    DMClient.CrudClient.SaveToDB(ModSupplier);
+    DMClient.CrudSupplierClient.SaveToDB(ModSupplier);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     self.ModalResult:=mrOk;
   except
@@ -578,6 +637,10 @@ end;
 
 procedure TfrmDialogSupplier.UpdateDetail;
 begin
+
+  if not ValidateDetail then
+    exit;
+
   if IsUpdateSupplier then //jika user click grid
     CDSItems.Edit
   else
@@ -590,8 +653,8 @@ begin
   CDSItems.FieldByName('SUPMG_DESCRIPTION').AsString  := edtExtdDesc.Text;
   CDSItems.FieldByName('SUPMG_TOP').AsString          := edtTermOP.Text;
   CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString    := edtLeadTime.Text;
-  CDSItems.FieldByName('SUPMG_DISC').AsString         := edtDisc.Text;
   CDSItems.FieldByName('SUPMG_FEE').AsString          := edtFee.Text;
+  CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger :=  TAppUtils.BoolToInt(chkFee.Checked);
   CDSItems.FieldByName('TIPE_KIRIM_PO').AsString      := cxLookupPODeliver.EditValue;
 // bagian ini hanya display, bukan untuk input [START]
 // aktifkan kl mau dipakke input
@@ -603,7 +666,6 @@ begin
 //  CDSItems.FieldByName('SUPMG_OUTSTANDING_PAYMENT').AsFloat := curedtOutsdPaymnt.Value;
 //  CDSItems.FieldByName('SUPMG_NO_OF_PO').AsString           := edtNoOfPO.Text;
 // bagian ini hanya display, bukan untuk input [END]
-  CDSItems.FieldByName('SUPMG_IS_FEE_4ALL').AsInteger :=  TAppUtils.BoolToInt(chkFee.Checked);
   CDSItems.FieldByName('SUPMG_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(chkEnableCN.Checked);
   CDSItems.FieldByName('SUPMG_IS_MON').AsInteger := TAppUtils.BoolToInt(chkMon.Checked);
   CDSItems.FieldByName('SUPMG_IS_TUE').AsInteger := TAppUtils.BoolToInt(chkTue.Checked);
@@ -613,10 +675,44 @@ begin
   CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger := TAppUtils.BoolToInt(chkSat.Checked);
   CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger := TAppUtils.BoolToInt(chkSun.Checked);
   CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger := TAppUtils.BoolToInt(chkPKP.Checked);
-  CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
-  // ..... lanjutkan
+  if not VarIsNull(cxLookupPPN.EditValue) then
+    CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
+
+// tab sheet Alamat
+  CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger := TAppUtils.BoolToInt(chkIsDif.Checked);
+  if chkIsDif.Checked then
+  begin
+    CDSItems.FieldByName('SUPMG_ADDRESS').AsString            := edtAddrMer.Text;
+    CDSItems.FieldByName('SUPMG_CITY').AsString               := edtCityMer.Text;
+    CDSItems.FieldByName('SUPMG_POST_CODE').AsString          := edtPostCodeMer.Text;
+    CDSItems.FieldByName('SUPMG_TELP').AsString               := edtPhoneMer.Text;
+    CDSItems.FieldByName('SUPMG_FAX').AsString                := edtFaxMer.Text;
+    CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString     := edtContactMer.Text;
+    CDSItems.FieldByName('SUPMG_TITLE').AsString              := edtTitleMer.Text;
+    CDSItems.FieldByName('BANK').AsString                     := cxLookUpBankMer.EditValue;
+    CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString  := edtAccountNameMer.Text;
+    CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString    :=  edtAccountNoMer.Text;
+  end;
 
   CDSItems.Post;
+end;
+
+function TfrmDialogSupplier.ValidateDetail: Boolean;
+begin
+  Result := False;
+
+//  if VarIsNull(cxLookupMerchGroup.EditValue) then
+//  begin
+//    TAppUtils.Warning('Kategori harus diisi');
+//    exit;
+//  end;
+
+  if not Self.ValidateEmptyCtrl([1,2], True, tsMg) then
+    exit;
+
+
+
+  Result := True;
 end;
 
 end.

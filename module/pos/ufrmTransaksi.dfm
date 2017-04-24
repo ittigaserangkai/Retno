@@ -255,10 +255,10 @@ object frmTransaksi: TfrmTransaksi
     Align = alTop
     TabOrder = 0
     object lblTotal: TLabel
-      Left = 694
+      Left = 165
       Top = 1
-      Width = 193
-      Height = 55
+      Width = 722
+      Height = 56
       Align = alClient
       Alignment = taRightJustify
       Caption = 'Rp. 0,00 '
@@ -270,12 +270,15 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitLeft = 694
+      ExplicitWidth = 193
+      ExplicitHeight = 55
     end
     object lbl2: TLabel
       Left = 1
       Top = 1
       Width = 164
-      Height = 55
+      Height = 56
       Align = alLeft
       Alignment = taRightJustify
       Caption = ' Total ='
@@ -287,13 +290,14 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitHeight = 55
     end
   end
   object edPLU: TEdit
     Left = 156
     Top = 455
     Width = 175
-    Height = 19
+    Height = 29
     Anchors = [akLeft, akBottom]
     Ctl3D = False
     Font.Charset = ANSI_CHARSET

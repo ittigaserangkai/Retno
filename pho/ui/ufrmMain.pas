@@ -1088,7 +1088,7 @@ begin
     Try
       HideFields(['Suplier_ID']);
       if ShowModal = mrOk then
-        showmessage(CDS.FieldByName('Suplier_ID').AsString);
+        showmessage(Data.FieldByName('Suplier_ID').AsString);
     Finally
       Free;
     End;

@@ -51,6 +51,7 @@ type
   end;
 
   TcxExtLookupPropHelper = class helper for TcxExtLookupComboBoxProperties
+  private
   public
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
@@ -63,6 +64,8 @@ type
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         aOwnerForm: TComponent); overload;
     procedure SetMultiPurposeLookup;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True);
   end;
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
@@ -80,6 +83,8 @@ type
         aOwnerForm: TComponent); overload;
     procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
 
@@ -143,6 +148,8 @@ type
         DisplayField: String; HideIDField: Boolean = True); overload;
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True); overload;
   end;
 
   TcxExtLookup= class(TcxExtLookupComboBoxProperties)
@@ -163,6 +170,11 @@ type
         ParentCtrl: TWinControl = nil): Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
     function SetFocusRec(aWinCTRL: TWinControl): Boolean;
+  end;
+
+  TcxGridTableViewHelper = class helper for TcxGridTableView
+  private
+    procedure ClearRows;
   end;
 
 
@@ -427,6 +439,9 @@ var
   aView: TcxGridDBTableView;
   i: Integer;
 begin
+  if aCDS = nil then
+    Exit;
+
   aRepo := nil;
   for i := 0 to aOwnerForm.ComponentCount - 1 do
   begin
@@ -509,6 +524,12 @@ end;
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
 begin
   //new feature dx 15 : findpanel
+  if Self.View = nil then
+    Exit;
+
+  if TcxGridDBTableView(Self.View).DS = nil then
+    Exit;
+
   AutoSearchOnPopup  := True;
   FocusPopup         := True;
   DropDownAutoSize   := True;
@@ -531,6 +552,13 @@ begin
   If not Assigned(Self.OnInitPopup) then
     Self.OnInitPopup := TcxExtLookup.OnInitPopupCustom;
 
+end;
+
+procedure TcxExtLookupPropHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
+    String; IsVisible: Boolean = True);
+begin
+  if not Assigned(Self.View) then exit;
+  TcxGridDBTableView(Self.View).SetVisibleColumnsOnly(ColumnSets, IsVisible);
 end;
 
 procedure TcxDBTreeHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
@@ -1043,6 +1071,21 @@ begin
   Self.ApplyBestFit;
 end;
 
+procedure TcxDBGridHelper.SetVisibleColumnsOnly(ColumnSets: Array Of String;
+    IsVisible: Boolean = True);
+var
+  i: Integer;
+begin
+  for i := 0 to Self.ColumnCount-1 do
+    Self.Columns[i].Visible := not IsVisible;
+
+  for i := Low(ColumnSets) to High(ColumnSets) do
+  begin
+    If Assigned(Self.GetColumnByFieldName(ColumnSets[i])) then
+      Self.GetColumnByFieldName(ColumnSets[i]).Visible := IsVisible;
+  end;
+end;
+
 class procedure TcxExtLookup.OnInitPopupCustom(Sender: TObject);
 begin
   If Sender is TcxExtLookupComboBox then
@@ -1066,6 +1109,13 @@ begin
     if C is TCheckBox then
       if not Assigned(TCheckBox(C).OnKeyDown) then
         TCheckBox(C).OnKeyDown := OnKeyEnter;
+    if C is TComboBox then
+      if not Assigned(TComboBox(C).OnKeyDown) then
+        TComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TMaskEdit then
+      if not Assigned(TMaskEdit(C).OnKeyDown) then
+        TMaskEdit(C).OnKeyDown := OnKeyEnter;
+
 
     //------ devexpress ---------//
     if C is TcxExtLookupComboBox then
@@ -1305,6 +1355,28 @@ end;
 procedure TcxExtLookupComboHelper.SetMultiPurposeLookup;
 begin
   Self.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TcxGridTableViewHelper.ClearRows;
+var
+  I: Integer;
+begin
+  BeginUpdate;
+  try
+    for I := DataController.RecordCount - 1 downto 0 do
+    begin
+      DataController.FocusedRecordIndex := i;
+      DataController.DeleteFocused;
+    end;
+  finally
+    EndUpdate;
+  end;
+end;
+
+procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
+    String; IsVisible: Boolean = True);
+begin
+  Self.Properties.SetVisibleColumnsOnly(ColumnSets, IsVisible);
 end;
 
 end.

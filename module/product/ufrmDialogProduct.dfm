@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsInfo
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -616,7 +616,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 44
+            Top = 50
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -625,7 +625,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 2
             Transparent = True
-            ExplicitWidth = 121
+            ExplicitTop = 44
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -639,12 +639,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 0
             Transparent = True
-            ExplicitWidth = 121
           end
           object cbisDecimal: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 65
+            Top = 74
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -654,12 +653,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 3
             Transparent = True
             ExplicitTop = 71
-            ExplicitWidth = 121
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 86
+            Top = 98
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -669,12 +667,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 4
             Transparent = True
             ExplicitTop = 95
-            ExplicitWidth = 121
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 128
+            Top = 146
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -684,12 +681,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 6
             Transparent = True
             ExplicitTop = 140
-            ExplicitWidth = 121
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 107
+            Top = 122
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -699,12 +695,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 5
             Transparent = True
             ExplicitTop = 119
-            ExplicitWidth = 121
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 23
+            Top = 26
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -713,13 +708,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 1
             Transparent = True
-            ExplicitTop = 26
-            ExplicitWidth = 121
           end
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 149
+            Top = 170
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -729,8 +722,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
-            ExplicitTop = 170
-            ExplicitWidth = 121
           end
         end
         object gbPurchase: TcxGroupBox
@@ -1279,7 +1270,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckActive: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 26
+              Top = 23
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1289,7 +1280,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 1
               Transparent = True
-              ExplicitTop = 23
+              ExplicitWidth = 121
             end
             object ckPrimarySupp: TcxCheckBox
               AlignWithMargins = True
@@ -1304,11 +1295,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 0
               Transparent = True
+              ExplicitWidth = 121
             end
             object ckBKP: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 50
+              Top = 44
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1318,11 +1310,13 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 2
               Transparent = True
+              ExplicitTop = 50
+              ExplicitWidth = 121
             end
             object ckEnableCN: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 74
+              Top = 65
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1333,6 +1327,8 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 3
               Transparent = True
               OnKeyDown = ckEnableCNKeyDown
+              ExplicitTop = 74
+              ExplicitWidth = 121
             end
           end
           object crBRSSellingPrice: TcxCurrencyEdit
@@ -1631,9 +1627,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSellingPrice: TcxTabSheet
         Caption = 'F4 [Selling Price]'
         ImageIndex = 37
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object gbSellingPrice: TcxGroupBox
           Left = 0
           Top = 180

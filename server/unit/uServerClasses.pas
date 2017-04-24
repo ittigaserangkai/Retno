@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModSO;
+  StrUtils, uModSO, uModSuplier, Datasnap.DBClient;
 
 type
   {$METHODINFO ON}
@@ -17,6 +17,9 @@ type
   private
     function StringToClass(ModClassName: string): TModAppClass;
     function ValidateCode(AOBject: TModApp): Boolean;
+  protected
+    function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
+    function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
   public
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
@@ -26,6 +29,8 @@ type
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
+    function RetrieveAll(ModClassName, AID: string): TModApp; overload;
+    function RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -35,6 +40,16 @@ type
   public
     function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
         aSupplierMerchan_ID: String = ''): TDataSet;
+  end;
+
+  TPurchaseOrder = class(TComponent)
+  public
+    function GeneratePO(ANO_SO : String; ASupMG : TModSuplierMerchanGroup): Boolean;
+  end;
+
+  TCrudSupplier = class(TCrud)
+  public
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
   {$METHODINFO OFF}
@@ -49,16 +64,29 @@ begin
   Result := 'Hello Word ' + DateToStr(aTanggal);
 end;
 
+function TCrud.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
+end;
+
+function TCrud.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
+end;
+
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
 var
   lSS: TStrings;
 begin
   Result := False;
   if not ValidateCode(AObject) then exit;
+  if not BeforeSaveToDB(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
       TDBUtils.ExecuteSQL(lSS, False);
+      if not AfterSaveToDB(AObject) then exit;
+
       TDBUtils.Commit;
       Result := True;
     except
@@ -147,6 +175,22 @@ begin
   Finally
     lObj.Free;
   End;
+end;
+
+function TCrud.RetrieveAll(ModClassName, AID: string): TModApp;
+var
+  lClass: TModAppClass;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+  Result := Self.RetrieveAll(lClass, AID);
+end;
+
+function TCrud.RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp;
+begin
+  Result := ModAppClass.Create;
+  TDBUtils.LoadFromDB(Result, AID, True);
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
@@ -238,6 +282,63 @@ begin
   if aSupplierMerchan_ID <> '' then
     S := S + ' where SUPLIER_MERCHAN_ID = ' + QuotedStr(aSupplierMerchan_ID);
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TPurchaseOrder.GeneratePO(ANO_SO : String; ASupMG :
+    TModSuplierMerchanGroup): Boolean;
+var
+  Q: TClientDataSet;
+  sSQL: string;
+begin
+  Result := False;
+
+  sSQL := 'select a.* from SO a' +
+          ' INNER JOIN SO_DETAIL b on a.SO_ID = b.SO_ID' +
+          ' INNER JOIN SUPLIER_MERCHAN_GRUP c on b.SUPLIER_MERCHAN_GRUP_ID = c.SUPLIER_MERCHAN_GRUP_ID' +
+          ' where a.so_no = ' + QuotedStr(ANO_SO);
+
+  if ASupMG <> nil then
+    sSQL := sSQL + ' and b.SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMG.ID);
+
+  sSQL := sSQL + ' ORDER BY c.SUPMG_CODE';
+
+  Q := TDBUtils.OpenDataset(sSQL);
+  try
+
+  finally
+    Q.Free;
+  end;
+
+  Result := True;
+end;
+
+function TCrudSupplier.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lModSupplier: TModSuplier;
+  lSS: TStrings;
+  I: Integer;
+begin
+  lModSupplier := TModSuplier(AObject);
+  for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+  begin
+    if lModSupplier.SuplierMerchanGroups[i].SUPMG_IS_DIF_CONTACT = 0 then
+    begin
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_ADDRESS := lModSupplier.SUP_ADDRESS;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_CITY := lModSupplier.SUP_CITY;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_TELP := lModSupplier.SUP_TELP;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_FAX := lModSupplier.SUP_FAX;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_POST_CODE := lModSupplier.SUP_POST_CODE;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_CONTACT_PERSON := lModSupplier.SUP_CONTACT_PERSON;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_TITLE := lModSupplier.SUP_TITLE;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NO := lModSupplier.SUP_BANK_ACCOUNT_NO;
+      lModSupplier.SuplierMerchanGroups[i].BANK := lModSupplier.BANK;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NAME := lModSupplier.SUP_BANK_ACCOUNT_NAME;
+    end;
+
+    Result := True;
+
+  end;
+
 end;
 
 end.

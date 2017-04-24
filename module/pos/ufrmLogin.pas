@@ -42,7 +42,7 @@ var
 implementation
 
 uses
-  ufrmMain, uTSCommonDlg, DB, uAppUtils;
+  ufrmMain, uTSCommonDlg, DB, uAppUtils, udmMain;
 
 {$R *.dfm}
 
@@ -71,7 +71,7 @@ begin
       except
       end;
       {$ENDIF}
-//      dServerDate := cGetServerDateTime;
+      dServerDate := cGetServerDateTime;
 
       sSQL := 'select a.usr_fullname, a.usr_passwd, a.usr_id, b.balance_id '
         + 'from aut$user a '
@@ -93,7 +93,7 @@ begin
       edNama.Clear;
       Password := '';
       UserID := -1;
-      {
+
       with cOpenQuery(sSQL) do
       begin
         try
@@ -115,7 +115,6 @@ begin
           Free;
         end;
       end;
-      }
     end;
   end;    // case
 end;

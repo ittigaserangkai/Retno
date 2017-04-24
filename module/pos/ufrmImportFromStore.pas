@@ -4,7 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, EditBtn, ExtCtrls;
+  Dialogs, StdCtrls, ExtCtrls, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
+  cxButtonEdit;
 
 type
   TfrmImportFromStore = class(TForm)
@@ -12,18 +14,19 @@ type
     Panel1: TPanel;
     Label1: TLabel;
     btnLoad: TButton;
-    edtFileName: TEditBtn;
     btSimpan: TButton;
     mmoImport: TMemo;
     pnlHeader: TPanel;
     lblHeader: TLabel;
     OpenDialog1: TOpenDialog;
-    procedure edtFileNameClickBtn(Sender: TObject);
+    edtFileName: TcxButtonEdit;
     procedure btnLoadClick(Sender: TObject);
     procedure btSimpanClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
+    procedure edtFileNamePropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     { Private declarations }
     FUnitID: Integer;
@@ -43,7 +46,8 @@ uses uTSCommonDlg, uAppUtils;
 
 {$R *.dfm}
 
-procedure TfrmImportFromStore.edtFileNameClickBtn(Sender: TObject);
+procedure TfrmImportFromStore.edtFileNamePropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
 begin
   if OpenDialog1.Execute then
   begin

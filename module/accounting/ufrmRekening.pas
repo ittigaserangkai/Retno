@@ -6,48 +6,42 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, StdCtrls, ExtCtrls, ufraFooter5Button, DB,
   ActnList, uConn, ComCtrls, System.Actions,  cxStyles,
-  cxClasses, Vcl.Grids, cxGraphics, ufrmDialogRekening,
+  cxClasses, Vcl.Grids, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxCustomData, cxTL,
   cxTextEdit, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxContainer, cxEdit,
   cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
   uClientClasses,  uDMClient,
   uDBUtils, uDXUtils, DBClient, uAppUtils, cxTLData, cxDBTL, cxFilter, cxData,
   cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxGridCustomView,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
+  ufrmMasterBrowse, dxBarBuiltInMenu, dxCore, cxDateUtils, Vcl.Menus,
+  ufraFooter4Button, cxButtons, cxCalendar, cxLabel, cxPC;
 
 type
-  TfrmRekening = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmRekening = class(TfrmMasterBrowse)
     pnlAll: TPanel;
-    actlstRekening: TActionList;
-    actAddRekening: TAction;
-    actEditRekening: TAction;
-    actDeleteRekening: TAction;
-    actRefreshRekening: TAction;
-    strgGrid: TStringGrid;
     cxDBTreeList: TcxDBTreeList;
     cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn;
     cxDBTreeListcxDBTreeListColumn2: TcxDBTreeListColumn;
     cxDBTreeListcxDBTreeListColumn3: TcxDBTreeListColumn;
     cxDBTreeListcxDBTreeListColumn4: TcxDBTreeListColumn;
     cxDBTreeListcxDBTreeListColumn5: TcxDBTreeListColumn;
-    procedure FormDestroy(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
     procedure actAddRekeningExecute(Sender: TObject);
     procedure actEditRekeningExecute(Sender: TObject);
     procedure actDeleteRekeningExecute(Sender: TObject);
-    procedure actRefreshRekeningExecute(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
     procedure cbpRekGroupChange(Sender: TObject);
     procedure cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
         TcxTreeListNode);
     procedure btnCloseClick(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
   private
     FCDS: TClientDataset;
     FDSProvider: TDSProviderClient;
     FGrupRekeningId: string;
     function GetDSProvider: TDSProviderClient;
-    procedure LoadData;
+    procedure RefreshData; override;
     procedure SetGrupRekeningId(const Value: string);
     property CDS: TClientDataset read FCDS write FCDS;
     property DSProvider: TDSProviderClient read GetDSProvider write FDSProvider;
@@ -62,65 +56,28 @@ var
 
 implementation
 
-uses uTSCommonDlg, uConstanta, uRetnoUnit;
+uses uTSCommonDlg, uConstanta, uRetnoUnit, ufrmDialogRekening, uInterface;
 
 {$R *.dfm}
 
-procedure TfrmRekening.FormDestroy(Sender: TObject);
+procedure TfrmRekening.actAddExecute(Sender: TObject);
 begin
   inherited;
-//  frmRekening := nil;
-//  frmRekening.Free;
+  ShowDialogForm(TfrmDialogRekening);
 end;
 
 procedure TfrmRekening.actAddRekeningExecute(Sender: TObject);
 begin
   inherited;
-//  if not Assigned(frmDialogRekening) then
-  frmDialogRekening := TfrmDialogRekening.Create(Application);
-  try
-  //  frmDialogRekening.Caption := 'Add Rekening';
-    frmDialogRekening.StatusForm := frNew;
-    SetFormPropertyAndShowDialog(frmDialogRekening);
-
-    if (frmDialogRekening.IsProcessSuccesfull) then
-    begin
-      CommonDlg.ShowMessage(CONF_ADD_SUCCESSFULLY);
-      actRefreshRekeningExecute(Self);
-    end;
-  finally
-    frmDialogRekening.Free;
-  end;
-
-  LoadData();
+  ShowDialogForm(TfrmDialogRekening);
+  RefreshData();
 end;
 
 procedure TfrmRekening.actEditRekeningExecute(Sender: TObject);
-//var
-//  TTNode: TTreeNode;
 begin
   inherited;
-  if not Assigned(frmDialogRekening) then
-    frmDialogRekening := TfrmDialogRekening.Create(Application);
-
-//  frmDialogRekening.Caption := 'Edit Rekening';
-//  frmDialogRekening.StatusForm := frEdit;
-//  frmDialogRekening.FormMode := fmEdited;
-  frmDialogRekening.LoadData(CDS.FieldByName('REKENING_ID').AsString);
-//  TTNode := TlistRekening.Selected;
-
-//  frmDialogRekening.RekCode := TlistRekening.GetNodeColumn(TTNode, 0);
-//  SetFormPropertyAndShowDialog(frmDialogRekening);
-
-//  if (frmDialogRekening.IsProcessSuccesfull) then
-//  begin
-//    CommonDlg.ShowMessage(CONF_EDIT_SUCCESSFULLY);
-//    actRefreshRekeningExecute(Self);
-//  end;
-
-//  frmDialogRekening.Free;
-  if frmDialogRekening.ShowModal = mrOK then
-    LoadData();
+  ShowDialogForm(TfrmDialogRekening, CDS.FieldByName('REKENING_ID').AsString);
+  RefreshData();
 end;
 
 procedure TfrmRekening.actDeleteRekeningExecute(Sender: TObject);
@@ -162,28 +119,10 @@ begin
 //  end;  
 end;
 
-procedure TfrmRekening.actRefreshRekeningExecute(Sender: TObject);
+procedure TfrmRekening.actEditExecute(Sender: TObject);
 begin
   inherited;
-
-  LoadData();
-//  try
-//    Self.Enabled := False;
-//
-//    if Mastercompany.ID = 0 then
-//    begin
-//      CommonDlg.ShowError(ER_COMPANY_NOT_SPECIFIC);
-//      //frmMain.cbbCompCode.SetFocus;
-//      Exit;
-//    end;
-//
-////    TlistRekening.Clear;
-////    ParseDataRekening('', nil);
-//
-//  finally
-//    Self.Enabled := True;
-//  end;
-
+  ShowDialogForm(TfrmDialogRekening, cxDBTreeList.DataController.DataSource.DataSet.FieldByName('REKENING_ID').AsString);
 end;
 
 procedure TfrmRekening.btnCloseClick(Sender: TObject);
@@ -195,22 +134,6 @@ end;
 procedure TfrmRekening.SetGrupRekeningId(const Value: string);
 begin
   FGrupRekeningId := Value;
-end;
-
-procedure TfrmRekening.FormShow(Sender: TObject);
-begin
-  inherited;
-  //isi kolom string grid
-  {ACCOUNT CODE
-ACCOUNT NAME
-ACCOUNT LEVEL
-ACCOUNT DESCRIPTION
-PARENT CODE
-NORMAL BALANCE
-H / D
-}
-
-  //actRefreshRekeningExecute(Self);
 end;
 
 function TfrmRekening.IsRekeningExist(aKode : String): Boolean;
@@ -242,10 +165,7 @@ end;
 procedure TfrmRekening.cbpRekGroupChange(Sender: TObject);
 begin
   inherited;
-//  if cbpRekGroup.Text <> '' then
-//    GrupRekeningId := cbpRekGroup.Cells[0, cbpRekGroup.Row]
-//  else
-    GrupRekeningId := '';
+  GrupRekeningId := '';
 end;
 
 procedure TfrmRekening.cxDBTreeListExpanded(Sender: TcxCustomTreeList; ANode:
@@ -255,12 +175,9 @@ begin
   cxDBTreeList.ApplyBestFit;
 end;
 
-procedure TfrmRekening.FormKeyDown(Sender: TObject; var Key: Word; Shift:
-    TShiftState);
+procedure TfrmRekening.FormShow(Sender: TObject);
 begin
-//  if(Key = VK_DELETE)and(ssctrl in Shift) then
-//    exit;
-//  inherited;
+  actRefresh.Execute;
 end;
 
 function TfrmRekening.GetDSProvider: TDSProviderClient;
@@ -270,7 +187,7 @@ begin
   Result := FDSProvider;
 end;
 
-procedure TfrmRekening.LoadData;
+procedure TfrmRekening.RefreshData;
 begin
   CDS := TDBUtils.DSToCDS( DSProvider.Rekening_GetDSOverview() , SELF);
   cxDBTreeList.LoadFromCDS(CDS, 'REKENING_ID', 'REKENING_PARENT_ID', FALSE);
