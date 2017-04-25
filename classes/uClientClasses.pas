@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/25/17 11:04:10 AM
+// 04/25/17 11:04:52 AM
 //
 
 unit uClientClasses;
@@ -183,8 +183,8 @@ type
     FBarangSupp_GetDSLookupCommand: TDSRestCommand;
     FBarangSupp_GetDSLookupCommand_Cache: TDSRestCommand;
     FGET_MEMBER_PAS_NOCommand: TDSRestCommand;
-    FMerchandise_GetDOverviewCommand: TDSRestCommand;
-    FMerchandise_GetDOverviewCommand_Cache: TDSRestCommand;
+    FMerchandise_GetDSOverviewCommand: TDSRestCommand;
+    FMerchandise_GetDSOverviewCommand_Cache: TDSRestCommand;
     FPO_GetDSOverviewCommand: TDSRestCommand;
     FPO_GetDSOverviewCommand_Cache: TDSRestCommand;
     FPO_GetDSOverviewDetilCommand: TDSRestCommand;
@@ -324,8 +324,8 @@ type
     function BarangSupp_GetDSLookup(aMerchandise: string; const ARequestFilter: string = ''): TDataSet;
     function BarangSupp_GetDSLookup_Cache(aMerchandise: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string = ''): string;
-    function Merchandise_GetDOverview(const ARequestFilter: string = ''): TDataSet;
-    function Merchandise_GetDOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Merchandise_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Merchandise_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function PO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOverviewDetil(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
@@ -1072,12 +1072,12 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TDSProvider_Merchandise_GetDOverview: array [0..0] of TDSRestParameterMetaData =
+  TDSProvider_Merchandise_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_Merchandise_GetDOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  TDSProvider_Merchandise_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -3351,33 +3351,33 @@ begin
   Result := FGET_MEMBER_PAS_NOCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TDSProviderClient.Merchandise_GetDOverview(const ARequestFilter: string): TDataSet;
+function TDSProviderClient.Merchandise_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
-  if FMerchandise_GetDOverviewCommand = nil then
+  if FMerchandise_GetDSOverviewCommand = nil then
   begin
-    FMerchandise_GetDOverviewCommand := FConnection.CreateCommand;
-    FMerchandise_GetDOverviewCommand.RequestType := 'GET';
-    FMerchandise_GetDOverviewCommand.Text := 'TDSProvider.Merchandise_GetDOverview';
-    FMerchandise_GetDOverviewCommand.Prepare(TDSProvider_Merchandise_GetDOverview);
+    FMerchandise_GetDSOverviewCommand := FConnection.CreateCommand;
+    FMerchandise_GetDSOverviewCommand.RequestType := 'GET';
+    FMerchandise_GetDSOverviewCommand.Text := 'TDSProvider.Merchandise_GetDSOverview';
+    FMerchandise_GetDSOverviewCommand.Prepare(TDSProvider_Merchandise_GetDSOverview);
   end;
-  FMerchandise_GetDOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FMerchandise_GetDOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  FMerchandise_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FMerchandise_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
-    FMerchandise_GetDOverviewCommand.FreeOnExecute(Result);
+    FMerchandise_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.Merchandise_GetDOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.Merchandise_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
 begin
-  if FMerchandise_GetDOverviewCommand_Cache = nil then
+  if FMerchandise_GetDSOverviewCommand_Cache = nil then
   begin
-    FMerchandise_GetDOverviewCommand_Cache := FConnection.CreateCommand;
-    FMerchandise_GetDOverviewCommand_Cache.RequestType := 'GET';
-    FMerchandise_GetDOverviewCommand_Cache.Text := 'TDSProvider.Merchandise_GetDOverview';
-    FMerchandise_GetDOverviewCommand_Cache.Prepare(TDSProvider_Merchandise_GetDOverview_Cache);
+    FMerchandise_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FMerchandise_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FMerchandise_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Merchandise_GetDSOverview';
+    FMerchandise_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Merchandise_GetDSOverview_Cache);
   end;
-  FMerchandise_GetDOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FMerchandise_GetDOverviewCommand_Cache.Parameters[0].Value.GetString);
+  FMerchandise_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FMerchandise_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
 function TDSProviderClient.PO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
@@ -4000,8 +4000,8 @@ begin
   FBarangSupp_GetDSLookupCommand.DisposeOf;
   FBarangSupp_GetDSLookupCommand_Cache.DisposeOf;
   FGET_MEMBER_PAS_NOCommand.DisposeOf;
-  FMerchandise_GetDOverviewCommand.DisposeOf;
-  FMerchandise_GetDOverviewCommand_Cache.DisposeOf;
+  FMerchandise_GetDSOverviewCommand.DisposeOf;
+  FMerchandise_GetDSOverviewCommand_Cache.DisposeOf;
   FPO_GetDSOverviewCommand.DisposeOf;
   FPO_GetDSOverviewCommand_Cache.DisposeOf;
   FPO_GetDSOverviewDetilCommand.DisposeOf;
