@@ -46,7 +46,7 @@ begin
   Try
     DMCLient.CrudClient.DeleteFromDB(ModMerk);
     TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
-    Self.Close;
+    Self.ModalResult := mrOK;
   except
     TAppUtils.Error(ER_DELETE_FAILED);
     raise;
@@ -88,6 +88,7 @@ begin
   Try
     ModMerk.ID             := DMClient.CrudClient.SaveToDBID(ModMerk);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    Self.ModalResult := mrOK;
   except
     TAppUtils.Error(ER_INSERT_FAILED);
     raise;

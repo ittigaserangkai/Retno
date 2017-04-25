@@ -93,10 +93,7 @@ function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT Bank_ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
-      +' BANK_REK_CODE, BANK_DESCRIPTION,'
-      +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
-      +' FROM BANK';
+  S := 'SELECT * FROM V_BANK';
 
   Result := TDBUtils.OpenQuery(S);
 end;
