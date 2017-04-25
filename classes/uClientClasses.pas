@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 4/20/2017 4:30:18 PM
+// 04/25/17 8:45:52 AM
 //
 
 unit uClientClasses;
@@ -46,6 +46,8 @@ type
     FRetrieveCommand_Cache: TDSRestCommand;
     FGenerateCustomNoCommand: TDSRestCommand;
     FGenerateNoCommand: TDSRestCommand;
+    FRetrieveAllCommand: TDSRestCommand;
+    FRetrieveAllCommand_Cache: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
@@ -62,6 +64,8 @@ type
     function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string = ''): string;
     function GenerateNo(aClassName: string; const ARequestFilter: string = ''): string;
+    function RetrieveAll(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveAll_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
@@ -365,6 +369,8 @@ type
     FRetrieveCommand_Cache: TDSRestCommand;
     FGenerateCustomNoCommand: TDSRestCommand;
     FGenerateNoCommand: TDSRestCommand;
+    FRetrieveAllCommand: TDSRestCommand;
+    FRetrieveAllCommand_Cache: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
@@ -382,6 +388,8 @@ type
     function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string = ''): string;
     function GenerateNo(aClassName: string; const ARequestFilter: string = ''): string;
+    function RetrieveAll(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveAll_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
@@ -468,6 +476,20 @@ const
   (
     (Name: 'aClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrud_RetrieveAll: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrud_RetrieveAll_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
   TCrud_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
@@ -1262,6 +1284,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
+  TCrudSupplier_RetrieveAll: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudSupplier_RetrieveAll_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudSupplier_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -1518,6 +1554,48 @@ begin
   Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
 end;
 
+function TCrudClient.RetrieveAll(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveAllCommand = nil then
+  begin
+    FRetrieveAllCommand := FConnection.CreateCommand;
+    FRetrieveAllCommand.RequestType := 'GET';
+    FRetrieveAllCommand.Text := 'TCrud.RetrieveAll';
+    FRetrieveAllCommand.Prepare(TCrud_RetrieveAll);
+  end;
+  FRetrieveAllCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveAllCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveAllCommand.Execute(ARequestFilter);
+  if not FRetrieveAllCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveAllCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveAllCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveAllCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClient.RetrieveAll_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveAllCommand_Cache = nil then
+  begin
+    FRetrieveAllCommand_Cache := FConnection.CreateCommand;
+    FRetrieveAllCommand_Cache.RequestType := 'GET';
+    FRetrieveAllCommand_Cache.Text := 'TCrud.RetrieveAll';
+    FRetrieveAllCommand_Cache.Prepare(TCrud_RetrieveAll_Cache);
+  end;
+  FRetrieveAllCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveAllCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveAllCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveAllCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TCrudClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBLogCommand = nil then
@@ -1654,6 +1732,8 @@ begin
   FRetrieveCommand_Cache.DisposeOf;
   FGenerateCustomNoCommand.DisposeOf;
   FGenerateNoCommand.DisposeOf;
+  FRetrieveAllCommand.DisposeOf;
+  FRetrieveAllCommand_Cache.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
@@ -4094,6 +4174,48 @@ begin
   Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
 end;
 
+function TCrudSupplierClient.RetrieveAll(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveAllCommand = nil then
+  begin
+    FRetrieveAllCommand := FConnection.CreateCommand;
+    FRetrieveAllCommand.RequestType := 'GET';
+    FRetrieveAllCommand.Text := 'TCrudSupplier.RetrieveAll';
+    FRetrieveAllCommand.Prepare(TCrudSupplier_RetrieveAll);
+  end;
+  FRetrieveAllCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveAllCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveAllCommand.Execute(ARequestFilter);
+  if not FRetrieveAllCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveAllCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveAllCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveAllCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudSupplierClient.RetrieveAll_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveAllCommand_Cache = nil then
+  begin
+    FRetrieveAllCommand_Cache := FConnection.CreateCommand;
+    FRetrieveAllCommand_Cache.RequestType := 'GET';
+    FRetrieveAllCommand_Cache.Text := 'TCrudSupplier.RetrieveAll';
+    FRetrieveAllCommand_Cache.Prepare(TCrudSupplier_RetrieveAll_Cache);
+  end;
+  FRetrieveAllCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveAllCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveAllCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveAllCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TCrudSupplierClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBLogCommand = nil then
@@ -4231,6 +4353,8 @@ begin
   FRetrieveCommand_Cache.DisposeOf;
   FGenerateCustomNoCommand.DisposeOf;
   FGenerateNoCommand.DisposeOf;
+  FRetrieveAllCommand.DisposeOf;
+  FRetrieveAllCommand_Cache.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
