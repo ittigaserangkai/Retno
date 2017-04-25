@@ -19,8 +19,6 @@ inherited frmMerchandise: TfrmMerchandise
       ClientRectBottom = 263
       ClientRectRight = 629
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
         ExplicitWidth = 628
         ExplicitHeight = 262
         inherited cxGrid: TcxGrid
@@ -43,12 +41,10 @@ inherited frmMerchandise: TfrmMerchandise
     inherited dtAwalFilter: TcxDateEdit
       Left = 359
       ExplicitLeft = 359
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 475
       ExplicitLeft = 475
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 570

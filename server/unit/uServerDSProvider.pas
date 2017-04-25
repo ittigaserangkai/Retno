@@ -65,6 +65,7 @@ type
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
+    function Merchandise_GetDSOverview: TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
@@ -615,6 +616,15 @@ begin
         free;
       end;
     End;
+end;
+
+function TDSProvider.Merchandise_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select MERCHAN_CODE, MERCHAN_NAME, REF$MERCHANDISE_ID'
+      +' FROM REF$MERCHANDISE ORDER BY MERCHAN_CODE';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.TipeHarga_GetDSLookup: TDataSet;
