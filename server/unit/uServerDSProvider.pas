@@ -80,6 +80,7 @@ type
     function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
         nil): TDataSet;
     function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
+    function SubGroup_GetDSOverview: TDataSet;
     function SuplierMerchan_GetDSLookup: TDataSet;
 
 
@@ -747,6 +748,19 @@ begin
   S := 'select ref$status_po_id, STAPO_NAME, STAPO_CODE' +
        ' from V_STATUSPO ' +
        ' ORDER BY URUTAN ';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SubGroup_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.SUBGRUP_CODE, A.SUBGRUP_NAME, B.MERCHANGRUP_NAME,'
+      +' A.REF$SUB_GRUP_ID , A.REF$MERCHANDISE_GRUP_ID'
+      +' FROM REF$SUB_GRUP A'
+      +' INNER JOIN REF$MERCHANDISE_GRUP B'
+      +' ON A.REF$MERCHANDISE_GRUP_ID = B.REF$MERCHANDISE_GRUP_ID';
 
   Result := TDBUtils.OpenQuery(S);
 end;
