@@ -676,7 +676,7 @@ object DMReport: TDMReport
     Height = 465
     Align = alClient
     TabOrder = 1
-    Properties.ActivePage = tsDotMatrix
+    Properties.ActivePage = tsGraphic
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
     LookAndFeel.Kind = lfUltraFlat
@@ -1012,7 +1012,7 @@ object DMReport: TDMReport
     Top = 171
   end
   object FDStanStorageJSONLink1: TFDStanStorageJSONLink
-    Left = 384
-    Top = 107
+    Left = 728
+    Top = 251
   end
 end
