@@ -1,17 +1,18 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/25/17 11:04:52 AM
+// 04/26/17 2:29:29 PM
 //
 
 unit uClientClasses;
 
 interface
 
-uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, uModUnit, Data.DBXJSONReflect;
+uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, uModUnit, Data.FireDACJSONReflect, Data.DBXJSONReflect;
 
 type
 
   IDSRestCachedTModApp = interface;
+  IDSRestCachedTFDJSONDataSets = interface;
   IDSRestCachedTStrings = interface;
 
   TServerMethodsClient = class(TDSAdminRestClient)
@@ -354,6 +355,22 @@ type
     function SuplierMerchan_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
+  TDSReportClient = class(TDSAdminRestClient)
+  private
+    FSO_ByDateCommand: TDSRestCommand;
+    FSO_ByDateCommand_Cache: TDSRestCommand;
+    FSO_TestCommand: TDSRestCommand;
+    FSO_TestCommand_Cache: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function SO_Test(const ARequestFilter: string = ''): TFDJSONDataSets;
+    function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+  end;
+
   TSuggestionOrderClient = class(TDSAdminRestClient)
   private
     FGenerateSOCommand: TDSRestCommand;
@@ -408,6 +425,11 @@ type
   end;
 
   TDSRestCachedTModApp = class(TDSRestCachedObject<TModApp>, IDSRestCachedTModApp, IDSRestCachedCommand)
+  end;
+  IDSRestCachedTFDJSONDataSets = interface(IDSRestCachedObject<TFDJSONDataSets>)
+  end;
+
+  TDSRestCachedTFDJSONDataSets = class(TDSRestCachedObject<TFDJSONDataSets>, IDSRestCachedTFDJSONDataSets, IDSRestCachedCommand)
   end;
   IDSRestCachedTStrings = interface(IDSRestCachedObject<TStrings>)
   end;
@@ -1234,6 +1256,30 @@ const
   );
 
   TDSProvider_SuplierMerchan_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_SO_ByDate: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_SO_ByDate_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_SO_Test: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_SO_Test_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -4028,6 +4074,105 @@ begin
   FSubGroup_GetDSOverviewCommand_Cache.DisposeOf;
   FSuplierMerchan_GetDSLookupCommand.DisposeOf;
   FSuplierMerchan_GetDSLookupCommand_Cache.DisposeOf;
+  inherited;
+end;
+
+function TDSReportClient.SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FSO_ByDateCommand = nil then
+  begin
+    FSO_ByDateCommand := FConnection.CreateCommand;
+    FSO_ByDateCommand.RequestType := 'GET';
+    FSO_ByDateCommand.Text := 'TDSReport.SO_ByDate';
+    FSO_ByDateCommand.Prepare(TDSReport_SO_ByDate);
+  end;
+  FSO_ByDateCommand.Parameters[0].Value.AsDateTime := StartDate;
+  FSO_ByDateCommand.Parameters[1].Value.AsDateTime := EndDate;
+  FSO_ByDateCommand.Execute(ARequestFilter);
+  if not FSO_ByDateCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FSO_ByDateCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSO_ByDateCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FSO_ByDateCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FSO_ByDateCommand_Cache = nil then
+  begin
+    FSO_ByDateCommand_Cache := FConnection.CreateCommand;
+    FSO_ByDateCommand_Cache.RequestType := 'GET';
+    FSO_ByDateCommand_Cache.Text := 'TDSReport.SO_ByDate';
+    FSO_ByDateCommand_Cache.Prepare(TDSReport_SO_ByDate_Cache);
+  end;
+  FSO_ByDateCommand_Cache.Parameters[0].Value.AsDateTime := StartDate;
+  FSO_ByDateCommand_Cache.Parameters[1].Value.AsDateTime := EndDate;
+  FSO_ByDateCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FSO_ByDateCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TDSReportClient.SO_Test(const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FSO_TestCommand = nil then
+  begin
+    FSO_TestCommand := FConnection.CreateCommand;
+    FSO_TestCommand.RequestType := 'GET';
+    FSO_TestCommand.Text := 'TDSReport.SO_Test';
+    FSO_TestCommand.Prepare(TDSReport_SO_Test);
+  end;
+  FSO_TestCommand.Execute(ARequestFilter);
+  if not FSO_TestCommand.Parameters[0].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FSO_TestCommand.Parameters[0].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSO_TestCommand.Parameters[0].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FSO_TestCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.SO_Test_Cache(const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FSO_TestCommand_Cache = nil then
+  begin
+    FSO_TestCommand_Cache := FConnection.CreateCommand;
+    FSO_TestCommand_Cache.RequestType := 'GET';
+    FSO_TestCommand_Cache.Text := 'TDSReport.SO_Test';
+    FSO_TestCommand_Cache.Prepare(TDSReport_SO_Test_Cache);
+  end;
+  FSO_TestCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FSO_TestCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+constructor TDSReportClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TDSReportClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TDSReportClient.Destroy;
+begin
+  FSO_ByDateCommand.DisposeOf;
+  FSO_ByDateCommand_Cache.DisposeOf;
+  FSO_TestCommand.DisposeOf;
+  FSO_TestCommand_Cache.DisposeOf;
   inherited;
 end;
 

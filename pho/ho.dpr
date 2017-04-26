@@ -161,7 +161,7 @@ uses
   uFrmPODisp in '..\module\merchandise\uFrmPODisp.pas' {frmPODisp},
   ufrmListQuotation in '..\module\merchandise\ufrmListQuotation.pas' {frmListQuotation},
   ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
-  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  uDMReport in '..\system\uDMReport.pas' {DMReport},
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmListQuotHB in '..\module\merchandise\ufrmListQuotHB.pas' {frmListQuotHB},
   ufrmListQuotMailer in '..\module\merchandise\ufrmListQuotMailer.pas' {frmListQuotMailer},
@@ -206,6 +206,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TDMReport, DMReport);
   Application.Run;
 end.

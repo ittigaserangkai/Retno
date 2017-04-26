@@ -372,7 +372,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uDMReport.pas">
-            <Form>dmReport</Form>
+            <Form>DMReport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\HPHELP.PAS"/>

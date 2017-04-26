@@ -9,30 +9,30 @@ inherited frmSO: TfrmSO
   inherited pnlBody: TPanel
     Width = 671
     Height = 273
-    ExplicitWidth = 664
-    ExplicitHeight = 256
+    ExplicitWidth = 671
+    ExplicitHeight = 273
     inherited pgcBrowse: TcxPageControl
       Width = 649
       Height = 251
-      ExplicitWidth = 642
-      ExplicitHeight = 234
+      ExplicitWidth = 649
+      ExplicitHeight = 251
       ClientRectBottom = 250
       ClientRectRight = 648
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 640
-        ExplicitHeight = 232
+        ExplicitWidth = 647
+        ExplicitHeight = 249
         inherited cxGrid: TcxGrid
           Width = 647
           Height = 249
-          ExplicitWidth = 640
-          ExplicitHeight = 232
+          ExplicitWidth = 647
+          ExplicitHeight = 249
         end
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 671
-    ExplicitWidth = 664
+    ExplicitWidth = 671
     inherited lblHeader: TLabel
       Width = 106
       Caption = 'SUGGESTION ORDER'
@@ -41,38 +41,38 @@ inherited frmSO: TfrmSO
     inherited lblFilterData: TcxLabel
       Left = 317
       Visible = True
-      ExplicitLeft = 310
+      ExplicitLeft = 317
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 378
       Visible = True
-      ExplicitLeft = 371
+      ExplicitLeft = 378
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 494
       Visible = True
-      ExplicitLeft = 487
+      ExplicitLeft = 494
     end
     inherited btnSearch: TcxButton
       Left = 589
-      ExplicitLeft = 582
+      ExplicitLeft = 589
     end
     inherited lblsdFilter: TcxLabel
       Left = 470
       Visible = True
-      ExplicitLeft = 463
+      ExplicitLeft = 470
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 306
     Width = 671
-    ExplicitTop = 289
-    ExplicitWidth = 664
+    ExplicitTop = 306
+    ExplicitWidth = 671
     inherited pnlFooter: TPanel
       Width = 671
-      ExplicitWidth = 664
+      ExplicitWidth = 671
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -85,7 +85,7 @@ inherited frmSO: TfrmSO
       inherited btnClose: TcxButton
         Left = 594
         Action = actClose
-        ExplicitLeft = 587
+        ExplicitLeft = 594
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -93,10 +93,10 @@ inherited frmSO: TfrmSO
     end
     inherited pnlShortCut: TPanel
       Width = 671
-      ExplicitWidth = 664
+      ExplicitWidth = 671
       inherited lbEscape: TLabel
         Left = 597
-        ExplicitLeft = 590
+        ExplicitLeft = 597
       end
     end
   end
@@ -106,6 +106,9 @@ inherited frmSO: TfrmSO
     end
     inherited actEdit: TAction
       OnExecute = actEditExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

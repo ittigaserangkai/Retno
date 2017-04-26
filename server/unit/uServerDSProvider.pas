@@ -3,7 +3,8 @@ unit uServerDSProvider;
 interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModUnit, System.Generics.Collections;
+  StrUtils, uModUnit, System.Generics.Collections, Data.FireDACJSONReflect,
+  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin;
 
 type
   {$METHODINFO ON}
@@ -86,10 +87,20 @@ type
 
 
   end;
+
+  TDSReport = class(TComponent)
+  private
+  public
+    function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
+    function SO_Test: TFDJSONDataSets;
+    function Test2: OleVariant;
+    function Test: Variant;
+  end;
+
   {$METHODINFO OFF}
 implementation
 uses
-  System.DateUtils;
+  System.DateUtils, System.Variants;
 
 function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
@@ -781,6 +792,43 @@ var
 begin
   S := 'select * from V_SUPPLIER_MERCHANDISE_GROUP';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_SO_REPORT WHERE SO_DATE BETWEEN '
+  + TDBUtils.QuotDt(StartDate) + ' and ' + TDBUtils.QuotDt(EndDate);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+  S := 'SELECT * FROM SUPLIER';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.SO_Test: TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+//  S := 'SELECT * FROM V_SO_REPORT';
+//  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenMemTable(S));
+
+  S := 'SELECT 1 AS CONTOH';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.Test2: OleVariant;
+begin
+  Result := VarArrayCreate([0, 2], varVariant);
+end;
+
+function TDSReport.Test: Variant;
+begin
+  Result := 'Wtf';
 end;
 
 end.
