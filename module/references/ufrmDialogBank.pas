@@ -36,20 +36,17 @@ type
     procedure btnDeleteClick(Sender: TObject);
   private
     FCDSRekening: TClientDataSet;
-    FCrud: TCrudClient;
     FDSClient: TDSProviderClient;
 //    FBank : TBank;
     FKodeLama : string;
     FModBank: TModBank;
     function GetCDSRekening: TClientDataSet;
-    function GetCrud: TCrudClient;
     function GetDSClient: TDSProviderClient;
     function GetModBank: TModBank;
     procedure prepareAddData;
     procedure SimpanData;
     function ValidateData: Boolean;
     property CDSRekening: TClientDataSet read GetCDSRekening write FCDSRekening;
-    property Crud: TCrudClient read GetCrud write FCrud;
     property DSClient: TDSProviderClient read GetDSClient write FDSClient;
     property ModBank: TModBank read GetModBank write FModBank;
   public
@@ -103,7 +100,7 @@ begin
   inherited;
   if TAppUtils.Confirm('Yakin hapus data?') then
   begin
-    Crud.DeleteFromDB(ModBank);
+    DMClient.CrudClient.DeleteFromDB(ModBank);
     TAppUtils.Information('Terhapus');
     Self.Close;
   end;
@@ -145,13 +142,6 @@ begin
   Result := FCDSRekening;
 end;
 
-function TfrmDialogBank.GetCrud: TCrudClient;
-begin
-  if not Assigned(FCrud) then
-    FCrud := TCrudClient.Create(DMClient.RestConn);
-  Result := FCrud;
-end;
-
 function TfrmDialogBank.GetDSClient: TDSProviderClient;
 begin
   if not Assigned(FDSClient) then
@@ -169,7 +159,8 @@ end;
 procedure TfrmDialogBank.LoadData(AID: String);
 begin
   if Assigned(FModBank) then FreeAndNil(FModBank);
-  FModBank := Crud.Retrieve(TModBank.ClassName, AID) as TModBank;
+  FModBank := DMCLient.CrudClient.Retrieve(TModBank.ClassName, AID) as TModBank;
+
   edtCode.Text := ModBank.BANK_CODE;
   edtName.Text := ModBank.BANK_NAME;
   edtBranch.Text := ModBank.BANK_BRANCH;
@@ -193,7 +184,7 @@ begin
     ModBank.REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
   end;
   Try
-    Crud.SaveToDB(ModBank);
+    DMClient.CrudClient.SaveToDB(ModBank);
     TAppUtils.Information('Data Bank Berhasil Disimpan');
     ModalResult := mrOk;
   except
