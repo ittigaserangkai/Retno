@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -67
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -551,7 +552,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsA
+          Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           ClientRectBottom = 273
           ClientRectRight = 667
@@ -756,6 +757,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtCreditLmt: TcxCurrencyEdit
               Left = 120
               Top = 128
+              Properties.DisplayFormat = ',0;(,0)'
               TabOrder = 5
               Width = 135
             end
@@ -763,6 +765,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 102
               TabStop = False
+              Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 12
               Width = 136
@@ -771,7 +774,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 489
               Top = 77
               TabStop = False
-              Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 11
               Width = 131
@@ -947,8 +950,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Align = alClient
               Color = clWhite
               TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 1
               object lbl30: TLabel
                 Left = 52
                 Top = 28
