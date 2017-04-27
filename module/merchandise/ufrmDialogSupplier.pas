@@ -384,14 +384,14 @@ procedure TfrmDialogSupplier.edtPostCodeKeyPress(Sender: TObject; var Key:
     Char);
 begin
   inherited;
-  if not CharInSet(key,['0'..'9']) then key := #0;
+  if not CharInSet(key,[#8,'0'..'9']) then key := #0;
 end;
 
 procedure TfrmDialogSupplier.edtPostCodeMerKeyPress(Sender: TObject; var Key:
     Char);
 begin
   inherited;
-  if not CharInSet(key,['0'..'9']) then key := #0;
+  if not CharInSet(key,[#8,'0'..'9']) then key := #0;
 end;
 
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
