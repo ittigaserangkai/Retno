@@ -23,7 +23,7 @@ type
     { Private declarations }
   public
     procedure LoadData(AID: String);
-    procedure SaveData;
+    function SaveData: Boolean;
     property ModMerk: TModMerk read GetModMerk write FModMerk;
     { Public declarations }
   end;
@@ -62,8 +62,8 @@ end;
 procedure TfrmDialogMerk.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  SaveData;
-  Self.ModalResult := mrOk;
+  if SaveData then
+    Self.ModalResult := mrOk;
 end;
 
 function TfrmDialogMerk.GetModMerk: TModMerk;
@@ -81,14 +81,22 @@ begin
   edDescription.Text  := ModMerk.MERK_DESCRIPTION;
 end;
 
-procedure TfrmDialogMerk.SaveData;
+function TfrmDialogMerk.SaveData: Boolean;
 begin
+  Result := False;
+
+  if not ValidateEmptyCtrl([1]) then
+    Exit;
+
   ModMerk.MERK_NAME        := edNama.Text;
   ModMerk.MERK_DESCRIPTION := edDescription.Text;
   Try
     ModMerk.ID             := DMClient.CrudClient.SaveToDBID(ModMerk);
-    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
-    Self.ModalResult := mrOK;
+    if ModMerk.ID <> '' then
+    begin
+      Result := True;
+      TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    end;
   except
     TAppUtils.Error(ER_INSERT_FAILED);
     raise;

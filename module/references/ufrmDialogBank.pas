@@ -9,7 +9,7 @@ uses
   uDXUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, DBClient, uDBUtils, uAppUtils,
-  ufraFooterDialog3Button, System.Actions, Vcl.ActnList;
+  ufraFooterDialog3Button, System.Actions, Vcl.ActnList, cxCurrencyEdit;
 
 type
   TfrmDialogBank = class(TfrmMasterDialog, ICRUDAble)
@@ -28,6 +28,7 @@ type
     edtDescription: TEdit;
     chkAllUnit: TCheckBox;
     cxLookupAccount: TcxExtLookupComboBox;
+    ed1: TcxCurrencyEdit;
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);

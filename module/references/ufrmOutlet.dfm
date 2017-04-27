@@ -22,6 +22,8 @@ inherited frmOutlet: TfrmOutlet
       ClientRectBottom = 224
       ClientRectRight = 749
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 748
         ExplicitHeight = 223
         inherited cxGrid: TcxGrid
@@ -30,8 +32,15 @@ inherited frmOutlet: TfrmOutlet
           ExplicitWidth = 748
           ExplicitHeight = 223
           inherited cxGridView: TcxGridDBTableView
-            object cxGridViewColumn1: TcxGridDBColumn
+            object cxgrdbclmnOUTLET_ID: TcxGridDBColumn
               DataBinding.FieldName = 'REF$OUTLET_ID'
+              Width = 120
+            end
+            object cxgrdbclmnOUTLET_CODE: TcxGridDBColumn
+              DataBinding.FieldName = 'OUTLET_CODE'
+            end
+            object cxgrdbclmnOUTLET_NAME: TcxGridDBColumn
+              DataBinding.FieldName = 'OUTLET_CODE'
             end
           end
         end
@@ -49,10 +58,12 @@ inherited frmOutlet: TfrmOutlet
     inherited dtAwalFilter: TcxDateEdit
       Left = 479
       ExplicitLeft = 479
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 595
       ExplicitLeft = 595
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 690

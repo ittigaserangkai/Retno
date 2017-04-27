@@ -16,7 +16,9 @@ uses
 
 type
   TfrmOutlet = class(TfrmMasterBrowse)
-    cxGridViewColumn1: TcxGridDBColumn;
+    cxgrdbclmnOUTLET_ID: TcxGridDBColumn;
+    cxgrdbclmnOUTLET_CODE: TcxGridDBColumn;
+    cxgrdbclmnOUTLET_NAME: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
