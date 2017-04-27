@@ -498,7 +498,7 @@ function TDSProvider.SuplierGroup_GetDSOverview1: TDataSet;
 var
   S: string;
 begin
-  S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  S := 'select GROUP_CODE,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
   +' from SUPLIER_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
