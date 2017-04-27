@@ -29,7 +29,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 451
       ClientRectRight = 667
@@ -552,7 +552,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsMG
+          Properties.ActivePage = tsA
           Properties.CustomButtons.Buttons = <>
           ClientRectBottom = 273
           ClientRectRight = 667
@@ -749,7 +749,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 54
               TabStop = False
-              Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 8
               Width = 135
@@ -771,7 +771,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Width = 136
             end
             object curedtPaymnt: TcxCurrencyEdit
-              Left = 489
+              Left = 486
               Top = 77
               TabStop = False
               Properties.DisplayFormat = ',0;(,0)'
@@ -1054,6 +1054,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Top = 49
                 Enabled = False
                 TabOrder = 3
+                OnKeyPress = edtPostCodeMerKeyPress
                 Width = 79
               end
               object edtFaxMer: TcxTextEdit

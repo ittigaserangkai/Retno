@@ -253,6 +253,7 @@ type
     procedure cxLookUpBankPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookUpBankMerPropertiesEditValueChanged(Sender: TObject);
     procedure edtPostCodeKeyPress(Sender: TObject; var Key: Char);
+    procedure edtPostCodeMerKeyPress(Sender: TObject; var Key: Char);
 
 
   private
@@ -380,6 +381,13 @@ begin
 end;
 
 procedure TfrmDialogSupplier.edtPostCodeKeyPress(Sender: TObject; var Key:
+    Char);
+begin
+  inherited;
+  if not CharInSet(key,['0'..'9']) then key := #0;
+end;
+
+procedure TfrmDialogSupplier.edtPostCodeMerKeyPress(Sender: TObject; var Key:
     Char);
 begin
   inherited;
