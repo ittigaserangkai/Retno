@@ -77,20 +77,17 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited lbCTRLEnter: TLabel
         Left = 379
-        Height = 15
         ExplicitLeft = 379
       end
       inherited lbEscape: TLabel
         Left = 470
-        Height = 15
         ExplicitLeft = 470
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 303
+        AutoSize = True
         ExplicitLeft = 303
+        ExplicitHeight = 16
       end
     end
   end

@@ -375,6 +375,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       end
       inherited btnPrint: TcxButton
         Left = 605
+        ExplicitLeft = 605
       end
     end
     inherited pnlSortCut: TPanel
@@ -395,6 +396,7 @@ inherited frmDialogUnit: TfrmDialogUnit
       end
       inherited lblCTRLP: TLabel
         Left = 601
+        ExplicitLeft = 601
       end
     end
   end
