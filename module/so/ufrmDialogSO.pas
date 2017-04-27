@@ -12,10 +12,10 @@ uses
   cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxDBExtLookupComboBox,
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxClasses, cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit, uDXUtils,
-  uModSO, Datasnap.DBClient, cxCheckBox, cxCurrencyEdit, cxSpinEdit;
+  uModSO, Datasnap.DBClient, cxCheckBox, cxCurrencyEdit, cxSpinEdit, uInterface;
 
 type
-  TfrmDialogSO = class(TfrmMasterDialog)
+  TfrmDialogSO = class(TfrmMasterDialog, ICRUDAble)
     pnlTop: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -61,6 +61,7 @@ type
     actAddProd: TAction;
     clQTYOrder: TcxGridDBColumn;
     procedure actAddProdExecute(Sender: TObject);
+    procedure actDeleteExecute(Sender: TObject);
     procedure actGenerateExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -77,6 +78,7 @@ type
     FModSO: TModSO;
     procedure AddOtherProduct;
     procedure ClearForm;
+    procedure DeleteData;
     procedure GenerateSO;
     function GetCDS: TClientDataSet;
     function GetModSO: TModSO;
@@ -106,6 +108,12 @@ procedure TfrmDialogSO.actAddProdExecute(Sender: TObject);
 begin
   inherited;
   AddOtherProduct;
+end;
+
+procedure TfrmDialogSO.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  DeleteData;
 end;
 
 procedure TfrmDialogSO.actGenerateExecute(Sender: TObject);
@@ -257,7 +265,6 @@ begin
   inherited;
   cxLookupSupplierMerchan.DS.Filtered := True;
   cxLookupSupplierMerchan.DS.Filter := '[REF$MERCHANDISE_ID] = ' + QuotedStr(cxLookupMerchan.EditValue);
-
 end;
 
 procedure TfrmDialogSO.cxLookupSupplierMerchanPropertiesInitPopup(
@@ -266,6 +273,38 @@ begin
   inherited;
   if VarIsNull(cxLookupMerchan.EditValue) then
     TAppUtils.Warning('Merchan Grup wajib diisi terlebih dahulu');
+end;
+
+procedure TfrmDialogSO.DeleteData;
+var
+  i: Integer;
+begin
+  if not Assigned(ModSO) then
+    Raise Exception.Create('Data not Loaded');
+
+  if ModSO.ID = '' then
+  begin
+    TAppUtils.Error('Tidak ada data yang dihapus');
+    exit;
+  end;
+
+  for i := 0 to ModSO.SODetails.Count-1 do
+  begin
+    if ModSO.SODetails[i].SOD_IS_ORDERED = 1 then
+    begin
+      TAppUtils.Error('SO sudah diproses PO , tidak bisa dihapus');
+      exit;
+    end;
+  end;
+
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModSO);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
 end;
 
 procedure TfrmDialogSO.GenerateSO;
@@ -392,11 +431,13 @@ end;
 procedure TfrmDialogSO.LoadData(AID: String);
 var
   i: Integer;
-  lBarang: TModBarang;
+//  lBS: TModBarangSupplier;
   lDetail: TModSODetail;
+  lDisc: Double;
+  lSupp: TModSuplier;
 begin
   If Assigned(FModSO) then FModSO.Free;
-  FModSO := DMClient.CrudClient.Retrieve(TModSO.ClassName, AID) as TModSO;
+  FModSO := DMClient.CrudClient.RetrieveAll(TModSO.ClassName, AID) as TModSO;
   edtNoSo.Text := ModSO.SO_NO;
   dtTgl.Date := ModSO.SO_DATE;
   cxLookupMerchan.EditValue := ModSo.Merchandise.ID;
@@ -407,36 +448,51 @@ begin
     for i := 0 to ModSO.SODetails.Count-1 do
     begin
       lDetail := ModSO.SODetails[i];
-      lBarang := DMClient.CrudClient.Retrieve(TModBarang.ClassName, lDetail.BARANG.ID) as TModBarang;
 
-//      CDS.FieldByName('Checked').AsBoolean := lDetail.SOD_QTY > 0;
-//      CDS.FieldByName('PLU').AsString := lBarang
-//      CDS.FieldByName('NamaBarang').AsString :=
-//      CDS.FieldByName('UOM').AsString :=
+      lSupp := DMClient.CrudClient.RetrieveAll(TModSuplier.ClassName,
+        lDetail.SupplierMerchan.SUPLIER.ID) as TModSuplier;
+
+      CDS.Append;
+      CDS.FieldByName('Checked').AsBoolean := lDetail.SOD_QTY > 0;
+      CDS.FieldByName('PLU').AsString := lDetail.BARANG.BRG_CODE;
+      CDS.FieldByName('NamaBarang').AsString := lDetail.BARANG.BRG_NAME;
+      CDS.FieldByName('UOM').AsString := lDetail.Satuan.SAT_CODE;
 //      CDS.FieldByName('MinOrder').AsFloat :=
 //      CDS.FieldByName('MaxOrder').AsFloat :=
-//      CDS.FieldByName('STOCK').AsFloat :=
-//      CDS.FieldByName('ADS').AsFloat :=
-//      CDS.FieldByName('ROP').AsFloat :=
-//      CDS.FieldByName('QTYSO').AsFloat :=
-//      CDS.FieldByName('QTY').AsFloat :=
-//      CDS.FieldByName('SupplierCode').AsString :=
-//      CDS.FieldByName('SupplierName').AsString :=
-//      CDS.FieldByName('LeadTime').AsString :=
-//      CDS.FieldByName('BuyPrice').AsFloat :=
-//      CDS.FieldByName('Disc1').AsFloat :=
-//      CDS.FieldByName('Disc2').AsFloat :=
-//      CDS.FieldByName('Disc3').AsFloat :=
-//      CDS.FieldByName('NetPrice').AsFloat :=
-//      CDS.FieldByName('Barang_ID').AsString :=
-//      CDS.FieldByName('Satuan_ID').AsString :=
-//      CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString :=
-//      CDS.FieldByName('IS_BKP').AsInteger :=
-//      CDS.FieldByName('IS_REGULAR').AsInteger :=
+      CDS.FieldByName('STOCK').AsFloat := lDetail.SOD_STOCK;
+      CDS.FieldByName('ADS').AsFloat := lDetail.SOD_ADS;
+      CDS.FieldByName('ROP').AsFloat := lDetail.SOD_ROP;
+      CDS.FieldByName('QTYSO').AsFloat := lDetail.SOD_QTYSO;
+      CDS.FieldByName('QTY').AsFloat := lDetail.SOD_QTY;
+      CDS.FieldByName('SupplierCode').AsString := lSupp.SUP_CODE;
+      CDS.FieldByName('SupplierName').AsString := lSupp.SUP_NAME;
+      CDS.FieldByName('LeadTime').AsInteger := lDetail.SupplierMerchan.SUPMG_LEAD_TIME;
+      CDS.FieldByName('BuyPrice').AsFloat := lDetail.SOD_PRICE;
+      CDS.FieldByName('Disc1').AsFloat := lDetail.SOD_DISC1;
+      CDS.FieldByName('Disc2').AsFloat := lDetail.SOD_DISC2;
+      CDS.FieldByName('Disc3').AsFloat := lDetail.SOD_DISC3;
+      CDS.FieldByName('NetPrice').AsFloat := lDetail.SOD_PRICE;
+      CDS.FieldByName('Barang_ID').AsString := lDetail.BARANG.ID;
+      CDS.FieldByName('Satuan_ID').AsString := lDetail.Satuan.ID;
+      CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString := lDetail.SupplierMerchan.ID;
+      CDS.FieldByName('IS_BKP').AsInteger := lDetail.SOD_IS_BKP;
+      CDS.FieldByName('IS_REGULAR').AsInteger := lDetail.SOD_IS_REGULAR;
+
+      lDisc := (lDetail.SOD_DISC1/100) * lDetail.SOD_PRICE ;
+      lDisc := lDisc + ((lDetail.SOD_DISC2/100) * (lDetail.SOD_PRICE-lDisc)) ;
+      lDisc := lDisc + lDetail.SOD_DISC3;
+
+      CDS.FieldByName('NetPrice').AsFloat := lDetail.SOD_PRICE - lDisc;
+
+
+      CDS.Post;
+
+      if lSupp <> nil then lSupp.Free;
     end;
 
   Finally
     CDS.EnableControls;
+    cxGridView.ApplyBestFit();
   End;
 
 end;

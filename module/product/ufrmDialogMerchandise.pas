@@ -83,6 +83,7 @@ end;
 
 procedure TfrmDialogMerchandise.SaveData;
 begin
+  if not ValidateEmptyCtrl then exit;
   ModMerchandise.MERCHAN_CODE := edtCode.Text;
   ModMerchandise.MERCHAN_NAME := edtName.Text;
   Try

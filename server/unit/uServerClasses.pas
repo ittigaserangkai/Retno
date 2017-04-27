@@ -29,6 +29,8 @@ type
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
+    function RetrieveAll(ModClassName, AID: string): TModApp; overload;
+    function RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -78,10 +80,13 @@ var
 begin
   Result := False;
   if not ValidateCode(AObject) then exit;
+  if not BeforeSaveToDB(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
       TDBUtils.ExecuteSQL(lSS, False);
+      if not AfterSaveToDB(AObject) then exit;
+
       TDBUtils.Commit;
       Result := True;
     except
@@ -170,6 +175,22 @@ begin
   Finally
     lObj.Free;
   End;
+end;
+
+function TCrud.RetrieveAll(ModClassName, AID: string): TModApp;
+var
+  lClass: TModAppClass;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+  Result := Self.RetrieveAll(lClass, AID);
+end;
+
+function TCrud.RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp;
+begin
+  Result := ModAppClass.Create;
+  TDBUtils.LoadFromDB(Result, AID, True);
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
@@ -294,9 +315,11 @@ end;
 function TCrudSupplier.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lModSupplier: TModSuplier;
-  lSS: TStrings;
+//  lSS: TStrings;
   I: Integer;
 begin
+  Result := True;
+
   lModSupplier := TModSuplier(AObject);
   for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
   begin
@@ -310,6 +333,7 @@ begin
       lModSupplier.SuplierMerchanGroups[i].SUPMG_CONTACT_PERSON := lModSupplier.SUP_CONTACT_PERSON;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_TITLE := lModSupplier.SUP_TITLE;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NO := lModSupplier.SUP_BANK_ACCOUNT_NO;
+      lModSupplier.SuplierMerchanGroups[i].BANK := lModSupplier.BANK;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NAME := lModSupplier.SUP_BANK_ACCOUNT_NAME;
     end;
 

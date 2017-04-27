@@ -29,10 +29,13 @@ inherited frmDialogMerchandise: TfrmDialogMerchandise
       Caption = 'Nama'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 84
       Top = 28
       Width = 69
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Kode Merchandise'
       CharCase = ecUpperCase
       Ctl3D = False
       MaxLength = 4
@@ -40,10 +43,13 @@ inherited frmDialogMerchandise: TfrmDialogMerchandise
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 84
       Top = 56
       Width = 317
       Height = 22
+      HelpType = htKeyword
+      HelpKeyword = 'Nama Merchandise'
       CharCase = ecUpperCase
       Ctl3D = False
       MaxLength = 128
@@ -72,17 +78,29 @@ inherited frmDialogMerchandise: TfrmDialogMerchandise
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 218
+        ExplicitLeft = 218
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 465
       ExplicitWidth = 465
       inherited lbCTRLEnter: TLabel
         Left = 290
+        Height = 15
         ExplicitLeft = 290
       end
       inherited lbEscape: TLabel
         Left = 381
+        Height = 15
         ExplicitLeft = 381
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 214
       end
     end
   end

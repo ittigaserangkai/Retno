@@ -51,6 +51,7 @@ type
   end;
 
   TcxExtLookupPropHelper = class helper for TcxExtLookupComboBoxProperties
+  private
   public
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
@@ -63,6 +64,8 @@ type
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         aOwnerForm: TComponent); overload;
     procedure SetMultiPurposeLookup;
+    procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
+        = True);
   end;
 
   TcxExtLookupComboHelper = class helper for TcxExtLookupComboBox
@@ -167,6 +170,11 @@ type
         ParentCtrl: TWinControl = nil): Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
     function SetFocusRec(aWinCTRL: TWinControl): Boolean;
+  end;
+
+  TcxGridTableViewHelper = class helper for TcxGridTableView
+  private
+    procedure ClearRows;
   end;
 
 
