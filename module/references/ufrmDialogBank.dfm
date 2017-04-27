@@ -178,7 +178,6 @@ inherited frmDialogBank: TfrmDialogBank
         Left = 335
         Action = actSave
         ExplicitLeft = 335
-        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -195,16 +194,19 @@ inherited frmDialogBank: TfrmDialogBank
       inherited lbCTRLEnter: TLabel
         Left = 330
         Height = 15
+        ExplicitLeft = 330
       end
       inherited lbEscape: TLabel
         Left = 421
         Height = 15
+        ExplicitLeft = 421
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 254
+        ExplicitLeft = 254
       end
     end
   end

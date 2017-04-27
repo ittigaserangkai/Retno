@@ -182,6 +182,7 @@ inherited frmDialogGudang: TfrmDialogGudang
       end
       inherited lblCTRLP: TLabel
         Left = 260
+        ExplicitLeft = 260
       end
     end
   end

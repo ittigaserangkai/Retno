@@ -3,6 +3,8 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
+  ExplicitLeft = 5
+  ExplicitTop = 1
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -450,6 +452,9 @@ inherited frmDialogSO: TfrmDialogSO
   inherited actlstMasterDialog: TActionList
     Left = 704
     Top = 40
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

@@ -26,7 +26,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 1
-    ExplicitWidth = 686
     object lblHeader: TLabel
       AlignWithMargins = True
       Left = 5
@@ -53,7 +52,6 @@ object frmCXLookup: TfrmCXLookup
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 329
       Height = 31
       Width = 58
       AnchorY = 16
@@ -70,7 +68,6 @@ object frmCXLookup: TfrmCXLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      ExplicitLeft = 390
       Width = 89
     end
     object EndDate: TcxDateEdit
@@ -85,7 +82,6 @@ object frmCXLookup: TfrmCXLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
-      ExplicitLeft = 506
       Width = 89
     end
     object btnRefresh: TcxButton
@@ -153,7 +149,6 @@ object frmCXLookup: TfrmCXLookup
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
       OnClick = btnRefreshClick
-      ExplicitLeft = 601
     end
     object lblsdFilter: TcxLabel
       AlignWithMargins = True
@@ -166,7 +161,6 @@ object frmCXLookup: TfrmCXLookup
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 482
       Height = 25
       Width = 21
       AnchorY = 16
@@ -182,8 +176,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
-    ExplicitTop = 354
-    ExplicitWidth = 686
     object btnClose: TcxButton
       AlignWithMargins = True
       Left = 615
@@ -200,7 +192,6 @@ object frmCXLookup: TfrmCXLookup
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 0
       OnClick = btnCloseClick
-      ExplicitLeft = 607
     end
     object btnOK: TcxButton
       AlignWithMargins = True
@@ -223,7 +214,6 @@ object frmCXLookup: TfrmCXLookup
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = btnOKClick
-      ExplicitLeft = 521
     end
   end
   object Panel2: TPanel
@@ -237,8 +227,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 3
-    ExplicitTop = 333
-    ExplicitWidth = 686
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 615
@@ -255,7 +243,6 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 607
       ExplicitHeight = 16
     end
     object Label1: TLabel
@@ -275,7 +262,6 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 522
       ExplicitHeight = 16
     end
   end
@@ -288,8 +274,6 @@ object frmCXLookup: TfrmCXLookup
     TabOrder = 0
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitWidth = 686
-    ExplicitHeight = 300
     object cxGridView: TcxGridDBTableView
       PopupMenu = pmSelect
       OnKeyDown = cxGridViewKeyDown
@@ -315,8 +299,8 @@ object frmCXLookup: TfrmCXLookup
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
       OptionsView.Indicator = True
-      Styles.ContentEven = DMClient.cxStyleGridHeader
-      Styles.Header = DMClient.cxStyleGridEven
+      Styles.ContentEven = DMClient.cxStyleGridEven
+      Styles.Header = DMClient.cxStyleGridHeader
     end
     object cxlvMaster: TcxGridLevel
       GridView = cxGridView

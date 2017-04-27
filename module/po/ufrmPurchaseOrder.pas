@@ -13,7 +13,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
   cxButtonEdit, Data.DB, uDMClient, uAppUtils,uDBUtils,
   uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll,
-  ufrmPORevision,dxmdaset, cxGridDBDataDefinitions, cxLookupEdit, cxDBLookupEdit,
+  dxmdaset, cxGridDBDataDefinitions, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox;
 
 type
@@ -83,7 +83,7 @@ end;
 procedure TfrmPurchaseOrder.actEditExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmPORevision, cxGridView.DS.FieldByName('PO_ID').AsString);
+//  ShowDialogForm(TfrmPORevision, cxGridView.DS.FieldByName('PO_ID').AsString);
 end;
 
 procedure TfrmPurchaseOrder.actPrintExecute(Sender: TObject);

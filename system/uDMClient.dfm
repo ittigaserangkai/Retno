@@ -1362,7 +1362,7 @@ object DMClient: TDMClient
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Trebuchet MS'
-      Font.Style = []
+      Font.Style = [fsBold]
     end
     object cxStyleMoneyGreen: TcxStyle
       AssignedValues = [svColor]

@@ -23,7 +23,7 @@ type
     { Private declarations }
   public
     procedure LoadData(AID: String);
-    procedure SaveData;
+    function SaveData: Boolean;
     property ModMerchandise: TModMerchandise read GetModMerchandise write
         FModMerchandise;
     { Public declarations }
@@ -56,8 +56,8 @@ end;
 procedure TfrmDialogMerchandise.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  SaveData;
-  Self.ModalResult := mrOk;
+  if SaveData then
+    Self.ModalResult := mrOk;
 end;
 
 procedure TfrmDialogMerchandise.FormCreate(Sender: TObject);
@@ -81,15 +81,21 @@ begin
   edtName.Text    := ModMerchandise.MERCHAN_NAME;
 end;
 
-procedure TfrmDialogMerchandise.SaveData;
+function TfrmDialogMerchandise.SaveData: Boolean;
 begin
+  Result := False;
+
+  if not ValidateEmptyCtrl then exit;
   ModMerchandise.MERCHAN_CODE := edtCode.Text;
   ModMerchandise.MERCHAN_NAME := edtName.Text;
   Try
     ModMerchandise.ID         := DMClient.CrudClient.SaveToDBID(ModMerchandise);
+    if ModMerchandise.ID <> '' then
+      Result := True;
+
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
   except
-    TAppUtils.Error(ER_INSERT_FAILED);
+//    TAppUtils.Error(ER_INSERT_FAILED);
     raise;
   End;
 

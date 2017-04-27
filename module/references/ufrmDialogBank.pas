@@ -12,8 +12,6 @@ uses
   ufraFooterDialog3Button, System.Actions, Vcl.ActnList;
 
 type
-  TFormMode = (fmAdd, fmEdit);
-
   TfrmDialogBank = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     Lbl2: TLabel;
@@ -32,42 +30,29 @@ type
     cxLookupAccount: TcxExtLookupComboBox;
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edtRekKodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnDeleteClick(Sender: TObject);
   private
-    FIsProcessSuccessfull: Boolean;
-    FBankId: Integer;
     FCDSRekening: TClientDataSet;
-    FCrud: TCrudClient;
     FDSClient: TDSProviderClient;
-    FFormMode: TFormMode;
 //    FBank : TBank;
     FKodeLama : string;
     FModBank: TModBank;
     function GetCDSRekening: TClientDataSet;
-    function GetCrud: TCrudClient;
     function GetDSClient: TDSProviderClient;
     function GetModBank: TModBank;
-    procedure SetFormMode(const Value: TFormMode);
-    procedure SetIsProcessSuccessfull(const Value: Boolean);
-    procedure SetBankId(const Value: Integer);
     procedure prepareAddData;
     procedure SimpanData;
     function ValidateData: Boolean;
     property CDSRekening: TClientDataSet read GetCDSRekening write FCDSRekening;
-    property Crud: TCrudClient read GetCrud write FCrud;
     property DSClient: TDSProviderClient read GetDSClient write FDSClient;
     property ModBank: TModBank read GetModBank write FModBank;
   public
     procedure LoadData(AID: String);
     { Public declarations }
   published
-    property FormMode: TFormMode read FFormMode write SetFormMode;
-    property BankId: Integer read FBankId write SetBankId;
-    property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
 var
@@ -85,21 +70,6 @@ begin
   if ValidateData then SimpanData;
 end;
 
-procedure TfrmDialogBank.SetFormMode(const Value: TFormMode);
-begin
-  FFormMode := Value;
-end;
-
-procedure TfrmDialogBank.SetIsProcessSuccessfull(const Value: boolean);
-begin
-  FIsProcessSuccessfull := Value;
-end;
-
-procedure TfrmDialogBank.SetBankId(const Value: Integer);
-begin
-  FBankId := Value;
-end;
-
 procedure TfrmDialogBank.prepareAddData;
 begin
   edtCode.Clear;
@@ -112,87 +82,6 @@ procedure TfrmDialogBank.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmDialogBank := nil;
-end;
-
-procedure TfrmDialogBank.footerDialogMasterbtnSaveClick(Sender: TObject);
-begin
-  inherited;
-  if (FormMode = fmAdd) then
-  begin
-  //  FIsProcessSuccessfull := SaveBank;
-  //  if FIsProcessSuccessfull then
-  //    Close;
-  IDLokal := 0;
-  end else
-  begin
-   // FIsProcessSuccessfull := UpdateBank;
-    //if FIsProcessSuccessfull then
-    //  Close;
-//    IDLokal := StrToInt(frmBank.strgGrid.Cells[4,frmBank.strgGrid.Row]);
-  end; // end if
-
-  if edtCode.Text = '' then
-  begin
-    CommonDlg.ShowError('Kode Belum Diisi');
-    edtCode.SetFocus;
-    Exit;
-  end;
-
-  if edtName.Text = '' then
-  begin
-    CommonDlg.ShowError('Nama Belum Diisi');
-    edtName.SetFocus;
-    Exit;
-  end;
-
-  if edtBranch.Text = '' then
-  begin
-    CommonDlg.ShowError('Cabang Belum Diisi');
-    edtBranch.SetFocus;
-    Exit;
-  end;
-
-  if edtAddress.Text = '' then
-  begin
-    CommonDlg.ShowError('Alamat Belum Diisi');
-    edtAddress.SetFocus;
-    Exit;
-  end;
-  if Trim(edtRekKode.Text)<>'' then
-  begin
-//    if TBank.CekBankRekKode(DialogUnit, edtCode.Text, edtRekKode.Text) then
-    begin
-      CommonDlg.ShowError('Kode Rekening/Akun sudah digunakan oleh Bank lain.');
-      edtRekKode.SetFocus;
-      Exit;
-    end;
-  end;
-
-{
-  FBank.UpdateData(edtAddress.Text,
-                    edtBranch.Text,
-                    IDLokal,
-                    edtCode.Text,
-                    edtName.Text,
-                    DialogUnit,
-                    edtDescription.Text,
-                    edtRekKode.Text,
-                    DialogCompany
-                    );
-  if FBank.SaveToDB(FKodeLama) then
-  begin
-    cCommitTrans;
-    CommonDlg.ShowMessage('Berhasil Menyimpan Data');
-    frmBank.actRefreshBankExecute(Self);
-    Close;
-  end
-  else
-  begin
-    cRollbackTrans;
-    CommonDlg.ShowError('Data Gagal Disimpan');
-    Exit;
-  end;
-}
 end;
 
 procedure TfrmDialogBank.FormCreate(Sender: TObject);
@@ -211,7 +100,7 @@ begin
   inherited;
   if TAppUtils.Confirm('Yakin hapus data?') then
   begin
-    Crud.DeleteFromDB(ModBank);
+    DMClient.CrudClient.DeleteFromDB(ModBank);
     TAppUtils.Information('Terhapus');
     Self.Close;
   end;
@@ -253,13 +142,6 @@ begin
   Result := FCDSRekening;
 end;
 
-function TfrmDialogBank.GetCrud: TCrudClient;
-begin
-  if not Assigned(FCrud) then
-    FCrud := TCrudClient.Create(DMClient.RestConn);
-  Result := FCrud;
-end;
-
 function TfrmDialogBank.GetDSClient: TDSProviderClient;
 begin
   if not Assigned(FDSClient) then
@@ -277,7 +159,8 @@ end;
 procedure TfrmDialogBank.LoadData(AID: String);
 begin
   if Assigned(FModBank) then FreeAndNil(FModBank);
-  FModBank := Crud.Retrieve(TModBank.ClassName, AID) as TModBank;
+  FModBank := DMCLient.CrudClient.Retrieve(TModBank.ClassName, AID) as TModBank;
+
   edtCode.Text := ModBank.BANK_CODE;
   edtName.Text := ModBank.BANK_NAME;
   edtBranch.Text := ModBank.BANK_BRANCH;
@@ -301,7 +184,7 @@ begin
     ModBank.REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
   end;
   Try
-    Crud.SaveToDB(ModBank);
+    DMClient.CrudClient.SaveToDB(ModBank);
     TAppUtils.Information('Data Bank Berhasil Disimpan');
     ModalResult := mrOk;
   except

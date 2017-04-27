@@ -1,78 +1,78 @@
 inherited frmSO: TfrmSO
   Caption = 'Suggestion Order'
-  ClientHeight = 345
-  ClientWidth = 664
-  ExplicitWidth = 680
-  ExplicitHeight = 384
+  ClientHeight = 362
+  ClientWidth = 671
+  ExplicitWidth = 687
+  ExplicitHeight = 401
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 664
-    Height = 256
-    ExplicitWidth = 664
-    ExplicitHeight = 256
+    Width = 671
+    Height = 273
+    ExplicitWidth = 671
+    ExplicitHeight = 273
     inherited pgcBrowse: TcxPageControl
-      Width = 642
-      Height = 234
-      ExplicitWidth = 642
-      ExplicitHeight = 234
-      ClientRectBottom = 233
-      ClientRectRight = 641
+      Width = 649
+      Height = 251
+      ExplicitWidth = 649
+      ExplicitHeight = 251
+      ClientRectBottom = 250
+      ClientRectRight = 648
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 640
-        ExplicitHeight = 232
+        ExplicitWidth = 647
+        ExplicitHeight = 249
         inherited cxGrid: TcxGrid
-          Width = 640
-          Height = 232
-          ExplicitWidth = 640
-          ExplicitHeight = 232
+          Width = 647
+          Height = 249
+          ExplicitWidth = 647
+          ExplicitHeight = 249
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 664
-    ExplicitWidth = 664
+    Width = 671
+    ExplicitWidth = 671
     inherited lblHeader: TLabel
       Width = 106
       Caption = 'SUGGESTION ORDER'
       ExplicitWidth = 106
     end
     inherited lblFilterData: TcxLabel
-      Left = 310
+      Left = 317
       Visible = True
-      ExplicitLeft = 310
+      ExplicitLeft = 317
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 371
+      Left = 378
       Visible = True
-      ExplicitLeft = 371
+      ExplicitLeft = 378
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 487
+      Left = 494
       Visible = True
-      ExplicitLeft = 487
+      ExplicitLeft = 494
     end
     inherited btnSearch: TcxButton
-      Left = 582
-      ExplicitLeft = 582
+      Left = 589
+      ExplicitLeft = 589
     end
     inherited lblsdFilter: TcxLabel
-      Left = 463
+      Left = 470
       Visible = True
-      ExplicitLeft = 463
+      ExplicitLeft = 470
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 289
-    Width = 664
-    ExplicitTop = 289
-    ExplicitWidth = 664
+    Top = 306
+    Width = 671
+    ExplicitTop = 306
+    ExplicitWidth = 671
     inherited pnlFooter: TPanel
-      Width = 664
-      ExplicitWidth = 664
+      Width = 671
+      ExplicitWidth = 671
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -83,20 +83,20 @@ inherited frmSO: TfrmSO
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 587
+        Left = 594
         Action = actClose
-        ExplicitLeft = 587
+        ExplicitLeft = 594
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 664
-      ExplicitWidth = 664
+      Width = 671
+      ExplicitWidth = 671
       inherited lbEscape: TLabel
-        Left = 590
-        ExplicitLeft = 590
+        Left = 597
+        ExplicitLeft = 597
       end
     end
   end
@@ -106,6 +106,9 @@ inherited frmSO: TfrmSO
     end
     inherited actEdit: TAction
       OnExecute = actEditExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

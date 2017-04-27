@@ -2,7 +2,6 @@ inherited frmSubGroup: TfrmSubGroup
   Caption = 'Data Sub Group'
   ClientHeight = 395
   ClientWidth = 668
-  ExplicitTop = 8
   ExplicitWidth = 684
   ExplicitHeight = 434
   PixelsPerInch = 96
@@ -88,7 +87,7 @@ inherited frmSubGroup: TfrmSubGroup
       ExplicitWidth = 668
       inherited lbEscape: TLabel
         Left = 594
-        Height = 17
+        ExplicitLeft = 594
       end
     end
   end
