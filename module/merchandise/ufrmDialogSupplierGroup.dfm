@@ -1,23 +1,25 @@
 inherited frmDialogSupplierGroup: TfrmDialogSupplierGroup
   Caption = 'frmDialogSupplierGroup'
-  ClientHeight = 157
-  ClientWidth = 408
-  ExplicitWidth = 424
-  ExplicitHeight = 196
+  ClientHeight = 165
+  ClientWidth = 368
+  ExplicitWidth = 384
+  ExplicitHeight = 204
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 408
-    Height = 101
-    ExplicitLeft = 8
-    ExplicitTop = -16
+    Width = 368
+    Height = 109
+    ExplicitWidth = 408
+    ExplicitHeight = 101
     object edtNama: TcxTextEdit
+      Tag = 1
       Left = 94
       Top = 38
       TabOrder = 1
       Width = 121
     end
     object edtDeskripsi: TcxTextEdit
+      Tag = 1
       Left = 94
       Top = 66
       TabOrder = 2
@@ -41,42 +43,49 @@ inherited frmDialogSupplierGroup: TfrmDialogSupplierGroup
       Caption = 'Deskripsi'
       Transparent = True
     end
-    object spGroupNo: TcxSpinEdit
+    object edtGroupNo: TcxTextEdit
+      Tag = 1
       Left = 94
       Top = 10
       TabOrder = 0
+      OnKeyPress = edtGroupNoKeyPress
       Width = 121
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 101
-    Width = 408
+    Top = 109
+    Width = 368
+    ExplicitTop = 101
+    ExplicitWidth = 408
     inherited pnlFooter: TPanel
-      Width = 408
+      Width = 368
       inherited btnClose: TcxButton
-        Left = 331
+        Left = 291
         Action = actCancel
       end
       inherited btnSave: TcxButton
-        Left = 238
+        Left = 198
         Action = actSave
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 121
+      end
     end
     inherited pnlSortCut: TPanel
-      Width = 408
+      Width = 368
       inherited lbCTRLEnter: TLabel
-        Left = 233
-        Height = 15
+        Left = 193
+        ExplicitLeft = 365
       end
       inherited lbEscape: TLabel
-        Left = 324
-        Height = 15
+        Left = 284
+        ExplicitLeft = 456
       end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+      inherited lblCTRLP: TLabel
+        Left = 117
       end
     end
   end
@@ -88,6 +97,9 @@ inherited frmDialogSupplierGroup: TfrmDialogSupplierGroup
     end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actCancel: TAction
+      Caption = 'Cancel'
     end
   end
 end
