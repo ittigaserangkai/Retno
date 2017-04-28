@@ -202,6 +202,7 @@ type
     FBANK: TModBank;
     FSUPMG_BANK_ACCOUNT_NO: string;
     FSUPMG_BANK_ACCOUNT_NAME: string;
+    FSUPMG_SUB_CODE: string;
     FSUPMG_FEE: Double;
     FSUPMG_IS_PKP: Integer;
     FSUPMG_IS_ID_DIFF: Integer;
@@ -264,6 +265,7 @@ type
         FSUPMG_BANK_ACCOUNT_NO;
     property SUPMG_BANK_ACCOUNT_NAME: string read FSUPMG_BANK_ACCOUNT_NAME write
         FSUPMG_BANK_ACCOUNT_NAME;
+    property SUPMG_SUB_CODE: string read FSUPMG_SUB_CODE write FSUPMG_SUB_CODE;
     property SUPMG_FEE: Double read FSUPMG_FEE write FSUPMG_FEE;
     property SUPMG_IS_PKP: Integer read FSUPMG_IS_PKP write FSUPMG_IS_PKP;
     property SUPMG_IS_ID_DIFF: Integer read FSUPMG_IS_ID_DIFF write

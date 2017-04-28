@@ -176,6 +176,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Left = 242
         Top = 35
         Properties.SaveTime = False
+        Properties.ShowTime = False
         TabOrder = 2
         Width = 97
       end
@@ -502,7 +503,8 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       end
       inherited lblCTRLP: TLabel
         Left = 515
-        ExplicitLeft = 239
+        Height = 15
+        ExplicitLeft = 515
       end
     end
   end
