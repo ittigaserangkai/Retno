@@ -89,7 +89,6 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       OptionsImage.ImageIndex = 28
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 3
-      ExplicitLeft = 162
     end
   end
   object pnlSortCut: TPanel

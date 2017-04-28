@@ -242,6 +242,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Left = 304
           Top = 79
           TabOrder = 5
+          OnKeyPress = edtPostCodeKeyPress
           Width = 106
         end
         object edtFax: TcxTextEdit
@@ -551,7 +552,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsA
+          Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           ClientRectBottom = 273
           ClientRectRight = 667
@@ -748,7 +749,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 54
               TabStop = False
-              Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 8
               Width = 135
@@ -756,6 +757,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtCreditLmt: TcxCurrencyEdit
               Left = 120
               Top = 128
+              Properties.DisplayFormat = ',0;(,0)'
               TabOrder = 5
               Width = 135
             end
@@ -763,15 +765,16 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 102
               TabStop = False
+              Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 12
               Width = 136
             end
             object curedtPaymnt: TcxCurrencyEdit
-              Left = 489
+              Left = 486
               Top = 77
               TabStop = False
-              Properties.DisplayFormat = '0.00;(0.00)'
+              Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 11
               Width = 131
@@ -947,8 +950,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Align = alClient
               Color = clWhite
               TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 1
               object lbl30: TLabel
                 Left = 52
                 Top = 28
@@ -1053,6 +1054,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Top = 49
                 Enabled = False
                 TabOrder = 3
+                OnKeyPress = edtPostCodeMerKeyPress
                 Width = 79
               end
               object edtFaxMer: TcxTextEdit
@@ -1180,6 +1182,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       inherited lblCTRLP: TLabel
         Left = 420
+        Height = 15
         ExplicitLeft = 405
       end
     end

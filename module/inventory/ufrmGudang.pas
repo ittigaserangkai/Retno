@@ -43,13 +43,15 @@ end;
 procedure TfrmGudang.actEditExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogGudang,cxGridView.DS.FieldByName('GUDANG_ID').AsString)
+  ShowDialogForm(TfrmDialogGudang,cxGridView.DS.FieldByName('GUDANG_ID').AsString);
+
 end;
 
 procedure TfrmGudang.RefreshData;
 begin
   inherited;
   cxGridView.LoadFromDS(DMClient.DSProviderClient.Gudang_GetDSOverview, self);
+  cxGridView.SetVisibleColumns(['GUDANG_ID'],False);
 end;
 
 end.

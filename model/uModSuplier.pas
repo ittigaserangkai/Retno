@@ -141,7 +141,7 @@ type
 
   TModSuplierGroup = class(TModApp)
   private
-    FGROUP_NO: String;
+    FGROUP_CODE: String;
     FGROUP_NAME: String;
     FGROUP_DESCRIPTION: String;
   public
@@ -150,7 +150,8 @@ type
     property GROUP_DESCRIPTION: String read FGROUP_DESCRIPTION write
         FGROUP_DESCRIPTION;
     property GROUP_NAME: String read FGROUP_NAME write FGROUP_NAME;
-    property GROUP_NO: String read FGROUP_NO write FGROUP_NO;
+    [AttributeOfCode]
+    property GROUP_CODE: String read FGROUP_CODE write FGROUP_CODE;
   end;
 
   TModTipeSuplier = class(TModApp)

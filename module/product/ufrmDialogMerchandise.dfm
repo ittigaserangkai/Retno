@@ -101,6 +101,7 @@ inherited frmDialogMerchandise: TfrmDialogMerchandise
       end
       inherited lblCTRLP: TLabel
         Left = 214
+        ExplicitLeft = 214
       end
     end
   end

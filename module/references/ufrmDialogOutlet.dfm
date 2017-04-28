@@ -1,20 +1,21 @@
 inherited frmDialogOutlet: TfrmDialogOutlet
   Left = 392
   Top = 270
+  Anchors = [akLeft]
   Caption = 'uNewSalesOutletuNewSalesOutlet'
-  ClientHeight = 162
-  ClientWidth = 395
+  ClientHeight = 342
+  ClientWidth = 651
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 411
-  ExplicitHeight = 201
+  ExplicitWidth = 667
+  ExplicitHeight = 381
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 395
-    Height = 106
-    ExplicitWidth = 395
-    ExplicitHeight = 106
+    Width = 651
+    Height = 286
+    ExplicitWidth = 651
+    ExplicitHeight = 286
     object lbl1: TLabel
       Left = 44
       Top = 13
@@ -37,6 +38,7 @@ inherited frmDialogOutlet: TfrmDialogOutlet
       Caption = 'Description'
     end
     object edtCode: TEdit
+      Tag = 1
       Left = 111
       Top = 11
       Width = 83
@@ -48,6 +50,7 @@ inherited frmDialogOutlet: TfrmDialogOutlet
       TabOrder = 0
     end
     object edtName: TEdit
+      Tag = 1
       Left = 111
       Top = 38
       Width = 227
@@ -71,42 +74,46 @@ inherited frmDialogOutlet: TfrmDialogOutlet
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 106
-    Width = 395
-    ExplicitTop = 106
-    ExplicitWidth = 395
+    Top = 286
+    Width = 651
+    ExplicitTop = 286
+    ExplicitWidth = 651
     inherited pnlFooter: TPanel
-      Width = 395
-      ExplicitWidth = 395
+      Width = 651
+      ExplicitWidth = 651
       inherited btnClose: TcxButton
-        Left = 318
+        Left = 574
         Action = actCancel
-        ExplicitLeft = 318
+        ExplicitLeft = 574
       end
       inherited btnSave: TcxButton
-        Left = 225
+        Left = 481
         Action = actSave
-        ExplicitLeft = 225
+        ExplicitLeft = 481
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 404
+        ExplicitLeft = 404
+      end
     end
     inherited pnlSortCut: TPanel
-      Width = 395
-      ExplicitWidth = 395
+      Width = 651
       inherited lbCTRLEnter: TLabel
-        Left = 305
-        Height = 15
-        ExplicitLeft = 305
+        Left = 476
+        ExplicitLeft = 561
       end
       inherited lbEscape: TLabel
-        Left = 220
-        Height = 15
-        ExplicitLeft = 220
+        Left = 567
+        ExplicitLeft = 588
+        ExplicitTop = 7
+        ExplicitHeight = 15
       end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+      inherited lblCTRLP: TLabel
+        Left = 400
+        ExplicitLeft = 400
       end
     end
   end
@@ -116,6 +123,9 @@ inherited frmDialogOutlet: TfrmDialogOutlet
     end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actCancel: TAction
+      Caption = 'Cancel'
     end
   end
 end
