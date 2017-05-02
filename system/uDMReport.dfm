@@ -279,6 +279,7 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 4
       Text = 'PDF'
+      ExplicitHeight = 21
       Width = 78
     end
     object btnPrev: TcxButton
@@ -615,6 +616,7 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 10
       Text = '100%'
+      ExplicitHeight = 21
       Width = 60
     end
     object btnFastPrint: TcxButton
@@ -700,11 +702,9 @@ object DMReport: TDMReport
         BorderStyle = bsNone
         OutlineVisible = False
         OutlineWidth = 120
-        ThumbnailVisible = True
+        ThumbnailVisible = False
         OnPageChanged = frxPreview2PageChanged
         UseReportHints = True
-        ExplicitLeft = 3
-        ExplicitTop = -6
       end
     end
     object tsGraphic: TcxTabSheet
@@ -812,7 +812,7 @@ object DMReport: TDMReport
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 42851.661859942130000000
+    ReportOptions.CreateDate = 42851.661859942120000000
     ReportOptions.LastChange = 42851.662143865740000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
