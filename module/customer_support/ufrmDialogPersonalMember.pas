@@ -81,6 +81,7 @@ type
     procedure ClearForm;
     procedure Generate_NOMOR;
     function GetCDSAgama: tclientDataset;
+    function ChekEmptyValue: Boolean;
     function GetCDSTipeBayar: tclientDataset;
     function GetCDSTipeMember: tclientDataset;
     function GetCrud: TCrudClient;
@@ -252,8 +253,45 @@ begin
   edtPlafon.Value              := ModMember.MEMBER_PLAFON;
 end;
 
+function TfrmDialogPersonalMember.ChekEmptyValue: Boolean;
+begin
+  Result := False;
+  if (edtName.Text = '') then
+  begin
+    TAppUtils.Warning('Nama Member Tidak Boleh Kosong');
+    edtName.SetFocus;
+    Exit;
+  end;
+
+  if (edtTempatLhr.Text = '') then
+  begin
+    TAppUtils.Warning('Tempat Lahir Tidak Boleh Kosong');
+    edtTempatLhr.SetFocus;
+    Exit;
+  end;
+
+  if (edtNoIdentts.Text = '') then
+  begin
+    TAppUtils.Warning('Nomor Identitas Tidak Boleh Kosong');
+    edtNoIdentts.SetFocus;
+    Exit;
+  end;
+
+  if (edtAlamat.Text = '') then
+  begin
+    TAppUtils.Warning('Alamat Tidak Boleh Kosong');
+    edtAlamat.SetFocus;
+    Exit;
+  end;
+
+  Result := true;
+end;
+
 procedure TfrmDialogPersonalMember.SimpanData;
 begin
+  if not ChekEmptyValue then exit;
+  
+
   ModMember.MEMBER_NAME                     := edtName.Text;
   ModMember.MEMBER_CARD_NO                  := edtCardNo.Text;
   ModMember.MEMBER_IS_WNI                   := cbbWarganegara.ItemIndex;

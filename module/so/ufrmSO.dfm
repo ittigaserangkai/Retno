@@ -96,6 +96,7 @@ inherited frmSO: TfrmSO
       ExplicitWidth = 671
       inherited lbEscape: TLabel
         Left = 597
+        Height = 17
         ExplicitLeft = 597
       end
     end

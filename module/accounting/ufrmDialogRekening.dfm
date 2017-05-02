@@ -70,7 +70,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 145
       Height = 17
       Caption = 'Normal Balance Is Debet'
-      TabOrder = 3
+      TabOrder = 8
       OnKeyUp = chkIsDebetKeyUp
     end
     object chkIsLeaf: TCheckBox
@@ -79,11 +79,11 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 97
       Height = 17
       Caption = 'Is Detail'
-      TabOrder = 4
+      TabOrder = 9
     end
     object edtRekCode: TEdit
       Left = 144
-      Top = 16
+      Top = 12
       Width = 121
       Height = 22
       CharCase = ecUpperCase
@@ -95,7 +95,7 @@ inherited frmDialogRekening: TfrmDialogRekening
     end
     object edtRekName: TEdit
       Left = 144
-      Top = 40
+      Top = 38
       Width = 313
       Height = 22
       CharCase = ecUpperCase
@@ -112,7 +112,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       CharCase = ecUpperCase
       Ctl3D = False
       ParentCtl3D = False
-      TabOrder = 2
+      TabOrder = 3
       OnKeyUp = edtDescriptionKeyUp
     end
     object chkbs: TRadioButton
@@ -122,8 +122,9 @@ inherited frmDialogRekening: TfrmDialogRekening
       Height = 25
       Caption = 'Balance sheet'
       Checked = True
-      TabOrder = 5
+      TabOrder = 6
       TabStop = True
+      OnKeyUp = chkbsKeyUp
     end
     object chkpl: TRadioButton
       Left = 275
@@ -131,24 +132,28 @@ inherited frmDialogRekening: TfrmDialogRekening
       Width = 113
       Height = 17
       Caption = 'Profit Loss'
-      TabOrder = 6
+      TabOrder = 7
+      OnKeyUp = chkplKeyUp
     end
     object dbParentCode: TcxExtLookupComboBox
       Left = 144
       Top = 138
-      TabOrder = 7
+      TabOrder = 5
+      OnKeyUp = dbParentCodeKeyUp
       Width = 145
     end
     object intedtLevel: TcxSpinEdit
       Left = 144
       Top = 63
-      TabOrder = 8
+      TabOrder = 2
+      OnKeyUp = intedtLevelKeyUp
       Width = 52
     end
     object dbAccountGroup: TcxExtLookupComboBox
       Left = 144
       Top = 112
-      TabOrder = 9
+      TabOrder = 4
+      OnKeyUp = dbAccountGroupKeyUp
       Width = 145
     end
   end
@@ -198,6 +203,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       end
       inherited lblCTRLP: TLabel
         Left = 225
+        Height = 15
         ExplicitLeft = 225
       end
     end
