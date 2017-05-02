@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 04/26/17 2:29:29 PM
+// 5/2/2017 11:07:18 AM
 //
 
 unit uClientClasses;
@@ -359,6 +359,8 @@ type
   private
     FSO_ByDateCommand: TDSRestCommand;
     FSO_ByDateCommand_Cache: TDSRestCommand;
+    FSO_ByDateNoBuktiCommand: TDSRestCommand;
+    FSO_ByDateNoBuktiCommand_Cache: TDSRestCommand;
     FSO_TestCommand: TDSRestCommand;
     FSO_TestCommand_Cache: TDSRestCommand;
   public
@@ -367,6 +369,8 @@ type
     destructor Destroy; override;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function SO_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_Test(const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
   end;
@@ -1271,6 +1275,24 @@ const
   (
     (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_SO_ByDateNoBukti: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_SO_ByDateNoBukti_Cache: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4119,6 +4141,52 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FSO_ByDateCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSReportClient.SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FSO_ByDateNoBuktiCommand = nil then
+  begin
+    FSO_ByDateNoBuktiCommand := FConnection.CreateCommand;
+    FSO_ByDateNoBuktiCommand.RequestType := 'GET';
+    FSO_ByDateNoBuktiCommand.Text := 'TDSReport.SO_ByDateNoBukti';
+    FSO_ByDateNoBuktiCommand.Prepare(TDSReport_SO_ByDateNoBukti);
+  end;
+  FSO_ByDateNoBuktiCommand.Parameters[0].Value.AsDateTime := StartDate;
+  FSO_ByDateNoBuktiCommand.Parameters[1].Value.AsDateTime := EndDate;
+  FSO_ByDateNoBuktiCommand.Parameters[2].Value.SetWideString(aNoBuktiAwal);
+  FSO_ByDateNoBuktiCommand.Parameters[3].Value.SetWideString(aNoBuktiAkhir);
+  FSO_ByDateNoBuktiCommand.Execute(ARequestFilter);
+  if not FSO_ByDateNoBuktiCommand.Parameters[4].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FSO_ByDateNoBuktiCommand.Parameters[4].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSO_ByDateNoBuktiCommand.Parameters[4].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FSO_ByDateNoBuktiCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.SO_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FSO_ByDateNoBuktiCommand_Cache = nil then
+  begin
+    FSO_ByDateNoBuktiCommand_Cache := FConnection.CreateCommand;
+    FSO_ByDateNoBuktiCommand_Cache.RequestType := 'GET';
+    FSO_ByDateNoBuktiCommand_Cache.Text := 'TDSReport.SO_ByDateNoBukti';
+    FSO_ByDateNoBuktiCommand_Cache.Prepare(TDSReport_SO_ByDateNoBukti_Cache);
+  end;
+  FSO_ByDateNoBuktiCommand_Cache.Parameters[0].Value.AsDateTime := StartDate;
+  FSO_ByDateNoBuktiCommand_Cache.Parameters[1].Value.AsDateTime := EndDate;
+  FSO_ByDateNoBuktiCommand_Cache.Parameters[2].Value.SetWideString(aNoBuktiAwal);
+  FSO_ByDateNoBuktiCommand_Cache.Parameters[3].Value.SetWideString(aNoBuktiAkhir);
+  FSO_ByDateNoBuktiCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FSO_ByDateNoBuktiCommand_Cache.Parameters[4].Value.GetString);
+end;
+
 function TDSReportClient.SO_Test(const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_TestCommand = nil then
@@ -4171,6 +4239,8 @@ destructor TDSReportClient.Destroy;
 begin
   FSO_ByDateCommand.DisposeOf;
   FSO_ByDateCommand_Cache.DisposeOf;
+  FSO_ByDateNoBuktiCommand.DisposeOf;
+  FSO_ByDateNoBuktiCommand_Cache.DisposeOf;
   FSO_TestCommand.DisposeOf;
   FSO_TestCommand_Cache.DisposeOf;
   inherited;

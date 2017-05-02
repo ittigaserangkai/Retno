@@ -92,6 +92,8 @@ type
   private
   public
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
+    function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
+        ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
     function SO_Test: TFDJSONDataSets;
     function Test2: OleVariant;
     function Test: Variant;
@@ -806,6 +808,20 @@ begin
 
   S := 'SELECT * FROM SUPLIER';
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.SO_ByDateNoBukti(StartDate, EndDate: TDateTime;
+    aNoBuktiAwal: string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_SO_REPORT WHERE SO_DATE BETWEEN '
+  + TDBUtils.QuotDt(StartDate) + ' and ' + TDBUtils.QuotDt(EndDate)
+  + ' AND SO_NO between ' + QuotedStr(aNoBuktiAwal) + ' and ' + QuotedStr(aNoBuktiAkhir);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
 end;
 
 function TDSReport.SO_Test: TFDJSONDataSets;
