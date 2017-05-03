@@ -35,8 +35,6 @@ type
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
     function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
-    function RetrieveAll(ModClassName, AID: string): TModApp; overload;
-    function RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -151,6 +149,9 @@ begin
   If not Assigned(lClass) then
     Raise Exception.Create('Class ' + ModClassName + ' not found');
   Result := Self.Retrieve(lClass, AID);
+
+  debugSS.SaveToFile('debugRetrive.txt');
+  debugSS.Clear;
   AfterExecuteMethod;
 end;
 
@@ -205,23 +206,6 @@ begin
   Result := lClass.Create;
   if aCode <> '' then
     TDBUtils.LoadByCode(Result, aCode);
-  AfterExecuteMethod;
-end;
-
-function TCrud.RetrieveAll(ModClassName, AID: string): TModApp;
-var
-  lClass: TModAppClass;
-begin
-  lClass := Self.StringToClass(ModClassName);
-  If not Assigned(lClass) then
-    Raise Exception.Create('Class ' + ModClassName + ' not found');
-  Result := Self.RetrieveAll(lClass, AID);
-end;
-
-function TCrud.RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp;
-begin
-  Result := ModAppClass.Create;
-  TDBUtils.LoadFromDB(Result, AID, True);
   AfterExecuteMethod;
 end;
 

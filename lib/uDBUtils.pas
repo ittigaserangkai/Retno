@@ -55,11 +55,9 @@ type
     class function GetNextID(AOBject : TModApp): Integer;
     class function GetNextIDGUID: TGuid;
     class function GetNextIDGUIDToString: string;
-    class procedure LoadFromDB(AOBject: TModApp; AID: String; ARetrieveProp:
-        Boolean = False);
+    class procedure LoadFromDB(AOBject: TModApp; AID: String);
     class procedure LoadByCode(AOBject: TModApp; aCode: String);
-    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
-        ARetrieveProp: Boolean = False);
+    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
@@ -78,6 +76,7 @@ type
 var
   FDConnection  : TFDConnection;
   FDTransaction : TFDTransaction;
+  DebugSS : TStrings;
 
 const
   SQL_Insert  : String = 'Insert Into %s(%s) values(%s);';
@@ -728,16 +727,18 @@ begin
   Result  := Format(SQL_Delete,[AObject.GetTableName,sFilter]);
 end;
 
-class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String;
-    ARetrieveProp: Boolean = False);
+class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String);
 var
   Q: TFDQuery;
   sSQL: string;
 begin
+
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  LoadFromDataset(AObject, Q, ARetrieveProp);
+
+  DebugSS.Add(sSQL);
+  LoadFromDataset(AObject, Q);
 end;
 
 class procedure TDBUtils.LoadByCode(AOBject: TModApp; aCode: String);
@@ -751,8 +752,7 @@ begin
   LoadFromDataset(AObject, Q);
 end;
 
-class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
-    ARetrieveProp: Boolean = False);
+class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
 var
   sSQL: string;
   ctx : TRttiContext;
@@ -802,8 +802,9 @@ begin
 
                 lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
 
-                if (ARetrieveProp) and (lAppObject.ID  <> '') then
-                  Self.LoadFromDB(lAppObject, lAppObject.ID );
+
+//                if (ARetrieveProp) and (lAppObject.ID  <> '') then
+//                  Self.LoadFromDB(lAppObject, lAppObject.ID );
 
                 prop.SetValue(AOBject, lAppObject);
               end;
@@ -814,6 +815,8 @@ begin
         end;
       end else  //public object list
       begin
+
+
         if prop.PropertyType.TypeKind = tkClass then
         begin
           meth := prop.PropertyType.GetMethod('ToArray');
@@ -838,11 +841,14 @@ begin
                     + ' = ' + QuotedStr(ADataSet.FieldByName(AOBject.GetPrimaryField).AsString);
               lAppObjectItem.Free;
               QQ := TDBUtils.OpenQuery(sSQL, nil);
+
+              DebugSS.Add(sSQL);
+
               try
                 while not QQ.Eof do
                 begin
                   lAppObjectItem := lAppClass.Create;
-                  LoadFromDataset(lAppObjectItem, QQ, ARetrieveProp);
+                  LoadFromDataset(lAppObjectItem, QQ);
                   meth.Invoke(lObjectList,[lAppObjectItem]);
                   QQ.Next;
                 end;
@@ -1089,5 +1095,8 @@ begin
   if SourceField = '' then SourceField := DestFieldName;
   Self.FieldValues[DestFieldName] := SourceDataSet.FieldValues[SourceField];
 end;
+
+initialization
+  DebugSS := TStringList.Create;
 
 end.
