@@ -50,7 +50,7 @@ end;
 procedure TfrmMerchandise.RefreshData;
 begin
   inherited;
-  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSLookup, Self);
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Merchandise_GetDSOverview, Self);
   cxGridView.SetVisibleColumns([TModMerchandise.GetPrimaryField], False);
 end;
 

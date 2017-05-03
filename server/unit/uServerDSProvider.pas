@@ -3,7 +3,8 @@ unit uServerDSProvider;
 interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModUnit, System.Generics.Collections;
+  StrUtils, uModUnit, System.Generics.Collections, Data.FireDACJSONReflect,
+  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin, uServerClasses;
 
 type
   {$METHODINFO ON}
@@ -65,6 +66,7 @@ type
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
+    function Merchandise_GetDSOverview: TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
@@ -80,23 +82,33 @@ type
     function SO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit : TModUnit =
         nil): TDataSet;
     function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
+    function SubGroup_GetDSOverview: TDataSet;
     function SuplierMerchan_GetDSLookup: TDataSet;
 
 
   end;
+
+  TDSReport = class(TComponent)
+  private
+  public
+    function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
+    function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
+        ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function SO_Test: TFDJSONDataSets;
+    function Test2: OleVariant;
+    function Test: Variant;
+  end;
+
   {$METHODINFO OFF}
 implementation
 uses
-  System.DateUtils;
+  System.DateUtils, System.Variants;
 
 function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT Bank_ID, BANK_CODE, BANK_NAME, BANK_BRANCH, BANK_ADDRESS,'
-      +' BANK_REK_CODE, BANK_DESCRIPTION,'
-      +' BANK_REK_COMP_ID, OP_CREATE, DATE_CREATE, DATE_MODIFY'
-      +' FROM BANK';
+  S := 'SELECT * FROM V_BANK';
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -488,7 +500,7 @@ function TDSProvider.SuplierGroup_GetDSOverview1: TDataSet;
 var
   S: string;
 begin
-  S := 'select GROUP_NO,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  S := 'select GROUP_CODE,GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
   +' from SUPLIER_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -497,7 +509,7 @@ function TDSProvider.SuplierGroup_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select GROUP_NO, GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
+  S := 'select GROUP_CODE, GROUP_NAME, GROUP_DESCRIPTION, SUPLIER_GROUP_ID'
   +' from SUPLIER_GROUP';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -617,6 +629,15 @@ begin
         free;
       end;
     End;
+end;
+
+function TDSProvider.Merchandise_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select MERCHAN_CODE, MERCHAN_NAME, REF$MERCHANDISE_ID'
+      +' FROM REF$MERCHANDISE ORDER BY MERCHAN_CODE';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.TipeHarga_GetDSLookup: TDataSet;
@@ -754,12 +775,76 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.SubGroup_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.SUBGRUP_CODE, A.SUBGRUP_NAME, B.MERCHANGRUP_NAME,'
+      +' A.REF$SUB_GRUP_ID , A.REF$MERCHANDISE_GRUP_ID'
+      +' FROM REF$SUB_GRUP A'
+      +' INNER JOIN REF$MERCHANDISE_GRUP B'
+      +' ON A.REF$MERCHANDISE_GRUP_ID = B.REF$MERCHANDISE_GRUP_ID';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
 var
   S: string;
 begin
   S := 'select * from V_SUPPLIER_MERCHANDISE_GROUP';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_SO_REPORT WHERE SO_DATE BETWEEN '
+  + TDBUtils.QuotDt(StartDate) + ' and ' + TDBUtils.QuotDt(EndDate);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+  S := 'SELECT * FROM SUPLIER';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.SO_ByDateNoBukti(StartDate, EndDate: TDateTime;
+    aNoBuktiAwal: string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_SO_REPORT WHERE SO_DATE BETWEEN '
+  + TDBUtils.QuotDt(StartDate) + ' and ' + TDBUtils.QuotDt(EndDate)
+  + ' AND SO_NO between ' + QuotedStr(aNoBuktiAwal) + ' and ' + QuotedStr(aNoBuktiAkhir);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.SO_Test: TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+//  S := 'SELECT * FROM V_SO_REPORT';
+//  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenMemTable(S));
+
+  S := 'SELECT 1 AS CONTOH';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.Test2: OleVariant;
+begin
+  Result := VarArrayCreate([0, 2], varVariant);
+end;
+
+function TDSReport.Test: Variant;
+begin
+  Result := 'Wtf';
 end;
 
 end.

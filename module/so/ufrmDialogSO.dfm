@@ -443,13 +443,17 @@ inherited frmDialogSO: TfrmDialogSO
       end
       inherited lblCTRLP: TLabel
         Left = 639
-        ExplicitLeft = 517
+        Height = 15
+        ExplicitLeft = 639
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 704
     Top = 40
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

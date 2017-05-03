@@ -1,3 +1,6 @@
+// dipakai juga di server, karena rencana server dibebaskan dari component dx
+// jangan pasang uAppUtils disini ya.
+
 unit uDBUtils;
 
 interface
@@ -14,11 +17,12 @@ uses
   uModApp, uTSINIFile;
 
 type
-  TCDSHelper = class helper for TDataSet
+  TCDSHelper = class helper for TClientDataSet
   private
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
         = 256; IsCalculated: Boolean = False);
+    procedure LoadFromXLS(FileName: String; SheetIndex: Integer = 1);
     procedure SetFieldFrom(DestFieldName: String; SourceDataSet: TDataset;
         SourceField: String = '');
   end;
@@ -53,7 +57,7 @@ type
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject: TModApp; AID: String; ARetrieveProp:
         Boolean = False);
-    class procedure LoadByCode(AOBject : TModApp; AID : String);
+    class procedure LoadByCode(AOBject: TModApp; aCode: String);
     class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
         ARetrieveProp: Boolean = False);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
@@ -82,6 +86,9 @@ const
   SQL_Select  : String = 'Select %s from %s where %s';
 
 implementation
+
+uses
+  System.Win.ComObj;
 
 class procedure TDBUtils.Commit;
 begin
@@ -733,13 +740,13 @@ begin
   LoadFromDataset(AObject, Q, ARetrieveProp);
 end;
 
-class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
+class procedure TDBUtils.LoadByCode(AOBject: TModApp; aCode: String);
 var
   Q: TFDQuery;
   sSQL: string;
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
-    AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
+    AOBject.GetCodeField + ' = ' + QuotedStr(aCode) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
   LoadFromDataset(AObject, Q);
 end;
@@ -1028,6 +1035,52 @@ begin
       end;
   end;
 
+end;
+
+procedure TCDSHelper.LoadFromXLS(FileName: String; SheetIndex: Integer = 1);
+Var
+  XLApp, Sheet:Variant ;
+  MaxRow, MaxCol,i, j:integer ;
+  arrData:Variant;
+  sCol: string;
+begin
+
+  XLApp := CreateOleObject('excel.application');
+  XLApp.Workbooks.open(Trim(FileName)) ;
+  Try
+    Sheet  := XLApp.WorkSheets[SheetIndex] ;
+    MaxRow := Sheet.Usedrange.EntireRow.count ;
+    MaxCol := sheet.Usedrange.EntireColumn.count;
+    arrData:= Sheet.UsedRange.Value;
+    Self.FieldDefs.Clear;
+
+    for i := 1 to MaxCol do
+    begin
+      sCol := arrData[1,i];
+      sCol := StringReplace(sCol, ' ', '_', [rfReplaceAll]);
+      Self.AddField(sCol , ftString);
+    end;
+
+    Self.CreateDataSet;
+
+    for i:=2 to maxRow do
+    begin
+      Self.Append;
+      for j:=1 to maxCol do
+      begin
+        Try
+          Self.Fields[j-1].Value := arrData[i,j];
+        except
+          Raise Exception.Create('Error Baris : ' + inttostr(i)
+            +' Kolom  : ' + Self.Fields[j-1].FieldName
+          );
+        End;
+      end;
+      Self.Post;
+    end;
+  Finally
+    XLApp.Workbooks.close;
+  End;
 end;
 
 procedure TCDSHelper.SetFieldFrom(DestFieldName: String; SourceDataSet:

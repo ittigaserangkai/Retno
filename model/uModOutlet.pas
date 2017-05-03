@@ -13,6 +13,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property OUTLET_CODE: String read FOUTLET_CODE write FOUTLET_CODE;
     property OUTLET_NAME: String read FOUTLET_NAME write FOUTLET_NAME;
     property OUTLET_DESCRIPTION: String read FOUTLET_DESCRIPTION write

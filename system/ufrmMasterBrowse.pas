@@ -137,7 +137,7 @@ procedure TfrmMasterBrowse.FormShow(Sender: TObject);
 begin
   inherited;
   actRefresh.Execute;
-  Self.cxGrid.SetFocus;
+  if pgcBrowse.ActivePage = tsBrowse then Self.cxGrid.SetFocus;
 end;
 
 procedure TfrmMasterBrowse.GetAndRunButton(AButtonName: string);

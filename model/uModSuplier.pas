@@ -141,7 +141,7 @@ type
 
   TModSuplierGroup = class(TModApp)
   private
-    FGROUP_NO: String;
+    FGROUP_CODE: String;
     FGROUP_NAME: String;
     FGROUP_DESCRIPTION: String;
   public
@@ -150,7 +150,8 @@ type
     property GROUP_DESCRIPTION: String read FGROUP_DESCRIPTION write
         FGROUP_DESCRIPTION;
     property GROUP_NAME: String read FGROUP_NAME write FGROUP_NAME;
-    property GROUP_NO: String read FGROUP_NO write FGROUP_NO;
+    [AttributeOfCode]
+    property GROUP_CODE: String read FGROUP_CODE write FGROUP_CODE;
   end;
 
   TModTipeSuplier = class(TModApp)
@@ -201,6 +202,7 @@ type
     FBANK: TModBank;
     FSUPMG_BANK_ACCOUNT_NO: string;
     FSUPMG_BANK_ACCOUNT_NAME: string;
+    FSUPMG_SUB_CODE: string;
     FSUPMG_FEE: Double;
     FSUPMG_IS_PKP: Integer;
     FSUPMG_IS_ID_DIFF: Integer;
@@ -263,6 +265,7 @@ type
         FSUPMG_BANK_ACCOUNT_NO;
     property SUPMG_BANK_ACCOUNT_NAME: string read FSUPMG_BANK_ACCOUNT_NAME write
         FSUPMG_BANK_ACCOUNT_NAME;
+    property SUPMG_SUB_CODE: string read FSUPMG_SUB_CODE write FSUPMG_SUB_CODE;
     property SUPMG_FEE: Double read FSUPMG_FEE write FSUPMG_FEE;
     property SUPMG_IS_PKP: Integer read FSUPMG_IS_PKP write FSUPMG_IS_PKP;
     property SUPMG_IS_ID_DIFF: Integer read FSUPMG_IS_ID_DIFF write

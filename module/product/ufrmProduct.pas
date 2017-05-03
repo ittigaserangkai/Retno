@@ -13,7 +13,7 @@ uses
   cxDBLookupEdit, cxDBExtLookupComboBox, ufrmMasterBrowse, dxBarBuiltInMenu,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
   ufraFooter4Button, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC, Datasnap.DBClient;
 
 type
   TfrmProduct = class(TfrmMasterBrowse)
@@ -222,7 +222,7 @@ uses uTSCommonDlg,uConstanta, ufraBonusProduct, ufraAlokasiStock,
   ufraSellingPrice, ufraUOMConvertion, ufraStockCard, ufraProductSupplier,
   ufraProductTurunan, ufrmDialogProduct,
   uSpecialKey, ufraHistoriPOByProduct, uRetnoUnit,
-  udmMain, uAppUtils, uDXUtils, uDMClient;
+  udmMain, uAppUtils, uDXUtils, uDMClient, uDBUtils, uModSuplier;
 
 {$R *.dfm}
 
@@ -247,7 +247,7 @@ begin
   inherited;
   lblHeader.Caption := 'PRODUCT MASTER';
   Self.AutoRefreshData := True;
-  pgcBrowse.ActivePage := tsBrowse;
+//  pgcBrowse.ActivePage := tsBrowse;
 end;
 
 procedure TfrmProduct.GetStockUOMRP;

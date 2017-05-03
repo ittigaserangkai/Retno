@@ -61,6 +61,7 @@ type
     actAddProd: TAction;
     clQTYOrder: TcxGridDBColumn;
     procedure actAddProdExecute(Sender: TObject);
+    procedure actDeleteExecute(Sender: TObject);
     procedure actGenerateExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -77,6 +78,7 @@ type
     FModSO: TModSO;
     procedure AddOtherProduct;
     procedure ClearForm;
+    procedure DeleteData;
     procedure GenerateSO;
     function GetCDS: TClientDataSet;
     function GetModSO: TModSO;
@@ -106,6 +108,12 @@ procedure TfrmDialogSO.actAddProdExecute(Sender: TObject);
 begin
   inherited;
   AddOtherProduct;
+end;
+
+procedure TfrmDialogSO.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  DeleteData;
 end;
 
 procedure TfrmDialogSO.actGenerateExecute(Sender: TObject);
@@ -257,7 +265,6 @@ begin
   inherited;
   cxLookupSupplierMerchan.DS.Filtered := True;
   cxLookupSupplierMerchan.DS.Filter := '[REF$MERCHANDISE_ID] = ' + QuotedStr(cxLookupMerchan.EditValue);
-
 end;
 
 procedure TfrmDialogSO.cxLookupSupplierMerchanPropertiesInitPopup(
@@ -266,6 +273,38 @@ begin
   inherited;
   if VarIsNull(cxLookupMerchan.EditValue) then
     TAppUtils.Warning('Merchan Grup wajib diisi terlebih dahulu');
+end;
+
+procedure TfrmDialogSO.DeleteData;
+var
+  i: Integer;
+begin
+  if not Assigned(ModSO) then
+    Raise Exception.Create('Data not Loaded');
+
+  if ModSO.ID = '' then
+  begin
+    TAppUtils.Error('Tidak ada data yang dihapus');
+    exit;
+  end;
+
+  for i := 0 to ModSO.SODetails.Count-1 do
+  begin
+    if ModSO.SODetails[i].SOD_IS_ORDERED = 1 then
+    begin
+      TAppUtils.Error('SO sudah diproses PO , tidak bisa dihapus');
+      exit;
+    end;
+  end;
+
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModSO);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
 end;
 
 procedure TfrmDialogSO.GenerateSO;
@@ -410,7 +449,11 @@ begin
     begin
       lDetail := ModSO.SODetails[i];
 
-      lSupp := DMClient.CrudClient.RetrieveAll(TModSuplier.ClassName,
+      //how to reproduce oom :
+//      lSupp := DMClient.CrudClient.RetrieveAll(TModSuplier.ClassName,
+//        lDetail.SupplierMerchan.SUPLIER.ID) as TModSuplier;
+
+      lSupp := DMClient.CrudClient.Retrieve(TModSuplier.ClassName,
         lDetail.SupplierMerchan.SUPLIER.ID) as TModSuplier;
 
       CDS.Append;
@@ -453,6 +496,7 @@ begin
 
   Finally
     CDS.EnableControls;
+    cxGridView.ApplyBestFit();
   End;
 
 end;

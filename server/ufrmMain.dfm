@@ -5265,6 +5265,13 @@ object frmMain: TfrmMain
       Height = 13
       Caption = 'Port'
     end
+    object Label2: TLabel
+      Left = 552
+      Top = 28
+      Width = 86
+      Height = 13
+      Caption = 'Current  Sesions :'
+    end
     object edServer: TcxTextEdit
       Left = 78
       Top = 47
@@ -5397,6 +5404,16 @@ object frmMain: TfrmMain
       TabOrder = 8
       OnClick = rbTraceClick
     end
+    object spSession: TSpinEdit
+      Left = 552
+      Top = 45
+      Width = 81
+      Height = 22
+      MaxValue = 0
+      MinValue = 0
+      TabOrder = 9
+      Value = 0
+    end
   end
   object mmLog: TMemo
     Left = 0
@@ -5418,6 +5435,7 @@ object frmMain: TfrmMain
     ScrollBars = ssBoth
     TabOrder = 1
     WordWrap = False
+    OnChange = mmLogChange
   end
   object StatusBar1: TStatusBar
     Left = 0

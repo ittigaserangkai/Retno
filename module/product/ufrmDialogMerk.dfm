@@ -29,6 +29,7 @@ inherited frmDialogMerk: TfrmDialogMerk
       Caption = 'Deskripsi'
     end
     object edNama: TEdit
+      Tag = 1
       Left = 92
       Top = 36
       Width = 317
@@ -59,6 +60,7 @@ inherited frmDialogMerk: TfrmDialogMerk
       ExplicitWidth = 475
       inherited btnClose: TcxButton
         Left = 398
+        Action = actCancel
         ExplicitLeft = 398
       end
       inherited btnSave: TcxButton
@@ -68,6 +70,10 @@ inherited frmDialogMerk: TfrmDialogMerk
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+      end
+      inherited btnPrint: TcxButton
+        Left = 228
+        ExplicitLeft = 228
       end
     end
     inherited pnlSortCut: TPanel
@@ -80,6 +86,10 @@ inherited frmDialogMerk: TfrmDialogMerk
       inherited lbEscape: TLabel
         Left = 391
         ExplicitLeft = 391
+      end
+      inherited lblCTRLP: TLabel
+        Left = 224
+        ExplicitLeft = 224
       end
     end
   end

@@ -59,7 +59,7 @@ implementation
 {$R *.dfm}
 
 uses ServerMethodsUnit, ServerContainerUnit, Web.WebReq, ufrmMain,
-  System.StrUtils;
+  System.StrUtils, Datasnap.DSSession, Data.DBXPlatform;
 
 procedure TWebModuleRetno.ServerFunctionInvokerHTMLTag(Sender: TObject; Tag: TTag;
   const TagString: string; TagParams: TStrings; var ReplaceText: string);
@@ -132,6 +132,7 @@ begin
     Prefix := '[' + TimeToStr(Now()) + ']:' + '[' + ARequest.RemoteIP + ']';
     HTTPMemo.Lines.Add(Prefix + '-> ' + AnsiLeftStr(ARequest.URI,200));
     HTTPMemo.Lines.Add(Prefix + '<- ' + AnsiLeftStr(AResponse.ContentText,200));
+
   except
   End;
 end;

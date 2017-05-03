@@ -63,8 +63,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
             OptionsData.Editing = False
             OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
             OptionsView.GroupByBox = False
-            Styles.ContentEven = DMClient.cxStyleGridHeader
-            Styles.Header = DMClient.cxStyleGridEven
+            Styles.ContentEven = DMClient.cxStyleGridEven
+            Styles.Header = DMClient.cxStyleGridHeader
           end
           object cxlvMaster: TcxGridLevel
             GridView = cxGridView

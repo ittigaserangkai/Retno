@@ -252,6 +252,8 @@ type
     procedure chkPKPClick(Sender: TObject);
     procedure cxLookUpBankPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookUpBankMerPropertiesEditValueChanged(Sender: TObject);
+    procedure edtPostCodeKeyPress(Sender: TObject; var Key: Char);
+    procedure edtPostCodeMerKeyPress(Sender: TObject; var Key: Char);
 
 
   private
@@ -376,6 +378,20 @@ begin
   if cxLookUpBank.DS.Eof then exit;
   edtAlamatBank.Text := cxLookUpBank.DS.FieldByName('BANK_ADDRESS').AsString;
   edtCabangBank.Text := cxLookUpBank.DS.FieldByName('BANK_BRANCH').AsString;
+end;
+
+procedure TfrmDialogSupplier.edtPostCodeKeyPress(Sender: TObject; var Key:
+    Char);
+begin
+  inherited;
+  if not CharInSet(key,[#8,'0'..'9']) then key := #0;
+end;
+
+procedure TfrmDialogSupplier.edtPostCodeMerKeyPress(Sender: TObject; var Key:
+    Char);
+begin
+  inherited;
+  if not CharInSet(key,[#8,'0'..'9']) then key := #0;
 end;
 
 procedure TfrmDialogSupplier.FormCreate(Sender: TObject);
@@ -528,6 +544,8 @@ begin
   if CDSItems.Eof then exit;  //exit jika tidak ada record yang dipilih
 
   //isi kan form dari CDSItems, contoh :
+//  cxLookupMerchGroup.EditValue  := ModSupplier.SuplierMerchanGroups[0].MERCHANDISE_GRUP.ID;
+
 
   cxLookupMerchGroup.EditValue  := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
   cxLookupPaymentType.EditValue := CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString;
@@ -636,6 +654,8 @@ begin
 end;
 
 procedure TfrmDialogSupplier.UpdateDetail;
+var
+  lItem: TModSuplierMerchanGroup;
 begin
 
   if not ValidateDetail then
@@ -643,8 +663,15 @@ begin
 
   if IsUpdateSupplier then //jika user click grid
     CDSItems.Edit
-  else
+  else begin
+    if CDSItems.Locate('MERCHANDISE_GRUP',cxLookupMerchGroup.EditValue, []) then
+    begin
+      TAppUtils.Warning('Merchandise Group sudah ada di grid');
+      exit;
+    end;
     CDSItems.Append; //jika user klik tombol tambah
+  end;
+
 
   //isikan property ke sini , contoh :
   CDSItems.FieldByName('MERCHANDISE_GRUP').AsString   := cxLookupMerchGroup.EditValue;

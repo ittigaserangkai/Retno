@@ -4,292 +4,435 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DB, ExtCtrls, StdCtrls, Math, frxDesgn, frxClass, frxDBSet,
-  frxPreview, Vcl.ComCtrls;
+  Dialogs, ExtCtrls, StdCtrls, Math, frxDesgn, frxClass, frxDBSet,
+  frxPreview, Vcl.ComCtrls, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.Menus, dxBarBuiltInMenu,
+  Datasnap.DBClient, frxExportCSV, System.Actions, Vcl.ActnList, frxDMPExport,
+  frxExportText, frxExportHTML, frxExportPDF, frxExportMail, frxExportXLS,
+  dxStatusBar, cxPC, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxButtons,
+  cxGroupBox, Data.DB, Datasnap.DSClientRest, Datasnap.DSProxyRest,
+  Data.FireDACJSONReflect, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, uClientClasses,
+  uDMClient, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin;
 
 type
-  TdmReport = class(TForm)
-    frDBDataSet2: TfrxDBDataSet;
-    frDBDataSet1: TfrxDBDataSet;
-    frReport1: TfrxReport;
-    frDesigner1: TfrxDesigner;
-    TePageControl1: TPageControl;
-    TeTabSheet1: TTabSheet;
-    TeTabSheet2: TTabSheet;
-    TePanel1: TPanel;
-    frPreview1: TfrxPreview;
-    bCetak: TButton;
-    bTutup: TButton;
-    mmo: TMemo;
-    dsTemp: TDataSource;
-    procedure bTutupClick(Sender: TObject);
-    procedure bCetakClick(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
+  TDMReport = class(TForm)
+    TePanel1: TcxGroupBox;
+    bCetak: TcxButton;
+    bTutup: TcxButton;
+    btnExportAs: TcxButton;
+    bDesign: TcxButton;
+    cbFileType: TcxComboBox;
+    btnPrev: TcxButton;
+    btnNext: TcxButton;
+    btnZoomOut: TcxButton;
+    btnZoomIn: TcxButton;
+    btnFind: TcxButton;
+    cbZoom: TcxComboBox;
+    btnFastPrint: TcxButton;
+    pgcReport: TcxPageControl;
+    tsDotMatrix: TcxTabSheet;
+    frxPreview2: TfrxPreview;
+    tsGraphic: TcxTabSheet;
+    frxPreview1: TfrxPreview;
+    pnStatusBar: TdxStatusBar;
+    frxReport1: TfrxReport;
+    frxReport2: TfrxReport;
+    IBQ1: TfrxDBDataset;
+    IBQ2: TfrxDBDataset;
+    exExcel: TfrxXLSExport;
+    exEmail: TfrxMailExport;
+    exPDF: TfrxPDFExport;
+    exHTML: TfrxHTMLExport;
+    exText: TfrxSimpleTextExport;
+    frxDMexport: TfrxDotMatrixExport;
+    actList: TActionList;
+    actPrintClose: TAction;
+    actPrintDlg: TAction;
+    actSwitchTab: TAction;
+    actClose: TAction;
+    exCSV: TfrxCSVExport;
+    FDMemTable1: TFDMemTable;
+    FDMemTable2: TFDMemTable;
+    FDStanStorageBinLink1: TFDStanStorageBinLink;
+    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
+    procedure actCloseExecute(Sender: TObject);
+    procedure actPrintCloseExecute(Sender: TObject);
+    procedure actPrintDlgExecute(Sender: TObject);
+    procedure actSwitchTabExecute(Sender: TObject);
+    procedure bDesignClick(Sender: TObject);
+    procedure btnExportAsClick(Sender: TObject);
+    procedure btnFindClick(Sender: TObject);
+    procedure btnNextClick(Sender: TObject);
+    procedure btnPrevClick(Sender: TObject);
+    procedure btnZoomInClick(Sender: TObject);
+    procedure btnZoomOutClick(Sender: TObject);
+    procedure cbZoomPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta:
+        Integer; MousePos: TPoint; var Handled: Boolean);
+    procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos:
+        TPoint; var Handled: Boolean);
+    procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos:
+        TPoint; var Handled: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure frxPreview1PageChanged(Sender: TfrxPreview; PageNo: Integer);
+    procedure frxPreview2PageChanged(Sender: TfrxPreview; PageNo: Integer);
+    procedure pgcReportChange(Sender: TObject);
+    procedure pgcReportClick(Sender: TObject);
+    procedure pnStatusBarClick(Sender: TObject);
+    procedure TePanel1Click(Sender: TObject);
   private
-    FLstData: TStrings;
+    FBisaDesignReport: Boolean;
+    FRealName: string;
+    FReportClient: TDSReportClient;
+    FReportName: string;
+    FReportPath: string;
+    FTanggalCetak: string;
     { Private declarations }
-    sbaris : Integer;
-    FTextReportFile: string;
-    procedure SetBfrPrintPakaiBarcode;
+//    FTextReportFile: string;
+    FUserName: string;
+    function FocusedPreview: TfrxPreview;
+    function FocusedReport: TfrxReport;
+    function GetReportClient: TDSReportClient;
+    procedure PrintReport(WithDialog: Boolean);
+    procedure SetCBZoom;
+    procedure SetReportPath(const Value: string);
   public
-    procedure cetakpo;
-    procedure EksekusiReport(aReportName, aMainSQL : String; aSecondarySQL : String
-        = ''; AisTextReport  : Boolean = False; AFontSize : Integer = 8; aCmdTy:
-        integer = 0; aBrsPo: integer = 0);
+    procedure AddReportVariable(AVariableName: String; AVariableValue: String);
+    procedure ExecuteReport(aReportName: String; aListDataset: TFDJSONDataSets);
+        overload;
     function IsBisaDesignReport: Boolean;
-    procedure kOpenQuery(var aQry: TDataset; aSQL: string);
-    property LstData: TStrings read FLstData write FLstData;
+    property BisaDesignReport: Boolean read FBisaDesignReport write
+        FBisaDesignReport;
+    property RealName: string read FRealName write FRealName;
+    property ReportClient: TDSReportClient read GetReportClient write FReportClient;
+    property ReportPath: string read FReportPath write SetReportPath;
+    property TanggalCetak: string read FTanggalCetak write FTanggalCetak;
+    property UserName: string read FUserName write FUserName;
     { Public declarations }
   end;
 
+
 var
-  dmReport: TdmReport;
+  DMReport: TDMReport;
 
 implementation
 
-Uses uRetnoUnit, uTSCommonDlg, udmMain, HPHelp, StrUtils, uAppUtils;
+uses
+  uAppUtils, Data.SqlExpr, System.StrUtils;
+
 
 {$R *.dfm}
 
-procedure TdmReport.EksekusiReport(aReportName, aMainSQL : String;
-    aSecondarySQL : String = ''; AisTextReport  : Boolean = False; AFontSize :
-    Integer = 8; aCmdTy: integer = 0; aBrsPo: integer = 0);
-var
-  sReportFile: string;
-begin
-  sbaris := aBrsPo;
-  FormatSettings.DecimalSeparator := '.';
-  FormatSettings.ThousandSeparator := ',';
-
-  mmo.Lines.Clear;
-  frPreview1.Clear;
-
-  sReportFile := GetReportPath + aReportName + '.frf';
-
-//  kOpenQuery(IBQ1, aMainSQL);
-
-  if trim(aSecondarySQL) <> '' then  // kalo query 2 ada
-  begin
-//    kOpenQuery(IBQ2, aSecondarySQL);
-  end;
-
-
-  if IsBisaDesignReport then
-  begin
-    if not frReport1.LoadFromFile(sReportFile) then
-    begin
-      frReport1.FileName := sReportFile;
-      frReport1.DesignReport;
-    end
-    else
-    begin
-      if (CommonDlg.Confirm('Anda Punya Hak Untuk Mendesain Table' + #13 + 'Apakah Anda Akan Melakukan Desain Laporan?') = mrYES) then
-      begin
-        frReport1.FileName := sReportFile;
-        frReport1.DesignReport;
-      end else
-      begin
-        if aCmdTy = 0  then
-        begin
-
-        end
-        else if aCmdTy = 1 then
-        begin
-          SetBfrPrintPakaiBarcode;
-        end;
-
-        frReport1.PrepareReport;
-
-        if AisTextReport then
-        begin
-          try
-            FTextReportFile       := TAppUtils.GetAppPath + aReportName + '.txt'; // StringReplace(sReportFile,ExtractFileExt(sReportFile),'.txt',[rfReplaceAll]);
-            mmo.Lines.LoadFromFile(FTextReportFile);
-            mmo.Font.Size         := AFontSize;
-            TePageControl1.ActivePageIndex := 0;
-            ShowModal;
-          finally
-            if FileExists(FTextReportFile) then
-              DeleteFile(FTextReportFile);
-          end;
-        end  else begin
-          frReport1.Preview := frPreview1;
-          frReport1.ShowReport;
-          TePageControl1.ActivePageIndex := 1;
-          ShowModal;
-        end;
-      end;
-    end;
-  end;
-
-
-end;
-
-function TdmReport.IsBisaDesignReport: Boolean;
-begin
-  // TODO -cMM: TDataModule1.IsBisaDesignReport default body inserted
-  Result := True;
-end;
-
-procedure TdmReport.kOpenQuery(var aQry: TDataset; aSQL: string);
-begin
-  // TODO -cMM: TdmReportNew.kOpenQuery default body inserted
-    {if not Assigned(aQry.Connection) then
-    begin
-         aQry.Connection:= dmMain.connGoro;
-    end;
-
-    if not Assigned(aQry.Transaction) then
-    begin
-         aQry.Transaction:= dmMain.transGoro;
-    end;
-
-    aQry.SQL.Clear;
-    aQry.SQL.add(Asql);
-    try
-      aQry.open;
-    except
-          raise;
-    end;
-    }
-end;
-
-procedure TdmReport.bTutupClick(Sender: TObject);
+procedure TDMReport.actCloseExecute(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TdmReport.bCetakClick(Sender: TObject);
-
-
+procedure TDMReport.actPrintCloseExecute(Sender: TObject);
 begin
-  if TePageControl1.TabIndex = 1 then
-    frReport1.ShowReport //PreparedReportDlg
+  PrintReport(False);
+  Close;
+end;
+
+procedure TDMReport.actPrintDlgExecute(Sender: TObject);
+begin
+  PrintReport(True);
+end;
+
+procedure TDMReport.actSwitchTabExecute(Sender: TObject);
+begin
+  If pgcReport.ActivePage = tsDotMatrix then
+    pgcReport.ActivePage := tsGraphic
   else
+    pgcReport.ActivePage := tsDotMatrix
+end;
+
+procedure TDMReport.AddReportVariable(AVariableName: String; AVariableValue:
+    String);
+begin
+  frxGlobalVariables[AVariableName] := AVariableValue;
+end;
+
+procedure TDMReport.bDesignClick(Sender: TObject);
+begin
+  If not IsBisaDesignReport then
   begin
-    if  sbaris > 0 then
-      cetakpo()
+    TAppUtils.Warning('Anda tidak memiliki hak untuk design report');
+    Exit;
+  end;
+
+  FocusedReport.DesignReport;
+  FocusedReport.PrepareReport;
+end;
+
+procedure TDMReport.btnExportAsClick(Sender: TObject);
+begin
+  case cbFileType.ItemIndex of
+    0 : FocusedReport.Export(exText);
+    1 : FocusedReport.Export(exExcel);
+    2 : FocusedReport.Export(exPDF);
+    3 : FocusedReport.Export(exHTML);
+    4 : FocusedReport.Export(exEmail);
+  end;
+  FocusedReport.ShowReport;
+end;
+
+procedure TDMReport.btnFindClick(Sender: TObject);
+begin
+  FocusedPreview.Find;
+end;
+
+procedure TDMReport.btnNextClick(Sender: TObject);
+begin
+  FocusedPreview.Next;
+end;
+
+procedure TDMReport.btnPrevClick(Sender: TObject);
+begin
+  FocusedPreview.Prior;
+end;
+
+procedure TDMReport.btnZoomInClick(Sender: TObject);
+begin
+  FocusedPreview.Zoom :=  FocusedPreview.Zoom + 0.25;
+  SetCBZoom;
+end;
+
+procedure TDMReport.btnZoomOutClick(Sender: TObject);
+begin
+  FocusedPreview.Zoom :=  FocusedPreview.Zoom - 0.25;
+  SetCBZoom;
+end;
+
+procedure TDMReport.cbZoomPropertiesChange(Sender: TObject);
+var
+  lFac: Double;
+begin
+  TryStrToFloat(StringReplace(cbZoom.Text , '%', '', [rfReplaceAll]), lFac);
+  If lFac > 0 then
+    FocusedPreview.Zoom := (lFac/100);
+end;
+
+procedure TDMReport.ExecuteReport(aReportName: String; aListDataset:
+    TFDJSONDataSets);
+var
+  sTextReportFile: string;
+//  sSQL: string;
+  sReportFile: string;
+  AisTextReport : Boolean;
+  dsCount: Integer;
+//  FilterState1, FilterState2 : -> kalau besuk butuh filtering , smntara tutup sik
+  Filter1, Filter2 : String;
+  lCDS: TClientDataSet;
+begin
+  frxPreview1.Clear;
+  frxPreview2.Clear;
+//
+//  Filter1 := '';
+//  Filter2 := '';
+
+  FReportName := aReportName;
+  sReportFile := Self.ReportPath + '\' + FReportName + '.fr3';
+  sTextReportFile := Self.ReportPath + '\' + FReportName + '_txt.fr3';
+
+  //tambahakan variabel report disini, sementara hardcoded dulu
+  frxGlobalVariables['COMP'] := 'Goro Assalaam';
+
+  frxGlobalVariables['USERNAME']    := UserName;
+  frxGlobalVariables['REALNAME']    := RealName;
+  frxGlobalVariables['TGLCETAK']    := FormatDateTime('yyyy/mm/dd hh:mm:ss',Now());
+
+  dsCount := TFDJSONDataSetsReader.GetListCount(aListDataset);
+
+  if dsCount = 0 then
+    Raise Exception.Create('Empty Dataset');
+
+  FDMemTable1.Close;
+  FDMemTable2.Close;
+
+
+  FDMemTable1.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 0));
+  FDMemTable1.Open;
+
+  if dsCount > 1 then   //sementara 2 dataset dulu gan..
+  begin
+    FDMemTable2.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 1));
+    FDMemTable2.Open;
+  end;
+
+  frxReport1.FileName := sReportFile;
+  frxReport2.FileName := sTextReportFile;
+
+  //override true
+  if FileExists(sTextReportFile) then
+    AisTextReport := True
+  else
+    AisTextReport := False;
+
+  frxReport1.DataSets.Clear;
+  if (not frxReport1.LoadFromFile(sReportFile)) and (not AisTextReport) then
+  begin
+    If frxReport1.DataSets.Count=0 then
+      frxReport1.DataSets.Add(Self.ibq1);
+    frxReport2.ShowReport;
+    pgcReport.ActivePage := tsDotMatrix;
+    ShowModal;
+//    frxReport1.DesignReport;
+  end else begin
+    frxReport2.LoadFromFile(frxReport2.FileName);
+
+    If frxReport1.DataSets.Count=0 then
+      frxReport1.DataSets.Add(Self.ibq1);
+
+    frxReport1.PrepareReport;
+    frxReport2.PrepareReport;
+    frxReport1.ShowReport;
+    frxReport2.ShowReport;
+    if AisTextReport then
+      pgcReport.ActivePage := tsDotMatrix
     else
-      PrintFile(FTextReportFile);
+      pgcReport.ActivePage := tsGraphic;
+    ShowModal;
   end;
 end;
 
-// procedure baru .. zainal
-procedure TdmReport.cetakpo;
+function TDMReport.FocusedPreview: TfrxPreview;
+begin
+  if pgcReport.ActivePage = tsDotMatrix then
+    Result := frxPreview2
+  else
+    Result := frxPreview1;
+end;
+
+function TDMReport.FocusedReport: TfrxReport;
+begin
+  if pgcReport.ActivePage = tsDotMatrix then
+    Result := frxReport2
+  else
+    Result := frxReport1;
+end;
+
+procedure TDMReport.FormCreate(Sender: TObject);
+begin
+  BisaDesignReport := True;
+  ReportPath := TAppUtils.GetAppPath;
+end;
+
+procedure TDMReport.FormMouseWheel(Sender: TObject; Shift: TShiftState;
+    WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+begin
+  FocusedPreview.MouseWheelScroll(WheelDelta);
+end;
+
+procedure TDMReport.FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
+    MousePos: TPoint; var Handled: Boolean);
+begin
+  if ssCtrl in Shift then
+  begin
+    FocusedPreview.Zoom :=  FocusedPreview.Zoom - 0.1;
+    SetCBZoom;
+  end;
+end;
+
+procedure TDMReport.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
+    MousePos: TPoint; var Handled: Boolean);
+begin
+  if ssCtrl in Shift then
+  begin
+    FocusedPreview.Zoom :=  FocusedPreview.Zoom + 0.1;
+    SetCBZoom;
+  end;
+end;
+
+procedure TDMReport.FormShow(Sender: TObject);
+begin
+  FocusedPreview.SetFocus;
+end;
+
+procedure TDMReport.frxPreview1PageChanged(Sender: TfrxPreview; PageNo:
+    Integer);
+begin
+  If FocusedPreview = Sender then
+    pnStatusBar.Panels[0].Text := 'Page ' +  Inttostr(PageNo) + ' of '
+                          + Inttostr(Sender.PageCount) + '   ';
+end;
+
+procedure TDMReport.frxPreview2PageChanged(Sender: TfrxPreview; PageNo:
+    Integer);
+begin
+  If FocusedPreview = Sender then
+    pnStatusBar.Panels[0].Text := 'Page ' + Inttostr(PageNo) + ' of '
+                          + Inttostr(Sender.PageCount) + '   ';
+
+end;
+
+function TDMReport.GetReportClient: TDSReportClient;
+begin
+  if not Assigned(FReportClient) then
+    FReportClient := TDSReportClient.Create(DMClient.RestConn, False);
+  Result := FReportClient;
+end;
+
+function TDMReport.IsBisaDesignReport: Boolean;
+begin
+  Result := True;
+//  Result := gv.HasAuthority('designreport');
+end;
+
+procedure TDMReport.pgcReportChange(Sender: TObject);
+begin
+  //FocusedPreview.SetFocus;
+end;
+
+procedure TDMReport.pgcReportClick(Sender: TObject);
+begin
+  FocusedPreview.SetFocus;
+end;
+
+procedure TDMReport.pnStatusBarClick(Sender: TObject);
+begin
+  FocusedPreview.SetFocus;
+end;
+
+procedure TDMReport.PrintReport(WithDialog: Boolean);
+begin
+  FocusedReport.PrintOptions.ShowDialog := WithDialog;
+  frxDMexport.ShowDialog := WithDialog;
+  If FocusedReport = frxReport1 then
+    FocusedReport.Print
+  else
+    FocusedReport.Export(frxDMexport);
+
+  FocusedReport.ShowReport;
+end;
+
+procedure TDMReport.SetCBZoom;
 var
-  i      : Integer ;
-  Myfile : TextFile ;
-  s      : string;
-  f      : Textfile;
+  lChange: TNotifyEvent;
 begin
+  lChange := cbZoom.Properties.OnChange;
+  cbZoom.Properties.OnChange := nil;
 
-    AssignFile(Myfile,'c:\cetakpo.txt');
-    Rewrite(MyFile);
-
-     // setting font kecil
-    Write(myfile,chr(27));
-    write(myfile,chr(33));
-    writeln(myfile,chr(5));
-
-    // line spacing
-    Write(myfile,chr(27));
-    write(myfile,chr(51));
-    writeln(myfile,chr(22));
-
-    // kursor eject
-    Write(myfile,chr(27));
-    write(myfile,chr(67));
-    writeln(myfile,chr(sbaris));
-
-       for i:=0  to mmo.Lines.Count -1 do
-       begin
-          s := mmo.Lines[i];
-          if (LeftStr(Trim(s),8) = 'PT. TIGA') and (i <> mmo.Lines.Count-2) and (i <> 0) then
-          begin
-             Writeln(myfile,chr(12));
-          end;
-           Writeln(MyFile,s);
-       end;
-
-       // mengembalikan line spacing
-       write(myfile,chr(27));
-       writeln(myfile,chr(50));
-
-       // mengembalikan eject
-       write(myfile,chr(27));
-       writeln(myfile,chr(66));
-
-   System.CloseFile(MyFile);
-
-
-  // cetak di dos prompt
-    AssignFile(f, 'c:\cetak.bat');
-    ReWrite(f);
-    Writeln(f, 'type c:\cetakpo.txt >> lpt1 ');
-    Writeln(f, 'del c:\cetak.bat');
-    Writeln(f, 'del c:\cetakpo.txt');
-    Closefile(f); 
-    WinExec('c:\cetak.bat',SW_HIDE);
+  cbZoom.Text := FloatToStr(FocusedPreview.Zoom * 100) + '%';
+  cbZoom.Properties.OnChange := lChange;
 
 end;
 
-procedure TdmReport.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TDMReport.SetReportPath(const Value: string);
 begin
-  if Key = VK_ESCAPE then
-    Close;
+  FReportPath := Value;
+  if RightStr(FReportPath,1) <> '\' then
+  begin
+    FReportPath := FReportPath + '\';
+  end;
 end;
 
-procedure TdmReport.FormShow(Sender: TObject);
+procedure TDMReport.TePanel1Click(Sender: TObject);
 begin
-  bCetak.SetFocus;
-end;
-
-procedure TdmReport.FormCreate(Sender: TObject);
-begin
-  FormatSettings.DecimalSeparator := '.';
-  FormatSettings.ThousandSeparator := ',';
-  FLstData := TStringList.Create;
-end;
-
-procedure TdmReport.SetBfrPrintPakaiBarcode;
-var
-  aX: Integer;
-  iLenDelta: Integer;
-  aVisible: Boolean;
-  iLenTgl: Integer;
-  iLenItem: Integer;
-  iMaxTgl: Integer;
-  i: Integer;
-begin
-      iMaxTgl   := StrToInt(FLstData.Strings[0]);
-      iLenTgl   := StrToInt(FLstData.Strings[1]);
-      aX        := StrToInt(FLstData.Strings[2]);
-      iLenItem  := Floor(iLenTgl / (iMaxTgl - 1));
-      for i := 1 to 31  do  //maksimal jumlah tanggal dalam 1 bln
-      begin
-        if i > iMaxTgl then
-          aVisible  := False
-        else
-          aVisible  := True;
-
-        if i = iMaxTgl then
-        begin
-          iLenDelta := iLenTgl - (i * iLenItem);
-        end
-        else
-          iLenDelta := 0;
- 
-      end;
-end;
-
-procedure TdmReport.FormDestroy(Sender: TObject);
-begin
-  FreeAndNil(FLstData);
+  FocusedPreview.SetFocus;
 end;
 
 end.

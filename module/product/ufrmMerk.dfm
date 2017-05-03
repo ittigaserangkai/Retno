@@ -19,8 +19,6 @@ inherited frmMerk: TfrmMerk
       ClientRectBottom = 258
       ClientRectRight = 628
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
         ExplicitWidth = 627
         ExplicitHeight = 257
         inherited cxGrid: TcxGrid
@@ -43,12 +41,10 @@ inherited frmMerk: TfrmMerk
     inherited dtAwalFilter: TcxDateEdit
       Left = 358
       ExplicitLeft = 358
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 474
       ExplicitLeft = 474
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 569
@@ -73,7 +69,6 @@ inherited frmMerk: TfrmMerk
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        OnClick = btnUpdateClick
       end
       inherited btnPrint: TcxButton
         Action = actPrint
@@ -92,7 +87,6 @@ inherited frmMerk: TfrmMerk
       ExplicitWidth = 651
       inherited lbEscape: TLabel
         Left = 577
-        Height = 17
         ExplicitLeft = 577
       end
     end
@@ -100,6 +94,9 @@ inherited frmMerk: TfrmMerk
   inherited actlstBrowse: TActionList
     inherited actAdd: TAction
       OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

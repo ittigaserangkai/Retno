@@ -1115,6 +1115,12 @@ begin
     if C is TMaskEdit then
       if not Assigned(TMaskEdit(C).OnKeyDown) then
         TMaskEdit(C).OnKeyDown := OnKeyEnter;
+    if C is TcxSpinEdit then
+      if not Assigned(TcxSpinEdit(C).OnKeyDown) then
+        TcxSpinEdit(C).OnKeyDown := OnKeyEnter;
+    if C is TcxExtLookupComboBox then
+      if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
+        TcxExtLookupComboBox(C).OnKeyDown := OnKeyEnter;
 
 
     //------ devexpress ---------//

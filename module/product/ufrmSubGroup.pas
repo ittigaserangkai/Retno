@@ -51,7 +51,7 @@ end;
 procedure TfrmSubGroup.RefreshData;
 begin
   inherited;
-  cxGridView.LoadFromDS(DMClient.DSProviderClient.SubGroup_GetDSLookup, Self);
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.SubGroup_GetDSOverview, Self);
   cxGridView.SetVisibleColumns(['Ref$Sub_Grup_ID','Ref$Merchandise_Grup_ID'], False);
 end;
 

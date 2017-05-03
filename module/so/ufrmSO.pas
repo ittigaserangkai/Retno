@@ -18,6 +18,7 @@ type
   TfrmSO = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -34,7 +35,7 @@ var
 
 implementation
 uses
-  System.DateUtils;
+  System.DateUtils, uDMReport, uClientClasses;
 
 
 {$R *.dfm}
@@ -55,6 +56,21 @@ procedure TfrmSO.actEditExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogSO, CDS.FieldByName('SO_ID').AsString);
+end;
+
+procedure TfrmSO.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+
+  with dmReport do
+  begin
+    ExecuteReport( 'Slip_SO' ,
+      ReportClient.SO_ByDateNoBukti(
+      dtAwalFilter.Date, dtAkhirFilter.Date,
+      CDS.FieldByName('SO_NO').AsString, CDS.FieldByName('SO_NO').AsString)
+    );
+  end;
+
 end;
 
 procedure TfrmSO.RefreshData;

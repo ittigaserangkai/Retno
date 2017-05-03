@@ -243,7 +243,7 @@ end;
 procedure TfrmDialogProductType.FormCreate(Sender: TObject);
 begin
   inherited;
-//  Self.AssignKeyDownEvent;
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogProductType.FormDestroy(Sender: TObject);
