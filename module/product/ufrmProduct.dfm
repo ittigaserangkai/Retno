@@ -6,7 +6,6 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 926
   KeyPreview = True
   OldCreateOrder = True
-  ExplicitTop = -143
   ExplicitWidth = 942
   ExplicitHeight = 629
   PixelsPerInch = 96
@@ -14,15 +13,15 @@ inherited frmProduct: TfrmProduct
   inherited pnlBody: TPanel
     Width = 926
     Height = 501
-    ExplicitTop = 35
-    ExplicitWidth = 924
+    ExplicitWidth = 926
     ExplicitHeight = 501
     inherited pgcBrowse: TcxPageControl
       Width = 904
       Height = 479
-      Properties.ActivePage = tsImport
       Properties.HideTabs = False
-      ExplicitWidth = 902
+      ExplicitLeft = 6
+      ExplicitTop = 16
+      ExplicitWidth = 904
       ExplicitHeight = 479
       ClientRectBottom = 478
       ClientRectRight = 903
@@ -30,19 +29,19 @@ inherited frmProduct: TfrmProduct
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
         ExplicitTop = 24
-        ExplicitWidth = 900
+        ExplicitWidth = 902
         ExplicitHeight = 454
         inherited cxGrid: TcxGrid
           Width = 902
           Height = 454
-          ExplicitWidth = 900
+          ExplicitWidth = 902
           ExplicitHeight = 454
         end
       end
       object tsProductInfo: TcxTabSheet
         Caption = 'Product Info'
         ImageIndex = 1
-        ExplicitWidth = 900
+        TabVisible = False
         object dxNavBarLeftSide: TdxNavBar
           Left = 0
           Top = 0
@@ -105,7 +104,6 @@ inherited frmProduct: TfrmProduct
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          ExplicitWidth = 740
           object lblCompanyCode: TLabel
             Left = 684
             Top = 7
@@ -1258,121 +1256,31 @@ inherited frmProduct: TfrmProduct
           end
         end
       end
-      object tsImport: TcxTabSheet
-        Caption = 'Import From XLS'
-        ImageIndex = 2
-        ExplicitWidth = 900
-        object cxGrid1: TcxGrid
-          Left = 0
-          Top = 33
-          Width = 902
-          Height = 421
-          Align = alClient
-          TabOrder = 0
-          LockedStateImageOptions.Text = 'Mohon ditunggu...'
-          LookAndFeel.NativeStyle = False
-          ExplicitLeft = 16
-          ExplicitTop = 160
-          ExplicitWidth = 900
-          ExplicitHeight = 366
-          object cxGrdXLS: TcxGridDBTableView
-            Navigator.Buttons.CustomButtons = <>
-            FindPanel.DisplayMode = fpdmManual
-            FindPanel.InfoText = 'ketik teks yang dicari...'
-            DataController.Filter.Options = [fcoCaseInsensitive]
-            DataController.Summary.DefaultGroupSummaryItems = <>
-            DataController.Summary.FooterSummaryItems = <>
-            DataController.Summary.SummaryGroups = <>
-            DataController.OnDetailExpanded = cxGridViewDataControllerDetailExpanded
-            FilterRow.InfoText = 
-              'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
-              'er'
-            FilterRow.Visible = True
-            FilterRow.ApplyChanges = fracDelayed
-            NewItemRow.InfoText = 'Baris baru'
-            OptionsData.Editing = False
-            OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
-            Styles.ContentEven = DMClient.cxStyleGridEven
-            Styles.Header = DMClient.cxStyleGridHeader
-          end
-          object cxGridLevel1: TcxGridLevel
-            GridView = cxGrdXLS
-          end
-        end
-        object Panel1: TPanel
-          Left = 0
-          Top = 0
-          Width = 902
-          Height = 33
-          Align = alTop
-          BevelOuter = bvNone
-          Color = 14079702
-          TabOrder = 1
-          ExplicitTop = 8
-          ExplicitWidth = 900
-          object btnImport: TcxButton
-            AlignWithMargins = True
-            Left = 770
-            Top = 2
-            Width = 129
-            Height = 29
-            Cursor = crHandPoint
-            Margins.Top = 2
-            Margins.Bottom = 2
-            Align = alRight
-            Caption = '&Import From XLS'
-            OptionsImage.ImageIndex = 34
-            OptionsImage.Images = DMClient.imgListButton
-            TabOrder = 0
-            OnClick = btnImportClick
-            ExplicitLeft = 768
-          end
-          object edFileName: TcxButtonEdit
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Align = alClient
-            Properties.Buttons = <
-              item
-                Default = True
-                Kind = bkEllipsis
-              end>
-            Properties.OnButtonClick = btnImportPropertiesButtonClick
-            TabOrder = 1
-            Text = 'D:\Products - Copy.xlsx'
-            ExplicitLeft = 272
-            ExplicitTop = 16
-            ExplicitWidth = 121
-            ExplicitHeight = 24
-            Width = 761
-          end
-        end
-      end
     end
   end
   inherited pnlHeader: TPanel
     Width = 926
-    ExplicitWidth = 924
+    ExplicitWidth = 926
     inherited lblFilterData: TcxLabel
       Left = 572
-      ExplicitLeft = 570
+      ExplicitLeft = 572
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 633
-      ExplicitLeft = 631
+      ExplicitLeft = 633
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 749
-      ExplicitLeft = 747
+      ExplicitLeft = 749
     end
     inherited btnSearch: TcxButton
       Left = 844
-      ExplicitLeft = 842
+      ExplicitLeft = 844
     end
     inherited lblsdFilter: TcxLabel
       Left = 725
-      ExplicitLeft = 723
+      ExplicitLeft = 725
       AnchorY = 17
     end
   end
@@ -1380,10 +1288,10 @@ inherited frmProduct: TfrmProduct
     Top = 534
     Width = 926
     ExplicitTop = 534
-    ExplicitWidth = 924
+    ExplicitWidth = 926
     inherited pnlFooter: TPanel
       Width = 926
-      ExplicitWidth = 924
+      ExplicitWidth = 926
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -1396,7 +1304,7 @@ inherited frmProduct: TfrmProduct
       inherited btnClose: TcxButton
         Left = 849
         Action = actClose
-        ExplicitLeft = 847
+        ExplicitLeft = 849
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -1404,10 +1312,11 @@ inherited frmProduct: TfrmProduct
     end
     inherited pnlShortCut: TPanel
       Width = 926
-      ExplicitWidth = 924
+      ExplicitWidth = 926
       inherited lbEscape: TLabel
         Left = 852
-        ExplicitLeft = 850
+        Height = 17
+        ExplicitLeft = 852
       end
     end
   end
@@ -1473,10 +1382,5 @@ inherited frmProduct: TfrmProduct
       Caption = 'actProductTurunan'
       OnExecute = actProductTurunanExecute
     end
-  end
-  object OpDialog: TOpenDialog
-    Filter = 'Excel 2007 above|*.xlsx'
-    Left = 771
-    Top = 164
   end
 end

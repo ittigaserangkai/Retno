@@ -449,7 +449,11 @@ begin
     begin
       lDetail := ModSO.SODetails[i];
 
-      lSupp := DMClient.CrudClient.RetrieveAll(TModSuplier.ClassName,
+      //how to reproduce oom :
+//      lSupp := DMClient.CrudClient.RetrieveAll(TModSuplier.ClassName,
+//        lDetail.SupplierMerchan.SUPLIER.ID) as TModSuplier;
+
+      lSupp := DMClient.CrudClient.Retrieve(TModSuplier.ClassName,
         lDetail.SupplierMerchan.SUPLIER.ID) as TModSuplier;
 
       CDS.Append;

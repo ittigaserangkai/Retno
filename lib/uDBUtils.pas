@@ -57,7 +57,7 @@ type
     class function GetNextIDGUIDToString: string;
     class procedure LoadFromDB(AOBject: TModApp; AID: String; ARetrieveProp:
         Boolean = False);
-    class procedure LoadByCode(AOBject : TModApp; AID : String);
+    class procedure LoadByCode(AOBject: TModApp; aCode: String);
     class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
         ARetrieveProp: Boolean = False);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
@@ -740,13 +740,13 @@ begin
   LoadFromDataset(AObject, Q, ARetrieveProp);
 end;
 
-class procedure TDBUtils.LoadByCode(AOBject : TModApp; AID : String);
+class procedure TDBUtils.LoadByCode(AOBject: TModApp; aCode: String);
 var
   Q: TFDQuery;
   sSQL: string;
 begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
-    AOBject.GetCodeField + ' = ' + QuotedStr(AOBject.GetCodeValue) ]);
+    AOBject.GetCodeField + ' = ' + QuotedStr(aCode) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
   LoadFromDataset(AObject, Q);
 end;

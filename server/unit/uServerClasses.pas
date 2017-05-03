@@ -8,12 +8,17 @@ uses
 
 type
   {$METHODINFO ON}
+  TBaseServerClass = class(TComponent)
+  public
+    procedure AfterExecuteMethod;
+  end;
+
   TTestMethod = class(TComponent)
   public
     function Hallo(aTanggal: TDateTime): String;
   end;
 
-  TCrud = class(TComponent)
+  TCrud = class(TBaseServerClass)
   private
     function StringToClass(ModClassName: string): TModAppClass;
     function ValidateCode(AOBject: TModApp): Boolean;
@@ -29,6 +34,7 @@ type
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
+    function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
     function RetrieveAll(ModClassName, AID: string): TModApp; overload;
     function RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
@@ -36,13 +42,13 @@ type
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
 
-  TSuggestionOrder = class(TComponent)
+  TSuggestionOrder = class(TBaseServerClass)
   public
     function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
         aSupplierMerchan_ID: String = ''): TDataSet;
   end;
 
-  TPurchaseOrder = class(TComponent)
+  TPurchaseOrder = class(TBaseServerClass)
   public
     function GeneratePO(ANO_SO : String; ASupMG : TModSuplierMerchanGroup): Boolean;
   end;
@@ -52,12 +58,17 @@ type
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
-  {$METHODINFO OFF}
+
+
+{$METHODINFO OFF}
+
+const
+  CloseSession : Boolean = True;
 
 implementation
 
 uses
-  System.Generics.Collections;
+  System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -94,7 +105,9 @@ begin
       raise;
     End;
   Finally
+//    AObject.Free;
     lSS.Free;
+    AfterExecuteMethod;
   End;
 end;
 
@@ -115,12 +128,14 @@ begin
     End;
   Finally
     lSS.Free;
+    AfterExecuteMethod;
   End;
 end;
 
 function TCrud.OpenQuery(S: string): TDataSet;
 begin
   Result := TDBUtils.OpenQuery(S);
+  AfterExecuteMethod;
 end;
 
 function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String): TModApp;
@@ -137,6 +152,7 @@ begin
   If not Assigned(lClass) then
     Raise Exception.Create('Class ' + ModClassName + ' not found');
   Result := Self.Retrieve(lClass, AID);
+  AfterExecuteMethod;
 end;
 
 function TCrud.GenerateCustomNo(aTableName, aFieldName: string; aCountDigit:
@@ -161,6 +177,8 @@ begin
   Result := IntToStr(lNum);
   for i := 0 to aCountDigit-1 do Result := '0' + Result;
   Result := RightStr(Result, aCountDigit);
+
+  AfterExecuteMethod;
 end;
 
 function TCrud.GenerateNo(aClassName: string): String;
@@ -173,8 +191,22 @@ begin
   Try
     Result := Self.GenerateCustomNo(lObj.GetTableName, lObj.GetCodeField, 11);
   Finally
+    AfterExecuteMethod;
     lObj.Free;
   End;
+end;
+
+function TCrud.RetrieveByCode(ModClassName, aCode: string): TModApp;
+var
+  lClass: TModAppClass;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+  Result := lClass.Create;
+  if aCode <> '' then
+    TDBUtils.LoadByCode(Result, aCode);
+  AfterExecuteMethod;
 end;
 
 function TCrud.RetrieveAll(ModClassName, AID: string): TModApp;
@@ -191,6 +223,7 @@ function TCrud.RetrieveAll(ModAppClass: TModAppClass; AID: String): TModApp;
 begin
   Result := ModAppClass.Create;
   TDBUtils.LoadFromDB(Result, AID, True);
+  AfterExecuteMethod;
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
@@ -216,9 +249,31 @@ begin
 end;
 
 function TCrud.SaveToDBID(AObject: TModApp): String;
+//  Result := '';
+//  If SaveToDB(AObject) then Result := AObject.ID;
+var
+  lSS: TStrings;
 begin
   Result := '';
-  If SaveToDB(AObject) then Result := AObject.ID;
+  if not ValidateCode(AObject) then exit;
+  if not BeforeSaveToDB(AObject) then exit;
+  lSS := TDBUtils.GenerateSQL(AObject);
+  Try
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+      if not AfterSaveToDB(AObject) then exit;
+
+      TDBUtils.Commit;
+      Result := AObject.ID;
+    except
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+//    AObject.Free;
+    lSS.Free;
+    AfterExecuteMethod;
+  End;
 end;
 
 function TCrud.StringToClass(ModClassName: string): TModAppClass;
@@ -341,6 +396,12 @@ begin
 
   end;
 
+end;
+
+procedure TBaseServerClass.AfterExecuteMethod;
+begin
+  if CloseSession then
+    GetInvocationMetaData.CloseSession := True;
 end;
 
 end.
