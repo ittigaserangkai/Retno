@@ -160,13 +160,6 @@ inherited frmDialogBank: TfrmDialogBank
       Caption = 'All Unit'
       TabOrder = 5
     end
-    object ed1: TcxCurrencyEdit
-      Left = 192
-      Top = 128
-      Properties.DisplayFormat = ',#.##;(,#.##)'
-      TabOrder = 6
-      Width = 121
-    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 277
@@ -213,6 +206,7 @@ inherited frmDialogBank: TfrmDialogBank
       end
       inherited lblCTRLP: TLabel
         Left = 254
+        Height = 15
         ExplicitLeft = 254
       end
     end

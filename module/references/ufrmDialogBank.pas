@@ -28,7 +28,6 @@ type
     edtDescription: TEdit;
     chkAllUnit: TCheckBox;
     cxLookupAccount: TcxExtLookupComboBox;
-    ed1: TcxCurrencyEdit;
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
