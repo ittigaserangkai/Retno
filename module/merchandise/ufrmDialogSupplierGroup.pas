@@ -71,7 +71,7 @@ procedure TfrmDialogSupplierGroup.edtGroupNoKeyPress(Sender: TObject; var Key:
     Char);
 begin
   inherited;
-  if not CharInSet(key,[#8,'0'..'9']) then key := #0;
+//  if not CharInSet(key,[#8,'0'..'9']) then key := #0;
 end;
 
 function TfrmDialogSupplierGroup.GetModSupplierGroup: TModSuplierGroup;
@@ -86,7 +86,7 @@ begin
   if Assigned(FModSupplierGroup) then FreeAndNil(FModSupplierGroup);
   FModSupplierGroup := DMclient.CrudClient.Retrieve(TModSuplierGroup.ClassName, ID) as TModSuplierGroup;
 
-  edtGroupNo.Text    := ModSupplierGroup.GROUP_NO;
+  edtGroupNo.Text    := ModSupplierGroup.GROUP_CODE;
   edtNama.Text       := ModSupplierGroup.GROUP_NAME;
   edtDeskripsi.Text  := ModSupplierGroup.GROUP_DESCRIPTION;
 end;
@@ -95,7 +95,7 @@ procedure TfrmDialogSupplierGroup.SimpanData;
 begin
   if not ValidateEmptyCtrl then exit;
 
-  ModSupplierGroup.GROUP_NO          := edtGroupNo.Text;
+  ModSupplierGroup.GROUP_CODE        := edtGroupNo.Text;
   ModSupplierGroup.GROUP_NAME        := edtNama.Text;
   ModSupplierGroup.GROUP_DESCRIPTION := edtDeskripsi.Text;
 

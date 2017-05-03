@@ -9,8 +9,8 @@ inherited frmDialogSupplierGroup: TfrmDialogSupplierGroup
   inherited pnlBody: TPanel
     Width = 368
     Height = 109
-    ExplicitWidth = 408
-    ExplicitHeight = 101
+    ExplicitWidth = 368
+    ExplicitHeight = 109
     object edtNama: TcxTextEdit
       Tag = 1
       Left = 94
@@ -28,7 +28,7 @@ inherited frmDialogSupplierGroup: TfrmDialogSupplierGroup
     object lbGroupNo: TcxLabel
       Left = 11
       Top = 11
-      Caption = 'No Group'
+      Caption = 'Kode Group'
       Transparent = True
     end
     object lbNama: TcxLabel
@@ -55,37 +55,48 @@ inherited frmDialogSupplierGroup: TfrmDialogSupplierGroup
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 109
     Width = 368
-    ExplicitTop = 101
-    ExplicitWidth = 408
+    ExplicitTop = 109
+    ExplicitWidth = 368
     inherited pnlFooter: TPanel
       Width = 368
+      ExplicitWidth = 368
       inherited btnClose: TcxButton
         Left = 291
         Action = actCancel
+        ExplicitLeft = 291
       end
       inherited btnSave: TcxButton
         Left = 198
         Action = actSave
+        ExplicitLeft = 198
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
         Left = 121
+        ExplicitLeft = 121
       end
     end
     inherited pnlSortCut: TPanel
       Width = 368
+      ExplicitWidth = 368
       inherited lbCTRLEnter: TLabel
         Left = 193
-        ExplicitLeft = 365
+        Height = 15
+        ExplicitLeft = 193
       end
       inherited lbEscape: TLabel
         Left = 284
-        ExplicitLeft = 456
+        Height = 15
+        ExplicitLeft = 284
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 117
+        ExplicitLeft = 117
       end
     end
   end

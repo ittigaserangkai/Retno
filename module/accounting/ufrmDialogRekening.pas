@@ -50,6 +50,12 @@ type
     procedure edbParentCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edbParentCodeClickBtn(Sender: TObject);
+    procedure dbAccountGroupKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbParentCodeKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure chkplKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure chkbsKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FCDSRekening: tclientDataset;
     FCDSRekeningGroup: tclientDataset;
@@ -281,6 +287,14 @@ begin
     dbAccountGroup.SetFocus;
 end;
 
+procedure TfrmDialogRekening.chkbsKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if (Key = VK_RETURN) then
+    chkIsDebet.SetFocus;
+end;
+
 procedure TfrmDialogRekening.chkIsDebetKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
@@ -289,27 +303,57 @@ begin
     chkIsLeaf.SetFocus;
 end;
 
+procedure TfrmDialogRekening.chkplKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if (Key = VK_RETURN) then
+    chkIsDebet.SetFocus;
+end;
+
+procedure TfrmDialogRekening.dbAccountGroupKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if (Key = VK_RETURN) then
+    dbParentCode.SetFocus;
+end;
+
+procedure TfrmDialogRekening.dbParentCodeKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if (Key = VK_RETURN) then
+    chkbs.SetFocus;
+end;
+
 function TfrmDialogRekening.ChekEmptyValue: Boolean;
 begin
   Result := False;
   if (edtRekCode.Text = '') then
   begin
-    CommonDlg.ShowError('Account Code Is Empty');
+    TAppUtils.Warning('Account Code Tidak Boleh Kosong');
     edtRekCode.SetFocus;
     Exit;
   end;
 
-
-  if dbAccountGroup.Text = '' then
+  if (edtRekName.Text = '') then
   begin
-    CommonDlg.ShowError('Account Group Is Empty');
+    TAppUtils.Warning('Nama Rekening Tidak Boleh Kosong');
+    edtRekName.SetFocus;
+    Exit;
+  end;
+
+  if (dbAccountGroup.Text = '') then
+  begin
+    TAppUtils.Warning('Account Group Tidak Boleh Kosong');
     dbAccountGroup.SetFocus;
     Exit;
   end;
 
-  if dbParentCode.Text = '' then
+  if (dbParentCode.Text = '') then
   begin
-    CommonDlg.ShowError('Parent Code Is Empty');
+    TAppUtils.Warning('Parent Code Tidak Boleh Kosong');
     dbAccountGroup.SetFocus;
     Exit;
   end;

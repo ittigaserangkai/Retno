@@ -13,20 +13,26 @@ inherited frmRekening: TfrmRekening
     Width = 773
     Height = 288
     ExplicitWidth = 773
-    ExplicitHeight = 232
+    ExplicitHeight = 288
     inherited pgcBrowse: TcxPageControl
       Width = 751
       Height = 266
       TabOrder = 1
       Visible = False
+      ExplicitWidth = 751
+      ExplicitHeight = 266
       ClientRectBottom = 265
       ClientRectRight = 750
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 749
-        ExplicitHeight = 208
+        ExplicitHeight = 264
         inherited cxGrid: TcxGrid
           Width = 749
           Height = 264
+          ExplicitWidth = 749
+          ExplicitHeight = 264
         end
       end
     end
@@ -39,7 +45,6 @@ inherited frmRekening: TfrmRekening
       BorderWidth = 10
       Color = 15198183
       TabOrder = 0
-      ExplicitHeight = 210
       object cxDBTreeList: TcxDBTreeList
         Left = 11
         Top = 11
@@ -53,7 +58,6 @@ inherited frmRekening: TfrmRekening
         OptionsData.Editing = False
         RootValue = -1
         TabOrder = 0
-        ExplicitHeight = 188
         object cxDBTreeListcxDBTreeListColumn1: TcxDBTreeListColumn
           Visible = False
           DataBinding.FieldName = 'REK_CODE'
@@ -116,12 +120,17 @@ inherited frmRekening: TfrmRekening
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 480
+      ExplicitLeft = 480
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 596
+      ExplicitLeft = 596
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 691
+      ExplicitLeft = 691
     end
     inherited lblsdFilter: TcxLabel
       Left = 572
@@ -132,8 +141,11 @@ inherited frmRekening: TfrmRekening
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 321
     Width = 773
+    ExplicitTop = 321
+    ExplicitWidth = 773
     inherited pnlFooter: TPanel
       Width = 773
+      ExplicitWidth = 773
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -144,7 +156,9 @@ inherited frmRekening: TfrmRekening
         Action = actPrint
       end
       inherited btnClose: TcxButton
+        Left = 696
         Action = actClose
+        ExplicitLeft = 696
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -152,6 +166,11 @@ inherited frmRekening: TfrmRekening
     end
     inherited pnlShortCut: TPanel
       Width = 773
+      ExplicitWidth = 773
+      inherited lbEscape: TLabel
+        Left = 699
+        Height = 17
+      end
     end
   end
   inherited actlstBrowse: TActionList

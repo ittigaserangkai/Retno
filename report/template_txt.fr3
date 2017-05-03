@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="42852.5932668981" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="IBQ1"/>
+    <item DataSet="IBQ2" DataSetName="IBQ2"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="421.639727691009" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="0" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="170" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ2" DataSetName="IBQ2" RowCount="0">
+      <TfrxDMPMemoView Name="IBQ2SUP_CODE" Left="9.6" Top="0" Width="211.2" Height="17" DataField="SUP_CODE" DataSet="IBQ2" DataSetName="IBQ2" FontStyle="128" ParentFont="False" TruncOutboundText="False" Text="[IBQ2.&#34;SUP_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ2SUP_NAME" Left="220.8" Top="0" Width="412.8" Height="17" DataField="SUP_NAME" DataSet="IBQ2" DataSetName="IBQ2" FontStyle="128" ParentFont="False" TruncOutboundText="False" Text="[IBQ2.&#34;SUP_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ2SUP_ADDRESS" Left="633.6" Top="0" Width="931.2" Height="17" DataField="SUP_ADDRESS" DataSet="IBQ2" DataSetName="IBQ2" FontStyle="128" ParentFont="False" TruncOutboundText="False" Text="[IBQ2.&#34;SUP_ADDRESS&#34;]"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="374" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo56" Left="691.2" Top="17" Width="240" Height="17" DataSet="IBQ1" DataSetName="IBQ1" Frame.Style="fsDash" HAlign="haRight" TruncOutboundText="False" Text="Hal [Page#] Dari [TotalPages#]"/>
+      <TfrxDMPMemoView Name="DMPMemo58" Left="9.6" Top="17" Width="288" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo38" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo39" Left="9.6" Top="0" Width="921.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------"/>
+    </TfrxPageFooter>
+    <TfrxGroupHeader Name="GroupHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="119" Left="0" ParentFont="False" Top="34" Width="1574.4" OnBeforePrint="GroupHeader1OnBeforePrint" Condition="1=1" ReprintOnNewPage="True" ResetPageNumbers="True" StartNewPage="True">
+      <TfrxDMPMemoView Name="Memo3" Left="9.6" Top="0" Width="700.8" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" ParentFont="False" TruncOutboundText="False" Text="Contoh Header"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="9.6" Top="68" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="================================================================================================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="9.6" Top="51" Width="1555.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="9.6" Top="34" Width="1555.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"/>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="102" Left="0" ParentFont="False" Top="204" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo51" Left="38.4" Top="17" Width="163.2" Height="85" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" FontStyle="128" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="Petugas Supplier&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;(-------------)"/>
+      <TfrxDMPMemoView Name="DMPMemo53" Left="710.4" Top="17" Width="192" Height="85" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" FontStyle="128" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="Petugas Gudang&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;(-----------)"/>
+      <TfrxDMPMemoView Name="DMPMemo35" Left="9.6" Top="0" Width="921.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------"/>
+    </TfrxGroupFooter>
+    <TfrxGroupHeader Name="GroupHeader2" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="0" Left="0" Top="17" Width="1574.4" Condition="1=1" StartNewPage="True"/>
+    <TfrxGroupFooter Name="GroupFooter2" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="323" Width="1574.4"/>
+  </TfrxDMPPage>
+</TfrxReport>

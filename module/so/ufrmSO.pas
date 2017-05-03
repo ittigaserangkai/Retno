@@ -49,11 +49,7 @@ end;
 procedure TfrmSO.actAddExecute(Sender: TObject);
 begin
   inherited;
-//  ShowDialogForm(TfrmDialogSO);
-  with dmReport do
-  begin
-    EksekusiReport( 'Test', ReportClient.SO_Test() );
-  end;
+  ShowDialogForm(TfrmDialogSO);
 end;
 
 procedure TfrmSO.actEditExecute(Sender: TObject);
@@ -68,7 +64,11 @@ begin
 
   with dmReport do
   begin
-    EksekusiReport( 'Test', ReportClient.SO_ByDate(0, Now()) );
+    ExecuteReport( 'Slip_SO' ,
+      ReportClient.SO_ByDateNoBukti(
+      dtAwalFilter.Date, dtAkhirFilter.Date,
+      CDS.FieldByName('SO_NO').AsString, CDS.FieldByName('SO_NO').AsString)
+    );
   end;
 
 end;

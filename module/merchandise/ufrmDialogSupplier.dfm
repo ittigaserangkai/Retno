@@ -36,9 +36,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = '&Supplier'
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lbl3: TLabel
           Left = 65
           Top = 58
@@ -555,7 +552,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsA
+          Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           ClientRectBottom = 273
           ClientRectRight = 667
@@ -563,9 +560,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object lblPPN: TLabel
               Left = 435
               Top = 155
@@ -1175,14 +1169,20 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ExplicitWidth = 671
       inherited lbCTRLEnter: TLabel
         Left = 496
+        Height = 15
         ExplicitLeft = 496
       end
       inherited lbEscape: TLabel
         Left = 587
+        Height = 15
         ExplicitLeft = 587
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 420
+        Height = 15
         ExplicitLeft = 405
       end
     end

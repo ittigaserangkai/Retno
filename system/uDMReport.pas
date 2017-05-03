@@ -101,7 +101,7 @@ type
     procedure SetReportPath(const Value: string);
   public
     procedure AddReportVariable(AVariableName: String; AVariableValue: String);
-    procedure EksekusiReport(aReportName: String; aListDataset: TFDJSONDataSets);
+    procedure ExecuteReport(aReportName: String; aListDataset: TFDJSONDataSets);
         overload;
     function IsBisaDesignReport: Boolean;
     property BisaDesignReport: Boolean read FBisaDesignReport write
@@ -216,7 +216,7 @@ begin
     FocusedPreview.Zoom := (lFac/100);
 end;
 
-procedure TDMReport.EksekusiReport(aReportName: String; aListDataset:
+procedure TDMReport.ExecuteReport(aReportName: String; aListDataset:
     TFDJSONDataSets);
 var
   sTextReportFile: string;
