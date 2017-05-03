@@ -62,7 +62,7 @@ type
 implementation
 
 uses
-  Math, ufrmTransaksi;
+  Math, ufrmTransaksi, udmMain;
 
 const
   _KolPLU         : Integer = 0;
@@ -101,13 +101,12 @@ begin
   sSQL := sSQL + ' order by a.brg_name';
   
   iRecordCOunt := 0;
-	{with sgBarang do
+	with sgBarang.DataController do
   begin
-    Filtering.Active := False;
+    Filter.Active := False;
     Filter.Clear;
-    
-    ClearRows(1,RowCount-1);
-    RowCount := 2;
+//    sgBarang.DataController.ClearDetails;
+//    RowCount := 2;
     with cOpenQuery(sSQL) do
     begin
       try
@@ -118,7 +117,7 @@ begin
           pbBarang.Visible := True;
           First;
         end;
-
+        {
         while not eof do
         begin
         	Cells[_KolPLU,RowCount-1]          := FieldByName('brg_code').AsString;
@@ -140,7 +139,7 @@ begin
           Next;
           if not Eof then
              AddRow;
-        end;
+        end; }
       finally
         Free;
         pbBarang.Visible := False;
@@ -148,7 +147,7 @@ begin
       end;
     end;
   end;
-  }
+
 end;
 
 procedure TfraLookupBarang.edNamaBarangKeyDown(Sender: TObject;

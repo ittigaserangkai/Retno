@@ -5,8 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ImgList, StrUtils, uTSCommonDlg,
-  uTSINIFile, ExtCtrls, ufrmPayment, StdCtrls, ufrmExportOfflinePOS,
-  ufrmImportFromStore, uFormProperty, System.ImageList;
+  uTSINIFile, ExtCtrls, StdCtrls, uFormProperty, System.ImageList;
 
 type
   TfrmMain = class(TForm)
@@ -174,9 +173,10 @@ var
 implementation
 
 uses
-  udmMain, ufrmTransaksi, uConstanta, HPHELP, uAppUtils,
-  ufrmTransaksiKring, ufrmLogin, ufrmTransaksiPending,
-  ufrmPaymentKring, ufrmPosDownlink, ufrmImportFromMDB, ufrmExportToMDB;
+  udmMain, ufrmTransaksi, uConstanta, HPHELP, uAppUtils, ufrmTransaksiKring,
+  ufrmLogin, ufrmTransaksiPending, ufrmPaymentKring, ufrmPosDownlink,
+  ufrmImportFromMDB, ufrmExportToMDB, ufrmPayment, ufrmExportOfflinePOS,
+  ufrmImportFromStore, uNewPOS;
 
 {$R *.dfm}
 
@@ -269,7 +269,7 @@ begin
   with dmMain do
   begin
     FMSSQLConnectionString := setConnectionString('MSSQL', FDBServerStore, FDBStore, FDBUserStore, FDBPasswordStore);
-    FSQLiteConnectionString := setConnectionString('SQLite', FDBServerPOS, FDBPOS, FDBUserPOS, FDBPasswordPOS);
+    FSQLiteConnectionString := setConnectionString('SQLite', FDBServerPOS, FDBPOS, FDBUserPOS, '');//FDBPasswordPOS);
     connGoro.Connected := False;
     dbPOS.Connected := False;
     connGoro.ConnectionString := FMSSQLConnectionString;
@@ -341,7 +341,7 @@ function TfrmMain.GetTransactionNo(APOSCode: String; aActiveDate : TDateTime):
     String;
 begin
   Result := '';
-  {
+
   if IsPOSConnected then
   begin
     with TPOS.Create(Self) do
@@ -356,7 +356,7 @@ begin
       end;
     end;    // with
   end;
-  }
+
 end;
 
 function TfrmMain.Initialize: Boolean;
@@ -431,19 +431,19 @@ begin
     isValid := True;
     with frmTransaksi.sgTransaksi.DataController do
     begin
-      i := 1;
-      while i < RowCount do
+      i := 0;
+      while i < RecordCount do
       begin
-        if Values[_KolPairCode, i] <> '' then
+        if Values[i, _KolPairCode] <> '' then
         begin
             isValid := False;
-            fQtyAir := Values[_KolJumlah, i];
-            j := 1;
-            while j < RowCount do
+            fQtyAir := Values[i, _KolJumlah];
+            j := 0;
+            while j < RecordCount do
             begin
-                if Values[_KolPLU, j] = Values[_KolPairCode, i] then
+                if Values[j, _KolPLU] = Values[i, _KolPairCode] then
                 begin
-                    if fQtyAir<=Values[_KolJumlah, j] then
+                    if fQtyAir<=Values[j, _KolJumlah] then
                        isValid := True;
                 end;
                 j := j + 1;

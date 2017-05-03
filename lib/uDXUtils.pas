@@ -173,7 +173,7 @@ type
   end;
 
   TcxGridTableViewHelper = class helper for TcxGridTableView
-  private
+  public
     procedure ClearRows;
   end;
 

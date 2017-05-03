@@ -125,31 +125,27 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object edNoTrnTerakhir: TcxCurrencyEdit
-      Left = 534
-      Top = 30
-      TabStop = False
-      ParentFont = False
-      TabOrder = 2
-      Width = 110
-    end
-    object edNoPelanggan: TcxCurrencyEdit
+    object edNoPelanggan: TcxTextEdit
       Left = 120
       Top = 6
-      ParentFont = False
       TabOrder = 0
       OnExit = edNoPelangganExit
       OnKeyDown = edNoPelangganKeyDown
-      Width = 103
+      Width = 105
     end
-    object edNamaPelanggan: TcxCurrencyEdit
+    object edNamaPelanggan: TcxTextEdit
       Left = 120
-      Top = 30
-      TabStop = False
-      Enabled = False
-      ParentFont = False
+      Top = 32
+      Properties.ReadOnly = True
       TabOrder = 1
-      Width = 229
+      Width = 233
+    end
+    object edNoTrnTerakhir: TcxTextEdit
+      Left = 528
+      Top = 32
+      Properties.ReadOnly = True
+      TabOrder = 2
+      Width = 121
     end
   end
   object edHargaKontrabon: TcxCurrencyEdit
@@ -157,6 +153,13 @@ object frmTransaksi: TfrmTransaksi
     Top = 455
     Anchors = [akLeft, akBottom]
     ParentFont = False
+    Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+    Style.Font.Charset = ANSI_CHARSET
+    Style.Font.Color = clWindowText
+    Style.Font.Height = -21
+    Style.Font.Name = 'Courier New'
+    Style.Font.Style = []
+    Style.IsFontAssigned = True
     TabOrder = 4
     Visible = False
     OnKeyDown = edHargaKontrabonKeyDown
@@ -398,63 +401,20 @@ object frmTransaksi: TfrmTransaksi
     TabOrder = 7
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    object sgTransaksi: TcxGridDBTableView
-      OnKeyDown = sgTransaksiKeyDown
+    object sgTransaksi: TcxGridTableView
       Navigator.Buttons.CustomButtons = <>
-      FindPanel.DisplayMode = fpdmManual
-      FindPanel.InfoText = 'ketik teks yang dicari...'
-      OnEditing = sgTransaksiEditing
-      OnInitEdit = sgTransaksiInitEdit
-      DataController.Filter.Options = [fcoCaseInsensitive]
+      Navigator.InfoPanel.DisplayMask = '[RecordIndex] / [RecordCount]'
+      FindPanel.InfoText = 'Cari Data'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      FilterRow.InfoText = 
-        'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
-        'er'
-      FilterRow.Visible = True
-      FilterRow.ApplyChanges = fracImmediately
-      NewItemRow.InfoText = 'Baris baru'
-      OptionsData.Editing = False
-      OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+      FilterRow.InfoText = 'Filter Row'
+      NewItemRow.InfoText = 'Data Baru'
+      OptionsData.Appending = True
+      OptionsView.NoDataToDisplayInfoText = '<Data Kosong>'
+      OptionsView.ExpandButtonsForEmptyDetails = False
       OptionsView.GroupByBox = False
-      Styles.ContentEven = DMClient.cxStyleGridHeader
-      Styles.Header = DMClient.cxStyleGridEven
-      object cxcolNo: TcxGridDBColumn
-        Caption = 'No'
-      end
-      object cxcolPLU: TcxGridDBColumn
-        Caption = 'PLU'
-        Width = 66
-      end
-      object cxcolNamaBarang: TcxGridDBColumn
-        Caption = 'Nama Barang'
-        Width = 113
-      end
-      object cxcolJumlah: TcxGridDBColumn
-        Caption = 'Jumlah'
-      end
-      object cxcolHarga: TcxGridDBColumn
-        Caption = 'Harga'
-      end
-      object cxcolDisc: TcxGridDBColumn
-        Caption = 'Disc'
-      end
-      object cxcolManDisc: TcxGridDBColumn
-        Caption = 'Man. Disc'
-        Width = 91
-      end
-      object cxcolTotal: TcxGridDBColumn
-        Caption = 'Total'
-        Width = 94
-      end
-      object cxcolIsDecimal: TcxGridDBColumn
-        Caption = 'isDecimal'
-        Width = 22
-      end
-      object cxcolIsDiscAMC: TcxGridDBColumn
-        Caption = 'IsDiscGMC'
-        Width = 21
+      object colNo: TcxGridColumn
       end
     end
     object grdlvlTransaksi: TcxGridLevel
