@@ -37,10 +37,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
           RootLevelOptions.DetailTabsPosition = dtpTop
           ExplicitWidth = 821
           ExplicitHeight = 342
-          inherited cxGridView: TcxGridDBTableView
-            Styles.ContentEven = DMClient.cxStyleGridEven
-            Styles.Header = DMClient.cxStyleGridHeader
-          end
           object cxGridDBTableSODetail: TcxGridDBTableView [1]
             Navigator.Buttons.CustomButtons = <>
             DataController.Summary.DefaultGroupSummaryItems = <>
