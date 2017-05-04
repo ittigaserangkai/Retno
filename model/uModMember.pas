@@ -37,9 +37,10 @@ type
     FMEMBER_PLACE_OF_BIRTH: string;
     FMEMBER_DATE_OF_BIRTH: TDateTime;
     FIS_TRADER: Integer;
+    FMEMBER_POIN: Integer;
     FMEMBER_RT: String;
     FMEMBER_POST_CODE: String;
-    FMEMBER_JML_TANGGUNGAN: String;
+    FMEMBER_JML_TANGGUNGAN: Integer;
     FMEMBER_RW: String;
     FMEMBER_PLAFON: Double;
     FMEMBER_LEAD_TIME: Integer;
@@ -94,10 +95,11 @@ type
     property MEMBER_DATE_OF_BIRTH: TDateTime read FMEMBER_DATE_OF_BIRTH write
         FMEMBER_DATE_OF_BIRTH;
     property IS_TRADER: Integer read FIS_TRADER write FIS_TRADER;
+    property MEMBER_POIN: Integer read FMEMBER_POIN write FMEMBER_POIN;
     property MEMBER_RT: String read FMEMBER_RT write FMEMBER_RT;
     property MEMBER_POST_CODE: String read FMEMBER_POST_CODE write
         FMEMBER_POST_CODE;
-    property MEMBER_JML_TANGGUNGAN: String read FMEMBER_JML_TANGGUNGAN write
+    property MEMBER_JML_TANGGUNGAN: Integer read FMEMBER_JML_TANGGUNGAN write
         FMEMBER_JML_TANGGUNGAN;
     property MEMBER_RW: String read FMEMBER_RW write FMEMBER_RW;
     property MEMBER_PLAFON: Double read FMEMBER_PLAFON write FMEMBER_PLAFON;

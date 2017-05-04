@@ -183,10 +183,10 @@ uses
   uModSO in '..\model\uModSO.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang},
-  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
-  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO};
 
 {$R *.res}
 
@@ -197,5 +197,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogDetailGeneratePO, frmDialogDetailGeneratePO);
   Application.Run;
 end.
