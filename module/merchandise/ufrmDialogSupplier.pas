@@ -250,8 +250,11 @@ type
     procedure btnUpdateSuppClick(Sender: TObject);
     procedure chkIsDifClick(Sender: TObject);
     procedure chkPKPClick(Sender: TObject);
+    procedure chkSunKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure cxLookUpBankPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookUpBankMerPropertiesEditValueChanged(Sender: TObject);
+    procedure edtAccountNoMerKeyDown(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
     procedure edtPostCodeKeyPress(Sender: TObject; var Key: Char);
     procedure edtPostCodeMerKeyPress(Sender: TObject; var Key: Char);
 
@@ -306,6 +309,10 @@ end;
 procedure TfrmDialogSupplier.actSaveExecute(Sender: TObject);
 begin
   inherited;
+  if not TAppUtils.Confirm('Pastikan sudah klik update pada tab Category.'
+    + #13 + 'Sudah klik tombol Update?') then
+    Exit;
+
   SimpanData;
 end;
 
@@ -353,6 +360,14 @@ begin
   cxLookupPPN.Visible := chkPKP.Checked;
 end;
 
+procedure TfrmDialogSupplier.chkSunKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+  inherited;
+  if key=VK_RETURN then btnUpdateSupp.SetFocus;
+
+end;
+
 procedure TfrmDialogSupplier.cxGrdDBSupplierMerchanFocusedRecordChanged(Sender:
     TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
     TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
@@ -378,6 +393,13 @@ begin
   if cxLookUpBank.DS.Eof then exit;
   edtAlamatBank.Text := cxLookUpBank.DS.FieldByName('BANK_ADDRESS').AsString;
   edtCabangBank.Text := cxLookUpBank.DS.FieldByName('BANK_BRANCH').AsString;
+end;
+
+procedure TfrmDialogSupplier.edtAccountNoMerKeyDown(Sender: TObject; var Key:
+    Word; Shift: TShiftState);
+begin
+  inherited;
+  if key=VK_RETURN then btnUpdateSupp.SetFocus;
 end;
 
 procedure TfrmDialogSupplier.edtPostCodeKeyPress(Sender: TObject; var Key:
@@ -576,17 +598,17 @@ begin
   chkSun.Checked := CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger=1;
 
 // tab sheet Alamat
-  chkIsDif.Checked := CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger = 1;
-  edtAddrMer.Text := CDSItems.FieldByName('SUPMG_ADDRESS').AsString;
-  edtCityMer.Text := CDSItems.FieldByName('SUPMG_CITY').AsString;
-  edtPostCodeMer.Text := CDSItems.FieldByName('SUPMG_POST_CODE').AsString;
-  edtPhoneMer.Text := CDSItems.FieldByName('SUPMG_TELP').AsString;
-  edtFaxMer.Text := CDSItems.FieldByName('SUPMG_FAX').AsString;
-  edtContactMer.Text := CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString;
-  edtTitleMer.Text := CDSItems.FieldByName('SUPMG_TITLE').AsString;
+  chkIsDif.Checked          := CDSItems.FieldByName('SUPMG_IS_DIF_CONTACT').AsInteger = 1;
+  edtAddrMer.Text           := CDSItems.FieldByName('SUPMG_ADDRESS').AsString;
+  edtCityMer.Text           := CDSItems.FieldByName('SUPMG_CITY').AsString;
+  edtPostCodeMer.Text       := CDSItems.FieldByName('SUPMG_POST_CODE').AsString;
+  edtPhoneMer.Text          := CDSItems.FieldByName('SUPMG_TELP').AsString;
+  edtFaxMer.Text            := CDSItems.FieldByName('SUPMG_FAX').AsString;
+  edtContactMer.Text        := CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString;
+  edtTitleMer.Text          := CDSItems.FieldByName('SUPMG_TITLE').AsString;
   cxLookUpBankMer.EditValue := CDSItems.FieldByName('BANK').AsString;
-  edtAccountNameMer.Text := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString;
-  edtAccountNoMer.Text := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString;
+  edtAccountNameMer.Text    := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString;
+  edtAccountNoMer.Text      := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString;
 
   IsUpdateSupplier := True;
 end;
@@ -595,33 +617,39 @@ procedure TfrmDialogSupplier.SimpanData;
 var
   lModSuppGroup: TModSuplierMerchanGroup;
 begin
-  if not ValidateEmptyCtrl then exit;
+  if not ValidateEmptyCtrl([1], True, tsSupplier) then exit;
+  if CDSItems.RecordCount = 0 then
+  begin
+    TAppUtils.Warning('Merchan Group wajib diisi minimal 1');
+    exit;
+  end;
 
   //simpan header tab 1
-  ModSupplier.SUP_CODE := edtSupCode.Text;
+  ModSupplier.SUP_CODE              := edtSupCode.Text;
   if not VarIsNull(cxLookupTipePerush.EditValue) then
-    ModSupplier.TIPE_PERUSAHAAN := TModTipePerusahaan.CreateID(cxLookupTipePerush.EditValue);
-  ModSupplier.SUP_NAME := edtSupName.Text;
-  ModSupplier.SUP_ADDRESS := edtAddress.Text;
-  ModSupplier.SUP_CITY := edtCity.Text;
-  ModSupplier.SUP_POST_CODE := edtPostCode.Text;
-  ModSupplier.SUP_TELP := edtPhone.Text;
-  ModSupplier.SUP_FAX := edtFax.Text;
-  ModSupplier.SUP_CONTACT_PERSON := edtContactP.Text;
-  ModSupplier.SUP_TITLE := edtTitle.Text;
+    ModSupplier.TIPE_PERUSAHAAN     := TModTipePerusahaan.CreateID(cxLookupTipePerush.EditValue);
+  ModSupplier.SUP_NAME              := edtSupName.Text;
+  ModSupplier.SUP_ADDRESS           := edtAddress.Text;
+  ModSupplier.SUP_CITY              := edtCity.Text;
+  ModSupplier.SUP_POST_CODE         := edtPostCode.Text;
+  ModSupplier.SUP_TELP              := edtPhone.Text;
+  ModSupplier.SUP_FAX               := edtFax.Text;
+  ModSupplier.SUP_CONTACT_PERSON    := edtContactP.Text;
+  ModSupplier.SUP_TITLE             := edtTitle.Text;
   if not VarIsNull(cxLookUpSupType.EditValue) then
-    ModSupplier.TIPE_SUPLIER := TModTipeSuplier.CreateID(cxLookUpSupType.EditValue);
-  ModSupplier.SUP_IS_PKP := cbbPKP.ItemIndex;
-  ModSupplier.SUP_LR_TAX := edtTaxNo.Text;
-  ModSupplier.SUP_NPWP := medtNPWP.Text;
-  ModSupplier.SUP_NPWP_ALAMAT := edtNPWPAlamat.Text;
-  ModSupplier.BANK := TModBank.CreateID(cxLookUpBank.EditValue);
-  ModSupplier.SUP_BANK_BRANCH := edtCabangBank.Text;
-  ModSupplier.SUP_BANK_ADDRESS := edtAlamatBank.Text;
-  ModSupplier.SUP_BANK_ACCOUNT_NO := edtAccountNo.Text;
+    ModSupplier.TIPE_SUPLIER        := TModTipeSuplier.CreateID(cxLookUpSupType.EditValue);
+  ModSupplier.SUP_IS_PKP            := cbbPKP.ItemIndex;
+  ModSupplier.SUP_LR_TAX            := edtTaxNo.Text;
+  ModSupplier.SUP_NPWP              := medtNPWP.Text;
+  ModSupplier.SUP_NPWP_ALAMAT       := edtNPWPAlamat.Text;
+  if not VarIsNull(cxLookUpBank.EditValue) then
+    ModSupplier.BANK                := TModBank.CreateID(cxLookUpBank.EditValue);
+  ModSupplier.SUP_BANK_BRANCH       := edtCabangBank.Text;
+  ModSupplier.SUP_BANK_ADDRESS      := edtAlamatBank.Text;
+  ModSupplier.SUP_BANK_ACCOUNT_NO   := edtAccountNo.Text;
   ModSupplier.SUP_BANK_ACCOUNT_NAME := edtAccountName.Text;
   if not VarIsNull(cxLookUpSuppGroup.EditValue) then
-    ModSupplier.SUPLIER_GROUP := TModSuplierGroup.CreateID(cxLookUpSuppGroup.EditValue);
+    ModSupplier.SUPLIER_GROUP       := TModSuplierGroup.CreateID(cxLookUpSuppGroup.EditValue);
 
   if chkSupActive.Checked then
     ModSupplier.SUP_IS_ACTIVE := 1
@@ -674,6 +702,9 @@ begin
 
 
   //isikan property ke sini , contoh :
+  //COBA START
+  CDSItems.FieldByName('SUPMG_SUB_CODE').AsString     := edtSupCode.Text;
+  //COBA END
   CDSItems.FieldByName('MERCHANDISE_GRUP').AsString   := cxLookupMerchGroup.EditValue;
   CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString    := cxLookupPaymentType.EditValue;
   CDSItems.FieldByName('SUPMG_CREDIT_LIMIT').AsFloat  := curedtCreditLmt.Value;
@@ -716,7 +747,8 @@ begin
     CDSItems.FieldByName('SUPMG_FAX').AsString                := edtFaxMer.Text;
     CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString     := edtContactMer.Text;
     CDSItems.FieldByName('SUPMG_TITLE').AsString              := edtTitleMer.Text;
-    CDSItems.FieldByName('BANK').AsString                     := cxLookUpBankMer.EditValue;
+    if not VarIsNull(cxLookUpBankMer.EditValue) then
+      CDSItems.FieldByName('BANK').AsString                     := cxLookUpBankMer.EditValue;
     CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString  := edtAccountNameMer.Text;
     CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString    :=  edtAccountNoMer.Text;
   end;
