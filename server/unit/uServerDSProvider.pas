@@ -84,6 +84,9 @@ type
     function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
     function SubGroup_GetDSOverview: TDataSet;
     function SuplierMerchan_GetDSLookup: TDataSet;
+    function DO_GetDSLookUp: TDataSet;
+    function DO_GetDSOverview: TDataSet;
+    function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
 
 
   end;
@@ -794,6 +797,37 @@ var
 begin
   S := 'select * from V_SUPPLIER_MERCHANDISE_GROUP';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.DO_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_DO';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.DO_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_DO';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil):
+    TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select distinct SO_ID,SO_NO, SO_DATE from V_SO_FOR_GENERATE_PO where 1 = 1 ' ;
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
+  sSQL := sSQL + ' order by SO_NO';
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSReport.SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;

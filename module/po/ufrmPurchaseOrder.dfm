@@ -5,6 +5,7 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
   ClientHeight = 435
   ClientWidth = 825
   OldCreateOrder = True
+  ExplicitLeft = -52
   ExplicitWidth = 841
   ExplicitHeight = 474
   PixelsPerInch = 96

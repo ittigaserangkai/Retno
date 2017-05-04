@@ -261,7 +261,7 @@ begin
 
   FCDSDetil := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverviewDetil(dtAwalFilter.Date,dtAkhirFilter.Date, nil),Self );
   cxGridDBTableSODetail.LoadFromCDS(FCDSDetil);
-  cxGridDBTableSODetail.SetVisibleColumns(['PO_DATE','AUT$UNIT_ID', 'PO_ID'],False);
+  cxGridDBTableSODetail.SetVisibleColumns(['PO_DATE','AUT$UNIT_ID', 'PO_ID', 'BARANG_ID'],False);
 
 end;
 

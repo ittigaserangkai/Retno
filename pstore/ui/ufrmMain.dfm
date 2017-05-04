@@ -113,6 +113,12 @@ object frmMain: TfrmMain
       object GeneratePOForAll1: TMenuItem
         Action = actPurchaseOrder
       end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object GoodReceiving1: TMenuItem
+        Action = actGoodsReceiving
+      end
     end
     object mmWindow: TMenuItem
       Caption = '&Window'

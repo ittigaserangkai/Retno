@@ -190,6 +190,8 @@ type
     actPurchaseOrder: TAction;
     AppEvents: TApplicationEvents;
     LookAndFeelController: TcxLookAndFeelController;
+    N1: TMenuItem;
+    GoodReceiving1: TMenuItem;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);

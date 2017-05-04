@@ -14,7 +14,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
     Height = 369
     BorderWidth = 0
     ExplicitWidth = 648
-    ExplicitHeight = 301
+    ExplicitHeight = 369
     inherited pgcBrowse: TcxPageControl
       Left = 1
       Top = 129
@@ -24,19 +24,19 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       ExplicitLeft = 1
       ExplicitTop = 129
       ExplicitWidth = 646
-      ExplicitHeight = 171
+      ExplicitHeight = 239
       ClientRectBottom = 238
       ClientRectRight = 645
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 644
-        ExplicitHeight = 169
+        ExplicitHeight = 237
         inherited cxGrid: TcxGrid
           Width = 644
           Height = 237
           ExplicitWidth = 644
-          ExplicitHeight = 169
+          ExplicitHeight = 237
         end
       end
     end
@@ -224,7 +224,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 402
     Width = 648
-    ExplicitTop = 334
+    ExplicitTop = 402
     ExplicitWidth = 648
     inherited pnlFooter: TPanel
       Width = 648
@@ -253,6 +253,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       inherited lbEscape: TLabel
         Left = 574
         Height = 17
+        ExplicitLeft = 574
       end
     end
   end

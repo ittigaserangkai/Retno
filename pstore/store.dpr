@@ -186,7 +186,8 @@ uses
   ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
-  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup};
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
+  uModDO in '..\model\uModDO.pas';
 
 {$R *.res}
 
