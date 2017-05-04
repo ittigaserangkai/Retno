@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSellingPrice
+      Properties.ActivePage = tsImport
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -55,6 +55,9 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsInfo: TcxTabSheet
         Caption = 'F1 [Informasi Barang]'
         ImageIndex = 26
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -616,7 +619,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 50
+            Top = 44
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -625,7 +628,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 2
             Transparent = True
-            ExplicitTop = 44
+            ExplicitWidth = 121
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -639,11 +642,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 0
             Transparent = True
+            ExplicitWidth = 121
           end
           object cbisDecimal: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 74
+            Top = 65
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -653,11 +657,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 3
             Transparent = True
             ExplicitTop = 71
+            ExplicitWidth = 121
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 98
+            Top = 86
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -667,11 +672,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 4
             Transparent = True
             ExplicitTop = 95
+            ExplicitWidth = 121
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 146
+            Top = 128
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -681,11 +687,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 6
             Transparent = True
             ExplicitTop = 140
+            ExplicitWidth = 121
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 122
+            Top = 107
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -695,11 +702,12 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 5
             Transparent = True
             ExplicitTop = 119
+            ExplicitWidth = 121
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 26
+            Top = 23
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -708,11 +716,13 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 1
             Transparent = True
+            ExplicitTop = 26
+            ExplicitWidth = 121
           end
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 170
+            Top = 149
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -722,6 +732,8 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
+            ExplicitTop = 170
+            ExplicitWidth = 121
           end
         end
         object gbPurchase: TcxGroupBox
@@ -984,6 +996,9 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSupplier: TcxTabSheet
         Caption = 'F3 [Barang Supplier]'
         ImageIndex = 10
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object gbSupplier: TcxGroupBox
           Left = 0
           Top = 146
@@ -1270,7 +1285,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckActive: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 26
+              Top = 23
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1280,7 +1295,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 1
               Transparent = True
-              ExplicitTop = 23
+              ExplicitWidth = 121
             end
             object ckPrimarySupp: TcxCheckBox
               AlignWithMargins = True
@@ -1295,11 +1310,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 0
               Transparent = True
+              ExplicitWidth = 121
             end
             object ckBKP: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 50
+              Top = 44
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1309,11 +1325,13 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 2
               Transparent = True
+              ExplicitTop = 50
+              ExplicitWidth = 121
             end
             object ckEnableCN: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 74
+              Top = 65
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1324,6 +1342,8 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 3
               Transparent = True
               OnKeyDown = ckEnableCNKeyDown
+              ExplicitTop = 74
+              ExplicitWidth = 121
             end
           end
           object crBRSSellingPrice: TcxCurrencyEdit
@@ -1622,6 +1642,9 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSellingPrice: TcxTabSheet
         Caption = 'F4 [Selling Price]'
         ImageIndex = 37
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object gbSellingPrice: TcxGroupBox
           Left = 0
           Top = 180
@@ -2238,6 +2261,111 @@ inherited frmDialogProduct: TfrmDialogProduct
         ExplicitWidth = 0
         ExplicitHeight = 0
       end
+      object tsImport: TcxTabSheet
+        Caption = 'Import Data'
+        ImageIndex = 6
+        object Panel1: TPanel
+          Left = 0
+          Top = 0
+          Width = 776
+          Height = 33
+          Align = alTop
+          BevelOuter = bvNone
+          Color = 14079702
+          TabOrder = 0
+          object btnImport: TcxButton
+            AlignWithMargins = True
+            Left = 509
+            Top = 2
+            Width = 129
+            Height = 29
+            Cursor = crHandPoint
+            Margins.Top = 2
+            Margins.Bottom = 2
+            Align = alRight
+            Caption = 'Load From XLS'
+            OptionsImage.ImageIndex = 6
+            OptionsImage.Images = DMClient.imgListButton
+            TabOrder = 0
+            OnClick = btnImportClick
+          end
+          object edFileName: TcxButtonEdit
+            Tag = 2
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Align = alClient
+            Properties.Buttons = <
+              item
+                Default = True
+                Kind = bkEllipsis
+              end>
+            Properties.OnButtonClick = edFileNamePropertiesButtonClick
+            TabOrder = 1
+            Text = 'D:\Products.xlsx'
+            Width = 500
+          end
+          object cxButton1: TcxButton
+            AlignWithMargins = True
+            Left = 644
+            Top = 2
+            Width = 129
+            Height = 29
+            Cursor = crHandPoint
+            Margins.Top = 2
+            Margins.Bottom = 2
+            Align = alRight
+            Caption = 'Proses Import'
+            OptionsImage.ImageIndex = 34
+            OptionsImage.Images = DMClient.imgListButton
+            TabOrder = 2
+            OnClick = cxButton1Click
+          end
+        end
+        object cxGrid1: TcxGrid
+          Left = 0
+          Top = 33
+          Width = 591
+          Height = 329
+          Align = alClient
+          TabOrder = 1
+          LockedStateImageOptions.Text = 'Mohon ditunggu...'
+          LookAndFeel.NativeStyle = False
+          object cxGrdXLS: TcxGridDBTableView
+            Navigator.Buttons.CustomButtons = <>
+            FindPanel.DisplayMode = fpdmManual
+            FindPanel.InfoText = 'ketik teks yang dicari...'
+            DataController.Filter.Options = [fcoCaseInsensitive]
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            FilterRow.InfoText = 
+              'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
+              'er'
+            FilterRow.Visible = True
+            FilterRow.ApplyChanges = fracDelayed
+            NewItemRow.InfoText = 'Baris baru'
+            OptionsData.Editing = False
+            OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+            Styles.ContentEven = DMClient.cxStyleGridEven
+            Styles.Header = DMClient.cxStyleGridHeader
+          end
+          object cxGridLevel3: TcxGridLevel
+            GridView = cxGrdXLS
+          end
+        end
+        object mmLog: TMemo
+          Left = 591
+          Top = 33
+          Width = 185
+          Height = 329
+          Align = alRight
+          Lines.Strings = (
+            'mmLog')
+          ScrollBars = ssBoth
+          TabOrder = 2
+        end
+      end
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
@@ -2285,7 +2413,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       inherited lblCTRLP: TLabel
         Left = 666
         Height = 15
-        ExplicitLeft = 525
+        ExplicitLeft = 666
       end
     end
   end
@@ -2298,5 +2426,10 @@ inherited frmDialogProduct: TfrmDialogProduct
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end
+  end
+  object OpDialog: TOpenDialog
+    Filter = 'Excel 2007 above|*.xlsx'
+    Left = 771
+    Top = 164
   end
 end

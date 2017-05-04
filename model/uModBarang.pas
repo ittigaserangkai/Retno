@@ -117,6 +117,7 @@ type
     function GetKonversi: TObjectList<TModKonversi>;
     function GetHargaJual: TObjectList<TModBarangHargaJual>;
   public
+    destructor Destroy; override;
     class function GetTableName: string; override;
     property Suppliers: TObjectList<TModBarangSupplier> read GetSuppliers write
         FSuppliers;
@@ -214,6 +215,7 @@ type
     FSATUAN_PURCHASE: TModSatuan;
     FSupplier: TModSuplier;
   public
+    destructor Destroy; override;
     class function GetTableName: string; override;
   published
     [AttributeOfHeader]
@@ -261,6 +263,7 @@ type
     FKONVSAT_SCALE: Double;
     FSatuan: TModSatuan;
   public
+    destructor Destroy; override;
     class function GetTableName: string; override;
   published
     [AttributeOfHeader]
@@ -315,6 +318,7 @@ type
     FSatuan: TModSatuan;
     FTipeHarga: TModTipeHarga;
   public
+    destructor Destroy; override;
     class function GetTableName: string; override;
   published
     [AttributeOfHeader]
@@ -360,6 +364,9 @@ type
 
 implementation
 
+uses
+  System.SysUtils;
+
 
 class function TModTipeBarang.GetTableName: String;
 begin
@@ -369,6 +376,23 @@ end;
 class function TModMerk.GetTableName: String;
 begin
   Result := 'MERK';
+end;
+
+destructor TModBarang.Destroy;
+begin
+  inherited;
+  if Assigned(FSATUAN_STOCK) then FreeAndNil(FSATUAN_STOCK);
+  if Assigned(FSATUAN_PURCHASE) then FreeAndNil(FSATUAN_PURCHASE);
+  if Assigned(FMerchandise) then FreeAndNil(FMerchandise);
+  if Assigned(FMerchandiseGroup) then FreeAndNil(FMerchandiseGroup);
+  if Assigned(FKategori) then FreeAndNil(FKategori);
+  if Assigned(FMerk) then FreeAndNil(FMerk);
+  if Assigned(FOutlet) then FreeAndNil(FOutlet);
+  if Assigned(FLokasi) then FreeAndNil(FLokasi);
+
+  if Assigned(FKonversi) then FreeAndNil(FKonversi);
+  if Assigned(FSuppliers) then FreeAndNil(FSuppliers);
+  if Assigned(FTipeBarang) then FreeAndNil(FTipeBarang);
 end;
 
 function TModBarang.GetSuppliers: TObjectList<TModBarangSupplier>;
@@ -402,9 +426,22 @@ begin
   Result := 'REF$LOKASI';
 end;
 
+destructor TModBarangSupplier.Destroy;
+begin
+  inherited;
+  if Assigned(FSATUAN_PURCHASE) then FreeAndNil(FSATUAN_PURCHASE);
+  if Assigned(FSupplier) then FreeAndNil(FSupplier);
+end;
+
 class function TModBarangSupplier.GetTableName: string;
 begin
   Result := 'BARANG_SUPLIER';
+end;
+
+destructor TModKonversi.Destroy;
+begin
+  inherited;
+  if Assigned(FSatuan) then FreeAndNil(FSatuan);
 end;
 
 class function TModKonversi.GetTableName: string;
@@ -415,6 +452,13 @@ end;
 class function TModTipeHarga.GetTableName: String;
 begin
   Result := 'REF$TIPE_HARGA';
+end;
+
+destructor TModBarangHargaJual.Destroy;
+begin
+  inherited;
+  if Assigned(FSatuan) then FreeAndNil(FSatuan);
+  if Assigned(FTipeHarga) then FreeAndNil(FTipeHarga);
 end;
 
 class function TModBarangHargaJual.GetTableName: string;

@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
-  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls;
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin;
 
 type
   TfrmMain = class(TForm)
@@ -45,6 +45,8 @@ type
     mmLog: TMemo;
     rbTrace: TRadioGroup;
     StatusBar1: TStatusBar;
+    spSession: TSpinEdit;
+    Label2: TLabel;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
@@ -52,6 +54,7 @@ type
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
+    procedure mmLogChange(Sender: TObject);
     procedure rbTraceClick(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
@@ -70,7 +73,8 @@ implementation
 
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, uDBUtils,
-  ServerContainerUnit, uModTest, uModBank, WebModuleRetnoUnit, uTSINIFile;
+  ServerContainerUnit, uModTest, uModBank, WebModuleRetnoUnit, uTSINIFile,
+  Datasnap.DSHTTP;
 
 procedure TfrmMain.AEIdle(Sender: TObject; var Done: Boolean);
 begin
@@ -151,6 +155,11 @@ begin
 
   StartServer;
 
+end;
+
+procedure TfrmMain.mmLogChange(Sender: TObject);
+begin
+  spSession.Value := TDSSessionManager.Instance.GetSessionCount
 end;
 
 procedure TfrmMain.rbTraceClick(Sender: TObject);

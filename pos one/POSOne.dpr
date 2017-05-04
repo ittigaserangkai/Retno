@@ -29,7 +29,13 @@ uses
   uFormProperty in '..\system\uFormProperty.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
   uConstanta in 'uConstanta.pas',
-  uTSCommonDlg in '..\system\uTSCommonDlg.pas';
+  uTSCommonDlg in '..\system\uTSCommonDlg.pas',
+  uNewPOS in '..\classes\uNewPOS.pas',
+  uNewBarang in '..\classes\uNewBarang.PAS',
+  uNewBarangHargaJual in '..\classes\uNewBarangHargaJual.PAS',
+  uNewPOSTransactionCard in '..\classes\uNewPOSTransactionCard.pas',
+  uNewPosTransaction in '..\classes\uNewPosTransaction.pas',
+  uDXUtils in '..\lib\uDXUtils.pas';
 
 {$R *.res}
 

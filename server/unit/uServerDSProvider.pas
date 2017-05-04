@@ -4,7 +4,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModUnit, System.Generics.Collections, Data.FireDACJSONReflect,
-  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin;
+  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin, uServerClasses;
 
 type
   {$METHODINFO ON}
