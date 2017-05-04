@@ -11,9 +11,11 @@ uses
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.SQLite,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef, FireDAC.Phys.MSSQLDef,
-  FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL;
+  FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL, System.UITypes, Vcl.Forms, dxmdaset,
+  vcl.dialogs;
 
 type
+  TDBType = (dbtPOS, dbtStore);
   TdmMain = class(TDataModule)
     connGoro: TFDConnection;
     transGoro: TFDTransaction;
@@ -61,23 +63,48 @@ type
         string): string;
   end;
 
+function cGetAppPath: String;
 function getGlobalVar(aVarString : string): string;
-
-function cOpenQuery(aSQL : String): TFDQuery;
-
+function cOpenQuery(aSQL: String; aDBType: TDBType = dbtPOS; aIsUniDirect:
+    Boolean = False): TFDQuery;
 function cCekSqlFilterMerchandise(Assq: String): String;
-
 function cGetServerDateTime: TDateTime;
+procedure cRollbackTrans(ADBType: TDBType = dbtPOS);
+function cGetNextID(aFieldID, aTableName: String): Integer;
+
+function cExecSQL(ASQL: String; ADBType: TDBType = dbtPOS; ALangsungCommit:
+    Boolean = False): boolean; overload;
+
+function cExecSQLSelfCommit(ASQL: String; ADBType: TDBType = dbtPOS): boolean;
+
+function cExecSQL(ASQLs : TStrings; ADBType: TDBType = dbtPOS;
+    ALangsungCommint: Boolean = False; ACaption : String = 'Execute SQL'):
+    Boolean; overload;
+
+procedure cCommitTrans(ADBType: TDBType = dbtPOS);
+
+procedure PrintStrings(aSS: TStrings);
 
 var
   dmMain: TdmMain;
   aListMerID  : TStrings;
+  siFrtDec2: string = '0.00';
+  siFrtDec3: string = '0.000';
+  siFrtDec8: string = '0.00000000';
+  svFrtDec2: string = '#,##0.00';
+  svFrtDec3: string = '#,##0.000';
+
 implementation
 
 uses
-  uTSCommonDlg, uAppUtils;
+  Vcl.Printers, Winapi.WinSpool, uTSCommonDlg, uAppUtils;
 
 {$R *.dfm}
+
+function cGetAppPath: String;
+begin
+     result := ExtractFilePath(application.ExeName);
+end;
 
 function getGlobalVar(aVarString : string): string;
 var
@@ -99,40 +126,50 @@ begin
   end;
 end;
 
-function cOpenQuery(aSQL : String): TFDQuery;
+function cOpenQuery(aSQL: String; aDBType: TDBType = dbtPOS; aIsUniDirect:
+    Boolean = False): TFDQuery;
+var
+  saveCursor: TCursor;
 begin
-    Result := TFDQuery.create(dmMain);
+  Result := TFDQuery.create(dmMain);
+  if not dmMain.connGoro.Connected then
+  begin
+    dmMain.connGoro.Open(dmMain.FMSSQLConnectionString);
+  end;
+  if not dmMain.dbPOS.Connected then
+  begin
+    dmMain.dbPOS.Open(dmMain.FSQLiteConnectionString);
+  end;
 
-    if not dmMain.connGoro.Connected then
-    begin
-      dmMain.connGoro.Open(dmMain.FMSSQLConnectionString);
-    end;
+  if aDBType = dbtPOS then
+  begin
+    Result.Connection := dmMain.dbPOS;
+    Result.Transaction := dmMain.TransPOS;
+  end
+  else if aDBType = dbtStore then
+  begin
+    Result.Connection := dmMain.connGoro;
+    Result.Transaction := dmMain.transGoro;
+  end;
 
-    if not dmMain.dbPOS.Connected then
-    begin
-      dmMain.dbPOS.Open(dmMain.FSQLiteConnectionString);
-    end;
+  Result.FetchOptions.Unidirectional := aIsUniDirect;
+  Asql := cCekSqlFilterMerchandise(Asql);
 
-    if not Assigned(Result.Connection) then
-    begin
-      Result.Connection := dmMain.dbPOS;
-    end;
-
-    if not Assigned(Result.Transaction) then
-    begin
-      Result.Transaction := dmMain.TransPOS;
-    end;
-
-    Asql := cCekSqlFilterMerchandise(Asql);
-
-    Result.SQL.Clear;
-    Result.SQL.add(Asql);
+  Result.SQL.Clear;
+  Result.SQL.Add(ASQL);
+  try
+    saveCursor := Screen.Cursor;
+    Screen.Cursor := crHourGlass;
     try
-      Result.open;
-    except
-      FreeAndNil(Result);
-      raise;
-    end;
+      Result.Open;
+    finally
+    	Screen.Cursor := saveCursor;
+    end;  // try/finally
+//    Application.ProcessMessages;
+  except
+    FreeAndNil(Result);
+    raise;
+  end;
 end;
 
 function cCekSqlFilterMerchandise(Assq: String): String;
@@ -242,12 +279,14 @@ function cGetServerDateTime: TDateTime;
 var
     S: string;
 begin
+    //interbase
     S := 'Select current_timestamp as Result from RDB$database';
-
+    //sqlite
+    S := 'SELECT datetime(''now'');';
     with cOpenQuery(S) do
     begin
       try
-         Result := fields[0].AsDateTime;
+         Result := StrToDateTimeDef(fields[0].AsString, Now);
       finally
         Free;
       end;
@@ -255,19 +294,7 @@ begin
 
 end;
 
-{
-procedure TdmMain.tcpServerStorecmdPOSTransactVoucherCommand(
-  ASender: TIdCommand);
-begin
-  sendMessageToMainForm(WM_REFRESH_SERVER_MESSAGE, STORE_POS_TRANS_VOUCHER, 0);
-end;
 
-procedure TdmMain.tcpServerStorecmdPOSTransactKuponBotolCommand(
-  ASender: TIdCommand);
-begin
-  sendMessageToMainForm(WM_REFRESH_SERVER_MESSAGE, STORE_POS_TRANS_BOTOL, 0);
-end;
-}
 procedure TdmMain.sendMessageToMainForm(msg: Cardinal; Wparam: WPARAM;
   LParam: LPARAM);
 var
@@ -278,25 +305,7 @@ begin
   if (hwndParent <> 0) then
     SendMessage(hwndparent, msg, wParam, LParam);
 end;
-{
-procedure TdmMain.tcpServerStorecmdRefreshServerUpCommand(
-  ASender: TIdCommand);
-begin
-  sendMessageToMainForm(WM_REFRESH_SERVER_MESSAGE, REFRESH_SERVER_UP, 0);
-end;
 
-procedure TdmMain.tcpServerStorecmdRefreshServerDownCommand(
-  ASender: TIdCommand);
-begin
-  sendMessageToMainForm(WM_REFRESH_SERVER_MESSAGE, REFRESH_SERVER_DOWN, 0);
-end;
-
-procedure TdmMain.tcpServerStorecmdRefreshResetCashierCommand(
-  ASender: TIdCommand);
-begin
-  sendMessageToMainForm(WM_REFRESH_SERVER_MESSAGE, STORE_POS_RESET_CASHIER, 0);
-end;
-}
 procedure TdmMain.appevnMainException(Sender: TObject; E: Exception);
 begin
   CommonDlg.ShowError(E.Message);
@@ -325,19 +334,19 @@ var
   sSQL: string;
 begin
   Result := '';
-//  sSQL := ' select PAR_VALUE '
-//          + ' from SYS$PARAMETER '
-//          + ' where PAR_NAME = ' + QuotedStr(aVarString) ;
-//
-//  with cOpenQuery(sSQL) do
-//  begin
-//    try
-//    if not FieldByName('PAR_VALUE').IsNull then
-//      Result := fieldbyname('PAR_VALUE').AsString;
-//    finally
-//      Free;
-//    end;
-//  end;
+  sSQL := ' select PAR_VALUE '
+          + ' from SYS$PARAMETER '
+          + ' where PAR_NAME = ' + QuotedStr(aVarString) ;
+
+  with cOpenQuery(sSQL) do
+  begin
+    try
+    if not FieldByName('PAR_VALUE').IsNull then
+      Result := fieldbyname('PAR_VALUE').AsString;
+    finally
+      Free;
+    end;
+  end;
 end;
 
 function TdmMain.setConnectionString(aDriver, aServer, aDatabase, aUser,
@@ -349,9 +358,253 @@ begin
          +  ';User_name=' + aUser
          +  ';Password=' + aPassword;
   // TODO -cMM: TdmMain.setConnectionString default body inserted
-  if (aPassword<>'') and (aDriver='SQLite') then
-    Result := Result + ';Encrypt=aes-ctr-128';
+  if (aDriver='SQLite') then
+  begin
+    Result := Result + ';DateTimeFormat=DateTime'
+           + ';GUIDFormat=Binary';
+    if (aPassword<>'') then
+      Result := Result + ';Encrypt=aes-ctr-128';
+  end;
+end;
 
+procedure cCommitTrans(ADBType: TDBType = dbtPOS);
+begin
+  if ADBType = dbtPOS then
+  begin
+    if dmMain.TransPOS = nil then exit;
+
+    if dmMain.TransPOS.Active then
+    begin
+      dmMain.TransPOS.Commit;
+    end;
+  end
+  else if ADBType = dbtStore then
+  begin
+    if dmMain.transGoro = nil then exit;
+
+    if dmMain.transGoro.Active then
+    begin
+      dmMain.transGoro.Commit;
+    end;
+  end;
+end;
+
+procedure cRollbackTrans(ADBType: TDBType = dbtPOS);
+begin
+  if ADBType = dbtPOS then
+  begin
+    if dmMain.TransPOS = nil then exit;
+
+    if dmMain.TransPOS.Active then
+    begin
+      dmMain.TransPOS.Rollback;
+    end;
+  end
+  else if ADBType = dbtStore then
+  begin
+    if dmMain.transGoro = nil then exit;
+
+    if dmMain.transGoro.Active then
+    begin
+      dmMain.transGoro.Rollback;
+    end;
+  end;
+end;
+
+function cGetNextID(aFieldID, aTableName: String): Integer;
+var
+  Q : TFDQuery;
+  S : String;
+begin
+  try
+    S := 'select  max('+aFieldID+') from '+aTableName;
+    Q := cOpenQuery(S);
+    Result := Q.Fields[0].AsInteger + 1;
+  finally
+    FreeAndNIl(Q);
+  end;
+end;
+
+function cExecSQLSelfCommit(ASQL: String; ADBType: TDBType = dbtPOS): boolean;
+var
+  saveCursor: TCursor;
+  lIBTransaction: TFDTransaction;
+  Query1 : TFDQuery;
+begin
+  Result := False;
+  saveCursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
+    if UpperCase(Copy(Trim(ASQL),1,6)) = 'SELECT' then
+    begin
+      Exit;
+    end;
+
+    lIBTransaction := TFDTransaction.Create(Application);
+    with lIBTransaction do
+    begin
+      if ADBType = dbtPOS then
+        Connection := dmMain.dbPOS
+      else if ADBType = dbtStore then
+        Connection := dmMain.connGoro;
+      Options.Isolation := xiReadCommitted;
+      Options.DisconnectAction := xdRollback;
+    end;    // with
+
+    Query1 := TFDQuery.Create(Application);
+    Application.ProcessMessages;
+
+    if ADBType = dbtPOS then
+    begin
+      Query1.Connection := dmMain.dbPOS;
+    end
+    else if ADBType = dbtStore then
+    begin
+      Query1.Connection := dmMain.connGoro;
+    end;
+    Query1.Transaction := lIBTransaction;
+
+    Query1.Params.Clear;
+    Query1.SQL.Clear;
+    query1.SQL.Text := ASQL;
+    try
+      Application.ProcessMessages;
+      if not lIBTransaction.Active then
+      begin
+        lIBTransaction.StartTransaction;
+      end;
+
+      Query1.ExecSQL;
+      lIBTransaction.Commit;
+      Result := True;
+    except
+      lIBTransaction.Rollback;
+      //raise;
+    end;
+  finally
+    Screen.Cursor := saveCursor;
+    FreeAndNil(Query1);
+    FreeAndNil(lIBTransaction);
+  end;  // try/finally
+end;
+
+//-----------cExecSQL Try------------------------------------------------//
+function cExecSQL(ASQL: String; ADBType: TDBType = dbtPOS; ALangsungCommit:
+    Boolean = False): boolean;
+var
+  saveCursor: TCursor;
+  Query1 : TFDQuery;
+begin
+  Result := False;
+  saveCursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
+    if UpperCase(Copy(ASQL,1,6)) = 'SELECT' then
+    begin
+      Exit;
+    end;
+
+    Query1 := TFDQuery.Create(Application);
+    Application.ProcessMessages;
+
+    if ADBType = dbtPOS then
+    begin
+      Query1.Connection := dmMain.dbPOS;
+      Query1.Transaction := dmMain.transPOS;
+    end
+    else if ADBType = dbtStore then
+    begin
+      Query1.Connection := dmMain.connGoro;
+      Query1.Transaction := dmMain.transGoro;
+    end;
+
+    Query1.Params.Clear;
+    Query1.SQL.Clear;
+    query1.SQL.Text := ASQL;
+    try
+      Application.ProcessMessages;
+      if not Query1.Transaction.Active then
+      begin
+        Query1.Transaction.StartTransaction;
+      end;
+
+      Query1.ExecSQL;
+
+      if ALangsungCommit then
+      begin
+        cCommitTrans;
+      end;
+      Result := True;
+    except
+      cRollbackTrans;
+      raise;
+    end;
+    FreeAndNil(Query1);
+  finally
+    Screen.Cursor := saveCursor;
+  end;  // try/finally
+end;
+
+function cExecSQL(ASQLs : TStrings; ADBType: TDBType = dbtPOS;
+    ALangsungCommint: Boolean = False; ACaption : String = 'Execute SQL'):
+    Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  try
+    for i := 0 to ASQLs.count - 1 do
+    begin
+       if not cExecSQL(ASQLs[i], ADBType, ALangsungCommint) then
+       begin
+           cRollbackTrans;
+           Exit;
+       end;
+       Application.ProcessMessages;
+//       StepProgress(LjvProgressDlg, aCaption);
+    end;
+  finally
+  end;
+
+  Result := True;
+end;
+
+procedure PrintStrings(aSS: TStrings);
+var
+  Handle: THandle;
+  N: DWORD;
+  DocInfo1: TDocInfo1;
+  DriverName: array [0..255] of char;
+  DeviceName: array [0..255] of char;
+  OutPut: array [0..255] of char;
+  DeviceMode: Thandle;
+//  i: Integer;
+begin
+  Printer.GetPrinter(DeviceName, DriverName, Output, DeviceMode);
+  if not OpenPrinter(DeviceName, Handle, nil) then
+  begin
+    ShowMessage('error ' + IntToStr(GetLastError));
+    Exit;
+  end;
+
+  with DocInfo1 do
+  begin
+    pDocName := PChar('test doc');
+    pOutputFile := nil;
+    pDataType := 'RAW';
+  end;
+
+  StartDocPrinter(Handle, 1, @DocInfo1);
+  StartPagePrinter(Handle);
+
+  //for i := 0 to aSS.Count-1 do
+    //WritePrinter(Handle, PChar(aSS[i]), Length(aSS[i]), N);
+
+  WritePrinter(Handle, PChar(aSS.Text), Length(aSS.Text), N);
+
+  EndPagePrinter(Handle);
+  EndDocPrinter(Handle);
+  ClosePrinter(Handle);
 end;
 
 end.

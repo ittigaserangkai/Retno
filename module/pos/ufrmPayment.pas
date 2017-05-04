@@ -4,9 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, Mask, ufraLookUpCC, uSpell,
+  Dialogs, ExtCtrls, StdCtrls, Mask, ufraLookUpCC, uSpell, uNewPosTransaction,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
-  cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids;
+  cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids, FireDAC.Comp.Client,
+  uNewBarangStockSirkulasi, uNewBarang;
 
 type
   VoucherDetail = record
@@ -92,8 +93,6 @@ type
     edtBayarCC: TcxCurrencyEdit;
     Label2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure edtNilaiTunaiChange(Sender: TObject);
-    procedure edtNilaiCCChange(Sender: TObject);
     procedure edtJenisKartuCodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure fraLookUpCCsgLookupKeyDown(Sender: TObject; var Key: Word;
@@ -129,13 +128,15 @@ type
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure edtNoTransBotolKeyPress(Sender: TObject; var Key: Char);
-    procedure edtBayarCCChange(Sender: TObject);
     procedure edtBayarCCExit(Sender: TObject);
     procedure edtBayarCCKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtGoroQtyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtGoroValueKeyDown(Sender: TObject; var Key: Word; Shift:
         TShiftState);
+    procedure edtNilaiTunaiPropertiesChange(Sender: TObject);
+    procedure edtNilaiCCPropertiesChange(Sender: TObject);
+    procedure edtBayarCCPropertiesChange(Sender: TObject);
   private
     FCardID: Integer;
 		FCashBackNilai: Currency;
@@ -175,11 +176,11 @@ type
     FTipeIDConcession: Integer;
     FIsConcession: Boolean;
     FIsSaved: Boolean;
-//    FNewBarang: TNewBarang;
+    FNewBarang: TNewBarang;
     procedure ClearCCForm;
     function GetAmountNonJB(aRow: Integer): Double;
 		function GetDiscAMCRupiah: Currency;
-//    function GetNewBarang: TNewBarang;
+    function GetNewBarang: TNewBarang;
 		function GetPembulatan: Currency;
 		function GetTotalBayar: Currency;
     function GetVoucherLainJumlah: TStrings;
@@ -250,7 +251,7 @@ type
     property IsConcession: Boolean read FIsConcession write FIsConcession;
     property KonstantaPembulatan: Currency read FKonstantaPembulatan write
         FKonstantaPembulatan;
-//    property NewBarang: TNewBarang read GetNewBarang write FNewBarang;
+    property NewBarang: TNewBarang read GetNewBarang write FNewBarang;
 		property Pembulatan: Currency read GetPembulatan write FPembulatan;
     property ShowFooterKembalian: Integer read FShowFooterKembalian write
         FShowFooterKembalian;
@@ -311,12 +312,12 @@ begin
   Result := False;
   with frmTransaksi.sgTransaksi.DataController do
   begin
-    for i := 1 to RowCount - 1 do    // Iterate
+    for i := 0 to RecordCount - 1 do    // Iterate
     begin
-      if Values[_KolPLU, i] = '' then Continue;
-      if Trim(Values[_KolPLU, i]) = Trim(APLU) then
+      if Values[i, _KolPLU] = '' then Continue;
+      if Trim(Values[i, _KolPLU]) = Trim(APLU) then
       begin
-        if Values[_KolJumlah, i] >= AQTY then
+        if Values[i, _KolJumlah] >= AQTY then
         begin
           Result := True;
           Break;
@@ -496,12 +497,6 @@ begin
   edtPilihan.SelectAll;
 end;
 
-procedure TfrmPayment.edtNilaiTunaiChange(Sender: TObject);
-begin
-  CashNilai := edtNilaiTunai.Value;
-  HitungSisaUang;
-end;
-
 procedure TfrmPayment.ShowTotalBayar;
 var
   sPrec: string;
@@ -518,24 +513,6 @@ begin
   end;
 
   HitungSisaUang;
-end;
-
-procedure TfrmPayment.edtNilaiCCChange(Sender: TObject);
-begin
-//  if iEdit = 0 then
-//  begin             
-//    CCNilai                 := edtNilaiCC.Value;
-//    iEdit                   := 1;
-//    ShowTotalBayar;
-//  end
-//  else
-//  begin          
-//    CCNilai                 := edtNilaiCC.Value;
-//    CCDiscNominal           := (CCDisc/100)*CCNilai;
-//    edtCCDiscNominal.Text   := FormatFloat('#,##0',CCDiscNominal);
-//    ShowTotalBayar;
-//  end;
-//  HitungSisaUang;
 end;
 
 function TfrmPayment.GetCCChargePersen: Double;
@@ -644,7 +621,7 @@ begin
     + ' order by card_code';
 
   ClearCCForm;
-  {
+
   with cOpenQuery(sSQL) do
   begin
     try
@@ -698,7 +675,6 @@ begin
       Free;
     end;
   end;
-  }
   ShowTotalBayar;
 end;
 
@@ -870,6 +846,24 @@ begin
   end;
 end;
 
+procedure TfrmPayment.edtNilaiCCPropertiesChange(Sender: TObject);
+begin
+//  if iEdit = 0 then
+//  begin
+//    CCNilai                 := edtNilaiCC.Value;
+//    iEdit                   := 1;
+//    ShowTotalBayar;
+//  end
+//  else
+//  begin
+//    CCNilai                 := edtNilaiCC.Value;
+//    CCDiscNominal           := (CCDisc/100)*CCNilai;
+//    edtCCDiscNominal.Text   := FormatFloat('#,##0',CCDiscNominal);
+//    ShowTotalBayar;
+//  end;
+//  HitungSisaUang;
+end;
+
 procedure TfrmPayment.edtNomorCCKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -940,8 +934,8 @@ var
   aSpell: TSpell;
   DiscPersen : Double;
   dTotalNonJB: Double;
-//  lPosTrans: TPOSTransaction;
-//  lQ: TIBQuery;
+  lPosTrans: TPOSTransaction;
+  lQ: TFDQuery;
   sDiscPersen : String;
   sPrice: string;
   sReportPath: string;
@@ -974,23 +968,23 @@ begin
 
   mmoIsiStruk.Clear;
   mmoIsiStruk.Lines.Add(TAppUtils.StrPadRight('',41,'-'));
-  iRow := frmTransaksi.sgTransaksi.DataController.RowCount - 1;
+  iRow := frmTransaksi.sgTransaksi.DataController.RecordCount - 1;
   with frmTransaksi.sgTransaksi.DataController do
   begin
   for i := 1 to iRow do
   begin
-    if (Values[_KolPLU,i] <> '') then
+    if (Values[i, _KolPLU] <> '') then
     begin
       sTemp := ' ';
       if CCNilai <> 0 then
       begin
-        if (Values[_KolIsMailer,i] = '1') or (Values[_KolIsCharge,i] = '1')  then //kalo barang kena charge CC kasih @ di depan PLU
+        if (Values[i, _KolIsMailer] = '1') or (Values[i, _KolIsCharge] = '1')  then //kalo barang kena charge CC kasih @ di depan PLU
           sTemp := '@';
       end;
 
       if edtDiscGMCNominal.Value <> 0 then
       begin
-        if Values[_KolIsDiscGMC,i] = '1' then //kalo barang discon AMC kasih bintang di depan PLU
+        if Values[i, _KolIsDiscGMC] = '1' then //kalo barang discon AMC kasih bintang di depan PLU
           sTemp := sTemp + '*'
         else
           sTemp := sTemp + ' '
@@ -998,42 +992,42 @@ begin
       else
         sTemp := sTemp + ' ';
 
-      mmoIsiStruk.Lines.Add(Values[_KolPLU,i] + sTemp + LeftStr(Values[_KolNamaBarang,i],40));
+      mmoIsiStruk.Lines.Add(Values[i, _KolPLU] + sTemp + LeftStr(Values[i, _KolNamaBarang],40));
       {$IFDEF TSN}
-        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision, Values[_KolJumlah, i]),8,' ') + ' ';
-        sTemp := sTemp + TAppUtils.StrPadRight(Values[_KolUOM,i],5,' ') + 'x';
-        sPrice := IfThen(Values[_KolDisc, i]>0,
-            FormatFloat('#,##0',Values[_KolHarga, i]) + '-' + FormatFloat('#,#0',Values[_KolDiscP, i])+'%',
-            FormatFloat('#,##0',Values[_KolHarga, i]-Values[_KolDisc, i]));
+        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision, Values[i, _KolJumlah]),8,' ') + ' ';
+        sTemp := sTemp + TAppUtils.StrPadRight(Values[i, _KolUOM],5,' ') + 'x';
+        sPrice := IfThen(Values[i, _KolDisc]>0,
+            FormatFloat('#,##0',Values[i, _KolHarga]) + '-' + FormatFloat('#,#0',Values[i, _KolDiscP])+'%',
+            FormatFloat('#,##0',Values[i, _KolHarga]-Values[i, _KolDisc]));
 
-        if Values[_KolDiscMan, i] > 0 then
+        if Values[i, _KolDiscMan] > 0 then
         begin
-          DiscPersen  := RoundTo(Values[_KolDiscMan,i] / Values[_KolHarga,i] * 100, -2);
+          DiscPersen  := RoundTo(Values[i, _KolDiscMan] / Values[i, _KolHarga] * 100, -2);
           sDiscPersen := '-' +  FormatFloat('#,#0',DiscPersen) + '%';
           sPrice := sPrice + sDiscPersen;
         end;
 
         sTemp := sTemp + TAppUtils.StrPadLeftCut(sPrice,12,' ');
-        sTemp := sTemp + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolTotal, i]),13,' ');
+        sTemp := sTemp + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolTotal]),13,' ');
 
         mmoIsiStruk.Lines.Add(sTemp);
         dTotalNonJB := dTotalNonJB + GetAmountNonJB(i);
       {$ELSE}
-        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,Values[_KolJumlah, i]),10,' ') + ' '
-          + TAppUtils.StrPadRight(Values[_KolUOM,i],5,' ') + 'x'
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolHarga, i]-Values[_KolDisc, i]),10,' ')
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolTotal, i]+(Values[_KolDiscMan, i]*Values[_KolJumlah, i])),13,' ');
+        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,Values[i, _KolJumlah]),10,' ') + ' '
+          + TAppUtils.StrPadRight(Values[i, _KolUOM],5,' ') + 'x'
+          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolHarga]-Values[i, _KolDisc]),10,' ')
+          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolTotal]+(Values[i, _KolDiscMan]*Values[i, _KolJumlah])),13,' ');
 
         mmoIsiStruk.Lines.Add(sTemp);
-        if Values[_KolDiscMan, i] > 0 then
+        if Values[i, _KolDiscMan] > 0 then
         begin
-            DiscPersen  :=  RoundTo(Values[_KolDiscMan,i] / Values[_KolHarga,i] * 100, -2);
+            DiscPersen  :=  RoundTo(Values[i, _KolDiscMan] / Values[i, _KolHarga] * 100, -2);
             sDiscPersen := '(' + FloatToStr(DiscPersen) + '%)';
             While Length(sDiscPersen) < 10 do
             begin
               sDiscPersen :=  sDiscPersen + ' ';
             end;
-            sTemp :='Disc Manual ' + sDiscPersen + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolDiscMan, i]*Values[_KolJumlah, i]),18,' ');
+            sTemp :='Disc Manual ' + sDiscPersen + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolDiscMan]*Values[i, _KolJumlah]),18,' ');
             mmoIsiStruk.Lines.Add(sTemp);
         end;
       {$ENDIF}
@@ -1179,8 +1173,8 @@ begin
     mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
   end;
 
-  {
-  lQ := cOpenQuery('SELECT FOOTER FROM SP_HADIAH('+ Quot(frmTransaksi.edNoTrnTerakhir.Text) +')');
+
+  lQ := cOpenQuery('SELECT FOOTER FROM SP_HADIAH('+ QuotedStr(frmTransaksi.edNoTrnTerakhir.Text) +')');
   try
     while not lQ.Eof do
     begin
@@ -1190,7 +1184,6 @@ begin
   finally
     lQ.Free;
   end;
-  }
   mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER);
   mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
   mmoBackup.Lines.AddStrings(mmoFooterStruk.Lines);
@@ -1212,7 +1205,7 @@ begin
   //mmoBackup.Lines.Delete(mmoBackup.Lines.Count-1);
   Application.ProcessMessages;
 
-  {
+
   try
     begin
       //PrintFile(outFile);
@@ -1235,8 +1228,7 @@ begin
     //CommonDlg.ShowError('Gagal mencetak struk');
     ShowInfo('Gagal mencetak struk');
   end;
-  }
- {
+  {
   mmoFooterStruk.Lines.Add('');
   if FPromoTrans.Count > 0 then
     mmoFooterStruk.Lines.Add(arrSpasi[(47 - Length(PROMO_PREFIX)) div 2] + PROMO_PREFIX);
@@ -1257,7 +1249,7 @@ begin
   mmoTemp.Lines.LoadFromFile(FApplicationDir + 'utils\' + FILE_FOOTER);
   mmoBackup.Lines.AddStrings(mmoTemp.Lines);
   Application.ProcessMessages;
-}
+  }
 
   //print struk cashback---------------------------------
   if (edtCashBack.Visible) and (edtCashBack.Value > 0) then
@@ -1303,7 +1295,7 @@ begin
     //PrintFile(sReportPath + 'utils\' + FILE_HEADER_CASHBACK);
   end;
   //----------------------- end print struk cashback ---------------------------
-{
+  {
   //save struk to file for backup
   try
     PathBackup := FPathBackupStruk+'\'+FPOSCode+'\'+
@@ -1318,14 +1310,14 @@ begin
     //mmoTemp.Free;
     //mmoBackup.Free;
   end;
-}
+  }
 end;
 
 function TfrmPayment.SaveToDB: Boolean;
 var
   dItemsDiscCard: Double;
   dtTransaksi: TDateTime;
-//  lBarangStokSirkulasi: TBarangStockSirkulasiItems;
+  lBarangStokSirkulasi: TBarangStockSirkulasiItems;
 	bIsBKP: Boolean;
 	bIsDiscAMC: Boolean;
   i: Integer;
@@ -1340,9 +1332,9 @@ begin
   end;
 
   Result := False;
-  {
-  lDecimalSeparator := DecimalSeparator;
-  DecimalSeparator := '.';
+
+  lDecimalSeparator := FormatSettings.DecimalSeparator;
+  FormatSettings.DecimalSeparator := '.';
 
   ssSQL := TStringList.Create;
   try
@@ -1365,7 +1357,7 @@ begin
         end;
       end;    // for
                  
-      dtTransaksi := cGetServerTime;
+      dtTransaksi := cGetServerDateTime;
       with TPOSTransaction.Create(Self) do
       begin
       	try
@@ -1406,52 +1398,52 @@ begin
           lBarangStokSirkulasi := TBarangStockSirkulasiItems.Create(TBarangStockSirkulasiItem);
 
           //ShowMessage(IntToStr(frmTransaksi.sgTransaksi.RowCount));
-          with frmTransaksi.sgTransaksi do
+          with frmTransaksi.sgTransaksi.DataController do
           begin
             POSTransactionItems.Clear;
-            for i := 1 to RowCount - 1 do
+            for i := 0 to RecordCount - 1 do
             begin
-              if Values[_KolPLU,i] = '' then Continue;
+              if Values[i, _KolPLU] = '' then Continue;
 
               bIsBKP := False;
-              if Values[_KolIsBKP,i] = '1' then
+              if Values[i, _KolIsBKP] = '1' then
                 bIsBKP := True;
 
               bIsDiscAMC := False;
-              if Values[_KolIsDiscGMC,i] = '1' then
+              if Values[i, _KolIsDiscGMC] = '1' then
                 bIsDiscAMC := True;
 
               if edtJenisKartuName.Text <> '' then
               begin
-                dItemsDiscCard := (CCDisc/100)* (Values[_KolHarga, i] - Values[_KolDisc, i]);
+                dItemsDiscCard := (CCDisc/100)* (Values[i, _KolHarga] - Values[i, _KolDisc]);
               end
               else
               begin
                 dItemsDiscCard := 0;
               end;
 
-              UpdatePOSTransactionItems(Values[_KolBHJID].Ints[i], //Barang harga jual ID
-                Values[_KolCOGS, i], //COGS
-                Ints[_KolDetailID, i], //ID
+              UpdatePOSTransactionItems(Values[i, _KolBHJID], //Barang harga jual ID
+                Values[i, _KolCOGS], //COGS
+                Values[i, _KolDetailID], //ID
                 bIsBKP, bIsDiscAMC, //ID, IsBKP, IsDiscAMC
-                Values[_KolLastCost, i], //last cost
-                Values[_KolPPN, i], //PPN
-                Values[_KolPPNBM, i], //PPNBM
-                Values[_KolJumlah, i], //QTY
-                Values[_KolHarga, i], //SellPrice
-                Values[_KolHarga, i] - Values[_KolDisc, i], //SellPriceDisc
-                Values[_KolTotal, i], //Total
-                Values[_KolJumlah, i] * Values[_KolHargaExcPajak, i], //totalb4tax
-                (Values[_KolTotal, i]), //total ceil
+                Values[i, _KolLastCost], //last cost
+                Values[i, _KolPPN], //PPN
+                Values[i, _KolPPNBM], //PPNBM
+                Values[i, _KolJumlah], //QTY
+                Values[i, _KolHarga], //SellPrice
+                Values[i, _KolHarga] - Values[i, _KolDisc], //SellPriceDisc
+                Values[i, _KolTotal], //Total
+                Values[i, _KolJumlah] * Values[i, _KolHargaExcPajak], //totalb4tax
+                (Values[i, _KolTotal]), //total ceil
                 frmTransaksi.edNoTrnTerakhir.Text,
                 frmMain.UnitID,
-                frmTransaksi.sgTransaksi.Values[_KolPLU,i],  //BrgCode
-                Ints[_KolTipeBarang, i], // Tipe Barang
+                Values[i, _KolPLU],  //BrgCode
+                Values[i, _KolTipeBarang], // Tipe Barang
                 GetDiscItemAMCRp(i),
-                Values[_KolUOM, i],
+                Values[i, _KolUOM],
                 dItemsDiscCard, //disc Card
-                Values[_KolDiscMan, i],
-                Values[_Koldiscoto, i]);
+                Values[i, _KolDiscMan],
+                Values[i, _Koldiscoto]);
 
               with lBarangStokSirkulasi do
               begin
@@ -1460,15 +1452,15 @@ begin
                   UpdateData(TPOSTransaction.GetHeaderFlag,
                     0,0,0,
                     'POS Transaction',
-                    Values[_KolPLU,i],
+                    Values[i, _KolPLU],
                     frmMain.UnitID,
-                    Values[_KolUom,i],
+                    Values[i, _KolUom],
                     frmTransaksi.edNoTrnTerakhir.Text,
-                    0 - Values[_KolJumlah, i],
+                    0 - Values[i, _KolJumlah],
                     dtTransaksi,
                     'POS',
                     0);
-                  HargaTransaksi := Values[_KolHargaAvg, i];
+                  HargaTransaksi := Values[i, _KolHargaAvg];
                 end;
               end;    // with
             end;
@@ -1505,10 +1497,9 @@ begin
     end;    // with
 
   finally
-    DecimalSeparator := lDecimalSeparator;
+    FormatSettings.DecimalSeparator := lDecimalSeparator;
     FreeAndNil(ssSQL);
   end;
-  }
 end;
 
 procedure TfrmPayment.edtNilaiCCExit(Sender: TObject);
@@ -1627,7 +1618,7 @@ begin
       + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
       + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text)
       + ' group by a.tkb_status';
-     {
+
     with cOpenQuery(sSQL) do
     begin
       try
@@ -1665,7 +1656,7 @@ begin
                 + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
                 + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
                 + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
-                + '  and a.tkb_no = ' + Quot(edtNoTransBotol.Text);
+                + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text);
 
               with cOpenQuery(sSQL) do
               begin
@@ -1703,7 +1694,6 @@ begin
         Free;
       end;   
     end;
-    }
   end;
 end;
 
@@ -1720,7 +1710,7 @@ begin
     + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
     + '  and a.tkb_no = ' + QuotedStr(ANoTransaksi)
     + ' group by a.tkb_status';
-  {
+
   with cOpenQuery(sSQL) do
   begin
     try
@@ -1735,7 +1725,6 @@ begin
       Free;
     end;   
   end;
-  }
 end;
 
 function TfrmPayment.GetSisaBayar(AExclude: Double = 0): Currency;
@@ -1856,9 +1845,9 @@ begin
   {$ELSE}
   sNamaVoucher := 'Assaalaam';
   {$ENDIF}
-  {
+
   //cari di voucher
-  dtServerTime := cGetServerTime;
+  dtServerTime := cGetServerDateTime;
   if Trim(edtNoVoucher.Text) = '' then
   begin
     //edtGoroQty.Value := 0;
@@ -1883,7 +1872,7 @@ begin
             + ' TRANSRET_TOTAL_PRICE as Harga '
             + ' from TRANSAKSI_RETUR_NOTA '
             + ' where TRANSRET_UNT_ID = ' + IntToStr(frmMain.UnitID)
-            + ' and TRANSRET_NO = ' + Quot(edtNoVoucher.Text);
+            + ' and TRANSRET_NO = ' + QuotedStr(edtNoVoucher.Text);
 
       with cOpenQuery(sSQL) do
       begin
@@ -1947,7 +1936,7 @@ begin
             + 'inner join voucher_detil b on a.vcr_id = b.vcrd_vcr_id '
             + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
             + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
-            + '  and b.vcrd_no = ' + Quot(edtNoVoucher.Text)
+            + '  and b.vcrd_no = ' + QuotedStr(edtNoVoucher.Text)
             + ' group by b.vcrd_status, a.vcr_start_date, a.vcr_expire_date';
 
       with cOpenQuery(sSQL) do
@@ -2012,7 +2001,6 @@ begin
       end;
     end;
   end;
-  }
 end;
 
 procedure TfrmPayment.edtVoucherQtyKeyDown(Sender: TObject; var Key: Word;
@@ -2139,7 +2127,7 @@ begin
     + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
     + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
     + '  and b.vcrd_no = ' + QuotedStr(ANoVoucher);
-  {
+
   with cOpenQuery(sSQL) do
   begin
     try
@@ -2154,7 +2142,6 @@ begin
       Free;
     end;   
   end;
-  }
 end;
 
 procedure TfrmPayment.edtNoTransBotolKeyPress(Sender: TObject;
@@ -2188,17 +2175,6 @@ begin
   begin
     FCCDiscNominal := Value;
   end;
-end;
-
-procedure TfrmPayment.edtBayarCCChange(Sender: TObject);
-begin
-  CCBayar                   := edtBayarCC.Value;
-  CCDiscNominal             := Floor((CCDisc/100)*CCBayar);
-  CCNilai                   := CCBayar-CCDiscNominal;
-  edtCCDiscNominal.Text     := FormatFloat('#,##0',CCDiscNominal);
-  edtNilaiCC.Text           := FormatFloat('#,##0',CCNilai);
-  ShowTotalBayar;
-  HitungSisaUang;
 end;
 
 procedure TfrmPayment.edtBayarCCExit(Sender: TObject);
@@ -2282,6 +2258,17 @@ begin
 
 end;
 
+procedure TfrmPayment.edtBayarCCPropertiesChange(Sender: TObject);
+begin
+  CCBayar                   := edtBayarCC.Value;
+  CCDiscNominal             := Floor((CCDisc/100)*CCBayar);
+  CCNilai                   := CCBayar-CCDiscNominal;
+  edtCCDiscNominal.Text     := FormatFloat('#,##0',CCDiscNominal);
+  edtNilaiCC.Text           := FormatFloat('#,##0',CCNilai);
+  ShowTotalBayar;
+  HitungSisaUang;
+end;
+
 procedure TfrmPayment.edtGoroQtyKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -2306,19 +2293,23 @@ begin
   end;
 end;
 
+procedure TfrmPayment.edtNilaiTunaiPropertiesChange(Sender: TObject);
+begin
+  CashNilai := edtNilaiTunai.Value;
+  HitungSisaUang;
+end;
+
 function TfrmPayment.GetAmountNonJB(aRow: Integer): Double;
 begin
   Result := 0;
-  {
-  if NewBarang.LoadByKode(frmTransaksi.sgTransaksi.Values[_KolPLU].Rows[aRow]) then
+
+  if NewBarang.LoadByKode(frmTransaksi.sgTransaksi.DataController.Values[aRow, _KolPLU]) then
   begin
     if Trim(UpperCase(NewBarang.TipeBarang.Kode)) <> 'JB' then
-      Result := frmTransaksi.sgTransaksi.Values[_KolTotal, aRow];
+      Result := frmTransaksi.sgTransaksi.DataController.Values[aRow, _KolTotal];
   end;
-  }
 end;
 
-{
 function TfrmPayment.GetNewBarang: TNewBarang;
 begin
   if FNewBarang = nil then
@@ -2326,7 +2317,6 @@ begin
 
   Result := FNewBarang;
 end;
-}
 
 procedure TfrmPayment.ParsingPrintCardValidasi;
 var
@@ -2405,21 +2395,21 @@ begin
        DeleteFile(PChar(outFile));
 
     mmoIsiStruk.Clear;
-    iRow := frmTransaksi.sgTransaksi.DataController.RowCount - 1;
+    iRow := frmTransaksi.sgTransaksi.DataController.RecordCount - 1;
     with frmTransaksi.sgTransaksi.DataController do
     begin
-    for i := 1 to iRow do
+    for i := 0 to iRow do
     begin
-      if (Values[_KolPLU,i] <> '') and (Values[_KolTipeBarang,i] = TipeIDConcession)  then //kalo barang jenis JB
+      if (Values[i, _KolPLU] <> '') and (Values[i, _KolTipeBarang] = TipeIDConcession)  then //kalo barang jenis JB
       begin
         sTemp := '&';
-        mmoIsiStruk.Lines.Add(Values[_KolPLU,i] + sTemp + Values[_KolNamaBarang,i]);
-        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,Values[_KolJumlah, i]),8,' ') + ' '
-          + TAppUtils.StrPadRight(Values[_KolUOM,i],5,' ') + 'x'
-          + IfThen(Values[_KolDisc, i]>0,
-            TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolHarga, i]) + '-'+FormatFloat('#,#0',Values[_KolDiscP, i])+'%',12,' '),
-            TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolHarga, i]-Values[_KolDisc, i]),12,' '))
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[_KolTotal, i]),13,' ');
+        mmoIsiStruk.Lines.Add(Values[i, _KolPLU] + sTemp + Values[i, _KolNamaBarang]);
+        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,Values[i, _KolJumlah]),8,' ') + ' '
+          + TAppUtils.StrPadRight(Values[i, _KolUOM],5,' ') + 'x'
+          + IfThen(Values[i, _KolDisc]>0,
+            TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolHarga]) + '-'+FormatFloat('#,#0',Values[i, _KolDiscP])+'%',12,' '),
+            TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolHarga]-Values[i, _KolDisc]),12,' '))
+          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolTotal]),13,' ');
         mmoIsiStruk.Lines.Add(sTemp);
       end;
     end;

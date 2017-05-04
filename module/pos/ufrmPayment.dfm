@@ -140,6 +140,7 @@ object frmPayment: TfrmPayment
       Top = 6
       TabStop = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 1
       Width = 181
     end
@@ -148,6 +149,7 @@ object frmPayment: TfrmPayment
       Top = 54
       TabStop = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 3
       Width = 181
     end
@@ -156,6 +158,7 @@ object frmPayment: TfrmPayment
       Top = 30
       TabStop = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 2
       Width = 181
     end
@@ -164,6 +167,7 @@ object frmPayment: TfrmPayment
       Top = 54
       TabStop = False
       ParentFont = False
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 0
       Width = 46
     end
@@ -174,6 +178,13 @@ object frmPayment: TfrmPayment
       AutoSize = False
       ParentColor = True
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Style.Font.Charset = ANSI_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -21
+      Style.Font.Name = 'Courier New'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
       TabOrder = 4
       Height = 33
       Width = 277
@@ -461,6 +472,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 102
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.OnChange = edtBayarCCPropertiesChange
       TabOrder = 30
       OnExit = edtBayarCCExit
       OnKeyDown = edtBayarCCKeyDown
@@ -470,6 +483,7 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 150
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 29
       Width = 181
     end
@@ -550,6 +564,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 9
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.OnChange = edtNilaiTunaiPropertiesChange
       TabOrder = 0
       OnKeyDown = edtNilaiTunaiKeyDown
       Width = 181
@@ -559,6 +575,7 @@ object frmPayment: TfrmPayment
       Top = 78
       Enabled = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 3
       Width = 181
     end
@@ -566,6 +583,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 126
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.OnChange = edtNilaiCCPropertiesChange
       TabOrder = 4
       OnExit = edtNilaiCCExit
       OnKeyDown = edtNilaiCCKeyDown
@@ -585,6 +604,7 @@ object frmPayment: TfrmPayment
       Top = 54
       Enabled = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 10
       Width = 136
     end
@@ -593,6 +613,7 @@ object frmPayment: TfrmPayment
       Top = 111
       Enabled = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 13
       OnKeyDown = edtGoroValueKeyDown
       Width = 136
@@ -601,6 +622,7 @@ object frmPayment: TfrmPayment
       Left = 498
       Top = 135
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 15
       OnKeyDown = edtVoucherValueKeyDown
       Width = 136
@@ -609,6 +631,7 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 54
       ParentFont = False
+      Properties.AssignedValues.DisplayFormat = True
       TabOrder = 1
       OnExit = edtJenisKartuCodeExit
       OnKeyDown = edtJenisKartuCodeKeyDown
@@ -626,6 +649,7 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 198
       ParentFont = False
+      Properties.AssignedValues.DisplayFormat = True
       TabOrder = 6
       OnKeyDown = edtNoOtorisasiCCKeyDown
       Width = 181
@@ -634,6 +658,7 @@ object frmPayment: TfrmPayment
       Left = 468
       Top = 30
       ParentFont = False
+      Properties.AssignedValues.DisplayFormat = True
       TabOrder = 8
       OnExit = edtNoTransBotolExit
       OnKeyDown = edtNoTransBotolKeyDown
@@ -644,6 +669,7 @@ object frmPayment: TfrmPayment
       Left = 468
       Top = 87
       ParentFont = False
+      Properties.AssignedValues.DisplayFormat = True
       TabOrder = 11
       OnExit = edtNoVoucherExit
       OnKeyDown = edtNoVoucherKeyDown
@@ -653,6 +679,7 @@ object frmPayment: TfrmPayment
       Left = 30
       Top = 265
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 7
       Visible = False
       OnExit = edtCashBackExit
@@ -743,6 +770,7 @@ object frmPayment: TfrmPayment
       Top = 201
       TabStop = False
       ParentFont = False
+      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
       TabOrder = 16
       Width = 256
     end
@@ -762,6 +790,7 @@ object frmPayment: TfrmPayment
       Top = 54
       Enabled = False
       ParentFont = False
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 9
       Width = 28
     end
@@ -770,6 +799,7 @@ object frmPayment: TfrmPayment
       Top = 111
       Enabled = False
       ParentFont = False
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 12
       OnKeyDown = edtGoroQtyKeyDown
       Width = 28
@@ -778,6 +808,7 @@ object frmPayment: TfrmPayment
       Left = 468
       Top = 135
       ParentFont = False
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 14
       OnKeyDown = edtVoucherQtyKeyDown
       Width = 28
@@ -832,7 +863,7 @@ object frmPayment: TfrmPayment
       Left = 6
       Top = 6
       Width = 355
-      Height = 19
+      Height = 23
       TabStop = False
       Ctl3D = False
       Font.Charset = ANSI_CHARSET

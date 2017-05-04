@@ -48,7 +48,7 @@ const
 procedure TfraLookUpCC.cxGridViewKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
-  CC_Code := cxGridView.DataController.Values[_KolKode, cxGridView.DataController.RecNo];
+  CC_Code := cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, _KolKode];
   if ((Key = VK_UP) or (Key = 33)) and (cxGridView.DataController.RecNo = 1) then
   begin
     edNama.SetFocus;
@@ -127,8 +127,8 @@ procedure TfraLookUpCC.SetGridColumn;
 begin
   with cxGridView do
   begin
-    DataController.Values[_KolKode, 0] := 'Kode';
-    DataController.Values[_KolNama, 0] := 'Nama Kartu';
+    DataController.Values[0, _KolKode] := 'Kode';
+    DataController.Values[0, _KolNama] := 'Nama Kartu';
     Columns[_KolKode].Width := 50;
     Columns[_KolNama].Width := 160;
   end;
