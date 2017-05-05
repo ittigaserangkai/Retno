@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<TfrxReport Version="5.3.16" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42857.4741890162" ReportOptions.Description.Text="" ReportOptions.LastChange="42857.6528333333" ScriptLanguage="PascalScript" ScriptText.Text="&#13;&#10;begin&#13;&#10;&#13;&#10;end.">
+<TfrxReport Version="5.3.16" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42857.4741890162" ReportOptions.Description.Text="" ReportOptions.LastChange="42860.7110940278" ScriptLanguage="PascalScript" ScriptText.Text="&#13;&#10;begin&#13;&#10;&#13;&#10;end.">
   <Datasets>
     <item DataSet="IBQ1" DataSetName="IBQ1"/>
   </Datasets>
   <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
-  <TfrxReportPage Name="Page1" PaperWidth="215.9" PaperHeight="279.4" PaperSize="1" LeftMargin="10" RightMargin="10" TopMargin="10" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
-    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="22.67718" Left="0" Top="102.04731" Width="740.409927" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="IBQ1" RowCount="0">
-      <TfrxMemoView Name="IBQ1BRG_CODE" Left="15.11812" Top="0" Width="158.74026" Height="18.89765" DataField="BRG_CODE" DataSet="IBQ1" DataSetName="IBQ1" Text="[IBQ1.&#34;BRG_CODE&#34;]"/>
-      <TfrxMemoView Name="IBQ1BRG_NAME" Left="177.63791" Top="0" Width="400.63018" Height="18.89765" DataField="BRG_NAME" DataSet="IBQ1" DataSetName="IBQ1" Text="[IBQ1.&#34;BRG_NAME&#34;]"/>
-      <TfrxMemoView Name="IBQ1SOD_QTY" Left="578.26809" Top="0" Width="151.1812" Height="18.89765" DataField="SOD_QTY" DataSet="IBQ1" DataSetName="IBQ1" Text="[IBQ1.&#34;SOD_QTY&#34;]"/>
-    </TfrxMasterData>
-    <TfrxPageHeader Name="PageHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="22.67718" Left="0" Top="18.89765" Width="740.409927"/>
-  </TfrxReportPage>
+  <TfrxReportPage Name="Page1" PaperWidth="215.9" PaperHeight="279.4" PaperSize="1" LeftMargin="10" RightMargin="10" TopMargin="10" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text=""/>
 </TfrxReport>

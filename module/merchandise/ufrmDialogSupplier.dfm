@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -110
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -29,7 +30,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 451
       ClientRectRight = 667
@@ -507,13 +508,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               OptionsImage.ImageIndex = 13
               OptionsImage.Images = DMClient.imgListButton
               TabOrder = 2
+              Visible = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              OnClick = btnUpdateSuppClick
+              ExplicitTop = 3
             end
           end
           object cxGridSupplier: TcxGrid
@@ -565,6 +567,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           TabOrder = 1
           Properties.ActivePage = tsA
           Properties.CustomButtons.Buttons = <>
+          OnExit = pgcMerchanExit
           ClientRectBottom = 273
           ClientRectRight = 667
           ClientRectTop = 27
@@ -911,7 +914,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Height = 17
                 Caption = 'Sunday'
                 TabOrder = 6
-                OnKeyDown = chkSunKeyDown
               end
             end
             object cxLookupMerchGroup: TcxExtLookupComboBox
@@ -1114,7 +1116,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 Top = 213
                 Enabled = False
                 TabOrder = 12
-                OnKeyDown = edtAccountNoMerKeyDown
                 Width = 211
               end
               object chkIsDif: TCheckBox
