@@ -5,7 +5,6 @@ inherited frmMemberShip: TfrmMemberShip
   ClientHeight = 522
   ClientWidth = 773
   OldCreateOrder = True
-  ExplicitTop = -116
   ExplicitWidth = 789
   ExplicitHeight = 561
   PixelsPerInch = 96

@@ -198,14 +198,20 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       ExplicitWidth = 659
       inherited lbCTRLEnter: TLabel
         Left = 484
+        Height = 15
         ExplicitLeft = 484
       end
       inherited lbEscape: TLabel
         Left = 575
+        Height = 15
         ExplicitLeft = 575
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 408
+        Height = 15
         ExplicitLeft = 408
       end
     end

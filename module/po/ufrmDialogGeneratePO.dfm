@@ -270,6 +270,7 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
       end
       inherited btnPrint: TcxButton
         Left = 530
+        ExplicitLeft = 530
       end
     end
     inherited pnlSortCut: TPanel
@@ -277,20 +278,16 @@ inherited frmDialogDetailGeneratePO: TfrmDialogDetailGeneratePO
       ExplicitWidth = 777
       inherited lbCTRLEnter: TLabel
         Left = 602
-        Height = 15
         Visible = False
         ExplicitLeft = 602
       end
       inherited lbEscape: TLabel
         Left = 693
-        Height = 15
         ExplicitLeft = 693
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 526
+        ExplicitLeft = 526
       end
     end
   end

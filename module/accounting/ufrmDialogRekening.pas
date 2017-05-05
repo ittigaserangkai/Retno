@@ -443,7 +443,7 @@ begin
 
   edtRekCode.Text := ModRekening.REK_CODE;
   edtRekName.Text := ModRekening.REK_NAME;
-  intedtLevel.Value := ModRekening.REK_CODE;
+  intedtLevel.Value := ModRekening.REK_LEVEL;
   edtDescription.Text := ModRekening.REK_DESCRIPTION;
   if Assigned(ModRekening.RekeningGroup) then
     dbAccountGroup.EditValue := ModRekening.RekeningGroup.ID;
