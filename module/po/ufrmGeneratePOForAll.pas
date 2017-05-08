@@ -153,151 +153,14 @@ begin
 end;
 
 procedure TfrmGeneratePOforAll.actProcessPOExecute(Sender: TObject);
-var
-  i, _countToMaxPO: integer;
-  Bkp: Byte;
-  SupmgSubCode: string;
-//  ArrParam: TArr;
-  DataBarangBonus: TDataSet;
 begin
-  if isSOFound then
   try
-//    wCursor := TWaitCursor.Create;
-    lblKet.Caption := 'processing generate PO...';
+    DMClient.CrudPOClient.GeneratePO(cbbSO.EditValueText, cbbSupplierMG.EditValueText);
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
+  end;
 
-//    if(not Assigned(PurchasingOrder))then
-//      PurchasingOrder := TPurchasingOrder.Create;
-    Bkp:=2;
-    SupmgSubCode:='';
-    i:=0;
-    _countToMaxPO := INT_MAX_ROW_PO;
-    pbProcess.Properties.Max:= Length(DataSODetil);
-    while i <= Length(DataSODetil)-1 do
-    begin
-      pbProcess.Position := i+1;
-      with DataSODetil[i] do
-      begin
-        if(BRGSUP_SUPMG_SUB_CODE <> SupmgSubCode)or
-          (SOD_IS_BKP <> Bkp) or (_countToMaxPO = INT_MAX_ROW_PO) then
-        begin
-//          if _countToMaxPO = INT_MAX_ROW_PO then
-//          begin
-//            FNoPO:= PurchasingOrder.NextPONo;
-            _countToMaxPO := 0;
-//          end;
-          //Input data to table PO
-          {
-          SetLength(ArrParam,9);
-          ArrParam[0].tipe:= ptString;
-          ArrParam[0].data:= FNoPO;
-          ArrParam[1].tipe:= ptDateTime;
-          ArrParam[1].data:= Now + LEAD_TIME;
-          ArrParam[2].tipe:= ptString;
-          ArrParam[2].data:= SOD_SO_NO;
-          ArrParam[3].tipe:= ptString;
-          ArrParam[3].data:= BRGSUP_SUPMG_SUB_CODE;
-          ArrParam[4].tipe:= ptString;
-          ArrParam[4].data:= PO_DESCRIPTION_GENERATED;
-          ArrParam[5].tipe:= ptInteger;
-          ArrParam[5].data:= 1;
-          ArrParam[6].tipe:= ptInteger;
-          ArrParam[6].data:= 1;
-          ArrParam[7].tipe:= ptInteger;
-          ArrParam[7].data:= frmMain.LoginId;
-          ArrParam[8].tipe:= ptInteger;
-          ArrParam[8].data:= frmMain.LoginId;
-          PurchasingOrder.InputDataPO(ArrParam);
-          }
-          SupmgSubCode:= BRGSUP_SUPMG_SUB_CODE;
-          Bkp:= SOD_IS_BKP;
-        end;
-        {
-        FNoPODetil:= PurchasingOrder.NextPONoDetil;
-        //Input data to table PO_Detil
-        SetLength(ArrParam,20);
-        ArrParam[0].tipe:= ptString;
-        ArrParam[0].data:= FNoPO;
-        ArrParam[1].tipe:= ptInteger;
-        ArrParam[1].data:= SOD_BRGSUP_ID;
-        ArrParam[2].tipe:= ptCurrency;
-        ArrParam[2].data:= SOD_QTY;
-        ArrParam[3].tipe:= ptCurrency;
-        ArrParam[3].data:= SOD_QTY_COMMON;
-        ArrParam[4].tipe:= ptCurrency;
-        ArrParam[4].data:= SOD_QTY_TRADER;
-        ArrParam[5].tipe:= ptCurrency;
-        ArrParam[5].data:= SOD_QTY_ASSGROS;
-        ArrParam[6].tipe:= ptString;
-        ArrParam[6].data:= SOD_SAT_CODE;
-        ArrParam[7].tipe:= ptCurrency;
-        ArrParam[7].data:= SOD_PRICE;
-        ArrParam[8].tipe:= ptCurrency;
-        ArrParam[8].data:= SOD_DISC1;
-        ArrParam[9].tipe:= ptCurrency;
-        ArrParam[9].data:= SOD_DISC2;
-        ArrParam[10].tipe:= ptCurrency;
-        ArrParam[10].data:= SOD_DISC3;
-        //Cek BKP untuk menentukan pajak
-        if SOD_IS_BKP=1 then
-        begin
-          ArrParam[11].tipe:= ptCurrency;
-          ArrParam[11].data:= PJK_PPN;
-          ArrParam[12].tipe:= ptCurrency;
-          ArrParam[12].data:= PJK_PPNBM;
-        end
-        else
-        begin
-          ArrParam[11].tipe:= ptCurrency;
-          ArrParam[11].data:= 0;
-          ArrParam[12].tipe:= ptCurrency;
-          ArrParam[12].data:= 0;
-        end;
-        ArrParam[13].tipe:= ptInteger;
-        ArrParam[13].data:= BRG_IS_STOCK;
-        ArrParam[14].tipe:= ptInteger;
-        ArrParam[14].data:= SOD_IS_BKP;
-        ArrParam[15].tipe:= ptInteger;
-        ArrParam[15].data:= frmMain.LoginId;
-        ArrParam[16].tipe:= ptInteger;
-        ArrParam[16].data:= frmMain.LoginId;
-        ArrParam[17].tipe:= ptInteger;
-        ArrParam[17].data:= SOD_ID;
-        ArrParam[18].tipe:= ptString;
-        ArrParam[18].data:= SOD_BRG_CODE;
-        ArrParam[19].tipe:= ptInteger;
-        ArrParam[19].data:= FNoPODetil;
-        PurchasingOrder.InputDataPODetil(ArrParam);
-        PurchasingOrder.UpdateIsOrderedInSODetil(SOD_ID);
-          DataBarangBonus:= PurchasingOrder.GetBonusAturan(SOD_BRG_CODE, SOD_QTY_COMMON, SOD_QTY_COMMON, dtDatePO.Date, dtDatePO.Date);
-          if not DataBarangBonus.IsEmpty then
-          begin
-            //Input data to table PO_Bonus
-            SetLength(ArrParam,6);
-            ArrParam[0].tipe:= ptInteger;
-            ArrParam[0].data:= FNoPODetil;
-            ArrParam[1].tipe:= ptString;
-            ArrParam[1].data:= DataBarangBonus.fieldbyname('BNS_BRG_CODE_BNS').AsString;
-            ArrParam[2].tipe:= ptInteger;
-            ArrParam[2].data:= DataBarangBonus.fieldbyname('BNS_QTY_CS').AsInteger;
-            ArrParam[3].tipe:= ptInteger;
-            ArrParam[3].data:= DataBarangBonus.fieldbyname('BNS_QTY_SALES').AsInteger;
-            ArrParam[4].tipe:= ptInteger;
-            ArrParam[4].data:= frmMain.LoginId;
-            ArrParam[5].tipe:= ptInteger;
-            ArrParam[5].data:= frmMain.LoginId;
-            PurchasingOrder.InputDataPOBonus(ArrParam);
-          end; }
-      end;
-      inc(i);
-      Inc(_countToMaxPO);
-    end;
-    lblKet.Caption := 'Process generate PO successfully.';
-    CommonDlg.ShowConfirmGlobal(GENERATE_PO_SUCCESSFULLY);
-    btnProcessPO.Enabled := false;
-    btnDetailPO.Visible := true;
-  finally
-    pbProcess.Position := pbProcess.Properties.Max;
-  end
 end;
 
 procedure TfrmGeneratePOforAll.btn1Click(Sender: TObject);
@@ -465,7 +328,7 @@ end;
 procedure TfrmGeneratePOforAll.InisialisasiCBBSO;
 begin
   // SO_ID,SO_NO
-  FCDSSO := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOLookUp(nil), Self);
+  FCDSSO := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOLookUpGeneratePO(nil), Self);
   cbbSO.Properties.LoadFromCDS(FCDSSO,'SO_ID','SO_NO',['SO_ID'],Self);
   cbbSO.Properties.SetMultiPurposeLookup;
 end;

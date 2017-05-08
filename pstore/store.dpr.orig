@@ -74,7 +74,6 @@ uses
   ufrmDialogInputProductForNotSO in '..\module\so\ufrmDialogInputProductForNotSO.pas' {frmDialogInputProductForNotSO},
   ufrmCreateSO in '..\module\so\ufrmCreateSO.pas' {frmCreateSO},
   ufrmGeneratePOForAll in '..\module\po\ufrmGeneratePOForAll.pas' {frmGeneratePOforAll},
-  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   ufrmGeneratePOBonus in '..\module\po\ufrmGeneratePOBonus.pas' {frmGeneratePOBonus},
   ufrmChangeStatusPO in '..\module\merchandise\ufrmChangeStatusPO.pas' {frmChangeStatusPO},
   ufrmCancellationPO in '..\module\po\ufrmCancellationPO.pas' {frmCancellationPO},
@@ -96,7 +95,7 @@ uses
   uSpecialKey in '..\classes\uSpecialKey.pas',
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
-  uDMReport in '..\system\uDMReport.pas' {dmReport},
+  uDMReport in '..\system\uDMReport.pas' {DMReport},
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
@@ -130,7 +129,6 @@ uses
   ufrmDialogCashDropping in '..\module\cashier_supv\ufrmDialogCashDropping.pas' {frmDialogCashDropping},
   ufrmPopupHistCD in '..\module\cashier_supv\ufrmPopupHistCD.pas' {frmPopupHistCD},
   ufrmResetCashier in '..\module\cashier_supv\ufrmResetCashier.pas' {frmResetCashier},
-  uModSuplier in '..\model\uModSuplier.pas',
   uModTipePembayaran in '..\model\uModTipePembayaran.pas',
   uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
   ufrmReturNota in '..\module\cashier_supv\ufrmReturNota.pas' {frmReturNota},
@@ -177,24 +175,32 @@ uses
   ufrmListMemberTransaction in '..\module\cashier_supv\ufrmListMemberTransaction.pas' {frmListMemberTransaction},
   ufrmRafaksi in '..\module\inventory\ufrmRafaksi.pas' {frmRafaksi},
   ufrmDialogRafaksi in '..\module\inventory\ufrmDialogRafaksi.pas' {frmDialogRafaksi},
-<<<<<<< HEAD
+  ufrmReturTrader in '..\module\inventory\ufrmReturTrader.pas' {frmReturTrader},
+  ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader},
   uModRefAgama in '..\model\uModRefAgama.pas',
   ufrmSO in '..\module\so\ufrmSO.pas' {frmSO},
-  ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO};
+  ufrmDialogSO in '..\module\so\ufrmDialogSO.pas' {frmDialogSO},
+  uModSO in '..\model\uModSO.pas',
+  uModSuplier in '..\model\uModSuplier.pas',
+  ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang},
+  uModPO in '..\model\uModPO.pas',
+  ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
+  ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
+<<<<<<< HEAD
+  uModDO in '..\model\uModDO.pas';
 =======
-  ufrmReturTrader in '..\module\inventory\ufrmReturTrader.pas' {frmReturTrader},
-  ufrmDialogReturTrader in '..\module\inventory\ufrmDialogReturTrader.pas' {frmDialogReturTrader};
->>>>>>> 4be227871f9dd1e40d9204d68806cd6ed96530c3
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO};
+>>>>>>> 67321e138606a70229feacfcc3e33bd5627fc93d
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TdmReport, dmReport);
-  Application.CreateForm(TfrmDialogSO, frmDialogSO);
+  Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogDetailGeneratePO, frmDialogDetailGeneratePO);
   Application.Run;
 end.

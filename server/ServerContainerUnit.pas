@@ -77,6 +77,7 @@ begin
   //custom class here :
   TCustServerClass.Create(Self, DSServer, TSuggestionOrder, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudSupplier, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCrudPO, DSServerClass.LifeCycle);
 end;
 
 

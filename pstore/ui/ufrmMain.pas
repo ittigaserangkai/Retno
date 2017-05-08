@@ -190,6 +190,8 @@ type
     actPurchaseOrder: TAction;
     AppEvents: TApplicationEvents;
     LookAndFeelController: TcxLookAndFeelController;
+    N1: TMenuItem;
+    GoodReceiving1: TMenuItem;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -548,32 +550,7 @@ begin
   actOnLogout.Enabled := false;
   SettingMainMenu(rNobody);
 
-  // setting store - refresh server
-//  GetIPFromHost(Host,IP,erMsg);
-//  _INIWriteString(CONFIG_FILE, LOCAL_CLIENT, 'Localhost', IP);
-//  Port := _INIReadInteger(CONFIG_FILE, LOCAL_CLIENT, 'LocalPort'); // must: 49516
 
-  {dmMain.tcpServerStore.Active := false;
-  dmMain.tcpServerStore.Bindings.Clear;
-  with dmMain.tcpServerStore.Bindings.Add do
-  begin
-    IP := _INIReadString(CONFIG_FILE, LOCAL_CLIENT, 'LocalHost');
-    Port := _INIReadInteger(CONFIG_FILE, LOCAL_CLIENT, 'LocalPort');
-  end;
-  dmMain.tcpServerStore.Active := true;
-
-  with dmMain.tcpClientStore do
-  begin
-    Host := _INIReadString(CONFIG_FILE, REFRESH_SERVER, 'RemoteHost');
-    Port := _INIReadInteger(CONFIG_FILE, REFRESH_SERVER, 'RemotePort');
-  end;
-  }
-
-  //Get global Variable
-//  if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
-//     igProd_Code_Length := iTemp;
-//  if TryStrToInt(getGlobalVar('PRICEPRECISION'), iTemp) then
-//     igPrice_Precision := iTemp;
 end;
 
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);

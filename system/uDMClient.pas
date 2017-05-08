@@ -21,10 +21,12 @@ type
     procedure DataModuleCreate(Sender: TObject);
   private
     FCrudClient: TCrudClient;
+    FCrudPOClient: TCrudPOClient;
     FCrudSupplierClient: TCrudSupplierClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
     function GetCrudClient: TCrudClient;
+    function GetCrudPOClient: TCrudPOClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -32,6 +34,7 @@ type
     { Private declarations }
   public
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
+    property CrudPOClient: TCrudPOClient read GetCrudPOClient write FCrudPOClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
@@ -99,6 +102,15 @@ begin
 
   FCrudClient := TCrudClient.Create(RestConn, InstanceOwner);
   Result := FCrudClient;
+end;
+
+function TDMClient.GetCrudPOClient: TCrudPOClient;
+begin
+  if FCrudPOClient <> nil then
+    FreeAndNil(FCrudPOClient);
+
+  FCrudPOClient := TCrudPOClient.Create(DMClient.RestConn, InstanceOwner);
+  Result        := FCrudPOClient;
 end;
 
 function TDMClient.GetCrudSupplierClient: TCrudSupplierClient;

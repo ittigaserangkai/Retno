@@ -19,6 +19,9 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       Width = 780
       Height = 244
       TabOrder = 2
+      ExplicitTop = 126
+      ExplicitWidth = 780
+      ExplicitHeight = 244
     end
     object pnlTop: TPanel
       Left = 2
@@ -382,7 +385,6 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 1
-      ExplicitTop = 314
       object lbl18: TLabel
         Left = 15
         Top = 35
@@ -484,32 +486,46 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 436
     Width = 784
+    ExplicitTop = 436
+    ExplicitWidth = 784
     inherited pnlFooter: TPanel
       Width = 784
+      ExplicitWidth = 784
       inherited btnClose: TcxButton
         Left = 707
         Action = actCancel
+        ExplicitLeft = 707
       end
       inherited btnSave: TcxButton
         Left = 614
         Action = actSave
-        ExplicitLeft = 524
+        ExplicitLeft = 614
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 537
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 784
+      ExplicitWidth = 784
       inherited lbCTRLEnter: TLabel
         Left = 609
         Height = 15
+        ExplicitLeft = 609
       end
       inherited lbEscape: TLabel
         Left = 700
         Height = 15
+        ExplicitLeft = 700
       end
       inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 533
         Height = 15
       end
     end

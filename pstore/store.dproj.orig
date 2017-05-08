@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>store.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -69,9 +69,10 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2.1.1.2;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_DcuOutput>D:\SharedProjects\Projects\Retno\pstore\dcu</DCC_DcuOutput>
-        <DCC_ExeOutput>D:\SharedProjects\Projects\build\Retno\bin\</DCC_ExeOutput>
+        <DCC_DcuOutput>..\bin\</DCC_DcuOutput>
+        <DCC_ExeOutput>..\bin\</DCC_ExeOutput>
         <Icon_MainIcon>store_Icon.ico</Icon_MainIcon>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -290,10 +291,6 @@
             <Form>frmGeneratePOforAll</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
-            <Form>frmDialogDetailGeneratePO</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\module\po\ufrmGeneratePOBonus.pas">
             <Form>frmGeneratePOBonus</Form>
             <FormType>dfm</FormType>
@@ -375,7 +372,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\uDMReport.pas">
-            <Form>dmReport</Form>
+            <Form>DMReport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\HPHELP.PAS"/>
@@ -495,7 +492,6 @@
             <Form>frmResetCashier</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModSuplier.pas"/>
         <DCCReference Include="..\model\uModTipePembayaran.pas"/>
         <DCCReference Include="..\model\uModTipeKirimPO.pas"/>
         <DCCReference Include="..\module\cashier_supv\ufrmReturNota.pas">
@@ -675,7 +671,14 @@
             <Form>frmDialogRafaksi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-<<<<<<< HEAD
+        <DCCReference Include="..\module\inventory\ufrmReturTrader.pas">
+            <Form>frmReturTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogReturTrader.pas">
+            <Form>frmDialogReturTrader</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="..\model\uModRefAgama.pas"/>
         <DCCReference Include="..\module\so\ufrmSO.pas">
             <Form>frmSO</Form>
@@ -683,16 +686,31 @@
         </DCCReference>
         <DCCReference Include="..\module\so\ufrmDialogSO.pas">
             <Form>frmDialogSO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModSO.pas"/>
+        <DCCReference Include="..\model\uModSuplier.pas"/>
+        <DCCReference Include="..\module\references\ufrmPilihUnit.pas">
+            <Form>frmPilihCabang</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModPO.pas"/>
+        <DCCReference Include="..\client\ui\ufrmMouselessMenu.pas">
+            <Form>frmMouselesMenu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmCXLookup.pas">
+            <Form>frmCXLookup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+<<<<<<< HEAD
+        <DCCReference Include="..\model\uModDO.pas"/>
 =======
-        <DCCReference Include="..\module\inventory\ufrmReturTrader.pas">
-            <Form>frmReturTrader</Form>
+        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
+            <Form>frmDialogDetailGeneratePO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\inventory\ufrmDialogReturTrader.pas">
-            <Form>frmDialogReturTrader</Form>
->>>>>>> 4be227871f9dd1e40d9204d68806cd6ed96530c3
-            <FormType>dfm</FormType>
-        </DCCReference>
+>>>>>>> 67321e138606a70229feacfcc3e33bd5627fc93d
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -719,21 +737,6 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="2">
-<<<<<<< HEAD
-=======
-                <DeployFile LocalName="..\..\build\Retno\bin\store.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>store.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
->>>>>>> 4be227871f9dd1e40d9204d68806cd6ed96530c3
-                <DeployFile LocalName="..\bin\store.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>store.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="..\lib\HPHELP.PAS" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -746,12 +749,39 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployFile LocalName="..\lib\HPHELP.PAS" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\bin\store.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>store.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1105,27 +1135,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
