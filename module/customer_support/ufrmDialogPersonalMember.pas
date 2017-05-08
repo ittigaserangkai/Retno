@@ -256,35 +256,43 @@ end;
 function TfrmDialogPersonalMember.ChekEmptyValue: Boolean;
 begin
   Result := False;
-  if (edtName.Text = '') then
-  begin
-    TAppUtils.Warning('Nama Member Tidak Boleh Kosong');
-    edtName.SetFocus;
-    Exit;
-  end;
 
-  if (edtTempatLhr.Text = '') then
-  begin
-    TAppUtils.Warning('Tempat Lahir Tidak Boleh Kosong');
-    edtTempatLhr.SetFocus;
+  if not ValidateEmptyCtrl([1]) then
     Exit;
-  end;
 
-  if (edtNoIdentts.Text = '') then
-  begin
-    TAppUtils.Warning('Nomor Identitas Tidak Boleh Kosong');
-    edtNoIdentts.SetFocus;
-    Exit;
-  end;
+  Result := True;
 
-  if (edtAlamat.Text = '') then
-  begin
-    TAppUtils.Warning('Alamat Tidak Boleh Kosong');
-    edtAlamat.SetFocus;
-    Exit;
-  end;
 
-  Result := true;
+
+//  if (edtName.Text = '') then
+//  begin
+//    TAppUtils.Warning('Nama Member Tidak Boleh Kosong');
+//    edtName.SetFocus;
+//    Exit;
+//  end;
+//
+//  if (edtTempatLhr.Text = '') then
+//  begin
+//    TAppUtils.Warning('Tempat Lahir Tidak Boleh Kosong');
+//    edtTempatLhr.SetFocus;
+//    Exit;
+//  end;
+//
+//  if (edtNoIdentts.Text = '') then
+//  begin
+//    TAppUtils.Warning('Nomor Identitas Tidak Boleh Kosong');
+//    edtNoIdentts.SetFocus;
+//    Exit;
+//  end;
+//
+//  if (edtAlamat.Text = '') then
+//  begin
+//    TAppUtils.Warning('Alamat Tidak Boleh Kosong');
+//    edtAlamat.SetFocus;
+//    Exit;
+//  end;
+//
+//  Result := true;
 end;
 
 procedure TfrmDialogPersonalMember.SimpanData;

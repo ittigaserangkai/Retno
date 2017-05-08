@@ -3,8 +3,6 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
-  ExplicitLeft = 5
-  ExplicitTop = 1
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -445,7 +443,8 @@ inherited frmDialogSO: TfrmDialogSO
       end
       inherited lblCTRLP: TLabel
         Left = 639
-        ExplicitLeft = 517
+        Height = 15
+        ExplicitLeft = 639
       end
     end
   end

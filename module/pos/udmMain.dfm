@@ -81,6 +81,7 @@ object dmMain: TdmMain
       'Database=D:\SharedProjects\Projects\Retno\db\POS.sdb'
       'Password=masterkey'
       'Encrypt=aes-ctr-128'
+      'DateTimeFormat=DateTime'
       'DriverID=SQLite')
     LoginPrompt = False
     Left = 160

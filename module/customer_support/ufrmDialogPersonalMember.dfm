@@ -173,6 +173,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Caption = 'Tipe Member'
       end
       object dtLahir: TcxDateEdit
+        Tag = 1
         Left = 242
         Top = 35
         Properties.SaveTime = False
@@ -181,6 +182,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Width = 97
       end
       object edtTempatLhr: TEdit
+        Tag = 1
         Left = 117
         Top = 35
         Width = 120
@@ -191,6 +193,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         TabOrder = 1
       end
       object edtNoIdentts: TEdit
+        Tag = 1
         Left = 117
         Top = 59
         Width = 120
@@ -201,6 +204,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         TabOrder = 3
       end
       object edtAlamat: TEdit
+        Tag = 1
         Left = 117
         Top = 132
         Width = 344
@@ -211,6 +215,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         TabOrder = 6
       end
       object edtRt: TEdit
+        Tag = 1
         Left = 117
         Top = 155
         Width = 40
@@ -233,6 +238,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         TabOrder = 10
       end
       object edtRw: TEdit
+        Tag = 1
         Left = 161
         Top = 155
         Width = 40
@@ -278,6 +284,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         TabOrder = 13
       end
       object cbbGender: TComboBox
+        Tag = 1
         Left = 117
         Top = 82
         Width = 120
@@ -295,6 +302,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
           'PRIA')
       end
       object cbbWarganegara: TComboBox
+        Tag = 1
         Left = 117
         Top = 9
         Width = 120
@@ -312,6 +320,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
           'WNI')
       end
       object cbbStatus: TComboBox
+        Tag = 1
         Left = 117
         Top = 227
         Width = 81
@@ -341,6 +350,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Width = 109
       end
       object cbpAgama: TcxExtLookupComboBox
+        Tag = 1
         Left = 116
         Top = 107
         TabOrder = 5
@@ -387,6 +397,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Width = 109
       end
       object cbpMember: TcxExtLookupComboBox
+        Tag = 1
         Left = 603
         Top = 34
         Properties.OnEditValueChanged = cbpMemberPropertiesEditValueChanged
@@ -394,6 +405,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Width = 132
       end
       object cbpKelurahan: TcxExtLookupComboBox
+        Tag = 1
         Left = 313
         Top = 154
         Properties.OnEditValueChanged = cbpKelurahanPropertiesEditValueChanged
@@ -426,6 +438,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Caption = 'Card No.'
       end
       object edtName: TEdit
+        Tag = 1
         Left = 118
         Top = 9
         Width = 120
@@ -437,9 +450,9 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       end
       object edtCardNo: TEdit
         AlignWithMargins = True
-        Left = 350
+        Left = 348
         Top = 5
-        Width = 407
+        Width = 409
         Height = 31
         Align = alRight
         BorderStyle = bsNone
@@ -456,6 +469,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ReadOnly = True
         TabOrder = 1
         Text = '01330001217'
+        ExplicitLeft = 350
       end
     end
   end

@@ -335,8 +335,8 @@ end;
 
 procedure TfrmGeneratePOforAll.InisialisasiCBBSupMG;
 begin
-  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
-  cbbSupplierMG.Properties.LoadFromCDS(FCDSSUPMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_SUB_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.GeneratePO_GetDSLookup(dtDateSO.Date, dtDateSO.Date, null), Self);
+  cbbSupplierMG.Properties.LoadFromCDS(FCDSSUPMG,'SO_NO','SO_DATE',['SO_ID','AUNT$UNIT_ID','REF$MERCHANDISE_ID', 'SUPPLIER_MERCHAN_GRUP_ID','OP_CREATE','DATE_CREATE'],Self);
   cbbSupplierMG.Properties.SetMultiPurposeLookup;
 end;
 

@@ -819,10 +819,10 @@ class function TAppUtils.QuotD(aDate : TDateTime; aTambahJam235959 : Boolean =
 begin
     if not aTambahJam235959 then
     begin
-      Result := Quot(FormatDateTime('mm/dd/yyyy', aDate));
+      Result := Quot(FormatDateTime('yyyy-mm-dd', aDate));
     end else
     begin
-      Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
+      Result := Quot(FormatDateTime('yyyy-mm-dd 23:59:59', aDate));
     end;
 end;
 

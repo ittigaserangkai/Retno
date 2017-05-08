@@ -62,12 +62,12 @@ procedure TfrmTransaksiPending.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
 	Action := caFree;
-  frmMain.miTransactionEndUserClick(frmMain.miTransactionEndUser);
+  frmMain.miTransactionEndUserClick(Self);
 end;
 
 procedure TfrmTransaksiPending.btnCloseClick(Sender: TObject);
 begin
-	Self.Close;
+	Close;
 end;
 
 procedure TfrmTransaksiPending.LoadPendingFromDBwClass(AMemberCode: String);
@@ -81,13 +81,13 @@ begin
   try
     with sgTransaksi.DataController do
     begin
-      frmTransaksi.edNoPelanggan.Text := Values[_Kol_MEMBER_CARD_NO, RecNo];
+      frmTransaksi.edNoPelanggan.Text := Values[RecNo, _Kol_MEMBER_CARD_NO];
       if (frmTransaksi.edNoPelanggan.Text = '') or (frmTransaksi.edNoPelanggan.Text = '0') then
         frmTransaksi.LoadMember(frmTransaksi.GetDefaultMember)
       else
         frmTransaksi.LoadMember(frmTransaksi.edNoPelanggan.Text);
-      frmTransaksi.edNoTrnTerakhir.Text := Values[_Kol_TRANS_NO, RecNo];
-      TryStrToInt(Values[_Kol_TRANS_ID, RecNo], iTransID);
+      frmTransaksi.edNoTrnTerakhir.Text := Values[RecNo, _Kol_TRANS_NO];
+      TryStrToInt(Values[RecNo, _Kol_TRANS_ID], iTransID);
     end;
   finally
     frmTransaksi.SetGridHeader_Transaksi;

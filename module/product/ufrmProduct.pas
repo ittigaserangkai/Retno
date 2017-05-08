@@ -165,14 +165,6 @@ type
     btnValidateProduct: TcxButton;
     cbpProductCode: TcxButtonEdit;
     cbpCompCode: TcxExtLookupComboBox;
-    tsImport: TcxTabSheet;
-    cxGrid1: TcxGrid;
-    cxGrdXLS: TcxGridDBTableView;
-    cxGridLevel1: TcxGridLevel;
-    Panel1: TPanel;
-    btnImport: TcxButton;
-    OpDialog: TOpenDialog;
-    edFileName: TcxButtonEdit;
     procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -198,11 +190,7 @@ type
     procedure actProductTurunanExecute(Sender: TObject);
     procedure cbpProductCodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
-    procedure btnImportPropertiesButtonClick(Sender: TObject;
-      AButtonIndex: Integer);
-    procedure btnImportClick(Sender: TObject);
   private
-    FCDSImport: TClientDataSet;
 //    FnewBArang : Integer;
     function ParseProduct(AProductCode: string): Boolean;
     procedure ClearForm;
@@ -217,11 +205,8 @@ type
     procedure ShowFormProductTurunan();
     procedure ClearFrameOpened();
     procedure GetStockUOMRP();
-    procedure LoadXLS;
-    procedure PumpData;
     procedure SetLeftWidthSP;
     procedure SetXYSP;
-    property CDSImport: TClientDataSet read FCDSImport write FCDSImport;
   public
     procedure RefreshData; override;
     procedure SetActiveFooter5Button(AIsActive: boolean);
@@ -237,7 +222,7 @@ uses uTSCommonDlg,uConstanta, ufraBonusProduct, ufraAlokasiStock,
   ufraSellingPrice, ufraUOMConvertion, ufraStockCard, ufraProductSupplier,
   ufraProductTurunan, ufrmDialogProduct,
   uSpecialKey, ufraHistoriPOByProduct, uRetnoUnit,
-  udmMain, uAppUtils, uDXUtils, uDMClient, uDBUtils;
+  udmMain, uAppUtils, uDXUtils, uDMClient, uDBUtils, uModSuplier;
 
 {$R *.dfm}
 
@@ -914,23 +899,6 @@ begin
   ShowFormUOMConversion;
 end;
 
-procedure TfrmProduct.btnImportClick(Sender: TObject);
-begin
-  inherited;
-  LoadXLS;
-  PumpData;
-end;
-
-procedure TfrmProduct.btnImportPropertiesButtonClick(Sender: TObject;
-  AButtonIndex: Integer);
-begin
-  inherited;
-  if OpDialog.Execute then
-  begin
-    edFileName.Text := OpDialog.FileName;
-  end;
-end;
-
 procedure TfrmProduct.actBonusProductExecute(Sender: TObject);
 begin
   inherited;
@@ -960,37 +928,6 @@ procedure TfrmProduct.actProductTurunanExecute(Sender: TObject);
 begin
   inherited;
   ShowFormProductTurunan();
-end;
-
-procedure TfrmProduct.LoadXLS;
-begin
-  if Assigned(FCDSImport) then FreeAndNil(FCDSImport);
-  FCDSImport := TClientDataSet.Create(Self);
-
-  CDSImport.LoadFromXLS(edFileName.Text);
-  cxGrdXLS.LoadFromCDS(CDSImport);
-end;
-
-procedure TfrmProduct.PumpData;
-var
-  i: Integer;
-begin
-  CDSImport.DisableControls;
-  TAppUtils.InisialisasiProgressBar(Self, 10000);
-  Try
-    CDSImport.First;
-    while not CDSImport.Eof do
-    begin
-
-
-      TAppUtils.IncStepProgressBar(1);
-      CDSImport.Next;
-    end;
-  Finally
-    CDSImport.EnableControls;
-    TAppUtils.FinalisasiProgressBar();
-  End;
-
 end;
 
 procedure TfrmProduct.RefreshData;

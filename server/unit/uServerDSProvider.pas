@@ -4,7 +4,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModUnit, System.Generics.Collections, Data.FireDACJSONReflect,
-  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin;
+  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin, uServerClasses;
 
 type
   {$METHODINFO ON}
@@ -70,6 +70,7 @@ type
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
+    function GeneratePO_GetDSLookup(ATglAwal, ATglAkhir: TDateTime): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
@@ -160,7 +161,7 @@ function TDSProvider.Member_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select A.MEMBER_ID, A.MEMBER_CARD_NO AS NOMOR_KARTU, A.MEMBER_KTP_NO AS NO_IDENTITAS, A.MEMBER_NAME AS NAMA, '
+  S := 'select A.MEMBER_ID, A.MEMBER_CARD_NO AS NOMOR_KARTU, A.MEMBER_POIN, A.MEMBER_KTP_NO AS NO_IDENTITAS, A.MEMBER_NAME AS NAMA, '
     +' A.MEMBER_ADDRESS+'', ''+A.MEMBER_KELURAHAN+'', ''+A.MEMBER_KECAMATAN AS ALAMAT, A.MEMBER_KOTA AS KOTA,'
     +' A.MEMBER_POST_CODE AS POST_CODE, A.MEMBER_TELP, '
     +' A.MEMBER_PLACE_OF_BIRTH AS TEMPAT_LAHIR, A.MEMBER_DATE_OF_BIRTH AS TANGGAL_LAHIR,'
@@ -735,6 +736,19 @@ begin
     sSQL := sSQL + ' AND REF$STATUS_PO_ID = ' + QuotedStr(AStatusPOID);
 
 
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.GeneratePO_GetDSLookup(ATglAwal, ATglAkhir: TDateTime):
+    TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select D.SUP_NAME from SO_DETAIL A' +
+          ' left join SO B on A.SO_ID = B.SO_ID' +
+          ' left join SUPLIER_MERCHAN_GRUP_ID C on A.SUPLIER_MERCHAN_GRUP_ID = C.SUPLIER_MERCHAN_GRUP_ID +' +
+          ' left join SUPLIER D on C.SUPLIER_ID = D.SUPLIER_ID '+
+          ' where B.SO_DATE = ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal));
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 

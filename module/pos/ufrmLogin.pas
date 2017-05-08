@@ -87,8 +87,10 @@ begin
         + '  and c.setuppos_is_active = 1 '
         + ' inner join shift d on b.balance_shift_id = d.shift_id '
         + '  and b.balance_shift_unt_id = d.shift_unt_id '
-        + '  and cast(d.shift_start_time as time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
-        + '  and cast(d.shift_end_time as time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
+        + '  and time(d.shift_start_time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
+        + '  and time(d.shift_end_time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
+//        + '  and cast(d.shift_start_time as time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
+//        + '  and cast(d.shift_end_time as time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
 
       edNama.Clear;
       Password := '';

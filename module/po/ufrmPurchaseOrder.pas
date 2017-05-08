@@ -231,7 +231,6 @@ begin
 
     cxGridDBTableSODetail.SetMasterKeyField('PO_ID');
     cxGridDBTableSODetail.SetDetailKeyField('PO_ID');
-
   finally
     TAppUtils.cCloseWaitWindow;
   end;

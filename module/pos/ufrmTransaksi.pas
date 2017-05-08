@@ -9,7 +9,8 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, System.Actions,
   cxTextEdit, cxCurrencyEdit, cxGridCustomTableView, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridTableView,
-  cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid;
+  cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid,
+  uNewBarang, uNewBarangHargaJual, uNewPosTransaction;
 
 type
   TfrmTransaksi = class(TForm)
@@ -17,9 +18,6 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    edNoTrnTerakhir: TcxCurrencyEdit;
-    edNoPelanggan: TcxCurrencyEdit;
-    edNamaPelanggan: TcxCurrencyEdit;
     lbl1: TLabel;
     lblHargaKontrabon: TLabel;
     edHargaKontrabon: TcxCurrencyEdit;
@@ -48,18 +46,12 @@ type
     btnCancel: TButton;
     ActionList1: TActionList;
     cxTransaksi: TcxGrid;
-    sgTransaksi: TcxGridDBTableView;
     grdlvlTransaksi: TcxGridLevel;
-    cxcolNo: TcxGridDBColumn;
-    cxcolPLU: TcxGridDBColumn;
-    cxcolNamaBarang: TcxGridDBColumn;
-    cxcolJumlah: TcxGridDBColumn;
-    cxcolHarga: TcxGridDBColumn;
-    cxcolDisc: TcxGridDBColumn;
-    cxcolManDisc: TcxGridDBColumn;
-    cxcolTotal: TcxGridDBColumn;
-    cxcolIsDecimal: TcxGridDBColumn;
-    cxcolIsDiscAMC: TcxGridDBColumn;
+    edNoPelanggan: TcxTextEdit;
+    edNamaPelanggan: TcxTextEdit;
+    edNoTrnTerakhir: TcxTextEdit;
+    sgTransaksi: TcxGridTableView;
+    colNo: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure edPLUKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -85,6 +77,8 @@ type
     procedure edtPasswordKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnCancelClick(Sender: TObject);
+    procedure AutoNumberCol(Sender: TcxCustomGridTableItem;
+        ARecordIndex: Integer; var AText: string);
     procedure sgTransaksiEditing(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; var AAllow: Boolean);
     procedure sgTransaksiInitEdit(Sender: TcxCustomGridTableView; AItem:
@@ -148,6 +142,9 @@ type
     function SaveToDBPending: Boolean;
     procedure ShowPayment;
     procedure ActiveGrid;
+    procedure SetGridHidden_Transaksi(aColIndex: Integer; aColCountRight: Integer =
+        0);
+    procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True);
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
 		property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
     property MemberCode: String read FMemberCode write FMemberCode;
@@ -177,49 +174,56 @@ var
 implementation
 
 uses
-  ufrmMain, Math, uConstanta, StrUtils, udmMain;
+  ufrmMain, Math, uConstanta, StrUtils, udmMain, uDXUtils;
 
 {$R *.dfm}
 
 procedure TfrmTransaksi.SetGridHeader_Transaksi;
+var
+  i: integer;
+  dxColumn: TcxGridColumn;
 begin
   with sgTransaksi do
   begin
 //    UnHideColumnsAll;
 //    ColCount := _ColCount;
+    for i := 0 to _ColCount do
+    begin
+      dxColumn := CreateColumn;
+    end;
 
-    DataController.Values[0,0]                := 'No';
-    DataController.Values[_KolPLU,0]          := 'PLU';
-    DataController.Values[_KolNamaBarang,0]   := 'Nama Barang';
-    DataController.Values[_KolJumlah,0]       := 'Jumlah';
-    DataController.Values[_KolUOM,0]          := 'UoM';
-    DataController.Values[_KolHarga,0]        := 'Harga';
-    DataController.Values[_KolDisc,0]         := 'Disc';
-    DataController.Values[_KolDiscMan,0]      := 'Manual Disc';
-    DataController.Values[_KolDiscManForm,0]  := 'Manual Disc';
-    DataController.Values[_KolTotal,0]        := 'Total';
-    DataController.Values[_KolIsDecimal,0]    := 'IsDecimal';
-    DataController.Values[_KolIsDiscGMC,0]    := 'IsDiscGMC';
-    DataController.Values[_KolIsMailer,0]     := 'IsMailer';
-    DataController.Values[_KolPPN,0]          := 'PPN';
-    DataController.Values[_KolPPNBM,0]        := 'PPNBM';
-    DataController.Values[_KolIsCharge,0]     := 'IsCharge';
-    DataController.Values[_KolCOGS,0]         := 'COGS';
-    DataController.Values[_KolLastCost,0]     := 'LastCost';
-    DataController.Values[_KolIsBKP,0]        := 'IsBKP';
-    DataController.Values[_KolBHJID,0]        := 'BHJID';
-    DataController.Values[_KolHargaExcPajak,0]:= 'HargaExcPajak';
-    DataController.Values[_KolTipeBarang,0]   := 'TipeBarang';
-    DataController.Values[_KolHargaAvg,0]     := 'HargaAvg';
-    DataController.Values[_KolMaxDiscQTY,0]   := 'MaxDiscQTY';
-    DataController.Values[_KolPairCode,0]     := 'PairCode';
-    DataController.Values[_KolIsGalon,0]      := 'IsGalon';
-    DataController.Values[_KolDetailID,0]     := 'DetailID';
-    DataController.Values[_Koldiscoto,0]      := 'Otorisasi';
-    DataController.Values[_KolIsKontrabon,0]  := 'IsKontrabon';
+    Columns[0].Caption                := 'No';
+    Columns[_KolPLU].Caption          := 'PLU';
+    Columns[_KolNamaBarang].Caption   := 'Nama Barang';
+    Columns[_KolJumlah].Caption       := 'Jumlah';
+    Columns[_KolUOM].Caption          := 'UoM';
+    Columns[_KolHarga].Caption        := 'Harga';
+    Columns[_KolDisc].Caption         := 'Disc';
+    Columns[_KolDiscMan].Caption      := 'Manual Disc';
+    Columns[_KolDiscManForm].Caption  := 'Manual Disc';
+    Columns[_KolTotal].Caption        := 'Total';
+    Columns[_KolIsDecimal].Caption    := 'IsDecimal';
+    Columns[_KolIsDiscGMC].Caption    := 'IsDiscGMC';
+    Columns[_KolIsMailer].Caption     := 'IsMailer';
+    Columns[_KolPPN].Caption          := 'PPN';
+    Columns[_KolPPNBM].Caption        := 'PPNBM';
+    Columns[_KolIsCharge].Caption     := 'IsCharge';
+    Columns[_KolCOGS].Caption         := 'COGS';
+    Columns[_KolLastCost].Caption     := 'LastCost';
+    Columns[_KolIsBKP].Caption        := 'IsBKP';
+    Columns[_KolBHJID].Caption        := 'BHJID';
+    Columns[_KolHargaExcPajak].Caption:= 'HargaExcPajak';
+    Columns[_KolTipeBarang].Caption   := 'TipeBarang';
+    Columns[_KolHargaAvg].Caption     := 'HargaAvg';
+    Columns[_KolMaxDiscQTY].Caption   := 'MaxDiscQTY';
+    Columns[_KolPairCode].Caption     := 'PairCode';
+    Columns[_KolIsGalon].Caption      := 'IsGalon';
+    Columns[_KolDetailID].Caption     := 'DetailID';
+    Columns[_Koldiscoto].Caption      := 'Otorisasi';
+    Columns[_KolIsKontrabon].Caption  := 'IsKontrabon';
 
     {$IFDEF TSN}
-    DataController.Values[_KolDiscP,0]      := 'Disc %';
+    Columns[_KolDiscP]      := 'Disc %';
     {$ENDIF}
 
 //    FixedRows := 1;
@@ -235,35 +239,37 @@ begin
     Columns[_KolDiscManForm].Width    := 80 + (10 * Abs(igPrice_Precision));
     Columns[_KolTotal].Width      := 120;
 
+    with Columns[0] do
+    begin
+      PropertiesClass := TcxCurrencyEditProperties;
+      with TcxCurrencyEditProperties(Properties) do
+      begin
+        Alignment.Horz := taRightJustify;
+        DecimalPlaces := 0;
+        DisplayFormat := '0"."';
+        Editing       := False;
+//        ReadOnly      := True;
+        UseThousandSeparator := True;
+      end;
+      OnGetDataText := AutoNumberCol;
+    end;
+    SetGridFormat_Column(_KolJumlah, False);
+    SetGridFormat_Column(_KolHarga, True);
+    SetGridFormat_Column(_KolDisc, False);
+    SetGridFormat_Column(_KolDiscMan, False);
+    SetGridFormat_Column(_KolDiscManForm, False);
+    SetGridFormat_Column(_KolTotal, True);
   end;
 end;
 
 procedure TfrmTransaksi.FormCreate(Sender: TObject);
 begin
   try
-//    if FileExists(cGetAppPath + 'trans_header.csv') then
-//    begin
-//      sgHeader.LoadFromCSV(cGetAppPath + 'trans_header.csv');
-//      edNoPelanggan.Text := sgHeader.DataController.Values[0,0];
-//    end;
-//    if FileExists(cGetAppPath + 'trans_detail.csv') then
-//    begin
-//	    sgTransaksi.LoadFromCSV(cGetAppPath + 'trans_detail.csv');
-//  	  sgTransaksi.AutoNumberCol(0);
-//    	HitungTotalRupiah;
-//    end;
-
-//    if (edNoPelanggan.Text = '') or (edNoPelanggan.Text = '0') then
-//      LoadMember(GetDefaultMember)
-//    else
-//      LoadMember(edNoPelanggan.Text);
-
-//    LoadPendingFromCSV(edNoPelanggan.Text);
-//    FServerDateTime      := cGetServerDateTime;
+    FServerDateTime      := cGetServerDateTime;
     edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
     sgHeader := TStringList.Create;
-  finally
     SetGridHeader_Transaksi;
+  finally
     edPLU.Text := '';
   end;
 end;
@@ -283,7 +289,7 @@ begin
   begin
     cxTransaksi.SetFocus;
     sgTransaksi.Controller.FocusedColumnIndex := _KolJumlah;
-    sgTransaksi.Controller.FocusedRowIndex := sgTransaksi.DataController.RowCount - 2;
+    sgTransaksi.Controller.FocusedRecordIndex := sgTransaksi.DataController.RecordCount - 2;
   end
   else
   if (Key = VK_F5) then
@@ -329,7 +335,7 @@ begin
   else
   if (Key in [Ord('P'), Ord('p')]) and (ssShift in Shift) and (ssCtrl in Shift)then
   begin
-    if sgTransaksi.DataController.Values[_KolPLU,1] = '' then Exit;
+    if sgTransaksi.DataController.Values[1, _KolPLU] = '' then Exit;
     if not SaveToDBPending then
     begin
          CommonDlg.ShowError('Gagal menyimpan Transaksi Pending !');
@@ -353,22 +359,22 @@ begin
 
   with sgTransaksi.DataController do
   begin
-    for i := 1 to RowCount - 1 do    // Iterate
+    for i := 0 to RecordCount - 1 do    // Iterate
     begin
-      if Values[_KolPLU, i] = '' then Continue;
+      if Values[i, _KolPLU] = '' then Continue;
 
-      Result := Result + (Values[_KolTotal, i]); //Ceil
-      TotalColie := TotalColie + Round(Values[_KolJumlah, i]);
+      Result := Result + (Values[i, _KolTotal]); //Ceil
+      TotalColie := TotalColie + Round(Values[i, _KolJumlah]);
 
-      if (Values[_KolIsDiscGMC, i] = '1')
-        and (Values[_KolJumlah, i] <= Values[_KolMaxDiscQTY, i]) then
+      if (Values[i, _KolIsDiscGMC] = '1')
+        and (Values[i, _KolJumlah] <= Values[i, _KolMaxDiscQTY]) then
       begin
-				TotalRupiahBarangAMC := TotalRupiahBarangAMC + (Values[_KolTotal, i]); //Ceil
+				TotalRupiahBarangAMC := TotalRupiahBarangAMC + (Values[i, _KolTotal]); //Ceil
       end;
 
-      if (Values[_KolIsMailer, i] = '1')
-        or (IsCCUoM(Values[_KolUoM, i])) then
-				TotalRupiahBarangCC := TotalRupiahBarangCC + (Values[_KolTotal, i]); //Ceil
+      if (Values[i, _KolIsMailer] = '1')
+        or (IsCCUoM(Values[i, _KolUoM])) then
+				TotalRupiahBarangCC := TotalRupiahBarangCC + (Values[i, _KolTotal]); //Ceil
     end;    // for
   end;    // with
 
@@ -415,15 +421,10 @@ end;
 procedure TfrmTransaksi.FormShow(Sender: TObject);
 begin
   {$IFDEF RMS}
-  sgTransaksi.HideColumn(_KolDiscMan);
+  SetGridHidden_Transaksi(_KolDiscMan);
   {$ENDIF}
-  {
-  sgTransaksi.HideColumns(_KolIsDecimal, _ColCount);
 
-  if ACol in [0,_KolJumlah,_KolHarga,_KolDisc,_KolDiscMan,_KolTotal,_KolDiscManForm] then
-    HAlign := taRightJustify
-  else
-    HAlign := taLeftJustify;
+  SetGridHidden_Transaksi(_KolIsDecimal, _ColCount);
 
   if (edNoPelanggan.Text = '') or (edNoPelanggan.Text = '0') then
     LoadMember(GetDefaultMember)
@@ -431,17 +432,17 @@ begin
     LoadMember(edNoPelanggan.Text);
 
   sValueBefore := '';
-  }
+
 end;
 
 procedure TfrmTransaksi.edHargaKontrabonKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
 
-  if sgTransaksi.DataController.Values[_KolPLU, sgTransaksi.DataController.RowCount-1] <> '' then
-     sgTransaksi.DataController.RecNo := sgTransaksi.DataController.RowCount-1
+  if sgTransaksi.DataController.Values[sgTransaksi.DataController.RecordCount-1, _KolPLU] <> '' then
+     sgTransaksi.DataController.FocusedRecordIndex := sgTransaksi.DataController.RecordCount-1
   else
-     sgTransaksi.DataController.RecNo := sgTransaksi.DataController.RowCount-2;
+     sgTransaksi.DataController.FocusedRecordIndex := sgTransaksi.DataController.RecordCount-2;
 
   if (Key = VK_RETURN)
   	and (edHargaKontrabon.Text <> '')
@@ -451,18 +452,18 @@ begin
     HideInfo;
     with sgTransaksi do
     begin
-      DataController.Values[_KolHargaExcPajak, DataController.RecNo] := RoundTo((edHargaKontrabon.Value / 1.1), igPrice_Precision);
-      DataController.Values[_KolHarga, DataController.RecNo] := RoundTo(edHargaKontrabon.Value, igPrice_Precision);
+      DataController.Values[DataController.FocusedRecordIndex, _KolHargaExcPajak] := RoundTo((edHargaKontrabon.Value / 1.1), igPrice_Precision);
+      DataController.Values[DataController.FocusedRecordIndex, _KolHarga] := RoundTo(edHargaKontrabon.Value, igPrice_Precision);
 //      Columns[_KolHarga].Floats[Row] := GetSellPriceWithTax(Row);
-      DataController.Values[_KolTotal, DataController.RecNo] := GetTotalHarga(DataController.RecNo);
+      DataController.Values[DataController.FocusedRecordIndex, _KolTotal] := GetTotalHarga(DataController.FocusedRecordIndex);
 
       lblHargaKontrabon.Visible := False;
       edHargaKontrabon.Visible  := False;
       cxTransaksi.Enabled       := True;
       edPLU.Enabled             := True;
-//      if DataController.RecNo = (DataController.RowCount-1) then
-//         DataController.RowCount := DataController.RowCount + 1;
-      DataController.RecNo := DataController.RowCount - 1;
+//      if DataController.RecNo = (DataController.RecordCount-1) then
+//         DataController.RecordCount := DataController.RecordCount + 1;
+      DataController.FocusedRecordIndex := DataController.RecordCount - 1;
 //      AutoNumberCol(0);
       HitungTotalRupiah;
       edHargaKontrabon.Text := '0';
@@ -495,15 +496,15 @@ function TfrmTransaksi.FindInGrid(aPLU: String; aProductCount: Double; aUoM:
 var
 	i: Integer;
 begin
-	Result := 0;
+	Result := -1;
 
-  for i := 1 to sgTransaksi.DataController.RowCount - 1 do
+  for i := 0 to sgTransaksi.DataController.RecordCount - 1 do
   begin
-    if (sgTransaksi.DataController.Values[_KolPLU,i] = aPLU)
-    and (sgTransaksi.DataController.Values[_KolUOM,i] = aUoM) then
+    if (sgTransaksi.DataController.Values[i, _KolPLU] = aPLU)
+    and (sgTransaksi.DataController.Values[i, _KolUOM] = aUoM) then
     begin
-      sgTransaksi.DataController.Values[_KolJumlah, i] := sgTransaksi.DataController.Values[_KolJumlah, i] + AProductCount;
-      sgTransaksi.DataController.Values[_KolTotal, i] := GetTotalHarga(i);
+      sgTransaksi.DataController.Values[i, _KolJumlah] := sgTransaksi.DataController.Values[i, _KolJumlah] + AProductCount;
+      sgTransaksi.DataController.Values[i, _KolTotal] := GetTotalHarga(i);
       HitungTotalRupiah;
       Result := i;
       Break;
@@ -533,15 +534,14 @@ begin
 //	Result := 0;
   with sgTransaksi.DataController do
   begin
-    dTotalHargaGross := (Values[_KolHarga, ARow] * Values[_KolJumlah, ARow]);
-    Result := RoundTo(dTotalHargaGross - (Values[_KolDisc, ARow] * Values[_KolJumlah, ARow])
-           - (Values[_KolDiscMan, ARow] * Values[_KolJumlah, ARow]) , igPrice_Precision); //Ceil
+    dTotalHargaGross := (Values[ARow, _KolHarga] * Values[ARow, _KolJumlah]);
+    Result := RoundTo(dTotalHargaGross - (Values[ARow, _KolDisc] * Values[ARow, _KolJumlah])
+           - (Values[ARow, _KolDiscMan] * Values[ARow, _KolJumlah]) , igPrice_Precision); //Ceil
 
-{
-	  Result := (((100 - Columns[_KolDisc].Floats[ARow])/100) * dTotalHargaGross) +
-    	((dTotalHargaGross * Columns[_KolPPN].Floats[ARow]) / 100) +
-    	((dTotalHargaGross * Columns[_KolPPNBM].Floats[ARow]) / 100);
-}
+	  {Result := (((100 - Values[ARow, _KolDisc])/100) * dTotalHargaGross) +
+    	((dTotalHargaGross * Values[ARow, _KolPPN]) / 100) +
+    	((dTotalHargaGross * Values[ARow, _KolPPNBM]) / 100);
+     }
 	end;
 end;
 
@@ -552,9 +552,9 @@ begin
 //  Result := 0;
   with sgTransaksi.DataController do
   begin
-    dTotalHargaGross := (Values[_KolHargaExcPajak, ARow]);
-    Result := RoundTo(dTotalHargaGross + (((dTotalHargaGross * Values[_KolPPN, ARow]) / 100) +
-      ((dTotalHargaGross * Values[_KolPPNBM, ARow]) / 100)), igPrice_Precision);
+    dTotalHargaGross := (Values[ARow, _KolHargaExcPajak]);
+    Result := RoundTo(dTotalHargaGross + (((dTotalHargaGross * Values[ARow, _KolPPN]) / 100) +
+      ((dTotalHargaGross * Values[ARow, _KolPPNBM]) / 100)), igPrice_Precision);
   end;
 end;
 
@@ -576,6 +576,7 @@ var
 	iFoundInGrid     : Integer;
   isBarcodeUsed    : boolean;
   isBHJExist       : boolean;
+  iRowCount        : integer;
 begin
   Result            := 0;
 	FProductCount     := 1;
@@ -586,7 +587,7 @@ begin
 	isValidPLU        := False;
   isBarcodeUsed     := False;
   isBHJExist        := False;
-  iFoundInGrid      := 0;
+  iFoundInGrid      := -1;
 	j := 0;
 	i := pos('*', aPLU_Qty);
   if i>0 then
@@ -642,7 +643,7 @@ begin
 	end;
 
   sPLUPasangan := '';
-	{
+
   with TNewBarang.Create(Self) do
 	begin
 		try
@@ -732,77 +733,78 @@ begin
                   begin
                     //cari di grid
                     iFoundInGrid := FindInGrid(Kode,FProductCount,NewUOM.UOM);
-                    if iFoundInGrid > 0 then
+                    if iFoundInGrid > -1 then
                     begin
                        Result := iFoundInGrid;
-                       sPLUPasangan := DataController.Values[_KolPairCode, iFoundInGrid];
+                       sPLUPasangan := DataController.Values[iFoundInGrid, _KolPairCode];
                     end;
                   end;
 
-                  if iFoundInGrid = 0 then
+                  if iFoundInGrid < 0 then
                   begin
-                    Result   := RowCount-1;
+                    DataController.AppendRecord;
+                    Result   := DataController.RecordCount-1;
                     //DataController.Values[0,RowCount-1] := IntToStr(RowCount-1);
-                    DataController.Values[_KolPLU,RowCount-1]               := Kode;
-                    DataController.Values[_KolNamaBarang,RowCount-1]        := Alias;
-                    Columns[_KolIsDecimal].Ints[RowCount-1] := IsDecimal;
-                    Columns[_KolIsDiscGMC].Ints[RowCount-1] := IsDiscGMC;
-                    Columns[_KolIsMailer, RowCount-1]  := IntToStr(IsMailer);
+                    DataController.Values[Result, _KolPLU]               := Kode;
+                    DataController.Values[Result, _KolNamaBarang]        := Alias;
+                    DataController.Values[Result, _KolIsDecimal] := IsDecimal;
+                    DataController.Values[Result, _KolIsDiscGMC] := IsDiscGMC;
+                    DataController.Values[Result, _KolIsMailer]  := IntToStr(IsMailer);
                     if IsCCUoM(NewUOM.UOM) then
                     begin
-                      Columns[_KolIsCharge, RowCount-1] := '1';
+                      DataController.Values[Result, _KolIsCharge] := '1';
                     end
                     else
                     begin
-                      Columns[_KolIsCharge, RowCount-1] := '0';
+                      DataController.Values[Result, _KolIsCharge] := '0';
                     end;
 
-                    Columns[_KolMaxDiscQTY].Floats[RowCount-1] := MaxQtyDisc;
-                    Columns[_KolPPN].Floats[RowCount-1]        := NewPajak.PPN;
-                    Columns[_KolPPNBM].Floats[RowCount-1]      := 0;   // ketoke mmg ga pernah PPNBM > 0
+                    DataController.Values[Result, _KolMaxDiscQTY] := MaxQtyDisc;
+                    DataController.Values[Result, _KolPPN]        := NewPajak.PPN;
+                    DataController.Values[Result, _KolPPNBM]      := 0;   // ketoke mmg ga pernah PPNBM > 0
 //                    Columns[_KolCOGS].Floats[RowCount-1]       := BarangTransaksi.COGS;
 //                    Columns[_KolLastCost].Floats[RowCount-1]   := BarangTransaksi.LastCost;
                    // GetLastPurchasePrice(dLastPurchas,sUOMLastPurchase );
-                    Columns[_KolCOGS].Floats[RowCount-1]       := GetHargaAVG(NewUOM.UOM);
-                    Columns[_KolLastCost].Floats[RowCount-1]   := NewBarang.HargaLastCost;
-                    Columns[_KolBHJID].Ints[RowCount-1]        := ID;
-                    Columns[_KolTipeBarang].Ints[RowCount-1]   := TipeBarangID;
-                    Columns[_KolHargaAvg].Floats[RowCount-1]   := GetHargaAVG(NewUOM.UOM);
+                    DataController.Values[Result, _KolCOGS]       := GetHargaAVG(NewUOM.UOM);
+                    DataController.Values[Result, _KolLastCost]   := NewBarang.HargaLastCost;
+                    DataController.Values[Result, _KolBHJID]        := ID;
+                    DataController.Values[Result, _KolTipeBarang]   := TipeBarangID;
+                    DataController.Values[Result, _KolHargaAvg]   := GetHargaAVG(NewUOM.UOM);
 
                     if (NewPajak.PPN > 0) or (NewPajak.PPNBM > 0) then
-                      Columns[_KolIsBKP].Ints[RowCount-1] := 1
+                      DataController.Values[Result, _KolIsBKP] := 1
                     else
-                      Columns[_KolIsBKP].Ints[RowCount-1] := 0;
+                      DataController.Values[Result, _KolIsBKP] := 0;
 
-                    Columns[_KolJumlah].Floats[RowCount-1]        := FProductCount;
-                    Columns[_KolUOM, RowCount-1]             := NewUOM.UOM;
+                    DataController.Values[Result, _KolJumlah]        := FProductCount;
+                    DataController.Values[Result, _KolUOM]             := NewUOM.UOM;
 
-                    Columns[_KolHargaExcPajak].Floats[RowCount-1] := RoundTo(SellPrice / ((NewPajak.PPN + 100) / 100), igPrice_Precision);
-                    Columns[_KolHarga].Floats[RowCount-1]         := RoundTo(SellPrice, igPrice_Precision);  //inc Tax
+                    DataController.Values[Result, _KolHargaExcPajak] := RoundTo(SellPrice / ((NewPajak.PPN + 100) / 100), igPrice_Precision);
+                    DataController.Values[Result, _KolHarga]         := RoundTo(SellPrice, igPrice_Precision);  //inc Tax
 //                    Columns[_KolHarga].Floats[RowCount-1]         := GetSellPriceWithTax(RowCount-1);
-                    Columns[_KolDisc].Floats[RowCount-1]          := RoundTo(DiscNominal, igPrice_Precision);
-                    Columns[_KolDiscMan].Floats[RowCount-1]       := RoundTo(aDiscMan, igPrice_Precision);
-                    Columns[_KolDiscManForm].Floats[RowCount-1]   := RoundTo(aDiscMan, igPrice_Precision);
-                    Columns[_Koldiscoto, RowCount-1]         := aDiscOto;
+                    DataController.Values[Result, _KolDisc]          := RoundTo(DiscNominal, igPrice_Precision);
+                    DataController.Values[Result, _KolDiscMan]       := RoundTo(aDiscMan, igPrice_Precision);
+                    DataController.Values[Result, _KolDiscManForm]   := RoundTo(aDiscMan, igPrice_Precision);
+                    DataController.Values[Result, _Koldiscoto]         := aDiscOto;
 
                     if SellPrice = 0 then
-                      Columns[_KolIsKontrabon].Ints[RowCount-1]   := 1
+                      DataController.Values[Result, _KolIsKontrabon]   := 1
                     else
-                      Columns[_KolIsKontrabon].Ints[RowCount-1]   := 0;
+                      DataController.Values[Result, _KolIsKontrabon]   := 0;
 
-//                    {$IFDEF TSN
-                    Columns[_KolDiscP].Floats[RowCount-1]         := (DiscPersen);
-                    {$ENDIF
-                    Columns[_KolTotal].Floats[RowCount-1]         := GetTotalHarga(RowCount-1);
+                    {$IFDEF TSN}
+                    DataController.Values[Result, _KolDiscP]         := (DiscPersen);
+                    {$ENDIF}
+                    DataController.Values[Result, _KolTotal]         := GetTotalHarga(Result);
 
                     sPLUPasangan := BarangGalon.Kode;
-                    DataController.Values[_KolPairCode, RowCount-1]        := sPLUPasangan;
-                    Columns[_KolIsGalon].Ints[RowCount-1]  := IsGalon;
-                    Columns[_KolDetailID].Ints[RowCount-1] := 0;
+                    DataController.Values[Result, _KolPairCode]        := sPLUPasangan;
+                    DataController.Values[Result, _KolIsGalon]  := IsGalon;
+                    DataController.Values[Result, _KolDetailID] := 0;
 
-                    RowCount := RowCount + 1;
-                    Row      := RowCount - 1;
-                    AutoNumberCol(0);
+//                    RowCount := RowCount + 1;
+//                    Row      := RowCount - 1;
+//                    AutoNumberCol(0);
                   end;
 									if (iFoundInGrid = 0) and (SellPrice = 0)
                   and (aIsLookupActive) then
@@ -810,7 +812,7 @@ begin
 										lblHargaKontrabon.Visible  := True;
 										edHargaKontrabon.Visible   := True;
 										edPLU.Enabled              := False;
-                    sgTransaksi.Enabled        := False;
+                    cxTransaksi.Enabled        := False;
                     //clear ketika nilai di ambil
 										//edHargaKontrabon.Text      := '0';
 										edHargaKontrabon.SetFocus;
@@ -818,7 +820,7 @@ begin
 									end
 									else
 									begin
-										HitungTotalRupiah;
+//										HitungTotalRupiah;
 										edPLU.Clear;
 										FocusToPLUEdit;
                     SaveTransactionToCSV;
@@ -838,7 +840,7 @@ begin
 		end;  // try/finally
 
 	end;
-    }
+
 	FocusToPLUEdit;
 	if not isBarangFound then
 	begin
@@ -1027,10 +1029,11 @@ begin
   //edNoPelangganExit(edNoPelanggan);
   with sgTransaksi do
   begin
-    DataController.DataSet.ClearFields;//(1,DataController.RowCount-1);
+    ClearRows;//ClearFields(1,DataController.RecordCount-1);
 //    RowCount := 2;
 //    AutoNumberCol(0);
   end;    // with
+  sgTransaksi.ClearRows;
   Transaksi_ID := 0;
   edPLU.Clear;
   edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
@@ -1056,7 +1059,7 @@ begin
       FCCUoMs := TStringList.Create;
       sSQL := 'select ccuom_sat_code '
         + ' from ccuom ';
-      {
+
       with cOpenQuery(sSQL) do
       begin
         try
@@ -1069,7 +1072,7 @@ begin
           Free;
         end;
       end;
-      }
+
     end;
   except
   end;
@@ -1086,20 +1089,20 @@ begin
   sSQL := 'select tpmember_name '
 		+ 'from ref$tipe_member '
 		+ 'where tpmember_id = ' + IntToStr(FTipeMemberID);
-  {
+
   with cOpenQuery(sSQL) do
   begin
     try
       if not eof then
       begin
-        lDecimalSeparator := DecimalSeparator;
-        DecimalSeparator := '.';
+        lDecimalSeparator := FormatSettings.DecimalSeparator;
+        FormatSettings.DecimalSeparator := '.';
       	sSQL := 'select tpmember_discount '
           + 'from ref$tipe_member '
-          + 'where tpmember_name = ' + Quot(Fields[0].AsString)
+          + 'where tpmember_name = ' + QuotedStr(Fields[0].AsString)
           + ' and tpmember_begin_value <= ' + CurrToStr(TotalRupiah)
           + ' and tpmember_end_value >= ' + CurrToStr(TotalRupiah);
-        DecimalSeparator := lDecimalSeparator;
+        FormatSettings.DecimalSeparator := lDecimalSeparator;
         with cOpenQuery(sSQL) do
         begin
           try
@@ -1116,7 +1119,6 @@ begin
       Free;
     end;
   end;
-  }
 	Result := FDiscAMCPersen;
 end;
 
@@ -1129,11 +1131,11 @@ begin
 
 	with sgTransaksi.DataController do
 	begin
-		for i := 1 to RowCount - 2 do    // Iterate
+		for i := 1 to RecordCount-1 do    // Iterate
 		begin
-      if (Values[_KolIsDiscGMC, i] = '1')
-        and (Values[_KolJumlah, i] <= Values[_KolMaxDiscQTY, i]) then
-				Result := Result + Values[_KolTotal, i];
+      if (Values[i, _KolIsDiscGMC] = '1')
+        and (Values[i, _KolJumlah] <= Values[i, _KolMaxDiscQTY]) then
+				Result := Result + Values[i, _KolTotal];
 		end;
 	end;
 
@@ -1215,13 +1217,13 @@ var
   iTrans_ID        : Integer;
 begin
   Result            := False;
-  {
-  lDecimalSeparator := DecimalSeparator;
-  DecimalSeparator  := '.';
+
+  lDecimalSeparator := FormatSettings.DecimalSeparator;
+  FormatSettings.DecimalSeparator  := '.';
 
   ssSQL := TStringList.Create;
   try
-      dtTransaksi := cGetServerTime;
+      dtTransaksi := cGetServerDateTime;
       with TPOSTransaction.Create(Self) do
       begin
         try
@@ -1240,39 +1242,39 @@ begin
           with sgTransaksi do
           begin
             POSTransactionItems.Clear;
-            for i := 1 to RowCount - 1 do
+            for i := 1 to DataController.RecordCount - 1 do
             begin
-              if DataController.Values[_KolPLU,i] = '' then Continue;
+              if DataController.Values[i, _KolPLU] = '' then Continue;
 
               bIsBKP := False;
-              if DataController.Values[_KolIsBKP,i] = '1' then
+              if DataController.Values[i, _KolIsBKP] = '1' then
                 bIsBKP := True;
 
               bIsDiscAMC := False;
-              if DataController.Values[_KolIsDiscGMC,i] = '1' then
+              if DataController.Values[i, _KolIsDiscGMC] = '1' then
                 bIsDiscAMC := True;
 
-              UpdatePOSTransactionItems(sgTransaksi.Columns[_KolBHJID].Ints[i], //Barang harga jual ID
-                sgTransaksi.Columns[_KolCOGS].Floats[i], //COGS
-                sgTransaksi.Ints[_KolDetailID, i], //Detail ID
+              UpdatePOSTransactionItems(DataController.Values[i, _KolBHJID], //Barang harga jual ID
+                DataController.Values[i, _KolCOGS], //COGS
+                DataController.Values[i, _KolDetailID], //Detail ID
                 bIsBKP, bIsDiscAMC, //ID, IsBKP, IsDiscAMC
-                sgTransaksi.Columns[_KolLastCost].Floats[i], //last cost
-                sgTransaksi.Columns[_KolPPN].Floats[i], //PPN
-                sgTransaksi.Columns[_KolPPNBM].Floats[i], //PPNBM
-                sgTransaksi.Columns[_KolJumlah].Floats[i], //QTY
-                sgTransaksi.Columns[_KolHarga].Floats[i], //SellPrice
-                sgTransaksi.Columns[_KolHarga].Floats[i] - sgTransaksi.Columns[_KolDisc].Floats[i], //SellPriceDisc
-                sgTransaksi.Columns[_KolTotal].Floats[i], //Total
-                RoundTo(sgTransaksi.Columns[_KolJumlah].Floats[i] * sgTransaksi.Columns[_KolHargaExcPajak].Floats[i], igPrice_Precision), //totalb4tax
-                (sgTransaksi.Columns[_KolTotal].Floats[i]), //total ceil
+                DataController.Values[i, _KolLastCost], //last cost
+                DataController.Values[i, _KolPPN], //PPN
+                DataController.Values[i, _KolPPNBM], //PPNBM
+                DataController.Values[i, _KolJumlah], //QTY
+                DataController.Values[i, _KolHarga], //SellPrice
+                DataController.Values[i, _KolHarga] - DataController.Values[i, _KolDisc], //SellPriceDisc
+                DataController.Values[i, _KolTotal], //Total
+                RoundTo(DataController.Values[i, _KolJumlah] * DataController.Values[i, _KolHargaExcPajak], igPrice_Precision), //totalb4tax
+                (DataController.Values[i, _KolTotal]), //total ceil
                 edNoTrnTerakhir.Text,
                 frmMain.UnitID,
-                sgTransaksi.DataController.Values[_KolPLU,i],
-                sgTransaksi.Ints[_KolTipeBarang, i], GetDiscItemAMCRp(i),
-                sgTransaksi.DataController.Values[_KolUOM, i],
+                DataController.Values[i, _KolPLU],
+                DataController.Values[i, _KolTipeBarang], GetDiscItemAMCRp(i),
+                DataController.Values[i, _KolUOM],
                 0,
-                sgTransaksi.Columns[_KolDiscMan].Floats[i],
-                sgTransaksi.DataController.Values[_Koldiscoto, i]);
+                DataController.Values[i, _KolDiscMan],
+                DataController.Values[i, _Koldiscoto]);
                 // discount cc
             end;
           end;    // with
@@ -1291,10 +1293,9 @@ begin
         end;
       end; // with
   finally
-    DecimalSeparator := lDecimalSeparator;
+    FormatSettings.DecimalSeparator := lDecimalSeparator;
     FreeAndNil(ssSQL);
   end;
-  }
 end;
 
 procedure TfrmTransaksi.ShowPayment;
@@ -1327,7 +1328,11 @@ begin
   if CommonDlg.Confirm('Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrYes then
   begin
     CanClose := True;
-    if sgTransaksi.DataController.Values[_KolPLU,1] = '' then Exit;
+    try
+//      if sgTransaksi.DataController.Values[1, _KolPLU] = '' then Exit;
+      if sgTransaksi.DataController.RecordCount=0 then Exit;
+    finally
+    end;
 
     if not SaveToDBPending then
     begin
@@ -1367,9 +1372,8 @@ begin
     begin
       with sgTransaksi do
       begin
-        DataController.RecNo := DataController.RowCount-2;
-//        ClearRows(Row,1);
-//        RemoveRows(Row,1);
+        DataController.FocusedRecordIndex := DataController.RecordCount-2;
+        ClearRows;
 //        AutoNumberCol(0);
         HitungTotalRupiah;
         SaveTransactionToCSV;
@@ -1393,9 +1397,9 @@ begin
   aDiscAMCPersen := GetDiscAMCPersen;
   with sgTransaksi.DataController do
   begin
-    if (Values[_KolIsDiscGMC, ARow] = '1')
-      and (Values[_KolJumlah, ARow] <= Values[_KolMaxDiscQTY, ARow]) then
-      Result := (Values[_KolHarga, ARow]-Values[_KolDisc, ARow]) * (aDiscAMCPersen/100);
+    if (Values[ARow, _KolIsDiscGMC] = '1')
+      and (Values[ARow, _KolJumlah] <= Values[ARow, _KolMaxDiscQTY]) then
+      Result := (Values[ARow, _KolHarga]-Values[ARow, _KolDisc]) * (aDiscAMCPersen/100);
   end;
 end;
 
@@ -1407,12 +1411,12 @@ begin
   Result := 0;
   with sgTransaksi.DataController do
   begin
-    for i := 1 to RowCount - 2 do    // Iterate
+    for i := 0 to RecordCount - 1 do    // Iterate
     begin
-      dTotalHargaGross := (Values[_KolHargaExcPajak, i]);
-      Result := Result + RoundTo(Values[_KolJumlah, i] *
-      (((dTotalHargaGross * Values[_KolPPN, i]) / 100) +
-        ((dTotalHargaGross * Values[_KolPPNBM, i]) / 100)), igPrice_Precision);
+      dTotalHargaGross := (Values[i, _KolHargaExcPajak]);
+      Result := Result + RoundTo(Values[i, _KolJumlah] *
+      (((dTotalHargaGross * Values[i, _KolPPN]) / 100) +
+        ((dTotalHargaGross * Values[i, _KolPPNBM]) / 100)), igPrice_Precision);
     end;
   end;
   TotalRupiahBarangPPN := Result;
@@ -1432,7 +1436,7 @@ begin
        + ' where a.usr_id=b.ug_usr_id and ug_gro_id=11'
        + ' and a.usr_unt_id = ' + IntToStr(frmMain.UnitID)
        + ' and usr_username =' + QuotedStr(edtUsername.Text);
- {
+
   with cOpenQuery(sSql) do
   begin
     try
@@ -1441,9 +1445,9 @@ begin
         if edtPassword.Text <> FieldByName('USR_PASSWD').AsString then
         begin
           CommonDlg.ShowMessage('Password salah');
-          sgTransaksi.DataController.Values[_KolDiscManForm,brs] := sValueBefore;
-          sgTransaksi.DataController.Values[_KolDiscMan,brs]     := sValueBefore;
-          sgTransaksi.Floats[_KolTotal,brs]      := GetTotalHarga(brs);
+          sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
+          sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
+          sgTransaksi.DataController.Values[brs, _KolTotal]      := GetTotalHarga(brs);
           ActiveGrid;
           Exit;
         end;
@@ -1451,9 +1455,9 @@ begin
       else
       begin
         CommonDlg.ShowMessage('User ini tidak berhak melakukan discount manual');
-        sgTransaksi.DataController.Values[_KolDiscManForm,brs] := sValueBefore;
-        sgTransaksi.DataController.Values[_KolDiscMan,brs]     := sValueBefore;
-        sgTransaksi.Floats[_KolTotal,brs]      := GetTotalHarga(brs);
+        sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
+        sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
+        sgTransaksi.DataController.Values[brs, _KolTotal]      := GetTotalHarga(brs);
         ActiveGrid;
         Exit;
       end;
@@ -1461,19 +1465,18 @@ begin
       Free;
     end;
   end;
-  }
   pnlotorisasi.Visible := False;
 
   if (Application.MessageBox( 'Apakah Discount untuk seluruh barang ?',
                               'Options',
                               MB_YesNo Or MB_ICONQUESTION Or MB_DEFBUTTON2)=ID_Yes) then
   begin
-    sDiscount := sgTransaksi.DataController.Values[_KolDiscManForm,brs];
-    for i := 1 to sgTransaksi.DataController.RowCount - 1 do
+    sDiscount := sgTransaksi.DataController.Values[brs, _KolDiscManForm];
+    for i := 1 to sgTransaksi.DataController.RecordCount - 1 do
     begin
-      if sgTransaksi.DataController.Values[_KolPLU,i] <> '' then
+      if sgTransaksi.DataController.Values[i, _KolPLU] <> '' then
       begin
-        if (sgTransaksi.DataController.Values[_KolDisc,i] = 0) and (sgTransaksi.DataController.Values[_KolIsKontrabon,i] = 0) then
+        if (sgTransaksi.DataController.Values[i, _KolDisc] = 0) and (sgTransaksi.DataController.Values[i, _KolIsKontrabon] = 0) then
         begin
           sValue    := StringReplace(sDiscount, '*', '%', [rfReplaceAll]);
           IsPercent := Pos('%', sValue) > 0;
@@ -1481,21 +1484,21 @@ begin
           if not TryStrToFloat(sValue,dValue) then
             dValue  := 0;
           If IsPercent then
-            dValue  := dValue/100 * sgTransaksi.DataController.Values[_KolHarga,i];
+            dValue  := dValue/100 * sgTransaksi.DataController.Values[i, _KolHarga];
 
-          sgTransaksi.DataController.Values[_KolDiscManForm,i] := sDiscount;
-          sgTransaksi.DataController.Values[_KolDiscMan,i]    := dValue;
-          sgTransaksi.DataController.Values[_KolTotal,i]      := GetTotalHarga(i);
-          sgTransaksi.DataController.Values[_Koldiscoto,i]     := edtUsername.Text;
+          sgTransaksi.DataController.Values[i, _KolDiscManForm] := sDiscount;
+          sgTransaksi.DataController.Values[i, _KolDiscMan]    := dValue;
+          sgTransaksi.DataController.Values[i, _KolTotal]      := GetTotalHarga(i);
+          sgTransaksi.DataController.Values[i, _Koldiscoto]     := edtUsername.Text;
         end;
       end;
     end;
   end
   else
   begin
-    sgTransaksi.DataController.Values[_Koldiscoto,brs]  := edtUsername.Text;
-    sgTransaksi.DataController.Values[_KolDiscMan,brs] := DiscOto;
-    sgTransaksi.DataController.Values[_KolTotal,brs]   := GetTotalHarga(brs);
+    sgTransaksi.DataController.Values[brs, _Koldiscoto]  := edtUsername.Text;
+    sgTransaksi.DataController.Values[brs, _KolDiscMan] := DiscOto;
+    sgTransaksi.DataController.Values[brs, _KolTotal]   := GetTotalHarga(brs);
   end;
   ActiveGrid;
 
@@ -1503,7 +1506,7 @@ begin
   begin
     HitungTotalRupiah;
     Controller.FocusedColumnIndex := _KolPLU;
-    Controller.FocusedRowIndex    := sgTransaksi.DataController.RowCount - 1;
+    Controller.FocusedRecordIndex    := sgTransaksi.DataController.RecordCount - 1;
     FocusToPLUEdit;
 
     SaveTransactionToCSV;
@@ -1541,9 +1544,9 @@ end;
 
 procedure TfrmTransaksi.btnCancelClick(Sender: TObject);
 begin
-  sgTransaksi.DataController.Values[_KolDiscManForm,brs] := sValueBefore;
-  sgTransaksi.DataController.Values[_KolDiscMan,brs]     := sValueBefore;
-  sgTransaksi.DataController.Values[_KolTotal,brs]      := GetTotalHarga(brs);
+  sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
+  sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
+  sgTransaksi.DataController.Values[brs, _KolTotal]      := GetTotalHarga(brs);
   ActiveGrid;
 end;
 
@@ -1587,7 +1590,7 @@ begin
     else
     begin
       If IsPercent then
-        dValue    := dValue/100 * sgTransaksi.DataController.Values[_KolHarga, Row];
+        dValue    := dValue/100 * sgTransaksi.DataController.Values[Row, _KolHarga];
 
       DiscOto     := dValue;
       FIsEditMode := True;
@@ -1600,6 +1603,16 @@ begin
   end;
 end;
 
+procedure TfrmTransaksi.AutoNumberCol(Sender:
+    TcxCustomGridTableItem; ARecordIndex: Integer; var AText: string);
+var
+ AFocusedRecordIndex, ARecno: Integer;
+begin
+  ARecno := TcxGridDBTableView(Sender.GridView).DataController.DataSource.DataSet.RecNo;
+  AFocusedRecordIndex :=  TcxGridDBTableView(Sender.GridView).Controller.FocusedRecordIndex;
+  AText := IntToStr( ARecno - AFocusedRecordIndex + ARecordIndex);
+end;
+
 function TfrmTransaksi.HitungTotalRupiahBarangBKP: Currency;
 var
   i: Integer;
@@ -1607,11 +1620,11 @@ begin
   Result := 0;
   with sgTransaksi.DataController do
   begin
-  for i := 1 to RowCount - 1 do
+  for i := 0 to RecordCount - 1 do
     begin
-      if Values[_KolIsBKP, i] = '1' then
+      if Values[i, _KolIsBKP] = '1' then
       begin
-        Result := Result + RoundTo(Values[_KolTotal, i], igPrice_Precision);
+        Result := Result + RoundTo(Values[i, _KolTotal], igPrice_Precision);
       end;
     end;
   end;
@@ -1646,22 +1659,22 @@ begin
   Result := 0;
   with sgTransaksi.DataController do
   begin
-    for i := 1 to RowCount - 1 do
+    for i := 0 to RecordCount - 1 do
     begin
-      if Values[_KolPLU, i] <> '' then
+      if Values[i, _KolPLU] <> '' then
       begin
-        ValueDM := Values[_KolDiscManForm, i];
+        ValueDM := Values[i, _KolDiscManForm];
         DiscMstrValue := StringReplace(ValueDM, '*', '%', [rfReplaceAll]);
 
         if TryStrToFloat(DiscMstrValue,dValue) then
         begin
-          Result := Result + RoundTo(Values[_KolJumlah, i] * (Values[_KolDisc, i]+
-            Values[_KolDiscManForm, i]), igPrice_Precision);
+          Result := Result + RoundTo(Values[i, _KolJumlah] * (Values[i, _KolDisc]+
+            Values[i, _KolDiscManForm]), igPrice_Precision);
         end
         else
         begin
-          Result := Result + RoundTo(Values[_KolJumlah, i] * (Values[_KolDisc, i]+
-            ((Values[_KolDiscManForm, i]/100)*Values[_KolHarga, i])), igPrice_Precision);
+          Result := Result + RoundTo(Values[i, _KolJumlah] * (Values[i, _KolDisc]+
+            ((Values[i, _KolDiscManForm]/100)*Values[i, _KolHarga])), igPrice_Precision);
         end;
       end;
     end;
@@ -1669,11 +1682,52 @@ begin
   TotalRupiahBarangDiscount := Result;
 end;
 
+procedure TfrmTransaksi.SetGridHidden_Transaksi(aColIndex: Integer;
+    aColCountRight: Integer = 0);
+var
+  i: SmallInt;
+begin
+  if (aColIndex + aColCountRight) >= (sgTransaksi.ColumnCount-1) then
+    aColCountRight := (sgTransaksi.ColumnCount-aColIndex-1);
+  try
+    for i := 0 to aColCountRight do
+      sgTransaksi.Columns[aColIndex+i].Hidden := True;
+  finally
+  end;
+end;
+
+procedure TfrmTransaksi.SetGridFormat_Column(aColIndex: Integer; aIsCurrency:
+    Boolean = True);
+begin
+  try
+      with sgTransaksi.Columns[aColIndex] do
+      begin
+        PropertiesClass := TcxCurrencyEditProperties;
+        with TcxCurrencyEditProperties(Properties) do
+        begin
+          Alignment.Horz := taRightJustify;
+          UseThousandSeparator := True;
+          if aIsCurrency then
+          begin
+            DecimalPlaces := igQty_Precision;
+            DisplayFormat := ',0.###';
+          end
+          else
+          begin
+            DecimalPlaces := igPrice_Precision;
+            DisplayFormat := ',0.00';
+          end;
+        end;
+      end;
+  finally
+  end;
+end;
+
 procedure TfrmTransaksi.sgTransaksiEditing(Sender: TcxCustomGridTableView; AItem:
     TcxCustomGridTableItem; var AAllow: Boolean);
 begin
-  if (Sender.Controller.FocusedItemIndex in [_KolJumlah,_KolDiscMan,_KolDiscManForm])
-     and (sgTransaksi.DataController.Values[_KolPLU, AItem.Index] <> '') then
+  if (Sender.Controller.FocusedRecordIndex in [_KolJumlah,_KolDiscMan,_KolDiscManForm])
+     and (sgTransaksi.DataController.Values[AItem.Index, _KolPLU] <> '') then
     AAllow := True
   else
     AAllow := False;
@@ -1685,24 +1739,24 @@ var
   ACol, ARow : integer;
 begin
   ACol := sgTransaksi.Controller.FocusedColumnIndex;
-  ARow := sgTransaksi.Controller.FocusedRowIndex;
+  ARow := sgTransaksi.Controller.FocusedRecordIndex;
   if (ACol = _KolJumlah) or (ACol = _KolDiscMan)  then
     sgTransaksi.Controller.EditingController.ShowEdit(AItem);// := edFloat;
   if (ARow > 0) and (ACol > 0) then
   begin
     if ACol in [_KolJumlah] then
     begin
-      TcxCurrencyEditProperties(cxcolJumlah.Properties).DisplayFormat := '%.' + IntToStr(Abs(igQty_Precision)) + 'n';
+      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolJumlah].Properties).DisplayFormat := '%.' + IntToStr(Abs(igQty_Precision)) + 'n';
     end
     else if ACol in [_KolDisc,_KolDiscMan] then
     begin
-      TcxCurrencyEditProperties(cxcolDisc.Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
-      TcxCurrencyEditProperties(cxcolManDisc.Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolDisc].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolDiscMan].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
     end
     else if ACol in [_KolHarga, _KolTotal] then
     begin
-      TcxCurrencyEditProperties(cxcolHarga.Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
-      TcxCurrencyEditProperties(cxcolTotal.Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolHarga].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolTotal].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
     end;
   end;
   if ACol = _KolDiscManForm then
@@ -1719,7 +1773,7 @@ procedure TfrmTransaksi.sgTransaksiKeyDown(Sender: TObject; var Key: Word; Shift
     TShiftState);
 begin
   if ((Key = VK_DOWN) or (Key = 34))
-     and (sgTransaksi.DataController.RecNo = sgTransaksi.DataController.RowCount-1) then
+     and (sgTransaksi.DataController.FocusedRecordIndex = sgTransaksi.DataController.RecordCount-1) then
   begin
     if fraLookupBarang.Showing then
        fraLookupBarang.cxGrid.SetFocus;
@@ -1735,7 +1789,7 @@ begin
     else
     begin
       sgTransaksi.Controller.FocusedColumnIndex := _KolPLU;
-      sgTransaksi.Controller.FocusedRowIndex := sgTransaksi.DataController.RowCount - 1;
+      sgTransaksi.Controller.FocusedRecordIndex := sgTransaksi.DataController.RecordCount - 1;
       FocusToPLUEdit;
     end;
   end
@@ -1747,14 +1801,13 @@ begin
   begin
     with sgTransaksi do
     begin
-      if Controller.FocusedRowIndex < DataController.RowCount - 1 then
+      if Controller.FocusedRecordIndex < DataController.RecordCount - 1 then
       begin
         if CommonDlg.Confirm('Apakah Anda yakin akan menghapus PLU: '
-          + DataController.Values[_KolPLU,Controller.FocusedRowIndex] + ' - '
-          + DataController.Values[_KolNamaBarang,Controller.FocusedRowIndex]) = mrYes then
+          + DataController.Values[Controller.FocusedRecordIndex, _KolPLU] + ' - '
+          + DataController.Values[Controller.FocusedRecordIndex, _KolNamaBarang]) = mrYes then
         begin
-//          ClearRows(Row,1);
-//          RemoveRows(Row,1);
+          ClearRows;
 //          AutoNumberCol(0);
           HitungTotalRupiah;
           SaveTransactionToCSV;

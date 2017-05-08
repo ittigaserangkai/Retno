@@ -694,10 +694,6 @@
             <Form>frmPilihCabang</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
-            <Form>frmDialogDetailGeneratePO</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\model\uModPO.pas"/>
         <DCCReference Include="..\client\ui\ufrmMouselessMenu.pas">
             <Form>frmMouselesMenu</Form>
@@ -707,7 +703,10 @@
             <Form>frmCXLookup</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\model\uModDO.pas"/>
+        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
+            <Form>frmDialogDetailGeneratePO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

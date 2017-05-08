@@ -40,7 +40,7 @@ inherited frmOutlet: TfrmOutlet
               DataBinding.FieldName = 'OUTLET_CODE'
             end
             object cxgrdbclmnOUTLET_NAME: TcxGridDBColumn
-              DataBinding.FieldName = 'OUTLET_CODE'
+              DataBinding.FieldName = 'OUTLET_NAME'
             end
           end
         end
