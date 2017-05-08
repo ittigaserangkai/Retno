@@ -48,7 +48,7 @@ type
 
   TCrudPO = class(TCRud)
   public
-    function GeneratePO(ASOID : String; ASupMG : TModSuplierMerchanGroup): Boolean;
+    function GeneratePO(ASOID : String; ASupMGID : String): Boolean;
   end;
 
   TCrudSupplier = class(TCrud)

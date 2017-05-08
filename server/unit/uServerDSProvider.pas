@@ -86,7 +86,8 @@ type
     function SubGroup_GetDSOverview: TDataSet;
     function SuplierMerchan_GetDSLookup: TDataSet;
     function DO_GetDSLookUp: TDataSet;
-    function DO_GetDSOverview: TDataSet;
+    function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
+        ASupMGCodeID : String): TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
 
 
@@ -821,12 +822,22 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.DO_GetDSOverview: TDataSet;
+function TDSProvider.DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
+    ASupMGCodeID : String): TDataSet;
 var
-  S: string;
+  sSQL: string;
 begin
-  S := 'SELECT * FROM V_DO';
-  Result := TDBUtils.OpenQuery(S);
+  sSQL := 'SELECT * FROM V_DO' +
+       ' where DO_DATE BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+       ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnitID <> '' then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  if ASupMGCodeID <> '' then
+    sSQL := sSQL + ' and SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMGCodeID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSProvider.SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil):

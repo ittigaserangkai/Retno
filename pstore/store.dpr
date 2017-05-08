@@ -99,7 +99,6 @@ uses
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
-  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmMain in 'ui\ufrmMain.pas' {frmMain},
   ufrmServiceLevel in '..\module\merchandise\ufrmServiceLevel.pas' {frmServiceLevel},
   ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
@@ -187,7 +186,8 @@ uses
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-  uModDO in '..\model\uModDO.pas';
+  uModDO in '..\model\uModDO.pas',
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct};
 
 {$R *.res}
 
@@ -198,6 +198,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmDialogDetailGeneratePO, frmDialogDetailGeneratePO);
   Application.Run;
 end.
