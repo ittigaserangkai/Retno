@@ -12,15 +12,21 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uAppUtils,
-  uDXUtils, uDBUtils, Datasnap.DBClient, uDMClient, ufrmDialogSO, uInterface;
+  uDXUtils, uDBUtils, Datasnap.DBClient, uDMClient, ufrmDialogSO, uInterface,
+  cxGroupBox, cxRadioGroup;
 
 type
   TfrmSO = class(TfrmMasterBrowse)
+    gbCetak: TcxGroupBox;
+    rbPrintDlg: TcxRadioGroup;
+    btnPrint: TcxButton;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
+    procedure PrintDialog;
     property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   protected
@@ -61,16 +67,47 @@ end;
 procedure TfrmSO.actPrintExecute(Sender: TObject);
 begin
   inherited;
+  PrintDialog;
+  
+end;
+
+procedure TfrmSO.btnPrintClick(Sender: TObject);
+var
+  FilterPeriode: string;
+  sNomorSO: string;
+begin
+  inherited;
+  if rbPrintDlg.ItemIndex = 0 then
+    sNomorSO := CDS.FieldByName('SO_NO').AsString
+  else
+    sNomorSO := '';
 
   with dmReport do
   begin
+    FilterPeriode := dtAwalFilter.Text + ' s/d ' + dtAkhirFilter.Text;
+
+    AddReportVariable('FilterPeriode', FilterPeriode );
+    AddReportVariable('UserCetak', 'Baskoro');
+
+
+
     ExecuteReport( 'Slip_SO' ,
       ReportClient.SO_ByDateNoBukti(
-      dtAwalFilter.Date, dtAkhirFilter.Date,
-      CDS.FieldByName('SO_NO').AsString, CDS.FieldByName('SO_NO').AsString)
+        dtAwalFilter.Date,
+        dtAkhirFilter.Date,
+        sNomorSO,
+        sNomorSO
+      )
     );
   end;
 
+  gbCetak.Visible := False;
+
+end;
+
+procedure TfrmSO.PrintDialog;
+begin
+  gbCetak.Visible := True;
 end;
 
 procedure TfrmSO.RefreshData;

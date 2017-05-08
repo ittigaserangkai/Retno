@@ -182,7 +182,7 @@ begin
     Result.SetProvider(ADSP);
     Result.Open;
 
-    if FreeDataSet then aDataset.Free;
+    if FreeDataSet then FreeAndNil(aDataset);
   end;
 end;
 
@@ -214,24 +214,28 @@ var
 begin
   Result := false;
   Q := TFDQuery.Create(Application);
-  try
-    application.ProcessMessages;
-    Q.Connection  := FDConnection;
-    Q.Transaction := FDTransaction;
-    Q.SQL.Clear;
-    Q.SQL.AddStrings(aSQLS);
+  Try
+    try
+      application.ProcessMessages;
+      Q.Connection  := FDConnection;
+      Q.Transaction := FDTransaction;
+      Q.SQL.Clear;
+      Q.SQL.AddStrings(aSQLS);
 
-    Application.ProcessMessages;
-    if not FDTransaction.Active then   FDTransaction.StartTransaction;
-    Q.ExecSQL;
-    if DoCommit then Self.Commit;
-    If not Result then Result := True;
-  except
-    Self.RollBack;
-    Q.SQL.SaveToFile(ExtractFilePath(ParamStr(0)) + '\FailedExecution.log');
-    raise;
-  end;
-  FreeAndNIl(Q);
+      Application.ProcessMessages;
+      if not FDTransaction.Active then   FDTransaction.StartTransaction;
+      Q.ExecSQL;
+      if DoCommit then Self.Commit;
+      If not Result then Result := True;
+    except
+      Self.RollBack;
+      Q.SQL.SaveToFile(ExtractFilePath(ParamStr(0)) + '\FailedExecution.log');
+      raise;
+    end;
+  Finally
+    Q.SQL.Clear;
+    FreeAndNIl(Q);
+  End;
 end;
 
 class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
@@ -736,9 +740,11 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-
-  DebugSS.Add(sSQL);
-  LoadFromDataset(AObject, Q);
+  Try
+    LoadFromDataset(AObject, Q);
+  Finally
+    FreeAndNil(Q);
+  End;
 end;
 
 class procedure TDBUtils.LoadByCode(AOBject: TModApp; aCode: String);
@@ -749,7 +755,11 @@ begin
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetCodeField + ' = ' + QuotedStr(aCode) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
-  LoadFromDataset(AObject, Q);
+  Try
+    LoadFromDataset(AObject, Q);
+  Finally
+    FreeAndNil(Q);
+  End;
 end;
 
 class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
@@ -841,8 +851,6 @@ begin
                     + ' = ' + QuotedStr(ADataSet.FieldByName(AOBject.GetPrimaryField).AsString);
               lAppObjectItem.Free;
               QQ := TDBUtils.OpenQuery(sSQL, nil);
-
-              DebugSS.Add(sSQL);
 
               try
                 while not QQ.Eof do

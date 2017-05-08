@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -110
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -161,12 +162,12 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Supplier Name'
         end
         object Label4: TLabel
-          Left = 20
+          Left = 47
           Top = 11
-          Width = 84
+          Width = 57
           Height = 16
           Alignment = taRightJustify
-          Caption = 'Suppl. Code/Tipe'
+          Caption = 'Suppl. Code'
         end
         object Label6: TLabel
           Left = 48
@@ -214,7 +215,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Caption = 'Tipe Perushahaan'
         end
         object edtSupName: TcxTextEdit
-          Tag = 9
+          Tag = 1
           Left = 111
           Top = 31
           HelpType = htKeyword
@@ -225,6 +226,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Width = 298
         end
         object edtAddress: TcxTextEdit
+          Tag = 1
           Left = 111
           Top = 55
           TabOrder = 3
@@ -232,6 +234,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Width = 298
         end
         object edtCity: TcxTextEdit
+          Tag = 1
           Left = 111
           Top = 79
           Properties.CharCase = ecUpperCase
@@ -239,6 +242,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Width = 95
         end
         object edtPostCode: TcxTextEdit
+          Tag = 1
           Left = 304
           Top = 79
           TabOrder = 5
@@ -252,24 +256,28 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Width = 106
         end
         object edtPhone: TcxTextEdit
+          Tag = 1
           Left = 111
           Top = 103
           TabOrder = 6
           Width = 95
         end
         object edtContactP: TcxTextEdit
+          Tag = 1
           Left = 111
           Top = 127
           TabOrder = 8
           Width = 187
         end
         object edtAccountName: TcxTextEdit
+          Tag = 1
           Left = 111
           Top = 341
           TabOrder = 19
           Width = 211
         end
         object edtAccountNo: TcxTextEdit
+          Tag = 1
           Left = 111
           Top = 317
           TabOrder = 18
@@ -306,7 +314,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object medtNPWP: TMaskEdit
           Left = 111
-          Top = 198
+          Top = 199
           Width = 135
           Height = 22
           CharCase = ecUpperCase
@@ -358,6 +366,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Width = 298
         end
         object cxLookUpBank: TcxExtLookupComboBox
+          Tag = 1
           Left = 111
           Top = 246
           Properties.OnEditValueChanged = cxLookUpBankPropertiesEditValueChanged
@@ -365,25 +374,28 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Width = 299
         end
         object cxLookupTipePerush: TcxExtLookupComboBox
+          Tag = 1
           Left = 278
           Top = 8
           TabOrder = 1
           Width = 132
         end
         object cxLookUpSuppGroup: TcxExtLookupComboBox
+          Tag = 1
           Left = 111
           Top = 365
           TabOrder = 20
           Width = 299
         end
         object cxLookUpSupType: TcxExtLookupComboBox
+          Tag = 1
           Left = 111
           Top = 150
           TabOrder = 10
           Width = 299
         end
         object edtSupCode: TcxTextEdit
-          Tag = 9
+          Tag = 1
           Left = 111
           Top = 8
           HelpType = htKeyword
@@ -496,13 +508,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               OptionsImage.ImageIndex = 13
               OptionsImage.Images = DMClient.imgListButton
               TabOrder = 2
+              Visible = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              OnClick = btnUpdateSuppClick
+              ExplicitTop = 3
             end
           end
           object cxGridSupplier: TcxGrid
@@ -552,8 +565,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsMG
+          Properties.ActivePage = tsA
           Properties.CustomButtons.Buttons = <>
+          OnExit = pgcMerchanExit
           ClientRectBottom = 273
           ClientRectRight = 667
           ClientRectTop = 27
@@ -740,6 +754,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 31
               TabStop = False
+              Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = '0.00;(0.00)'
               Properties.ReadOnly = True
               TabOrder = 7
@@ -749,6 +764,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 54
               TabStop = False
+              Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 8
@@ -757,6 +773,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object curedtCreditLmt: TcxCurrencyEdit
               Left = 120
               Top = 128
+              Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0;(,0)'
               TabOrder = 5
               Width = 135
@@ -765,6 +782,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 385
               Top = 102
               TabStop = False
+              Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 12
@@ -774,6 +792,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Left = 486
               Top = 77
               TabStop = False
+              Properties.Alignment.Horz = taRightJustify
               Properties.DisplayFormat = ',0;(,0)'
               Properties.ReadOnly = True
               TabOrder = 11
@@ -1183,7 +1202,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       inherited lblCTRLP: TLabel
         Left = 420
         Height = 15
-        ExplicitLeft = 405
+        ExplicitLeft = 420
       end
     end
   end

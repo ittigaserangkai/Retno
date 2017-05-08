@@ -866,8 +866,14 @@ begin
   Result := TFDJSONDataSets.Create;
 
   S := 'SELECT * FROM V_SO_REPORT WHERE SO_DATE BETWEEN '
-  + TDBUtils.QuotDt(StartDate) + ' and ' + TDBUtils.QuotDt(EndDate)
-  + ' AND SO_NO between ' + QuotedStr(aNoBuktiAwal) + ' and ' + QuotedStr(aNoBuktiAkhir);
+      + TDBUtils.QuotDt(StartDate) + ' and ' + TDBUtils.QuotDt(EndDate);
+
+  if aNoBuktiAwal <> '' then
+    S := S + ' AND SO_NO between ' + QuotedStr(aNoBuktiAwal) + ' and '
+        + QuotedStr(aNoBuktiAkhir);
+
+  S := S + ' order by so_no, sup_code';
+
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 
 end;

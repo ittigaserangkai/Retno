@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 05/03/17 4:53:29 PM
+// 5/5/2017 2:20:43 PM
 //
 
 unit uClientClasses;
@@ -190,6 +190,8 @@ type
     FMerchandise_GetDSOverviewCommand_Cache: TDSRestCommand;
     FPO_GetDSOverviewCommand: TDSRestCommand;
     FPO_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FGeneratePO_GetDSLookupCommand: TDSRestCommand;
+    FGeneratePO_GetDSLookupCommand_Cache: TDSRestCommand;
     FPO_GetDSOverviewDetilCommand: TDSRestCommand;
     FPO_GetDSOverviewDetilCommand_Cache: TDSRestCommand;
     FStatusPO_GetDSLookupCommand: TDSRestCommand;
@@ -331,6 +333,8 @@ type
     function Merchandise_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function PO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AkodeSupplierMGAwal: string; AKodeSupplierMGAkhir: string; AStatusPOID: string; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GeneratePO_GetDSLookup(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function GeneratePO_GetDSLookup_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOverviewDetil(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function PO_GetDSOverviewDetil_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function StatusPO_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -1133,6 +1137,20 @@ const
     (Name: 'AKodeSupplierMGAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AStatusPOID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_GeneratePO_GetDSLookup: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_GeneratePO_GetDSLookup_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -3531,6 +3549,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FPO_GetDSOverviewCommand_Cache.Parameters[6].Value.GetString);
 end;
 
+function TDSProviderClient.GeneratePO_GetDSLookup(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FGeneratePO_GetDSLookupCommand = nil then
+  begin
+    FGeneratePO_GetDSLookupCommand := FConnection.CreateCommand;
+    FGeneratePO_GetDSLookupCommand.RequestType := 'GET';
+    FGeneratePO_GetDSLookupCommand.Text := 'TDSProvider.GeneratePO_GetDSLookup';
+    FGeneratePO_GetDSLookupCommand.Prepare(TDSProvider_GeneratePO_GetDSLookup);
+  end;
+  FGeneratePO_GetDSLookupCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FGeneratePO_GetDSLookupCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  FGeneratePO_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGeneratePO_GetDSLookupCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGeneratePO_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.GeneratePO_GetDSLookup_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGeneratePO_GetDSLookupCommand_Cache = nil then
+  begin
+    FGeneratePO_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FGeneratePO_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FGeneratePO_GetDSLookupCommand_Cache.Text := 'TDSProvider.GeneratePO_GetDSLookup';
+    FGeneratePO_GetDSLookupCommand_Cache.Prepare(TDSProvider_GeneratePO_GetDSLookup_Cache);
+  end;
+  FGeneratePO_GetDSLookupCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FGeneratePO_GetDSLookupCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  FGeneratePO_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGeneratePO_GetDSLookupCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSProviderClient.PO_GetDSOverviewDetil(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
 begin
   if FPO_GetDSOverviewDetilCommand = nil then
@@ -4090,6 +4141,8 @@ begin
   FMerchandise_GetDSOverviewCommand_Cache.DisposeOf;
   FPO_GetDSOverviewCommand.DisposeOf;
   FPO_GetDSOverviewCommand_Cache.DisposeOf;
+  FGeneratePO_GetDSLookupCommand.DisposeOf;
+  FGeneratePO_GetDSLookupCommand_Cache.DisposeOf;
   FPO_GetDSOverviewDetilCommand.DisposeOf;
   FPO_GetDSOverviewDetilCommand_Cache.DisposeOf;
   FStatusPO_GetDSLookupCommand.DisposeOf;
