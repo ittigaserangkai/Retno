@@ -1,0 +1,23 @@
+1. Jika terjadi kesalahan input GR yang dilakukan adalah 
+- CN : GR terjadi kelebihan input
+- DN : GR terjadi kekurangan input
+
+1.1 Apakah CN/DN Receiving itu bisa menambah / mengurangi baris ? Atau hanya input Qty/Jmlah barang aja ?
+1.2 Apakah ada listing CN/DN Receiving ?
+
+2. Apakah bisa menerima lbh dari yang di PO
+- Bisa
+-  
+3. Perlakuan barang bonus gmn ?
+
+4. Laporan-laporan GR
+- Cetak NP
+- Check List
+- Listing Receiving 
+- Tdk ada Slip GR
+
+5. Apa itu NP
+- Adalah nomor yang dicetak di DO Supplier, PO Assalam ketika barang sudah diterima sebagai tanda bahwa barangsdh diterima dan diakui sebagai hutang
+
+6. 
+
