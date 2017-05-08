@@ -20,6 +20,8 @@ type
 
   TCrud = class(TBaseServerClass)
   private
+    function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
+        Boolean = True): TModApp; overload;
     function StringToClass(ModClassName: string): TModAppClass;
     function ValidateCode(AOBject: TModApp): Boolean;
   protected
@@ -29,11 +31,11 @@ type
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
     function OpenQuery(S: string): TDataSet;
-    function Retrieve(ModAppClass: TModAppClass; AID: String): TModApp; overload;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
+    function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
@@ -135,10 +137,11 @@ begin
   AfterExecuteMethod;
 end;
 
-function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String): TModApp;
+function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
+    Boolean = True): TModApp;
 begin
   Result := ModAppClass.Create;
-  TDBUtils.LoadFromDB(Result, AID);
+  TDBUtils.LoadFromDB(Result, AID, LoadObjectList);
 end;
 
 function TCrud.Retrieve(ModClassName, AID: string): TModApp;
@@ -150,8 +153,6 @@ begin
     Raise Exception.Create('Class ' + ModClassName + ' not found');
   Result := Self.Retrieve(lClass, AID);
 
-  debugSS.SaveToFile('debugRetrive.txt');
-  debugSS.Clear;
   AfterExecuteMethod;
 end;
 
@@ -194,6 +195,18 @@ begin
     AfterExecuteMethod;
     lObj.Free;
   End;
+end;
+
+function TCrud.RetrieveSingle(ModClassName, AID: string): TModApp;
+var
+  lClass: TModAppClass;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+  Result := Self.Retrieve(lClass, AID, False);
+
+  AfterExecuteMethod;
 end;
 
 function TCrud.RetrieveByCode(ModClassName, aCode: string): TModApp;

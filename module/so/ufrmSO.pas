@@ -90,8 +90,7 @@ begin
     AddReportVariable('UserCetak', 'Baskoro');
 
 
-
-    ExecuteReport( 'Slip_SO' ,
+    ExecuteReport( 'Reports/Slip_SO' ,
       ReportClient.SO_ByDateNoBukti(
         dtAwalFilter.Date,
         dtAkhirFilter.Date,

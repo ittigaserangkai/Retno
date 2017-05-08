@@ -37,6 +37,7 @@ type
 
   TModSODetail = class(TModApp)
   private
+    FBARANG_SUPPLIER: TModBarangSupplier;
     FBARANG: TModBarang;
     FSO: TModSO;
     FSOD_DISC1: Double;
@@ -59,6 +60,9 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfForeign('BARANG_SUPLIER_ID')]
+    property BARANG_SUPPLIER: TModBarangSupplier read FBARANG_SUPPLIER write
+        FBARANG_SUPPLIER;
     property BARANG: TModBarang read FBARANG write FBARANG;
     [AttributeOfHeader('SO_ID')]
     property SO: TModSO read FSO write FSO;

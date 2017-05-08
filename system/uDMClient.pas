@@ -88,6 +88,7 @@ end;
 procedure TDMClient.DataModuleCreate(Sender: TObject);
 begin
   //set true akan menyebabkan ada expired time di client
+  //kecuali butuh _cache
   RestConn.PreserveSessionID := False;
 end;
 

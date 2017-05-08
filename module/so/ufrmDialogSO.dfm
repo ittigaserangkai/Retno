@@ -45,7 +45,7 @@ inherited frmDialogSO: TfrmDialogSO
       end
       object lblSuppMerGroup: TLabel
         Left = 318
-        Top = 34
+        Top = 33
         Width = 97
         Height = 16
         Caption = 'Supplier Mer. Group'
