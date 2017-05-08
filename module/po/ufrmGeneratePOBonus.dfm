@@ -266,14 +266,11 @@ inherited frmGeneratePOBonus: TfrmGeneratePOBonus
       ExplicitWidth = 809
       inherited lbCTRLEnter: TLabel
         Left = 634
-        Height = 15
+        ExplicitLeft = 634
       end
       inherited lbEscape: TLabel
         Left = 725
-        Height = 15
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+        ExplicitLeft = 725
       end
     end
   end
