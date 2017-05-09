@@ -384,10 +384,6 @@
             <Form>frmDisplayPO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\module\inventory\ufrmListingReceivingProduct.pas">
-            <Form>frmListingReceivingProduct</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="ui\ufrmMain.pas">
             <Form>frmMain</Form>
             <FormType>dfm</FormType>
@@ -694,6 +690,10 @@
             <Form>frmPilihCabang</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
+            <Form>frmDialogDetailGeneratePO</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="..\model\uModPO.pas"/>
         <DCCReference Include="..\client\ui\ufrmMouselessMenu.pas">
             <Form>frmMouselesMenu</Form>
@@ -703,14 +703,22 @@
             <Form>frmCXLookup</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmListingReceivingProduct.pas">
+            <Form>frmListingReceivingProduct</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
 <<<<<<< HEAD
         <DCCReference Include="..\model\uModDO.pas"/>
 =======
-        <DCCReference Include="..\module\po\ufrmDialogGeneratePO.pas">
-            <Form>frmDialogDetailGeneratePO</Form>
+        <DCCReference Include="..\system\ufrmSettingKoneksi.pas">
+            <Form>frmMasterDialog1</Form>
             <FormType>dfm</FormType>
         </DCCReference>
->>>>>>> 67321e138606a70229feacfcc3e33bd5627fc93d
+        <DCCReference Include="..\module\po\ufrmPORevision.pas">
+            <Form>frmPORevision</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+>>>>>>> 45d12a062911f5e34d1d14e5484bd9ce6853ad22
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

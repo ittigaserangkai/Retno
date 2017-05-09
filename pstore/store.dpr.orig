@@ -99,7 +99,6 @@ uses
   HPHELP in '..\lib\HPHELP.PAS',
   ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
-  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmMain in 'ui\ufrmMain.pas' {frmMain},
   ufrmServiceLevel in '..\module\merchandise\ufrmServiceLevel.pas' {frmServiceLevel},
   ufrmDSI in '..\module\inventory\ufrmDSI.pas' {frmDSI},
@@ -183,14 +182,19 @@ uses
   uModSO in '..\model\uModSO.pas',
   uModSuplier in '..\model\uModSuplier.pas',
   ufrmPilihUnit in '..\module\references\ufrmPilihUnit.pas' {frmPilihCabang},
+  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO},
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
 <<<<<<< HEAD
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   uModDO in '..\model\uModDO.pas';
 =======
-  ufrmDialogGeneratePO in '..\module\po\ufrmDialogGeneratePO.pas' {frmDialogDetailGeneratePO};
->>>>>>> 67321e138606a70229feacfcc3e33bd5627fc93d
+  uModDO in '..\model\uModDO.pas',
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmMasterDialog1},
+  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision};
+>>>>>>> 45d12a062911f5e34d1d14e5484bd9ce6853ad22
 
 {$R *.res}
 
@@ -201,6 +205,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmDialogDetailGeneratePO, frmDialogDetailGeneratePO);
+  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
+  Application.CreateForm(TfrmPORevision, frmPORevision);
   Application.Run;
 end.
