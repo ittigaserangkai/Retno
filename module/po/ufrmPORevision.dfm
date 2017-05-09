@@ -395,6 +395,7 @@ inherited frmPORevision: TfrmPORevision
       end
       inherited lblCTRLP: TLabel
         Left = 503
+        Height = 15
         ExplicitLeft = 503
       end
     end

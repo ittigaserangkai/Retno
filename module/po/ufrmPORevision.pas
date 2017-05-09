@@ -117,7 +117,7 @@ end;
 procedure TfrmPORevision.LoadData(AID : String);
 begin
   ClearByTag([0,1]);
-  cxGridDBTablePODetil.ClearRows;
+  cxGridTablePODetil.ClearRows;
 
   FPOLama                := DMClient.CrudClient.Retrieve(TModPO.ClassName, AID) as TModPO;
   edPOLama.Text          := FPOLama.PO_NO;

@@ -60,7 +60,8 @@ var
 
 implementation
 
-uses uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg;
+uses uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg,
+  ufrmPORevision;
 
 {$R *.dfm}
 
@@ -68,7 +69,6 @@ procedure TfrmPurchaseOrder.FormCreate(Sender: TObject);
 begin
   inherited;
   InisialisasiDBBStatusPO;
-
   InisialisasiCBBSupMGAkhir;
   InisialisasiCBBSupMGAwal;
 end;
@@ -83,7 +83,7 @@ end;
 procedure TfrmPurchaseOrder.actEditExecute(Sender: TObject);
 begin
   inherited;
-//  ShowDialogForm(TfrmPORevision, cxGridView.DS.FieldByName('PO_ID').AsString);
+  ShowDialogForm(TfrmPORevision, cxGridView.DS.FieldByName('PO_ID').AsString);
 end;
 
 procedure TfrmPurchaseOrder.actPrintExecute(Sender: TObject);
@@ -153,9 +153,9 @@ end;
 
 procedure TfrmPurchaseOrder.FormShow(Sender: TObject);
 begin
-  inherited;
   dtAwalFilter.Date:= Now;
   dtAkhirFilter.Date:= Now;
+  inherited;
 end;
 
 function TfrmPurchaseOrder.GetSQLStatusPO: string;
@@ -238,18 +238,23 @@ end;
 
 procedure TfrmPurchaseOrder.RefreshDataPO;
 var
-  sStatusPOId: string;
+  sStatusPOId, SupMGAwal, SupMGAkhir: string;
 begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
 
-  if cbbStatusPO.ItemIndex < 0 then
-    sStatusPOId := ''
-  else
-    sStatusPOId := cbbStatusPO.EditValue;
+  if cbbStatusPO.ItemIndex < 0 then sStatusPOId := 'xyz'
+  else sStatusPOId := cbbStatusPO.EditValue;
 
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date,cbbSupMGAwal.EditValueText,cbbSupMGAkhir.EditValueText, sStatusPOId, nil),Self );
+  if cbbSupMGAwal.ItemIndex < 0 then SupMGAwal := 'xyz'
+  else SupMGAwal := cbbSupMGAwal.EditValueText;
+
+  if cbbSupMGAkhir.ItemIndex < 0 then SupMGAkhir := 'xyz'
+  else SupMGAkhir := cbbSupMGAkhir.EditValueText;
+
+
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date,SupMGAwal,SupMGAkhir, sStatusPOId, nil),Self );
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID'],False);
+  cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'PO_ID', 'REF$STATUS_PO_ID'],False);
 end;
 
 procedure TfrmPurchaseOrder.RefreshDataPODetil;

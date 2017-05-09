@@ -72,7 +72,7 @@ type
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
-    function GeneratePO_GetDSLookup(ID: string): TDataset;
+    function SubMGBySO_GetDSLookup(ID: string): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
@@ -744,17 +744,17 @@ begin
   if AUnit <> nil then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
-  if (Trim(AkodeSupplierMGAwal) <> '') then
+  if (Trim(AkodeSupplierMGAwal) <> 'xyz') and (Trim(AkodeSupplierMGAkhir) <> 'xyz') then
     sSQL := sSQL + ' and KODE_SUPPLIER_MERCHANDISE_GROUP BETWEEN ' + QuotedStr(AkodeSupplierMGAwal)
             + ' AND ' + QuotedStr(AKodeSupplierMGAkhir);
 
-  if (TRIM(AStatusPOID) <> '') then
+  if (Trim(AStatusPOID) <> 'xyz') then
     sSQL := sSQL + ' AND REF$STATUS_PO_ID = ' + QuotedStr(AStatusPOID);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.GeneratePO_GetDSLookup(ID: string): TDataset;
+function TDSProvider.SubMGBySO_GetDSLookup(ID: string): TDataset;
 var
   sSQL: string;
 begin

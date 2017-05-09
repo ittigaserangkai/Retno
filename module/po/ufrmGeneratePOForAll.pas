@@ -162,7 +162,6 @@ begin
     on E : Exception do
       TAppUtils.Error(E.Message);
   end;
-
 end;
 
 procedure TfrmGeneratePOforAll.btn1Click(Sender: TObject);
@@ -345,7 +344,7 @@ procedure TfrmGeneratePOforAll.InisialisasiCBBSupMG;
 begin
   if VarIsNull(cbbSO.EditValue) then Exit;
 
-  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.GeneratePO_GetDSLookup(cbbSO.EditValue), Self);
+  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SubMGBySO_GetDSLookup(cbbSO.EditValue), Self);
   cbbSupplierMG.Properties.LoadFromCDS(FCDSSUPMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_NAME',['SO_ID','SUPLIER_MERCHAN_GRUP_ID'],Self);
   cbbSupplierMG.Properties.SetMultiPurposeLookup;
 end;
