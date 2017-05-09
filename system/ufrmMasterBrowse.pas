@@ -136,7 +136,9 @@ end;
 procedure TfrmMasterBrowse.FormShow(Sender: TObject);
 begin
   inherited;
-  actRefresh.Execute;
+  if AutoRefreshData then
+    actRefresh.Execute;
+
   if pgcBrowse.ActivePage = tsBrowse then Self.cxGrid.SetFocus;
 end;
 

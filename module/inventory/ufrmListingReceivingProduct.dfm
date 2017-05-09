@@ -5,6 +5,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
   ClientHeight = 458
   ClientWidth = 758
   OldCreateOrder = True
+  ExplicitTop = -169
   ExplicitWidth = 774
   ExplicitHeight = 497
   PixelsPerInch = 96
@@ -136,6 +137,9 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
     end
   end
   inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
     inherited actEdit: TAction
       OnExecute = actEditExecute
     end

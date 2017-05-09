@@ -90,6 +90,7 @@ type
     function DO_GetDSLookUp: TDataSet;
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
+    function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
     function PORevisi_GetDSOverview(ID: string): TDataset;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
@@ -853,6 +854,20 @@ begin
   if ASupMGCodeID <> '' then
     sSQL := sSQL + ' and SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMGCodeID);
 
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PO_GetDSOLookUp(AUnitID : String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_PO ' +
+          ' where 1 = 1';
+
+  if AUnitID <> '' then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
