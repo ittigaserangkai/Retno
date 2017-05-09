@@ -161,6 +161,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Top = 5
       Properties.OnValidate = cbbSOPropertiesValidate
       TabOrder = 0
+      OnExit = cbbSOExit
       Width = 132
     end
   end

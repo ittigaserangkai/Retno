@@ -72,7 +72,7 @@ type
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
-    function GeneratePO_GetDSLookup(ATglAwal, ATglAkhir: TDateTime): TDataset;
+    function GeneratePO_GetDSLookup(ID: string): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
@@ -737,34 +737,30 @@ function TDSProvider.PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
 var
   sSQL: string;
 begin
-  sSQL := 'select * from V_PO ' +
-          ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
-          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+  sSQL := 'SELECT * from V_PO ' +
+          ' WHERE PO_DATE BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   if AUnit <> nil then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
-  if Trim(AkodeSupplierMGAwal) <> '' then
+  if (Trim(AkodeSupplierMGAwal) <> '') then
     sSQL := sSQL + ' and KODE_SUPPLIER_MERCHANDISE_GROUP BETWEEN ' + QuotedStr(AkodeSupplierMGAwal)
             + ' AND ' + QuotedStr(AKodeSupplierMGAkhir);
 
-  if TRIM(AStatusPOID) <> '' then
+  if (TRIM(AStatusPOID) <> '') then
     sSQL := sSQL + ' AND REF$STATUS_PO_ID = ' + QuotedStr(AStatusPOID);
-
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.GeneratePO_GetDSLookup(ATglAwal, ATglAkhir: TDateTime):
-    TDataset;
+function TDSProvider.GeneratePO_GetDSLookup(ID: string): TDataset;
 var
   sSQL: string;
 begin
-  sSQL := 'select D.SUP_NAME from SO_DETAIL A' +
-          ' left join SO B on A.SO_ID = B.SO_ID' +
-          ' left join SUPLIER_MERCHAN_GRUP_ID C on A.SUPLIER_MERCHAN_GRUP_ID = C.SUPLIER_MERCHAN_GRUP_ID +' +
-          ' left join SUPLIER D on C.SUPLIER_ID = D.SUPLIER_ID '+
-          ' where B.SO_DATE = ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal));
+  sSQL := 'select DISTINCT A.SO_ID,A.SUPLIER_MERCHAN_GRUP_ID,B.SUPMG_SUB_CODE,B.SUPMG_NAME'
+    +' from SO_DETAIL A LEFT JOIN SUPLIER_MERCHAN_GRUP B on A.SUPLIER_MERCHAN_GRUP_ID'
+    +' = B.SUPLIER_MERCHAN_GRUP_ID WHERE A.SO_ID = ' + TDBUtils.Quot(ID);
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -825,7 +821,7 @@ function TDSProvider.SuplierMerchan_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select * from V_SUPPLIER_MERCHANDISE_GROUP';
+  S := 'select * from V_SUPPLIER_MERCHANDISE_GROUP ORDER BY SUPMG_SUB_CODE';
   Result := TDBUtils.OpenQuery(S);
 end;
 
