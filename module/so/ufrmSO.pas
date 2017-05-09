@@ -81,14 +81,12 @@ begin
     sNomorSO := CDS.FieldByName('SO_NO').AsString
   else
     sNomorSO := '';
-
   with dmReport do
   begin
     FilterPeriode := dtAwalFilter.Text + ' s/d ' + dtAkhirFilter.Text;
 
     AddReportVariable('FilterPeriode', FilterPeriode );
     AddReportVariable('UserCetak', 'Baskoro');
-
 
     ExecuteReport( 'Reports/Slip_SO' ,
       ReportClient.SO_ByDateNoBukti(
@@ -99,9 +97,7 @@ begin
       )
     );
   end;
-
   gbCetak.Visible := False;
-
 end;
 
 procedure TfrmSO.PrintDialog;
