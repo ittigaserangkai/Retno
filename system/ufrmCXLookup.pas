@@ -46,6 +46,7 @@ type
     N1: TMenuItem;
     CheckAll1: TMenuItem;
     UncheckAll1: TMenuItem;
+    lbBenchmark: TLabel;
     procedure btnRefreshClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
@@ -56,6 +57,7 @@ type
         var AHandled: Boolean);
     procedure cxGridViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
     procedure UncheckAll1Click(Sender: TObject);
     procedure UnCheckSelected1Click(Sender: TObject);
   private
@@ -64,6 +66,7 @@ type
     FCommandName: String;
     FData: TClientDataset;
     FMultiSelect: Boolean;
+    FStartExecute: TDatetime;
     function CopyDataset(Source: TDataset): TClientDataSet;
     procedure HideDateParams;
     procedure InitView;
@@ -83,9 +86,11 @@ type
     class function Execute(ADataSet: TClientDataSet; aMultiSelect: Boolean = False;
         aCaption: String = 'Lookup Data'): TfrmCXLookup; overload;
     procedure HideFields(FieldNames: Array Of String);
+    procedure Reset;
     procedure ShowFieldsOnly(FieldNames: Array Of String);
     property CommandName: String read FCommandName write FCommandName;
     property Data: TClientDataset read FData write FData;
+    property StartExecute: TDatetime read FStartExecute write FStartExecute;
     { Public declarations }
   published
     property MultiSelect: Boolean read FMultiSelect write SetMultiSelect;
@@ -140,6 +145,7 @@ constructor TfrmCXLookup.Create(ARestConn: TDSRestConnection; aMultiSelect:
     Boolean = False);
 begin
   inherited Create(nil);
+  StartExecute := Now();
   FLookupClient := TLookupClient.Create(ARestConn, False);
   Self.MultiSelect := aMultiSelect;
 end;
@@ -184,6 +190,7 @@ begin
 
   lRecNo := Source.RecNo;
   Source.DisableControls;
+  Result.DisableControls;
   Try
     Source.First;
     While not Source.Eof do
@@ -203,6 +210,7 @@ begin
   Finally
     Source.RecNo := lRecNo;
     Source.EnableControls;
+    Result.EnableControls;
   end;
 end;
 
@@ -265,6 +273,14 @@ begin
   if Key = VK_RETURN then btnOK.Click;
 end;
 
+procedure TfrmCXLookup.FormShow(Sender: TObject);
+var
+  ms: Integer;
+begin
+  ms := MilliSecondsBetween(StartExecute, Now());
+  lbBenchmark.Caption := 'Debug Benchmark = ' + IntToStr(ms) + ' ms';
+end;
+
 procedure TfrmCXLookup.HideDateParams;
 begin
   lblFilterData.Visible := False;
@@ -307,7 +323,7 @@ begin
     lCheckCol.Caption := ' [X] ';
     TcxCheckBoxProperties(lCheckCol).ImmediatePost := True;
   end;
-
+  cxGridView.OptionsBehavior.BestFitMaxRecordCount := 200;
   cxGridView.ApplyBestFit;
 end;
 
@@ -334,6 +350,23 @@ begin
   end;
 
   if CDS <> nil then initView;
+end;
+
+procedure TfrmCXLookup.Reset;
+begin
+  if Self.MultiSelect then
+  begin
+    CDS.DisableControls;
+    Try
+      while not CDS.Eof do
+      begin
+        CDS.FieldByName(check_flag).AsBoolean := False;
+        CDS.Next;
+      end;
+    Finally
+      CDS.EnableControls;
+    End;
+  end;
 end;
 
 procedure TfrmCXLookup.SetCheckSelected(IsChecked: Boolean = True; IsSelectAll:

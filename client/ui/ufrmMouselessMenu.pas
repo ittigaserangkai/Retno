@@ -211,6 +211,7 @@ function TfrmMouselesMenu.GetCurrPanel: TMyPanel;
 var
   i: Integer;
 begin
+  Result := nil;
   If GetPanelCount > 0 then
   begin
 //    Result := TMyPanel(pnlBody.Controls[GetPanelCount-1])
@@ -222,8 +223,7 @@ begin
         Break;
       end;
     end;
-  end else
-    Result := nil;
+  end;
 end;
 
 function TfrmMouselesMenu.GetMyLabelCount: Integer;

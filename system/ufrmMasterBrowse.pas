@@ -167,6 +167,7 @@ var
   MyInterface: ICRUDAble;
 begin
   frm := DlgFormClass.Create(Application);
+  Self.Enabled := False;
   Try
     if Supports(frm, ICRUDAble, MyInterface) then
       if Assigned(MyInterface) and (AID<>'') then MyInterface.LoadData(AID);
@@ -178,6 +179,8 @@ begin
     Self.SetFocusRec(cxGrid);
   Finally
     FreeAndNil(frm);
+    Self.Enabled := True;
+    Self.Cursor := crDefault;
   End;
 end;
 

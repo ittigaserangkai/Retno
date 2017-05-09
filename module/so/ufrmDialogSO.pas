@@ -75,18 +75,27 @@ type
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataSet;
+    FCDSSatuan: TClientDataset;
+    FCDSSuplierMerchan: TClientDataSet;
     FModSO: TModSO;
+    FUsingCache: Boolean;
     procedure AddOtherProduct;
     procedure ClearForm;
     procedure DeleteData;
     procedure GenerateSO;
     function GetCDS: TClientDataSet;
+    function GetCDSSatuan: TClientDataset;
+    function GetCDSSuplierMerchan: TClientDataSet;
     function GetModSO: TModSO;
     procedure InitView;
     procedure UpdateData;
     function ValidateGenerate: Boolean;
     property CDS: TClientDataSet read GetCDS write FCDS;
+    property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
+    property CDSSuplierMerchan: TClientDataSet read GetCDSSuplierMerchan write
+        FCDSSuplierMerchan;
     property ModSO: TModSO read GetModSO write FModSO;
+    property UsingCache: Boolean read FUsingCache write FUsingCache;
     { Private declarations }
   public
     procedure LoadData(AID: String);
@@ -100,7 +109,8 @@ implementation
 
 uses
   uDBUtils, uDMClient, uAppUtils, uClientClasses, uModBarang, uModSuplier,
-  uModSatuan, uConstanta, ufrmCXLookup;
+  uModSatuan, uConstanta, ufrmCXLookup, System.DateUtils, FireDAC.Comp.Client,
+  Data.FireDACJSONReflect, uRetnoUnit;
 
 {$R *.dfm}
 
@@ -131,6 +141,7 @@ end;
 procedure TfrmDialogSO.FormCreate(Sender: TObject);
 begin
   inherited;
+  UsingCache := False;
   InitView;
   ClearForm;
 end;
@@ -138,7 +149,7 @@ end;
 procedure TfrmDialogSO.FormDestroy(Sender: TObject);
 begin
   inherited;
-  if Assigned(FModSO) then FModSo.Free;
+  if Assigned(FModSO) then FreeAndNil(FModSO);
 end;
 
 procedure TfrmDialogSO.actSaveExecute(Sender: TObject);
@@ -162,14 +173,19 @@ procedure TfrmDialogSO.AddOtherProduct;
 var
   frm: TfrmCXLookup;
   lCDS: TClientDataSet;
+  lMem: TFDMemTable;
+  lStart: TDateTime;
 begin
   inherited;
 
-  lCDS := TDBUtils.DSToCDS(
-    DMClient.DSProviderClient.BarangSupp_GetDSLookup(cxLookupMerchan.EditValue),
-    self, False
+  lStart := Now();
+
+  lCDS := TClientDataSet(
+    DMClient.DSProviderClient.BarangSupp_GetDSLookup(cxLookupMerchan.EditValue)
   );
+
   frm := TfrmCXLookup.Execute(lCDS, True);
+  frm.StartExecute := lStart;
   Try
     frm.ShowFieldsOnly(['BRG_CODE','BRG_NAME','SUP_CODE','SUP_NAME', 'SAT_CODE', 'BUYPRICE'] );
     if frm.ShowModal = mrOk then
@@ -202,6 +218,7 @@ begin
           CDS.SetFieldFrom('BARANG_ID', frm.Data, 'BARANG_ID');
           CDS.SetFieldFrom('SATUAN_ID', frm.Data, 'SATUAN_ID');
           CDS.SetFieldFrom('SUPLIER_MERCHAN_ID', frm.Data, 'SUPLIER_MERCHAN_GRUP_ID');
+          CDS.SetFieldFrom('BARANG_SUPLIER_ID', frm.Data, 'BARANG_SUPLIER_ID');
 
           CDS.FieldByName('ROP').AsFloat := 0;
           CDS.FieldByName('QTYSO').AsFloat := 0;
@@ -348,6 +365,7 @@ begin
       CDS.SetFieldFrom('Disc3', lCDS);
       CDS.SetFieldFrom('NetPrice', lCDS);
       CDS.SetFieldFrom('BARANG_ID', lCDS);
+      CDS.SetFieldFrom('BARANG_SUPLIER_ID', lCDS);
       CDS.SetFieldFrom('SATUAN_ID', lCDS);
       CDS.SetFieldFrom('SUPLIER_MERCHAN_ID', lCDS);
       CDS.SetFieldFrom('IS_BKP', lCDS);
@@ -390,6 +408,7 @@ begin
     FCDS.AddField('Disc3',ftFloat);
     FCDS.AddField('NetPrice',ftFloat);
     FCDS.AddField('Barang_ID',ftString);
+    FCDS.AddField('Barang_Suplier_ID',ftString);
     FCDS.AddField('Satuan_ID',ftString);
     FCDS.AddField('SUPLIER_MERCHAN_ID',ftString);
     FCDS.AddField('IS_BKP',ftInteger);
@@ -400,20 +419,46 @@ begin
   Result := FCDS;
 end;
 
+function TfrmDialogSO.GetCDSSatuan: TClientDataset;
+begin
+  if not Assigned(FCDSSatuan) then
+    FCDSSatuan := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.Satuan_GetDSLookup, Self);
+  Result := FCDSSatuan;
+end;
+
+function TfrmDialogSO.GetCDSSuplierMerchan: TClientDataSet;
+begin
+  if not Assigned(FCDSSuplierMerchan) then
+  begin
+    FCDSSuplierMerchan := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.SuplierMerchan_GetDSLookup, Self);
+  end;
+  Result := FCDSSuplierMerchan;
+end;
+
 function TfrmDialogSO.GetModSO: TModSO;
 begin
   if not Assigned(FModSO) then
+  begin
     FModSO := TModSO.Create;
+    FModSO.AUTUNIT := TRetno.UnitStore;
+  end;
   Result := FModSO;
 end;
 
 procedure TfrmDialogSO.InitView;
+var
+  lCDS: TClientDataSet;
 begin
   With DMClient.DSProviderClient do
   begin
-    cxLookupSupplierMerchan.LoadFromDS(SuplierMerchan_GetDSLookup,
-      'SUPLIER_MERCHAN_GRUP_ID','SUP_NAME', Self);
-    cxLookupSupplierMerchan.SetVisibleColumnsOnly(['SUP_CODE', 'SUP_NAME']);
+    lCDS := TClientDataSet.Create(Self);
+    lCDS.CloneCursor(CDSSuplierMerchan, True);
+    cxLookupSupplierMerchan.LoadFromCDS(CDSSuplierMerchan,
+      'SUPLIER_MERCHAN_GRUP_ID' , 'SUP_NAME',    Self);
+
+    cxLookupSupplierMerchan.SetVisibleColumnsOnly(['SUP_CODE', 'SUP_NAME', 'MERCHANGRUP_NAME']);
 
     cxLookupMerchan.LoadFromDS(Merchandise_GetDSLookup,
       'REF$MERCHANDISE_ID','MERCHAN_NAME' ,Self);
@@ -431,9 +476,9 @@ end;
 procedure TfrmDialogSO.LoadData(AID: String);
 var
   i: Integer;
+  lBrg: TModBarang;
   lDetail: TModSODetail;
   lDisc: Double;
-  lSupp: TModSuplier;
 begin
   If Assigned(FModSO) then FModSO.Free;
   FModSO := DMClient.CrudClient.Retrieve(TModSO.ClassName, AID) as TModSO;
@@ -441,40 +486,32 @@ begin
   dtTgl.Date := ModSO.SO_DATE;
   cxLookupMerchan.EditValue := ModSo.Merchandise.ID;
   cxLookupSupplierMerchan.EditValue := ModSo.SupplierMerchan.ID;
-
   CDS.DisableControls;
+
+  Screen.Cursor := crHourGlass;
+  Application.ProcessMessages;
   Try
     for i := 0 to ModSO.SODetails.Count-1 do
     begin
       lDetail := ModSO.SODetails[i];
 
-
-//      lSupp := DMClient.CrudClient.Retrieve(TModSuplier.ClassName,
-//        lDetail.SupplierMerchan.SUPLIER.ID) as TModSuplier;
-//
       CDS.Append;
-      CDS.FieldByName('Checked').AsBoolean := lDetail.SOD_QTY > 0;
-//      CDS.FieldByName('PLU').AsString := lDetail.BARANG.BRG_CODE;
-//      CDS.FieldByName('NamaBarang').AsString := lDetail.BARANG.BRG_NAME;
-//      CDS.FieldByName('UOM').AsString := lDetail.Satuan.SAT_CODE;
-      CDS.FieldByName('STOCK').AsFloat := lDetail.SOD_STOCK;
-      CDS.FieldByName('ADS').AsFloat := lDetail.SOD_ADS;
-      CDS.FieldByName('ROP').AsFloat := lDetail.SOD_ROP;
-      CDS.FieldByName('QTYSO').AsFloat := lDetail.SOD_QTYSO;
-      CDS.FieldByName('QTY').AsFloat := lDetail.SOD_QTY;
-//      CDS.FieldByName('SupplierCode').AsString := lSupp.SUP_CODE;
-//      CDS.FieldByName('SupplierName').AsString := lSupp.SUP_NAME;
-//      CDS.FieldByName('LeadTime').AsInteger := lDetail.SupplierMerchan.SUPMG_LEAD_TIME;
-      CDS.FieldByName('BuyPrice').AsFloat := lDetail.SOD_PRICE;
-      CDS.FieldByName('Disc1').AsFloat := lDetail.SOD_DISC1;
-      CDS.FieldByName('Disc2').AsFloat := lDetail.SOD_DISC2;
-      CDS.FieldByName('Disc3').AsFloat := lDetail.SOD_DISC3;
-      CDS.FieldByName('NetPrice').AsFloat := lDetail.SOD_PRICE;
-//      CDS.FieldByName('Barang_ID').AsString := lDetail.BARANG.ID;
-//      CDS.FieldByName('Satuan_ID').AsString := lDetail.Satuan.ID;
-      CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString := lDetail.SupplierMerchan.ID;
-      CDS.FieldByName('IS_BKP').AsInteger := lDetail.SOD_IS_BKP;
-      CDS.FieldByName('IS_REGULAR').AsInteger := lDetail.SOD_IS_REGULAR;
+      CDS.FieldByName('Checked').AsBoolean            := lDetail.SOD_QTY > 0;
+      CDS.FieldByName('STOCK').AsFloat                := lDetail.SOD_STOCK;
+      CDS.FieldByName('ADS').AsFloat                  := lDetail.SOD_ADS;
+      CDS.FieldByName('ROP').AsFloat                  := lDetail.SOD_ROP;
+      CDS.FieldByName('QTYSO').AsFloat                := lDetail.SOD_QTYSO;
+      CDS.FieldByName('QTY').AsFloat                  := lDetail.SOD_QTY;
+      CDS.FieldByName('BuyPrice').AsFloat             := lDetail.SOD_PRICE;
+      CDS.FieldByName('Disc1').AsFloat                := lDetail.SOD_DISC1;
+      CDS.FieldByName('Disc2').AsFloat                := lDetail.SOD_DISC2;
+      CDS.FieldByName('Disc3').AsFloat                := lDetail.SOD_DISC3;
+      CDS.FieldByName('NetPrice').AsFloat             := lDetail.SOD_PRICE;
+      CDS.FieldByName('Barang_ID').AsString           := lDetail.BARANG.ID;
+      CDS.FieldByName('Satuan_ID').AsString           := lDetail.Satuan.ID;
+      CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString  := lDetail.SupplierMerchan.ID;
+      CDS.FieldByName('IS_BKP').AsInteger             := lDetail.SOD_IS_BKP;
+      CDS.FieldByName('IS_REGULAR').AsInteger         := lDetail.SOD_IS_REGULAR;
 
       lDisc := (lDetail.SOD_DISC1/100) * lDetail.SOD_PRICE ;
       lDisc := lDisc + ((lDetail.SOD_DISC2/100) * (lDetail.SOD_PRICE-lDisc)) ;
@@ -482,15 +519,37 @@ begin
 
       CDS.FieldByName('NetPrice').AsFloat := lDetail.SOD_PRICE - lDisc;
 
+      if CDSSuplierMerchan.Locate('SUPLIER_MERCHAN_GRUP_ID', lDetail.SupplierMerchan.ID, [loCaseInsensitive]) then
+      begin
+        CDS.FieldByName('SupplierCode').AsString := CDSSuplierMerchan.FieldByName('SUP_CODE').AsString;
+        CDS.FieldByName('SupplierName').AsString := CDSSuplierMerchan.FieldByName('SUP_NAME').AsString;
+        CDS.FieldByName('LeadTime').AsInteger    := CDSSuplierMerchan.FieldByName('SUPMG_LEAD_TIME').AsInteger;
+      end;
+
+      if CDSSatuan.Locate('ref$satuan_id', lDetail.Satuan.ID, [loCaseInsensitive])   then
+      begin
+        CDS.FieldByName('UOM').AsString := CDSSatuan.FieldByName('SAT_CODE').AsString;
+      end;
+
+      lBrg := DMClient.CrudClient.RetrieveSingle(TModBarang.ClassName, lDetail.BARANG.ID) as TModBarang;
+      Try
+        if Assigned(lBrg) then
+        begin
+          CDS.FieldByName('PLU').AsString         := lBrg.BRG_CODE;
+          CDS.FieldByName('NamaBarang').AsString  := lBrg.BRG_NAME;
+        end;
+      Finally
+        FreeAndNil(lBrg);
+      End;
 
       CDS.Post;
 
-//      if lSupp <> nil then lSupp.Free;
     end;
-
   Finally
+//    TAppUtils.FinalisasiProgressBar();
     CDS.EnableControls;
     cxGridView.ApplyBestFit();
+    Screen.Cursor := crDefault;
   End;
 
 end;
@@ -517,6 +576,8 @@ begin
     begin
       lDetail := TModSODetail.Create;
       lDetail.BARANG := TModBarang.CreateID(CDS.FieldByName('Barang_ID').AsString);
+      lDetail.BARANG_SUPPLIER
+        := TModBarangSupplier.CreateID(CDS.FieldByName('Barang_Suplier_ID').AsString );
       lDetail.Satuan := TModSatuan.CreateID(CDS.FieldByName('Satuan_ID').AsString);
       lDetail.SupplierMerchan :=
         TModSuplierMerchanGroup.CreateID(CDS.FieldByName('SUPLIER_MERCHAN_ID').AsString);

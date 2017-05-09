@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsImport
+      Properties.ActivePage = tsInfo
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -55,9 +55,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsInfo: TcxTabSheet
         Caption = 'F1 [Informasi Barang]'
         ImageIndex = 26
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -1642,9 +1639,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSellingPrice: TcxTabSheet
         Caption = 'F4 [Selling Price]'
         ImageIndex = 37
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object gbSellingPrice: TcxGroupBox
           Left = 0
           Top = 180

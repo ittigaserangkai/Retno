@@ -13,6 +13,7 @@ object frmCXLookup: TfrmCXLookup
   OldCreateOrder = False
   Position = poScreenCenter
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object pnlHeader: TPanel
@@ -176,6 +177,25 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
+    object lbBenchmark: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 1
+      Width = 99
+      Height = 29
+      Margins.Top = 1
+      Margins.Right = 13
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'Debug Benchmark : '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitHeight = 16
+    end
     object btnClose: TcxButton
       AlignWithMargins = True
       Left = 615
@@ -278,6 +298,19 @@ object frmCXLookup: TfrmCXLookup
       PopupMenu = pmSelect
       OnKeyDown = cxGridViewKeyDown
       Navigator.Buttons.CustomButtons = <>
+      Navigator.Buttons.First.Visible = True
+      Navigator.Buttons.Prior.Visible = True
+      Navigator.Buttons.Insert.Visible = False
+      Navigator.Buttons.Append.Enabled = False
+      Navigator.Buttons.Delete.Visible = False
+      Navigator.Buttons.Edit.Visible = False
+      Navigator.Buttons.Post.Visible = False
+      Navigator.Buttons.Cancel.Visible = False
+      Navigator.Buttons.Refresh.Visible = False
+      Navigator.Buttons.SaveBookmark.Visible = False
+      Navigator.Buttons.GotoBookmark.Visible = False
+      Navigator.InfoPanel.Visible = True
+      Navigator.Visible = True
       FindPanel.DisplayMode = fpdmManual
       FindPanel.InfoText = 'ketik teks yang dicari...'
       OnCellDblClick = cxGridViewCellDblClick
@@ -307,8 +340,8 @@ object frmCXLookup: TfrmCXLookup
     end
   end
   object pmSelect: TPopupMenu
-    Left = 280
-    Top = 192
+    Left = 336
+    Top = 208
     object CheckSelected1: TMenuItem
       Caption = 'Check Selected'
       OnClick = CheckSelected1Click

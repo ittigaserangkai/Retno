@@ -55,9 +55,11 @@ type
     class function GetNextID(AOBject : TModApp): Integer;
     class function GetNextIDGUID: TGuid;
     class function GetNextIDGUIDToString: string;
-    class procedure LoadFromDB(AOBject: TModApp; AID: String);
+    class procedure LoadFromDB(AOBject: TModApp; AID: String; LoadObjectList:
+        Boolean = True);
     class procedure LoadByCode(AOBject: TModApp; aCode: String);
-    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
+    class procedure LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
+        LoadObjectList: Boolean = True);
     class function OpenDataset(ASQL: String; AOwner: TComponent = nil):
         TClientDataSet; overload;
     class function OpenMemTable(ASQL : String): TFDMemTable;
@@ -731,7 +733,8 @@ begin
   Result  := Format(SQL_Delete,[AObject.GetTableName,sFilter]);
 end;
 
-class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String);
+class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String;
+    LoadObjectList: Boolean = True);
 var
   Q: TFDQuery;
   sSQL: string;
@@ -741,7 +744,7 @@ begin
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);
   Try
-    LoadFromDataset(AObject, Q);
+    LoadFromDataset(AObject, Q, LoadObjectList);
   Finally
     FreeAndNil(Q);
   End;
@@ -762,7 +765,8 @@ begin
   End;
 end;
 
-class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset);
+class procedure TDBUtils.LoadFromDataset(AOBject: TModApp; ADataSet: TDataset;
+    LoadObjectList: Boolean = True);
 var
   sSQL: string;
   ctx : TRttiContext;
@@ -812,9 +816,9 @@ begin
 
                 lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
 
-
-//                if (ARetrieveProp) and (lAppObject.ID  <> '') then
-//                  Self.LoadFromDB(lAppObject, lAppObject.ID );
+//                if prop.Name <> lAppObject.GetHeaderProperty then
+//                  if (ARetrieveProp) and (lAppObject.ID  <> '') then
+//                    Self.LoadFromDB(lAppObject, lAppObject.ID );
 
                 prop.SetValue(AOBject, lAppObject);
               end;
@@ -823,10 +827,8 @@ begin
             prop.SetValue(AObject,TValue.FromVariant(ADataSet.FieldValues[FieldName]) );
           end;
         end;
-      end else  //public object list
+      end else If LoadObjectList then //public object list
       begin
-
-
         if prop.PropertyType.TypeKind = tkClass then
         begin
           meth := prop.PropertyType.GetMethod('ToArray');
@@ -857,6 +859,7 @@ begin
                 begin
                   lAppObjectItem := lAppClass.Create;
                   LoadFromDataset(lAppObjectItem, QQ);
+//                  LoadFromDataset(lAppObjectItem, QQ, ARetrieveProp);
                   meth.Invoke(lObjectList,[lAppObjectItem]);
                   QQ.Next;
                 end;

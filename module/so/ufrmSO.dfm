@@ -30,8 +30,8 @@ inherited frmSO: TfrmSO
           ExplicitHeight = 249
         end
         object gbCetak: TcxGroupBox
-          Left = 144
-          Top = 52
+          Left = 252
+          Top = 136
           Caption = 'Opsi Cetak'
           TabOrder = 1
           Visible = False
@@ -52,7 +52,6 @@ inherited frmSO: TfrmSO
             ItemIndex = 0
             Style.BorderStyle = ebsNone
             TabOrder = 0
-            ExplicitWidth = 332
             Height = 42
             Width = 274
           end
@@ -73,10 +72,6 @@ inherited frmSO: TfrmSO
             OptionsImage.Images = DMClient.imgListButton
             TabOrder = 1
             OnClick = btnPrintClick
-            ExplicitLeft = 268
-            ExplicitTop = 73
-            ExplicitWidth = 105
-            ExplicitHeight = 39
           end
         end
       end
@@ -126,7 +121,6 @@ inherited frmSO: TfrmSO
     ExplicitWidth = 671
     inherited pnlFooter: TPanel
       Width = 671
-      ExplicitTop = 22
       ExplicitWidth = 671
       inherited btnAdd: TcxButton
         Action = actAdd

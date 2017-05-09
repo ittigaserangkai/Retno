@@ -279,7 +279,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 4
       Text = 'PDF'
-      ExplicitHeight = 21
       Width = 78
     end
     object btnPrev: TcxButton
@@ -616,7 +615,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 10
       Text = '100%'
-      ExplicitHeight = 21
       Width = 60
     end
     object btnFastPrint: TcxButton
@@ -702,7 +700,7 @@ object DMReport: TDMReport
         BorderStyle = bsNone
         OutlineVisible = False
         OutlineWidth = 120
-        ThumbnailVisible = False
+        ThumbnailVisible = True
         OnPageChanged = frxPreview2PageChanged
         UseReportHints = True
       end
@@ -719,9 +717,10 @@ object DMReport: TDMReport
         BorderStyle = bsNone
         OutlineVisible = False
         OutlineWidth = 120
-        ThumbnailVisible = False
+        ThumbnailVisible = True
         OnPageChanged = frxPreview1PageChanged
         UseReportHints = True
+        ExplicitTop = -6
       end
     end
   end

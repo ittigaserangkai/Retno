@@ -57,12 +57,16 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     object dtDateSO: TcxDateEdit
       Left = 133
       Top = 32
+      Enabled = False
+      Properties.ShowTime = False
       TabOrder = 1
       Width = 132
     end
     object dtDatePO: TcxDateEdit
       Left = 133
       Top = 94
+      Enabled = False
+      Properties.ShowTime = False
       TabOrder = 3
       Width = 132
     end
@@ -141,8 +145,10 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Height = 27
       Cursor = crHandPoint
       Action = actDetailPO
+      Enabled = False
       OptionsImage.Images = DMClient.imgListButton
       TabOrder = 5
+      Visible = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -161,6 +167,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Top = 5
       Properties.OnValidate = cbbSOPropertiesValidate
       TabOrder = 0
+      OnExit = cbbSOExit
       Width = 132
     end
   end
@@ -198,20 +205,14 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       ExplicitWidth = 659
       inherited lbCTRLEnter: TLabel
         Left = 484
-        Height = 15
         ExplicitLeft = 484
       end
       inherited lbEscape: TLabel
         Left = 575
-        Height = 15
         ExplicitLeft = 575
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 408
-        Height = 15
         ExplicitLeft = 408
       end
     end

@@ -79,6 +79,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure actProcessPOExecute(Sender: TObject);
     procedure btn1Click(Sender: TObject);
+    procedure cbbSOExit(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtNoSOChange(Sender: TObject);
@@ -156,11 +157,11 @@ procedure TfrmGeneratePOforAll.actProcessPOExecute(Sender: TObject);
 begin
   try
     DMClient.CrudPOClient.GeneratePO(cbbSO.EditValueText, cbbSupplierMG.EditValueText);
+    Self.Close;
   except
     on E : Exception do
       TAppUtils.Error(E.Message);
   end;
-
 end;
 
 procedure TfrmGeneratePOforAll.btn1Click(Sender: TObject);
@@ -193,6 +194,12 @@ begin
     end;
   end;
   frmDialogSearchSO.Free;
+end;
+
+procedure TfrmGeneratePOforAll.cbbSOExit(Sender: TObject);
+begin
+  inherited;
+  InisialisasiCBBSupMG;
 end;
 
 procedure TfrmGeneratePOforAll.cbbSOPropertiesValidate(Sender: TObject;
@@ -335,8 +342,10 @@ end;
 
 procedure TfrmGeneratePOforAll.InisialisasiCBBSupMG;
 begin
-  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.GeneratePO_GetDSLookup(dtDateSO.Date, dtDateSO.Date, null), Self);
-  cbbSupplierMG.Properties.LoadFromCDS(FCDSSUPMG,'SO_NO','SO_DATE',['SO_ID','AUNT$UNIT_ID','REF$MERCHANDISE_ID', 'SUPPLIER_MERCHAN_GRUP_ID','OP_CREATE','DATE_CREATE'],Self);
+  if VarIsNull(cbbSO.EditValue) then Exit;
+
+  FCDSSUPMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SupMGBySO_GetDSLookup(cbbSO.EditValue), Self);
+  cbbSupplierMG.Properties.LoadFromCDS(FCDSSUPMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_NAME',['SO_ID','SUPLIER_MERCHAN_GRUP_ID'],Self);
   cbbSupplierMG.Properties.SetMultiPurposeLookup;
 end;
 

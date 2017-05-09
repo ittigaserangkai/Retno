@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Graphics, Controls, Forms,
   Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions,
-  System.Classes, Vcl.StdCtrls;
+  System.Classes, Vcl.StdCtrls, uDXUtils;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -120,6 +120,7 @@ begin
   FormatSettings.DecimalSeparator   := '.';
   FormatSettings.ThousandSeparator  := ',';
   FormatSettings.CurrencyString     := 'Rp';
+  Self.AssignKeyDownEvent;
  end;
 
 procedure TfrmMasterDialog.FormKeyDown(Sender: TObject; var Key: Word; Shift:
