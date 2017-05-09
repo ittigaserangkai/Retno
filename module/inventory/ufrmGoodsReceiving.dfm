@@ -15,9 +15,9 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
     ExplicitWidth = 784
     ExplicitHeight = 436
     inherited cxGrid: TcxGrid
-      Top = 126
+      Top = 153
       Width = 780
-      Height = 244
+      Height = 217
       TabOrder = 2
       ExplicitTop = 126
       ExplicitWidth = 780
@@ -27,7 +27,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       Left = 2
       Top = 2
       Width = 780
-      Height = 124
+      Height = 151
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
@@ -35,126 +35,126 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       TabOrder = 0
       object lbl1: TLabel
         Left = 17
-        Top = 4
+        Top = 7
         Width = 34
         Height = 16
         Caption = 'PO No.'
       end
       object lbl5: TLabel
         Left = 226
-        Top = 4
+        Top = 7
         Width = 41
         Height = 16
         Caption = 'Date PO'
       end
       object lbl6: TLabel
         Left = 19
-        Top = 27
+        Top = 33
         Width = 33
         Height = 16
         Caption = 'SO No.'
       end
       object lbl7: TLabel
         Left = 226
-        Top = 28
+        Top = 33
         Width = 40
         Height = 16
         Caption = 'Date SO'
       end
       object lbl8: TLabel
         Left = 12
-        Top = 73
+        Top = 85
         Width = 39
         Height = 16
         Caption = 'Supplier'
       end
       object lbl2: TLabel
         Left = 226
-        Top = 50
+        Top = 59
         Width = 42
         Height = 16
         Caption = 'Date DO'
       end
       object lbl4: TLabel
         Left = 18
-        Top = 50
+        Top = 59
         Width = 35
         Height = 16
         Caption = 'DO No.'
       end
       object lbl9: TLabel
         Left = 37
-        Top = 97
+        Top = 111
         Width = 13
         Height = 16
         Caption = 'NP'
       end
       object lbl10: TLabel
         Left = 621
-        Top = 4
+        Top = 7
         Width = 44
         Height = 16
         Caption = 'Sub Total'
       end
       object lbl13: TLabel
         Left = 647
-        Top = 51
+        Top = 59
         Width = 18
         Height = 16
         Caption = 'PPn'
       end
       object lbl14: TLabel
         Left = 626
-        Top = 73
+        Top = 85
         Width = 39
         Height = 16
         Caption = 'PPn. BM'
       end
       object lbl12: TLabel
         Left = 622
-        Top = 27
+        Top = 33
         Width = 44
         Height = 16
         Caption = 'Discount'
       end
       object lbl11: TLabel
         Left = 621
-        Top = 96
+        Top = 111
         Width = 44
         Height = 16
         Caption = 'Total Beli'
       end
       object lbl3: TLabel
         Left = 369
-        Top = 4
+        Top = 7
         Width = 57
         Height = 16
         Caption = 'Total Order'
       end
       object lbl15: TLabel
         Left = 517
-        Top = 4
+        Top = 7
         Width = 29
         Height = 16
         Caption = 'Bonus'
       end
       object lbl16: TLabel
         Left = 374
-        Top = 28
+        Top = 33
         Width = 51
         Height = 16
         Caption = 'Total Colie'
       end
       object lbl17: TLabel
         Left = 486
-        Top = 28
+        Top = 33
         Width = 59
         Height = 16
         Caption = 'Recv. Bonus'
       end
       object lbl24: TLabel
         Left = 200
-        Top = 94
+        Top = 111
         Width = 18
         Height = 15
         Caption = 'new'
@@ -167,7 +167,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object lblStatusPO: TLabel
         Left = 556
-        Top = 100
+        Top = 111
         Width = 59
         Height = 16
         Alignment = taRightJustify
@@ -179,18 +179,6 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Font.Style = [fsBold]
         ParentFont = False
       end
-      object edtPONo: TEdit
-        Left = 55
-        Top = 4
-        Width = 106
-        Height = 22
-        Ctl3D = False
-        MaxLength = 10
-        ParentCtl3D = False
-        TabOrder = 0
-        OnChange = edtPONoChange
-        OnKeyPress = edtPONoKeyPress
-      end
       object btn1: TcxButton
         Left = 163
         Top = 2
@@ -200,6 +188,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         OptionsImage.ImageIndex = 26
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 1
+        Visible = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -11
@@ -210,19 +199,19 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object dtDatePO: TcxDateEdit
         Left = 270
-        Top = 4
+        Top = 3
         TabOrder = 2
         Width = 90
       end
       object dtDateSO: TcxDateEdit
         Left = 270
-        Top = 27
+        Top = 29
         TabOrder = 4
         Width = 90
       end
       object edtSONo: TEdit
         Left = 55
-        Top = 27
+        Top = 30
         Width = 106
         Height = 22
         Ctl3D = False
@@ -233,7 +222,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object edtSuplierCode: TEdit
         Left = 55
-        Top = 73
+        Top = 82
         Width = 50
         Height = 22
         Ctl3D = False
@@ -244,8 +233,8 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object edtSuplierName: TEdit
         Left = 106
-        Top = 73
-        Width = 495
+        Top = 82
+        Width = 375
         Height = 22
         Ctl3D = False
         ParentCtl3D = False
@@ -254,7 +243,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object edtDONo: TEdit
         Left = 55
-        Top = 50
+        Top = 56
         Width = 106
         Height = 22
         Ctl3D = False
@@ -265,13 +254,13 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object dtDateDO: TcxDateEdit
         Left = 270
-        Top = 50
+        Top = 55
         TabOrder = 6
         Width = 90
       end
       object edtNP: TEdit
         Left = 55
-        Top = 96
+        Top = 108
         Width = 140
         Height = 22
         Color = clBtnFace
@@ -290,49 +279,49 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object jvcuredtPPN: TcxCurrencyEdit
         Left = 670
-        Top = 49
+        Top = 55
         TabOrder = 16
         Width = 99
       end
       object jvcuredtPPNBM: TcxCurrencyEdit
         Left = 670
-        Top = 72
+        Top = 81
         TabOrder = 17
         Width = 99
       end
       object jvcuredtDiscount: TcxCurrencyEdit
         Left = 670
-        Top = 26
+        Top = 29
         TabOrder = 15
         Width = 99
       end
       object jvcuredtTotalBeli: TcxCurrencyEdit
         Left = 670
-        Top = 95
+        Top = 107
         TabOrder = 18
         Width = 99
       end
       object edtjfBonus: TcxCurrencyEdit
         Left = 550
-        Top = 4
+        Top = 3
         TabOrder = 9
         Width = 51
       end
       object edtjfTotalColie: TcxCurrencyEdit
         Left = 430
-        Top = 27
+        Top = 29
         TabOrder = 8
         Width = 51
       end
       object edtjfRecvBonus: TcxCurrencyEdit
         Left = 550
-        Top = 27
+        Top = 29
         TabOrder = 10
         Width = 51
       end
       object edtjfTotalOrder: TcxCurrencyEdit
         Left = 430
-        Top = 4
+        Top = 3
         TabOrder = 7
         BiDiMode = bdLeftToRight
         ParentBiDiMode = False
@@ -340,7 +329,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object btn2: TcxButton
         Left = 221
-        Top = 95
+        Top = 105
         Width = 148
         Height = 27
         Caption = 'Check List NP (Ctrl-D)'
@@ -358,7 +347,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object btnCetakNP: TcxButton
         Left = 376
-        Top = 95
+        Top = 105
         Width = 89
         Height = 27
         Caption = 'NP (Ctrl-P)'
@@ -373,6 +362,12 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Font.Style = []
         ParentFont = False
         OnClick = btn2Click
+      end
+      object cbbPO: TcxExtLookupComboBox
+        Left = 55
+        Top = 3
+        TabOrder = 0
+        Width = 106
       end
     end
     object pnl2: TPanel
@@ -506,6 +501,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       inherited btnPrint: TcxButton
         Left = 537
+        ExplicitLeft = 537
       end
     end
     inherited pnlSortCut: TPanel
@@ -527,6 +523,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       inherited lblCTRLP: TLabel
         Left = 533
         Height = 15
+        ExplicitLeft = 533
       end
     end
   end

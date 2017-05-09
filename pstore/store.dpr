@@ -186,8 +186,8 @@ uses
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-  uModDO in '..\model\uModDO.pas',
-  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct};
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+  uModDO in '..\model\uModDO.pas';
 
 {$R *.res}
 

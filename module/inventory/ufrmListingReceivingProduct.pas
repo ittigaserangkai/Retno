@@ -19,6 +19,7 @@ type
   TfrmListingReceivingProduct = class(TfrmMasterBrowse)
     cbbSUpMG: TcxExtLookupComboBox;
     llblSupMG: TcxLabel;
+    procedure actAddExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure edtSupCodeKeyUp(Sender: TObject; var Key: Word;
@@ -52,6 +53,12 @@ uses  ufrmSearchSupplier, uDMReport, ufrmDialogPrintPreview, uRetnoUnit,
       ufrmGoodsReceiving, uAppUtils;
 
 {$R *.dfm}
+
+procedure TfrmListingReceivingProduct.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmGoodsReceiving);
+end;
 
 procedure TfrmListingReceivingProduct.FormCreate(Sender: TObject);
 begin

@@ -85,6 +85,7 @@ object frmMasterDialog: TfrmMasterDialog
       end
       inherited lblCTRLP: TLabel
         Left = 303
+        Height = 16
         AutoSize = True
         ExplicitLeft = 303
         ExplicitHeight = 16

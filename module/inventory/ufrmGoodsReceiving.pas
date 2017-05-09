@@ -10,13 +10,13 @@ uses
   Data.DB, cxDBData, Vcl.Menus, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils,
   cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtons,
   ufraFooterDialog3Button, cxGridLevel, cxClasses, cxGridCustomView,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
+  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmGoodsReceiving = class(TfrmMasterDialogBrowse)
     pnlTop: TPanel;
     lbl1: TLabel;
-    edtPONo: TEdit;
     btn1: TcxButton;
     lbl5: TLabel;
     lbl6: TLabel;
@@ -68,6 +68,7 @@ type
     btn2: TcxButton;
     lblStatusPO: TLabel;
     btnCetakNP: TcxButton;
+    cbbPO: TcxExtLookupComboBox;
     procedure actCancelExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -97,6 +98,7 @@ type
     procedure ClearForm;
     procedure AllocatedStock(Receive: Real;
                              var FCommon,FAssgros,FTrader: Real);
+    procedure InisialisasiCBBPO;
   public
     { Public declarations }
   end;
@@ -465,12 +467,13 @@ end;
 procedure TfrmGoodsReceiving.FormCreate(Sender: TObject);
 begin
   inherited;
+  InisialisasiCBBPO;
+
   dtDatePO.Date := now;
   dtDateSO.Date := now;
   dtDateDO.Date := now;
 
-  lbl24.Visible := true;
-  ClearForm;
+
 end;
 
 procedure TfrmGoodsReceiving.ShowDetailPO(ANoPO: string);
@@ -760,7 +763,7 @@ begin
   if (frmDialogSearchPO.IsProcessSuccessfull) then
   begin
 //    edtPONo.Text := frmDialogSearchPO.strgGrid.Cells[2,frmDialogSearchPO.strgGrid.Row];
-    edtPONo.SetFocus;
+//    edtPONo.SetFocus;
   end;
     
   frmDialogSearchPO.Free;
@@ -952,6 +955,11 @@ begin
     CommonDlg.ShowConfirmGlobal(ER_SAVE_DO);
   SetHeaderGrid;
   lbl24.Visible := False;
+end;
+
+procedure TfrmGoodsReceiving.InisialisasiCBBPO;
+begin
+  // TODO -cMM: TfrmGoodsReceiving.InisialisasiCBBPO default body inserted
 end;
 
 end.
