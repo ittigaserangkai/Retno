@@ -1343,8 +1343,8 @@ object DMClient: TDMClient
       000000000000}
   end
   object cxStyle: TcxStyleRepository
-    Left = 104
-    Top = 88
+    Left = 80
+    Top = 72
     PixelsPerInch = 96
     object cxStyleGridEven: TcxStyle
       AssignedValues = [svColor, svFont]

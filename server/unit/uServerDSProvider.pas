@@ -4,7 +4,8 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModUnit, System.Generics.Collections, Data.FireDACJSONReflect,
-  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin, uServerClasses;
+  FireDAC.Stan.Storage, FireDAC.Stan.StorageBin, uServerClasses,
+  FireDAC.Comp.Client;
 
 type
   {$METHODINFO ON}
@@ -65,6 +66,7 @@ type
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
+    function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
@@ -618,6 +620,19 @@ begin
       +' where REF$MERCHANDISE_ID = ' + QuotedStr(aMerchandise);
 
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.BarangSupp_GetDSLookup2(aMerchandise: String):
+    TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT  * FROM V_BARANGSUP_LOOKUP'
+      +' where REF$MERCHANDISE_ID = ' + QuotedStr(aMerchandise);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenMemTable(S));
 end;
 
 function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;

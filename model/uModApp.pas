@@ -188,8 +188,12 @@ begin
 end;
 
 function TModApp.GetHeaderProperty: String;
+var
+  lProp: TRttiProperty;
 begin
-  Result := PropFromAttr(AttributeOfHeader).Name;
+  Result := '';
+  lProp := PropFromAttr(AttributeOfHeader);
+  if Assigned(lProp) then Result := lProp.Name;
 end;
 
 class function TModApp.GetPrimaryField: String;

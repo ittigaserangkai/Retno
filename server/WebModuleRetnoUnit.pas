@@ -13,7 +13,7 @@ uses
   Datasnap.DSProxyFreePascal_iOS,
   Datasnap.DSProxyJavaScript, IPPeerServer, Datasnap.DSMetadata,
   Datasnap.DSServerMetadata, Datasnap.DSClientMetadata, Datasnap.DSCommonServer,
-  Datasnap.DSHTTP, Vcl.StdCtrls;
+  Datasnap.DSHTTP, Vcl.StdCtrls, Data.DBXCommon;
 
 type
   TWebModuleRetno = class(TWebModule)
@@ -132,7 +132,6 @@ begin
     Prefix := '[' + TimeToStr(Now()) + ']:' + '[' + ARequest.RemoteIP + ']';
     HTTPMemo.Lines.Add(Prefix + '-> ' + AnsiLeftStr(ARequest.URI,200));
     HTTPMemo.Lines.Add(Prefix + '<- ' + AnsiLeftStr(AResponse.ContentText,200));
-
   except
   End;
 end;
