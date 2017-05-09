@@ -59,6 +59,7 @@ type
     cxgrdclmnPODTotal: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
   private
+    FCDS: TClientDataSet;
     FCDSSO: TClientDataSet;
     FCDSSupMG: TClientDataSet;
     FPOLama: TModPO;
@@ -99,7 +100,6 @@ var
   FCDSSupMG: TClientDataSet;
 begin
   FCDSSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
-
   cbbSupMGNama.Properties.LoadFromCDS(FCDSSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_SUB_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
   cbbSupMGNama.Properties.SetMultiPurposeLookup;
 end;
@@ -115,6 +115,8 @@ begin
 end;
 
 procedure TfrmPORevision.LoadData(AID : String);
+var
+  I: Integer;
 begin
   ClearByTag([0,1]);
   cxGridTablePODetil.ClearRows;
@@ -126,6 +128,14 @@ begin
   cbbSupMGNama.EditValue := FPOLama.PO_SUPPLIER_MERCHAN_GRUP.ID;
   cbbSupplier.EditValue  := FPOLama.PO_SUPPLIER.ID;
   edValidUntil.Date      := FPOLama.PO_VALID_DATE;
+
+  for I := 0 to FPOLama.POItems.Count - 1 do
+  begin
+    cxGridTablePODetil.DataController.Append;
+    cxGridTablePODetil.DataController.Values[i, cxgrdclmnPODSKU.Index] := FPOLama.POItems[i].POD_BARANG.ID;
+    cxGridTablePODetil.DataController.Values[i, cxgrdclmnPODUOM.Index] := FPOLama.POItems[i].POD_UOM.ID;
+    cxGridTablePODetil.DataController.Values[i, cxgrdclmnPODJumlah.Index] := FPOLama.POItems[i].POD_QTY_ORDER;
+  end;
 end;
 
 end.

@@ -72,7 +72,7 @@ type
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
-    function SubMGBySO_GetDSLookup(ID: string): TDataset;
+    function SupMGBySO_GetDSLookup(ID: string): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
@@ -91,6 +91,7 @@ type
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
+    function PORevisi_GetDSOverview(ID: string): TDataset;
 
 
   end;
@@ -754,7 +755,7 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.SubMGBySO_GetDSLookup(ID: string): TDataset;
+function TDSProvider.SupMGBySO_GetDSLookup(ID: string): TDataset;
 var
   sSQL: string;
 begin
@@ -863,6 +864,14 @@ begin
 
 
   sSQL := sSQL + ' order by SO_NO';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PORevisi_GetDSOverview(ID: string): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select* from PO_DETAIL where PO_ID = ' + TDBUtils.Quot(ID);
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 

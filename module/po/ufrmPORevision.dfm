@@ -382,20 +382,14 @@ inherited frmPORevision: TfrmPORevision
       ExplicitWidth = 754
       inherited lbCTRLEnter: TLabel
         Left = 579
-        Height = 15
         ExplicitLeft = 579
       end
       inherited lbEscape: TLabel
         Left = 670
-        Height = 15
         ExplicitLeft = 670
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 503
-        Height = 15
         ExplicitLeft = 503
       end
     end
