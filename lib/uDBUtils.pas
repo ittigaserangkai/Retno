@@ -71,6 +71,7 @@ type
     class function QuotDt(aDate : TDateTime): String; overload;
     class function QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean): String;
         overload;
+    class function QuotDShort(aDate : TDateTime): String; overload;
     class function QuotF(ANumber : Double): String;
     class procedure RollBack;
   end;
@@ -963,6 +964,11 @@ begin
     begin
       Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
     end;
+end;
+
+class function TDBUtils.QuotDShort(aDate : TDateTime): String;
+begin
+    result := Quot(FormatDateTime('mm/dd/yyyy', aDate));
 end;
 
 class function TDBUtils.QuotF(ANumber : Double): String;

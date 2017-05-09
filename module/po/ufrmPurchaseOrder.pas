@@ -14,7 +14,7 @@ uses
   cxButtonEdit, Data.DB, uDMClient, uAppUtils,uDBUtils,
   uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll,
   dxmdaset, cxGridDBDataDefinitions, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox;
+  cxDBExtLookupComboBox, cxGroupBox, cxRadioGroup;
 
 type
   TfrmPurchaseOrder = class(TfrmMasterBrowse)
@@ -26,6 +26,9 @@ type
     lblStatus: TcxLabel;
     cbbStatusPO: TcxExtLookupComboBox;
     lblTo: TcxLabel;
+    gbCetak: TcxGroupBox;
+    rbPrintDlg: TcxRadioGroup;
+    btnPrint: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
@@ -33,6 +36,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
     FCDSDetil: TClientDataSet;
@@ -41,9 +45,9 @@ type
     procedure InisialisasiDBBStatusPO;
     procedure InisialisasiCBBSupMGAkhir; overload;
     procedure InisialisasiCBBSupMGAwal;
+    procedure PrintDialog;
     procedure RefreshDataPO;
     procedure RefreshDataPODetil;
-
   protected
     function GetSQLStatusPO: string; dynamic;
     function GetSupCode    : string; virtual;
@@ -97,44 +101,36 @@ var
 
 begin
   inherited;
-//  iPOUnitID := GetPOUnitID(MasterNewUnit.ID);
+  PrintDialog;
+end;
 
-//  if (cbbStatusPO.EditValue = null) or (cbbStatusPO.ItemIndex < 0) then
-//  begin
-//    CommonDlg.ShowErrorEmpty('Status PO');
-//    cbbStatusPO.SetFocus;
-//    Exit;
-//  end;
-//
-//  FormatSettings.DateSeparator   := '/';
-//  FormatSettings.ShortDateFormat := 'mm/dd/yyyy';
-//  strDtFrst       := FormatDateTime('mm/dd/yyyyy', dtAwalFilter.Date) + ' 00:00:00';
-//  strDtNext       := FormatDateTime('mm/dd/yyyyy', dtAkhirFilter.Date) + ' 23:59:59';
-//  sStapo_ID       := Trim(copy(cboStatusPO.Text,1, pos(' ',cboStatusPO.Text)));
-//  sTmp            := trim(copy(cboStatusPO.Text, pos(' ',cboStatusPO.Text)+1,
-//                          length(cboStatusPO.Text)- pos(' ',cboStatusPO.Text)));
-//
-//  sSQL:= 'SELECT '
-//        + ' s.sup_code, smg.supmg_code, '
-//        + ' s.sup_name as sup_name, p.po_date '
-//        + ' as po_date, p.po_no, '
-//        + ' p.po_so_no, p.po_colie, p.PO_DISC, p.po_ppn, '
-//        + ' p.po_ppnbm, p.PO_DISC + p.po_ppn + p.po_ppnbm as po_purchase, p.po_total '
-//        + ' from po p '
-//        + ' inner join suplier_merchan_grup smg on p.po_supmg_sub_code = smg.supmg_sub_code  '
-//        + ' inner join suplier s on smg.supmg_code = s.sup_code  '
-//        + ' left outer join ref$tipe_perusahaan rtp on s.sup_tppersh_id = rtp.tppersh_id '
-//        + ' where s.SUP_CODE >= ' +  QuotedStr(edtBtnSuplier1.Text)
-//        + ' AND s.SUP_CODE <= ' +   QuotedStr(edtBtnSuplier2.Text)
-//        + ' AND p.PO_DATE >= ' +   QuotedStr(strDtFrst)
-//        + ' AND p.PO_DATE <= ' +   QuotedStr(strDtNext)
-//        + ' AND (p.PO_STAPO_ID = ' +   QuotedStr(sStapo_ID)
-//        + ' ) '
-//        + ' AND P.PO_UNT_ID = ' + IntToStr(iPOUnitID)
-//        + ' ORDER BY s.SUP_CODE ASC,rtp.tppersh_code ASC, s.sup_name ASC, '
-//        + ' po_date ASC, p.po_no ASC';
+procedure TfrmPurchaseOrder.btnPrintClick(Sender: TObject);
+  var
+  FilterPeriode: string;
+  sNomorPO: string;
+begin
+  inherited;
+  if rbPrintDlg.ItemIndex = 0 then
+    sNomorPO := FCDS.FieldByName('PO_NO').AsString
+  else
+    sNomorPO := '';
+  with dmReport do
+  begin
+    FilterPeriode := dtAwalFilter.Text + ' s/d ' + dtAkhirFilter.Text;
 
-//      dmReportNew.EksekusiReport('frcetakPO_listing', sSQL,'',True);
+    AddReportVariable('FilterPeriode', FilterPeriode );
+    AddReportVariable('UserCetak', 'Baskoro');
+
+    ExecuteReport( 'Reports/Slip_PO' ,
+      ReportClient.PO_SLIP_ByDateNoBukti(
+        dtAwalFilter.Date,
+        dtAkhirFilter.Date,
+        sNomorPO,
+        sNomorPO
+      )
+    );
+  end;
+  gbCetak.Visible := False;
 end;
 
 procedure TfrmPurchaseOrder.FormClose(Sender: TObject;
@@ -216,6 +212,11 @@ begin
 
   cbbSupMGAwal.Properties.LoadFromCDS(lcdsStatusSupMG,'SUPMG_SUB_CODE','SUPMG_SUB_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
   cbbSupMGAwal.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmPurchaseOrder.PrintDialog;
+begin
+  gbCetak.Visible := True;
 end;
 
 procedure TfrmPurchaseOrder.RefreshData;

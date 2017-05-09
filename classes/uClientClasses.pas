@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 5/9/2017 11:24:17 AM
+// 5/9/2017 3:01:16 PM
 //
 
 unit uClientClasses;
@@ -230,6 +230,8 @@ type
     FSO_GetDSOLookUpGeneratePOCommand_Cache: TDSRestCommand;
     FPORevisi_GetDSOverviewCommand: TDSRestCommand;
     FPORevisi_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FPO_SLIP_GetDSOverviewCommand: TDSRestCommand;
+    FPO_SLIP_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -383,6 +385,8 @@ type
     function SO_GetDSOLookUpGeneratePO_Cache(AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PORevisi_GetDSOverview(ID: string; const ARequestFilter: string = ''): TDataSet;
     function PORevisi_GetDSOverview_Cache(ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function PO_SLIP_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function PO_SLIP_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -391,6 +395,8 @@ type
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
     FSO_ByDateNoBuktiCommand_Cache: TDSRestCommand;
+    FPO_SLIP_ByDateNoBuktiCommand: TDSRestCommand;
+    FPO_SLIP_ByDateNoBuktiCommand_Cache: TDSRestCommand;
     FSO_TestCommand: TDSRestCommand;
     FSO_TestCommand_Cache: TDSRestCommand;
   public
@@ -401,6 +407,8 @@ type
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function PO_SLIP_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function PO_SLIP_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_Test(const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
   end;
@@ -1436,6 +1444,22 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_PO_SLIP_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_PO_SLIP_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSReport_SO_ByDate: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -1460,6 +1484,24 @@ const
   );
 
   TDSReport_SO_ByDateNoBukti_Cache: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_PO_SLIP_ByDateNoBukti: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_PO_SLIP_ByDateNoBukti_Cache: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -4523,6 +4565,65 @@ begin
   Result := TDSRestCachedDataSet.Create(FPORevisi_GetDSOverviewCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSProviderClient.PO_SLIP_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FPO_SLIP_GetDSOverviewCommand = nil then
+  begin
+    FPO_SLIP_GetDSOverviewCommand := FConnection.CreateCommand;
+    FPO_SLIP_GetDSOverviewCommand.RequestType := 'POST';
+    FPO_SLIP_GetDSOverviewCommand.Text := 'TDSProvider."PO_SLIP_GetDSOverview"';
+    FPO_SLIP_GetDSOverviewCommand.Prepare(TDSProvider_PO_SLIP_GetDSOverview);
+  end;
+  FPO_SLIP_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FPO_SLIP_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FPO_SLIP_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FPO_SLIP_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FPO_SLIP_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FPO_SLIP_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FPO_SLIP_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FPO_SLIP_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.PO_SLIP_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FPO_SLIP_GetDSOverviewCommand_Cache = nil then
+  begin
+    FPO_SLIP_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FPO_SLIP_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FPO_SLIP_GetDSOverviewCommand_Cache.Text := 'TDSProvider."PO_SLIP_GetDSOverview"';
+    FPO_SLIP_GetDSOverviewCommand_Cache.Prepare(TDSProvider_PO_SLIP_GetDSOverview_Cache);
+  end;
+  FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FPO_SLIP_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -4684,6 +4785,8 @@ begin
   FSO_GetDSOLookUpGeneratePOCommand_Cache.DisposeOf;
   FPORevisi_GetDSOverviewCommand.DisposeOf;
   FPORevisi_GetDSOverviewCommand_Cache.DisposeOf;
+  FPO_SLIP_GetDSOverviewCommand.DisposeOf;
+  FPO_SLIP_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 
@@ -4775,6 +4878,52 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FSO_ByDateNoBuktiCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSReportClient.PO_SLIP_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FPO_SLIP_ByDateNoBuktiCommand = nil then
+  begin
+    FPO_SLIP_ByDateNoBuktiCommand := FConnection.CreateCommand;
+    FPO_SLIP_ByDateNoBuktiCommand.RequestType := 'GET';
+    FPO_SLIP_ByDateNoBuktiCommand.Text := 'TDSReport.PO_SLIP_ByDateNoBukti';
+    FPO_SLIP_ByDateNoBuktiCommand.Prepare(TDSReport_PO_SLIP_ByDateNoBukti);
+  end;
+  FPO_SLIP_ByDateNoBuktiCommand.Parameters[0].Value.AsDateTime := StartDate;
+  FPO_SLIP_ByDateNoBuktiCommand.Parameters[1].Value.AsDateTime := EndDate;
+  FPO_SLIP_ByDateNoBuktiCommand.Parameters[2].Value.SetWideString(aNoBuktiAwal);
+  FPO_SLIP_ByDateNoBuktiCommand.Parameters[3].Value.SetWideString(aNoBuktiAkhir);
+  FPO_SLIP_ByDateNoBuktiCommand.Execute(ARequestFilter);
+  if not FPO_SLIP_ByDateNoBuktiCommand.Parameters[4].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FPO_SLIP_ByDateNoBuktiCommand.Parameters[4].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FPO_SLIP_ByDateNoBuktiCommand.Parameters[4].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FPO_SLIP_ByDateNoBuktiCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.PO_SLIP_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FPO_SLIP_ByDateNoBuktiCommand_Cache = nil then
+  begin
+    FPO_SLIP_ByDateNoBuktiCommand_Cache := FConnection.CreateCommand;
+    FPO_SLIP_ByDateNoBuktiCommand_Cache.RequestType := 'GET';
+    FPO_SLIP_ByDateNoBuktiCommand_Cache.Text := 'TDSReport.PO_SLIP_ByDateNoBukti';
+    FPO_SLIP_ByDateNoBuktiCommand_Cache.Prepare(TDSReport_PO_SLIP_ByDateNoBukti_Cache);
+  end;
+  FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[0].Value.AsDateTime := StartDate;
+  FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[1].Value.AsDateTime := EndDate;
+  FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[2].Value.SetWideString(aNoBuktiAwal);
+  FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[3].Value.SetWideString(aNoBuktiAkhir);
+  FPO_SLIP_ByDateNoBuktiCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[4].Value.GetString);
+end;
+
 function TDSReportClient.SO_Test(const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_TestCommand = nil then
@@ -4829,6 +4978,8 @@ begin
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;
   FSO_ByDateNoBuktiCommand_Cache.DisposeOf;
+  FPO_SLIP_ByDateNoBuktiCommand.DisposeOf;
+  FPO_SLIP_ByDateNoBuktiCommand_Cache.DisposeOf;
   FSO_TestCommand.DisposeOf;
   FSO_TestCommand_Cache.DisposeOf;
   inherited;

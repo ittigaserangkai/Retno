@@ -92,6 +92,8 @@ type
         ASupMGCodeID : String): TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
     function PORevisi_GetDSOverview(ID: string): TDataset;
+    function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataSet;
 
 
   end;
@@ -102,6 +104,8 @@ type
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
+        string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
     function SO_Test: TFDJSONDataSets;
     function Test2: OleVariant;
     function Test: Variant;
@@ -875,6 +879,22 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_PO_SLIP ' +
+          ' where PO_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSReport.SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
 var
   S: string;
@@ -904,6 +924,26 @@ begin
         + QuotedStr(aNoBuktiAkhir);
 
   S := S + ' order by so_no, sup_code';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime;
+    aNoBuktiAwal: string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_PO_SLIP WHERE PO_DATE BETWEEN '
+      + TDBUtils.QuotDShort(StartDate) + ' and ' + TDBUtils.QuotDShort(EndDate);
+
+  if aNoBuktiAwal <> '' then
+    S := S + ' AND PO_NO between ' + QuotedStr(aNoBuktiAwal) + ' and '
+        + QuotedStr(aNoBuktiAkhir);
+
+  S := S + ' order by PO_NO';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 
