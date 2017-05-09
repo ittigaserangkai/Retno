@@ -187,7 +187,8 @@ uses
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
   uModDO in '..\model\uModDO.pas',
-  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct};
+  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmMasterDialog1};
 
 {$R *.res}
 
@@ -198,5 +199,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
   Application.Run;
 end.
