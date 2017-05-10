@@ -89,9 +89,18 @@ begin
 end;
 
 procedure TDMClient.DataModuleCreate(Sender: TObject);
+var
+  lPort: Integer;
 begin
   //set true akan menyebabkan ada expired time di client
   //kecuali butuh _cache
+  lPort := 8080;
+  TryStrToInt(TAppUtils.BacaRegistry('port'), lPort);
+  RestConn.Host     := TAppUtils.BacaRegistry('server');
+  RestConn.Port     := lPort;
+  RestConn.UserName := TAppUtils.BacaRegistry('user');
+  RestConn.Password := TAppUtils.BacaRegistry('password');
+
   RestConn.PreserveSessionID := False;
 end;
 

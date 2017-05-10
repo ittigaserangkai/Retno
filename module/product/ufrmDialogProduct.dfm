@@ -3,24 +3,24 @@ inherited frmDialogProduct: TfrmDialogProduct
   Top = 98
   Caption = 'Update Data Barang'
   ClientHeight = 422
-  ClientWidth = 917
+  ClientWidth = 819
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 933
+  ExplicitWidth = 835
   ExplicitHeight = 461
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 917
+    Width = 819
     Height = 366
-    ExplicitWidth = 917
+    ExplicitWidth = 819
     ExplicitHeight = 366
     object pgcMain: TcxPageControl
       Left = 2
       Top = 2
-      Width = 913
+      Width = 815
       Height = 362
       Align = alClient
       Color = clWhite
@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsInfo
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -48,13 +48,17 @@ inherited frmDialogProduct: TfrmDialogProduct
       TabSlants.Kind = skCutCorner
       TabSlants.Positions = [spRight]
       OnChange = pgcMainChange
+      ExplicitLeft = 4
+      ExplicitTop = 3
       ClientRectBottom = 362
       ClientRectLeft = 137
-      ClientRectRight = 913
+      ClientRectRight = 815
       ClientRectTop = 0
       object tsInfo: TcxTabSheet
         Caption = 'F1 [Informasi Barang]'
         ImageIndex = 26
+        ExplicitLeft = 134
+        ExplicitTop = 1
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -80,7 +84,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           Visible = False
         end
         object lbCatalog: TLabel
-          Left = 433
+          Left = 391
           Top = 10
           Width = 70
           Height = 16
@@ -94,21 +98,21 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
         object lbCategory: TLabel
           Left = 13
-          Top = 233
+          Top = 256
           Width = 30
           Height = 16
           Caption = 'Group'
         end
         object lbDivision: TLabel
           Left = 13
-          Top = 208
+          Top = 231
           Width = 63
           Height = 16
           Caption = 'Merchandise'
         end
         object lbGroup: TLabel
           Left = 13
-          Top = 283
+          Top = 306
           Width = 43
           Height = 16
           Caption = 'Kategori'
@@ -121,22 +125,22 @@ inherited frmDialogProduct: TfrmDialogProduct
           Caption = 'Hari'
         end
         object lbl9: TLabel
-          Left = 200
-          Top = 10
+          Left = 194
+          Top = 11
           Width = 25
-          Height = 32
-          Caption = 'Merk'#13#10
+          Height = 16
+          Caption = 'Merk'
         end
         object lbLocation: TLabel
           Left = 13
-          Top = 184
+          Top = 207
           Width = 44
           Height = 16
           Caption = 'Location'
         end
         object lbOutlet: TLabel
           Left = 13
-          Top = 159
+          Top = 182
           Width = 32
           Height = 16
           Caption = 'Outlet'
@@ -158,7 +162,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
         object lbProductname: TLabel
           Left = 13
-          Top = 34
+          Top = 59
           Width = 69
           Height = 16
           Caption = 'Product Name'
@@ -172,7 +176,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
         object lbRefPajak: TLabel
           Left = 13
-          Top = 307
+          Top = 330
           Width = 55
           Height = 16
           Caption = 'Jenis Pajak'
@@ -186,7 +190,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
         object lbShortname: TLabel
           Left = 13
-          Top = 59
+          Top = 35
           Width = 57
           Height = 16
           Caption = 'Short Name'
@@ -200,7 +204,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
         object lbSubCategory: TLabel
           Left = 13
-          Top = 258
+          Top = 281
           Width = 50
           Height = 16
           Caption = 'Sub Group'
@@ -211,6 +215,13 @@ inherited frmDialogProduct: TfrmDialogProduct
           Width = 54
           Height = 16
           Caption = 'UOM Stock'
+        end
+        object lbUOMPurchase: TLabel
+          Left = 13
+          Top = 158
+          Width = 72
+          Height = 16
+          Caption = 'UOM Purchase'
         end
         object cbStock: TcxComboBox
           Tag = 1
@@ -233,12 +244,13 @@ inherited frmDialogProduct: TfrmDialogProduct
           Width = 120
         end
         object cxGroupBox2: TcxGroupBox
-          Left = 441
-          Top = 137
+          Left = 503
+          Top = 241
           Enabled = False
           PanelStyle.Active = True
-          TabOrder = 18
+          TabOrder = 19
           Transparent = True
+          Visible = False
           Height = 62
           Width = 321
           object lbPKMAvg: TLabel
@@ -316,7 +328,23 @@ inherited frmDialogProduct: TfrmDialogProduct
         object cxLookupJenisPajak: TcxExtLookupComboBox
           Tag = 1
           Left = 101
-          Top = 304
+          Top = 327
+          Hint = 'Klik F5 untuk membuat Master Baru'
+          ParentShowHint = False
+          Properties.CharCase = ecUpperCase
+          Properties.ImmediatePost = True
+          ShowHint = True
+          Style.LookAndFeel.NativeStyle = False
+          StyleDisabled.LookAndFeel.NativeStyle = False
+          StyleFocused.LookAndFeel.NativeStyle = False
+          StyleHot.LookAndFeel.NativeStyle = False
+          TabOrder = 16
+          Width = 120
+        end
+        object cxLookupKategori: TcxExtLookupComboBox
+          Tag = 1
+          Left = 101
+          Top = 303
           Hint = 'Klik F5 untuk membuat Master Baru'
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
@@ -327,28 +355,12 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
           TabOrder = 15
-          Width = 120
-        end
-        object cxLookupKategori: TcxExtLookupComboBox
-          Tag = 1
-          Left = 101
-          Top = 280
-          Hint = 'Klik F5 untuk membuat Master Baru'
-          ParentShowHint = False
-          Properties.CharCase = ecUpperCase
-          Properties.ImmediatePost = True
-          ShowHint = True
-          Style.LookAndFeel.NativeStyle = False
-          StyleDisabled.LookAndFeel.NativeStyle = False
-          StyleFocused.LookAndFeel.NativeStyle = False
-          StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 14
           Width = 188
         end
         object cxLookupLocation: TcxExtLookupComboBox
           Tag = 1
           Left = 101
-          Top = 180
+          Top = 203
           Hint = 'Klik F5 untuk membuat Master Baru'
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
@@ -358,13 +370,13 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 10
+          TabOrder = 11
           Width = 188
         end
         object cxLookupMerchan: TcxExtLookupComboBox
           Tag = 1
           Left = 101
-          Top = 205
+          Top = 228
           Hint = 'Klik F5 untuk membuat Master Baru'
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
@@ -375,13 +387,13 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 11
+          TabOrder = 12
           Width = 188
         end
         object cxLookupMerchanGroup: TcxExtLookupComboBox
           Tag = 1
           Left = 101
-          Top = 230
+          Top = 253
           Hint = 'Klik F5 untuk membuat Master Baru'
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
@@ -392,12 +404,12 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 12
+          TabOrder = 13
           Width = 188
         end
         object cxLookupMerk: TcxExtLookupComboBox
           Tag = 1
-          Left = 227
+          Left = 225
           Top = 7
           Hint = 'Klik F5 untuk membuat Master Baru'
           HelpType = htKeyword
@@ -413,12 +425,13 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
           TabOrder = 1
-          Width = 183
+          OnKeyDown = cxLookupMerkKeyDown
+          Width = 141
         end
         object cxLookupOutlet: TcxExtLookupComboBox
           Tag = 1
           Left = 101
-          Top = 156
+          Top = 179
           Hint = 'Klik F5 untuk membuat Master Baru'
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
@@ -428,7 +441,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 9
+          TabOrder = 10
           Width = 188
         end
         object cxLookupSatuan: TcxExtLookupComboBox
@@ -439,6 +452,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
           Properties.ImmediatePost = True
+          Properties.OnEditValueChanged = cxLookupSatuanPropertiesEditValueChanged
           ShowHint = True
           Style.LookAndFeel.NativeStyle = False
           StyleDisabled.LookAndFeel.NativeStyle = False
@@ -450,7 +464,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         object cxLookupSubGroup: TcxExtLookupComboBox
           Tag = 1
           Left = 101
-          Top = 255
+          Top = 278
           Hint = 'Klik F5 untuk membuat Master Baru'
           ParentShowHint = False
           Properties.CharCase = ecUpperCase
@@ -461,7 +475,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 13
+          TabOrder = 14
           Width = 188
         end
         object cxLookupTipeBarang: TcxExtLookupComboBox
@@ -488,7 +502,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 19
+          TabOrder = 20
           Text = 'PCS'
           Visible = False
           Width = 38
@@ -496,7 +510,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         object edtBrgGalong: TcxTextEdit
           Left = 556
           Top = 205
-          TabOrder = 20
+          TabOrder = 21
           Visible = False
           Width = 68
         end
@@ -507,24 +521,24 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 21
+          TabOrder = 22
           Visible = False
           Width = 237
         end
         object edtCatalog: TcxTextEdit
           Tag = 1
-          Left = 507
+          Left = 465
           Top = 7
           HelpType = htKeyword
           HelpKeyword = 'Kode Katalog'
           Properties.CharCase = ecUpperCase
-          Style.Color = clMoneyGreen
+          Style.Color = clWindow
           Style.LookAndFeel.NativeStyle = False
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
           TabOrder = 2
-          Width = 239
+          Width = 142
         end
         object edtCommonUOM: TcxTextEdit
           Tag = 2
@@ -534,7 +548,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 22
+          TabOrder = 23
           Text = 'PCS'
           Visible = False
           Width = 38
@@ -552,34 +566,34 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
           TabOrder = 0
-          Width = 92
+          Width = 88
         end
         object edtProductName: TcxTextEdit
           Tag = 1
           Left = 101
-          Top = 31
+          Top = 56
           HelpType = htKeyword
           HelpKeyword = 'Nama Produk'
-          Properties.CharCase = ecUpperCase
-          Properties.OnEditValueChanged = edtProductNamePropertiesEditValueChanged
-          Style.LookAndFeel.NativeStyle = False
-          StyleDisabled.LookAndFeel.NativeStyle = False
-          StyleFocused.LookAndFeel.NativeStyle = False
-          StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 3
-          Width = 309
-        end
-        object edtShortName: TcxTextEdit
-          Tag = 1
-          Left = 101
-          Top = 56
           Properties.CharCase = ecUpperCase
           Style.LookAndFeel.NativeStyle = False
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
           TabOrder = 4
-          Width = 309
+          Width = 328
+        end
+        object edtShortName: TcxTextEdit
+          Tag = 1
+          Left = 101
+          Top = 32
+          Properties.CharCase = ecUpperCase
+          Properties.OnEditValueChanged = edtShortNamePropertiesEditValueChanged
+          Style.LookAndFeel.NativeStyle = False
+          StyleDisabled.LookAndFeel.NativeStyle = False
+          StyleFocused.LookAndFeel.NativeStyle = False
+          StyleHot.LookAndFeel.NativeStyle = False
+          TabOrder = 3
+          Width = 265
         end
         object edtSSBARANG: TcxSpinEdit
           Left = 295
@@ -599,7 +613,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 23
+          TabOrder = 24
           Text = 'PCS'
           Visible = False
           Width = 38
@@ -609,14 +623,14 @@ inherited frmDialogProduct: TfrmDialogProduct
           Top = 111
           PanelStyle.Active = True
           Style.BorderStyle = ebsFlat
-          TabOrder = 16
+          TabOrder = 17
           Transparent = True
-          Height = 202
-          Width = 132
+          Height = 198
+          Width = 130
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 44
+            Top = 146
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -625,7 +639,9 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 2
             Transparent = True
-            ExplicitWidth = 121
+            Visible = False
+            ExplicitLeft = 3
+            ExplicitTop = 170
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -639,12 +655,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 0
             Transparent = True
-            ExplicitWidth = 121
           end
           object cbisDecimal: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 65
+            Top = 50
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -654,12 +669,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 3
             Transparent = True
             ExplicitTop = 71
-            ExplicitWidth = 121
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 86
+            Top = 74
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -669,12 +683,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 4
             Transparent = True
             ExplicitTop = 95
-            ExplicitWidth = 121
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 128
+            Top = 122
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -684,12 +697,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 6
             Transparent = True
             ExplicitTop = 140
-            ExplicitWidth = 121
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 107
+            Top = 98
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -699,12 +711,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 5
             Transparent = True
             ExplicitTop = 119
-            ExplicitWidth = 121
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 23
+            Top = 26
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -713,13 +724,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 1
             Transparent = True
-            ExplicitTop = 26
-            ExplicitWidth = 121
           end
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 149
+            Top = 170
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -729,32 +738,23 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
-            ExplicitTop = 170
-            ExplicitWidth = 121
           end
         end
         object gbPurchase: TcxGroupBox
-          Left = 440
-          Top = 35
+          Left = 492
+          Top = 267
           Caption = ' Purchase : '
-          TabOrder = 17
+          TabOrder = 18
           Transparent = True
-          Height = 96
-          Width = 323
+          Visible = False
+          Height = 71
+          Width = 221
           object lbPLUPurchase: TLabel
             Left = 11
             Top = 21
             Width = 68
             Height = 16
             Caption = 'PLU Purchase'
-          end
-          object lbUOMPurchase: TLabel
-            Left = 11
-            Top = 70
-            Width = 72
-            Height = 16
-            Caption = 'UOM Purchase'
-            Visible = False
           end
           object edtPLUPurchase: TcxTextEdit
             Left = 88
@@ -778,17 +778,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 1
             Width = 225
           end
-          object cxLookupSatPurchase: TcxExtLookupComboBox
-            Tag = 1
-            Left = 88
-            Top = 67
-            Style.LookAndFeel.NativeStyle = False
-            StyleDisabled.LookAndFeel.NativeStyle = False
-            StyleFocused.LookAndFeel.NativeStyle = False
-            StyleHot.LookAndFeel.NativeStyle = False
-            TabOrder = 2
-            Width = 129
-          end
         end
         object intedtAsgrossAllocation: TcxCurrencyEdit
           Left = 532
@@ -801,7 +790,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 24
+          TabOrder = 25
           Visible = False
           Width = 41
         end
@@ -817,7 +806,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 25
+          TabOrder = 26
           Visible = False
           Width = 41
         end
@@ -832,9 +821,20 @@ inherited frmDialogProduct: TfrmDialogProduct
           StyleDisabled.LookAndFeel.NativeStyle = False
           StyleFocused.LookAndFeel.NativeStyle = False
           StyleHot.LookAndFeel.NativeStyle = False
-          TabOrder = 26
+          TabOrder = 27
           Visible = False
           Width = 41
+        end
+        object cxLookupSatPurchase: TcxExtLookupComboBox
+          Tag = 1
+          Left = 101
+          Top = 155
+          Style.LookAndFeel.NativeStyle = False
+          StyleDisabled.LookAndFeel.NativeStyle = False
+          StyleFocused.LookAndFeel.NativeStyle = False
+          StyleHot.LookAndFeel.NativeStyle = False
+          TabOrder = 9
+          Width = 120
         end
       end
       object tsKonversi: TcxTabSheet
@@ -848,7 +848,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsNone
           TabOrder = 0
           Height = 362
-          Width = 776
+          Width = 678
           object cxGroupBox3: TcxGroupBox
             Left = 2
             Top = 333
@@ -858,10 +858,10 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.Edges = [bRight, bBottom]
             TabOrder = 1
             Height = 27
-            Width = 772
+            Width = 674
             object Label2: TLabel
               AlignWithMargins = True
-              Left = 606
+              Left = 508
               Top = 6
               Width = 161
               Height = 18
@@ -929,7 +929,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cxGridKonversi: TcxGrid
             Left = 2
             Top = 22
-            Width = 772
+            Width = 674
             Height = 311
             Align = alClient
             TabOrder = 0
@@ -948,22 +948,23 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsData.Appending = True
               OptionsView.GroupByBox = False
               object clKonvSatuan: TcxGridDBColumn
+                Caption = 'SATUAN'
                 DataBinding.FieldName = 'Satuan'
                 PropertiesClassName = 'TcxExtLookupComboBoxProperties'
-                Width = 83
+                Width = 113
               end
               object clKonvValue: TcxGridDBColumn
-                Caption = 'Konversi'
+                Caption = 'KONVERSI (IN PCS)'
                 DataBinding.FieldName = 'KONVSAT_SCALE'
                 PropertiesClassName = 'TcxCurrencyEditProperties'
                 Properties.AssignedValues.DisplayFormat = True
                 Properties.Nullable = False
-                Width = 68
+                Width = 97
               end
               object clKonvBarcode: TcxGridDBColumn
-                Caption = 'Barcode'
+                Caption = 'BARCODE'
                 DataBinding.FieldName = 'KONVSAT_BARCODE'
-                Width = 406
+                Width = 217
               end
             end
             object cxGridLevel2: TcxGridLevel
@@ -985,17 +986,14 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.IsFontAssigned = True
             Properties.Alignment.Horz = taRightJustify
             Height = 20
-            Width = 772
-            AnchorX = 774
+            Width = 674
+            AnchorX = 676
           end
         end
       end
       object tsSupplier: TcxTabSheet
         Caption = 'F3 [Barang Supplier]'
         ImageIndex = 10
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object gbSupplier: TcxGroupBox
           Left = 0
           Top = 146
@@ -1004,7 +1002,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsNone
           TabOrder = 0
           Height = 216
-          Width = 776
+          Width = 678
           object lbSupplier: TLabel
             Left = 72
             Top = 10
@@ -1272,7 +1270,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           end
           object gbSuppOption: TcxGroupBox
             Left = 413
-            Top = 29
+            Top = 53
             PanelStyle.Active = True
             Style.BorderStyle = ebsNone
             TabOrder = 14
@@ -1282,7 +1280,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckActive: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 23
+              Top = 26
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1292,7 +1290,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 1
               Transparent = True
-              ExplicitWidth = 121
+              ExplicitTop = 23
             end
             object ckPrimarySupp: TcxCheckBox
               AlignWithMargins = True
@@ -1307,12 +1305,11 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 0
               Transparent = True
-              ExplicitWidth = 121
             end
             object ckBKP: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 44
+              Top = 50
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1322,13 +1319,11 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 2
               Transparent = True
-              ExplicitTop = 50
-              ExplicitWidth = 121
             end
             object ckEnableCN: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 65
+              Top = 74
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1339,8 +1334,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 3
               Transparent = True
               OnKeyDown = ckEnableCNKeyDown
-              ExplicitTop = 74
-              ExplicitWidth = 121
             end
           end
           object crBRSSellingPrice: TcxCurrencyEdit
@@ -1450,6 +1443,21 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 12
             Width = 52
           end
+          object ckFilterSupMG: TcxCheckBox
+            Tag = 3
+            AlignWithMargins = True
+            Left = 413
+            Top = 8
+            Margins.Top = 0
+            Margins.Right = 0
+            Margins.Bottom = 0
+            Caption = 'Filtered By Merchan Grup'
+            Properties.ImmediatePost = True
+            State = cbsChecked
+            TabOrder = 16
+            Transparent = True
+            OnClick = ckFilterSupMGClick
+          end
         end
         object gbSupplierGrid: TcxGroupBox
           Left = 0
@@ -1459,7 +1467,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsNone
           TabOrder = 1
           Height = 146
-          Width = 776
+          Width = 678
           object pnlGridSupplierBtn: TcxGroupBox
             Left = 2
             Top = 117
@@ -1469,10 +1477,10 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
             Height = 27
-            Width = 772
+            Width = 674
             object lbSuppShortCut1: TLabel
               AlignWithMargins = True
-              Left = 518
+              Left = 420
               Top = 6
               Width = 249
               Height = 18
@@ -1563,7 +1571,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cxGridSupplier: TcxGrid
             Left = 2
             Top = 2
-            Width = 772
+            Width = 674
             Height = 115
             Align = alClient
             TabOrder = 1
@@ -1585,7 +1593,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsSelection.CellSelect = False
               OptionsView.GroupByBox = False
               object clSuppPrimer: TcxGridDBColumn
-                Caption = 'Primer'
+                Caption = 'PRIMER'
                 DataBinding.FieldName = 'BRGSUP_IS_PRIMARY'
                 PropertiesClassName = 'TcxCheckBoxProperties'
                 Properties.ValueChecked = 1
@@ -1593,36 +1601,37 @@ inherited frmDialogProduct: TfrmDialogProduct
                 Width = 49
               end
               object clSuppSupplier: TcxGridDBColumn
-                DataBinding.FieldName = 'Supplier'
+                Caption = 'SUPPLIER'
+                DataBinding.FieldName = 'Supplier_Merchan'
                 PropertiesClassName = 'TcxExtLookupComboBoxProperties'
                 Width = 233
               end
               object clSuppPurchasePrice: TcxGridDBColumn
-                Caption = 'Purchase Price'
+                Caption = 'PURCH PRICE'
                 DataBinding.FieldName = 'BRGSUP_BUY_PRICE'
                 Width = 79
               end
               object clSuppDisc1: TcxGridDBColumn
-                Caption = 'Disc 1 (%)'
+                Caption = 'DISC1 (%)'
                 DataBinding.FieldName = 'BRGSUP_DISC1'
                 Width = 53
               end
               object clSuppDisc2: TcxGridDBColumn
-                Caption = 'Disc 2 (%)'
+                Caption = 'DISC2 (%)'
                 DataBinding.FieldName = 'BRGSUP_DISC2'
                 Width = 53
               end
               object clSuppDisc3: TcxGridDBColumn
-                Caption = 'Disc 3'
+                Caption = 'DISC3'
                 DataBinding.FieldName = 'BRGSUP_DISC3'
               end
               object clSuppMargin: TcxGridDBColumn
-                Caption = 'Margin (%)'
+                Caption = 'MARGIN (%)'
                 DataBinding.FieldName = 'BRGSUP_MARK_UP'
-                Width = 57
+                Width = 68
               end
               object clSuppActive: TcxGridDBColumn
-                Caption = 'Active'
+                Caption = 'ACTIVE'
                 DataBinding.FieldName = 'BRGSUP_IS_ACTIVE'
                 PropertiesClassName = 'TcxCheckBoxProperties'
                 Properties.ValueChecked = 1
@@ -1646,8 +1655,10 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
+          ExplicitLeft = 3
+          ExplicitTop = 60
           Height = 182
-          Width = 776
+          Width = 678
           object Label3: TLabel
             Left = 16
             Top = 6
@@ -2068,7 +2079,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsNone
           TabOrder = 1
           Height = 180
-          Width = 776
+          Width = 678
           object cxGroupBox5: TcxGroupBox
             Left = 2
             Top = 151
@@ -2077,11 +2088,13 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
+            ExplicitLeft = 0
+            ExplicitTop = 354
             Height = 27
-            Width = 772
+            Width = 674
             object Label29: TLabel
               AlignWithMargins = True
-              Left = 518
+              Left = 420
               Top = 6
               Width = 249
               Height = 18
@@ -2172,7 +2185,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cxGridSellingPrice: TcxGrid
             Left = 2
             Top = 2
-            Width = 772
+            Width = 674
             Height = 149
             Align = alClient
             TabOrder = 1
@@ -2193,43 +2206,44 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsSelection.CellSelect = False
               OptionsView.GroupByBox = False
               object clSellTipeHarga: TcxGridDBColumn
-                Caption = 'Tipe Harga'
+                Caption = 'TIPE HARGA'
                 DataBinding.FieldName = 'TipeHarga'
                 PropertiesClassName = 'TcxExtLookupComboBoxProperties'
                 HeaderAlignmentHorz = taCenter
                 Width = 142
               end
               object clSellSatuan: TcxGridDBColumn
+                Caption = 'SATUAN'
                 DataBinding.FieldName = 'Satuan'
                 PropertiesClassName = 'TcxExtLookupComboBoxProperties'
                 HeaderAlignmentHorz = taCenter
                 Width = 81
               end
               object clSellPrice: TcxGridDBColumn
-                Caption = 'Selling Price'
+                Caption = 'SELLING PRICE'
                 DataBinding.FieldName = 'BHJ_SELL_PRICE'
                 HeaderAlignmentHorz = taRightJustify
                 Width = 107
               end
               object clSellDiscPercent: TcxGridDBColumn
-                Caption = 'Disc %'
+                Caption = 'DISC %'
                 DataBinding.FieldName = 'BHJ_DISC_PERSEN'
                 HeaderAlignmentHorz = taRightJustify
                 Width = 83
               end
               object clSellDiscRP: TcxGridDBColumn
-                Caption = 'Disc RP'
+                Caption = 'DISC RP'
                 DataBinding.FieldName = 'BHJ_DISC_NOMINAL'
                 HeaderAlignmentHorz = taRightJustify
                 Width = 70
               end
               object clSellPriceMargin: TcxGridDBColumn
-                Caption = 'Margin'
+                Caption = 'MARGIN'
                 DataBinding.FieldName = 'BHJ_MARK_UP'
                 HeaderAlignmentHorz = taRightJustify
               end
               object cxGrdDBSellingPriceColumn1: TcxGridDBColumn
-                Caption = 'Sellilng Price Net'
+                Caption = 'SELLING PRICE (NET)'
                 DataBinding.FieldName = 'BHJ_SELL_PRICE_DISC'
                 HeaderAlignmentHorz = taRightJustify
                 Width = 117
@@ -2242,18 +2256,12 @@ inherited frmDialogProduct: TfrmDialogProduct
         end
       end
       object cxTabSheet1: TcxTabSheet
-        Caption = 'F5 [Alokasi Stock]'
+        Caption = 'F7 [Alokasi Stock]'
         Enabled = False
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object cxTabSheet2: TcxTabSheet
         Caption = 'F6 [History PO]'
         Enabled = False
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsImport: TcxTabSheet
         Caption = 'Import Data'
@@ -2261,7 +2269,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         object Panel1: TPanel
           Left = 0
           Top = 0
-          Width = 776
+          Width = 678
           Height = 33
           Align = alTop
           BevelOuter = bvNone
@@ -2269,7 +2277,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           TabOrder = 0
           object btnImport: TcxButton
             AlignWithMargins = True
-            Left = 509
+            Left = 411
             Top = 2
             Width = 129
             Height = 29
@@ -2297,11 +2305,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.OnButtonClick = edFileNamePropertiesButtonClick
             TabOrder = 1
             Text = 'D:\Products.xlsx'
-            Width = 500
+            Width = 402
           end
           object cxButton1: TcxButton
             AlignWithMargins = True
-            Left = 644
+            Left = 546
             Top = 2
             Width = 129
             Height = 29
@@ -2319,7 +2327,7 @@ inherited frmDialogProduct: TfrmDialogProduct
         object cxGrid1: TcxGrid
           Left = 0
           Top = 33
-          Width = 591
+          Width = 493
           Height = 329
           Align = alClient
           TabOrder = 1
@@ -2349,7 +2357,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           end
         end
         object mmLog: TMemo
-          Left = 591
+          Left = 493
           Top = 33
           Width = 185
           Height = 329
@@ -2364,56 +2372,56 @@ inherited frmDialogProduct: TfrmDialogProduct
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 366
-    Width = 917
+    Width = 819
     ExplicitTop = 366
-    ExplicitWidth = 917
+    ExplicitWidth = 819
     inherited pnlFooter: TPanel
-      Width = 917
-      ExplicitWidth = 917
+      Width = 819
+      ExplicitWidth = 819
       inherited btnClose: TcxButton
-        Left = 840
+        Left = 742
         Action = actDelete
-        ExplicitLeft = 840
+        ExplicitLeft = 742
       end
       inherited btnSave: TcxButton
-        Left = 747
+        Left = 649
         Action = actSave
-        ExplicitLeft = 747
+        ExplicitLeft = 649
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 670
-        ExplicitLeft = 670
+        Left = 572
+        ExplicitLeft = 572
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 917
-      ExplicitWidth = 917
+      Width = 819
+      ExplicitWidth = 819
       inherited lbCTRLEnter: TLabel
-        Left = 742
+        Left = 644
         Height = 15
-        ExplicitLeft = 742
+        ExplicitLeft = 644
       end
       inherited lbEscape: TLabel
-        Left = 833
+        Left = 735
         Height = 15
-        ExplicitLeft = 833
+        ExplicitLeft = 735
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 666
+        Left = 568
         Height = 15
-        ExplicitLeft = 666
+        ExplicitLeft = 568
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 608
-    Top = 392
+    Left = 376
+    Top = 400
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
@@ -2423,7 +2431,7 @@ inherited frmDialogProduct: TfrmDialogProduct
   end
   object OpDialog: TOpenDialog
     Filter = 'Excel 2007 above|*.xlsx'
-    Left = 771
-    Top = 164
+    Left = 883
+    Top = 244
   end
 end

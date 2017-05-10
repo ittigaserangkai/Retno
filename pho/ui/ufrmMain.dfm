@@ -229,8 +229,7 @@ object frmMain: TfrmMain
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
       object miConnectionDatabase: TMenuItem
-        Caption = 'Connection Database'
-        OnClick = miConnectionDatabaseClick
+        Action = actSetKoneksi
       end
       object MenuItem2: TMenuItem
         Caption = '-'
@@ -1248,6 +1247,11 @@ object frmMain: TfrmMain
     object actAgama: TAction
       Category = 'References'
       Caption = 'Master Agama'
+    end
+    object actSetKoneksi: TAction
+      Category = 'Sistem'
+      Caption = 'Setting Koneksi'
+      OnExecute = actSetKoneksiExecute
     end
   end
   object AppEvents: TApplicationEvents

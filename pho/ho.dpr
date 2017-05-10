@@ -196,7 +196,8 @@ uses
   uModQuotation in '..\model\uModQuotation.pas',
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
-  uDMReport in '..\system\uDMReport.pas' {DMReport};
+  uDMReport in '..\system\uDMReport.pas' {DMReport},
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi};
 
 {$R *.res}
 

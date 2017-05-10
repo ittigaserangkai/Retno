@@ -566,7 +566,6 @@ begin
   If not VarIsNull(cxLookupSupplierMerchan.EditValue) then
     ModSO.SupplierMerchan := TModSuplierMerchanGroup.CreateID(cxLookupSupplierMerchan.EditValue);
 
-  ModSO.AUTUNIT := nil; //diisi apa ya?
   ModSO.SODetails.Clear;
 
   CDS.DisableControls;

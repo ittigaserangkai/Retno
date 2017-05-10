@@ -214,6 +214,7 @@ type
     FBRGSUP_MARK_UP: Double;
     FSATUAN_PURCHASE: TModSatuan;
     FSupplier: TModSuplier;
+    FSupplier_Merchan: TModSuplierGroup;
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
@@ -253,6 +254,9 @@ type
         FSATUAN_PURCHASE;
     [AttributeOfForeign('SUPLIER_ID')]
     property Supplier: TModSuplier read FSupplier write FSupplier;
+    [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
+    property Supplier_Merchan: TModSuplierGroup read FSupplier_Merchan write
+        FSupplier_Merchan;
   end;
 
   [AttrUpdateDetails]

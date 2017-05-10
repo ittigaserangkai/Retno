@@ -165,6 +165,8 @@ type
     btnValidateProduct: TcxButton;
     cbpProductCode: TcxButtonEdit;
     cbpCompCode: TcxExtLookupComboBox;
+    cxLookupMerchanGroup: TcxExtLookupComboBox;
+    cxLabel1: TcxLabel;
     procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -247,6 +249,16 @@ begin
   inherited;
   lblHeader.Caption := 'PRODUCT MASTER';
   Self.AutoRefreshData := True;
+
+  cxLookupMerchanGroup.LoadFromDS(
+    DMClient.DSProviderClient.MerchandiseGroup_GetDSLookup,
+    'REF$MERCHANDISE_GRUP_ID','MERCHANGRUP_NAME' ,
+    ['REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'],
+    Self
+  );
+
+  cxLookupMerchanGroup.SetDefaultValue();
+
 //  pgcBrowse.ActivePage := tsBrowse;
 end;
 
@@ -931,9 +943,14 @@ begin
 end;
 
 procedure TfrmProduct.RefreshData;
+var
+  FilterMerchanGrup: string;
 begin
   inherited;
-  cxGridView.LoadFromDS(DMClient.DSProviderClient.Barang_GetDSOverview, Self);
+  FilterMerchanGrup := VarToStr(cxLookupMerchanGroup.EditValue);
+
+  cxGridView.LoadFromDS(
+    DMClient.DSProviderClient.Barang_GetDSOverview(FilterMerchanGrup), Self);
   cxGridView.SetVisibleColumns(['Barang_ID'], False);
 end;
 
