@@ -7,7 +7,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -110
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -30,7 +29,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsMerchandiseGroup
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 451
       ClientRectRight = 667
@@ -515,7 +514,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              ExplicitTop = 3
             end
           end
           object cxGridSupplier: TcxGrid
@@ -574,6 +572,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object lblPPN: TLabel
               Left = 435
               Top = 155

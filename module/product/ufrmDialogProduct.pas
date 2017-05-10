@@ -48,7 +48,6 @@ type
     cbStock: TcxComboBox;
     cxLookupTipeBarang: TcxExtLookupComboBox;
     cxLookupSatuan: TcxExtLookupComboBox;
-    cxLookupSatPurchase: TcxExtLookupComboBox;
     cxLookupOutlet: TcxExtLookupComboBox;
     cxLookupLocation: TcxExtLookupComboBox;
     cxLookupJenisPajak: TcxExtLookupComboBox;
@@ -68,7 +67,6 @@ type
     lbPLUPurchase: TLabel;
     edtPLUPurchase: TcxTextEdit;
     edtProductPurchase: TcxTextEdit;
-    lbUOMPurchase: TLabel;
     cxGroupBox2: TcxGroupBox;
     lbPKMAvg: TLabel;
     lbLastCost: TLabel;
@@ -229,6 +227,9 @@ type
     OpDialog: TOpenDialog;
     cxButton1: TcxButton;
     mmLog: TMemo;
+    lbUOMPurchase: TLabel;
+    cxLookupSatPurchase: TcxExtLookupComboBox;
+    ckFilterSupMG: TcxCheckBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -237,7 +238,6 @@ type
     procedure cxLookupMerchanGroupPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookupSubGroupPropertiesEditValueChanged(Sender: TObject);
     procedure cxLookupMerkPropertiesEditValueChanged(Sender: TObject);
-    procedure edtProductNamePropertiesEditValueChanged(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnUpdateSuppClick(Sender: TObject);
     procedure btnDelSuppClick(Sender: TObject);
@@ -261,6 +261,7 @@ type
     procedure btnUpdatePriceClick(Sender: TObject);
     procedure btnDeletePriceClick(Sender: TObject);
     procedure btnImportClick(Sender: TObject);
+    procedure ckFilterSupMGClick(Sender: TObject);
     procedure crSellingPricePropertiesEditValueChanged(Sender: TObject);
     procedure crSellDiscPercentPropertiesEditValueChanged(Sender: TObject);
     procedure crSellDiscRPPropertiesEditValueChanged(Sender: TObject);
@@ -270,6 +271,10 @@ type
     procedure edFileNamePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure cxButton1Click(Sender: TObject);
+    procedure cxLookupMerkKeyDown(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
+    procedure edtShortNamePropertiesEditValueChanged(Sender: TObject);
+    procedure cxLookupSatuanPropertiesEditValueChanged(Sender: TObject);
   private
     FCDSSupp: TClientDataset;
     FCDSKonv: TClientDataset;
@@ -277,6 +282,7 @@ type
     FCDSHargaJual: TClientDataset;
     FCDSImport: TClientDataSet;
     FCDSSatuan: TClientDataset;
+    FCDSSupMG: TClientDataSet;
     FIsUpdateSupplier: Boolean;
     FIsUpdateHrgJual: Boolean;
     FModBarang: TModBarang;
@@ -294,6 +300,7 @@ type
     function GetCDSAvailableKonv: TClientDataSet;
     function GetCDSHargaJual: TClientDataset;
     function GetCDSSatuan: TClientDataset;
+    function GetCDSSupMG: TClientDataSet;
     procedure InitGrid;
     procedure InitLookup;
     procedure LoadItems;
@@ -314,11 +321,13 @@ type
     property CDSHargaJual: TClientDataset read GetCDSHargaJual write FCDSHargaJual;
     property CDSImport: TClientDataSet read FCDSImport write FCDSImport;
     property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
+    property CDSSupMG: TClientDataSet read GetCDSSupMG write FCDSSupMG;
     property IsUpdateSupplier: Boolean read FIsUpdateSupplier write
         FIsUpdateSupplier;
     property IsUpdateHrgJual: Boolean read FIsUpdateHrgJual write FIsUpdateHrgJual;
     property ModBarang: TModBarang read GetModBarang write FModBarang;
   public
+    procedure FilterLookupSUPMG(aChecked: Boolean);
     procedure LoadData(AID: String);
     { Public declarations }
   published
@@ -369,7 +378,7 @@ begin
   else
     CDSSupp.Append;
 
-  CDSSupp.FieldByName('Supplier').AsString := cxLookupSupplier.EditValue;
+  CDSSupp.FieldByName('Supplier_Merchan').AsString := cxLookupSupplier.EditValue;
   CDSSupp.FieldByName('BRGSUP_EXPIRE_TIME').AsInteger := spExpiredTime.Value;
   CDSSupp.FieldByName('BRGSUP_DELIVERY_TIME').AsInteger := spDelivery.Value;
   CDSSupp.FieldByName('SATUAN_PURCHASE').AsString := cxLookupBRSUom.EditValue;
@@ -449,7 +458,7 @@ procedure TfrmDialogProduct.LoadSupplierRow;
 begin
   if CDSSupp.Eof then exit;
 
-  cxLookupSupplier.EditValue  := CDSSupp.FieldByName('Supplier').AsString;
+  cxLookupSupplier.EditValue  := CDSSupp.FieldByName('Supplier_Merchan').AsString;
   spExpiredTime.Value         := CDSSupp.FieldByName('BRGSUP_EXPIRE_TIME').AsInteger;
   spDelivery.Value            := CDSSupp.FieldByName('BRGSUP_DELIVERY_TIME').AsInteger;
   cxLookupBRSUom.EditValue    := CDSSupp.FieldByName('SATUAN_PURCHASE').AsString;
@@ -533,6 +542,7 @@ begin
   ClearByTag([0,1]);
   ClearSupplier;
   cbStock.ItemIndex := 0;
+
   cxLookupTipeBarang.SetDefaultValue;
   cxLookupSatuan.SetDefaultValue;
   cxLookupOutlet.SetDefaultValue;
@@ -541,7 +551,7 @@ begin
   cxLookupKategori.SetDefaultValue;
   cxLookupLocation.SetDefaultValue;
   cxLookupJenisPajak.SetDefaultValue;
-  cxLookupMerk.SetDefaultValue;
+
   Application.ProcessMessages; //--> need this
     //...  to prevent cxLookupMerk send Tab when focus position in TabOrder : 0
   SelectFirst;
@@ -675,7 +685,7 @@ procedure TfrmDialogProduct.cxLookupMerkPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  edtShortName.Text := cxLookupMerk.Text + ' ' + edtProductName.Text;
+  edtProductName.Text := cxLookupMerk.Text + ' ' + edtShortName.Text;
   Self.OnEditValueChanged(cxLookupMerk);
 end;
 
@@ -684,6 +694,14 @@ procedure TfrmDialogProduct.cxLookupSatuanJualPropertiesEditValueChanged(
 begin
   inherited;
   crKonversi.Value := CDSAvailableKonv.FieldByName('Konversi').AsFloat;
+end;
+
+procedure TfrmDialogProduct.cxLookupSatuanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  if VarIsNull(cxLookupSatPurchase.EditValue) then
+    cxLookupSatPurchase.EditValue := cxLookupSatuan.EditValue;
 end;
 
 procedure TfrmDialogProduct.cxLookupSubGroupPropertiesEditValueChanged(
@@ -704,11 +722,11 @@ begin
   end;
 end;
 
-procedure TfrmDialogProduct.edtProductNamePropertiesEditValueChanged(
+procedure TfrmDialogProduct.edtShortNamePropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  edtShortName.Text := cxLookupMerk.Text + ' ' + edtProductName.Text;
+  edtProductName.Text := cxLookupMerk.Text + ' ' + edtShortName.Text;
 end;
 
 procedure TfrmDialogProduct.FilterOtherLookup(Src, Dst: TcxExtLookupComboBox);
@@ -828,6 +846,12 @@ begin
 
 end;
 
+procedure TfrmDialogProduct.ckFilterSupMGClick(Sender: TObject);
+begin
+  inherited;
+  FilterLookupSUPMG(ckFilterSupMG.Checked);
+end;
+
 procedure TfrmDialogProduct.cxButton1Click(Sender: TObject);
 begin
   inherited;
@@ -840,6 +864,47 @@ procedure TfrmDialogProduct.cxGrdDBSellingPriceCellClick(Sender:
 begin
   inherited;
   LoadSellingPriceRow;
+end;
+
+procedure TfrmDialogProduct.cxLookupMerkKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+var
+  lfrm: TfrmDialogMerk;
+begin
+  inherited;
+  if Key = VK_F5 then
+  begin
+    lfrm := TfrmDialogMerk.Create(Application);
+    Try
+      lfrm.actDelete.Enabled := False;
+      lfrm.ShowConfSuccess := False;
+
+      if lfrm.ShowModal = mrOk then
+      begin
+        cxLookupMerk.DS.Append;
+        cxLookupMerk.DS.FieldByName('MERK_ID').AsString           := lfrm.ModMerk.ID;
+        cxLookupMerk.DS.FieldByName('MERK_NAME').AsString         := lfrm.ModMerk.MERK_NAME;
+        cxLookupMerk.DS.FieldByName('MERK_DESCRIPTION').AsString  := lfrm.ModMerk.MERK_DESCRIPTION;
+        cxLookupMerk.DS.Post;
+
+        cxLookupMerk.EditValue := lfrm.ModMerk.ID;
+      end;
+
+    Finally
+      Key := 0;
+      lfrm.Free;
+    End;
+
+  end else if Key = VK_RETURN then edtCatalog.SetFocus;
+
+end;
+
+procedure TfrmDialogProduct.FilterLookupSUPMG(aChecked: Boolean);
+begin
+  CDSSupMG.Filter := '[REF$MERCHANDISE_GRUP_ID] = '
+    + QuotedStr(VarToStr(cxLookupMerchanGroup.EditValue));
+  CDSSupMG.Filtered := aChecked;
+
 end;
 
 function TfrmDialogProduct.GetCDSAvailableKonv: TClientDataSet;
@@ -870,6 +935,15 @@ begin
   Result := FCDSSatuan;
 end;
 
+function TfrmDialogProduct.GetCDSSupMG: TClientDataSet;
+begin
+  if not Assigned(FCDSSupMG) then
+    FCDSSupMG := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.SuplierMerchan_GetDSLookup, Self);
+
+  Result := FCDSSupMG;
+end;
+
 procedure TfrmDialogProduct.InitGrid;
 begin
   cxGrdDBSupplier.LoadFromCDS(CDSSupp, False, False);
@@ -878,8 +952,6 @@ begin
 end;
 
 procedure TfrmDialogProduct.InitLookup;
-var
-  lCDS: TClientDataSet;
 begin
   With DMClient.DSProviderClient do
   begin
@@ -922,10 +994,15 @@ begin
       CDSSatuan, 'ref$satuan_id', 'SAT_CODE', Self);
 
     //supplier all tab
-    lCDS := TDBUtils.DSToCDS(Suplier_GetDSLookup, Self);
-    cxLookupSupplier.LoadFromCDS(lCDS,'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
-    TcxExtLookupComboBoxProperties(clSuppSupplier.Properties).LoadFromCDS(lCDS,
-      'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
+
+    cxLookupSupplier.LoadFromCDS(CDSSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_NAME', Self);
+    cxLookupSupplier.SetVisibleColumnsOnly(['SUPMG_SUB_CODE', 'SUPMG_NAME', 'MERCHANGRUP_NAME']);
+
+    TcxExtLookupComboBoxProperties(clSuppSupplier.Properties).LoadFromCDS(CDSSupMG,
+      'SUPLIER_MERCHAN_GRUP_ID','SUPMG_NAME', Self);
+    TcxExtLookupComboBoxProperties(clSuppSupplier.Properties).SetVisibleColumnsOnly(
+      ['SUPMG_SUB_CODE', 'SUPMG_NAME', 'MERCHANGRUP_NAME']);
+
     cxLookupSupplier.SetMultiPurposeLookup;
 
     //tab Harga Jual
@@ -988,6 +1065,7 @@ begin
   ModBarang.BRG_IS_DISC_GMC     := TAppUtils.BoolToInt(chkIsDiscAMC.Checked);
   ModBarang.BRG_IS_GALON        := TAppUtils.BoolToInt(chkIsGalon.Checked);
 //  ModBarang.BRG_IS_VALIDATE     := TAppUtils.BoolToInt(chkIsBasic.Checked);
+
 
   UpdateDataItem;
 end;
@@ -1121,8 +1199,10 @@ procedure TfrmDialogProduct.pgcMainChange(Sender: TObject);
 begin
   inherited;
   If pgcMain.ActivePage = tsSupplier then
-    btnAddSupp.Click
-  else if pgcMain.ActivePage = tsKonversi then
+  begin
+    btnAddSupp.Click;
+    FilterLookupSUPMG(ckFilterSupMG.Checked);
+  end else if pgcMain.ActivePage = tsKonversi then
   begin
     if CDSKonv.RecordCount = 0 then
       btnAddKonversi.Click;

@@ -13,19 +13,17 @@ inherited frmProduct: TfrmProduct
   inherited pnlBody: TPanel
     Width = 926
     Height = 501
+    ExplicitLeft = 250
+    ExplicitTop = 48
     ExplicitWidth = 926
     ExplicitHeight = 501
     inherited pgcBrowse: TcxPageControl
       Width = 904
       Height = 479
-      Properties.HideTabs = False
-      ExplicitLeft = 6
-      ExplicitTop = 16
       ExplicitWidth = 904
       ExplicitHeight = 479
       ClientRectBottom = 478
       ClientRectRight = 903
-      ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
         ExplicitTop = 24
@@ -33,9 +31,11 @@ inherited frmProduct: TfrmProduct
         ExplicitHeight = 454
         inherited cxGrid: TcxGrid
           Width = 902
-          Height = 454
+          Height = 477
+          ExplicitLeft = -1
+          ExplicitTop = 6
           ExplicitWidth = 902
-          ExplicitHeight = 454
+          ExplicitHeight = 477
         end
       end
       object tsProductInfo: TcxTabSheet
@@ -46,7 +46,7 @@ inherited frmProduct: TfrmProduct
           Left = 0
           Top = 0
           Width = 160
-          Height = 454
+          Height = 477
           Align = alLeft
           ActiveGroupIndex = 0
           TabOrder = 0
@@ -98,7 +98,7 @@ inherited frmProduct: TfrmProduct
           Left = 160
           Top = 0
           Width = 742
-          Height = 454
+          Height = 477
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
@@ -1262,16 +1262,19 @@ inherited frmProduct: TfrmProduct
     Width = 926
     ExplicitWidth = 926
     inherited lblFilterData: TcxLabel
-      Left = 572
+      Left = 155
+      Align = alLeft
       ExplicitLeft = 572
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 633
+      Left = 216
+      Align = alLeft
       ExplicitLeft = 633
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 749
+      Left = 332
+      Align = alLeft
       ExplicitLeft = 749
     end
     inherited btnSearch: TcxButton
@@ -1279,8 +1282,47 @@ inherited frmProduct: TfrmProduct
       ExplicitLeft = 844
     end
     inherited lblsdFilter: TcxLabel
-      Left = 725
-      ExplicitLeft = 725
+      Left = 308
+      Align = alLeft
+      ExplicitLeft = 308
+      ExplicitTop = 2
+      AnchorY = 17
+    end
+    object cxLookupMerchanGroup: TcxExtLookupComboBox
+      Tag = 1
+      AlignWithMargins = True
+      Left = 650
+      Top = 4
+      Hint = 'Klik F5 untuk membuat Master Baru'
+      Align = alRight
+      ParentShowHint = False
+      Properties.CharCase = ecUpperCase
+      Properties.ImmediatePost = True
+      ShowHint = True
+      Style.LookAndFeel.NativeStyle = False
+      StyleDisabled.LookAndFeel.NativeStyle = False
+      StyleFocused.LookAndFeel.NativeStyle = False
+      StyleHot.LookAndFeel.NativeStyle = False
+      TabOrder = 5
+      ExplicitLeft = 101
+      ExplicitTop = 9
+      ExplicitHeight = 24
+      Width = 188
+    end
+    object cxLabel1: TcxLabel
+      AlignWithMargins = True
+      Left = 576
+      Top = 4
+      Margins.Left = 0
+      Margins.Right = 0
+      Align = alRight
+      AutoSize = False
+      Caption = 'Filter Group :'
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      Visible = False
+      Height = 25
+      Width = 71
       AnchorY = 17
     end
   end
@@ -1315,14 +1357,13 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 926
       inherited lbEscape: TLabel
         Left = 852
-        Height = 17
         ExplicitLeft = 852
       end
     end
   end
   inherited actlstBrowse: TActionList
-    Left = 552
-    Top = 24
+    Left = 696
+    Top = 120
     inherited actAdd: TAction
       OnExecute = actAddExecute
     end
@@ -1331,8 +1372,8 @@ inherited frmProduct: TfrmProduct
     end
   end
   object actlst1: TActionList
-    Left = 400
-    Top = 3
+    Left = 768
+    Top = 139
     object actAddProduct: TAction
       Caption = '&Add'
       OnExecute = actAddProductExecute

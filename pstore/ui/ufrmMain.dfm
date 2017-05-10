@@ -72,8 +72,8 @@ object frmMain: TfrmMain
     Font.Style = []
   end
   object mmMainMenu: TMainMenu
-    Left = 520
-    Top = 224
+    Left = 496
+    Top = 128
     object mmSistem1: TMenuItem
       Caption = '&System'
       object miLogin1: TMenuItem
@@ -96,7 +96,7 @@ object frmMain: TfrmMain
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
       object miConnectionDatabase: TMenuItem
-        Caption = 'Connection Database'
+        Action = actSetKoneksi
       end
       object MenuItem2: TMenuItem
         Caption = '-'
@@ -808,6 +808,11 @@ object frmMain: TfrmMain
       Category = 'PO'
       Caption = 'Purchase Order'
       OnExecute = actPurchaseOrderExecute
+    end
+    object actSetKoneksi: TAction
+      Category = 'Sistem'
+      Caption = 'Setting Koneksi'
+      OnExecute = actSetKoneksiExecute
     end
   end
   object AppEvents: TApplicationEvents

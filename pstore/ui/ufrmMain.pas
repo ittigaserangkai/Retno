@@ -192,6 +192,7 @@ type
     LookAndFeelController: TcxLookAndFeelController;
     N1: TMenuItem;
     GoodReceiving1: TMenuItem;
+    actSetKoneksi: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -243,6 +244,7 @@ type
     procedure actReturTraderExecute(Sender: TObject);
     procedure actSalesReportContrabonExecute(Sender: TObject);
     procedure actServiceLevelExecute(Sender: TObject);
+    procedure actSetKoneksiExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actTileExecute(Sender: TObject);
@@ -311,7 +313,7 @@ uses
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
-  Datasnap.DSHTTPClient, ufrmMouselessMenu;
+  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi;
 
 
 
@@ -550,7 +552,6 @@ begin
   actOnLogout.Enabled := false;
   SettingMainMenu(rNobody);
 
-
 end;
 
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);
@@ -690,6 +691,18 @@ end;
 procedure TfrmMain.actServiceLevelExecute(Sender: TObject);
 begin
     frmServiceLevel := TfrmServiceLevel.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSetKoneksiExecute(Sender: TObject);
+begin
+  With TfrmSettingKoneksi.Create(Self) do
+  begin
+    Try
+      ShowModal;
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 procedure TfrmMain.actShiftExecute(Sender: TObject);

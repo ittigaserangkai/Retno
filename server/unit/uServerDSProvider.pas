@@ -48,7 +48,7 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Bank_GetDSLookup: TDataSet;
-    function Barang_GetDSOverview: TDataSet;
+    function Barang_GetDSOverview(aMerchanGroupID: string): TDataSet;
     function Gudang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
     function AutAPP_GetDSLookup: TDataSet;
@@ -65,6 +65,7 @@ type
     function TipeBonus_GetDSOverview: TDataSet;
     function Document_GetDSOverview: TDataSet;
     function Agama_GetDSOverview: TDataSet;
+    function AutUnit_GetDSLookup: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
@@ -451,7 +452,7 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.Barang_GetDSOverview: TDataSet;
+function TDSProvider.Barang_GetDSOverview(aMerchanGroupID: string): TDataSet;
 var
   S: string;
 begin
@@ -460,14 +461,17 @@ begin
       +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
       +' E.SUBGRUP_NAME, D.KAT_NAME, F.TPBRG_NAME, G.SAT_NAME, H.OUTLET_NAME'
       +' FROM BARANG A'
-      +' LEFT JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
-      +' LEFT JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
       +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
       +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
       +' LEFT JOIN REF$TIPE_BARANG F ON A.REF$TIPE_BARANG_ID=F.REF$TIPE_BARANG_ID '
       +' LEFT JOIN REF$SATUAN G ON G.REF$SATUAN_ID = A.REF$SATUAN_STOCK'
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
       +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+
+  if aMerchanGroupID <> '' then
+    S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -615,6 +619,15 @@ begin
   S := 'select AGAMA_NAME, REF$AGAMA_ID'
   +' from'
   +' REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AutUnit_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select AUT$UNIT_ID, UNT_NAME from AUT$UNIT';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
