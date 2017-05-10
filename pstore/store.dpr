@@ -188,9 +188,8 @@ uses
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
   uModDO in '..\model\uModDO.pas',
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
-  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmMasterDialog1},
-  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
-  uModelHelper in '..\model\uModelHelper.pas';
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
+  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision};
 
 {$R *.res}
 
@@ -201,7 +200,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
+  Application.CreateForm(TfrmSettingKoneksi, frmSettingKoneksi);
   Application.CreateForm(TfrmPORevision, frmPORevision);
   Application.Run;
 end.

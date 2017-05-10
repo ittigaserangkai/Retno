@@ -19,12 +19,14 @@ type
     procedure actSaveExecute(Sender: TObject);
   private
     FModMerk: TModMerk;
+    FShowConfSuccess: Boolean;
     function GetModMerk: TModMerk;
     { Private declarations }
   public
     procedure LoadData(AID: String);
     function SaveData: Boolean;
     property ModMerk: TModMerk read GetModMerk write FModMerk;
+    property ShowConfSuccess: Boolean read FShowConfSuccess write FShowConfSuccess;
     { Public declarations }
   end;
 
@@ -56,6 +58,7 @@ end;
 procedure TfrmDialogMerk.FormCreate(Sender: TObject);
 begin
   inherited;
+  ShowConfSuccess := True;
   Self.AssignKeyDownEvent;
 end;
 
@@ -95,7 +98,9 @@ begin
     if ModMerk.ID <> '' then
     begin
       Result := True;
-      TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+
+      if ShowConfSuccess then
+        TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     end;
   except
     TAppUtils.Error(ER_INSERT_FAILED);

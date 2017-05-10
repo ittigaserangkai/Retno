@@ -709,7 +709,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\system\ufrmSettingKoneksi.pas">
-            <Form>frmMasterDialog1</Form>
+            <Form>frmSettingKoneksi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\po\ufrmPORevision.pas">

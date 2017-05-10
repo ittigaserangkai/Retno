@@ -446,6 +446,9 @@ begin
   if aCDS = nil then
     Exit;
 
+  for i := 0 to aCDS.FieldDefs.Count-1 do
+    aCDS.FieldDefs[i].Required := False;
+
   aRepo := nil;
   for i := 0 to aOwnerForm.ComponentCount - 1 do
   begin
