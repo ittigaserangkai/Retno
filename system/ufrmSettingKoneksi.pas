@@ -17,7 +17,7 @@ type
     edServer: TcxTextEdit;
     cxLabel1: TcxLabel;
     cxLabel2: TcxLabel;
-    cxGroupBox2: TcxGroupBox;
+    gbStore: TcxGroupBox;
     cxLabel3: TcxLabel;
     edUser: TcxTextEdit;
     cxLabel4: TcxLabel;
@@ -32,6 +32,7 @@ type
   private
     { Private declarations }
   public
+    procedure UpdateConn;
     { Public declarations }
   end;
 
@@ -50,11 +51,14 @@ var
   lPort: Integer;
 begin
   inherited;
-  cxLookupCabang.LoadFromDS(
-    DMClient.DSProviderClient.AutUnit_GetDSLookup,
-    'AUT$UNIT_ID' , 'UNT_NAME',
-    Self
-  );
+  Try
+    cxLookupCabang.LoadFromDS(
+      DMClient.DSProviderClient.AutUnit_GetDSLookup,
+      'AUT$UNIT_ID' , 'UNT_NAME',
+      Self
+    );
+  except
+  End;
 
 
   edServer.Text := TAppUtils.BacaRegistry('server');
@@ -72,6 +76,7 @@ end;
 procedure TfrmSettingKoneksi.actSaveExecute(Sender: TObject);
 begin
   inherited;
+  UpdateConn;
   TAppUtils.TulisRegistry('server', edServer.Text );
   TAppUtils.TulisRegistry('port', edPort.Text );
   TAppUtils.TulisRegistry('user', edUser.Text );
@@ -85,10 +90,7 @@ end;
 procedure TfrmSettingKoneksi.btnTestClick(Sender: TObject);
 begin
   inherited;
-  DMClient.RestConn.Host := edServer.Text;
-  DMClient.RestConn.Port := edPort.Value;
-  DMClient.RestConn.UserName := edUser.Text;
-  DMClient.RestConn.Password := edPassword.Text;
+  UpdateConn;
 
   DMClient.RestConn.TestConnection([toNoLoginPrompt]);
 
@@ -97,8 +99,14 @@ begin
     'AUT$UNIT_ID' , 'UNT_NAME',
     Self
   );
+end;
 
-  
+procedure TfrmSettingKoneksi.UpdateConn;
+begin
+  DMClient.RestConn.Host := edServer.Text;
+  DMClient.RestConn.Port := edPort.Value;
+  DMClient.RestConn.UserName := edUser.Text;
+  DMClient.RestConn.Password := edPassword.Text;
 end;
 
 end.

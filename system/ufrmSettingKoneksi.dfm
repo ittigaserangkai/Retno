@@ -95,7 +95,7 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
         Width = 65
       end
     end
-    object cxGroupBox2: TcxGroupBox
+    object gbStore: TcxGroupBox
       Left = 2
       Top = 161
       Align = alClient
@@ -177,8 +177,8 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 328
-    Top = 24
+    Left = 304
+    Top = 8
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

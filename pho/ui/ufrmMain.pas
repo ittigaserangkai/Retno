@@ -305,6 +305,7 @@ type
     actAgama: TAction;
     MasterAgama1: TMenuItem;
     test1: TMenuItem;
+    actSetKoneksi: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -351,6 +352,7 @@ type
     procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
+    procedure actSetKoneksiExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
@@ -421,7 +423,8 @@ uses
   ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
-  ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient;
+  ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
+  ufrmSettingKoneksi;
 
 {$R *.dfm}
 
@@ -847,6 +850,18 @@ begin
   frmOutlet := TfrmOutlet.Create(Application);
 end;
 
+procedure TfrmMain.actSetKoneksiExecute(Sender: TObject);
+begin
+  With TfrmSettingKoneksi.Create(Self) do
+  begin
+    Try
+      ShowModal;
+    Finally
+      Free;
+    End;
+  end;
+end;
+
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
@@ -1009,6 +1024,9 @@ begin
     if _INIReadString(CONFIG_FILE, 'LOGIN', 'islangsung') = '1' then
       actOnLoginExecute(nil);
   end;
+
+  sbMain.Panels[0].Text := 'Server : ' + DMClient.RestConn.Host;
+  sbMain.Panels[1].Text := 'Port : ' + IntToStr(DMClient.RestConn.Port);
 end;
 
 procedure TfrmMain.LoginExecute;

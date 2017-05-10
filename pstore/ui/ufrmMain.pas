@@ -780,6 +780,9 @@ end;
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
 //  CommonDlg.ShowInformationAlert('Aplikasi Store', 'test Selamat Datang', mtCustom);
+  sbMain.Panels[0].Text := 'Server : ' + DMClient.RestConn.Host;
+  sbMain.Panels[1].Text := 'Port : ' + IntToStr(DMClient.RestConn.Port);
+
 end;
 
 procedure TfrmMain.miExit1Click(Sender: TObject);
