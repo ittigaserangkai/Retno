@@ -1,13 +1,15 @@
 inherited frmMasterDialogBrowse: TfrmMasterDialogBrowse
   Caption = 'frmMasterDialogBrowse'
+  ExplicitWidth = 570
+  ExplicitHeight = 371
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     object cxGrid: TcxGrid
       Left = 2
       Top = 2
-      Width = 562
-      Height = 228
+      Width = 550
+      Height = 272
       Align = alClient
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
@@ -30,11 +32,28 @@ inherited frmMasterDialogBrowse: TfrmMasterDialogBrowse
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     inherited pnlFooter: TPanel
+      inherited btnClose: TcxButton
+        Action = actCancel
+      end
       inherited btnSave: TcxButton
         Action = actSave
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+      end
+    end
+    inherited pnlSortCut: TPanel
+      inherited lbCTRLEnter: TLabel
+        Height = 15
+      end
+      inherited lbEscape: TLabel
+        Height = 15
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Height = 15
       end
     end
   end

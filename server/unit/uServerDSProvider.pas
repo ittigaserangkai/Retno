@@ -67,6 +67,7 @@ type
     function Agama_GetDSOverview: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
+    function Barang_ByPOLookUp(APONO : String): TDataset;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
@@ -93,6 +94,7 @@ type
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
     function PORevisi_GetDSOverview(ID: string): TDataset;
+    function PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
 
@@ -641,6 +643,18 @@ begin
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenMemTable(S));
 end;
 
+function TDSProvider.Barang_ByPOLookUp(APONO : String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select c.BARANG_ID, c.BRG_CODE, c.BRG_NAME from po a' +
+          ' INNER JOIN PO_DETAIL b on a.PO_ID = b.PO_ID' +
+          ' inner JOIN BARANG c on b.BARANG_ID = c.BARANG_ID' +
+          ' where a.PO_NO = ' + QuotedStr(APONO);
+
+  Result := TDBUtils.OpenDataset(sSQL);
+end;
+
 function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
 var
   S: String;
@@ -867,6 +881,8 @@ begin
   if AUnitID <> '' then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
 
+  sSQL :=sSQL + ' order by PO_NO';
+
   
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -891,6 +907,22 @@ var
   sSQL: string;
 begin
   sSQL := 'select* from PO_DETAIL where PO_ID = ' + TDBUtils.Quot(ID);
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_PO_FOR_GR ' +
+          ' where 1 = 1';
+
+  if AUnitID <> '' then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  sSQL := sSQL + ' order by PO_NO';
+
+
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 

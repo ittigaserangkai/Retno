@@ -44,11 +44,17 @@ type
     FPOD_TOTAL_TAX: Double;
     FPOD_TOTAL_TEMP: Double;
     FPOD_UOM: TModSatuan;
+    procedure SetPOD_BARANG(const Value: TModBarang);
+    procedure SetPOD_UOM(const Value: TModSatuan);
   public
+    class function GetTableName: String; override;
     property POD_DISC2: Double read FPOD_DISC2 write FPOD_DISC2;
     property POD_DISC3: Double read FPOD_DISC3 write FPOD_DISC3;
   published
-    property POD_BARANG: TModBarang read FPOD_BARANG write FPOD_BARANG;
+    [AttributeOfForeign('BARANG_ID')]
+    property POD_BARANG: TModBarang read FPOD_BARANG write SetPOD_BARANG;
+
+    [AttributeOfForeign('BARANG_SUPLIER_ID')]
     property POD_BARANG_SUPPLIER: TModBarangSupplier read FPOD_BARANG_SUPPLIER
         write FPOD_BARANG_SUPPLIER;
     property POD_DISC1: Double read FPOD_DISC1 write FPOD_DISC1;
@@ -56,6 +62,8 @@ type
         FPOD_DISC_TAMBAHAN;
     property POD_IS_BKP: Integer read FPOD_IS_BKP write FPOD_IS_BKP;
     property POD_IS_STOCK: Integer read FPOD_IS_STOCK write FPOD_IS_STOCK;
+
+    [AttributeOfHeader('PO_ID')]
     property POD_PO: TModPO read FPOD_PO write FPOD_PO;
     property POD_PPN: Double read FPOD_PPN write FPOD_PPN;
     property POD_PPNBM: Double read FPOD_PPNBM write FPOD_PPNBM;
@@ -64,12 +72,16 @@ type
     property POD_PPN_PERSEN: Integer read FPOD_PPN_PERSEN write FPOD_PPN_PERSEN;
     property POD_PRICE: Double read FPOD_PRICE write FPOD_PRICE;
     property POD_QTY_ORDER: Double read FPOD_QTY_ORDER write FPOD_QTY_ORDER;
+
+    [AttributeOfForeign('SO_Detail_ID')]
     property POD_SODetail: TModSODetail read FPOD_SODetail write FPOD_SODetail;
     property POD_TOTAL: Double read FPOD_TOTAL write FPOD_TOTAL;
     property POD_TOTAL_DISC: Double read FPOD_TOTAL_DISC write FPOD_TOTAL_DISC;
     property POD_TOTAL_TAX: Double read FPOD_TOTAL_TAX write FPOD_TOTAL_TAX;
     property POD_TOTAL_TEMP: Double read FPOD_TOTAL_TEMP write FPOD_TOTAL_TEMP;
-    property POD_UOM: TModSatuan read FPOD_UOM write FPOD_UOM;
+
+    [AttributeOfForeign('REF$SATUAN_ID')]
+    property POD_UOM: TModSatuan read FPOD_UOM write SetPOD_UOM;
   end;
 
   TModPO = class(TModApp)
@@ -93,14 +105,17 @@ type
     FPO_TOP: Integer;
     FPO_UNIT: TModUnit;
     FPO_VALID_DATE: TDatetime;
+    function GetPOItems: TObjectList<TModPOItem>;
     function GetPO_DISC: Double;
     function GetPO_PPN: Double;
     function GetPO_TOTAL: Double;
     procedure SetPO_DISC(Value: Double);
     procedure SetPO_PPN(Value: Double);
+    procedure SetPO_SO(const Value: TModSO);
+    procedure SetPO_SUPPLIER_MERCHAN_GRUP(const Value: TModSuplierMerchanGroup);
     procedure SetPO_TOTAL(Value: Double);
   public
-    property POItems: TObjectList<TModPOItem> read FPOItems write FPOItems;
+    property POItems: TObjectList<TModPOItem> read GetPOItems write FPOItems;
     property PO_NO_REF: string read FPO_NO_REF write FPO_NO_REF;
   published
     property PO_COLIE: Double read FPO_COLIE write FPO_COLIE;
@@ -111,6 +126,8 @@ type
     property PO_DESC_PRINT: string read FPO_DESC_PRINT write FPO_DESC_PRINT;
     property PO_DISC: Double read GetPO_DISC write SetPO_DISC;
     property PO_IS_PO_BONUS: Integer read FPO_IS_PO_BONUS write FPO_IS_PO_BONUS;
+
+    [AttributeOfCode]
     property PO_NO: string read FPO_NO write FPO_NO;
     property PO_PPN: Double read GetPO_PPN write SetPO_PPN;
     property PO_PPNBM: Double read FPO_PPNBM write FPO_PPNBM;
@@ -118,7 +135,7 @@ type
     property PO_SERVICE_LEVEL: Double read FPO_SERVICE_LEVEL write
         FPO_SERVICE_LEVEL;
     [AttributeOfForeign('SO_ID')]
-    property PO_SO: TModSO read FPO_SO write FPO_SO;
+    property PO_SO: TModSO read FPO_SO write SetPO_SO;
 
     [AttributeOfForeign('REF$STATUS_PO_ID')]
     property PO_STATUS_PO: TModStatusPO read FPO_STATUS_PO write FPO_STATUS_PO;
@@ -128,7 +145,7 @@ type
 
     [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
     property PO_SUPPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup read
-        FPO_SUPPLIER_MERCHAN_GRUP write FPO_SUPPLIER_MERCHAN_GRUP;
+        FPO_SUPPLIER_MERCHAN_GRUP write SetPO_SUPPLIER_MERCHAN_GRUP;
     property PO_TOP: Integer read FPO_TOP write FPO_TOP;
 
 
@@ -145,6 +162,14 @@ type
 
 
 implementation
+
+function TModPO.GetPOItems: TObjectList<TModPOItem>;
+begin
+  if FPOItems = nil then
+    FPOItems := TObjectList<TModPOItem>.Create();
+
+  Result := FPOItems;
+end;
 
 {
 ************************************ TModPO ************************************
@@ -172,8 +197,46 @@ procedure TModPO.SetPO_PPN(Value: Double);
 begin
 end;
 
+procedure TModPO.SetPO_SO(const Value: TModSO);
+begin
+  if FPO_SO <> Value then
+    FreeAndNil(FPO_SO);
+
+  FPO_SO := Value;
+end;
+
+procedure TModPO.SetPO_SUPPLIER_MERCHAN_GRUP(const Value:
+    TModSuplierMerchanGroup);
+begin
+  if FPO_SUPPLIER_MERCHAN_GRUP <> Value then
+    FreeAndNil(FPO_SUPPLIER_MERCHAN_GRUP);
+
+  FPO_SUPPLIER_MERCHAN_GRUP := Value;
+end;
+
 procedure TModPO.SetPO_TOTAL(Value: Double);
 begin
+end;
+
+class function TModPOItem.GetTableName: String;
+begin
+  Result := 'PO_DETAIL'
+end;
+
+procedure TModPOItem.SetPOD_BARANG(const Value: TModBarang);
+begin
+  if FPOD_BARANG <> Value then
+    FreeAndNil(FPOD_BARANG);
+
+  FPOD_BARANG := Value;
+end;
+
+procedure TModPOItem.SetPOD_UOM(const Value: TModSatuan);
+begin
+  if FPOD_UOM <> Value then
+    FreeAndNil(FPOD_UOM);
+
+  FPOD_UOM := Value;
 end;
 
 

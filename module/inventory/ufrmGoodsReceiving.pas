@@ -11,10 +11,12 @@ uses
   cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtons,
   ufraFooterDialog3Button, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, uDBUtils,
+  uDXUtils, uDMClient, uRetnoUnit, Datasnap.DBClient, uAppUtils,
+  System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog;
 
 type
-  TfrmGoodsReceiving = class(TfrmMasterDialogBrowse)
+  TfrmGoodsReceiving = class(TfrmMasterDialog)
     pnlTop: TPanel;
     lbl1: TLabel;
     btn1: TcxButton;
@@ -24,14 +26,13 @@ type
     lbl8: TLabel;
     dtDatePO: TcxDateEdit;
     dtDateSO: TcxDateEdit;
-    edtSONo: TEdit;
-    edtSuplierCode: TEdit;
-    edtSuplierName: TEdit;
-    edtDONo: TEdit;
+    edtSONo: TcxTextEdit;
+    edtSuplierName: TcxTextEdit;
+    edtDONo: TcxTextEdit;
     lbl2: TLabel;
     dtDateDO: TcxDateEdit;
     lbl4: TLabel;
-    edtNP: TEdit;
+    edtNP: TcxTextEdit;
     lbl9: TLabel;
     lbl10: TLabel;
     jvcuredtSubTotal: TcxCurrencyEdit;
@@ -45,10 +46,10 @@ type
     lbl11: TLabel;
     lbl3: TLabel;
     lbl15: TLabel;
-    edtjfBonus: TcxCurrencyEdit;
+    edBonus: TcxCurrencyEdit;
     lbl16: TLabel;
-    edtjfTotalColie: TcxCurrencyEdit;
-    edtjfRecvBonus: TcxCurrencyEdit;
+    edTotalColie: TcxCurrencyEdit;
+    edRecvBonus: TcxCurrencyEdit;
     lbl17: TLabel;
     pnl2: TPanel;
     lbl18: TLabel;
@@ -57,18 +58,33 @@ type
     lbl21: TLabel;
     lbl22: TLabel;
     lbl23: TLabel;
-    edtProductName: TEdit;
     lbl24: TLabel;
-    edtjfTotalOrder: TcxCurrencyEdit;
-    edtjfDisc1: TcxCurrencyEdit;
-    edtjfDisc2: TcxCurrencyEdit;
-    jvcuredtNilaiDisc: TcxCurrencyEdit;
-    jvcuredtTotalDisc: TcxCurrencyEdit;
-    jvcuredtSellPrice: TcxCurrencyEdit;
+    edTotalOrder: TcxCurrencyEdit;
+    edDisc1: TcxCurrencyEdit;
+    edDisc2: TcxCurrencyEdit;
+    edNilaiDisc: TcxCurrencyEdit;
+    edTotalDisc: TcxCurrencyEdit;
+    edSellPrice: TcxCurrencyEdit;
     btn2: TcxButton;
     lblStatusPO: TLabel;
     btnCetakNP: TcxButton;
-    cbbPO: TcxExtLookupComboBox;
+    edPO: TcxTextEdit;
+    cxGridGR: TcxGrid;
+    cxgrdlvlGR: TcxGridLevel;
+    cxGridTableGR: TcxGridTableView;
+    cxgrdclmnPLU: TcxGridColumn;
+    cxgrdclmnNama: TcxGridColumn;
+    cxgrdclmnUOM: TcxGridColumn;
+    cxgrdclmnHarga: TcxGridColumn;
+    cxgrdclmnQtyOrder: TcxGridColumn;
+    cxgrdclmnDisc1: TcxGridColumn;
+    cxgrdclmnDisc2: TcxGridColumn;
+    cxgrdclmnDisc3: TcxGridColumn;
+    cxgrdclmnTotal: TcxGridColumn;
+    cxgrdclmnQtyRecv: TcxGridColumn;
+    edtProductName: TcxTextEdit;
+    cxgrdclmnTotalDisc: TcxGridColumn;
+    cxgrdclmnPriceAfterDisc: TcxGridColumn;
     procedure actCancelExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -82,12 +98,20 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actSaveExecute(Sender: TObject);
+    procedure cxGridTableGREditing(Sender: TcxCustomGridTableView; AItem:
+        TcxCustomGridTableItem; var AAllow: Boolean);
+    procedure edPOKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cxgrdclmnQtyRecvPropertiesChange(Sender: TObject);
   private
+    FCDSBARANG: TClientDataSet;
+    FCDSPO: TClientDataSet;
+    FCDSUOM: TClientDataSet;
     FValidDate: TDate;
     FStatusPO: string;
     FTOP: Integer;
     FCommon,FAssgros,FTrader: Real;
     FHargaDisc: Real;
+    FPO: TModPO;
     function SaveData: Boolean;
     function CheckIsPOExist(ANoPO:string): Boolean;
     function CekChekBoxInGrid: Boolean;
@@ -98,7 +122,13 @@ type
     procedure ClearForm;
     procedure AllocatedStock(Receive: Real;
                              var FCommon,FAssgros,FTrader: Real);
+    procedure HitungColieReceive;
     procedure InisialisasiCBBPO;
+    procedure InisialisasiUOM;
+    procedure InisialisasiBarang(APONO : String);
+    procedure LoadDataGRItemToProductName;
+    function LoadDataPO(ANoPO : String): Boolean;
+    function LoadPOItemToGrid(APO : TModPO): Boolean;
   public
     { Public declarations }
   end;
@@ -434,39 +464,40 @@ end;
 
 procedure TfrmGoodsReceiving.ClearForm;
 begin
-  edtSONo.Clear;
-  edtSuplierCode.Clear;
-  edtSuplierName.Clear;
-  edtDONo.Clear;
-  edtNP.Clear;
-  edtProductName.Clear;
-  dtDatePO.Clear;
-  dtDateSO.Clear;
-  dtDateDO.Clear;
-  edtjfBonus.Value:=0;
-  edtjfTotalColie.Value:=0;
-  edtjfTotalOrder.Value:=0;
-  edtjfRecvBonus.Value:=0;
-  edtjfDisc1.Value:=0;
-  edtjfDisc2.Value:=0;
-  jvcuredtSubTotal.Value:=0;
-  jvcuredtPPN.Value:=0;
-  jvcuredtPPNBM.Value:=0;
-  jvcuredtDiscount.Value:=0;
-  jvcuredtTotalBeli.Value:=0;
-  jvcuredtNilaiDisc.Value:=0;
-  jvcuredtTotalDisc.Value:=0;
-  FHargaDisc:=0;
-  jvcuredtSellPrice.Value;
-  lblStatusPO.Caption:='';
-  SetHeaderGrid;
-  actSave.Enabled:= False;
-  actDelete.Enabled:= False;
+//  edtSONo.Clear;
+//  edtSuplierCode.Clear;
+//  edtSuplierName.Clear;
+//  edtDONo.Clear;
+//  edtNP.Clear;
+//  edtProductName.Clear;
+//  dtDatePO.Clear;
+//  dtDateSO.Clear;
+//  dtDateDO.Clear;
+//  edtjfBonus.Value:=0;
+//  edtjfTotalColie.Value:=0;
+//  edtjfTotalOrder.Value:=0;
+//  edtjfRecvBonus.Value:=0;
+//  edtjfDisc1.Value:=0;
+//  edtjfDisc2.Value:=0;
+//  jvcuredtSubTotal.Value:=0;
+//  jvcuredtPPN.Value:=0;
+//  jvcuredtPPNBM.Value:=0;
+//  jvcuredtDiscount.Value:=0;
+//  jvcuredtTotalBeli.Value:=0;
+//  jvcuredtNilaiDisc.Value:=0;
+//  jvcuredtTotalDisc.Value:=0;
+//  FHargaDisc:=0;
+//  jvcuredtSellPrice.Value;
+//  lblStatusPO.Caption:='';
+//  SetHeaderGrid;
+//  actSave.Enabled:= False;
+//  actDelete.Enabled:= False;
 end;
 
 procedure TfrmGoodsReceiving.FormCreate(Sender: TObject);
 begin
   inherited;
+  InisialisasiUOM;
   InisialisasiCBBPO;
 
   dtDatePO.Date := now;
@@ -957,9 +988,144 @@ begin
   lbl24.Visible := False;
 end;
 
+procedure TfrmGoodsReceiving.cxgrdclmnQtyRecvPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  HitungColieReceive;
+end;
+
+procedure TfrmGoodsReceiving.cxGridTableGREditing(Sender:
+    TcxCustomGridTableView; AItem: TcxCustomGridTableItem; var AAllow: Boolean);
+begin
+  inherited;
+  AAllow := AItem.Index in [cxgrdclmnQtyRecv.Index];
+end;
+
+procedure TfrmGoodsReceiving.edPOKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+var
+  iNomor: Integer;
+begin
+  if Key = 13 then
+  begin
+    iNomor    := StrToIntDef(edPO.Text,0);
+    edPO.Text := RightStr('00000000000' + IntToStr(iNomor), 11);
+
+    if LoadDataPO(edPO.Text) then
+      SelectNext(Screen.ActiveControl, True, True);
+  end;
+
+  inherited;
+end;
+
+procedure TfrmGoodsReceiving.HitungColieReceive;
+var
+  I: Integer;
+begin
+  edTotalColie.Value := 0;
+  for I := 0 to cxGridTableGR.DataController.RecordCount - 1 do
+  begin
+    edTotalColie.Value := edTotalColie.Value + cxGridTableGR.Double(cxgrdclmnQtyRecv.Index)
+  end;
+end;
+
 procedure TfrmGoodsReceiving.InisialisasiCBBPO;
 begin
-  // TODO -cMM: TfrmGoodsReceiving.InisialisasiCBBPO default body inserted
+//  FCDSPO := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOLookUpForGR(''), Self);
+//  cbbPO.Properties.LoadFromCDS(FCDSPO,'PO_ID','PO_NO',['PO_ID'],Self);
+//  cbbPO.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmGoodsReceiving.InisialisasiUOM;
+begin
+  FCDSUOM := TDBUtils.DSToCDS(DMClient.DSProviderClient.Satuan_GetDSLookup(), Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnUOM.Index].Properties).LoadFromCDS(FCDSUOM,'ref$satuan_id','SAT_CODE',['ref$satuan_id'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnUOM.Index].Properties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmGoodsReceiving.InisialisasiBarang(APONO : String);
+begin
+  FCDSBARANG := TDBUtils.DSToCDS(DMClient.DSProviderClient.Barang_ByPOLookUp(APONO), Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnPLU.Index].Properties).LoadFromCDS(FCDSBARANG,'BARANG_ID','BRG_CODE',['BARANG_ID'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnPLU.Index].Properties).SetMultiPurposeLookup;
+
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnNama.Index].Properties).LoadFromCDS(FCDSBARANG,'BARANG_ID','BRG_NAME',['BARANG_ID'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnNama.Index].Properties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmGoodsReceiving.LoadDataGRItemToProductName;
+begin
+//  Exit;
+
+  edtProductName.Text := cxGridTableGR.Values(cxgrdclmnNama.Index);
+  edDisc1.Value := cxGridTableGR.Values(cxgrdclmnDisc1.Index);
+  edDisc2.Value := cxGridTableGR.Values(cxgrdclmnDisc2.Index);
+  edNilaiDisc.Value := cxGridTableGR.Values(cxgrdclmnDisc3.Index);
+  edTotalDisc.Text := cxGridTableGR.Values(cxgrdclmnTotalDisc.Index);
+  edSellPrice.Text := cxGridTableGR.Values(cxgrdclmnPriceAfterDisc.Index);
+end;
+
+function TfrmGoodsReceiving.LoadDataPO(ANoPO : String): Boolean;
+begin
+  Result := False;
+
+  cxGridTableGR.ClearRows;
+  FPO := TModPO(DMClient.CrudClient.RetrieveByCode(TModPO.ClassName, ANoPO));
+  if FPO = nil then
+    Exit;
+
+  if FPO.ID = '' then
+    Exit;
+
+  FPO.LoadSO;
+  edtSONo.Text := FPO.PO_SO.SO_NO;
+  dtDateSO.Date := FPO.PO_SO.SO_DATE;
+
+  FPO.LoadPO_SUPPLIER_MERCHAN_GRUP;
+  edtSuplierName.Text := FPO.PO_SUPPLIER_MERCHAN_GRUP.SUPMG_NAME;
+
+  dtDatePO.Date := FPO.PO_DATE;
+  edTotalOrder.Value := FPO.PO_COLIE;
+  edTotalColie.Value := FPO.PO_COLIE;
+  edBonus.Value := 0;
+  edRecvBonus.Value := 0;
+
+  InisialisasiBarang(FPO.PO_NO);
+  if not LoadPOItemToGrid(FPO) then
+    Exit;
+
+  Result := True;
+end;
+
+function TfrmGoodsReceiving.LoadPOItemToGrid(APO : TModPO): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+
+  for I := 0 to APO.POItems.Count - 1 do
+  begin
+    cxGridTableGR.DataController.AppendRecord;
+    cxGridTableGR.DataController.FocusedRecordIndex := i;
+
+    cxGridTableGR.SetValue(cxgrdclmnPLU.Index, APO.POItems[i].POD_BARANG.ID);
+    cxGridTableGR.SetValue(cxgrdclmnNama.Index, APO.POItems[i].POD_BARANG.ID);
+    cxGridTableGR.SetValue(cxgrdclmnUOM.Index, APO.POItems[i].POD_UOM.ID);
+
+    cxGridTableGR.SetValue(cxgrdclmnHarga.Index, APO.POItems[i].POD_PRICE);
+    cxGridTableGR.SetValue(cxgrdclmnDisc1.Index, APO.POItems[i].POD_DISC1);
+    cxGridTableGR.SetValue(cxgrdclmnDisc2.Index, APO.POItems[i].POD_DISC2);
+    cxGridTableGR.SetValue(cxgrdclmnDisc3.Index, APO.POItems[i].POD_DISC3);
+    cxGridTableGR.SetValue(cxgrdclmnQtyOrder.Index, APO.POItems[i].POD_QTY_ORDER);
+    cxGridTableGR.SetValue(cxgrdclmnQtyRecv.Index, APO.POItems[i].POD_QTY_ORDER);
+    cxGridTableGR.SetValue(cxgrdclmnTotalDisc.Index, APO.POItems[i].POD_TOTAL_DISC);
+    cxGridTableGR.SetValue(cxgrdclmnPriceAfterDisc.Index, APO.POItems[i].POD_TOTAL_TEMP - APO.POItems[i].POD_TOTAL_TAX);
+    cxGridTableGR.SetValue(cxgrdclmnTotal.Index, APO.POItems[i].POD_TOTAL);
+  end;
+
+  cxGridTableGR.ApplyBestFit(cxgrdclmnPLU);
+  cxGridTableGR.ApplyBestFit(cxgrdclmnNama);
+  Result := True;
 end;
 
 end.

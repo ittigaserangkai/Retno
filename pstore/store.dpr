@@ -189,7 +189,8 @@ uses
   uModDO in '..\model\uModDO.pas',
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmMasterDialog1},
-  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision};
+  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
+  uModelHelper in '..\model\uModelHelper.pas';
 
 {$R *.res}
 

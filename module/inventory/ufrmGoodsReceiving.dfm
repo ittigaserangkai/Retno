@@ -5,6 +5,8 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
   ClientHeight = 492
   ClientWidth = 784
   OldCreateOrder = True
+  ExplicitLeft = -6
+  ExplicitTop = -155
   ExplicitWidth = 800
   ExplicitHeight = 531
   PixelsPerInch = 96
@@ -14,15 +16,6 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
     Height = 436
     ExplicitWidth = 784
     ExplicitHeight = 436
-    inherited cxGrid: TcxGrid
-      Top = 153
-      Width = 780
-      Height = 217
-      TabOrder = 2
-      ExplicitTop = 126
-      ExplicitWidth = 780
-      ExplicitHeight = 244
-    end
     object pnlTop: TPanel
       Left = 2
       Top = 2
@@ -34,127 +27,127 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       Color = 15198183
       TabOrder = 0
       object lbl1: TLabel
-        Left = 17
-        Top = 7
+        Left = 28
+        Top = 8
         Width = 34
         Height = 16
         Caption = 'PO No.'
       end
       object lbl5: TLabel
         Left = 226
-        Top = 7
+        Top = 8
         Width = 41
         Height = 16
         Caption = 'Date PO'
       end
       object lbl6: TLabel
-        Left = 19
-        Top = 33
+        Left = 30
+        Top = 36
         Width = 33
         Height = 16
         Caption = 'SO No.'
       end
       object lbl7: TLabel
         Left = 226
-        Top = 33
+        Top = 36
         Width = 40
         Height = 16
         Caption = 'Date SO'
       end
       object lbl8: TLabel
-        Left = 12
-        Top = 85
-        Width = 39
+        Left = 7
+        Top = 92
+        Width = 57
         Height = 16
-        Caption = 'Supplier'
+        Caption = 'Supplier MG'
       end
       object lbl2: TLabel
         Left = 226
-        Top = 59
+        Top = 64
         Width = 42
         Height = 16
         Caption = 'Date DO'
       end
       object lbl4: TLabel
-        Left = 18
-        Top = 59
+        Left = 29
+        Top = 64
         Width = 35
         Height = 16
         Caption = 'DO No.'
       end
       object lbl9: TLabel
-        Left = 37
-        Top = 111
+        Left = 48
+        Top = 120
         Width = 13
         Height = 16
         Caption = 'NP'
       end
       object lbl10: TLabel
         Left = 621
-        Top = 7
+        Top = 8
         Width = 44
         Height = 16
         Caption = 'Sub Total'
       end
       object lbl13: TLabel
         Left = 647
-        Top = 59
+        Top = 64
         Width = 18
         Height = 16
         Caption = 'PPn'
       end
       object lbl14: TLabel
         Left = 626
-        Top = 85
+        Top = 92
         Width = 39
         Height = 16
         Caption = 'PPn. BM'
       end
       object lbl12: TLabel
         Left = 622
-        Top = 33
+        Top = 36
         Width = 44
         Height = 16
         Caption = 'Discount'
       end
       object lbl11: TLabel
         Left = 621
-        Top = 111
+        Top = 120
         Width = 44
         Height = 16
         Caption = 'Total Beli'
       end
       object lbl3: TLabel
         Left = 369
-        Top = 7
+        Top = 8
         Width = 57
         Height = 16
         Caption = 'Total Order'
       end
       object lbl15: TLabel
         Left = 517
-        Top = 7
+        Top = 8
         Width = 29
         Height = 16
         Caption = 'Bonus'
       end
       object lbl16: TLabel
         Left = 374
-        Top = 33
+        Top = 36
         Width = 51
         Height = 16
         Caption = 'Total Colie'
       end
       object lbl17: TLabel
         Left = 486
-        Top = 33
+        Top = 36
         Width = 59
         Height = 16
         Caption = 'Recv. Bonus'
       end
       object lbl24: TLabel
-        Left = 200
-        Top = 111
+        Left = 211
+        Top = 120
         Width = 18
         Height = 15
         Caption = 'new'
@@ -167,7 +160,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object lblStatusPO: TLabel
         Left = 556
-        Top = 111
+        Top = 112
         Width = 59
         Height = 16
         Alignment = taRightJustify
@@ -180,14 +173,14 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         ParentFont = False
       end
       object btn1: TcxButton
-        Left = 163
-        Top = 2
+        Left = 174
+        Top = 3
         Width = 45
         Height = 25
         Caption = 'F2'
         OptionsImage.ImageIndex = 26
         OptionsImage.Images = DMClient.imgListButton
-        TabOrder = 1
+        TabOrder = 7
         Visible = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -199,140 +192,162 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object dtDatePO: TcxDateEdit
         Left = 270
-        Top = 3
-        TabOrder = 2
+        Top = 4
+        Enabled = False
+        TabOrder = 4
         Width = 90
       end
       object dtDateSO: TcxDateEdit
         Left = 270
-        Top = 29
-        TabOrder = 4
+        Top = 32
+        Enabled = False
+        TabOrder = 5
         Width = 90
       end
-      object edtSONo: TEdit
-        Left = 55
-        Top = 30
+      object edtSONo: TcxTextEdit
+        Left = 66
+        Top = 32
+        Enabled = False
+        TabOrder = 1
         Width = 106
-        Height = 22
-        Ctl3D = False
-        MaxLength = 10
-        ParentCtl3D = False
-        ReadOnly = True
+      end
+      object edtSuplierName: TcxTextEdit
+        Left = 66
+        Top = 88
+        Enabled = False
         TabOrder = 3
+        Width = 415
       end
-      object edtSuplierCode: TEdit
-        Left = 55
-        Top = 82
-        Width = 50
-        Height = 22
-        Ctl3D = False
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 11
-        Text = 'ITTS1'
-      end
-      object edtSuplierName: TEdit
-        Left = 106
-        Top = 82
-        Width = 375
-        Height = 22
-        Ctl3D = False
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 12
-      end
-      object edtDONo: TEdit
-        Left = 55
-        Top = 56
-        Width = 106
-        Height = 22
-        Ctl3D = False
-        MaxLength = 10
-        ParentCtl3D = False
-        TabOrder = 5
+      object edtDONo: TcxTextEdit
+        Left = 66
+        Top = 60
+        TabOrder = 2
         OnKeyPress = edtDONoKeyPress
+        Width = 106
       end
       object dtDateDO: TcxDateEdit
         Left = 270
-        Top = 55
+        Top = 60
         TabOrder = 6
         Width = 90
       end
-      object edtNP: TEdit
-        Left = 55
-        Top = 108
-        Width = 140
-        Height = 22
-        Color = clBtnFace
-        Ctl3D = False
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 13
+      object edtNP: TcxTextEdit
+        Left = 66
+        Top = 116
+        TabStop = False
+        Enabled = False
+        TabOrder = 12
         Text = '0000010029'
         OnKeyPress = edtDONoKeyPress
+        Width = 140
       end
       object jvcuredtSubTotal: TcxCurrencyEdit
         Left = 670
-        Top = 3
-        TabOrder = 14
+        Top = 4
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 13
         Width = 99
       end
       object jvcuredtPPN: TcxCurrencyEdit
         Left = 670
-        Top = 55
-        TabOrder = 16
+        Top = 60
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 15
         Width = 99
       end
       object jvcuredtPPNBM: TcxCurrencyEdit
         Left = 670
-        Top = 81
-        TabOrder = 17
+        Top = 88
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 16
         Width = 99
       end
       object jvcuredtDiscount: TcxCurrencyEdit
         Left = 670
-        Top = 29
-        TabOrder = 15
+        Top = 32
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 14
         Width = 99
       end
       object jvcuredtTotalBeli: TcxCurrencyEdit
         Left = 670
-        Top = 107
-        TabOrder = 18
+        Top = 116
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 17
         Width = 99
       end
-      object edtjfBonus: TcxCurrencyEdit
+      object edBonus: TcxCurrencyEdit
         Left = 550
-        Top = 3
-        TabOrder = 9
-        Width = 51
-      end
-      object edtjfTotalColie: TcxCurrencyEdit
-        Left = 430
-        Top = 29
-        TabOrder = 8
-        Width = 51
-      end
-      object edtjfRecvBonus: TcxCurrencyEdit
-        Left = 550
-        Top = 29
+        Top = 4
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
         TabOrder = 10
         Width = 51
       end
-      object edtjfTotalOrder: TcxCurrencyEdit
+      object edTotalColie: TcxCurrencyEdit
         Left = 430
-        Top = 3
-        TabOrder = 7
+        Top = 32
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 9
+        Width = 51
+      end
+      object edRecvBonus: TcxCurrencyEdit
+        Left = 550
+        Top = 32
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 11
+        Width = 51
+      end
+      object edTotalOrder: TcxCurrencyEdit
+        Left = 430
+        Top = 4
+        Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 8
         BiDiMode = bdLeftToRight
         ParentBiDiMode = False
         Width = 51
       end
       object btn2: TcxButton
-        Left = 221
-        Top = 105
+        Left = 241
+        Top = 114
         Width = 148
         Height = 27
         Caption = 'Check List NP (Ctrl-D)'
+        OptionsImage.ImageIndex = 28
+        OptionsImage.Images = DMClient.imgListButton
+        TabOrder = 18
+        Visible = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        OnClick = btn2Click
+      end
+      object btnCetakNP: TcxButton
+        Left = 392
+        Top = 114
+        Width = 89
+        Height = 27
+        Caption = 'NP (Ctrl-P)'
         OptionsImage.ImageIndex = 28
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 19
@@ -345,28 +360,11 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         ParentFont = False
         OnClick = btn2Click
       end
-      object btnCetakNP: TcxButton
-        Left = 376
-        Top = 105
-        Width = 89
-        Height = 27
-        Caption = 'NP (Ctrl-P)'
-        OptionsImage.ImageIndex = 28
-        OptionsImage.Images = DMClient.imgListButton
-        TabOrder = 20
-        Visible = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-        OnClick = btn2Click
-      end
-      object cbbPO: TcxExtLookupComboBox
-        Left = 55
-        Top = 3
+      object edPO: TcxTextEdit
+        Left = 66
+        Top = 4
         TabOrder = 0
+        OnKeyDown = edPOKeyDown
         Width = 106
       end
     end
@@ -380,6 +378,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 1
+      Visible = False
       object lbl18: TLabel
         Left = 15
         Top = 35
@@ -418,30 +417,12 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       object lbl23: TLabel
         Left = 15
-        Top = 6
+        Top = 8
         Width = 69
         Height = 16
         Caption = 'Product Name'
       end
-      object edtProductName: TEdit
-        Left = 90
-        Top = 6
-        Width = 614
-        Height = 22
-        Color = 15198183
-        Ctl3D = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Trebuchet MS'
-        Font.Style = [fsBold]
-        ParentCtl3D = False
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 0
-        Text = 'SOFTEXSAFE & SOFT PANTYLINER 48/20'#39'S (PCS)'
-      end
-      object edtjfDisc1: TcxCurrencyEdit
+      object edDisc1: TcxCurrencyEdit
         Left = 64
         Top = 35
         TabOrder = 1
@@ -449,7 +430,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         ParentBiDiMode = False
         Width = 39
       end
-      object edtjfDisc2: TcxCurrencyEdit
+      object edDisc2: TcxCurrencyEdit
         Left = 159
         Top = 35
         TabOrder = 2
@@ -457,24 +438,135 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         ParentBiDiMode = False
         Width = 39
       end
-      object jvcuredtNilaiDisc: TcxCurrencyEdit
+      object edNilaiDisc: TcxCurrencyEdit
         Left = 258
         Top = 35
         TabOrder = 3
         Width = 82
       end
-      object jvcuredtTotalDisc: TcxCurrencyEdit
+      object edTotalDisc: TcxCurrencyEdit
         Left = 403
         Top = 35
         TabOrder = 4
         Width = 164
       end
-      object jvcuredtSellPrice: TcxCurrencyEdit
+      object edSellPrice: TcxCurrencyEdit
         Left = 693
         Top = 34
         TabOrder = 5
         Visible = False
         Width = 93
+      end
+      object edtProductName: TcxTextEdit
+        Left = 109
+        Top = 4
+        TabOrder = 0
+        Text = 'edtProductName'
+        Width = 458
+      end
+    end
+    object cxGridGR: TcxGrid
+      Left = 2
+      Top = 153
+      Width = 780
+      Height = 217
+      Align = alClient
+      TabOrder = 2
+      object cxGridTableGR: TcxGridTableView
+        Navigator.Buttons.CustomButtons = <>
+        OnEditing = cxGridTableGREditing
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridEven
+        Styles.Header = DMClient.cxStyleGridHeader
+        object cxgrdclmnPLU: TcxGridColumn
+          Caption = 'Kode'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnNama: TcxGridColumn
+          Caption = 'Nama'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 83
+        end
+        object cxgrdclmnHarga: TcxGridColumn
+          Caption = 'Harga Satuan'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+          Width = 93
+        end
+        object cxgrdclmnQtyOrder: TcxGridColumn
+          Caption = 'Qty Order'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnQtyRecv: TcxGridColumn
+          Caption = 'Qty Receive'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.OnChange = cxgrdclmnQtyRecvPropertiesChange
+          HeaderAlignmentHorz = taCenter
+          Width = 109
+        end
+        object cxgrdclmnUOM: TcxGridColumn
+          Caption = 'UOM'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnDisc1: TcxGridColumn
+          Caption = 'Disc 1'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnDisc2: TcxGridColumn
+          Caption = 'Disc 2'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnDisc3: TcxGridColumn
+          Caption = 'Disc 3'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnTotalDisc: TcxGridColumn
+          Caption = 'Total Disc'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnPriceAfterDisc: TcxGridColumn
+          Caption = 'Price After Disc'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnTotal: TcxGridColumn
+          Caption = 'Total'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
+      end
+      object cxgrdlvlGR: TcxGridLevel
+        GridView = cxGridTableGR
       end
     end
   end
@@ -509,25 +601,21 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       ExplicitWidth = 784
       inherited lbCTRLEnter: TLabel
         Left = 609
-        Height = 15
         ExplicitLeft = 609
       end
       inherited lbEscape: TLabel
         Left = 700
-        Height = 15
         ExplicitLeft = 700
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 533
-        Height = 15
         ExplicitLeft = 533
       end
     end
   end
   inherited actlstMasterDialog: TActionList
+    Left = 504
+    Top = 112
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

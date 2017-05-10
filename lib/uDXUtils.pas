@@ -173,8 +173,12 @@ type
   end;
 
   TcxGridTableViewHelper = class helper for TcxGridTableView
+  private
   public
     procedure ClearRows;
+    procedure SetValue(AKolomIndex : Integer; AValue : Variant);
+    function Values(AKolomIndex : Integer): Variant;
+    function Double(AKolomIndex : Integer): Variant;
   end;
 
 
@@ -1377,6 +1381,27 @@ begin
   finally
     EndUpdate;
   end;
+end;
+
+procedure TcxGridTableViewHelper.SetValue(AKolomIndex : Integer; AValue :
+    Variant);
+begin
+  Self.DataController.Values[Self.DataController.FocusedRecordIndex, AKolomIndex] := AValue;
+end;
+
+function TcxGridTableViewHelper.Values(AKolomIndex : Integer): Variant;
+begin
+  Result := Null;
+
+  if Self.DataController.FocusedRecordIndex < 0 then
+    Exit;
+
+  Result := Self.DataController.Values[DataController.FocusedRecordIndex,AKolomIndex];
+end;
+
+function TcxGridTableViewHelper.Double(AKolomIndex : Integer): Variant;
+begin
+  Result := Values(AKolomIndex);
 end;
 
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of

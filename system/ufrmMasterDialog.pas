@@ -120,6 +120,7 @@ begin
   FormatSettings.DecimalSeparator   := '.';
   FormatSettings.ThousandSeparator  := ',';
   FormatSettings.CurrencyString     := 'Rp';
+
   Self.AssignKeyDownEvent;
  end;
 
