@@ -1075,9 +1075,8 @@ var
   lKat: TModKategori;
 begin
   If Assigned(FModBarang) then FModBarang.Free;
-  FModBarang := DMClient.CrudClient.Retrieve(TModBarang.ClassName, aID) as TModBarang;
-  edtProductCode.Text             := ModBarang.BRG_CODE;
-  edtProductName.Text             := ModBarang.BRG_NAME;
+  FModBarang := DMClient.CrudClient.Retrieve(TModBarang.ClassName, aID) as TModBarang;    edtProductCode.Text             := ModBarang.BRG_CODE;
+
   edtPLUPurchase.Text             := ModBarang.BRG_CODE_PURCHASE;
   edtProductPurchase.Text         := ModBarang.BRG_NAME_PURCHASE;
   edtCatalog.Text                 := ModBarang.BRG_CATALOG;
@@ -1091,6 +1090,8 @@ begin
   cxLookupLocation.EditValue      := ModBarang.Lokasi.ID;
   cxLookupMerchan.EditValue       := ModBarang.Merchandise.ID;
   cxLookupMerchanGroup.EditValue  := ModBarang.MerchandiseGroup.ID;
+
+  edtProductName.Text             := ModBarang.BRG_NAME;
 
   //subgroup - kategori
   if ModBarang.Kategori.ID <> '' then
