@@ -5,7 +5,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
   ClientHeight = 458
   ClientWidth = 758
   OldCreateOrder = True
-  ExplicitTop = -169
+  ExplicitTop = -66
   ExplicitWidth = 774
   ExplicitHeight = 497
   PixelsPerInch = 96
@@ -14,7 +14,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
     Width = 758
     Height = 369
     BorderWidth = 0
-    ExplicitWidth = 648
+    ExplicitWidth = 758
     ExplicitHeight = 369
     inherited pgcBrowse: TcxPageControl
       Left = 1
@@ -22,28 +22,28 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       Width = 756
       Height = 367
       ExplicitLeft = 1
-      ExplicitTop = 129
-      ExplicitWidth = 646
-      ExplicitHeight = 239
+      ExplicitTop = 1
+      ExplicitWidth = 756
+      ExplicitHeight = 367
       ClientRectBottom = 366
       ClientRectRight = 755
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 644
-        ExplicitHeight = 237
+        ExplicitWidth = 754
+        ExplicitHeight = 365
         inherited cxGrid: TcxGrid
           Width = 754
           Height = 365
-          ExplicitWidth = 644
-          ExplicitHeight = 237
+          ExplicitWidth = 754
+          ExplicitHeight = 365
         end
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 758
-    ExplicitWidth = 648
+    ExplicitWidth = 758
     inherited lblHeader: TLabel
       Width = 155
       Caption = 'LISTING RECEIVING PRODUCT'
@@ -52,29 +52,29 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
     inherited lblFilterData: TcxLabel
       Left = 404
       Visible = True
-      ExplicitLeft = 294
+      ExplicitLeft = 404
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 465
       Visible = True
-      ExplicitLeft = 355
+      ExplicitLeft = 465
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 581
       Visible = True
-      ExplicitLeft = 471
+      ExplicitLeft = 581
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 676
-      ExplicitLeft = 566
+      ExplicitLeft = 676
     end
     inherited lblsdFilter: TcxLabel
       Left = 557
       Visible = True
-      ExplicitLeft = 447
+      ExplicitLeft = 557
       AnchorY = 17
     end
     object cbbSUpMG: TcxExtLookupComboBox
@@ -93,8 +93,6 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       Caption = 'Supplier MG'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 201
-      ExplicitTop = 0
       Height = 31
       Width = 58
       AnchorY = 17
@@ -104,10 +102,10 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
     Top = 402
     Width = 758
     ExplicitTop = 402
-    ExplicitWidth = 648
+    ExplicitWidth = 758
     inherited pnlFooter: TPanel
       Width = 758
-      ExplicitWidth = 648
+      ExplicitWidth = 758
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -120,7 +118,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       inherited btnClose: TcxButton
         Left = 681
         Action = actClose
-        ExplicitLeft = 571
+        ExplicitLeft = 681
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -128,11 +126,11 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
     end
     inherited pnlShortCut: TPanel
       Width = 758
-      ExplicitWidth = 648
+      ExplicitWidth = 758
       inherited lbEscape: TLabel
         Left = 684
         Height = 17
-        ExplicitLeft = 574
+        ExplicitLeft = 684
       end
     end
   end

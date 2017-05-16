@@ -69,8 +69,7 @@ end;
 procedure TfrmListingReceivingProduct.actEditExecute(Sender: TObject);
 begin
   inherited;
-  frmGoodsReceiving := TfrmGoodsReceiving.create(self);
-  frmGoodsReceiving.ShowModal;
+  ShowDialogForm(TfrmGoodsReceiving, cxGridView.DS.FieldByName('DO_id').AsString);
 
 end;
 
@@ -183,7 +182,8 @@ begin
 
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.DO_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date,sUnitID, sSupMGID),Self );
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'REF$MERCHANDISE_ID', 'SUPLIER_MERCHAN_GRUP_ID'],False);
+
+  cxGridView.SetVisibleColumns(['DO_ID','AUT$UNIT_ID', 'REF$MERCHANDISE_ID', 'SUPLIER_MERCHAN_GRUP_ID'],False);
 end;
 
 end.

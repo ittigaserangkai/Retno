@@ -5,7 +5,8 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
   ClientHeight = 492
   ClientWidth = 784
   OldCreateOrder = True
-  ExplicitLeft = -39
+  ExplicitLeft = -11
+  ExplicitTop = -150
   ExplicitWidth = 800
   ExplicitHeight = 531
   PixelsPerInch = 96
@@ -488,8 +489,6 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       Height = 217
       Align = alClient
       TabOrder = 2
-      ExplicitLeft = 82
-      ExplicitTop = 159
       object cxGridTableGR: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnCellClick = cxGridTableGRCellClick
@@ -608,10 +607,12 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         object cxgrdclmnPPNPERSEN: TcxGridColumn
           AlternateCaption = 'DOD_PPN_PERSEN'
           Caption = 'DOD_PPN_PERSEN'
+          Visible = False
         end
         object cxgrdclmnPPNBMPERSEN: TcxGridColumn
           AlternateCaption = 'DOD_PPNBM_PERSEN'
           Caption = 'DOD_PPNBM_PERSEN'
+          Visible = False
         end
         object cxgrdclmnTax: TcxGridColumn
           AlternateCaption = 'DOD_TOTAL_TAX'
@@ -642,10 +643,12 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         object cxgrdclmnISBKP: TcxGridColumn
           AlternateCaption = 'DOD_IS_BKP'
           Caption = 'DOD_IS_BKP'
+          Visible = False
         end
         object cxgrdclmnIsStock: TcxGridColumn
           AlternateCaption = 'DOD_IS_STOCK'
           Caption = 'DOD_IS_STOCK'
+          Visible = False
         end
         object cxgrdclmnPOITEM: TcxGridColumn
           AlternateCaption = 'POITEM'
@@ -688,14 +691,20 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       ExplicitWidth = 784
       inherited lbCTRLEnter: TLabel
         Left = 609
+        Height = 15
         ExplicitLeft = 609
       end
       inherited lbEscape: TLabel
         Left = 700
+        Height = 15
         ExplicitLeft = 700
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 533
+        Height = 15
         ExplicitLeft = 533
       end
     end

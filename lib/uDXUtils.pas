@@ -176,14 +176,14 @@ type
   private
   public
     procedure ClearRows;
-    procedure SetValue(AKolomIndex,ABarisIndex : Integer; AValue : Variant);
-    function Double(AKolomIndex, ABarisIndex : Integer): Double;
+    procedure SetValue(ARec, ACol : Integer; AValue : Variant);
+    function Double(ARec, ACol : Integer): Double;
     function Date(ARec, ACol : Integer): TDatetime;
     function Int(ARec, ACol : Integer): Integer;
     function Text(ARec, ACol : Integer): string;
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
     procedure SetObjectData(AObject : TModApp; ARow : Integer);
-    function Values(AKolomIndex, ABarisIndex : Integer): Variant; overload;
+    function Values(ARec, ACol : Integer): Variant; overload;
   end;
 
 
@@ -792,7 +792,7 @@ begin
       continue;
     with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
     begin
-      If lDS.Fields[i].DataType = ftFloat then
+      If lDS.Fields[i].DataType in [ftFloat, ftFMTBcd, ftBCD] then
       begin
         PropertiesClassName := 'TcxCurrencyEditProperties';
         TcxCurrencyEditProperties( Properties).DisplayFormat := ADisplayFormat;
@@ -1391,19 +1391,18 @@ begin
   end;
 end;
 
-procedure TcxGridTableViewHelper.SetValue(AKolomIndex,ABarisIndex : Integer;
-    AValue : Variant);
+procedure TcxGridTableViewHelper.SetValue(ARec, ACol : Integer; AValue :
+    Variant);
 begin
-  Self.DataController.Values[ABarisIndex, AKolomIndex] := AValue;
+  Self.DataController.Values[ARec, ACol] := AValue;
 end;
 
-function TcxGridTableViewHelper.Double(AKolomIndex, ABarisIndex : Integer):
-    Double;
+function TcxGridTableViewHelper.Double(ARec, ACol : Integer): Double;
 begin
   Result := 0;
 
-  if not VarIsNull(Values(AKolomIndex,ABarisIndex)) then
-    Result := Values(AKolomIndex,ABarisIndex);
+  if not VarIsNull(Values(ARec,ACol)) then
+    Result := Values(ARec,ACol);
 end;
 
 function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
@@ -1516,15 +1515,14 @@ begin
   end;
 end;
 
-function TcxGridTableViewHelper.Values(AKolomIndex, ABarisIndex : Integer):
-    Variant;
+function TcxGridTableViewHelper.Values(ARec, ACol : Integer): Variant;
 begin
   Result := Null;
 
   if Self.DataController.FocusedRecordIndex < 0 then
     Exit;
 
-  Result := Self.DataController.Values[ABarisIndex,AKolomIndex];
+  Result := Self.DataController.Values[ARec,ACol];
 end;
 
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
