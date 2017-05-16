@@ -807,7 +807,9 @@ begin
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   if AUnit <> nil then
-    sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  sSQL := sSQL + ' ORDER BY PO_ID';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;

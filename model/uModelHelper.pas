@@ -37,12 +37,12 @@ end;
 
 procedure TModPOItemHelper.LoadBarang;
 begin
-  Self.POD_BARANG := TModBarang(DMClient.CrudClient.Retrieve(TModBarang.ClassName, Self.POD_BARANG.ID));
+  Self.POD_BARANG := TModBarang(DMClient.CrudClient.RetrieveSingle(TModBarang.ClassName, Self.POD_BARANG.ID));
 end;
 
 procedure TModPOItemHelper.LoadUOM;
 begin
-  Self.POD_UOM := TModSatuan(DMClient.CrudClient.Retrieve(TModSatuan.ClassName,Self.POD_UOM.ID));
+  Self.POD_UOM := TModSatuan(DMClient.CrudClient.RetrieveSingle(TModSatuan.ClassName,Self.POD_UOM.ID));
 end;
 
 procedure TModDOHelper.LoadPO;
