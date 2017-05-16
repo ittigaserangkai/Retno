@@ -3,7 +3,7 @@ unit uModelHelper;
 interface
 uses
   uModApp, uModPO, uModSO,uModSuplier,uModBarang, uModSatuan,
-  System.SysUtils, uDMClient;
+  System.SysUtils, uDMClient, uModDO;
 
 type
   TModPOItemHelper = class helper for  TModPOItem
@@ -16,6 +16,11 @@ type
   public
     procedure LoadPO_SUPPLIER_MERCHAN_GRUP;
     procedure LoadSO;
+  end;
+
+  TModDOHelper = class helper for TModDO
+  public
+    procedure LoadPO;
 
   end;
 implementation
@@ -38,6 +43,11 @@ end;
 procedure TModPOItemHelper.LoadUOM;
 begin
   Self.POD_UOM := TModSatuan(DMClient.CrudClient.Retrieve(TModSatuan.ClassName,Self.POD_UOM.ID));
+end;
+
+procedure TModDOHelper.LoadPO;
+begin
+  Self.PO := TModPO(DMClient.CrudPOClient.RetrieveSingle(TModPO.ClassName, Self.PO.ID));
 end;
 
 end.

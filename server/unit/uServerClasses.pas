@@ -441,7 +441,7 @@ begin
     sSQL := 'update a set a.REF$STATUS_PO_ID = (select REF$STATUS_PO_ID from REF$STATUS_PO' +
             ' where STAPO_NAME = ''RECEIVED'') from PO a' +
             ' inner join DO b on a.PO_ID = b.PO_ID' +
-            ' where a.do_id = ' + QuotedStr(AObject.ID);
+            ' where b.do_id = ' + QuotedStr(AObject.ID);
 
     TDBUtils.ExecuteSQL(sSQL, False);
     Result := True;

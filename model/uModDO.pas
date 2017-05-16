@@ -39,6 +39,8 @@ type
     FSUPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup;
     FUNITSTORE: TModUnit;
     function GetDOItems: TobjectList<TModDOItem>;
+    function GetDO_SUBTOTAL: Double;
+    procedure SetPO(const Value: TModPO);
   public
     destructor Destroy; override;
     property DOItems: TobjectList<TModDOItem> read GetDOItems write FDOItems;
@@ -65,12 +67,13 @@ type
         FDO_PAYMENT_DATE;
     property DO_PPN: Double read FDO_PPN write FDO_PPN;
     property DO_PPNBM: Double read FDO_PPNBM write FDO_PPNBM;
+    property DO_SUBTOTAL: Double read GetDO_SUBTOTAL;
     property DO_TOTAL: Double read FDO_TOTAL write FDO_TOTAL;
 
 
     [AttributeOfForeign('REF$MERCHANDISE_ID')]
     property MERCHANDISE: TModMerchandise read FMERCHANDISE write FMERCHANDISE;
-    property PO: TModPO read FPO write FPO;
+    property PO: TModPO read FPO write SetPO;
 
     [AttributeOfForeign('AUT$UNIT_ID')]
     property DO_UNIT: TModUnit read FDO_UNIT write FDO_UNIT;
@@ -169,6 +172,22 @@ begin
     FDOItems := TObjectList<TModDOItem>.Create();
 
   Result := FDOItems;
+end;
+
+function TModDO.GetDO_SUBTOTAL: Double;
+begin
+  Result := DO_TOTAL + DO_DISC - DO_PPN - DO_PPNBM;
+end;
+
+procedure TModDO.SetPO(const Value: TModPO);
+begin
+  if FPO <> Value then
+  begin
+    FreeAndNil(FPO);
+    FPO := Value;
+  end;
+
+  FPO := Value;
 end;
 
 {
