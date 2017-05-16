@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 05/16/17 8:45:54 AM
+// 5/16/2017 3:56:05 PM
 //
 
 unit uClientClasses;
@@ -407,6 +407,8 @@ type
 
   TDSReportClient = class(TDSAdminRestClient)
   private
+    FDO_GetDSNPCommand: TDSRestCommand;
+    FDO_GetDSNPCommand_Cache: TDSRestCommand;
     FSO_ByDateCommand: TDSRestCommand;
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
@@ -419,6 +421,8 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function DO_GetDSNP(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -1567,6 +1571,18 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_DO_GetDSNP: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_DO_GetDSNP_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -5148,6 +5164,46 @@ begin
   inherited;
 end;
 
+function TDSReportClient.DO_GetDSNP(ANONP: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FDO_GetDSNPCommand = nil then
+  begin
+    FDO_GetDSNPCommand := FConnection.CreateCommand;
+    FDO_GetDSNPCommand.RequestType := 'GET';
+    FDO_GetDSNPCommand.Text := 'TDSReport.DO_GetDSNP';
+    FDO_GetDSNPCommand.Prepare(TDSReport_DO_GetDSNP);
+  end;
+  FDO_GetDSNPCommand.Parameters[0].Value.SetWideString(ANONP);
+  FDO_GetDSNPCommand.Execute(ARequestFilter);
+  if not FDO_GetDSNPCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FDO_GetDSNPCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FDO_GetDSNPCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FDO_GetDSNPCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FDO_GetDSNPCommand_Cache = nil then
+  begin
+    FDO_GetDSNPCommand_Cache := FConnection.CreateCommand;
+    FDO_GetDSNPCommand_Cache.RequestType := 'GET';
+    FDO_GetDSNPCommand_Cache.Text := 'TDSReport.DO_GetDSNP';
+    FDO_GetDSNPCommand_Cache.Prepare(TDSReport_DO_GetDSNP_Cache);
+  end;
+  FDO_GetDSNPCommand_Cache.Parameters[0].Value.SetWideString(ANONP);
+  FDO_GetDSNPCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FDO_GetDSNPCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSReportClient.SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_ByDateCommand = nil then
@@ -5332,6 +5388,8 @@ end;
 
 destructor TDSReportClient.Destroy;
 begin
+  FDO_GetDSNPCommand.DisposeOf;
+  FDO_GetDSNPCommand_Cache.DisposeOf;
   FSO_ByDateCommand.DisposeOf;
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;

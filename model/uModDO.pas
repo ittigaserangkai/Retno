@@ -44,6 +44,7 @@ type
   public
     destructor Destroy; override;
     property DOItems: TobjectList<TModDOItem> read GetDOItems write FDOItems;
+    property DO_SUBTOTAL: Double read GetDO_SUBTOTAL;
   published
     property DO_CN: Double read FDO_CN write FDO_CN;
     property DO_COLIE_BONUS: Double read FDO_COLIE_BONUS write FDO_COLIE_BONUS;
@@ -67,7 +68,6 @@ type
         FDO_PAYMENT_DATE;
     property DO_PPN: Double read FDO_PPN write FDO_PPN;
     property DO_PPNBM: Double read FDO_PPNBM write FDO_PPNBM;
-    property DO_SUBTOTAL: Double read GetDO_SUBTOTAL;
     property DO_TOTAL: Double read FDO_TOTAL write FDO_TOTAL;
 
 

@@ -6,6 +6,7 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 926
   KeyPreview = True
   OldCreateOrder = True
+  ExplicitTop = -157
   ExplicitWidth = 942
   ExplicitHeight = 629
   PixelsPerInch = 96
@@ -13,8 +14,6 @@ inherited frmProduct: TfrmProduct
   inherited pnlBody: TPanel
     Width = 926
     Height = 501
-    ExplicitLeft = 250
-    ExplicitTop = 48
     ExplicitWidth = 926
     ExplicitHeight = 501
     inherited pgcBrowse: TcxPageControl
@@ -26,14 +25,13 @@ inherited frmProduct: TfrmProduct
       ClientRectRight = 903
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
-        ExplicitTop = 24
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 902
-        ExplicitHeight = 454
+        ExplicitHeight = 477
         inherited cxGrid: TcxGrid
           Width = 902
           Height = 477
-          ExplicitLeft = -1
-          ExplicitTop = 6
           ExplicitWidth = 902
           ExplicitHeight = 477
         end
@@ -1264,18 +1262,20 @@ inherited frmProduct: TfrmProduct
     inherited lblFilterData: TcxLabel
       Left = 155
       Align = alLeft
-      ExplicitLeft = 572
+      ExplicitLeft = 155
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 216
       Align = alLeft
-      ExplicitLeft = 633
+      ExplicitLeft = 216
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 332
       Align = alLeft
-      ExplicitLeft = 749
+      ExplicitLeft = 332
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 844
@@ -1285,7 +1285,6 @@ inherited frmProduct: TfrmProduct
       Left = 308
       Align = alLeft
       ExplicitLeft = 308
-      ExplicitTop = 2
       AnchorY = 17
     end
     object cxLookupMerchanGroup: TcxExtLookupComboBox
@@ -1304,9 +1303,6 @@ inherited frmProduct: TfrmProduct
       StyleFocused.LookAndFeel.NativeStyle = False
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 5
-      ExplicitLeft = 101
-      ExplicitTop = 9
-      ExplicitHeight = 24
       Width = 188
     end
     object cxLabel1: TcxLabel
@@ -1336,6 +1332,7 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 926
       inherited btnAdd: TcxButton
         Action = actAdd
+        ExplicitTop = 5
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
@@ -1357,6 +1354,7 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 926
       inherited lbEscape: TLabel
         Left = 852
+        Height = 17
         ExplicitLeft = 852
       end
     end

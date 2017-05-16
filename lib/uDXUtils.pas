@@ -1518,9 +1518,6 @@ function TcxGridTableViewHelper.Values(ARec, ACol : Integer): Variant;
 begin
   Result := Null;
 
-  if Self.DataController.FocusedRecordIndex < 0 then
-    Exit;
-
   Result := Self.DataController.Values[ARec,ACol];
 end;
 
