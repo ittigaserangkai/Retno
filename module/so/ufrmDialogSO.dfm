@@ -72,6 +72,8 @@ inherited frmDialogSO: TfrmDialogSO
       object dtTgl: TcxDateEdit
         Left = 419
         Top = 4
+        Properties.SaveTime = False
+        Properties.ShowTime = False
         TabOrder = 1
         Width = 195
       end
@@ -163,6 +165,7 @@ inherited frmDialogSO: TfrmDialogSO
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       object cxGridView: TcxGridDBTableView
+        PopupMenu = pmGrid
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -422,6 +425,7 @@ inherited frmDialogSO: TfrmDialogSO
       end
       inherited btnPrint: TcxButton
         Left = 643
+        OnClick = btnPrintClick
         ExplicitLeft = 643
       end
     end
@@ -468,6 +472,18 @@ inherited frmDialogSO: TfrmDialogSO
       ImageIndex = 0
       ShortCut = 16449
       OnExecute = actAddProdExecute
+    end
+  end
+  object pmGrid: TPopupMenu
+    Left = 224
+    Top = 280
+    object CheckAll1: TMenuItem
+      Caption = 'Check All'
+      OnClick = CheckAll1Click
+    end
+    object UnCheckAll1: TMenuItem
+      Caption = 'UnCheck All'
+      OnClick = UnCheckAll1Click
     end
   end
 end

@@ -176,11 +176,11 @@ begin
     if (AutoRefreshData) and (Result = mrOk) then
       RefreshData;
 
-    Self.SetFocusRec(cxGrid);
   Finally
     FreeAndNil(frm);
-    Self.Enabled := True;
     Self.Cursor := crDefault;
+    Self.Enabled := True;
+    Self.SetFocusRec(cxGrid);
   End;
 end;
 

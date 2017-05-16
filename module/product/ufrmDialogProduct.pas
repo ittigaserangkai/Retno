@@ -519,9 +519,14 @@ begin
 end;
 
 procedure TfrmDialogProduct.btnDelKonvClick(Sender: TObject);
+var
+  iRec: Integer;
 begin
   inherited;
+  if CDSKonv.State in [dsEdit, dsInsert ] then CDSKonv.Post;
   if not CDSKonv.Eof then CDSKonv.Delete;
+//  iRec := cxGrdDBKonversi.DataController.FocusedRecordIndex;
+//  cxGrdDBKonversi.DataController.DeleteRecord(iRec);
 end;
 
 procedure TfrmDialogProduct.btnDelSuppClick(Sender: TObject);
