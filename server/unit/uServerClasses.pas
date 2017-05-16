@@ -46,6 +46,7 @@ type
   public
     function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
         aSupplierMerchan_ID: String = ''): TDataSet;
+    function RetrieveDetails(aID: String): TDataSet;
   end;
 
   TCrudPO = class(TCRud)
@@ -338,6 +339,14 @@ begin
     + TDBUtils.QuotD(aTanggal)  +')';
   if aSupplierMerchan_ID <> '' then
     S := S + ' where SUPLIER_MERCHAN_ID = ' + QuotedStr(aSupplierMerchan_ID);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TSuggestionOrder.RetrieveDetails(aID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_SO_DETAIL where SO_ID = ' + QuotedStr(Aid);
   Result := TDBUtils.OpenQuery(S);
 end;
 

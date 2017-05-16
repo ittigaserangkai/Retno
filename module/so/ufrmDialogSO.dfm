@@ -449,8 +449,8 @@ inherited frmDialogSO: TfrmDialogSO
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 704
-    Top = 40
+    Left = 736
+    Top = 8
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
