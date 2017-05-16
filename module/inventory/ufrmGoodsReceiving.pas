@@ -13,7 +13,8 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, uDBUtils,
   uDXUtils, uDMClient, uRetnoUnit, Datasnap.DBClient, uAppUtils,
-  System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog, uModDO;
+  System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog,
+  uModDO, uModSuplier, uModSO, uModUnit;
 
 type
   TfrmGoodsReceiving = class(TfrmMasterDialog)
@@ -1026,6 +1027,10 @@ begin
   ModDO.DO_PPNBM := edPPNBM.Value;
   ModDO.DO_TOTAL := edTotalBeli.Value;
   ModDO.PO       := TModPO.CreateID(FPO.ID);
+  ModDO.SUPLIER_MERCHAN_GRUP := TModSuplierMerchanGroup.CreateID(FPO.PO_SUPPLIER_MERCHAN_GRUP.ID);
+  ModDO.SO := TModSO.CreateID(FPO.PO_SO.ID);
+  ModDO.MERCHANDISE := TModMerchandise.CreateID(FPO.PO_SO.Merchandise.ID);
+  ModDO.DO_UNIT := TModUnit.CreateID(FPO.PO_UNIT.ID);
 
   UpdateDOItems;
 
