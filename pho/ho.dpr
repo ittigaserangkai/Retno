@@ -197,7 +197,11 @@ uses
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
   uDMReport in '..\system\uDMReport.pas' {DMReport},
-  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi};
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
+  uModPO in '..\model\uModPO.pas',
+  uModelHelper in '..\model\uModelHelper.pas',
+  uModSO in '..\model\uModSO.pas',
+  uModDO in '..\model\uModDO.pas';
 
 {$R *.res}
 

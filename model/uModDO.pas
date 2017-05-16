@@ -34,14 +34,15 @@ type
     FDO_TOTAL: Double;
     FMERCHANDISE: TModMerchandise;
     FPO: TModPO;
+    FDO_UNIT: TModUnit;
     FSO: TModSO;
     FSUPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup;
     FUNITSTORE: TModUnit;
     function GetDOItems: TobjectList<TModDOItem>;
   public
     destructor Destroy; override;
-  published
     property DOItems: TobjectList<TModDOItem> read GetDOItems write FDOItems;
+  published
     property DO_CN: Double read FDO_CN write FDO_CN;
     property DO_COLIE_BONUS: Double read FDO_COLIE_BONUS write FDO_COLIE_BONUS;
     property DO_COLIE_BONUS_RECV: Double read FDO_COLIE_BONUS_RECV write
@@ -65,12 +66,19 @@ type
     property DO_PPN: Double read FDO_PPN write FDO_PPN;
     property DO_PPNBM: Double read FDO_PPNBM write FDO_PPNBM;
     property DO_TOTAL: Double read FDO_TOTAL write FDO_TOTAL;
+
+
+    [AttributeOfForeign('REF$MERCHANDISE_ID')]
     property MERCHANDISE: TModMerchandise read FMERCHANDISE write FMERCHANDISE;
     property PO: TModPO read FPO write FPO;
+
+    [AttributeOfForeign('AUT$UNIT_ID')]
+    property DO_UNIT: TModUnit read FDO_UNIT write FDO_UNIT;
     property SO: TModSO read FSO write FSO;
+
+    [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
     property SUPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup read
         FSUPLIER_MERCHAN_GRUP write FSUPLIER_MERCHAN_GRUP;
-    property UNITSTORE: TModUnit read FUNITSTORE write FUNITSTORE;
   end;
 
   TModDOItem = class(TModApp)
@@ -99,6 +107,7 @@ type
     FSATUAN: TModSatuan;
   public
     destructor Destroy; override;
+    class function GetTableName: String; override;
   published
     [AttributeOfForeign('BARANG_ID')]
     property BARANG: TModBarang read FBARANG write FBARANG;
@@ -106,7 +115,7 @@ type
     property DOD_DISC2: Double read FDOD_DISC2 write FDOD_DISC2;
     property DOD_DISC3: Double read FDOD_DISC3 write FDOD_DISC3;
 
-    [AttributeOfHeader('PO_ID')]
+    [AttributeOfHeader('DO_ID')]
     property DOD_DO: TModDO read FDOD_DO write FDOD_DO;
     property DOD_IS_BKP: Double read FDOD_IS_BKP write FDOD_IS_BKP;
     property DOD_IS_STOCK: Double read FDOD_IS_STOCK write FDOD_IS_STOCK;
@@ -128,7 +137,7 @@ type
     property DOD_TOTAL_TAX: Double read FDOD_TOTAL_TAX write FDOD_TOTAL_TAX;
     property DOD_TOTAL_TEMP: Double read FDOD_TOTAL_TEMP write FDOD_TOTAL_TEMP;
 
-    [AttributeOfForeign('PODETAIL_ID')]
+    [AttributeOfForeign('PO_DETAIL_ID')]
     property POITEM: TModPOItem read FPOITEM write FPOITEM;
 
     [AttributeOfForeign('REF$SATUAN_ID')]
@@ -172,6 +181,11 @@ begin
 
   FreeAndNil(FSATUAN);
   FreeAndNil(FPOITEM);
+end;
+
+class function TModDOItem.GetTableName: String;
+begin
+  Result := 'DO_DETAIL'
 end;
 
 
