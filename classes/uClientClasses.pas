@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 5/15/2017 4:09:06 PM
+// 05/16/17 8:45:54 AM
 //
 
 unit uClientClasses;
@@ -433,6 +433,8 @@ type
   private
     FGenerateSOCommand: TDSRestCommand;
     FGenerateSOCommand_Cache: TDSRestCommand;
+    FRetrieveDetailsCommand: TDSRestCommand;
+    FRetrieveDetailsCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -440,6 +442,8 @@ type
     destructor Destroy; override;
     function GenerateSO(aTanggal: TDateTime; aMerchan_ID: string; aSupplierMerchan_ID: string; const ARequestFilter: string = ''): TDataSet;
     function GenerateSO_Cache(aTanggal: TDateTime; aMerchan_ID: string; aSupplierMerchan_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RetrieveDetails(aID: string; const ARequestFilter: string = ''): TDataSet;
+    function RetrieveDetails_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     procedure AfterExecuteMethod;
   end;
 
@@ -1639,6 +1643,18 @@ const
     (Name: 'aTanggal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aMerchan_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aSupplierMerchan_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TSuggestionOrder_RetrieveDetails: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TSuggestionOrder_RetrieveDetails_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -5362,6 +5378,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FGenerateSOCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TSuggestionOrderClient.RetrieveDetails(aID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FRetrieveDetailsCommand = nil then
+  begin
+    FRetrieveDetailsCommand := FConnection.CreateCommand;
+    FRetrieveDetailsCommand.RequestType := 'GET';
+    FRetrieveDetailsCommand.Text := 'TSuggestionOrder.RetrieveDetails';
+    FRetrieveDetailsCommand.Prepare(TSuggestionOrder_RetrieveDetails);
+  end;
+  FRetrieveDetailsCommand.Parameters[0].Value.SetWideString(aID);
+  FRetrieveDetailsCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRetrieveDetailsCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRetrieveDetailsCommand.FreeOnExecute(Result);
+end;
+
+function TSuggestionOrderClient.RetrieveDetails_Cache(aID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRetrieveDetailsCommand_Cache = nil then
+  begin
+    FRetrieveDetailsCommand_Cache := FConnection.CreateCommand;
+    FRetrieveDetailsCommand_Cache.RequestType := 'GET';
+    FRetrieveDetailsCommand_Cache.Text := 'TSuggestionOrder.RetrieveDetails';
+    FRetrieveDetailsCommand_Cache.Prepare(TSuggestionOrder_RetrieveDetails_Cache);
+  end;
+  FRetrieveDetailsCommand_Cache.Parameters[0].Value.SetWideString(aID);
+  FRetrieveDetailsCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRetrieveDetailsCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 procedure TSuggestionOrderClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -5387,6 +5434,8 @@ destructor TSuggestionOrderClient.Destroy;
 begin
   FGenerateSOCommand.DisposeOf;
   FGenerateSOCommand_Cache.DisposeOf;
+  FRetrieveDetailsCommand.DisposeOf;
+  FRetrieveDetailsCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
