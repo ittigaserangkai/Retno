@@ -5,8 +5,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
   ClientHeight = 492
   ClientWidth = 784
   OldCreateOrder = True
-  ExplicitLeft = -6
-  ExplicitTop = -155
+  ExplicitLeft = -39
   ExplicitWidth = 800
   ExplicitHeight = 531
   PixelsPerInch = 96
@@ -171,6 +170,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
+        Visible = False
       end
       object btn1: TcxButton
         Left = 174
@@ -219,6 +219,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Width = 415
       end
       object edtDONo: TcxTextEdit
+        Tag = 1
         Left = 66
         Top = 60
         TabOrder = 2
@@ -241,48 +242,53 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         OnKeyPress = edtDONoKeyPress
         Width = 140
       end
-      object jvcuredtSubTotal: TcxCurrencyEdit
+      object edSubTotal: TcxCurrencyEdit
         Left = 670
         Top = 4
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 13
         Width = 99
       end
-      object jvcuredtPPN: TcxCurrencyEdit
+      object edPPN: TcxCurrencyEdit
         Left = 670
         Top = 60
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 15
         Width = 99
       end
-      object jvcuredtPPNBM: TcxCurrencyEdit
+      object edPPNBM: TcxCurrencyEdit
         Left = 670
         Top = 88
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 16
         Width = 99
       end
-      object jvcuredtDiscount: TcxCurrencyEdit
+      object edDiscount: TcxCurrencyEdit
         Left = 670
         Top = 32
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 14
         Width = 99
       end
-      object jvcuredtTotalBeli: TcxCurrencyEdit
+      object edTotalBeli: TcxCurrencyEdit
         Left = 670
         Top = 116
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 17
         Width = 99
       end
@@ -298,9 +304,10 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       object edTotalColie: TcxCurrencyEdit
         Left = 430
         Top = 32
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 9
         Width = 51
       end
@@ -316,9 +323,10 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       object edTotalOrder: TcxCurrencyEdit
         Left = 430
         Top = 4
+        EditValue = 0.000000000000000000
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.0#;(,0.0#)'
         TabOrder = 8
         BiDiMode = bdLeftToRight
         ParentBiDiMode = False
@@ -361,6 +369,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         OnClick = btn2Click
       end
       object edPO: TcxTextEdit
+        Tag = 1
         Left = 66
         Top = 4
         TabOrder = 0
@@ -377,8 +386,8 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       BevelInner = bvRaised
       BevelOuter = bvLowered
       Color = 15198183
+      Enabled = False
       TabOrder = 1
-      Visible = False
       object lbl18: TLabel
         Left = 15
         Top = 35
@@ -425,7 +434,9 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       object edDisc1: TcxCurrencyEdit
         Left = 64
         Top = 35
-        TabOrder = 1
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        TabOrder = 0
         BiDiMode = bdLeftToRight
         ParentBiDiMode = False
         Width = 39
@@ -433,7 +444,9 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       object edDisc2: TcxCurrencyEdit
         Left = 159
         Top = 35
-        TabOrder = 2
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        TabOrder = 1
         BiDiMode = bdLeftToRight
         ParentBiDiMode = False
         Width = 39
@@ -441,28 +454,31 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       object edNilaiDisc: TcxCurrencyEdit
         Left = 258
         Top = 35
-        TabOrder = 3
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        TabOrder = 2
         Width = 82
       end
       object edTotalDisc: TcxCurrencyEdit
         Left = 403
         Top = 35
-        TabOrder = 4
-        Width = 164
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        TabOrder = 3
+        Width = 118
       end
       object edSellPrice: TcxCurrencyEdit
         Left = 693
         Top = 34
-        TabOrder = 5
+        TabOrder = 4
         Visible = False
         Width = 93
       end
-      object edtProductName: TcxTextEdit
-        Left = 109
+      object cbbProductName: TcxExtLookupComboBox
+        Left = 90
         Top = 4
-        TabOrder = 0
-        Text = 'edtProductName'
-        Width = 458
+        TabOrder = 5
+        Width = 431
       end
     end
     object cxGridGR: TcxGrid
@@ -472,97 +488,168 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       Height = 217
       Align = alClient
       TabOrder = 2
+      ExplicitLeft = 82
+      ExplicitTop = 159
       object cxGridTableGR: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
+        OnCellClick = cxGridTableGRCellClick
         OnEditing = cxGridTableGREditing
+        OnFocusedRecordChanged = cxGridTableGRFocusedRecordChanged
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsCustomize.ColumnSorting = False
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxgrdclmnPLU: TcxGridColumn
+          AlternateCaption = 'Barang'
           Caption = 'Kode'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
+          Width = 90
         end
         object cxgrdclmnNama: TcxGridColumn
           Caption = 'Nama'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 83
+          Width = 103
         end
         object cxgrdclmnHarga: TcxGridColumn
+          AlternateCaption = 'DOD_PRICE'
           Caption = 'Harga Satuan'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
           HeaderAlignmentHorz = taCenter
           Width = 93
         end
         object cxgrdclmnQtyOrder: TcxGridColumn
+          AlternateCaption = 'DOD_QTY_ORDER'
           Caption = 'Qty Order'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
           HeaderAlignmentHorz = taCenter
+          Width = 90
         end
         object cxgrdclmnQtyRecv: TcxGridColumn
+          AlternateCaption = 'DOD_QTY_ORDER_RECV'
           Caption = 'Qty Receive'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',#.##;(,#.##)'
-          Properties.OnChange = cxgrdclmnQtyRecvPropertiesChange
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Properties.OnValidate = cxgrdclmnQtyRecvPropertiesValidate
           HeaderAlignmentHorz = taCenter
-          Width = 109
+          Width = 90
         end
         object cxgrdclmnUOM: TcxGridColumn
           Caption = 'UOM'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
+          Width = 76
         end
         object cxgrdclmnDisc1: TcxGridColumn
+          AlternateCaption = 'BOD_Disc1'
           Caption = 'Disc 1'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object cxgrdclmnDisc2: TcxGridColumn
+          AlternateCaption = 'BOD_Disc2'
           Caption = 'Disc 2'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object cxgrdclmnDisc3: TcxGridColumn
+          AlternateCaption = 'BOD_Disc3'
           Caption = 'Disc 3'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object cxgrdclmnTotalDisc: TcxGridColumn
+          AlternateCaption = 'DOD_TOTAL_DISC'
           Caption = 'Total Disc'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
-        object cxgrdclmnPriceAfterDisc: TcxGridColumn
-          Caption = 'Price After Disc'
+        object cxgrdclmnPPN: TcxGridColumn
+          AlternateCaption = 'DOD_PPN'
+          Caption = 'PPN'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          HeaderGlyphAlignmentHorz = taCenter
+        end
+        object cxgrdclmnPPNBM: TcxGridColumn
+          AlternateCaption = 'DOD_PPNBM'
+          Caption = 'PPNBM'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          HeaderGlyphAlignmentHorz = taCenter
+        end
+        object cxgrdclmnPPNPERSEN: TcxGridColumn
+          AlternateCaption = 'DOD_PPN_PERSEN'
+          Caption = 'DOD_PPN_PERSEN'
+        end
+        object cxgrdclmnPPNBMPERSEN: TcxGridColumn
+          AlternateCaption = 'DOD_PPNBM_PERSEN'
+          Caption = 'DOD_PPNBM_PERSEN'
+        end
+        object cxgrdclmnTax: TcxGridColumn
+          AlternateCaption = 'DOD_TOTAL_TAX'
+          Caption = 'Tax'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnLinePrice: TcxGridColumn
+          AlternateCaption = 'DOD_TOTAL_TEMP'
+          Caption = 'Line Price'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
           Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object cxgrdclmnTotal: TcxGridColumn
+          AlternateCaption = 'DOD_TOTAL'
           Caption = 'Total'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.DisplayFormat = ',0.0#;(,0.0#)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnISBKP: TcxGridColumn
+          AlternateCaption = 'DOD_IS_BKP'
+          Caption = 'DOD_IS_BKP'
+        end
+        object cxgrdclmnIsStock: TcxGridColumn
+          AlternateCaption = 'DOD_IS_STOCK'
+          Caption = 'DOD_IS_STOCK'
+        end
+        object cxgrdclmnPOITEM: TcxGridColumn
+          AlternateCaption = 'POITEM'
+          Caption = 'POITEM'
         end
       end
       object cxgrdlvlGR: TcxGridLevel
@@ -601,14 +688,20 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       ExplicitWidth = 784
       inherited lbCTRLEnter: TLabel
         Left = 609
+        Height = 15
         ExplicitLeft = 609
       end
       inherited lbEscape: TLabel
         Left = 700
+        Height = 15
         ExplicitLeft = 700
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 533
+        Height = 15
         ExplicitLeft = 533
       end
     end

@@ -72,8 +72,8 @@ object frmMain: TfrmMain
     Font.Style = []
   end
   object mmMainMenu: TMainMenu
-    Left = 496
-    Top = 128
+    Left = 16
+    Top = 136
     object mmSistem1: TMenuItem
       Caption = '&System'
       object miLogin1: TMenuItem
@@ -156,8 +156,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 448
-    Top = 224
+    Left = 16
+    Top = 176
     object actOnCreateForm: TAction
       Caption = 'actOnCreateForm'
       OnExecute = actOnCreateFormExecute

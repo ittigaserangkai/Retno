@@ -42,7 +42,7 @@ uses
   uModRefAgama in '..\model\uModRefAgama.pas',
   uModQuotation in '..\model\uModQuotation.pas',
   uModSO in '..\model\uModSO.pas',
-  uModPO in '..\model\uModPO.pas',
+  uModPO in '..\model\uModPO.pas' ,
   uModDO in '..\model\uModDO.pas';
 
 {$R *.res}

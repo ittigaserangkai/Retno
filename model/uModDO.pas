@@ -100,10 +100,13 @@ type
   public
     destructor Destroy; override;
   published
+    [AttributeOfForeign('BARANG_ID')]
     property BARANG: TModBarang read FBARANG write FBARANG;
     property DOD_DISC1: Double read FDOD_DISC1 write FDOD_DISC1;
     property DOD_DISC2: Double read FDOD_DISC2 write FDOD_DISC2;
     property DOD_DISC3: Double read FDOD_DISC3 write FDOD_DISC3;
+
+    [AttributeOfHeader('PO_ID')]
     property DOD_DO: TModDO read FDOD_DO write FDOD_DO;
     property DOD_IS_BKP: Double read FDOD_IS_BKP write FDOD_IS_BKP;
     property DOD_IS_STOCK: Double read FDOD_IS_STOCK write FDOD_IS_STOCK;
@@ -124,7 +127,11 @@ type
     property DOD_TOTAL_DISC: Double read FDOD_TOTAL_DISC write FDOD_TOTAL_DISC;
     property DOD_TOTAL_TAX: Double read FDOD_TOTAL_TAX write FDOD_TOTAL_TAX;
     property DOD_TOTAL_TEMP: Double read FDOD_TOTAL_TEMP write FDOD_TOTAL_TEMP;
+
+    [AttributeOfForeign('PODETAIL_ID')]
     property POITEM: TModPOItem read FPOITEM write FPOITEM;
+
+    [AttributeOfForeign('REF$SATUAN_ID')]
     property SATUAN: TModSatuan read FSATUAN write FSATUAN;
   end;
 
@@ -168,5 +175,8 @@ begin
 end;
 
 
+
+initialization
+  TFilterClass.RegisterRTTI;
 
 end.

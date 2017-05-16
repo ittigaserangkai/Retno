@@ -93,8 +93,10 @@ type
     FPO_DELIVER_DATE: TDateTime;
     FPO_DESCRIPTION: string;
     FPO_DESC_PRINT: string;
+    FPO_DISC: Double;
     FPO_IS_PO_BONUS: Integer;
     FPO_NO: string;
+    FPO_PPN: Double;
     FPO_PPNBM: Double;
     FPO_PRINTCOUNT: Integer;
     FPO_SERVICE_LEVEL: Double;
@@ -103,20 +105,17 @@ type
     FPO_SUPPLIER: TModSuplier;
     FPO_SUPPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup;
     FPO_TOP: Integer;
+    FPO_TOTAL: Double;
     FPO_UNIT: TModUnit;
     FPO_VALID_DATE: TDatetime;
     function GetPOItems: TObjectList<TModPOItem>;
-    function GetPO_DISC: Double;
-    function GetPO_PPN: Double;
-    function GetPO_TOTAL: Double;
-    procedure SetPO_DISC(Value: Double);
-    procedure SetPO_PPN(Value: Double);
+    function GetPO_SUBTOTAL: Double;
     procedure SetPO_SO(const Value: TModSO);
     procedure SetPO_SUPPLIER_MERCHAN_GRUP(const Value: TModSuplierMerchanGroup);
-    procedure SetPO_TOTAL(Value: Double);
   public
     property POItems: TObjectList<TModPOItem> read GetPOItems write FPOItems;
     property PO_NO_REF: string read FPO_NO_REF write FPO_NO_REF;
+    property PO_SUBTOTAL: Double read GetPO_SUBTOTAL;
   published
     property PO_COLIE: Double read FPO_COLIE write FPO_COLIE;
     property PO_DATE: TDateTime read FPO_DATE write FPO_DATE;
@@ -124,12 +123,12 @@ type
         FPO_DELIVER_DATE;
     property PO_DESCRIPTION: string read FPO_DESCRIPTION write FPO_DESCRIPTION;
     property PO_DESC_PRINT: string read FPO_DESC_PRINT write FPO_DESC_PRINT;
-    property PO_DISC: Double read GetPO_DISC write SetPO_DISC;
+    property PO_DISC: Double read FPO_DISC write FPO_DISC;
     property PO_IS_PO_BONUS: Integer read FPO_IS_PO_BONUS write FPO_IS_PO_BONUS;
 
     [AttributeOfCode]
     property PO_NO: string read FPO_NO write FPO_NO;
-    property PO_PPN: Double read GetPO_PPN write SetPO_PPN;
+    property PO_PPN: Double read FPO_PPN write FPO_PPN;
     property PO_PPNBM: Double read FPO_PPNBM write FPO_PPNBM;
     property PO_PRINTCOUNT: Integer read FPO_PRINTCOUNT write FPO_PRINTCOUNT;
     property PO_SERVICE_LEVEL: Double read FPO_SERVICE_LEVEL write
@@ -149,7 +148,7 @@ type
     property PO_TOP: Integer read FPO_TOP write FPO_TOP;
 
 
-    property PO_TOTAL: Double read GetPO_TOTAL write SetPO_TOTAL;
+    property PO_TOTAL: Double read FPO_TOTAL write FPO_TOTAL;
 
     [AttributeOfForeign('AUT$UNIT_ID')]
     property PO_UNIT: TModUnit read FPO_UNIT write FPO_UNIT;
@@ -171,30 +170,9 @@ begin
   Result := FPOItems;
 end;
 
-{
-************************************ TModPO ************************************
-}
-function TModPO.GetPO_DISC: Double;
+function TModPO.GetPO_SUBTOTAL: Double;
 begin
-  Result := 0;
-end;
-
-function TModPO.GetPO_PPN: Double;
-begin
-  Result := 0;
-end;
-
-function TModPO.GetPO_TOTAL: Double;
-begin
-  Result := 0;
-end;
-
-procedure TModPO.SetPO_DISC(Value: Double);
-begin
-end;
-
-procedure TModPO.SetPO_PPN(Value: Double);
-begin
+  Result := PO_TOTAL + PO_DISC - PO_PPN - PO_PPNBM;
 end;
 
 procedure TModPO.SetPO_SO(const Value: TModSO);
@@ -212,10 +190,6 @@ begin
     FreeAndNil(FPO_SUPPLIER_MERCHAN_GRUP);
 
   FPO_SUPPLIER_MERCHAN_GRUP := Value;
-end;
-
-procedure TModPO.SetPO_TOTAL(Value: Double);
-begin
 end;
 
 class function TModPOItem.GetTableName: String;

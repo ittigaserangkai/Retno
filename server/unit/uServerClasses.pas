@@ -59,6 +59,10 @@ type
   end;
 
   TCrudDO = class(TCrud)
+  private
+    function UpdateStatusPO(AObject: TModApp): Boolean;
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 
@@ -398,6 +402,45 @@ procedure TBaseServerClass.AfterExecuteMethod;
 begin
   if CloseSession then
     GetInvocationMetaData.CloseSession := True;
+end;
+
+function TCrudDO.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  inherited;
+
+  Result := False;
+
+  if UpdateStatusPO(AObject) then
+    Result := True;
+
+end;
+
+function TCrudDO.UpdateStatusPO(AObject: TModApp): Boolean;
+var
+  sSQL: string;
+begin
+  try
+    sSQL := 'update a set a.REF$STATUS_PO_ID = (select REF$STATUS_PO_ID from REF$STATUS_PO' +
+            ' where STAPO_NAME = ''GENERATED'') from PO a' +
+            ' left join DO b on a.PO_ID = b.PO_ID' +
+            ' left join REF$STATUS_PO c on a.REF$STATUS_PO_ID = c.REF$STATUS_PO_ID' +
+            ' where b.PO_ID is null' +
+            ' and c.STAPO_NAME not in (''CANCEL'',''CLOSE'')';
+
+    TDBUtils.ExecuteSQL(sSQL, False);
+
+    sSQL := 'update a set a.REF$STATUS_PO_ID = (select REF$STATUS_PO_ID from REF$STATUS_PO' +
+            ' where STAPO_NAME = ''RECEIVED'') from PO a' +
+            ' inner join DO b on a.PO_ID = b.PO_ID' +
+            ' where a.do_id = ' + QuotedStr(AObject.ID);
+
+    TDBUtils.ExecuteSQL(sSQL, False);
+    Result := True;
+  except
+    Result := False;
+  end;
+
+
 end;
 
 end.
