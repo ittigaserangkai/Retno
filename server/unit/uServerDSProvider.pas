@@ -105,6 +105,7 @@ type
   TDSReport = class(TComponent)
   private
   public
+    function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -953,6 +954,17 @@ begin
 
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_DO_NP where DO_NP = ' + QuotedStr(ANONP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 
 function TDSReport.SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;

@@ -14,7 +14,7 @@ uses
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, uDBUtils,
   uDXUtils, uDMClient, uRetnoUnit, Datasnap.DBClient, uAppUtils,
   System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog,
-  uModDO, uModSuplier, uModSO, uModUnit,uInterface;
+  uModDO, uModSuplier, uModSO, uModUnit,uInterface, uDMReport;
 
 type
   TfrmGoodsReceiving = class(TfrmMasterDialog, ICRUDAble)
@@ -163,7 +163,7 @@ var
 
 implementation
 
-uses uTSCommonDlg,uConstanta, ufrmSearchPO, udmReport, VarUtils, ufrmReprintNP;
+uses uTSCommonDlg,uConstanta, ufrmSearchPO,  VarUtils, ufrmReprintNP;
 
 {$R *.dfm}
 
@@ -831,47 +831,12 @@ begin
 end;
 
 procedure TfrmGoodsReceiving.btnCheckListClick(Sender: TObject);
-var SeparatorDate: Char;
-    i: Integer;
-    colieRcv, bonus: Real;
 begin
-  if CommonDlg.Confirm('Are you sure you wish to print NP?')= mrNo
-  then Exit;
-  SeparatorDate:= FormatSettings.DateSeparator;
-  {
-  try
-    FormatSettings.DateSeparator:= '/';
-    bonus:= 0;
-    colieRcv:= 0;
-
-    if strgGrid.RowCount > 1 then
-      for i:= 1 to (strgGrid.RowCount-1) do begin
-        bonus:= bonus + StrToFloat(strgGrid.Cells[6,i]);
-        colieRcv:= colieRcv + StrToFloat(strgGrid.Cells[4,i]);
-      end;
-
-    if not Assigned(ParamList) then
-      ParamList := TStringList.Create;
-    ParamList.Add(edtNP.Text); //0
-    ParamList.Add(edtPONo.Text); //1
-    ParamList.Add(FloatToStr(colieRcv)); //2
-    ParamList.Add(FloatToStr(bonus)); //3
-    ParamList.Add(FLoginUsername); //4
-    ParamList.Add(MasterNewUnit.Nama); //5
-
-    with dmReport do begin
-      Params := ParamList;
-      pMainReport.LoadFromFile(ExtractFilePath(Application.ExeName) + '/template/frCetakNP.fr3');
-      pMainReport.PrepareReport(True);
-      pMainReport.Print; //ShowReport(True);
-    end;
-
-  finally
-    FormatSettings.DateSeparator:= SeparatorDate;
-    if Assigned(ParamList) then
-      FreeAndNil(ParamList);
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport( 'DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
   end;
-  }
 end;
 
 procedure TfrmGoodsReceiving.edtDONoKeyPress(Sender: TObject;

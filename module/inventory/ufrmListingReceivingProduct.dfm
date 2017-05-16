@@ -5,7 +5,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
   ClientHeight = 458
   ClientWidth = 758
   OldCreateOrder = True
-  ExplicitTop = -66
+  ExplicitTop = -116
   ExplicitWidth = 774
   ExplicitHeight = 497
   PixelsPerInch = 96
@@ -28,8 +28,6 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       ClientRectBottom = 366
       ClientRectRight = 755
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
         ExplicitWidth = 754
         ExplicitHeight = 365
         inherited cxGrid: TcxGrid
@@ -59,16 +57,15 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       Left = 465
       Visible = True
       ExplicitLeft = 465
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 581
       Visible = True
       ExplicitLeft = 581
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 676
+      TabOrder = 3
       ExplicitLeft = 676
     end
     inherited lblsdFilter: TcxLabel
@@ -82,7 +79,7 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       Left = 296
       Top = 4
       Align = alRight
-      TabOrder = 5
+      TabOrder = 0
       Width = 105
     end
     object llblSupMG: TcxLabel
@@ -129,7 +126,6 @@ inherited frmListingReceivingProduct: TfrmListingReceivingProduct
       ExplicitWidth = 758
       inherited lbEscape: TLabel
         Left = 684
-        Height = 17
         ExplicitLeft = 684
       end
     end

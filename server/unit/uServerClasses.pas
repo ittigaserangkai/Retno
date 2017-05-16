@@ -452,12 +452,12 @@ begin
   Result := 'M' + FormatDateTime('YYMMDD', AModDO.DO_DATE);
 
   sSQL   := 'select right(MAX(DO_NP),3) as NP from DO ' +
-            ' where DO_NP like ' + QuotedStr(Result);
+            ' where DO_NP like ' + QuotedStr(Result + '%');
 
   with TDBUtils.OpenDataset(sSQL) do
   begin
     try
-      if not Fields[0].IsNull then
+      if Fields[0].IsNull then
         iCounter := 0
       else
         iCounter := StrToIntDef(Fields[0].AsString,0);
