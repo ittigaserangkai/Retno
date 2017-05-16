@@ -48,8 +48,6 @@ type
     procedure SetPOD_UOM(const Value: TModSatuan);
   public
     class function GetTableName: String; override;
-    property POD_DISC2: Double read FPOD_DISC2 write FPOD_DISC2;
-    property POD_DISC3: Double read FPOD_DISC3 write FPOD_DISC3;
   published
     [AttributeOfForeign('BARANG_ID')]
     property POD_BARANG: TModBarang read FPOD_BARANG write SetPOD_BARANG;
@@ -58,6 +56,8 @@ type
     property POD_BARANG_SUPPLIER: TModBarangSupplier read FPOD_BARANG_SUPPLIER
         write FPOD_BARANG_SUPPLIER;
     property POD_DISC1: Double read FPOD_DISC1 write FPOD_DISC1;
+    property POD_DISC2: Double read FPOD_DISC2 write FPOD_DISC2;
+    property POD_DISC3: Double read FPOD_DISC3 write FPOD_DISC3;
     property POD_DISC_TAMBAHAN: Double read FPOD_DISC_TAMBAHAN write
         FPOD_DISC_TAMBAHAN;
     property POD_IS_BKP: Integer read FPOD_IS_BKP write FPOD_IS_BKP;
