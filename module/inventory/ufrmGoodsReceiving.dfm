@@ -5,8 +5,6 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
   ClientHeight = 492
   ClientWidth = 784
   OldCreateOrder = True
-  ExplicitLeft = -11
-  ExplicitTop = -150
   ExplicitWidth = 800
   ExplicitHeight = 531
   PixelsPerInch = 96
@@ -333,7 +331,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         ParentBiDiMode = False
         Width = 51
       end
-      object btn2: TcxButton
+      object btnCheckList: TcxButton
         Left = 241
         Top = 114
         Width = 148
@@ -349,7 +347,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        OnClick = btn2Click
+        OnClick = btnCheckListClick
       end
       object btnCetakNP: TcxButton
         Left = 392
@@ -367,7 +365,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        OnClick = btn2Click
+        OnClick = btnCheckListClick
       end
       object edPO: TcxTextEdit
         Tag = 1
@@ -653,6 +651,8 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         object cxgrdclmnPOITEM: TcxGridColumn
           AlternateCaption = 'POITEM'
           Caption = 'POITEM'
+          Visible = False
+          Width = 172
         end
       end
       object cxgrdlvlGR: TcxGridLevel

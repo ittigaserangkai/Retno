@@ -66,7 +66,7 @@ type
     edNilaiDisc: TcxCurrencyEdit;
     edTotalDisc: TcxCurrencyEdit;
     edSellPrice: TcxCurrencyEdit;
-    btn2: TcxButton;
+    btnCheckList: TcxButton;
     lblStatusPO: TLabel;
     btnCetakNP: TcxButton;
     edPO: TcxTextEdit;
@@ -100,8 +100,7 @@ type
     procedure strgGridCellValidate(Sender: TObject; ACol, ARow: Integer;
       var Value: String; var Valid: Boolean);
     procedure btn1Click(Sender: TObject);
-    procedure btn2Click(Sender: TObject);
-    procedure edtPONoChange(Sender: TObject);
+    procedure btnCheckListClick(Sender: TObject);
     procedure edtDONoKeyPress(Sender: TObject; var Key: Char);
     procedure edtPONoKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
@@ -831,7 +830,7 @@ begin
   frmDialogSearchPO.Free;
 end;
 
-procedure TfrmGoodsReceiving.btn2Click(Sender: TObject);
+procedure TfrmGoodsReceiving.btnCheckListClick(Sender: TObject);
 var SeparatorDate: Char;
     i: Integer;
     colieRcv, bonus: Real;
@@ -873,15 +872,6 @@ begin
       FreeAndNil(ParamList);
   end;
   }
-end;
-
-procedure TfrmGoodsReceiving.edtPONoChange(Sender: TObject);
-begin
-  inherited;
-  lbl24.Visible := True;
-  btn2.Visible := False;
-  btnCetakNP.Visible:= False;
-  ClearForm;
 end;
 
 procedure TfrmGoodsReceiving.edtDONoKeyPress(Sender: TObject;
@@ -993,8 +983,6 @@ begin
 end;
 
 procedure TfrmGoodsReceiving.actSaveExecute(Sender: TObject);
-var
-  sID: string;
 begin
   inherited;
   if not ValidateEmptyCtrl([1]) then
@@ -1027,7 +1015,6 @@ begin
   ModDO.DO_IS_JURNAL := 0;
   ModDO.DO_IS_PAID := 0;
   ModDO.DO_NO := edtDONo.Text;
-  ModDO.DO_NP := edtNP.Text;
   ModDO.DO_PAYMENT := 0;
   ModDO.DO_PPN := edPPN.Value;
   ModDO.DO_PPNBM := edPPNBM.Value;
@@ -1041,11 +1028,13 @@ begin
   UpdateDOItems;
 
   try
-    sID := DMClient.CrudDOClient.SaveToDBID(FModDO);
-    begin
-      TAppUtils.InformationBerhasilSimpan;
-      LoadData(sID)
-    end;
+    FModDO.ID := DMClient.CrudDOClient.SaveToDBID(FModDO);
+    FModDO    := TModDO(DMClient.CrudDOClient.RetrieveSingle(TModDO.ClassName, FModDO.ID));
+    edtNP.Text:= FModDO.DO_NP;
+
+    TAppUtils.InformationBerhasilSimpan(edtNP.Text);
+    btnCheckList.Visible := True;
+    btnCetakNP.Visible   := True;
   except
     raise
   end;
@@ -1164,19 +1153,26 @@ end;
 procedure TfrmGoodsReceiving.IsiQtyReceive(AModDO: TModDO);
 var
   I: Integer;
+  j: Integer;
 begin
   for I := 0 to AModDO.DOItems.Count - 1 do
   begin
-    if AModDO.DOItems[i].POITEM.ID = cxGridTableGR.Text(i, cxgrdclmnPOITEM.Index) then
+    for j := 0  to cxGridTableGR.DataController.RecordCount - 1 do
     begin
-      cxGridTableGR.SetValue(i,cxgrdclmnQtyRecv.Index,  AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
-      HitungSummary(i,AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+      if AModDO.DOItems[i].POITEM.ID = cxGridTableGR.Text(j, cxgrdclmnPOITEM.Index) then
+      begin
+        cxGridTableGR.SetValue(j,cxgrdclmnQtyRecv.Index,  AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+        HitungSummary(j,AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+      end;
     end;
   end;
 end;
 
 procedure TfrmGoodsReceiving.LoadData(AID : String);
 begin
+  btnCheckList.Visible := False;
+  btnCetakNP.Visible   := False;
+
   ClearByTag([0,1]);
   FreeAndNil(FModDO);
   cxGridTableGR.ClearRows;
@@ -1201,8 +1197,11 @@ begin
   edPPN.Value         := FModDO.DO_PPN;
   edDiscount.Value    := FModDO.DO_DISC;
   edSubTotal.Value    := FModDO.DO_SUBTOTAL;
+  edtNP.Text          := FModDO.DO_NP;
 
   IsiQtyReceive(FModDO);
+  btnCheckList.Visible := True;
+  btnCetakNP.Visible   := True;
 
 
 end;

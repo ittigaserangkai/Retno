@@ -4,7 +4,8 @@ interface
 
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang;
+  StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
+  uModDO;
 
 type
   {$METHODINFO ON}
@@ -61,9 +62,11 @@ type
 
   TCrudDO = class(TCrud)
   private
+    function GenerateNP(AModDO: TModDO): string;
     function UpdateStatusPO(AObject: TModApp): Boolean;
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 
@@ -422,6 +425,49 @@ begin
   if UpdateStatusPO(AObject) then
     Result := True;
 
+end;
+
+function TCrudDO.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  with AObject as TModDO do
+  begin
+    if (AObject.ID = '') then
+    begin
+      DO_NP := GenerateNP(TModDO(AObject));
+      if DO_NP = '' then
+        Exit;
+    end;
+  end;
+
+  Result := True;
+end;
+
+function TCrudDO.GenerateNP(AModDO: TModDO): string;
+var
+  iCounter: Integer;
+  sSQL: string;
+begin
+  Result := 'M' + FormatDateTime('YYMMDD', AModDO.DO_DATE);
+
+  sSQL   := 'select right(MAX(DO_NP),3) as NP from DO ' +
+            ' where DO_NP like ' + QuotedStr(Result);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      if not Fields[0].IsNull then
+        iCounter := 0
+      else
+        iCounter := StrToIntDef(Fields[0].AsString,0);
+
+      iCounter := iCounter + 1;
+      Result   := Result + RightStr('000' + IntToStr(iCounter),3);
+    finally
+      Free;
+    end;
+  end;
 end;
 
 function TCrudDO.UpdateStatusPO(AObject: TModApp): Boolean;
