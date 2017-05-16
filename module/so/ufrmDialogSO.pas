@@ -60,6 +60,9 @@ type
     actGenerate: TAction;
     actAddProd: TAction;
     clQTYOrder: TcxGridDBColumn;
+    pmGrid: TPopupMenu;
+    CheckAll1: TMenuItem;
+    UnCheckAll1: TMenuItem;
     procedure actAddProdExecute(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actGenerateExecute(Sender: TObject);
@@ -71,8 +74,11 @@ type
     procedure clStatusPropertiesEditValueChanged(Sender: TObject);
     procedure clQTYOrderPropertiesEditValueChanged(Sender: TObject);
     procedure btnToExcelClick(Sender: TObject);
+    procedure CheckAll1Click(Sender: TObject);
     procedure cxLookupSupplierMerchanPropertiesInitPopup(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
+    procedure UnCheckAll1Click(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
     FCDSSatuan: TClientDataset;
@@ -98,6 +104,7 @@ type
     property UsingCache: Boolean read FUsingCache write FUsingCache;
     { Private declarations }
   public
+    procedure DoCheckGrid(State: Boolean);
     procedure LoadData(AID: String);
     { Public declarations }
   end;
@@ -110,7 +117,7 @@ implementation
 uses
   uDBUtils, uDMClient, uAppUtils, uClientClasses, uModBarang, uModSuplier,
   uModSatuan, uConstanta, ufrmCXLookup, System.DateUtils, FireDAC.Comp.Client,
-  Data.FireDACJSONReflect, uRetnoUnit;
+  Data.FireDACJSONReflect, uRetnoUnit, uDMReport;
 
 {$R *.dfm}
 
@@ -130,6 +137,35 @@ procedure TfrmDialogSO.actGenerateExecute(Sender: TObject);
 begin
   inherited;
   GenerateSO;
+end;
+
+procedure TfrmDialogSO.btnPrintClick(Sender: TObject);
+var
+  FilterPeriode: string;
+  sNomorSO: string;
+begin
+  inherited;
+
+  sNomorSO := ModSo.SO_NO;
+  if sNomorSO = '' then exit;
+
+  with dmReport do
+  begin
+
+    FilterPeriode := dtTgl.Text + ' s/d ' + dtTgl.Text;
+    AddReportVariable('FilterPeriode', FilterPeriode );
+    AddReportVariable('UserCetak', 'Baskoro');
+
+    ExecuteReport( 'Reports/Slip_SO' ,
+      ReportClient.SO_ByDateNoBukti(
+        dtTgl.Date,
+        dtTgl.Date,
+        sNomorSO,
+        sNomorSO
+      )
+    );
+  end;
+
 end;
 
 procedure TfrmDialogSO.btnToExcelClick(Sender: TObject);
@@ -237,6 +273,12 @@ begin
   End;
 end;
 
+procedure TfrmDialogSO.CheckAll1Click(Sender: TObject);
+begin
+  inherited;
+  DoCheckGrid(True);
+end;
+
 procedure TfrmDialogSO.ClearForm;
 begin
   dtTgl.Date := Now();
@@ -322,6 +364,33 @@ begin
     TAppUtils.Error(ER_DELETE_FAILED);
     raise;
   End;
+end;
+
+procedure TfrmDialogSO.DoCheckGrid(State: Boolean);
+var
+  lCDS: TClientDataSet;
+begin
+  lCDS := TClientDataSet.Create(Self);
+  CDS.DisableControls;
+  Try
+    lCDS.CloneCursor(CDS, True);
+    lCDS.First;
+    while not lCDS.Eof do
+    begin
+      lCDS.Edit;
+      lCDS.FieldByName('Checked').AsBoolean := State;
+      if lCDS.FieldByName('Checked').AsBoolean then
+        lCDS.FieldByName('QTY').AsFloat := lCDS.FieldByName('QTYSO').AsFloat
+      else
+        lCDS.FieldByName('QTY').AsFloat := 0;
+      lCDS.Post;
+      lCDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+    lCDS.Free;
+  End;
+
 end;
 
 procedure TfrmDialogSO.GenerateSO;
@@ -596,6 +665,12 @@ begin
     Screen.Cursor := crDefault;
   End;
 
+end;
+
+procedure TfrmDialogSO.UnCheckAll1Click(Sender: TObject);
+begin
+  inherited;
+  DoCheckGrid(False);
 end;
 
 procedure TfrmDialogSO.UpdateData;
