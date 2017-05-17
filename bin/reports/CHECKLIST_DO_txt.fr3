@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="42872.4873563426" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="IBQ1"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="421.639727691009" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxGroupHeader Name="GroupHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="272" Left="0" ParentFont="False" Top="17" Width="1574.4" Condition="IBQ1.&#34;DO_NP&#34;" ReprintOnNewPage="True" ResetPageNumbers="True" StartNewPage="True">
+      <TfrxDMPMemoView Name="Memo3" Left="9.6" Top="0" Width="403.2" Height="85" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="PT. ASSALAAM NIAGA UTAMA - MG SOLO&#13;&#10;JL. AHMAD YANI NO. 308 PABELAN&#13;&#10;SUKOHARJO 57162&#13;&#10;Telp : 0271-743333, 7330 Fax : 0271-718893&#13;&#10;NPWP : 02.000.274.7-532.000"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="9.6" Top="204" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="================================================================================================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="518.4" Top="221" Width="278.4" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Short Name"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="9.6" Top="221" Width="374.4" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Product Code & Name"/>
+      <TfrxDMPMemoView Name="DMPMemo11" Left="796.8" Top="221" Width="76.8" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="Order&#13;&#10;Qty"/>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="873.6" Top="221" Width="57.6" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="Bonus&#13;&#10;Qty"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="940.8" Top="221" Width="48" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Order&#13;&#10;UOM"/>
+      <TfrxDMPMemoView Name="DMPMemo26" Left="9.6" Top="255" Width="1555.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="384" Top="221" Width="134.4" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="External&#13;&#10;Code"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="576" Top="0" Width="403.2" Height="85" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="CHECK LIST&#13;&#10;----------&#13;&#10;(By PO)"/>
+      <TfrxDMPMemoView Name="IBQ1SUPMG_SUB_CODE" Left="192" Top="119" Width="470.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;SUPMG_SUB_CODE&#34;] [IBQ1.&#34;SUPMG_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="9.6" Top="119" Width="172.8" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="SUPPLIER MG NAME :"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="9.6" Top="136" Width="172.8" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="P O           No.:"/>
+      <TfrxDMPMemoView Name="IBQ1PO_NO" Left="192" Top="136" Width="134.4" Height="17" DataField="PO_NO" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;PO_NO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="9.6" Top="153" Width="172.8" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="D O           No.:"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="192" Top="153" Width="134.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;DO_NO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="9.6" Top="187" Width="172.8" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Divisi           :"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="192" Top="187" Width="220.8" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;MERCHAN_CODE&#34;] [IBQ1.&#34;MERCHAN_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="326.4" Top="136" Width="57.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Date :"/>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="384" Top="136" Width="134.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="dd/mm/yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;PO_DATE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="326.4" Top="153" Width="57.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Date :"/>
+      <TfrxDMPMemoView Name="DMPMemo16" Left="384" Top="153" Width="134.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="dd/mm/yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;DO_DATE&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1DO_NP" Left="576" Top="136" Width="124.8" Height="17" DataField="DO_NP" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;DO_NP&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="528" Top="136" Width="48" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="NP# :"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="988.8" Top="221" Width="67.2" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="Recv&#13;&#10;Qty"/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="1056" Top="221" Width="57.6" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="Recv&#13;&#10;Bonus"/>
+      <TfrxDMPMemoView Name="DMPMemo20" Left="1123.2" Top="221" Width="48" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Stock&#13;&#10;UOM"/>
+      <TfrxDMPMemoView Name="DMPMemo24" Left="1180.8" Top="221" Width="48" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="UOM&#13;&#10;Conv"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="1238.4" Top="221" Width="57.6" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="No. Of&#13;&#10;Label"/>
+      <TfrxDMPMemoView Name="DMPMemo28" Left="1382.4" Top="221" Width="48" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Displ&#13;&#10;Loc"/>
+      <TfrxDMPMemoView Name="DMPMemo29" Left="1440" Top="221" Width="105.6" Height="34" FontStyle="256" ParentFont="False" TruncOutboundText="False" Text="R e m a r k"/>
+      <TfrxDMPMemoView Name="DMPMemo30" Left="1152" Top="0" Width="403.2" Height="85" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Code : INV-F-0007&#13;&#10;Date : [Date]&#13;&#10;Time : [Time]&#13;&#10;User : [UserCetak]&#13;&#10;Page : [Page#]">
+        <Formats>
+          <item/>
+          <item/>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="238" Left="0" Top="340" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo56" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo32" Left="9.6" Top="17" Width="211.2" Height="51" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="*** Total Item       :&#13;&#10;Item Pakai Ext. Code :&#13;&#10;Item Pakai Int. Code :">
+        <Formats>
+          <item/>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="IBQ1DOD_QTY_ORDER1" Left="220.8" Top="17" Width="76.8" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=",#.##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;IBQ1.&#34;NUMBEROFLABEL&#34;&#62;,MasterData1,2)]"/>
+      <TfrxDMPMemoView Name="IBQ1DOD_QTY_ORDER2" Left="220.8" Top="34" Width="76.8" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=",#.##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(IIF(&#60;IBQ1.&#34;BRG_CATALOG&#34;&#62;&#60;&#62;'',&#60;IBQ1.&#34;NUMBEROFLABEL&#34;&#62;,0),MasterData1,2)]"/>
+      <TfrxDMPMemoView Name="IBQ1DOD_QTY_ORDER3" Left="220.8" Top="51" Width="76.8" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=",#.##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(IIF(&#60;IBQ1.&#34;BRG_CATALOG&#34;&#62;='',&#60;IBQ1.&#34;NUMBEROFLABEL&#34;&#62;,0),MasterData1,2)]"/>
+      <TfrxDMPMemoView Name="DMPMemo33" Left="115.2" Top="136" Width="192" Height="68" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="PENCETAK LABEL&#13;&#10;&#13;&#10;&#13;&#10;(...............)"/>
+      <TfrxDMPMemoView Name="DMPMemo35" Left="374.4" Top="136" Width="192" Height="68" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="PENGAMBIL LABEL&#13;&#10;&#13;&#10;&#13;&#10;(...............)"/>
+      <TfrxDMPMemoView Name="DMPMemo36" Left="700.8" Top="136" Width="192" Height="68" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="END CHECKER&#13;&#10;&#13;&#10;&#13;&#10;(...............)"/>
+      <TfrxDMPMemoView Name="DMPMemo37" Left="988.8" Top="136" Width="192" Height="68" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="TRANSPORTER&#13;&#10;&#13;&#10;&#13;&#10;(...............)"/>
+      <TfrxDMPMemoView Name="DMPMemo38" Left="1248" Top="136" Width="192" Height="85" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="PENERIMA BARANG&#13;&#10;&#13;&#10;&#13;&#10;(...............)&#13;&#10;STORE"/>
+    </TfrxGroupFooter>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="612" Width="1574.4"/>
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="306" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="IBQ1" RowCount="0">
+      <TfrxDMPMemoView Name="IBQ1BRG_CODE" Left="9.6" Top="0" Width="374.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;BRG_CODE&#34;] [IBQ1.&#34;BRG_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1BRG_CATALOG" Left="384" Top="0" Width="134.4" Height="17" DataField="BRG_CATALOG" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;BRG_CATALOG&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1SHORTNAME" Left="518.4" Top="0" Width="278.4" Height="17" DataField="SHORTNAME" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;SHORTNAME&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1DOD_QTY_ORDER" Left="796.8" Top="0" Width="76.8" Height="17" DataField="DOD_QTY_ORDER" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=".#,##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;DOD_QTY_ORDER&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1DOD_QTY_ORDER_BONUS" Left="873.6" Top="0" Width="57.6" Height="17" DataField="DOD_QTY_ORDER_BONUS" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=".#,##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;DOD_QTY_ORDER_BONUS&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1SAT_CODE" Left="940.8" Top="0" Width="48" Height="17" DataField="SAT_CODE" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;SAT_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo21" Left="988.8" Top="0" Width="67.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=".#,##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;DOD_QTY_ORDER_RECV&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo22" Left="1056" Top="0" Width="57.6" Height="17" DataField="DOD_QTY_ORDER_BONUS" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=".#,##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;DOD_QTY_ORDER_BONUS&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo23" Left="1123.2" Top="0" Width="48" Height="17" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;UOMSTOCK&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1UOMCONVERSION" Left="1180.8" Top="0" Width="48" Height="17" DataField="UOMCONVERSION" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=".#,##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;UOMCONVERSION&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1NUMBEROFLABEL" Left="1238.4" Top="0" Width="57.6" Height="17" DataField="NUMBEROFLABEL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr=".#,##" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;NUMBEROFLABEL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KETERANGANCETAK" Left="1296" Top="0" Width="86.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;KETERANGANCETAK&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo27" Left="1440" Top="0" Width="105.6" Height="17" TruncOutboundText="False" Text=".............."/>
+    </TfrxMasterData>
+  </TfrxDMPPage>
+</TfrxReport>
