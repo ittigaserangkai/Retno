@@ -336,36 +336,30 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Top = 114
         Width = 148
         Height = 27
-        Caption = 'Check List NP (Ctrl-D)'
-        OptionsImage.ImageIndex = 28
+        Action = actCetakCheckList
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 18
-        Visible = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -11
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        OnClick = btnCheckListClick
       end
       object btnCetakNP: TcxButton
         Left = 392
         Top = 114
         Width = 89
         Height = 27
-        Caption = 'NP (Ctrl-P)'
-        OptionsImage.ImageIndex = 28
+        Action = actCetakNP
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 19
-        Visible = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -11
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        OnClick = btnCheckListClick
       end
       object edPO: TcxTextEdit
         Tag = 1
@@ -541,6 +535,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
           Width = 90
         end
         object cxgrdclmnUOM: TcxGridColumn
+          AlternateCaption = 'SATUAN'
           Caption = 'UOM'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
@@ -714,6 +709,16 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
     Top = 112
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    object actCetakNP: TAction
+      Caption = 'NP (Ctrl-P)'
+      ShortCut = 16464
+      OnExecute = actCetakNPExecute
+    end
+    object actCetakCheckList: TAction
+      Caption = 'Check List NP (Ctrl-D)'
+      ShortCut = 16452
+      OnExecute = actCetakCheckListExecute
     end
   end
 end

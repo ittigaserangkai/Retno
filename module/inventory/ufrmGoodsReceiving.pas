@@ -94,13 +94,16 @@ type
     cxgrdclmnPPNPERSEN: TcxGridColumn;
     cxgrdclmnPPNBMPERSEN: TcxGridColumn;
     cxgrdclmnPOITEM: TcxGridColumn;
+    actCetakNP: TAction;
+    actCetakCheckList: TAction;
     procedure actCancelExecute(Sender: TObject);
+    procedure actCetakCheckListExecute(Sender: TObject);
+    procedure actCetakNPExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure strgGridCellValidate(Sender: TObject; ACol, ARow: Integer;
       var Value: String; var Valid: Boolean);
     procedure btn1Click(Sender: TObject);
-    procedure btnCheckListClick(Sender: TObject);
     procedure edtDONoKeyPress(Sender: TObject; var Key: Char);
     procedure edtPONoKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
@@ -177,6 +180,27 @@ procedure TfrmGoodsReceiving.actCancelExecute(Sender: TObject);
 begin
   inherited;
   SetClearValue;
+end;
+
+procedure TfrmGoodsReceiving.actCetakCheckListExecute(Sender: TObject);
+begin
+  inherited;
+  // DO_GetDSCheckListDO
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport( 'reports\CHECKLIST_DO' ,ReportClient.DO_GetDSCheckListDO(FModDO.DO_NP));
+  end;
+end;
+
+procedure TfrmGoodsReceiving.actCetakNPExecute(Sender: TObject);
+begin
+  inherited;
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport( 'reports\DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
+  end;
 end;
 
 procedure TfrmGoodsReceiving.FormClose(Sender: TObject;
@@ -828,15 +852,6 @@ begin
   end;
     
   frmDialogSearchPO.Free;
-end;
-
-procedure TfrmGoodsReceiving.btnCheckListClick(Sender: TObject);
-begin
-  with DMReport do
-  begin
-    AddReportVariable('UserCetak', 'USER');
-    ExecuteReport( 'DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
-  end;
 end;
 
 procedure TfrmGoodsReceiving.edtDONoKeyPress(Sender: TObject;
