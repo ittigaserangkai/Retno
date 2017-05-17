@@ -14,7 +14,7 @@ uses
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, uDBUtils,
   uDXUtils, uDMClient, uRetnoUnit, Datasnap.DBClient, uAppUtils,
   System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog,
-  uModDO, uModSuplier, uModSO, uModUnit,uInterface;
+  uModDO, uModSuplier, uModSO, uModUnit,uInterface, uDMReport;
 
 type
   TfrmGoodsReceiving = class(TfrmMasterDialog, ICRUDAble)
@@ -66,7 +66,7 @@ type
     edNilaiDisc: TcxCurrencyEdit;
     edTotalDisc: TcxCurrencyEdit;
     edSellPrice: TcxCurrencyEdit;
-    btn2: TcxButton;
+    btnCheckList: TcxButton;
     lblStatusPO: TLabel;
     btnCetakNP: TcxButton;
     edPO: TcxTextEdit;
@@ -100,8 +100,7 @@ type
     procedure strgGridCellValidate(Sender: TObject; ACol, ARow: Integer;
       var Value: String; var Valid: Boolean);
     procedure btn1Click(Sender: TObject);
-    procedure btn2Click(Sender: TObject);
-    procedure edtPONoChange(Sender: TObject);
+    procedure btnCheckListClick(Sender: TObject);
     procedure edtDONoKeyPress(Sender: TObject; var Key: Char);
     procedure edtPONoKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
@@ -164,7 +163,7 @@ var
 
 implementation
 
-uses uTSCommonDlg,uConstanta, ufrmSearchPO, udmReport, VarUtils, ufrmReprintNP;
+uses uTSCommonDlg,uConstanta, ufrmSearchPO,  VarUtils, ufrmReprintNP;
 
 {$R *.dfm}
 
@@ -831,57 +830,13 @@ begin
   frmDialogSearchPO.Free;
 end;
 
-procedure TfrmGoodsReceiving.btn2Click(Sender: TObject);
-var SeparatorDate: Char;
-    i: Integer;
-    colieRcv, bonus: Real;
+procedure TfrmGoodsReceiving.btnCheckListClick(Sender: TObject);
 begin
-  if CommonDlg.Confirm('Are you sure you wish to print NP?')= mrNo
-  then Exit;
-  SeparatorDate:= FormatSettings.DateSeparator;
-  {
-  try
-    FormatSettings.DateSeparator:= '/';
-    bonus:= 0;
-    colieRcv:= 0;
-
-    if strgGrid.RowCount > 1 then
-      for i:= 1 to (strgGrid.RowCount-1) do begin
-        bonus:= bonus + StrToFloat(strgGrid.Cells[6,i]);
-        colieRcv:= colieRcv + StrToFloat(strgGrid.Cells[4,i]);
-      end;
-
-    if not Assigned(ParamList) then
-      ParamList := TStringList.Create;
-    ParamList.Add(edtNP.Text); //0
-    ParamList.Add(edtPONo.Text); //1
-    ParamList.Add(FloatToStr(colieRcv)); //2
-    ParamList.Add(FloatToStr(bonus)); //3
-    ParamList.Add(FLoginUsername); //4
-    ParamList.Add(MasterNewUnit.Nama); //5
-
-    with dmReport do begin
-      Params := ParamList;
-      pMainReport.LoadFromFile(ExtractFilePath(Application.ExeName) + '/template/frCetakNP.fr3');
-      pMainReport.PrepareReport(True);
-      pMainReport.Print; //ShowReport(True);
-    end;
-
-  finally
-    FormatSettings.DateSeparator:= SeparatorDate;
-    if Assigned(ParamList) then
-      FreeAndNil(ParamList);
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport( 'DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
   end;
-  }
-end;
-
-procedure TfrmGoodsReceiving.edtPONoChange(Sender: TObject);
-begin
-  inherited;
-  lbl24.Visible := True;
-  btn2.Visible := False;
-  btnCetakNP.Visible:= False;
-  ClearForm;
 end;
 
 procedure TfrmGoodsReceiving.edtDONoKeyPress(Sender: TObject;
@@ -993,8 +948,6 @@ begin
 end;
 
 procedure TfrmGoodsReceiving.actSaveExecute(Sender: TObject);
-var
-  sID: string;
 begin
   inherited;
   if not ValidateEmptyCtrl([1]) then
@@ -1027,7 +980,6 @@ begin
   ModDO.DO_IS_JURNAL := 0;
   ModDO.DO_IS_PAID := 0;
   ModDO.DO_NO := edtDONo.Text;
-  ModDO.DO_NP := edtNP.Text;
   ModDO.DO_PAYMENT := 0;
   ModDO.DO_PPN := edPPN.Value;
   ModDO.DO_PPNBM := edPPNBM.Value;
@@ -1041,11 +993,13 @@ begin
   UpdateDOItems;
 
   try
-    sID := DMClient.CrudDOClient.SaveToDBID(FModDO);
-    begin
-      TAppUtils.InformationBerhasilSimpan;
-      LoadData(sID)
-    end;
+    FModDO.ID := DMClient.CrudDOClient.SaveToDBID(FModDO);
+    FModDO    := TModDO(DMClient.CrudDOClient.RetrieveSingle(TModDO.ClassName, FModDO.ID));
+    edtNP.Text:= FModDO.DO_NP;
+
+    TAppUtils.InformationBerhasilSimpan(edtNP.Text);
+    btnCheckList.Visible := True;
+    btnCetakNP.Visible   := True;
   except
     raise
   end;
@@ -1164,19 +1118,26 @@ end;
 procedure TfrmGoodsReceiving.IsiQtyReceive(AModDO: TModDO);
 var
   I: Integer;
+  j: Integer;
 begin
   for I := 0 to AModDO.DOItems.Count - 1 do
   begin
-    if AModDO.DOItems[i].POITEM.ID = cxGridTableGR.Text(i, cxgrdclmnPOITEM.Index) then
+    for j := 0  to cxGridTableGR.DataController.RecordCount - 1 do
     begin
-      cxGridTableGR.SetValue(i,cxgrdclmnQtyRecv.Index,  AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
-      HitungSummary(i,AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+      if AModDO.DOItems[i].POITEM.ID = cxGridTableGR.Text(j, cxgrdclmnPOITEM.Index) then
+      begin
+        cxGridTableGR.SetValue(j,cxgrdclmnQtyRecv.Index,  AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+        HitungSummary(j,AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+      end;
     end;
   end;
 end;
 
 procedure TfrmGoodsReceiving.LoadData(AID : String);
 begin
+  btnCheckList.Visible := False;
+  btnCetakNP.Visible   := False;
+
   ClearByTag([0,1]);
   FreeAndNil(FModDO);
   cxGridTableGR.ClearRows;
@@ -1201,8 +1162,11 @@ begin
   edPPN.Value         := FModDO.DO_PPN;
   edDiscount.Value    := FModDO.DO_DISC;
   edSubTotal.Value    := FModDO.DO_SUBTOTAL;
+  edtNP.Text          := FModDO.DO_NP;
 
   IsiQtyReceive(FModDO);
+  btnCheckList.Visible := True;
+  btnCetakNP.Visible   := True;
 
 
 end;
