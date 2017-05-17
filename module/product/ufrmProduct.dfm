@@ -25,8 +25,6 @@ inherited frmProduct: TfrmProduct
       ClientRectRight = 903
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
-        ExplicitLeft = 1
-        ExplicitTop = 1
         ExplicitWidth = 902
         ExplicitHeight = 477
         inherited cxGrid: TcxGrid
@@ -1269,13 +1267,11 @@ inherited frmProduct: TfrmProduct
       Left = 216
       Align = alLeft
       ExplicitLeft = 216
-      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 332
       Align = alLeft
       ExplicitLeft = 332
-      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 844
@@ -1354,7 +1350,6 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 926
       inherited lbEscape: TLabel
         Left = 852
-        Height = 17
         ExplicitLeft = 852
       end
     end
