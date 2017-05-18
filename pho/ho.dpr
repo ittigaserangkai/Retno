@@ -208,10 +208,9 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TDMClient, DMClient);
-  Application.CreateForm(TDMReport, DMReport);
   Application.CreateForm(TDMReport, DMReport);
   Application.Run;
 end.
