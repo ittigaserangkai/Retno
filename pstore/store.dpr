@@ -190,7 +190,8 @@ uses
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
-  uModelHelper in '..\model\uModelHelper.pas';
+  uModelHelper in '..\model\uModelHelper.pas',
+  uModCreditCard in '..\model\uModCreditCard.pas';
 
 {$R *.res}
 
