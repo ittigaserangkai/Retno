@@ -98,6 +98,7 @@ type
     function PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
+    function RefCreditCard_GetDSOverview: TDataSet;
 
 
   end;
@@ -955,6 +956,14 @@ begin
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
 
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.RefCreditCard_GetDSOverview: TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL   := 'SELECT * FROM V_CREDIT$CARD';
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 

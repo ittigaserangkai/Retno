@@ -201,7 +201,10 @@ uses
   uModPO in '..\model\uModPO.pas',
   uModelHelper in '..\model\uModelHelper.pas',
   uModSO in '..\model\uModSO.pas',
-  uModDO in '..\model\uModDO.pas';
+  uModDO in '..\model\uModDO.pas',
+  ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
+  ufrmDialogCreditCard in '..\module\cashier_supv\ufrmDialogCreditCard.pas' {frmDialogCreditCard},
+  uModCreditCard in '..\model\uModCreditCard.pas';
 
 {$R *.res}
 

@@ -186,6 +186,9 @@ object frmMain: TfrmMain
       object MasterAgama1: TMenuItem
         Action = actAgama
       end
+      object CreditCard1: TMenuItem
+        Action = actCreditCard
+      end
     end
     object CustomerSupport1: TMenuItem
       Caption = 'Membership'
@@ -1252,6 +1255,11 @@ object frmMain: TfrmMain
       Category = 'Sistem'
       Caption = 'Setting Koneksi'
       OnExecute = actSetKoneksiExecute
+    end
+    object actCreditCard: TAction
+      Category = 'References'
+      Caption = 'Credit Card'
+      OnExecute = actCreditCardExecute
     end
   end
   object AppEvents: TApplicationEvents

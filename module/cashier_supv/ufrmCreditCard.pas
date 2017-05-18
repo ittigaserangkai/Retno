@@ -11,7 +11,7 @@ uses
   cxDateUtils, Vcl.Menus, System.Actions, Vcl.ActnList, ufraFooter4Button,
   cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC, Datasnap.DBClient;
 
   /// catatan
 {
@@ -25,21 +25,13 @@ type
   TfrmCreditCard = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure actRefreshCreditCardExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
-    procedure AdvStrGridRowChanging(Sender: TObject; OldRow,
-      NewRow: Integer; var Allow: Boolean);
   private
-//    FCC : TCreditCard;
-//    FSetAdvGrid : TSetAdvGrid;
-    iY  : Integer;
-    procedure ParseDataGrid();
+    FCDS: TClientDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
 
   public
-    { Public declarations }
+    procedure RefreshData; override;
   end;
 
 var
@@ -47,59 +39,21 @@ var
 
 implementation
 
-uses ufrmDialogCreditCard, uTSCommonDlg, uRetnoUnit;
+uses
+  ufrmDialogCreditCard, uTSCommonDlg, uRetnoUnit, uDBUtils, uDMCLient, uDXUtils;
 
 {$R *.dfm}
-const
-  _kolCardID      : Integer = 1;
-  _kolCardNm      : Integer = 2;
-  _kolIsCredit    : Integer = 3;
-  _kolIsCashback  : Integer = 4;
-  _kolIsActive    : Integer = 8;
-  _kolIsKring     : Integer = 9;
 
 procedure TfrmCreditCard.actAddExecute(Sender: TObject);
 begin
   inherited;
-
-  if not Assigned(frmDialogCreditCard) then
-   frmDialogCreditCard := TfrmDialogCreditCard.Create(Self);
-
-  SetFormPropertyAndShowDialog(frmDialogCreditCard);
+  ShowDialogForm(TfrmDialogCreditCard);
 end;
 
 procedure TfrmCreditCard.actEditExecute(Sender: TObject);
 begin
   inherited;
-
-  if not Assigned(frmDialogCreditCard) then
-    frmDialogCreditCard := TfrmDialogCreditCard.Create(Self);
-
-//  frmDialogCreditCard.ShowWithCCId(AdvStrGrid.Ints[_kolCardID, iy]);
-  SetFormPropertyAndShowDialog(frmDialogCreditCard);
-end;
-
-procedure TfrmCreditCard.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-
-//  FCC.Free;
-//  FSetAdvGrid.Free;
-
-  ////frmMain.DestroyMenu((Sender as TForm));
-  Action := caFree;
-end;
-
-procedure TfrmCreditCard.FormCreate(Sender: TObject);
-begin
-  inherited;
-  lblHeader.Caption := 'CREDIT CARD AND DISCOUNT';
-
-//  FCC := TCreditCard.CreateWithUser(Self, FLoginId);
-  iY := 1;
-  ParseDataGrid();
-
+  ShowDialogForm(TfrmDialogCreditCard, CDS.FieldByName('REF$CREDIT_CARD_ID').AsString);
 end;
 
 procedure TfrmCreditCard.FormDestroy(Sender: TObject);
@@ -108,53 +62,12 @@ begin
   frmCreditCard := nil;
 end;
 
-procedure TfrmCreditCard.actRefreshCreditCardExecute(Sender: TObject);
+procedure TfrmCreditCard.RefreshData;
 begin
-  inherited;
-  ParseDataGrid();
-end;
-
-procedure TfrmCreditCard.actRefreshExecute(Sender: TObject);
-begin
-  inherited;
-  ParseDataGrid;
-end;
-
-procedure TfrmCreditCard.ParseDataGrid;
-var
-  i, j  : integer;
-
-begin
-   {
-    AdvStrGrid := FSetAdvGrid.GetAdvGrd(FCC.GetRec(masternewunit.id));
-    AdvStrGrid.ColWidths[_kolCardID] := 0;
-
-    for i:= 1 to AdvStrGrid.RowCount -  1 do
-    begin
-      for j:= 1 to AdvStrGrid.ColCount - 1 do
-      begin
-        if j in [_kolIsCredit, _kolIsCashback, _kolIsActive, _kolIsKring] then
-        begin
-          if AdvStrGrid.Ints[j  , i] = 1 then
-            AdvStrGrid.AddCheckBox(j , i, True , False)
-          else
-            AdvStrGrid.AddCheckBox(j, i, False , False);
-
-          AdvStrGrid.Alignments[j,i]  := taCenter;
-          AdvStrGrid.Cells[j, i]      := '';
-        end;
-      end;
-    end; 
-   }
-end;
-
-
-procedure TfrmCreditCard.AdvStrGridRowChanging(Sender: TObject; OldRow,
-  NewRow: Integer; var Allow: Boolean);
-begin
-  inherited;
-  iY := NewRow;
-
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.RefCreditCard_GetDSOverview ,Self );
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['REF$CREDIT_CARD_ID'],False);
 end;
 
 end.

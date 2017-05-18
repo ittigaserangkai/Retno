@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 5/16/2017 3:56:05 PM
+// 5/18/2017 4:09:44 PM
 //
 
 unit uClientClasses;
@@ -240,6 +240,8 @@ type
     FPO_GetDSOLookUpForGRCommand_Cache: TDSRestCommand;
     FPO_SLIP_GetDSOverviewCommand: TDSRestCommand;
     FPO_SLIP_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRefCreditCard_GetDSOverviewCommand: TDSRestCommand;
+    FRefCreditCard_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -403,6 +405,8 @@ type
     function PO_GetDSOLookUpForGR_Cache(AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_SLIP_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function PO_SLIP_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RefCreditCard_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function RefCreditCard_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -1571,6 +1575,16 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RefCreditCard_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RefCreditCard_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4990,6 +5004,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FPO_SLIP_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.RefCreditCard_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FRefCreditCard_GetDSOverviewCommand = nil then
+  begin
+    FRefCreditCard_GetDSOverviewCommand := FConnection.CreateCommand;
+    FRefCreditCard_GetDSOverviewCommand.RequestType := 'GET';
+    FRefCreditCard_GetDSOverviewCommand.Text := 'TDSProvider.RefCreditCard_GetDSOverview';
+    FRefCreditCard_GetDSOverviewCommand.Prepare(TDSProvider_RefCreditCard_GetDSOverview);
+  end;
+  FRefCreditCard_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRefCreditCard_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRefCreditCard_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RefCreditCard_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRefCreditCard_GetDSOverviewCommand_Cache = nil then
+  begin
+    FRefCreditCard_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FRefCreditCard_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FRefCreditCard_GetDSOverviewCommand_Cache.Text := 'TDSProvider.RefCreditCard_GetDSOverview';
+    FRefCreditCard_GetDSOverviewCommand_Cache.Prepare(TDSProvider_RefCreditCard_GetDSOverview_Cache);
+  end;
+  FRefCreditCard_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRefCreditCard_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -5161,6 +5204,8 @@ begin
   FPO_GetDSOLookUpForGRCommand_Cache.DisposeOf;
   FPO_SLIP_GetDSOverviewCommand.DisposeOf;
   FPO_SLIP_GetDSOverviewCommand_Cache.DisposeOf;
+  FRefCreditCard_GetDSOverviewCommand.DisposeOf;
+  FRefCreditCard_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 
