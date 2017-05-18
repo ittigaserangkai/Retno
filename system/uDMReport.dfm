@@ -676,7 +676,7 @@ object DMReport: TDMReport
     Height = 465
     Align = alClient
     TabOrder = 1
-    Properties.ActivePage = tsGraphic
+    Properties.ActivePage = tsDotMatrix
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
     LookAndFeel.Kind = lfUltraFlat
@@ -703,6 +703,7 @@ object DMReport: TDMReport
         ThumbnailVisible = True
         OnPageChanged = frxPreview2PageChanged
         UseReportHints = True
+        ExplicitTop = -6
       end
     end
     object tsGraphic: TcxTabSheet
@@ -720,7 +721,8 @@ object DMReport: TDMReport
         ThumbnailVisible = True
         OnPageChanged = frxPreview1PageChanged
         UseReportHints = True
-        ExplicitTop = -6
+        ExplicitLeft = -3
+        ExplicitTop = 3
       end
     end
   end

@@ -106,7 +106,6 @@ type
   private
   public
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
-    function DO_GetDSCheckListDO(ANONP : String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -793,14 +792,9 @@ function TDSProvider.SupMGBySO_GetDSLookup(ID: string): TDataset;
 var
   sSQL: string;
 begin
-  sSQL := 'select DISTINCT A.SO_ID,A.SUPLIER_MERCHAN_GRUP_ID,B.SUPMG_SUB_CODE,B.SUPMG_NAME' +
-          ' from SO_DETAIL a' +
-          ' inner JOIN SUPLIER_MERCHAN_GRUP B on A.SUPLIER_MERCHAN_GRUP_ID = B.SUPLIER_MERCHAN_GRUP_ID ' +
-          ' WHERE A.SO_ID = ' + TDBUtils.Quot(ID) +
-          ' and isnull(a.SOD_IS_ORDERED,0) <> 1' +
-          ' order by B.SUPMG_SUB_CODE '
-          ;
-
+  sSQL := 'select DISTINCT A.SO_ID,A.SUPLIER_MERCHAN_GRUP_ID,B.SUPMG_SUB_CODE,B.SUPMG_NAME'
+    +' from SO_DETAIL A LEFT JOIN SUPLIER_MERCHAN_GRUP B on A.SUPLIER_MERCHAN_GRUP_ID'
+    +' = B.SUPLIER_MERCHAN_GRUP_ID WHERE A.SO_ID = ' + TDBUtils.Quot(ID);
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -971,17 +965,6 @@ begin
   Result := TFDJSONDataSets.Create;
 
   S := 'SELECT * FROM V_DO_NP where DO_NP = ' + QuotedStr(ANONP);
-
-  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
-end;
-
-function TDSReport.DO_GetDSCheckListDO(ANONP : String): TFDJSONDataSets;
-var
-  S: string;
-begin
-  Result := TFDJSONDataSets.Create;
-
-  S := 'SELECT * FROM V_CHECKLIST_DO where DO_NP = ' + QuotedStr(ANONP);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
