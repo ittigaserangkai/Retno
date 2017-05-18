@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="42872.4873563426" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="42872.6899124653" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
   <Datasets>
     <item DataSet="IBQ1" DataSetName="IBQ1"/>
   </Datasets>
@@ -37,7 +37,7 @@
       <TfrxDMPMemoView Name="DMPMemo25" Left="1238.4" Top="221" Width="57.6" Height="34" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="No. Of&#13;&#10;Label"/>
       <TfrxDMPMemoView Name="DMPMemo28" Left="1382.4" Top="221" Width="48" Height="34" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Displ&#13;&#10;Loc"/>
       <TfrxDMPMemoView Name="DMPMemo29" Left="1440" Top="221" Width="105.6" Height="34" FontStyle="256" ParentFont="False" TruncOutboundText="False" Text="R e m a r k"/>
-      <TfrxDMPMemoView Name="DMPMemo30" Left="1152" Top="0" Width="403.2" Height="85" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Code : INV-F-0007&#13;&#10;Date : [Date]&#13;&#10;Time : [Time]&#13;&#10;User : [UserCetak]&#13;&#10;Page : [Page#]">
+      <TfrxDMPMemoView Name="DMPMemo30" Left="1315.2" Top="0" Width="230.4" Height="85" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Code : INV-F-0007&#13;&#10;Date : [Date]&#13;&#10;Time : [Time]&#13;&#10;User : [UserCetak]&#13;&#10;Page : [Page#]">
         <Formats>
           <item/>
           <item/>
@@ -64,7 +64,6 @@
       <TfrxDMPMemoView Name="DMPMemo37" Left="988.8" Top="136" Width="192" Height="68" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="TRANSPORTER&#13;&#10;&#13;&#10;&#13;&#10;(...............)"/>
       <TfrxDMPMemoView Name="DMPMemo38" Left="1248" Top="136" Width="192" Height="85" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haCenter" TruncOutboundText="False" Text="PENERIMA BARANG&#13;&#10;&#13;&#10;&#13;&#10;(...............)&#13;&#10;STORE"/>
     </TfrxGroupFooter>
-    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="612" Width="1574.4"/>
     <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="306" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="IBQ1" RowCount="0">
       <TfrxDMPMemoView Name="IBQ1BRG_CODE" Left="9.6" Top="0" Width="374.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;BRG_CODE&#34;] [IBQ1.&#34;BRG_NAME&#34;]"/>
       <TfrxDMPMemoView Name="IBQ1BRG_CATALOG" Left="384" Top="0" Width="134.4" Height="17" DataField="BRG_CATALOG" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;BRG_CATALOG&#34;]"/>
@@ -80,5 +79,10 @@
       <TfrxDMPMemoView Name="IBQ1KETERANGANCETAK" Left="1296" Top="0" Width="86.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" HAlign="haRight" TruncOutboundText="False" Text="[IBQ1.&#34;KETERANGANCETAK&#34;]"/>
       <TfrxDMPMemoView Name="DMPMemo27" Left="1440" Top="0" Width="105.6" Height="17" TruncOutboundText="False" Text=".............."/>
     </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="612" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo82" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo83" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo84" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+    </TfrxPageFooter>
   </TfrxDMPPage>
 </TfrxReport>
