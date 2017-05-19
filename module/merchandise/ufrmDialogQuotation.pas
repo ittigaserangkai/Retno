@@ -13,11 +13,12 @@ uses
   cxGridDBTableView, cxGrid, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils,
   cxDropDownEdit, cxCalendar, cxTextEdit, cxMaskEdit, cxButtonEdit,
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxGroupBox, cxCheckBox,
-  Vcl.Menus, cxButtons, cxCurrencyEdit;
+  Vcl.Menus, cxButtons, cxCurrencyEdit, ufrmMasterDialog, cxGridBandedTableView,
+  cxSplitter, cxGridDBBandedTableView;
 
 type
 
-  TfrmDialogQuotation = class(TfrmMasterDialogBrowse)
+  TfrmDialogQuotation = class(TfrmMasterDialog)
     cxGroupBox1: TcxGroupBox;
     Label6: TLabel;
     cxLookupTipeHarga: TcxExtLookupComboBox;
@@ -36,16 +37,33 @@ type
     Label2: TLabel;
     btnDelKonv: TcxButton;
     btnAddKonversi: TcxButton;
-    cxGridViewColumn1: TcxGridDBColumn;
-    cxGridViewColumn2: TcxGridDBColumn;
-    cxGridViewColumn3: TcxGridDBColumn;
-    cxGridViewColumn4: TcxGridDBColumn;
-    cxGridViewColumn5: TcxGridDBColumn;
-    cxGridViewColumn6: TcxGridDBColumn;
-    cxGridViewColumn7: TcxGridDBColumn;
-    cxGridViewColumn8: TcxGridDBColumn;
-    cxGridViewColumn9: TcxGridDBColumn;
-    cxGridViewColumn10: TcxGridDBColumn;
+    cxGridMasterLevel1: TcxGridLevel;
+    cxGridMaster: TcxGrid;
+    cxGrdDBMaster: TcxGridDBBandedTableView;
+    cxGridDetail: TcxGrid;
+    cxGridLevel1: TcxGridLevel;
+    cxGrdDBDetail: TcxGridDBTableView;
+    cxSplitter1: TcxSplitter;
+    cxGrdDBMasterColumn1: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn2: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn3: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn4: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn5: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn6: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn7: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn8: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn9: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn10: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn11: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn12: TcxGridDBBandedColumn;
+    cxGrdDBMasterColumn13: TcxGridDBBandedColumn;
+    cxGrdDBDetailColumn1: TcxGridDBColumn;
+    cxGrdDBDetailColumn2: TcxGridDBColumn;
+    cxGrdDBDetailColumn3: TcxGridDBColumn;
+    cxGrdDBDetailColumn4: TcxGridDBColumn;
+    cxGrdDBDetailColumn5: TcxGridDBColumn;
+    cxGrdDBDetailColumn6: TcxGridDBColumn;
+    cxGrdDBDetailColumn7: TcxGridDBColumn;
   private
   public
   end;
