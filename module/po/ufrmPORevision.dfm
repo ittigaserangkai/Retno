@@ -1,47 +1,62 @@
 inherited frmPORevision: TfrmPORevision
   Caption = 'PO Revision'
-  ClientHeight = 373
-  ClientWidth = 754
-  ExplicitWidth = 770
-  ExplicitHeight = 412
+  ClientHeight = 405
+  ClientWidth = 768
+  ExplicitWidth = 784
+  ExplicitHeight = 444
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 754
-    Height = 317
-    ExplicitWidth = 754
-    ExplicitHeight = 317
+    Width = 768
+    Height = 349
+    ExplicitWidth = 768
+    ExplicitHeight = 349
     object cxGridDBPODetil: TcxGrid
       Left = 2
       Top = 137
-      Width = 750
-      Height = 122
+      Width = 764
+      Height = 154
       Align = alClient
       TabOrder = 0
       LevelTabs.Style = 10
       object cxGridTablePODetil: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Kind = skSum
+            Column = cxgrdclmnPODTotal
+          end>
         DataController.Summary.SummaryGroups = <>
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
+        object cxgrdclmnPODID: TcxGridColumn
+          Visible = False
+          Options.Editing = False
+        end
+        object cxgrdclmnPODUOMID: TcxGridColumn
+          Visible = False
+          Options.Editing = False
+        end
         object cxgrdclmnPODSKU: TcxGridColumn
           Caption = 'SKU'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
           Width = 87
         end
         object cxgrdclmnPODNama: TcxGridColumn
           Caption = 'Merk & Nama'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
           Width = 140
         end
         object cxgrdclmnPODUOM: TcxGridColumn
           Caption = 'Satuan'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
         end
         object cxgrdclmnPODJumlah: TcxGridColumn
           Caption = 'Jumlah'
@@ -56,6 +71,7 @@ inherited frmPORevision: TfrmPORevision
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',#.##;(,#.##)'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
         end
         object cxgrdclmnPODDisc1: TcxGridColumn
           Caption = 'Disc 1'
@@ -63,6 +79,7 @@ inherited frmPORevision: TfrmPORevision
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',#.##;(,#.##)'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
         end
         object cxgrdclmnPODDisc2: TcxGridColumn
           Caption = 'Disc 2'
@@ -70,6 +87,7 @@ inherited frmPORevision: TfrmPORevision
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',#.##;(,#.##)'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
         end
         object cxgrdclmnPODDisc3: TcxGridColumn
           Caption = 'Disc 3'
@@ -77,13 +95,16 @@ inherited frmPORevision: TfrmPORevision
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',#.##;(,#.##)'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
         end
         object cxgrdclmnPODTotal: TcxGridColumn
           Caption = 'Total'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
         end
       end
       object cxgrdlvlGridPODetil: TcxGridLevel
@@ -92,8 +113,8 @@ inherited frmPORevision: TfrmPORevision
     end
     object pnlPOFooter: TPanel
       Left = 2
-      Top = 259
-      Width = 750
+      Top = 291
+      Width = 764
       Height = 56
       Align = alBottom
       TabOrder = 1
@@ -164,6 +185,7 @@ inherited frmPORevision: TfrmPORevision
       object edTotal: TcxCurrencyEdit
         Left = 428
         Top = 22
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 4
         Width = 121
       end
@@ -171,7 +193,7 @@ inherited frmPORevision: TfrmPORevision
     object cxPCHeader: TcxPageControl
       Left = 2
       Top = 2
-      Width = 750
+      Width = 764
       Height = 135
       Align = alTop
       TabOrder = 2
@@ -181,7 +203,7 @@ inherited frmPORevision: TfrmPORevision
       Properties.TabSlants.Kind = skCutCorner
       TabSlants.Kind = skCutCorner
       ClientRectBottom = 135
-      ClientRectRight = 750
+      ClientRectRight = 764
       ClientRectTop = 22
       object cxTSPOHeader: TcxTabSheet
         Caption = 'Revisi Purchase Order'
@@ -352,45 +374,51 @@ inherited frmPORevision: TfrmPORevision
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 317
-    Width = 754
-    ExplicitTop = 317
-    ExplicitWidth = 754
+    Top = 349
+    Width = 768
+    ExplicitTop = 349
+    ExplicitWidth = 768
     inherited pnlFooter: TPanel
-      Width = 754
-      ExplicitWidth = 754
+      Width = 768
+      ExplicitWidth = 768
       inherited btnClose: TcxButton
-        Left = 677
+        Left = 691
         Action = actCancel
-        ExplicitLeft = 677
+        ExplicitLeft = 691
       end
       inherited btnSave: TcxButton
-        Left = 584
+        Left = 598
         Action = actSave
-        ExplicitLeft = 584
+        ExplicitLeft = 598
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 507
-        ExplicitLeft = 507
+        Left = 521
+        ExplicitLeft = 521
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 754
-      ExplicitWidth = 754
+      Width = 768
+      ExplicitWidth = 768
       inherited lbCTRLEnter: TLabel
-        Left = 579
-        ExplicitLeft = 579
+        Left = 593
+        Height = 15
+        ExplicitLeft = 593
       end
       inherited lbEscape: TLabel
-        Left = 670
-        ExplicitLeft = 670
+        Left = 684
+        Height = 15
+        ExplicitLeft = 684
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 503
-        ExplicitLeft = 503
+        Left = 517
+        Height = 15
+        ExplicitLeft = 517
       end
     end
   end

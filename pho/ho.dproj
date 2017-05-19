@@ -653,6 +653,15 @@
         <DCCReference Include="..\model\uModelHelper.pas"/>
         <DCCReference Include="..\model\uModSO.pas"/>
         <DCCReference Include="..\model\uModDO.pas"/>
+        <DCCReference Include="..\module\cashier_supv\ufrmCreditCard.pas">
+            <Form>frmCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\cashier_supv\ufrmDialogCreditCard.pas">
+            <Form>frmDialogCreditCard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\model\uModCreditCard.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -12,7 +12,7 @@ uses
   cxGridDBTableView, cxGrid, Vcl.StdCtrls, cxContainer, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, uInterface, uModPO, uDMClient,
-  dxBarBuiltInMenu, cxPC, uDXUtils, Datasnap.DBClient, uDBUtils;
+  dxBarBuiltInMenu, cxPC, uDXUtils, Datasnap.DBClient, uDBUtils, uModelHelper;
 
 type
   TfrmPORevision = class(TfrmMasterDialog,ICRUDAble)
@@ -57,6 +57,8 @@ type
     cxgrdclmnPODDisc2: TcxGridColumn;
     cxgrdclmnPODDisc3: TcxGridColumn;
     cxgrdclmnPODTotal: TcxGridColumn;
+    cxgrdclmnPODID: TcxGridColumn;
+    cxgrdclmnPODUOMID: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
   private
     FCDS: TClientDataSet;
@@ -131,10 +133,29 @@ begin
 
   for I := 0 to FPOLama.POItems.Count - 1 do
   begin
-    cxGridTablePODetil.DataController.Append;
-    cxGridTablePODetil.DataController.Values[i, cxgrdclmnPODSKU.Index] := FPOLama.POItems[i].POD_BARANG.ID;
-    cxGridTablePODetil.DataController.Values[i, cxgrdclmnPODUOM.Index] := FPOLama.POItems[i].POD_UOM.ID;
-    cxGridTablePODetil.DataController.Values[i, cxgrdclmnPODJumlah.Index] := FPOLama.POItems[i].POD_QTY_ORDER;
+    FPOLama.POItems[i].LoadBarang;
+    FPOLama.POItems[i].LoadUOM;
+    with cxGridTablePODetil.DataController DO
+      Begin
+        AppendRecord;
+        Values[i, cxgrdclmnPODID.Index] := FPOLama.POItems[i].POD_BARANG.ID;
+        Values[i, cxgrdclmnPODSKU.Index] := FPOLama.POItems[i].POD_BARANG.BRG_CODE;
+        Values[i, cxgrdclmnPODNama.Index] := FPOLama.POItems[i].POD_BARANG.BRG_NAME;
+        Values[i, cxgrdclmnPODUOMID.Index] := FPOLama.POItems[i].POD_UOM.ID;
+        Values[i, cxgrdclmnPODUOM.Index] := FPOLama.POItems[i].POD_UOM.SAT_NAME;
+        Values[i, cxgrdclmnPODJumlah.Index] := FPOLama.POItems[i].POD_QTY_ORDER;
+        Values[i, cxgrdclmnPODHarga.Index] := FPOLama.POItems[i].POD_PRICE;
+        Values[i, cxgrdclmnPODDisc1.Index] := FPOLama.POItems[i].POD_DISC1;
+        Values[i, cxgrdclmnPODDisc2.Index] := FPOLama.POItems[i].POD_DISC2;
+        Values[i, cxgrdclmnPODDisc3.Index] := FPOLama.POItems[i].POD_DISC3;
+        Values[i, cxgrdclmnPODTotal.Index] := FPOLama.POItems[i].POD_TOTAL;
+        Post;
+      End;
+    edSubTotal.Value := FPOLama.PO_SUBTOTAL;
+    edDisc1.Value := FPOLama.PO_DISC;
+    edPPN.Value := FPOLama.PO_PPN;
+    edPPNBM.Value := FPOLAMA.PO_PPNBM;
+    edTotal.Value := FPOLAMA.PO_TOTAL;
   end;
 end;
 

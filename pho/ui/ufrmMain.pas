@@ -306,6 +306,8 @@ type
     MasterAgama1: TMenuItem;
     test1: TMenuItem;
     actSetKoneksi: TAction;
+    actCreditCard: TAction;
+    CreditCard1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -316,6 +318,7 @@ type
     procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
@@ -424,7 +427,7 @@ uses
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
-  ufrmSettingKoneksi;
+  ufrmSettingKoneksi, ufrmCreditCard;
 
 {$R *.dfm}
 
@@ -563,6 +566,11 @@ end;
 procedure TfrmMain.actCostCenterExecute(Sender: TObject);
 begin
   frmCostCenter := TfrmCostCenter.Create(Application);
+end;
+
+procedure TfrmMain.actCreditCardExecute(Sender: TObject);
+begin
+  frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actDataProductExecute(Sender: TObject);

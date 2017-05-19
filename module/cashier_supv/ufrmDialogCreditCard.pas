@@ -4,55 +4,58 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ExtCtrls, StdCtrls,
-  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
-  cxEdit, cxTextEdit, cxCurrencyEdit, System.Actions, Vcl.ActnList,
-  ufraFooterDialog3Button;
+  Dialogs, ufrmMasterDialog, ExtCtrls, StdCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
+  cxCurrencyEdit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
+  uInterface, uModCreditCard, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox, Datasnap.DBClient, uClientClasses;
 
 type
-  TfrmDialogCreditCard = class(TfrmMasterDialog)
+  TfrmDialogCreditCard = class(TfrmMasterDialog, iCRUDAble)
+    cboisCredit: TComboBox;
+    chkIsActive: TCheckBox;
+    chkIsCachBack: TCheckBox;
+    chkIsKring: TCheckBox;
+    cxLookupAccount: TcxExtLookupComboBox;
+    cxLookupAccountCashBack: TcxExtLookupComboBox;
+    edtCardCode: TEdit;
+    edtCardName: TEdit;
+    edtLimit: TcxCurrencyEdit;
+    fedtCharge: TcxCurrencyEdit;
+    fedtDisc: TcxCurrencyEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
     lbl4: TLabel;
     lbl6: TLabel;
-    edtCardCode: TEdit;
-    edtCardName: TEdit;
-    cboisCredit: TComboBox;
-    chkIsActive: TCheckBox;
-    edtLimit: TcxCurrencyEdit;
-    fedtDisc: TcxCurrencyEdit;
     lbl7: TLabel;
-    chkIsCachBack: TCheckBox;
-    fedtCharge: TcxCurrencyEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    chkIsKring: TCheckBox;
     procedure actDeleteExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure edtLimitEnter(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure footerDialogMasterbtnCloseClick(Sender: TObject);
     procedure fedtChargeExit(Sender: TObject);
     procedure fedtDiscExit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
-  { Private declarations }
-//    FCC     : TCreditCard;
-    FCc_id  : Integer;
-    procedure ClearAtributFrmCc;
-    procedure GetAtributFrmCc;
+    FCDSRekening: TClientDataSet;
+    FDSClient: TDSProviderClient;
+    FModCreditCard: TModCreditCard;
+    procedure ClearForm;
+    function GetCDSRekening: TClientDataSet;
+    function GetDSClient: TDSProviderClient;
+    function GetModCreditCard: TModCreditCard;
+    function IsValidate: Boolean;
+    procedure SavingData;
+    property CDSRekening: TClientDataSet read GetCDSRekening write FCDSRekening;
+    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
+    property ModCreditCard: TModCreditCard read GetModCreditCard write
+        FModCreditCard;
   public
-    { Public declarations }
-    CARD_ID: Integer;
-    constructor a(a : TComponent);
-    procedure  ShowWithCCId(aCc_id: integer);
-
-
-  published
-
+    procedure LoadData(AID: string);
   end;
 
 var
@@ -60,119 +63,75 @@ var
 
 implementation
 
-uses uTSCommonDlg,  uRetnoUnit, ufrmCreditCard;
+uses
+  uTSCommonDlg, uRetnoUnit, ufrmCreditCard, uDXUtils, uDBUtils, uDMClient,
+  uAppUtils, uConstanta, uModRekening;
 
 {$R *.dfm}
-
-procedure TfrmDialogCreditCard.FormCreate(Sender: TObject);
-begin
-  inherited;
-
-  FCc_id := 0;
-//  FCC := TCreditCard.CreateWithUser(nil, FLoginId);
-
-end;
-
-constructor TfrmDialogCreditCard.a(a : TComponent);
-begin
-
-
-end;
 
 procedure TfrmDialogCreditCard.actDeleteExecute(Sender: TObject);
 begin
   inherited;
-  /// tanya ke user dl mas, apakah yakin akan hapus DB
-  {if MessageDlg('Apakah yakin akan menghapus Credit Carde ' +
-          AdvStrGrid.Cells[_kolCardNm , iy] + ' ?',
-          mtConfirmation,[mbYes,mbNo],0)=mrYes then
+  if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
   begin
-    if FCC.LoadByID(AdvStrGrid.Ints[_kolCardID, iy], masternewunit.id) then
-    begin
-      try
-        if FCC.RemoveFromDB then
-        begin
-          cCommitTrans;
-          CommonDlg.ShowMessage('Sukses Hapus Credit Card');
-          ParseDataGrid();
-        end
-        else
-        begin
-          cRollbackTrans;
-          CommonDlg.ShowError('Gagal Hapus Credit Card');
-        end;
-      finally
-        cRollbackTrans;
-      end;
-    end
-    else
-    begin
-       CommonDlg.ShowConfirmGlobal ('Data yang dihapus tidak ada!');
-    end;
+    DMClient.CrudClient.DeleteFromDB(ModCreditCard);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.Close;
   end;
-   }
 end;
 
-procedure TfrmDialogCreditCard.ShowWithCCId( aCc_id : Integer);
+procedure TfrmDialogCreditCard.actSaveExecute(Sender: TObject);
 begin
-  FCc_id := aCc_id ;
-
+  inherited;
+  if IsValidate then
+    SavingData;
 end;
 
-procedure TfrmDialogCreditCard.GetAtributFrmCc;
+procedure TfrmDialogCreditCard.ClearForm;
 begin
-  {
-  if FCC.LoadByID(FCc_id, dialogunit) then
-  begin
-    edtCardCode.Text := FCC.CARD_CODE;
-    edtCardName.Text := FCC.CARD_Name;
-
-    if FCC.CARD_Is_Credit = 1 then
-      cboisCredit.ItemIndex := 0
-    else
-      cboisCredit.ItemIndex := 1;
-
-    edtLimit.Value := FCC.CARD_Limit;
-    fedtCharge.Value := FCC.CARD_Charge;
-    fedtDisc.Value := FCC.CARD_Discount;
-
-    if FCC.CARD_Is_Active = 1 then
-      chkIsActive.Checked := True
-    else
-      chkIsActive.Checked:= False;
-
-    if FCC.CARD_Is_CashBack = 1 then
-      chkIsCachBack.Checked := True
-    else
-      chkIsCachBack.Checked := False;
-
-    chkIsKring.Checked := FCC.CARD_IS_KRING = 1;  
-
-  end;
-   }
-end;
-
-procedure TfrmDialogCreditCard.ClearAtributFrmCc;
-begin
-  edtCardCode.Clear;                /// luruskan := mas
+  edtCardCode.Clear;
   edtCardName.Clear;
 
-  cboisCredit.ItemIndex := 0;      /// kasih default 0 aj mas
+  cboisCredit.ItemIndex := 0;
   edtLimit.Value        := 0;
   fedtCharge.Value      := 0;
   fedtDisc.Value        := 0;
   chkIsActive.Checked   := False;
   chkIsCachBack.Checked := False;
-
+  chkIsKring.Checked    := False;
 end;
 
-procedure TfrmDialogCreditCard.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmDialogCreditCard.edtLimitEnter(Sender: TObject);
 begin
   inherited;
-  Action := caFree;
-//  FCC.Free;
+  edtLimit.SelectAll;
+end;
 
+procedure TfrmDialogCreditCard.fedtChargeExit(Sender: TObject);
+begin
+  inherited;
+  if fedtCharge.Value > 100 then
+    fedtCharge.Value := 100;
+end;
+
+procedure TfrmDialogCreditCard.fedtDiscExit(Sender: TObject);
+begin
+  inherited;
+  if fedtDisc.Value > 100 then
+    fedtDisc.Value := 100;
+end;
+
+procedure TfrmDialogCreditCard.FormCreate(Sender: TObject);
+begin
+  inherited;
+  ClearForm;
+
+  cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
+  cxLookupAccount.Properties.SetMultiPurposeLookup;
+  cxLookupAccountCashBack.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
+  cxLookupAccountCashBack.Properties.SetMultiPurposeLookup;
+
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogCreditCard.FormDestroy(Sender: TObject);
@@ -181,119 +140,95 @@ begin
   frmDialogCreditCard := nil;
 end;
 
-
-procedure TfrmDialogCreditCard.footerDialogMasterbtnSaveClick( Sender: TObject);
-var
-  iISKring: Integer;
-  sFcc_code,
-  sFcc_Nm         : string;
-  iFcc_isCredit,
-  iFcc_isCashBack,
-  iFcc_isActive   : Integer;
-  dFcc_Limit,
-  dFcc_Charge,
-  dFcc_Discount   : Double;
-
-
+function TfrmDialogCreditCard.GetCDSRekening: TClientDataSet;
 begin
-  inherited;
-  /// cek nama double walopun Nama di table tidak diset unique
-  {
-  try
-    with FCC do
-    begin
-
-      sFcc_code := edtCardCode.Text;  /// nama variablenya ga standar mas
-      sFcc_Nm   := edtCardName.Text;  /// nama variablenya ga standar mas
-
-      if cboisCredit.ItemIndex = 0 then
-        iFcc_isCredit := 1
-      else
-        iFcc_isCredit := 0;
-
-
-      dFcc_Limit    := edtLimit.Value; /// nama variablenya ga standar mas
-      dFcc_Charge   := fedtCharge.Value; /// nama variablenya ga standar mas
-      dFcc_Discount := fedtDisc.Value; /// nama variablenya ga standar mas
-
-      if chkIsActive.Checked then
-        iFcc_isActive := 1    /// nama variablenya ga standar mas
-      else
-        iFcc_isActive := 0;   /// nama variablenya ga standar mas
-
-      if chkIsCachBack.Checked then
-        iFcc_isCashBack := 1   /// nama variablenya ga standar mas
-      else
-        iFcc_isCashBack := 0;  /// nama variablenya ga standar mas
-
-      iISKring := 0;
-      if chkIsKring.Checked then
-        iISKring := 1;  
-
-      UpdateData(sFcc_code, sFcc_Nm, dFcc_Charge, dFcc_Discount, FCc_id, iFcc_isActive,
-                  iFcc_isCashBack, iFcc_isCredit, dFcc_Limit, dialogunit, iISKring);
-                  
-      if not SaveToDB then
-      begin
-        cRollbackTrans;
-        CommonDlg.ShowError('Gagal Simpan Data Credit Card.'); 
-      end
-      else
-      begin
-        cCommitTrans;
-        CommonDlg.ShowMessage('Data credit card telah disimpan.');
-        frmCreditCard.fraFooter5Button1btnRefreshClick(self);
-        Close;
-      end;
-
-    end;
-
-  finally
-    cRollbackTrans;
+  if not Assigned(FCDSRekening) then
+  begin
+    FCDSRekening := TDBUtils.DSToCDS(DSClient.Rekening_GetDSLookup, Self );
   end;
-  }
-
+  Result := FCDSRekening;
 end;
 
-procedure TfrmDialogCreditCard.edtLimitEnter(Sender: TObject);
+function TfrmDialogCreditCard.GetDSClient: TDSProviderClient;
 begin
-  inherited;
-  edtLimit.SelectAll;
-
+  if not Assigned(FDSClient) then
+    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+  Result := FDSClient;
 end;
 
-
-
-procedure TfrmDialogCreditCard.FormShow(Sender: TObject);
+function TfrmDialogCreditCard.GetModCreditCard: TModCreditCard;
 begin
-  inherited;
-
-  ClearAtributFrmCc; /// ini diperjelas nama metodnya ya
-  GetAtributFrmCc;   /// ini diperjelas nama metodnya ya
-  edtCardName.SetFocus;
-
+  if not Assigned(FModCreditCard) then
+    FModCreditCard := TModCreditCard.Create;
+  Result := FModCreditCard;
 end;
 
-procedure TfrmDialogCreditCard.footerDialogMasterbtnCloseClick(
-  Sender: TObject);
+function TfrmDialogCreditCard.IsValidate: Boolean;
 begin
-  inherited;
-  Close;
+  Result := False;
 
+  if edtCardCode.Text = '' then
+  begin
+    TAppUtils.Warning('Card Code belum diisi');
+    exit;
+  end
+  else
+    Result := True;
 end;
 
-procedure TfrmDialogCreditCard.fedtChargeExit(Sender: TObject);
+procedure TfrmDialogCreditCard.LoadData(AID: string);
 begin
-  inherited;
-  if fedtCharge.Value > 100 then
-  fedtCharge.Value := 100;
+  if Assigned(FModCreditCard) then
+    FreeAndNil(FModCreditCard);
+
+  FModCreditCard := DMClient.CrudClient.Retrieve(TModCreditCard.ClassName, AID) as TModCreditCard;
+
+  edtCardCode.Text      := ModCreditCard.CARD_CODE;
+  edtCardName.Text      := ModCreditCard.CARD_NAME;
+  cboisCredit.ItemIndex := ModCreditCard.CARD_IS_CREDIT;
+  edtLimit.Value        := ModCreditCard.CARD_LIMIT;
+  fedtCharge.Value      := ModCreditCard.CARD_CHARGE;
+  fedtDisc.Value        := ModCreditCard.CARD_DISCOUNT;
+  chkIsActive.Checked   := ModCreditCard.CARD_IS_ACTIVE = 1;
+  chkIsCachBack.Checked := ModCreditCard.CARD_IS_CASHBACK = 1;
+  chkIsKring.Checked    := ModCreditCard.CARD_IS_KRING = 1;
+
+  if Assigned(ModCreditCard.REKENING) then
+    cxLookupAccount.EditValue := ModCreditCard.REKENING.ID;
+  if Assigned(ModCreditCard.REKENING_CASH_BACK) then
+    cxLookupAccountCashBack.EditValue := ModCreditCard.REKENING_CASH_BACK.ID;
 end;
 
-procedure TfrmDialogCreditCard.fedtDiscExit(Sender: TObject);
+procedure TfrmDialogCreditCard.SavingData;
 begin
-  inherited;
-  if fedtDisc.Value > 100 then
-  fedtDisc.Value := 100;
+  ModCreditCard.CARD_CODE         := edtCardCode.Text;
+  ModCreditCard.CARD_NAME         := edtCardName.Text;
+  ModCreditCard.CARD_IS_CREDIT    := cboisCredit.ItemIndex;
+  ModCreditCard.CARD_LIMIT        := edtLimit.Value;
+  ModCreditCard.CARD_CHARGE       := fedtCharge.Value;
+  ModCreditCard.CARD_DISCOUNT     := fedtDisc.Value;
+  ModCreditCard.CARD_IS_ACTIVE    := TAppUtils.BoolToInt(chkIsActive.Checked);
+  ModCreditCard.CARD_IS_CASHBACK  := TAppUtils.BoolToInt(chkIsCachBack.Checked);
+  ModCreditCard.CARD_IS_KRING     := TAppUtils.BoolToInt(chkIsKring.Checked);
+
+  if not VarIsNull(cxLookupAccount.EditValue) then
+  begin
+    ModCreditCard.REKENING := TModRekening.CreateID(cxLookupAccount.EditValue);
+  end;
+
+  if not VarIsNull(cxLookupAccountCashBack.EditValue) then
+  begin
+    ModCreditCard.REKENING_CASH_BACK := TModRekening.CreateID(cxLookupAccountCashBack.EditValue);
+  end;
+
+  Try
+    DMClient.CrudClient.SaveToDB(ModCreditCard);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    Raise;
+  End;
 end;
 
 end.

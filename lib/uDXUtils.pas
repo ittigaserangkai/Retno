@@ -186,7 +186,6 @@ type
     function Values(ARec, ACol : Integer): Variant; overload;
   end;
 
-
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
 
