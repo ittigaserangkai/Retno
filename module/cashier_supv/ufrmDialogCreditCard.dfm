@@ -128,8 +128,6 @@ inherited frmDialogCreditCard: TfrmDialogCreditCard
       Width = 66
       Height = 17
       Caption = 'is Active'
-      Checked = True
-      State = cbChecked
       TabOrder = 6
     end
     object edtLimit: TcxCurrencyEdit
@@ -209,16 +207,14 @@ inherited frmDialogCreditCard: TfrmDialogCreditCard
       inherited btnSave: TcxButton
         Left = 214
         Action = actSave
-        ExplicitLeft = 230
-        ExplicitTop = 5
+        ExplicitLeft = 214
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
         Left = 137
-        ExplicitLeft = 117
-        ExplicitTop = 5
+        ExplicitLeft = 137
       end
     end
     inherited pnlSortCut: TPanel
@@ -226,9 +222,7 @@ inherited frmDialogCreditCard: TfrmDialogCreditCard
       ExplicitWidth = 384
       inherited lbCTRLEnter: TLabel
         Left = 209
-        ExplicitLeft = 258
-        ExplicitTop = 2
-        ExplicitHeight = 15
+        ExplicitLeft = 209
       end
       inherited lbEscape: TLabel
         Left = 300
@@ -236,9 +230,7 @@ inherited frmDialogCreditCard: TfrmDialogCreditCard
       end
       inherited lblCTRLP: TLabel
         Left = 133
-        ExplicitLeft = 139
-        ExplicitTop = 2
-        ExplicitHeight = 15
+        ExplicitLeft = 133
       end
     end
   end

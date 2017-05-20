@@ -29,7 +29,6 @@ type
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
-
   public
     procedure RefreshData; override;
   end;
@@ -40,7 +39,7 @@ var
 implementation
 
 uses
-  ufrmDialogCreditCard, uTSCommonDlg, uRetnoUnit, uDBUtils, uDMCLient, uDXUtils;
+  ufrmDialogCreditCard, uDBUtils, uDMCLient, uDXUtils;
 
 {$R *.dfm}
 

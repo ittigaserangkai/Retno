@@ -4,42 +4,35 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ufraFooterDialog2Button, ExtCtrls, ufrmMasterDialog,
-  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
-  cxEdit, cxRadioGroup, cxGroupBox, System.Actions, Vcl.ActnList,
-  ufraFooterDialog3Button;
+  Dialogs, StdCtrls, ExtCtrls, ufrmMasterDialog, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxRadioGroup,
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button, uClientClasses,
+  uInterface, uModKompetitor;
 
 type
-  TFormMode = (fmAdd, fmEdit);
-
-  TfrmDialogDaftarKompetitor = class(TfrmMasterDialog)
-    lbl1: TLabel;
-    edtNama: TEdit;
-    Label1: TLabel;
-    sgrpbxStatus: TcxGroupBox;
-    rbAktif: TcxRadioButton;
-    rbNoAktif: TcxRadioButton;
-    lbl2: TLabel;
+  TfrmDialogDaftarKompetitor = class(TfrmMasterDialog, ICRUDAble)
+    chkIsActive: TCheckBox;
     edtCompCode: TEdit;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    edtNama: TEdit;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialog1btnSaveClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
-    FIsProcessSuccessfull: boolean;
-    FComptId: Integer;
-    FFormMode: TFormMode;
-    procedure SetComptId(const Value: Integer);
-    procedure SetFormMode(const Value: TFormMode);
-    procedure SetIsProcessSuccessfull(const Value: boolean);
-    procedure ClearFormDialog;
-    procedure ShowEditCompetitor(ACompetitorId: integer);
+    FDSClient: TDSProviderClient;
+    FModKompetitor: TModKompetitor;
+    procedure ClearForm;
+    function GetDSClient: TDSProviderClient;
+    function GetModKompetitor: TModKompetitor;
+    function IsValidate: Boolean;
+    procedure SavingData;
+    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
+    property ModKompetitor: TModKompetitor read GetModKompetitor write
+        FModKompetitor;
   public
-    { Public declarations }
-  published
-    property FormMode: TFormMode read FFormMode write SetFormMode;
-    property ComptId: Integer read FComptId write SetComptId;
-    property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
+    procedure LoadData(AID: string);
   end;
 
 var
@@ -47,15 +40,41 @@ var
 
 implementation
 
-uses uTSCommonDlg, ufrmDaftarCompetitor, SysConst, DB,
-  uConn,  uRetnoUnit, uConstanta;
+uses
+  uTSCommonDlg, DB, uConstanta, uAppUtils, uDMClient;
 
 {$R *.dfm}
 
-procedure TfrmDialogDaftarKompetitor.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmDialogDaftarKompetitor.actDeleteExecute(Sender: TObject);
 begin
-  Action := caFree;
+  inherited;
+  if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
+  begin
+    DMClient.CrudClient.DeleteFromDB(ModKompetitor);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.Close;
+  end;
+end;
+
+procedure TfrmDialogDaftarKompetitor.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  if IsValidate then
+    SavingData;
+end;
+
+procedure TfrmDialogDaftarKompetitor.ClearForm;
+begin
+  edtCompCode.Clear;
+  edtNama.Clear;
+  chkIsActive.Checked   := True;
+end;
+
+procedure TfrmDialogDaftarKompetitor.FormCreate(Sender: TObject);
+begin
+  inherited;
+  ClearForm;
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogDaftarKompetitor.FormDestroy(Sender: TObject);
@@ -63,106 +82,59 @@ begin
   frmDialogDaftarKompetitor := nil;
 end;
 
-procedure TfrmDialogDaftarKompetitor.footerDialog1btnSaveClick(
-  Sender: TObject);
-var
-  Aktif: Byte;
-//  Kompetitor : TKompetitor;
+function TfrmDialogDaftarKompetitor.GetDSClient: TDSProviderClient;
 begin
-//  Kompetitor := TKompetitor.Create(nil);
-  if edtCompCode.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('CODE');
-    edtNama.SetFocus;
-    Exit;
-  end;
-  if edtNama.Text='' then
-  begin
-    CommonDlg.ShowErrorEmpty('NAME');
-    edtNama.SetFocus;
-    Exit;
-  end;
+  if not Assigned(FDSClient) then
+    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+  Result := FDSClient;
+end;
 
-  if rbAktif.Checked then
-    Aktif:=1
-  else
-    Aktif:=0;
-  {
-  if not assigned(DaftarCompetitor) then DaftarCompetitor := TDaftarCompetitor.Create;
-  if Kompetitor.idKodeExits(edtCompCode.Text, DialogUnit, ComptId)
-  then
+function TfrmDialogDaftarKompetitor.GetModKompetitor: TModKompetitor;
+begin
+  if not Assigned(FModKompetitor) then
+    FModKompetitor := TModKompetitor.Create;
+  Result := FModKompetitor;
+end;
+
+function TfrmDialogDaftarKompetitor.IsValidate: Boolean;
+begin
+  Result := False;
+
+  if edtCompCode.Text = '' then
   begin
-    CommonDlg.ShowError(ER_EXIST);
-    Exit
+    TAppUtils.Warning('Competitor Code belum diisi');
+    exit;
   end
   else
-  begin
-    Kompetitor.updatedata( ComptId,
-                   Aktif,
-                   edtCompCode.Text,
-                   edtNama.Text,
-                   DialogUnit);
-  if Kompetitor.ExecuteGenerateSQL then
-      cCommitTrans
-  else
-      cRollbackTrans;
-  frmDaftarCompetitor.actRefreshDaftarKompetitorExecute(Self);
-  Close;
-  end
-   }
+    Result := True;
 end;
 
-procedure TfrmDialogDaftarKompetitor.SetComptId(const Value: Integer);
+procedure TfrmDialogDaftarKompetitor.LoadData(AID: string);
 begin
-  FComptId := Value;
+  if Assigned(FModKompetitor) then
+    FreeAndNil(FModKompetitor);
+
+  FModKompetitor := DMClient.CrudClient.Retrieve(TModKompetitor.ClassName, AID) as TModKompetitor;
+
+  edtCompCode.Text    := ModKompetitor.KOMPT_CODE;
+  edtNama.Text        := ModKompetitor.KOMPT_NAME;
+  chkIsActive.Checked := ModKompetitor.KOMPT_IS_ACTIVE = 1;
 end;
 
-procedure TfrmDialogDaftarKompetitor.SetFormMode(const Value: TFormMode);
+procedure TfrmDialogDaftarKompetitor.SavingData;
 begin
-  FFormMode := Value;
-end;
+  ModKompetitor.KOMPT_CODE         := edtCompCode.Text;
+  ModKompetitor.KOMPT_NAME         := edtNama.Text;
+  ModKompetitor.KOMPT_IS_ACTIVE    := TAppUtils.BoolToInt(chkIsActive.Checked);
 
-procedure TfrmDialogDaftarKompetitor.SetIsProcessSuccessfull(
-  const Value: boolean);
-begin
-  FIsProcessSuccessfull := Value;
-end;
-
-procedure TfrmDialogDaftarKompetitor.FormShow(Sender: TObject);
-begin
-  if (FFormMode = fmAdd) then
-    ClearFormDialog()
-  else
-    ShowEditCompetitor(FComptId);
-end;
-
-procedure TfrmDialogDaftarKompetitor.ClearFormDialog;
-begin
-  edtNama.Text := '';
-  edtCompCode.Text := '';
-  rbAktif.Checked := true;
-  edtCompCode.SetFocus;
-end;
-
-procedure TfrmDialogDaftarKompetitor.ShowEditCompetitor(ACompetitorId: integer);
-var
-  rcData: TDataSet;
-begin
-  {if not Assigned(DaftarCompetitor) then
-    DaftarCompetitor := TDaftarCompetitor.Create;
-
-  rcData := DaftarCompetitor.SearchDataCompetitor(ACompetitorId);
-  with rcData do
-  begin
-    edtCompCode.Text := fieldbyname('KOMPT_CODE').AsString;
-    edtNama.Text := fieldbyname('KOMPT_NAME').AsString;
-    if fieldbyname('KOMPT_IS_ACTIVE').AsInteger=1 then
-      rbAktif.Checked := true
-    else
-      rbNoAktif.Checked := true;
-  end; // end with
-  edtCompCode.SetFocus;
-  }
+  Try
+    DMClient.CrudClient.SaveToDB(ModKompetitor);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    Raise;
+  End;
 end;
 
 end.

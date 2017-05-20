@@ -64,8 +64,8 @@ var
 implementation
 
 uses
-  uTSCommonDlg, uRetnoUnit, ufrmCreditCard, uDXUtils, uDBUtils, uDMClient,
-  uAppUtils, uConstanta, uModRekening;
+  uTSCommonDlg, uDXUtils, uDBUtils, uDMClient, uAppUtils, uConstanta,
+  uModRekening;
 
 {$R *.dfm}
 
@@ -96,7 +96,7 @@ begin
   edtLimit.Value        := 0;
   fedtCharge.Value      := 0;
   fedtDisc.Value        := 0;
-  chkIsActive.Checked   := False;
+  chkIsActive.Checked   := True;
   chkIsCachBack.Checked := False;
   chkIsKring.Checked    := False;
 end;

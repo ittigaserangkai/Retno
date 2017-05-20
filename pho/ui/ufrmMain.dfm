@@ -228,6 +228,10 @@ object frmMain: TfrmMain
       object actSupplier1: TMenuItem
         Action = actSupplier
       end
+      object Kompetitor1: TMenuItem
+        Action = actKompetitor
+        Caption = 'Kompetitor'
+      end
     end
     object mmSetting1: TMenuItem
       Caption = 'Se&tting'
@@ -1260,6 +1264,11 @@ object frmMain: TfrmMain
       Category = 'References'
       Caption = 'Credit Card'
       OnExecute = actCreditCardExecute
+    end
+    object actKompetitor: TAction
+      Category = 'Merchandise'
+      Caption = 'actKompetitor'
+      OnExecute = actKompetitorExecute
     end
   end
   object AppEvents: TApplicationEvents
