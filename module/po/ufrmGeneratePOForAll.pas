@@ -89,6 +89,7 @@ type
     procedure pnlBodyDblClick(Sender: TObject);
     procedure cbbSOPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cbbSOPropertiesEditValueChanged(Sender: TObject);
   private
     isSOFound: Boolean;
     FIsGenerated: Boolean;
@@ -197,6 +198,12 @@ begin
 end;
 
 procedure TfrmGeneratePOforAll.cbbSOExit(Sender: TObject);
+begin
+  inherited;
+//  InisialisasiCBBSupMG;
+end;
+
+procedure TfrmGeneratePOforAll.cbbSOPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   InisialisasiCBBSupMG;

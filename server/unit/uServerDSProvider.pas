@@ -74,7 +74,7 @@ type
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
-    function SupMGBySO_GetDSLookup(ID: string): TDataset;
+    function SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
@@ -790,13 +790,12 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.SupMGBySO_GetDSLookup(ID: string): TDataset;
+function TDSProvider.SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
 var
   sSQL: string;
 begin
-  sSQL := 'select DISTINCT A.SO_ID,A.SUPLIER_MERCHAN_GRUP_ID,B.SUPMG_SUB_CODE,B.SUPMG_NAME'
-    +' from SO_DETAIL A LEFT JOIN SUPLIER_MERCHAN_GRUP B on A.SUPLIER_MERCHAN_GRUP_ID'
-    +' = B.SUPLIER_MERCHAN_GRUP_ID WHERE A.SO_ID = ' + TDBUtils.Quot(ID);
+  sSQL := 'SELECT DISTINCT SO_ID,SUPLIER_MERCHAN_GRUP_ID,SUPMG_SUB_CODE,SUPMG_NAME'
+         +' FROM V_SO_FOR_GENERATE_PO WHERE SO_ID = ' + TDBUtils.Quot(ID);
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -821,7 +820,7 @@ function TDSProvider.SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
 var
   sSQL: string;
 begin
-  sSQL := 'select distinct SO_ID,SO_NO, SO_DATE from V_SO where 1 = 1 ' ;
+  sSQL := 'select distinct SO_ID,SO_NO, SO_DATE from SO where 1 = 1 ' ;
 
   if AUnit <> nil then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
