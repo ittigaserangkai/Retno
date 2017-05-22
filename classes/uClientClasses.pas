@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 5/18/2017 4:09:44 PM
+// 5/20/2017 12:56:08 PM
 //
 
 unit uClientClasses;
@@ -230,6 +230,8 @@ type
     FDO_GetDSLookUpCommand_Cache: TDSRestCommand;
     FDO_GetDSOverviewCommand: TDSRestCommand;
     FDO_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FKompetitor_GetDSOverviewCommand: TDSRestCommand;
+    FKompetitor_GetDSOverviewCommand_Cache: TDSRestCommand;
     FPO_GetDSOLookUpCommand: TDSRestCommand;
     FPO_GetDSOLookUpCommand_Cache: TDSRestCommand;
     FSO_GetDSOLookUpGeneratePOCommand: TDSRestCommand;
@@ -395,6 +397,8 @@ type
     function DO_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; ASupMGCodeID: string; const ARequestFilter: string = ''): TDataSet;
     function DO_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; ASupMGCodeID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Kompetitor_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Kompetitor_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOLookUp(AUnitID: string; const ARequestFilter: string = ''): TDataSet;
     function PO_GetDSOLookUp_Cache(AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
@@ -1511,6 +1515,16 @@ const
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'ASupMGCodeID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Kompetitor_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Kompetitor_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4797,6 +4811,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FDO_GetDSOverviewCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSProviderClient.Kompetitor_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FKompetitor_GetDSOverviewCommand = nil then
+  begin
+    FKompetitor_GetDSOverviewCommand := FConnection.CreateCommand;
+    FKompetitor_GetDSOverviewCommand.RequestType := 'GET';
+    FKompetitor_GetDSOverviewCommand.Text := 'TDSProvider.Kompetitor_GetDSOverview';
+    FKompetitor_GetDSOverviewCommand.Prepare(TDSProvider_Kompetitor_GetDSOverview);
+  end;
+  FKompetitor_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FKompetitor_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FKompetitor_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Kompetitor_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FKompetitor_GetDSOverviewCommand_Cache = nil then
+  begin
+    FKompetitor_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FKompetitor_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FKompetitor_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Kompetitor_GetDSOverview';
+    FKompetitor_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Kompetitor_GetDSOverview_Cache);
+  end;
+  FKompetitor_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FKompetitor_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.PO_GetDSOLookUp(AUnitID: string; const ARequestFilter: string): TDataSet;
 begin
   if FPO_GetDSOLookUpCommand = nil then
@@ -5194,6 +5237,8 @@ begin
   FDO_GetDSLookUpCommand_Cache.DisposeOf;
   FDO_GetDSOverviewCommand.DisposeOf;
   FDO_GetDSOverviewCommand_Cache.DisposeOf;
+  FKompetitor_GetDSOverviewCommand.DisposeOf;
+  FKompetitor_GetDSOverviewCommand_Cache.DisposeOf;
   FPO_GetDSOLookUpCommand.DisposeOf;
   FPO_GetDSOLookUpCommand_Cache.DisposeOf;
   FSO_GetDSOLookUpGeneratePOCommand.DisposeOf;

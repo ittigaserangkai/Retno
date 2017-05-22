@@ -308,6 +308,8 @@ type
     actSetKoneksi: TAction;
     actCreditCard: TAction;
     CreditCard1: TMenuItem;
+    actKompetitor: TAction;
+    Kompetitor1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -328,6 +330,7 @@ type
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
+    procedure actKompetitorExecute(Sender: TObject);
     procedure actLapInvMovementQtyExecute(Sender: TObject);
     procedure actLaporanStokExecute(Sender: TObject);
     procedure actLapReturSupExecute(Sender: TObject);
@@ -427,7 +430,7 @@ uses
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
-  ufrmSettingKoneksi, ufrmCreditCard;
+  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor;
 
 {$R *.dfm}
 
@@ -570,7 +573,7 @@ end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
 begin
-  frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
+  frmCreditCard := TfrmCreditCard.Create(Application);
 end;
 
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
@@ -611,6 +614,11 @@ end;
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
 begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actKompetitorExecute(Sender: TObject);
+begin
+  frmDaftarCompetitor := TfrmDaftarCompetitor.Create(Application);
 end;
 
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
