@@ -128,6 +128,7 @@ begin
     Self.ModalResult := mrNone
   else begin
     SetResultData;
+    FData.First;
     if MultiSelect then
     begin
       if Self.Data.RecordCount = 0 then
@@ -441,6 +442,10 @@ end;
 procedure TfrmCXLookup.SetResultData;
 begin
   if not Assigned(FCDS) then exit;
+  //post pending data (check)
+  if FCDS.State in [dsEdit, dsInsert] then
+    FCDS.Post;
+
   if not Assigned(FData) then
     FData := TClientDataSet.Create(Self);
 

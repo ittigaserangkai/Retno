@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSellingPrice
+      Properties.ActivePage = tsKonversi
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -928,6 +928,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Height = 311
             Align = alClient
             TabOrder = 0
+            OnExit = cxGridKonversiExit
             LookAndFeel.NativeStyle = False
             object cxGrdDBKonversi: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
@@ -940,6 +941,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsBehavior.GoToNextCellOnEnter = True
               OptionsBehavior.FocusCellOnCycle = True
               OptionsData.Appending = True
+              OptionsData.CancelOnExit = False
               OptionsView.GroupByBox = False
               object clKonvSatuan: TcxGridDBColumn
                 Caption = 'SATUAN'

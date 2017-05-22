@@ -69,6 +69,7 @@ object frmMasterDialog: TfrmMasterDialog
       end
       inherited btnPrint: TcxButton
         Left = 307
+        Action = actPrint
         ExplicitLeft = 307
       end
     end
@@ -77,15 +78,19 @@ object frmMasterDialog: TfrmMasterDialog
       ExplicitWidth = 554
       inherited lbCTRLEnter: TLabel
         Left = 379
+        Height = 15
         ExplicitLeft = 379
       end
       inherited lbEscape: TLabel
         Left = 470
+        Height = 15
         ExplicitLeft = 470
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 303
-        Height = 16
         AutoSize = True
         ExplicitLeft = 303
         ExplicitHeight = 16
@@ -94,7 +99,7 @@ object frmMasterDialog: TfrmMasterDialog
   end
   object actlstMasterDialog: TActionList
     Images = DMClient.imgListButton
-    Left = 512
+    Left = 504
     Top = 48
     object actDelete: TAction
       Caption = 'Delete'
@@ -109,6 +114,11 @@ object frmMasterDialog: TfrmMasterDialog
       Caption = 'actCancel'
       ImageIndex = 4
       OnExecute = actCancelExecute
+    end
+    object actPrint: TAction
+      Caption = '&Print'
+      ImageIndex = 28
+      ShortCut = 16464
     end
   end
 end

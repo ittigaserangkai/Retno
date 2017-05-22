@@ -3,6 +3,7 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
+  ExplicitTop = -155
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -425,7 +426,7 @@ inherited frmDialogSO: TfrmDialogSO
       end
       inherited btnPrint: TcxButton
         Left = 643
-        OnClick = btnPrintClick
+        Action = actPrint
         ExplicitLeft = 643
       end
     end
@@ -434,20 +435,14 @@ inherited frmDialogSO: TfrmDialogSO
       ExplicitWidth = 890
       inherited lbCTRLEnter: TLabel
         Left = 715
-        Height = 15
         ExplicitLeft = 715
       end
       inherited lbEscape: TLabel
         Left = 806
-        Height = 15
         ExplicitLeft = 806
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 639
-        Height = 15
         ExplicitLeft = 639
       end
     end
@@ -460,6 +455,9 @@ inherited frmDialogSO: TfrmDialogSO
     end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
     object actGenerate: TAction
       Caption = 'CTRL-G [Generate SO]'

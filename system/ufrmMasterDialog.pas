@@ -15,6 +15,7 @@ type
     actDelete: TAction;
     actSave: TAction;
     actCancel: TAction;
+    actPrint: TAction;
     procedure actCancelExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);

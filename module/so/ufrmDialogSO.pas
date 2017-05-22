@@ -66,6 +66,7 @@ type
     procedure actAddProdExecute(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actGenerateExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -78,7 +79,6 @@ type
     procedure cxLookupSupplierMerchanPropertiesInitPopup(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
     procedure UnCheckAll1Click(Sender: TObject);
-    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataSet;
     FCDSSatuan: TClientDataset;
@@ -139,7 +139,7 @@ begin
   GenerateSO;
 end;
 
-procedure TfrmDialogSO.btnPrintClick(Sender: TObject);
+procedure TfrmDialogSO.actPrintExecute(Sender: TObject);
 var
   FilterPeriode: string;
   sNomorSO: string;
@@ -165,7 +165,6 @@ begin
       )
     );
   end;
-
 end;
 
 procedure TfrmDialogSO.btnToExcelClick(Sender: TObject);

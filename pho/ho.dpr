@@ -216,6 +216,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmDialogQuotation, frmDialogQuotation);
   Application.Run;
 end.

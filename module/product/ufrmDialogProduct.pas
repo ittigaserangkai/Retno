@@ -271,6 +271,7 @@ type
     procedure edFileNamePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure cxButton1Click(Sender: TObject);
+    procedure cxGridKonversiExit(Sender: TObject);
     procedure cxLookupMerkKeyDown(Sender: TObject; var Key: Word; Shift:
         TShiftState);
     procedure edtShortNamePropertiesEditValueChanged(Sender: TObject);
@@ -869,6 +870,12 @@ procedure TfrmDialogProduct.cxGrdDBSellingPriceCellClick(Sender:
 begin
   inherited;
   LoadSellingPriceRow;
+end;
+
+procedure TfrmDialogProduct.cxGridKonversiExit(Sender: TObject);
+begin
+  inherited;
+  if CDSKonv.State in [dsEdit, dsInsert] then CDSKonv.Post;
 end;
 
 procedure TfrmDialogProduct.cxLookupMerkKeyDown(Sender: TObject; var Key: Word;
