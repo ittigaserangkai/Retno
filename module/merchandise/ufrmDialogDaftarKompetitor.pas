@@ -104,8 +104,12 @@ begin
   begin
     TAppUtils.Warning('Competitor Code belum diisi');
     exit;
-  end
-  else
+  end else
+  if edtNama.Text = '' then
+  begin
+    TAppUtils.Warning('Competitor Name belum diisi');
+    exit;
+  end else
     Result := True;
 end;
 
