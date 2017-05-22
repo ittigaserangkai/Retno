@@ -165,6 +165,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
     object cbbSO: TcxExtLookupComboBox
       Left = 133
       Top = 5
+      Properties.OnEditValueChanged = cbbSOPropertiesEditValueChanged
       Properties.OnValidate = cbbSOPropertiesValidate
       TabOrder = 0
       OnExit = cbbSOExit
@@ -197,6 +198,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       end
       inherited btnPrint: TcxButton
         Left = 412
+        Action = actPrint
         ExplicitLeft = 412
       end
     end
