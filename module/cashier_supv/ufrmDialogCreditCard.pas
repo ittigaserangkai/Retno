@@ -171,8 +171,12 @@ begin
   begin
     TAppUtils.Warning('Card Code belum diisi');
     exit;
-  end
-  else
+  end else
+  if edtCardName.Text = '' then
+  begin
+    TAppUtils.Warning('Card Name belum diisi');
+    exit;
+  end else
     Result := True;
 end;
 

@@ -66,6 +66,7 @@ begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.RefCreditCard_GetDSOverview ,Self );
   cxGridView.LoadFromCDS(CDS);
+  cxGridView.AutoFormatCurrency(',0.##;(,0.##)');
   cxGridView.SetVisibleColumns(['REF$CREDIT_CARD_ID'],False);
 end;
 

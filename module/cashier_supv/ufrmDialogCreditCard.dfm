@@ -214,6 +214,7 @@ inherited frmDialogCreditCard: TfrmDialogCreditCard
       end
       inherited btnPrint: TcxButton
         Left = 137
+        Action = actPrint
         ExplicitLeft = 137
       end
     end
@@ -222,14 +223,20 @@ inherited frmDialogCreditCard: TfrmDialogCreditCard
       ExplicitWidth = 384
       inherited lbCTRLEnter: TLabel
         Left = 209
+        Height = 15
         ExplicitLeft = 209
       end
       inherited lbEscape: TLabel
         Left = 300
+        Height = 15
         ExplicitLeft = 300
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 133
+        Height = 15
         ExplicitLeft = 133
       end
     end

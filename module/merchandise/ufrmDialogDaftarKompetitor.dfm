@@ -14,8 +14,8 @@ inherited frmDialogDaftarKompetitor: TfrmDialogDaftarKompetitor
   inherited pnlBody: TPanel
     Width = 384
     Height = 105
-    ExplicitWidth = 367
-    ExplicitHeight = 92
+    ExplicitWidth = 384
+    ExplicitHeight = 105
     object lbl1: TLabel
       Left = 13
       Top = 35
@@ -63,43 +63,50 @@ inherited frmDialogDaftarKompetitor: TfrmDialogDaftarKompetitor
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 105
     Width = 384
-    ExplicitTop = 92
-    ExplicitWidth = 367
+    ExplicitTop = 105
+    ExplicitWidth = 384
     inherited pnlFooter: TPanel
       Width = 384
-      ExplicitWidth = 367
+      ExplicitWidth = 384
       inherited btnClose: TcxButton
         Left = 307
         Action = actCancel
-        ExplicitLeft = 290
+        ExplicitLeft = 307
       end
       inherited btnSave: TcxButton
         Left = 214
         Action = actSave
-        ExplicitLeft = 197
+        ExplicitLeft = 214
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
         Left = 137
-        ExplicitLeft = 120
+        Action = actPrint
+        ExplicitLeft = 137
       end
     end
     inherited pnlSortCut: TPanel
       Width = 384
-      ExplicitWidth = 367
+      ExplicitWidth = 384
       inherited lbCTRLEnter: TLabel
         Left = 209
-        ExplicitLeft = 192
+        Height = 15
+        ExplicitLeft = 209
       end
       inherited lbEscape: TLabel
         Left = 300
-        ExplicitLeft = 283
+        Height = 15
+        ExplicitLeft = 300
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 133
-        ExplicitLeft = 116
+        Height = 15
+        ExplicitLeft = 133
       end
     end
   end
