@@ -72,7 +72,7 @@ implementation
 
 uses
   uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg,
-  ufrmPORevision, uConstanta;
+  ufrmPORevision, uConstanta, uModApp;
 
 {$R *.dfm}
 
@@ -322,6 +322,8 @@ begin
   if cbbStatusPO.DS.Locate('STAPO_NAME',AStatus,[loCaseInsensitive]) then
   begin
     lModPO := DMCLient.CrudClient.RetrieveSingle(TModPO.ClassName, cxGridView.DS.FieldByName('PO_ID').AsString) as TModPO;
+    lModPO.CrudFilterKind := fckInclude;
+    lModPO.AddFilterCrud(TModPO);
     try
       lModPO.PO_STATUS_PO := TModStatusPO.CreateID(cbbStatusPO.DS.FieldByName('ref$status_po_id').AsString);
       if DMClient.CrudClient.SaveToDB(lModPO) then

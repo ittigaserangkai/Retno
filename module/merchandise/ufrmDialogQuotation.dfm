@@ -8,7 +8,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
   FormStyle = fsMDIChild
   OldCreateOrder = True
   Visible = True
-  ExplicitTop = -149
+  ExplicitTop = -96
   ExplicitWidth = 1000
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -194,7 +194,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       Style.Edges = [bRight, bBottom]
       TabOrder = 0
       Transparent = True
-      ExplicitTop = 85
       Height = 28
       Width = 984
       object Label2: TLabel
@@ -269,7 +268,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       Align = alClient
       TabOrder = 2
       LookAndFeel.NativeStyle = False
-      ExplicitTop = 105
       object cxGrdDBMaster: TcxGridDBBandedTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -522,6 +520,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       end
       inherited btnPrint: TcxButton
         Left = 737
+        Action = actPrint
         ExplicitLeft = 737
       end
     end
