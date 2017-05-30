@@ -3,6 +3,7 @@ inherited frmDialogSO: TfrmDialogSO
   ClientHeight = 561
   ClientWidth = 890
   OnDestroy = FormDestroy
+  ExplicitTop = -155
   ExplicitWidth = 906
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -72,6 +73,8 @@ inherited frmDialogSO: TfrmDialogSO
       object dtTgl: TcxDateEdit
         Left = 419
         Top = 4
+        Properties.SaveTime = False
+        Properties.ShowTime = False
         TabOrder = 1
         Width = 195
       end
@@ -163,6 +166,7 @@ inherited frmDialogSO: TfrmDialogSO
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       object cxGridView: TcxGridDBTableView
+        PopupMenu = pmGrid
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -422,6 +426,7 @@ inherited frmDialogSO: TfrmDialogSO
       end
       inherited btnPrint: TcxButton
         Left = 643
+        Action = actPrint
         ExplicitLeft = 643
       end
     end
@@ -430,32 +435,29 @@ inherited frmDialogSO: TfrmDialogSO
       ExplicitWidth = 890
       inherited lbCTRLEnter: TLabel
         Left = 715
-        Height = 15
         ExplicitLeft = 715
       end
       inherited lbEscape: TLabel
         Left = 806
-        Height = 15
         ExplicitLeft = 806
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 639
-        Height = 15
         ExplicitLeft = 639
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 704
-    Top = 40
+    Left = 736
+    Top = 8
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
     object actGenerate: TAction
       Caption = 'CTRL-G [Generate SO]'
@@ -468,6 +470,18 @@ inherited frmDialogSO: TfrmDialogSO
       ImageIndex = 0
       ShortCut = 16449
       OnExecute = actAddProdExecute
+    end
+  end
+  object pmGrid: TPopupMenu
+    Left = 224
+    Top = 280
+    object CheckAll1: TMenuItem
+      Caption = 'Check All'
+      OnClick = CheckAll1Click
+    end
+    object UnCheckAll1: TMenuItem
+      Caption = 'UnCheck All'
+      OnClick = UnCheckAll1Click
     end
   end
 end

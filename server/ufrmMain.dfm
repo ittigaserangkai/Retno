@@ -5223,6 +5223,7 @@ object frmMain: TfrmMain
     Align = alTop
     Caption = 'Koneksi Database'
     TabOrder = 0
+    OnClick = grpDBClick
     object lblServer: TLabel
       Left = 36
       Top = 51

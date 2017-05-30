@@ -14,7 +14,7 @@ inherited frmCreditCard: TfrmCreditCard
     Height = 235
     BorderWidth = 0
     ExplicitWidth = 703
-    ExplicitHeight = 179
+    ExplicitHeight = 235
     inherited pgcBrowse: TcxPageControl
       Left = 1
       Top = 1
@@ -23,19 +23,19 @@ inherited frmCreditCard: TfrmCreditCard
       ExplicitLeft = 1
       ExplicitTop = 1
       ExplicitWidth = 701
-      ExplicitHeight = 177
+      ExplicitHeight = 233
       ClientRectBottom = 232
       ClientRectRight = 700
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 699
-        ExplicitHeight = 175
+        ExplicitHeight = 231
         inherited cxGrid: TcxGrid
           Width = 699
           Height = 231
           ExplicitWidth = 699
-          ExplicitHeight = 175
+          ExplicitHeight = 231
         end
       end
     end
@@ -99,6 +99,7 @@ inherited frmCreditCard: TfrmCreditCard
       ExplicitWidth = 703
       inherited lbEscape: TLabel
         Left = 629
+        Height = 17
         ExplicitLeft = 629
       end
     end

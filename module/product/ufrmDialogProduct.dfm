@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsSellingPrice
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -48,8 +48,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       TabSlants.Kind = skCutCorner
       TabSlants.Positions = [spRight]
       OnChange = pgcMainChange
-      ExplicitLeft = 4
-      ExplicitTop = 3
       ClientRectBottom = 362
       ClientRectLeft = 137
       ClientRectRight = 815
@@ -57,8 +55,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsInfo: TcxTabSheet
         Caption = 'F1 [Informasi Barang]'
         ImageIndex = 26
-        ExplicitLeft = 134
-        ExplicitTop = 1
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -640,8 +636,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 2
             Transparent = True
             Visible = False
-            ExplicitLeft = 3
-            ExplicitTop = 170
+            ExplicitTop = 128
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -668,7 +663,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 3
             Transparent = True
-            ExplicitTop = 71
+            ExplicitTop = 47
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
@@ -682,7 +677,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 4
             Transparent = True
-            ExplicitTop = 95
+            ExplicitTop = 71
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
@@ -696,7 +691,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 6
             Transparent = True
-            ExplicitTop = 140
+            ExplicitTop = 116
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
@@ -710,7 +705,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 5
             Transparent = True
-            ExplicitTop = 119
+            ExplicitTop = 95
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
@@ -933,10 +928,10 @@ inherited frmDialogProduct: TfrmDialogProduct
             Height = 311
             Align = alClient
             TabOrder = 0
+            OnExit = cxGridKonversiExit
             LookAndFeel.NativeStyle = False
             object cxGrdDBKonversi: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
-              OnCellClick = cxGrdDBSupplierCellClick
               DataController.Summary.DefaultGroupSummaryItems = <>
               DataController.Summary.FooterSummaryItems = <>
               DataController.Summary.SummaryGroups = <>
@@ -946,11 +941,13 @@ inherited frmDialogProduct: TfrmDialogProduct
               OptionsBehavior.GoToNextCellOnEnter = True
               OptionsBehavior.FocusCellOnCycle = True
               OptionsData.Appending = True
+              OptionsData.CancelOnExit = False
               OptionsView.GroupByBox = False
               object clKonvSatuan: TcxGridDBColumn
                 Caption = 'SATUAN'
                 DataBinding.FieldName = 'Satuan'
                 PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+                Properties.ImmediatePost = True
                 Width = 113
               end
               object clKonvValue: TcxGridDBColumn
@@ -964,6 +961,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               object clKonvBarcode: TcxGridDBColumn
                 Caption = 'BARCODE'
                 DataBinding.FieldName = 'KONVSAT_BARCODE'
+                PropertiesClassName = 'TcxTextEditProperties'
                 Width = 217
               end
             end
@@ -1511,7 +1509,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Caption = '&Delete'
               OptionsImage.ImageIndex = 8
               OptionsImage.Images = DMClient.imgListButton
-              TabOrder = 0
+              TabOrder = 2
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -1558,7 +1556,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Caption = '&Update'
               OptionsImage.ImageIndex = 13
               OptionsImage.Images = DMClient.imgListButton
-              TabOrder = 2
+              TabOrder = 0
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -1655,8 +1653,6 @@ inherited frmDialogProduct: TfrmDialogProduct
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
-          ExplicitLeft = 3
-          ExplicitTop = 60
           Height = 182
           Width = 678
           object Label3: TLabel
@@ -2088,8 +2084,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
-            ExplicitLeft = 0
-            ExplicitTop = 354
             Height = 27
             Width = 674
             object Label29: TLabel
@@ -2125,7 +2119,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Caption = '&Delete'
               OptionsImage.ImageIndex = 8
               OptionsImage.Images = DMClient.imgListButton
-              TabOrder = 0
+              TabOrder = 2
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -2172,7 +2166,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               Caption = '&Update'
               OptionsImage.ImageIndex = 13
               OptionsImage.Images = DMClient.imgListButton
-              TabOrder = 2
+              TabOrder = 0
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -2258,14 +2252,23 @@ inherited frmDialogProduct: TfrmDialogProduct
       object cxTabSheet1: TcxTabSheet
         Caption = 'F7 [Alokasi Stock]'
         Enabled = False
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object cxTabSheet2: TcxTabSheet
         Caption = 'F6 [History PO]'
         Enabled = False
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsImport: TcxTabSheet
         Caption = 'Import Data'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel1: TPanel
           Left = 0
           Top = 0
@@ -2393,6 +2396,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       end
       inherited btnPrint: TcxButton
         Left = 572
+        Action = actPrint
         ExplicitLeft = 572
       end
     end

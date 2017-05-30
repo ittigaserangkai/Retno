@@ -68,12 +68,13 @@ type
     function AutUnit_GetDSLookup: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
+    function Barang_ByPOLookUp(APONO : String): TDataset;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
     function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
         AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
         AUnit : TModUnit = nil): TDataset;
-    function SupMGBySO_GetDSLookup(ID: string): TDataset;
+    function SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
     function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
@@ -91,11 +92,14 @@ type
     function DO_GetDSLookUp: TDataSet;
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
+    function Kompetitor_GetDSOverview: TDataSet;
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
     function PORevisi_GetDSOverview(ID: string): TDataset;
+    function PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
+    function RefCreditCard_GetDSOverview: TDataSet;
 
 
   end;
@@ -103,6 +107,7 @@ type
   TDSReport = class(TComponent)
   private
   public
+    function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -654,6 +659,18 @@ begin
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenMemTable(S));
 end;
 
+function TDSProvider.Barang_ByPOLookUp(APONO : String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select c.BARANG_ID, c.BRG_CODE, c.BRG_NAME from po a' +
+          ' INNER JOIN PO_DETAIL b on a.PO_ID = b.PO_ID' +
+          ' inner JOIN BARANG c on b.BARANG_ID = c.BARANG_ID' +
+          ' where a.PO_NO = ' + QuotedStr(APONO);
+
+  Result := TDBUtils.OpenDataset(sSQL);
+end;
+
 function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
 var
   S: String;
@@ -773,13 +790,12 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.SupMGBySO_GetDSLookup(ID: string): TDataset;
+function TDSProvider.SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
 var
   sSQL: string;
 begin
-  sSQL := 'select DISTINCT A.SO_ID,A.SUPLIER_MERCHAN_GRUP_ID,B.SUPMG_SUB_CODE,B.SUPMG_NAME'
-    +' from SO_DETAIL A LEFT JOIN SUPLIER_MERCHAN_GRUP B on A.SUPLIER_MERCHAN_GRUP_ID'
-    +' = B.SUPLIER_MERCHAN_GRUP_ID WHERE A.SO_ID = ' + TDBUtils.Quot(ID);
+  sSQL := 'SELECT DISTINCT SO_ID,SUPLIER_MERCHAN_GRUP_ID,SUPMG_SUB_CODE,SUPMG_NAME'
+         +' FROM V_SO_FOR_GENERATE_PO WHERE SO_ID = ' + TDBUtils.Quot(ID);
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -793,7 +809,9 @@ begin
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   if AUnit <> nil then
-    sSQL := ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  sSQL := sSQL + ' ORDER BY PO_ID';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -802,7 +820,7 @@ function TDSProvider.SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
 var
   sSQL: string;
 begin
-  sSQL := 'select distinct SO_ID,SO_NO, SO_DATE from V_SO where 1 = 1 ' ;
+  sSQL := 'select distinct SO_ID,SO_NO, SO_DATE from SO where 1 = 1 ' ;
 
   if AUnit <> nil then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
@@ -870,6 +888,14 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.Kompetitor_GetDSOverview: TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL   := 'SELECT * FROM V_KOMPETITOR';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.PO_GetDSOLookUp(AUnitID : String): TDataset;
 var
   sSQL: string;
@@ -879,6 +905,8 @@ begin
 
   if AUnitID <> '' then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  sSQL :=sSQL + ' order by PO_NO';
 
   
   Result := TDBUtils.OpenQuery(sSQL);
@@ -907,6 +935,22 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_PO_FOR_GR ' +
+          ' where 1 = 1';
+
+  if AUnitID <> '' then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  sSQL := sSQL + ' order by PO_NO';
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
     AUnit : TModUnit = nil): TDataSet;
 var
@@ -921,6 +965,25 @@ begin
 
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.RefCreditCard_GetDSOverview: TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL   := 'SELECT * FROM V_CREDIT$CARD';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_DO_NP where DO_NP = ' + QuotedStr(ANONP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 
 function TDSReport.SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;

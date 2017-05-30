@@ -4,7 +4,8 @@ interface
 
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang;
+  StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
+  uModDO;
 
 type
   {$METHODINFO ON}
@@ -46,6 +47,7 @@ type
   public
     function GenerateSO(aTanggal: TDatetime; aMerchan_ID: String;
         aSupplierMerchan_ID: String = ''): TDataSet;
+    function RetrieveDetails(aID: String): TDataSet;
   end;
 
   TCrudPO = class(TCRud)
@@ -59,6 +61,12 @@ type
   end;
 
   TCrudDO = class(TCrud)
+  private
+    function GenerateNP(AModDO: TModDO): string;
+    function UpdateStatusPO(AObject: TModApp): Boolean;
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 
@@ -337,6 +345,14 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TSuggestionOrder.RetrieveDetails(aID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_SO_DETAIL where SO_ID = ' + QuotedStr(Aid);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TCrudPO.GeneratePO(ASOID : String; ASupMGID : String): Boolean;
 var
   sSOID: string;
@@ -398,6 +414,88 @@ procedure TBaseServerClass.AfterExecuteMethod;
 begin
   if CloseSession then
     GetInvocationMetaData.CloseSession := True;
+end;
+
+function TCrudDO.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  inherited;
+
+  Result := False;
+
+  if UpdateStatusPO(AObject) then
+    Result := True;
+
+end;
+
+function TCrudDO.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  with AObject as TModDO do
+  begin
+    if (AObject.ID = '') then
+    begin
+      DO_NP := GenerateNP(TModDO(AObject));
+      if DO_NP = '' then
+        Exit;
+    end;
+  end;
+
+  Result := True;
+end;
+
+function TCrudDO.GenerateNP(AModDO: TModDO): string;
+var
+  iCounter: Integer;
+  sSQL: string;
+begin
+  Result := 'M' + FormatDateTime('YYMMDD', AModDO.DO_DATE);
+
+  sSQL   := 'select right(MAX(DO_NP),3) as NP from DO ' +
+            ' where DO_NP like ' + QuotedStr(Result + '%');
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      if Fields[0].IsNull then
+        iCounter := 0
+      else
+        iCounter := StrToIntDef(Fields[0].AsString,0);
+
+      iCounter := iCounter + 1;
+      Result   := Result + RightStr('000' + IntToStr(iCounter),3);
+    finally
+      Free;
+    end;
+  end;
+end;
+
+function TCrudDO.UpdateStatusPO(AObject: TModApp): Boolean;
+var
+  sSQL: string;
+begin
+  try
+    sSQL := 'update a set a.REF$STATUS_PO_ID = (select REF$STATUS_PO_ID from REF$STATUS_PO' +
+            ' where STAPO_NAME = ''GENERATED'') from PO a' +
+            ' left join DO b on a.PO_ID = b.PO_ID' +
+            ' left join REF$STATUS_PO c on a.REF$STATUS_PO_ID = c.REF$STATUS_PO_ID' +
+            ' where b.PO_ID is null' +
+            ' and c.STAPO_NAME not in (''CANCEL'',''CLOSE'')';
+
+    TDBUtils.ExecuteSQL(sSQL, False);
+
+    sSQL := 'update a set a.REF$STATUS_PO_ID = (select REF$STATUS_PO_ID from REF$STATUS_PO' +
+            ' where STAPO_NAME = ''RECEIVED'') from PO a' +
+            ' inner join DO b on a.PO_ID = b.PO_ID' +
+            ' where b.do_id = ' + QuotedStr(AObject.ID);
+
+    TDBUtils.ExecuteSQL(sSQL, False);
+    Result := True;
+  except
+    Result := False;
+  end;
+
+
 end;
 
 end.

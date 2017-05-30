@@ -13,7 +13,7 @@ uses
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
-  cxPC, Vcl.ComCtrls, Vcl.Mask, Datasnap.DBClient;
+  cxPC, Vcl.ComCtrls, Vcl.Mask, Datasnap.DBClient,  System.Rtti, uModApp, System.TypInfo;
 
 
 type
@@ -173,10 +173,18 @@ type
   end;
 
   TcxGridTableViewHelper = class helper for TcxGridTableView
+  private
   public
     procedure ClearRows;
+    procedure SetValue(ARec, ACol : Integer; AValue : Variant);
+    function Double(ARec, ACol : Integer): Double;
+    function Date(ARec, ACol : Integer): TDatetime;
+    function Int(ARec, ACol : Integer): Integer;
+    function Text(ARec, ACol : Integer): string;
+    procedure LoadObjectData(AObject : TModApp; ARow : Integer);
+    procedure SetObjectData(AObject : TModApp; ARow : Integer);
+    function Values(ARec, ACol : Integer): Variant; overload;
   end;
-
 
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
@@ -783,7 +791,7 @@ begin
       continue;
     with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
     begin
-      If lDS.Fields[i].DataType = ftFloat then
+      If lDS.Fields[i].DataType in [ftFloat, ftFMTBcd, ftBCD] then
       begin
         PropertiesClassName := 'TcxCurrencyEditProperties';
         TcxCurrencyEditProperties( Properties).DisplayFormat := ADisplayFormat;
@@ -1380,6 +1388,137 @@ begin
   finally
     EndUpdate;
   end;
+end;
+
+procedure TcxGridTableViewHelper.SetValue(ARec, ACol : Integer; AValue :
+    Variant);
+begin
+  Self.DataController.Values[ARec, ACol] := AValue;
+end;
+
+function TcxGridTableViewHelper.Double(ARec, ACol : Integer): Double;
+begin
+  Result := 0;
+
+  if not VarIsNull(Values(ARec,ACol)) then
+    Result := Values(ARec,ACol);
+end;
+
+function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
+begin
+  Result := Self.DataController.Values[ARec, ACol];
+end;
+
+function TcxGridTableViewHelper.Int(ARec, ACol : Integer): Integer;
+begin
+  if Self.DataController.Values[ARec, ACol] = null  then
+    Result := 0
+  else
+    Result := Self.DataController.Values[ARec, ACol];
+end;
+
+function TcxGridTableViewHelper.Text(ARec, ACol : Integer): string;
+begin
+  if Self.DataController.Values[ARec, ACol] = null  then
+    Result := ''
+  else
+    Result := Self.DataController.Values[ARec, ACol];
+end;
+
+procedure TcxGridTableViewHelper.LoadObjectData(AObject : TModApp; ARow :
+    Integer);
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  meth : TRttiMethod;
+  I: Integer;
+  lAppObject: TModApp;
+begin
+  ctx := TRttiContext.Create();
+  try
+    rt := ctx.GetType(AObject.ClassType);
+    for prop in rt.GetProperties() do
+    begin
+      for I := 0 to Self.ColumnCount - 1 do
+      begin
+        if UpperCase(prop.Name) = UpperCase(Self.Columns[i].AlternateCaption) then
+        begin
+          if prop.Visibility <> mvPublished then
+            Continue;
+
+          case prop.PropertyType.TypeKind of
+            tkInteger : prop.SetValue(AObject,Self.Int(ARow,i));
+            tkFloat   : prop.SetValue(AObject,Self.Double(ARow,i));
+            tkUString : prop.SetValue(AObject,Self.Text(ARow,i));
+            tkClass   : begin
+                        meth := prop.PropertyType.GetMethod('ToArray');
+                        if Assigned(meth) then
+                        begin
+                          Continue;
+                        end else begin
+                          meth          := prop.PropertyType.GetMethod('Create');
+                          lAppObject    := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+                          lAppObject.ID := Self.Text(ARow,i);
+
+                          prop.SetValue(AOBject, lAppObject);
+                        end;
+                      end;
+          end;
+        end;
+      end;
+    end;
+  finally
+    ctx.Free();
+  end;
+
+end;
+
+procedure TcxGridTableViewHelper.SetObjectData(AObject : TModApp; ARow :
+    Integer);
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  j: Integer;
+
+begin
+  ctx := TRttiContext.Create();
+  try
+    rt := ctx.GetType(AObject.ClassType);
+      for prop in rt.GetProperties() do
+      begin
+        for j := 0 to Self.ColumnCount - 1 do
+        begin
+
+          if UpperCase(prop.Name) <> UpperCase(Self.Columns[j].AlternateCaption) then
+            Continue;
+
+          case prop.PropertyType.TypeKind of
+            tkClass   : begin
+                          Self.SetValue(ARow,j,TModApp(prop.GetValue(AObject).AsObject).ID);
+                        end;
+            tkInteger : Self.SetValue(ARow,j,prop.GetValue(AObject).AsInteger);
+
+            tkFloat   : //if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+  //                          Self.SetValue(i,j,QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm:ss',prop.GetValue(AObject).AsExtended)))
+  //                        else
+                          Self.SetValue(ARow,j,prop.GetValue(AObject).AsExtended);
+
+            tkUString : Self.SetValue(ARow,j,prop.GetValue(AObject).AsString);
+          end;
+        end;
+      end;
+  finally
+    ctx.Free;
+  end;
+end;
+
+function TcxGridTableViewHelper.Values(ARec, ACol : Integer): Variant;
+begin
+  Result := Null;
+
+  Result := Self.DataController.Values[ARec,ACol];
 end;
 
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of

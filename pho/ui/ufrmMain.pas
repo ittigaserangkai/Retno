@@ -306,6 +306,10 @@ type
     MasterAgama1: TMenuItem;
     test1: TMenuItem;
     actSetKoneksi: TAction;
+    actCreditCard: TAction;
+    CreditCard1: TMenuItem;
+    actKompetitor: TAction;
+    Kompetitor1: TMenuItem;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -316,6 +320,7 @@ type
     procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
@@ -325,6 +330,7 @@ type
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
+    procedure actKompetitorExecute(Sender: TObject);
     procedure actLapInvMovementQtyExecute(Sender: TObject);
     procedure actLaporanStokExecute(Sender: TObject);
     procedure actLapReturSupExecute(Sender: TObject);
@@ -424,7 +430,7 @@ uses
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
-  ufrmSettingKoneksi;
+  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor;
 
 {$R *.dfm}
 
@@ -565,6 +571,11 @@ begin
   frmCostCenter := TfrmCostCenter.Create(Application);
 end;
 
+procedure TfrmMain.actCreditCardExecute(Sender: TObject);
+begin
+  frmCreditCard := TfrmCreditCard.Create(Application);
+end;
+
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
@@ -603,6 +614,11 @@ end;
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
 begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actKompetitorExecute(Sender: TObject);
+begin
+  frmDaftarCompetitor := TfrmDaftarCompetitor.Create(Application);
 end;
 
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);

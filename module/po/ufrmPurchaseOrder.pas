@@ -14,7 +14,7 @@ uses
   cxButtonEdit, Data.DB, uDMClient, uAppUtils,uDBUtils,
   uDXUtils, Datasnap.DBClient, ufrmGeneratePOForAll,
   dxmdaset, cxGridDBDataDefinitions, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, cxGroupBox, cxRadioGroup;
+  cxDBExtLookupComboBox, cxGroupBox, cxRadioGroup, uModPO;
 
 type
   TfrmPurchaseOrder = class(TfrmMasterBrowse)
@@ -29,6 +29,10 @@ type
     gbCetak: TcxGroupBox;
     rbPrintDlg: TcxRadioGroup;
     btnPrint: TcxButton;
+    pmPO: TPopupMenu;
+    mnGeneratedPO: TMenuItem;
+    mnCancelPO: TMenuItem;
+    mnClosePO: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
@@ -37,10 +41,13 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure mnCancelPOClick(Sender: TObject);
+    procedure mnClosePOClick(Sender: TObject);
+    procedure mnGeneratedPOClick(Sender: TObject);
+    procedure pmPOPopup(Sender: TObject);
   private
     FCDS: TClientDataSet;
     FCDSDetil: TClientDataSet;
-    { Private declarations }
     sSQL  : string;
     procedure InisialisasiDBBStatusPO;
     procedure InisialisasiCBBSupMGAkhir; overload;
@@ -48,12 +55,11 @@ type
     procedure PrintDialog;
     procedure RefreshDataPO;
     procedure RefreshDataPODetil;
+    procedure UpdateStatusPO(AStatus: string);
   protected
     function GetSQLStatusPO: string; dynamic;
     function GetSupCode    : string; virtual;
     procedure RefreshData; override;
-  public
-    { Public declarations }
   end;
 
   /// nama from disamakan dengan unitnamenya mis : unit ufrmPurchaseOrder, nama form = frmPurchaseOrder [hilangkan huruf u di depan]
@@ -64,8 +70,9 @@ var
 
 implementation
 
-uses uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg,
-  ufrmPORevision;
+uses
+  uConn, udmReport, DateUtils, ufrmDialogPrintPreview, uTSCommonDlg,
+  ufrmPORevision, uConstanta, uModApp;
 
 {$R *.dfm}
 
@@ -214,6 +221,46 @@ begin
   cbbSupMGAwal.Properties.SetMultiPurposeLookup;
 end;
 
+procedure TfrmPurchaseOrder.mnCancelPOClick(Sender: TObject);
+begin
+  inherited;
+  UpdateStatusPO('CANCELED');
+end;
+
+procedure TfrmPurchaseOrder.mnClosePOClick(Sender: TObject);
+begin
+  inherited;
+  UpdateStatusPO('CLOSED');
+end;
+
+procedure TfrmPurchaseOrder.mnGeneratedPOClick(Sender: TObject);
+begin
+  inherited;
+  UpdateStatusPO('GENERATED');
+end;
+
+procedure TfrmPurchaseOrder.pmPOPopup(Sender: TObject);
+var
+  i: Integer;
+begin
+  inherited;
+
+  for i := 0 to pmPO.Items.Count - 1 do
+  begin
+    pmPO.Items[i].Enabled := False;
+  end;
+
+  if cbbStatusPO.DS.Locate('ref$status_po_id',cxGridView.DS.FieldByName('REF$STATUS_PO_ID').AsString,[loCaseInsensitive]) then
+  begin
+    if cbbStatusPO.DS.FieldByName('STAPO_NAME').AsString = 'CANCELED' then
+      mnGeneratedPO.Enabled := True
+    else if cbbStatusPO.DS.FieldByName('STAPO_NAME').AsString = 'GENERATED' then
+      mnCancelPO.Enabled := True
+    else if cbbStatusPO.DS.FieldByName('STAPO_NAME').AsString = 'RECEIVED' then
+      mnClosePO.Enabled := True;
+  end;
+end;
+
 procedure TfrmPurchaseOrder.PrintDialog;
 begin
   gbCetak.Visible := True;
@@ -266,6 +313,31 @@ begin
   cxGridDBTableSODetail.LoadFromCDS(FCDSDetil);
   cxGridDBTableSODetail.SetVisibleColumns(['PO_DATE','AUT$UNIT_ID', 'PO_ID', 'BARANG_ID'],False);
 
+end;
+
+procedure TfrmPurchaseOrder.UpdateStatusPO(AStatus: string);
+var
+  lModPO: TModPO;
+begin
+  if cbbStatusPO.DS.Locate('STAPO_NAME',AStatus,[loCaseInsensitive]) then
+  begin
+    lModPO := DMCLient.CrudClient.RetrieveSingle(TModPO.ClassName, cxGridView.DS.FieldByName('PO_ID').AsString) as TModPO;
+    lModPO.CrudFilterKind := fckInclude;
+    lModPO.AddFilterCrud(TModPO);
+    try
+      lModPO.PO_STATUS_PO := TModStatusPO.CreateID(cbbStatusPO.DS.FieldByName('ref$status_po_id').AsString);
+      if DMClient.CrudClient.SaveToDB(lModPO) then
+      begin
+        TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+        Self.ModalResult := mrOk;
+        RefreshData;
+      end
+      else
+        TAppUtils.Error(ER_INSERT_FAILED);
+    finally
+      lModPO.Free;
+    end;
+  end;
 end;
 
 end.

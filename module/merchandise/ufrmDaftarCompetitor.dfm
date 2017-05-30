@@ -14,23 +14,25 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
     Width = 709
     Height = 320
     ParentBiDiMode = False
-    ExplicitWidth = 120
-    ExplicitHeight = 258
+    ExplicitWidth = 709
+    ExplicitHeight = 320
     inherited pgcBrowse: TcxPageControl
       Width = 687
       Height = 298
-      ExplicitWidth = 98
-      ExplicitHeight = 236
+      ExplicitWidth = 687
+      ExplicitHeight = 298
       ClientRectBottom = 297
       ClientRectRight = 686
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 98
-        ExplicitHeight = 236
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 685
+        ExplicitHeight = 296
         inherited cxGrid: TcxGrid
-          Width = 687
-          Height = 298
-          ExplicitWidth = 98
-          ExplicitHeight = 236
+          Width = 685
+          Height = 296
+          ExplicitWidth = 685
+          ExplicitHeight = 296
         end
       end
     end
@@ -45,15 +47,17 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 416
-      ExplicitLeft = -173
+      ExplicitLeft = 416
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 532
-      ExplicitLeft = -57
+      ExplicitLeft = 532
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 627
-      ExplicitLeft = 38
+      ExplicitLeft = 627
     end
     inherited lblsdFilter: TcxLabel
       Left = 508
@@ -64,30 +68,36 @@ inherited frmDaftarCompetitor: TfrmDaftarCompetitor
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 353
     Width = 709
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 353
+    ExplicitWidth = 709
     inherited pnlFooter: TPanel
       Width = 709
-      ExplicitWidth = 120
+      ExplicitWidth = 709
       inherited btnAdd: TcxButton
         Action = actAdd
-        OnClick = btnAddClick
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        OnClick = btnUpdateClick
       end
       inherited btnPrint: TcxButton
         Action = actPrint
-        OnClick = btnPrintClick
       end
       inherited btnClose: TcxButton
         Left = 632
         Action = actClose
-        ExplicitLeft = 43
+        ExplicitLeft = 632
       end
       inherited cxButton1: TcxButton
         Action = actExport
+      end
+    end
+    inherited pnlShortCut: TPanel
+      Width = 709
+      ExplicitWidth = 709
+      inherited lbEscape: TLabel
+        Left = 635
+        Height = 17
+        ExplicitLeft = 635
       end
     end
   end

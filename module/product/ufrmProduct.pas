@@ -879,12 +879,12 @@ procedure TfrmProduct.SetLeftWidthSP;
 var
   aMaxHeight: Integer;
 begin
-  aMaxHeight  := Floor((pnlBody.Height - aMaxTop)/2);
+  aMaxHeight                := Floor((pnlBody.Height - aMaxTop)/2);
   fraProductSupplier.Height := aMaxHeight;
   fraSellingPrice.Height    := aMaxHeight;
   fraSellingPrice.Top       := fraProductSupplier.Top - aMaxHeight;
-  fraSellingPrice.Left    := fraProductSupplier.Left;
-  fraSellingPrice.Width   := fraProductSupplier.Width;
+  fraSellingPrice.Left      := fraProductSupplier.Left;
+  fraSellingPrice.Width     := fraProductSupplier.Width;
 end;
 
 procedure TfrmProduct.actProductSupplierExecute(Sender: TObject);

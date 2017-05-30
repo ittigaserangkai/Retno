@@ -660,7 +660,7 @@ end;
 
 procedure TfrmMain.actRafaksiSupplierExecute(Sender: TObject);
 begin
-       frmRafaksi := TfrmRafaksi.CreateWithUser(Application, FFormProperty);
+    frmRafaksi := TfrmRafaksi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actReprintNotaExecute(Sender: TObject);

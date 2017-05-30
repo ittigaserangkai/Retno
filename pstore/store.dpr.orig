@@ -186,15 +186,16 @@ uses
   uModPO in '..\model\uModPO.pas',
   ufrmMouselessMenu in '..\client\ui\ufrmMouselessMenu.pas' {frmMouselesMenu},
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-<<<<<<< HEAD
-  ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
-  uModDO in '..\model\uModDO.pas';
-=======
   uModDO in '..\model\uModDO.pas',
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
+<<<<<<< HEAD
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmMasterDialog1},
+  ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
+  uModelHelper in '..\model\uModelHelper.pas';
+=======
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision};
->>>>>>> 45d12a062911f5e34d1d14e5484bd9ce6853ad22
+>>>>>>> 5aa49d6bd7c320c16813d9fda8bb4748680d1f37
 
 {$R *.res}
 
@@ -205,7 +206,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
+  Application.CreateForm(TfrmSettingKoneksi, frmSettingKoneksi);
   Application.CreateForm(TfrmPORevision, frmPORevision);
   Application.Run;
 end.

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42851.6618599421" ReportOptions.Description.Text="" ReportOptions.LastChange="42872.7016874306" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end.">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="IBQ1"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="421.639727691009" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="102" Left="0" Top="17" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="IBQ1" RowCount="0">
+      <TfrxDMPMemoView Name="IBQ1DO_NP" Left="48" Top="17" Width="144" Height="17" DataField="DO_NP" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;DO_NP&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="9.6" Top="17" Width="38.4" Height="17" HAlign="haRight" TruncOutboundText="False" Text="NP :"/>
+      <TfrxDMPMemoView Name="IBQ1DO_COLIE_ORDER_RECV" Left="326.4" Top="17" Width="153.6" Height="17" DataField="DO_COLIE_ORDER_RECV" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" TruncOutboundText="False" Text="[IBQ1.&#34;DO_COLIE_ORDER_RECV&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="220.8" Top="17" Width="105.6" Height="17" HAlign="haRight" TruncOutboundText="False" Text="COLIE RCV :"/>
+      <TfrxDMPMemoView Name="IBQ1PO_NO" Left="48" Top="51" Width="144" Height="17" DataField="PO_NO" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[IBQ1.&#34;PO_NO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="9.6" Top="51" Width="38.4" Height="17" HAlign="haRight" TruncOutboundText="False" Text="PO :"/>
+      <TfrxDMPMemoView Name="IBQ1DO_DATE" Left="326.4" Top="51" Width="153.6" Height="17" DataField="DO_DATE" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="dd mmm yyyy" DisplayFormat.Kind="fkDateTime" TruncOutboundText="False" Text="[IBQ1.&#34;DO_DATE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="220.8" Top="51" Width="105.6" Height="17" HAlign="haRight" TruncOutboundText="False" Text="RCV :"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="518.4" Top="17" Width="105.6" Height="17" HAlign="haRight" TruncOutboundText="False" Text="BONUS :"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="518.4" Top="51" Width="105.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" TruncOutboundText="False" Text="[USERCETAK]"/>
+      <TfrxDMPMemoView Name="IBQ1DO_DATE1" Left="633.6" Top="51" Width="268.8" Height="17" DataField="DO_DATE" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="hh:mm:ss" DisplayFormat.Kind="fkDateTime" TruncOutboundText="False" Text="[IBQ1.&#34;DO_DATE&#34;]"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="51" Left="0" ParentFont="False" Top="153" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo82" Left="9.6" Top="0" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo83" Left="9.6" Top="17" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo84" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+    </TfrxPageFooter>
+  </TfrxDMPPage>
+</TfrxReport>

@@ -11,10 +11,13 @@ uses
   cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtons,
   ufraFooterDialog3Button, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, uDBUtils,
+  uDXUtils, uDMClient, uRetnoUnit, Datasnap.DBClient, uAppUtils,
+  System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog,
+  uModDO, uModSuplier, uModSO, uModUnit,uInterface, uDMReport;
 
 type
-  TfrmGoodsReceiving = class(TfrmMasterDialogBrowse)
+  TfrmGoodsReceiving = class(TfrmMasterDialog, ICRUDAble)
     pnlTop: TPanel;
     lbl1: TLabel;
     btn1: TcxButton;
@@ -24,31 +27,30 @@ type
     lbl8: TLabel;
     dtDatePO: TcxDateEdit;
     dtDateSO: TcxDateEdit;
-    edtSONo: TEdit;
-    edtSuplierCode: TEdit;
-    edtSuplierName: TEdit;
-    edtDONo: TEdit;
+    edtSONo: TcxTextEdit;
+    edtSuplierName: TcxTextEdit;
+    edtDONo: TcxTextEdit;
     lbl2: TLabel;
     dtDateDO: TcxDateEdit;
     lbl4: TLabel;
-    edtNP: TEdit;
+    edtNP: TcxTextEdit;
     lbl9: TLabel;
     lbl10: TLabel;
-    jvcuredtSubTotal: TcxCurrencyEdit;
-    jvcuredtPPN: TcxCurrencyEdit;
+    edSubTotal: TcxCurrencyEdit;
+    edPPN: TcxCurrencyEdit;
     lbl13: TLabel;
-    jvcuredtPPNBM: TcxCurrencyEdit;
+    edPPNBM: TcxCurrencyEdit;
     lbl14: TLabel;
     lbl12: TLabel;
-    jvcuredtDiscount: TcxCurrencyEdit;
-    jvcuredtTotalBeli: TcxCurrencyEdit;
+    edDiscount: TcxCurrencyEdit;
+    edTotalBeli: TcxCurrencyEdit;
     lbl11: TLabel;
     lbl3: TLabel;
     lbl15: TLabel;
-    edtjfBonus: TcxCurrencyEdit;
+    edBonus: TcxCurrencyEdit;
     lbl16: TLabel;
-    edtjfTotalColie: TcxCurrencyEdit;
-    edtjfRecvBonus: TcxCurrencyEdit;
+    edTotalColie: TcxCurrencyEdit;
+    edRecvBonus: TcxCurrencyEdit;
     lbl17: TLabel;
     pnl2: TPanel;
     lbl18: TLabel;
@@ -57,37 +59,75 @@ type
     lbl21: TLabel;
     lbl22: TLabel;
     lbl23: TLabel;
-    edtProductName: TEdit;
     lbl24: TLabel;
-    edtjfTotalOrder: TcxCurrencyEdit;
-    edtjfDisc1: TcxCurrencyEdit;
-    edtjfDisc2: TcxCurrencyEdit;
-    jvcuredtNilaiDisc: TcxCurrencyEdit;
-    jvcuredtTotalDisc: TcxCurrencyEdit;
-    jvcuredtSellPrice: TcxCurrencyEdit;
-    btn2: TcxButton;
+    edTotalOrder: TcxCurrencyEdit;
+    edDisc1: TcxCurrencyEdit;
+    edDisc2: TcxCurrencyEdit;
+    edNilaiDisc: TcxCurrencyEdit;
+    edTotalDisc: TcxCurrencyEdit;
+    edSellPrice: TcxCurrencyEdit;
+    btnCheckList: TcxButton;
     lblStatusPO: TLabel;
     btnCetakNP: TcxButton;
-    cbbPO: TcxExtLookupComboBox;
+    edPO: TcxTextEdit;
+    cxGridGR: TcxGrid;
+    cxgrdlvlGR: TcxGridLevel;
+    cxGridTableGR: TcxGridTableView;
+    cxgrdclmnPLU: TcxGridColumn;
+    cxgrdclmnNama: TcxGridColumn;
+    cxgrdclmnUOM: TcxGridColumn;
+    cxgrdclmnHarga: TcxGridColumn;
+    cxgrdclmnQtyOrder: TcxGridColumn;
+    cxgrdclmnDisc1: TcxGridColumn;
+    cxgrdclmnDisc2: TcxGridColumn;
+    cxgrdclmnDisc3: TcxGridColumn;
+    cxgrdclmnTotal: TcxGridColumn;
+    cxgrdclmnQtyRecv: TcxGridColumn;
+    cxgrdclmnTotalDisc: TcxGridColumn;
+    cxgrdclmnLinePrice: TcxGridColumn;
+    cxgrdclmnTax: TcxGridColumn;
+    cxgrdclmnPPN: TcxGridColumn;
+    cxgrdclmnPPNBM: TcxGridColumn;
+    cbbProductName: TcxExtLookupComboBox;
+    cxgrdclmnISBKP: TcxGridColumn;
+    cxgrdclmnIsStock: TcxGridColumn;
+    cxgrdclmnPPNPERSEN: TcxGridColumn;
+    cxgrdclmnPPNBMPERSEN: TcxGridColumn;
+    cxgrdclmnPOITEM: TcxGridColumn;
     procedure actCancelExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure strgGridCellValidate(Sender: TObject; ACol, ARow: Integer;
       var Value: String; var Valid: Boolean);
     procedure btn1Click(Sender: TObject);
-    procedure btn2Click(Sender: TObject);
-    procedure edtPONoChange(Sender: TObject);
+    procedure btnCheckListClick(Sender: TObject);
     procedure edtDONoKeyPress(Sender: TObject; var Key: Char);
     procedure edtPONoKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actSaveExecute(Sender: TObject);
+    procedure cxGridTableGREditing(Sender: TcxCustomGridTableView; AItem:
+        TcxCustomGridTableItem; var AAllow: Boolean);
+    procedure edPOKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cxgrdclmnQtyRecvPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGridTableGRCellClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
+    procedure cxGridTableGRFocusedRecordChanged(Sender: TcxCustomGridTableView;
+        APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+        ANewItemRecordFocusingChanged: Boolean);
   private
+    FCDSBARANG: TClientDataSet;
+    FCDSPO: TClientDataSet;
+    FCDSUOM: TClientDataSet;
     FValidDate: TDate;
     FStatusPO: string;
     FTOP: Integer;
     FCommon,FAssgros,FTrader: Real;
     FHargaDisc: Real;
+    FModDO: TModDO;
+    FPO: TModPO;
     function SaveData: Boolean;
     function CheckIsPOExist(ANoPO:string): Boolean;
     function CekChekBoxInGrid: Boolean;
@@ -98,8 +138,22 @@ type
     procedure ClearForm;
     procedure AllocatedStock(Receive: Real;
                              var FCommon,FAssgros,FTrader: Real);
+    function GetModDO: TModDO;
+    procedure HitungSummary(ABaris : Integer; AValue : Double);
     procedure InisialisasiCBBPO;
+    procedure InisialisasiUOM;
+    procedure InisialisasiBarang(APONO : String);
+    procedure IsiQtyReceive(AModDO: TModDO);
+    procedure LoadData(AID : String);
+    procedure LoadDataGRItemToProductName;
+    function LoadDataPO(ANoPO : String; AIsiQtyReceivedDenganQtyOrder : Boolean =
+        True): Boolean;
+    function LoadPOItemToGrid(APO : TModPO; AIsiQtyReceiveDenganQtyOrder :
+        Boolean): Boolean;
+    procedure UpdateDOItems;
   public
+    destructor Destroy; override;
+    property ModDO: TModDO read GetModDO write FModDO;
     { Public declarations }
   end;
 
@@ -109,9 +163,15 @@ var
 
 implementation
 
-uses uTSCommonDlg,uConstanta, ufrmSearchPO, udmReport, VarUtils, ufrmReprintNP;
+uses uTSCommonDlg,uConstanta, ufrmSearchPO,  VarUtils, ufrmReprintNP;
 
 {$R *.dfm}
+
+destructor TfrmGoodsReceiving.Destroy;
+begin
+  inherited;
+  FreeAndNil(FModDO);
+end;
 
 procedure TfrmGoodsReceiving.actCancelExecute(Sender: TObject);
 begin
@@ -434,39 +494,40 @@ end;
 
 procedure TfrmGoodsReceiving.ClearForm;
 begin
-  edtSONo.Clear;
-  edtSuplierCode.Clear;
-  edtSuplierName.Clear;
-  edtDONo.Clear;
-  edtNP.Clear;
-  edtProductName.Clear;
-  dtDatePO.Clear;
-  dtDateSO.Clear;
-  dtDateDO.Clear;
-  edtjfBonus.Value:=0;
-  edtjfTotalColie.Value:=0;
-  edtjfTotalOrder.Value:=0;
-  edtjfRecvBonus.Value:=0;
-  edtjfDisc1.Value:=0;
-  edtjfDisc2.Value:=0;
-  jvcuredtSubTotal.Value:=0;
-  jvcuredtPPN.Value:=0;
-  jvcuredtPPNBM.Value:=0;
-  jvcuredtDiscount.Value:=0;
-  jvcuredtTotalBeli.Value:=0;
-  jvcuredtNilaiDisc.Value:=0;
-  jvcuredtTotalDisc.Value:=0;
-  FHargaDisc:=0;
-  jvcuredtSellPrice.Value;
-  lblStatusPO.Caption:='';
-  SetHeaderGrid;
-  actSave.Enabled:= False;
-  actDelete.Enabled:= False;
+//  edtSONo.Clear;
+//  edtSuplierCode.Clear;
+//  edtSuplierName.Clear;
+//  edtDONo.Clear;
+//  edtNP.Clear;
+//  edtProductName.Clear;
+//  dtDatePO.Clear;
+//  dtDateSO.Clear;
+//  dtDateDO.Clear;
+//  edtjfBonus.Value:=0;
+//  edtjfTotalColie.Value:=0;
+//  edtjfTotalOrder.Value:=0;
+//  edtjfRecvBonus.Value:=0;
+//  edtjfDisc1.Value:=0;
+//  edtjfDisc2.Value:=0;
+//  jvcuredtSubTotal.Value:=0;
+//  jvcuredtPPN.Value:=0;
+//  jvcuredtPPNBM.Value:=0;
+//  jvcuredtDiscount.Value:=0;
+//  jvcuredtTotalBeli.Value:=0;
+//  jvcuredtNilaiDisc.Value:=0;
+//  jvcuredtTotalDisc.Value:=0;
+//  FHargaDisc:=0;
+//  jvcuredtSellPrice.Value;
+//  lblStatusPO.Caption:='';
+//  SetHeaderGrid;
+//  actSave.Enabled:= False;
+//  actDelete.Enabled:= False;
 end;
 
 procedure TfrmGoodsReceiving.FormCreate(Sender: TObject);
 begin
   inherited;
+  InisialisasiUOM;
   InisialisasiCBBPO;
 
   dtDatePO.Date := now;
@@ -769,57 +830,13 @@ begin
   frmDialogSearchPO.Free;
 end;
 
-procedure TfrmGoodsReceiving.btn2Click(Sender: TObject);
-var SeparatorDate: Char;
-    i: Integer;
-    colieRcv, bonus: Real;
+procedure TfrmGoodsReceiving.btnCheckListClick(Sender: TObject);
 begin
-  if CommonDlg.Confirm('Are you sure you wish to print NP?')= mrNo
-  then Exit;
-  SeparatorDate:= FormatSettings.DateSeparator;
-  {
-  try
-    FormatSettings.DateSeparator:= '/';
-    bonus:= 0;
-    colieRcv:= 0;
-
-    if strgGrid.RowCount > 1 then
-      for i:= 1 to (strgGrid.RowCount-1) do begin
-        bonus:= bonus + StrToFloat(strgGrid.Cells[6,i]);
-        colieRcv:= colieRcv + StrToFloat(strgGrid.Cells[4,i]);
-      end;
-
-    if not Assigned(ParamList) then
-      ParamList := TStringList.Create;
-    ParamList.Add(edtNP.Text); //0
-    ParamList.Add(edtPONo.Text); //1
-    ParamList.Add(FloatToStr(colieRcv)); //2
-    ParamList.Add(FloatToStr(bonus)); //3
-    ParamList.Add(FLoginUsername); //4
-    ParamList.Add(MasterNewUnit.Nama); //5
-
-    with dmReport do begin
-      Params := ParamList;
-      pMainReport.LoadFromFile(ExtractFilePath(Application.ExeName) + '/template/frCetakNP.fr3');
-      pMainReport.PrepareReport(True);
-      pMainReport.Print; //ShowReport(True);
-    end;
-
-  finally
-    FormatSettings.DateSeparator:= SeparatorDate;
-    if Assigned(ParamList) then
-      FreeAndNil(ParamList);
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport( 'DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
   end;
-  }
-end;
-
-procedure TfrmGoodsReceiving.edtPONoChange(Sender: TObject);
-begin
-  inherited;
-  lbl24.Visible := True;
-  btn2.Visible := False;
-  btnCetakNP.Visible:= False;
-  ClearForm;
 end;
 
 procedure TfrmGoodsReceiving.edtDONoKeyPress(Sender: TObject;
@@ -933,33 +950,345 @@ end;
 procedure TfrmGoodsReceiving.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if not CekChekBoxInGrid then
+  if not ValidateEmptyCtrl([1]) then
+    Exit;
+
+  if FPO = nil then
   begin
-    CommonDlg.ShowError(ER_DO_BONUS);
+    TAppUtils.Error('PO Belum Dipilih');
+    edPO.SetFocus;
     Exit;
   end;
-  if SaveData then
+
+  if FPO.ID = '' then
   begin
-    if lblStatusPO.Font.Color=clBlack then
-    begin
-      CommonDlg.ShowConfirmGlobal(SAVE_DO_SUCCESSFULLY);
-      btnCetakNP.Click;
-      btn2.Visible := True;
-      btnCetakNP.Visible := True;
-      actSave.Enabled := False;
-    end
-    else
-      CommonDlg.ShowConfirmGlobal(SAVE_DO_EXPIRED)
-  end
-  else
-    CommonDlg.ShowConfirmGlobal(ER_SAVE_DO);
-  SetHeaderGrid;
-  lbl24.Visible := False;
+    TAppUtils.Error('PO Belum Dipilih');
+    Exit;
+  end;
+
+  ModDO.DO_CN := 0;
+  ModDO.DO_COLIE_BONUS := 0;
+  ModDO.DO_COLIE_BONUS_RECV := 0;
+  ModDO.DO_COLIE_ORDER := edTotalOrder.Value;
+  ModDO.DO_COLIE_ORDER_RECV := edTotalColie.Value;
+  ModDO.DO_DATE := dtDateDO.Date;
+  ModDO.DO_DESCRIPTION := '';
+  ModDO.DO_DISC := edDiscount.Value;
+  ModDO.DO_DN := 0;
+  ModDO.DO_DO := nil;
+  ModDO.DO_IS_BONUS := 0;
+  ModDO.DO_IS_JURNAL := 0;
+  ModDO.DO_IS_PAID := 0;
+  ModDO.DO_NO := edtDONo.Text;
+  ModDO.DO_PAYMENT := 0;
+  ModDO.DO_PPN := edPPN.Value;
+  ModDO.DO_PPNBM := edPPNBM.Value;
+  ModDO.DO_TOTAL := edTotalBeli.Value;
+  ModDO.PO       := TModPO.CreateID(FPO.ID);
+  ModDO.SUPLIER_MERCHAN_GRUP := TModSuplierMerchanGroup.CreateID(FPO.PO_SUPPLIER_MERCHAN_GRUP.ID);
+  ModDO.SO := TModSO.CreateID(FPO.PO_SO.ID);
+  ModDO.MERCHANDISE := TModMerchandise.CreateID(FPO.PO_SO.Merchandise.ID);
+  ModDO.DO_UNIT := TModUnit.CreateID(FPO.PO_UNIT.ID);
+
+  UpdateDOItems;
+
+  try
+    FModDO.ID := DMClient.CrudDOClient.SaveToDBID(FModDO);
+    FModDO    := TModDO(DMClient.CrudDOClient.RetrieveSingle(TModDO.ClassName, FModDO.ID));
+    edtNP.Text:= FModDO.DO_NP;
+
+    TAppUtils.InformationBerhasilSimpan(edtNP.Text);
+    btnCheckList.Visible := True;
+    btnCetakNP.Visible   := True;
+  except
+    raise
+  end;
+
+
+
+end;
+
+procedure TfrmGoodsReceiving.cxgrdclmnQtyRecvPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+  HitungSummary(cxGridTableGR.DataController.FocusedRecordIndex, DisplayValue);
+end;
+
+procedure TfrmGoodsReceiving.cxGridTableGRCellClick(Sender:
+    TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+    AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  inherited;
+  LoadDataGRItemToProductName;
+end;
+
+procedure TfrmGoodsReceiving.cxGridTableGREditing(Sender:
+    TcxCustomGridTableView; AItem: TcxCustomGridTableItem; var AAllow: Boolean);
+begin
+  inherited;
+  AAllow := AItem.Index in [cxgrdclmnQtyRecv.Index];
+end;
+
+procedure TfrmGoodsReceiving.cxGridTableGRFocusedRecordChanged(Sender:
+    TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
+    TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  LoadDataGRItemToProductName;
+end;
+
+procedure TfrmGoodsReceiving.edPOKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+var
+  iNomor: Integer;
+begin
+  if Key = 13 then
+  begin
+    iNomor    := StrToIntDef(edPO.Text,0);
+    edPO.Text := RightStr('00000000000' + IntToStr(iNomor), 11);
+
+    if LoadDataPO(edPO.Text) then
+      SelectNext(Screen.ActiveControl, True, True);
+  end;
+
+  inherited;
+end;
+
+function TfrmGoodsReceiving.GetModDO: TModDO;
+begin
+  if FModDO = nil then
+    FModDO := TModDO.Create;
+
+  Result := FModDO;
+end;
+
+procedure TfrmGoodsReceiving.HitungSummary(ABaris : Integer; AValue : Double);
+var
+  dLinePrice: Double;
+  dQtyAwal: Double;
+  I: Integer;
+begin
+  dQtyAwal           := cxGridTableGR.Double(ABaris, cxgrdclmnQtyRecv.Index);
+  edTotalColie.Value := edTotalColie.Value - dQtyAwal;
+  edTotalColie.Value := edTotalColie.Value + AValue;
+  cxGridTableGR.SetValue(ABaris, cxgrdclmnTotal.Index, AValue * cxGridTableGR.Double(ABaris, cxgrdclmnLinePrice.Index));
+
+  edSubTotal.Value := edSubTotal.Value - (dQtyAwal * cxGridTableGR.Double(ABaris, cxgrdclmnHarga.Index));
+  edSubTotal.Value := edSubTotal.Value + (AValue * cxGridTableGR.Double(ABaris, cxgrdclmnHarga.Index));
+
+  edDiscount.Value := edDiscount.Value - (dQtyAwal * cxGridTableGR.Double(ABaris, cxgrdclmnTotalDisc.Index));
+  edDiscount.Value := edDiscount.Value + (AValue * cxGridTableGR.Double(ABaris, cxgrdclmnTotalDisc.Index));
+
+  edPPN.Value      := edPPN.Value - (dQtyAwal * cxGridTableGR.Double(ABaris, cxgrdclmnPPN.Index));
+  edPPN.Value      := edPPN.Value + (AValue * cxGridTableGR.Double(ABaris, cxgrdclmnPPN.Index));
+
+  edPPNBM.Value    := edPPNBM.Value - (dQtyAwal * cxGridTableGR.Double(ABaris, cxgrdclmnPPNBM.Index));
+  edPPNBM.Value    := edPPNBM.Value + (AValue * cxGridTableGR.Double(ABaris, cxgrdclmnPPNBM.Index));
+
+  edTotalBeli.Value:= edSubTotal.Value - edDiscount.Value + edPPN.Value + edPPNBM.Value;
 end;
 
 procedure TfrmGoodsReceiving.InisialisasiCBBPO;
 begin
-  // TODO -cMM: TfrmGoodsReceiving.InisialisasiCBBPO default body inserted
+//  FCDSPO := TDBUtils.DSToCDS(DMClient.DSProviderClient.PO_GetDSOLookUpForGR(''), Self);
+//  cbbPO.Properties.LoadFromCDS(FCDSPO,'PO_ID','PO_NO',['PO_ID'],Self);
+//  cbbPO.Properties.SetMultiPurposeLookup;
+end;
+
+procedure TfrmGoodsReceiving.InisialisasiUOM;
+begin
+  FCDSUOM := TDBUtils.DSToCDS(DMClient.DSProviderClient.Satuan_GetDSLookup(), Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnUOM.Index].Properties).LoadFromCDS(FCDSUOM,'ref$satuan_id','SAT_CODE',['ref$satuan_id'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnUOM.Index].Properties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmGoodsReceiving.InisialisasiBarang(APONO : String);
+begin
+  FCDSBARANG := TDBUtils.DSToCDS(DMClient.DSProviderClient.Barang_ByPOLookUp(APONO), Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnPLU.Index].Properties).LoadFromCDS(FCDSBARANG,'BARANG_ID','BRG_CODE',['BARANG_ID'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnPLU.Index].Properties).SetMultiPurposeLookup;
+
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnNama.Index].Properties).LoadFromCDS(FCDSBARANG,'BARANG_ID','BRG_NAME',['BARANG_ID'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableGR.Columns[cxgrdclmnNama.Index].Properties).SetMultiPurposeLookup;
+
+  cbbProductName.LoadFromCDS(FCDSBARANG,'BARANG_ID','BRG_NAME',['BARANG_ID'],Self);
+end;
+
+procedure TfrmGoodsReceiving.IsiQtyReceive(AModDO: TModDO);
+var
+  I: Integer;
+  j: Integer;
+begin
+  for I := 0 to AModDO.DOItems.Count - 1 do
+  begin
+    for j := 0  to cxGridTableGR.DataController.RecordCount - 1 do
+    begin
+      if AModDO.DOItems[i].POITEM.ID = cxGridTableGR.Text(j, cxgrdclmnPOITEM.Index) then
+      begin
+        cxGridTableGR.SetValue(j,cxgrdclmnQtyRecv.Index,  AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+        HitungSummary(j,AModDO.DOItems[i].DOD_QTY_ORDER_RECV);
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmGoodsReceiving.LoadData(AID : String);
+begin
+  btnCheckList.Visible := False;
+  btnCetakNP.Visible   := False;
+
+  ClearByTag([0,1]);
+  FreeAndNil(FModDO);
+  cxGridTableGR.ClearRows;
+
+  FModDO := TModDO(DMClient.CrudDOClient.Retrieve(TModDO.ClassName, AID));
+  if FModDO = nil then
+    Exit;
+
+  if FModDO.ID = '' then
+    Exit;
+
+  FModDO.LoadPO;
+  edPO.Text := FModDO.PO.PO_NO;
+  LoadDataPO(FModDO.PO.PO_NO, False);
+  edtDONo.Text := FModDO.DO_NO;
+  dtDateDO.Date:= FModDO.DO_DATE;
+  edTotalColie.Value := FModDO.DO_COLIE_ORDER_RECV;
+  edRecvBonus.Value := FModDO.DO_COLIE_BONUS_RECV;
+
+  edTotalBeli.Value   := FModDO.DO_TOTAL;
+  edPPNBM.Value       := FModDO.DO_PPNBM;
+  edPPN.Value         := FModDO.DO_PPN;
+  edDiscount.Value    := FModDO.DO_DISC;
+  edSubTotal.Value    := FModDO.DO_SUBTOTAL;
+  edtNP.Text          := FModDO.DO_NP;
+
+  IsiQtyReceive(FModDO);
+  btnCheckList.Visible := True;
+  btnCetakNP.Visible   := True;
+
+
+end;
+
+procedure TfrmGoodsReceiving.LoadDataGRItemToProductName;
+begin
+  cbbProductName.EditValue   := cxGridTableGR.Values(cxGridTableGR.DataController.FocusedRecordIndex, cxgrdclmnNama.Index);
+  edDisc1.Value              := cxGridTableGR.Double(cxGridTableGR.DataController.FocusedRecordIndex, cxgrdclmnDisc1.Index);
+  edDisc2.Value              := cxGridTableGR.Double(cxGridTableGR.DataController.FocusedRecordIndex, cxgrdclmnDisc2.Index);
+  edNilaiDisc.Value          := cxGridTableGR.Double(cxGridTableGR.DataController.FocusedRecordIndex, cxgrdclmnDisc3.Index);
+  edTotalDisc.Value          := cxGridTableGR.Double(cxGridTableGR.DataController.FocusedRecordIndex, cxgrdclmnTotalDisc.Index);
+  edSellPrice.Value          := cxGridTableGR.Double(cxGridTableGR.DataController.FocusedRecordIndex, cxgrdclmnLinePrice.Index);
+end;
+
+function TfrmGoodsReceiving.LoadDataPO(ANoPO : String;
+    AIsiQtyReceivedDenganQtyOrder : Boolean = True): Boolean;
+begin
+  Result := False;
+
+  ClearByTag([0,1]);
+  cxGridTableGR.ClearRows;
+  FPO := TModPO(DMClient.CrudClient.RetrieveByCode(TModPO.ClassName, ANoPO));
+  if FPO = nil then
+    Exit;
+
+  if FPO.ID = '' then
+    Exit;
+
+  edPO.Text := FPO.PO_NO;
+  FPO.LoadSO;
+  edtSONo.Text := FPO.PO_SO.SO_NO;
+  dtDateSO.Date := FPO.PO_SO.SO_DATE;
+
+  FPO.LoadPO_SUPPLIER_MERCHAN_GRUP;
+  edtSuplierName.Text := FPO.PO_SUPPLIER_MERCHAN_GRUP.SUPMG_NAME;
+
+  dtDatePO.Date := FPO.PO_DATE;
+  edTotalOrder.Value := FPO.PO_COLIE;
+  edTotalColie.Value := FPO.PO_COLIE;
+  edBonus.Value := 0;
+  edRecvBonus.Value := 0;
+
+  edTotalBeli.Value   := FPO.PO_TOTAL;
+  edPPNBM.Value       := FPO.PO_PPNBM;
+  edPPN.Value         := FPO.PO_PPN;
+  edDiscount.Value    := FPO.PO_DISC;
+  edSubTotal.Value    := FPO.PO_SUBTOTAL;
+
+  InisialisasiBarang(FPO.PO_NO);
+  if not LoadPOItemToGrid(FPO, AIsiQtyReceivedDenganQtyOrder) then
+    Exit;
+
+  Result := True;
+end;
+
+function TfrmGoodsReceiving.LoadPOItemToGrid(APO : TModPO;
+    AIsiQtyReceiveDenganQtyOrder : Boolean): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+
+  for I := 0 to APO.POItems.Count - 1 do
+  begin
+    cxGridTableGR.DataController.AppendRecord;
+//    cxGridTableGR.DataController.FocusedRecordIndex := i;
+
+    cxGridTableGR.SetValue(i, cxgrdclmnPLU.Index,APO.POItems[i].POD_BARANG.ID);
+    cxGridTableGR.SetValue(i, cxgrdclmnNama.Index,APO.POItems[i].POD_BARANG.ID);
+    cxGridTableGR.SetValue(i,cxgrdclmnUOM.Index, APO.POItems[i].POD_UOM.ID);
+
+    cxGridTableGR.SetValue(i,cxgrdclmnHarga.Index, APO.POItems[i].POD_PRICE);
+    cxGridTableGR.SetValue(i,cxgrdclmnQtyOrder.Index, APO.POItems[i].POD_QTY_ORDER);
+
+    cxGridTableGR.SetValue(i,cxgrdclmnDisc1.Index, APO.POItems[i].POD_DISC1);
+    cxGridTableGR.SetValue(i,cxgrdclmnDisc2.Index, APO.POItems[i].POD_DISC2);
+    cxGridTableGR.SetValue(i,cxgrdclmnDisc3.Index, APO.POItems[i].POD_DISC3);
+    cxGridTableGR.SetValue(i,cxgrdclmnTotalDisc.Index, APO.POItems[i].POD_TOTAL_DISC);
+
+    cxGridTableGR.SetValue(i,cxgrdclmnPPNPERSEN.Index, APO.POItems[i].POD_PPN_PERSEN);
+    cxGridTableGR.SetValue(i,cxgrdclmnPPNBMPERSEN.Index, APO.POItems[i].POD_PPNBM_PERSEN);
+
+    cxGridTableGR.SetValue(i,cxgrdclmnPPN.Index, APO.POItems[i].POD_PPN);
+    cxGridTableGR.SetValue(i,cxgrdclmnPPNBM.Index, APO.POItems[i].POD_PPNBM);
+    cxGridTableGR.SetValue(i,cxgrdclmnTax.Index, APO.POItems[i].POD_TOTAL_TAX);
+
+    cxGridTableGR.SetValue(i,cxgrdclmnLinePrice.Index, APO.POItems[i].POD_TOTAL_TEMP);
+
+    if AIsiQtyReceiveDenganQtyOrder then
+    begin
+      cxGridTableGR.SetValue(i,cxgrdclmnQtyRecv.Index, APO.POItems[i].POD_QTY_ORDER);
+      cxGridTableGR.SetValue(i,cxgrdclmnTotal.Index, APO.POItems[i].POD_TOTAL);
+    end;
+
+    cxGridTableGR.SetValue(i,cxgrdclmnISBKP.Index, APO.POItems[i].POD_IS_BKP);
+    cxGridTableGR.SetValue(i,cxgrdclmnIsStock.Index, APO.POItems[i].POD_IS_STOCK);
+    cxGridTableGR.SetValue(i,cxgrdclmnPOITEM.Index, APO.POItems[i].ID);
+  end;
+
+//  cxGridTableGR.ApplyBestFit(cxgrdclmnPLU);
+  cxGridTableGR.ApplyBestFit(cxgrdclmnNama);
+  Result := True;
+end;
+
+procedure TfrmGoodsReceiving.UpdateDOItems;
+var
+  I: Integer;
+  lModDoItem: TModDOItem;
+begin
+  ModDO.DOItems.Clear;
+
+  for I := 0 to cxGridTableGR.DataController.RecordCount - 1 do
+  begin
+    lModDoItem := TModDOItem.Create;
+    cxGridTableGR.LoadObjectData(lModDoItem,i);
+
+    lModDoItem.DOD_QTY_ORDER_RECV_CN := 0;
+    lModDoItem.DOD_QTY_ORDER_RECV_DN := 0;
+
+    ModDO.DOItems.Add(lModDoItem);
+  end;
+
 end;
 
 end.

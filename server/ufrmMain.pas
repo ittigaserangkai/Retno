@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
-  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin;
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,uModDO;
 
 type
   TfrmMain = class(TForm)
@@ -54,6 +54,7 @@ type
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
+    procedure grpDBClick(Sender: TObject);
     procedure mmLogChange(Sender: TObject);
     procedure rbTraceClick(Sender: TObject);
   private
@@ -155,6 +156,12 @@ begin
 
   StartServer;
 
+end;
+
+procedure TfrmMain.grpDBClick(Sender: TObject);
+begin
+  TModDO.Create;
+  TModDOItem.Create;
 end;
 
 procedure TfrmMain.mmLogChange(Sender: TObject);

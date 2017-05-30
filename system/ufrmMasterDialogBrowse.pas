@@ -16,6 +16,7 @@ type
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,5 +29,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmMasterDialogBrowse.FormCreate(Sender: TObject);
+begin
+  inherited;
+  //
+end;
 
 end.
