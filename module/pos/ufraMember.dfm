@@ -20,6 +20,7 @@ object fraMember: TfraMember
       FindPanel.DisplayMode = fpdmManual
       FindPanel.InfoText = 'ketik teks yang dicari...'
       DataController.Filter.Options = [fcoCaseInsensitive]
+      DataController.Filter.PercentWildcard = '*'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>

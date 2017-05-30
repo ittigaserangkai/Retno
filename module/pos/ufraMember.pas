@@ -52,7 +52,7 @@ type
 implementation
 
 uses
-  StrUtils, Math, ufrmTransaksi;
+  StrUtils, Math, ufrmTransaksi, udmMain;
 
 const
   _KolKode: Integer = 0;
@@ -66,19 +66,18 @@ const
 
 procedure TfraMember.edNamaChange(Sender: TObject);
 begin
-  {with sgLookup do
+  with sgLookup.DataController do
   begin
-    Filtering.Clear;
-    FilterActive := False;
-    with Filter.Add do
-    begin
-      CaseSensitive := False;
-      Condition := ';*' + edNama.Text + '*';
-      Column := 1;
-    end;
-    FilterActive := True;
+    Filter.Clear;
+    Filter.Active := False;
+    Filter.Options := [];
+    Filter.PercentWildcard := '*';
+    Filter.FilterText := ';*' + edNama.Text + '*';
+    Filter.SupportedLike := True;
+    KeyFieldNames := sgLookup.Columns[_KolNama].Caption;
+    Filter.Active := True;
   end;
-  }
+
 end;
 
 procedure TfraMember.edNamaKeyDown(Sender: TObject; var Key: Word;
@@ -130,12 +129,12 @@ begin
   sSQL := sSQL + ' order by member_name';
   
   iRecordCOunt := 0;
-  {
-  with sgLookup do
+
+  with sgLookup.DataController do
   begin
-    FilterActive := False;
-    ClearRows(1,RowCount-1);
-    RowCount := 2;
+    Filter.Active := False;
+//    ClearRows(1,RowCount-1);
+//    RowCount := 2;
     with cOpenQuery(sSQL) do
     begin
       try

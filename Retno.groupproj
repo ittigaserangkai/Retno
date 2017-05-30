@@ -12,6 +12,9 @@
         <Projects Include="pstore\store.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="pos one\POSOne.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="store:Make">
         <MSBuild Projects="pstore\store.dproj" Targets="Make"/>
     </Target>
+    <Target Name="POSOne">
+        <MSBuild Projects="pos one\POSOne.dproj"/>
+    </Target>
+    <Target Name="POSOne:Clean">
+        <MSBuild Projects="pos one\POSOne.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="POSOne:Make">
+        <MSBuild Projects="pos one\POSOne.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="server;ho;store"/>
+        <CallTarget Targets="server;ho;store;POSOne"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="server:Clean;ho:Clean;store:Clean"/>
+        <CallTarget Targets="server:Clean;ho:Clean;store:Clean;POSOne:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="server:Make;ho:Make;store:Make"/>
+        <CallTarget Targets="server:Make;ho:Make;store:Make;POSOne:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
