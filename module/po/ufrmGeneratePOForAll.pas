@@ -10,49 +10,10 @@ uses
   cxContainer, cxEdit, dxCore, cxDateUtils, Vcl.Menus, cxProgressBar, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, ufrmMasterDialog,
-  ufraFooterDialog3Button, Datasnap.DBClient, uDBUtils, uDXUtils, uAppUtils, uDMClient;
+  ufraFooterDialog3Button, Datasnap.DBClient, uDBUtils, uDXUtils, uAppUtils,
+  uDMClient, uRetnoUnit, uModUnit;
 
 type
-  TSODetil  = array of record
-    SOD_ID                  : Integer;
-    SOD_UNT_ID              : Integer;
-    SOD_SO_NO               : string;
-    SOD_SO_UNT_ID           : Integer;
-    SOD_BRGSUP_ID           : Integer;
-    SOD_BRGSUP_UNT_ID       : Integer;
-    SOD_QTY                 : Real;
-    SOD_QTY_COMMON          : Real;
-    SOD_QTY_TRADER          : Real;
-    SOD_QTY_ASSGROS         : Real;
-    SOD_SAT_CODE            : string;
-    SOD_SAT_UNT_ID          : Integer;
-    SOD_PRICE               : Currency;
-    SOD_TOTAL               : Currency;
-    SOD_DISC1               : Currency;
-    SOD_DISC2               : Currency;
-    SOD_DISC3               : Currency;
-    SOD_TOTAL_TEMP          : Currency;
-    SOD_TOTAL_DISC          : Currency;
-    SOD_IS_ORDERED          : Byte;
-    SOD_IS_BKP              : Byte;
-    SOD_IS_REGULAR          : Byte;
-    OP_CREATE               : Integer;
-    DATE_CREATE             : TDateTime;
-    OP_MODIFY               : Integer;
-    DATE_MODIFY             : TDateTime;
-    SOD_BRG_CODE            : string;
-    SOD_BRG_UNT_ID          : Integer;
-    SOD_SUP_CODE            : string;
-    SOD_SUP_UNT_ID          : Integer;
-    SOD_MERCHANGRUP_ID      : Integer;
-    SOD_MERCHANGRUP_UNT_ID  : Integer;
-    BRGSUP_SUPMG_SUB_CODE   : string;
-    PJK_PPN                 : Currency;
-    PJK_PPNBM               : Currency;
-    SUPMG_LEAD_TIME         : Integer;
-    BRG_IS_STOCK            : Byte;
-  end;
-
   TfrmGeneratePOforAll = class(TfrmMasterDialog)
     fraFooter1Button1: TfraFooter1Button;
     lbl3: TLabel;
@@ -67,7 +28,6 @@ type
     pbProcess: TcxProgressBar;
     pnl1: TPanel;
     lblKet: TLabel;
-    btn1: TcxButton;
     btnDetailPO: TcxButton;
     actDetailPO: TAction;
     lblSupplierMG: TLabel;
@@ -78,7 +38,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure actProcessPOExecute(Sender: TObject);
-    procedure btn1Click(Sender: TObject);
+//    procedure btn1Click(Sender: TObject);
     procedure cbbSOExit(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -92,15 +52,15 @@ type
     procedure cbbSOPropertiesEditValueChanged(Sender: TObject);
   private
     isSOFound: Boolean;
-    FIsGenerated: Boolean;
-    DataSODetil: TSODetil;
+//    FIsGenerated: Boolean;
+//    DataSODetil: TSODetil;
     FCDSSO: TClientDataSet;
     FCDSSUPMG: TClientDataSet;
-    FNoPO: string;
-    FNoPODetil: Integer;
+//    FNoPO: string;
+//    FNoPODetil: Integer;
     procedure InisialisasiCBBSO;
     procedure InisialisasiCBBSupMG; overload;
-    procedure SearchSONo(ASONo: String);
+//    procedure SearchSONo(ASONo: String);
   public
     { Public declarations }
   end;
@@ -165,37 +125,7 @@ begin
   end;
 end;
 
-procedure TfrmGeneratePOforAll.btn1Click(Sender: TObject);
-begin
-  if not Assigned(frmDialogSearchSO) then
-    Application.CreateForm(TfrmDialogSearchSO, frmDialogSearchSO);
 
-  with frmDialogSearchSO do
-  begin
-    Caption := 'Search SO...';
-    formMode := fmGPOForAll;
-    ShowModal;
-    if (IsProcessSuccessfull) then
-    begin
-      if frmDialogSearchSO.cbStatusSO.Text = 'GENERATED' then
-      begin
-//        edtNoSO.Text := NoSO;
-        dtDateSO.Date := SODate;
-        FIsGenerated := True;
-      end
-      else
-        FIsGenerated := False;
-
-      if FIsGenerated then
-        btnDetailPO.Visible := True
-      else
-        btnDetailPO.Visible := False;
-
-      SearchSONo(NoSO);
-    end;
-  end;
-  frmDialogSearchSO.Free;
-end;
 
 procedure TfrmGeneratePOforAll.cbbSOExit(Sender: TObject);
 begin
@@ -224,8 +154,8 @@ procedure TfrmGeneratePOforAll.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  if(Key = VK_F2) then
-    btn1Click(self);
+//  if(Key = VK_F2) then
+//    btn1Click(self);
   if(Key = VK_F5) then
     btnProcessPO.Click;
   if(Key = VK_F3) then
@@ -262,11 +192,11 @@ begin
 //    Key:=#0;
 end;
 
-procedure TfrmGeneratePOforAll.SearchSONo(ASONo: String);
-var data: TDataSet;
-    tmpSODetil: TDataSet;
-    i: Integer;
-begin
+//procedure TfrmGeneratePOforAll.SearchSONo(ASONo: String);
+//var data: TDataSet;
+//    tmpSODetil: TDataSet;
+//    i: Integer;
+//begin
   {if(not Assigned(SearchSO))then
     SearchSO := TSearchSO.Create;
   data := SearchSO.GetListSOByNo(ASONo);
@@ -330,7 +260,7 @@ begin
     end;
   end;
   }
-end;
+//end;
 
 procedure TfrmGeneratePOforAll.FormActivate(Sender: TObject);
 begin
@@ -340,11 +270,21 @@ begin
 end;
 
 procedure TfrmGeneratePOforAll.InisialisasiCBBSO;
+var
+  lUnit: TModUnit;
 begin
-  // SO_ID,SO_NO
-  FCDSSO := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOLookUpGeneratePO(nil), Self);
-  cbbSO.Properties.LoadFromCDS(FCDSSO,'SO_ID','SO_NO',['SO_ID'],Self);
-  cbbSO.Properties.SetMultiPurposeLookup;
+  try
+    lUnit := TModUnit.CreateID(TRetno.UnitStore.ID);
+    try
+      FCDSSO := TDBUtils.DSToCDS(DMClient.DSProviderClient.SO_GetDSOLookUpGeneratePO(lUnit), Self)
+    finally
+      lUnit.Free;
+    end;
+    cbbSO.Properties.LoadFromCDS(FCDSSO,'SO_ID','SO_NO',['SO_ID'],Self);
+    cbbSO.Properties.SetMultiPurposeLookup;
+  except
+    raise
+  end;
 end;
 
 procedure TfrmGeneratePOforAll.InisialisasiCBBSupMG;

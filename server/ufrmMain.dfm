@@ -5451,8 +5451,8 @@ object frmMain: TfrmMain
     Top = 8
   end
   object ImageList1: TImageList
-    Left = 712
-    Top = 48
+    Left = 552
+    Top = 80
   end
   object mmMainMenu: TMainMenu
     Left = 776

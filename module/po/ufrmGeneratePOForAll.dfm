@@ -93,7 +93,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Align = alBottom
       Position = 30.000000000000000000
       Properties.PeakValue = 30.000000000000000000
-      TabOrder = 7
+      TabOrder = 6
       ExplicitTop = 253
       Width = 655
     end
@@ -105,7 +105,7 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       Align = alBottom
       BevelOuter = bvNone
       Color = 15198183
-      TabOrder = 8
+      TabOrder = 7
       DesignSize = (
         655
         29)
@@ -117,26 +117,6 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
         Anchors = [akLeft, akBottom]
         Caption = 'processing generate PO...'
       end
-    end
-    object btn1: TcxButton
-      Left = 271
-      Top = 4
-      Width = 58
-      Height = 27
-      Cursor = crHandPoint
-      Caption = 'F2'
-      OptionsImage.ImageIndex = 26
-      OptionsImage.Images = DMClient.imgListButton
-      TabOrder = 6
-      TabStop = False
-      Visible = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      OnClick = btn1Click
     end
     object btnDetailPO: TcxButton
       Left = 152
@@ -207,14 +187,20 @@ inherited frmGeneratePOforAll: TfrmGeneratePOforAll
       ExplicitWidth = 659
       inherited lbCTRLEnter: TLabel
         Left = 484
+        Height = 15
         ExplicitLeft = 484
       end
       inherited lbEscape: TLabel
         Left = 575
+        Height = 15
         ExplicitLeft = 575
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 408
+        Height = 15
         ExplicitLeft = 408
       end
     end

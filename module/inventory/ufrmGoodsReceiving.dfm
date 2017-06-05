@@ -683,6 +683,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       end
       inherited btnPrint: TcxButton
         Left = 537
+        Action = actPrint
         ExplicitLeft = 537
       end
     end
@@ -710,7 +711,6 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 504
     Top = 112
     inherited actSave: TAction
       OnExecute = actSaveExecute
