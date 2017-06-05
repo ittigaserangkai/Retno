@@ -117,6 +117,7 @@ type
     procedure cxGridTableGRFocusedRecordChanged(Sender: TcxCustomGridTableView;
         APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
         ANewItemRecordFocusingChanged: Boolean);
+    procedure btnCetakNPClick(Sender: TObject);
   private
     FCDSBARANG: TClientDataSet;
     FCDSPO: TClientDataSet;
@@ -830,12 +831,22 @@ begin
   frmDialogSearchPO.Free;
 end;
 
+procedure TfrmGoodsReceiving.btnCetakNPClick(Sender: TObject);
+begin
+  inherited;
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport( 'reports/DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
+  end;
+end;
+
 procedure TfrmGoodsReceiving.btnCheckListClick(Sender: TObject);
 begin
   with DMReport do
   begin
     AddReportVariable('UserCetak', 'USER');
-    ExecuteReport( 'DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
+    ExecuteReport( 'reports/CHECKLIST_DO' ,ReportClient.DO_GetDS_CheckList(FModDO.DO_NP));
   end;
 end;
 
@@ -1194,6 +1205,19 @@ begin
 
   if FPO.ID = '' then
     Exit;
+
+  FPO.LoadStatusPO;
+  if FPO.PO_STATUS_PO.STAPO_NAME = 'CLOSED' then
+  begin
+    TAppUtils.Warning('PO Sudah CLOSED');
+    Exit;
+  end;
+
+  if FPO.PO_STATUS_PO.STAPO_NAME = 'CANCELED' then
+  begin
+    TAppUtils.Warning('PO Sudah CANCELED');
+    Exit;
+  end;
 
   edPO.Text := FPO.PO_NO;
   FPO.LoadSO;

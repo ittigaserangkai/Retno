@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 05/22/17 10:20:41 AM
+// 6/5/2017 8:19:52 AM
 //
 
 unit uClientClasses;
@@ -417,6 +417,8 @@ type
   private
     FDO_GetDSNPCommand: TDSRestCommand;
     FDO_GetDSNPCommand_Cache: TDSRestCommand;
+    FDO_GetDS_CheckListCommand: TDSRestCommand;
+    FDO_GetDS_CheckListCommand_Cache: TDSRestCommand;
     FSO_ByDateCommand: TDSRestCommand;
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
@@ -431,6 +433,8 @@ type
     destructor Destroy; override;
     function DO_GetDSNP(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function DO_GetDS_CheckList_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -1609,6 +1613,18 @@ const
   );
 
   TDSReport_DO_GetDSNP_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_DO_GetDS_CheckList: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_DO_GetDS_CheckList_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -5294,6 +5310,46 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FDO_GetDSNPCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSReportClient.DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FDO_GetDS_CheckListCommand = nil then
+  begin
+    FDO_GetDS_CheckListCommand := FConnection.CreateCommand;
+    FDO_GetDS_CheckListCommand.RequestType := 'GET';
+    FDO_GetDS_CheckListCommand.Text := 'TDSReport.DO_GetDS_CheckList';
+    FDO_GetDS_CheckListCommand.Prepare(TDSReport_DO_GetDS_CheckList);
+  end;
+  FDO_GetDS_CheckListCommand.Parameters[0].Value.SetWideString(ANONP);
+  FDO_GetDS_CheckListCommand.Execute(ARequestFilter);
+  if not FDO_GetDS_CheckListCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FDO_GetDS_CheckListCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FDO_GetDS_CheckListCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FDO_GetDS_CheckListCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.DO_GetDS_CheckList_Cache(ANONP: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FDO_GetDS_CheckListCommand_Cache = nil then
+  begin
+    FDO_GetDS_CheckListCommand_Cache := FConnection.CreateCommand;
+    FDO_GetDS_CheckListCommand_Cache.RequestType := 'GET';
+    FDO_GetDS_CheckListCommand_Cache.Text := 'TDSReport.DO_GetDS_CheckList';
+    FDO_GetDS_CheckListCommand_Cache.Prepare(TDSReport_DO_GetDS_CheckList_Cache);
+  end;
+  FDO_GetDS_CheckListCommand_Cache.Parameters[0].Value.SetWideString(ANONP);
+  FDO_GetDS_CheckListCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FDO_GetDS_CheckListCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSReportClient.SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_ByDateCommand = nil then
@@ -5480,6 +5536,8 @@ destructor TDSReportClient.Destroy;
 begin
   FDO_GetDSNPCommand.DisposeOf;
   FDO_GetDSNPCommand_Cache.DisposeOf;
+  FDO_GetDS_CheckListCommand.DisposeOf;
+  FDO_GetDS_CheckListCommand_Cache.DisposeOf;
   FSO_ByDateCommand.DisposeOf;
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;

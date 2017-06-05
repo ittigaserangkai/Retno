@@ -16,13 +16,14 @@ type
   public
     procedure LoadPO_SUPPLIER_MERCHAN_GRUP;
     procedure LoadSO;
+    procedure LoadStatusPO;
   end;
 
   TModDOHelper = class helper for TModDO
   public
     procedure LoadPO;
-
   end;
+
 implementation
 
 procedure TModPOHelper.LoadPO_SUPPLIER_MERCHAN_GRUP;
@@ -33,6 +34,11 @@ end;
 procedure TModPOHelper.LoadSO;
 begin
   Self.PO_SO := TModSO(DMClient.CrudClient.RetrieveSingle(TModSO.ClassName, Self.PO_SO.ID));
+end;
+
+procedure TModPOHelper.LoadStatusPO;
+begin
+  Self.PO_STATUS_PO := TModStatusPO(DMClient.CrudClient.RetrieveSingle(TModStatusPO.ClassName, Self.PO_STATUS_PO.ID));
 end;
 
 procedure TModPOItemHelper.LoadBarang;

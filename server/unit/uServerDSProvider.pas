@@ -108,6 +108,7 @@ type
   private
   public
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
+    function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -1018,6 +1019,17 @@ begin
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 
+end;
+
+function TDSReport.DO_GetDS_CheckList(ANONP: String): TFDJSONDataSets;
+var
+  s : string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_CHECKLIST_DO where DO_NP = ' + QuotedStr(ANONP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 
 function TDSReport.PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime;

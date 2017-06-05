@@ -365,7 +365,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        OnClick = btnCheckListClick
+        OnClick = btnCetakNPClick
       end
       object edPO: TcxTextEdit
         Tag = 1
@@ -541,6 +541,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
           Width = 90
         end
         object cxgrdclmnUOM: TcxGridColumn
+          AlternateCaption = 'SATUAN'
           Caption = 'UOM'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter

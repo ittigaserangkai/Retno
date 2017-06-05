@@ -16,6 +16,8 @@ type
   private
     FSTAPO_CODE: string;
     FSTAPO_NAME: string;
+  public
+    class function GetTableName: String; override;
   published
     property STAPO_CODE: string read FSTAPO_CODE write FSTAPO_CODE;
     property STAPO_NAME: string read FSTAPO_NAME write FSTAPO_NAME;
@@ -112,6 +114,7 @@ type
     function GetPO_SUBTOTAL: Double;
     procedure SetPO_SO(const Value: TModSO);
     procedure SetPO_SUPPLIER_MERCHAN_GRUP(const Value: TModSuplierMerchanGroup);
+    procedure SetPO_STATUS_PO(const Value: TModStatusPO);
   public
     property POItems: TObjectList<TModPOItem> read GetPOItems write FPOItems;
     property PO_NO_REF: string read FPO_NO_REF write FPO_NO_REF;
@@ -137,7 +140,7 @@ type
     property PO_SO: TModSO read FPO_SO write SetPO_SO;
 
     [AttributeOfForeign('REF$STATUS_PO_ID')]
-    property PO_STATUS_PO: TModStatusPO read FPO_STATUS_PO write FPO_STATUS_PO;
+    property PO_STATUS_PO: TModStatusPO read FPO_STATUS_PO write SetPO_STATUS_PO;
 
     [AttributeOfForeign('SUPLIER_ID')]
     property PO_SUPPLIER: TModSuplier read FPO_SUPPLIER write FPO_SUPPLIER;
@@ -183,13 +186,23 @@ begin
   FPO_SO := Value;
 end;
 
+procedure TModPO.SetPO_STATUS_PO(const Value: TModStatusPO);
+begin
+  if Self.FPO_STATUS_PO <> Value then
+  begin
+    FreeAndNil(Self.FPO_STATUS_PO);
+    FPO_STATUS_PO := Value;
+  end;
+end;
+
 procedure TModPO.SetPO_SUPPLIER_MERCHAN_GRUP(const Value:
     TModSuplierMerchanGroup);
 begin
   if FPO_SUPPLIER_MERCHAN_GRUP <> Value then
+  begin
     FreeAndNil(FPO_SUPPLIER_MERCHAN_GRUP);
-
-  FPO_SUPPLIER_MERCHAN_GRUP := Value;
+    FPO_SUPPLIER_MERCHAN_GRUP := Value;
+  end;
 end;
 
 class function TModPOItem.GetTableName: String;
@@ -213,6 +226,13 @@ begin
   FPOD_UOM := Value;
 end;
 
+
+{ TModStatusPO }
+
+class function TModStatusPO.GetTableName: String;
+begin
+  Result := 'REF$STATUS_PO';
+end;
 
 initialization
   TModPO.RegisterRTTI;
