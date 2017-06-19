@@ -71,12 +71,7 @@ type
     function Barang_ByPOLookUp(APONO : String): TDataset;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
-    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
-        AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
-        AUnit : TModUnit = nil): TDataset;
     function SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
-    function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
-        TModUnit = nil): TDataset;
     function StatusPO_GetDSLookup: TDataSet;
     function TipeHarga_GetDSLookup: TDataSet;
     function RefWilayah_GetDSLookup: TDataSet;
@@ -93,12 +88,21 @@ type
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
-    function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
+    function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function PORevisi_GetDSOverview(ID: string): TDataset;
+    function PO_DSLookUpDetail(ANOPO : String): TDataSet;
     function PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
+    function PO_SKULookUP(APONO : String): TDataSet;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
+    function PO_GetDSOverviewDetil(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
+    function PO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+        AkodeSupplierMGAwal, AKodeSupplierMGAkhir : String; AStatusPOID : String;
+        AUnit : TModUnit = nil): TDataset;
+
+
     function RefCreditCard_GetDSOverview: TDataSet;
 
 
@@ -936,6 +940,16 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.PO_DSLookUpDetail(ANOPO : String): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := ' select * from V_PO_DETIL_LOOKUP' +
+          ' where po_no = ' + QuotedStr(ANOPO);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
 var
   sSQL: string;
@@ -950,6 +964,12 @@ begin
 
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PO_SKULookUP(APONO : String): TDataSet;
+begin
+//  Result := ;
+  // TODO -cMM: TDSProvider.PO_SKULookUP default body inserted
 end;
 
 function TDSProvider.PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;

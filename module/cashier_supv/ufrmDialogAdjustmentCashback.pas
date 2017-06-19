@@ -75,7 +75,7 @@ type
   private
     FIsProcessSuccessfull: boolean;
     FFormMode: TFormMode;
-    procedure ClearData;
+//    procedure ClearData;
     procedure LookUpData(Sender:TObject; Key: Word);
 //    procedure ParseDataComboBox();
     procedure ParseDataComboBoxAdjustCode;
@@ -338,24 +338,24 @@ begin
   }
 end;
 
-procedure TfrmDialogAdjustmentCashback.ClearData;
-begin
-  edtMemberCode.Clear;
-  edtMemberName.Clear;
-  edtCashierId.Clear;
-  edtCashierName.Clear;
-  edtPOSCode.Clear;
-  edtShiftCode.Clear;
-  edtCardCode.Clear;
-  edtCardNo.Clear;
-  edtCardName.Clear;
-  edtCardAuthorize.Clear;
-  dtTransact.Clear;
-  curredtTotalTransact.Clear;
-  curredtPaymentCard.Clear;
-  curredtCashbackActually.Clear;
-  curredtCashbackBefore.Clear;
-end;
+//procedure TfrmDialogAdjustmentCashback.ClearData;
+//begin
+//  edtMemberCode.Clear;
+//  edtMemberName.Clear;
+//  edtCashierId.Clear;
+//  edtCashierName.Clear;
+//  edtPOSCode.Clear;
+//  edtShiftCode.Clear;
+//  edtCardCode.Clear;
+//  edtCardNo.Clear;
+//  edtCardName.Clear;
+//  edtCardAuthorize.Clear;
+//  dtTransact.Clear;
+//  curredtTotalTransact.Clear;
+//  curredtPaymentCard.Clear;
+//  curredtCashbackActually.Clear;
+//  curredtCashbackBefore.Clear;
+//end;
 
 procedure TfrmDialogAdjustmentCashback.FormKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
-  cxClasses, Vcl.AppEvnts;
+  cxClasses, Vcl.AppEvnts, ufrmCN;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -56,7 +56,7 @@ type
     actApprovalPO: TAction;
     actGoodsReceiving: TAction;
     actServiceLevel: TAction;
-    actCNDNGoodReceiving: TAction;
+    actCNGoodReceiving: TAction;
     actReturBarang: TAction;
     actDSI: TAction;
     actWastageObral: TAction;
@@ -193,6 +193,7 @@ type
     N1: TMenuItem;
     GoodReceiving1: TMenuItem;
     actSetKoneksi: TAction;
+    CNReceiving1: TMenuItem;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -254,6 +255,7 @@ type
     procedure AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure FormShow(Sender: TObject);
     procedure miExit1Click(Sender: TObject);
+    procedure actCNReceivingExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -263,7 +265,7 @@ type
 //    FIsStore: Integer;
     FIsTesting: Boolean;
     procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
-    procedure SetAclstExim(aEnable : Boolean);
+//    procedure SetAclstExim(aEnable : Boolean);
     procedure SetIsConnectedRefreshServer(const Value: boolean);
     procedure SetIsRegisteredUserToRefreshServer(const Value: boolean);
 //    procedure SetLoginFullname(const Value: string);
@@ -372,6 +374,11 @@ var i: integer;
 begin
   for i := Self.MDIChildCount-1 downto 0 do
     MDIChildren[i].Close;
+end;
+
+procedure TfrmMain.actCNReceivingExecute(Sender: TObject);
+begin
+  frmCN := TfrmCN.Create(Application);
 end;
 
 procedure TfrmMain.actCrazyPriceExecute(Sender: TObject);
@@ -495,8 +502,8 @@ end;
 
 procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
-  iTemp: Integer;
-  erMsg: string;
+//  iTemp: Integer;
+//  erMsg: string;
   sIDUnit: string;
 begin
   //setting unit toko
@@ -555,8 +562,8 @@ begin
 end;
 
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);
-var
-  FdefUnitId: Integer;
+//var
+//  FdefUnitId: Integer;
 begin
   frmLogin := TfrmLogin.Create(Application);
   frmLogin.ShowFormLogin(LOGIN_PAGE);
@@ -790,13 +797,13 @@ begin
   Application.Terminate;
 end;
 
-procedure TfrmMain.SetAclstExim(aEnable : Boolean);
-begin
-  actImportSync.Enabled       := aEnable;
-  actExportSync.Enabled       := aEnable;
-  actExportDataStore.Enabled  := aEnable;
-  actImportFromPOS.Enabled    := aEnable;
-end;
+//procedure TfrmMain.SetAclstExim(aEnable : Boolean);
+//begin
+//  actImportSync.Enabled       := aEnable;
+//  actExportSync.Enabled       := aEnable;
+//  actExportDataStore.Enabled  := aEnable;
+//  actImportFromPOS.Enabled    := aEnable;
+//end;
 
 procedure TfrmMain.SetIsConnectedRefreshServer(const Value: boolean);
 begin

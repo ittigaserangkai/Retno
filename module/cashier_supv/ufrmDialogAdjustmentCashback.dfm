@@ -407,6 +407,7 @@ inherited frmDialogAdjustmentCashback: TfrmDialogAdjustmentCashback
       end
       inherited btnPrint: TcxButton
         Left = 408
+        Action = actPrint
         ExplicitLeft = 410
       end
     end

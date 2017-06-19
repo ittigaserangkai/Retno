@@ -191,7 +191,10 @@ uses
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
   uModelHelper in '..\model\uModelHelper.pas',
-  uModCreditCard in '..\model\uModCreditCard.pas';
+  uModCreditCard in '..\model\uModCreditCard.pas',
+  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
+  ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
+  uModCNRecv in '..\model\uModCNRecv.pas';
 
 {$R *.res}
 
@@ -202,5 +205,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogCN, frmDialogCN);
   Application.Run;
 end.

@@ -67,6 +67,12 @@ type
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
+    function RetrieveByPO(APONO : String): TModDO;
+  end;
+
+  TCrudCN = class(TCrud)
+  public
   end;
 
 
@@ -79,6 +85,7 @@ implementation
 
 uses
   System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO;
+
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
   Result := 'Hello Word ' + DateToStr(aTanggal);
@@ -468,6 +475,37 @@ begin
       Free;
     end;
   end;
+end;
+
+function TCrudDO.RetrieveByPO(APONO : String): TModDO;
+var
+  sIDDO: string;
+  sSQL: string;
+begin
+  Result := nil;
+
+  sSQL   := 'select a.DO_ID from DO a ' +
+            ' inner join PO b on a.PO_ID = b.PO_ID' +
+            ' where b.PO_NO = ' + QuotedStr(APONO);
+
+  sIDDO := '';
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        sIDDO := FieldByName('DO_ID').AsString;
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
+
+  if sIDDO = '' then
+    Exit;
+
+  Result := TModDO(Retrieve(TModDO.ClassName, sIDDO));
 end;
 
 function TCrudDO.UpdateStatusPO(AObject: TModApp): Boolean;

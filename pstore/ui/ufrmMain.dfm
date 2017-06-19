@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Top = 0
   Caption = 'ASSALAAM HYPERMARKET'
   ClientHeight = 488
-  ClientWidth = 800
+  ClientWidth = 923
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,28 +23,30 @@ object frmMain: TfrmMain
   object pnlHeader: TPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 923
     Height = 80
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     Color = 10150911
     TabOrder = 0
+    ExplicitWidth = 894
     object imgHeader: TImage
       Left = 2
       Top = 2
-      Width = 796
+      Width = 919
       Height = 76
       Align = alClient
       Transparent = True
       ExplicitLeft = 4
       ExplicitTop = 4
+      ExplicitWidth = 796
     end
   end
   object sbMain: TdxStatusBar
     Left = 0
     Top = 468
-    Width = 800
+    Width = 923
     Height = 20
     Panels = <
       item
@@ -70,10 +72,11 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitWidth = 894
   end
   object mmMainMenu: TMainMenu
-    Left = 16
-    Top = 136
+    Left = 168
+    Top = 160
     object mmSistem1: TMenuItem
       Caption = '&System'
       object miLogin1: TMenuItem
@@ -118,6 +121,9 @@ object frmMain: TfrmMain
       end
       object GoodReceiving1: TMenuItem
         Action = actGoodsReceiving
+      end
+      object CNReceiving1: TMenuItem
+        Action = actCNReceiving
       end
     end
     object mmWindow: TMenuItem
@@ -252,9 +258,9 @@ object frmMain: TfrmMain
       Caption = 'Monitoring &Service Level'
       OnExecute = actServiceLevelExecute
     end
-    object actCNDNGoodReceiving: TAction
+    object actCNGoodReceiving: TAction
       Category = 'Inventory'
-      Caption = '&CN/DN Receiving'
+      Caption = '&CN Receiving'
     end
     object actReturBarang: TAction
       Category = 'Inventory'
@@ -305,6 +311,7 @@ object frmMain: TfrmMain
     object actCNReceiving: TAction
       Category = 'Inventory'
       Caption = '&CN Receiving'
+      OnExecute = actCNReceivingExecute
     end
     object actDNReceiving: TAction
       Category = 'Inventory'

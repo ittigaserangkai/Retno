@@ -182,6 +182,7 @@ type
     function Int(ARec, ACol : Integer): Integer;
     function Text(ARec, ACol : Integer): string;
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
+    function RecordIndex: Integer;
     procedure SetObjectData(AObject : TModApp; ARow : Integer);
     function Values(ARec, ACol : Integer): Variant; overload;
   end;
@@ -1114,6 +1115,10 @@ begin
   for i := 0 to Self.ComponentCount-1 do
   begin
     C := Self.Components[i];
+
+    if C.Tag = 999 then  // untuk pengecualian
+      Continue;
+
     if C is TEdit then
       If not Assigned(TEdit(C).OnKeyDown) then
         TEdit(C).OnKeyDown := OnKeyEnter;
@@ -1472,6 +1477,11 @@ begin
     ctx.Free();
   end;
 
+end;
+
+function TcxGridTableViewHelper.RecordIndex: Integer;
+begin
+  Result := Self.DataController.FocusedRecordIndex;
 end;
 
 procedure TcxGridTableViewHelper.SetObjectData(AObject : TModApp; ARow :
