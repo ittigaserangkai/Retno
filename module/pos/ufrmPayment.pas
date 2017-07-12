@@ -798,7 +798,7 @@ begin
       begin
         if SisaUang <= SisaUang_Maksimum then
         begin
-          cShowWaitWindow('Bayar tanpa cetak Struk');
+//          cShowWaitWindow('Bayar tanpa cetak Struk');
           Application.ProcessMessages;
           try
             if SaveToDB then
@@ -812,7 +812,7 @@ begin
               Self.Close;
             end;
           finally
-            cCloseWaitWindow;
+//            cCloseWaitWindow;
           end
         end
         else
@@ -1173,7 +1173,7 @@ begin
     mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
   end;
 
-
+  {
   lQ := cOpenQuery('SELECT FOOTER FROM SP_HADIAH('+ QuotedStr(frmTransaksi.edNoTrnTerakhir.Text) +')');
   try
     while not lQ.Eof do
@@ -1187,6 +1187,7 @@ begin
   mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER);
   mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
   mmoBackup.Lines.AddStrings(mmoFooterStruk.Lines);
+  }
   Application.ProcessMessages;
 
   if (edtCashBack.Visible) and (edtCashBack.Value > 0) then

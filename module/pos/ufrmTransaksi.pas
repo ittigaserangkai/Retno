@@ -223,7 +223,7 @@ begin
     Columns[_KolIsKontrabon].Caption  := 'IsKontrabon';
 
     {$IFDEF TSN}
-    Columns[_KolDiscP]      := 'Disc %';
+    Columns[_KolDiscP].Caption      := 'Disc %';
     {$ENDIF}
 
 //    FixedRows := 1;
