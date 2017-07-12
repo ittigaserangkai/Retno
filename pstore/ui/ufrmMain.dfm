@@ -30,7 +30,6 @@ object frmMain: TfrmMain
     BevelOuter = bvLowered
     Color = 10150911
     TabOrder = 0
-    ExplicitWidth = 894
     object imgHeader: TImage
       Left = 2
       Top = 2
@@ -72,7 +71,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitWidth = 894
   end
   object mmMainMenu: TMainMenu
     Left = 168
