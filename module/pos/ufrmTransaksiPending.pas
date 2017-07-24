@@ -42,7 +42,9 @@ var
 
 implementation
 
-uses uConstanta, ufrmMain, ufrmTransaksi, uTSCommonDlg;
+uses
+  uConstanta, ufrmMain, ufrmTransaksi, uTSCommonDlg, uDXUtils,
+  uNewPosTransaction, udmMain;
 
 const
    _Kol_No                  : Byte = 0;
@@ -238,6 +240,16 @@ begin
      sgTransaksi.Col := 1;
   end;
   }
+  sgTransaksi.LoadFromCDS(cOpenDataset(GetListPendingTransByUserIDAndDate(frmMain.UnitID, frmMain.UserID, cGetServerDateTime)));
+  if sgTransaksi.DataController.RecordCount = 0 then
+  begin
+    frmTransaksi := GetFormByClass(TfrmTransaksi) as TfrmTransaksi;
+    if frmTransaksi <> nil then
+      CommonDlg.ShowMessage('Tidak ada Transaksi Pending');
+    Close;
+  end;
+//  sgTransaksi.SetVisibleColumns(['_Kol_TRANS_ID'],False);
+//  sgTransaksi.SetColumnsWidth(['_Kol_TRANS_TOTAL'],100);
 end;
 
 procedure TfrmTransaksiPending.sgTransaksiDblClick(Sender: TObject);

@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridLevel,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
-  cxGridCustomView, cxGrid, cxContainer, cxProgressBar;
+  cxGridCustomView, cxGrid, cxContainer, cxProgressBar, cxTextEdit;
 
 type
   TfraLookupBarang = class(TFrame)
@@ -22,15 +22,15 @@ type
     lblInfo: TLabel;
     tmrInfo: TTimer;
     cxGrid: TcxGrid;
-    sgBarang: TcxGridDBTableView;
     grdlvlLookupMember: TcxGridLevel;
-    cxcolPLU: TcxGridDBColumn;
-    cxcolSatuan: TcxGridDBColumn;
-    cxcolNamaBarang: TcxGridDBColumn;
-    cxcolHargaDasar: TcxGridDBColumn;
-    cxcolDiskon: TcxGridDBColumn;
-    cxcolHargaBersih: TcxGridDBColumn;
     pbBarang: TcxProgressBar;
+    sgBarang: TcxGridTableView;
+    sgBarangColumn1: TcxGridColumn;
+    sgBarangColumn2: TcxGridColumn;
+    sgBarangColumn3: TcxGridColumn;
+    sgBarangColumn4: TcxGridColumn;
+    sgBarangColumn5: TcxGridColumn;
+    sgBarangColumn6: TcxGridColumn;
     procedure edNamaBarangKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edNamaBarangChange(Sender: TObject);
@@ -62,7 +62,7 @@ type
 implementation
 
 uses
-  Math, ufrmTransaksi, udmMain;
+  Math, ufrmTransaksi, udmMain, uDXUtils;
 
 const
   _KolPLU         : Integer = 0;
@@ -95,56 +95,55 @@ begin
         + ' and a.brg_is_validate = 1';
   if Trim(ANamaBarang) <> '' then
     if AIsDepan then
-    	sSQL := sSQL + 'and upper(a.brg_name) like ''' + UpperCase(ANamaBarang) + '%'' '
+    	sSQL := sSQL + ' and upper(a.brg_name) like ''' + UpperCase(ANamaBarang) + '%'' '
     else
-      sSQL := sSQL + 'and upper(a.brg_name) like ''%' + UpperCase(ANamaBarang) + '%'' ';
+      sSQL := sSQL + ' and upper(a.brg_name) like ''%' + UpperCase(ANamaBarang) + '%'' ';
   sSQL := sSQL + ' order by a.brg_name';
-  
+
   iRecordCOunt := 0;
-	with sgBarang.DataController do
-  begin
-    Filter.Active := False;
-    Filter.Clear;
+
+  sgBarang.DataController.Filter.Active := False;
+  sgBarang.DataController.Filter.Clear;
 //    sgBarang.DataController.ClearDetails;
 //    RowCount := 2;
-    with cOpenQuery(sSQL) do
-    begin
-      try
-        if not Eof then
-        begin
-          Last;
-          iRecordCOunt := RecordCount;
-          pbBarang.Visible := True;
-          First;
-        end;
-        {
-        while not eof do
-        begin
-        	Cells[_KolPLU,RowCount-1]          := FieldByName('brg_code').AsString;
-        	Cells[_KolSatuan,RowCount-1]       := FieldByName('BHJ_SAT_CODE').AsString;
-        	Cells[_KolNamaBarang,RowCount-1]   := FieldByName('brg_name').AsString;
-          Floats[_KolHargaDasar,RowCount-1]  := FieldByName('BHJ_SELL_PRICE').AsFloat;
-          Floats[_KolDiskon,RowCount-1]      := FieldByName('BHJ_DISC_NOMINAL').AsFloat;
-          Floats[_KolHargaBersih,RowCount-1] := FieldByName('BHJ_SELL_PRICE_DISC').AsFloat;
-
-			    AutoSize          := True;
-	        pbBarang.Position := Floor(((RowCount-1)/iRecordCOunt)*100);
-          if IsStop then
-          begin
-            pbBarang.Position := 100;
-            IsStop := False;
-            Break;
-          end;
-          Application.ProcessMessages;
-          Next;
-          if not Eof then
-             AddRow;
-        end; }
-      finally
-        Free;
-        pbBarang.Visible := False;
-        IsProcessing := False;
+  sgBarang.ClearRows;
+  with cOpenQuery(sSQL) do
+  begin
+    try
+      if not Eof then
+      begin
+        Last;
+        iRecordCOunt := RecordCount;
+        pbBarang.Visible := True;
+        First;
       end;
+
+      while not eof do
+      begin
+        sgBarang.DataController.AppendRecord;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolPLU]        := FieldByName('brg_code').AsString;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolSatuan]     := FieldByName('BHJ_SAT_CODE').AsString;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolNamaBarang] := FieldByName('brg_name').AsString;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolHargaDasar] := FieldByName('BHJ_SELL_PRICE').AsFloat;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolDiskon]     := FieldByName('BHJ_DISC_NOMINAL').AsFloat;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolHargaBersih]:= FieldByName('BHJ_SELL_PRICE_DISC').AsFloat;
+
+//			    AutoSize          := True;
+        pbBarang.Position := Floor(((sgBarang.DataController.RowCount-1)/iRecordCOunt)*100);
+        if IsStop then
+        begin
+          pbBarang.Position := 100;
+          IsStop := False;
+          Break;
+        end;
+        Application.ProcessMessages;
+        Next;
+      end;
+      sgBarang.ApplyBestFit();
+    finally
+      Free;
+      pbBarang.Visible := False;
+      IsProcessing := False;
     end;
   end;
 
@@ -299,10 +298,10 @@ begin
   PLU := '';
   UOM := '';
 	if sgBarang.Controller.FocusedRowIndex = 0 then Exit;
-  if pbBarang.Position < 100 then Exit;
+//  if pbBarang.Position < 100 then Exit;
 
-  PLU          := sgBarang.DataController.Values[_KolPLU, sgBarang.Controller.FocusedRowIndex];
-  UOM          := sgBarang.DataController.Values[_KolSatuan, sgBarang.Controller.FocusedRowIndex];
+  PLU          := sgBarang.DataController.Values[sgBarang.Controller.FocusedRowIndex, _KolPLU];
+  UOM          := sgBarang.DataController.Values[sgBarang.Controller.FocusedRowIndex, _KolSatuan];
   Self.Visible := False;
 
   with (Self.Parent as TfrmTransaksi) do

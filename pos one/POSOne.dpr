@@ -35,7 +35,19 @@ uses
   uNewBarangHargaJual in '..\classes\uNewBarangHargaJual.PAS',
   uNewPOSTransactionCard in '..\classes\uNewPOSTransactionCard.pas',
   uNewPosTransaction in '..\classes\uNewPosTransaction.pas',
-  uDXUtils in '..\lib\uDXUtils.pas';
+  uDXUtils in '..\lib\uDXUtils.pas',
+  uModDO in '..\model\uModDO.pas',
+  uModSuplier in '..\model\uModSuplier.pas',
+  uModBank in '..\model\uModBank.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  uModTipePembayaran in '..\model\uModTipePembayaran.pas',
+  uModTipeKirimPO in '..\model\uModTipeKirimPO.pas',
+  uModRefPajak in '..\model\uModRefPajak.pas',
+  uModPO in '..\model\uModPO.pas',
+  uModSO in '..\model\uModSO.pas',
+  uModSatuan in '..\model\uModSatuan.pas',
+  uModBarang in '..\model\uModBarang.pas',
+  uModOutlet in '..\model\uModOutlet.pas';
 
 {$R *.res}
 

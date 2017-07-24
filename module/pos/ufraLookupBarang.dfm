@@ -101,46 +101,43 @@ object fraLookupBarang: TfraLookupBarang
     TabOrder = 2
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    object sgBarang: TcxGridDBTableView
+    object sgBarang: TcxGridTableView
       OnDblClick = sgBarangDblClick
       OnKeyDown = sgBarangKeyDown
       Navigator.Buttons.CustomButtons = <>
-      FindPanel.DisplayMode = fpdmManual
-      FindPanel.InfoText = 'ketik teks yang dicari...'
-      OnTopRecordIndexChanged = sgBarangTopRecordIndexChanged
-      DataController.Filter.Options = [fcoCaseInsensitive]
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      FilterRow.InfoText = 
-        'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
-        'er'
-      FilterRow.Visible = True
-      FilterRow.ApplyChanges = fracImmediately
-      NewItemRow.InfoText = 'Baris baru'
-      OptionsData.Editing = False
-      OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
-      OptionsView.GroupByBox = False
-      object cxcolPLU: TcxGridDBColumn
+      object sgBarangColumn1: TcxGridColumn
         Caption = 'PLU'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
-      object cxcolSatuan: TcxGridDBColumn
+      object sgBarangColumn2: TcxGridColumn
         Caption = 'Satuan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
-      object cxcolNamaBarang: TcxGridDBColumn
+      object sgBarangColumn3: TcxGridColumn
         Caption = 'Nama Barang'
-        Width = 146
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 69
       end
-      object cxcolHargaDasar: TcxGridDBColumn
+      object sgBarangColumn4: TcxGridColumn
         Caption = 'Harga Dasar'
-        Width = 89
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
-      object cxcolDiskon: TcxGridDBColumn
+      object sgBarangColumn5: TcxGridColumn
         Caption = 'Diskon'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
-      object cxcolHargaBersih: TcxGridDBColumn
-        Caption = 'Harga Bersih'
-        Width = 87
+      object sgBarangColumn6: TcxGridColumn
+        Caption = 'Harga'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
     end
     object grdlvlLookupMember: TcxGridLevel

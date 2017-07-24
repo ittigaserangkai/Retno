@@ -246,7 +246,7 @@ var
 begin
   eiMain := TAppUtils.GetEXEVersionData(Application.ExeName);
   {$IFDEF TSN}
-  Self.Caption := getprodu eiMain.ProductName + ' TISERA '+ ' v ' + eiMain.FileVersion;
+  Self.Caption := eiMain.ProductName + ' TISERA '+ ' v ' + eiMain.FileVersion;
   {$ELSE}
   Self.Caption := eiMain.ProductName + ' ASSALAAM HYPERMARKET '+ ' v ' + eiMain.FileVersion;
   {$ENDIF}

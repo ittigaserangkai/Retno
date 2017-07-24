@@ -145,24 +145,25 @@ begin
           pbLookup.Visible := True;
           First; 
         end;
-        
+
         while not eof do
         begin
-          Cells[_KolKode,RowCount-1] := Fields[0].AsString;
-          Cells[_KolNama,RowCount-1] := Fields[1].AsString;
-          Cells[_KolAlamat,RowCount-1] := Fields[2].AsString;
-          Cells[_KolIsAktif,RowCount-1] := IfThen(Fields[4].AsInteger = 1,'Ya','Tidak');
-          Cells[_KolIsValid,RowCount-1] := IfThen(Fields[3].AsInteger = 1,'Ya','Tidak');
+          Values[RowCount-1,_KolKode]    := Fields[0].AsString;
+          Values[RowCount-1,_KolNama]    := Fields[1].AsString;
+          Values[RowCount-1,_KolAlamat]  := Fields[2].AsString;
+          Values[RowCount-1,_KolIsAktif] := IfThen(Fields[4].AsInteger = 1,'Ya','Tidak');
+          Values[RowCount-1,_KolIsValid] := IfThen(Fields[3].AsInteger = 1,'Ya','Tidak');
 
-          if Fields[3].AsInteger = 0 then
-            RowColor[RowCount-1] := clYellow;
+//          if Fields[3].AsInteger = 0 then
+//            RowColor[RowCount-1] := clYellow;
 
-          if Fields[4].AsInteger = 0 then
-            RowColor[RowCount-1] := clRed;
+//          if Fields[4].AsInteger = 0 then
+//            RowColor[RowCount-1] := clRed;
 
           AutoSize := True;
           pbLookup.Position := Floor(((RowCount-1)/iRecordCOunt)*100);
-          RowCount := RowCount + 1;
+//          RowCount := RowCount + 1;
+          sgLookup.DataController.Insert;
           Application.ProcessMessages;
           if IsStop then
           begin
@@ -178,7 +179,7 @@ begin
       end;
     end;
   end;
-  }
+
 end;
 
 procedure TfraMember.ExporttoCSV1Click(Sender: TObject);

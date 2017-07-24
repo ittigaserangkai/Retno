@@ -3,7 +3,7 @@ unit uNewPOS;
 interface
 
 uses
-  SysUtils, Classes, StrUtils, uNewUnit, uTSBaseClass, JclStrings,
+  SysUtils, Classes, StrUtils, uNewUnit, uTSBaseClass,// JclStrings,
   FireDAC.Comp.Client, udmMain, uAppUtils;
 
 type
@@ -329,7 +329,8 @@ class function TPOS.GenerateTransactionNo(APOSCode: String; ADate: TDateTime):
     string;
 begin
   Result := APOSCode + FormatDateTime('ddmmyy',ADate);
-  Result := StrPadRight(Result,12,'0');
+//  Result := StrPadRight(Result,12,'0');
+  Result := Result.PadRight(12,'0');
 end;
 
 function TPOS.GetCreatedUnit: TUnit;

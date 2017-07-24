@@ -12,7 +12,7 @@ uses
   FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.SQLite,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef, FireDAC.Phys.MSSQLDef,
   FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL, System.UITypes, Vcl.Forms, dxmdaset,
-  vcl.dialogs;
+  vcl.dialogs, Datasnap.DBClient;
 
 type
   TDBType = (dbtPOS, dbtStore);
@@ -53,7 +53,6 @@ type
     procedure appevnMainException(Sender: TObject; E: Exception);
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
-  private
   public
     FMSSQLConnectionString: string;
     FSQLiteConnectionString: string;
@@ -85,6 +84,8 @@ procedure cCommitTrans(ADBType: TDBType = dbtPOS);
 
 procedure PrintStrings(aSS: TStrings);
 
+function cOpenDataset(ASQL: String; AOwner: TComponent = nil): TClientDataSet;
+
 var
   dmMain: TdmMain;
   aListMerID  : TStrings;
@@ -97,7 +98,7 @@ var
 implementation
 
 uses
-  Vcl.Printers, Winapi.WinSpool, uTSCommonDlg, uAppUtils;
+  Vcl.Printers, Winapi.WinSpool, uTSCommonDlg, uAppUtils, Datasnap.Provider;
 
 {$R *.dfm}
 
@@ -357,7 +358,7 @@ begin
          +  ';Database=' + aDatabase
          +  ';User_name=' + aUser
          +  ';Password=' + aPassword;
-  // TODO -cMM: TdmMain.setConnectionString default body inserted
+
   if (aDriver='SQLite') then
   begin
     Result := Result + ';DateTimeFormat=DateTime'
@@ -605,6 +606,28 @@ begin
   EndPagePrinter(Handle);
   EndDocPrinter(Handle);
   ClosePrinter(Handle);
+end;
+
+function cOpenDataset(ASQL: String; AOwner: TComponent = nil): TClientDataSet;
+var
+  LDSP: TDataSetProvider;
+  LSQLQuery: TFDQuery;
+begin
+  if AOwner = nil then
+    Result := TClientDataSet.Create(Application)
+  else
+    Result := TClientDataSet.Create(AOwner);
+
+  LDSP        := TDataSetProvider.Create(Result);
+  LSQLQuery   := TFDQuery.Create(LDSP);
+  LSQLQuery.FetchOptions.Unidirectional := False;
+
+  LSQLQuery.Connection := dmMain.dbPOS;
+  LSQLQuery.SQL.Append(ASQL);
+
+  LDSP.DataSet            := LSQLQuery;
+  Result.SetProvider(LDSP);
+  Result.Open;
 end;
 
 end.
