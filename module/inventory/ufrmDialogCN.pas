@@ -12,7 +12,8 @@ uses
   cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxDBExtLookupComboBox, uDXUtils, uModCNRecv, uModelHelper,
-  uModDO, uModPO, uModUnit, uRetnoUnit, uDMClient, System.StrUtils, Datasnap.DBClient;
+  uModDO, uModPO, uModUnit, uRetnoUnit, uDMClient, System.StrUtils, Datasnap.DBClient,
+  cxButtonEdit, Vcl.Menus, cxButtons, cxGroupBox;
 
 type
   TfrmDialogCN = class(TfrmMasterDialog)
@@ -29,7 +30,6 @@ type
     lblPPNBM: TLabel;
     lblTotal: TLabel;
     dtCN: TcxDateEdit;
-    edPO: TcxTextEdit;
     edKodeSupplier: TcxTextEdit;
     edNamaSupplier: TcxTextEdit;
     edNoCN: TcxTextEdit;
@@ -58,6 +58,11 @@ type
     cxGridColCNDetailColumnPPNPERSEN: TcxGridColumn;
     cxGridColCNDetailColumnTotalDisc: TcxGridColumn;
     cxGridColCNDetailColumnSupMG: TcxGridColumn;
+    edPO: TcxButtonEdit;
+    cxGroupBox5: TcxGroupBox;
+    Label29: TLabel;
+    btnDeletePrice: TcxButton;
+    btnAddPrice: TcxButton;
     procedure actSaveExecute(Sender: TObject);
     procedure edPOKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -65,6 +70,9 @@ type
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGridTableCNDetailEditing(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; var AAllow: Boolean);
+    procedure edPOPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+    procedure btnAddPriceClick(Sender: TObject);
+    procedure btnDeletePriceClick(Sender: TObject);
   private
     FCDSPO_DETAIL: TClientDataset;
     FCDS_UOM: TClientDataset;
@@ -73,13 +81,18 @@ type
     FPO: TModPO;
 //    FPO: TModPO;
     function GetCNRecv: TModCNRecv;
+    function GetDCItem: TcxGridDataController;
     procedure InisialisasiCBBUOM;
     procedure LoadDO(ADO: TModDO);
     procedure LoadPLU(APO: TModPO);
+    procedure LoadPO(aPONO: String);
+    procedure UpdateData;
+    function ValidateData: Boolean;
     { Private declarations }
   public
     procedure LoadDataCN(const AID: string);
     property CNRecv: TModCNRecv read GetCNRecv write FCNRecv;
+    property DCItem: TcxGridDataController read GetDCItem;
     { Public declarations }
   end;
 
@@ -89,29 +102,35 @@ var
 implementation
 
 uses
-  uDBUtils;
+  uDBUtils, ufrmCXLookup, DateUtils, uAppUtils;
 
 {$R *.dfm}
 
 procedure TfrmDialogCN.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if not ValidateEmptyCtrl([0,1]) then
-    Exit;
+  if CNRecv.ID = '' then
+    edNoCN.Text := DMClient.CrudClient.GenerateNo(TModCNRecv.ClassName);
 
-  CNRecv.CNR_DATE     := dtCN.Date;
-  CNRecv.CNR_PO       := TModPO.CreateID(FPO.ID);
+  if not ValidateData then exit;
+  UpdateData;
 
-  CNRecv.CNR_IS_CLAIM := 0;
-  CNRecv.CNR_NO       := edNoCN.Text;
 
-  CNRecv.CNR_PPN      := edPPN.Value;
-  CNRecv.CNR_PPNBM    := edPPNBM.Value;
-  CNRecv.CNR_TOTAL    := edTotal.Value;
-  CNRecv.CNR_UNT      := TModUnit.CreateID(TRetno.UnitStore.ID);
 
 //  CNRecv.CNR_CNRDITEMS.Clear;
 
+end;
+
+procedure TfrmDialogCN.btnAddPriceClick(Sender: TObject);
+begin
+  inherited;
+  DCItem.AppendRecord;
+end;
+
+procedure TfrmDialogCN.btnDeletePriceClick(Sender: TObject);
+begin
+  inherited;
+  DCItem.DeleteRecord(DCItem.FocusedRecordIndex);
 end;
 
 procedure TfrmDialogCN.cxGridColCNDetailColumnKodePropertiesValidate(
@@ -170,33 +189,28 @@ begin
     iNomor    := StrToIntDef(edPO.Text,0);
     edPO.Text := RightStr('00000000000' + IntToStr(iNomor), 11);
 
-    FreeAndNil(FPO);
-
-    FPO := TModPO(DMClient.CrudPOClient.RetrieveByCode(TModPO.ClassName,edPO.Text));
-    if FPO = nil then
-      Exit;
-
-    if FPO.ID = '' then
-      Exit;
-
-    FPO.LoadPO_SUPPLIER_MERCHAN_GRUP;
-
-    edPO.Text           := FPO.PO_NO;
-    edKodeSupplier.Text := FPO.PO_SUPPLIER_MERCHAN_GRUP.SUPMG_SUB_CODE;
-    edNamaSupplier.Text := FPO.PO_SUPPLIER_MERCHAN_GRUP.SUPMG_NAME;
-    edPPN.Value         := FPO.PO_PPN;
-    edPPNBM.Value       := FPO.PO_PPNBM;
-    edSubTotal.Value    := FPO.PO_SUBTOTAL;
-    edTotal.Value       := FPO.PO_TOTAL;
-
-    cxGridTableCNDetail.ClearRows;
-    LoadPLU(FPO);
-
-    FreeAndNil(FDO);
-    FDO := DMClient.CrudDOClient.RetrieveByPO(FPO.PO_NO);
-    LoadDO(FDO);
+    LoadPO(edPO.Text);
   end;
 
+end;
+
+procedure TfrmDialogCN.edPOPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  with TfrmCXLookup.Execute('Look Up SO','TDSProvider.PO_GetDSByPeriod',
+    StartOfTheYear(Now), EndOfTheYear(Now())) do
+  begin
+    Try
+      if ShowModal = mrOK then
+      begin
+        edPo.Text := Data.FieldByName('PO_NO').AsString;
+        LoadPO(edPO.Text);
+      end;
+    Finally
+      free;
+    End;
+  end;
 end;
 
 procedure TfrmDialogCN.FormCreate(Sender: TObject);
@@ -215,6 +229,11 @@ begin
   end;
 
   Result := FCNRecv;
+end;
+
+function TfrmDialogCN.GetDCItem: TcxGridDataController;
+begin
+  Result := cxGridTableCNDetail.DataController;
 end;
 
 procedure TfrmDialogCN.InisialisasiCBBUOM;
@@ -257,6 +276,96 @@ begin
 
   TcxExtLookupComboBoxProperties(cxGridTableCNDetail.Columns[cxGridColCNDetailColumnNama.Index].Properties).LoadFromCDS(
     FCDSPO_DETAIL,'BARANG_ID','BRG_NAME',['PO_NO','PO_DETAIL_id','REF$SATUAN_ID', 'BARANG_ID'],Self);
+end;
+
+procedure TfrmDialogCN.LoadPO(aPONO: String);
+begin
+  FreeAndNil(FPO);
+
+  FPO := TModPO(DMClient.CrudPOClient.RetrieveByCode(TModPO.ClassName,aPONO));
+  if FPO = nil then
+    Exit;
+
+  if FPO.ID = '' then
+    Exit;
+
+  FPO.LoadPO_SUPPLIER_MERCHAN_GRUP;
+
+  edPO.Text           := FPO.PO_NO;
+  edKodeSupplier.Text := FPO.PO_SUPPLIER_MERCHAN_GRUP.SUPMG_SUB_CODE;
+  edNamaSupplier.Text := FPO.PO_SUPPLIER_MERCHAN_GRUP.SUPMG_NAME;
+  edPPN.Value         := FPO.PO_PPN;
+  edPPNBM.Value       := FPO.PO_PPNBM;
+  edSubTotal.Value    := FPO.PO_SUBTOTAL;
+  edTotal.Value       := FPO.PO_TOTAL;
+
+  cxGridTableCNDetail.ClearRows;
+  LoadPLU(FPO);
+
+  FreeAndNil(FDO);
+  FDO := DMClient.CrudDOClient.RetrieveByPO(FPO.PO_NO);
+  LoadDO(FDO);
+end;
+
+procedure TfrmDialogCN.UpdateData;
+begin
+
+  CNRecv.CNR_DATE     := dtCN.Date;
+  CNRecv.CNR_PO       := TModPO.CreateID(FPO.ID);
+
+  CNRecv.CNR_IS_CLAIM := 0;
+  CNRecv.CNR_NO       := edNoCN.Text;
+
+  CNRecv.CNR_PPN      := edPPN.Value;
+  CNRecv.CNR_PPNBM    := edPPNBM.Value;
+  CNRecv.CNR_TOTAL    := edTotal.Value;
+  CNRecv.CNR_UNT      := TModUnit.CreateID(TRetno.UnitStore.ID);
+
+//  CNRecv.
+end;
+
+function TfrmDialogCN.ValidateData: Boolean;
+var
+  i: Integer;
+  j: Integer;
+  lBSID: String;
+begin
+  Result := False;
+  if not ValidateEmptyCtrl([0,1]) then exit;
+
+  //check empty grid;
+  if DCItem.RecordCount = 0 then
+  begin
+    TAppUtils.Warning('Baris Item masih kosong');
+    exit;
+  end;
+
+  //check QTY > DO
+  if not Assigned(FDO) then exit;
+  for i := 0 to DCItem.RecordCount-1 do
+  begin
+    if DCItem.Values[cxGridColCNDetailColumnQty.Index, i] = 0 then
+    begin
+      TAppUtils.Warning('QTY CN = 0');
+      exit;
+    end;
+
+    for j := 0 to FDO.DOItems.Count-1 do
+    begin
+      lBSID := DCItem.Values[cxGridColCNDetailColumnNama.Index, i];
+      if (lBSID = FDO.DOItems[j].BARANG.ID) then
+      begin
+        if DCItem.Values[cxGridColCNDetailColumnQty.Index, i] > FDO.DOItems[j].DOD_QTY_ORDER_RECV then
+        begin
+          TAppUtils.Warning('QTY CN tidak boleh melebihi QTY DO '
+            +#13 +'Baris : ' + inttostr(i+1));
+          exit;
+        end;
+      end;
+    end;
+  end;
+
+  Result := True;
 end;
 
 end.

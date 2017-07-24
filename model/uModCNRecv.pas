@@ -24,12 +24,12 @@ type
     FCNR_TOTAL: Double;
     FCNR_TOTAL_DISC: Double;
     FCNR_UNT: TModUnit;
-//    function GetCNR_CNRDITEMS: TObjectList<TModCNRecvItem>;
+    function GetCNR_CNRDITEMS: TObjectList<TModCNRecvItem>;
     function GetCNR_TOTAL_TAX: Double;
   public
     class function GetTableName: string; override;
-//    property CNR_CNRDITEMS: TObjectList<TModCNRecvItem> read GetCNR_CNRDITEMS
-//        write FCNR_CNRDITEMS;
+    property CNR_CNRDITEMS: TObjectList<TModCNRecvItem> read GetCNR_CNRDITEMS
+        write FCNR_CNRDITEMS;
   published
     property CNR_DATE: TDatetime read FCNR_DATE write FCNR_DATE;
     property CNR_DESCRIPTION: Double read FCNR_DESCRIPTION write
@@ -112,10 +112,10 @@ implementation
 {
 ********************************** TModCNRecv **********************************
 }
-//function TModCNRecv.GetCNR_CNRDITEMS: TObjectList<TModCNRecvItem>;
-//begin
-//  Result := FCNR_CNRDITEMS;
-//end;
+function TModCNRecv.GetCNR_CNRDITEMS: TObjectList<TModCNRecvItem>;
+begin
+  Result := FCNR_CNRDITEMS;
+end;
 
 function TModCNRecv.GetCNR_TOTAL_TAX: Double;
 begin
@@ -133,5 +133,8 @@ begin
 end;
 
 
+initialization
+  TModCNRecv.RegisterRTTI;
+  TModCNRecvItem.RegisterRTTI;
 
 end.

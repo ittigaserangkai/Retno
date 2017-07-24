@@ -23,6 +23,7 @@ object WebModuleRetno: TWebModuleRetno
   Width = 456
   object DSHTTPWebDispatcher: TDSHTTPWebDispatcher
     Filters = <>
+    CredentialsPassThrough = True
     WebDispatch.PathInfo = 'datasnap*'
     Left = 64
     Top = 27

@@ -42,10 +42,11 @@ uses
   uModRefAgama in '..\model\uModRefAgama.pas',
   uModQuotation in '..\model\uModQuotation.pas',
   uModSO in '..\model\uModSO.pas',
-  uModPO in '..\model\uModPO.pas',
+  uModPO in '..\model\uModPO.pas' {$R *.res},
   uModDO in '..\model\uModDO.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
-  uModKompetitor in '..\model\uModKompetitor.pas';
+  uModKompetitor in '..\model\uModKompetitor.pas',
+  uModCNRecv in '..\model\uModCNRecv.pas';
 
 {$R *.res}
 

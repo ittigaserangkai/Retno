@@ -1243,6 +1243,10 @@ begin
         sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
       else
         sMsg := 'Input Tidak Boleh Kosong';
+
+      //for debugging
+      sMsg := sMsg + #13 + EmptyCtrl.ClassName + '.' + EmptyCtrl.Name;
+
       TAppUtils.Warning(sMsg);
     end;
 

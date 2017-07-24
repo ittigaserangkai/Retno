@@ -1,14 +1,15 @@
 inherited frmDialogCN: TfrmDialogCN
   Caption = 'CN Receiving'
-  ClientHeight = 448
+  ClientHeight = 511
   ClientWidth = 889
+  ExplicitTop = -111
   ExplicitWidth = 905
-  ExplicitHeight = 487
+  ExplicitHeight = 550
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 889
-    Height = 392
+    Height = 455
     ExplicitWidth = 889
     ExplicitHeight = 392
     object pnlHeader: TPanel
@@ -96,70 +97,61 @@ inherited frmDialogCN: TfrmDialogCN
         Caption = 'Total'
       end
       object dtCN: TcxDateEdit
-        Left = 112
+        Left = 104
         Top = 10
         TabOrder = 0
-        Width = 121
-      end
-      object edPO: TcxTextEdit
-        Tag = 1
-        Left = 112
-        Top = 36
-        TabOrder = 1
-        Text = 'edPO'
-        OnKeyDown = edPOKeyDown
-        Width = 121
+        Width = 129
       end
       object edKodeSupplier: TcxTextEdit
-        Left = 112
+        Left = 104
         Top = 62
         TabStop = False
         Enabled = False
-        TabOrder = 2
+        TabOrder = 1
         Text = 'edPO'
-        Width = 121
+        Width = 129
       end
       object edNamaSupplier: TcxTextEdit
         Left = 21
         Top = 88
         TabStop = False
         Enabled = False
-        TabOrder = 3
+        TabOrder = 2
         Text = 'edPO'
         Width = 212
       end
       object edNoCN: TcxTextEdit
-        Left = 329
+        Left = 326
         Top = 10
         TabStop = False
         Enabled = False
-        TabOrder = 4
+        TabOrder = 3
         Text = 'edNoCN'
         Width = 121
       end
       object dtTerima: TcxDateEdit
-        Left = 329
+        Left = 326
         Top = 36
         TabStop = False
         Enabled = False
-        TabOrder = 5
+        TabOrder = 4
         Width = 121
       end
       object edNoNP: TcxTextEdit
-        Left = 329
+        Left = 326
         Top = 62
         TabStop = False
         Enabled = False
-        TabOrder = 6
+        TabOrder = 5
         Text = 'edNoNP'
         Width = 121
       end
       object edNoDO: TcxTextEdit
-        Left = 329
+        Left = 326
         Top = 88
         TabStop = False
         Enabled = False
-        TabOrder = 7
+        TabOrder = 6
         Text = 'edNoDO'
         Width = 121
       end
@@ -170,7 +162,7 @@ inherited frmDialogCN: TfrmDialogCN
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 8
+        TabOrder = 7
         Width = 121
       end
       object edPPN: TcxCurrencyEdit
@@ -180,7 +172,7 @@ inherited frmDialogCN: TfrmDialogCN
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 9
+        TabOrder = 8
         Width = 121
       end
       object edPPNBM: TcxCurrencyEdit
@@ -190,7 +182,7 @@ inherited frmDialogCN: TfrmDialogCN
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 10
+        TabOrder = 9
         Width = 121
       end
       object edTotal: TcxCurrencyEdit
@@ -200,18 +192,33 @@ inherited frmDialogCN: TfrmDialogCN
         Enabled = False
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 11
+        TabOrder = 10
         Width = 121
+      end
+      object edPO: TcxButtonEdit
+        Left = 104
+        Top = 36
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.OnButtonClick = edPOPropertiesButtonClick
+        TabOrder = 11
+        Text = 'edPO'
+        OnKeyDown = edPOKeyDown
+        Width = 129
       end
     end
     object cxgrdCN: TcxGrid
       Left = 2
-      Top = 121
+      Top = 148
       Width = 885
-      Height = 269
+      Height = 305
       Align = alClient
       TabOrder = 1
-      RootLevelOptions.DetailTabsPosition = dtpTop
+      ExplicitTop = 121
+      ExplicitHeight = 269
       object cxGridTableCNDetail: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridTableCNDetailEditing
@@ -228,6 +235,7 @@ inherited frmDialogCN: TfrmDialogCN
         Styles.Header = DMClient.cxStyleGridHeader
         object cxgrdclmnCNDetailColumnTipe: TcxGridColumn
           Caption = 'Tipe'
+          Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCNDetailColumnKode: TcxGridColumn
@@ -280,26 +288,33 @@ inherited frmDialogCN: TfrmDialogCN
         object cxGridColCNDetailColumnBarangSupplier: TcxGridColumn
           AlternateCaption = 'CNRD_BarangSupplier'
           Caption = 'BarangSupplier'
+          Visible = False
+          Width = 87
         end
         object cxGridColCNDetailColumnPO: TcxGridColumn
           AlternateCaption = 'CNRD_PO'
           Caption = 'PO'
+          Visible = False
         end
         object cxGridColCNDetailColumnPPN: TcxGridColumn
           AlternateCaption = 'CNRD_PPN'
           Caption = 'PPN'
+          Visible = False
         end
         object cxGridColCNDetailColumnPPNBM: TcxGridColumn
           AlternateCaption = 'CNRD_PPN'
           Caption = 'PPNBM'
+          Visible = False
         end
         object cxGridColCNDetailColumnPPNBMPERSEN: TcxGridColumn
           AlternateCaption = 'CNRD_PPNBM_PERSEN'
           Caption = 'PPNBM PERSEN'
+          Visible = False
         end
         object cxGridColCNDetailColumnPPNPERSEN: TcxGridColumn
           AlternateCaption = 'CNRD_PPN_PERSEN'
           Caption = 'PPN PERSEN'
+          Visible = False
         end
         object cxGridColCNDetailColumnTotalDisc: TcxGridColumn
           AlternateCaption = 'CNRD_TOTAL_DISC'
@@ -309,6 +324,7 @@ inherited frmDialogCN: TfrmDialogCN
         object cxGridColCNDetailColumnSupMG: TcxGridColumn
           AlternateCaption = 'SUPMG'
           Caption = 'SUPMG'
+          Visible = False
         end
       end
       object cxgrdlvlCN: TcxGridLevel
@@ -316,9 +332,88 @@ inherited frmDialogCN: TfrmDialogCN
         GridView = cxGridTableCNDetail
       end
     end
+    object cxGroupBox5: TcxGroupBox
+      Left = 2
+      Top = 121
+      Align = alTop
+      PanelStyle.Active = True
+      Style.BorderStyle = ebsNone
+      Style.Edges = [bRight, bBottom]
+      TabOrder = 2
+      ExplicitTop = 151
+      Height = 27
+      Width = 885
+      object Label29: TLabel
+        AlignWithMargins = True
+        Left = 631
+        Top = 6
+        Width = 249
+        Height = 18
+        Margins.Top = 4
+        Margins.Bottom = 1
+        Align = alRight
+        Caption = 'ALT-T [Tambah]  | ALT-U [Update]  |  ALT-D [Delete]'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Trebuchet MS'
+        Font.Style = []
+        ParentFont = False
+        ExplicitHeight = 16
+      end
+      object btnDeletePrice: TcxButton
+        AlignWithMargins = True
+        Left = 85
+        Top = 2
+        Width = 80
+        Height = 23
+        Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = '&Delete'
+        OptionsImage.ImageIndex = 8
+        OptionsImage.Images = DMClient.imgListButton
+        TabOrder = 1
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Trebuchet MS'
+        Font.Style = []
+        ParentFont = False
+        OnClick = btnDeletePriceClick
+        ExplicitLeft = 168
+      end
+      object btnAddPrice: TcxButton
+        AlignWithMargins = True
+        Left = 2
+        Top = 2
+        Width = 80
+        Height = 23
+        Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = '&Tambah'
+        LookAndFeel.Kind = lfUltraFlat
+        OptionsImage.ImageIndex = 0
+        OptionsImage.Images = DMClient.imgListButton
+        TabOrder = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Trebuchet MS'
+        Font.Style = []
+        ParentFont = False
+        OnClick = btnAddPriceClick
+      end
+    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 392
+    Top = 455
     Width = 889
     ExplicitTop = 392
     ExplicitWidth = 889

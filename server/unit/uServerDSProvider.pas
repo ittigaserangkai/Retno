@@ -92,6 +92,7 @@ type
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function PORevisi_GetDSOverview(ID: string): TDataset;
     function PO_DSLookUpDetail(ANOPO : String): TDataSet;
+    function PO_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime): TDataset;
     function PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
     function PO_SKULookUP(APONO : String): TDataSet;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
@@ -946,6 +947,18 @@ var
 begin
   sSQL := ' select * from V_PO_DETIL_LOOKUP' +
           ' where po_no = ' + QuotedStr(ANOPO);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.PO_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
+    TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_POBTB '
+    + ' where PO_Date between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
