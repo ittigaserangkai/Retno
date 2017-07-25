@@ -7,14 +7,13 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
-  cxClasses, Vcl.AppEvnts, ufrmCN;
+  cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
+  dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
-    pnlHeader: TPanel;
-    imgHeader: TImage;
     mmSistem1: TMenuItem;
     miLogin1: TMenuItem;
     miLogout1: TMenuItem;
@@ -195,6 +194,24 @@ type
     actSetKoneksi: TAction;
     CNReceiving1: TMenuItem;
     DNReceiving1: TMenuItem;
+    dxbrmngrStore: TdxBarManager;
+    dxbrPurchasing: TdxBar;
+    dxbrbtn1: TdxBarButton;
+    dxbrbtn2: TdxBarButton;
+    dxbrlrgbtn1: TdxBarLargeButton;
+    dxBarButton1: TdxBarButton;
+    dxbrlrgbtn2: TdxBarLargeButton;
+    dxbrbtn3: TdxBarButton;
+    dxbrbtn4: TdxBarButton;
+    dxbrbtn5: TdxBarButton;
+    dxbrbtn6: TdxBarButton;
+    dxbrbtn7: TdxBarButton;
+    dxrbntbProcureToPay: TdxRibbonTab;
+    dxrbn1: TdxRibbon;
+    dxrbntbOrderToCash: TdxRibbonTab;
+    dxbrProcureToPayReport: TdxBar;
+    dxbrbtn8: TdxBarButton;
+    dxbrbtn9: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -206,6 +223,7 @@ type
     procedure actCashDroppingExecute(Sender: TObject);
     procedure actChangeStatusPOExecute(Sender: TObject);
     procedure actCloseAllExecute(Sender: TObject);
+    procedure actCNGoodReceivingExecute(Sender: TObject);
     procedure actCrazyPriceExecute(Sender: TObject);
     procedure actCreateSOExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
@@ -376,6 +394,11 @@ var i: integer;
 begin
   for i := Self.MDIChildCount-1 downto 0 do
     MDIChildren[i].Close;
+end;
+
+procedure TfrmMain.actCNGoodReceivingExecute(Sender: TObject);
+begin
+  //
 end;
 
 procedure TfrmMain.actCNReceivingExecute(Sender: TObject);
