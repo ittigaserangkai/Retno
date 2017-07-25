@@ -95,6 +95,14 @@ object frmMain: TfrmMain
       Groups = <>
       Index = 1
     end
+    object dxrbntbSetting: TdxRibbonTab
+      Caption = 'Setting'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSetting'
+        end>
+      Index = 2
+    end
   end
   object mmMainMenu: TMainMenu
     Left = 168
@@ -845,8 +853,13 @@ object frmMain: TfrmMain
     end
     object actSetKoneksi: TAction
       Category = 'Sistem'
-      Caption = 'Setting Koneksi'
+      Caption = 'Server Connection'
       OnExecute = actSetKoneksiExecute
+    end
+    object actSettingApp: TAction
+      Category = 'Sistem'
+      Caption = 'Aplication Setting'
+      OnExecute = actSettingAppExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -901,23 +914,23 @@ object frmMain: TfrmMain
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxbrbtn1'
+          ItemName = 'dxbrbtnSO'
         end
         item
           Visible = True
-          ItemName = 'dxbrbtn2'
+          ItemName = 'dxbrbtnPO'
         end
         item
           Visible = True
-          ItemName = 'dxbrbtn5'
+          ItemName = 'dxbrbtnGR'
         end
         item
           Visible = True
-          ItemName = 'dxbrbtn6'
+          ItemName = 'dxbrbtnCNrecv'
         end
         item
           Visible = True
-          ItemName = 'dxbrbtn7'
+          ItemName = 'dxbrbtnDNRecv'
         end>
       OneOnRow = True
       Row = 1
@@ -949,13 +962,37 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
-    object dxbrbtn1: TdxBarButton
+    object dxbrSetting: TdxBar
+      Caption = 'Setting'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSettingKoneksi'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSettingApp'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrbtnSO: TdxBarButton
       Action = actCreateSO
       Category = 0
       ImageIndex = 39
       PaintStyle = psCaptionGlyph
     end
-    object dxbrbtn2: TdxBarButton
+    object dxbrbtnPO: TdxBarButton
       Action = actPurchaseOrder
       Category = 0
       ImageIndex = 30
@@ -991,35 +1028,46 @@ object frmMain: TfrmMain
       Hint = 'New Button'
       Visible = ivAlways
     end
-    object dxbrbtn5: TdxBarButton
+    object dxbrbtnGR: TdxBarButton
       Action = actGoodsReceiving
       Category = 0
       ImageIndex = 40
       PaintStyle = psCaptionGlyph
     end
-    object dxbrbtn6: TdxBarButton
+    object dxbrbtnCNrecv: TdxBarButton
       Action = actCNReceiving
       Category = 0
       ImageIndex = 42
       PaintStyle = psCaptionGlyph
     end
-    object dxbrbtn7: TdxBarButton
+    object dxbrbtnDNRecv: TdxBarButton
       Action = actDNReceiving
       Category = 0
       ImageIndex = 41
       PaintStyle = psCaptionGlyph
     end
     object dxbrbtn8: TdxBarButton
-      Caption = 'New Button'
+      Caption = 'Stock Card'
       Category = 0
-      Hint = 'New Button'
+      Hint = 'Stock Card'
       Visible = ivAlways
     end
     object dxbrbtn9: TdxBarButton
-      Caption = 'New Button'
+      Caption = 'Inventory Movement'
       Category = 0
-      Hint = 'New Button'
+      Hint = 'Inventory Movement'
       Visible = ivAlways
+    end
+    object dxbrbtnSettingKoneksi: TdxBarButton
+      Action = actSetKoneksi
+      Category = 0
+      ImageIndex = 43
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSettingApp: TdxBarButton
+      Action = actSettingApp
+      Category = 0
+      ImageIndex = 44
     end
   end
 end

@@ -8,7 +8,7 @@ uses
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
-  dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar;
+  dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -196,22 +196,27 @@ type
     DNReceiving1: TMenuItem;
     dxbrmngrStore: TdxBarManager;
     dxbrPurchasing: TdxBar;
-    dxbrbtn1: TdxBarButton;
-    dxbrbtn2: TdxBarButton;
+    dxbrbtnSO: TdxBarButton;
+    dxbrbtnPO: TdxBarButton;
     dxbrlrgbtn1: TdxBarLargeButton;
     dxBarButton1: TdxBarButton;
     dxbrlrgbtn2: TdxBarLargeButton;
     dxbrbtn3: TdxBarButton;
     dxbrbtn4: TdxBarButton;
-    dxbrbtn5: TdxBarButton;
-    dxbrbtn6: TdxBarButton;
-    dxbrbtn7: TdxBarButton;
+    dxbrbtnGR: TdxBarButton;
+    dxbrbtnCNrecv: TdxBarButton;
+    dxbrbtnDNRecv: TdxBarButton;
     dxrbntbProcureToPay: TdxRibbonTab;
     dxrbn1: TdxRibbon;
     dxrbntbOrderToCash: TdxRibbonTab;
     dxbrProcureToPayReport: TdxBar;
     dxbrbtn8: TdxBarButton;
     dxbrbtn9: TdxBarButton;
+    dxbrSetting: TdxBar;
+    dxbrbtnSettingKoneksi: TdxBarButton;
+    dxbrbtnSettingApp: TdxBarButton;
+    dxrbntbSetting: TdxRibbonTab;
+    actSettingApp: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -276,6 +281,7 @@ type
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
+    procedure actSettingAppExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -740,6 +746,11 @@ begin
       Free;
     End;
   end;
+end;
+
+procedure TfrmMain.actSettingAppExecute(Sender: TObject);
+begin
+  frmSettingApp := tfrmSettingApp.Create(nil);
 end;
 
 procedure TfrmMain.actShiftExecute(Sender: TObject);
