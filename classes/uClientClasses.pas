@@ -1,14 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-<<<<<<< HEAD
-<<<<<<< HEAD
-// 7/24/2017 4:14:05 PM
-=======
-// 07/24/17 2:10:03 PM
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-// 07/25/17 9:21:31 AM
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
+// 07/25/17 11:22:33 AM
 //
 
 unit uClientClasses;
@@ -264,6 +256,8 @@ type
     FRefCreditCard_GetDSOverviewCommand_Cache: TDSRestCommand;
     FCN_RCV_GetDSOverviewCommand: TDSRestCommand;
     FCN_RCV_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FDN_RCV_GetDSOverviewCommand: TDSRestCommand;
+    FDN_RCV_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -441,6 +435,8 @@ type
     function RefCreditCard_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function CN_RCV_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function CN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function DN_RCV_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function DN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -627,19 +623,8 @@ type
     procedure AfterExecuteMethod;
   end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  TCrudSettingAppClient = class(TDSAdminRestClient)
+  TCrudCNRecvClient = class(TDSAdminRestClient)
   private
-    FRetrieveByCabangCommand: TDSRestCommand;
-    FRetrieveByCabangCommand_Cache: TDSRestCommand;
-=======
-  TCrudCNClient = class(TDSAdminRestClient)
-=======
-  TCrudCNDNRecvClient = class(TDSAdminRestClient)
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
-  private
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
     FSaveToDBCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
     FOpenQueryCommand: TDSRestCommand;
@@ -661,11 +646,6 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-<<<<<<< HEAD
-    function RetrieveByCabang(ACabang: TModUnit; const ARequestFilter: string = ''): TModSettingApp;
-    function RetrieveByCabang_Cache(ACabang: TModUnit; const ARequestFilter: string = ''): IDSRestCachedTModSettingApp;
-=======
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function OpenQuery(S: string; const ARequestFilter: string = ''): TDataSet;
@@ -685,14 +665,99 @@ type
     procedure AfterExecuteMethod;
   end;
 
-<<<<<<< HEAD
+  TCrudDNRecvClient = class(TDSAdminRestClient)
+  private
+    FSaveToDBCommand: TDSRestCommand;
+    FDeleteFromDBCommand: TDSRestCommand;
+    FOpenQueryCommand: TDSRestCommand;
+    FOpenQueryCommand_Cache: TDSRestCommand;
+    FRetrieveCommand: TDSRestCommand;
+    FRetrieveCommand_Cache: TDSRestCommand;
+    FGenerateCustomNoCommand: TDSRestCommand;
+    FGenerateNoCommand: TDSRestCommand;
+    FRetrieveSingleCommand: TDSRestCommand;
+    FRetrieveSingleCommand_Cache: TDSRestCommand;
+    FRetrieveByCodeCommand: TDSRestCommand;
+    FRetrieveByCodeCommand_Cache: TDSRestCommand;
+    FSaveToDBLogCommand: TDSRestCommand;
+    FSaveToDBIDCommand: TDSRestCommand;
+    FTestGenerateSQLCommand: TDSRestCommand;
+    FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FAfterExecuteMethodCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function OpenQuery(S: string; const ARequestFilter: string = ''): TDataSet;
+    function OpenQuery_Cache(S: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Retrieve(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string = ''): string;
+    function GenerateNo(aClassName: string; const ARequestFilter: string = ''): string;
+    function RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
+    function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
+    function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    procedure AfterExecuteMethod;
+  end;
+
+  TCrudSettingAppClient = class(TDSAdminRestClient)
+  private
+    FRetrieveByCabangCommand: TDSRestCommand;
+    FRetrieveByCabangCommand_Cache: TDSRestCommand;
+    FSaveToDBCommand: TDSRestCommand;
+    FDeleteFromDBCommand: TDSRestCommand;
+    FOpenQueryCommand: TDSRestCommand;
+    FOpenQueryCommand_Cache: TDSRestCommand;
+    FRetrieveCommand: TDSRestCommand;
+    FRetrieveCommand_Cache: TDSRestCommand;
+    FGenerateCustomNoCommand: TDSRestCommand;
+    FGenerateNoCommand: TDSRestCommand;
+    FRetrieveSingleCommand: TDSRestCommand;
+    FRetrieveSingleCommand_Cache: TDSRestCommand;
+    FRetrieveByCodeCommand: TDSRestCommand;
+    FRetrieveByCodeCommand_Cache: TDSRestCommand;
+    FSaveToDBLogCommand: TDSRestCommand;
+    FSaveToDBIDCommand: TDSRestCommand;
+    FTestGenerateSQLCommand: TDSRestCommand;
+    FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FAfterExecuteMethodCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function RetrieveByCabang(ACabang: TModUnit; const ARequestFilter: string = ''): TModSettingApp;
+    function RetrieveByCabang_Cache(ACabang: TModUnit; const ARequestFilter: string = ''): IDSRestCachedTModSettingApp;
+    function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function OpenQuery(S: string; const ARequestFilter: string = ''): TDataSet;
+    function OpenQuery_Cache(S: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Retrieve(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string = ''): string;
+    function GenerateNo(aClassName: string; const ARequestFilter: string = ''): string;
+    function RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
+    function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
+    function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    procedure AfterExecuteMethod;
+  end;
+
   IDSRestCachedTModSettingApp = interface(IDSRestCachedObject<TModSettingApp>)
   end;
 
   TDSRestCachedTModSettingApp = class(TDSRestCachedObject<TModSettingApp>, IDSRestCachedTModSettingApp, IDSRestCachedCommand)
   end;
-=======
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
   IDSRestCachedTFDJSONDataSets = interface(IDSRestCachedObject<TFDJSONDataSets>)
   end;
 
@@ -1775,6 +1840,22 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_DN_RCV_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_DN_RCV_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSReport_DO_GetDSNP: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -2224,8 +2305,214 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+  TCrudCNRecv_SaveToDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudCNRecv_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudCNRecv_OpenQuery: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TCrudCNRecv_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudCNRecv_Retrieve: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudCNRecv_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudCNRecv_GenerateCustomNo: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aTableName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aFieldName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCountDigit'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudCNRecv_GenerateNo: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudCNRecv_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudCNRecv_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudCNRecv_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudCNRecv_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudCNRecv_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudCNRecv_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudCNRecv_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudCNRecv_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudDNRecv_SaveToDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudDNRecv_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudDNRecv_OpenQuery: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TCrudDNRecv_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudDNRecv_Retrieve: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudDNRecv_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudDNRecv_GenerateCustomNo: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aTableName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aFieldName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCountDigit'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudDNRecv_GenerateNo: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudDNRecv_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudDNRecv_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudDNRecv_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudDNRecv_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudDNRecv_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudDNRecv_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudDNRecv_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudDNRecv_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudSettingApp_RetrieveByCabang: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ACabang'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
@@ -2239,98 +2526,44 @@ const
   );
 
   TCrudSettingApp_SaveToDB: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_SaveToDB: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_SaveToDB: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_OpenQuery: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_OpenQuery: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_OpenQuery: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_Retrieve: array [0..2] of TDSRestParameterMetaData =
-=======
-  TCrudCN_Retrieve: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_Retrieve: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
-=======
-  TCrudCN_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_GenerateCustomNo: array [0..3] of TDSRestParameterMetaData =
-=======
-  TCrudCN_GenerateCustomNo: array [0..3] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_GenerateCustomNo: array [0..3] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'aTableName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aFieldName'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -2338,131 +2571,59 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_GenerateNo: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_GenerateNo: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_GenerateNo: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'aClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
-=======
-  TCrudCN_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
-=======
-  TCrudCN_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
-=======
-  TCrudCN_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
-=======
-  TCrudCN_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   TCrudSettingApp_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
-=======
-  TCrudCN_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-  TCrudCNDNRecv_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -5700,6 +5861,65 @@ begin
   Result := TDSRestCachedDataSet.Create(FCN_RCV_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.DN_RCV_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FDN_RCV_GetDSOverviewCommand = nil then
+  begin
+    FDN_RCV_GetDSOverviewCommand := FConnection.CreateCommand;
+    FDN_RCV_GetDSOverviewCommand.RequestType := 'POST';
+    FDN_RCV_GetDSOverviewCommand.Text := 'TDSProvider."DN_RCV_GetDSOverview"';
+    FDN_RCV_GetDSOverviewCommand.Prepare(TDSProvider_DN_RCV_GetDSOverview);
+  end;
+  FDN_RCV_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FDN_RCV_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FDN_RCV_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FDN_RCV_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDN_RCV_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FDN_RCV_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FDN_RCV_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FDN_RCV_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.DN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FDN_RCV_GetDSOverviewCommand_Cache = nil then
+  begin
+    FDN_RCV_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FDN_RCV_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FDN_RCV_GetDSOverviewCommand_Cache.Text := 'TDSProvider."DN_RCV_GetDSOverview"';
+    FDN_RCV_GetDSOverviewCommand_Cache.Prepare(TDSProvider_DN_RCV_GetDSOverview_Cache);
+  end;
+  FDN_RCV_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FDN_RCV_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FDN_RCV_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FDN_RCV_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDN_RCV_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FDN_RCV_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FDN_RCV_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -5885,6 +6105,8 @@ begin
   FRefCreditCard_GetDSOverviewCommand_Cache.DisposeOf;
   FCN_RCV_GetDSOverviewCommand.DisposeOf;
   FCN_RCV_GetDSOverviewCommand_Cache.DisposeOf;
+  FDN_RCV_GetDSOverviewCommand.DisposeOf;
+  FDN_RCV_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 
@@ -7543,8 +7765,802 @@ begin
   inherited;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+function TCrudCNRecvClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBCommand = nil then
+  begin
+    FSaveToDBCommand := FConnection.CreateCommand;
+    FSaveToDBCommand.RequestType := 'POST';
+    FSaveToDBCommand.Text := 'TCrudCNRecv."SaveToDB"';
+    FSaveToDBCommand.Prepare(TCrudCNRecv_SaveToDB);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBCommand.Execute(ARequestFilter);
+  Result := FSaveToDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudCNRecvClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FDeleteFromDBCommand = nil then
+  begin
+    FDeleteFromDBCommand := FConnection.CreateCommand;
+    FDeleteFromDBCommand.RequestType := 'POST';
+    FDeleteFromDBCommand.Text := 'TCrudCNRecv."DeleteFromDB"';
+    FDeleteFromDBCommand.Prepare(TCrudCNRecv_DeleteFromDB);
+  end;
+  if not Assigned(AObject) then
+    FDeleteFromDBCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FDeleteFromDBCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDeleteFromDBCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FDeleteFromDBCommand.Execute(ARequestFilter);
+  Result := FDeleteFromDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudCNRecvClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
+begin
+  if FOpenQueryCommand = nil then
+  begin
+    FOpenQueryCommand := FConnection.CreateCommand;
+    FOpenQueryCommand.RequestType := 'GET';
+    FOpenQueryCommand.Text := 'TCrudCNRecv.OpenQuery';
+    FOpenQueryCommand.Prepare(TCrudCNRecv_OpenQuery);
+  end;
+  FOpenQueryCommand.Parameters[0].Value.SetWideString(S);
+  FOpenQueryCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FOpenQueryCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FOpenQueryCommand.FreeOnExecute(Result);
+end;
+
+function TCrudCNRecvClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FOpenQueryCommand_Cache = nil then
+  begin
+    FOpenQueryCommand_Cache := FConnection.CreateCommand;
+    FOpenQueryCommand_Cache.RequestType := 'GET';
+    FOpenQueryCommand_Cache.Text := 'TCrudCNRecv.OpenQuery';
+    FOpenQueryCommand_Cache.Prepare(TCrudCNRecv_OpenQuery_Cache);
+  end;
+  FOpenQueryCommand_Cache.Parameters[0].Value.SetWideString(S);
+  FOpenQueryCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FOpenQueryCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TCrudCNRecvClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveCommand = nil then
+  begin
+    FRetrieveCommand := FConnection.CreateCommand;
+    FRetrieveCommand.RequestType := 'GET';
+    FRetrieveCommand.Text := 'TCrudCNRecv.Retrieve';
+    FRetrieveCommand.Prepare(TCrudCNRecv_Retrieve);
+  end;
+  FRetrieveCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand.Execute(ARequestFilter);
+  if not FRetrieveCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudCNRecvClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveCommand_Cache = nil then
+  begin
+    FRetrieveCommand_Cache := FConnection.CreateCommand;
+    FRetrieveCommand_Cache.RequestType := 'GET';
+    FRetrieveCommand_Cache.Text := 'TCrudCNRecv.Retrieve';
+    FRetrieveCommand_Cache.Prepare(TCrudCNRecv_Retrieve_Cache);
+  end;
+  FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudCNRecvClient.GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string): string;
+begin
+  if FGenerateCustomNoCommand = nil then
+  begin
+    FGenerateCustomNoCommand := FConnection.CreateCommand;
+    FGenerateCustomNoCommand.RequestType := 'GET';
+    FGenerateCustomNoCommand.Text := 'TCrudCNRecv.GenerateCustomNo';
+    FGenerateCustomNoCommand.Prepare(TCrudCNRecv_GenerateCustomNo);
+  end;
+  FGenerateCustomNoCommand.Parameters[0].Value.SetWideString(aTableName);
+  FGenerateCustomNoCommand.Parameters[1].Value.SetWideString(aFieldName);
+  FGenerateCustomNoCommand.Parameters[2].Value.SetInt32(aCountDigit);
+  FGenerateCustomNoCommand.Execute(ARequestFilter);
+  Result := FGenerateCustomNoCommand.Parameters[3].Value.GetWideString;
+end;
+
+function TCrudCNRecvClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
+begin
+  if FGenerateNoCommand = nil then
+  begin
+    FGenerateNoCommand := FConnection.CreateCommand;
+    FGenerateNoCommand.RequestType := 'GET';
+    FGenerateNoCommand.Text := 'TCrudCNRecv.GenerateNo';
+    FGenerateNoCommand.Prepare(TCrudCNRecv_GenerateNo);
+  end;
+  FGenerateNoCommand.Parameters[0].Value.SetWideString(aClassName);
+  FGenerateNoCommand.Execute(ARequestFilter);
+  Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TCrudCNRecvClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveSingleCommand = nil then
+  begin
+    FRetrieveSingleCommand := FConnection.CreateCommand;
+    FRetrieveSingleCommand.RequestType := 'GET';
+    FRetrieveSingleCommand.Text := 'TCrudCNRecv.RetrieveSingle';
+    FRetrieveSingleCommand.Prepare(TCrudCNRecv_RetrieveSingle);
+  end;
+  FRetrieveSingleCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveSingleCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveSingleCommand.Execute(ARequestFilter);
+  if not FRetrieveSingleCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveSingleCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveSingleCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveSingleCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudCNRecvClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveSingleCommand_Cache = nil then
+  begin
+    FRetrieveSingleCommand_Cache := FConnection.CreateCommand;
+    FRetrieveSingleCommand_Cache.RequestType := 'GET';
+    FRetrieveSingleCommand_Cache.Text := 'TCrudCNRecv.RetrieveSingle';
+    FRetrieveSingleCommand_Cache.Prepare(TCrudCNRecv_RetrieveSingle_Cache);
+  end;
+  FRetrieveSingleCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveSingleCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveSingleCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveSingleCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudCNRecvClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveByCodeCommand = nil then
+  begin
+    FRetrieveByCodeCommand := FConnection.CreateCommand;
+    FRetrieveByCodeCommand.RequestType := 'GET';
+    FRetrieveByCodeCommand.Text := 'TCrudCNRecv.RetrieveByCode';
+    FRetrieveByCodeCommand.Prepare(TCrudCNRecv_RetrieveByCode);
+  end;
+  FRetrieveByCodeCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeCommand.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeCommand.Execute(ARequestFilter);
+  if not FRetrieveByCodeCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveByCodeCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveByCodeCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveByCodeCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudCNRecvClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveByCodeCommand_Cache = nil then
+  begin
+    FRetrieveByCodeCommand_Cache := FConnection.CreateCommand;
+    FRetrieveByCodeCommand_Cache.RequestType := 'GET';
+    FRetrieveByCodeCommand_Cache.Text := 'TCrudCNRecv.RetrieveByCode';
+    FRetrieveByCodeCommand_Cache.Prepare(TCrudCNRecv_RetrieveByCode_Cache);
+  end;
+  FRetrieveByCodeCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeCommand_Cache.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveByCodeCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudCNRecvClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBLogCommand = nil then
+  begin
+    FSaveToDBLogCommand := FConnection.CreateCommand;
+    FSaveToDBLogCommand.RequestType := 'POST';
+    FSaveToDBLogCommand.Text := 'TCrudCNRecv."SaveToDBLog"';
+    FSaveToDBLogCommand.Prepare(TCrudCNRecv_SaveToDBLog);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBLogCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBLogCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBLogCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBLogCommand.Execute(ARequestFilter);
+  Result := FSaveToDBLogCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudCNRecvClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
+begin
+  if FSaveToDBIDCommand = nil then
+  begin
+    FSaveToDBIDCommand := FConnection.CreateCommand;
+    FSaveToDBIDCommand.RequestType := 'POST';
+    FSaveToDBIDCommand.Text := 'TCrudCNRecv."SaveToDBID"';
+    FSaveToDBIDCommand.Prepare(TCrudCNRecv_SaveToDBID);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBIDCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBIDCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBIDCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBIDCommand.Execute(ARequestFilter);
+  Result := FSaveToDBIDCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TCrudCNRecvClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
+begin
+  if FTestGenerateSQLCommand = nil then
+  begin
+    FTestGenerateSQLCommand := FConnection.CreateCommand;
+    FTestGenerateSQLCommand.RequestType := 'POST';
+    FTestGenerateSQLCommand.Text := 'TCrudCNRecv."TestGenerateSQL"';
+    FTestGenerateSQLCommand.Prepare(TCrudCNRecv_TestGenerateSQL);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand.Execute(ARequestFilter);
+  if not FTestGenerateSQLCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FTestGenerateSQLCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTestGenerateSQLCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudCNRecvClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FTestGenerateSQLCommand_Cache = nil then
+  begin
+    FTestGenerateSQLCommand_Cache := FConnection.CreateCommand;
+    FTestGenerateSQLCommand_Cache.RequestType := 'POST';
+    FTestGenerateSQLCommand_Cache.Text := 'TCrudCNRecv."TestGenerateSQL"';
+    FTestGenerateSQLCommand_Cache.Prepare(TCrudCNRecv_TestGenerateSQL_Cache);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand_Cache.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+procedure TCrudCNRecvClient.AfterExecuteMethod;
+begin
+  if FAfterExecuteMethodCommand = nil then
+  begin
+    FAfterExecuteMethodCommand := FConnection.CreateCommand;
+    FAfterExecuteMethodCommand.RequestType := 'GET';
+    FAfterExecuteMethodCommand.Text := 'TCrudCNRecv.AfterExecuteMethod';
+  end;
+  FAfterExecuteMethodCommand.Execute;
+end;
+
+constructor TCrudCNRecvClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TCrudCNRecvClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TCrudCNRecvClient.Destroy;
+begin
+  FSaveToDBCommand.DisposeOf;
+  FDeleteFromDBCommand.DisposeOf;
+  FOpenQueryCommand.DisposeOf;
+  FOpenQueryCommand_Cache.DisposeOf;
+  FRetrieveCommand.DisposeOf;
+  FRetrieveCommand_Cache.DisposeOf;
+  FGenerateCustomNoCommand.DisposeOf;
+  FGenerateNoCommand.DisposeOf;
+  FRetrieveSingleCommand.DisposeOf;
+  FRetrieveSingleCommand_Cache.DisposeOf;
+  FRetrieveByCodeCommand.DisposeOf;
+  FRetrieveByCodeCommand_Cache.DisposeOf;
+  FSaveToDBLogCommand.DisposeOf;
+  FSaveToDBIDCommand.DisposeOf;
+  FTestGenerateSQLCommand.DisposeOf;
+  FTestGenerateSQLCommand_Cache.DisposeOf;
+  FAfterExecuteMethodCommand.DisposeOf;
+  inherited;
+end;
+
+function TCrudDNRecvClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBCommand = nil then
+  begin
+    FSaveToDBCommand := FConnection.CreateCommand;
+    FSaveToDBCommand.RequestType := 'POST';
+    FSaveToDBCommand.Text := 'TCrudDNRecv."SaveToDB"';
+    FSaveToDBCommand.Prepare(TCrudDNRecv_SaveToDB);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBCommand.Execute(ARequestFilter);
+  Result := FSaveToDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudDNRecvClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FDeleteFromDBCommand = nil then
+  begin
+    FDeleteFromDBCommand := FConnection.CreateCommand;
+    FDeleteFromDBCommand.RequestType := 'POST';
+    FDeleteFromDBCommand.Text := 'TCrudDNRecv."DeleteFromDB"';
+    FDeleteFromDBCommand.Prepare(TCrudDNRecv_DeleteFromDB);
+  end;
+  if not Assigned(AObject) then
+    FDeleteFromDBCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FDeleteFromDBCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDeleteFromDBCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FDeleteFromDBCommand.Execute(ARequestFilter);
+  Result := FDeleteFromDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudDNRecvClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
+begin
+  if FOpenQueryCommand = nil then
+  begin
+    FOpenQueryCommand := FConnection.CreateCommand;
+    FOpenQueryCommand.RequestType := 'GET';
+    FOpenQueryCommand.Text := 'TCrudDNRecv.OpenQuery';
+    FOpenQueryCommand.Prepare(TCrudDNRecv_OpenQuery);
+  end;
+  FOpenQueryCommand.Parameters[0].Value.SetWideString(S);
+  FOpenQueryCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FOpenQueryCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FOpenQueryCommand.FreeOnExecute(Result);
+end;
+
+function TCrudDNRecvClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FOpenQueryCommand_Cache = nil then
+  begin
+    FOpenQueryCommand_Cache := FConnection.CreateCommand;
+    FOpenQueryCommand_Cache.RequestType := 'GET';
+    FOpenQueryCommand_Cache.Text := 'TCrudDNRecv.OpenQuery';
+    FOpenQueryCommand_Cache.Prepare(TCrudDNRecv_OpenQuery_Cache);
+  end;
+  FOpenQueryCommand_Cache.Parameters[0].Value.SetWideString(S);
+  FOpenQueryCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FOpenQueryCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TCrudDNRecvClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveCommand = nil then
+  begin
+    FRetrieveCommand := FConnection.CreateCommand;
+    FRetrieveCommand.RequestType := 'GET';
+    FRetrieveCommand.Text := 'TCrudDNRecv.Retrieve';
+    FRetrieveCommand.Prepare(TCrudDNRecv_Retrieve);
+  end;
+  FRetrieveCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand.Execute(ARequestFilter);
+  if not FRetrieveCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudDNRecvClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveCommand_Cache = nil then
+  begin
+    FRetrieveCommand_Cache := FConnection.CreateCommand;
+    FRetrieveCommand_Cache.RequestType := 'GET';
+    FRetrieveCommand_Cache.Text := 'TCrudDNRecv.Retrieve';
+    FRetrieveCommand_Cache.Prepare(TCrudDNRecv_Retrieve_Cache);
+  end;
+  FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudDNRecvClient.GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string): string;
+begin
+  if FGenerateCustomNoCommand = nil then
+  begin
+    FGenerateCustomNoCommand := FConnection.CreateCommand;
+    FGenerateCustomNoCommand.RequestType := 'GET';
+    FGenerateCustomNoCommand.Text := 'TCrudDNRecv.GenerateCustomNo';
+    FGenerateCustomNoCommand.Prepare(TCrudDNRecv_GenerateCustomNo);
+  end;
+  FGenerateCustomNoCommand.Parameters[0].Value.SetWideString(aTableName);
+  FGenerateCustomNoCommand.Parameters[1].Value.SetWideString(aFieldName);
+  FGenerateCustomNoCommand.Parameters[2].Value.SetInt32(aCountDigit);
+  FGenerateCustomNoCommand.Execute(ARequestFilter);
+  Result := FGenerateCustomNoCommand.Parameters[3].Value.GetWideString;
+end;
+
+function TCrudDNRecvClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
+begin
+  if FGenerateNoCommand = nil then
+  begin
+    FGenerateNoCommand := FConnection.CreateCommand;
+    FGenerateNoCommand.RequestType := 'GET';
+    FGenerateNoCommand.Text := 'TCrudDNRecv.GenerateNo';
+    FGenerateNoCommand.Prepare(TCrudDNRecv_GenerateNo);
+  end;
+  FGenerateNoCommand.Parameters[0].Value.SetWideString(aClassName);
+  FGenerateNoCommand.Execute(ARequestFilter);
+  Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TCrudDNRecvClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveSingleCommand = nil then
+  begin
+    FRetrieveSingleCommand := FConnection.CreateCommand;
+    FRetrieveSingleCommand.RequestType := 'GET';
+    FRetrieveSingleCommand.Text := 'TCrudDNRecv.RetrieveSingle';
+    FRetrieveSingleCommand.Prepare(TCrudDNRecv_RetrieveSingle);
+  end;
+  FRetrieveSingleCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveSingleCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveSingleCommand.Execute(ARequestFilter);
+  if not FRetrieveSingleCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveSingleCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveSingleCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveSingleCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudDNRecvClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveSingleCommand_Cache = nil then
+  begin
+    FRetrieveSingleCommand_Cache := FConnection.CreateCommand;
+    FRetrieveSingleCommand_Cache.RequestType := 'GET';
+    FRetrieveSingleCommand_Cache.Text := 'TCrudDNRecv.RetrieveSingle';
+    FRetrieveSingleCommand_Cache.Prepare(TCrudDNRecv_RetrieveSingle_Cache);
+  end;
+  FRetrieveSingleCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveSingleCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveSingleCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveSingleCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudDNRecvClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveByCodeCommand = nil then
+  begin
+    FRetrieveByCodeCommand := FConnection.CreateCommand;
+    FRetrieveByCodeCommand.RequestType := 'GET';
+    FRetrieveByCodeCommand.Text := 'TCrudDNRecv.RetrieveByCode';
+    FRetrieveByCodeCommand.Prepare(TCrudDNRecv_RetrieveByCode);
+  end;
+  FRetrieveByCodeCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeCommand.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeCommand.Execute(ARequestFilter);
+  if not FRetrieveByCodeCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveByCodeCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveByCodeCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveByCodeCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudDNRecvClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveByCodeCommand_Cache = nil then
+  begin
+    FRetrieveByCodeCommand_Cache := FConnection.CreateCommand;
+    FRetrieveByCodeCommand_Cache.RequestType := 'GET';
+    FRetrieveByCodeCommand_Cache.Text := 'TCrudDNRecv.RetrieveByCode';
+    FRetrieveByCodeCommand_Cache.Prepare(TCrudDNRecv_RetrieveByCode_Cache);
+  end;
+  FRetrieveByCodeCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeCommand_Cache.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveByCodeCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudDNRecvClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBLogCommand = nil then
+  begin
+    FSaveToDBLogCommand := FConnection.CreateCommand;
+    FSaveToDBLogCommand.RequestType := 'POST';
+    FSaveToDBLogCommand.Text := 'TCrudDNRecv."SaveToDBLog"';
+    FSaveToDBLogCommand.Prepare(TCrudDNRecv_SaveToDBLog);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBLogCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBLogCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBLogCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBLogCommand.Execute(ARequestFilter);
+  Result := FSaveToDBLogCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudDNRecvClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
+begin
+  if FSaveToDBIDCommand = nil then
+  begin
+    FSaveToDBIDCommand := FConnection.CreateCommand;
+    FSaveToDBIDCommand.RequestType := 'POST';
+    FSaveToDBIDCommand.Text := 'TCrudDNRecv."SaveToDBID"';
+    FSaveToDBIDCommand.Prepare(TCrudDNRecv_SaveToDBID);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBIDCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBIDCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBIDCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBIDCommand.Execute(ARequestFilter);
+  Result := FSaveToDBIDCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TCrudDNRecvClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
+begin
+  if FTestGenerateSQLCommand = nil then
+  begin
+    FTestGenerateSQLCommand := FConnection.CreateCommand;
+    FTestGenerateSQLCommand.RequestType := 'POST';
+    FTestGenerateSQLCommand.Text := 'TCrudDNRecv."TestGenerateSQL"';
+    FTestGenerateSQLCommand.Prepare(TCrudDNRecv_TestGenerateSQL);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand.Execute(ARequestFilter);
+  if not FTestGenerateSQLCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FTestGenerateSQLCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTestGenerateSQLCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudDNRecvClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FTestGenerateSQLCommand_Cache = nil then
+  begin
+    FTestGenerateSQLCommand_Cache := FConnection.CreateCommand;
+    FTestGenerateSQLCommand_Cache.RequestType := 'POST';
+    FTestGenerateSQLCommand_Cache.Text := 'TCrudDNRecv."TestGenerateSQL"';
+    FTestGenerateSQLCommand_Cache.Prepare(TCrudDNRecv_TestGenerateSQL_Cache);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand_Cache.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+procedure TCrudDNRecvClient.AfterExecuteMethod;
+begin
+  if FAfterExecuteMethodCommand = nil then
+  begin
+    FAfterExecuteMethodCommand := FConnection.CreateCommand;
+    FAfterExecuteMethodCommand.RequestType := 'GET';
+    FAfterExecuteMethodCommand.Text := 'TCrudDNRecv.AfterExecuteMethod';
+  end;
+  FAfterExecuteMethodCommand.Execute;
+end;
+
+constructor TCrudDNRecvClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TCrudDNRecvClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TCrudDNRecvClient.Destroy;
+begin
+  FSaveToDBCommand.DisposeOf;
+  FDeleteFromDBCommand.DisposeOf;
+  FOpenQueryCommand.DisposeOf;
+  FOpenQueryCommand_Cache.DisposeOf;
+  FRetrieveCommand.DisposeOf;
+  FRetrieveCommand_Cache.DisposeOf;
+  FGenerateCustomNoCommand.DisposeOf;
+  FGenerateNoCommand.DisposeOf;
+  FRetrieveSingleCommand.DisposeOf;
+  FRetrieveSingleCommand_Cache.DisposeOf;
+  FRetrieveByCodeCommand.DisposeOf;
+  FRetrieveByCodeCommand_Cache.DisposeOf;
+  FSaveToDBLogCommand.DisposeOf;
+  FSaveToDBIDCommand.DisposeOf;
+  FTestGenerateSQLCommand.DisposeOf;
+  FTestGenerateSQLCommand_Cache.DisposeOf;
+  FAfterExecuteMethodCommand.DisposeOf;
+  inherited;
+end;
+
 function TCrudSettingAppClient.RetrieveByCabang(ACabang: TModUnit; const ARequestFilter: string): TModSettingApp;
 begin
   if FRetrieveByCabangCommand = nil then
@@ -7610,29 +8626,13 @@ begin
 end;
 
 function TCrudSettingAppClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
-=======
-function TCrudCNClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FSaveToDBCommand = nil then
   begin
     FSaveToDBCommand := FConnection.CreateCommand;
     FSaveToDBCommand.RequestType := 'POST';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FSaveToDBCommand.Text := 'TCrudSettingApp."SaveToDB"';
     FSaveToDBCommand.Prepare(TCrudSettingApp_SaveToDB);
-=======
-    FSaveToDBCommand.Text := 'TCrudCN."SaveToDB"';
-    FSaveToDBCommand.Prepare(TCrudCN_SaveToDB);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FSaveToDBCommand.Text := 'TCrudCNDNRecv."SaveToDB"';
-    FSaveToDBCommand.Prepare(TCrudCNDNRecv_SaveToDB);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   if not Assigned(AObject) then
     FSaveToDBCommand.Parameters[0].Value.SetNull
@@ -7651,32 +8651,14 @@ begin
   Result := FSaveToDBCommand.Parameters[1].Value.GetBoolean;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
-=======
-function TCrudCNClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FDeleteFromDBCommand = nil then
   begin
     FDeleteFromDBCommand := FConnection.CreateCommand;
     FDeleteFromDBCommand.RequestType := 'POST';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FDeleteFromDBCommand.Text := 'TCrudSettingApp."DeleteFromDB"';
     FDeleteFromDBCommand.Prepare(TCrudSettingApp_DeleteFromDB);
-=======
-    FDeleteFromDBCommand.Text := 'TCrudCN."DeleteFromDB"';
-    FDeleteFromDBCommand.Prepare(TCrudCN_DeleteFromDB);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FDeleteFromDBCommand.Text := 'TCrudCNDNRecv."DeleteFromDB"';
-    FDeleteFromDBCommand.Prepare(TCrudCNDNRecv_DeleteFromDB);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   if not Assigned(AObject) then
     FDeleteFromDBCommand.Parameters[0].Value.SetNull
@@ -7695,32 +8677,14 @@ begin
   Result := FDeleteFromDBCommand.Parameters[1].Value.GetBoolean;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
-=======
-function TCrudCNClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FOpenQueryCommand = nil then
   begin
     FOpenQueryCommand := FConnection.CreateCommand;
     FOpenQueryCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FOpenQueryCommand.Text := 'TCrudSettingApp.OpenQuery';
     FOpenQueryCommand.Prepare(TCrudSettingApp_OpenQuery);
-=======
-    FOpenQueryCommand.Text := 'TCrudCN.OpenQuery';
-    FOpenQueryCommand.Prepare(TCrudCN_OpenQuery);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FOpenQueryCommand.Text := 'TCrudCNDNRecv.OpenQuery';
-    FOpenQueryCommand.Prepare(TCrudCNDNRecv_OpenQuery);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FOpenQueryCommand.Parameters[0].Value.SetWideString(S);
   FOpenQueryCommand.Execute(ARequestFilter);
@@ -7730,64 +8694,28 @@ begin
     FOpenQueryCommand.FreeOnExecute(Result);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
-=======
-function TCrudCNClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FOpenQueryCommand_Cache = nil then
   begin
     FOpenQueryCommand_Cache := FConnection.CreateCommand;
     FOpenQueryCommand_Cache.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FOpenQueryCommand_Cache.Text := 'TCrudSettingApp.OpenQuery';
     FOpenQueryCommand_Cache.Prepare(TCrudSettingApp_OpenQuery_Cache);
-=======
-    FOpenQueryCommand_Cache.Text := 'TCrudCN.OpenQuery';
-    FOpenQueryCommand_Cache.Prepare(TCrudCN_OpenQuery_Cache);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FOpenQueryCommand_Cache.Text := 'TCrudCNDNRecv.OpenQuery';
-    FOpenQueryCommand_Cache.Prepare(TCrudCNDNRecv_OpenQuery_Cache);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FOpenQueryCommand_Cache.Parameters[0].Value.SetWideString(S);
   FOpenQueryCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FOpenQueryCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
-=======
-function TCrudCNClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FRetrieveCommand = nil then
   begin
     FRetrieveCommand := FConnection.CreateCommand;
     FRetrieveCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FRetrieveCommand.Text := 'TCrudSettingApp.Retrieve';
     FRetrieveCommand.Prepare(TCrudSettingApp_Retrieve);
-=======
-    FRetrieveCommand.Text := 'TCrudCN.Retrieve';
-    FRetrieveCommand.Prepare(TCrudCN_Retrieve);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FRetrieveCommand.Text := 'TCrudCNDNRecv.Retrieve';
-    FRetrieveCommand.Prepare(TCrudCNDNRecv_Retrieve);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FRetrieveCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
@@ -7807,32 +8735,14 @@ begin
     Result := nil;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
-=======
-function TCrudCNClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FRetrieveCommand_Cache = nil then
   begin
     FRetrieveCommand_Cache := FConnection.CreateCommand;
     FRetrieveCommand_Cache.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FRetrieveCommand_Cache.Text := 'TCrudSettingApp.Retrieve';
     FRetrieveCommand_Cache.Prepare(TCrudSettingApp_Retrieve_Cache);
-=======
-    FRetrieveCommand_Cache.Text := 'TCrudCN.Retrieve';
-    FRetrieveCommand_Cache.Prepare(TCrudCN_Retrieve_Cache);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FRetrieveCommand_Cache.Text := 'TCrudCNDNRecv.Retrieve';
-    FRetrieveCommand_Cache.Prepare(TCrudCNDNRecv_Retrieve_Cache);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
@@ -7840,32 +8750,14 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string): string;
-=======
-function TCrudCNClient.GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string): string;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string): string;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FGenerateCustomNoCommand = nil then
   begin
     FGenerateCustomNoCommand := FConnection.CreateCommand;
     FGenerateCustomNoCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FGenerateCustomNoCommand.Text := 'TCrudSettingApp.GenerateCustomNo';
     FGenerateCustomNoCommand.Prepare(TCrudSettingApp_GenerateCustomNo);
-=======
-    FGenerateCustomNoCommand.Text := 'TCrudCN.GenerateCustomNo';
-    FGenerateCustomNoCommand.Prepare(TCrudCN_GenerateCustomNo);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FGenerateCustomNoCommand.Text := 'TCrudCNDNRecv.GenerateCustomNo';
-    FGenerateCustomNoCommand.Prepare(TCrudCNDNRecv_GenerateCustomNo);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FGenerateCustomNoCommand.Parameters[0].Value.SetWideString(aTableName);
   FGenerateCustomNoCommand.Parameters[1].Value.SetWideString(aFieldName);
@@ -7874,64 +8766,28 @@ begin
   Result := FGenerateCustomNoCommand.Parameters[3].Value.GetWideString;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
-=======
-function TCrudCNClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FGenerateNoCommand = nil then
   begin
     FGenerateNoCommand := FConnection.CreateCommand;
     FGenerateNoCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FGenerateNoCommand.Text := 'TCrudSettingApp.GenerateNo';
     FGenerateNoCommand.Prepare(TCrudSettingApp_GenerateNo);
-=======
-    FGenerateNoCommand.Text := 'TCrudCN.GenerateNo';
-    FGenerateNoCommand.Prepare(TCrudCN_GenerateNo);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FGenerateNoCommand.Text := 'TCrudCNDNRecv.GenerateNo';
-    FGenerateNoCommand.Prepare(TCrudCNDNRecv_GenerateNo);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FGenerateNoCommand.Parameters[0].Value.SetWideString(aClassName);
   FGenerateNoCommand.Execute(ARequestFilter);
   Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
-=======
-function TCrudCNClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FRetrieveSingleCommand = nil then
   begin
     FRetrieveSingleCommand := FConnection.CreateCommand;
     FRetrieveSingleCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FRetrieveSingleCommand.Text := 'TCrudSettingApp.RetrieveSingle';
     FRetrieveSingleCommand.Prepare(TCrudSettingApp_RetrieveSingle);
-=======
-    FRetrieveSingleCommand.Text := 'TCrudCN.RetrieveSingle';
-    FRetrieveSingleCommand.Prepare(TCrudCN_RetrieveSingle);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FRetrieveSingleCommand.Text := 'TCrudCNDNRecv.RetrieveSingle';
-    FRetrieveSingleCommand.Prepare(TCrudCNDNRecv_RetrieveSingle);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FRetrieveSingleCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveSingleCommand.Parameters[1].Value.SetWideString(AID);
@@ -7951,32 +8807,14 @@ begin
     Result := nil;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
-=======
-function TCrudCNClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FRetrieveSingleCommand_Cache = nil then
   begin
     FRetrieveSingleCommand_Cache := FConnection.CreateCommand;
     FRetrieveSingleCommand_Cache.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FRetrieveSingleCommand_Cache.Text := 'TCrudSettingApp.RetrieveSingle';
     FRetrieveSingleCommand_Cache.Prepare(TCrudSettingApp_RetrieveSingle_Cache);
-=======
-    FRetrieveSingleCommand_Cache.Text := 'TCrudCN.RetrieveSingle';
-    FRetrieveSingleCommand_Cache.Prepare(TCrudCN_RetrieveSingle_Cache);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FRetrieveSingleCommand_Cache.Text := 'TCrudCNDNRecv.RetrieveSingle';
-    FRetrieveSingleCommand_Cache.Prepare(TCrudCNDNRecv_RetrieveSingle_Cache);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FRetrieveSingleCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveSingleCommand_Cache.Parameters[1].Value.SetWideString(AID);
@@ -7984,32 +8822,14 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveSingleCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
-=======
-function TCrudCNClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FRetrieveByCodeCommand = nil then
   begin
     FRetrieveByCodeCommand := FConnection.CreateCommand;
     FRetrieveByCodeCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FRetrieveByCodeCommand.Text := 'TCrudSettingApp.RetrieveByCode';
     FRetrieveByCodeCommand.Prepare(TCrudSettingApp_RetrieveByCode);
-=======
-    FRetrieveByCodeCommand.Text := 'TCrudCN.RetrieveByCode';
-    FRetrieveByCodeCommand.Prepare(TCrudCN_RetrieveByCode);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FRetrieveByCodeCommand.Text := 'TCrudCNDNRecv.RetrieveByCode';
-    FRetrieveByCodeCommand.Prepare(TCrudCNDNRecv_RetrieveByCode);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FRetrieveByCodeCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveByCodeCommand.Parameters[1].Value.SetWideString(aCode);
@@ -8029,32 +8849,14 @@ begin
     Result := nil;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
-=======
-function TCrudCNClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FRetrieveByCodeCommand_Cache = nil then
   begin
     FRetrieveByCodeCommand_Cache := FConnection.CreateCommand;
     FRetrieveByCodeCommand_Cache.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FRetrieveByCodeCommand_Cache.Text := 'TCrudSettingApp.RetrieveByCode';
     FRetrieveByCodeCommand_Cache.Prepare(TCrudSettingApp_RetrieveByCode_Cache);
-=======
-    FRetrieveByCodeCommand_Cache.Text := 'TCrudCN.RetrieveByCode';
-    FRetrieveByCodeCommand_Cache.Prepare(TCrudCN_RetrieveByCode_Cache);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FRetrieveByCodeCommand_Cache.Text := 'TCrudCNDNRecv.RetrieveByCode';
-    FRetrieveByCodeCommand_Cache.Prepare(TCrudCNDNRecv_RetrieveByCode_Cache);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FRetrieveByCodeCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveByCodeCommand_Cache.Parameters[1].Value.SetWideString(aCode);
@@ -8062,32 +8864,14 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveByCodeCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
-=======
-function TCrudCNClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FSaveToDBLogCommand = nil then
   begin
     FSaveToDBLogCommand := FConnection.CreateCommand;
     FSaveToDBLogCommand.RequestType := 'POST';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FSaveToDBLogCommand.Text := 'TCrudSettingApp."SaveToDBLog"';
     FSaveToDBLogCommand.Prepare(TCrudSettingApp_SaveToDBLog);
-=======
-    FSaveToDBLogCommand.Text := 'TCrudCN."SaveToDBLog"';
-    FSaveToDBLogCommand.Prepare(TCrudCN_SaveToDBLog);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FSaveToDBLogCommand.Text := 'TCrudCNDNRecv."SaveToDBLog"';
-    FSaveToDBLogCommand.Prepare(TCrudCNDNRecv_SaveToDBLog);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   if not Assigned(AObject) then
     FSaveToDBLogCommand.Parameters[0].Value.SetNull
@@ -8106,32 +8890,14 @@ begin
   Result := FSaveToDBLogCommand.Parameters[1].Value.GetBoolean;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
-=======
-function TCrudCNClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FSaveToDBIDCommand = nil then
   begin
     FSaveToDBIDCommand := FConnection.CreateCommand;
     FSaveToDBIDCommand.RequestType := 'POST';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FSaveToDBIDCommand.Text := 'TCrudSettingApp."SaveToDBID"';
     FSaveToDBIDCommand.Prepare(TCrudSettingApp_SaveToDBID);
-=======
-    FSaveToDBIDCommand.Text := 'TCrudCN."SaveToDBID"';
-    FSaveToDBIDCommand.Prepare(TCrudCN_SaveToDBID);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FSaveToDBIDCommand.Text := 'TCrudCNDNRecv."SaveToDBID"';
-    FSaveToDBIDCommand.Prepare(TCrudCNDNRecv_SaveToDBID);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   if not Assigned(AObject) then
     FSaveToDBIDCommand.Parameters[0].Value.SetNull
@@ -8150,32 +8916,14 @@ begin
   Result := FSaveToDBIDCommand.Parameters[1].Value.GetWideString;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
-=======
-function TCrudCNClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FTestGenerateSQLCommand = nil then
   begin
     FTestGenerateSQLCommand := FConnection.CreateCommand;
     FTestGenerateSQLCommand.RequestType := 'POST';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FTestGenerateSQLCommand.Text := 'TCrudSettingApp."TestGenerateSQL"';
     FTestGenerateSQLCommand.Prepare(TCrudSettingApp_TestGenerateSQL);
-=======
-    FTestGenerateSQLCommand.Text := 'TCrudCN."TestGenerateSQL"';
-    FTestGenerateSQLCommand.Prepare(TCrudCN_TestGenerateSQL);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FTestGenerateSQLCommand.Text := 'TCrudCNDNRecv."TestGenerateSQL"';
-    FTestGenerateSQLCommand.Prepare(TCrudCNDNRecv_TestGenerateSQL);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   if not Assigned(AObject) then
     FTestGenerateSQLCommand.Parameters[0].Value.SetNull
@@ -8206,32 +8954,14 @@ begin
     Result := nil;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function TCrudSettingAppClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
-=======
-function TCrudCNClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-function TCrudCNDNRecvClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FTestGenerateSQLCommand_Cache = nil then
   begin
     FTestGenerateSQLCommand_Cache := FConnection.CreateCommand;
     FTestGenerateSQLCommand_Cache.RequestType := 'POST';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FTestGenerateSQLCommand_Cache.Text := 'TCrudSettingApp."TestGenerateSQL"';
     FTestGenerateSQLCommand_Cache.Prepare(TCrudSettingApp_TestGenerateSQL_Cache);
-=======
-    FTestGenerateSQLCommand_Cache.Text := 'TCrudCN."TestGenerateSQL"';
-    FTestGenerateSQLCommand_Cache.Prepare(TCrudCN_TestGenerateSQL_Cache);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FTestGenerateSQLCommand_Cache.Text := 'TCrudCNDNRecv."TestGenerateSQL"';
-    FTestGenerateSQLCommand_Cache.Prepare(TCrudCNDNRecv_TestGenerateSQL_Cache);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   if not Assigned(AObject) then
     FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetNull
@@ -8250,72 +8980,31 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 procedure TCrudSettingAppClient.AfterExecuteMethod;
-=======
-procedure TCrudCNClient.AfterExecuteMethod;
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-procedure TCrudCNDNRecvClient.AfterExecuteMethod;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   if FAfterExecuteMethodCommand = nil then
   begin
     FAfterExecuteMethodCommand := FConnection.CreateCommand;
     FAfterExecuteMethodCommand.RequestType := 'GET';
-<<<<<<< HEAD
-<<<<<<< HEAD
     FAfterExecuteMethodCommand.Text := 'TCrudSettingApp.AfterExecuteMethod';
-=======
-    FAfterExecuteMethodCommand.Text := 'TCrudCN.AfterExecuteMethod';
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-    FAfterExecuteMethodCommand.Text := 'TCrudCNDNRecv.AfterExecuteMethod';
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
   end;
   FAfterExecuteMethodCommand.Execute;
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 constructor TCrudSettingAppClient.Create(ARestConnection: TDSRestConnection);
-=======
-constructor TCrudCNClient.Create(ARestConnection: TDSRestConnection);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-constructor TCrudCNDNRecvClient.Create(ARestConnection: TDSRestConnection);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   inherited Create(ARestConnection);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 constructor TCrudSettingAppClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
-=======
-constructor TCrudCNClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
-=======
-constructor TCrudCNDNRecvClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
 begin
   inherited Create(ARestConnection, AInstanceOwner);
 end;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 destructor TCrudSettingAppClient.Destroy;
 begin
   FRetrieveByCabangCommand.DisposeOf;
   FRetrieveByCabangCommand_Cache.DisposeOf;
-=======
-destructor TCrudCNClient.Destroy;
-=======
-destructor TCrudCNDNRecvClient.Destroy;
->>>>>>> 5c044a6169f3e7c087c647a0a69defdb8691e9e7
-begin
->>>>>>> 18c48941b738c460a782ddca48db75e44aa89774
   FSaveToDBCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;
   FOpenQueryCommand.DisposeOf;

@@ -194,6 +194,7 @@ type
     GoodReceiving1: TMenuItem;
     actSetKoneksi: TAction;
     CNReceiving1: TMenuItem;
+    DNReceiving1: TMenuItem;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -256,6 +257,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
+    procedure actDNReceivingExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -315,7 +317,7 @@ uses
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
-  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi;
+  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN;
 
 
 
@@ -417,9 +419,14 @@ begin
     frmDisplayPO:= TfrmDisplayPO.CreateWithUser(Application,FFormProperty);
 end;
 
+procedure TfrmMain.actDNReceivingExecute(Sender: TObject);
+begin
+  frmDN := TfrmDN.Create(Application);
+end;
+
 procedure TfrmMain.actDSIExecute(Sender: TObject);
 begin
-    frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
+  frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
