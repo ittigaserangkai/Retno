@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
-  uModDO;
+  uModDO, uModSettingApp;
 
 type
   {$METHODINFO ON}
@@ -73,6 +73,11 @@ type
 
   TCrudCN = class(TCrud)
   public
+  end;
+
+  TCrudSettingApp = class(TCrud)
+  public
+    function RetrieveByCabang(ACabang : TModUnit): TModSettingApp;
   end;
 
 
@@ -534,6 +539,30 @@ begin
   end;
 
 
+end;
+
+function TCrudSettingApp.RetrieveByCabang(ACabang : TModUnit): TModSettingApp;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT settingapp_id ' +
+          ' FROM SETTINGAPP ' +
+          ' WHERE aut$unit_id = ' + QuotedStr(ACabang.ID);
+
+  Result := TModSettingApp.Create;
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        FreeAndNil(Result);
+        Result := TModSettingApp(Retrieve('TModSettingApp', FieldByName('settingapp_id').AsString));
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
 end;
 
 end.

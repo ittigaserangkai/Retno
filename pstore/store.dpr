@@ -194,7 +194,8 @@ uses
   uModCreditCard in '..\model\uModCreditCard.pas',
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
-  uModCNRecv in '..\model\uModCNRecv.pas';
+  uModCNRecv in '..\model\uModCNRecv.pas',
+  uModSettingApp in '..\model\uModSettingApp.pas';
 
 {$R *.res}
 
