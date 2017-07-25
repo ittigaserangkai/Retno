@@ -563,7 +563,6 @@ var
   i: Integer;
   lCN: TModCNRecv;
   lSS: TStrings;
-  sOperation: string;
 begin
   lCN := TModCNRecv(AObject);
   lSS := TStringList.Create;
@@ -595,7 +594,6 @@ var
   lAppClass: TModAppClass;
   lOldCN: TModCNRecv;
   lSS: TStrings;
-  sOperation: string;
 begin
   if AObject.ID = '' then
   begin
@@ -629,7 +627,6 @@ var
   i: Integer;
   lDN: TModDNRecv;
   lSS: TStrings;
-  sOperation: string;
 begin
   lDN := TModDNRecv(AObject);
   lSS := TStringList.Create;
