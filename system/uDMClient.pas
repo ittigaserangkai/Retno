@@ -23,14 +23,16 @@ type
     FCrudClient: TCrudClient;
     FCrudDOClient: TCrudDOClient;
     FCrudPOClient: TCrudPOClient;
-    FCrudCNClient: TCrudCNDNRecvClient;
+    FCrudCNClient: TCrudCNRecvClient;
+    FCrudDNClient: TCrudDNRecvClient;
     FCrudSupplierClient: TCrudSupplierClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
     function GetCrudClient: TCrudClient;
     function GetCrudDOClient: TCrudDOClient;
     function GetCrudPOClient: TCrudPOClient;
-    function GetCrudCNClient: TCrudCNDNRecvClient;
+    function GetCrudCNClient: TCrudCNRecvClient;
+    function GetCrudDNClient: TCrudDNRecvClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -40,8 +42,10 @@ type
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
     property CrudDOClient: TCrudDOClient read GetCrudDOClient write FCrudDOClient;
     property CrudPOClient: TCrudPOClient read GetCrudPOClient write FCrudPOClient;
-    property CrudCNClient: TCrudCNDNRecvClient read GetCrudCNClient write
+    property CrudCNClient: TCrudCNRecvClient read GetCrudCNClient write
         FCrudCNClient;
+    property CrudDNClient: TCrudDNRecvClient read GetCrudDNClient write
+        FCrudDNClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
@@ -138,13 +142,22 @@ begin
   Result        := FCrudPOClient;
 end;
 
-function TDMClient.GetCrudCNClient: TCrudCNDNRecvClient;
+function TDMClient.GetCrudCNClient: TCrudCNRecvClient;
 begin
   if FCrudCNClient <> nil then
     FreeAndNil(FCrudCNClient);
 
-  FCrudCNClient := TCrudCNDNRecvClient.Create(DMClient.RestConn, InstanceOwner);
+  FCrudCNClient := TCrudCNRecvClient.Create(DMClient.RestConn, InstanceOwner);
   Result        := FCrudCNClient;
+end;
+
+function TDMClient.GetCrudDNClient: TCrudDNRecvClient;
+begin
+  if FCrudDNClient <> nil then
+    FreeAndNil(FCrudDNClient);
+
+  FCrudDNClient := TCrudDNRecvClient.Create(DMClient.RestConn, InstanceOwner);
+  Result        := FCrudDNClient;
 end;
 
 function TDMClient.GetCrudSupplierClient: TCrudSupplierClient;

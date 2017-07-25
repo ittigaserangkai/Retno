@@ -123,6 +123,9 @@ object frmMain: TfrmMain
       object CNReceiving1: TMenuItem
         Action = actCNReceiving
       end
+      object DNReceiving1: TMenuItem
+        Action = actDNReceiving
+      end
     end
     object mmWindow: TMenuItem
       Caption = '&Window'
@@ -314,6 +317,7 @@ object frmMain: TfrmMain
     object actDNReceiving: TAction
       Category = 'Inventory'
       Caption = '&DN Receiving'
+      OnExecute = actDNReceivingExecute
     end
     object actReturReplace: TAction
       Category = 'Inventory'

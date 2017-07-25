@@ -193,9 +193,11 @@ uses
   uModelHelper in '..\model\uModelHelper.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
-  ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
   uModDNRecv in '..\model\uModDNRecv.pas',
-  uModCNRecv in '..\model\uModCNRecv.pas';
+  uModCNRecv in '..\model\uModCNRecv.pas',
+  ufrmDN in '..\module\inventory\ufrmDN.pas' {frmDN},
+  ufrmDialogDN in '..\module\inventory\ufrmDialogDN.pas' {frmDialogDN},
+  ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN};
 
 {$R *.res}
 
@@ -206,6 +208,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmDialogCN, frmDialogCN);
   Application.Run;
 end.

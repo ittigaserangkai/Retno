@@ -107,6 +107,8 @@ type
     function RefCreditCard_GetDSOverview: TDataSet;
     function CN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
+    function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataSet;
 
 
   end;
@@ -1018,6 +1020,22 @@ var
 begin
   sSQL := 'select * from V_CN_RECV ' +
           ' where CNR_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_DN_RECV ' +
+          ' where DNR_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
           ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   if AUnit <> nil then
