@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
-  uModDO;
+  uModDO, uModSettingApp;
 
 type
   {$METHODINFO ON}
@@ -21,7 +21,10 @@ type
 
   TCrud = class(TBaseServerClass)
   private
+    function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
+        Boolean = True): TModApp; overload;
     function StringToClass(ModClassName: string): TModAppClass;
+    function ValidateCode(AOBject: TModApp): Boolean;
   protected
     function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
@@ -87,6 +90,11 @@ type
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
+  end;
+
+  TCrudSettingApp = class(TCrud)
+  public
+    function RetrieveByCabang(ACabang : TModUnit): TModSettingApp;
   end;
 
 

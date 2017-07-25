@@ -205,7 +205,9 @@ uses
   ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
   ufrmDialogCreditCard in '..\module\cashier_supv\ufrmDialogCreditCard.pas' {frmDialogCreditCard},
   uModCreditCard in '..\model\uModCreditCard.pas',
-  uModKompetitor in '..\model\uModKompetitor.pas';
+  uModKompetitor in '..\model\uModKompetitor.pas',
+  uModSettingApp in '..\model\uModSettingApp.pas',
+  ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp};
 
 {$R *.res}
 

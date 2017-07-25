@@ -87,6 +87,7 @@ type
     function DO_GetDSLookUp: TDataSet;
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
+    function Gudang_GetDSLookUp: TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
@@ -896,6 +897,15 @@ begin
     sSQL := sSQL + ' and SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMGCodeID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.Gudang_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S:= 'select GUDANG_ID, GUD_CODE , GUD_NAME'
+      + ' from GUDANG'  ;
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.Kompetitor_GetDSOverview: TDataSet;

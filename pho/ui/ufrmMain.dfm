@@ -242,7 +242,7 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object miGlobalParameter: TMenuItem
-        Caption = 'Global Parameter'
+        Action = actSettingAplikasi
       end
     end
     object mmWindow: TMenuItem
@@ -1269,6 +1269,11 @@ object frmMain: TfrmMain
       Category = 'Merchandise'
       Caption = 'actKompetitor'
       OnExecute = actKompetitorExecute
+    end
+    object actSettingAplikasi: TAction
+      Category = 'Sistem'
+      Caption = 'Setting Aplikasi'
+      OnExecute = actSettingAplikasiExecute
     end
   end
   object AppEvents: TApplicationEvents

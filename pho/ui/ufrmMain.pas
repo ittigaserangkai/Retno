@@ -10,7 +10,7 @@ uses
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
-  ufrmTipeCN, ufrmDocument, uModUnit;
+  ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -310,6 +310,7 @@ type
     CreditCard1: TMenuItem;
     actKompetitor: TAction;
     Kompetitor1: TMenuItem;
+    actSettingAplikasi: TAction;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -359,6 +360,7 @@ type
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
     procedure actSetKoneksiExecute(Sender: TObject);
+    procedure actSettingAplikasiExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
@@ -878,6 +880,11 @@ begin
   end;
 end;
 
+procedure TfrmMain.actSettingAplikasiExecute(Sender: TObject);
+begin
+  frmSettingApp := TfrmSettingApp.Create(Self);
+end;
+
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
@@ -1106,12 +1113,12 @@ procedure TfrmMain.SettingMainMenu(ARole: TRole);
 begin
   EnableSubMenu(mmWindow, false);
   EnableSubMenu(miConnectionDatabase, true);
-  EnableSubMenu(miGlobalParameter, false);
+  EnableSubMenu(miGlobalParameter, true);
   if ARole = rCoba then
   Begin
     EnableSubMenu(mmWindow, false);
     EnableSubMenu(miConnectionDatabase, true);
-    EnableSubMenu(miGlobalParameter, false);
+    EnableSubMenu(miGlobalParameter, true);
   End;
 end;
 

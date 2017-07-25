@@ -195,6 +195,8 @@ uses
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
+  uModCNRecv in '..\model\uModCNRecv.pas',
+  uModSettingApp in '..\model\uModSettingApp.pas';
   ufrmDN in '..\module\inventory\ufrmDN.pas' {frmDN},
   ufrmDialogDN in '..\module\inventory\ufrmDialogDN.pas' {frmDialogDN},
   ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN};
