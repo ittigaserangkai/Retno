@@ -35,7 +35,6 @@ type
     function GetCrudCNClient: TCrudCNRecvClient;
     function GetCrudDNClient: TCrudDNRecvClient;
     function GetCrudSettingAppClient: TCrudSettingAppClient;
-    function GetCrudCNClient: TCrudCNDNRecvClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -148,7 +147,6 @@ begin
   Result        := FCrudPOClient;
 end;
 
-function TDMClient.GetCrudCNClient: TCrudCNRecvClient;
 function TDMClient.GetCrudSettingAppClient: TCrudSettingAppClient;
 begin
   if FCrudSettingAppClient <> nil then
@@ -159,7 +157,7 @@ begin
 end;
 
 
-function TDMClient.GetCrudCNClient: TCrudCNDNRecvClient;
+function TDMClient.GetCrudCNClient: TCrudCNRecvClient;
 begin
   if FCrudCNClient <> nil then
     FreeAndNil(FCrudCNClient);

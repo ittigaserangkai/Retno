@@ -995,7 +995,7 @@ end;
 
 function TDSProvider.PO_SKULookUP(APONO : String): TDataSet;
 begin
-//  Result := ;
+  Result := nil;
   // TODO -cMM: TDSProvider.PO_SKULookUP default body inserted
 end;
 

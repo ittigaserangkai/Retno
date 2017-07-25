@@ -192,14 +192,13 @@ uses
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
   uModelHelper in '..\model\uModelHelper.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
-  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
-  uModCNRecv in '..\model\uModCNRecv.pas',
-  uModSettingApp in '..\model\uModSettingApp.pas';
+  uModSettingApp in '..\model\uModSettingApp.pas',
   ufrmDN in '..\module\inventory\ufrmDN.pas' {frmDN},
   ufrmDialogDN in '..\module\inventory\ufrmDialogDN.pas' {frmDialogDN},
-  ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN};
+  ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
+  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN};
 
 {$R *.res}
 

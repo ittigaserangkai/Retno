@@ -21,10 +21,7 @@ type
 
   TCrud = class(TBaseServerClass)
   private
-    function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
-        Boolean = True): TModApp; overload;
     function StringToClass(ModClassName: string): TModAppClass;
-    function ValidateCode(AOBject: TModApp): Boolean;
   protected
     function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
@@ -666,7 +663,6 @@ var
   lAppClass: TModAppClass;
   lOldDN: TModDNRecv;
   lSS: TStrings;
-  sOperation: string;
 begin
   if AObject.ID = '' then
   begin
@@ -693,6 +689,11 @@ begin
     lSS.Free;
   End;
   Result := True;
+end;
+
+function TCrudSettingApp.RetrieveByCabang(ACabang : TModUnit): TModSettingApp;
+begin
+  Result := nil;
 end;
 
 end.
