@@ -311,8 +311,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 85
-    Top = 186
+    Left = 165
+    Top = 170
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'

@@ -209,6 +209,7 @@ uses
   uModSettingApp in '..\model\uModSettingApp.pas',
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp};
 
+
 {$R *.res}
 
 begin
