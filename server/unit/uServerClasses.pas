@@ -21,13 +21,14 @@ type
 
   TCrud = class(TBaseServerClass)
   private
-    function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
-        Boolean = True): TModApp; overload;
     function StringToClass(ModClassName: string): TModAppClass;
-    function ValidateCode(AOBject: TModApp): Boolean;
   protected
     function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; virtual;
+    function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
+        Boolean = True): TModApp; overload;
+    function ValidateCode(AOBject: TModApp): Boolean;
   public
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
@@ -72,6 +73,10 @@ type
   end;
 
   TCrudCN = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
   end;
 
@@ -84,7 +89,8 @@ const
 implementation
 
 uses
-  System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO;
+  System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO,
+  uModCNRecv;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -97,6 +103,11 @@ begin
 end;
 
 function TCrud.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
+end;
+
+function TCrud.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin
   Result := True;
 end;
@@ -117,6 +128,7 @@ begin
       TDBUtils.Commit;
       Result := True;
     except
+      lSS.SaveToFile(AObject.ClassName + '_ErrorSQL.log');
       TDBUtils.RollBack;
       raise;
     End;
@@ -132,6 +144,7 @@ var
   lSS: TStrings;
 begin
   Result := False;
+  if not BeforeDeleteFromDB(AObject) then exit;
   lSS := TDBUtils.GenerateSQLDelete(AObject);
   Try
     Try
@@ -534,6 +547,65 @@ begin
   end;
 
 
+end;
+
+function TCrudCN.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lCN: TModCNRecv;
+  lSS: TStrings;
+begin
+  lCN := TModCNRecv(AObject);
+  lSS := TStringList.Create;
+  Try
+    for i := 0 to lCN.CNR_CNRDITEMS.Count-1 do
+    begin
+      lSS.Append(
+        'Update ' + TModDOItem.GetTableName
+        + ' Set DOD_QTY_ORDER_RECV_CN = DOD_QTY_ORDER_RECV_CN + '  + FloatToStr(lCN.CNR_CNRDITEMS[i].CNRD_QTY)
+        + ' Where PO_DETAIL_ID = ' + QuotedStr(lCN.CNR_CNRDITEMS[i].PO_DETAIL.ID) + ';'
+      );
+    end;
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
+  End;
+  Result := True;
+end;
+
+function TCrudCN.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+begin
+  Result := self.BeforeSaveToDB(AObject);
+end;
+
+function TCrudCN.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lOldCN: TModCNRecv;
+  lSS: TStrings;
+begin
+  if AObject.ID = '' then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  lOldCN := Self.Retrieve(TModCNRecv, TModCNRecv(AObject).ID) as TModCNRecv;
+  lSS := TStringList.Create;
+  Try
+    for i := 0 to lOldCN.CNR_CNRDITEMS.Count-1 do
+    begin
+      lSS.Append(
+        'Update ' + TModDOItem.GetTableName
+        + ' Set DOD_QTY_ORDER_RECV_CN = DOD_QTY_ORDER_RECV_CN - '  + FloatToStr( lOldCN.CNR_CNRDITEMS[i].CNRD_QTY)
+        + ' Where PO_DETAIL_ID = ' + QuotedStr(lOldCN.CNR_CNRDITEMS[i].PO_DETAIL.ID) + ';'
+      );
+    end;
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
+  End;
+  Result := True;
 end;
 
 end.

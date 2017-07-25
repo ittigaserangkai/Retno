@@ -57,40 +57,40 @@ type
 
   TModCNRecvItem = class(TModApp)
   private
-    FCNRD_BarangSupplier: TModBarangSupplier;
-    FCNRD_BRG: TModBarang;
-    FCNRD_CNR: TModCNRecv;
+    FBARANG_SUPLIER: TModBarangSupplier;
+    FBARANG: TModBarang;
+    FCN_RECV: TModCNRecv;
     FCNRD_IS_CLAIM_TTF: Integer;
     FCNRD_IS_OUTSTANDING: Integer;
     FCNRD_IS_PROCESS: Integer;
-    FCNRD_PO: TModPO;
-    FCNRD_POD: TmODPOItem;
+    FPO_DETAIL: TmODPOItem;
     FCNRD_PPN: Double;
+    FDISCOUNT: Double;
     FCNRD_PPNBM: Double;
     FCNRD_PPNBM_PERSEN: Double;
     FCNRD_PPN_PERSEN: Double;
     FCNRD_PRICE: Double;
     FCNRD_QTY: Double;
-    FCNRD_SUPMG: TModSuplierMerchanGroup;
     FCNRD_TOTAL: Double;
     FCNRD_TOTAL_DISC: Double;
     FCNRD_UOM: TModSatuan;
   public
     class function GetTableName: string; override;
   published
-    property CNRD_BarangSupplier: TModBarangSupplier read FCNRD_BarangSupplier
-        write FCNRD_BarangSupplier;
-    property CNRD_BRG: TModBarang read FCNRD_BRG write FCNRD_BRG;
-    property CNRD_CNR: TModCNRecv read FCNRD_CNR write FCNRD_CNR;
+    property BARANG_SUPLIER: TModBarangSupplier read FBARANG_SUPLIER write
+        FBARANG_SUPLIER;
+    property BARANG: TModBarang read FBARANG write FBARANG;
+    [AttributeOfHeader]
+    property CN_RECV: TModCNRecv read FCN_RECV write FCN_RECV;
     property CNRD_IS_CLAIM_TTF: Integer read FCNRD_IS_CLAIM_TTF write
         FCNRD_IS_CLAIM_TTF;
     property CNRD_IS_OUTSTANDING: Integer read FCNRD_IS_OUTSTANDING write
         FCNRD_IS_OUTSTANDING;
     property CNRD_IS_PROCESS: Integer read FCNRD_IS_PROCESS write
         FCNRD_IS_PROCESS;
-    property CNRD_PO: TModPO read FCNRD_PO write FCNRD_PO;
-    property CNRD_POD: TmODPOItem read FCNRD_POD write FCNRD_POD;
+    property PO_DETAIL: TmODPOItem read FPO_DETAIL write FPO_DETAIL;
     property CNRD_PPN: Double read FCNRD_PPN write FCNRD_PPN;
+    property DISCOUNT: Double read FDISCOUNT write FDISCOUNT;
     property CNRD_PPNBM: Double read FCNRD_PPNBM write FCNRD_PPNBM;
     property CNRD_PPNBM_PERSEN: Double read FCNRD_PPNBM_PERSEN write
         FCNRD_PPNBM_PERSEN;
@@ -98,11 +98,10 @@ type
         FCNRD_PPN_PERSEN;
     property CNRD_PRICE: Double read FCNRD_PRICE write FCNRD_PRICE;
     property CNRD_QTY: Double read FCNRD_QTY write FCNRD_QTY;
-    property CNRD_SUPMG: TModSuplierMerchanGroup read FCNRD_SUPMG write
-        FCNRD_SUPMG;
     property CNRD_TOTAL: Double read FCNRD_TOTAL write FCNRD_TOTAL;
     property CNRD_TOTAL_DISC: Double read FCNRD_TOTAL_DISC write
         FCNRD_TOTAL_DISC;
+    [AttributeOfForeign('REF$SATUAN_ID')]
     property CNRD_UOM: TModSatuan read FCNRD_UOM write FCNRD_UOM;
   end;
 
@@ -114,6 +113,8 @@ implementation
 }
 function TModCNRecv.GetCNR_CNRDITEMS: TObjectList<TModCNRecvItem>;
 begin
+  if not Assigned(FCNR_CNRDITEMS) then
+    FCNR_CNRDITEMS := TObjectList<TModCNRecvItem>.Create();
   Result := FCNR_CNRDITEMS;
 end;
 
@@ -136,5 +137,4 @@ end;
 initialization
   TModCNRecv.RegisterRTTI;
   TModCNRecvItem.RegisterRTTI;
-
 end.
