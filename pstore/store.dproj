@@ -726,6 +726,7 @@
             <Form>frmDialogCN</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\model\uModDNRecv.pas"/>
         <DCCReference Include="..\model\uModCNRecv.pas"/>
         <DCCReference Include="..\model\uModSettingApp.pas"/>
         <BuildConfiguration Include="Release">

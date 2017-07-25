@@ -23,6 +23,7 @@ type
     FCrudClient: TCrudClient;
     FCrudDOClient: TCrudDOClient;
     FCrudPOClient: TCrudPOClient;
+    FCrudCNClient: TCrudCNDNRecvClient;
     FCrudSettingAppClient: TCrudSettingAppClient;
     FCrudSupplierClient: TCrudSupplierClient;
     FDSProviderClient: TDSProviderClient;
@@ -31,6 +32,7 @@ type
     function GetCrudDOClient: TCrudDOClient;
     function GetCrudPOClient: TCrudPOClient;
     function GetCrudSettingAppClient: TCrudSettingAppClient;
+    function GetCrudCNClient: TCrudCNDNRecvClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -40,7 +42,8 @@ type
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
     property CrudDOClient: TCrudDOClient read GetCrudDOClient write FCrudDOClient;
     property CrudPOClient: TCrudPOClient read GetCrudPOClient write FCrudPOClient;
-    property CrudCNClient: TCrudCNClient read GetCrudCNClient write FCrudCNClient;
+    property CrudCNClient: TCrudCNDNRecvClient read GetCrudCNClient write
+        FCrudCNClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
@@ -147,6 +150,16 @@ begin
 
   FCrudSettingAppClient := TCrudSettingAppClient.Create(RestConn, InstanceOwner);
   Result := FCrudSettingAppClient;
+end;
+
+
+function TDMClient.GetCrudCNClient: TCrudCNDNRecvClient;
+begin
+  if FCrudCNClient <> nil then
+    FreeAndNil(FCrudCNClient);
+
+  FCrudCNClient := TCrudCNDNRecvClient.Create(DMClient.RestConn, InstanceOwner);
+  Result        := FCrudCNClient;
 end;
 
 function TDMClient.GetCrudSupplierClient: TCrudSupplierClient;

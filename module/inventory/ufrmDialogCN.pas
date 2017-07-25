@@ -13,7 +13,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxDBExtLookupComboBox, uDXUtils, uModCNRecv, uModelHelper,
   uModDO, uModPO, uModUnit, uRetnoUnit, uDMClient, System.StrUtils, Datasnap.DBClient,
-  cxButtonEdit, Vcl.Menus, cxButtons, cxGroupBox, uInterface;
+  cxButtonEdit, Vcl.Menus, cxButtons, cxGroupBox, uInterface, uModApp;
 
 type
   TfrmDialogCN = class(TfrmMasterDialog, ICRUDAble)
@@ -96,6 +96,8 @@ type
     procedure UpdateData;
     function ValidateData: Boolean;
     { Private declarations }
+  protected
+    function GetCNDNClass: TModAppClass; virtual;
   public
     procedure LoadData(AID: string);
     property CNRecv: TModCNRecv read GetCNRecv write FCNRecv;
@@ -124,7 +126,7 @@ procedure TfrmDialogCN.actSaveExecute(Sender: TObject);
 begin
   inherited;
   if CNRecv.ID = '' then
-    edNoCN.Text := DMClient.CrudClient.GenerateNo(TModCNRecv.ClassName);
+    edNoCN.Text := DMClient.CrudClient.GenerateNo(GetCNDNClass.ClassName);
 
   if not ValidateData then exit;
   UpdateData;
@@ -338,11 +340,16 @@ begin
   InisialisasiCBBUOM;
 end;
 
+function TfrmDialogCN.GetCNDNClass: TModAppClass;
+begin
+  Result := TModCNRecv;
+end;
+
 function TfrmDialogCN.GetCNRecv: TModCNRecv;
 begin
   if FCNRecv = nil then
   begin
-    FCNRecv := TModCNRecv.Create;
+    FCNRecv := GetCNDNClass.Create as TModCNRecv;
   end;
 
   Result := FCNRecv;
@@ -371,7 +378,7 @@ begin
   if AID = '' then Exit;
   if Assigned(FCNRecv) then FreeAndNil(FCNRecv);
 
-  FCNRecv := DMClient.CrudCNClient.Retrieve(TModCNRecv.ClassName, aID) as TModCNRecv;
+  FCNRecv := DMClient.CrudCNClient.Retrieve(GetCNDNClass.ClassName, aID) as TModCNRecv;
 
   FPO := TModPO(DMClient.CrudPOClient.Retrieve(TModPO.ClassName,CNRecv.CNR_PO.ID));
   FPO.LoadPO_SUPPLIER_MERCHAN_GRUP;

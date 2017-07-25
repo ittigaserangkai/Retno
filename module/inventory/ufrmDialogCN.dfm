@@ -455,7 +455,6 @@ inherited frmDialogCN: TfrmDialogCN
       end
       inherited btnDelete: TcxButton
         Action = actDelete
-        OnClick = btnDeleteClick
       end
       inherited btnPrint: TcxButton
         Left = 642

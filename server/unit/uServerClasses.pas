@@ -75,7 +75,7 @@ type
     function RetrieveByPO(APONO : String): TModDO;
   end;
 
-  TCrudCN = class(TCrud)
+  TCrudCNDNRecv = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
@@ -557,20 +557,23 @@ begin
 
 end;
 
-function TCrudCN.AfterSaveToDB(AObject: TModApp): Boolean;
+function TCrudCNDNRecv.AfterSaveToDB(AObject: TModApp): Boolean;
 var
   i: Integer;
   lCN: TModCNRecv;
   lSS: TStrings;
+  sOperation: string;
 begin
   lCN := TModCNRecv(AObject);
   lSS := TStringList.Create;
+  if AObject.ClassType = TModCNRecv then sOperation := '+' else sOperation := '-';
   Try
     for i := 0 to lCN.CNR_CNRDITEMS.Count-1 do
     begin
       lSS.Append(
         'Update ' + TModDOItem.GetTableName
-        + ' Set DOD_QTY_ORDER_RECV_CN = DOD_QTY_ORDER_RECV_CN + '  + FloatToStr(lCN.CNR_CNRDITEMS[i].CNRD_QTY)
+        + ' Set DOD_QTY_ORDER_RECV_CN = DOD_QTY_ORDER_RECV_CN ' + sOperation
+        + FloatToStr(lCN.CNR_CNRDITEMS[i].CNRD_QTY)
         + ' Where PO_DETAIL_ID = ' + QuotedStr(lCN.CNR_CNRDITEMS[i].PO_DETAIL.ID) + ';'
       );
     end;
@@ -581,31 +584,37 @@ begin
   Result := True;
 end;
 
-function TCrudCN.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+function TCrudCNDNRecv.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin
   Result := self.BeforeSaveToDB(AObject);
 end;
 
-function TCrudCN.BeforeSaveToDB(AObject: TModApp): Boolean;
+function TCrudCNDNRecv.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   i: Integer;
+  lAppClass: TModAppClass;
   lOldCN: TModCNRecv;
   lSS: TStrings;
+  sOperation: string;
 begin
   if AObject.ID = '' then
   begin
     Result := True;
     exit;
   end;
+  lAppClass := TModAppClass(AObject.ClassType);
 
-  lOldCN := Self.Retrieve(TModCNRecv, TModCNRecv(AObject).ID) as TModCNRecv;
+  lOldCN := Self.Retrieve(lAppClass, TModCNRecv(AObject).ID) as TModCNRecv;
   lSS := TStringList.Create;
+
+  if lAppClass = TModCNRecv then sOperation := '-' else sOperation := '+';
   Try
     for i := 0 to lOldCN.CNR_CNRDITEMS.Count-1 do
     begin
       lSS.Append(
         'Update ' + TModDOItem.GetTableName
-        + ' Set DOD_QTY_ORDER_RECV_CN = DOD_QTY_ORDER_RECV_CN - '  + FloatToStr( lOldCN.CNR_CNRDITEMS[i].CNRD_QTY)
+        + ' Set DOD_QTY_ORDER_RECV_CN = DOD_QTY_ORDER_RECV_CN '
+        + sOperation  + FloatToStr( lOldCN.CNR_CNRDITEMS[i].CNRD_QTY)
         + ' Where PO_DETAIL_ID = ' + QuotedStr(lOldCN.CNR_CNRDITEMS[i].PO_DETAIL.ID) + ';'
       );
     end;
