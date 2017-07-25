@@ -692,8 +692,29 @@ begin
 end;
 
 function TCrudSettingApp.RetrieveByCabang(ACabang : TModUnit): TModSettingApp;
+var
+  sSQL: string;
 begin
-  Result := nil;
+  Result := TModSettingApp.Create;
+
+  if ACabang = nil then
+    Exit;
+
+  sSQL   := 'select SETTINGAPP_ID from SETTINGAPP' +
+            ' where AUT$UNIT_ID = ' + QuotedStr(ACabang.ID);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      if Fields[0].AsString <> '' then
+      begin
+        FreeAndNil(Result);
+        Result := TModSettingApp(Retrieve(TModSettingApp.ClassName, Fields[0].AsString));
+      end;
+    finally
+      Free;
+    end;
+  end;
 end;
 
 end.
