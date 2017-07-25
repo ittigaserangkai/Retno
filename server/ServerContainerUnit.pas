@@ -79,7 +79,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudSupplier, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudPO, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudDO, DSServerClass.LifeCycle);
-  TCustServerClass.Create(Self, DSServer, TCrudCN, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCrudCNDNRecv, DSServerClass.LifeCycle);
 end;
 
 

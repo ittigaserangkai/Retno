@@ -46,6 +46,7 @@ uses
   uModDO in '..\model\uModDO.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
   uModKompetitor in '..\model\uModKompetitor.pas',
+  uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas';
 
 {$R *.res}
