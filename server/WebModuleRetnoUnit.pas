@@ -102,6 +102,15 @@ end;
 procedure TWebModuleRetno.WebModuleBeforeDispatch(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 begin
+
+  Response.SetCustomHeader('Access-Control-Allow-Origin','*');
+
+  if Trim(Request.GetFieldByName('Access-Control-Request-Headers')) <> '' then
+  begin
+    Response.SetCustomHeader('Access-Control-Allow-Headers', Request.GetFieldByName('Access-Control-Request-Headers'));
+    Handled := True;
+  end;
+
   if FServerFunctionInvokerAction <> nil then
     FServerFunctionInvokerAction.Enabled := AllowServerFunctionInvoker;
 end;
@@ -127,10 +136,11 @@ var
 begin
   Try
     if not Assigned(HTTPMemo) then exit;
-    if HTTPMemo.Lines.Count > 1000 then HTTPMemo.Lines.Clear;
+//    if HTTPMemo.Lines.Count > 1000 then HTTPMemo.Lines.Clear;
 
+//    HTTPMemo.Lines.LoadFromStream(ARequest.PostStream);
     Prefix := '[' + TimeToStr(Now()) + ']:' + '[' + ARequest.RemoteIP + ']';
-    HTTPMemo.Lines.Add(Prefix + '-> ' + AnsiLeftStr(ARequest.URI,200));
+    HTTPMemo.Lines.Add(Prefix + '-> ' + AnsiLeftStr(ARequest.URI + '/' + ARequest.Params.Text,200));
     HTTPMemo.Lines.Add(Prefix + '<- ' + AnsiLeftStr(AResponse.ContentText,200));
   except
   End;

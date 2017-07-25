@@ -1,22 +1,22 @@
 inherited frmCN: TfrmCN
   Caption = 'CN Receiving'
-  ClientHeight = 398
+  ClientHeight = 426
   ClientWidth = 783
   ExplicitWidth = 799
-  ExplicitHeight = 437
+  ExplicitHeight = 465
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 783
-    Height = 309
+    Height = 337
     ExplicitWidth = 783
     ExplicitHeight = 309
     inherited pgcBrowse: TcxPageControl
       Width = 761
-      Height = 287
+      Height = 315
       ExplicitWidth = 761
       ExplicitHeight = 287
-      ClientRectBottom = 286
+      ClientRectBottom = 314
       ClientRectRight = 760
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
@@ -25,7 +25,7 @@ inherited frmCN: TfrmCN
         ExplicitHeight = 285
         inherited cxGrid: TcxGrid
           Width = 759
-          Height = 285
+          Height = 313
           ExplicitWidth = 759
           ExplicitHeight = 285
         end
@@ -70,7 +70,7 @@ inherited frmCN: TfrmCN
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 342
+    Top = 370
     Width = 783
     ExplicitTop = 342
     ExplicitWidth = 783

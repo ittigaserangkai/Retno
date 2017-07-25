@@ -41,12 +41,12 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
   uModQuotation in '..\model\uModQuotation.pas',
+  uModSO in '..\model\uModSO.pas',
   uModPO in '..\model\uModPO.pas' ,
   uModDO in '..\model\uModDO.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
   uModKompetitor in '..\model\uModKompetitor.pas',
-  uModSettingApp in '..\model\uModSettingApp.pas',
-  uModSO in '..\model\uModSO.pas';
+  uModCNRecv in '..\model\uModCNRecv.pas';
 
 {$R *.res}
 
