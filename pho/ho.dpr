@@ -208,7 +208,6 @@ uses
   uModKompetitor in '..\model\uModKompetitor.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp};
-
 {$R *.res}
 
 begin
