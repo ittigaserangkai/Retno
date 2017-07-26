@@ -1257,6 +1257,7 @@ inherited frmProduct: TfrmProduct
   end
   inherited pnlHeader: TPanel
     Width = 926
+    ExplicitLeft = 1
     ExplicitWidth = 926
     inherited lblFilterData: TcxLabel
       Left = 155

@@ -184,7 +184,7 @@ begin
     lPPN        := lSubTotal * DCItem.Values[i,cxGridColDNDetailColumnPPNPERSEN.Index]/100;
     lPPNBM      := lSubTotal * DCItem.Values[i,cxGridColDNDetailColumnPPNBMPERSEN.Index]/100;
 
-    DCItem.Values[i,cxGridColDNDetailColumnTotal.Index] := lSubTotal;
+    DCItem.Values[i,cxGridColDNDetailColumnTotal.Index] := lSubTotal - lTotalDisc + lPPN + lPPNBM;
     DCItem.Values[i,cxGridColDNDetailColumnTotalDisc.Index] := lTotalDisc;
     DCItem.Values[i,cxGridColDNDetailColumnPPN.Index] := lPPN;
     DCItem.Values[i,cxGridColDNDetailColumnPPNBM.Index] := lPPNBM;
@@ -316,10 +316,11 @@ procedure TfrmDialogDN.edPOPropertiesButtonClick(Sender: TObject;
   AButtonIndex: Integer);
 begin
   inherited;
-  with TfrmCXLookup.Execute('Look Up SO','TDSProvider.PO_GetDSByPeriod',
+  with TfrmCXLookup.Execute('Look Up PO','TDSProvider.PO_GetDSByPeriod',
     StartOfTheYear(Now), EndOfTheYear(Now())) do
   begin
     Try
+      HideFields(['AUT$UNIT_ID','PO_ID','REF$STATUS_PO_ID']);
       if ShowModal = mrOK then
       begin
         edPo.Text := Data.FieldByName('PO_NO').AsString;
@@ -518,7 +519,7 @@ function TfrmDialogDN.ValidateData: Boolean;
 var
   i: Integer;
   j: Integer;
-  lBSID: String;
+//  lBSID: String;
 begin
   Result := False;
   if not ValidateEmptyCtrl([0,1]) then exit;
@@ -540,17 +541,26 @@ begin
       exit;
     end;
 
-    for j := 0 to FDO.DOItems.Count-1 do
+//    for j := 0 to FDO.DOItems.Count-1 do
+//    begin
+//      lBSID := DCItem.Values[i,cxGridColDNDetailColumnNama.Index];
+//      if (lBSID = FDO.DOItems[j].BARANG.ID) then
+//      begin
+//        if DCItem.Values[i,cxGridColDNDetailColumnQty.Index] > FDO.DOItems[j].DOD_QTY_ORDER_RECV then
+//        begin
+//          TAppUtils.Warning('QTY CN tidak boleh melebihi QTY DO '
+//            +#13 +'Baris : ' + inttostr(i+1));
+//          exit;
+//        end;
+//      end;
+//    end;
+    for j := 0 to DCItem.RecordCount-1 do
     begin
-      lBSID := DCItem.Values[i,cxGridColDNDetailColumnNama.Index];
-      if (lBSID = FDO.DOItems[j].BARANG.ID) then
+      if i = j then continue;
+      if DCItem.Values[i, cxGridColDNDetailColumnNama.Index] = DCItem.Values[i, cxGridColDNDetailColumnNama.Index] then
       begin
-        if DCItem.Values[i,cxGridColDNDetailColumnQty.Index] > FDO.DOItems[j].DOD_QTY_ORDER_RECV then
-        begin
-          TAppUtils.Warning('QTY CN tidak boleh melebihi QTY DO '
-            +#13 +'Baris : ' + inttostr(i+1));
-          exit;
-        end;
+        TAppUtils.Warning('Item Baris : ' + inttostr(i+1) + ' & ' + inttostr(j+1) + ' sama');
+        exit;
       end;
     end;
   end;
