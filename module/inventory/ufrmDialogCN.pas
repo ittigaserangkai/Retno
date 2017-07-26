@@ -185,7 +185,7 @@ begin
     lPPN        := lSubTotal * DCItem.Values[i,cxGridColCNDetailColumnPPNPERSEN.Index]/100;
     lPPNBM      := lSubTotal * DCItem.Values[i,cxGridColCNDetailColumnPPNBMPERSEN.Index]/100;
 
-    DCItem.Values[i,cxGridColCNDetailColumnTotal.Index] := lSubTotal;
+    DCItem.Values[i,cxGridColCNDetailColumnTotal.Index] := lSubTotal - lTotalDisc + lPPN + lPPNBM;
     DCItem.Values[i,cxGridColCNDetailColumnTotalDisc.Index] := lTotalDisc;
     DCItem.Values[i,cxGridColCNDetailColumnPPN.Index] := lPPN;
     DCItem.Values[i,cxGridColCNDetailColumnPPNBM.Index] := lPPNBM;
@@ -317,10 +317,11 @@ procedure TfrmDialogCN.edPOPropertiesButtonClick(Sender: TObject;
   AButtonIndex: Integer);
 begin
   inherited;
-  with TfrmCXLookup.Execute('Look Up SO','TDSProvider.PO_GetDSByPeriod',
+  with TfrmCXLookup.Execute('Look Up PO','TDSProvider.PO_GetDSByPeriod',
     StartOfTheYear(Now), EndOfTheYear(Now())) do
   begin
     Try
+      HideFields(['AUT$UNIT_ID','PO_ID','REF$STATUS_PO_ID']);
       if ShowModal = mrOK then
       begin
         edPo.Text := Data.FieldByName('PO_NO').AsString;
@@ -557,6 +558,16 @@ begin
             +#13 +'Baris : ' + inttostr(i+1));
           exit;
         end;
+      end;
+    end;
+
+    for j := 0 to DCItem.RecordCount-1 do
+    begin
+      if i = j then continue;
+      if DCItem.Values[i, cxGridColCNDetailColumnNama.Index] = DCItem.Values[i, cxGridColCNDetailColumnNama.Index] then
+      begin
+        TAppUtils.Warning('Item Baris : ' + inttostr(i+1) + ' & ' + inttostr(j+1) + ' sama');
+        exit;
       end;
     end;
   end;

@@ -18,9 +18,6 @@ inherited frmProduct: TfrmProduct
     inherited pgcBrowse: TcxPageControl
       Width = 924
       Height = 499
-      Properties.ActivePage = tsProductInfo
-      ExplicitLeft = 1
-      ExplicitTop = 1
       ExplicitWidth = 924
       ExplicitHeight = 499
       ClientRectBottom = 498
@@ -1260,6 +1257,7 @@ inherited frmProduct: TfrmProduct
   end
   inherited pnlHeader: TPanel
     Width = 926
+    ExplicitLeft = 1
     ExplicitWidth = 926
     inherited lblFilterData: TcxLabel
       Left = 155
