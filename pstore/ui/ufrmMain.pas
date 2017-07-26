@@ -230,7 +230,6 @@ type
     dxbrbtnSaveLayout: TdxBarButton;
     dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton;
     dxbrbtn10: TdxBarButton;
-    actStockCard: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -359,7 +358,7 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock;
+  ufrmKartuStock, ufrmPreference;
 
 
 
