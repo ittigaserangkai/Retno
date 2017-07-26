@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -178
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -29,11 +30,10 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsMerchandiseGroup
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 447
-      ClientRectLeft = 4
-      ClientRectRight = 663
+      ClientRectBottom = 451
+      ClientRectRight = 667
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = '&Supplier'
@@ -405,6 +405,20 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           TabOrder = 0
           Width = 68
         end
+        object chkIsSOBlacklist: TCheckBox
+          Left = 194
+          Top = 390
+          Width = 98
+          Height = 17
+          Caption = 'Is SO Blacklist'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Trebuchet MS'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 22
+        end
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = '&Category'
@@ -415,21 +429,21 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
-          Height = 147
-          Width = 659
+          Height = 151
+          Width = 667
           object pnlGridSupplierBtn: TcxGroupBox
             Left = 2
-            Top = 118
+            Top = 122
             Align = alBottom
             PanelStyle.Active = True
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
             Height = 27
-            Width = 655
+            Width = 663
             object lbSuppShortCut1: TLabel
               AlignWithMargins = True
-              Left = 401
+              Left = 409
               Top = 6
               Width = 249
               Height = 18
@@ -444,7 +458,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
-              ExplicitLeft = 409
               ExplicitHeight = 16
             end
             object btnDelSupp: TcxButton
@@ -521,8 +534,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object cxGridSupplier: TcxGrid
             Left = 2
             Top = 2
-            Width = 655
-            Height = 116
+            Width = 663
+            Height = 120
             Align = alClient
             TabOrder = 1
             TabStop = False
@@ -560,17 +573,16 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         end
         object pgcMerchan: TcxPageControl
           Left = 0
-          Top = 147
-          Width = 659
+          Top = 151
+          Width = 667
           Height = 273
           Align = alBottom
           TabOrder = 1
           Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           OnExit = pgcMerchanExit
-          ClientRectBottom = 269
-          ClientRectLeft = 4
-          ClientRectRight = 655
+          ClientRectBottom = 273
+          ClientRectRight = 667
           ClientRectTop = 27
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
@@ -965,8 +977,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             object pnl1: TPanel
               Left = 0
               Top = 0
-              Width = 651
-              Height = 242
+              Width = 667
+              Height = 246
               Align = alClient
               Color = clWhite
               TabOrder = 0

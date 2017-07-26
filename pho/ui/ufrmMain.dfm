@@ -52,14 +52,13 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 126
+    Top = 80
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    TabOrder = 1
-    ExplicitTop = 80
+    TabOrder = 2
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -164,6 +163,7 @@ object frmMain: TfrmMain
       end
       object actTipePembayaran1: TMenuItem
         Action = actTipePembayaran
+        Caption = 'Tipe Pembayaran'
       end
       object CompanyType1: TMenuItem
         Action = actCompanyType
@@ -450,7 +450,7 @@ object frmMain: TfrmMain
     end
     object actTipePembayaran: TAction
       Category = 'Merchandise'
-      Caption = 'Tipe Pembayaran'
+      Caption = 'Company Type'
       OnExecute = actTipePembayaranExecute
     end
     object actTipePengirimanPO: TAction
