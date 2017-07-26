@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 7/25/2017 11:37:45 AM
+// 07/26/17 11:03:03 AM
 //
 
 unit uClientClasses;
@@ -197,6 +197,8 @@ type
     FBarangSupp_GetDSLookup2Command_Cache: TDSRestCommand;
     FBarang_ByPOLookUpCommand: TDSRestCommand;
     FBarang_ByPOLookUpCommand_Cache: TDSRestCommand;
+    FBarang_GetDSLookupCommand: TDSRestCommand;
+    FBarang_GetDSLookupCommand_Cache: TDSRestCommand;
     FGET_MEMBER_PAS_NOCommand: TDSRestCommand;
     FMerchandise_GetDSOverviewCommand: TDSRestCommand;
     FMerchandise_GetDSOverviewCommand_Cache: TDSRestCommand;
@@ -376,6 +378,8 @@ type
     function BarangSupp_GetDSLookup2_Cache(aMerchandise: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function Barang_ByPOLookUp(APONO: string; const ARequestFilter: string = ''): TDataSet;
     function Barang_ByPOLookUp_Cache(APONO: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Barang_GetDSLookup(aMerchanGroupID: string; const ARequestFilter: string = ''): TDataSet;
+    function Barang_GetDSLookup_Cache(aMerchanGroupID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string = ''): string;
     function Merchandise_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Merchandise_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
@@ -445,6 +449,8 @@ type
     FDO_GetDSNPCommand_Cache: TDSRestCommand;
     FDO_GetDS_CheckListCommand: TDSRestCommand;
     FDO_GetDS_CheckListCommand_Cache: TDSRestCommand;
+    FKartuStock_GetDSCommand: TDSRestCommand;
+    FKartuStock_GetDSCommand_Cache: TDSRestCommand;
     FSO_ByDateCommand: TDSRestCommand;
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
@@ -461,6 +467,8 @@ type
     function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DO_GetDS_CheckList_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
+    function KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -1480,6 +1488,18 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_Barang_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMerchanGroupID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Barang_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMerchanGroupID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_GET_MEMBER_PAS_NO: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ATPMEMBER'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -1877,6 +1897,24 @@ const
   TDSReport_DO_GetDS_CheckList_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_KartuStock_GetDS: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'aBarang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSReport_KartuStock_GetDS_Cache: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'aBarang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4774,6 +4812,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarang_ByPOLookUpCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSProviderClient.Barang_GetDSLookup(aMerchanGroupID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FBarang_GetDSLookupCommand = nil then
+  begin
+    FBarang_GetDSLookupCommand := FConnection.CreateCommand;
+    FBarang_GetDSLookupCommand.RequestType := 'GET';
+    FBarang_GetDSLookupCommand.Text := 'TDSProvider.Barang_GetDSLookup';
+    FBarang_GetDSLookupCommand.Prepare(TDSProvider_Barang_GetDSLookup);
+  end;
+  FBarang_GetDSLookupCommand.Parameters[0].Value.SetWideString(aMerchanGroupID);
+  FBarang_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarang_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarang_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Barang_GetDSLookup_Cache(aMerchanGroupID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarang_GetDSLookupCommand_Cache = nil then
+  begin
+    FBarang_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FBarang_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FBarang_GetDSLookupCommand_Cache.Text := 'TDSProvider.Barang_GetDSLookup';
+    FBarang_GetDSLookupCommand_Cache.Prepare(TDSProvider_Barang_GetDSLookup_Cache);
+  end;
+  FBarang_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(aMerchanGroupID);
+  FBarang_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarang_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string): string;
 begin
   if FGET_MEMBER_PAS_NOCommand = nil then
@@ -6046,6 +6115,8 @@ begin
   FBarangSupp_GetDSLookup2Command_Cache.DisposeOf;
   FBarang_ByPOLookUpCommand.DisposeOf;
   FBarang_ByPOLookUpCommand_Cache.DisposeOf;
+  FBarang_GetDSLookupCommand.DisposeOf;
+  FBarang_GetDSLookupCommand_Cache.DisposeOf;
   FGET_MEMBER_PAS_NOCommand.DisposeOf;
   FMerchandise_GetDSOverviewCommand.DisposeOf;
   FMerchandise_GetDSOverviewCommand_Cache.DisposeOf;
@@ -6188,6 +6259,43 @@ begin
   FDO_GetDS_CheckListCommand_Cache.Parameters[0].Value.SetWideString(ANONP);
   FDO_GetDS_CheckListCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedTFDJSONDataSets.Create(FDO_GetDS_CheckListCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSReportClient.KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FKartuStock_GetDSCommand = nil then
+  begin
+    FKartuStock_GetDSCommand := FConnection.CreateCommand;
+    FKartuStock_GetDSCommand.RequestType := 'GET';
+    FKartuStock_GetDSCommand.Text := 'TDSReport.KartuStock_GetDS';
+    FKartuStock_GetDSCommand.Prepare(TDSReport_KartuStock_GetDS);
+  end;
+  FKartuStock_GetDSCommand.Parameters[0].Value.SetWideString(aBarang_ID);
+  FKartuStock_GetDSCommand.Parameters[1].Value.AsDateTime := aStartDate;
+  FKartuStock_GetDSCommand.Parameters[2].Value.AsDateTime := aEndDate;
+  FKartuStock_GetDSCommand.Parameters[3].Value.SetWideString(aGudang_ID);
+  FKartuStock_GetDSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FKartuStock_GetDSCommand.Parameters[4].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FKartuStock_GetDSCommand.FreeOnExecute(Result);
+end;
+
+function TDSReportClient.KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FKartuStock_GetDSCommand_Cache = nil then
+  begin
+    FKartuStock_GetDSCommand_Cache := FConnection.CreateCommand;
+    FKartuStock_GetDSCommand_Cache.RequestType := 'GET';
+    FKartuStock_GetDSCommand_Cache.Text := 'TDSReport.KartuStock_GetDS';
+    FKartuStock_GetDSCommand_Cache.Prepare(TDSReport_KartuStock_GetDS_Cache);
+  end;
+  FKartuStock_GetDSCommand_Cache.Parameters[0].Value.SetWideString(aBarang_ID);
+  FKartuStock_GetDSCommand_Cache.Parameters[1].Value.AsDateTime := aStartDate;
+  FKartuStock_GetDSCommand_Cache.Parameters[2].Value.AsDateTime := aEndDate;
+  FKartuStock_GetDSCommand_Cache.Parameters[3].Value.SetWideString(aGudang_ID);
+  FKartuStock_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FKartuStock_GetDSCommand_Cache.Parameters[4].Value.GetString);
 end;
 
 function TDSReportClient.SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
@@ -6378,6 +6486,8 @@ begin
   FDO_GetDSNPCommand_Cache.DisposeOf;
   FDO_GetDS_CheckListCommand.DisposeOf;
   FDO_GetDS_CheckListCommand_Cache.DisposeOf;
+  FKartuStock_GetDSCommand.DisposeOf;
+  FKartuStock_GetDSCommand_Cache.DisposeOf;
   FSO_ByDateCommand.DisposeOf;
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;

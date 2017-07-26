@@ -69,6 +69,7 @@ type
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
     function Barang_ByPOLookUp(APONO : String): TDataset;
+    function Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
     function SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
@@ -119,6 +120,8 @@ type
   public
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
+    function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
+        aGudang_ID: string): TDataSet;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -682,6 +685,27 @@ begin
   Result := TDBUtils.OpenDataset(sSQL);
 end;
 
+function TDSProvider.Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.BARANG_ID,'
+      +' A.BRG_CODE, A.BRG_CATALOG,'
+      +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
+      +' E.SUBGRUP_NAME'
+      +' FROM BARANG A'
+      +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
+      +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+
+  if aMerchanGroupID <> '' then
+    S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
 var
   S: String;
@@ -1109,6 +1133,23 @@ begin
   S := 'SELECT * FROM V_CHECKLIST_DO where DO_NP = ' + QuotedStr(ANONP);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate:
+    TDatetime; aGudang_ID: string): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT B.BARANG_ID, B.BRG_CODE, B.BRG_NAME,'
+      +' A.ID, A.TGLBUKTI, A.TRANSAKSI, A.NOBUKTI,  A.QTYIN, A.QTYOUT, A.KONVERSI'
+      +' FROM FN_KARTU_STOCK(' + QuotedStr(aBarang_ID) + ','
+      + TDBUtils.QuotD(aStartDate) + ',' + TDBUtils.QuotD(aEndDate)
+      +') a INNER JOIN BARANG B ON A.BARANG_ID = B.BARANG_ID';
+
+  if aGudang_ID <> '' then
+    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime;

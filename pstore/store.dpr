@@ -198,7 +198,9 @@ uses
   ufrmDN in '..\module\inventory\ufrmDN.pas' {frmDN},
   ufrmDialogDN in '..\module\inventory\ufrmDialogDN.pas' {frmDialogDN},
   ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
-  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN};
+  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmMasterReport1};
 
 {$R *.res}
 

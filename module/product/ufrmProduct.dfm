@@ -6,7 +6,6 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 926
   KeyPreview = True
   OldCreateOrder = True
-  ExplicitTop = -157
   ExplicitWidth = 942
   ExplicitHeight = 629
   PixelsPerInch = 96
@@ -17,21 +16,26 @@ inherited frmProduct: TfrmProduct
     ExplicitWidth = 926
     ExplicitHeight = 501
     inherited pgcBrowse: TcxPageControl
-      Width = 904
-      Height = 479
-      ExplicitWidth = 904
-      ExplicitHeight = 479
-      ClientRectBottom = 478
-      ClientRectRight = 903
+      Width = 924
+      Height = 499
+      Properties.ActivePage = tsProductInfo
+      ExplicitLeft = 1
+      ExplicitTop = 1
+      ExplicitWidth = 924
+      ExplicitHeight = 499
+      ClientRectBottom = 498
+      ClientRectRight = 923
       inherited tsBrowse: TcxTabSheet
         Caption = 'Data Barang'
-        ExplicitWidth = 902
-        ExplicitHeight = 477
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 922
+        ExplicitHeight = 497
         inherited cxGrid: TcxGrid
-          Width = 902
-          Height = 477
-          ExplicitWidth = 902
-          ExplicitHeight = 477
+          Width = 922
+          Height = 497
+          ExplicitWidth = 922
+          ExplicitHeight = 497
         end
       end
       object tsProductInfo: TcxTabSheet
@@ -42,7 +46,7 @@ inherited frmProduct: TfrmProduct
           Left = 0
           Top = 0
           Width = 160
-          Height = 477
+          Height = 497
           Align = alLeft
           ActiveGroupIndex = 0
           TabOrder = 0
@@ -93,8 +97,8 @@ inherited frmProduct: TfrmProduct
         object pnl1: TPanel
           Left = 160
           Top = 0
-          Width = 742
-          Height = 477
+          Width = 762
+          Height = 497
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
@@ -1267,11 +1271,13 @@ inherited frmProduct: TfrmProduct
       Left = 216
       Align = alLeft
       ExplicitLeft = 216
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 332
       Align = alLeft
       ExplicitLeft = 332
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 844
@@ -1328,7 +1334,6 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 926
       inherited btnAdd: TcxButton
         Action = actAdd
-        ExplicitTop = 5
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
@@ -1350,6 +1355,7 @@ inherited frmProduct: TfrmProduct
       ExplicitWidth = 926
       inherited lbEscape: TLabel
         Left = 852
+        Height = 17
         ExplicitLeft = 852
       end
     end
