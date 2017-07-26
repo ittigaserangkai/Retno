@@ -199,7 +199,8 @@ uses
   ufrmDialogDN in '..\module\inventory\ufrmDialogDN.pas' {frmDialogDN},
   ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
-  ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp};
+  ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
+  ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference};
 
 {$R *.res}
 
@@ -210,5 +211,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmPreference, frmPreference);
   Application.Run;
 end.

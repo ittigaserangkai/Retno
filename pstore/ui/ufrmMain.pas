@@ -207,7 +207,7 @@ type
     dxbrbtnCNrecv: TdxBarButton;
     dxbrbtnDNRecv: TdxBarButton;
     dxrbntbProcureToPay: TdxRibbonTab;
-    dxrbn1: TdxRibbon;
+    dxrbnHO: TdxRibbon;
     dxrbntbOrderToCash: TdxRibbonTab;
     dxbrProcureToPayReport: TdxBar;
     dxbrbtn8: TdxBarButton;
@@ -217,6 +217,19 @@ type
     dxbrbtnSettingApp: TdxBarButton;
     dxrbntbSetting: TdxRibbonTab;
     actSettingApp: TAction;
+    dxbrFavourite: TdxBar;
+    dxbrlrgbtnPreference: TdxBarLargeButton;
+    actPreference: TAction;
+    dxbrbtn1: TdxBarButton;
+    dxbrbtn2: TdxBarButton;
+    dxbrbtn5: TdxBarButton;
+    dxbrbtn6: TdxBarButton;
+    dxbrlrgbtn3: TdxBarLargeButton;
+    dxbrlrgbtn4: TdxBarLargeButton;
+    dxbrbtn7: TdxBarButton;
+    dxbrbtnSaveLayout: TdxBarButton;
+    dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton;
+    dxbrbtn10: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -281,7 +294,9 @@ type
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
+    procedure actPreferenceExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -341,7 +356,7 @@ uses
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
-  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN;
+  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN, ufrmPreference;
 
 
 
@@ -676,6 +691,11 @@ begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
 end;
 
+procedure TfrmMain.actPreferenceExecute(Sender: TObject);
+begin
+  frmPreference := TfrmPreference.Create(Self);
+end;
+
 procedure TfrmMain.actPrintPOExecute(Sender: TObject);
 begin
   frmCetakPO := TfrmCetakPO.CreateWithUser(Application,FFormProperty);
@@ -811,6 +831,11 @@ begin
 
   // set invisible to menu
   AMenu.Visible := AValue;
+end;
+
+procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  //
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

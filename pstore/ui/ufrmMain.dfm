@@ -15,6 +15,7 @@ object frmMain: TfrmMain
   OldCreateOrder = False
   Visible = True
   WindowState = wsMaximized
+  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = actOnCreateFormExecute
   OnShow = FormShow
@@ -50,13 +51,14 @@ object frmMain: TfrmMain
     Font.Name = 'Tahoma'
     Font.Style = []
   end
-  object dxrbn1: TdxRibbon
+  object dxrbnHO: TdxRibbon
     Left = 0
     Top = 0
     Width = 923
-    Height = 126
+    Height = 155
     BarManager = dxbrmngrStore
-    ColorSchemeName = 'Blue'
+    Style = rs2013
+    ColorSchemeName = 'White'
     Fonts.ApplicationButton.Charset = DEFAULT_CHARSET
     Fonts.ApplicationButton.Color = clWindowText
     Fonts.ApplicationButton.Height = -12
@@ -73,6 +75,8 @@ object frmMain: TfrmMain
     Fonts.GroupHeader.Height = -12
     Fonts.GroupHeader.Name = 'Segoe UI'
     Fonts.GroupHeader.Style = [fsBold]
+    QuickAccessToolbar.Toolbar = dxbrFavourite
+    ShowMinimizeButton = False
     Contexts = <>
     TabOrder = 5
     TabStop = False
@@ -861,6 +865,11 @@ object frmMain: TfrmMain
       Caption = 'Aplication Setting'
       OnExecute = actSettingAppExecute
     end
+    object actPreference: TAction
+      Category = 'Sistem'
+      Caption = 'Preference'
+      OnExecute = actPreferenceExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -886,6 +895,7 @@ object frmMain: TfrmMain
     Categories.Visibles = (
       True)
     ImageOptions.Images = DMClient.imgListButton
+    ImageOptions.LargeImages = DMClient.ilImage24
     PopupMenuLinks = <>
     UseSystemFont = True
     Left = 264
@@ -932,8 +942,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnDNRecv'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = True
       Visible = True
       WholeRow = False
@@ -956,7 +966,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn9'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -969,8 +979,8 @@ object frmMain: TfrmMain
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
+      FloatClientWidth = 124
+      FloatClientHeight = 44
       ItemLinks = <
         item
           Visible = True
@@ -979,7 +989,28 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnSettingApp'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrlrgbtnPreference'
         end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrFavourite: TdxBar
+      Caption = 'Favourite'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      Images = DMClient.imgListIcon
+      ItemLinks = <>
       OneOnRow = True
       Row = 0
       UseOwnFont = False
@@ -1068,6 +1099,74 @@ object frmMain: TfrmMain
       Action = actSettingApp
       Category = 0
       ImageIndex = 44
+    end
+    object dxbrlrgbtnPreference: TdxBarLargeButton
+      Action = actPreference
+      Category = 0
+      LargeImageIndex = 59
+    end
+    object dxbrbtn1: TdxBarButton
+      Action = actCreateSO
+      Category = 0
+      ImageIndex = 41
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn2: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn5: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn6: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrlrgbtn3: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrlrgbtn4: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtn7: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtnSaveLayout: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+      ImageIndex = 32
+      LargeImageIndex = 4
+    end
+    object dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton
+      Category = 0
+      Visible = ivAlways
+    end
+    object dxbrbtn10: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
     end
   end
 end

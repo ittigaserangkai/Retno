@@ -52,13 +52,14 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 80
+    Top = 122
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    TabOrder = 2
+    TabOrder = 1
+    ExplicitTop = 126
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -106,14 +107,14 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 800
-    Height = 126
+    Height = 122
     BarManager = dxbrmngrHO
-    ColorSchemeName = 'Blue'
+    Style = rs2013
+    ColorSchemeName = 'White'
     Contexts = <>
     TabOrder = 6
     TabStop = False
-    object dxrbnHOTab1: TdxRibbonTab
-      Active = True
+    object dxrbntbReference: TdxRibbonTab
       Caption = 'Reference'
       Groups = <
         item
@@ -121,12 +122,24 @@ object frmMain: TfrmMain
           ToolbarName = 'dxbrReferenceFinance'
         end
         item
+          Caption = 'Inventory'
           ToolbarName = 'dxbrReferenceInventory'
         end
         item
+          Caption = 'Other'
           ToolbarName = 'dxbrReferenceOther'
         end>
       Index = 0
+    end
+    object dxrbntbMembership: TdxRibbonTab
+      Active = True
+      Caption = 'Membership'
+      Groups = <
+        item
+          Caption = 'Membership'
+          ToolbarName = 'dxbrmngrHOBar1'
+        end>
+      Index = 1
     end
   end
   object mmMainMenu: TMainMenu
@@ -1208,6 +1221,7 @@ object frmMain: TfrmMain
     object actMembership: TAction
       Category = 'Membership'
       Caption = 'Membership'
+      ImageIndex = 58
       OnExecute = actMembershipExecute
     end
     object actSupplier: TAction
@@ -1313,14 +1327,15 @@ object frmMain: TfrmMain
     Categories.Visibles = (
       True)
     ImageOptions.Images = DMClient.imgListButton
+    ImageOptions.LargeImages = DMClient.imgListButton
     PopupMenuLinks = <>
     UseSystemFont = True
-    Left = 392
-    Top = 272
+    Left = 272
+    Top = 192
     DockControlHeights = (
       0
       0
-      0
+      26
       0)
     object dxbrReferenceFinance: TdxBar
       Caption = 'Reference Finance'
@@ -1348,8 +1363,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnTipePembayaran'
         end>
-      OneOnRow = True
-      Row = 2
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1357,7 +1372,7 @@ object frmMain: TfrmMain
     object dxbrReferenceInventory: TdxBar
       Caption = 'Reference Inventory'
       CaptionButtons = <>
-      DockedLeft = 217
+      DockedLeft = 206
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1372,8 +1387,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnUOM'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1381,7 +1396,7 @@ object frmMain: TfrmMain
     object dxbrReferenceOther: TdxBar
       Caption = 'Reference Other'
       CaptionButtons = <>
-      DockedLeft = 339
+      DockedLeft = 328
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 10
@@ -1408,6 +1423,44 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnUnitStore'
         end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBar1: TdxBar
+      Caption = 'Membership'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrlrgbtn2'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBar2: TdxBar
+      Caption = 'Finance'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
       OneOnRow = True
       Row = 0
       UseOwnFont = False
@@ -1476,6 +1529,14 @@ object frmMain: TfrmMain
     end
     object dxbrbtnUnitStore: TdxBarButton
       Action = actUnitStore
+      Category = 0
+    end
+    object dxbrbtnMembership: TdxBarButton
+      Action = actMembership
+      Category = 0
+    end
+    object dxbrlrgbtn2: TdxBarLargeButton
+      Action = actMembership
       Category = 0
     end
   end

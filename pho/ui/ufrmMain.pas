@@ -311,7 +311,7 @@ type
     Kompetitor1: TMenuItem;
     actSettingAplikasi: TAction;
     dxbrmngrHO: TdxBarManager;
-    dxrbnHOTab1: TdxRibbonTab;
+    dxrbntbReference: TdxRibbonTab;
     dxrbnHO: TdxRibbon;
     dxbrReferenceFinance: TdxBar;
     dxbrbtnBank: TdxBarButton;
@@ -329,6 +329,11 @@ type
     dxbrbtnCompany: TdxBarButton;
     dxbrbtnSalesOutlet: TdxBarButton;
     dxbrbtnUnitStore: TdxBarButton;
+    dxrbntbMembership: TdxRibbonTab;
+    dxbrmngrHOBar1: TdxBar;
+    dxbrbtnMembership: TdxBarButton;
+    dxbrlrgbtn2: TdxBarLargeButton;
+    dxbrmngrHOBar2: TdxBar;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
