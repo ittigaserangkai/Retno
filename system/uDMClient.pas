@@ -18,6 +18,7 @@ type
     cxStyleMoneyGreen: TcxStyle;
     cxStyleInfoBK: TcxStyle;
     cxStyleSkyBlue: TcxStyle;
+    ilImage24: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     FCrudClient: TCrudClient;
