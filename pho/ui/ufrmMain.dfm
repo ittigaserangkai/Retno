@@ -20,27 +20,6 @@ object frmMain: TfrmMain
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
-  object pnlHeader: TPanel
-    Left = 0
-    Top = 0
-    Width = 800
-    Height = 80
-    Align = alTop
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    Color = 10150911
-    TabOrder = 0
-    object imgHeader: TImage
-      Left = 2
-      Top = 2
-      Width = 796
-      Height = 76
-      Align = alClient
-      Transparent = True
-      ExplicitLeft = 42
-      ExplicitTop = 6
-    end
-  end
   object sbMain: TdxStatusBar
     Left = 0
     Top = 487
@@ -121,6 +100,33 @@ object frmMain: TfrmMain
         '01 - [MG] MULTIGROSIR'
         '10 - [HO] HEAD OFFICE'
         '20 - ASGROSS')
+    end
+  end
+  object dxrbnHO: TdxRibbon
+    Left = 0
+    Top = 0
+    Width = 800
+    Height = 126
+    BarManager = dxbrmngrHO
+    ColorSchemeName = 'Blue'
+    Contexts = <>
+    TabOrder = 6
+    TabStop = False
+    object dxrbnHOTab1: TdxRibbonTab
+      Active = True
+      Caption = 'Reference'
+      Groups = <
+        item
+          Caption = 'Finance'
+          ToolbarName = 'dxbrReferenceFinance'
+        end
+        item
+          ToolbarName = 'dxbrReferenceInventory'
+        end
+        item
+          ToolbarName = 'dxbrReferenceOther'
+        end>
+      Index = 0
     end
   end
   object mmMainMenu: TMainMenu
@@ -311,6 +317,7 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
+    Images = DMClient.imgListButton
     Left = 85
     Top = 186
     object actOnCreateForm: TAction
@@ -369,11 +376,13 @@ object frmMain: TfrmMain
     object actSupplierType: TAction
       Category = 'References'
       Caption = 'Supplier Type'
+      ImageIndex = 56
       OnExecute = actSupplierTypeExecute
     end
     object actUOM: TAction
       Category = 'References'
       Caption = 'Unit Of Measure'
+      ImageIndex = 52
       OnExecute = actUOMExecute
     end
     object actGroupSubGroupCat: TAction
@@ -383,16 +392,19 @@ object frmMain: TfrmMain
     object actSalesOutlet: TAction
       Category = 'References'
       Caption = 'Sales Outlet'
+      ImageIndex = 57
       OnExecute = actSalesOutletExecute
     end
     object actUnitStore: TAction
       Category = 'References'
       Caption = 'Unit Store'
+      ImageIndex = 55
       OnExecute = actUnitStoreExecute
     end
     object actCompanyType: TAction
       Category = 'References'
-      Caption = 'Tipe Perusahaan'
+      Caption = 'Company Type'
+      ImageIndex = 54
       OnExecute = actCompanyTypeExecute
     end
     object actBank: TAction
@@ -438,7 +450,7 @@ object frmMain: TfrmMain
     end
     object actTipePembayaran: TAction
       Category = 'Merchandise'
-      Caption = 'actTipePembayaran'
+      Caption = 'Company Type'
       OnExecute = actTipePembayaranExecute
     end
     object actTipePengirimanPO: TAction
@@ -1185,6 +1197,7 @@ object frmMain: TfrmMain
     object actCompany: TAction
       Category = 'References'
       Caption = 'Company'
+      ImageIndex = 55
       OnExecute = actCompanyExecute
     end
     object actQuotationMailer: TAction
@@ -1286,5 +1299,184 @@ object frmMain: TfrmMain
     NativeStyle = False
     Left = 24
     Top = 224
+  end
+  object dxbrmngrHO: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.Images = DMClient.imgListButton
+    PopupMenuLinks = <>
+    UseSystemFont = True
+    Left = 392
+    Top = 272
+    DockControlHeights = (
+      0
+      0
+      0
+      0)
+    object dxbrReferenceFinance: TdxBar
+      Caption = 'Reference Finance'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBank'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTax'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCostCenter'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTipePembayaran'
+        end>
+      OneOnRow = True
+      Row = 2
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrReferenceInventory: TdxBar
+      Caption = 'Reference Inventory'
+      CaptionButtons = <>
+      DockedLeft = 217
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtn1'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnUOM'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrReferenceOther: TdxBar
+      Caption = 'Reference Other'
+      CaptionButtons = <>
+      DockedLeft = 339
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 10
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTipePerusahaan'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSupplierType'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCompany'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSalesOutlet'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnUnitStore'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrbtnBank: TdxBarButton
+      Action = actBank
+      Category = 0
+      ImageIndex = 49
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnTax: TdxBarButton
+      Action = actPajak
+      Category = 0
+      ImageIndex = 47
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCostCenter: TdxBarButton
+      Action = actCostCenter
+      Category = 0
+      ImageIndex = 46
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn1: TdxBarButton
+      Action = actProductType
+      Category = 0
+      ImageIndex = 51
+    end
+    object dxbrbtnTipePembayaran: TdxBarButton
+      Action = actTipePembayaran
+      Category = 0
+      ImageIndex = 48
+    end
+    object dxbrbtnUOM: TdxBarButton
+      Action = actUOM
+      Category = 0
+    end
+    object dxbrbtnTipePerusahaan: TdxBarButton
+      Action = actCompanyType
+      Category = 0
+    end
+    object dxbrbtnSupplierType: TdxBarButton
+      Action = actSupplierType
+      Category = 0
+    end
+    object dxbrsbtmCompany: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxbrlrgbtn1: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtnCompany: TdxBarButton
+      Action = actCompany
+      Category = 0
+    end
+    object dxbrbtnSalesOutlet: TdxBarButton
+      Action = actSalesOutlet
+      Category = 0
+    end
+    object dxbrbtnUnitStore: TdxBarButton
+      Action = actUnitStore
+      Category = 0
+    end
   end
 end

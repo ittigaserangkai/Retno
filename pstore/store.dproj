@@ -737,12 +737,8 @@
             <Form>frmCN</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\system\ufrmMasterReport.pas">
-            <Form>frmMasterReport</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\module\inventory\ufrmKartuStock.pas">
-            <Form>frmMasterReport1</Form>
+        <DCCReference Include="..\system\ufrmSettingApp.pas">
+            <Form>frmSettingApp</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

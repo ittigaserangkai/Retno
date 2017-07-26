@@ -10,14 +10,13 @@ uses
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
-  ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp;
+  ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
+  dxRibbonCustomizationForm, dxRibbon, dxBar;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
-    pnlHeader: TPanel;
-    imgHeader: TImage;
     actlstMain: TActionList;
     actOnCreateForm: TAction;
     actOnLogout: TAction;
@@ -311,6 +310,25 @@ type
     actKompetitor: TAction;
     Kompetitor1: TMenuItem;
     actSettingAplikasi: TAction;
+    dxbrmngrHO: TdxBarManager;
+    dxrbnHOTab1: TdxRibbonTab;
+    dxrbnHO: TdxRibbon;
+    dxbrReferenceFinance: TdxBar;
+    dxbrbtnBank: TdxBarButton;
+    dxbrbtnTax: TdxBarButton;
+    dxbrbtnCostCenter: TdxBarButton;
+    dxbrReferenceInventory: TdxBar;
+    dxbrbtn1: TdxBarButton;
+    dxbrbtnTipePembayaran: TdxBarButton;
+    dxbrbtnUOM: TdxBarButton;
+    dxbrReferenceOther: TdxBar;
+    dxbrbtnTipePerusahaan: TdxBarButton;
+    dxbrbtnSupplierType: TdxBarButton;
+    dxbrsbtmCompany: TdxBarSubItem;
+    dxbrlrgbtn1: TdxBarLargeButton;
+    dxbrbtnCompany: TdxBarButton;
+    dxbrbtnSalesOutlet: TdxBarButton;
+    dxbrbtnUnitStore: TdxBarButton;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);

@@ -158,6 +158,7 @@ type
     chkPKP: TCheckBox;
     cxLookupPPN: TcxExtLookupComboBox;
     cxLookUpBankMer: TcxExtLookupComboBox;
+    chkIsSOBlacklist: TCheckBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -443,6 +444,7 @@ begin
   edtAccountName.Text           := ModSupplier.SUP_BANK_ACCOUNT_NAME;
   cxLookUpSuppGroup.EditValue   := ModSupplier.SUPLIER_GROUP.ID;
   chkSupActive.Checked          := ModSupplier.SUP_IS_ACTIVE=1;
+  chkIsSOBlacklist.Checked      := ModSupplier.IS_SO_BLACKLIST=1;
 
   //load detail
 
@@ -576,6 +578,10 @@ begin
   else
     ModSupplier.SUP_IS_ACTIVE := 0;
 
+  if chkIsSOBlacklist.Checked then
+    ModSupplier.IS_SO_BLACKLIST := 1
+  else
+    ModSupplier.IS_SO_BLACKLIST := 0;
   //simpan detail, tab supplier
   ModSupplier.SuplierMerchanGroups.Clear;  //kosongkan object list dulu
 

@@ -20,28 +20,6 @@ object frmMain: TfrmMain
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
-  object pnlHeader: TPanel
-    Left = 0
-    Top = 0
-    Width = 923
-    Height = 80
-    Align = alTop
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    Color = 10150911
-    TabOrder = 0
-    object imgHeader: TImage
-      Left = 2
-      Top = 2
-      Width = 919
-      Height = 76
-      Align = alClient
-      Transparent = True
-      ExplicitLeft = 4
-      ExplicitTop = 4
-      ExplicitWidth = 796
-    end
-  end
   object sbMain: TdxStatusBar
     Left = 0
     Top = 468
@@ -71,6 +49,60 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+  end
+  object dxrbn1: TdxRibbon
+    Left = 0
+    Top = 0
+    Width = 923
+    Height = 126
+    BarManager = dxbrmngrStore
+    ColorSchemeName = 'Blue'
+    Fonts.ApplicationButton.Charset = DEFAULT_CHARSET
+    Fonts.ApplicationButton.Color = clWindowText
+    Fonts.ApplicationButton.Height = -12
+    Fonts.ApplicationButton.Name = 'Segoe UI'
+    Fonts.ApplicationButton.Style = []
+    Fonts.AssignedFonts = [afGroup, afGroupHeader, afApplicationButton]
+    Fonts.Group.Charset = DEFAULT_CHARSET
+    Fonts.Group.Color = 9126421
+    Fonts.Group.Height = -12
+    Fonts.Group.Name = 'Segoe UI'
+    Fonts.Group.Style = []
+    Fonts.GroupHeader.Charset = DEFAULT_CHARSET
+    Fonts.GroupHeader.Color = 11168318
+    Fonts.GroupHeader.Height = -12
+    Fonts.GroupHeader.Name = 'Segoe UI'
+    Fonts.GroupHeader.Style = [fsBold]
+    Contexts = <>
+    TabOrder = 5
+    TabStop = False
+    object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
+      Caption = 'Procure To Pay'
+      Groups = <
+        item
+          Caption = 'Transaction'
+          ToolbarName = 'dxbrPurchasing'
+        end
+        item
+          Caption = 'Report'
+          ToolbarName = 'dxbrProcureToPayReport'
+        end>
+      Index = 0
+    end
+    object dxrbntbOrderToCash: TdxRibbonTab
+      Caption = 'Order To Cash'
+      Groups = <>
+      Index = 1
+    end
+    object dxrbntbSetting: TdxRibbonTab
+      Caption = 'Setting'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSetting'
+        end>
+      Index = 2
+    end
   end
   object mmMainMenu: TMainMenu
     Left = 168
@@ -107,7 +139,7 @@ object frmMain: TfrmMain
       end
     end
     object SuggestionOrder1: TMenuItem
-      Caption = 'Suggestion Order'
+      Caption = 'Procure To Pay'
       object CreateSuggestionOrder1: TMenuItem
         Action = actCreateSO
       end
@@ -262,6 +294,7 @@ object frmMain: TfrmMain
     object actCNGoodReceiving: TAction
       Category = 'Inventory'
       Caption = '&CN Receiving'
+      OnExecute = actCNGoodReceivingExecute
     end
     object actReturBarang: TAction
       Category = 'Inventory'
@@ -820,8 +853,13 @@ object frmMain: TfrmMain
     end
     object actSetKoneksi: TAction
       Category = 'Sistem'
-      Caption = 'Setting Koneksi'
+      Caption = 'Server Connection'
       OnExecute = actSetKoneksiExecute
+    end
+    object actSettingApp: TAction
+      Category = 'Sistem'
+      Caption = 'Aplication Setting'
+      OnExecute = actSettingAppExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -834,5 +872,202 @@ object frmMain: TfrmMain
     NativeStyle = False
     Left = 24
     Top = 224
+  end
+  object dxbrmngrStore: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.Images = DMClient.imgListButton
+    PopupMenuLinks = <>
+    UseSystemFont = True
+    Left = 264
+    Top = 160
+    DockControlHeights = (
+      0
+      0
+      0
+      0)
+    object dxbrPurchasing: TdxBar
+      Caption = 'Procure To Pay'
+      CaptionButtons = <
+        item
+        end>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSO'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnPO'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnGR'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCNrecv'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDNRecv'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = True
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrProcureToPayReport: TdxBar
+      Caption = 'Procure To Pay Report'
+      CaptionButtons = <>
+      DockedLeft = 263
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtn8'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn9'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrSetting: TdxBar
+      Caption = 'Setting'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSettingKoneksi'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSettingApp'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrbtnSO: TdxBarButton
+      Action = actCreateSO
+      Category = 0
+      ImageIndex = 39
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnPO: TdxBarButton
+      Action = actPurchaseOrder
+      Category = 0
+      ImageIndex = 30
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrlrgbtn1: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton1: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrlrgbtn2: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtn3: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtn4: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtnGR: TdxBarButton
+      Action = actGoodsReceiving
+      Category = 0
+      ImageIndex = 40
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCNrecv: TdxBarButton
+      Action = actCNReceiving
+      Category = 0
+      ImageIndex = 42
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnDNRecv: TdxBarButton
+      Action = actDNReceiving
+      Category = 0
+      ImageIndex = 41
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn8: TdxBarButton
+      Caption = 'Stock Card'
+      Category = 0
+      Hint = 'Stock Card'
+      Visible = ivAlways
+    end
+    object dxbrbtn9: TdxBarButton
+      Caption = 'Inventory Movement'
+      Category = 0
+      Hint = 'Inventory Movement'
+      Visible = ivAlways
+    end
+    object dxbrbtnSettingKoneksi: TdxBarButton
+      Action = actSetKoneksi
+      Category = 0
+      ImageIndex = 43
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSettingApp: TdxBarButton
+      Action = actSettingApp
+      Category = 0
+      ImageIndex = 44
+    end
   end
 end
