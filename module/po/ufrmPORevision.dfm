@@ -1,29 +1,46 @@
 inherited frmPORevision: TfrmPORevision
   Caption = 'PO Revision'
   ClientHeight = 405
-  ClientWidth = 768
-  ExplicitWidth = 784
+  ClientWidth = 776
+  ExplicitWidth = 792
   ExplicitHeight = 444
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 768
+    Width = 776
     Height = 349
-    ExplicitWidth = 768
+    ExplicitWidth = 776
     ExplicitHeight = 349
     object cxGridDBPODetil: TcxGrid
       Left = 2
       Top = 137
-      Width = 764
+      Width = 772
       Height = 154
       Align = alClient
       TabOrder = 0
       LevelTabs.Style = 10
       object cxGridTablePODetil: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
+        OnEditing = cxGridTablePODetilEditing
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
           item
+            Format = ',#.##;(,#.##)'
+            Kind = skSum
+            Column = cxgrdclmnPODSubTotal
+          end
+          item
+            Format = ',#.##;(,#.##)'
+            Kind = skSum
+            Column = cxgrdclmnPODTotalDisc
+          end
+          item
+            Format = ',#.##;(,#.##)'
+            Kind = skSum
+            Column = cxgrdclmnPODTotalTax
+          end
+          item
+            Format = ',#.##;(,#.##)'
             Kind = skSum
             Column = cxgrdclmnPODTotal
           end>
@@ -39,7 +56,7 @@ inherited frmPORevision: TfrmPORevision
           Options.Editing = False
         end
         object cxgrdclmnPODSKU: TcxGridColumn
-          Caption = 'SKU'
+          Caption = 'Kode Barang'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
           Options.Editing = False
@@ -63,6 +80,7 @@ inherited frmPORevision: TfrmPORevision
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',#.##;(,#.##)'
+          Properties.OnEditValueChanged = cxgrdclmnPODJumlahPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
         end
         object cxgrdclmnPODHarga: TcxGridColumn
@@ -72,6 +90,12 @@ inherited frmPORevision: TfrmPORevision
           Properties.DisplayFormat = ',#.##;(,#.##)'
           HeaderAlignmentHorz = taCenter
           Options.Editing = False
+        end
+        object cxgrdclmnPODSubTotal: TcxGridColumn
+          Caption = 'Sub Total'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
         end
         object cxgrdclmnPODDisc1: TcxGridColumn
           Caption = 'Disc 1'
@@ -97,6 +121,34 @@ inherited frmPORevision: TfrmPORevision
           HeaderAlignmentHorz = taCenter
           Options.Editing = False
         end
+        object cxgrdclmnPODPPN: TcxGridColumn
+          Caption = 'PPN'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnPODPPNBM: TcxGridColumn
+          Caption = 'PPN BM'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnPODTotalDisc: TcxGridColumn
+          Caption = 'Total Disc.'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxgrdclmnPODTotalTax: TcxGridColumn
+          Caption = 'Total Tax'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',#.##;(,#.##)'
+          HeaderAlignmentHorz = taCenter
+        end
         object cxgrdclmnPODTotal: TcxGridColumn
           Caption = 'Total'
           PropertiesClassName = 'TcxCurrencyEditProperties'
@@ -106,6 +158,9 @@ inherited frmPORevision: TfrmPORevision
           HeaderAlignmentHorz = taCenter
           Options.Editing = False
         end
+        object cxgrdclmnPODIsBKP: TcxGridColumn
+          Visible = False
+        end
       end
       object cxgrdlvlGridPODetil: TcxGridLevel
         GridView = cxGridTablePODetil
@@ -114,10 +169,12 @@ inherited frmPORevision: TfrmPORevision
     object pnlPOFooter: TPanel
       Left = 2
       Top = 291
-      Width = 764
+      Width = 772
       Height = 56
       Align = alBottom
       TabOrder = 1
+      ExplicitLeft = 4
+      ExplicitTop = 292
       object lblSubTotal: TLabel
         Left = 20
         Top = 4
@@ -135,19 +192,12 @@ inherited frmPORevision: TfrmPORevision
       object lblPPN: TLabel
         Left = 224
         Top = 4
-        Width = 26
+        Width = 76
         Height = 16
-        Caption = 'PPN :'
-      end
-      object lblPPNBM: TLabel
-        Left = 326
-        Top = 4
-        Width = 40
-        Height = 16
-        Caption = 'PPNBM :'
+        Caption = 'PPN  && PPN BM:'
       end
       object lblTotal: TLabel
-        Left = 428
+        Left = 332
         Top = 4
         Width = 31
         Height = 16
@@ -157,43 +207,72 @@ inherited frmPORevision: TfrmPORevision
         Left = 20
         Top = 22
         EditValue = 12000000000.000000000000000000
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.ReadOnly = True
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -11
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 0
         Width = 87
       end
       object edDisc1: TcxCurrencyEdit
         Left = 122
         Top = 22
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.ReadOnly = True
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -11
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 1
         Width = 87
       end
       object edPPN: TcxCurrencyEdit
         Left = 224
         Top = 22
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.ReadOnly = True
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -11
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 2
         Width = 87
       end
-      object edPPNBM: TcxCurrencyEdit
-        Left = 326
-        Top = 22
-        Properties.DisplayFormat = ',#.##;(,#.##)'
-        TabOrder = 3
-        Width = 87
-      end
       object edTotal: TcxCurrencyEdit
-        Left = 428
+        Left = 332
         Top = 22
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 4
+        Properties.ReadOnly = True
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -11
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
+        TabOrder = 3
         Width = 121
       end
     end
     object cxPCHeader: TcxPageControl
       Left = 2
       Top = 2
-      Width = 764
+      Width = 772
       Height = 135
       Align = alTop
       TabOrder = 2
@@ -203,7 +282,7 @@ inherited frmPORevision: TfrmPORevision
       Properties.TabSlants.Kind = skCutCorner
       TabSlants.Kind = skCutCorner
       ClientRectBottom = 135
-      ClientRectRight = 764
+      ClientRectRight = 772
       ClientRectTop = 22
       object cxTSPOHeader: TcxTabSheet
         Caption = 'Revisi Purchase Order'
@@ -375,50 +454,51 @@ inherited frmPORevision: TfrmPORevision
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 349
-    Width = 768
+    Width = 776
     ExplicitTop = 349
-    ExplicitWidth = 768
+    ExplicitWidth = 776
     inherited pnlFooter: TPanel
-      Width = 768
-      ExplicitWidth = 768
+      Width = 776
+      ExplicitWidth = 776
       inherited btnClose: TcxButton
-        Left = 691
+        Left = 699
         Action = actCancel
-        ExplicitLeft = 691
+        ExplicitLeft = 699
       end
       inherited btnSave: TcxButton
-        Left = 598
+        Left = 606
         Action = actSave
-        ExplicitLeft = 598
+        ExplicitLeft = 606
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 521
-        ExplicitLeft = 521
+        Left = 529
+        Action = actPrint
+        ExplicitLeft = 529
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 768
-      ExplicitWidth = 768
+      Width = 776
+      ExplicitWidth = 776
       inherited lbCTRLEnter: TLabel
-        Left = 593
+        Left = 601
         Height = 15
-        ExplicitLeft = 593
+        ExplicitLeft = 601
       end
       inherited lbEscape: TLabel
-        Left = 684
+        Left = 692
         Height = 15
-        ExplicitLeft = 684
+        ExplicitLeft = 692
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 517
+        Left = 525
         Height = 15
-        ExplicitLeft = 517
+        ExplicitLeft = 525
       end
     end
   end
