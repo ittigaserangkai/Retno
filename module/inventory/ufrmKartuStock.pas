@@ -165,7 +165,7 @@ begin
   if Assigned(FCDSBarang) then FreeAndNil(FCDSBarang);
   With DMClient.DSProviderClient do
   begin
-    FCDSBarang := TDBUtils.DSToCDS(Barang_GetDSOverview(cxLookupGroup.EditValue),Self);
+    FCDSBarang := TDBUtils.DSToCDS(Barang_GetDSLookup(cxLookupGroup.EditValue),Self);
     cxLookupBarang.LoadFromCDS(FCDSBarang,'Barang_ID','BRG_NAME',['Barang_ID'],Self);
   end;
 

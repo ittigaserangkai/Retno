@@ -200,7 +200,7 @@ uses
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
   ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
-  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas',
+  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   uClientClasses in '..\classes\uClientClasses.pas';
 
