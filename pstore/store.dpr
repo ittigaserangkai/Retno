@@ -200,8 +200,11 @@ uses
   ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
-  ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference};
+  ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock};
+
+ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock};
 
 {$R *.res}
@@ -213,6 +216,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmPreference, frmPreference);
   Application.Run;
 end.

@@ -199,8 +199,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 16
-    Top = 176
+    Left = 40
+    Top = 168
     object actOnCreateForm: TAction
       Caption = 'actOnCreateForm'
       OnExecute = actOnCreateFormExecute
@@ -870,6 +870,11 @@ object frmMain: TfrmMain
       Caption = 'Preference'
       OnExecute = actPreferenceExecute
     end
+    object actStockCard: TAction
+      Category = 'Inventory'
+      Caption = 'Stock Card'
+      OnExecute = actStockCardExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1078,10 +1083,9 @@ object frmMain: TfrmMain
       PaintStyle = psCaptionGlyph
     end
     object dxbrbtn8: TdxBarButton
-      Caption = 'Stock Card'
+      Action = actStockCard
       Category = 0
-      Hint = 'Stock Card'
-      Visible = ivAlways
+      ImageIndex = 45
     end
     object dxbrbtn9: TdxBarButton
       Caption = 'Inventory Movement'

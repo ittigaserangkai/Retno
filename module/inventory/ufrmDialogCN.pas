@@ -230,7 +230,7 @@ begin
       lQTY := DCitem.Values[DCItem.FocusedRecordIndex,cxGridColCNDetailColumnQty.Index];
 
     //disc per qty
-    lDisc   := lPoDetail.POD_TOTAL_DISC / lPoDetail.POD_QTY_ORDER;
+    lDisc   := lPoDetail.POD_TOTAL_DISC; // / lPoDetail.POD_QTY_ORDER;
     lPrice  := lPODetail.POD_PRICE;
     lTotal  := lQTY * (lPrice - lDisc);
     lPPN    := lPODetail.POD_PPN_PERSEN/100 * lTotal;

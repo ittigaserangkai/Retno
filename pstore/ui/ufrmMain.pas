@@ -359,7 +359,7 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock;
+  ufrmKartuStock, ufrmPreference;
 
 
 
