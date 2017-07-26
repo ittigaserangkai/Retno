@@ -12,7 +12,8 @@ uses
   cxGridDBTableView, cxGrid, Vcl.StdCtrls, cxContainer, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, uInterface, uModPO, uDMClient,
-  dxBarBuiltInMenu, cxPC, uDXUtils, Datasnap.DBClient, uDBUtils, uModelHelper;
+  dxBarBuiltInMenu, cxPC, uDXUtils, Datasnap.DBClient, uDBUtils, uModelHelper,
+  cxCalc;
 
 type
   TfrmPORevision = class(TfrmMasterDialog,ICRUDAble)
@@ -24,9 +25,7 @@ type
     lblDisc1: TLabel;
     edDisc1: TcxCurrencyEdit;
     lblPPN: TLabel;
-    lblPPNBM: TLabel;
     edPPN: TcxCurrencyEdit;
-    edPPNBM: TcxCurrencyEdit;
     lblTotal: TLabel;
     edTotal: TcxCurrencyEdit;
     cxPCHeader: TcxPageControl;
@@ -59,7 +58,16 @@ type
     cxgrdclmnPODTotal: TcxGridColumn;
     cxgrdclmnPODID: TcxGridColumn;
     cxgrdclmnPODUOMID: TcxGridColumn;
+    cxgrdclmnPODPPN: TcxGridColumn;
+    cxgrdclmnPODPPNBM: TcxGridColumn;
+    cxgrdclmnPODTotalDisc: TcxGridColumn;
+    cxgrdclmnPODTotalTax: TcxGridColumn;
+    cxgrdclmnPODIsBKP: TcxGridColumn;
+    cxgrdclmnPODSubTotal: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
+    procedure cxgrdclmnPODJumlahPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridTablePODetilEditing(Sender: TcxCustomGridTableView; AItem:
+        TcxCustomGridTableItem; var AAllow: Boolean);
   private
     FCDS: TClientDataSet;
     FCDSSO: TClientDataSet;
@@ -68,6 +76,7 @@ type
     procedure InisialisasiCBBSO;
     procedure InisialisasiCBBSupMG;
     procedure InisialisasiCBBSupplier;
+    procedure UpdateEditData;
     { Private declarations }
   public
     procedure LoadData(AID : String);
@@ -79,7 +88,26 @@ var
 
 implementation
 
+uses
+  uModBarang;
+
 {$R *.dfm}
+
+procedure TfrmPORevision.cxgrdclmnPODJumlahPropertiesEditValueChanged(
+  Sender: TObject);
+var
+  I: Integer;
+begin
+  inherited;
+
+end;
+
+procedure TfrmPORevision.cxGridTablePODetilEditing(Sender:
+    TcxCustomGridTableView; AItem: TcxCustomGridTableItem; var AAllow: Boolean);
+begin
+  inherited;
+  if AItem = cxgrdclmnPODJumlah then AAllow := true else AAllow := False;
+end;
 
 procedure TfrmPORevision.FormCreate(Sender: TObject);
 begin
@@ -119,6 +147,8 @@ end;
 procedure TfrmPORevision.LoadData(AID : String);
 var
   I: Integer;
+  lBS: TModBarangSupplier;
+  SubTotal, Disc1, Disc2, HargaStlDisc, TotalDisc, TotalTax, Total : Double;
 begin
   ClearByTag([0,1]);
   cxGridTablePODetil.ClearRows;
@@ -144,19 +174,47 @@ begin
         Values[i, cxgrdclmnPODUOMID.Index] := FPOLama.POItems[i].POD_UOM.ID;
         Values[i, cxgrdclmnPODUOM.Index] := FPOLama.POItems[i].POD_UOM.SAT_NAME;
         Values[i, cxgrdclmnPODJumlah.Index] := FPOLama.POItems[i].POD_QTY_ORDER;
-        Values[i, cxgrdclmnPODHarga.Index] := FPOLama.POItems[i].POD_PRICE;
-        Values[i, cxgrdclmnPODDisc1.Index] := FPOLama.POItems[i].POD_DISC1;
-        Values[i, cxgrdclmnPODDisc2.Index] := FPOLama.POItems[i].POD_DISC2;
-        Values[i, cxgrdclmnPODDisc3.Index] := FPOLama.POItems[i].POD_DISC3;
-        Values[i, cxgrdclmnPODTotal.Index] := FPOLama.POItems[i].POD_TOTAL;
+
+        lBS := DMClient.CrudClient.Retrieve(TModBarangSupplier.ClassName,
+          FPOLama.POItems[i].POD_BARANG_SUPPLIER.ID
+        ) as TModBarangSupplier;
+        Try
+          SubTotal := FPOLama.POItems[i].POD_QTY_ORDER * lBS.BRGSUP_BUY_PRICE;
+          Values[i, cxgrdclmnPODHarga.Index] := lBS.BRGSUP_BUY_PRICE;
+          Values[i, cxgrdclmnPODSubTotal.Index] := SubTotal;
+          Values[i, cxgrdclmnPODDisc1.Index] := lBS.BRGSUP_DISC1;
+          Values[i, cxgrdclmnPODDisc2.Index] := lBS.BRGSUP_DISC2;
+          Values[i, cxgrdclmnPODDisc3.Index] := lBS.BRGSUP_DISC3;
+          Disc1 := FPOLama.POItems[i].POD_QTY_ORDER * (lBS.BRGSUP_DISC1 / 100 * lBS.BRGSUP_BUY_PRICE);
+          Disc2 := (SubTotal - Disc1) * lBS.BRGSUP_DISC2 / 100 * lBS.BRGSUP_BUY_PRICE;
+          TotalDisc := Disc1 + Disc2 + (lBS.BRGSUP_DISC3 * FPOLama.POItems[i].POD_QTY_ORDER);
+          HargaStlDisc := (SubTotal - TotalDisc) / FPOLama.POItems[i].POD_QTY_ORDER;
+          Values[i, cxgrdclmnPODPPN.Index] := lBS.BRGSUP_IS_BKP * 10 / 100 * HargaStlDisc;
+          Values[i, cxgrdclmnPODPPNBM.Index] := 0;
+          TotalTax := FPOLama.POItems[i].POD_QTY_ORDER * lBS.BRGSUP_IS_BKP * 10 / 100 * HargaStlDisc;
+          Values[i, cxgrdclmnPODTotalDisc.Index] := TotalDisc;
+          Values[i, cxgrdclmnPODTotalTax.Index] := TotalTax;
+          Total := SubTotal - TotalDisc + TotalTax;
+          Values[i, cxgrdclmnPODTotal.Index] := Total;
+          Values[i, cxgrdclmnPODIsBKP.Index] := lBS.BRGSUP_IS_BKP;
+        finally
+          lBS.Free;
+        End;
         Post;
       End;
-    edSubTotal.Value := FPOLama.PO_SUBTOTAL;
-    edDisc1.Value := FPOLama.PO_DISC;
-    edPPN.Value := FPOLama.PO_PPN;
-    edPPNBM.Value := FPOLAMA.PO_PPNBM;
-    edTotal.Value := FPOLAMA.PO_TOTAL;
+    edSubTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal);
+    edDisc1.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc);
+    edPPN.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax);
+    edTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal);
   end;
+end;
+
+procedure TfrmPORevision.UpdateEditData;
+begin
+  edSubTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal);
+  edDisc1.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc);
+  edPPN.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax);
+  edTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal);
 end;
 
 end.

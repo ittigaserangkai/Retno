@@ -138,7 +138,6 @@ uses
   ufrmListBigSupplier in '..\module\inventory\ufrmListBigSupplier.pas' {frmListBigSupplier},
   ufrmCompany in '..\module\references\ufrmCompany.pas' {frmCompany},
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
@@ -207,8 +206,8 @@ uses
   uModCreditCard in '..\model\uModCreditCard.pas',
   uModKompetitor in '..\model\uModKompetitor.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
-  ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp};
-
+  ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

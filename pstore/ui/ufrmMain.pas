@@ -230,7 +230,6 @@ type
     dxbrbtnSaveLayout: TdxBarButton;
     dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton;
     dxbrbtn10: TdxBarButton;
-    actStockCard: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);

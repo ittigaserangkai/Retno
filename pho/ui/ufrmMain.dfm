@@ -52,14 +52,13 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 122
+    Top = 148
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitTop = 126
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -115,6 +114,7 @@ object frmMain: TfrmMain
     TabOrder = 6
     TabStop = False
     object dxrbntbReference: TdxRibbonTab
+      Active = True
       Caption = 'Reference'
       Groups = <
         item
@@ -132,7 +132,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbMembership: TdxRibbonTab
-      Active = True
       Caption = 'Membership'
       Groups = <
         item

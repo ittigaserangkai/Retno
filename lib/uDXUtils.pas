@@ -22,13 +22,14 @@ type
   DataControllerHelper = class helper for TcxGridDataController
   private
   public
-    function GetFooterSummary(ASummaryIndex: Integer): Variant;
+    function GetFooterSummary(ASummaryIndex: Integer): Variant; overload;
+    function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
   end;
 
   DBDataControllerHelper = class helper for TcxGridDBDataController
   private
   public
-    function GetFooterSummary(ASummaryIndex: Integer): Variant;
+    function GetFooterSummary(ASummaryIndex: Integer): Variant; overload;
   end;
 
   TcxDBBandGridHelper = class helper for TcxGridDBBandedTableView
@@ -218,6 +219,25 @@ end;
 function DataControllerHelper.GetFooterSummary(ASummaryIndex: Integer): Variant;
 begin
   Result := Self.Summary.FooterSummaryValues[ASummaryIndex];
+end;
+
+function DataControllerHelper.GetFooterSummary(aColumn: TcxGridColumn): Variant;
+var
+  i: Integer;
+begin
+  Result := 0;
+
+  with Self.Summary do
+  begin
+    for i :=0 to FooterSummaryItems.Count-1 do
+    begin
+//      If FooterSummaryItems.Items[i].ItemLink.ClassName <> aColumn.ClassName then
+//        continue;
+
+      If FooterSummaryItems.Items[i].ItemLink = aColumn then
+        Result := FooterSummaryValues[i];
+    end;
+  end;
 end;
 
 function DBDataControllerHelper.GetFooterSummary(ASummaryIndex: Integer):

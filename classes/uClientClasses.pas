@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 07/26/17 11:03:03 AM
+// 7/26/2017 4:12:59 PM
 //
 
 unit uClientClasses;
@@ -336,8 +336,8 @@ type
     function App_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Bank_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Bank_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function Barang_GetDSOverview(aMerchanGroupID: string; const ARequestFilter: string = ''): TDataSet;
-    function Barang_GetDSOverview_Cache(aMerchanGroupID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string = ''): TDataSet;
+    function Barang_GetDSOverview_Cache(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Gudang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Gudang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RefTipeMember_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -1270,15 +1270,17 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_Barang_GetDSOverview: array [0..1] of TDSRestParameterMetaData =
+  TDSProvider_Barang_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aMerchanGroupID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AProductCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_Barang_GetDSOverview_Cache: array [0..1] of TDSRestParameterMetaData =
+  TDSProvider_Barang_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aMerchanGroupID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AProductCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4186,7 +4188,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FBank_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
-function TDSProviderClient.Barang_GetDSOverview(aMerchanGroupID: string; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.Barang_GetDSOverview(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string): TDataSet;
 begin
   if FBarang_GetDSOverviewCommand = nil then
   begin
@@ -4196,14 +4198,15 @@ begin
     FBarang_GetDSOverviewCommand.Prepare(TDSProvider_Barang_GetDSOverview);
   end;
   FBarang_GetDSOverviewCommand.Parameters[0].Value.SetWideString(aMerchanGroupID);
+  FBarang_GetDSOverviewCommand.Parameters[1].Value.SetWideString(AProductCode);
   FBarang_GetDSOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FBarang_GetDSOverviewCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result := TCustomSQLDataSet.Create(nil, FBarang_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
     FBarang_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.Barang_GetDSOverview_Cache(aMerchanGroupID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.Barang_GetDSOverview_Cache(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FBarang_GetDSOverviewCommand_Cache = nil then
   begin
@@ -4213,8 +4216,9 @@ begin
     FBarang_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Barang_GetDSOverview_Cache);
   end;
   FBarang_GetDSOverviewCommand_Cache.Parameters[0].Value.SetWideString(aMerchanGroupID);
+  FBarang_GetDSOverviewCommand_Cache.Parameters[1].Value.SetWideString(AProductCode);
   FBarang_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FBarang_GetDSOverviewCommand_Cache.Parameters[1].Value.GetString);
+  Result := TDSRestCachedDataSet.Create(FBarang_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
 function TDSProviderClient.Gudang_GetDSOverview(const ARequestFilter: string): TDataSet;

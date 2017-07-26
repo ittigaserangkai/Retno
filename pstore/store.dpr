@@ -64,7 +64,6 @@ uses
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
   uModMember in '..\model\uModMember.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
@@ -201,11 +200,9 @@ uses
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
   ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
+  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas',
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
-  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock};
-
-ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
-  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock};
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
@@ -216,5 +213,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmPreference, frmPreference);
+  Application.CreateForm(TfrmMasterReport, frmMasterReport);
   Application.Run;
 end.

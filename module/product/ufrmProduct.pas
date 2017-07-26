@@ -167,6 +167,8 @@ type
     cbpCompCode: TcxExtLookupComboBox;
     cxLookupMerchanGroup: TcxExtLookupComboBox;
     cxLabel1: TcxLabel;
+    lblProduct: TcxLabel;
+    edProduct: TcxTextEdit;
     procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -945,12 +947,18 @@ end;
 procedure TfrmProduct.RefreshData;
 var
   FilterMerchanGrup: string;
+  sProductCode: string;
 begin
   inherited;
   FilterMerchanGrup := VarToStr(cxLookupMerchanGroup.EditValue);
+  if FilterMerchanGrup ='' then
+    FilterMerchanGrup := 'XXX';
 
-  cxGridView.LoadFromDS(
-    DMClient.DSProviderClient.Barang_GetDSOverview(FilterMerchanGrup), Self);
+  sProductCode := trim(edProduct.Text);
+  if sProductCode = '' then
+    sProductCode := 'XXX';
+
+  cxGridView.LoadFromDS(DMClient.DSProviderClient.Barang_GetDSOverview(FilterMerchanGrup, sProductCode), Self);
   cxGridView.SetVisibleColumns(['Barang_ID'], False);
 end;
 
