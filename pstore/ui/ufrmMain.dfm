@@ -861,6 +861,11 @@ object frmMain: TfrmMain
       Caption = 'Aplication Setting'
       OnExecute = actSettingAppExecute
     end
+    object actStockCard: TAction
+      Category = 'Inventory'
+      Caption = 'Stock Card'
+      OnExecute = actStockCardExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -932,8 +937,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnDNRecv'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = True
       Visible = True
       WholeRow = False
@@ -956,7 +961,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn9'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1047,10 +1052,9 @@ object frmMain: TfrmMain
       PaintStyle = psCaptionGlyph
     end
     object dxbrbtn8: TdxBarButton
-      Caption = 'Stock Card'
+      Action = actStockCard
       Category = 0
-      Hint = 'Stock Card'
-      Visible = ivAlways
+      ImageIndex = 45
     end
     object dxbrbtn9: TdxBarButton
       Caption = 'Inventory Movement'

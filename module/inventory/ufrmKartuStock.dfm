@@ -9,7 +9,7 @@ inherited frmKartuStock: TfrmKartuStock
   inherited pnlBody: TPanel
     Width = 685
     Height = 475
-    ExplicitWidth = 619
+    ExplicitWidth = 685
     ExplicitHeight = 475
     object Panel2: TPanel
       Left = 3
@@ -18,7 +18,6 @@ inherited frmKartuStock: TfrmKartuStock
       Height = 86
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 613
       object Label2: TLabel
         Left = 27
         Top = 7
@@ -169,7 +168,7 @@ inherited frmKartuStock: TfrmKartuStock
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitWidth = 607
+      ExplicitLeft = 9
       object cxGrdKartok: TcxGridDBBandedTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -213,12 +212,13 @@ inherited frmKartuStock: TfrmKartuStock
           end
           item
             Caption = 'Mutasi'
-            Width = 150
+            Width = 110
           end
           item
             Caption = 'IN'
             Position.BandIndex = 3
             Position.ColIndex = 0
+            Width = 55
           end
           item
             Caption = 'OUT'
@@ -254,7 +254,7 @@ inherited frmKartuStock: TfrmKartuStock
           DataBinding.FieldName = 'NoBukti'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
-          Position.BandIndex = 2
+          Position.BandIndex = 4
           Position.ColIndex = 0
           Position.RowIndex = 0
         end
@@ -265,7 +265,7 @@ inherited frmKartuStock: TfrmKartuStock
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Properties.ReadOnly = True
           Position.BandIndex = 4
-          Position.ColIndex = 0
+          Position.ColIndex = 1
           Position.RowIndex = 0
         end
         object clGrdKartokQTYOut: TcxGridDBBandedColumn
@@ -304,9 +304,10 @@ inherited frmKartuStock: TfrmKartuStock
   end
   inherited pnlHeader: TPanel
     Width = 685
-    ExplicitWidth = 619
+    ExplicitWidth = 685
     inherited lblHeader: TLabel
       Width = 104
+      Height = 18
       Caption = 'Kartu Stock Barang'
       ExplicitWidth = 104
     end
@@ -315,19 +316,20 @@ inherited frmKartuStock: TfrmKartuStock
     Top = 526
     Width = 685
     ExplicitTop = 526
-    ExplicitWidth = 619
+    ExplicitWidth = 685
     inherited btnClose: TcxButton
       Left = 608
-      ExplicitLeft = 542
+      ExplicitLeft = 608
     end
   end
   inherited pnlShortCut: TPanel
     Top = 505
     Width = 685
     ExplicitTop = 505
-    ExplicitWidth = 619
+    ExplicitWidth = 685
     inherited lbEscape: TLabel
       Left = 611
+      Height = 17
       ExplicitLeft = 545
     end
   end
