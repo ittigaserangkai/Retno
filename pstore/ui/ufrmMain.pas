@@ -230,6 +230,7 @@ type
     dxbrbtnSaveLayout: TdxBarButton;
     dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton;
     dxbrbtn10: TdxBarButton;
+    actStockCard: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -297,6 +298,7 @@ type
     procedure actPreferenceExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actStockCardExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -356,7 +358,8 @@ uses
   ufrmRafaksi, ufrmReprintNota, ufrmReprintNP, ufrmResetCashier,
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
-  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN, ufrmPreference;
+  Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
+  ufrmKartuStock;
 
 
 
@@ -778,9 +781,14 @@ begin
     frmShift := TfrmShift.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actStockCardExecute(Sender: TObject);
+begin
+  frmKartuStock := TfrmKartuStock.Create(Self);
+end;
+
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
 begin
-    frmSupplier := TfrmSupplier.CreateWithUser(Application, FFormProperty);
+  frmSupplier := TfrmSupplier.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTileExecute(Sender: TObject);

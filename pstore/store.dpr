@@ -201,6 +201,8 @@ uses
   ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
   ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference};
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock};
 
 {$R *.res}
 
