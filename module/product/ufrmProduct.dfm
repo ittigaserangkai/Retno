@@ -6,6 +6,7 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 926
   KeyPreview = True
   OldCreateOrder = True
+  ExplicitLeft = -153
   ExplicitWidth = 942
   ExplicitHeight = 629
   PixelsPerInch = 96
@@ -31,6 +32,8 @@ inherited frmProduct: TfrmProduct
         inherited cxGrid: TcxGrid
           Width = 922
           Height = 497
+          ExplicitLeft = 162
+          ExplicitTop = 64
           ExplicitWidth = 922
           ExplicitHeight = 497
         end
@@ -1257,34 +1260,46 @@ inherited frmProduct: TfrmProduct
   end
   inherited pnlHeader: TPanel
     Width = 926
-    ExplicitLeft = 1
     ExplicitWidth = 926
     inherited lblFilterData: TcxLabel
       Left = 155
       Align = alLeft
       ExplicitLeft = 155
+      ExplicitWidth = 10
+      Width = 10
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 216
+      Left = 168
+      TabStop = False
       Align = alLeft
-      ExplicitLeft = 216
+      TabOrder = 4
+      ExplicitLeft = 168
+      ExplicitWidth = 10
       ExplicitHeight = 23
+      Width = 10
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 332
+      Left = 194
+      TabStop = False
       Align = alLeft
-      ExplicitLeft = 332
+      TabOrder = 5
+      ExplicitLeft = 194
+      ExplicitWidth = 10
       ExplicitHeight = 23
+      Width = 10
     end
     inherited btnSearch: TcxButton
       Left = 844
+      TabOrder = 2
       ExplicitLeft = 844
     end
     inherited lblsdFilter: TcxLabel
-      Left = 308
+      Left = 181
       Align = alLeft
-      ExplicitLeft = 308
+      ExplicitLeft = 181
+      ExplicitWidth = 10
+      Width = 10
       AnchorY = 17
     end
     object cxLookupMerchanGroup: TcxExtLookupComboBox
@@ -1296,13 +1311,14 @@ inherited frmProduct: TfrmProduct
       Align = alRight
       ParentShowHint = False
       Properties.CharCase = ecUpperCase
+      Properties.DropDownListStyle = lsEditList
       Properties.ImmediatePost = True
       ShowHint = True
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       StyleFocused.LookAndFeel.NativeStyle = False
       StyleHot.LookAndFeel.NativeStyle = False
-      TabOrder = 5
+      TabOrder = 1
       Width = 188
     end
     object cxLabel1: TcxLabel
@@ -1313,13 +1329,36 @@ inherited frmProduct: TfrmProduct
       Margins.Right = 0
       Align = alRight
       AutoSize = False
-      Caption = 'Filter Group :'
+      Caption = '  Filter Group :'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      Visible = False
       Height = 25
       Width = 71
       AnchorY = 17
+    end
+    object lblProduct: TcxLabel
+      AlignWithMargins = True
+      Left = 366
+      Top = 4
+      Margins.Left = 0
+      Margins.Right = 0
+      Align = alRight
+      AutoSize = False
+      Caption = 'Product'
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      ExplicitLeft = 355
+      Height = 25
+      Width = 60
+      AnchorY = 17
+    end
+    object edProduct: TcxTextEdit
+      AlignWithMargins = True
+      Left = 429
+      Top = 4
+      Align = alRight
+      TabOrder = 0
+      Width = 144
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button

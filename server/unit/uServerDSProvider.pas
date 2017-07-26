@@ -48,7 +48,8 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Bank_GetDSLookup: TDataSet;
-    function Barang_GetDSOverview(aMerchanGroupID: string): TDataSet;
+    function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode : String):
+        TDataSet;
     function Gudang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
     function AutAPP_GetDSLookup: TDataSet;
@@ -471,7 +472,8 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.Barang_GetDSOverview(aMerchanGroupID: string): TDataSet;
+function TDSProvider.Barang_GetDSOverview(aMerchanGroupID: string; AProductCode
+    : String): TDataSet;
 var
   S: string;
 begin
@@ -487,10 +489,14 @@ begin
       +' LEFT JOIN REF$TIPE_BARANG F ON A.REF$TIPE_BARANG_ID=F.REF$TIPE_BARANG_ID '
       +' LEFT JOIN REF$SATUAN G ON G.REF$SATUAN_ID = A.REF$SATUAN_STOCK'
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
-      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID '
+      +' where 1 = 1';
 
-  if aMerchanGroupID <> '' then
-    S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+  if (aMerchanGroupID <> '') and (aMerchanGroupID <> 'XXX') then
+    S := S + ' and A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+
+  if (AProductCode <> '') and (AProductCode <> 'XXX') then
+    S := S + ' and A.BRG_CODE like ' + QuotedStr('%' + AProductCode + '%');
 
   Result := TDBUtils.OpenQuery(S);
 end;

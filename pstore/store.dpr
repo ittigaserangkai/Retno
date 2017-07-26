@@ -64,7 +64,6 @@ uses
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
   uModMember in '..\model\uModMember.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
@@ -202,7 +201,8 @@ uses
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
   ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
   ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas',
-  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport};
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
