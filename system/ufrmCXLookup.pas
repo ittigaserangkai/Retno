@@ -128,9 +128,9 @@ begin
     Self.ModalResult := mrNone
   else begin
     SetResultData;
-    FData.First;
     if MultiSelect then
     begin
+      FData.First;
       if Self.Data.RecordCount = 0 then
       begin
         TAppUtils.Warning('Tidak ada data yang dipilih');

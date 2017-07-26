@@ -703,22 +703,57 @@
             <Form>frmCXLookup</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\model\uModDO.pas"/>
         <DCCReference Include="..\module\inventory\ufrmListingReceivingProduct.pas">
             <Form>frmListingReceivingProduct</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-<<<<<<< HEAD
-        <DCCReference Include="..\model\uModDO.pas"/>
-=======
         <DCCReference Include="..\system\ufrmSettingKoneksi.pas">
-            <Form>frmMasterDialog1</Form>
+            <Form>frmSettingKoneksi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\module\po\ufrmPORevision.pas">
             <Form>frmPORevision</Form>
             <FormType>dfm</FormType>
         </DCCReference>
->>>>>>> 45d12a062911f5e34d1d14e5484bd9ce6853ad22
+        <DCCReference Include="..\model\uModelHelper.pas"/>
+        <DCCReference Include="..\model\uModCreditCard.pas"/>
+        <DCCReference Include="..\model\uModDNRecv.pas"/>
+        <DCCReference Include="..\model\uModCNRecv.pas"/>
+        <DCCReference Include="..\model\uModSettingApp.pas"/>
+        <DCCReference Include="..\module\inventory\ufrmDN.pas">
+            <Form>frmDN</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogDN.pas">
+            <Form>frmDialogDN</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmDialogCN.pas">
+            <Form>frmDialogCN</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmCN.pas">
+            <Form>frmCN</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\system\ufrmSettingApp.pas">
+            <Form>frmSettingApp</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+<<<<<<< HEAD
+        <DCCReference Include="..\system\ufrmPreference.pas">
+            <Form>frmPreference</Form>
+=======
+        <DCCReference Include="..\system\ufrmMasterReport.pas">
+            <Form>frmMasterReport</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\module\inventory\ufrmKartuStock.pas">
+            <Form>frmKartuStock</Form>
+>>>>>>> 217016f463077971f2d048c9622b23e20526f17c
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
