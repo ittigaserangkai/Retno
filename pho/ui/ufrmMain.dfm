@@ -48,18 +48,17 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 487
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 51
+    Top = 52
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitTop = 148
+    ExplicitTop = 51
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -107,16 +106,16 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 800
-    Height = 25
+    Height = 26
     BarManager = dxbrmngrHO
     Style = rs2013
     ColorSchemeName = 'White'
     Fonts.AssignedFonts = [afTabHeader]
     Fonts.TabHeader.Charset = DEFAULT_CHARSET
     Fonts.TabHeader.Color = clWindowText
-    Fonts.TabHeader.Height = -11
+    Fonts.TabHeader.Height = -12
     Fonts.TabHeader.Name = 'Verdana'
-    Fonts.TabHeader.Style = [fsBold]
+    Fonts.TabHeader.Style = []
     ShowTabGroups = False
     Contexts = <>
     TabOrder = 6
@@ -1383,7 +1382,7 @@ object frmMain: TfrmMain
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
-    Font.Name = 'Segoe UI'
+    Font.Name = 'Verdana'
     Font.Style = []
     Categories.Strings = (
       'Default')
@@ -1394,7 +1393,7 @@ object frmMain: TfrmMain
     ImageOptions.Images = DMClient.imgListButton
     ImageOptions.LargeImages = DMClient.imgListButton
     PopupMenuLinks = <>
-    UseSystemFont = True
+    UseSystemFont = False
     Left = 272
     Top = 192
     DockControlHeights = (
