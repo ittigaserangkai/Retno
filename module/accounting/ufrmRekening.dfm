@@ -15,32 +15,32 @@ inherited frmRekening: TfrmRekening
     ExplicitWidth = 773
     ExplicitHeight = 288
     inherited pgcBrowse: TcxPageControl
-      Width = 751
-      Height = 266
+      Width = 771
+      Height = 286
       TabOrder = 1
       Visible = False
-      ExplicitWidth = 751
-      ExplicitHeight = 266
-      ClientRectBottom = 265
-      ClientRectRight = 750
+      ExplicitWidth = 771
+      ExplicitHeight = 286
+      ClientRectBottom = 285
+      ClientRectRight = 770
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 749
-        ExplicitHeight = 264
+        ExplicitWidth = 769
+        ExplicitHeight = 284
         inherited cxGrid: TcxGrid
-          Width = 749
-          Height = 264
-          ExplicitWidth = 749
-          ExplicitHeight = 264
+          Width = 769
+          Height = 284
+          ExplicitWidth = 769
+          ExplicitHeight = 284
         end
       end
     end
     object pnlAll: TPanel
-      Left = 11
-      Top = 11
-      Width = 751
-      Height = 266
+      Left = 1
+      Top = 1
+      Width = 771
+      Height = 286
       Align = alClient
       BorderWidth = 10
       Color = 15198183
@@ -48,8 +48,8 @@ inherited frmRekening: TfrmRekening
       object cxDBTreeList: TcxDBTreeList
         Left = 11
         Top = 11
-        Width = 729
-        Height = 244
+        Width = 749
+        Height = 264
         Align = alClient
         Bands = <
           item
@@ -109,9 +109,9 @@ inherited frmRekening: TfrmRekening
     Width = 773
     ExplicitWidth = 773
     inherited lblHeader: TLabel
-      Width = 53
-      Caption = 'ACCOUNT'
-      ExplicitWidth = 53
+      Width = 110
+      Caption = 'CHART OF ACCOUNT'
+      ExplicitWidth = 110
     end
     inherited lblFilterData: TcxLabel
       Left = 419
@@ -170,6 +170,7 @@ inherited frmRekening: TfrmRekening
       inherited lbEscape: TLabel
         Left = 699
         Height = 17
+        ExplicitLeft = 699
       end
     end
   end
