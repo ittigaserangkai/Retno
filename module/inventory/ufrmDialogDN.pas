@@ -184,7 +184,7 @@ begin
     lPPN        := lSubTotal * DCItem.Values[i,cxGridColDNDetailColumnPPNPERSEN.Index]/100;
     lPPNBM      := lSubTotal * DCItem.Values[i,cxGridColDNDetailColumnPPNBMPERSEN.Index]/100;
 
-    DCItem.Values[i,cxGridColDNDetailColumnTotal.Index] := lSubTotal - lTotalDisc + lPPN + lPPNBM;
+    DCItem.Values[i,cxGridColDNDetailColumnTotal.Index] := lSubTotal + lPPN + lPPNBM;
     DCItem.Values[i,cxGridColDNDetailColumnTotalDisc.Index] := lTotalDisc;
     DCItem.Values[i,cxGridColDNDetailColumnPPN.Index] := lPPN;
     DCItem.Values[i,cxGridColDNDetailColumnPPNBM.Index] := lPPNBM;

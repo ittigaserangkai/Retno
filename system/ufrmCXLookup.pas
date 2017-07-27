@@ -455,7 +455,8 @@ begin
     FData.Filtered := True;
     FData.Filter := check_flag + ' = True ';
     FData.First;
-  end;
+  end else
+    FData.RecNo := FCDS.RecNo;
 end;
 
 procedure TfrmCXLookup.UncheckAll1Click(Sender: TObject);

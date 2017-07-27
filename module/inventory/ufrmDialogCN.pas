@@ -179,13 +179,14 @@ begin
     lQTY        := DCItem.Values[i,cxGridColCNDetailColumnQty.Index];
     lPrice      := DCItem.Values[i,cxGridColCNDetailColumnHargaBeli.Index];
     lDisc       := DCItem.Values[i,cxGridColCNDetailColumnDisc.Index];
+
     lSubTotal   := lQTY * (lPrice-lDisc);
     lTotalDisc  := lQTy * lDisc;
 
     lPPN        := lSubTotal * DCItem.Values[i,cxGridColCNDetailColumnPPNPERSEN.Index]/100;
     lPPNBM      := lSubTotal * DCItem.Values[i,cxGridColCNDetailColumnPPNBMPERSEN.Index]/100;
 
-    DCItem.Values[i,cxGridColCNDetailColumnTotal.Index] := lSubTotal - lTotalDisc + lPPN + lPPNBM;
+    DCItem.Values[i,cxGridColCNDetailColumnTotal.Index] := lSubTotal + lPPN + lPPNBM;
     DCItem.Values[i,cxGridColCNDetailColumnTotalDisc.Index] := lTotalDisc;
     DCItem.Values[i,cxGridColCNDetailColumnPPN.Index] := lPPN;
     DCItem.Values[i,cxGridColCNDetailColumnPPNBM.Index] := lPPNBM;
