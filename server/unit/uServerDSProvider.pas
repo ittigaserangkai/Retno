@@ -123,6 +123,8 @@ type
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
         aGudang_ID: string): TDataSet;
+    function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
+        aGudang_ID: String): TDataSet;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -1154,6 +1156,41 @@ begin
 
   if aGudang_ID <> '' then
     S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID,
+    aSupplier_ID, aGudang_ID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select B.BRG_CODE, B.BRG_NAME, E.MERK_NAME, D.MERCHAN_NAME,C.MERCHANGRUP_NAME,'
+      +' SUM((A.QTYIN-A.QTYOUT)*A.KONVERSI) * G.KONVSAT_SCALE AS STOCK,  F.SAT_CODE '
+      +' from FN_MUTASI_STOCK(''2017-01-01'',' + TDBUtils.QuotD(aEndDate) + ') A'
+      +' inner join BARANG B ON A.BARANG_ID=B.BARANG_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON B.REF$MERCHANDISE_GRUP_ID = C.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$MERCHANDISE D ON D.REF$MERCHANDISE_ID = C.REF$MERCHANDISE_ID'
+      +' INNER JOIN MERK E ON E.MERK_ID=B.MERK_ID'
+      +' INNER JOIN REF$SATUAN F ON F.REF$SATUAN_ID=B.REF$SATUAN_STOCK'
+      +' INNER JOIN REF$KONVERSI_SATUAN G ON G.BARANG_ID = B.BARANG_ID AND G.REF$SATUAN_ID=F.REF$SATUAN_ID';
+
+  if aSupplier_ID <> '' then
+    S := S +' INNER JOIN ('
+        +' 	SELECT X.BARANG_ID FROM BARANG_SUPLIER X'
+        +' 	INNER JOIN SUPLIER_MERCHAN_GRUP Y ON X.SUPLIER_MERCHAN_GRUP_ID = Y.SUPLIER_MERCHAN_GRUP_ID'
+        +' 	INNER JOIN SUPLIER Z ON Z.SUPLIER_ID = Y.SUPLIER_ID WHERE Z.SUPLIER_ID = '
+        + QuotedStr(aSupplier_ID)
+        +' ) S ON S.BARANG_ID = B.BARANG_ID';
+
+  if aGroup_ID <> '' then
+    S := S + ' WHERE C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
+
+  if aGudang_ID <> '' then
+    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  S := S + ' GROUP BY B.BARANG_ID, B.BRG_CODE, B.BRG_NAME, E.MERK_NAME,'
+    +' D.MERCHAN_NAME,C.MERCHANGRUP_NAME, F.SAT_CODE , G.KONVSAT_SCALE';
 
   Result := TDBUtils.OpenQuery(S);
 end;

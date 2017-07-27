@@ -102,7 +102,7 @@ end;
 procedure TfrmKartuStock.chkGudangClick(Sender: TObject);
 begin
   inherited;
-  cxLookupGudang.Enabled := chkGudang.Enabled;
+  cxLookupGudang.Enabled := chkGudang.Checked;
   if not cxLookupGudang.Enabled then cxLookupGudang.EditValue := null;
 end;
 

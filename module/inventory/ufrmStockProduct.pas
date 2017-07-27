@@ -17,7 +17,7 @@ type
   TfrmStockProduct = class(TfrmMasterReport)
     Panel2: TPanel;
     Label2: TLabel;
-    dtStart: TcxDateEdit;
+    dtEnd: TcxDateEdit;
     cxLookupGudang: TcxExtLookupComboBox;
     ckGudang: TCheckBox;
     cxLookupSupplier: TcxExtLookupComboBox;
@@ -28,12 +28,15 @@ type
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
     ckGroup: TCheckBox;
+    procedure actExportExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure ckGroupClick(Sender: TObject);
     procedure ckGudangClick(Sender: TObject);
     procedure ckSupplierClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     procedure initView;
+    procedure LoadData;
     { Private declarations }
   public
     { Public declarations }
@@ -45,28 +48,40 @@ var
 implementation
 
 uses
-  uDMClient, uDXUtils;
+  uDMClient, uDXUtils, uDMReport;
 
 {$R *.dfm}
+
+procedure TfrmStockProduct.actExportExecute(Sender: TObject);
+begin
+  inherited;
+  cxGridView.ExportToXLS();
+end;
+
+procedure TfrmStockProduct.actRefreshExecute(Sender: TObject);
+begin
+  inherited;
+  LoadData;
+end;
 
 procedure TfrmStockProduct.ckGroupClick(Sender: TObject);
 begin
   inherited;
-  cxLookupGroup.Enabled := ckGroup.Enabled;
+  cxLookupGroup.Enabled := ckGroup.Checked;
   if not cxLookupGroup.Enabled then cxLookupGroup.EditValue := null;
 end;
 
 procedure TfrmStockProduct.ckGudangClick(Sender: TObject);
 begin
   inherited;
-  cxLookupGudang.Enabled := ckGudang.Enabled;
+  cxLookupGudang.Enabled := ckGudang.Checked;
   if not cxLookupGudang.Enabled then cxLookupGudang.EditValue := null;
 end;
 
 procedure TfrmStockProduct.ckSupplierClick(Sender: TObject);
 begin
   inherited;
-  cxLookupSupplier.Enabled := ckSupplier.Enabled;
+  cxLookupSupplier.Enabled := ckSupplier.Checked;
   if not cxLookupSupplier.Enabled then cxLookupSupplier.EditValue := null;
 end;
 
@@ -77,6 +92,7 @@ begin
   ckSupplierClick(Self);
   ckGroupClick(Self);
   ckGudangClick(Self);
+  dtEnd.Date := Now();
 end;
 
 procedure TfrmStockProduct.initView;
@@ -90,6 +106,19 @@ begin
     cxLookupSupplier.LoadFromDS(Suplier_GetDSLookup, 'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
     cxLookupGudang.LoadFromDS(Gudang_GetDSLookUp,'GUDANG_ID','GUD_NAME', [], Self);
   end;
+end;
+
+procedure TfrmStockProduct.LoadData;
+begin
+  cxGridView.LoadFromDS(
+    DMReport.ReportClient.StockProduct_GetDS(
+      dtEnd.Date,
+      VarToStr(cxLookupGroup.EditValue),
+      VarToStr(cxLookupSupplier.EditValue),
+      VarToStr(cxLookupGudang.EditValue)
+    ),
+    Self
+  );
 end;
 
 end.

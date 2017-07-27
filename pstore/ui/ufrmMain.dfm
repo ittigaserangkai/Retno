@@ -717,9 +717,10 @@ object frmMain: TfrmMain
       Caption = 'actUbahQtyPO'
       OnExecute = actUbahQtyPOExecute
     end
-    object actStokBarang: TAction
+    object actStockProduct: TAction
       Category = 'Inventory'
-      Caption = 'actStokBarang'
+      Caption = 'Stock Products'
+      OnExecute = actStockProductExecute
     end
     object actMutasiKeluar: TAction
       Category = 'Inventory'
@@ -965,6 +966,10 @@ object frmMain: TfrmMain
       ItemLinks = <
         item
           Visible = True
+          ItemName = 'dxBarButton2'
+        end
+        item
+          Visible = True
           ItemName = 'dxbrbtn8'
         end
         item
@@ -1171,6 +1176,17 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'New Button'
       Visible = ivAlways
+    end
+    object dxBarSubItem1: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarButton2: TdxBarButton
+      Action = actStockProduct
+      Category = 0
+      ImageIndex = 52
     end
   end
 end

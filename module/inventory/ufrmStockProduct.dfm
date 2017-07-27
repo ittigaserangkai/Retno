@@ -28,7 +28,7 @@ inherited frmStockProduct: TfrmStockProduct
         Alignment = taRightJustify
         Caption = 'Stock Per'
       end
-      object dtStart: TcxDateEdit
+      object dtEnd: TcxDateEdit
         AlignWithMargins = True
         Left = 75
         Top = 4
@@ -191,5 +191,11 @@ inherited frmStockProduct: TfrmStockProduct
   inherited actReport: TActionList
     Left = 632
     Top = 64
+    inherited actRefresh: TAction
+      OnExecute = actRefreshExecute
+    end
+    inherited actExport: TAction
+      OnExecute = actExportExecute
+    end
   end
 end
