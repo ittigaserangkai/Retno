@@ -185,6 +185,8 @@ type
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
     function RecordIndex: Integer;
     procedure SetObjectData(AObject : TModApp; ARow : Integer);
+    procedure SetVisibleColumns(FromCol, ToCol: Integer; IsVisible: Boolean);
+        overload;
     function Values(ARec, ACol : Integer): Variant; overload;
   end;
 
@@ -1545,6 +1547,17 @@ begin
       end;
   finally
     ctx.Free;
+  end;
+end;
+
+procedure TcxGridTableViewHelper.SetVisibleColumns(FromCol, ToCol: Integer;
+    IsVisible: Boolean);
+var
+  i: Integer;
+begin
+  for i := FromCol to ToCol do
+  begin
+    Self.Columns[i].Visible := IsVisible;
   end;
 end;
 

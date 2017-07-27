@@ -131,6 +131,8 @@ type
     function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
         string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
     function SO_Test: TFDJSONDataSets;
+    function InvMovement_GetDS(aStartDate, aEndDate: TDatetime; aGroup_ID,
+        aSupplier_ID, aGudang_ID: String): TDataSet;
     function Test2: OleVariant;
     function Test: Variant;
   end;
@@ -1226,6 +1228,36 @@ begin
 
   S := 'SELECT 1 AS CONTOH';
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.InvMovement_GetDS(aStartDate, aEndDate: TDatetime;
+    aGroup_ID, aSupplier_ID, aGudang_ID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT B.BRG_CODE, B.BRG_NAME, A.GUD_NAME, A.SAT_CODE,'
+      +' A.SALDOAWAL, A.DO, A.CN_RECEIVING, A.DN_RECEIVING, A.POS, A.TAG_KIRIM, A.TAG_TERIMA,'
+      +' A.TAC_KIRIM, A.TAC_TERIMA, A.SALDOAKHIR'
+      +' FROM FN_INVENTORY_MOVEMENT('+ TDBUtils.QuotD(aStartDate)
+      +' ,' + TDBUtils.QuotD(aEndDate) + ') A'
+      +' INNER JOIN BARANG B ON A.BARANG_ID=B.BARANG_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID=B.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$MERCHANDISE D ON D.REF$MERCHANDISE_ID=C.REF$MERCHANDISE_ID';
+
+  if aSupplier_ID <> '' then
+    S := S +' INNER JOIN ('
+        +' 	SELECT X.BARANG_ID FROM BARANG_SUPLIER X'
+        +' 	INNER JOIN SUPLIER_MERCHAN_GRUP Y ON X.SUPLIER_MERCHAN_GRUP_ID = Y.SUPLIER_MERCHAN_GRUP_ID'
+        +' 	INNER JOIN SUPLIER Z ON Z.SUPLIER_ID = Y.SUPLIER_ID WHERE Z.SUPLIER_ID = '
+        + QuotedStr(aSupplier_ID)
+        +' ) S ON S.BARANG_ID = A.BARANG_ID';
+
+  if aGroup_ID <> '' then
+    S := S + ' WHERE C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
+  if aGudang_ID <> '' then
+    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.Test2: OleVariant;

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 07/27/17 10:07:57 AM
+// 07/27/17 2:37:55 PM
 //
 
 unit uClientClasses;
@@ -461,6 +461,8 @@ type
     FPO_SLIP_ByDateNoBuktiCommand_Cache: TDSRestCommand;
     FSO_TestCommand: TDSRestCommand;
     FSO_TestCommand_Cache: TDSRestCommand;
+    FInvMovement_GetDSCommand: TDSRestCommand;
+    FInvMovement_GetDSCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -481,6 +483,8 @@ type
     function PO_SLIP_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_Test(const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function InvMovement_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
+    function InvMovement_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TSuggestionOrderClient = class(TDSAdminRestClient)
@@ -1999,6 +2003,26 @@ const
 
   TDSReport_SO_Test_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_InvMovement_GetDS: array [0..5] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGroup_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSReport_InvMovement_GetDS_Cache: array [0..5] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGroup_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -6533,6 +6557,45 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FSO_TestCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSReportClient.InvMovement_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FInvMovement_GetDSCommand = nil then
+  begin
+    FInvMovement_GetDSCommand := FConnection.CreateCommand;
+    FInvMovement_GetDSCommand.RequestType := 'GET';
+    FInvMovement_GetDSCommand.Text := 'TDSReport.InvMovement_GetDS';
+    FInvMovement_GetDSCommand.Prepare(TDSReport_InvMovement_GetDS);
+  end;
+  FInvMovement_GetDSCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FInvMovement_GetDSCommand.Parameters[1].Value.AsDateTime := aEndDate;
+  FInvMovement_GetDSCommand.Parameters[2].Value.SetWideString(aGroup_ID);
+  FInvMovement_GetDSCommand.Parameters[3].Value.SetWideString(aSupplier_ID);
+  FInvMovement_GetDSCommand.Parameters[4].Value.SetWideString(aGudang_ID);
+  FInvMovement_GetDSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FInvMovement_GetDSCommand.Parameters[5].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FInvMovement_GetDSCommand.FreeOnExecute(Result);
+end;
+
+function TDSReportClient.InvMovement_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FInvMovement_GetDSCommand_Cache = nil then
+  begin
+    FInvMovement_GetDSCommand_Cache := FConnection.CreateCommand;
+    FInvMovement_GetDSCommand_Cache.RequestType := 'GET';
+    FInvMovement_GetDSCommand_Cache.Text := 'TDSReport.InvMovement_GetDS';
+    FInvMovement_GetDSCommand_Cache.Prepare(TDSReport_InvMovement_GetDS_Cache);
+  end;
+  FInvMovement_GetDSCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FInvMovement_GetDSCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
+  FInvMovement_GetDSCommand_Cache.Parameters[2].Value.SetWideString(aGroup_ID);
+  FInvMovement_GetDSCommand_Cache.Parameters[3].Value.SetWideString(aSupplier_ID);
+  FInvMovement_GetDSCommand_Cache.Parameters[4].Value.SetWideString(aGudang_ID);
+  FInvMovement_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FInvMovement_GetDSCommand_Cache.Parameters[5].Value.GetString);
+end;
+
 constructor TDSReportClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -6561,6 +6624,8 @@ begin
   FPO_SLIP_ByDateNoBuktiCommand_Cache.DisposeOf;
   FSO_TestCommand.DisposeOf;
   FSO_TestCommand_Cache.DisposeOf;
+  FInvMovement_GetDSCommand.DisposeOf;
+  FInvMovement_GetDSCommand_Cache.DisposeOf;
   inherited;
 end;
 

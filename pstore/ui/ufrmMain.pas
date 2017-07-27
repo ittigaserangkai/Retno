@@ -8,7 +8,8 @@ uses
   System.Actions, Vcl.ActnList, uFormProperty, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
-  dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp;
+  dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
+  ufrmInventoryMovement;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -167,7 +168,7 @@ type
     actStockBarang: TAction;
     actLapReturSup: TAction;
     actLaporanKonsinyasi: TAction;
-    actLapInvMovement: TAction;
+    actInvMovement: TAction;
     actLapInvMovementQty: TAction;
     actShipmentAgent: TAction;
     actShipmentTransport: TAction;
@@ -301,6 +302,7 @@ type
     procedure actDNReceivingExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
+    procedure actInvMovementExecute(Sender: TObject);
     procedure actPreferenceExecute(Sender: TObject);
     procedure actResetMenuExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
@@ -367,7 +369,8 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
+  ufrmInventoryMovement;
 
 
 
@@ -512,6 +515,11 @@ end;
 procedure TfrmMain.actInputSupplierNotForSOExecute(Sender: TObject);
 begin
   frmInputSupplierForNotSO := TfrmInputSupplierForNotSO.CreateWithUser(Self, FFormProperty);
+end;
+
+procedure TfrmMain.actInvMovementExecute(Sender: TObject);
+begin
+  frmInventoryMovement := TfrmInventoryMovement.Create(Self);
 end;
 
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);

@@ -181,8 +181,7 @@ end;
 
 procedure TfrmDailySalesReport.RefreshData;
 begin
-  Result := inherited RefreshData;
-  // TODO -cMM: TfrmDailySalesReport.RefreshData default body inserted
+  
 end;
 
 end.

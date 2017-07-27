@@ -814,9 +814,10 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'actLaporanKonsinyasi'
     end
-    object actLapInvMovement: TAction
+    object actInvMovement: TAction
       Category = 'Inventory'
-      Caption = 'actLapInvMovement'
+      Caption = 'Inventory Movement'
+      OnExecute = actInvMovementExecute
     end
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
@@ -1151,8 +1152,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnReturTrader'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1171,7 +1172,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnDSR'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True

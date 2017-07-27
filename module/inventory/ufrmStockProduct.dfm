@@ -18,6 +18,8 @@ inherited frmStockProduct: TfrmStockProduct
       Height = 86
       Align = alTop
       TabOrder = 0
+      ExplicitLeft = 4
+      ExplicitTop = 2
       object Label2: TLabel
         Left = 24
         Top = 7

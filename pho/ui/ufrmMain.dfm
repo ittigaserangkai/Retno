@@ -135,6 +135,7 @@ object frmMain: TfrmMain
     TabOrder = 6
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -1419,7 +1420,7 @@ object frmMain: TfrmMain
     DockControlHeights = (
       0
       0
-      28
+      54
       0)
     object dxbrReferenceFinance: TdxBar
       Caption = 'Reference Finance'
@@ -1441,6 +1442,10 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
+          ItemName = 'dxbrbtnCostCenter'
+        end
+        item
+          Visible = True
           ItemName = 'dxbrbtnTipePembayaran'
         end
         item
@@ -1456,7 +1461,7 @@ object frmMain: TfrmMain
     object dxbrReferenceInventory: TdxBar
       Caption = 'Reference Inventory'
       CaptionButtons = <>
-      DockedLeft = 223
+      DockedLeft = 201
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1480,7 +1485,7 @@ object frmMain: TfrmMain
     object dxbrReferenceOther: TdxBar
       Caption = 'Reference Other'
       CaptionButtons = <>
-      DockedLeft = 360
+      DockedLeft = 323
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 10

@@ -203,7 +203,8 @@ uses
   ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct};
+  ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
+  ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement};
 
 {$R *.res}
 
