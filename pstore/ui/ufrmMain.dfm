@@ -92,6 +92,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -105,7 +106,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
-      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -1215,10 +1215,8 @@ object frmMain: TfrmMain
       PaintStyle = psCaptionGlyph
     end
     object dxbrbtnInventoryMovement: TdxBarButton
-      Caption = 'Inventory Movement'
+      Action = actInvMovement
       Category = 0
-      Hint = 'Inventory Movement'
-      Visible = ivAlways
       ImageIndex = 52
       PaintStyle = psCaptionGlyph
     end

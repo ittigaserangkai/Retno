@@ -369,8 +369,7 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
-  ufrmInventoryMovement;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader;
 
 
 
