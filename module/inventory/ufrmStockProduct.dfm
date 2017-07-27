@@ -2,7 +2,6 @@ inherited frmStockProduct: TfrmStockProduct
   Caption = 'Stock Barang'
   ClientHeight = 429
   ClientWidth = 698
-  ExplicitTop = 2
   ExplicitWidth = 714
   ExplicitHeight = 468
   PixelsPerInch = 96
@@ -10,9 +9,8 @@ inherited frmStockProduct: TfrmStockProduct
   inherited pnlBody: TPanel
     Width = 698
     Height = 343
-    ExplicitTop = 32
-    ExplicitWidth = 611
-    ExplicitHeight = 335
+    ExplicitWidth = 698
+    ExplicitHeight = 343
     object Panel2: TPanel
       Left = 3
       Top = 3
@@ -135,10 +133,6 @@ inherited frmStockProduct: TfrmStockProduct
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 690
-      ExplicitHeight = 296
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual
@@ -166,6 +160,7 @@ inherited frmStockProduct: TfrmStockProduct
   end
   inherited pnlHeader: TPanel
     Width = 698
+    ExplicitWidth = 698
     inherited lblHeader: TLabel
       Width = 85
       Height = 18
@@ -176,16 +171,22 @@ inherited frmStockProduct: TfrmStockProduct
   inherited pnlFooter: TPanel
     Top = 394
     Width = 698
+    ExplicitTop = 394
+    ExplicitWidth = 698
     inherited btnClose: TcxButton
       Left = 621
+      ExplicitLeft = 621
     end
   end
   inherited pnlShortCut: TPanel
     Top = 373
     Width = 698
+    ExplicitTop = 373
+    ExplicitWidth = 698
     inherited lbEscape: TLabel
       Left = 624
       Height = 17
+      ExplicitLeft = 624
     end
   end
   inherited actReport: TActionList
