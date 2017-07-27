@@ -51,7 +51,9 @@ type
     edNamaPelanggan: TcxTextEdit;
     edNoTrnTerakhir: TcxTextEdit;
     sgTransaksi: TcxGridTableView;
-    colNo: TcxGridColumn;
+    cxStyleRepository1: TcxStyleRepository;
+    cxStyleGreen: TcxStyle;
+    cxStyleBold: TcxStyle;
     procedure FormCreate(Sender: TObject);
     procedure edPLUKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -77,8 +79,7 @@ type
     procedure edtPasswordKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnCancelClick(Sender: TObject);
-    procedure AutoNumberCol(Sender: TcxCustomGridTableItem;
-        ARecordIndex: Integer; var AText: string);
+    procedure edNoPelangganEnter(Sender: TObject);
     procedure sgTransaksiEditing(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; var AAllow: Boolean);
     procedure sgTransaksiInitEdit(Sender: TcxCustomGridTableView; AItem:
@@ -103,6 +104,8 @@ type
     FTotalRupiahBarangBebasPPN: Currency;
     FTotalRupiahBarangDiscount: Currency;
     sValueBefore: string;
+    procedure AutoNumberCol(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
     procedure CalculateManualDisc(var Value: String; var Valid: Boolean; Row:
         Integer);
     function GetCCUoMs: TStrings;
@@ -142,8 +145,6 @@ type
     function SaveToDBPending: Boolean;
     procedure ShowPayment;
     procedure ActiveGrid;
-    procedure SetGridHidden_Transaksi(aColIndex: Integer; aColCountRight: Integer =
-        0);
     procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True);
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
 		property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
@@ -190,8 +191,10 @@ begin
     for i := 0 to _ColCount do
     begin
       dxColumn := CreateColumn;
+      dxColumn.HeaderAlignmentHorz := taCenter;
+      dxColumn.Styles.Header := cxStyleBold;
     end;
-
+    Columns[0].OnGetDisplayText := AutoNumberCol;
     Columns[0].Caption                := 'No';
     Columns[_KolPLU].Caption          := 'PLU';
     Columns[_KolNamaBarang].Caption   := 'Nama Barang';
@@ -251,7 +254,7 @@ begin
 //        ReadOnly      := True;
         UseThousandSeparator := True;
       end;
-      OnGetDataText := AutoNumberCol;
+//      OnGetDisplayText := AutoNumberCol;
     end;
     SetGridFormat_Column(_KolJumlah, False);
     SetGridFormat_Column(_KolHarga, True);
@@ -421,10 +424,9 @@ end;
 procedure TfrmTransaksi.FormShow(Sender: TObject);
 begin
   {$IFDEF RMS}
-  SetGridHidden_Transaksi(_KolDiscMan);
+  sgTransaksi.SetVisibleColumns(_KolIsDecimal, 1, False);
   {$ENDIF}
-
-  SetGridHidden_Transaksi(_KolIsDecimal, _ColCount);
+  sgTransaksi.SetVisibleColumns(_KolIsDecimal, _ColCount, False);
 
   if (edNoPelanggan.Text = '') or (edNoPelanggan.Text = '0') then
     LoadMember(GetDefaultMember)
@@ -970,6 +972,7 @@ end;
 
 procedure TfrmTransaksi.edNoPelangganExit(Sender: TObject);
 begin
+  edNoPelanggan.Style.Color := clWhite;
   if Trim(edNoPelanggan.Text) <> Trim(MemberCode)  then
   begin
 //    SavePendingToCSV(MemberCode);
@@ -1603,14 +1606,9 @@ begin
   end;
 end;
 
-procedure TfrmTransaksi.AutoNumberCol(Sender:
-    TcxCustomGridTableItem; ARecordIndex: Integer; var AText: string);
-var
- AFocusedRecordIndex, ARecno: Integer;
+procedure TfrmTransaksi.edNoPelangganEnter(Sender: TObject);
 begin
-  ARecno := TcxGridDBTableView(Sender.GridView).DataController.DataSource.DataSet.RecNo;
-  AFocusedRecordIndex :=  TcxGridDBTableView(Sender.GridView).Controller.FocusedRecordIndex;
-  AText := IntToStr( ARecno - AFocusedRecordIndex + ARecordIndex);
+  edNoPelanggan.Style.Color := clYellow;
 end;
 
 function TfrmTransaksi.HitungTotalRupiahBarangBKP: Currency;
@@ -1682,20 +1680,6 @@ begin
   TotalRupiahBarangDiscount := Result;
 end;
 
-procedure TfrmTransaksi.SetGridHidden_Transaksi(aColIndex: Integer;
-    aColCountRight: Integer = 0);
-var
-  i: SmallInt;
-begin
-  if (aColIndex + aColCountRight) >= (sgTransaksi.ColumnCount-1) then
-    aColCountRight := (sgTransaksi.ColumnCount-aColIndex-1);
-  try
-    for i := 0 to aColCountRight do
-      sgTransaksi.Columns[aColIndex+i].Hidden := True;
-  finally
-  end;
-end;
-
 procedure TfrmTransaksi.SetGridFormat_Column(aColIndex: Integer; aIsCurrency:
     Boolean = True);
 begin
@@ -1721,6 +1705,15 @@ begin
       end;
   finally
   end;
+end;
+
+procedure TfrmTransaksi.AutoNumberCol(Sender: TcxCustomGridTableItem; ARecord:
+    TcxCustomGridRecord; var AText: string);
+var
+  Row: Integer;
+begin
+  Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
+  AText := IntToStr(Row+1);
 end;
 
 procedure TfrmTransaksi.sgTransaksiEditing(Sender: TcxCustomGridTableView; AItem:
