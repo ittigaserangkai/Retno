@@ -15,25 +15,25 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
     ExplicitWidth = 677
     ExplicitHeight = 326
     inherited pgcBrowse: TcxPageControl
-      Top = 129
-      Width = 655
-      Height = 135
+      Top = 119
+      Width = 675
+      Height = 155
       TabOrder = 2
-      ExplicitTop = 129
-      ExplicitWidth = 655
-      ExplicitHeight = 135
-      ClientRectBottom = 134
-      ClientRectRight = 654
+      ExplicitTop = 119
+      ExplicitWidth = 675
+      ExplicitHeight = 155
+      ClientRectBottom = 154
+      ClientRectRight = 674
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 653
-        ExplicitHeight = 133
+        ExplicitWidth = 673
+        ExplicitHeight = 153
         inherited cxGrid: TcxGrid
-          Width = 653
-          Height = 133
-          ExplicitWidth = 653
-          ExplicitHeight = 133
+          Width = 673
+          Height = 153
+          ExplicitWidth = 673
+          ExplicitHeight = 153
           inherited cxGridView: TcxGridDBTableView
             object cxcolGridViewColumn1: TcxGridDBColumn
               Caption = 'SUPPLIER CODE'
@@ -58,9 +58,9 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       end
     end
     object pnlTop: TPanel
-      Left = 11
-      Top = 11
-      Width = 655
+      Left = 1
+      Top = 1
+      Width = 675
       Height = 118
       Align = alTop
       BorderWidth = 10
@@ -151,9 +151,9 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       end
     end
     object pnlBottom: TPanel
-      Left = 11
-      Top = 264
-      Width = 655
+      Left = 1
+      Top = 274
+      Width = 675
       Height = 51
       Align = alBottom
       Color = 15198183
@@ -278,6 +278,7 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       ExplicitWidth = 677
       inherited lbEscape: TLabel
         Left = 603
+        Height = 17
         ExplicitLeft = 603
       end
     end

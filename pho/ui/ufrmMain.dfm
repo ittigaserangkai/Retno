@@ -58,7 +58,6 @@ object frmMain: TfrmMain
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitTop = 174
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -135,7 +134,6 @@ object frmMain: TfrmMain
     TabOrder = 6
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
-      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -176,6 +174,9 @@ object frmMain: TfrmMain
         item
           Caption = 'Master'
           ToolbarName = 'dxbrFinanceMaster'
+        end
+        item
+          ToolbarName = 'dxbrFinanceOther'
         end>
       Index = 3
     end
@@ -803,9 +804,11 @@ object frmMain: TfrmMain
       Category = 'Accounting'
       Caption = 'actOpeningFiscalYear'
     end
-    object actPemakaianBarcode: TAction
+    object actBarcodeUsage: TAction
       Category = 'Finance'
-      Caption = 'Pemakaian Barcode'
+      Caption = 'Barcode Usage'
+      ImageIndex = 62
+      OnExecute = actBarcodeUsageExecute
     end
     object actListPemakaianBarcode: TAction
       Category = 'Finance'
@@ -841,7 +844,8 @@ object frmMain: TfrmMain
     end
     object actElectricCustomer: TAction
       Category = 'Finance'
-      Caption = 'actElectricCustomer'
+      Caption = 'Electric Customer'
+      OnExecute = actElectricCustomerExecute
     end
     object actElectricTransaction: TAction
       Category = 'Finance'
@@ -1420,7 +1424,7 @@ object frmMain: TfrmMain
     DockControlHeights = (
       0
       0
-      54
+      28
       0)
     object dxbrReferenceFinance: TdxBar
       Caption = 'Reference Finance'
@@ -1557,7 +1561,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCOA'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1705,6 +1709,30 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnExit'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrFinanceOther: TdxBar
+      Caption = 'Other'
+      CaptionButtons = <>
+      DockedLeft = 140
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBarcodeUsage'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnElectricCustomer'
         end>
       OneOnRow = True
       Row = 0
@@ -1877,6 +1905,15 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'New Button'
       Visible = ivAlways
+    end
+    object dxbrbtnBarcodeUsage: TdxBarButton
+      Action = actBarcodeUsage
+      Category = 0
+    end
+    object dxbrbtnElectricCustomer: TdxBarButton
+      Action = actElectricCustomer
+      Category = 0
+      ImageIndex = 24
     end
   end
 end

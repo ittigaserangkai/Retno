@@ -76,6 +76,7 @@ type
     procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer);
 //    procedure ParseGridElectricRateCombobox(aUnit_ID: Integer=0);
   public
+    procedure RefreshData; override;
     { Public declarations }
   end;
 
@@ -115,8 +116,8 @@ begin
   isOnAdd  := False;
   isOnEdit := False;
 //  dataCustCode := GetListCustomerByUnitId(MasterNewUnit.ID);
-  dataCustCode.Last;
-  LoadDropDownData(cbpCustCode,dataCustCode.RecordCount);
+//  dataCustCode.Last;
+//  LoadDropDownData(cbpCustCode,dataCustCode.RecordCount);
 end;
 
 procedure TfrmElectricCustomer.LoadDropDownData(ACombo: TcxExtLookupComboBox;
@@ -711,6 +712,12 @@ begin
 
   dmReportNew.EksekusiReport('frListElectricCustomer', sSQL, '', True);
   }
+end;
+
+procedure TfrmElectricCustomer.RefreshData;
+begin
+  inherited;
+  // TODO -cMM: TfrmElectricCustomer.RefreshData default body inserted
 end;
 
 end.

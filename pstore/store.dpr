@@ -7,7 +7,6 @@ uses
   ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
   ufraLoading in '..\system\ufraLoading.pas' {fraLoading: TFrame},
   ufraProgressBar in '..\system\ufraProgressBar.pas' {fraProgressBar: TFrame},
-  ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
   ufraFooterDialog2Button in '..\system\ufraFooterDialog2Button.pas' {fraFooterDialog2Button: TFrame},
   ufrmMasterDialog in '..\system\ufrmMasterDialog.pas' {frmMasterDialog},
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
@@ -204,7 +203,8 @@ uses
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
-  ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement};
+  ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
+  ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash};
 
 {$R *.res}
 

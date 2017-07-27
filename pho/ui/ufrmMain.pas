@@ -108,7 +108,7 @@ type
     actClosingFiscalYear: TAction;
     actJurnalEntry: TAction;
     actOpeningFiscalYear: TAction;
-    actPemakaianBarcode: TAction;
+    actBarcodeUsage: TAction;
     actListPemakaianBarcode: TAction;
     actPostingJournal: TAction;
     actUnpostingJournal: TAction;
@@ -361,7 +361,11 @@ type
     dxbrbtnLogOut: TdxBarButton;
     dxbrbtnExit: TdxBarButton;
     dxBarButton1: TdxBarButton;
+    dxbrFinanceOther: TdxBar;
+    dxbrbtnBarcodeUsage: TdxBarButton;
+    dxbrbtnElectricCustomer: TdxBarButton;
     procedure actBankExecute(Sender: TObject);
+    procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -374,6 +378,7 @@ type
     procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
+    procedure actElectricCustomerExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
@@ -482,7 +487,8 @@ uses
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
-  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor;
+  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
+  ufrmPemakaianBarcode;
 
 {$R *.dfm}
 
@@ -524,6 +530,11 @@ end;
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
   frmBank := tfrmBank.Create(Self);
+end;
+
+procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
+begin
+  frmPemakaianBarcode := tfrmPemakaianBarcode.Create(Self);
 end;
 
 procedure TfrmMain.actCancPOExecute(Sender: TObject);
@@ -636,6 +647,11 @@ end;
 procedure TfrmMain.actDocumentExecute(Sender: TObject);
 begin
   frmDocument := TfrmDocument.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actElectricCustomerExecute(Sender: TObject);
+begin
+  frmElectricCustomer := TfrmElectricCustomer.Create(Self);
 end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);

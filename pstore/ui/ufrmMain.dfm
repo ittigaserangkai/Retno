@@ -84,6 +84,7 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -92,7 +93,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
-      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -121,13 +121,21 @@ object frmMain: TfrmMain
       Groups = <>
       Index = 3
     end
+    object dxrbntbInventory: TdxRibbonTab
+      Caption = 'Inventory'
+      Groups = <
+        item
+          ToolbarName = 'dxbrInventory'
+        end>
+      Index = 4
+    end
     object dxrbntbSetting: TdxRibbonTab
       Caption = 'Setting'
       Groups = <
         item
           ToolbarName = 'dxbrSetting'
         end>
-      Index = 4
+      Index = 5
     end
     object dxrbntbWindow: TdxRibbonTab
       Caption = 'Window'
@@ -135,7 +143,7 @@ object frmMain: TfrmMain
         item
           ToolbarName = 'dxbrWindows'
         end>
-      Index = 5
+      Index = 6
     end
   end
   object mmMainMenu: TMainMenu
@@ -354,6 +362,7 @@ object frmMain: TfrmMain
     object actWastageReal: TAction
       Category = 'Inventory'
       Caption = 'Wastage &Real / Damage'
+      ImageIndex = 51
       OnExecute = actWastageRealExecute
     end
     object actInputProductIGRA: TAction
@@ -1178,6 +1187,26 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
+    object dxbrInventory: TdxBar
+      Caption = 'Inventory'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnWastageReal'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
     object dxbrbtnSO: TdxBarButton
       Action = actCreateSO
       Category = 0
@@ -1295,6 +1324,11 @@ object frmMain: TfrmMain
     end
     object dxbrbtnDSR: TdxBarButton
       Action = actDailySalesReport
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnWastageReal: TdxBarButton
+      Action = actWastageReal
       Category = 0
       PaintStyle = psCaptionGlyph
     end

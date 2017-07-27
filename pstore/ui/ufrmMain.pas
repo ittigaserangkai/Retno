@@ -236,6 +236,9 @@ type
     dxrbntbMarketing: TdxRibbonTab;
     dxbrOrderToCashReport: TdxBar;
     dxbrbtnDSR: TdxBarButton;
+    dxrbntbInventory: TdxRibbonTab;
+    dxbrInventory: TdxBar;
+    dxbrbtnWastageReal: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -369,7 +372,8 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct,
+  ufrmPOFromTrader;
 
 
 

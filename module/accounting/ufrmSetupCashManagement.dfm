@@ -531,6 +531,7 @@ inherited frmSetupCashManagement: TfrmSetupCashManagement
     ExplicitWidth = 655
     inherited lblHeader: TLabel
       Width = 147
+      Height = 18
       Caption = 'SETUP CASH MANAGEMENT'
       ExplicitWidth = 147
     end

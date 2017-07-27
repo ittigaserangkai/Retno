@@ -69,6 +69,7 @@ type
     procedure LoadDataWastage;
     procedure LoadDetilWastage;
     procedure LoadHeaderWastage;
+    procedure RefreshData; override;
     property ParamList: TStringList read FParamList write SetParamList;
   end;
 
@@ -311,8 +312,15 @@ end;
 procedure TfrmWastageReal.LoadDataWastage;
 begin
 //  FWastage.LoadByWSTRL_NO(edtWastageNo.Text, masternewunit.id);
-  LoadHeaderWastage;
-  LoadDetilWastage;
+//  LoadHeaderWastage;
+//  LoadDetilWastage;
+
+end;
+
+procedure TfrmWastageReal.RefreshData;
+begin
+  inherited;
+  // TODO -cMM: TfrmWastageReal.RefreshData default body inserted
 end;
 
 end.
