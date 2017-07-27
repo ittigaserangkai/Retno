@@ -102,7 +102,7 @@ end;
 procedure TfrmKartuStock.chkGudangClick(Sender: TObject);
 begin
   inherited;
-  cxLookupGudang.Enabled := chkGudang.Enabled;
+  cxLookupGudang.Enabled := chkGudang.Checked;
   if not cxLookupGudang.Enabled then cxLookupGudang.EditValue := null;
 end;
 
@@ -112,6 +112,7 @@ begin
   dtStart.Date  := StartOfTheMonth(Now());
   dtEnd.Date    := Now();
   initView;
+  chkGudangClick(Self);
 end;
 
 procedure TfrmKartuStock.cxLookupBarangPropertiesEditValueChanged(
@@ -165,7 +166,7 @@ begin
   if Assigned(FCDSBarang) then FreeAndNil(FCDSBarang);
   With DMClient.DSProviderClient do
   begin
-    FCDSBarang := TDBUtils.DSToCDS(Barang_GetDSOverview(cxLookupGroup.EditValue),Self);
+    FCDSBarang := TDBUtils.DSToCDS(Barang_GetDSLookup(cxLookupGroup.EditValue),Self);
     cxLookupBarang.LoadFromCDS(FCDSBarang,'Barang_ID','BRG_NAME',['Barang_ID'],Self);
   end;
 

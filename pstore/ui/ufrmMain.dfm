@@ -199,8 +199,8 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 16
-    Top = 176
+    Left = 40
+    Top = 168
     object actOnCreateForm: TAction
       Caption = 'actOnCreateForm'
       OnExecute = actOnCreateFormExecute
@@ -717,9 +717,10 @@ object frmMain: TfrmMain
       Caption = 'actUbahQtyPO'
       OnExecute = actUbahQtyPOExecute
     end
-    object actStokBarang: TAction
+    object actStockProduct: TAction
       Category = 'Inventory'
-      Caption = 'actStokBarang'
+      Caption = 'Stock Products'
+      OnExecute = actStockProductExecute
     end
     object actMutasiKeluar: TAction
       Category = 'Inventory'
@@ -870,6 +871,11 @@ object frmMain: TfrmMain
       Caption = 'Preference'
       OnExecute = actPreferenceExecute
     end
+    object actStockCard: TAction
+      Category = 'Inventory'
+      Caption = 'Stock Card'
+      OnExecute = actStockCardExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -958,6 +964,10 @@ object frmMain: TfrmMain
       FloatClientWidth = 0
       FloatClientHeight = 0
       ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton2'
+        end
         item
           Visible = True
           ItemName = 'dxbrbtn8'
@@ -1074,10 +1084,9 @@ object frmMain: TfrmMain
       PaintStyle = psCaptionGlyph
     end
     object dxbrbtn8: TdxBarButton
-      Caption = 'Stock Card'
+      Action = actStockCard
       Category = 0
-      Hint = 'Stock Card'
-      Visible = ivAlways
+      ImageIndex = 45
     end
     object dxbrbtn9: TdxBarButton
       Caption = 'Inventory Movement'
@@ -1163,6 +1172,17 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'New Button'
       Visible = ivAlways
+    end
+    object dxBarSubItem1: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarButton2: TdxBarButton
+      Action = actStockProduct
+      Category = 0
+      ImageIndex = 52
     end
   end
 end

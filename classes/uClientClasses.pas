@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 7/26/2017 4:12:59 PM
+// 07/27/17 10:07:57 AM
 //
 
 unit uClientClasses;
@@ -451,6 +451,8 @@ type
     FDO_GetDS_CheckListCommand_Cache: TDSRestCommand;
     FKartuStock_GetDSCommand: TDSRestCommand;
     FKartuStock_GetDSCommand_Cache: TDSRestCommand;
+    FStockProduct_GetDSCommand: TDSRestCommand;
+    FStockProduct_GetDSCommand_Cache: TDSRestCommand;
     FSO_ByDateCommand: TDSRestCommand;
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
@@ -469,6 +471,8 @@ type
     function DO_GetDS_CheckList_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
     function KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function StockProduct_GetDS(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
+    function StockProduct_GetDS_Cache(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -1916,6 +1920,24 @@ const
     (Name: 'aBarang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_StockProduct_GetDS: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGroup_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSReport_StockProduct_GetDS_Cache: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aGroup_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -6302,6 +6324,43 @@ begin
   Result := TDSRestCachedDataSet.Create(FKartuStock_GetDSCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSReportClient.StockProduct_GetDS(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FStockProduct_GetDSCommand = nil then
+  begin
+    FStockProduct_GetDSCommand := FConnection.CreateCommand;
+    FStockProduct_GetDSCommand.RequestType := 'GET';
+    FStockProduct_GetDSCommand.Text := 'TDSReport.StockProduct_GetDS';
+    FStockProduct_GetDSCommand.Prepare(TDSReport_StockProduct_GetDS);
+  end;
+  FStockProduct_GetDSCommand.Parameters[0].Value.AsDateTime := aEndDate;
+  FStockProduct_GetDSCommand.Parameters[1].Value.SetWideString(aGroup_ID);
+  FStockProduct_GetDSCommand.Parameters[2].Value.SetWideString(aSupplier_ID);
+  FStockProduct_GetDSCommand.Parameters[3].Value.SetWideString(aGudang_ID);
+  FStockProduct_GetDSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FStockProduct_GetDSCommand.Parameters[4].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FStockProduct_GetDSCommand.FreeOnExecute(Result);
+end;
+
+function TDSReportClient.StockProduct_GetDS_Cache(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FStockProduct_GetDSCommand_Cache = nil then
+  begin
+    FStockProduct_GetDSCommand_Cache := FConnection.CreateCommand;
+    FStockProduct_GetDSCommand_Cache.RequestType := 'GET';
+    FStockProduct_GetDSCommand_Cache.Text := 'TDSReport.StockProduct_GetDS';
+    FStockProduct_GetDSCommand_Cache.Prepare(TDSReport_StockProduct_GetDS_Cache);
+  end;
+  FStockProduct_GetDSCommand_Cache.Parameters[0].Value.AsDateTime := aEndDate;
+  FStockProduct_GetDSCommand_Cache.Parameters[1].Value.SetWideString(aGroup_ID);
+  FStockProduct_GetDSCommand_Cache.Parameters[2].Value.SetWideString(aSupplier_ID);
+  FStockProduct_GetDSCommand_Cache.Parameters[3].Value.SetWideString(aGudang_ID);
+  FStockProduct_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FStockProduct_GetDSCommand_Cache.Parameters[4].Value.GetString);
+end;
+
 function TDSReportClient.SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_ByDateCommand = nil then
@@ -6492,6 +6551,8 @@ begin
   FDO_GetDS_CheckListCommand_Cache.DisposeOf;
   FKartuStock_GetDSCommand.DisposeOf;
   FKartuStock_GetDSCommand_Cache.DisposeOf;
+  FStockProduct_GetDSCommand.DisposeOf;
+  FStockProduct_GetDSCommand_Cache.DisposeOf;
   FSO_ByDateCommand.DisposeOf;
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;

@@ -151,7 +151,7 @@ type
     actTransferBarangBonus: TAction;
     actLaporanWastage: TAction;
     actUbahQtyPO: TAction;
-    actStokBarang: TAction;
+    actStockProduct: TAction;
     actMutasiKeluar: TAction;
     actMutasiMasuk: TAction;
     actGudang: TAction;
@@ -230,6 +230,8 @@ type
     dxbrbtnSaveLayout: TdxBarButton;
     dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton;
     dxbrbtn10: TdxBarButton;
+    dxBarSubItem1: TdxBarSubItem;
+    dxBarButton2: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -298,6 +300,7 @@ type
     procedure actSettingAppExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
+    procedure actStockProductExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -358,7 +361,7 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct;
 
 
 
@@ -783,6 +786,11 @@ end;
 procedure TfrmMain.actStockCardExecute(Sender: TObject);
 begin
   frmKartuStock := TfrmKartuStock.Create(Self);
+end;
+
+procedure TfrmMain.actStockProductExecute(Sender: TObject);
+begin
+  frmStockProduct := TfrmStockProduct.Create(Self);
 end;
 
 procedure TfrmMain.actSupplierExecute(Sender: TObject);

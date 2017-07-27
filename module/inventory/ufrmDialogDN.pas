@@ -184,7 +184,7 @@ begin
     lPPN        := lSubTotal * DCItem.Values[i,cxGridColDNDetailColumnPPNPERSEN.Index]/100;
     lPPNBM      := lSubTotal * DCItem.Values[i,cxGridColDNDetailColumnPPNBMPERSEN.Index]/100;
 
-    DCItem.Values[i,cxGridColDNDetailColumnTotal.Index] := lSubTotal - lTotalDisc + lPPN + lPPNBM;
+    DCItem.Values[i,cxGridColDNDetailColumnTotal.Index] := lSubTotal + lPPN + lPPNBM;
     DCItem.Values[i,cxGridColDNDetailColumnTotalDisc.Index] := lTotalDisc;
     DCItem.Values[i,cxGridColDNDetailColumnPPN.Index] := lPPN;
     DCItem.Values[i,cxGridColDNDetailColumnPPNBM.Index] := lPPNBM;
@@ -229,7 +229,7 @@ begin
       lQTY := DCitem.Values[DCItem.FocusedRecordIndex,cxGridColDNDetailColumnQty.Index];
 
     //disc per qty
-    lDisc   := lPoDetail.POD_TOTAL_DISC / lPoDetail.POD_QTY_ORDER;
+    lDisc   := lPoDetail.POD_TOTAL_DISC; // / lPoDetail.POD_QTY_ORDER;
     lPrice  := lPODetail.POD_PRICE;
     lTotal  := lQTY * (lPrice - lDisc);
     lPPN    := lPODetail.POD_PPN_PERSEN/100 * lTotal;
@@ -557,7 +557,7 @@ begin
     for j := 0 to DCItem.RecordCount-1 do
     begin
       if i = j then continue;
-      if DCItem.Values[i, cxGridColDNDetailColumnNama.Index] = DCItem.Values[i, cxGridColDNDetailColumnNama.Index] then
+      if DCItem.Values[i, cxGridColDNDetailColumnNama.Index] = DCItem.Values[j, cxGridColDNDetailColumnNama.Index] then
       begin
         TAppUtils.Warning('Item Baris : ' + inttostr(i+1) + ' & ' + inttostr(j+1) + ' sama');
         exit;
