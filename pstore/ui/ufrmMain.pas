@@ -217,7 +217,6 @@ type
     dxbrbtnSettingApp: TdxBarButton;
     dxrbntbSetting: TdxRibbonTab;
     actSettingApp: TAction;
-    dxbrFavourite: TdxBar;
     dxbrlrgbtnPreference: TdxBarLargeButton;
     actPreference: TAction;
     dxbrbtn1: TdxBarButton;
@@ -232,6 +231,17 @@ type
     dxbrbtn10: TdxBarButton;
     dxBarSubItem1: TdxBarSubItem;
     dxBarButton2: TdxBarButton;
+    dxbrFavourite: TdxBar;
+    dxrbntbSystem: TdxRibbonTab;
+    dxrbntbWindow: TdxRibbonTab;
+    dxbrSystem: TdxBar;
+    dxbrbtnLogin: TdxBarButton;
+    dxbrbtnLogout: TdxBarButton;
+    dxbrbtnExit: TdxBarButton;
+    dxbrWindows: TdxBar;
+    dxbrbtnCascade: TdxBarButton;
+    dxbrbtnTile: TdxBarButton;
+    dxbrbtnCloseAll: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);

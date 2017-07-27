@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'ASSALAAM HYPERMARKET'
-  ClientHeight = 488
+  ClientHeight = 508
   ClientWidth = 923
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,7 +11,6 @@ object frmMain: TfrmMain
   Font.Name = 'Trebuchet MS'
   Font.Style = []
   FormStyle = fsMDIForm
-  Menu = mmMainMenu
   OldCreateOrder = False
   Visible = True
   WindowState = wsMaximized
@@ -23,7 +22,7 @@ object frmMain: TfrmMain
   TextHeight = 16
   object sbMain: TdxStatusBar
     Left = 0
-    Top = 468
+    Top = 488
     Width = 923
     Height = 20
     Panels = <
@@ -55,32 +54,45 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 923
-    Height = 155
+    Height = 120
     BarManager = dxbrmngrStore
     Style = rs2013
     ColorSchemeName = 'White'
     Fonts.ApplicationButton.Charset = DEFAULT_CHARSET
     Fonts.ApplicationButton.Color = clWindowText
     Fonts.ApplicationButton.Height = -12
-    Fonts.ApplicationButton.Name = 'Segoe UI'
+    Fonts.ApplicationButton.Name = 'Verdana'
     Fonts.ApplicationButton.Style = []
-    Fonts.AssignedFonts = [afGroup, afGroupHeader, afApplicationButton]
+    Fonts.AssignedFonts = [afTabHeader, afGroup, afGroupHeader, afApplicationButton]
     Fonts.Group.Charset = DEFAULT_CHARSET
     Fonts.Group.Color = 9126421
     Fonts.Group.Height = -12
-    Fonts.Group.Name = 'Segoe UI'
+    Fonts.Group.Name = 'Verdana'
     Fonts.Group.Style = []
     Fonts.GroupHeader.Charset = DEFAULT_CHARSET
     Fonts.GroupHeader.Color = 11168318
     Fonts.GroupHeader.Height = -12
-    Fonts.GroupHeader.Name = 'Segoe UI'
-    Fonts.GroupHeader.Style = [fsBold]
-    QuickAccessToolbar.Toolbar = dxbrFavourite
-    ShowMinimizeButton = False
+    Fonts.GroupHeader.Name = 'Verdana'
+    Fonts.GroupHeader.Style = []
+    Fonts.TabHeader.Charset = DEFAULT_CHARSET
+    Fonts.TabHeader.Color = clWindowText
+    Fonts.TabHeader.Height = -12
+    Fonts.TabHeader.Name = 'Verdana'
+    Fonts.TabHeader.Style = []
+    QuickAccessToolbar.Visible = False
     Contexts = <>
     TabOrder = 5
     TabStop = False
+    object dxrbntbSystem: TdxRibbonTab
+      Caption = 'System'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSystem'
+        end>
+      Index = 0
+    end
     object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -91,21 +103,28 @@ object frmMain: TfrmMain
           Caption = 'Report'
           ToolbarName = 'dxbrProcureToPayReport'
         end>
-      Index = 0
+      Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
       Caption = 'Order To Cash'
       Groups = <>
-      Index = 1
+      Index = 2
     end
     object dxrbntbSetting: TdxRibbonTab
-      Active = True
       Caption = 'Setting'
       Groups = <
         item
           ToolbarName = 'dxbrSetting'
         end>
-      Index = 2
+      Index = 3
+    end
+    object dxrbntbWindow: TdxRibbonTab
+      Caption = 'Window'
+      Groups = <
+        item
+          ToolbarName = 'dxbrWindows'
+        end>
+      Index = 4
     end
   end
   object mmMainMenu: TMainMenu
@@ -199,6 +218,7 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
+    Images = DMClient.imgListButton
     Left = 40
     Top = 168
     object actOnCreateForm: TAction
@@ -208,23 +228,27 @@ object frmMain: TfrmMain
     object actOnLogout: TAction
       Category = 'Sistem'
       Caption = 'Logout'
+      ImageIndex = 69
       ShortCut = 24652
       OnExecute = actOnLogoutExecute
     end
     object actOnLogin: TAction
       Category = 'Sistem'
       Caption = 'Login'
+      ImageIndex = 69
       ShortCut = 16460
       OnExecute = actOnLoginExecute
     end
     object actOnExit: TAction
       Category = 'Sistem'
       Caption = 'Exit'
+      ImageIndex = 66
       ShortCut = 32883
     end
     object actCascade: TAction
       Category = 'Window'
       Caption = '&Cascade'
+      ImageIndex = 65
       OnExecute = actCascadeExecute
     end
     object actTile: TAction
@@ -245,6 +269,7 @@ object frmMain: TfrmMain
     object actCloseAll: TAction
       Category = 'Window'
       Caption = 'Clo&se All'
+      ImageIndex = 66
       OnExecute = actCloseAllExecute
     end
     object actInputSupplierNotForSO: TAction
@@ -892,7 +917,7 @@ object frmMain: TfrmMain
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
-    Font.Name = 'Segoe UI'
+    Font.Name = 'Verdana'
     Font.Style = []
     Categories.Strings = (
       'Default')
@@ -902,14 +927,17 @@ object frmMain: TfrmMain
       True)
     ImageOptions.Images = DMClient.imgListButton
     ImageOptions.LargeImages = DMClient.ilImage24
+    IniFileName = 'storemenu.ini'
+    NotDocking = [dsTop]
     PopupMenuLinks = <>
-    UseSystemFont = True
+    StoreInIniFile = True
+    UseSystemFont = False
     Left = 264
     Top = 160
     DockControlHeights = (
       0
       0
-      0
+      26
       0)
     object dxbrPurchasing: TdxBar
       Caption = 'Procure To Pay'
@@ -957,7 +985,7 @@ object frmMain: TfrmMain
     object dxbrProcureToPayReport: TdxBar
       Caption = 'Procure To Pay Report'
       CaptionButtons = <>
-      DockedLeft = 263
+      DockedLeft = 302
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
@@ -1009,14 +1037,71 @@ object frmMain: TfrmMain
     object dxbrFavourite: TdxBar
       Caption = 'Favourite'
       CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = True
+    end
+    object dxbrSystem: TdxBar
+      Caption = 'System'
+      CaptionButtons = <>
       DockedLeft = 0
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      Images = DMClient.imgListIcon
-      ItemLinks = <>
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnLogin'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnLogout'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnExit'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrWindows: TdxBar
+      Caption = 'Windows'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCascade'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTile'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCloseAll'
+        end>
       OneOnRow = True
       Row = 0
       UseOwnFont = False
@@ -1183,6 +1268,30 @@ object frmMain: TfrmMain
       Action = actStockProduct
       Category = 0
       ImageIndex = 52
+    end
+    object dxbrbtnLogin: TdxBarButton
+      Action = actOnLogin
+      Category = 0
+    end
+    object dxbrbtnLogout: TdxBarButton
+      Action = actOnLogout
+      Category = 0
+    end
+    object dxbrbtnExit: TdxBarButton
+      Action = actOnExit
+      Category = 0
+    end
+    object dxbrbtnCascade: TdxBarButton
+      Action = actCascade
+      Category = 0
+    end
+    object dxbrbtnTile: TdxBarButton
+      Action = actTile
+      Category = 0
+    end
+    object dxbrbtnCloseAll: TdxBarButton
+      Action = actCloseAll
+      Category = 0
     end
   end
 end
