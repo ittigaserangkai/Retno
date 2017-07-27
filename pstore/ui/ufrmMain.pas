@@ -167,7 +167,7 @@ type
     actStockBarang: TAction;
     actLapReturSup: TAction;
     actLaporanKonsinyasi: TAction;
-    actLapInvMovement: TAction;
+    actInvMovement: TAction;
     actLapInvMovementQty: TAction;
     actShipmentAgent: TAction;
     actShipmentTransport: TAction;
@@ -296,6 +296,7 @@ type
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
+    procedure actInvMovementExecute(Sender: TObject);
     procedure actPreferenceExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -361,7 +362,7 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference, ufrmStockProduct;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmInventoryMovement;
 
 
 
@@ -508,9 +509,14 @@ begin
   frmInputSupplierForNotSO := TfrmInputSupplierForNotSO.CreateWithUser(Self, FFormProperty);
 end;
 
+procedure TfrmMain.actInvMovementExecute(Sender: TObject);
+begin
+  frmInventoryMovement := TfrmInventoryMovement.Create(Self);
+end;
+
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
 begin
-     frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+  frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLaporanReturSupplierExecute(Sender: TObject);

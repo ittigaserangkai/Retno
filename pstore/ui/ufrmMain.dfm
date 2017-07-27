@@ -774,9 +774,10 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'actLaporanKonsinyasi'
     end
-    object actLapInvMovement: TAction
+    object actInvMovement: TAction
       Category = 'Inventory'
-      Caption = 'actLapInvMovement'
+      Caption = 'Inventory Movement'
+      OnExecute = actInvMovementExecute
     end
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
@@ -1089,10 +1090,9 @@ object frmMain: TfrmMain
       ImageIndex = 45
     end
     object dxbrbtn9: TdxBarButton
-      Caption = 'Inventory Movement'
+      Action = actInvMovement
       Category = 0
-      Hint = 'Inventory Movement'
-      Visible = ivAlways
+      ImageIndex = 52
     end
     object dxbrbtnSettingKoneksi: TdxBarButton
       Action = actSetKoneksi
@@ -1182,7 +1182,7 @@ object frmMain: TfrmMain
     object dxBarButton2: TdxBarButton
       Action = actStockProduct
       Category = 0
-      ImageIndex = 52
+      ImageIndex = 51
     end
   end
 end
