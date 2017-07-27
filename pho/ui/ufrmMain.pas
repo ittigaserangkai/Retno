@@ -364,6 +364,7 @@ type
     dxbrbtnLogIn: TdxBarButton;
     dxbrbtnLogOut: TdxBarButton;
     dxbrbtnExit: TdxBarButton;
+    dxbrmngrHOBar1: TdxBar;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);

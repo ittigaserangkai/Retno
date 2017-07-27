@@ -51,14 +51,14 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 52
+    Top = 174
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitTop = 51
+    ExplicitTop = 148
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -106,21 +106,36 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 800
-    Height = 26
+    Height = 120
     BarManager = dxbrmngrHO
     Style = rs2013
     ColorSchemeName = 'White'
-    Fonts.AssignedFonts = [afTabHeader]
+    Fonts.ApplicationButton.Charset = DEFAULT_CHARSET
+    Fonts.ApplicationButton.Color = clWindowText
+    Fonts.ApplicationButton.Height = -12
+    Fonts.ApplicationButton.Name = 'Verdana'
+    Fonts.ApplicationButton.Style = []
+    Fonts.AssignedFonts = [afTabHeader, afGroup, afGroupHeader, afApplicationButton]
+    Fonts.Group.Charset = DEFAULT_CHARSET
+    Fonts.Group.Color = 5978398
+    Fonts.Group.Height = -12
+    Fonts.Group.Name = 'Verdana'
+    Fonts.Group.Style = []
+    Fonts.GroupHeader.Charset = DEFAULT_CHARSET
+    Fonts.GroupHeader.Color = 6710886
+    Fonts.GroupHeader.Height = -12
+    Fonts.GroupHeader.Name = 'Verdana'
+    Fonts.GroupHeader.Style = []
     Fonts.TabHeader.Charset = DEFAULT_CHARSET
     Fonts.TabHeader.Color = clWindowText
     Fonts.TabHeader.Height = -12
     Fonts.TabHeader.Name = 'Verdana'
     Fonts.TabHeader.Style = []
-    ShowTabGroups = False
     Contexts = <>
     TabOrder = 6
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -180,7 +195,6 @@ object frmMain: TfrmMain
       Index = 5
     end
     object dxrbntbWindow: TdxRibbonTab
-      Active = True
       Caption = 'Window'
       Groups = <
         item
@@ -1382,7 +1396,7 @@ object frmMain: TfrmMain
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
-    Font.Name = 'Verdana'
+    Font.Name = 'Segoe UI'
     Font.Style = []
     Categories.Strings = (
       'Default')
@@ -1392,14 +1406,20 @@ object frmMain: TfrmMain
       True)
     ImageOptions.Images = DMClient.imgListButton
     ImageOptions.LargeImages = DMClient.imgListButton
+    IniFileName = 'homenu.ini'
     PopupMenuLinks = <>
+    ShowCloseButton = True
+    ShowHelpButton = True
+    ShowShortCutInHint = True
+    StoreInIniFile = True
+    SunkenBorder = True
     UseSystemFont = False
     Left = 272
     Top = 192
     DockControlHeights = (
       0
       0
-      26
+      54
       0)
     object dxbrReferenceFinance: TdxBar
       Caption = 'Reference Finance'
@@ -1553,7 +1573,7 @@ object frmMain: TfrmMain
       Row = 0
       UseOwnFont = False
       Visible = True
-      WholeRow = False
+      WholeRow = True
     end
     object dxbrMerchandize: TdxBar
       Caption = 'Merchandize'
@@ -1683,6 +1703,24 @@ object frmMain: TfrmMain
         end>
       OneOnRow = True
       Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBar1: TdxBar
+      Caption = 'Custom 1'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 26
+      DockingStyle = dsTop
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
