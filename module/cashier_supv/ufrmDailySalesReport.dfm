@@ -12,32 +12,30 @@ inherited frmDailySalesReport: TfrmDailySalesReport
   inherited pnlBody: TPanel
     Width = 637
     Height = 281
-    ExplicitWidth = 521
-    ExplicitHeight = 225
+    ExplicitWidth = 637
+    ExplicitHeight = 281
     inherited pgcBrowse: TcxPageControl
-      Width = 615
-      Height = 259
-      ExplicitWidth = 499
-      ExplicitHeight = 203
-      ClientRectBottom = 258
-      ClientRectRight = 614
+      Width = 635
+      Height = 279
+      ExplicitWidth = 635
+      ExplicitHeight = 279
+      ClientRectBottom = 278
+      ClientRectRight = 634
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 497
-        ExplicitHeight = 201
+        ExplicitWidth = 633
+        ExplicitHeight = 277
         inherited cxGrid: TcxGrid
-          Width = 613
-          Height = 257
-          ExplicitWidth = 497
-          ExplicitHeight = 201
+          Width = 633
+          Height = 277
+          ExplicitWidth = 633
+          ExplicitHeight = 277
         end
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 637
-    ExplicitWidth = 521
+    ExplicitWidth = 637
     inherited lblHeader: TLabel
       Width = 114
       Caption = 'DAILY SALES REPORT'
@@ -45,27 +43,25 @@ inherited frmDailySalesReport: TfrmDailySalesReport
     end
     inherited lblFilterData: TcxLabel
       Left = 283
-      ExplicitLeft = 167
+      ExplicitLeft = 283
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 344
-      ExplicitLeft = 228
-      ExplicitHeight = 23
+      ExplicitLeft = 344
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 460
       Visible = True
-      ExplicitLeft = 344
-      ExplicitHeight = 23
+      ExplicitLeft = 460
     end
     inherited btnSearch: TcxButton
       Left = 555
-      ExplicitLeft = 439
+      ExplicitLeft = 555
     end
     inherited lblsdFilter: TcxLabel
       Left = 436
-      ExplicitLeft = 320
+      ExplicitLeft = 436
       AnchorY = 17
     end
   end
@@ -73,10 +69,10 @@ inherited frmDailySalesReport: TfrmDailySalesReport
     Top = 314
     Width = 637
     ExplicitTop = 314
-    ExplicitWidth = 521
+    ExplicitWidth = 637
     inherited pnlFooter: TPanel
       Width = 637
-      ExplicitWidth = 521
+      ExplicitWidth = 637
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -89,7 +85,7 @@ inherited frmDailySalesReport: TfrmDailySalesReport
       inherited btnClose: TcxButton
         Left = 560
         Action = actClose
-        ExplicitLeft = 444
+        ExplicitLeft = 560
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -97,10 +93,10 @@ inherited frmDailySalesReport: TfrmDailySalesReport
     end
     inherited pnlShortCut: TPanel
       Width = 637
-      ExplicitWidth = 521
+      ExplicitWidth = 637
       inherited lbEscape: TLabel
         Left = 563
-        Height = 17
+        ExplicitLeft = 563
       end
     end
   end

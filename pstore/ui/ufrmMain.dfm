@@ -92,7 +92,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
-      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -106,9 +105,21 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
+      Active = True
       Caption = 'Order To Cash'
-      Groups = <>
+      Groups = <
+        item
+          ToolbarName = 'dxbrTrader'
+        end
+        item
+          ToolbarName = 'dxbrOrderToCashReport'
+        end>
       Index = 2
+    end
+    object dxrbntbMarketing: TdxRibbonTab
+      Caption = 'Marketing'
+      Groups = <>
+      Index = 3
     end
     object dxrbntbSetting: TdxRibbonTab
       Caption = 'Setting'
@@ -116,7 +127,7 @@ object frmMain: TfrmMain
         item
           ToolbarName = 'dxbrSetting'
         end>
-      Index = 3
+      Index = 4
     end
     object dxrbntbWindow: TdxRibbonTab
       Caption = 'Window'
@@ -124,7 +135,7 @@ object frmMain: TfrmMain
         item
           ToolbarName = 'dxbrWindows'
         end>
-      Index = 4
+      Index = 5
     end
   end
   object mmMainMenu: TMainMenu
@@ -244,6 +255,7 @@ object frmMain: TfrmMain
       Caption = 'Exit'
       ImageIndex = 66
       ShortCut = 32883
+      OnExecute = actOnExitExecute
     end
     object actCascade: TAction
       Category = 'Window'
@@ -468,6 +480,8 @@ object frmMain: TfrmMain
     object actPOFromTrader: TAction
       Category = 'Trader'
       Caption = '&PO From Trader'
+      ImageIndex = 10
+      OnExecute = actPOFromTraderExecute
     end
     object actTrader: TAction
       Category = 'Trader'
@@ -535,6 +549,7 @@ object frmMain: TfrmMain
     object actDailySalesReport: TAction
       Category = 'SupvCashier'
       Caption = 'Daily Sales Report'
+      ImageIndex = 52
       OnExecute = actDailySalesReportExecute
     end
     object actReprintNota: TAction
@@ -873,7 +888,8 @@ object frmMain: TfrmMain
     end
     object actReturTrader: TAction
       Category = 'Trader'
-      Caption = 'actReturTrader'
+      Caption = 'Retur Trader'
+      ImageIndex = 42
       OnExecute = actReturTraderExecute
     end
     object actPurchaseOrder: TAction
@@ -900,6 +916,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Stock Card'
       OnExecute = actStockCardExecute
+    end
+    object actResetMenu: TAction
+      Category = 'Sistem'
+      Caption = 'Reset Menu'
+      OnExecute = actResetMenuExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -994,15 +1015,15 @@ object frmMain: TfrmMain
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarButton2'
+          ItemName = 'dxbrbtnStockProduct'
         end
         item
           Visible = True
-          ItemName = 'dxbrbtn8'
+          ItemName = 'dxbrbtnSTockCasrd'
         end
         item
           Visible = True
-          ItemName = 'dxbrbtn9'
+          ItemName = 'dxbrbtnInventoryMovement'
         end>
       OneOnRow = False
       Row = 0
@@ -1027,6 +1048,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnSettingApp'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnResetMenu'
         end>
       OneOnRow = True
       Row = 0
@@ -1108,6 +1133,50 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
+    object dxbrTrader: TdxBar
+      Caption = 'Trader'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnPOTrader'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnReturTrader'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrOrderToCashReport: TdxBar
+      Caption = 'Report'
+      CaptionButtons = <>
+      DockedLeft = 133
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDSR'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
     object dxbrbtnSO: TdxBarButton
       Action = actCreateSO
       Category = 0
@@ -1119,36 +1188,6 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 30
       PaintStyle = psCaptionGlyph
-    end
-    object dxbrlrgbtn1: TdxBarLargeButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxBarButton1: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxbrlrgbtn2: TdxBarLargeButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxbrbtn3: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxbrbtn4: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
     end
     object dxbrbtnGR: TdxBarButton
       Action = actGoodsReceiving
@@ -1168,16 +1207,19 @@ object frmMain: TfrmMain
       ImageIndex = 41
       PaintStyle = psCaptionGlyph
     end
-    object dxbrbtn8: TdxBarButton
+    object dxbrbtnSTockCasrd: TdxBarButton
       Action = actStockCard
       Category = 0
       ImageIndex = 45
+      PaintStyle = psCaptionGlyph
     end
-    object dxbrbtn9: TdxBarButton
+    object dxbrbtnInventoryMovement: TdxBarButton
       Caption = 'Inventory Movement'
       Category = 0
       Hint = 'Inventory Movement'
       Visible = ivAlways
+      ImageIndex = 52
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnSettingKoneksi: TdxBarButton
       Action = actSetKoneksi
@@ -1189,6 +1231,7 @@ object frmMain: TfrmMain
       Action = actSettingApp
       Category = 0
       ImageIndex = 44
+      PaintStyle = psCaptionGlyph
     end
     object dxbrlrgbtnPreference: TdxBarLargeButton
       Action = actPreference
@@ -1201,97 +1244,60 @@ object frmMain: TfrmMain
       ImageIndex = 41
       PaintStyle = psCaptionGlyph
     end
-    object dxbrbtn2: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-      PaintStyle = psCaptionGlyph
-    end
-    object dxbrbtn5: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-      PaintStyle = psCaptionGlyph
-    end
-    object dxbrbtn6: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-      PaintStyle = psCaptionGlyph
-    end
-    object dxbrlrgbtn3: TdxBarLargeButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxbrlrgbtn4: TdxBarLargeButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxbrbtn7: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxbrbtnSaveLayout: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-      ImageIndex = 32
-      LargeImageIndex = 4
-    end
-    object dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton
-      Category = 0
-      Visible = ivAlways
-    end
-    object dxbrbtn10: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxBarSubItem1: TdxBarSubItem
-      Caption = 'New SubItem'
-      Category = 0
-      Visible = ivAlways
-      ItemLinks = <>
-    end
-    object dxBarButton2: TdxBarButton
+    object dxbrbtnStockProduct: TdxBarButton
       Action = actStockProduct
       Category = 0
       ImageIndex = 52
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnLogin: TdxBarButton
       Action = actOnLogin
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnLogout: TdxBarButton
       Action = actOnLogout
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnExit: TdxBarButton
       Action = actOnExit
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCascade: TdxBarButton
       Action = actCascade
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnTile: TdxBarButton
       Action = actTile
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCloseAll: TdxBarButton
       Action = actCloseAll
       Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnPOTrader: TdxBarButton
+      Action = actPOFromTrader
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnResetMenu: TdxBarButton
+      Action = actResetMenu
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnReturTrader: TdxBarButton
+      Action = actReturTrader
+      Category = 0
+    end
+    object dxbrbtnDSR: TdxBarButton
+      Action = actDailySalesReport
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

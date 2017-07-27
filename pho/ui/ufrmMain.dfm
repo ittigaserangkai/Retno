@@ -51,14 +51,14 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 174
+    Top = 148
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitTop = 148
+    ExplicitTop = 174
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -135,7 +135,6 @@ object frmMain: TfrmMain
     TabOrder = 6
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
-      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -170,7 +169,8 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Caption = 'Finance'
+      Active = True
+      Caption = 'Finance & Accounting '
       Groups = <
         item
           Caption = 'Master'
@@ -1419,7 +1419,7 @@ object frmMain: TfrmMain
     DockControlHeights = (
       0
       0
-      54
+      28
       0)
     object dxbrReferenceFinance: TdxBar
       Caption = 'Reference Finance'
@@ -1441,10 +1441,6 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
-          ItemName = 'dxbrbtnCostCenter'
-        end
-        item
-          Visible = True
           ItemName = 'dxbrbtnTipePembayaran'
         end
         item
@@ -1460,7 +1456,7 @@ object frmMain: TfrmMain
     object dxbrReferenceInventory: TdxBar
       Caption = 'Reference Inventory'
       CaptionButtons = <>
-      DockedLeft = 201
+      DockedLeft = 223
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1484,7 +1480,7 @@ object frmMain: TfrmMain
     object dxbrReferenceOther: TdxBar
       Caption = 'Reference Other'
       CaptionButtons = <>
-      DockedLeft = 323
+      DockedLeft = 360
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 10
@@ -1529,7 +1525,7 @@ object frmMain: TfrmMain
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxbrlrgbtn2'
+          ItemName = 'dxbrbtnMembership'
         end>
       OneOnRow = True
       Row = 0
@@ -1547,6 +1543,10 @@ object frmMain: TfrmMain
       FloatClientWidth = 0
       FloatClientHeight = 0
       ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCostCenter'
+        end
         item
           Visible = True
           ItemName = 'dxbrbtnCOA'
@@ -1707,24 +1707,6 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
-    object dxbrmngrHOBar1: TdxBar
-      Caption = 'Custom 1'
-      CaptionButtons = <>
-      DockedDockingStyle = dsTop
-      DockedLeft = 0
-      DockedTop = 26
-      DockingStyle = dsTop
-      FloatLeft = 834
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <>
-      OneOnRow = True
-      Row = 1
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
     object dxbrbtnBank: TdxBarButton
       Action = actBank
       Category = 0
@@ -1747,137 +1729,149 @@ object frmMain: TfrmMain
       Action = actProductType
       Category = 0
       ImageIndex = 51
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnTipePembayaran: TdxBarButton
       Action = actTipePembayaran
       Category = 0
       ImageIndex = 48
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnUOM: TdxBarButton
       Action = actUOM
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnTipePerusahaan: TdxBarButton
       Action = actCompanyType
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnSupplierType: TdxBarButton
       Action = actSupplierType
       Category = 0
-    end
-    object dxbrsbtmCompany: TdxBarSubItem
-      Caption = 'New SubItem'
-      Category = 0
-      Visible = ivAlways
-      ItemLinks = <>
-    end
-    object dxbrlrgbtn1: TdxBarLargeButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCompany: TdxBarButton
       Action = actCompany
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnSalesOutlet: TdxBarButton
       Action = actSalesOutlet
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnUnitStore: TdxBarButton
       Action = actUnitStore
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnMembership: TdxBarButton
       Action = actMembership
       Category = 0
-    end
-    object dxbrlrgbtn2: TdxBarLargeButton
-      Action = actMembership
-      Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCreditCard: TdxBarButton
       Action = actCreditCard
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCOA: TdxBarButton
       Action = actRekening
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnMerchandise: TdxBarButton
       Action = actMerchandise
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnMerchandiseGroup: TdxBarButton
       Action = actMerchanGroup
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnSubGroup: TdxBarButton
       Action = actSubGroup
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnKategori: TdxBarButton
       Action = actKategori
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnMerk: TdxBarButton
       Action = actMerk
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnProduct: TdxBarButton
       Action = actDataProduct
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnSupplierGroup: TdxBarButton
       Action = actSupplierGroup
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnSupplier: TdxBarButton
       Action = actSupplier
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnKompetirot: TdxBarButton
       Action = actKompetitor
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnServerConnection: TdxBarButton
       Action = actSetKoneksi
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtn3: TdxBarButton
       Action = actSettingAplikasi
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCascade: TdxBarButton
       Action = actCascade
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnTile: TdxBarButton
       Action = actTile
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnCloseAll: TdxBarButton
       Action = actCloseAll
       Category = 0
-    end
-    object dxbrsbtmLogin: TdxBarSubItem
-      Caption = 'New SubItem'
-      Category = 0
-      Visible = ivAlways
-      ItemLinks = <>
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnLogIn: TdxBarButton
       Action = actOnLogin
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnLogOut: TdxBarButton
       Action = actOnLogout
       Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxbrbtnExit: TdxBarButton
       Action = actOnExit
       Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxBarButton1: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
     end
   end
 end

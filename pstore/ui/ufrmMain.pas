@@ -198,11 +198,6 @@ type
     dxbrPurchasing: TdxBar;
     dxbrbtnSO: TdxBarButton;
     dxbrbtnPO: TdxBarButton;
-    dxbrlrgbtn1: TdxBarLargeButton;
-    dxBarButton1: TdxBarButton;
-    dxbrlrgbtn2: TdxBarLargeButton;
-    dxbrbtn3: TdxBarButton;
-    dxbrbtn4: TdxBarButton;
     dxbrbtnGR: TdxBarButton;
     dxbrbtnCNrecv: TdxBarButton;
     dxbrbtnDNRecv: TdxBarButton;
@@ -210,8 +205,8 @@ type
     dxrbnHO: TdxRibbon;
     dxrbntbOrderToCash: TdxRibbonTab;
     dxbrProcureToPayReport: TdxBar;
-    dxbrbtn8: TdxBarButton;
-    dxbrbtn9: TdxBarButton;
+    dxbrbtnSTockCasrd: TdxBarButton;
+    dxbrbtnInventoryMovement: TdxBarButton;
     dxbrSetting: TdxBar;
     dxbrbtnSettingKoneksi: TdxBarButton;
     dxbrbtnSettingApp: TdxBarButton;
@@ -220,17 +215,7 @@ type
     dxbrlrgbtnPreference: TdxBarLargeButton;
     actPreference: TAction;
     dxbrbtn1: TdxBarButton;
-    dxbrbtn2: TdxBarButton;
-    dxbrbtn5: TdxBarButton;
-    dxbrbtn6: TdxBarButton;
-    dxbrlrgbtn3: TdxBarLargeButton;
-    dxbrlrgbtn4: TdxBarLargeButton;
-    dxbrbtn7: TdxBarButton;
-    dxbrbtnSaveLayout: TdxBarButton;
-    dxrbnqckcsgrpbtn1: TdxRibbonQuickAccessGroupButton;
-    dxbrbtn10: TdxBarButton;
-    dxBarSubItem1: TdxBarSubItem;
-    dxBarButton2: TdxBarButton;
+    dxbrbtnStockProduct: TdxBarButton;
     dxbrFavourite: TdxBar;
     dxrbntbSystem: TdxRibbonTab;
     dxrbntbWindow: TdxRibbonTab;
@@ -242,6 +227,14 @@ type
     dxbrbtnCascade: TdxBarButton;
     dxbrbtnTile: TdxBarButton;
     dxbrbtnCloseAll: TdxBarButton;
+    dxbrTrader: TdxBar;
+    dxbrbtnPOTrader: TdxBarButton;
+    dxbrbtnResetMenu: TdxBarButton;
+    actResetMenu: TAction;
+    dxbrbtnReturTrader: TdxBarButton;
+    dxrbntbMarketing: TdxRibbonTab;
+    dxbrOrderToCashReport: TdxBar;
+    dxbrbtnDSR: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -306,7 +299,10 @@ type
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
+    procedure actOnExitExecute(Sender: TObject);
+    procedure actPOFromTraderExecute(Sender: TObject);
     procedure actPreferenceExecute(Sender: TObject);
+    procedure actResetMenuExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
@@ -371,7 +367,7 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference, ufrmStockProduct;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader;
 
 
 
@@ -459,7 +455,7 @@ end;
 
 procedure TfrmMain.actDailySalesReportExecute(Sender: TObject);
 begin
-    frmDailySalesReport := TfrmDailySalesReport.CreateWithUser(Application, FFormProperty);
+  frmDailySalesReport := TfrmDailySalesReport.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actDataCostumerExecute(Sender: TObject);
@@ -627,6 +623,11 @@ begin
 
 end;
 
+procedure TfrmMain.actOnExitExecute(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);
 //var
 //  FdefUnitId: Integer;
@@ -706,6 +707,11 @@ begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
 end;
 
+procedure TfrmMain.actPOFromTraderExecute(Sender: TObject);
+begin
+  frmPOFromTrader := TfrmPOFromTrader.Create(Self);
+end;
+
 procedure TfrmMain.actPreferenceExecute(Sender: TObject);
 begin
   frmPreference := TfrmPreference.Create(Self);
@@ -756,19 +762,24 @@ begin
     frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actResetMenuExecute(Sender: TObject);
+begin
+  dxbrmngrStore.LoadFromIniFile('config.ini');
+end;
+
 procedure TfrmMain.actReturTraderExecute(Sender: TObject);
 begin
-   frmReturTrader := TfrmReturTrader.CreateWithUser(Application, FFormProperty);
+  frmReturTrader := TfrmReturTrader.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSalesReportContrabonExecute(Sender: TObject);
 begin
-    frmSalesReportContrabon := TfrmSalesReportContrabon.CreateWithUser(Application, FFormProperty);
+  frmSalesReportContrabon := TfrmSalesReportContrabon.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actServiceLevelExecute(Sender: TObject);
 begin
-    frmServiceLevel := TfrmServiceLevel.CreateWithUser(Application, FFormProperty);
+  frmServiceLevel := TfrmServiceLevel.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSetKoneksiExecute(Sender: TObject);

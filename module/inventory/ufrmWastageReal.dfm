@@ -19,31 +19,28 @@ inherited frmWastageReal: TfrmWastageReal
   inherited pnlBody: TPanel
     Width = 708
     Height = 404
-    BorderWidth = 0
     ExplicitWidth = 708
-    ExplicitHeight = 348
+    ExplicitHeight = 404
     inherited pgcBrowse: TcxPageControl
-      Left = 1
       Top = 104
       Width = 706
       Height = 299
       TabOrder = 1
-      ExplicitLeft = 1
       ExplicitTop = 104
       ExplicitWidth = 706
-      ExplicitHeight = 243
+      ExplicitHeight = 299
       ClientRectBottom = 298
       ClientRectRight = 705
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 704
-        ExplicitHeight = 241
+        ExplicitHeight = 297
         inherited cxGrid: TcxGrid
           Width = 704
           Height = 264
           ExplicitWidth = 704
-          ExplicitHeight = 241
+          ExplicitHeight = 264
           inherited cxGridView: TcxGridDBTableView
             object cxcolKODEBARANG: TcxGridDBColumn
               Caption = 'KODE BARANG'
@@ -67,9 +64,6 @@ inherited frmWastageReal: TfrmWastageReal
           Align = alBottom
           BevelOuter = bvLowered
           TabOrder = 1
-          ExplicitLeft = 11
-          ExplicitTop = 255
-          ExplicitWidth = 684
           object lbl7: TLabel
             Left = 4
             Top = 4
@@ -123,7 +117,7 @@ inherited frmWastageReal: TfrmWastageReal
       end
       object lbl4: TLabel
         Left = 92
-        Top = 49
+        Top = 51
         Width = 24
         Height = 16
         Caption = 'Note'
@@ -170,7 +164,7 @@ inherited frmWastageReal: TfrmWastageReal
       end
       object mmoNote: TMemo
         Left = 119
-        Top = 52
+        Top = 54
         Width = 348
         Height = 41
         Ctl3D = False
@@ -240,7 +234,7 @@ inherited frmWastageReal: TfrmWastageReal
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 437
     Width = 708
-    ExplicitTop = 381
+    ExplicitTop = 437
     ExplicitWidth = 708
     inherited pnlFooter: TPanel
       Width = 708
@@ -269,6 +263,7 @@ inherited frmWastageReal: TfrmWastageReal
       inherited lbEscape: TLabel
         Left = 634
         Height = 17
+        ExplicitLeft = 634
       end
     end
   end

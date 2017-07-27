@@ -324,15 +324,12 @@ type
     dxbrReferenceOther: TdxBar;
     dxbrbtnTipePerusahaan: TdxBarButton;
     dxbrbtnSupplierType: TdxBarButton;
-    dxbrsbtmCompany: TdxBarSubItem;
-    dxbrlrgbtn1: TdxBarLargeButton;
     dxbrbtnCompany: TdxBarButton;
     dxbrbtnSalesOutlet: TdxBarButton;
     dxbrbtnUnitStore: TdxBarButton;
     dxrbntbMembership: TdxRibbonTab;
     dxbrMembership: TdxBar;
     dxbrbtnMembership: TdxBarButton;
-    dxbrlrgbtn2: TdxBarLargeButton;
     dxbrFinanceMaster: TdxBar;
     dxbrbtnCreditCard: TdxBarButton;
     dxrbntbFinance: TdxRibbonTab;
@@ -360,11 +357,10 @@ type
     dxbrbtnCloseAll: TdxBarButton;
     dxrbntbSystem: TdxRibbonTab;
     dxbrSystem: TdxBar;
-    dxbrsbtmLogin: TdxBarSubItem;
     dxbrbtnLogIn: TdxBarButton;
     dxbrbtnLogOut: TdxBarButton;
     dxbrbtnExit: TdxBarButton;
-    dxbrmngrHOBar1: TdxBar;
+    dxBarButton1: TdxBarButton;
     procedure actBankExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);

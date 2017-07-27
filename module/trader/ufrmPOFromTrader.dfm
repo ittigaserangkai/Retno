@@ -12,16 +12,13 @@ inherited frmPOFromTrader: TfrmPOFromTrader
   inherited pnlBody: TPanel
     Width = 674
     Height = 282
-    BorderWidth = 0
     ExplicitWidth = 674
     ExplicitHeight = 282
     inherited pgcBrowse: TcxPageControl
-      Left = 1
       Top = 111
       Width = 672
       Height = 170
       TabOrder = 1
-      ExplicitLeft = 1
       ExplicitTop = 111
       ExplicitWidth = 672
       ExplicitHeight = 170
@@ -293,6 +290,7 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       ExplicitWidth = 674
       inherited lbEscape: TLabel
         Left = 600
+        Height = 17
         ExplicitLeft = 600
       end
     end
