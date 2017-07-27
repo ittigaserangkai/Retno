@@ -112,6 +112,7 @@ begin
   dtStart.Date  := StartOfTheMonth(Now());
   dtEnd.Date    := Now();
   initView;
+  chkGudangClick(Self);
 end;
 
 procedure TfrmKartuStock.cxLookupBarangPropertiesEditValueChanged(

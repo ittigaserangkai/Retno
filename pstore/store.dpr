@@ -202,7 +202,8 @@ uses
   ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
   ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct};
 
 {$R *.res}
 
@@ -213,7 +214,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmPreference, frmPreference);
-  Application.CreateForm(TfrmMasterReport, frmMasterReport);
   Application.Run;
 end.

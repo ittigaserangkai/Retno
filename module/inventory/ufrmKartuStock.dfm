@@ -168,7 +168,6 @@ inherited frmKartuStock: TfrmKartuStock
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitLeft = 9
       object cxGrdKartok: TcxGridDBBandedTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -307,6 +306,7 @@ inherited frmKartuStock: TfrmKartuStock
     ExplicitWidth = 685
     inherited lblHeader: TLabel
       Width = 104
+      Height = 18
       Caption = 'Kartu Stock Barang'
       ExplicitWidth = 104
     end
@@ -328,6 +328,7 @@ inherited frmKartuStock: TfrmKartuStock
     ExplicitWidth = 685
     inherited lbEscape: TLabel
       Left = 611
+      Height = 17
       ExplicitLeft = 611
     end
   end
