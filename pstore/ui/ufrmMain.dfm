@@ -54,7 +54,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 923
-    Height = 120
+    Height = 140
     BarManager = dxbrmngrStore
     Style = rs2013
     ColorSchemeName = 'White'
@@ -67,17 +67,17 @@ object frmMain: TfrmMain
     Fonts.Group.Charset = DEFAULT_CHARSET
     Fonts.Group.Color = 9126421
     Fonts.Group.Height = -12
-    Fonts.Group.Name = 'Verdana'
+    Fonts.Group.Name = 'Trebuchet MS'
     Fonts.Group.Style = []
     Fonts.GroupHeader.Charset = DEFAULT_CHARSET
     Fonts.GroupHeader.Color = 11168318
     Fonts.GroupHeader.Height = -12
-    Fonts.GroupHeader.Name = 'Verdana'
+    Fonts.GroupHeader.Name = 'Trebuchet MS'
     Fonts.GroupHeader.Style = []
     Fonts.TabHeader.Charset = DEFAULT_CHARSET
     Fonts.TabHeader.Color = clWindowText
     Fonts.TabHeader.Height = -12
-    Fonts.TabHeader.Name = 'Verdana'
+    Fonts.TabHeader.Name = 'Trebuchet MS'
     Fonts.TabHeader.Style = []
     QuickAccessToolbar.Visible = False
     Contexts = <>
@@ -986,7 +986,7 @@ object frmMain: TfrmMain
     object dxbrProcureToPayReport: TdxBar
       Caption = 'Procure To Pay Report'
       CaptionButtons = <>
-      DockedLeft = 302
+      DockedLeft = 279
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8

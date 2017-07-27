@@ -51,14 +51,14 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 174
+    Top = 194
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitTop = 148
+    ExplicitTop = 174
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -106,7 +106,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 800
-    Height = 120
+    Height = 140
     BarManager = dxbrmngrHO
     Style = rs2013
     ColorSchemeName = 'White'
@@ -119,17 +119,17 @@ object frmMain: TfrmMain
     Fonts.Group.Charset = DEFAULT_CHARSET
     Fonts.Group.Color = 5978398
     Fonts.Group.Height = -12
-    Fonts.Group.Name = 'Verdana'
+    Fonts.Group.Name = 'Trebuchet MS'
     Fonts.Group.Style = []
     Fonts.GroupHeader.Charset = DEFAULT_CHARSET
     Fonts.GroupHeader.Color = 6710886
     Fonts.GroupHeader.Height = -12
-    Fonts.GroupHeader.Name = 'Verdana'
+    Fonts.GroupHeader.Name = 'Trebuchet MS'
     Fonts.GroupHeader.Style = []
     Fonts.TabHeader.Charset = DEFAULT_CHARSET
     Fonts.TabHeader.Color = clWindowText
     Fonts.TabHeader.Height = -12
-    Fonts.TabHeader.Name = 'Verdana'
+    Fonts.TabHeader.Name = 'Trebuchet MS'
     Fonts.TabHeader.Style = []
     Contexts = <>
     TabOrder = 6
@@ -1460,7 +1460,7 @@ object frmMain: TfrmMain
     object dxbrReferenceInventory: TdxBar
       Caption = 'Reference Inventory'
       CaptionButtons = <>
-      DockedLeft = 201
+      DockedLeft = 227
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1484,7 +1484,7 @@ object frmMain: TfrmMain
     object dxbrReferenceOther: TdxBar
       Caption = 'Reference Other'
       CaptionButtons = <>
-      DockedLeft = 323
+      DockedLeft = 364
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 10
