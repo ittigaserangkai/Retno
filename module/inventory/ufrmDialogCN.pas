@@ -565,7 +565,7 @@ begin
     for j := 0 to DCItem.RecordCount-1 do
     begin
       if i = j then continue;
-      if DCItem.Values[i, cxGridColCNDetailColumnNama.Index] = DCItem.Values[i, cxGridColCNDetailColumnNama.Index] then
+      if DCItem.Values[i, cxGridColCNDetailColumnNama.Index] = DCItem.Values[j, cxGridColCNDetailColumnNama.Index] then
       begin
         TAppUtils.Warning('Item Baris : ' + inttostr(i+1) + ' & ' + inttostr(j+1) + ' sama');
         exit;
