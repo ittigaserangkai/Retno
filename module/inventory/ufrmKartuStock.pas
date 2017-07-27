@@ -253,10 +253,10 @@ begin
     CDS.FieldByName('Transaksi').AsString   := lDS.FieldByName('Transaksi').AsString;
     CDS.FieldByName('NoBukti').AsString     := lDS.FieldByName('NoBukti').AsString;
     CDS.FieldByName('TglBukti').AsDateTime  := lDS.FieldByName('TglBukti').AsDateTime;
-    CDS.FieldByName('QTYIN').AsFloat        := lKonv * lDS.FieldByName('QTYIN').AsFloat;
-    CDS.FieldByName('QTYOUT').AsFloat       := lKonv * lDS.FieldByName('QTYOUT').AsFloat;
+    CDS.FieldByName('QTYIN').AsFloat        := lDS.FieldByName('Konversi').AsFloat * lDS.FieldByName('QTYIN').AsFloat / lKonv;
+    CDS.FieldByName('QTYOUT').AsFloat       := lDS.FieldByName('Konversi').AsFloat * lDS.FieldByName('QTYOUT').AsFloat / lKonv;
 
-    lSaldo := lSaldo + CDS.FieldByName('QTYIN').AsFloat - CDS.FieldByName('QTYOUT').AsFloat;
+    lSaldo := lSaldo + (CDS.FieldByName('QTYIN').AsFloat - CDS.FieldByName('QTYOUT').AsFloat);
     CDS.FieldByName('SALDO').AsFloat  := lSaldo;
     CDS.FieldByName('UOM').AsString  := CDSUOMKonv.FieldByName('UOM').AsString;
     CDS.Post;

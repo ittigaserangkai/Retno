@@ -81,6 +81,7 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -99,7 +100,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbSetting: TdxRibbonTab
-      Active = True
       Caption = 'Setting'
       Groups = <
         item

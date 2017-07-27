@@ -2,7 +2,6 @@ inherited frmKartuStock: TfrmKartuStock
   Caption = 'Kartu Stock Barang'
   ClientHeight = 561
   ClientWidth = 685
-  ExplicitTop = -155
   ExplicitWidth = 701
   ExplicitHeight = 600
   PixelsPerInch = 96
