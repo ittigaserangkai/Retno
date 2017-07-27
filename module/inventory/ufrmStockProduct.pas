@@ -104,6 +104,7 @@ begin
       ['REF$MERCHANDISE_GRUP_ID','REF$MERCHANDISE_ID'], Self
     );
     cxLookupSupplier.LoadFromDS(Suplier_GetDSLookup, 'SUPLIER_ID','SUP_NAME', ['SUPLIER_ID'], Self);
+    cxLookupSupplier.SetMultiPurposeLookup;
     cxLookupGudang.LoadFromDS(Gudang_GetDSLookUp,'GUDANG_ID','GUD_NAME', [], Self);
   end;
 end;

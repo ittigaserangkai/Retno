@@ -13,7 +13,7 @@ uses
   cxNavigator, cxClasses, cxGridCustomTableView, cxGridTableView,
   cxGridBandedTableView, cxGridCustomView, cxGridLevel, cxGrid, Data.DB,
   cxDBData, cxGridDBBandedTableView, cxCurrencyEdit, Datasnap.DBClient,
-  cxButtonEdit, uModBarang;
+  cxButtonEdit, uModBarang, cxCalc;
 
 type
   TfrmKartuStock = class(TfrmMasterReport)
@@ -168,6 +168,7 @@ begin
   begin
     FCDSBarang := TDBUtils.DSToCDS(Barang_GetDSLookup(cxLookupGroup.EditValue),Self);
     cxLookupBarang.LoadFromCDS(FCDSBarang,'Barang_ID','BRG_NAME',['Barang_ID'],Self);
+    cxLookupBarang.SetMultiPurposeLookup;
   end;
 
 end;
@@ -263,7 +264,13 @@ begin
     lDS.Next;
   end;
 
-  cxGrdKartok.LoadFromCDS(CDS);
+//  cxGrdKartok.LoadFromCDS(CDS);
+
+  If not Assigned(cxGrdKartok.DataController.DataSource) then
+  begin
+    cxGrdKartok.DataController.DataSource := TDataSource.Create(Self);
+  end;
+  cxGrdKartok.DataController.DataSource.DataSet := CDS;
 end;
 
 end.

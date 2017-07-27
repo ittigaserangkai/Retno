@@ -258,30 +258,24 @@ inherited frmKartuStock: TfrmKartuStock
         end
         object clGrdKartokQTYIN: TcxGridDBBandedColumn
           DataBinding.FieldName = 'QTYIN'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
+          PropertiesClassName = 'TcxCalcEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          Properties.ReadOnly = True
           Position.BandIndex = 4
           Position.ColIndex = 0
           Position.RowIndex = 0
         end
         object clGrdKartokQTYOut: TcxGridDBBandedColumn
           DataBinding.FieldName = 'QTYOut'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
+          PropertiesClassName = 'TcxCalcEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          Properties.ReadOnly = True
           Position.BandIndex = 5
           Position.ColIndex = 0
           Position.RowIndex = 0
         end
         object clGrdKartokSaldo: TcxGridDBBandedColumn
           DataBinding.FieldName = 'Saldo'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
+          PropertiesClassName = 'TcxCalcEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          Properties.ReadOnly = True
           Position.BandIndex = 6
           Position.ColIndex = 0
           Position.RowIndex = 0
