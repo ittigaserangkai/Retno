@@ -186,7 +186,6 @@ inherited frmKartuStock: TfrmKartuStock
         OptionsCustomize.ColumnFiltering = False
         OptionsCustomize.ColumnSorting = False
         OptionsCustomize.BandMoving = False
-        OptionsCustomize.BandSizing = False
         OptionsData.CancelOnExit = False
         OptionsData.Deleting = False
         OptionsData.DeletingConfirmation = False
@@ -253,7 +252,7 @@ inherited frmKartuStock: TfrmKartuStock
           DataBinding.FieldName = 'NoBukti'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
-          Position.BandIndex = 4
+          Position.BandIndex = 2
           Position.ColIndex = 0
           Position.RowIndex = 0
         end
@@ -264,7 +263,7 @@ inherited frmKartuStock: TfrmKartuStock
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Properties.ReadOnly = True
           Position.BandIndex = 4
-          Position.ColIndex = 1
+          Position.ColIndex = 0
           Position.RowIndex = 0
         end
         object clGrdKartokQTYOut: TcxGridDBBandedColumn
