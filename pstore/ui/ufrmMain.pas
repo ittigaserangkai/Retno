@@ -811,7 +811,7 @@ end;
 
 procedure TfrmMain.actWastageRealExecute(Sender: TObject);
 begin
-    frmWastageReal := TfrmWastageReal.CreateWithUser(Application, FFormProperty);
+  frmWastageReal := TfrmWastageReal.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
