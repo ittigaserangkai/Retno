@@ -73,10 +73,12 @@ type
     FCDSSO: TClientDataSet;
     FCDSSupMG: TClientDataSet;
     FPOLama: TModPO;
+    function GetDCItem: TcxGridDataController;
     procedure InisialisasiCBBSO;
     procedure InisialisasiCBBSupMG;
     procedure InisialisasiCBBSupplier;
     procedure UpdateEditData;
+    property DCItem: TcxGridDataController read GetDCItem;
     { Private declarations }
   public
     procedure LoadData(AID : String);
@@ -95,11 +97,9 @@ uses
 
 procedure TfrmPORevision.cxgrdclmnPODJumlahPropertiesEditValueChanged(
   Sender: TObject);
-var
-  I: Integer;
 begin
   inherited;
-
+  UpdateEditData;
 end;
 
 procedure TfrmPORevision.cxGridTablePODetilEditing(Sender:
@@ -115,6 +115,12 @@ begin
   InisialisasiCBBSupMG;
   InisialisasiCBBSupplier;
   InisialisasiCBBSO;
+end;
+
+function TfrmPORevision.GetDCItem: TcxGridDataController;
+begin
+  // TODO -cMM: TfrmPORevision.GetDCItem default body inserted
+  Result := cxGridTablePODetil.DataController;
 end;
 
 procedure TfrmPORevision.InisialisasiCBBSO;
@@ -210,11 +216,26 @@ begin
 end;
 
 procedure TfrmPORevision.UpdateEditData;
+var
+  SubTotal : Double;
 begin
-  edSubTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal);
-  edDisc1.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc);
-  edPPN.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax);
-  edTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal);
+//   with cxGridTablePODetil.DataController DO
+//      Begin
+//        SubTotal := values[FocusedRecordIndex, cxgrdclmnPODJumlah.Index] * values[FocusedRecordIndex, cxgrdclmnPODHarga.Index];
+//        values[FocusedRecordIndex, cxgrdclmnPODSubTotal.Index] := SubTotal;
+//      End;
+//  edSubTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal);
+//  edDisc1.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc);
+//  edPPN.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax);
+//  edTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal);
+  DCItem.Post;
+  SubTotal := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index] * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index];
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODSubTotal.Index] := SubTotal;
+
+  edSubTotal.Value := DCItem.GetFooterSummary(cxgrdclmnPODSubTotal);
+  edDisc1.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotalDisc);
+  edPPN.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotalTax);
+  edTotal.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotal);
 end;
 
 end.

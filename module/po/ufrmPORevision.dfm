@@ -173,8 +173,6 @@ inherited frmPORevision: TfrmPORevision
       Height = 56
       Align = alBottom
       TabOrder = 1
-      ExplicitLeft = 4
-      ExplicitTop = 292
       object lblSubTotal: TLabel
         Left = 20
         Top = 4
