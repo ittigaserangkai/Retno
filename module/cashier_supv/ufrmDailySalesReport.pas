@@ -26,6 +26,7 @@ type
 //    function GetDataDSR(ADate: TDateTime): TResultDataSet;
 //    procedure SetParamList(const Value: TStringList);
   public
+    procedure RefreshData; override;
 //    property ParamList: TStringList read FParamList write SetParamList;
   end;
 
@@ -176,6 +177,11 @@ procedure TfrmDailySalesReport.FormShow(Sender: TObject);
 begin
   inherited;
   dtAkhirFilter.Date := now;
+end;
+
+procedure TfrmDailySalesReport.RefreshData;
+begin
+  
 end;
 
 end.

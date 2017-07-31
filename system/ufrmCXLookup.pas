@@ -128,9 +128,9 @@ begin
     Self.ModalResult := mrNone
   else begin
     SetResultData;
-    FData.First;
     if MultiSelect then
     begin
+      FData.First;
       if Self.Data.RecordCount = 0 then
       begin
         TAppUtils.Warning('Tidak ada data yang dipilih');
@@ -455,7 +455,8 @@ begin
     FData.Filtered := True;
     FData.Filter := check_flag + ' = True ';
     FData.First;
-  end;
+  end else
+    FData.RecNo := FCDS.RecNo;
 end;
 
 procedure TfrmCXLookup.UncheckAll1Click(Sender: TObject);

@@ -11,15 +11,16 @@ inherited frmMasterBrowse: TfrmMasterBrowse
     Top = 33
     Width = 701
     Height = 314
+    BorderWidth = 0
     Color = clWindow
     ExplicitTop = 33
     ExplicitWidth = 701
     ExplicitHeight = 314
     object pgcBrowse: TcxPageControl
-      Left = 11
-      Top = 11
-      Width = 679
-      Height = 292
+      Left = 1
+      Top = 1
+      Width = 699
+      Height = 312
       Align = alClient
       TabOrder = 0
       Properties.ActivePage = tsBrowse
@@ -28,9 +29,9 @@ inherited frmMasterBrowse: TfrmMasterBrowse
       Properties.Options = [pcoAlwaysShowGoDialogButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize, pcoUsePageColorForTab]
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
-      ClientRectBottom = 291
+      ClientRectBottom = 311
       ClientRectLeft = 1
-      ClientRectRight = 678
+      ClientRectRight = 698
       ClientRectTop = 1
       object tsBrowse: TcxTabSheet
         Caption = 'Browse Data'
@@ -39,8 +40,8 @@ inherited frmMasterBrowse: TfrmMasterBrowse
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
-          Width = 677
-          Height = 290
+          Width = 697
+          Height = 310
           Align = alClient
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'

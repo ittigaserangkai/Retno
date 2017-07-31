@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'ASSALAAM HYPERMARKET'
-  ClientHeight = 488
+  ClientHeight = 508
   ClientWidth = 923
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,40 +11,18 @@ object frmMain: TfrmMain
   Font.Name = 'Trebuchet MS'
   Font.Style = []
   FormStyle = fsMDIForm
-  Menu = mmMainMenu
   OldCreateOrder = False
   Visible = True
   WindowState = wsMaximized
+  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = actOnCreateFormExecute
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
-  object pnlHeader: TPanel
-    Left = 0
-    Top = 0
-    Width = 923
-    Height = 80
-    Align = alTop
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    Color = 10150911
-    TabOrder = 0
-    object imgHeader: TImage
-      Left = 2
-      Top = 2
-      Width = 919
-      Height = 76
-      Align = alClient
-      Transparent = True
-      ExplicitLeft = 4
-      ExplicitTop = 4
-      ExplicitWidth = 796
-    end
-  end
   object sbMain: TdxStatusBar
     Left = 0
-    Top = 468
+    Top = 488
     Width = 923
     Height = 20
     Panels = <
@@ -71,6 +49,102 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+  end
+  object dxrbnHO: TdxRibbon
+    Left = 0
+    Top = 0
+    Width = 923
+    Height = 120
+    BarManager = dxbrmngrStore
+    Style = rs2013
+    ColorSchemeName = 'White'
+    Fonts.ApplicationButton.Charset = DEFAULT_CHARSET
+    Fonts.ApplicationButton.Color = clWindowText
+    Fonts.ApplicationButton.Height = -12
+    Fonts.ApplicationButton.Name = 'Verdana'
+    Fonts.ApplicationButton.Style = []
+    Fonts.AssignedFonts = [afTabHeader, afGroup, afGroupHeader, afApplicationButton]
+    Fonts.Group.Charset = DEFAULT_CHARSET
+    Fonts.Group.Color = 9126421
+    Fonts.Group.Height = -12
+    Fonts.Group.Name = 'Verdana'
+    Fonts.Group.Style = []
+    Fonts.GroupHeader.Charset = DEFAULT_CHARSET
+    Fonts.GroupHeader.Color = 11168318
+    Fonts.GroupHeader.Height = -12
+    Fonts.GroupHeader.Name = 'Verdana'
+    Fonts.GroupHeader.Style = []
+    Fonts.TabHeader.Charset = DEFAULT_CHARSET
+    Fonts.TabHeader.Color = clWindowText
+    Fonts.TabHeader.Height = -12
+    Fonts.TabHeader.Name = 'Verdana'
+    Fonts.TabHeader.Style = []
+    QuickAccessToolbar.Visible = False
+    Contexts = <>
+    TabOrder = 5
+    TabStop = False
+    object dxrbntbSystem: TdxRibbonTab
+      Caption = 'System'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSystem'
+        end>
+      Index = 0
+    end
+    object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
+      Caption = 'Procure To Pay'
+      Groups = <
+        item
+          Caption = 'Transaction'
+          ToolbarName = 'dxbrPurchasing'
+        end
+        item
+          Caption = 'Report'
+          ToolbarName = 'dxbrProcureToPayReport'
+        end>
+      Index = 1
+    end
+    object dxrbntbOrderToCash: TdxRibbonTab
+      Caption = 'Order To Cash'
+      Groups = <
+        item
+          ToolbarName = 'dxbrTrader'
+        end
+        item
+          ToolbarName = 'dxbrOrderToCashReport'
+        end>
+      Index = 2
+    end
+    object dxrbntbMarketing: TdxRibbonTab
+      Caption = 'Marketing'
+      Groups = <>
+      Index = 3
+    end
+    object dxrbntbInventory: TdxRibbonTab
+      Caption = 'Inventory'
+      Groups = <
+        item
+          ToolbarName = 'dxbrInventory'
+        end>
+      Index = 4
+    end
+    object dxrbntbSetting: TdxRibbonTab
+      Caption = 'Setting'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSetting'
+        end>
+      Index = 5
+    end
+    object dxrbntbWindow: TdxRibbonTab
+      Caption = 'Window'
+      Groups = <
+        item
+          ToolbarName = 'dxbrWindows'
+        end>
+      Index = 6
+    end
   end
   object mmMainMenu: TMainMenu
     Left = 168
@@ -107,7 +181,7 @@ object frmMain: TfrmMain
       end
     end
     object SuggestionOrder1: TMenuItem
-      Caption = 'Suggestion Order'
+      Caption = 'Procure To Pay'
       object CreateSuggestionOrder1: TMenuItem
         Action = actCreateSO
       end
@@ -122,6 +196,9 @@ object frmMain: TfrmMain
       end
       object CNReceiving1: TMenuItem
         Action = actCNReceiving
+      end
+      object DNReceiving1: TMenuItem
+        Action = actDNReceiving
       end
     end
     object mmWindow: TMenuItem
@@ -160,8 +237,9 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
-    Left = 16
-    Top = 176
+    Images = DMClient.imgListButton
+    Left = 40
+    Top = 168
     object actOnCreateForm: TAction
       Caption = 'actOnCreateForm'
       OnExecute = actOnCreateFormExecute
@@ -169,23 +247,28 @@ object frmMain: TfrmMain
     object actOnLogout: TAction
       Category = 'Sistem'
       Caption = 'Logout'
+      ImageIndex = 69
       ShortCut = 24652
       OnExecute = actOnLogoutExecute
     end
     object actOnLogin: TAction
       Category = 'Sistem'
       Caption = 'Login'
+      ImageIndex = 69
       ShortCut = 16460
       OnExecute = actOnLoginExecute
     end
     object actOnExit: TAction
       Category = 'Sistem'
       Caption = 'Exit'
+      ImageIndex = 66
       ShortCut = 32883
+      OnExecute = actOnExitExecute
     end
     object actCascade: TAction
       Category = 'Window'
       Caption = '&Cascade'
+      ImageIndex = 65
       OnExecute = actCascadeExecute
     end
     object actTile: TAction
@@ -206,6 +289,7 @@ object frmMain: TfrmMain
     object actCloseAll: TAction
       Category = 'Window'
       Caption = 'Clo&se All'
+      ImageIndex = 66
       OnExecute = actCloseAllExecute
     end
     object actInputSupplierNotForSO: TAction
@@ -259,6 +343,7 @@ object frmMain: TfrmMain
     object actCNGoodReceiving: TAction
       Category = 'Inventory'
       Caption = '&CN Receiving'
+      OnExecute = actCNGoodReceivingExecute
     end
     object actReturBarang: TAction
       Category = 'Inventory'
@@ -277,6 +362,7 @@ object frmMain: TfrmMain
     object actWastageReal: TAction
       Category = 'Inventory'
       Caption = 'Wastage &Real / Damage'
+      ImageIndex = 51
       OnExecute = actWastageRealExecute
     end
     object actInputProductIGRA: TAction
@@ -314,6 +400,7 @@ object frmMain: TfrmMain
     object actDNReceiving: TAction
       Category = 'Inventory'
       Caption = '&DN Receiving'
+      OnExecute = actDNReceivingExecute
     end
     object actReturReplace: TAction
       Category = 'Inventory'
@@ -402,6 +489,8 @@ object frmMain: TfrmMain
     object actPOFromTrader: TAction
       Category = 'Trader'
       Caption = '&PO From Trader'
+      ImageIndex = 10
+      OnExecute = actPOFromTraderExecute
     end
     object actTrader: TAction
       Category = 'Trader'
@@ -469,6 +558,7 @@ object frmMain: TfrmMain
     object actDailySalesReport: TAction
       Category = 'SupvCashier'
       Caption = 'Daily Sales Report'
+      ImageIndex = 52
       OnExecute = actDailySalesReportExecute
     end
     object actReprintNota: TAction
@@ -676,9 +766,10 @@ object frmMain: TfrmMain
       Caption = 'actUbahQtyPO'
       OnExecute = actUbahQtyPOExecute
     end
-    object actStokBarang: TAction
+    object actStockProduct: TAction
       Category = 'Inventory'
-      Caption = 'actStokBarang'
+      Caption = 'Stock Products'
+      OnExecute = actStockProductExecute
     end
     object actMutasiKeluar: TAction
       Category = 'Inventory'
@@ -732,9 +823,10 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'actLaporanKonsinyasi'
     end
-    object actLapInvMovement: TAction
+    object actInvMovement: TAction
       Category = 'Inventory'
-      Caption = 'actLapInvMovement'
+      Caption = 'Inventory Movement'
+      OnExecute = actInvMovementExecute
     end
     object actLapInvMovementQty: TAction
       Category = 'Inventory'
@@ -806,7 +898,8 @@ object frmMain: TfrmMain
     end
     object actReturTrader: TAction
       Category = 'Trader'
-      Caption = 'actReturTrader'
+      Caption = 'Retur Trader'
+      ImageIndex = 42
       OnExecute = actReturTraderExecute
     end
     object actPurchaseOrder: TAction
@@ -816,8 +909,28 @@ object frmMain: TfrmMain
     end
     object actSetKoneksi: TAction
       Category = 'Sistem'
-      Caption = 'Setting Koneksi'
+      Caption = 'Server Connection'
       OnExecute = actSetKoneksiExecute
+    end
+    object actSettingApp: TAction
+      Category = 'Sistem'
+      Caption = 'Aplication Setting'
+      OnExecute = actSettingAppExecute
+    end
+    object actPreference: TAction
+      Category = 'Sistem'
+      Caption = 'Preference'
+      OnExecute = actPreferenceExecute
+    end
+    object actStockCard: TAction
+      Category = 'Inventory'
+      Caption = 'Stock Card'
+      OnExecute = actStockCardExecute
+    end
+    object actResetMenu: TAction
+      Category = 'Sistem'
+      Caption = 'Reset Menu'
+      OnExecute = actResetMenuExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -830,5 +943,394 @@ object frmMain: TfrmMain
     NativeStyle = False
     Left = 24
     Top = 224
+  end
+  object dxbrmngrStore: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Verdana'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.Images = DMClient.imgListButton
+    ImageOptions.LargeImages = DMClient.ilImage24
+    IniFileName = 'storemenu.ini'
+    NotDocking = [dsTop]
+    PopupMenuLinks = <>
+    StoreInIniFile = True
+    UseSystemFont = False
+    Left = 264
+    Top = 160
+    DockControlHeights = (
+      0
+      0
+      26
+      0)
+    object dxbrPurchasing: TdxBar
+      Caption = 'Procure To Pay'
+      CaptionButtons = <
+        item
+        end>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSO'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnPO'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnGR'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCNrecv'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDNRecv'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = True
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrProcureToPayReport: TdxBar
+      Caption = 'Procure To Pay Report'
+      CaptionButtons = <>
+      DockedLeft = 302
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnStockProduct'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSTockCasrd'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnInventoryMovement'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrSetting: TdxBar
+      Caption = 'Setting'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 124
+      FloatClientHeight = 44
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSettingKoneksi'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSettingApp'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnResetMenu'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrFavourite: TdxBar
+      Caption = 'Favourite'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = True
+    end
+    object dxbrSystem: TdxBar
+      Caption = 'System'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnLogin'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnLogout'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnExit'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrWindows: TdxBar
+      Caption = 'Windows'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCascade'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTile'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCloseAll'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrTrader: TdxBar
+      Caption = 'Trader'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnPOTrader'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnReturTrader'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrOrderToCashReport: TdxBar
+      Caption = 'Report'
+      CaptionButtons = <>
+      DockedLeft = 133
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDSR'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrInventory: TdxBar
+      Caption = 'Inventory'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 957
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnWastageReal'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrbtnSO: TdxBarButton
+      Action = actCreateSO
+      Category = 0
+      ImageIndex = 39
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnPO: TdxBarButton
+      Action = actPurchaseOrder
+      Category = 0
+      ImageIndex = 30
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnGR: TdxBarButton
+      Action = actGoodsReceiving
+      Category = 0
+      ImageIndex = 40
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCNrecv: TdxBarButton
+      Action = actCNReceiving
+      Category = 0
+      ImageIndex = 42
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnDNRecv: TdxBarButton
+      Action = actDNReceiving
+      Category = 0
+      ImageIndex = 41
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSTockCasrd: TdxBarButton
+      Action = actStockCard
+      Category = 0
+      ImageIndex = 45
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnInventoryMovement: TdxBarButton
+      Action = actInvMovement
+      Category = 0
+      ImageIndex = 52
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSettingKoneksi: TdxBarButton
+      Action = actSetKoneksi
+      Category = 0
+      ImageIndex = 43
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSettingApp: TdxBarButton
+      Action = actSettingApp
+      Category = 0
+      ImageIndex = 44
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrlrgbtnPreference: TdxBarLargeButton
+      Action = actPreference
+      Category = 0
+      LargeImageIndex = 59
+    end
+    object dxbrbtn1: TdxBarButton
+      Action = actCreateSO
+      Category = 0
+      ImageIndex = 41
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnStockProduct: TdxBarButton
+      Action = actStockProduct
+      Category = 0
+      ImageIndex = 52
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnLogin: TdxBarButton
+      Action = actOnLogin
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnLogout: TdxBarButton
+      Action = actOnLogout
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnExit: TdxBarButton
+      Action = actOnExit
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCascade: TdxBarButton
+      Action = actCascade
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnTile: TdxBarButton
+      Action = actTile
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCloseAll: TdxBarButton
+      Action = actCloseAll
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnPOTrader: TdxBarButton
+      Action = actPOFromTrader
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnResetMenu: TdxBarButton
+      Action = actResetMenu
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnReturTrader: TdxBarButton
+      Action = actReturTrader
+      Category = 0
+    end
+    object dxbrbtnDSR: TdxBarButton
+      Action = actDailySalesReport
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnWastageReal: TdxBarButton
+      Action = actWastageReal
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
   end
 end

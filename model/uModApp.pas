@@ -9,7 +9,6 @@ uses
 type
 
   TAttributeClass = class of TCustomAttribute;
-
   AttributeOfCustom = class(TCustomAttribute)
   private
     FCustomField: String;

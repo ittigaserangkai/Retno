@@ -15,32 +15,32 @@ inherited frmStokBarang: TfrmStokBarang
     ExplicitWidth = 694
     ExplicitHeight = 396
     inherited pgcBrowse: TcxPageControl
-      Top = 107
-      Width = 672
-      Height = 278
+      Top = 97
+      Width = 692
+      Height = 298
       TabOrder = 1
-      ExplicitTop = 107
-      ExplicitWidth = 672
-      ExplicitHeight = 223
-      ClientRectBottom = 277
-      ClientRectRight = 671
+      ExplicitTop = 97
+      ExplicitWidth = 692
+      ExplicitHeight = 298
+      ClientRectBottom = 297
+      ClientRectRight = 691
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 670
-        ExplicitHeight = 221
+        ExplicitWidth = 690
+        ExplicitHeight = 296
         inherited cxGrid: TcxGrid
-          Width = 670
-          Height = 276
-          ExplicitWidth = 670
-          ExplicitHeight = 221
+          Width = 690
+          Height = 296
+          ExplicitWidth = 690
+          ExplicitHeight = 296
         end
       end
     end
     object Panel2: TPanel
-      Left = 11
-      Top = 11
-      Width = 672
+      Left = 1
+      Top = 1
+      Width = 692
       Height = 96
       Align = alTop
       TabOrder = 0
@@ -235,8 +235,13 @@ inherited frmStokBarang: TfrmStokBarang
       ExplicitWidth = 694
       inherited lbEscape: TLabel
         Left = 620
+        Height = 17
         ExplicitLeft = 620
       end
     end
+  end
+  inherited actlstBrowse: TActionList
+    Left = 344
+    Top = 224
   end
 end

@@ -7,7 +7,6 @@ uses
   ufraFooter5Button in '..\system\ufraFooter5Button.pas' {fraFooter5Button: TFrame},
   ufraLoading in '..\system\ufraLoading.pas' {fraLoading: TFrame},
   ufraProgressBar in '..\system\ufraProgressBar.pas' {fraProgressBar: TFrame},
-  ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
   ufraFooterDialog2Button in '..\system\ufraFooterDialog2Button.pas' {fraFooterDialog2Button: TFrame},
   ufrmMasterDialog in '..\system\ufrmMasterDialog.pas' {frmMasterDialog},
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
@@ -64,7 +63,6 @@ uses
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmMemberShip in '..\module\customer_support\ufrmMemberShip.pas' {frmMemberShip},
   uModMember in '..\model\uModMember.pas',
   uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
@@ -192,9 +190,21 @@ uses
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
   uModelHelper in '..\model\uModelHelper.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
-  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
+  uModDNRecv in '..\model\uModDNRecv.pas',
+  uModCNRecv in '..\model\uModCNRecv.pas',
+  uModSettingApp in '..\model\uModSettingApp.pas',
+  ufrmDN in '..\module\inventory\ufrmDN.pas' {frmDN},
+  ufrmDialogDN in '..\module\inventory\ufrmDialogDN.pas' {frmDialogDN},
   ufrmDialogCN in '..\module\inventory\ufrmDialogCN.pas' {frmDialogCN},
-  uModCNRecv in '..\model\uModCNRecv.pas';
+  ufrmCN in '..\module\inventory\ufrmCN.pas' {frmCN},
+  ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
+  ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
+  ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock},
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
+  ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
+  ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash};
 
 {$R *.res}
 
@@ -205,6 +215,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmDialogCN, frmDialogCN);
   Application.Run;
 end.

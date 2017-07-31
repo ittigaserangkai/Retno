@@ -11,31 +11,26 @@ inherited frmReturTrader: TfrmReturTrader
   inherited pnlBody: TPanel
     Width = 759
     Height = 366
-    BorderWidth = 0
-    ExplicitWidth = 120
-    ExplicitHeight = 417
+    ExplicitWidth = 759
+    ExplicitHeight = 366
     inherited pgcBrowse: TcxPageControl
-      Left = 1
       Top = 122
       Width = 757
       Height = 243
       TabOrder = 1
-      ExplicitLeft = 1
       ExplicitTop = 122
-      ExplicitWidth = 118
-      ExplicitHeight = 294
+      ExplicitWidth = 757
+      ExplicitHeight = 243
       ClientRectBottom = 242
       ClientRectRight = 756
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 116
-        ExplicitHeight = 292
+        ExplicitWidth = 755
+        ExplicitHeight = 241
         inherited cxGrid: TcxGrid
           Width = 755
           Height = 241
-          ExplicitWidth = 116
-          ExplicitHeight = 292
+          ExplicitWidth = 755
+          ExplicitHeight = 241
         end
       end
     end
@@ -48,7 +43,6 @@ inherited frmReturTrader: TfrmReturTrader
       BevelWidth = 2
       Color = clWhite
       TabOrder = 0
-      ExplicitWidth = 118
       object lblNoBukti: TLabel
         Left = 201
         Top = 14
@@ -541,17 +535,15 @@ inherited frmReturTrader: TfrmReturTrader
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 466
-      ExplicitLeft = -173
-      ExplicitHeight = 23
+      ExplicitLeft = 466
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 582
-      ExplicitLeft = -57
-      ExplicitHeight = 23
+      ExplicitLeft = 582
     end
     inherited btnSearch: TcxButton
       Left = 677
-      ExplicitLeft = 38
+      ExplicitLeft = 677
     end
     inherited lblsdFilter: TcxLabel
       Left = 558
@@ -562,11 +554,11 @@ inherited frmReturTrader: TfrmReturTrader
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 399
     Width = 759
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 399
+    ExplicitWidth = 759
     inherited pnlFooter: TPanel
       Width = 759
-      ExplicitWidth = 120
+      ExplicitWidth = 759
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -579,7 +571,7 @@ inherited frmReturTrader: TfrmReturTrader
       inherited btnClose: TcxButton
         Left = 682
         Action = actClose
-        ExplicitLeft = 43
+        ExplicitLeft = 682
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -587,7 +579,7 @@ inherited frmReturTrader: TfrmReturTrader
     end
     inherited pnlShortCut: TPanel
       Width = 759
-      ExplicitWidth = 120
+      ExplicitWidth = 759
       inherited lbEscape: TLabel
         Left = 685
         ExplicitLeft = 685

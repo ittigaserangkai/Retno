@@ -97,6 +97,7 @@ type
     FSUP_IS_ACTIVE: Integer;
     FSUP_BANK_BRANCH: String;
     FSUP_BANK_ADDRESS: String;
+    FIS_SO_BLACKLIST: Integer;
     FTIPE_SUPLIER: TModTipeSuplier;
     function GetSuplierMerchanGroups: tobjectlist<TModSuplierMerchanGroup>;
   public
@@ -127,6 +128,7 @@ type
     property SUP_BANK_BRANCH: String read FSUP_BANK_BRANCH write FSUP_BANK_BRANCH;
     property SUP_BANK_ADDRESS: String read FSUP_BANK_ADDRESS write
         FSUP_BANK_ADDRESS;
+    property IS_SO_BLACKLIST: Integer read FIS_SO_BLACKLIST write FIS_SO_BLACKLIST;
     property SUP_POST_CODE: String read FSUP_POST_CODE write FSUP_POST_CODE;
     property SUP_SERVICE_LEVEL: Double read FSUP_SERVICE_LEVEL write
         FSUP_SERVICE_LEVEL;

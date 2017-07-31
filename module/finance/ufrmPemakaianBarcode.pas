@@ -79,6 +79,7 @@ type
     procedure SetStatusForm(const Value: TStatusForm);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
   public
+    procedure RefreshData; override;
     property StatusForm: TStatusForm read FStatusForm write SetStatusForm;
     property IsProcessSuccessfull: Boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
@@ -605,6 +606,12 @@ procedure TfrmPemakaianBarcode.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmPemakaianBarcode := nil;
+end;
+
+procedure TfrmPemakaianBarcode.RefreshData;
+begin
+  inherited;
+  // TODO -cMM: TfrmPemakaianBarcode.RefreshData default body inserted
 end;
 
 end.

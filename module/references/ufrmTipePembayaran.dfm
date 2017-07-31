@@ -15,20 +15,20 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     ExplicitWidth = 618
     ExplicitHeight = 246
     inherited pgcBrowse: TcxPageControl
-      Width = 596
-      Height = 224
-      ExplicitWidth = 596
-      ExplicitHeight = 224
-      ClientRectBottom = 223
-      ClientRectRight = 595
+      Width = 616
+      Height = 244
+      ExplicitWidth = 616
+      ExplicitHeight = 244
+      ClientRectBottom = 243
+      ClientRectRight = 615
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 594
-        ExplicitHeight = 222
+        ExplicitWidth = 614
+        ExplicitHeight = 242
         inherited cxGrid: TcxGrid
-          Width = 594
-          Height = 222
-          ExplicitWidth = 594
-          ExplicitHeight = 222
+          Width = 614
+          Height = 242
+          ExplicitWidth = 614
+          ExplicitHeight = 242
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               Caption = 'ID'
@@ -52,9 +52,9 @@ inherited frmTipePembayaran: TfrmTipePembayaran
     Width = 618
     ExplicitWidth = 618
     inherited lblHeader: TLabel
-      Width = 137
-      Caption = 'Master Tipe Pembayaran'
-      ExplicitWidth = 137
+      Width = 77
+      Caption = 'Payment Type'
+      ExplicitWidth = 77
     end
     inherited lblFilterData: TcxLabel
       Left = 264
@@ -94,6 +94,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       inherited btnUpdate: TcxButton
         Action = actClose
         TabOrder = 0
+        OnClick = actEditExecute
       end
       inherited btnPrint: TcxButton
         Width = 74
@@ -108,10 +109,16 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       inherited cxButton1: TcxButton
         Left = 342
         Action = actExport
+        ExplicitLeft = 342
       end
     end
     inherited pnlShortCut: TPanel
       Width = 618
+      ExplicitWidth = 618
+      inherited lbEscape: TLabel
+        Left = 544
+        Height = 17
+      end
     end
   end
   inherited actlstBrowse: TActionList

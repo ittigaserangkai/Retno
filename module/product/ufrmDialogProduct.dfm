@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSellingPrice
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -2252,23 +2252,14 @@ inherited frmDialogProduct: TfrmDialogProduct
       object cxTabSheet1: TcxTabSheet
         Caption = 'F7 [Alokasi Stock]'
         Enabled = False
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object cxTabSheet2: TcxTabSheet
         Caption = 'F6 [History PO]'
         Enabled = False
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsImport: TcxTabSheet
         Caption = 'Import Data'
         ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel1: TPanel
           Left = 0
           Top = 0

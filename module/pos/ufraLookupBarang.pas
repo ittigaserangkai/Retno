@@ -218,7 +218,7 @@ end;
 
 procedure TfraLookupBarang.LoadBarangByPLU(aPLU: String = '');
 var
-  iRecordCOunt: Integer;
+//  iRecordCount: Integer;
   sSQL: string;
 begin
   IsProcessing          := True;
@@ -233,8 +233,8 @@ begin
       sSQL := sSQL + 'and (a.brg_code) like ' + QuotedStr(aPLU);
   sSQL := sSQL + ' order by a.brg_alias';
   
-  iRecordCOunt := 0;
   {
+  iRecordCount := 0;
   with sgBarang do
   begin
     FilterActive := False;

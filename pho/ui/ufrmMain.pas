@@ -10,14 +10,13 @@ uses
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
-  ufrmTipeCN, ufrmDocument, uModUnit;
+  ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
+  dxRibbonCustomizationForm, dxRibbon, dxBar;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
-    pnlHeader: TPanel;
-    imgHeader: TImage;
     actlstMain: TActionList;
     actOnCreateForm: TAction;
     actOnLogout: TAction;
@@ -109,7 +108,7 @@ type
     actClosingFiscalYear: TAction;
     actJurnalEntry: TAction;
     actOpeningFiscalYear: TAction;
-    actPemakaianBarcode: TAction;
+    actBarcodeUsage: TAction;
     actListPemakaianBarcode: TAction;
     actPostingJournal: TAction;
     actUnpostingJournal: TAction;
@@ -310,7 +309,63 @@ type
     CreditCard1: TMenuItem;
     actKompetitor: TAction;
     Kompetitor1: TMenuItem;
+    actSettingAplikasi: TAction;
+    dxbrmngrHO: TdxBarManager;
+    dxrbntbReference: TdxRibbonTab;
+    dxrbnHO: TdxRibbon;
+    dxbrReferenceFinance: TdxBar;
+    dxbrbtnBank: TdxBarButton;
+    dxbrbtnTax: TdxBarButton;
+    dxbrbtnCostCenter: TdxBarButton;
+    dxbrReferenceInventory: TdxBar;
+    dxbrbtn1: TdxBarButton;
+    dxbrbtnTipePembayaran: TdxBarButton;
+    dxbrbtnUOM: TdxBarButton;
+    dxbrReferenceOther: TdxBar;
+    dxbrbtnTipePerusahaan: TdxBarButton;
+    dxbrbtnSupplierType: TdxBarButton;
+    dxbrbtnCompany: TdxBarButton;
+    dxbrbtnSalesOutlet: TdxBarButton;
+    dxbrbtnUnitStore: TdxBarButton;
+    dxrbntbMembership: TdxRibbonTab;
+    dxbrMembership: TdxBar;
+    dxbrbtnMembership: TdxBarButton;
+    dxbrFinanceMaster: TdxBar;
+    dxbrbtnCreditCard: TdxBarButton;
+    dxrbntbFinance: TdxRibbonTab;
+    dxrbntbMerchandize: TdxRibbonTab;
+    dxrbntbSetting: TdxRibbonTab;
+    dxrbntbWindow: TdxRibbonTab;
+    dxbrFavourite: TdxBar;
+    dxbrbtnCOA: TdxBarButton;
+    dxbrMerchandize: TdxBar;
+    dxbrbtnMerchandise: TdxBarButton;
+    dxbrbtnMerchandiseGroup: TdxBarButton;
+    dxbrbtnSubGroup: TdxBarButton;
+    dxbrbtnKategori: TdxBarButton;
+    dxbrbtnMerk: TdxBarButton;
+    dxbrbtnProduct: TdxBarButton;
+    dxbrbtnSupplierGroup: TdxBarButton;
+    dxbrbtnSupplier: TdxBarButton;
+    dxbrbtnKompetirot: TdxBarButton;
+    dxbrSetting: TdxBar;
+    dxbrbtnServerConnection: TdxBarButton;
+    dxbrbtn3: TdxBarButton;
+    dxbrWindow: TdxBar;
+    dxbrbtnCascade: TdxBarButton;
+    dxbrbtnTile: TdxBarButton;
+    dxbrbtnCloseAll: TdxBarButton;
+    dxrbntbSystem: TdxRibbonTab;
+    dxbrSystem: TdxBar;
+    dxbrbtnLogIn: TdxBarButton;
+    dxbrbtnLogOut: TdxBarButton;
+    dxbrbtnExit: TdxBarButton;
+    dxBarButton1: TdxBarButton;
+    dxbrFinanceOther: TdxBar;
+    dxbrbtnBarcodeUsage: TdxBarButton;
+    dxbrbtnElectricCustomer: TdxBarButton;
     procedure actBankExecute(Sender: TObject);
+    procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -323,6 +378,7 @@ type
     procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
+    procedure actElectricCustomerExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
@@ -359,6 +415,7 @@ type
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
     procedure actSetKoneksiExecute(Sender: TObject);
+    procedure actSettingAplikasiExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
@@ -430,7 +487,8 @@ uses
   ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
-  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor;
+  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
+  ufrmPemakaianBarcode;
 
 {$R *.dfm}
 
@@ -472,6 +530,11 @@ end;
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
   frmBank := tfrmBank.Create(Self);
+end;
+
+procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
+begin
+  frmPemakaianBarcode := tfrmPemakaianBarcode.Create(Self);
 end;
 
 procedure TfrmMain.actCancPOExecute(Sender: TObject);
@@ -584,6 +647,11 @@ end;
 procedure TfrmMain.actDocumentExecute(Sender: TObject);
 begin
   frmDocument := TfrmDocument.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actElectricCustomerExecute(Sender: TObject);
+begin
+  frmElectricCustomer := TfrmElectricCustomer.Create(Self);
 end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
@@ -878,6 +946,11 @@ begin
   end;
 end;
 
+procedure TfrmMain.actSettingAplikasiExecute(Sender: TObject);
+begin
+  frmSettingApp := TfrmSettingApp.Create(Self);
+end;
+
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
 begin
   frmSubGroup := TfrmSubGroup.CreateWithUser(Application, FFormProperty);
@@ -1106,12 +1179,12 @@ procedure TfrmMain.SettingMainMenu(ARole: TRole);
 begin
   EnableSubMenu(mmWindow, false);
   EnableSubMenu(miConnectionDatabase, true);
-  EnableSubMenu(miGlobalParameter, false);
+  EnableSubMenu(miGlobalParameter, true);
   if ARole = rCoba then
   Begin
     EnableSubMenu(mmWindow, false);
     EnableSubMenu(miConnectionDatabase, true);
-    EnableSubMenu(miGlobalParameter, false);
+    EnableSubMenu(miGlobalParameter, true);
   End;
 end;
 

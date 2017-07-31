@@ -13,27 +13,27 @@ inherited frmElectricCustomer: TfrmElectricCustomer
     Width = 702
     Height = 384
     ExplicitWidth = 702
-    ExplicitHeight = 330
+    ExplicitHeight = 384
     inherited pgcBrowse: TcxPageControl
-      Top = 89
-      Width = 680
-      Height = 284
+      Top = 79
+      Width = 700
+      Height = 304
       TabOrder = 1
-      ExplicitTop = 89
-      ExplicitWidth = 680
-      ExplicitHeight = 230
-      ClientRectBottom = 283
-      ClientRectRight = 679
+      ExplicitTop = 79
+      ExplicitWidth = 700
+      ExplicitHeight = 304
+      ClientRectBottom = 303
+      ClientRectRight = 699
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 678
-        ExplicitHeight = 228
+        ExplicitWidth = 698
+        ExplicitHeight = 302
         inherited cxGrid: TcxGrid
-          Width = 678
-          Height = 282
-          ExplicitWidth = 678
-          ExplicitHeight = 228
+          Width = 698
+          Height = 302
+          ExplicitWidth = 698
+          ExplicitHeight = 302
           inherited cxGridView: TcxGridDBTableView
             object cxcolGridViewColumn1: TcxGridDBColumn
               Caption = 'No.'
@@ -70,9 +70,9 @@ inherited frmElectricCustomer: TfrmElectricCustomer
       end
     end
     object pnl1: TPanel
-      Left = 11
-      Top = 11
-      Width = 680
+      Left = 1
+      Top = 1
+      Width = 700
       Height = 78
       Align = alTop
       ParentColor = True
@@ -208,7 +208,7 @@ inherited frmElectricCustomer: TfrmElectricCustomer
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 417
     Width = 702
-    ExplicitTop = 363
+    ExplicitTop = 417
     ExplicitWidth = 702
     inherited pnlFooter: TPanel
       Width = 702
@@ -236,6 +236,7 @@ inherited frmElectricCustomer: TfrmElectricCustomer
       ExplicitWidth = 702
       inherited lbEscape: TLabel
         Left = 628
+        Height = 17
         ExplicitLeft = 628
       end
     end

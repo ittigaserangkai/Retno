@@ -81,7 +81,6 @@ type
     property POD_TOTAL_DISC: Double read FPOD_TOTAL_DISC write FPOD_TOTAL_DISC;
     property POD_TOTAL_TAX: Double read FPOD_TOTAL_TAX write FPOD_TOTAL_TAX;
     property POD_TOTAL_TEMP: Double read FPOD_TOTAL_TEMP write FPOD_TOTAL_TEMP;
-
     [AttributeOfForeign('REF$SATUAN_ID')]
     property POD_UOM: TModSatuan read FPOD_UOM write SetPOD_UOM;
   end;

@@ -48,7 +48,8 @@ type
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
     function Bank_GetDSLookup: TDataSet;
-    function Barang_GetDSOverview(aMerchanGroupID: string): TDataSet;
+    function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode : String):
+        TDataSet;
     function Gudang_GetDSOverview: TDataSet;
     function RefTipeMember_GetDSOverview: TDataSet;
     function AutAPP_GetDSLookup: TDataSet;
@@ -69,6 +70,7 @@ type
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
     function Barang_ByPOLookUp(APONO : String): TDataset;
+    function Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
     function SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
@@ -87,11 +89,13 @@ type
     function DO_GetDSLookUp: TDataSet;
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
+    function Gudang_GetDSLookUp: TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
     function PORevisi_GetDSOverview(ID: string): TDataset;
     function PO_DSLookUpDetail(ANOPO : String): TDataSet;
+    function PO_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime): TDataset;
     function PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
     function PO_SKULookUP(APONO : String): TDataSet;
     function PO_SLIP_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
@@ -104,6 +108,10 @@ type
 
 
     function RefCreditCard_GetDSOverview: TDataSet;
+    function CN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataSet;
+    function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataSet;
 
 
   end;
@@ -113,12 +121,18 @@ type
   public
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
+    function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
+        aGudang_ID: string): TDataSet;
+    function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
+        aGudang_ID: String): TDataSet;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
     function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
         string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
     function SO_Test: TFDJSONDataSets;
+    function InvMovement_GetDS(aStartDate, aEndDate: TDatetime; aGroup_ID,
+        aSupplier_ID, aGudang_ID: String): TDataSet;
     function Test2: OleVariant;
     function Test: Variant;
   end;
@@ -462,7 +476,8 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.Barang_GetDSOverview(aMerchanGroupID: string): TDataSet;
+function TDSProvider.Barang_GetDSOverview(aMerchanGroupID: string; AProductCode
+    : String): TDataSet;
 var
   S: string;
 begin
@@ -478,10 +493,14 @@ begin
       +' LEFT JOIN REF$TIPE_BARANG F ON A.REF$TIPE_BARANG_ID=F.REF$TIPE_BARANG_ID '
       +' LEFT JOIN REF$SATUAN G ON G.REF$SATUAN_ID = A.REF$SATUAN_STOCK'
       +' LEFT JOIN REF$OUTLET H ON H.REF$OUTLET_ID = A.REF$OUTLET_ID'
-      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID '
+      +' where 1 = 1';
 
-  if aMerchanGroupID <> '' then
-    S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+  if (aMerchanGroupID <> '') and (aMerchanGroupID <> 'XXX') then
+    S := S + ' and A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+
+  if (AProductCode <> '') and (AProductCode <> 'XXX') then
+    S := S + ' and A.BRG_CODE like ' + QuotedStr('%' + AProductCode + '%');
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -674,6 +693,27 @@ begin
           ' where a.PO_NO = ' + QuotedStr(APONO);
 
   Result := TDBUtils.OpenDataset(sSQL);
+end;
+
+function TDSProvider.Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.BARANG_ID,'
+      +' A.BRG_CODE, A.BRG_CATALOG,'
+      +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
+      +' E.SUBGRUP_NAME'
+      +' FROM BARANG A'
+      +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
+      +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID';
+
+  if aMerchanGroupID <> '' then
+    S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
@@ -893,6 +933,15 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.Gudang_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S:= 'select GUDANG_ID, GUD_CODE , GUD_NAME'
+      + ' from GUDANG'  ;
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Kompetitor_GetDSOverview: TDataSet;
 var
   sSQL: string;
@@ -950,6 +999,18 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.PO_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
+    TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_POBTB '
+    + ' where PO_Date between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.PO_GetDSOLookUpForGR(AUnitID : String): TDataset;
 var
   sSQL: string;
@@ -968,7 +1029,7 @@ end;
 
 function TDSProvider.PO_SKULookUP(APONO : String): TDataSet;
 begin
-//  Result := ;
+  Result := nil;
   // TODO -cMM: TDSProvider.PO_SKULookUP default body inserted
 end;
 
@@ -993,6 +1054,38 @@ var
   sSQL: string;
 begin
   sSQL   := 'SELECT * FROM V_CREDIT$CARD';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.CN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_CN_RECV ' +
+          ' where CNR_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_DN_RECV ' +
+          ' where DNR_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -1052,6 +1145,58 @@ begin
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 
+function TDSReport.KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate:
+    TDatetime; aGudang_ID: string): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT B.BARANG_ID, B.BRG_CODE, B.BRG_NAME,'
+      +' A.ID, A.TGLBUKTI, A.TRANSAKSI, A.NOBUKTI,  A.QTYIN, A.QTYOUT, A.KONVERSI'
+      +' FROM FN_KARTU_STOCK(' + QuotedStr(aBarang_ID) + ','
+      + TDBUtils.QuotD(aStartDate) + ',' + TDBUtils.QuotD(aEndDate)
+      +') a INNER JOIN BARANG B ON A.BARANG_ID = B.BARANG_ID';
+
+  if aGudang_ID <> '' then
+    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID,
+    aSupplier_ID, aGudang_ID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select B.BRG_CODE, B.BRG_NAME, E.MERK_NAME, D.MERCHAN_NAME,C.MERCHANGRUP_NAME,'
+      +' SUM((A.QTYIN-A.QTYOUT)*A.KONVERSI) * G.KONVSAT_SCALE AS STOCK,  F.SAT_CODE '
+      +' from FN_MUTASI_STOCK(''2017-01-01'',' + TDBUtils.QuotD(aEndDate) + ') A'
+      +' inner join BARANG B ON A.BARANG_ID=B.BARANG_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON B.REF$MERCHANDISE_GRUP_ID = C.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$MERCHANDISE D ON D.REF$MERCHANDISE_ID = C.REF$MERCHANDISE_ID'
+      +' INNER JOIN MERK E ON E.MERK_ID=B.MERK_ID'
+      +' INNER JOIN REF$SATUAN F ON F.REF$SATUAN_ID=B.REF$SATUAN_STOCK'
+      +' INNER JOIN REF$KONVERSI_SATUAN G ON G.BARANG_ID = B.BARANG_ID AND G.REF$SATUAN_ID=F.REF$SATUAN_ID';
+
+  if aSupplier_ID <> '' then
+    S := S +' INNER JOIN ('
+        +' 	SELECT X.BARANG_ID FROM BARANG_SUPLIER X'
+        +' 	INNER JOIN SUPLIER_MERCHAN_GRUP Y ON X.SUPLIER_MERCHAN_GRUP_ID = Y.SUPLIER_MERCHAN_GRUP_ID'
+        +' 	INNER JOIN SUPLIER Z ON Z.SUPLIER_ID = Y.SUPLIER_ID WHERE Z.SUPLIER_ID = '
+        + QuotedStr(aSupplier_ID)
+        +' ) S ON S.BARANG_ID = B.BARANG_ID';
+
+  if aGroup_ID <> '' then
+    S := S + ' WHERE C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
+
+  if aGudang_ID <> '' then
+    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  S := S + ' GROUP BY B.BARANG_ID, B.BRG_CODE, B.BRG_NAME, E.MERK_NAME,'
+    +' D.MERCHAN_NAME,C.MERCHANGRUP_NAME, F.SAT_CODE , G.KONVSAT_SCALE';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSReport.PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime;
     aNoBuktiAwal: string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
 var
@@ -1083,6 +1228,36 @@ begin
 
   S := 'SELECT 1 AS CONTOH';
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.InvMovement_GetDS(aStartDate, aEndDate: TDatetime;
+    aGroup_ID, aSupplier_ID, aGudang_ID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT B.BRG_CODE, B.BRG_NAME, A.GUD_NAME, A.SAT_CODE,'
+      +' A.SALDOAWAL, A.DO, A.CN_RECEIVING, A.DN_RECEIVING, A.POS, A.TAG_KIRIM, A.TAG_TERIMA,'
+      +' A.TAC_KIRIM, A.TAC_TERIMA, A.SALDOAKHIR'
+      +' FROM FN_INVENTORY_MOVEMENT('+ TDBUtils.QuotD(aStartDate)
+      +' ,' + TDBUtils.QuotD(aEndDate) + ') A'
+      +' INNER JOIN BARANG B ON A.BARANG_ID=B.BARANG_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID=B.REF$MERCHANDISE_GRUP_ID'
+      +' INNER JOIN REF$MERCHANDISE D ON D.REF$MERCHANDISE_ID=C.REF$MERCHANDISE_ID';
+
+  if aSupplier_ID <> '' then
+    S := S +' INNER JOIN ('
+        +' 	SELECT X.BARANG_ID FROM BARANG_SUPLIER X'
+        +' 	INNER JOIN SUPLIER_MERCHAN_GRUP Y ON X.SUPLIER_MERCHAN_GRUP_ID = Y.SUPLIER_MERCHAN_GRUP_ID'
+        +' 	INNER JOIN SUPLIER Z ON Z.SUPLIER_ID = Y.SUPLIER_ID WHERE Z.SUPLIER_ID = '
+        + QuotedStr(aSupplier_ID)
+        +' ) S ON S.BARANG_ID = A.BARANG_ID';
+
+  if aGroup_ID <> '' then
+    S := S + ' WHERE C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
+  if aGudang_ID <> '' then
+    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.Test2: OleVariant;

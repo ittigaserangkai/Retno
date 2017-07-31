@@ -78,6 +78,7 @@ type
     procedure ShowDialogSearchPo;
     procedure TraderPrint;
   public
+    procedure RefreshData; override;
     { Public declarations }
   end;
 
@@ -544,6 +545,12 @@ begin
     actPrintExecute(Self)
   else if (Key = VK_F5) and (ssctrl in Shift) then  //Edit SO
     actRefreshExecute(Self)
+end;
+
+procedure TfrmPOFromTrader.RefreshData;
+begin
+  inherited;
+  // TODO -cMM: TfrmPOFromTrader.RefreshData default body inserted
 end;
 
 end.

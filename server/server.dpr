@@ -45,7 +45,10 @@ uses
   uModPO in '..\model\uModPO.pas',
   uModDO in '..\model\uModDO.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
-  uModKompetitor in '..\model\uModKompetitor.pas';
+  uModKompetitor in '..\model\uModKompetitor.pas',
+  uModDNRecv in '..\model\uModDNRecv.pas',
+  uModCNRecv in '..\model\uModCNRecv.pas',
+  uModSettingApp in '..\model\uModSettingApp.pas';
 
 {$R *.res}
 

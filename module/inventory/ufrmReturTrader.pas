@@ -51,6 +51,7 @@ type
     { Private declarations }
   public
   procedure LoadDataToGrid(aReturSupplier: Integer);
+    procedure RefreshData; override;
   procedure SetHeaderGrid;
 
     { Public declarations }
@@ -348,6 +349,12 @@ begin
     Result := True;
   end;
 
+end;
+
+procedure TfrmReturTrader.RefreshData;
+begin
+  inherited;
+  // TODO -cMM: TfrmReturTrader.RefreshData default body inserted
 end;
 
 end.

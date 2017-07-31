@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Head Office :: ASSALAAM HYPERMARKET'
-  ClientHeight = 507
+  ClientHeight = 527
   ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,7 +11,6 @@ object frmMain: TfrmMain
   Font.Name = 'Trebuchet MS'
   Font.Style = []
   FormStyle = fsMDIForm
-  Menu = mmMainMenu
   OldCreateOrder = False
   WindowState = wsMaximized
   OnClose = FormClose
@@ -20,30 +19,9 @@ object frmMain: TfrmMain
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
-  object pnlHeader: TPanel
-    Left = 0
-    Top = 0
-    Width = 800
-    Height = 80
-    Align = alTop
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    Color = 10150911
-    TabOrder = 0
-    object imgHeader: TImage
-      Left = 2
-      Top = 2
-      Width = 796
-      Height = 76
-      Align = alClient
-      Transparent = True
-      ExplicitLeft = 42
-      ExplicitTop = 6
-    end
-  end
   object sbMain: TdxStatusBar
     Left = 0
-    Top = 487
+    Top = 507
     Width = 800
     Height = 20
     Panels = <
@@ -73,13 +51,13 @@ object frmMain: TfrmMain
   end
   object pnlUnit: TPanel
     Left = 0
-    Top = 80
+    Top = 148
     Width = 800
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    TabOrder = 2
+    TabOrder = 1
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -123,9 +101,113 @@ object frmMain: TfrmMain
         '20 - ASGROSS')
     end
   end
+  object dxrbnHO: TdxRibbon
+    Left = 0
+    Top = 0
+    Width = 800
+    Height = 120
+    BarManager = dxbrmngrHO
+    Style = rs2013
+    ColorSchemeName = 'White'
+    Fonts.ApplicationButton.Charset = DEFAULT_CHARSET
+    Fonts.ApplicationButton.Color = clWindowText
+    Fonts.ApplicationButton.Height = -12
+    Fonts.ApplicationButton.Name = 'Verdana'
+    Fonts.ApplicationButton.Style = []
+    Fonts.AssignedFonts = [afTabHeader, afGroup, afGroupHeader, afApplicationButton]
+    Fonts.Group.Charset = DEFAULT_CHARSET
+    Fonts.Group.Color = 5978398
+    Fonts.Group.Height = -12
+    Fonts.Group.Name = 'Verdana'
+    Fonts.Group.Style = []
+    Fonts.GroupHeader.Charset = DEFAULT_CHARSET
+    Fonts.GroupHeader.Color = 6710886
+    Fonts.GroupHeader.Height = -12
+    Fonts.GroupHeader.Name = 'Verdana'
+    Fonts.GroupHeader.Style = []
+    Fonts.TabHeader.Charset = DEFAULT_CHARSET
+    Fonts.TabHeader.Color = clWindowText
+    Fonts.TabHeader.Height = -12
+    Fonts.TabHeader.Name = 'Verdana'
+    Fonts.TabHeader.Style = []
+    Contexts = <>
+    TabOrder = 6
+    TabStop = False
+    object dxrbntbSystem: TdxRibbonTab
+      Caption = 'System'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSystem'
+        end>
+      Index = 0
+    end
+    object dxrbntbReference: TdxRibbonTab
+      Caption = 'Reference'
+      Groups = <
+        item
+          Caption = 'Finance'
+          ToolbarName = 'dxbrReferenceFinance'
+        end
+        item
+          Caption = 'Inventory'
+          ToolbarName = 'dxbrReferenceInventory'
+        end
+        item
+          Caption = 'Other'
+          ToolbarName = 'dxbrReferenceOther'
+        end>
+      Index = 1
+    end
+    object dxrbntbMembership: TdxRibbonTab
+      Caption = 'Membership'
+      Groups = <
+        item
+          Caption = 'Membership'
+          ToolbarName = 'dxbrMembership'
+        end>
+      Index = 2
+    end
+    object dxrbntbFinance: TdxRibbonTab
+      Active = True
+      Caption = 'Finance & Accounting '
+      Groups = <
+        item
+          Caption = 'Master'
+          ToolbarName = 'dxbrFinanceMaster'
+        end
+        item
+          ToolbarName = 'dxbrFinanceOther'
+        end>
+      Index = 3
+    end
+    object dxrbntbMerchandize: TdxRibbonTab
+      Caption = 'Merchandize'
+      Groups = <
+        item
+          ToolbarName = 'dxbrMerchandize'
+        end>
+      Index = 4
+    end
+    object dxrbntbSetting: TdxRibbonTab
+      Caption = 'Setting'
+      Groups = <
+        item
+          ToolbarName = 'dxbrSetting'
+        end>
+      Index = 5
+    end
+    object dxrbntbWindow: TdxRibbonTab
+      Caption = 'Window'
+      Groups = <
+        item
+          ToolbarName = 'dxbrWindow'
+        end>
+      Index = 6
+    end
+  end
   object mmMainMenu: TMainMenu
-    Left = 40
-    Top = 136
+    Left = 176
+    Top = 192
     object mmSistem: TMenuItem
       Caption = '&System'
       object miLogin: TMenuItem
@@ -230,7 +312,6 @@ object frmMain: TfrmMain
       end
       object Kompetitor1: TMenuItem
         Action = actKompetitor
-        Caption = 'Kompetitor'
       end
     end
     object mmSetting1: TMenuItem
@@ -242,7 +323,7 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object miGlobalParameter: TMenuItem
-        Caption = 'Global Parameter'
+        Action = actSettingAplikasi
       end
     end
     object mmWindow: TMenuItem
@@ -311,6 +392,7 @@ object frmMain: TfrmMain
     end
   end
   object actlstMain: TActionList
+    Images = DMClient.imgListButton
     Left = 85
     Top = 186
     object actOnCreateForm: TAction
@@ -321,18 +403,21 @@ object frmMain: TfrmMain
     object actOnLogout: TAction
       Category = 'Sistem'
       Caption = 'Logout'
+      ImageIndex = 68
       ShortCut = 24652
       OnExecute = actOnLogoutExecute
     end
     object actOnLogin: TAction
       Category = 'Sistem'
       Caption = 'Login'
+      ImageIndex = 69
       ShortCut = 16460
       OnExecute = actOnLoginExecute
     end
     object actOnExit: TAction
       Category = 'Sistem'
       Caption = 'Exit'
+      ImageIndex = 66
       ShortCut = 32883
       OnExecute = actOnExitExecute
     end
@@ -343,6 +428,7 @@ object frmMain: TfrmMain
     object actCascade: TAction
       Category = 'Window'
       Caption = '&Cascade'
+      ImageIndex = 65
     end
     object actTile: TAction
       Category = 'Window'
@@ -355,6 +441,7 @@ object frmMain: TfrmMain
     object actCloseAll: TAction
       Category = 'Window'
       Caption = 'Clo&se All'
+      ImageIndex = 67
       OnExecute = actCloseAllExecute
     end
     object actAuthentikasiModul: TAction
@@ -369,11 +456,13 @@ object frmMain: TfrmMain
     object actSupplierType: TAction
       Category = 'References'
       Caption = 'Supplier Type'
+      ImageIndex = 56
       OnExecute = actSupplierTypeExecute
     end
     object actUOM: TAction
       Category = 'References'
       Caption = 'Unit Of Measure'
+      ImageIndex = 52
       OnExecute = actUOMExecute
     end
     object actGroupSubGroupCat: TAction
@@ -383,16 +472,19 @@ object frmMain: TfrmMain
     object actSalesOutlet: TAction
       Category = 'References'
       Caption = 'Sales Outlet'
+      ImageIndex = 57
       OnExecute = actSalesOutletExecute
     end
     object actUnitStore: TAction
       Category = 'References'
       Caption = 'Unit Store'
+      ImageIndex = 55
       OnExecute = actUnitStoreExecute
     end
     object actCompanyType: TAction
       Category = 'References'
-      Caption = 'Tipe Perusahaan'
+      Caption = 'Company Type'
+      ImageIndex = 54
       OnExecute = actCompanyTypeExecute
     end
     object actBank: TAction
@@ -403,11 +495,13 @@ object frmMain: TfrmMain
     object actMerchanGroup: TAction
       Category = 'References'
       Caption = 'Merchandise Group'
+      ImageIndex = 59
       OnExecute = actMerchanGroupExecute
     end
     object actMerchandise: TAction
       Category = 'References'
       Caption = 'Merchandise'
+      ImageIndex = 60
       OnExecute = actMerchandiseExecute
     end
     object actProductType: TAction
@@ -425,7 +519,8 @@ object frmMain: TfrmMain
     end
     object actDataProduct: TAction
       Category = 'Merchandise'
-      Caption = 'Master &Product'
+      Caption = '&Product'
+      ImageIndex = 62
       OnExecute = actDataProductExecute
     end
     object actDataCompetitor: TAction
@@ -438,7 +533,7 @@ object frmMain: TfrmMain
     end
     object actTipePembayaran: TAction
       Category = 'Merchandise'
-      Caption = 'actTipePembayaran'
+      Caption = 'Payment Type'
       OnExecute = actTipePembayaranExecute
     end
     object actTipePengirimanPO: TAction
@@ -681,7 +776,8 @@ object frmMain: TfrmMain
     end
     object actRekening: TAction
       Category = 'Accounting'
-      Caption = 'Rekening'
+      Caption = 'Chart of Account'
+      ImageIndex = 52
       OnExecute = actRekeningExecute
     end
     object actBalanceSheet: TAction
@@ -708,9 +804,11 @@ object frmMain: TfrmMain
       Category = 'Accounting'
       Caption = 'actOpeningFiscalYear'
     end
-    object actPemakaianBarcode: TAction
+    object actBarcodeUsage: TAction
       Category = 'Finance'
-      Caption = 'Pemakaian Barcode'
+      Caption = 'Barcode Usage'
+      ImageIndex = 62
+      OnExecute = actBarcodeUsageExecute
     end
     object actListPemakaianBarcode: TAction
       Category = 'Finance'
@@ -746,7 +844,8 @@ object frmMain: TfrmMain
     end
     object actElectricCustomer: TAction
       Category = 'Finance'
-      Caption = 'actElectricCustomer'
+      Caption = 'Electric Customer'
+      OnExecute = actElectricCustomerExecute
     end
     object actElectricTransaction: TAction
       Category = 'Finance'
@@ -1047,6 +1146,7 @@ object frmMain: TfrmMain
     object actSupplierGroup: TAction
       Category = 'Merchandise'
       Caption = 'Supplier Group'
+      ImageIndex = 61
       OnExecute = actSupplierGroupExecute
     end
     object actReprintNP: TAction
@@ -1170,21 +1270,25 @@ object frmMain: TfrmMain
     object actSubGroup: TAction
       Category = 'References'
       Caption = 'Sub Group'
+      ImageIndex = 63
       OnExecute = actSubGroupExecute
     end
     object actKategori: TAction
       Category = 'References'
       Caption = 'Kategori'
+      ImageIndex = 51
       OnExecute = actKategoriExecute
     end
     object actMerk: TAction
       Category = 'References'
       Caption = 'Merk'
+      ImageIndex = 64
       OnExecute = actMerkExecute
     end
     object actCompany: TAction
       Category = 'References'
       Caption = 'Company'
+      ImageIndex = 55
       OnExecute = actCompanyExecute
     end
     object actQuotationMailer: TAction
@@ -1195,11 +1299,13 @@ object frmMain: TfrmMain
     object actMembership: TAction
       Category = 'Membership'
       Caption = 'Membership'
+      ImageIndex = 58
       OnExecute = actMembershipExecute
     end
     object actSupplier: TAction
       Category = 'Merchandise'
       Caption = 'Supplier'
+      ImageIndex = 57
       OnExecute = actSupplierExecute
     end
     object actListingQuotationHargaBeli: TAction
@@ -1257,18 +1363,27 @@ object frmMain: TfrmMain
     end
     object actSetKoneksi: TAction
       Category = 'Sistem'
-      Caption = 'Setting Koneksi'
+      Caption = 'Server Connection'
+      ImageIndex = 43
       OnExecute = actSetKoneksiExecute
     end
     object actCreditCard: TAction
       Category = 'References'
       Caption = 'Credit Card'
+      ImageIndex = 58
       OnExecute = actCreditCardExecute
     end
     object actKompetitor: TAction
       Category = 'Merchandise'
-      Caption = 'actKompetitor'
+      Caption = 'Kompetitor'
+      ImageIndex = 56
       OnExecute = actKompetitorExecute
+    end
+    object actSettingAplikasi: TAction
+      Category = 'Sistem'
+      Caption = 'Setting Aplikasi'
+      ImageIndex = 44
+      OnExecute = actSettingAplikasiExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -1281,5 +1396,524 @@ object frmMain: TfrmMain
     NativeStyle = False
     Left = 24
     Top = 224
+  end
+  object dxbrmngrHO: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.Images = DMClient.imgListButton
+    ImageOptions.LargeImages = DMClient.imgListButton
+    IniFileName = 'homenu.ini'
+    PopupMenuLinks = <>
+    ShowCloseButton = True
+    ShowHelpButton = True
+    ShowShortCutInHint = True
+    StoreInIniFile = True
+    SunkenBorder = True
+    UseSystemFont = False
+    Left = 272
+    Top = 192
+    DockControlHeights = (
+      0
+      0
+      28
+      0)
+    object dxbrReferenceFinance: TdxBar
+      Caption = 'Reference Finance'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBank'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTax'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCostCenter'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTipePembayaran'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCreditCard'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrReferenceInventory: TdxBar
+      Caption = 'Reference Inventory'
+      CaptionButtons = <>
+      DockedLeft = 201
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtn1'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnUOM'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrReferenceOther: TdxBar
+      Caption = 'Reference Other'
+      CaptionButtons = <>
+      DockedLeft = 323
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 10
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTipePerusahaan'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSupplierType'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCompany'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSalesOutlet'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnUnitStore'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrMembership: TdxBar
+      Caption = 'Membership'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnMembership'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrFinanceMaster: TdxBar
+      Caption = 'Finance'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCostCenter'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCOA'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrFavourite: TdxBar
+      Caption = 'Favourite'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = True
+    end
+    object dxbrMerchandize: TdxBar
+      Caption = 'Merchandize'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnMerchandise'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnMerchandiseGroup'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnKategori'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSubGroup'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnMerk'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSupplierGroup'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnProduct'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSupplier'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnKompetirot'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrSetting: TdxBar
+      Caption = 'Setting'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnServerConnection'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn3'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrWindow: TdxBar
+      Caption = 'Window'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCascade'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTile'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCloseAll'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrSystem: TdxBar
+      Caption = 'System'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnLogIn'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnLogOut'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnExit'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrFinanceOther: TdxBar
+      Caption = 'Other'
+      CaptionButtons = <>
+      DockedLeft = 140
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBarcodeUsage'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnElectricCustomer'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrbtnBank: TdxBarButton
+      Action = actBank
+      Category = 0
+      ImageIndex = 49
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnTax: TdxBarButton
+      Action = actPajak
+      Category = 0
+      ImageIndex = 47
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCostCenter: TdxBarButton
+      Action = actCostCenter
+      Category = 0
+      ImageIndex = 46
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn1: TdxBarButton
+      Action = actProductType
+      Category = 0
+      ImageIndex = 51
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnTipePembayaran: TdxBarButton
+      Action = actTipePembayaran
+      Category = 0
+      ImageIndex = 48
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnUOM: TdxBarButton
+      Action = actUOM
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnTipePerusahaan: TdxBarButton
+      Action = actCompanyType
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSupplierType: TdxBarButton
+      Action = actSupplierType
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCompany: TdxBarButton
+      Action = actCompany
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSalesOutlet: TdxBarButton
+      Action = actSalesOutlet
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnUnitStore: TdxBarButton
+      Action = actUnitStore
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnMembership: TdxBarButton
+      Action = actMembership
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCreditCard: TdxBarButton
+      Action = actCreditCard
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCOA: TdxBarButton
+      Action = actRekening
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnMerchandise: TdxBarButton
+      Action = actMerchandise
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnMerchandiseGroup: TdxBarButton
+      Action = actMerchanGroup
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSubGroup: TdxBarButton
+      Action = actSubGroup
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnKategori: TdxBarButton
+      Action = actKategori
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnMerk: TdxBarButton
+      Action = actMerk
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnProduct: TdxBarButton
+      Action = actDataProduct
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSupplierGroup: TdxBarButton
+      Action = actSupplierGroup
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnSupplier: TdxBarButton
+      Action = actSupplier
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnKompetirot: TdxBarButton
+      Action = actKompetitor
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnServerConnection: TdxBarButton
+      Action = actSetKoneksi
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtn3: TdxBarButton
+      Action = actSettingAplikasi
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCascade: TdxBarButton
+      Action = actCascade
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnTile: TdxBarButton
+      Action = actTile
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCloseAll: TdxBarButton
+      Action = actCloseAll
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnLogIn: TdxBarButton
+      Action = actOnLogin
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnLogOut: TdxBarButton
+      Action = actOnLogout
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnExit: TdxBarButton
+      Action = actOnExit
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxBarButton1: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtnBarcodeUsage: TdxBarButton
+      Action = actBarcodeUsage
+      Category = 0
+    end
+    object dxbrbtnElectricCustomer: TdxBarButton
+      Action = actElectricCustomer
+      Category = 0
+      ImageIndex = 24
+    end
   end
 end

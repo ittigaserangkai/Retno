@@ -22,13 +22,14 @@ type
   DataControllerHelper = class helper for TcxGridDataController
   private
   public
-    function GetFooterSummary(ASummaryIndex: Integer): Variant;
+    function GetFooterSummary(ASummaryIndex: Integer): Variant; overload;
+    function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
   end;
 
   DBDataControllerHelper = class helper for TcxGridDBDataController
   private
   public
-    function GetFooterSummary(ASummaryIndex: Integer): Variant;
+    function GetFooterSummary(ASummaryIndex: Integer): Variant; overload;
   end;
 
   TcxDBBandGridHelper = class helper for TcxGridDBBandedTableView
@@ -184,6 +185,8 @@ type
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
     function RecordIndex: Integer;
     procedure SetObjectData(AObject : TModApp; ARow : Integer);
+    procedure SetVisibleColumns(FromCol, ToCol: Integer; IsVisible: Boolean);
+        overload;
     function Values(ARec, ACol : Integer): Variant; overload;
   end;
 
@@ -218,6 +221,25 @@ end;
 function DataControllerHelper.GetFooterSummary(ASummaryIndex: Integer): Variant;
 begin
   Result := Self.Summary.FooterSummaryValues[ASummaryIndex];
+end;
+
+function DataControllerHelper.GetFooterSummary(aColumn: TcxGridColumn): Variant;
+var
+  i: Integer;
+begin
+  Result := 0;
+
+  with Self.Summary do
+  begin
+    for i :=0 to FooterSummaryItems.Count-1 do
+    begin
+//      If FooterSummaryItems.Items[i].ItemLink.ClassName <> aColumn.ClassName then
+//        continue;
+
+      If FooterSummaryItems.Items[i].ItemLink = aColumn then
+        Result := FooterSummaryValues[i];
+    end;
+  end;
 end;
 
 function DBDataControllerHelper.GetFooterSummary(ASummaryIndex: Integer):
@@ -1243,6 +1265,10 @@ begin
         sMsg := EmptyCtrl.HelpKeyword + ' tidak boleh kosong'
       else
         sMsg := 'Input Tidak Boleh Kosong';
+
+      //for debugging
+      sMsg := sMsg + #13 + EmptyCtrl.ClassName + '.' + EmptyCtrl.Name;
+
       TAppUtils.Warning(sMsg);
     end;
 
@@ -1521,6 +1547,17 @@ begin
       end;
   finally
     ctx.Free;
+  end;
+end;
+
+procedure TcxGridTableViewHelper.SetVisibleColumns(FromCol, ToCol: Integer;
+    IsVisible: Boolean);
+var
+  i: Integer;
+begin
+  for i := FromCol to ToCol do
+  begin
+    Self.Columns[i].Visible := IsVisible;
   end;
 end;
 

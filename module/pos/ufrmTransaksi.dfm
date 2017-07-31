@@ -57,6 +57,40 @@ object frmTransaksi: TfrmTransaksi
     ParentFont = False
     Visible = False
   end
+  object cxTransaksi: TcxGrid
+    Left = 0
+    Top = 119
+    Width = 888
+    Height = 328
+    Align = alTop
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    LockedStateImageOptions.Text = 'Mohon ditunggu...'
+    LookAndFeel.NativeStyle = False
+    object sgTransaksi: TcxGridTableView
+      Navigator.Buttons.CustomButtons = <>
+      Navigator.InfoPanel.DisplayMask = '[RecordIndex] / [RecordCount]'
+      FindPanel.InfoText = 'Cari Data'
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      FilterRow.InfoText = 'Filter Row'
+      NewItemRow.InfoText = 'Data Baru'
+      OptionsData.Appending = True
+      OptionsView.NoDataToDisplayInfoText = '<Data Kosong>'
+      OptionsView.ExpandButtonsForEmptyDetails = False
+      OptionsView.GroupByBox = False
+      Styles.Background = cxStyleGreen
+    end
+    object grdlvlTransaksi: TcxGridLevel
+      GridView = sgTransaksi
+    end
+  end
   object pnl1: TPanel
     Left = 0
     Top = 58
@@ -129,6 +163,7 @@ object frmTransaksi: TfrmTransaksi
       Left = 120
       Top = 6
       TabOrder = 0
+      OnEnter = edNoPelangganEnter
       OnExit = edNoPelangganExit
       OnKeyDown = edNoPelangganKeyDown
       Width = 105
@@ -386,41 +421,6 @@ object frmTransaksi: TfrmTransaksi
       end
     end
   end
-  object cxTransaksi: TcxGrid
-    Left = 0
-    Top = 119
-    Width = 888
-    Height = 328
-    Align = alTop
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Courier New'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 7
-    LockedStateImageOptions.Text = 'Mohon ditunggu...'
-    LookAndFeel.NativeStyle = False
-    object sgTransaksi: TcxGridTableView
-      Navigator.Buttons.CustomButtons = <>
-      Navigator.InfoPanel.DisplayMask = '[RecordIndex] / [RecordCount]'
-      FindPanel.InfoText = 'Cari Data'
-      DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <>
-      DataController.Summary.SummaryGroups = <>
-      FilterRow.InfoText = 'Filter Row'
-      NewItemRow.InfoText = 'Data Baru'
-      OptionsData.Appending = True
-      OptionsView.NoDataToDisplayInfoText = '<Data Kosong>'
-      OptionsView.ExpandButtonsForEmptyDetails = False
-      OptionsView.GroupByBox = False
-      object colNo: TcxGridColumn
-      end
-    end
-    object grdlvlTransaksi: TcxGridLevel
-      GridView = sgTransaksi
-    end
-  end
   object pnlotorisasi: TPanel
     Left = 601
     Top = 222
@@ -517,5 +517,22 @@ object frmTransaksi: TfrmTransaksi
   object ActionList1: TActionList
     Left = 208
     Top = 151
+  end
+  object cxStyleRepository1: TcxStyleRepository
+    Left = 240
+    Top = 80
+    PixelsPerInch = 96
+    object cxStyleGreen: TcxStyle
+      AssignedValues = [svColor]
+      Color = 13303754
+    end
+    object cxStyleBold: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+    end
   end
 end

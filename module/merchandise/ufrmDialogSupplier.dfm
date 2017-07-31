@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -178
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -404,6 +405,20 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           TabOrder = 0
           Width = 68
         end
+        object chkIsSOBlacklist: TCheckBox
+          Left = 194
+          Top = 390
+          Width = 98
+          Height = 17
+          Caption = 'Is SO Blacklist'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Trebuchet MS'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 22
+        end
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = '&Category'
@@ -563,7 +578,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsA
+          Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           OnExit = pgcMerchanExit
           ClientRectBottom = 273
@@ -572,9 +587,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object lblPPN: TLabel
               Left = 435
               Top = 155
@@ -1181,6 +1193,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       inherited btnPrint: TcxButton
         Left = 424
+        Action = actPrint
         ExplicitLeft = 424
       end
     end
