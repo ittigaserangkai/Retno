@@ -151,6 +151,7 @@ procedure TfrmDialogDN.btnDeletePriceClick(Sender: TObject);
 begin
   inherited;
   DCItem.DeleteRecord(DCItem.FocusedRecordIndex);
+  CalculateTotal;
 end;
 
 procedure TfrmDialogDN.CalculateTotal;
@@ -482,6 +483,7 @@ var
   i: Integer;
   lItem: TModDNRecvItem;
 begin
+  CalculateTotal;
   DNRecv.DNR_DATE     := dtDN.Date;
   DNRecv.DNR_PO       := TModPO.CreateID(FPO.ID);
   DNRecv.DNR_IS_CLAIM := 0;
@@ -511,6 +513,7 @@ begin
     lItem.DNRD_PPN_PERSEN     := DCItem.Values[i, cxGridColDNDetailColumnPPNPERSEN.Index];
     lItem.DNRD_PPNBM_PERSEN   := DCItem.Values[i, cxGridColDNDetailColumnPPNBMPERSEN.Index];
     lItem.DNRD_PRICE          := DCItem.Values[i, cxGridColDNDetailColumnHargaBeli.Index];
+    lItem.DISCOUNT            := DCItem.Values[i, cxGridColDNDetailColumnDisc.Index];
   end;
 
 end;
