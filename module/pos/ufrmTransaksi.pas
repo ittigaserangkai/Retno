@@ -10,7 +10,7 @@ uses
   cxTextEdit, cxCurrencyEdit, cxGridCustomTableView, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid,
-  uNewBarang, uNewBarangHargaJual, uNewPosTransaction;
+  uNewBarang, uNewBarangHargaJual, uNewPosTransaction, cxSpinEdit;
 
 type
   TfrmTransaksi = class(TForm)
@@ -106,13 +106,17 @@ type
     sValueBefore: string;
     procedure AutoNumberCol(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
-    procedure CalculateManualDisc(var Value: String; var Valid: Boolean; Row:
+    procedure CalculateManualDisc(var Value: Variant; var Error: Boolean; Row:
         Integer);
     function GetCCUoMs: TStrings;
 		function GetDiscAMCPersen: Double;
     procedure SaveTransactionToCSV(ASaveDetail: Boolean = true; ASaveHeader:
         Boolean = true);
     procedure SavePendingToCSV(AMemberCode: String);
+    procedure colJumlahValidate(Sender: TObject; var DisplayValue: Variant; var
+        ErrorText: TCaption; var Error: Boolean);
+    procedure colDiscManualValidate(Sender: TObject; var DisplayValue: Variant; var
+        ErrorText: TCaption; var Error: Boolean);
 //    procedure LoadPendingFromCSV(AMemberCode: String);
   public
     Transaksi_ID: Integer;
@@ -145,7 +149,8 @@ type
     function SaveToDBPending: Boolean;
     procedure ShowPayment;
     procedure ActiveGrid;
-    procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True);
+    procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True;
+        aEditing: Boolean = True);
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
 		property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
     property MemberCode: String read FMemberCode write FMemberCode;
@@ -193,8 +198,11 @@ begin
       dxColumn := CreateColumn;
       dxColumn.HeaderAlignmentHorz := taCenter;
       dxColumn.Styles.Header := cxStyleBold;
+//      dxColumn.PropertiesClass := TcxTextEditProperties;
+//      TcxTextEditProperties(dxColumn.Properties).ReadOnly := True;
     end;
-    Columns[0].OnGetDisplayText := AutoNumberCol;
+
+    Columns[0].OnGetDisplayText       := AutoNumberCol;
     Columns[0].Caption                := 'No';
     Columns[_KolPLU].Caption          := 'PLU';
     Columns[_KolNamaBarang].Caption   := 'Nama Barang';
@@ -202,8 +210,8 @@ begin
     Columns[_KolUOM].Caption          := 'UoM';
     Columns[_KolHarga].Caption        := 'Harga';
     Columns[_KolDisc].Caption         := 'Disc';
-    Columns[_KolDiscMan].Caption      := 'Manual Disc';
     Columns[_KolDiscManForm].Caption  := 'Manual Disc';
+    Columns[_KolDiscMan].Caption      := 'Manual Disc';
     Columns[_KolTotal].Caption        := 'Total';
     Columns[_KolIsDecimal].Caption    := 'IsDecimal';
     Columns[_KolIsDiscGMC].Caption    := 'IsDiscGMC';
@@ -238,10 +246,11 @@ begin
     Columns[_KolUOM].Width        := 40;
     Columns[_KolHarga].Width      := 100 + (10 * Abs(igPrice_Precision));
     Columns[_KolDisc].Width       := 50 + (10 * Abs(igPrice_Precision));
-    //Columns[_KolDiscMan].Width    := 80 + (10 * Abs(igPrice_Precision));
     Columns[_KolDiscManForm].Width    := 80 + (10 * Abs(igPrice_Precision));
+//    Columns[_KolDiscMan].Width    := 80 + (10 * Abs(igPrice_Precision));
     Columns[_KolTotal].Width      := 120;
 
+    {
     with Columns[0] do
     begin
       PropertiesClass := TcxCurrencyEditProperties;
@@ -256,12 +265,17 @@ begin
       end;
 //      OnGetDisplayText := AutoNumberCol;
     end;
+    }
+
     SetGridFormat_Column(_KolJumlah, False);
     SetGridFormat_Column(_KolHarga, True);
     SetGridFormat_Column(_KolDisc, False);
     SetGridFormat_Column(_KolDiscMan, False);
     SetGridFormat_Column(_KolDiscManForm, False);
     SetGridFormat_Column(_KolTotal, True);
+
+    Columns[_KolJumlah].Properties.OnValidate := colJumlahValidate;
+    Columns[_KolDiscManForm].Properties.OnValidate := colDiscManualValidate;
   end;
 end;
 
@@ -292,7 +306,7 @@ begin
   begin
     cxTransaksi.SetFocus;
     sgTransaksi.Controller.FocusedColumnIndex := _KolJumlah;
-    sgTransaksi.Controller.FocusedRecordIndex := sgTransaksi.DataController.RecordCount - 2;
+    sgTransaksi.Controller.FocusedRowIndex := sgTransaksi.DataController.RowCount - 1;
   end
   else
   if (Key = VK_F5) then
@@ -327,7 +341,6 @@ begin
     else
     if (fraLookupBarang.Showing) then
        fraLookupBarang.cxGrid.SetFocus;
-
   end
   else
   if Key in [VK_F9] then
@@ -341,12 +354,10 @@ begin
     if sgTransaksi.DataController.Values[1, _KolPLU] = '' then Exit;
     if not SaveToDBPending then
     begin
-         CommonDlg.ShowError('Gagal menyimpan Transaksi Pending !');
+      CommonDlg.ShowError('Gagal menyimpan Transaksi Pending !');
     end;
     btnResetClick(Sender);
-
   end;
-
 end;
 
 function TfrmTransaksi.HitungTotalRupiah: Currency;
@@ -423,9 +434,10 @@ end;
 
 procedure TfrmTransaksi.FormShow(Sender: TObject);
 begin
-  {$IFDEF RMS}
-  sgTransaksi.SetVisibleColumns(_KolIsDecimal, 1, False);
-  {$ENDIF}
+//  {$IFDEF RMS}
+  sgTransaksi.SetVisibleColumns(_KolDiscMan, _KolDiscMan, False);
+//  {$ENDIF}
+
   sgTransaksi.SetVisibleColumns(_KolIsDecimal, _ColCount, False);
 
   if (edNoPelanggan.Text = '') or (edNoPelanggan.Text = '0') then
@@ -434,13 +446,11 @@ begin
     LoadMember(edNoPelanggan.Text);
 
   sValueBefore := '';
-
 end;
 
 procedure TfrmTransaksi.edHargaKontrabonKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
-
   if sgTransaksi.DataController.Values[sgTransaksi.DataController.RecordCount-1, _KolPLU] <> '' then
      sgTransaksi.DataController.FocusedRecordIndex := sgTransaksi.DataController.RecordCount-1
   else
@@ -578,7 +588,7 @@ var
 	iFoundInGrid     : Integer;
   isBarcodeUsed    : boolean;
   isBHJExist       : boolean;
-  iRowCount        : integer;
+//  iRowCount        : integer;
 begin
   Result            := 0;
 	FProductCount     := 1;
@@ -639,7 +649,7 @@ begin
 	begin
     sTemp := StringOfChar('0', igProd_Code_Length);   //'000000'
 		try
-			sPLU := FormatFloat(sTemp,StrToFloat(sPLU));
+			sPLU := FormatFloat(sTemp,StrToFloatDef(sPLU,0));
 		except
 		end;
 	end;
@@ -822,7 +832,7 @@ begin
 									end
 									else
 									begin
-//										HitungTotalRupiah;
+										HitungTotalRupiah;
 										edPLU.Clear;
 										FocusToPLUEdit;
                     SaveTransactionToCSV;
@@ -1553,7 +1563,7 @@ begin
   ActiveGrid;
 end;
 
-procedure TfrmTransaksi.CalculateManualDisc(var Value: String; var Valid:
+procedure TfrmTransaksi.CalculateManualDisc(var Value: Variant; var Error:
     Boolean; Row: Integer);
 var
   dValue : Double;
@@ -1566,25 +1576,26 @@ begin
 
   If not TryStrToFloat(DiscStrValue, dValue) then
   begin
-    ShowInfo('Discount tidak valid');
-    Valid := False;
+    ShowInfo('Discount tidak Error');
+    Error := True;
   end
   else
   begin
     if dValue < 0 then
     begin
       ShowInfo('Discount tidak boleh negatif');
-      Valid := False;
+      Error := True;
     end;
     If (IsPercent) and (dValue > 100) then
     begin
       ShowInfo('Prosentase Discount tidak boleh melebihi 100');
-      Valid := False;
+      Error := True;
     end
     else
-      Valid := True;
+      Error := False;
   end;
-  If Valid then
+
+  If not Error then
   begin
     if dValue < 0 then
     begin
@@ -1681,28 +1692,31 @@ begin
 end;
 
 procedure TfrmTransaksi.SetGridFormat_Column(aColIndex: Integer; aIsCurrency:
-    Boolean = True);
+    Boolean = True; aEditing: Boolean = True);
 begin
   try
-      with sgTransaksi.Columns[aColIndex] do
+    with sgTransaksi.Columns[aColIndex] do
+    begin
+      Options.Editing := aEditing;
+      PropertiesClass := TcxCurrencyEditProperties;
+      with TcxCurrencyEditProperties(Properties) do
       begin
-        PropertiesClass := TcxCurrencyEditProperties;
-        with TcxCurrencyEditProperties(Properties) do
+        ImmediatePost := True;
+        Alignment.Horz := taRightJustify;
+        UseThousandSeparator := True;
+        ValidationOptions := [];
+        if aIsCurrency then
         begin
-          Alignment.Horz := taRightJustify;
-          UseThousandSeparator := True;
-          if aIsCurrency then
-          begin
-            DecimalPlaces := igQty_Precision;
-            DisplayFormat := ',0.###';
-          end
-          else
-          begin
-            DecimalPlaces := igPrice_Precision;
-            DisplayFormat := ',0.00';
-          end;
+          DecimalPlaces := igQty_Precision;
+          DisplayFormat := ',0.###';
+        end
+        else
+        begin
+          DecimalPlaces := igPrice_Precision;
+          DisplayFormat := ',0.00';
         end;
       end;
+    end;
   finally
   end;
 end;
@@ -1716,50 +1730,119 @@ begin
   AText := IntToStr(Row+1);
 end;
 
-procedure TfrmTransaksi.sgTransaksiEditing(Sender: TcxCustomGridTableView; AItem:
-    TcxCustomGridTableItem; var AAllow: Boolean);
+procedure TfrmTransaksi.colJumlahValidate(Sender: TObject; var DisplayValue:
+    Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  ARow: Integer;
 begin
-  if (Sender.Controller.FocusedRecordIndex in [_KolJumlah,_KolDiscMan,_KolDiscManForm])
-     and (sgTransaksi.DataController.Values[AItem.Index, _KolPLU] <> '') then
+  ARow := sgTransaksi.DataController.FocusedRecordIndex;
+
+  HideInfo;
+  FIsEditMode := True;
+  sgTransaksi.Focused := True;
+
+  if DisplayValue <= 0 then
+  begin
+    Error := True;
+    DisplayValue := sgTransaksi.DataController.Values[ARow,_KolJumlah];
+    ShowInfo('Jumlah barang tidak valid');
+    Exit;
+  end;
+
+  if sgTransaksi.DataController.Values[ARow,_KolIsDecimal] = '0' then
+  begin
+    if (DisplayValue - Floor(DisplayValue)) > 0 then
+    begin
+      Error := True;
+    end;
+  end;
+
+  if Error then
+  begin
+    ShowInfo('Jumlah barang ini tidak boleh desimal');
+  end
+  else
+  begin
+    sgTransaksi.DataController.Values[ARow,_KolJumlah]:= DisplayValue;
+    sgTransaksi.DataController.Values[ARow,_KolTotal] := GetTotalHarga(ARow);
+
+    HitungTotalRupiah;
+    sgTransaksi.Focused := True;
+//    sgTransaksi.Controller.FocusedRowIndex    := sgTransaksi.DataController.RowCount-1;
+//    sgTransaksi.Controller.FocusedColumnIndex := _KolPLU;
+    FocusToPLUEdit;
+
+    SaveTransactionToCSV;
+  end;
+end;
+
+procedure TfrmTransaksi.colDiscManualValidate(Sender: TObject; var
+    DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  ARow: Integer;
+begin
+  ARow := sgTransaksi.DataController.FocusedRecordIndex;
+
+  if sgTransaksi.DataController.Values[ARow,_KolDisc] <> 0 then
+  begin
+    Error := True;
+    ShowInfo('Barang telah didiskon, tidak bisa dilakukan Manual Disc.');
+  end else
+  if sgTransaksi.DataController.Values[ARow,_KolIsKontrabon] = 1 then
+  begin
+    Error := True;
+    ShowInfo('Barang Joint Business, tidak bisa dilakukan Manual Disc.');
+  end else
+  begin
+    CalculateManualDisc(DisplayValue, Error, ARow)
+  end;
+end;
+
+procedure TfrmTransaksi.sgTransaksiEditing(Sender: TcxCustomGridTableView;
+    AItem: TcxCustomGridTableItem; var AAllow: Boolean);
+begin
+  if (AItem.Index in [_KolJumlah,_KolDiscMan,_KolDiscManForm])
+     and (sgTransaksi.DataController.Values[(Sender as TcxGridTableView).Controller.FocusedRecordIndex, _KolPLU] <> '') then
     AAllow := True
   else
     AAllow := False;
 end;
 
-procedure TfrmTransaksi.sgTransaksiInitEdit(Sender: TcxCustomGridTableView; AItem:
-    TcxCustomGridTableItem; AEdit: TcxCustomEdit);
+procedure TfrmTransaksi.sgTransaksiInitEdit(Sender: TcxCustomGridTableView;
+    AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit);
 var
   ACol, ARow : integer;
 begin
-  ACol := sgTransaksi.Controller.FocusedColumnIndex;
-  ARow := sgTransaksi.Controller.FocusedRecordIndex;
+  ACol := (Sender as TcxGridTableView).Controller.FocusedColumnIndex;
+  ARow := (Sender as TcxGridTableView).Controller.FocusedRecordIndex;
+  {
   if (ACol = _KolJumlah) or (ACol = _KolDiscMan)  then
-    sgTransaksi.Controller.EditingController.ShowEdit(AItem);// := edFloat;
+    (Sender as TcxGridTableView).Controller.EditingController.ShowEdit(AItem);// := edFloat;
   if (ARow > 0) and (ACol > 0) then
   begin
     if ACol in [_KolJumlah] then
     begin
-      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolJumlah].Properties).DisplayFormat := '%.' + IntToStr(Abs(igQty_Precision)) + 'n';
+      TcxCurrencyEditProperties((Sender as TcxGridTableView).Columns[_KolJumlah].Properties).DisplayFormat := '%.' + IntToStr(Abs(igQty_Precision)) + 'n';
     end
     else if ACol in [_KolDisc,_KolDiscMan] then
     begin
-      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolDisc].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
-      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolDiscMan].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties((Sender as TcxGridTableView).Columns[_KolDisc].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties((Sender as TcxGridTableView).Columns[_KolDiscMan].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
     end
     else if ACol in [_KolHarga, _KolTotal] then
     begin
-      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolHarga].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
-      TcxCurrencyEditProperties(sgTransaksi.Columns[_KolTotal].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties((Sender as TcxGridTableView).Columns[_KolHarga].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
+      TcxCurrencyEditProperties((Sender as TcxGridTableView).Columns[_KolTotal].Properties).DisplayFormat := '%.' + IntToStr(Abs(igPrice_Precision)) + 'n';
     end;
   end;
+  }
   if ACol = _KolDiscManForm then
   begin
     if not pnlotorisasi.Visible then
     begin
-      sValueBefore := sgTransaksi.DataController.Values[ACol,Arow];
+      sValueBefore := (Sender as TcxGridTableView).DataController.Values[Arow,ACol];
     end;
   end;
-
 end;
 
 procedure TfrmTransaksi.sgTransaksiKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -1794,18 +1877,17 @@ begin
   begin
     with sgTransaksi do
     begin
-      if Controller.FocusedRecordIndex < DataController.RecordCount - 1 then
-      begin
+//      if Controller.FocusedRecordIndex < DataController.RecordCount - 1 then
+//      begin
         if CommonDlg.Confirm('Apakah Anda yakin akan menghapus PLU: '
           + DataController.Values[Controller.FocusedRecordIndex, _KolPLU] + ' - '
           + DataController.Values[Controller.FocusedRecordIndex, _KolNamaBarang]) = mrYes then
         begin
-          ClearRows;
-//          AutoNumberCol(0);
+          DataController.DeleteFocused;
           HitungTotalRupiah;
           SaveTransactionToCSV;
         end;
-      end;
+//      end;
     end;    // with
   end
   else if Key in [VK_F9] then
@@ -1813,7 +1895,6 @@ begin
     //ShowForm(TfrmPayment,wsMaximized);
     ShowPayment;
   end;
-
 end;
 
 end.

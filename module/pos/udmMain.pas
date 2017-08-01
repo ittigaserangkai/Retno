@@ -133,22 +133,24 @@ var
   saveCursor: TCursor;
 begin
   Result := TFDQuery.create(dmMain);
-  if not dmMain.connGoro.Connected then
-  begin
-    dmMain.connGoro.Open(dmMain.FMSSQLConnectionString);
-  end;
-  if not dmMain.dbPOS.Connected then
-  begin
-    dmMain.dbPOS.Open(dmMain.FSQLiteConnectionString);
-  end;
 
   if aDBType = dbtPOS then
   begin
+    if not dmMain.dbPOS.Connected then
+    begin
+      dmMain.dbPOS.Open(dmMain.FSQLiteConnectionString);
+    end;
+
     Result.Connection := dmMain.dbPOS;
     Result.Transaction := dmMain.TransPOS;
   end
   else if aDBType = dbtStore then
   begin
+    if not dmMain.connGoro.Connected then
+    begin
+      dmMain.connGoro.Open(dmMain.FMSSQLConnectionString);
+    end;
+
     Result.Connection := dmMain.connGoro;
     Result.Transaction := dmMain.transGoro;
   end;

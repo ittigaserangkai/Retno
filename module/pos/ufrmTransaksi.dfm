@@ -63,6 +63,7 @@ object frmTransaksi: TfrmTransaksi
     Width = 888
     Height = 328
     Align = alTop
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -73,15 +74,20 @@ object frmTransaksi: TfrmTransaksi
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
     object sgTransaksi: TcxGridTableView
+      OnKeyDown = sgTransaksiKeyDown
       Navigator.Buttons.CustomButtons = <>
       Navigator.InfoPanel.DisplayMask = '[RecordIndex] / [RecordCount]'
       FindPanel.InfoText = 'Cari Data'
+      OnEditing = sgTransaksiEditing
+      OnInitEdit = sgTransaksiInitEdit
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.InfoText = 'Filter Row'
       NewItemRow.InfoText = 'Data Baru'
       OptionsData.Appending = True
+      OptionsData.Deleting = False
+      OptionsData.DeletingConfirmation = False
       OptionsView.NoDataToDisplayInfoText = '<Data Kosong>'
       OptionsView.ExpandButtonsForEmptyDetails = False
       OptionsView.GroupByBox = False
@@ -171,6 +177,7 @@ object frmTransaksi: TfrmTransaksi
     object edNamaPelanggan: TcxTextEdit
       Left = 120
       Top = 32
+      ParentColor = True
       Properties.ReadOnly = True
       TabOrder = 1
       Width = 233
@@ -178,6 +185,7 @@ object frmTransaksi: TfrmTransaksi
     object edNoTrnTerakhir: TcxTextEdit
       Left = 528
       Top = 32
+      ParentColor = True
       Properties.ReadOnly = True
       TabOrder = 2
       Width = 121
@@ -264,6 +272,7 @@ object frmTransaksi: TfrmTransaksi
       Height = 34
       Anchors = [akLeft, akTop, akRight, akBottom]
       Color = clYellow
+      ParentBackground = False
       TabOrder = 0
       Visible = False
       DesignSize = (
@@ -276,11 +285,13 @@ object frmTransaksi: TfrmTransaksi
         Height = 15
         Anchors = [akLeft, akBottom]
         Caption = 'Warning !!!'
+        Color = clYellow
         Font.Charset = ANSI_CHARSET
         Font.Color = clRed
         Font.Height = -20
         Font.Name = 'Fixedsys'
         Font.Style = []
+        ParentColor = False
         ParentFont = False
       end
     end
@@ -308,6 +319,7 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ExplicitLeft = 694
       ExplicitWidth = 193
       ExplicitHeight = 55
@@ -328,6 +340,7 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ExplicitHeight = 55
     end
   end
@@ -373,6 +386,7 @@ object frmTransaksi: TfrmTransaksi
     inherited pnlInfo: TPanel
       Top = 116
       Width = 300
+      ParentBackground = False
       ExplicitTop = 116
       ExplicitWidth = 300
     end
@@ -381,6 +395,26 @@ object frmTransaksi: TfrmTransaksi
       Height = 43
       ExplicitWidth = 300
       ExplicitHeight = 43
+      inherited sgBarang: TcxGridTableView
+        inherited sgBarangColumn1: TcxGridColumn
+          Styles.Header = nil
+        end
+        inherited sgBarangColumn2: TcxGridColumn
+          Styles.Header = nil
+        end
+        inherited sgBarangColumn3: TcxGridColumn
+          Styles.Header = nil
+        end
+        inherited sgBarangColumn4: TcxGridColumn
+          Styles.Header = nil
+        end
+        inherited sgBarangColumn5: TcxGridColumn
+          Styles.Header = nil
+        end
+        inherited sgBarangColumn6: TcxGridColumn
+          Styles.Header = nil
+        end
+      end
     end
     inherited pbBarang: TcxProgressBar
       Top = 95
@@ -405,6 +439,23 @@ object frmTransaksi: TfrmTransaksi
       Height = 67
       ExplicitWidth = 281
       ExplicitHeight = 67
+      inherited sgLookup: TcxGridDBTableView
+        inherited cxcolKode: TcxGridDBColumn
+          HeaderAlignmentHorz = taCenter
+        end
+        inherited cxcolNama: TcxGridDBColumn
+          HeaderAlignmentHorz = taCenter
+        end
+        inherited cxcolAlamat: TcxGridDBColumn
+          HeaderAlignmentHorz = taCenter
+        end
+        inherited cxcolAktif: TcxGridDBColumn
+          HeaderAlignmentHorz = taCenter
+        end
+        inherited cxcolValid: TcxGridDBColumn
+          HeaderAlignmentHorz = taCenter
+        end
+      end
     end
     inherited pbLookup: TcxProgressBar
       Top = 125
@@ -430,6 +481,7 @@ object frmTransaksi: TfrmTransaksi
     BevelInner = bvRaised
     BevelOuter = bvLowered
     Color = clGray
+    ParentBackground = False
     TabOrder = 8
     Visible = False
     object lbl4: TLabel
