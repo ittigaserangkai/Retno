@@ -7,7 +7,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -178
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -30,8 +29,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
+      OnChange = pc1Change
       ClientRectBottom = 451
       ClientRectRight = 667
       ClientRectTop = 27
@@ -441,28 +441,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 0
             Height = 27
             Width = 663
-            object lbSuppShortCut1: TLabel
-              AlignWithMargins = True
-              Left = 409
-              Top = 6
-              Width = 249
-              Height = 18
-              Margins.Top = 4
-              Margins.Bottom = 1
-              Align = alRight
-              Caption = 'ALT-T [Tambah]  | ALT-U [Update]  |  ALT-D [Delete]'
-              Enabled = False
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Trebuchet MS'
-              Font.Style = []
-              ParentFont = False
-              ExplicitHeight = 16
-            end
             object btnDelSupp: TcxButton
               AlignWithMargins = True
-              Left = 168
+              Left = 334
               Top = 2
               Width = 80
               Height = 23
@@ -482,6 +463,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Style = []
               ParentFont = False
               OnClick = btnDelSuppClick
+              ExplicitLeft = 580
+              ExplicitTop = 3
             end
             object btnAddSupp: TcxButton
               AlignWithMargins = True
@@ -506,10 +489,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Style = []
               ParentFont = False
               OnClick = btnAddSuppClick
+              ExplicitTop = 0
             end
             object btnUpdateSupp: TcxButton
               AlignWithMargins = True
-              Left = 85
+              Left = 168
               Top = 2
               Width = 80
               Height = 23
@@ -529,6 +513,57 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Font.Name = 'Trebuchet MS'
               Font.Style = []
               ParentFont = False
+              OnClick = btnUpdateSuppClick
+              ExplicitTop = 3
+            end
+            object btnCancelSupp: TcxButton
+              AlignWithMargins = True
+              Left = 251
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Cancel'
+              OptionsImage.ImageIndex = 23
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 3
+              Visible = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnCancelSuppClick
+              ExplicitLeft = 250
+            end
+            object btnEditSupp: TcxButton
+              AlignWithMargins = True
+              Left = 85
+              Top = 2
+              Width = 80
+              Height = 23
+              Cursor = crHandPoint
+              Margins.Left = 0
+              Margins.Top = 0
+              Margins.Bottom = 0
+              Align = alLeft
+              Caption = '&Edit'
+              OptionsImage.ImageIndex = 10
+              OptionsImage.Images = DMClient.imgListButton
+              TabOrder = 4
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Trebuchet MS'
+              Font.Style = []
+              ParentFont = False
+              OnClick = btnEditSuppClick
+              ExplicitLeft = 2
             end
           end
           object cxGridSupplier: TcxGrid
@@ -540,7 +575,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             TabOrder = 1
             TabStop = False
             object cxGrdDBSupplierMerchan: TcxGridDBTableView
+              PopupMenu = PopupMenu1
               Navigator.Buttons.CustomButtons = <>
+              OnCellClick = cxGrdDBSupplierMerchanCellClick
               OnFocusedRecordChanged = cxGrdDBSupplierMerchanFocusedRecordChanged
               DataController.Summary.DefaultGroupSummaryItems = <>
               DataController.Summary.FooterSummaryItems = <>
@@ -578,7 +615,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsMG
+          Properties.ActivePage = tsA
           Properties.CustomButtons.Buttons = <>
           OnExit = pgcMerchanExit
           ClientRectBottom = 273
@@ -587,394 +624,403 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
-            object lblPPN: TLabel
-              Left = 435
-              Top = 155
-              Width = 19
-              Height = 16
-              Caption = 'PPN'
-            end
-            object Label11: TLabel
-              Left = 548
-              Top = 57
-              Width = 21
-              Height = 16
-              Caption = 'Disc'
-            end
-            object Label12: TLabel
-              Left = 607
-              Top = 55
-              Width = 7
-              Height = 16
-              Caption = '%'
-            end
-            object Label2: TLabel
-              Left = 424
-              Top = 127
-              Width = 18
-              Height = 16
-              Caption = 'Fee'
-            end
-            object Label3: TLabel
-              Left = 472
-              Top = 127
-              Width = 7
-              Height = 16
-              Caption = '%'
-            end
-            object lbl15: TLabel
-              Left = 291
-              Top = 32
-              Width = 89
-              Height = 16
-              Caption = 'AP Ending Balance'
-            end
-            object lbl16: TLabel
-              Left = 318
-              Top = 55
-              Width = 61
-              Height = 16
-              Caption = 'C/N Balance'
-            end
-            object lbl22: TLabel
-              Left = 54
-              Top = 129
-              Width = 60
-              Height = 16
-              Caption = 'Credit Limit'
-            end
-            object lbl23: TLabel
-              Left = 32
-              Top = 35
-              Width = 81
-              Height = 16
-              Caption = 'Type of Payment'
-            end
-            object lbl24: TLabel
-              Left = 31
-              Top = 58
-              Width = 82
-              Height = 16
-              Caption = 'Term of Payment'
-            end
-            object lbl25: TLabel
-              Left = 65
-              Top = 82
-              Width = 50
-              Height = 16
-              Caption = 'Lead Time'
-            end
-            object lbl26: TLabel
-              Left = 62
-              Top = 104
-              Width = 52
-              Height = 16
-              Caption = 'Deliver PO'
-            end
-            object lbl27: TLabel
-              Left = 146
-              Top = 62
-              Width = 24
-              Height = 16
-              Caption = 'Days'
-            end
-            object lbl28: TLabel
-              Left = 146
-              Top = 83
-              Width = 24
-              Height = 16
-              Caption = 'Days'
-            end
-            object lbl29: TLabel
-              Left = 37
-              Top = 153
-              Width = 78
-              Height = 16
-              Caption = 'Extended Desc.'
-            end
-            object lbl33: TLabel
-              Left = 329
-              Top = 127
-              Width = 49
-              Height = 16
-              Caption = 'No. Of PO'
-            end
-            object lbl34: TLabel
-              Left = 273
-              Top = 83
-              Width = 106
-              Height = 16
-              Caption = 'Last Pusch./Payment'
-            end
-            object lbl35: TLabel
-              Left = 482
-              Top = 80
-              Width = 6
-              Height = 16
-              Caption = '/'
-            end
-            object lbl37: TLabel
-              Left = 66
-              Top = 10
-              Width = 47
-              Height = 16
-              Caption = 'Category'
-            end
-            object lbl45: TLabel
-              Left = 39
-              Top = 187
-              Width = 74
-              Height = 16
-              Caption = 'Day of Proc PO'
-            end
-            object lbl9: TLabel
-              Left = 272
-              Top = 103
-              Width = 107
-              Height = 16
-              Caption = 'Outstanding Payment'
-            end
-            object chkAllMer: TCheckBox
-              Left = 526
-              Top = 12
-              Width = 110
-              Height = 17
-              Caption = 'All Category'
-              Checked = True
-              State = cbChecked
-              TabOrder = 17
-              Visible = False
-            end
-            object chkEnableCN: TCheckBox
-              Left = 526
-              Top = 35
-              Width = 110
-              Height = 17
-              Caption = 'Enable Create CN'
-              Checked = True
-              State = cbChecked
-              TabOrder = 18
-            end
-            object chkFee: TCheckBox
-              Left = 502
-              Top = 128
-              Width = 85
-              Height = 17
-              Caption = 'Fee for All'
-              TabOrder = 15
-            end
-            object curedtAPEndB: TcxCurrencyEdit
-              Left = 385
-              Top = 31
-              TabStop = False
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = '0.00;(0.00)'
-              Properties.ReadOnly = True
-              TabOrder = 7
-              Width = 135
-            end
-            object curedtCNBln: TcxCurrencyEdit
-              Left = 385
-              Top = 54
-              TabStop = False
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0;(,0)'
-              Properties.ReadOnly = True
-              TabOrder = 8
-              Width = 135
-            end
-            object curedtCreditLmt: TcxCurrencyEdit
-              Left = 120
-              Top = 128
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0;(,0)'
-              TabOrder = 5
-              Width = 135
-            end
-            object curedtOutsdPaymnt: TcxCurrencyEdit
-              Left = 385
-              Top = 102
-              TabStop = False
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0;(,0)'
-              Properties.ReadOnly = True
-              TabOrder = 12
-              Width = 136
-            end
-            object curedtPaymnt: TcxCurrencyEdit
-              Left = 486
-              Top = 77
-              TabStop = False
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0;(,0)'
-              Properties.ReadOnly = True
-              TabOrder = 11
-              Width = 131
-            end
-            object dtLastPurchs: TcxDateEdit
-              Left = 385
-              Top = 77
-              TabStop = False
-              Properties.ReadOnly = True
-              TabOrder = 10
-              Width = 95
-            end
-            object edtDisc: TcxCurrencyEdit
-              Left = 574
-              Top = 54
-              TabStop = False
-              ParentFont = False
-              Properties.DisplayFormat = '0.00;(0.00)'
-              Properties.ReadOnly = True
-              TabOrder = 9
-              Width = 46
-            end
-            object edtExtdDesc: TcxTextEdit
-              Left = 120
-              Top = 152
-              TabOrder = 6
-              Width = 176
-            end
-            object edtFee: TcxTextEdit
-              Left = 445
-              Top = 125
-              Hint = 
-                'Fee adalah pendapatan atas penjualan barang contrabon, konsinyas' +
-                'i, titipan'
-              ParentShowHint = False
-              ShowHint = True
-              TabOrder = 14
-              Width = 25
-            end
-            object edtLeadTime: TcxTextEdit
-              Left = 120
-              Top = 81
-              TabOrder = 3
-              Width = 24
-            end
-            object edtNoOfPO: TcxTextEdit
-              Left = 385
-              Top = 125
-              TabStop = False
-              Properties.ReadOnly = True
-              TabOrder = 13
-              Width = 25
-            end
-            object edtTermOP: TcxTextEdit
-              Left = 120
-              Top = 58
-              TabOrder = 2
-              Width = 24
-            end
-            object grp: TGroupBox
-              Left = 121
-              Top = 178
-              Width = 496
-              Height = 34
-              TabOrder = 20
-              object chkMon: TCheckBox
-                Left = 7
-                Top = 12
-                Width = 61
-                Height = 17
-                Caption = 'Monday'
-                TabOrder = 0
+            object pnlMG: TPanel
+              Left = 0
+              Top = 0
+              Width = 667
+              Height = 246
+              Align = alClient
+              TabOrder = 0
+              ExplicitTop = 1
+              object Label11: TLabel
+                Left = 548
+                Top = 57
+                Width = 21
+                Height = 16
+                Caption = 'Disc'
               end
-              object chkTue: TCheckBox
-                Left = 71
+              object Label12: TLabel
+                Left = 607
+                Top = 55
+                Width = 7
+                Height = 16
+                Caption = '%'
+              end
+              object Label2: TLabel
+                Left = 424
+                Top = 127
+                Width = 18
+                Height = 16
+                Caption = 'Fee'
+              end
+              object Label3: TLabel
+                Left = 472
+                Top = 127
+                Width = 7
+                Height = 16
+                Caption = '%'
+              end
+              object lbl15: TLabel
+                Left = 291
+                Top = 32
+                Width = 89
+                Height = 16
+                Caption = 'AP Ending Balance'
+              end
+              object lbl16: TLabel
+                Left = 318
+                Top = 55
+                Width = 61
+                Height = 16
+                Caption = 'C/N Balance'
+              end
+              object lbl22: TLabel
+                Left = 54
+                Top = 129
+                Width = 60
+                Height = 16
+                Caption = 'Credit Limit'
+              end
+              object lbl23: TLabel
+                Left = 32
+                Top = 35
+                Width = 81
+                Height = 16
+                Caption = 'Type of Payment'
+              end
+              object lbl24: TLabel
+                Left = 31
+                Top = 58
+                Width = 82
+                Height = 16
+                Caption = 'Term of Payment'
+              end
+              object lbl25: TLabel
+                Left = 65
+                Top = 82
+                Width = 50
+                Height = 16
+                Caption = 'Lead Time'
+              end
+              object lbl26: TLabel
+                Left = 62
+                Top = 104
+                Width = 52
+                Height = 16
+                Caption = 'Deliver PO'
+              end
+              object lbl27: TLabel
+                Left = 146
+                Top = 62
+                Width = 24
+                Height = 16
+                Caption = 'Days'
+              end
+              object lbl28: TLabel
+                Left = 146
+                Top = 83
+                Width = 24
+                Height = 16
+                Caption = 'Days'
+              end
+              object lbl29: TLabel
+                Left = 37
+                Top = 153
+                Width = 78
+                Height = 16
+                Caption = 'Extended Desc.'
+              end
+              object lbl33: TLabel
+                Left = 329
+                Top = 127
+                Width = 49
+                Height = 16
+                Caption = 'No. Of PO'
+              end
+              object lbl34: TLabel
+                Left = 273
+                Top = 83
+                Width = 106
+                Height = 16
+                Caption = 'Last Pusch./Payment'
+              end
+              object lbl35: TLabel
+                Left = 482
+                Top = 80
+                Width = 6
+                Height = 16
+                Caption = '/'
+              end
+              object lbl37: TLabel
+                Left = 66
+                Top = 10
+                Width = 47
+                Height = 16
+                Caption = 'Category'
+              end
+              object lbl45: TLabel
+                Left = 39
+                Top = 187
+                Width = 74
+                Height = 16
+                Caption = 'Day of Proc PO'
+              end
+              object lbl9: TLabel
+                Left = 272
+                Top = 103
+                Width = 107
+                Height = 16
+                Caption = 'Outstanding Payment'
+              end
+              object lblPPN: TLabel
+                Left = 435
+                Top = 155
+                Width = 19
+                Height = 16
+                Caption = 'PPN'
+              end
+              object chkAllMer: TCheckBox
+                Left = 526
                 Top = 12
-                Width = 64
+                Width = 110
                 Height = 17
-                Caption = 'Tuesday'
+                Caption = 'All Category'
+                Checked = True
+                State = cbChecked
+                TabOrder = 0
+                Visible = False
+              end
+              object chkEnableCN: TCheckBox
+                Left = 526
+                Top = 35
+                Width = 110
+                Height = 17
+                Caption = 'Enable Create CN'
+                Checked = True
+                State = cbChecked
                 TabOrder = 1
               end
-              object chkWed: TCheckBox
-                Left = 138
-                Top = 12
-                Width = 78
+              object chkFee: TCheckBox
+                Left = 502
+                Top = 128
+                Width = 85
                 Height = 17
-                Caption = 'Wednesday'
+                Caption = 'Fee for All'
                 TabOrder = 2
               end
-              object chkThu: TCheckBox
-                Left = 222
-                Top = 12
-                Width = 67
+              object chkPKP: TCheckBox
+                Left = 385
+                Top = 154
+                Width = 44
                 Height = 17
-                Caption = 'Thursday'
+                Caption = 'PKP'
+                Checked = True
+                State = cbChecked
                 TabOrder = 3
+                OnClick = chkPKPClick
               end
-              object chkFri: TCheckBox
-                Left = 295
-                Top = 12
-                Width = 61
-                Height = 17
-                Caption = 'Friday'
+              object curedtAPEndB: TcxCurrencyEdit
+                Left = 385
+                Top = 31
+                TabStop = False
+                Properties.Alignment.Horz = taRightJustify
+                Properties.DisplayFormat = '0.00;(0.00)'
+                Properties.ReadOnly = True
                 TabOrder = 4
+                Width = 135
               end
-              object chkSat: TCheckBox
-                Left = 352
-                Top = 12
-                Width = 67
-                Height = 17
-                Caption = 'Saturday'
+              object curedtCNBln: TcxCurrencyEdit
+                Left = 385
+                Top = 54
+                TabStop = False
+                Properties.Alignment.Horz = taRightJustify
+                Properties.DisplayFormat = ',0;(,0)'
+                Properties.ReadOnly = True
                 TabOrder = 5
+                Width = 135
               end
-              object chkSun: TCheckBox
-                Left = 422
-                Top = 12
-                Width = 61
-                Height = 17
-                Caption = 'Sunday'
+              object curedtCreditLmt: TcxCurrencyEdit
+                Left = 120
+                Top = 128
+                Properties.Alignment.Horz = taRightJustify
+                Properties.DisplayFormat = ',0;(,0)'
                 TabOrder = 6
+                Width = 135
               end
-            end
-            object cxLookupMerchGroup: TcxExtLookupComboBox
-              Tag = 1
-              Left = 120
-              Top = 5
-              HelpType = htKeyword
-              HelpKeyword = 'Kategori'
-              Properties.ImmediatePost = True
-              TabOrder = 0
-              Width = 400
-            end
-            object cxLookupPaymentType: TcxExtLookupComboBox
-              Tag = 1
-              Left = 120
-              Top = 32
-              TabOrder = 1
-              Width = 166
-            end
-            object cxLookupPODeliver: TcxExtLookupComboBox
-              Tag = 2
-              Left = 120
-              Top = 105
-              TabOrder = 4
-              Width = 123
-            end
-            object chkPKP: TCheckBox
-              Left = 385
-              Top = 154
-              Width = 44
-              Height = 17
-              Caption = 'PKP'
-              Checked = True
-              State = cbChecked
-              TabOrder = 16
-              OnClick = chkPKPClick
-            end
-            object cxLookupPPN: TcxExtLookupComboBox
-              Left = 460
-              Top = 151
-              TabOrder = 19
-              Width = 123
+              object curedtOutsdPaymnt: TcxCurrencyEdit
+                Left = 385
+                Top = 102
+                TabStop = False
+                Properties.Alignment.Horz = taRightJustify
+                Properties.DisplayFormat = ',0;(,0)'
+                Properties.ReadOnly = True
+                TabOrder = 7
+                Width = 136
+              end
+              object curedtPaymnt: TcxCurrencyEdit
+                Left = 486
+                Top = 77
+                TabStop = False
+                Properties.Alignment.Horz = taRightJustify
+                Properties.DisplayFormat = ',0;(,0)'
+                Properties.ReadOnly = True
+                TabOrder = 8
+                Width = 131
+              end
+              object cxLookupMerchGroup: TcxExtLookupComboBox
+                Tag = 1
+                Left = 120
+                Top = 5
+                HelpType = htKeyword
+                HelpKeyword = 'Kategori'
+                Properties.ImmediatePost = True
+                TabOrder = 9
+                Width = 400
+              end
+              object cxLookupPaymentType: TcxExtLookupComboBox
+                Tag = 1
+                Left = 120
+                Top = 32
+                TabOrder = 10
+                Width = 166
+              end
+              object cxLookupPODeliver: TcxExtLookupComboBox
+                Tag = 2
+                Left = 120
+                Top = 105
+                TabOrder = 11
+                Width = 123
+              end
+              object cxLookupPPN: TcxExtLookupComboBox
+                Left = 460
+                Top = 151
+                TabOrder = 12
+                Width = 123
+              end
+              object dtLastPurchs: TcxDateEdit
+                Left = 385
+                Top = 77
+                TabStop = False
+                Properties.ReadOnly = True
+                TabOrder = 13
+                Width = 95
+              end
+              object edtDisc: TcxCurrencyEdit
+                Left = 574
+                Top = 54
+                TabStop = False
+                ParentFont = False
+                Properties.DisplayFormat = '0.00;(0.00)'
+                Properties.ReadOnly = True
+                TabOrder = 14
+                Width = 46
+              end
+              object edtExtdDesc: TcxTextEdit
+                Left = 120
+                Top = 152
+                TabOrder = 15
+                Width = 176
+              end
+              object edtFee: TcxTextEdit
+                Left = 445
+                Top = 125
+                Hint = 
+                  'Fee adalah pendapatan atas penjualan barang contrabon, konsinyas' +
+                  'i, titipan'
+                ParentShowHint = False
+                ShowHint = True
+                TabOrder = 16
+                Width = 25
+              end
+              object edtLeadTime: TcxTextEdit
+                Left = 120
+                Top = 81
+                TabOrder = 17
+                Width = 24
+              end
+              object edtNoOfPO: TcxTextEdit
+                Left = 385
+                Top = 125
+                TabStop = False
+                Properties.ReadOnly = True
+                TabOrder = 18
+                Width = 25
+              end
+              object edtTermOP: TcxTextEdit
+                Left = 120
+                Top = 58
+                TabOrder = 19
+                Width = 24
+              end
+              object grp: TGroupBox
+                Left = 121
+                Top = 178
+                Width = 496
+                Height = 34
+                TabOrder = 20
+                object chkMon: TCheckBox
+                  Left = 7
+                  Top = 12
+                  Width = 61
+                  Height = 17
+                  Caption = 'Monday'
+                  TabOrder = 0
+                end
+                object chkTue: TCheckBox
+                  Left = 71
+                  Top = 12
+                  Width = 64
+                  Height = 17
+                  Caption = 'Tuesday'
+                  TabOrder = 1
+                end
+                object chkWed: TCheckBox
+                  Left = 138
+                  Top = 12
+                  Width = 78
+                  Height = 17
+                  Caption = 'Wednesday'
+                  TabOrder = 2
+                end
+                object chkThu: TCheckBox
+                  Left = 222
+                  Top = 12
+                  Width = 67
+                  Height = 17
+                  Caption = 'Thursday'
+                  TabOrder = 3
+                end
+                object chkFri: TCheckBox
+                  Left = 295
+                  Top = 12
+                  Width = 61
+                  Height = 17
+                  Caption = 'Friday'
+                  TabOrder = 4
+                end
+                object chkSat: TCheckBox
+                  Left = 352
+                  Top = 12
+                  Width = 67
+                  Height = 17
+                  Caption = 'Saturday'
+                  TabOrder = 5
+                end
+                object chkSun: TCheckBox
+                  Left = 422
+                  Top = 12
+                  Width = 61
+                  Height = 17
+                  Caption = 'Sunday'
+                  TabOrder = 6
+                end
+              end
             end
           end
           object tsA: TcxTabSheet
             Caption = '&Addreses'
             ImageIndex = 1
-            object pnl1: TPanel
+            object pnlAddress: TPanel
               Left = 0
               Top = 0
               Width = 667
@@ -1221,8 +1267,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 441
-    Top = 46
+    Left = 545
+    Top = 38
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
@@ -1231,10 +1277,18 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     end
   end
   object actSupplier: TActionList
-    Left = 446
-    Top = 97
+    Left = 614
+    Top = 33
     object actUpdateBank: TAction
       Caption = 'actUpdateBank'
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 474
+    Top = 37
+    object EditData1: TMenuItem
+      Caption = 'Edit Data'
+      OnClick = EditData1Click
     end
   end
 end
