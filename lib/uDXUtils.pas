@@ -74,6 +74,7 @@ type
     function CDS: TClientDataSet;
     function DS: TDataset;
     function EditValueText: String;
+    function EditValueRest: String;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
@@ -1566,6 +1567,16 @@ begin
   Result := Null;
 
   Result := Self.DataController.Values[ARec,ACol];
+end;
+
+function TcxExtLookupComboHelper.EditValueRest: String;
+begin
+  if VarIsNull(EditValue) then
+    Result := ''
+  else
+    Result := EditValue;
+
+  if Result = '' then Result := 'null';
 end;
 
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
