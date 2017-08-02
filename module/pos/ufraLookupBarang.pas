@@ -8,7 +8,8 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData, cxGridLevel,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
-  cxGridCustomView, cxGrid, cxContainer, cxProgressBar, cxTextEdit;
+  cxGridCustomView, cxGrid, cxContainer, cxProgressBar, cxTextEdit,
+  cxCurrencyEdit;
 
 type
   TfraLookupBarang = class(TFrame)
@@ -177,7 +178,7 @@ begin
   begin
     sgBarang.Controller.FocusedColumnIndex := _KolNamaBarang;
     cxGrid.SetFocus;
-    if sgBarang.DataController.RowCount <= 1 then exit;
+//    if sgBarang.DataController.RowCount <= 1 then exit;
   end
   else if (key in [VK_F2]) then
   begin
@@ -297,7 +298,7 @@ procedure TfraLookupBarang.sgBarangDblClick(Sender: TObject);
 begin
   PLU := '';
   UOM := '';
-	if sgBarang.Controller.FocusedRowIndex = 0 then Exit;
+//	if sgBarang.Controller.FocusedRowIndex = 0 then Exit;
 //  if pbBarang.Position < 100 then Exit;
 
   PLU          := sgBarang.DataController.Values[sgBarang.Controller.FocusedRowIndex, _KolPLU];
@@ -312,20 +313,19 @@ begin
     LoadByPLU(edPLU.Text, UOM, True);
   end;    // with
   SetPanelHeaderEnable(True);
-
 end;
 
 procedure TfraLookupBarang.sgBarangKeyDown(Sender: TObject; var Key: Word;
     Shift: TShiftState);
 begin
-  if ((Key = VK_UP) or (Key = 33)) and (sgBarang.Controller.FocusedRowIndex = 1) and edNamaBarang.Enabled then
+  if ((Key = VK_UP) or (Key = 33)) and (sgBarang.Controller.FocusedRowIndex = 0) and edNamaBarang.Enabled then
   begin
     edNamaBarang.SetFocus;
     edNamaBarang.SelectAll;
     Exit;
   end
   else
-  if ((Key = VK_UP) or (Key = 33)) and (sgBarang.Controller.FocusedRowIndex = 1) then
+  if ((Key = VK_UP) or (Key = 33)) and (sgBarang.Controller.FocusedRowIndex = 0) then
   begin
     frmTransaksi.cxTransaksi.SetFocus;
     Exit;

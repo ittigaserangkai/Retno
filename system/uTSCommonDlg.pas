@@ -153,8 +153,11 @@ begin
     2: pButtons := [mbYes, mbNo];
     3: pButtons := [mbYes, mbNo, mbCancel];
   end;
-  if not assigned(FMessageDialog) then
-    FMessageDialog := CreateMessageDialog(pMessage, pIcon, pButtons);
+
+  if assigned(FMessageDialog) then
+    FreeAndNil(FMessageDialog);
+
+  FMessageDialog := CreateMessageDialog(pMessage, pIcon, pButtons);
 
   with FMessageDialog do
   begin

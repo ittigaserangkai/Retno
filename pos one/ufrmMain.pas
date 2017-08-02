@@ -275,7 +275,7 @@ begin
     connGoro.ConnectionString := FMSSQLConnectionString;
     dbPOS.ConnectionString    := FSQLiteConnectionString;
 //    dbPOS.Params.Values['Encrypt'] := 'aes-ctr-128';
-    connGoro.Connected := True;
+//    connGoro.Connected := True;
     dbPOS.Connected := True;
     IsPOSConnected := dmMain.dbPOS.Connected;
   end;

@@ -172,6 +172,8 @@ type
         ParentCtrl: TWinControl = nil): Boolean;
     class procedure OnEditValueChanged(Sender: TObject);
     function SetFocusRec(aWinCTRL: TWinControl): Boolean;
+    function EnableDisableControl(ParentCtrl: TWinControl; aState: Boolean):
+        Boolean;
   end;
 
   TcxGridTableViewHelper = class helper for TcxGridTableView
@@ -1328,6 +1330,45 @@ begin
     If Result then
       aWinCTRL.SetFocus;
   end;
+end;
+
+function TFormHelper.EnableDisableControl(ParentCtrl: TWinControl; aState:
+    Boolean): Boolean;
+var
+  C: TComponent;
+  i: Integer;
+  iTabOrd: Integer;
+  sMsg: string;
+  EmptyCtrl: TWinControl;
+  IsEmpty: Boolean;
+begin
+  IsEmpty   := False;
+  iTabOrd   := MaxInt;
+  EmptyCtrl := nil;
+  for i := 0 to Self.ComponentCount-1 do
+  begin
+    C := Self.Components[i];
+    if not C.InheritsFrom(TWinControl) then continue;
+    if ParentCtrl <> nil then
+      if not CheckControlParent(TWinControl(C), ParentCtrl) then
+        continue;
+    TWinControl(C).Enabled := aState;
+//    if C is TcxExtLookupComboBox then
+//      IsEmpty := VarIsNull(TcxExtLookupComboBox(C).EditValue)
+//    else if C is TComboBox then IsEmpty := TComboBox(C).ItemIndex = -1
+//    else if C is TEdit then IsEmpty := TRIM(TEdit(C).Text) = ''
+//    else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
+//    else if C is TcxTextEdit then IsEmpty := TRIM(TcxTextEdit(C).Text) = '';
+////    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
+////    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
+//
+//    if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
+//    begin
+//      EmptyCtrl := TWinControl(C);
+//      iTabOrd   := EmptyCtrl.TabOrder;
+//    end;
+  end;
+
 end;
 
 function TcxExtLookupComboHelper.CDS: TClientDataSet;

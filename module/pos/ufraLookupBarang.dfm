@@ -112,32 +112,58 @@ object fraLookupBarang: TfraLookupBarang
         Caption = 'PLU'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 27
       end
       object sgBarangColumn2: TcxGridColumn
         Caption = 'Satuan'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 45
       end
       object sgBarangColumn3: TcxGridColumn
         Caption = 'Nama Barang'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
-        Width = 69
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 80
       end
       object sgBarangColumn4: TcxGridColumn
         Caption = 'Harga Dasar'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 75
       end
       object sgBarangColumn5: TcxGridColumn
         Caption = 'Diskon'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 43
       end
       object sgBarangColumn6: TcxGridColumn
         Caption = 'Harga'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 51
       end
     end
     object grdlvlLookupMember: TcxGridLevel
