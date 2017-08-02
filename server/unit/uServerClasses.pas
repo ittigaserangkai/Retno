@@ -64,6 +64,7 @@ type
   TCrudDO = class(TCrud)
   private
     function GenerateNP(AModDO: TModDO): string;
+    function IsPOSudahDO(ADO : TModDO): Boolean;
     function UpdateStatusPO(AObject: TModApp): Boolean;
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
@@ -465,6 +466,12 @@ function TCrudDO.BeforeSaveToDB(AObject: TModApp): Boolean;
 begin
   Result := False;
 
+  if IsPOSudahDO(TModDO(AObject)) then
+  begin
+    raise Exception.Create('PO Sudah diterima dengan DO yang lain');
+  end;
+
+
   with AObject as TModDO do
   begin
     if (AObject.ID = '') then
@@ -502,6 +509,33 @@ begin
       Free;
     end;
   end;
+end;
+
+function TCrudDO.IsPOSudahDO(ADO : TModDO): Boolean;
+var
+  sSQL: string;
+begin
+  Result := False;
+
+  sSQL   := 'select COUNT(a.PO_ID) from PO a ' +
+            ' inner join DO b on a.PO_ID = b.PO_ID ' +
+            ' where a.PO_ID = ' + QuotedStr(ADO.PO.ID);
+
+  if ADO.ID <> '' then
+    sSQL := sSQL + ' and b.DO_ID <> ' + QuotedStr(ADO.ID);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      if Fields[0].AsInteger > 0 then
+        Result := True;
+    finally
+      Free;
+    end;
+  end;
+
+
+
 end;
 
 function TCrudDO.RetrieveByPO(APONO : String): TModDO;
