@@ -11,7 +11,7 @@ uses
   cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxTextEdit, cxMaskEdit, cxCalendar;
+  cxTextEdit, cxMaskEdit, cxCalendar, uAppUtils;
 
 type
   TfrmStockProduct = class(TfrmMasterReport)
@@ -23,7 +23,7 @@ type
     cxLookupSupplier: TcxExtLookupComboBox;
     cxLookupGroup: TcxExtLookupComboBox;
     ckSupplier: TCheckBox;
-    CheckBox2: TCheckBox;
+    chkSaldoNol: TCheckBox;
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
@@ -110,16 +110,27 @@ begin
 end;
 
 procedure TfrmStockProduct.LoadData;
+var
+  lGroupID: String;
+  lGudangID: string;
+  lSuppID: string;
 begin
+  //debugging
+  lGroupID := cxLookupGroup.EditValueRest;
+  lSuppID := cxLookupSupplier.EditValueRest;
+  lGudangID := cxLookupGudang.EditValueRest;
+
   cxGridView.LoadFromDS(
     DMReport.ReportClient.StockProduct_GetDS(
-      dtEnd.Date,
-      VarToStr(cxLookupGroup.EditValue),
-      VarToStr(cxLookupSupplier.EditValue),
-      VarToStr(cxLookupGudang.EditValue)
-    ),
-    Self
+      dtEnd.Date,lGroupID,lSuppID,lGudangID
+    ),Self
   );
+
+  if not chkSaldoNol.Checked then
+  begin
+    cxGridView.DataController.DataSet.Filtered  := True;
+    cxGridView.DataController.DataSet.Filter    := 'STOCK <> 0';
+  end;
 end;
 
 end.

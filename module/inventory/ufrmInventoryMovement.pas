@@ -23,7 +23,7 @@ type
     cxLookupSupplier: TcxExtLookupComboBox;
     cxLookupGroup: TcxExtLookupComboBox;
     ckSupplier: TCheckBox;
-    CheckBox2: TCheckBox;
+    chkSaldoNol: TCheckBox;
     ckGroup: TCheckBox;
     dtEnd: TcxDateEdit;
     Label3: TLabel;
@@ -117,12 +117,13 @@ begin
     DMReport.ReportClient.InvMovement_GetDS(
       dtStart.Date,
       dtEnd.Date,
-      VarToStr(cxLookupGroup.EditValue),
-      VarToStr(cxLookupSupplier.EditValue),
-      VarToStr(cxLookupGudang.EditValue)
+      cxLookupGroup.EditValueRest,
+      cxLookupSupplier.EditValueRest,
+      cxLookupGudang.EditValueRest
     ),
     Self
   );
+
 end;
 
 end.

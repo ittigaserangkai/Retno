@@ -1185,11 +1185,13 @@ begin
         + QuotedStr(aSupplier_ID)
         +' ) S ON S.BARANG_ID = B.BARANG_ID';
 
+  S := S + ' WHERE 1 = 1';
+
   if aGroup_ID <> '' then
-    S := S + ' WHERE C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
+    S := S + ' AND C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
 
   if aGudang_ID <> '' then
-    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+    S := S + ' AND A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
 
   S := S + ' GROUP BY B.BARANG_ID, B.BRG_CODE, B.BRG_NAME, E.MERK_NAME,'
     +' D.MERCHAN_NAME,C.MERCHANGRUP_NAME, F.SAT_CODE , G.KONVSAT_SCALE';
@@ -1252,10 +1254,12 @@ begin
         + QuotedStr(aSupplier_ID)
         +' ) S ON S.BARANG_ID = A.BARANG_ID';
 
+  S := S + ' where 1 = 1';
+
   if aGroup_ID <> '' then
-    S := S + ' WHERE C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
+    S := S + ' AND C.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aGroup_ID);
   if aGudang_ID <> '' then
-    S := S + ' WHERE A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
+    S := S + ' AND A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
 
   Result := TDBUtils.OpenQuery(S);
 end;

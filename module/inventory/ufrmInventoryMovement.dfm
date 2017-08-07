@@ -9,6 +9,8 @@ inherited frmInventoryMovement: TfrmInventoryMovement
   inherited pnlBody: TPanel
     Width = 644
     Height = 362
+    ExplicitWidth = 644
+    ExplicitHeight = 362
     object Panel2: TPanel
       Left = 3
       Top = 3
@@ -111,13 +113,14 @@ inherited frmInventoryMovement: TfrmInventoryMovement
         TabOrder = 5
         OnClick = ckSupplierClick
       end
-      object CheckBox2: TCheckBox
+      object chkSaldoNol: TCheckBox
         Left = 285
         Top = 31
         Width = 104
         Height = 17
         Caption = 'Tampilkan Saldo 0'
         TabOrder = 6
+        Visible = False
       end
       object ckGroup: TCheckBox
         Left = 17
@@ -152,9 +155,6 @@ inherited frmInventoryMovement: TfrmInventoryMovement
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitTop = 92
-      ExplicitWidth = 686
-      ExplicitHeight = 245
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual
@@ -182,6 +182,7 @@ inherited frmInventoryMovement: TfrmInventoryMovement
   end
   inherited pnlHeader: TPanel
     Width = 644
+    ExplicitWidth = 644
     inherited lblHeader: TLabel
       Width = 114
       Height = 18
@@ -192,16 +193,22 @@ inherited frmInventoryMovement: TfrmInventoryMovement
   inherited pnlFooter: TPanel
     Top = 413
     Width = 644
+    ExplicitTop = 413
+    ExplicitWidth = 644
     inherited btnClose: TcxButton
       Left = 567
+      ExplicitLeft = 567
     end
   end
   inherited pnlShortCut: TPanel
     Top = 392
     Width = 644
+    ExplicitTop = 392
+    ExplicitWidth = 644
     inherited lbEscape: TLabel
       Left = 570
       Height = 17
+      ExplicitLeft = 570
     end
   end
   inherited actReport: TActionList

@@ -18,8 +18,6 @@ inherited frmStockProduct: TfrmStockProduct
       Height = 86
       Align = alTop
       TabOrder = 0
-      ExplicitLeft = 4
-      ExplicitTop = 2
       object Label2: TLabel
         Left = 24
         Top = 7
@@ -107,7 +105,7 @@ inherited frmStockProduct: TfrmStockProduct
         TabOrder = 5
         OnClick = ckSupplierClick
       end
-      object CheckBox2: TCheckBox
+      object chkSaldoNol: TCheckBox
         Left = 425
         Top = 57
         Width = 104

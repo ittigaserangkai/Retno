@@ -23,7 +23,6 @@ type
   end;
 
   TAppUtils = class(TObject)
-  private
   protected
   public
     class function BacaRegistry(aNama: String; aPath : String = ''): string;
@@ -105,6 +104,7 @@ type
         ADD_KEY: Integer): AnsiString;
     class function _MakeReadable(Input: AnsiString): AnsiString;
     class function _MakeOriginal(Input: AnsiString): AnsiString;
+    class function VarAsRestParam(Value: Variant): String;
   end;
 
 procedure SetIDCurrencyRegionalSetting;
@@ -1189,6 +1189,12 @@ begin
   finally
     FreeMem(buf);
   end;
+end;
+
+class function TAppUtils.VarAsRestParam(Value: Variant): String;
+begin
+  Result := VarToStr(Value);
+  if Result = '' then Result := 'null';
 end;
 
 end.
