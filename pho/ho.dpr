@@ -207,7 +207,9 @@ uses
   uModKompetitor in '..\model\uModKompetitor.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
+  ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur};
 
 {$R *.res}
 
