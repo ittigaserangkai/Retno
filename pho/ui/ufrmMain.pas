@@ -364,6 +364,9 @@ type
     dxbrFinanceOther: TdxBar;
     dxbrbtnBarcodeUsage: TdxBarButton;
     dxbrbtnElectricCustomer: TdxBarButton;
+    dxbrAP: TdxBar;
+    dxbrbtnAdjustmentFaktur: TdxBarButton;
+    procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
@@ -488,7 +491,7 @@ uses
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
-  ufrmPemakaianBarcode;
+  ufrmPemakaianBarcode, ufrmAdjustmentFaktur;
 
 {$R *.dfm}
 
@@ -526,6 +529,11 @@ begin
   end;
 end;
 
+
+procedure TfrmMain.actAdjustmentFakturExecute(Sender: TObject);
+begin
+  frmAdjustmentFaktur := TfrmAdjustmentFaktur.Create(Self);
+end;
 
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
