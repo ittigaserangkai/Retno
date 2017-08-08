@@ -42,6 +42,7 @@ type
     procedure LoadFromCDS(ACDS: TClientDataSet; BestFit: Boolean = False); overload;
     procedure LoadFromCDS(ACDS: TClientDataSet; AutoFormat, DoBestFit: Boolean);
         overload;
+    procedure PrepareFromCDS(ACDS: TClientDataSet); overload;
     procedure LoadFromSQL(aSQL: String; aOwner: TComponent);
     procedure SetAllUpperCaseColumn;
     procedure SetBandVisible(aFieldName: string; IsVisible: Boolean);
@@ -133,6 +134,7 @@ type
     procedure LoadFromSQL(aSQL: String; aOwner: TComponent); overload;
     procedure LoadFromSQL(aSQL: String); overload;
     procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent); overload;
+    procedure PrepareFromCDS(ACDS: TClientDataSet); overload;
     procedure SetAllUpperCaseColumn;
     procedure SetColumnsCaption(ColumnSets, ColumnCaption: Array Of String);
     procedure SetSummaryByColumns(ColumnSets: Array Of String; SummaryKind:
@@ -398,6 +400,15 @@ begin
     Self.OptionsBehavior.BestFitMaxRecordCount := 100;
     Self.ApplyBestFit;
   end;
+end;
+
+procedure TcxDBBandGridHelper.PrepareFromCDS(ACDS: TClientDataSet);
+begin
+  If not Assigned(Self.DataController.DataSource) then
+  begin
+    Self.DataController.DataSource := TDataSource.Create(Self);
+  end;
+  Self.DataController.DataSource.DataSet := ACDS;
 end;
 
 procedure TcxDBBandGridHelper.LoadFromSQL(aSQL: String; aOwner: TComponent);
@@ -991,6 +1002,15 @@ begin
       Self.DataController.DataSource.DataSet.Free;
 
   Self.LoadFromCDS(lCDS);
+end;
+
+procedure TcxDBGridHelper.PrepareFromCDS(ACDS: TClientDataSet);
+begin
+  If not Assigned(Self.DataController.DataSource) then
+  begin
+    Self.DataController.DataSource := TDataSource.Create(Self);
+  end;
+  Self.DataController.DataSource.DataSet := ACDS;
 end;
 
 procedure TcxDBGridHelper.SetAllUpperCaseColumn;

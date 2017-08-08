@@ -6,7 +6,7 @@ inherited frmProduct: TfrmProduct
   ClientWidth = 926
   KeyPreview = True
   OldCreateOrder = True
-  ExplicitLeft = -153
+  ExplicitLeft = -164
   ExplicitWidth = 942
   ExplicitHeight = 629
   PixelsPerInch = 96
@@ -32,8 +32,6 @@ inherited frmProduct: TfrmProduct
         inherited cxGrid: TcxGrid
           Width = 922
           Height = 497
-          ExplicitLeft = 162
-          ExplicitTop = 64
           ExplicitWidth = 922
           ExplicitHeight = 497
         end
@@ -1347,7 +1345,6 @@ inherited frmProduct: TfrmProduct
       Caption = 'Product'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 355
       Height = 25
       Width = 60
       AnchorY = 17

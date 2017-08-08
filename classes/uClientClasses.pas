@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 08/02/17 8:49:31 AM
+// 08/08/17 1:22:30 PM
 //
 
 unit uClientClasses;
@@ -193,12 +193,16 @@ type
     FAutUnit_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangSupp_GetDSLookupCommand: TDSRestCommand;
     FBarangSupp_GetDSLookupCommand_Cache: TDSRestCommand;
+    FBarangQuotation_GetDSLookupCommand: TDSRestCommand;
+    FBarangQuotation_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangSupp_GetDSLookup2Command: TDSRestCommand;
     FBarangSupp_GetDSLookup2Command_Cache: TDSRestCommand;
     FBarang_ByPOLookUpCommand: TDSRestCommand;
     FBarang_ByPOLookUpCommand_Cache: TDSRestCommand;
     FBarang_GetDSLookupCommand: TDSRestCommand;
     FBarang_GetDSLookupCommand_Cache: TDSRestCommand;
+    FQuotation_GetDSOverviewCommand: TDSRestCommand;
+    FQuotation_GetDSOverviewCommand_Cache: TDSRestCommand;
     FGET_MEMBER_PAS_NOCommand: TDSRestCommand;
     FMerchandise_GetDSOverviewCommand: TDSRestCommand;
     FMerchandise_GetDSOverviewCommand_Cache: TDSRestCommand;
@@ -374,12 +378,16 @@ type
     function AutUnit_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: string; const ARequestFilter: string = ''): TDataSet;
     function BarangSupp_GetDSLookup_Cache(aMerchandise: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarangQuotation_GetDSLookup(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
+    function BarangQuotation_GetDSLookup_Cache(aSuplierMerchanID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function BarangSupp_GetDSLookup2_Cache(aMerchandise: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function Barang_ByPOLookUp(APONO: string; const ARequestFilter: string = ''): TDataSet;
     function Barang_ByPOLookUp_Cache(APONO: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Barang_GetDSLookup(aMerchanGroupID: string; const ARequestFilter: string = ''): TDataSet;
     function Barang_GetDSLookup_Cache(aMerchanGroupID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Quotation_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function Quotation_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string = ''): string;
     function Merchandise_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Merchandise_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
@@ -1474,6 +1482,18 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_BarangQuotation_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_BarangQuotation_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_BarangSupp_GetDSLookup2: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'aMerchandise'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -1507,6 +1527,20 @@ const
   TDSProvider_Barang_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'aMerchanGroupID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Quotation_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Quotation_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4791,6 +4825,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarangSupp_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSProviderClient.BarangQuotation_GetDSLookup(aSuplierMerchanID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FBarangQuotation_GetDSLookupCommand = nil then
+  begin
+    FBarangQuotation_GetDSLookupCommand := FConnection.CreateCommand;
+    FBarangQuotation_GetDSLookupCommand.RequestType := 'GET';
+    FBarangQuotation_GetDSLookupCommand.Text := 'TDSProvider.BarangQuotation_GetDSLookup';
+    FBarangQuotation_GetDSLookupCommand.Prepare(TDSProvider_BarangQuotation_GetDSLookup);
+  end;
+  FBarangQuotation_GetDSLookupCommand.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FBarangQuotation_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarangQuotation_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarangQuotation_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.BarangQuotation_GetDSLookup_Cache(aSuplierMerchanID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarangQuotation_GetDSLookupCommand_Cache = nil then
+  begin
+    FBarangQuotation_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FBarangQuotation_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FBarangQuotation_GetDSLookupCommand_Cache.Text := 'TDSProvider.BarangQuotation_GetDSLookup';
+    FBarangQuotation_GetDSLookupCommand_Cache.Prepare(TDSProvider_BarangQuotation_GetDSLookup_Cache);
+  end;
+  FBarangQuotation_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FBarangQuotation_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarangQuotation_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.BarangSupp_GetDSLookup2(aMerchandise: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FBarangSupp_GetDSLookup2Command = nil then
@@ -4891,6 +4956,39 @@ begin
   FBarang_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(aMerchanGroupID);
   FBarang_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FBarang_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.Quotation_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FQuotation_GetDSOverviewCommand = nil then
+  begin
+    FQuotation_GetDSOverviewCommand := FConnection.CreateCommand;
+    FQuotation_GetDSOverviewCommand.RequestType := 'GET';
+    FQuotation_GetDSOverviewCommand.Text := 'TDSProvider.Quotation_GetDSOverview';
+    FQuotation_GetDSOverviewCommand.Prepare(TDSProvider_Quotation_GetDSOverview);
+  end;
+  FQuotation_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FQuotation_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := aEndDate;
+  FQuotation_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FQuotation_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FQuotation_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Quotation_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FQuotation_GetDSOverviewCommand_Cache = nil then
+  begin
+    FQuotation_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FQuotation_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FQuotation_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Quotation_GetDSOverview';
+    FQuotation_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Quotation_GetDSOverview_Cache);
+  end;
+  FQuotation_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FQuotation_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
+  FQuotation_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FQuotation_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
 function TDSProviderClient.GET_MEMBER_PAS_NO(ATPMEMBER: string; const ARequestFilter: string): string;
@@ -6161,12 +6259,16 @@ begin
   FAutUnit_GetDSLookupCommand_Cache.DisposeOf;
   FBarangSupp_GetDSLookupCommand.DisposeOf;
   FBarangSupp_GetDSLookupCommand_Cache.DisposeOf;
+  FBarangQuotation_GetDSLookupCommand.DisposeOf;
+  FBarangQuotation_GetDSLookupCommand_Cache.DisposeOf;
   FBarangSupp_GetDSLookup2Command.DisposeOf;
   FBarangSupp_GetDSLookup2Command_Cache.DisposeOf;
   FBarang_ByPOLookUpCommand.DisposeOf;
   FBarang_ByPOLookUpCommand_Cache.DisposeOf;
   FBarang_GetDSLookupCommand.DisposeOf;
   FBarang_GetDSLookupCommand_Cache.DisposeOf;
+  FQuotation_GetDSOverviewCommand.DisposeOf;
+  FQuotation_GetDSOverviewCommand_Cache.DisposeOf;
   FGET_MEMBER_PAS_NOCommand.DisposeOf;
   FMerchandise_GetDSOverviewCommand.DisposeOf;
   FMerchandise_GetDSOverviewCommand_Cache.DisposeOf;

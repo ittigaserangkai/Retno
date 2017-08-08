@@ -364,6 +364,7 @@ type
     dxbrFinanceOther: TdxBar;
     dxbrbtnBarcodeUsage: TdxBarButton;
     dxbrbtnElectricCustomer: TdxBarButton;
+    dxBarButton2: TdxBarButton;
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
@@ -488,7 +489,7 @@ uses
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
-  ufrmPemakaianBarcode;
+  ufrmPemakaianBarcode, ufrmBrowseQuotation;
 
 {$R *.dfm}
 
@@ -906,7 +907,7 @@ end;
 
 procedure TfrmMain.actQuotationExecute(Sender: TObject);
 begin
-  frmQuotation := TfrmQuotation.CreateWithUser(Application, FFormProperty);
+  frmBrowseQuotation := TfrmBrowseQuotation.Create(Self);
 end;
 
 procedure TfrmMain.actQuotationHargaBeliExecute(Sender: TObject);

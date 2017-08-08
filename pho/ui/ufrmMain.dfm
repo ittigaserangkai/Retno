@@ -1,6 +1,7 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
+  ActiveControl = cbbCompCode
   Caption = 'Head Office :: ASSALAAM HYPERMARKET'
   ClientHeight = 527
   ClientWidth = 800
@@ -168,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -181,6 +181,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -877,7 +878,7 @@ object frmMain: TfrmMain
     end
     object actQuotation: TAction
       Category = 'Merchandise'
-      Caption = 'actQuotation'
+      Caption = 'Quotation'
       OnExecute = actQuotationExecute
     end
     object actMarkUpSellingPrice: TAction
@@ -1560,8 +1561,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnCOA'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1629,6 +1630,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnKompetirot'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton2'
         end>
       OneOnRow = True
       Row = 0
@@ -1734,7 +1739,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnElectricCustomer'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1914,6 +1919,11 @@ object frmMain: TfrmMain
       Action = actElectricCustomer
       Category = 0
       ImageIndex = 24
+    end
+    object dxBarButton2: TdxBarButton
+      Action = actQuotation
+      Category = 0
+      ImageIndex = 44
     end
   end
 end

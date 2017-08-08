@@ -68,9 +68,11 @@ type
     function Agama_GetDSOverview: TDataSet;
     function AutUnit_GetDSLookup: TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
+    function BarangQuotation_GetDSLookup(aSuplierMerchanID: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
     function Barang_ByPOLookUp(APONO : String): TDataset;
     function Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
+    function Quotation_GetDSOverview(aStartDate, aEndDate: TDatetime): TDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function Merchandise_GetDSOverview: TDataSet;
     function SupMGByOutstandingSO_GetDSLookup(ID: string): TDataset;
@@ -670,6 +672,17 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.BarangQuotation_GetDSLookup(aSuplierMerchanID: String):
+    TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT  * FROM V_BARANG_FOR_QUOTATION'
+      +' where SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(aSuplierMerchanID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.BarangSupp_GetDSLookup2(aMerchandise: String):
     TFDJSONDataSets;
 var
@@ -712,6 +725,22 @@ begin
 
   if aMerchanGroupID <> '' then
     S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Quotation_GetDSOverview(aStartDate, aEndDate: TDatetime):
+    TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.QUOTATION_ID, A.REFNO, A.EFFECTIVEDATE, A.ENDDATE, A.ISMAILER, A.ISPROCESSED,'
+      +' B.MERCHAN_NAME, C.SUPMG_NAME'
+      +' FROM QUOTATION A'
+      +' INNER JOIN REF$MERCHANDISE B ON A.MERCHANDISE_ID=B.REF$MERCHANDISE_ID'
+      +' INNER JOIN SUPLIER_MERCHAN_GRUP C ON A.SUPLIER_MERCHAN_GRUP_ID=C.SUPLIER_MERCHAN_GRUP_ID'
+      +' WHERE (A.EFFECTIVEDATE BETWEEN ' + TDBUtils.QuotD(aStartDate)
+      +' and '+ TDBUtils.QuotD(aEndDate) +')';
 
   Result := TDBUtils.OpenQuery(S);
 end;

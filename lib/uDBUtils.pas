@@ -39,7 +39,7 @@ type
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
     class function CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
-        TComponent): TClientDataSet;
+        TComponent; CreateDataSet: Boolean = True): TClientDataSet;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
     class procedure TemporaryForHideWarning;
@@ -141,7 +141,7 @@ begin
 end;
 
 class function TDBUtils.CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
-    TComponent): TClientDataSet;
+    TComponent; CreateDataSet: Boolean = True): TClientDataSet;
 var
   aFieldType: TFieldType;
   ctx : TRttiContext;
@@ -168,7 +168,7 @@ begin
     end;
     Result.AddField(prop.Name, aFieldType );
   end;
-  Result.CreateDataSet;
+  if CreateDataSet then Result.CreateDataSet;
 end;
 
 class function TDBUtils.DSToCDS(aDataset: TDataSet; aOwner: TComponent;

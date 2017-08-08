@@ -16,7 +16,7 @@ object DMClient: TDMClient
     Left = 168
     Top = 64
     Bitmap = {
-      494C010146009800A40010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010146009800A80010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002001000001002000000000000020
       0100000000000000000000000000000000000000000000000025000000D40000
       00D7000000D7000000D7000000D7000000D7000000D7000000D7000000D70000
@@ -2422,8 +2422,13 @@ object DMClient: TDMClient
       Font.Style = [fsBold]
     end
     object cxStyleMoneyGreen: TcxStyle
-      AssignedValues = [svColor]
+      AssignedValues = [svColor, svFont]
       Color = clMoneyGreen
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
     end
     object cxStyleInfoBK: TcxStyle
       AssignedValues = [svColor]
@@ -2433,6 +2438,22 @@ object DMClient: TDMClient
       AssignedValues = [svColor]
       Color = clSkyBlue
     end
+    object cxStyleMaroon: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+    end
+    object cxStyleBold: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+    end
   end
   object imgListIcon: TImageList
     Height = 32
@@ -2440,7 +2461,7 @@ object DMClient: TDMClient
     Left = 168
     Top = 8
     Bitmap = {
-      494C01011C007400C40020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011C007400C80020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6678,7 +6699,7 @@ object DMClient: TDMClient
     Left = 176
     Top = 120
     Bitmap = {
-      494C01013C007000800018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01013C007000840018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000008001000001002000000000000040
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -9,71 +9,83 @@ type
 
   TModQuotation = class(TModApp)
   private
-    FQUOT_DATE: TDatetime;
-    FQUOT_DATE_EFFECTIVE: TDatetime;
-    FQUOT_END_DATE: TDatetime;
-    FQUOT_IS_MAILER: Integer;
-    FQUOT_IS_PROCESSED: Integer;
-    FQUOT_REF_NO: string;
-    FQUOT_REF_NO1: string;
-    FQUOT_REMARK: String;
+    FTransDate: TDatetime;
+    FEffectiveDate: TDatetime;
+    FEndDate: TDatetime;
+    FIsMailer: Integer;
+    FIsProcessed: Integer;
+    FRefNo: string;
+    FRemark: String;
     FDetails: TObjectList<TModQuotationDetail>;
-    FSUPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup;
+    FSupplierMerchanGroup: TModSuplierMerchanGroup;
+    FMerchandise: TModMerchandise;
     function GetDetails: TObjectList<TModQuotationDetail>;
   public
     class function GetTableName: String; override;
     property Details: TObjectList<TModQuotationDetail> read GetDetails write
         FDetails;
   published
-    property QUOT_DATE: TDatetime read FQUOT_DATE write FQUOT_DATE;
-    property QUOT_DATE_EFFECTIVE: TDatetime read FQUOT_DATE_EFFECTIVE write
-        FQUOT_DATE_EFFECTIVE;
-    property QUOT_END_DATE: TDatetime read FQUOT_END_DATE write FQUOT_END_DATE;
-    property QUOT_IS_MAILER: Integer read FQUOT_IS_MAILER write FQUOT_IS_MAILER;
-    property QUOT_IS_PROCESSED: Integer read FQUOT_IS_PROCESSED write
-        FQUOT_IS_PROCESSED;
-    property QUOT_REF_NO: string read FQUOT_REF_NO write FQUOT_REF_NO;
-    property QUOT_REF_NO1: string read FQUOT_REF_NO1 write FQUOT_REF_NO1;
-    property QUOT_REMARK: String read FQUOT_REMARK write FQUOT_REMARK;
-    [AttributeOfForeign('REF$TIPE_SUPLIER_ID')]
-    property SUPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup read
-        FSUPLIER_MERCHAN_GRUP write FSUPLIER_MERCHAN_GRUP;
+    property TransDate: TDatetime read FTransDate write FTransDate;
+    property EffectiveDate: TDatetime read FEffectiveDate write FEffectiveDate;
+    property EndDate: TDatetime read FEndDate write FEndDate;
+    property IsMailer: Integer read FIsMailer write FIsMailer;
+    property IsProcessed: Integer read FIsProcessed write FIsProcessed;
+    [AttributeOfCode]
+    property RefNo: string read FRefNo write FRefNo;
+    property Remark: String read FRemark write FRemark;
+    [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
+    property SupplierMerchanGroup: TModSuplierMerchanGroup read
+        FSupplierMerchanGroup write FSupplierMerchanGroup;
+    [AttributeOfForeign('MERCHANDISE_ID')]
+    property Merchandise: TModMerchandise read FMerchandise write FMerchandise;
   end;
 
   TModQuotationDetail = class(TModApp)
   private
-    FQUOTATION: TModQuotation;
-    FBARANG: TModBarang;
-    FQUOTD_BUYPRICE: Double;
-    FQUOTD_PRICE: Double;
-    FQUOTD_MU_PERSEN: Double;
-    FQUOTD_MU_RUPIAH: Double;
-    FQUOTD_MU_RUPIAH_PLUS_PPN: Double;
-    FQUOTD_HARGA_AVERAGE: Double;
-    FQUOTD_DISC: Double;
-    FQUOTD_DISC_PERSEN: Double;
-    FSATUAN: TModSatuan;
+    FBuyDisc1: Double;
+    FBarang: TModBarang;
+    FBarangSupplier: TModBarangSupplier;
+    FBuyNetPrice: Double;
+    FSellDiscPercent: Double;
+    FMargin: Double;
+    FSellPrice: Double;
+    FQuotation: TModQuotation;
+    FBuyDisc2: Double;
+    FBuyDisc3: Double;
+    FBuyPrice: Double;
+    FIsUpdateSellPrice: Integer;
+    FSatuan: TModSatuan;
+    FSellDiscRp: Double;
+    FKonversi: Double;
+    FTax: Double;
+    FIsBKP: Integer;
+    FIsSellingPrice: Integer;
     FTipeHarga: TModTipeHarga;
   public
     class function GetTableName: String; override;
   published
     [AttributeOfHeader]
-    property QUOTATION: TModQuotation read FQUOTATION write FQUOTATION;
-    property BARANG: TModBarang read FBARANG write FBARANG;
-    property QUOTD_BUYPRICE: Double read FQUOTD_BUYPRICE write FQUOTD_BUYPRICE;
-    property QUOTD_PRICE: Double read FQUOTD_PRICE write FQUOTD_PRICE;
-    property QUOTD_MU_PERSEN: Double read FQUOTD_MU_PERSEN write FQUOTD_MU_PERSEN;
-    property QUOTD_MU_RUPIAH: Double read FQUOTD_MU_RUPIAH write FQUOTD_MU_RUPIAH;
-    property QUOTD_MU_RUPIAH_PLUS_PPN: Double read FQUOTD_MU_RUPIAH_PLUS_PPN write
-        FQUOTD_MU_RUPIAH_PLUS_PPN;
-    property QUOTD_HARGA_AVERAGE: Double read FQUOTD_HARGA_AVERAGE write
-        FQUOTD_HARGA_AVERAGE;
-    property QUOTD_DISC: Double read FQUOTD_DISC write FQUOTD_DISC;
-    property QUOTD_DISC_PERSEN: Double read FQUOTD_DISC_PERSEN write
-        FQUOTD_DISC_PERSEN;
-    [AttributeOfForeign('Ref$Satuan_ID')]
-    property SATUAN: TModSatuan read FSATUAN write FSATUAN;
-    [AttributeOfForeign('REF$TIPE_HARGA_ID')]
+    property Quotation: TModQuotation read FQuotation write FQuotation;
+    property BuyDisc1: Double read FBuyDisc1 write FBuyDisc1;
+    property Barang: TModBarang read FBarang write FBarang;
+    property BarangSupplier: TModBarangSupplier read FBarangSupplier write
+        FBarangSupplier;
+    property BuyNetPrice: Double read FBuyNetPrice write FBuyNetPrice;
+    property SellDiscPercent: Double read FSellDiscPercent write FSellDiscPercent;
+    property Margin: Double read FMargin write FMargin;
+    property SellPrice: Double read FSellPrice write FSellPrice;
+    property BuyDisc2: Double read FBuyDisc2 write FBuyDisc2;
+    property BuyDisc3: Double read FBuyDisc3 write FBuyDisc3;
+    property BuyPrice: Double read FBuyPrice write FBuyPrice;
+    property IsUpdateSellPrice: Integer read FIsUpdateSellPrice write
+        FIsUpdateSellPrice;
+    [AttributeOfForeign('SATUAN_ID')]
+    property Satuan: TModSatuan read FSatuan write FSatuan;
+    property SellDiscRp: Double read FSellDiscRp write FSellDiscRp;
+    property Konversi: Double read FKonversi write FKonversi;
+    property Tax: Double read FTax write FTax;
+    property IsBKP: Integer read FIsBKP write FIsBKP;
+    property IsSellingPrice: Integer read FIsSellingPrice write FIsSellingPrice;
     property TipeHarga: TModTipeHarga read FTipeHarga write FTipeHarga;
   end;
 
@@ -89,12 +101,12 @@ end;
 
 class function TModQuotation.GetTableName: String;
 begin
-  Result := 'QUOTATION';
+  Result := 'Quotation';
 end;
 
 class function TModQuotationDetail.GetTableName: String;
 begin
-  Result := 'QUOTATION_DETAIL';
+  Result := 'Quotation_Detail';
 end;
 
 initialization
