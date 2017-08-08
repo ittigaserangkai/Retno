@@ -47,7 +47,7 @@ type
     { Private declarations }
   protected
     function ShowDialogForm(DlgFormClass: TMasterDlgClass; AID: String = ''):
-        Integer;
+        Integer; dynamic;
     procedure RefreshData; dynamic; abstract;
   public
 //    constructor CreateWithUser(aOwner: TComponent; afrmMaster : TfrmMasterBrowse);

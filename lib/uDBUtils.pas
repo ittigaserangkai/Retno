@@ -31,9 +31,6 @@ type
   private
     class function GenerateSQLInsert(AObject : TModApp): string; overload;
     class function GenerateSQLUpdate(AObject : TModApp): string; overload;
-    class function GetSQLInsert(AObject: TModApp): String;
-    class function GetSQLUpdate(AObject: TModApp): String;
-    class function GetSQLDelete(AObject: TModApp): String; overload;
   public
     class procedure Commit;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
@@ -55,6 +52,9 @@ type
     class function GetNextID(AOBject : TModApp): Integer;
     class function GetNextIDGUID: TGuid;
     class function GetNextIDGUIDToString: string;
+    class function GetSQLDelete(AObject: TModApp): String; overload;
+    class function GetSQLInsert(AObject: TModApp): String;
+    class function GetSQLUpdate(AObject: TModApp): String;
     class procedure LoadFromDB(AOBject: TModApp; AID: String; LoadObjectList:
         Boolean = True);
     class procedure LoadByCode(AOBject: TModApp; aCode: String);

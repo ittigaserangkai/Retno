@@ -201,10 +201,10 @@ uses
   ufrmPreference in '..\system\ufrmPreference.pas' {frmPreference},
   ufrmKartuStock in '..\module\inventory\ufrmKartuStock.pas' {frmKartuStock},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
-  ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash};
+  ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

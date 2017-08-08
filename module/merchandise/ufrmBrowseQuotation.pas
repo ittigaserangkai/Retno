@@ -15,8 +15,14 @@ uses
 
 type
   TfrmBrowseQuotation = class(TfrmMasterBrowse)
+    btnActivate: TcxButton;
+    procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure btnActivateClick(Sender: TObject);
+    procedure cxGridViewFocusedRecordChanged(Sender: TcxCustomGridTableView;
+        APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+        ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   protected
@@ -35,6 +41,12 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmBrowseQuotation.FormCreate(Sender: TObject);
+begin
+  inherited;
+  btnActivate.Visible := False;
+end;
+
 procedure TfrmBrowseQuotation.actAddExecute(Sender: TObject);
 begin
   inherited;
@@ -46,6 +58,42 @@ begin
   inherited;
   ShowDialogForm(TfrmDialogQuotation,
     cxGridView.DS.FieldByName('Quotation_ID').AsString);
+end;
+
+procedure TfrmBrowseQuotation.btnActivateClick(Sender: TObject);
+var
+  frm: TfrmDialogQuotation;
+  lResult: Integer;
+begin
+  frm := TfrmDialogQuotation.Create(Application);
+  Self.Enabled := False;
+  Try
+    frm.LoadData(cxGridView.DS.FieldByName('Quotation_ID').AsString);
+    frm.InitActivation(True);
+    lResult := frm.ShowModal;
+    if (AutoRefreshData) and (lResult = mrOk) then RefreshData;
+  Finally
+    FreeAndNil(frm);
+    Self.Cursor := crDefault;
+    Self.Enabled := True;
+    Self.SetFocusRec(cxGrid);
+  End;
+end;
+
+procedure TfrmBrowseQuotation.cxGridViewFocusedRecordChanged(Sender:
+    TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
+    TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+var
+  lDS: TDataSet;
+begin
+  inherited;
+  lDS := cxGridView.DS;
+  if not Assigned(lDS) then exit;
+  if lDS.Eof then exit;
+
+  btnActivate.Left := btnSearch.Left-btnActivate.Width;
+  btnActivate.Visible := cxGridView.DS.FieldByName('ISPROCESSED').AsInteger = 0;
+
 end;
 
 procedure TfrmBrowseQuotation.RefreshData;

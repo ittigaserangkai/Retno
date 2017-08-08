@@ -86,6 +86,7 @@ type
     btnAddProd: TcxButton;
     btnDelProd: TcxButton;
     btnActivate: TcxButton;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLookupMerchanPropertiesEditValueChanged(Sender: TObject);
@@ -106,6 +107,7 @@ type
     procedure btnAddSatClick(Sender: TObject);
     procedure btnDelSatClick(Sender: TObject);
     procedure colDetailSatuanPropertiesEditValueChanged(Sender: TObject);
+    procedure btnActivateClick(Sender: TObject);
   private
     FCDSHeader: TClientDataSet;
     FCDSDetail: TClientDataSet;
@@ -122,6 +124,7 @@ type
     function GetCDSDetail: TClientDataSet;
     function GetCDSSuplierMerchan: TClientDataSet;
     function GetModQuotation: TModQuotation;
+    procedure InitReadOnly;
     procedure initView;
     procedure LoadHargaJual;
     procedure UpdateData;
@@ -133,6 +136,7 @@ type
         FCDSSuplierMerchan;
     property ModQuotation: TModQuotation read GetModQuotation write FModQuotation;
   public
+    procedure InitActivation(aAktivasi: Boolean = True);
     procedure LoadData(aID: String);
   end;
 
@@ -144,9 +148,28 @@ var
 implementation
 
 uses  uTSCommonDlg, ufrmSearchProduct, DateUtils, Math, uConstanta, uAppUtils,
-  uDBUtils, uDXUtils, uDMClient, ufrmCXLookup, uModBarang, uModSuplier;
+  uDBUtils, uDXUtils, uDMClient, ufrmCXLookup, uModBarang, uModSuplier,
+  uClientClasses;
 
 {$R *.dfm}
+
+procedure TfrmDialogQuotation.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if ModQuotation.IsProcessed=1 then
+  begin
+    TAppUtils.Warning('Quotation sudah diaktivasi tidak bisa dihapus');
+    exit;
+  end;
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModQuotation);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
 
 procedure TfrmDialogQuotation.actSaveExecute(Sender: TObject);
 begin
@@ -443,6 +466,29 @@ begin
   DeleteSellPrice;
 end;
 
+procedure TfrmDialogQuotation.btnActivateClick(Sender: TObject);
+var
+  lQuot: TCrudQuotationClient;
+begin
+  inherited;
+  if ModQuotation.ID = '' then
+  begin
+    TAppUtils.Warning('Harap simpan terlebih dahulu Quotation sebelum aktivasi');
+  end;
+  lQuot := TCrudQuotationClient.Create(DMClient.RestConn, False);
+  Try
+    if lQuot.ActivateQuotation(ModQuotation) then
+    begin
+      TAppUtils.Information('Quotation Berhasil di aktivasi');
+      actSave.Enabled := False;
+      btnActivate.Enabled := False;
+      exit;
+    end;
+  Finally
+    lQuot.Free;
+  End;
+end;
+
 procedure TfrmDialogQuotation.btnAddProdClick(Sender: TObject);
 begin
   inherited;
@@ -535,6 +581,27 @@ begin
   if not Assigned(FModQuotation) then
     FModQuotation := TModQuotation.Create;
   Result := FModQuotation;
+end;
+
+procedure TfrmDialogQuotation.InitActivation(aAktivasi: Boolean = True);
+begin
+  btnActivate.Enabled := aAktivasi;
+  btnAddProd.Enabled := not aAktivasi;
+  btnAddSat.Enabled := not aAktivasi;
+  btnDelProd.Enabled := not aAktivasi;
+  btnDelSat.Enabled := not aAktivasi;
+  actSave.Enabled := not aAktivasi;
+end;
+
+procedure TfrmDialogQuotation.InitReadOnly;
+begin
+  btnActivate.Enabled := False;
+  btnAddProd.Enabled := False;
+  btnAddSat.Enabled := False;
+  btnDelProd.Enabled := False;
+  btnDelSat.Enabled := False;
+  actSave.Enabled := False;
+  actDelete.Enabled := False;
 end;
 
 procedure TfrmDialogQuotation.initView;
@@ -641,6 +708,9 @@ begin
       CDSHeader.Post;
     end;
   end;
+  InitActivation(False);
+
+  if ModQuotation.IsProcessed=1 then InitReadOnly;
 end;
 
 procedure TfrmDialogQuotation.LoadHargaJual;

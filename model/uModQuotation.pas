@@ -62,7 +62,10 @@ type
     FIsSellingPrice: Integer;
     FTipeHarga: TModTipeHarga;
   public
+    destructor Destroy; override;
     class function GetTableName: String; override;
+    procedure SetBarangHargaJual(aBarangHrgJual: TModBarangHargaJual);
+    procedure SetBarangSupplier(aBarangSupp: TModBarangSupplier);
   published
     [AttributeOfHeader]
     property Quotation: TModQuotation read FQuotation write FQuotation;
@@ -104,9 +107,38 @@ begin
   Result := 'Quotation';
 end;
 
+destructor TModQuotationDetail.Destroy;
+begin
+  inherited;
+end;
+
 class function TModQuotationDetail.GetTableName: String;
 begin
   Result := 'Quotation_Detail';
+end;
+
+procedure TModQuotationDetail.SetBarangSupplier(aBarangSupp:
+    TModBarangSupplier);
+begin
+  aBarangSupp.BRGSUP_IS_PRIMARY := 1;
+  aBarangSupp.BRGSUP_IS_ACTIVE  := 1;
+  aBarangSupp.BRGSUP_BUY_PRICE  := Self.BuyPrice;
+  aBarangSupp.BRGSUP_DISC1      := Self.BuyDisc1;
+  aBarangSupp.BRGSUP_DISC2      := Self.BuyDisc2;
+  aBarangSupp.BRGSUP_DISC3      := Self.BuyDisc3;
+end;
+
+procedure TModQuotationDetail.SetBarangHargaJual(aBarangHrgJual:
+    TModBarangHargaJual);
+begin
+  aBarangHrgJual.Barang := TModBarang.CreateID(Self.Barang.ID);
+  aBarangHrgJual.BHJ_SELL_PRICE     := Self.SellPrice;
+  aBarangHrgJual.BHJ_DISC_PERSEN    := Self.SellDiscPercent;
+  aBarangHrgJual.BHJ_DISC_NOMINAL   := Self.SellDiscRp;
+  aBarangHrgJual.BHJ_MARK_UP        := Self.Margin;
+  aBarangHrgJual.BHJ_CONV_VALUE     := Self.Konversi;
+  aBarangHrgJual.TipeHarga          := TModTipeHarga.CreateID(Self.TipeHarga.ID);
+  aBarangHrgJual.Satuan             := TModSatuan.CreateID(Self.Satuan.ID);
 end;
 
 initialization

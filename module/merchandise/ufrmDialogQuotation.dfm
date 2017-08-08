@@ -5,6 +5,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
   ClientHeight = 611
   ClientWidth = 968
   Constraints.MinHeight = 32
+  ExplicitTop = -205
   ExplicitWidth = 984
   ExplicitHeight = 650
   PixelsPerInch = 96
@@ -14,7 +15,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
     Height = 555
     BevelInner = bvNone
     BevelOuter = bvNone
-    ExplicitWidth = 904
+    ExplicitWidth = 968
     ExplicitHeight = 555
     object cxGroupBox1: TcxGroupBox
       Left = 0
@@ -24,7 +25,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       Style.BorderStyle = ebsNone
       TabOrder = 0
       Transparent = True
-      ExplicitWidth = 904
       DesignSize = (
         968
         80)
@@ -204,7 +204,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           State = cbsChecked
           TabOrder = 0
           Transparent = True
-          ExplicitTop = 23
         end
         object chkUpdateSellPrice: TcxCheckBox
           AlignWithMargins = True
@@ -219,7 +218,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           State = cbsChecked
           TabOrder = 1
           Transparent = True
-          ExplicitTop = 50
         end
       end
       object btnActivate: TcxButton
@@ -245,6 +243,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
+        OnClick = btnActivateClick
       end
     end
     object cxGridMaster: TcxGrid
@@ -256,9 +255,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       Align = alClient
       TabOrder = 1
       LookAndFeel.NativeStyle = False
-      ExplicitTop = 111
-      ExplicitWidth = 645
-      ExplicitHeight = 283
       object cxGrdDBHeader: TcxGridDBBandedTableView
         PopupMenu = pmHeader
         Navigator.Buttons.CustomButtons = <>
@@ -544,9 +540,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       HotZoneClassName = 'TcxXPTaskBarStyle'
       AlignSplitter = salBottom
       Control = pnlDetail
-      ExplicitLeft = -3
-      ExplicitTop = 436
-      ExplicitWidth = 904
     end
     object pnlDetail: TcxGroupBox
       Left = 0
@@ -557,7 +550,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       Style.TransparentBorder = False
       TabOrder = 3
       Transparent = True
-      ExplicitWidth = 904
       Height = 150
       Width = 968
       object cxGridDetail: TcxGrid
@@ -570,9 +562,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         TabOrder = 0
         LookAndFeel.NativeStyle = False
         RootLevelOptions.DetailTabsPosition = dtpTop
-        ExplicitLeft = -21
-        ExplicitTop = 0
-        ExplicitWidth = 866
         object cxGrdDBDetail: TcxGridDBTableView
           PopupMenu = pmDetail
           Navigator.Buttons.CustomButtons = <>
@@ -725,7 +714,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         Style.TransparentBorder = False
         TabOrder = 1
         Transparent = True
-        ExplicitLeft = 887
         Height = 144
         Width = 90
         object btnAddSat: TcxButton
@@ -752,8 +740,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           Font.Style = []
           ParentFont = False
           OnClick = btnAddSatClick
-          ExplicitTop = 10
-          ExplicitWidth = 36
         end
         object btnDelSat: TcxButton
           AlignWithMargins = True
@@ -778,8 +764,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           Font.Style = []
           ParentFont = False
           OnClick = btnDelSatClick
-          ExplicitTop = 48
-          ExplicitWidth = 36
         end
       end
     end
@@ -795,8 +779,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       Style.TransparentBorder = False
       TabOrder = 4
       Transparent = True
-      ExplicitLeft = 887
-      ExplicitTop = 80
       Height = 311
       Width = 90
       object btnAddProd: TcxButton
@@ -823,7 +805,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         Font.Style = []
         ParentFont = False
         OnClick = btnAddProdClick
-        ExplicitWidth = 96
       end
       object btnDelProd: TcxButton
         AlignWithMargins = True
@@ -848,7 +829,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         Font.Style = []
         ParentFont = False
         OnClick = btnDelProdClick
-        ExplicitWidth = 96
       end
     end
   end
@@ -856,19 +836,19 @@ inherited frmDialogQuotation: TfrmDialogQuotation
     Top = 555
     Width = 968
     ExplicitTop = 555
-    ExplicitWidth = 904
+    ExplicitWidth = 968
     inherited pnlFooter: TPanel
       Width = 968
-      ExplicitWidth = 904
+      ExplicitWidth = 968
       inherited btnClose: TcxButton
         Left = 891
         Action = actCancel
-        ExplicitLeft = 827
+        ExplicitLeft = 891
       end
       inherited btnSave: TcxButton
         Left = 798
         Action = actSave
-        ExplicitLeft = 734
+        ExplicitLeft = 798
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -876,21 +856,21 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       inherited btnPrint: TcxButton
         Left = 721
         Action = actPrint
-        ExplicitLeft = 657
+        ExplicitLeft = 721
       end
     end
     inherited pnlSortCut: TPanel
       Width = 968
-      ExplicitWidth = 904
+      ExplicitWidth = 968
       inherited lbCTRLEnter: TLabel
         Left = 793
         Height = 15
-        ExplicitLeft = 729
+        ExplicitLeft = 793
       end
       inherited lbEscape: TLabel
         Left = 884
         Height = 15
-        ExplicitLeft = 820
+        ExplicitLeft = 884
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -898,13 +878,16 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       inherited lblCTRLP: TLabel
         Left = 717
         Height = 15
-        ExplicitLeft = 653
+        ExplicitLeft = 717
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 944
     Top = 8
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

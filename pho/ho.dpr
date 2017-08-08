@@ -207,10 +207,10 @@ uses
   uModKompetitor in '..\model\uModKompetitor.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
-  ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation};
+  ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

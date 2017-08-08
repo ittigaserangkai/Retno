@@ -82,6 +82,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudCNRecv, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudDNRecv, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudSettingApp, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCrudQuotation, DSServerClass.LifeCycle);
 end;
 
 

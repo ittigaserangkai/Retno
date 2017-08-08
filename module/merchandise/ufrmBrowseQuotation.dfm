@@ -9,25 +9,28 @@ inherited frmBrowseQuotation: TfrmBrowseQuotation
   inherited pnlBody: TPanel
     Width = 722
     Height = 294
-    ExplicitWidth = 124
+    ExplicitWidth = 722
     ExplicitHeight = 294
     inherited pgcBrowse: TcxPageControl
       Width = 720
       Height = 292
-      ExplicitWidth = 122
+      ExplicitWidth = 720
       ExplicitHeight = 292
       ClientRectBottom = 291
       ClientRectRight = 719
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 120
-        ExplicitHeight = 310
+        ExplicitWidth = 718
+        ExplicitHeight = 290
         inherited cxGrid: TcxGrid
           Width = 718
           Height = 290
-          ExplicitWidth = 120
+          ExplicitWidth = 718
           ExplicitHeight = 290
+          inherited cxGridView: TcxGridDBTableView
+            OnFocusedRecordChanged = cxGridViewFocusedRecordChanged
+          end
         end
       end
     end
@@ -36,7 +39,7 @@ inherited frmBrowseQuotation: TfrmBrowseQuotation
     Width = 722
     ExplicitWidth = 722
     inherited lblFilterData: TcxLabel
-      Left = 312
+      Left = 222
       Caption = 'Filter Effective Date'
       Visible = True
       ExplicitLeft = 312
@@ -45,36 +48,63 @@ inherited frmBrowseQuotation: TfrmBrowseQuotation
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 429
+      Left = 339
       Visible = True
-      ExplicitLeft = -169
+      ExplicitLeft = 429
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 545
+      Left = 455
       Visible = True
-      ExplicitLeft = -53
+      ExplicitLeft = 545
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 640
-      ExplicitLeft = 42
+      Left = 550
+      ExplicitLeft = 640
     end
     inherited lblsdFilter: TcxLabel
-      Left = 521
+      Left = 431
       Visible = True
       ExplicitLeft = 521
       AnchorY = 17
+    end
+    object btnActivate: TcxButton
+      AlignWithMargins = True
+      Left = 633
+      Top = 3
+      Width = 86
+      Height = 27
+      Cursor = crHandPoint
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Align = alRight
+      Caption = 'Aktifkan'
+      LookAndFeel.Kind = lfUltraFlat
+      OptionsImage.ImageIndex = 13
+      OptionsImage.Images = DMClient.imgListButton
+      TabOrder = 5
+      Visible = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = btnActivateClick
+      ExplicitLeft = 688
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 327
     Width = 722
-    ExplicitTop = -56
-    ExplicitWidth = 124
+    ExplicitTop = 327
+    ExplicitWidth = 722
     inherited pnlFooter: TPanel
       Width = 722
-      ExplicitWidth = 124
+      ExplicitWidth = 722
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -87,7 +117,7 @@ inherited frmBrowseQuotation: TfrmBrowseQuotation
       inherited btnClose: TcxButton
         Left = 645
         Action = actClose
-        ExplicitLeft = 47
+        ExplicitLeft = 645
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -95,9 +125,10 @@ inherited frmBrowseQuotation: TfrmBrowseQuotation
     end
     inherited pnlShortCut: TPanel
       Width = 722
-      ExplicitWidth = 124
+      ExplicitWidth = 722
       inherited lbEscape: TLabel
         Left = 648
+        Height = 17
         ExplicitLeft = 648
       end
     end

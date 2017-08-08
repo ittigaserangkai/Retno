@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
-  uModDO, uModSettingApp;
+  uModDO, uModSettingApp, uModQuotation;
 
 type
   {$METHODINFO ON}
@@ -93,6 +93,13 @@ type
   TCrudSettingApp = class(TCrud)
   public
     function RetrieveByCabang(ACabang : TModUnit): TModSettingApp;
+  end;
+
+  TCrudQuotation = class(TCrud)
+  private
+    function GenerateActivateSQL(AModQuotation: TModQuotation): TStrings;
+  public
+    function ActivateQuotation(AModQuotation: TModQuotation): Boolean;
   end;
 
 
@@ -749,6 +756,77 @@ begin
       Free;
     end;
   end;
+end;
+
+function TCrudQuotation.ActivateQuotation(AModQuotation: TModQuotation): Boolean;
+var
+  lSS: TStrings;
+begin
+  Result := False;
+  Try
+    lSS := Self.GenerateActivateSQL(AModQuotation);
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+      TDBUtils.Commit;
+      Result := True;
+    except
+      lSS.SaveToFile(AModQuotation.ClassName + '_ErrorSQL.log');
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+    lSS.Free;
+    AfterExecuteMethod;
+  End;
+end;
+
+function TCrudQuotation.GenerateActivateSQL(AModQuotation: TModQuotation): TStrings;
+var
+  i: Integer;
+  lBHJ: TModBarangHargaJual;
+  lBS: TModBarangSupplier;
+  lDetail: TModQuotationDetail;
+begin
+  Result := TStringList.Create;
+
+  //harga beli - header
+  for i := 0 to AModQuotation.Details.Count-1 do
+  begin
+    lDetail := AModQuotation.Details[i];
+    if lDetail.IsSellingPrice = 1 then continue;
+    lBS := Self.Retrieve(TModBarangSupplier, lDetail.BarangSupplier.ID) as TModBarangSupplier;
+    lBHJ := TModBarangHargaJual.Create;
+    Try
+      lDetail.SetBarangSupplier(lBS);
+      Result.Add('Update '+lBS.GetTableName + ' set BRGSUP_IS_PRIMARY = 0 where barang_id = ' + QuotedStr(lDetail.Barang.ID));
+      Result.Add(TDBUtils.GetSQLUpdate(lBS));
+      Result.Add(Format(SQL_Delete,[lBHJ.GetTableName, lBHJ.GetHeaderField + '=' + QuotedStr(lDetail.Barang.ID)]) );
+
+      //PR
+
+    Finally
+      FreeAndNil(lBS);
+      FreeAndNil(lBHJ);
+    End;
+  end;
+
+
+  for i := 0 to AModQuotation.Details.Count-1 do
+  begin
+    lDetail := AModQuotation.Details[i];
+    if lDetail.IsSellingPrice <> 1 then continue;
+    lBHJ := TModBarangHargaJual.Create;
+    Try
+      lDetail.SetBarangHargaJual(lBHJ);
+      Result.Add(TDBUtils.GetSQLInsert(lBHJ));
+    Finally
+      FreeAndNil(lBHJ);
+    End;
+  end;
+  AModQuotation.IsProcessed := 1;
+  Result.Add(TDBUtils.GetSQLUpdate(AModQuotation));
+
+  Result.SaveToFile('d:\debugquot.txt');
 end;
 
 end.
