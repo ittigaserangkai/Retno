@@ -177,6 +177,9 @@ object frmMain: TfrmMain
         end
         item
           ToolbarName = 'dxbrFinanceOther'
+        end
+        item
+          ToolbarName = 'dxbrAP'
         end>
       Index = 3
     end
@@ -554,6 +557,8 @@ object frmMain: TfrmMain
     object actAdjustmentFaktur: TAction
       Category = 'Finance'
       Caption = '&Adjustment Faktur'
+      ImageIndex = 46
+      OnExecute = actAdjustmentFakturExecute
     end
     object actMonitoringCekGiro: TAction
       Category = 'Finance'
@@ -1745,6 +1750,26 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
+    object dxbrAP: TdxBar
+      Caption = 'AP'
+      CaptionButtons = <>
+      DockedLeft = 285
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnAdjustmentFaktur'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
     object dxbrbtnBank: TdxBarButton
       Action = actBank
       Category = 0
@@ -1924,6 +1949,11 @@ object frmMain: TfrmMain
       Action = actQuotation
       Category = 0
       ImageIndex = 44
+    end
+    object dxbrbtnAdjustmentFaktur: TdxBarButton
+      Action = actAdjustmentFaktur
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

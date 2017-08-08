@@ -208,6 +208,8 @@ uses
   uModSettingApp in '..\model\uModSettingApp.pas',
   ufrmSettingApp in '..\system\ufrmSettingApp.pas' {frmSettingApp},
   uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
+  ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation};
 
 {$R *.res}
@@ -219,6 +221,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmBrowseQuotation, frmBrowseQuotation);
   Application.Run;
 end.

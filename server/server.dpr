@@ -1,7 +1,7 @@
 program server;
 {$APPTYPE GUI}
 
-{$R *.dres}
+
 
 uses
   Vcl.Forms,
@@ -48,7 +48,8 @@ uses
   uModKompetitor in '..\model\uModKompetitor.pas',
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
-  uModSettingApp in '..\model\uModSettingApp.pas';
+  uModSettingApp in '..\model\uModSettingApp.pas',
+  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas';
 
 {$R *.res}
 
