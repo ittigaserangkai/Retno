@@ -98,6 +98,7 @@ type
     FSUP_BANK_BRANCH: String;
     FSUP_BANK_ADDRESS: String;
     FIS_SO_BLACKLIST: Integer;
+    FSUP_EMAIL: String;
     FTIPE_SUPLIER: TModTipeSuplier;
     function GetSuplierMerchanGroups: tobjectlist<TModSuplierMerchanGroup>;
   public
@@ -129,6 +130,7 @@ type
     property SUP_BANK_ADDRESS: String read FSUP_BANK_ADDRESS write
         FSUP_BANK_ADDRESS;
     property IS_SO_BLACKLIST: Integer read FIS_SO_BLACKLIST write FIS_SO_BLACKLIST;
+    property SUP_EMAIL: String read FSUP_EMAIL write FSUP_EMAIL;
     property SUP_POST_CODE: String read FSUP_POST_CODE write FSUP_POST_CODE;
     property SUP_SERVICE_LEVEL: Double read FSUP_SERVICE_LEVEL write
         FSUP_SERVICE_LEVEL;
@@ -204,6 +206,7 @@ type
     FBANK: TModBank;
     FSUPMG_BANK_ACCOUNT_NO: string;
     FSUPMG_BANK_ACCOUNT_NAME: string;
+    FSUPMG_EMAIL: string;
     FSUPMG_SUB_CODE: string;
     FSUPMG_FEE: Double;
     FSUPMG_IS_PKP: Integer;
@@ -267,6 +270,7 @@ type
         FSUPMG_BANK_ACCOUNT_NO;
     property SUPMG_BANK_ACCOUNT_NAME: string read FSUPMG_BANK_ACCOUNT_NAME write
         FSUPMG_BANK_ACCOUNT_NAME;
+    property SUPMG_EMAIL: string read FSUPMG_EMAIL write FSUPMG_EMAIL;
     property SUPMG_SUB_CODE: string read FSUPMG_SUB_CODE write FSUPMG_SUB_CODE;
     property SUPMG_FEE: Double read FSUPMG_FEE write FSUPMG_FEE;
     property SUPMG_IS_PKP: Integer read FSUPMG_IS_PKP write FSUPMG_IS_PKP;

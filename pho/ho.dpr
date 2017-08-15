@@ -192,7 +192,6 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-  uModQuotation in '..\model\uModQuotation.pas',
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
   uDMReport in '..\system\uDMReport.pas' {DMReport},
@@ -210,7 +209,8 @@ uses
   ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModQuotation in '..\model\uModQuotation.pas';
 
 {$R *.res}
 
