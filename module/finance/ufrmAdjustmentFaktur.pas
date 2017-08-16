@@ -12,7 +12,8 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, ufrmDialogAdjustmentFaktur, uDXUtils, uAppUtils;
+  cxDBExtLookupComboBox, ufrmDialogAdjustmentFaktur, uDXUtils, uAppUtils,
+  Datasnap.DBClient;
 
 type
   TfrmAdjustmentFaktur = class(TfrmMasterBrowse)
@@ -28,7 +29,10 @@ type
     lblTo: TcxLabel;
     cbbSupMGAkhir: TcxExtLookupComboBox;
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
+    FCDS: TClientDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   public
     procedure RefreshData; override;
@@ -42,16 +46,36 @@ implementation
 
 {$R *.dfm}
 
+uses uDMClient, uDBUtils;
+
 procedure TfrmAdjustmentFaktur.actAddExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogAdjustmentFaktur);
 end;
 
+procedure TfrmAdjustmentFaktur.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogAdjustmentFaktur, cxGridView.DS.FieldByName('adjustment_faktur_id').AsString);
+end;
+
 procedure TfrmAdjustmentFaktur.RefreshData;
 begin
   inherited;
-  // TODO -cMM: TfrmAdjustmentFaktur.RefreshData default body inserted
+  try
+    TAppUtils.cShowWaitWindow('Mohon Ditunggu');
+    if Assigned(FCDS) then FreeAndNil(FCDS);
+
+    CDS := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.AdjFaktur_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date),
+      Self
+    );
+    cxGridView.LoadFromCDS(FCDS, False, False);
+    cxGridView.SetVisibleColumns(['adjustment_faktur_id'],False);
+  finally
+    TAppUtils.cCloseWaitWindow;
+  end;
 end;
 
 end.

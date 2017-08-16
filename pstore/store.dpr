@@ -204,7 +204,8 @@ uses
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModQuotation in '..\model\uModQuotation.pas';
 
 {$R *.res}
 

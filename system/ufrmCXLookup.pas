@@ -20,7 +20,7 @@ type
     FLookupCommand : TDSRestCommand;
   public
     function GetLookupData(aCommandName: String; aStartDate: TDateTime = 0;
-        aEndDate: TDateTime = 0): TDataSet;
+        aEndDate: TDateTime = 0; aStringFilter: String = ''): TDataSet; overload;
   end;
 
   TfrmCXLookup = class(TForm)
@@ -67,6 +67,7 @@ type
     FData: TClientDataset;
     FMultiSelect: Boolean;
     FStartExecute: TDatetime;
+    FStringFilter: String;
     function CopyDataset(Source: TDataset): TClientDataSet;
     procedure HideDateParams;
     procedure InitView;
@@ -85,12 +86,16 @@ type
         overload;
     class function Execute(ADataSet: TClientDataSet; aMultiSelect: Boolean = False;
         aCaption: String = 'Lookup Data'): TfrmCXLookup; overload;
+    class function Execute(aCaption, aCommand, aStringFilter: String; aStartDate:
+        TDateTime = 0; aEndDate: TDateTime = 0; aMultiSelect: Boolean = False):
+        TfrmCXLookup; overload;
     procedure HideFields(FieldNames: Array Of String);
     procedure Reset;
     procedure ShowFieldsOnly(FieldNames: Array Of String);
     property CommandName: String read FCommandName write FCommandName;
     property Data: TClientDataset read FData write FData;
     property StartExecute: TDatetime read FStartExecute write FStartExecute;
+    property StringFilter: String read FStringFilter write FStringFilter;
     { Public declarations }
   published
     property MultiSelect: Boolean read FMultiSelect write SetMultiSelect;
@@ -146,6 +151,7 @@ constructor TfrmCXLookup.Create(ARestConn: TDSRestConnection; aMultiSelect:
     Boolean = False);
 begin
   inherited Create(nil);
+  StringFilter := '';
   StartExecute := Now();
   FLookupClient := TLookupClient.Create(ARestConn, False);
   Self.MultiSelect := aMultiSelect;
@@ -267,6 +273,21 @@ begin
 
 end;
 
+class function TfrmCXLookup.Execute(aCaption, aCommand, aStringFilter: String;
+    aStartDate: TDateTime = 0; aEndDate: TDateTime = 0; aMultiSelect: Boolean =
+    False): TfrmCXLookup;
+begin
+  Result                      := TfrmCXLookup.Create(DMClient.RestConn, aMultiSelect);
+//  Result.MultiSelect        := aMultiSelect;
+  Result.StringFilter         := aStringFilter;
+  Result.lblHeader.Caption    := aCaption;
+  Result.CommandName          := aCommand;
+  Result.StartDate.Date       := aStartDate;
+  Result.EndDate.Date         := aEndDate;
+  if (aStartDate = 0) and (aEndDate = 0) then Result.HideDateParams;
+  Result.RefreshDataSet;
+end;
+
 procedure TfrmCXLookup.FormKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -339,7 +360,8 @@ var
   ADataSet: TDataSet;
   i: Integer;
 begin
-  ADataSet := FLookupClient.GetLookupData(CommandName, StartDate.Date, EndDate.Date);
+  ADataSet := FLookupClient.GetLookupData(CommandName, StartDate.Date, EndDate.Date, StringFilter);
+
   if Assigned(FCDS) then
     FreeAndNil(FCDS);
   if Assigned(ADataset) then
@@ -470,7 +492,8 @@ begin
 end;
 
 function TLookupClient.GetLookupData(aCommandName: String; aStartDate:
-    TDateTime = 0; aEndDate: TDateTime = 0): TDataSet;
+    TDateTime = 0; aEndDate: TDateTime = 0; aStringFilter: String = ''):
+    TDataSet;
 var
   ResultParamIdx: Integer;
 begin
@@ -487,6 +510,12 @@ begin
     FLookupCommand.Parameters[0].Value.AsDateTime := aStartDate;
     FLookupCommand.Parameters[1].Value.AsDateTime := aEndDate;
     ResultParamIdx := 2;
+
+    if (aStringFilter <> '') then
+    begin
+      FLookupCommand.Parameters[2].Value.AsString := aStringFilter;
+      ResultParamIdx := 3;
+    end;
   end;
   FLookupCommand.Execute;
   Result := TCustomSQLDataSet.Create(nil,

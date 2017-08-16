@@ -102,6 +102,15 @@ type
     function ActivateQuotation(AModQuotation: TModQuotation): Boolean;
   end;
 
+type
+  TCrudAdjFaktur = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
+  end;
+
 
 {$METHODINFO OFF}
 
@@ -112,7 +121,7 @@ implementation
 
 uses
   System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO,
-  uModCNRecv, uModDNRecv;
+  uModCNRecv, uModDNRecv, uModAdjustmentFaktur;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -763,12 +772,13 @@ var
   lSS: TStrings;
 begin
   Result := False;
+  lSS := Self.GenerateActivateSQL(AModQuotation);
   Try
-    lSS := Self.GenerateActivateSQL(AModQuotation);
     Try
       TDBUtils.ExecuteSQL(lSS, False);
       TDBUtils.Commit;
       Result := True;
+      AfterExecuteMethod;
     except
       lSS.SaveToFile(AModQuotation.ClassName + '_ErrorSQL.log');
       TDBUtils.RollBack;
@@ -776,7 +786,6 @@ begin
     End;
   Finally
     lSS.Free;
-    AfterExecuteMethod;
   End;
 end;
 
@@ -827,6 +836,53 @@ begin
   Result.Add(TDBUtils.GetSQLUpdate(AModQuotation));
 
   Result.SaveToFile('d:\debugquot.txt');
+end;
+
+function TCrudAdjFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lAdj: TModAdjustmentFaktur;
+  lSS: TStrings;
+begin
+  lAdj := TModAdjustmentFaktur(AObject);
+  lSS := TStringList.Create;
+  Try
+    lSS.Append(
+        'Update ' + TModDO.GetTableName
+        + ' Set DO_ADJUSTMENT = DO_ADJUSTMENT + ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
+        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
+      );
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
+  End;
+  Result := True;
+end;
+
+function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+begin
+  Result := self.BeforeSaveToDB(AObject);
+end;
+
+function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lAdj: TModAdjustmentFaktur;
+  lSS: TStrings;
+begin
+  lAdj := TModAdjustmentFaktur(AObject);
+  lSS := TStringList.Create;
+  Try
+    lSS.Append(
+        'Update ' + TModDO.GetTableName
+        + ' Set DO_ADJUSTMENT = DO_ADJUSTMENT - ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
+        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
+      );
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
+  End;
+  Result := True;
 end;
 
 end.

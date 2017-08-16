@@ -114,6 +114,10 @@ type
         TModUnit = nil): TDataSet;
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
+    function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function DODetail_LookupAdjFak(aDOID: string): TDataset;
+    function PO_GetDSOLookUpForAdj(aStartDate, aEndDate: TDatetime;
+        aSuplierMerchanID: String): TDataset;
 
 
   end;
@@ -1114,6 +1118,48 @@ begin
   if AUnit <> nil then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnit.ID);
 
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime):
+    TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_ADJFAKTUR_OVERVIEW where ADJFAK_DATE between '
+      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.DODetail_LookupAdjFak(aDOID: string): TDataset;
+var
+  S: string;
+begin
+  S := 'SELECT A.DO_DETAIL_ID, A.BARANG_ID, A.REF$SATUAN_ID,'
+    + ' C.BRG_CODE, C.BRG_NAME, D.SAT_CODE, A.DOD_QTY_ORDER_RECV, A.DOD_PRICE,'
+    + ' A.DOD_TOTAL_DISC AS DISC,'
+//    + ' CASE WHEN (A.DOD_QTY_ORDER_RECV <> 0)'
+//    + ' 	THEN (A.DOD_TOTAL_DISC / A.DOD_QTY_ORDER_RECV) ELSE 0 END AS DISC,'
+    + ' A.DOD_PPN_PERSEN, A.DOD_TOTAL'
+    + ' FROM DO_DETAIL A'
+    + ' INNER JOIN DO B ON A.DO_ID = B.DO_ID'
+    + ' INNER JOIN BARANG C ON A.BARANG_ID = C.BARANG_ID'
+    + ' LEFT JOIN REF$SATUAN D ON D.REF$SATUAN_ID = A.REF$SATUAN_ID'
+    + ' WHERE A.DO_ID = ' + QuotedStr(aDOID);
+  Result := TDBUtils.OpenQuery(s);
+end;
+
+function TDSProvider.PO_GetDSOLookUpForAdj(aStartDate, aEndDate: TDatetime;
+    aSuplierMerchanID: String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_PO_FOR_ADJ WHERE PO_DATE BETWEEN '
+        + TDBUtils.QuotD(aStartDate) + ' and ' + TDBUtils.QuotD(aEndDate);
+
+  if aSuplierMerchanID <> '' then
+    sSQL := sSQL + ' AND SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(aSuplierMerchanID);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
