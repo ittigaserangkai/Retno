@@ -553,6 +553,8 @@ object frmMain: TfrmMain
     object actClaimFaktur: TAction
       Category = 'Finance'
       Caption = '&Claim Faktur'
+      ImageIndex = 46
+      OnExecute = actClaimFakturExecute
     end
     object actAdjustmentFaktur: TAction
       Category = 'Finance'
@@ -1763,6 +1765,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnAdjustmentFaktur'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnClaim'
         end>
       OneOnRow = False
       Row = 0
@@ -1954,6 +1960,11 @@ object frmMain: TfrmMain
       Action = actAdjustmentFaktur
       Category = 0
       PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnClaim: TdxBarButton
+      Action = actClaimFaktur
+      Category = 0
+      PaintStyle = psCaptionInMenu
     end
   end
 end
