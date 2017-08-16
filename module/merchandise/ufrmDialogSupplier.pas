@@ -163,6 +163,11 @@ type
     EditData1: TMenuItem;
     btnCancelSupp: TcxButton;
     btnEditSupp: TcxButton;
+    Label1: TLabel;
+    edtEmail: TcxTextEdit;
+    Label10: TLabel;
+    edtEmailMer: TcxTextEdit;
+    Label15: TLabel;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -311,6 +316,7 @@ begin
   edtPostCodeMer.Enabled := chkIsDif.Checked;
   edtFaxMer.Enabled := chkIsDif.Checked;
   edtContactMer.Enabled := chkIsDif.Checked;
+  edtEmailMer.Enabled := chkIsDif.Checked;
   edtTitleMer.Enabled := chkIsDif.Checked;
   cxLookUpBankMer.Enabled := chkIsDif.Checked;
   edtCabangBankMer.Enabled := chkIsDif.Checked;
@@ -515,6 +521,8 @@ begin
   chkSupActive.Checked          := ModSupplier.SUP_IS_ACTIVE=1;
   chkIsSOBlacklist.Checked      := ModSupplier.IS_SO_BLACKLIST=1;
 
+  edtEmail.Text                 := ModSupplier.SUP_EMAIL;
+
   //load detail
 
   CDSItems.EmptyDataSet;  //kosongkan grid
@@ -592,6 +600,7 @@ begin
     edtPhoneMer.Text          := CDSItems.FieldByName('SUPMG_TELP').AsString;
     edtFaxMer.Text            := CDSItems.FieldByName('SUPMG_FAX').AsString;
     edtContactMer.Text        := CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString;
+    edtEmailMer.Text          := CDSItems.FieldByName('SUPMG_EMAIL').AsString;
     edtTitleMer.Text          := CDSItems.FieldByName('SUPMG_TITLE').AsString;
     cxLookUpBankMer.EditValue := CDSItems.FieldByName('BANK').AsString;
     edtAccountNameMer.Text    := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString;
@@ -647,6 +656,7 @@ begin
   ModSupplier.SUP_FAX               := edtFax.Text;
   ModSupplier.SUP_CONTACT_PERSON    := edtContactP.Text;
   ModSupplier.SUP_TITLE             := edtTitle.Text;
+  ModSupplier.SUP_EMAIL             := edtEmail.Text;
   if not VarIsNull(cxLookUpSupType.EditValue) then
     ModSupplier.TIPE_SUPLIER        := TModTipeSuplier.CreateID(cxLookUpSupType.EditValue);
   ModSupplier.SUP_IS_PKP            := cbbPKP.ItemIndex;
@@ -770,6 +780,7 @@ begin
       CDSItems.FieldByName('SUPMG_TELP').AsString               := edtPhoneMer.Text;
       CDSItems.FieldByName('SUPMG_FAX').AsString                := edtFaxMer.Text;
       CDSItems.FieldByName('SUPMG_CONTACT_PERSON').AsString     := edtContactMer.Text;
+      CDSItems.FieldByName('SUPMG_EMAIL').AsString              := edtEmailMer.Text;
       CDSItems.FieldByName('SUPMG_TITLE').AsString              := edtTitleMer.Text;
       if not VarIsNull(cxLookUpBankMer.EditValue) then
         CDSItems.FieldByName('BANK').AsString                     := cxLookUpBankMer.EditValue;

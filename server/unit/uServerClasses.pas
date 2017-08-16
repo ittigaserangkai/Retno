@@ -440,6 +440,7 @@ begin
       lModSupplier.SuplierMerchanGroups[i].SUPMG_FAX := lModSupplier.SUP_FAX;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_POST_CODE := lModSupplier.SUP_POST_CODE;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_CONTACT_PERSON := lModSupplier.SUP_CONTACT_PERSON;
+      lModSupplier.SuplierMerchanGroups[i].SUPMG_EMAIL := lModSupplier.SUP_EMAIL;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_TITLE := lModSupplier.SUP_TITLE;
       lModSupplier.SuplierMerchanGroups[i].SUPMG_BANK_ACCOUNT_NO := lModSupplier.SUP_BANK_ACCOUNT_NO;
       lModSupplier.SuplierMerchanGroups[i].BANK := lModSupplier.BANK;
@@ -828,5 +829,6 @@ begin
 
   Result.SaveToFile('d:\debugquot.txt');
 end;
+
 
 end.

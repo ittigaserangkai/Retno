@@ -154,7 +154,13 @@ begin
     edPort.Text         := BacaRegistry('Port');
   end;
 
+  FormatSettings.DecimalSeparator := '.';
+  FormatSettings.ThousandSeparator := ',';
+
+
   StartServer;
+
+
 
 end;
 
