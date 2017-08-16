@@ -115,11 +115,10 @@ inherited frmDialogBank: TfrmDialogBank
         Alignment = taRightJustify
         AutoSize = False
         Caption = 'Desc'
-        Visible = False
       end
       object edtRekKode: TEdit
-        Left = 74
-        Top = 84
+        Left = 90
+        Top = 83
         Width = 117
         Height = 22
         CharCase = ecUpperCase
@@ -144,6 +143,7 @@ inherited frmDialogBank: TfrmDialogBank
       object cxLookupAccount: TcxExtLookupComboBox
         Left = 90
         Top = 26
+        Properties.OnEditValueChanged = cxLookupAccountPropertiesEditValueChanged
         Style.LookAndFeel.NativeStyle = False
         StyleDisabled.LookAndFeel.NativeStyle = False
         StyleFocused.LookAndFeel.NativeStyle = False
@@ -185,6 +185,7 @@ inherited frmDialogBank: TfrmDialogBank
       end
       inherited btnPrint: TcxButton
         Left = 258
+        Action = actPrint
         ExplicitLeft = 258
       end
     end

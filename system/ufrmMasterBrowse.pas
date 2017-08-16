@@ -37,6 +37,9 @@ type
     procedure actCloseExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
+    procedure cxGridViewCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -86,6 +89,14 @@ procedure TfrmMasterBrowse.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   RefreshData;
+end;
+
+procedure TfrmMasterBrowse.cxGridViewCellDblClick(Sender:
+    TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+    AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  inherited;
+  actEdit.Execute;
 end;
 
 procedure TfrmMasterBrowse.cxGridViewDataControllerDetailExpanded(

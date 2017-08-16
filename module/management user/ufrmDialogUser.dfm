@@ -13,8 +13,8 @@ inherited frmDialogUser: TfrmDialogUser
   inherited pnlBody: TPanel
     Width = 317
     Height = 300
-    ExplicitWidth = 319
-    ExplicitHeight = 326
+    ExplicitWidth = 317
+    ExplicitHeight = 300
     object lbl1: TLabel
       Left = 31
       Top = 16
@@ -80,7 +80,7 @@ inherited frmDialogUser: TfrmDialogUser
     end
     object edtLogin: TEdit
       Left = 98
-      Top = 13
+      Top = 16
       Width = 192
       Height = 22
       TabOrder = 0
@@ -114,7 +114,7 @@ inherited frmDialogUser: TfrmDialogUser
     end
     object cbbStatus: TComboBox
       Left = 98
-      Top = 142
+      Top = 139
       Width = 192
       Height = 24
       Style = csDropDownList
@@ -168,38 +168,47 @@ inherited frmDialogUser: TfrmDialogUser
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 300
     Width = 317
-    ExplicitTop = 326
-    ExplicitWidth = 319
+    ExplicitTop = 300
+    ExplicitWidth = 317
     inherited pnlFooter: TPanel
       Width = 317
-      ExplicitWidth = 319
+      ExplicitWidth = 317
       inherited btnClose: TcxButton
-        Left = 235
-        ExplicitLeft = 237
+        Left = 164
+        Action = actCancel
+        ExplicitLeft = 164
       end
       inherited btnSave: TcxButton
-        Left = 134
+        Left = 71
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 136
+        ExplicitLeft = 71
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 241
+        Action = actPrint
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 317
-      ExplicitWidth = 319
+      ExplicitWidth = 317
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 227
+        Height = 15
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 142
+        Height = 15
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 66
+        Height = 15
       end
     end
   end

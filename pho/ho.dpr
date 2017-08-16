@@ -209,6 +209,7 @@ uses
   ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
+  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
   ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim},

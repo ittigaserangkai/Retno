@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 08/08/17 4:05:12 PM
+// 16/08/2017 16:06:58
 //
 
 unit uClientClasses;
@@ -265,6 +265,8 @@ type
     FCN_RCV_GetDSOverviewCommand_Cache: TDSRestCommand;
     FDN_RCV_GetDSOverviewCommand: TDSRestCommand;
     FDN_RCV_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FAutUser_GetDSOverviewCommand: TDSRestCommand;
+    FAutUser_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -450,6 +452,8 @@ type
     function CN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DN_RCV_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function DN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function AutUser_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function AutUser_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -1962,6 +1966,16 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_AutUser_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_AutUser_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -6292,6 +6306,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FDN_RCV_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.AutUser_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FAutUser_GetDSOverviewCommand = nil then
+  begin
+    FAutUser_GetDSOverviewCommand := FConnection.CreateCommand;
+    FAutUser_GetDSOverviewCommand.RequestType := 'GET';
+    FAutUser_GetDSOverviewCommand.Text := 'TDSProvider.AutUser_GetDSOverview';
+    FAutUser_GetDSOverviewCommand.Prepare(TDSProvider_AutUser_GetDSOverview);
+  end;
+  FAutUser_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FAutUser_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FAutUser_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.AutUser_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FAutUser_GetDSOverviewCommand_Cache = nil then
+  begin
+    FAutUser_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FAutUser_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FAutUser_GetDSOverviewCommand_Cache.Text := 'TDSProvider.AutUser_GetDSOverview';
+    FAutUser_GetDSOverviewCommand_Cache.Prepare(TDSProvider_AutUser_GetDSOverview_Cache);
+  end;
+  FAutUser_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FAutUser_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -6485,6 +6528,8 @@ begin
   FCN_RCV_GetDSOverviewCommand_Cache.DisposeOf;
   FDN_RCV_GetDSOverviewCommand.DisposeOf;
   FDN_RCV_GetDSOverviewCommand_Cache.DisposeOf;
+  FAutUser_GetDSOverviewCommand.DisposeOf;
+  FAutUser_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

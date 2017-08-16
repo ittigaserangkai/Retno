@@ -47,7 +47,17 @@ uses
   uModSO in '..\model\uModSO.pas',
   uModSatuan in '..\model\uModSatuan.pas',
   uModBarang in '..\model\uModBarang.pas',
-  uModOutlet in '..\model\uModOutlet.pas';
+  uModOutlet in '..\model\uModOutlet.pas',
+  uModApp in '..\model\uModApp.pas',
+  uDBUtils in '..\lib\uDBUtils.pas',
+  uModUnit in '..\model\uModUnit.pas',
+  uModCompany in '..\model\uModCompany.pas',
+  uModAuthApp in '..\model\uModAuthApp.pas',
+  uModTipePerusahaan in '..\model\uModTipePerusahaan.pas',
+  uModPropinsi in '..\model\uModPropinsi.pas',
+  uModSettingApp in '..\model\uModSettingApp.pas',
+  uModGudang in '..\model\uModGudang.pas',
+  uModQuotation in '..\model\uModQuotation.pas';
 
 {$R *.res}
 

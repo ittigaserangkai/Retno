@@ -34,6 +34,7 @@ type
     procedure edtRekKodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnDeleteClick(Sender: TObject);
+    procedure cxLookupAccountPropertiesEditValueChanged(Sender: TObject);
   private
     FCDSRekening: TClientDataSet;
     FDSClient: TDSProviderClient;
@@ -89,7 +90,7 @@ begin
   inherited;
 //  FBank := uNewBank.TBank.Create(self);
   prepareAddData();
-  cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_Name',['Rekening_ID'],Self);
+  cxLookupAccount.Properties.LoadFromCDS(CDSRekening,'Rekening_ID','Rek_CODE',['Rekening_ID','REF$GRUP_REKENING_ID'],Self);
   cxLookupAccount.Properties.SetMultiPurposeLookup;
 
   AssignKeyDownEvent;
@@ -104,6 +105,13 @@ begin
     TAppUtils.Information('Terhapus');
     Self.Close;
   end;
+end;
+
+procedure TfrmDialogBank.cxLookupAccountPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  edtDescription.Text := cxLookupAccount.DS.FieldByName('REK_NAME').AsString;
 end;
 
 procedure TfrmDialogBank.edtRekKodeKeyDown(Sender: TObject; var Key: Word;
@@ -167,7 +175,8 @@ begin
   edtDescription.Text := ModBank.BANK_DESCRIPTION;
   edtAddress.Text := ModBank.BANK_ADDRESS;
   if Assigned(ModBank.REKENING) then
-    cxLookupAccount.EditValue := ModBank.REKENING.ID;
+    if ModBank.REKENING.ID <> '' then
+      cxLookupAccount.EditValue := ModBank.REKENING.ID;
 end;
 
 procedure TfrmDialogBank.SimpanData;
