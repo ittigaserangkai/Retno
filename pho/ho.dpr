@@ -209,15 +209,11 @@ uses
   ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
-<<<<<<< HEAD
-  uModQuotation in '..\model\uModQuotation.pas',
-  uClientClasses in '..\classes\uClientClasses.pas';
-=======
+  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
   ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim},
   uModQuotation in '..\model\uModQuotation.pas';
->>>>>>> 841a9e5ad4397fa1e65ddac19f0d81f6813f64c4
 
 {$R *.res}
 
