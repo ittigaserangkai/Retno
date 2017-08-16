@@ -11,7 +11,7 @@ uses
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
-  dxRibbonCustomizationForm, dxRibbon, dxBar;
+  dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -367,11 +367,13 @@ type
     dxBarButton2: TdxBarButton;
     dxbrAP: TdxBar;
     dxbrbtnAdjustmentFaktur: TdxBarButton;
+    dxbrbtnClaim: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
+    procedure actClaimFakturExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
@@ -554,6 +556,11 @@ end;
 procedure TfrmMain.actChangeStatPOExecute(Sender: TObject);
 begin
     frmChangeStatusPO := TfrmChangeStatusPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actClaimFakturExecute(Sender: TObject);
+begin
+  frmClaim := TfrmClaim.Create(Self)
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);

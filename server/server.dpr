@@ -49,7 +49,9 @@ uses
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
-  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas';
+  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
+  uModClaimFaktur in '..\model\uModClaimFaktur.pas',
+  uModAP in '..\model\uModAP.pas';
 
 {$R *.res}
 
