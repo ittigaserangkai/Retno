@@ -204,8 +204,10 @@ uses
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
-  uClientClasses in '..\classes\uClientClasses.pas',
-  uModQuotation in '..\model\uModQuotation.pas';
+  uModQuotation in '..\model\uModQuotation.pas',
+  ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
+  ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
@@ -216,5 +218,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmUser, frmUser);
+  Application.CreateForm(TfrmDialogUser, frmDialogUser);
   Application.Run;
 end.

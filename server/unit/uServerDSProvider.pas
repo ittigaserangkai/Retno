@@ -114,6 +114,7 @@ type
         TModUnit = nil): TDataSet;
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
+    function AutUser_GetDSOverview: TDataSet;
 
 
   end;
@@ -148,7 +149,7 @@ function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM V_BANK';
+  S := 'SELECT * FROM V_BANK order by bank_code';
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -1116,6 +1117,14 @@ begin
 
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.AutUser_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * AUT$USER';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;

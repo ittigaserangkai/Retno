@@ -209,8 +209,8 @@ uses
   ufrmAdjustmentFaktur in '..\module\finance\ufrmAdjustmentFaktur.pas' {frmAdjustmentFaktur},
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
-  uClientClasses in '..\classes\uClientClasses.pas',
-  uModQuotation in '..\model\uModQuotation.pas';
+  uModQuotation in '..\model\uModQuotation.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
