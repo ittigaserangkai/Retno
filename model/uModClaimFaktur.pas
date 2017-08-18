@@ -26,6 +26,7 @@ type
     FCLM_CN_SUBTOTAL: Double;
     FCLM_CN_TOTAL: Double;
     FCLM_DATE: TDatetime;
+    FCLM_Description: string;
     FCLM_DISC: Double;
     FCLM_DN_DISC: Double;
     FCLM_DN_PPN: Double;
@@ -71,6 +72,7 @@ type
         FCLM_CN_SUBTOTAL;
     property CLM_CN_TOTAL: Double read FCLM_CN_TOTAL write FCLM_CN_TOTAL;
     property CLM_DATE: TDatetime read FCLM_DATE write FCLM_DATE;
+    property CLM_Description: string read FCLM_Description write FCLM_Description;
     property CLM_DISC: Double read FCLM_DISC write FCLM_DISC;
     property CLM_DN_DISC: Double read FCLM_DN_DISC write FCLM_DN_DISC;
     property CLM_DN_PPN: Double read FCLM_DN_PPN write FCLM_DN_PPN;
