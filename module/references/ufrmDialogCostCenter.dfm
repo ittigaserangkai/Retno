@@ -43,11 +43,11 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       Tag = 1
       Left = 54
       Top = 44
-      Width = 267
+      Width = 363
       Height = 22
       CharCase = ecUpperCase
       Ctl3D = False
-      MaxLength = 16
+      MaxLength = 120
       ParentCtl3D = False
       TabOrder = 1
     end
@@ -75,6 +75,7 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       end
       inherited btnPrint: TcxButton
         Left = 195
+        Action = actPrint
         ExplicitLeft = 195
       end
     end
@@ -96,6 +97,7 @@ inherited frmDialogCostCenter: TfrmDialogCostCenter
       end
       inherited lblCTRLP: TLabel
         Left = 191
+        Height = 15
         ExplicitLeft = 191
       end
     end

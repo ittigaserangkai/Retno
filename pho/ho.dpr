@@ -213,7 +213,11 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
   ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim},
-  uModQuotation in '..\model\uModQuotation.pas';
+  uModQuotation in '..\model\uModQuotation.pas',
+  uModClaimFaktur in '..\model\uModClaimFaktur.pas',
+  uModAP in '..\model\uModAP.pas',
+  uModCNRecv in '..\model\uModCNRecv.pas',
+  uModDNRecv in '..\model\uModDNRecv.pas';
 
 {$R *.res}
 

@@ -118,6 +118,7 @@ type
     function DODetail_LookupAdjFak(aDOID: string): TDataset;
     function PO_GetDSOLookUpForAdj(aStartDate, aEndDate: TDatetime;
         aSuplierMerchanID: String): TDataset;
+    function AutUser_GetDSOverview: TDataSet;
 
 
   end;
@@ -152,7 +153,7 @@ function TDSProvider.Bank_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM V_BANK';
+  S := 'SELECT * FROM V_BANK order by bank_code';
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -1162,6 +1163,14 @@ begin
     sSQL := sSQL + ' AND SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(aSuplierMerchanID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.AutUser_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * AUT$USER';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;

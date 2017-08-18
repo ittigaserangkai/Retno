@@ -20,12 +20,13 @@ type
     FCLM_ClaimFakturItemDNs: TObjectList<TModClaimFakturItemDN>;
     FCLM_ClaimFakturItems: TObjectList<TModClaimFakturItemDO>;
     FCLM_ClaimFakturOthers: TObjectList<TModClaimFakturOther>;
-    FCLM_CN_DISKON: Integer;
+    FCLM_CN_DISKON: Double;
     FCLM_CN_PPN: Double;
     FCLM_CN_PPNBM: Integer;
     FCLM_CN_SUBTOTAL: Double;
     FCLM_CN_TOTAL: Double;
     FCLM_DATE: TDatetime;
+    FCLM_Description: string;
     FCLM_DISC: Double;
     FCLM_DN_DISC: Double;
     FCLM_DN_PPN: Double;
@@ -64,13 +65,14 @@ type
         GetCLM_ClaimFakturOthers write FCLM_ClaimFakturOthers;
   published
     property CLM_AP: TModAP read FCLM_AP write FCLM_AP;
-    property CLM_CN_DISKON: Integer read FCLM_CN_DISKON write FCLM_CN_DISKON;
+    property CLM_CN_DISKON: Double read FCLM_CN_DISKON write FCLM_CN_DISKON;
     property CLM_CN_PPN: Double read FCLM_CN_PPN write FCLM_CN_PPN;
     property CLM_CN_PPNBM: Integer read FCLM_CN_PPNBM write FCLM_CN_PPNBM;
     property CLM_CN_SUBTOTAL: Double read FCLM_CN_SUBTOTAL write
         FCLM_CN_SUBTOTAL;
     property CLM_CN_TOTAL: Double read FCLM_CN_TOTAL write FCLM_CN_TOTAL;
     property CLM_DATE: TDatetime read FCLM_DATE write FCLM_DATE;
+    property CLM_Description: string read FCLM_Description write FCLM_Description;
     property CLM_DISC: Double read FCLM_DISC write FCLM_DISC;
     property CLM_DN_DISC: Double read FCLM_DN_DISC write FCLM_DN_DISC;
     property CLM_DN_PPN: Double read FCLM_DN_PPN write FCLM_DN_PPN;
@@ -167,11 +169,12 @@ type
     FCLMD_DO_INV_TAX_TOTAL: Double;
     FCLMD_DO_NP: string;
     FCLMD_DO_PO: TModPO;
-    FCLMD_DO_PPN: Integer;
+    FCLMD_DO_PPN: Double;
     FCLMD_DO_PPNBM: Double;
     FCLMD_DO_SUBTOTAL: Double;
     FCLMD_DO_TOTAL: Double;
     function GetCLMD_DO_NP: string;
+  public
   published
     property CLMD_DO: TModDO read FCLMD_DO write FCLMD_DO;
     property CLMD_DO_ClaimFaktur: TModClaimFaktur read FCLMD_DO_ClaimFaktur
@@ -188,7 +191,7 @@ type
         FCLMD_DO_INV_TAX_TOTAL;
     property CLMD_DO_NP: string read GetCLMD_DO_NP write FCLMD_DO_NP;
     property CLMD_DO_PO: TModPO read FCLMD_DO_PO write FCLMD_DO_PO;
-    property CLMD_DO_PPN: Integer read FCLMD_DO_PPN write FCLMD_DO_PPN;
+    property CLMD_DO_PPN: Double read FCLMD_DO_PPN write FCLMD_DO_PPN;
     property CLMD_DO_PPNBM: Double read FCLMD_DO_PPNBM write FCLMD_DO_PPNBM;
     property CLMD_DO_SUBTOTAL: Double read FCLMD_DO_SUBTOTAL write
         FCLMD_DO_SUBTOTAL;
