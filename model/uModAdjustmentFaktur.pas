@@ -12,9 +12,9 @@ type
   TModAdjustmentFakturItem = class;
   TModAdjustmentFaktur = class(TModApp)
   private
-    FADJFAK_DATE_POSTED: TDateTime;
     FADJFAK_DATE_RCV: TDateTime;
     FADJFAK_DATE: TDateTime;
+    FADJFAK_DATE_POSTED: TDateTime;
     FADJFAK_DO: TModDO;
     FADJFAK_IS_JURNAL: Integer;
     FADJFAK_IS_POSTED: Integer;
@@ -36,11 +36,11 @@ type
     property AdjustmentFakturItems: TObjectList<TModAdjustmentFakturItem> read
         GetAdjustmentFakturItems write FAdjustmentFakturItems;
   published
-    property ADJFAK_DATE_POSTED: TDateTime read FADJFAK_DATE_POSTED write
-        FADJFAK_DATE_POSTED;
     property ADJFAK_DATE_RCV: TDateTime read FADJFAK_DATE_RCV write
         FADJFAK_DATE_RCV;
     property ADJFAK_DATE: TDateTime read FADJFAK_DATE write FADJFAK_DATE;
+    property ADJFAK_DATE_POSTED: TDateTime read FADJFAK_DATE_POSTED write
+        FADJFAK_DATE_POSTED;
     [AttributeOfForeign('DO_ID')]
     property ADJFAK_DO: TModDO read FADJFAK_DO write FADJFAK_DO;
     property ADJFAK_IS_JURNAL: Integer read FADJFAK_IS_JURNAL write

@@ -24,6 +24,11 @@ type
     procedure LoadPO;
   end;
 
+  TModAppHelper = class helper for TModApp
+  public
+    procedure Reload(LoadObjectList: Boolean = False);
+  end;
+
 implementation
 
 procedure TModPOHelper.LoadPO_SUPPLIER_MERCHAN_GRUP;
@@ -54,6 +59,20 @@ end;
 procedure TModDOHelper.LoadPO;
 begin
   Self.PO := TModPO(DMClient.CrudPOClient.RetrieveSingle(TModPO.ClassName, Self.PO.ID));
+end;
+
+procedure TModAppHelper.Reload(LoadObjectList: Boolean = False);
+var
+  aID: string;
+  sClassName: string;
+begin
+  sClassName  := Self.ClassName;
+  aID         := Self.ID;
+  FreeAndNil(Self);
+  if LoadObjectList then
+    Self := DMClient.CrudClient.Retrieve(sClassName, aID)
+  else
+    Self := DMClient.CrudClient.RetrieveSingle(sClassName, aID);
 end;
 
 end.

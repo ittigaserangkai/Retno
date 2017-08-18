@@ -28,6 +28,7 @@ type
     cbbSupMGAwal: TcxExtLookupComboBox;
     lblTo: TcxLabel;
     cbbSupMGAkhir: TcxExtLookupComboBox;
+    cxgridColOVAdjNo: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private

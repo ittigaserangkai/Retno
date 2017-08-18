@@ -2,7 +2,7 @@ inherited frmAdjustmentFaktur: TfrmAdjustmentFaktur
   Caption = 'Adjustment Faktur'
   ClientHeight = 461
   ClientWidth = 1023
-  ExplicitLeft = -98
+  ExplicitTop = -33
   ExplicitWidth = 1039
   ExplicitHeight = 500
   PixelsPerInch = 96
@@ -30,6 +30,11 @@ inherited frmAdjustmentFaktur: TfrmAdjustmentFaktur
           ExplicitWidth = 1019
           ExplicitHeight = 368
           inherited cxGridView: TcxGridDBTableView
+            object cxgridColOVAdjNo: TcxGridDBColumn
+              Caption = 'ADJ NO'
+              DataBinding.FieldName = 'ADJFAK_NO'
+              Width = 90
+            end
             object cxgridColOVPO: TcxGridDBColumn
               Caption = 'PO'
               DataBinding.FieldName = 'PO_NO'
