@@ -474,7 +474,7 @@ begin
 
       lItem.SetFromDataset(CDS);
       ModAdj.ADJFAK_TOTAL_AFTER_DISC  := ModAdj.ADJFAK_TOTAL_AFTER_DISC + lItem.AFD_VAL_ADJ_AFTER_DISC;
-      ModAdj.ADJFAK_TOTAL_ADJ         := ModAdj.ADJFAK_TOTAL_ADJ + lItem.AFD_VAL_ADJ_PPNBM;
+      ModAdj.ADJFAK_TOTAL_ADJ         := ModAdj.ADJFAK_TOTAL_ADJ + lItem.AFD_VAL_ADJ_TOTAL;
       ModAdj.AdjustmentFakturItems.Add(lItem);
 
       CDS.Next;
