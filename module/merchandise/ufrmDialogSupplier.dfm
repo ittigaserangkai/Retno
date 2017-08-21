@@ -7,7 +7,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -43
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -38,7 +37,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsMerchandiseGroup
+      Properties.ActivePage = tsSupplier
       Properties.CustomButtons.Buttons = <>
       OnChange = pc1Change
       ClientRectBottom = 451
@@ -46,7 +45,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = '&Supplier'
-        ExplicitTop = 28
         object lbl3: TLabel
           Left = 65
           Top = 48
@@ -66,14 +64,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         object lbl18: TLabel
           Left = 308
           Top = 73
-          Width = 61
+          Width = 49
           Height = 16
           Caption = 'Post Code'
         end
         object lbl19: TLabel
           Left = 318
           Top = 98
-          Width = 50
+          Width = 38
           Height = 16
           Caption = 'Fax No.'
         end
@@ -643,6 +641,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object pnlMG: TPanel
               Left = 0
               Top = 0

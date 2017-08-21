@@ -204,17 +204,10 @@ uses
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
-<<<<<<< HEAD
-  uModQuotation in '..\model\uModQuotation.pas',
-  ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
-  ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
-  uClientClasses in '..\classes\uClientClasses.pas';
-=======
   uClientClasses in '..\classes\uClientClasses.pas',
   uModQuotation in '..\model\uModQuotation.pas',
-  ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
-  ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim};
->>>>>>> 841a9e5ad4397fa1e65ddac19f0d81f6813f64c4
+  ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
+  ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser};
 
 {$R *.res}
 
@@ -225,7 +218,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmUser, frmUser);
-  Application.CreateForm(TfrmDialogUser, frmDialogUser);
   Application.Run;
 end.

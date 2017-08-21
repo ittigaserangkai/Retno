@@ -152,14 +152,6 @@ inherited frmDialogBank: TfrmDialogBank
         Width = 302
       end
     end
-    object chkAllUnit: TCheckBox
-      Left = 96
-      Top = 128
-      Width = 57
-      Height = 17
-      Caption = 'All Unit'
-      TabOrder = 5
-    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 277

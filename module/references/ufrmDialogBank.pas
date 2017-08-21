@@ -26,7 +26,6 @@ type
     lbl5: TLabel;
     edtRekKode: TEdit;
     edtDescription: TEdit;
-    chkAllUnit: TCheckBox;
     cxLookupAccount: TcxExtLookupComboBox;
     procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
