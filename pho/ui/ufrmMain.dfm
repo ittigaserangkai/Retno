@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -185,6 +184,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -1473,7 +1473,7 @@ object frmMain: TfrmMain
     object dxbrReferenceInventory: TdxBar
       Caption = 'Reference Inventory'
       CaptionButtons = <>
-      DockedLeft = 201
+      DockedLeft = 227
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1497,7 +1497,7 @@ object frmMain: TfrmMain
     object dxbrReferenceOther: TdxBar
       Caption = 'Reference Other'
       CaptionButtons = <>
-      DockedLeft = 323
+      DockedLeft = 364
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 10

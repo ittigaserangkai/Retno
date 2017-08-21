@@ -81,7 +81,7 @@ type
     function GetCDS: TClientDataSet;
     function GetModAdj: TModAdjustmentFaktur;
     procedure initView;
-    procedure LoadDetailOrder;
+    procedure LoadDetailOrder(IsNewTransaction: Boolean = True);
     procedure LookupPO;
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -100,7 +100,7 @@ implementation
 
 uses
   uDBUtils, ufrmCXLookup, DateUtils, uAppUtils, uModPO, uModDO,
-  uModSuplier, uConstanta;
+  uModSuplier, uConstanta, uModBarang, uModelHelper;
 
 {$R *.dfm}
 
@@ -315,52 +315,102 @@ begin
 end;
 
 procedure TfrmDialogAdjustmentFaktur.LoadData(aID: String);
+var
+  i: Integer;
+  lBarang: TModBarang;
+  lItem: TModAdjustmentFakturItem;
 begin
   if aID <> '' then
   begin
     FreeAndNil(FModAdj);
     FModAdj := DMClient.CrudClient.Retrieve(TModAdjustmentFaktur.ClassName, aID) as TModAdjustmentFaktur;
+    ModAdj.ADJFAK_DO := DMClient.CrudClient.Retrieve(TModDO.ClassName, ModAdj.ADJFAK_DO.ID) as TModDO;
+    ModAdj.ADJFAK_PO := DMClient.CrudClient.Retrieve(TModPO.ClassName, ModAdj.ADJFAK_PO.ID) as TModPO;
+    edTglBukti.Date         := ModAdj.ADJFAK_DATE;
+    cbbSupplierMG.EditValue := ModAdj.ADJFAK_SuplierMerchanGroup.ID;
+    edPO.Text               := ModAdj.ADJFAK_PO.PO_NO;
+    edNP.Text               := ModAdj.ADJFAK_DO.DO_NP;
+    edReferensi.Text        := ModAdj.ADJFAK_REF;
   end else begin
-    ModAdj.ADJFAK_NO := DMClient.CrudClient.GenerateNo(TModAdjustmentFaktur.ClassName);
-    edTglBukti.Date := Now();
+    ModAdj.ADJFAK_NO        := DMClient.CrudClient.GenerateNo(TModAdjustmentFaktur.ClassName);
+    edTglBukti.Date         := Now();
+    edNoBukti.Text          := '';
+    cbbSupplierMG.EditValue := '';
+    edPO.Text               := '';
+    edNP.Text               := '';
+    edReferensi.Text        := '';
   end;
+  edNoBukti.Text          := ModAdj.ADJFAK_NO;
 
-
-  edNoBukti.Text := ModAdj.ADJFAK_NO;
+  CDS.EmptyDataSet;
+  CDS.DisableControls;
+  Try
+    for i := 0 to ModAdj.AdjustmentFakturItems.Count-1 do
+    begin
+      CDS.Append;
+      lItem := ModAdj.AdjustmentFakturItems[i];
+      lItem.UpdateToDataset(CDS);
+//      lItem.AFD_Barang.Reload();
+//      CDS.FieldByName('BRG_CODE').AsString := lItem.AFD_Barang.BRG_CODE;
+//      CDS.FieldByName('BRG_NAME').AsString := lItem.AFD_Barang.BRG_NAME;
+      CDS.POST;
+    end;
+    LoadDetailOrder(False);
+    CalculateAdj;
+  Finally
+    CDS.EnableControls;
+  End;
 end;
 
-procedure TfrmDialogAdjustmentFaktur.LoadDetailOrder;
+procedure TfrmDialogAdjustmentFaktur.LoadDetailOrder(IsNewTransaction: Boolean
+    = True);
 var
   lDS: TDataset;
 begin
-  CDS.EmptyDataSet;
+  if not Assigned(ModAdj.ADJFAK_DO) then exit;
+
+  CDS.DisableControls;
+
+  if IsNewTransaction then CDS.EmptyDataSet;
   lDS := DMClient.DSProviderClient.DODetail_LookupAdjFak(ModAdj.ADJFAK_DO.ID);
   Try
     while not lDS.Eof do
     begin
-      CDS.Append;
-      CDS.SetFieldFrom('AFD_Barang', lDS, 'BARANG_ID');
-      CDS.SetFieldFrom('AFD_DOItem', lDS, 'DO_DETAIL_ID');
-      CDS.SetFieldFrom('Brg_Code', lDS, 'Brg_Code');
-      CDS.SetFieldFrom('Brg_Name', lDS, 'Brg_Name');
-      CDS.SetFieldFrom('Brg_Code', lDS, 'Brg_Code');
-      CDS.SetFieldFrom('AFD_QTY', lDS, 'DOD_QTY_ORDER_RECV');
-      CDS.SetFieldFrom('AFD_OLD_PRICE', lDS, 'DOD_PRICE');
-      CDS.SetFieldFrom('AFD_OLD_DISC', lDS, 'DISC');
-      CDS.SetFieldFrom('AFD_PRICE', lDS, 'DOD_PRICE');
-      CDS.SetFieldFrom('AFD_DISC', lDS, 'DISC');
-      CDS.SetFieldFrom('AFD_PPN', lDS, 'DOD_PPN_PERSEN');
-      CDS.Post;
+      if IsNewTransaction then
+        CDS.Append
+      else
+      begin
+        if CDS.Locate('AFD_DOItem', lDS.FieldByName('DO_DETAIL_ID').AsString, [loCaseInsensitive]) then
+          CDS.Edit;
+      end;
+
+      if CDS.State in [dsInsert, dsEdit] then
+      begin
+        CDS.SetFieldFrom('AFD_Barang', lDS, 'BARANG_ID');
+        CDS.SetFieldFrom('AFD_DOItem', lDS, 'DO_DETAIL_ID');
+        CDS.SetFieldFrom('Brg_Code', lDS, 'Brg_Code');
+        CDS.SetFieldFrom('Brg_Name', lDS, 'Brg_Name');
+        CDS.SetFieldFrom('Brg_Code', lDS, 'Brg_Code');
+        CDS.SetFieldFrom('AFD_QTY', lDS, 'DOD_QTY_ORDER_RECV');
+        CDS.SetFieldFrom('AFD_OLD_PRICE', lDS, 'DOD_PRICE');
+        CDS.SetFieldFrom('AFD_OLD_DISC', lDS, 'DISC');
+        if IsNewTransaction then
+        begin
+          CDS.SetFieldFrom('AFD_PRICE', lDS, 'DOD_PRICE');
+          CDS.SetFieldFrom('AFD_DISC', lDS, 'DISC');
+          CDS.SetFieldFrom('AFD_PPN', lDS, 'DOD_PPN_PERSEN');
+        end;
+        CDS.Post;
+      end;
       lDS.Next;
     end;
-
     edOldSubTotal.Value := ModAdj.ADJFAK_DO.DO_SUBTOTAL;
-    edOldDisc.Value := ModAdj.ADJFAK_DO.DO_DISC;
-    edOldPPN.Value := ModAdj.ADJFAK_DO.DO_PPN;
-    edOldTotal.Value := ModAdj.ADJFAK_DO.DO_TOTAL;
-
+    edOldDisc.Value     := ModAdj.ADJFAK_DO.DO_DISC;
+    edOldPPN.Value      := ModAdj.ADJFAK_DO.DO_PPN;
+    edOldTotal.Value    := ModAdj.ADJFAK_DO.DO_TOTAL;
     CalculateAdj;
   Finally
+    CDS.EnableControls;
     lDS.Free;
   End;
 end;
@@ -403,15 +453,15 @@ var
 begin
   lModSupGroup := DMClient.CrudClient.Retrieve(
     TModSuplierMerchanGroup.ClassName,cbbSupplierMG.EditValue) as TModSuplierMerchanGroup;
-  ModAdj.ADJFAK_Suplier := TModSuplier.CreateID(lModSupGroup.SUPLIER.ID);
+  ModAdj.ADJFAK_Suplier             := TModSuplier.CreateID(lModSupGroup.SUPLIER.ID);
   ModAdj.ADJFAK_SuplierMerchanGroup := lModSupGroup;
-  ModAdj.ADJFAK_NO := edNoBukti.Text;
-  ModAdj.ADJFAK_REF := edReferensi.Text;
-  ModAdj.ADJFAK_DATE_RCV := ModAdj.ADJFAK_DO.DO_DATE;
-  ModAdj.ADJFAK_DATE := edTglBukti.Date;
-  ModAdj.ADJFAK_PPN := edNewPPN.Value;
-  ModAdj.ADJFAK_PPNBM := 0;
-  ModAdj.ADJFAK_PPNBM := 0;
+  ModAdj.ADJFAK_NO                  := edNoBukti.Text;
+  ModAdj.ADJFAK_REF                 := edReferensi.Text;
+  ModAdj.ADJFAK_DATE_RCV            := ModAdj.ADJFAK_DO.DO_DATE;
+  ModAdj.ADJFAK_DATE                := edTglBukti.Date;
+  ModAdj.ADJFAK_PPN                 := edNewPPN.Value;
+  ModAdj.ADJFAK_PPNBM               := 0;
+  ModAdj.ADJFAK_PPNBM               := 0;
 
   ModAdj.AdjustmentFakturItems.Clear;
 
@@ -423,8 +473,8 @@ begin
       lItem := TModAdjustmentFakturItem.Create;
 
       lItem.SetFromDataset(CDS);
-      ModAdj.ADJFAK_TOTAL_AFTER_DISC := ModAdj.ADJFAK_TOTAL_AFTER_DISC + lItem.AFD_VAL_ADJ_AFTER_DISC;
-      ModAdj.ADJFAK_TOTAL_ADJ := ModAdj.ADJFAK_TOTAL_ADJ + lItem.AFD_VAL_ADJ_PPNBM;
+      ModAdj.ADJFAK_TOTAL_AFTER_DISC  := ModAdj.ADJFAK_TOTAL_AFTER_DISC + lItem.AFD_VAL_ADJ_AFTER_DISC;
+      ModAdj.ADJFAK_TOTAL_ADJ         := ModAdj.ADJFAK_TOTAL_ADJ + lItem.AFD_VAL_ADJ_TOTAL;
       ModAdj.AdjustmentFakturItems.Add(lItem);
 
       CDS.Next;

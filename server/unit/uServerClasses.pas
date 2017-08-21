@@ -841,7 +841,6 @@ end;
 
 function TCrudAdjFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
 var
-  i: Integer;
   lAdj: TModAdjustmentFaktur;
   lSS: TStrings;
 begin
@@ -867,7 +866,6 @@ end;
 
 function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
-  i: Integer;
   lAdj: TModAdjustmentFaktur;
   lSS: TStrings;
 begin

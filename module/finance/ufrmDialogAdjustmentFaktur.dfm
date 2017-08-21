@@ -2,7 +2,6 @@ inherited frmDialogAdjustmentFaktur: TfrmDialogAdjustmentFaktur
   Caption = 'Dialog Adjustment Faktur'
   ClientHeight = 561
   ClientWidth = 808
-  ExplicitTop = -168
   ExplicitWidth = 824
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -28,6 +27,8 @@ inherited frmDialogAdjustmentFaktur: TfrmDialogAdjustmentFaktur
         Height = 112
         Align = alTop
         TabOrder = 0
+        ExplicitLeft = 34
+        ExplicitTop = -3
         object lblNoBukti: TLabel
           Left = 38
           Top = 3
