@@ -1,7 +1,7 @@
-// 
+//
 // Created by the DataSnap proxy generator.
-// 8/21/2017 8:06:25 AM
-// 
+// 21/08/2017 14:40:55
+//
 
 unit uClientClasses;
 
@@ -266,6 +266,8 @@ type
     FDN_RCV_GetDSOverviewCommand_Cache: TDSRestCommand;
     FAdjFaktur_GetDSOverviewCommand: TDSRestCommand;
     FAdjFaktur_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FShift_GetDSOverviewCommand: TDSRestCommand;
+    FShift_GetDSOverviewCommand_Cache: TDSRestCommand;
     FDODetail_LookupAdjFakCommand: TDSRestCommand;
     FDODetail_LookupAdjFakCommand_Cache: TDSRestCommand;
     FPO_GetDSOLookUpForAdjCommand: TDSRestCommand;
@@ -459,6 +461,8 @@ type
     function DN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function AdjFaktur_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function AdjFaktur_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Shift_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Shift_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DODetail_LookupAdjFak(aDOID: string; const ARequestFilter: string = ''): TDataSet;
     function DODetail_LookupAdjFak_Cache(aDOID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_GetDSOLookUpForAdj(aStartDate: TDateTime; aEndDate: TDateTime; aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2033,6 +2037,16 @@ const
   (
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Shift_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Shift_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -6538,6 +6552,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FAdjFaktur_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.Shift_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FShift_GetDSOverviewCommand = nil then
+  begin
+    FShift_GetDSOverviewCommand := FConnection.CreateCommand;
+    FShift_GetDSOverviewCommand.RequestType := 'GET';
+    FShift_GetDSOverviewCommand.Text := 'TDSProvider.Shift_GetDSOverview';
+    FShift_GetDSOverviewCommand.Prepare(TDSProvider_Shift_GetDSOverview);
+  end;
+  FShift_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FShift_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FShift_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Shift_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FShift_GetDSOverviewCommand_Cache = nil then
+  begin
+    FShift_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FShift_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FShift_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Shift_GetDSOverview';
+    FShift_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Shift_GetDSOverview_Cache);
+  end;
+  FShift_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FShift_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.DODetail_LookupAdjFak(aDOID: string; const ARequestFilter: string): TDataSet;
 begin
   if FDODetail_LookupAdjFakCommand = nil then
@@ -6828,6 +6871,8 @@ begin
   FDN_RCV_GetDSOverviewCommand_Cache.DisposeOf;
   FAdjFaktur_GetDSOverviewCommand.DisposeOf;
   FAdjFaktur_GetDSOverviewCommand_Cache.DisposeOf;
+  FShift_GetDSOverviewCommand.DisposeOf;
+  FShift_GetDSOverviewCommand_Cache.DisposeOf;
   FDODetail_LookupAdjFakCommand.DisposeOf;
   FDODetail_LookupAdjFakCommand_Cache.DisposeOf;
   FPO_GetDSOLookUpForAdjCommand.DisposeOf;
@@ -10695,3 +10740,4 @@ begin
 end;
 
 end.
+

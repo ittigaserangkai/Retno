@@ -115,6 +115,7 @@ type
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function Shift_GetDSOverview: TDataSet;
     function DODetail_LookupAdjFak(aDOID: string): TDataset;
     function PO_GetDSOLookUpForAdj(aStartDate, aEndDate: TDatetime;
         aSuplierMerchanID: String): TDataset;
@@ -1130,6 +1131,16 @@ var
 begin
   S := 'select * from V_ADJFAKTUR_OVERVIEW where ADJFAK_DATE between '
       + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Shift_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select SHIFT_NAME, SHIFT_START_TIME, SHIFT_END_TIME'
+  +' from'
+  +' SHIFT';
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -51,7 +51,9 @@ uses
   uModSettingApp in '..\model\uModSettingApp.pas',
   uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
   uModClaimFaktur in '..\model\uModClaimFaktur.pas',
-  uModAP in '..\model\uModAP.pas';
+  uModAP in '..\model\uModAP.pas',
+  uModOrganization in '..\model\uModOrganization.pas',
+  uModShift in '..\model\uModShift.pas';
 
 {$R *.res}
 
