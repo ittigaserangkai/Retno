@@ -11,7 +11,7 @@ uses
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
-  dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim;
+  dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -371,7 +371,9 @@ type
     actShift: TAction;
     dxbrmngrHOBar1: TdxBar;
     dxBarButton3: TdxBarButton;
+    dxbrbtnBCO: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
+    procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
@@ -540,6 +542,11 @@ end;
 procedure TfrmMain.actAdjustmentFakturExecute(Sender: TObject);
 begin
   frmAdjustmentFaktur := TfrmAdjustmentFaktur.Create(Self);
+end;
+
+procedure TfrmMain.actAPPaymentExecute(Sender: TObject);
+begin
+  frmBankCashOut := TfrmBankCashOut.Create(nil);
 end;
 
 procedure TfrmMain.actBankExecute(Sender: TObject);

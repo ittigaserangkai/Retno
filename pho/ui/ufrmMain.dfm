@@ -705,6 +705,8 @@ object frmMain: TfrmMain
     object actAPPayment: TAction
       Category = 'Finance'
       Caption = '&Payment'
+      ImageIndex = 47
+      OnExecute = actAPPaymentExecute
     end
     object actVoucher: TAction
       Category = 'Accounting'
@@ -1676,8 +1678,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn3'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1779,6 +1781,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnClaim'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBCO'
         end>
       OneOnRow = False
       Row = 0
@@ -1800,7 +1806,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton3'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1995,6 +2001,11 @@ object frmMain: TfrmMain
       Action = actClaimFaktur
       Category = 0
       PaintStyle = psCaptionInMenu
+    end
+    object dxbrbtnBCO: TdxBarButton
+      Action = actAPPayment
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
     object dxBarButton3: TdxBarButton
       Action = actShift
