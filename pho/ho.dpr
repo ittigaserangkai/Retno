@@ -221,8 +221,8 @@ uses
   uModOrganization in '..\model\uModOrganization.pas',
   ufrmBankCashOut in '..\module\finance\ufrmBankCashOut.pas' {frmBankCashOut},
   ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut},
-  uModShift in '..\model\uModShift.pas',
-  ufrmShift in '..\module\management user\ufrmShift.pas' {frmShift};
+  ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
+  ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift};
 
 {$R *.res}
 
@@ -233,5 +233,7 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmShift, frmShift);
+  Application.CreateForm(TfrmDialogShift, frmDialogShift);
   Application.Run;
 end.

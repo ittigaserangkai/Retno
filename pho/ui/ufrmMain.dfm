@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -1679,8 +1678,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn3'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1807,7 +1806,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton3'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2008,7 +2007,7 @@ object frmMain: TfrmMain
       Category = 0
       PaintStyle = psCaptionGlyph
     end
-	object dxBarButton3: TdxBarButton
+    object dxBarButton3: TdxBarButton
       Action = actShift
       Caption = 'Master Shift'
       Category = 0
