@@ -169,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -184,7 +185,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
-      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -700,6 +700,8 @@ object frmMain: TfrmMain
     object actAPPayment: TAction
       Category = 'Finance'
       Caption = '&Payment'
+      ImageIndex = 47
+      OnExecute = actAPPaymentExecute
     end
     object actVoucher: TAction
       Category = 'Accounting'
@@ -1769,6 +1771,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnClaim'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBCO'
         end>
       OneOnRow = False
       Row = 0
@@ -1965,6 +1971,11 @@ object frmMain: TfrmMain
       Action = actClaimFaktur
       Category = 0
       PaintStyle = psCaptionInMenu
+    end
+    object dxbrbtnBCO: TdxBarButton
+      Action = actAPPayment
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

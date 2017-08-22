@@ -217,7 +217,10 @@ uses
   uModClaimFaktur in '..\model\uModClaimFaktur.pas',
   uModAP in '..\model\uModAP.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
-  uModDNRecv in '..\model\uModDNRecv.pas';
+  uModDNRecv in '..\model\uModDNRecv.pas',
+  uModOrganization in '..\model\uModOrganization.pas',
+  ufrmBankCashOut in '..\module\finance\ufrmBankCashOut.pas' {frmBankCashOut},
+  ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut};
 
 {$R *.res}
 
