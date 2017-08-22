@@ -5415,6 +5415,16 @@ object frmMain: TfrmMain
       TabOrder = 9
       Value = 0
     end
+    object btnTest: TButton
+      Left = 624
+      Top = 73
+      Width = 75
+      Height = 25
+      Caption = 'btnTest'
+      TabOrder = 10
+      Visible = False
+      OnClick = btnTestClick
+    end
   end
   object mmLog: TMemo
     Left = 0

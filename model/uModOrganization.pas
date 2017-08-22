@@ -19,7 +19,9 @@ type
   public
     class function GetTableName: string; override;
   published
+    [AttributeOfCode]
     property ORG_Code: string read FORG_Code write FORG_Code;
+
     property ORG_IsKaryawan: Integer read FORG_IsKaryawan write FORG_IsKaryawan;
     property ORG_IsMember: Integer read FORG_IsMember write FORG_IsMember;
     property ORG_IsSupplierMG: Integer read FORG_IsSupplierMG write
@@ -38,7 +40,7 @@ implementation
 }
 class function TModOrganization.GetTableName: string;
 begin
-  Result := 'VW_Organization';
+  Result := 'V_ORGANIZATION';
 end;
 
 
