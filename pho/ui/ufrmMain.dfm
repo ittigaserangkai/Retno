@@ -193,10 +193,16 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxrbntbSetting: TdxRibbonTab
+      Active = True
       Caption = 'Setting'
       Groups = <
         item
           ToolbarName = 'dxbrSetting'
+        end
+        item
+        end
+        item
+          ToolbarName = 'dxbrmngrHOBar1'
         end>
       Index = 5
     end
@@ -1395,6 +1401,11 @@ object frmMain: TfrmMain
       ImageIndex = 44
       OnExecute = actSettingAplikasiExecute
     end
+    object actShift: TAction
+      Category = 'Management User'
+      Caption = 'actShift'
+      OnExecute = actShiftExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1669,7 +1680,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtn3'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1777,6 +1788,26 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnBCO'
         end>
       OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBar1: TdxBar
+      Caption = 'User Management'
+      CaptionButtons = <>
+      DockedLeft = 152
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton3'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1976,6 +2007,12 @@ object frmMain: TfrmMain
       Action = actAPPayment
       Category = 0
       PaintStyle = psCaptionGlyph
+    end
+	object dxBarButton3: TdxBarButton
+      Action = actShift
+      Caption = 'Master Shift'
+      Category = 0
+      ImageIndex = 57
     end
   end
 end

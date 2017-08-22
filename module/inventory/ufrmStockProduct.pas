@@ -126,6 +126,8 @@ begin
     ),Self
   );
 
+  if not Assigned(cxGridView.DataController.DataSet) then exit;
+
   if not chkSaldoNol.Checked then
   begin
     cxGridView.DataController.DataSet.Filtered  := True;

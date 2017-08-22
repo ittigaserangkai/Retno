@@ -204,12 +204,13 @@ begin
 
   frm := TfrmCXLookup.Execute(lCDS, True);
   Try
-    frm.HideFields(['BARANG_SUPLIER_ID', 'BARANG_ID', 'SUPLIER_ID', 'SUP_CODE', 'SUP_NAME', 'SUPLIER_MERCHAN_GRUP_ID']);
+    frm.HideFields(['BARANG_SUPLIER_ID', 'BARANG_ID', 'SUPLIER_ID', 'SUP_CODE',
+      'SUP_NAME', 'SUPLIER_MERCHAN_GRUP_ID', 'REF$SATUAN_PURCHASE']);
     if frm.ShowModal = mrOk then
     begin
       while not frm.Data.eof do
       begin
-        if not CDSDetail.Locate('Barang', frm.Data.FieldByName('BARANG_ID').AsString, [loCaseInsensitive]) then
+        if not CDSHeader.Locate('Barang', frm.Data.FieldByName('BARANG_ID').AsString, [loCaseInsensitive]) then
         begin
           CDSHeader.Append;
           CDSHeader.SetFieldFrom('BrgCode', frm.Data, 'BRG_CODE');
@@ -771,8 +772,11 @@ procedure TfrmDialogQuotation.SetHargaBeliHargaIncludePPN1Click(Sender:
     TObject);
 begin
   inherited;
+  if CDSHeader.FieldByName('IsBKP').AsInteger <> 1 then exit;
+
   if CDSHeader.State in [dsEdit] then
     CDSHeader.Post;
+
 
   CDSHeader.Edit;
   CDSHeader.FieldByName('BuyPrice').AsFloat := CDSHeader.FieldByName('BuyPrice').AsFloat / 1.1;
@@ -787,6 +791,9 @@ var
   dSellPrice: Double;
 begin
   inherited;
+
+  if CDSDetail.FieldByName('IsBKP').AsInteger <> 1 then exit;
+
   if CDSDetail.State in [dsEdit] then
     CDSDetail.Post;
 

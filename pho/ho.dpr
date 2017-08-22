@@ -220,7 +220,9 @@ uses
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModOrganization in '..\model\uModOrganization.pas',
   ufrmBankCashOut in '..\module\finance\ufrmBankCashOut.pas' {frmBankCashOut},
-  ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut};
+  ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut},
+  uModShift in '..\model\uModShift.pas',
+  ufrmShift in '..\module\management user\ufrmShift.pas' {frmShift};
 
 {$R *.res}
 

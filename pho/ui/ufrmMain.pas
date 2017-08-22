@@ -368,6 +368,9 @@ type
     dxbrAP: TdxBar;
     dxbrbtnAdjustmentFaktur: TdxBarButton;
     dxbrbtnClaim: TdxBarButton;
+    actShift: TAction;
+    dxbrmngrHOBar1: TdxBar;
+    dxBarButton3: TdxBarButton;
     dxbrbtnBCO: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -391,6 +394,7 @@ type
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
     procedure actGudangExecute(Sender: TObject);
+    procedure actShiftExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
@@ -496,7 +500,7 @@ uses
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
-  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation;
+  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift;
 
 {$R *.dfm}
 
@@ -690,6 +694,11 @@ end;
 procedure TfrmMain.actGudangExecute(Sender: TObject);
 begin
   frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actShiftExecute(Sender: TObject);
+begin
+  frmShift := TfrmShift.Create(self);
 end;
 
 procedure TfrmMain.actMataUangExecute(Sender: TObject);

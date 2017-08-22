@@ -133,7 +133,8 @@ type
         DoBestFit: Boolean = True; AutoFormat: Boolean = True);
     procedure LoadFromSQL(aSQL: String; aOwner: TComponent); overload;
     procedure LoadFromSQL(aSQL: String); overload;
-    procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent); overload;
+    procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent; DoCreateAllItems:
+        Boolean = true); overload;
     procedure PrepareFromCDS(ACDS: TClientDataSet); overload;
     procedure SetAllUpperCaseColumn;
     procedure SetColumnsCaption(ColumnSets, ColumnCaption: Array Of String);
@@ -991,7 +992,8 @@ begin
   Self.LoadFromSQL(aSQL, Self);
 end;
 
-procedure TcxDBGridHelper.LoadFromDS(aDataSet: TDataSet; aOwner: TComponent);
+procedure TcxDBGridHelper.LoadFromDS(aDataSet: TDataSet; aOwner: TComponent;
+    DoCreateAllItems: Boolean = true);
 var
   lCDS: TClientDataSet;
 begin
@@ -1001,7 +1003,7 @@ begin
     if Self.DataController.DataSource.DataSet <> nil then
       Self.DataController.DataSource.DataSet.Free;
 
-  Self.LoadFromCDS(lCDS);
+  Self.LoadFromCDS(lCDS, DoCreateAllItems);
 end;
 
 procedure TcxDBGridHelper.PrepareFromCDS(ACDS: TClientDataSet);
