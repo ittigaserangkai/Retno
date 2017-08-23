@@ -1138,7 +1138,7 @@ function TDSProvider.Shift_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select SHIFT_NAME, SHIFT_START_TIME, SHIFT_END_TIME'
+  S := 'select *'
   +' from'
   +' SHIFT';
   Result := TDBUtils.OpenQuery(S);

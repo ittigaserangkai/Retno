@@ -1,75 +1,94 @@
 inherited frmShift: TfrmShift
-  Left = 296
-  Caption = 'Shift'
-  ClientHeight = 364
-  ClientWidth = 580
-  OldCreateOrder = True
-  ExplicitWidth = 596
-  ExplicitHeight = 403
+  Caption = 'SHIFT'
+  ClientHeight = 349
+  ClientWidth = 718
+  ExplicitWidth = 734
+  ExplicitHeight = 388
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 580
-    Height = 275
-    ExplicitWidth = 580
-    ExplicitHeight = 275
+    Width = 718
+    Height = 260
+    ExplicitWidth = 718
+    ExplicitHeight = 260
     inherited pgcBrowse: TcxPageControl
-      Width = 558
-      Height = 253
-      ExplicitWidth = 558
-      ExplicitHeight = 253
-      ClientRectBottom = 252
-      ClientRectRight = 557
+      Width = 716
+      Height = 258
+      ExplicitWidth = 716
+      ExplicitHeight = 258
+      ClientRectBottom = 257
+      ClientRectRight = 715
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 556
-        ExplicitHeight = 251
+        ExplicitWidth = 714
+        ExplicitHeight = 256
         inherited cxGrid: TcxGrid
-          Width = 556
-          Height = 251
-          ExplicitWidth = 556
-          ExplicitHeight = 251
+          Width = 714
+          Height = 256
+          ExplicitWidth = 714
+          ExplicitHeight = 256
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'NAMA SHIFT'
+              DataBinding.FieldName = 'SHIFT_NAME'
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'SHIFT DIMULAI'
+              DataBinding.FieldName = 'SHIFT_START_TIME'
+              PropertiesClassName = 'TcxTimeEditProperties'
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'SHIFT BERAKHIR'
+              DataBinding.FieldName = 'SHIFT_END_TIME'
+              PropertiesClassName = 'TcxTimeEditProperties'
+            end
+          end
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 580
-    ExplicitWidth = 580
+    Width = 718
+    ExplicitWidth = 718
+    inherited lblHeader: TLabel
+      Width = 30
+      Caption = 'SHIFT'
+      ExplicitWidth = 30
+    end
     inherited lblFilterData: TcxLabel
-      Left = 226
-      ExplicitLeft = 226
+      Left = 364
+      ExplicitLeft = 364
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 287
-      ExplicitLeft = 287
+      Left = 425
+      ExplicitLeft = 425
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 403
-      ExplicitLeft = 403
+      Left = 541
+      ExplicitLeft = 541
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 498
-      ExplicitLeft = 498
+      Left = 636
+      ExplicitLeft = 636
     end
     inherited lblsdFilter: TcxLabel
-      Left = 379
-      ExplicitLeft = 379
+      Left = 517
+      ExplicitLeft = 517
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 308
-    Width = 580
-    ExplicitTop = 308
-    ExplicitWidth = 580
+    Top = 293
+    Width = 718
+    ExplicitTop = 293
+    ExplicitWidth = 718
     inherited pnlFooter: TPanel
-      Width = 580
-      ExplicitWidth = 580
+      Width = 718
+      ExplicitWidth = 718
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -80,21 +99,21 @@ inherited frmShift: TfrmShift
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 503
+        Left = 641
         Action = actClose
-        ExplicitLeft = 503
+        ExplicitLeft = 641
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 580
-      ExplicitWidth = 580
+      Width = 718
+      ExplicitWidth = 718
       inherited lbEscape: TLabel
-        Left = 506
+        Left = 644
         Height = 17
-        ExplicitLeft = 506
+        ExplicitLeft = 644
       end
     end
   end

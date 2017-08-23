@@ -7,6 +7,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -125
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -37,7 +38,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
       OnChange = pc1Change
       ClientRectBottom = 451
@@ -632,7 +633,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           Height = 273
           Align = alBottom
           TabOrder = 1
-          Properties.ActivePage = tsA
+          Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           OnExit = pgcMerchanExit
           ClientRectBottom = 273
@@ -641,9 +642,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object pnlMG: TPanel
               Left = 0
               Top = 0
@@ -983,6 +981,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 61
                   Height = 17
                   Caption = 'Monday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 0
                 end
                 object chkTue: TCheckBox
@@ -991,6 +991,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 64
                   Height = 17
                   Caption = 'Tuesday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 1
                 end
                 object chkWed: TCheckBox
@@ -999,6 +1001,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 78
                   Height = 17
                   Caption = 'Wednesday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 2
                 end
                 object chkThu: TCheckBox
@@ -1007,6 +1011,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 67
                   Height = 17
                   Caption = 'Thursday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 3
                 end
                 object chkFri: TCheckBox
@@ -1015,6 +1021,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 61
                   Height = 17
                   Caption = 'Friday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 4
                 end
                 object chkSat: TCheckBox
@@ -1023,6 +1031,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 67
                   Height = 17
                   Caption = 'Saturday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 5
                 end
                 object chkSun: TCheckBox
@@ -1031,6 +1041,8 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   Width = 61
                   Height = 17
                   Caption = 'Sunday'
+                  Checked = True
+                  State = cbChecked
                   TabOrder = 6
                 end
               end
