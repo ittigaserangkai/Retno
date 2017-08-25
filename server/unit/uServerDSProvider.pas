@@ -125,6 +125,7 @@ type
     function AutUser_GetDSOverview: TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
+    function RekeningBCOLain_GetDSLookup: TDataSet;
 
 
   end;
@@ -272,7 +273,7 @@ function TDSProvider.CostCenter_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select COCTER_CODE, COCTER_NAME, COST_CENTER_ID from COST_CENTER';
+  S := 'select * from V_COST_CENTER';
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -1225,6 +1226,14 @@ begin
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.RekeningBCOLain_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_BCO_LAINLAIN';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;

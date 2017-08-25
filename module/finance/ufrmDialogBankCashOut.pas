@@ -29,13 +29,6 @@ type
     edOrganization: TcxButtonEdit;
     dtTanggal: TcxDateEdit;
     memDesc: TcxMemo;
-    lbl24: TcxLabel;
-    lbl13: TcxLabel;
-    lbl1: TcxLabel;
-    lbl17: TcxLabel;
-    lbl7: TcxLabel;
-    lbl15: TcxLabel;
-    lbl12: TcxLabel;
     cxgrdlvlAPList: TcxGridLevel;
     cxgrdDetail: TcxGrid;
     cxGridTableAPList: TcxGridTableView;
@@ -59,6 +52,15 @@ type
     cxGridColChequeJatuhTempo: TcxGridColumn;
     cxGridColChequeBayar: TcxGridColumn;
     cxGridColAPRekeningID: TcxGridColumn;
+    cxGridColOtherCostCenter: TcxGridColumn;
+    cxGridColChequeKeterangan: TcxGridColumn;
+    lblNoBukti: TLabel;
+    lblTanggal: TLabel;
+    lblOrganizasi: TLabel;
+    lblBank: TLabel;
+    lblKeteranan: TLabel;
+    lblTotal: TLabel;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -72,17 +74,38 @@ type
       ADataController: TcxCustomDataController);
     procedure cxGridTableAPListDataControllerAfterPost(
       ADataController: TcxCustomDataController);
+    procedure cxGridColOtherKodePropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGridTableOtherDataControllerAfterDelete(
+      ADataController: TcxCustomDataController);
+    procedure cxGridTableOtherDataControllerAfterPost(
+      ADataController: TcxCustomDataController);
+    procedure cxGridTableChequeDataControllerAfterDelete(
+      ADataController: TcxCustomDataController);
+    procedure cxGridTableChequeDataControllerAfterPost(
+      ADataController: TcxCustomDataController);
   private
     FBCO: TModBankCashOut;
     FCDSAP: TClientDataset;
     FCDSBank: TClientDataset;
+    FCDSCostCenter: tclientDataSet;
+    FCDSRekeningLain: tclientDataSet;
     FOrganization: TModOrganization;
     function GetBCO: TModBankCashOut;
     procedure HitungSummary;
     procedure InisialisasiBank;
     procedure InisialisasiAPList(AOrgID : String);
+    procedure InisialisasiCostCenter;
+    procedure InisialisasiRekeningLain;
+    function IsBisaHapus: Boolean;
     procedure LoadDataOrganization(AKode : String);
     procedure UpdateBankCashOutAPItems;
+    procedure UpdateBankCashOutOtherItems;
+    procedure LoadDataBankCashOutAPItems;
+    procedure LoadDataBankCashOutChequeItems;
+    procedure LoadDataBankCashOutOtherItems;
+    procedure SetDataAPItems(ANoAP : String; ABaris : Integer);
+    procedure UpdateAPChequeOtems;
     { Private declarations }
   protected
     procedure LoadData(AID : String);
@@ -99,6 +122,19 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmDialogBankCashOut.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+
+  if not IsBisaHapus then
+    Exit;
+
+  if DMClient.CrudBankCashOutClient.DeleteFromDB(BCO) then
+  begin
+    LoadData('');
+  end;
+end;
 
 procedure TfrmDialogBankCashOut.actSaveExecute(Sender: TObject);
 var
@@ -124,6 +160,8 @@ begin
   BCO.BCO_TotalHutang := cxGridTableAPList.DataController.GetFooterSummaryFloat(cxGridColAPBayar);
 
   UpdateBankCashOutAPItems;
+  UpdateBankCashOutOtherItems;
+  UpdateAPChequeOtems;
 
   sID := DMClient.CrudBankCashOutClient.SaveToDBID(BCO);
   if sID <> '' then
@@ -142,13 +180,19 @@ begin
   dtTanggal.Date := Now;
 
   InisialisasiBank;
+  InisialisasiRekeningLain;
+  InisialisasiCostCenter;
 end;
 
 procedure TfrmDialogBankCashOut.FormDestroy(Sender: TObject);
 begin
   inherited;
   FreeAndNil(FOrganization);
-//  FreeAndNil(FBCO);
+  FreeAndNil(FBCO);
+  FreeAndNil(FCDSAP);
+  FreeAndNil(FCDSBank);
+  FreeAndNil(FCDSCostCenter);
+  FreeAndNil(FCDSRekeningLain);
 end;
 
 procedure TfrmDialogBankCashOut.beBusinessPartnerPropertiesButtonClick(
@@ -172,9 +216,6 @@ end;
 
 procedure TfrmDialogBankCashOut.cxGridColAPAPPropertiesValidate(Sender: TObject;
   var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
-var
-  dSisa: Double;
-  iBaris: Integer;
 begin
   inherited;
   if VarIsNull(DisplayValue) then
@@ -186,23 +227,34 @@ begin
   if FCDSAP = nil then
     Exit;
 
+  SetDataAPItems(VarToStr(DisplayValue),cxGridTableAPList.RecordIndex);
+end;
+
+procedure TfrmDialogBankCashOut.cxGridColOtherKodePropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+var
+  iBaris: Integer;
+begin
+  inherited;
+
+  if VarIsNull(DisplayValue) then
+    Exit;
+
+  if VarToStr(DisplayValue) = '' then
+    Exit;
+
+  if FCDSRekeningLain = nil then
+    Exit;
+
   try
-    FCDSAP.Filter   := ' AP_REfnum = ' + QuotedStr(DisplayValue);
-    FCDSAP.Filtered := True;
+    FCDSRekeningLain.Filter   := ' Rek_Code = ' + QuotedStr(DisplayValue);
+    FCDSRekeningLain.Filtered := True;
 
-    iBaris := cxGridTableAPList.DataController.FocusedRecordIndex;
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPTanggal.Index, FCDSAP.FieldByName('ap_transdate').AsDateTime);
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPJatuhTempo.Index, FCDSAP.FieldByName('ap_duedate').AsDateTime);
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPRekening.Index, FCDSAP.FieldByName('rek_code').AsString);
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPRekeningID.Index, FCDSAP.FieldByName('AP_REKENING_ID').AsString);
-
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPNominal.Index, FCDSAP.FieldByName('ap_total').AsFloat);
-
-    dSisa := FCDSAP.FieldByName('ap_total').AsFloat - FCDSAP.FieldByName('ap_paid').AsFloat;
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPSisa.Index, dSisa);
-    cxGridTableAPList.SetValue(iBaris, cxGridColAPBayar.Index, dSisa);
+    iBaris := cxGridTableOther.RecordIndex;
+    cxGridTableOther.SetValue(iBaris, cxGridColOtherNama.Index, FCDSRekeningLain.FieldByName('Rekening_id').AsString);
   finally
-    FCDSAP.Filtered := False;
+    FCDSRekeningLain.Filtered := False;
   end;
 end;
 
@@ -214,6 +266,34 @@ begin
 end;
 
 procedure TfrmDialogBankCashOut.cxGridTableAPListDataControllerAfterPost(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.cxGridTableChequeDataControllerAfterDelete(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.cxGridTableChequeDataControllerAfterPost(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.cxGridTableOtherDataControllerAfterDelete(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.cxGridTableOtherDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 begin
   inherited;
@@ -251,6 +331,8 @@ begin
 
   lvSumary.Items[1].SubItems[0] := FormatFloat(',0.00;(,0.00)',dTotal);
 
+  dTotal := cxGridTableCheque.DataController.GetFooterSummaryFloat(cxGridColChequeBayar);
+  lvCheque.Items[0].SubItems[0] := FormatFloat(',0.00;(,0.00)',dTotal);
 
 end;
 
@@ -272,11 +354,47 @@ begin
   TcxExtLookupComboBoxProperties(cxGridTableAPList.Columns[cxGridColAPAP.Index].Properties).SetMultiPurposeLookup;
 end;
 
-procedure TfrmDialogBankCashOut.LoadData(AID : String);
-var
-  I: Integer;
+procedure TfrmDialogBankCashOut.InisialisasiCostCenter;
 begin
-//  ClearByTag([0,1]);
+  FreeAndNil(FCDSCostCenter);
+
+
+  FCDSCostCenter := TDBUtils.DSToCDS( DMClient.DSProviderClient.CostCenter_GetDSLookup(), Self );
+
+  TcxExtLookupComboBoxProperties(cxGridTableOther.Columns[cxGridColOtherCostCenter.Index].Properties).LoadFromCDS(FCDSCostCenter,'COST_CENTER_ID','COCTER_NAME',['COST_CENTER_ID'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableOther.Columns[cxGridColOtherCostCenter.Index].Properties).SetMultiPurposeLookup;
+
+end;
+
+procedure TfrmDialogBankCashOut.InisialisasiRekeningLain;
+begin
+  FCDSRekeningLain := TDBUtils.DSToCDS(DMClient.DSProviderClient.RekeningBCOLain_GetDSLookup(), Self, False);
+
+  TcxExtLookupComboBoxProperties(cxGridTableOther.Columns[cxGridColOtherKode.Index].Properties).LoadFromCDS(FCDSRekeningLain,'rekening_id','rek_code',['rekening_id'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableOther.Columns[cxGridColOtherKode.Index].Properties).SetMultiPurposeLookup;
+
+  TcxExtLookupComboBoxProperties(cxGridTableOther.Columns[cxGridColOtherNama.Index].Properties).LoadFromCDS(FCDSRekeningLain,'rekening_id','rek_name',['rekening_id'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableOther.Columns[cxGridColOtherNama.Index].Properties).SetMultiPurposeLookup;
+end;
+
+function TfrmDialogBankCashOut.IsBisaHapus: Boolean;
+begin
+  Result := False;
+
+  if not TAppUtils.ConfirmHapus then
+    Exit;
+  Result := True;
+end;
+
+procedure TfrmDialogBankCashOut.LoadData(AID : String);
+begin
+  ClearByTag([0,1]);
+
+  cxGridTableCheque.ClearRows;
+  cxGridTableAPList.ClearRows;
+  cxGridTableOther.ClearRows;
+  HitungSummary;
+
   if AID = '' then
     Exit;
 
@@ -292,11 +410,72 @@ begin
   cbbBank.EditValue := BCO.BCO_Bank.ID;
   memDesc.Text := BCO.BCO_Keterangan;
 
+  LoadDataBankCashOutAPItems;
+  LoadDataBankCashOutOtherItems;
+  LoadDataBankCashOutChequeItems;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.SetDataAPItems(ANoAP : String; ABaris :
+    Integer);
+var
+  dSisa: Double;
+begin
+  try
+    FCDSAP.Filter := ' AP_REfnum = ' + QuotedStr(ANoAP);
+    FCDSAP.Filter := FCDSAP.Filter + ' or AP_ID = ' + QuotedStr(ANoAP);
+    FCDSAP.Filtered := True;
+
+//    ABaris := cxGridTableAPList.DataController.FocusedRecordIndex;
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPTanggal.Index, FCDSAP.FieldByName('ap_transdate').AsDateTime);
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPJatuhTempo.Index, FCDSAP.FieldByName('ap_duedate').AsDateTime);
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPRekening.Index, FCDSAP.FieldByName('rek_code').AsString);
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPRekeningID.Index, FCDSAP.FieldByName('AP_REKENING_ID').AsString);
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPNominal.Index, FCDSAP.FieldByName('ap_total').AsFloat);
+    dSisa := FCDSAP.FieldByName('ap_total').AsFloat - FCDSAP.FieldByName('ap_paid').AsFloat;
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPSisa.Index, dSisa);
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPBayar.Index, dSisa);
+  finally
+    FCDSAP.Filtered := False;
+  end;
+end;
+
+procedure TfrmDialogBankCashOut.LoadDataBankCashOutAPItems;
+var
+  I: Integer;
+begin
   cxGridTableAPList.ClearRows;
   for I := 0 to BCO.BCO_BankCashOutAPItems.Count - 1 do
   begin
     cxGridTableAPList.DataController.AppendRecord;
     cxGridTableAPList.SetObjectData(BCO.BCO_BankCashOutAPItems[i], i);
+    SetDataAPItems(BCO.BCO_BankCashOutAPItems[i].BCOAP_AP.ID,i);
+  end;
+end;
+
+procedure TfrmDialogBankCashOut.LoadDataBankCashOutChequeItems;
+var
+  I: Integer;
+begin
+   cxGridTableCheque.ClearRows;
+   for I := 0 to BCO.BCO_BankCashOutChequeItems.Count - 1 do
+   begin
+     cxGridTableCheque.DataController.AppendRecord;
+     cxGridTableCheque.SetObjectData(BCO.BCO_BankCashOutChequeItems[i],i);
+
+   end;
+end;
+
+procedure TfrmDialogBankCashOut.LoadDataBankCashOutOtherItems;
+var
+  I: Integer;
+begin
+  cxGridTableOther.ClearRows;
+  for I := 0 to BCO.BCO_BankCashOutOtherItems.Count - 1 do
+  begin
+    cxGridTableOther.DataController.AppendRecord;
+    cxGridTableOther.SetObjectData(BCO.BCO_BankCashOutOtherItems[i], i);
+    cxGridTableOther.SetValue(i, cxGridColOtherNama.Index,BCO.BCO_BankCashOutOtherItems[i].BCOOTH_Rekening.ID);
   end;
 end;
 
@@ -312,6 +491,20 @@ begin
   InisialisasiAPList(FOrganization.ID);
 end;
 
+procedure TfrmDialogBankCashOut.UpdateAPChequeOtems;
+var
+  I: Integer;
+  lModBankCashOutChequeItem: TModBankCashOutChequeItem;
+begin
+  BCO.BCO_BankCashOutChequeItems.Clear;
+  for I := 0 to cxGridTableCheque.DataController.RecordCount - 1 do
+  begin
+    lModBankCashOutChequeItem := TModBankCashOutChequeItem.Create;
+    cxGridTableCheque.LoadObjectData(lModBankCashOutChequeItem, i);
+  end;
+
+end;
+
 procedure TfrmDialogBankCashOut.UpdateBankCashOutAPItems;
 var
   I: Integer;
@@ -323,6 +516,20 @@ begin
     lModBankCashOutAPItem := TModBankCashOutAPItem.Create;
     cxGridTableAPList.LoadObjectData(lModBankCashOutAPItem, i);
     BCO.BCO_BankCashOutAPItems.Add(lModBankCashOutAPItem);
+  end;
+end;
+
+procedure TfrmDialogBankCashOut.UpdateBankCashOutOtherItems;
+var
+  I: Integer;
+  lModBankCashOutOtherItem: TModBankCashOutOtherItem;
+begin
+  BCO.BCO_BankCashOutOtherItems.Clear;
+  for I := 0 to cxGridTableOther.DataController.RecordCount - 1 do
+  begin
+    lModBankCashOutOtherItem := TModBankCashOutOtherItem.Create;
+    cxGridTableOther.LoadObjectData(lModBankCashOutOtherItem, i);
+    BCO.BCO_BankCashOutOtherItems.Add(lModBankCashOutOtherItem);
   end;
 end;
 

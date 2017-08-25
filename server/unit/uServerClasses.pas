@@ -906,7 +906,9 @@ function TCrudBankCashOut.BeforeSaveToDB(AObject: TModApp): Boolean;
 begin
   Result := False;
 
-  TModBankCashOut(AObject).BCO_NoBukti := GenerateNo(TModBankCashOut.ClassName);
+  if AObject.ID = '' then
+    TModBankCashOut(AObject).BCO_NoBukti := GenerateNo(TModBankCashOut.ClassName);
+
   if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
     Result := True;
 end;

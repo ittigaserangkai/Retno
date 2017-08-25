@@ -76,6 +76,7 @@ type
   TModBankCashOutChequeItem = class(TModApp)
   private
     FBCOCHE_BankCashOut: TModBankCashOut;
+    FBCOCHE_JatuhTempo: TDatetime;
     FBCOCHE_Keterangan: string;
     FBCOCHE_No: string;
     FBCOCHE_Nominal: Double;
@@ -83,6 +84,8 @@ type
     [AttributeOfHeader('BCOCHE_BankCashOut_id')]
     property BCOCHE_BankCashOut: TModBankCashOut read FBCOCHE_BankCashOut write
         FBCOCHE_BankCashOut;
+    property BCOCHE_JatuhTempo: TDatetime read FBCOCHE_JatuhTempo write
+        FBCOCHE_JatuhTempo;
     property BCOCHE_Keterangan: string read FBCOCHE_Keterangan write
         FBCOCHE_Keterangan;
     property BCOCHE_No: string read FBCOCHE_No write FBCOCHE_No;
