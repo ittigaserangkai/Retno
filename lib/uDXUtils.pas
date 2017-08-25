@@ -24,6 +24,7 @@ type
   public
     function GetFooterSummary(ASummaryIndex: Integer): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
+    function GetFooterSummaryFloat(aColumn: TcxGridColumn): Double; overload;
   end;
 
   DBDataControllerHelper = class helper for TcxGridDBDataController
@@ -244,6 +245,27 @@ begin
 
       If FooterSummaryItems.Items[i].ItemLink = aColumn then
         Result := FooterSummaryValues[i];
+    end;
+  end;
+end;
+
+function DataControllerHelper.GetFooterSummaryFloat(aColumn: TcxGridColumn):
+    Double;
+var
+  i: Integer;
+begin
+  Result := 0;
+
+  with Self.Summary do
+  begin
+    for i :=0 to FooterSummaryItems.Count-1 do
+    begin
+//      If FooterSummaryItems.Items[i].ItemLink.ClassName <> aColumn.ClassName then
+//        continue;
+
+      If FooterSummaryItems.Items[i].ItemLink = aColumn then
+        if not VarIsNull(FooterSummaryValues[i]) then
+          Result := FooterSummaryValues[i];
     end;
   end;
 end;

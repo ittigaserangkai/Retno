@@ -61,6 +61,8 @@ type
     property DO_IS_BONUS: Integer read FDO_IS_BONUS write FDO_IS_BONUS;
     property DO_IS_JURNAL: Integer read FDO_IS_JURNAL write FDO_IS_JURNAL;
     property DO_IS_PAID: Integer read FDO_IS_PAID write FDO_IS_PAID;
+
+    [AttributeOfCode]
     property DO_NO: string read FDO_NO write FDO_NO;
     property DO_NP: string read FDO_NP write FDO_NP;
     property DO_PAYMENT: Double read FDO_PAYMENT write FDO_PAYMENT;

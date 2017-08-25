@@ -9,7 +9,7 @@ uses
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
-  uModDO, uServerClasses, uModOrganization, uModAP;
+  uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut;
 
 type
   TfrmMain = class(TForm)
@@ -138,13 +138,13 @@ begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModAP.ClassName, InputBox('ID','ID','87331E06-2AB0-40C5-984D-351DC5F873FB')) as TModAP do
+      with Retrieve(TModBankCashOut.ClassName, InputBox('ID','ID','87331E06-2AB0-40C5-984D-351DC5F873FB')) as TModBankCashOut do
       begin
         try
-          ShowMessage(AP_REFNUM);
-          ShowMessage(AP_ClassRef);
-          ShowMessage(DateTimeToStr(AP_DueDate));
-          ShowMessage(DateTimeToStr(AP_TRANSDATE));
+//          ShowMessage(AP_REFNUM);
+//          ShowMessage(AP_ClassRef);
+//          ShowMessage(DateTimeToStr(AP_DueDate));
+//          ShowMessage(DateTimeToStr(AP_TRANSDATE));
         finally
           Free;
         end;

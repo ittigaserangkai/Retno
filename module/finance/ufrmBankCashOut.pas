@@ -11,12 +11,16 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogBankCashOut;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogBankCashOut, uDBUtils,
+  Datasnap.DBClient, uClientClasses, uDMClient, System.DateUtils, uDXUtils;
 
 type
   TfrmBankCashOut = class(TfrmMasterBrowse)
+    procedure FormDestroy(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
+    FCDS: TClientDataset;
     { Private declarations }
   public
     procedure RefreshData; override;
@@ -30,15 +34,36 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmBankCashOut.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(FCDS);
+end;
+
 procedure TfrmBankCashOut.actAddExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogBankCashOut)
 end;
 
+procedure TfrmBankCashOut.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  if FCDS = nil then
+    Exit;
+
+  ShowDialogForm(TfrmDialogBankCashOut, FCDS.FieldByName('BANKCASHOUT_ID').AsString)
+end;
+
 procedure TfrmBankCashOut.RefreshData;
 begin
   inherited;
+
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.BankCashOut_GetDSByPeriod(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['BANKCASHOUT_ID','BCO_Bank_ID','BCO_Organization_ID',''],False);
+
 end;
 
 end.

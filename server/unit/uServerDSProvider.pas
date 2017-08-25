@@ -115,11 +115,16 @@ type
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function AP_GetDSLookUp: TDataSet;
+    function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
+    function Organization_GetDSLookup: TDataSet;
     function Shift_GetDSOverview: TDataSet;
     function DODetail_LookupAdjFak(aDOID: string): TDataset;
     function PO_GetDSOLookUpForAdj(aStartDate, aEndDate: TDatetime;
         aSuplierMerchanID: String): TDataset;
     function AutUser_GetDSOverview: TDataSet;
+    function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataset;
 
 
   end;
@@ -1134,6 +1139,32 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.AP_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_AP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_AP ' +
+       ' where  ap_organization_id = ' + QuotedStr(AOrgID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Organization_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select V_ORGANIZATION_ID, ORG_Code, ORG_Name from V_ORGANIZATION';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Shift_GetDSOverview: TDataSet;
 var
   S: string;
@@ -1182,6 +1213,18 @@ var
 begin
   S := 'SELECT * AUT$USER';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_BANKCASHOUT '
+    + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;
