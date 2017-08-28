@@ -298,6 +298,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         object cxGridColAPRekeningID: TcxGridColumn
           AlternateCaption = 'BCOAP_Rekening'
           Caption = 'RekeningID'
+          Visible = False
           Width = 78
         end
         object cxGridColAPRekening: TcxGridColumn

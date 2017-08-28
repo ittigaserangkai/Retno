@@ -1566,7 +1566,10 @@ begin
 
           case prop.PropertyType.TypeKind of
             tkInteger : prop.SetValue(AObject,Self.Int(ARow,i));
-            tkFloat   : prop.SetValue(AObject,Self.Double(ARow,i));
+            tkFloat   : If LowerCase(Prop.PropertyType.Name) = LowerCase('TDateTime') then
+                          prop.SetValue(AObject,Self.Date(ARow,i))
+                        ELSE
+                          prop.SetValue(AObject,Self.Double(ARow,i));
             tkUString : prop.SetValue(AObject,Self.Text(ARow,i));
             tkClass   : begin
                         meth := prop.PropertyType.GetMethod('ToArray');
