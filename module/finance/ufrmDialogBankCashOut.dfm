@@ -3,6 +3,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   ClientHeight = 466
   ClientWidth = 799
   OnDestroy = FormDestroy
+  ExplicitTop = -90
   ExplicitWidth = 815
   ExplicitHeight = 505
   PixelsPerInch = 96
@@ -21,6 +22,48 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       BevelKind = bkFlat
       BevelOuter = bvNone
       TabOrder = 0
+      object lblNoBukti: TLabel
+        Left = 22
+        Top = 7
+        Width = 42
+        Height = 16
+        Caption = 'No Bukti'
+      end
+      object lblTanggal: TLabel
+        Left = 27
+        Top = 34
+        Width = 37
+        Height = 16
+        Caption = 'Tanggal'
+      end
+      object lblOrganizasi: TLabel
+        Left = 11
+        Top = 61
+        Width = 53
+        Height = 16
+        Caption = 'Organisasi'
+      end
+      object lblBank: TLabel
+        Left = 328
+        Top = 7
+        Width = 24
+        Height = 16
+        Caption = 'Bank'
+      end
+      object lblKeteranan: TLabel
+        Left = 294
+        Top = 34
+        Width = 58
+        Height = 16
+        Caption = 'Keterangan'
+      end
+      object lblTotal: TLabel
+        Left = 328
+        Top = 88
+        Width = 24
+        Height = 16
+        Caption = 'Total'
+      end
       object cbbBank: TcxExtLookupComboBox
         Tag = 1
         Left = 360
@@ -187,56 +230,6 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Height = 50
         Width = 223
       end
-      object lbl24: TcxLabel
-        Left = 27
-        Top = 5
-        Caption = 'No Bukti'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-      end
-      object lbl13: TcxLabel
-        Left = 32
-        Top = 32
-        Caption = 'Tanggal'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-      end
-      object lbl1: TcxLabel
-        Left = 16
-        Top = 59
-        Caption = 'Organisasi'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-      end
-      object lbl17: TcxLabel
-        Left = 24
-        Top = 86
-        Caption = 'Penerima'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-        Visible = False
-      end
-      object lbl7: TcxLabel
-        Left = 297
-        Top = 5
-        Caption = 'Bank / Kas'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-      end
-      object lbl15: TcxLabel
-        Left = 293
-        Top = 32
-        Caption = 'Keterangan'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-      end
-      object lbl12: TcxLabel
-        Left = 313
-        Top = 86
-        Caption = 'Nominal'
-        Properties.Alignment.Horz = taLeftJustify
-        Transparent = True
-      end
     end
     object cxgrdDetail: TcxGrid
       Left = 2
@@ -349,16 +342,27 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
           item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
             Column = cxGridColOtherBayar
           end>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnAfterDelete = cxGridTableOtherDataControllerAfterDelete
+        DataController.OnAfterPost = cxGridTableOtherDataControllerAfterPost
+        OptionsBehavior.FocusFirstCellOnNewRecord = True
+        OptionsBehavior.GoToNextCellOnEnter = True
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsData.Appending = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColOtherKode: TcxGridColumn
+          AlternateCaption = 'BCOOTH_Rekening'
           Caption = 'Kode'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ImmediatePost = True
+          Properties.OnValidate = cxGridColOtherKodePropertiesValidate
           HeaderAlignmentHorz = taCenter
           Width = 121
         end
@@ -366,15 +370,26 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           Caption = 'Nama'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
+          Options.Editing = False
           Width = 123
         end
+        object cxGridColOtherCostCenter: TcxGridColumn
+          AlternateCaption = 'BCOOTH_CostCenter'
+          Caption = 'Cost Center'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 124
+        end
         object cxGridColOtherKeterangan: TcxGridColumn
+          AlternateCaption = 'BCOOTH_Keterangan'
           Caption = 'Keterangan'
           HeaderAlignmentHorz = taCenter
           Width = 147
         end
         object cxGridColOtherBayar: TcxGridColumn
+          AlternateCaption = 'BCOOTH_Nominal'
           Caption = 'Bayar'
+          DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -387,26 +402,43 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
           item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
             Column = cxGridColChequeBayar
           end>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnAfterDelete = cxGridTableChequeDataControllerAfterDelete
+        DataController.OnAfterPost = cxGridTableChequeDataControllerAfterPost
+        OptionsBehavior.FocusFirstCellOnNewRecord = True
+        OptionsBehavior.GoToNextCellOnEnter = True
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsData.Appending = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColChequeNo: TcxGridColumn
+          AlternateCaption = 'BCOCHE_No'
           Caption = 'Nomor'
           HeaderAlignmentHorz = taCenter
           Width = 104
         end
         object cxGridColChequeJatuhTempo: TcxGridColumn
+          AlternateCaption = 'BCOCHE_JatuhTempo'
           Caption = 'Jatuh Tempo'
           PropertiesClassName = 'TcxDateEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 133
         end
+        object cxGridColChequeKeterangan: TcxGridColumn
+          AlternateCaption = 'BCOCHE_Keterangan'
+          Caption = 'Keterangan'
+          Width = 103
+        end
         object cxGridColChequeBayar: TcxGridColumn
+          AlternateCaption = 'BCOCHE_Nominal'
           Caption = 'Bayar'
+          DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -481,6 +513,9 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   inherited actlstMasterDialog: TActionList
     Left = 448
     Top = 40
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 8/24/2017 2:49:37 PM
+// 8/25/2017 9:49:55 AM
 //
 
 unit uClientClasses;
@@ -282,6 +282,8 @@ type
     FAutUser_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBankCashOut_GetDSByPeriodCommand: TDSRestCommand;
     FBankCashOut_GetDSByPeriodCommand_Cache: TDSRestCommand;
+    FRekeningBCOLain_GetDSLookupCommand: TDSRestCommand;
+    FRekeningBCOLain_GetDSLookupCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -485,6 +487,8 @@ type
     function AutUser_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function BankCashOut_GetDSByPeriod_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RekeningBCOLain_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function RekeningBCOLain_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -2189,6 +2193,16 @@ const
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RekeningBCOLain_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RekeningBCOLain_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7006,6 +7020,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FBankCashOut_GetDSByPeriodCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.RekeningBCOLain_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FRekeningBCOLain_GetDSLookupCommand = nil then
+  begin
+    FRekeningBCOLain_GetDSLookupCommand := FConnection.CreateCommand;
+    FRekeningBCOLain_GetDSLookupCommand.RequestType := 'GET';
+    FRekeningBCOLain_GetDSLookupCommand.Text := 'TDSProvider.RekeningBCOLain_GetDSLookup';
+    FRekeningBCOLain_GetDSLookupCommand.Prepare(TDSProvider_RekeningBCOLain_GetDSLookup);
+  end;
+  FRekeningBCOLain_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekeningBCOLain_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekeningBCOLain_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RekeningBCOLain_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekeningBCOLain_GetDSLookupCommand_Cache = nil then
+  begin
+    FRekeningBCOLain_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FRekeningBCOLain_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FRekeningBCOLain_GetDSLookupCommand_Cache.Text := 'TDSProvider.RekeningBCOLain_GetDSLookup';
+    FRekeningBCOLain_GetDSLookupCommand_Cache.Prepare(TDSProvider_RekeningBCOLain_GetDSLookup_Cache);
+  end;
+  FRekeningBCOLain_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekeningBCOLain_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -7217,6 +7260,8 @@ begin
   FAutUser_GetDSOverviewCommand_Cache.DisposeOf;
   FBankCashOut_GetDSByPeriodCommand.DisposeOf;
   FBankCashOut_GetDSByPeriodCommand_Cache.DisposeOf;
+  FRekeningBCOLain_GetDSLookupCommand.DisposeOf;
+  FRekeningBCOLain_GetDSLookupCommand_Cache.DisposeOf;
   inherited;
 end;
 
