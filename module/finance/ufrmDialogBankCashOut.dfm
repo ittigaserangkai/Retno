@@ -3,7 +3,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   ClientHeight = 466
   ClientWidth = 799
   OnDestroy = FormDestroy
-  ExplicitTop = -90
+  ExplicitTop = -82
   ExplicitWidth = 815
   ExplicitHeight = 505
   PixelsPerInch = 96
@@ -68,6 +68,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Tag = 1
         Left = 360
         Top = 3
+        HelpType = htKeyword
+        HelpKeyword = 'Bank'
         Properties.DropDownAutoSize = True
         Properties.DropDownSizeable = True
         Properties.ImmediatePost = True
@@ -162,7 +164,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Tag = 1
         Left = 78
         Top = 3
-        Enabled = False
+        HelpType = htKeyword
+        HelpKeyword = 'No Bukti'
         Properties.Buttons = <
           item
             Default = True
@@ -201,6 +204,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Tag = 1
         Left = 78
         Top = 57
+        HelpType = htKeyword
+        HelpKeyword = 'Organisasi'
         Properties.Buttons = <
           item
             Default = True
@@ -216,6 +221,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Tag = 1
         Left = 78
         Top = 30
+        HelpType = htKeyword
+        HelpKeyword = 'Tanggal'
         Properties.ImmediatePost = True
         Properties.ShowTime = False
         TabOrder = 1
@@ -244,14 +251,17 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
           item
+            Format = ',0.00;(,0.00)'
             Kind = skSum
             Column = cxGridColAPNominal
           end
           item
+            Format = ',0.00;(,0.00)'
             Kind = skSum
             Column = cxGridColAPSisa
           end
           item
+            Format = ',0.00;(,0.00)'
             Kind = skSum
             Column = cxGridColAPBayar
           end>

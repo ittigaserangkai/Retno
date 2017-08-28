@@ -1297,7 +1297,7 @@ begin
 
     if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
     begin
-      EmptyCtrl := TWinControl(C);
+          EmptyCtrl := TWinControl(C);
       iTabOrd   := EmptyCtrl.TabOrder;
     end;
   end;
@@ -1314,7 +1314,7 @@ begin
         sMsg := 'Input Tidak Boleh Kosong';
 
       //for debugging
-      sMsg := sMsg + #13 + EmptyCtrl.ClassName + '.' + EmptyCtrl.Name;
+//      sMsg := sMsg + #13 + EmptyCtrl.ClassName + '.' + EmptyCtrl.Name;
 
       TAppUtils.Warning(sMsg);
     end;
@@ -1523,7 +1523,7 @@ end;
 
 function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
 begin
-  Result := Self.DataController.Values[ARec, ACol];
+  Result := VarToDateTime(Self.DataController.Values[ARec, ACol]);
 end;
 
 function TcxGridTableViewHelper.Int(ARec, ACol : Integer): Integer;

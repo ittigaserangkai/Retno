@@ -98,13 +98,13 @@ type
     procedure InisialisasiCostCenter;
     procedure InisialisasiRekeningLain;
     function IsBisaHapus: Boolean;
-    procedure LoadDataOrganization(AKode : String);
+    procedure LoadDataOrganization(AKodeAtauID : String; AIsLoadByKode : Boolean);
     procedure UpdateBankCashOutAPItems;
     procedure UpdateBankCashOutOtherItems;
     procedure LoadDataBankCashOutAPItems;
     procedure LoadDataBankCashOutChequeItems;
     procedure LoadDataBankCashOutOtherItems;
-    procedure SetDataAPItems(ANoAP : String; ABaris : Integer);
+    procedure SetDataAPItems(ANoAP : String; ABaris : Integer; AIsEdit : Boolean);
     procedure UpdateAPChequeOtems;
     { Private declarations }
   protected
@@ -206,7 +206,7 @@ begin
       if ShowModal = mrOK then
       begin
         edOrganization.Text := Data.FieldByName('org_code').AsString;
-        LoadDataOrganization(edOrganization.Text);
+        LoadDataOrganization(edOrganization.Text, True);
       end;
     Finally
       free;
@@ -227,7 +227,7 @@ begin
   if FCDSAP = nil then
     Exit;
 
-  SetDataAPItems(VarToStr(DisplayValue),cxGridTableAPList.RecordIndex);
+  SetDataAPItems(VarToStr(DisplayValue),cxGridTableAPList.RecordIndex, False);
 end;
 
 procedure TfrmDialogBankCashOut.cxGridColOtherKodePropertiesValidate(
@@ -306,7 +306,7 @@ procedure TfrmDialogBankCashOut.edOrganizationPropertiesValidate(
 begin
   inherited;
   FreeAndNil(FOrganization);
-  LoadDataOrganization(VarToStr(DisplayValue));
+  LoadDataOrganization(VarToStr(DisplayValue), True);
 end;
 
 function TfrmDialogBankCashOut.GetBCO: TModBankCashOut;
@@ -403,10 +403,8 @@ begin
   edNoBukti.Text := BCO.BCO_NoBukti;
   dtTanggal.Date := BCO.BCO_Tanggal;
 
-  BCO.BCO_Organization.Reload();
-
   edOrganization.Text := BCO.BCO_Organization.ORG_Code;
-  LoadDataOrganization(BCO.BCO_Organization.ORG_Code);
+  LoadDataOrganization(BCO.BCO_Organization.ID, False);
   cbbBank.EditValue := BCO.BCO_Bank.ID;
   memDesc.Text := BCO.BCO_Keterangan;
 
@@ -417,7 +415,7 @@ begin
 end;
 
 procedure TfrmDialogBankCashOut.SetDataAPItems(ANoAP : String; ABaris :
-    Integer);
+    Integer; AIsEdit : Boolean);
 var
   dSisa: Double;
 begin
@@ -432,9 +430,16 @@ begin
     cxGridTableAPList.SetValue(ABaris, cxGridColAPRekening.Index, FCDSAP.FieldByName('rek_code').AsString);
     cxGridTableAPList.SetValue(ABaris, cxGridColAPRekeningID.Index, FCDSAP.FieldByName('AP_REKENING_ID').AsString);
     cxGridTableAPList.SetValue(ABaris, cxGridColAPNominal.Index, FCDSAP.FieldByName('ap_total').AsFloat);
+
     dSisa := FCDSAP.FieldByName('ap_total').AsFloat - FCDSAP.FieldByName('ap_paid').AsFloat;
+    if AIsEdit then
+    begin
+      dSisa := dSisa + cxGridTableAPList.Double(ABaris, cxGridColAPBayar.Index);
+    end else begin
+      cxGridTableAPList.SetValue(ABaris, cxGridColAPBayar.Index, dSisa);
+    end;
+
     cxGridTableAPList.SetValue(ABaris, cxGridColAPSisa.Index, dSisa);
-    cxGridTableAPList.SetValue(ABaris, cxGridColAPBayar.Index, dSisa);
   finally
     FCDSAP.Filtered := False;
   end;
@@ -449,7 +454,9 @@ begin
   begin
     cxGridTableAPList.DataController.AppendRecord;
     cxGridTableAPList.SetObjectData(BCO.BCO_BankCashOutAPItems[i], i);
-    SetDataAPItems(BCO.BCO_BankCashOutAPItems[i].BCOAP_AP.ID,i);
+
+    SetDataAPItems(BCO.BCO_BankCashOutAPItems[i].BCOAP_AP.ID,i, True);
+
   end;
 end;
 
@@ -480,11 +487,19 @@ begin
 end;
 
 
-procedure TfrmDialogBankCashOut.LoadDataOrganization(AKode : String);
+procedure TfrmDialogBankCashOut.LoadDataOrganization(AKodeAtauID : String;
+    AIsLoadByKode : Boolean);
 begin
   edOrganizationName.Text := '';
 
-  FOrganization := DMClient.CrudClient.RetrieveByCode(TModOrganization.ClassName,  AKode) as TModOrganization;
+  if AIsLoadByKode then
+    FOrganization := DMClient.CrudClient.RetrieveByCode(TModOrganization.ClassName,  AKodeAtauID) as TModOrganization
+  else begin
+    FOrganization := DMClient.CrudClient.Retrieve(TModOrganization.ClassName,  AKodeAtauID) as TModOrganization;
+    if FOrganization <> nil then
+    edOrganization.Text := FOrganization.ORG_Code;
+  end;
+
   if FOrganization <> nil then
     edOrganizationName.Text := FOrganization.ORG_Name;
 
@@ -501,6 +516,8 @@ begin
   begin
     lModBankCashOutChequeItem := TModBankCashOutChequeItem.Create;
     cxGridTableCheque.LoadObjectData(lModBankCashOutChequeItem, i);
+
+    BCO.BCO_BankCashOutChequeItems.Add(lModBankCashOutChequeItem);
   end;
 
 end;
