@@ -837,7 +837,7 @@ begin
   with DMReport do
   begin
     AddReportVariable('UserCetak', 'USER');
-    ExecuteReport( 'reports/DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP));
+    ExecuteReport( 'reports/DO_NP' ,ReportClient.DO_GetDSNP(FModDO.DO_NP),[]);
   end;
 end;
 
@@ -846,7 +846,7 @@ begin
   with DMReport do
   begin
     AddReportVariable('UserCetak', 'USER');
-    ExecuteReport( 'reports/CHECKLIST_DO' ,ReportClient.DO_GetDS_CheckList(FModDO.DO_NP));
+    ExecuteReport( 'reports/CHECKLIST_DO' ,ReportClient.DO_GetDS_CheckList(FModDO.DO_NP),[]);
   end;
 end;
 

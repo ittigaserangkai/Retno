@@ -235,7 +235,7 @@ begin
   with DMReport do
   begin
     AddReportVariable('UserCetak', 'USER');
-    ExecuteReport('reports/BCO_Slip' ,ReportClient.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir, ANoBukti));
+    ExecuteReport('reports/BCO_Slip' ,ReportClient.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir, ANoBukti), ['BCO','BCO_DETAIL','BCO_CHEQUE']);
   end;
 end;
 
