@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Graphics, Controls, Forms,
   Dialogs, ufraFooterDialog3Button, ExtCtrls, ActnList, System.Actions,
-  System.Classes, Vcl.StdCtrls, uDXUtils;
+  System.Classes, Vcl.StdCtrls, uDXUtils, uDMReport;
 
 type
   TfrmMasterDialog = class(TForm)
@@ -42,6 +42,8 @@ type
     FLoginIsStore   : Integer;
     FFilePathReport : String;
 
+    procedure CetakSlip(APeriodeAwal, APeriodeAkhir: TDatetime; ANoBukti : String);
+        virtual;
     procedure SetDialogCompany(const Value: Integer);
     procedure SetDialogUnit(const Value: Integer);
     property DialogCompany: Integer read FDialogCompany write SetDialogCompany;
@@ -84,6 +86,12 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmMasterDialog.CetakSlip(APeriodeAwal, APeriodeAkhir: TDatetime;
+    ANoBukti : String);
+begin
+  
 end;
 
 procedure TfrmMasterDialog.FormClose(Sender: TObject; var Action: TCloseAction);

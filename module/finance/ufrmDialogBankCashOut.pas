@@ -15,11 +15,11 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
   cxGridCustomView, cxGrid, cxPC, uDMClient, uClientClasses, ufrmCXLookup,
   uModOrganization, uModBankCashOut, Datasnap.DBClient, uDXUtils,
-  uDBUtils, uModBank, uAppUtils, uInterface, uModelHelper;
+  uDBUtils, uModBank, uAppUtils, uInterface, uModelHelper, uDMReport;
 
 type
   TfrmDialogBankCashOut = class(TfrmMasterDialog, ICRUDAble)
-    pnlDetail2: TPanel;
+    pnlBCOHeader: TPanel;
     cbbBank: TcxExtLookupComboBox;
     lvSumary: TcxListView;
     lvCheque: TcxListView;
@@ -61,6 +61,7 @@ type
     lblKeteranan: TLabel;
     lblTotal: TLabel;
     procedure actDeleteExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -111,6 +112,8 @@ type
     procedure LoadData(AID : String);
     property BCO: TModBankCashOut read GetBCO write FBCO;
   public
+    procedure CetakSlip(APeriodeAwal, APeriodeAkhir: TDatetime; ANoBukti : String);
+        override;
     { Public declarations }
   published
     property CDSBank: TClientDataset read FCDSBank write FCDSBank;
@@ -136,6 +139,12 @@ begin
   end;
 end;
 
+procedure TfrmDialogBankCashOut.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  CetakSlip(BCO.BCO_Tanggal, BCO.BCO_Tanggal, BCO.BCO_NoBukti);
+end;
+
 procedure TfrmDialogBankCashOut.actSaveExecute(Sender: TObject);
 var
   sID: string;
@@ -147,6 +156,12 @@ begin
   if FOrganization = nil then
   begin
     TAppUtils.Error('Organisasi Belum Dipilih');
+    Exit;
+  end;
+
+  if edSummaryAll.Value <= 0 then
+  begin
+    TAppUtils.Error('Total Pembayaran Harus > 0');
     Exit;
   end;
 
@@ -211,6 +226,16 @@ begin
     Finally
       free;
     End;
+  end;
+end;
+
+procedure TfrmDialogBankCashOut.CetakSlip(APeriodeAwal, APeriodeAkhir:
+    TDatetime; ANoBukti : String);
+begin
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport('reports/BCO_Slip' ,ReportClient.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir, ANoBukti));
   end;
 end;
 

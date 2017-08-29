@@ -223,7 +223,8 @@ uses
   ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut},
   ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
   ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
-  uModBankCashOut in '..\model\uModBankCashOut.pas';
+  uModBankCashOut in '..\model\uModBankCashOut.pas',
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
 
 {$R *.res}
 

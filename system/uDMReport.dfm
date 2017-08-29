@@ -700,10 +700,9 @@ object DMReport: TDMReport
         BorderStyle = bsNone
         OutlineVisible = False
         OutlineWidth = 120
-        ThumbnailVisible = True
+        ThumbnailVisible = False
         OnPageChanged = frxPreview2PageChanged
         UseReportHints = True
-        ExplicitTop = -6
       end
     end
     object tsGraphic: TcxTabSheet
@@ -718,11 +717,9 @@ object DMReport: TDMReport
         BorderStyle = bsNone
         OutlineVisible = False
         OutlineWidth = 120
-        ThumbnailVisible = True
+        ThumbnailVisible = False
         OnPageChanged = frxPreview1PageChanged
         UseReportHints = True
-        ExplicitLeft = -3
-        ExplicitTop = 3
       end
     end
   end
