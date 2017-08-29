@@ -42,6 +42,7 @@ type
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string): TStrings;
   end;
 
   TSuggestionOrder = class(TBaseServerClass)
@@ -131,7 +132,7 @@ implementation
 
 uses
   System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO,
-  uModCNRecv, uModDNRecv, uModAdjustmentFaktur;
+  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -366,6 +367,36 @@ end;
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
 begin
   Result := TDBUtils.GenerateSQL(AObject);
+end;
+
+function TCrud.UpdateToDB(aDS: TDataSet; ModClassName: string): TStrings;
+var
+  lClass: TModAppClass;
+  lMod: TModApp;
+  sSQL: string;
+begin
+  Result := TStringList.Create;
+  lClass := Self.StringToClass(ModClassName);
+
+  if not Assigned(lClass) then
+    raise Exception.Create('Class ' + ModClassName + ' not found');
+
+  while not aDS.Eof do
+  begin
+    lMod := lClass.Create;
+    try
+      TDBUtils.LoadFromDataset(lMod, aDS);
+      sSQL := 'update ' + lMod.GetTableName
+            + ' set ' + lMod.GetPrimaryField
+            + ' = ' + QuotedStr(SaveToDBID(lMod))
+            + ' where ' + lMod.GetPOSField
+            + ' = ' + VarToStr(lMod.GetPOSValue);
+      Result.Add(sSQL);
+    finally
+      lMod.Free;
+    end;
+    aDS.Next
+  end;
 end;
 
 function TCrud.ValidateCode(AOBject: TModApp): Boolean;

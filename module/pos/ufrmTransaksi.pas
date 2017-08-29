@@ -377,7 +377,7 @@ begin
     begin
       if Values[i, _KolPLU] = '' then Continue;
 
-      Result := Result + (Values[i, _KolTotal]); //Ceil
+      Result := Result + Values[i, _KolTotal]; //Ceil
       TotalColie := TotalColie + Round(Values[i, _KolJumlah]);
 
       if (Values[i, _KolIsDiscGMC] = '1')
@@ -437,7 +437,6 @@ begin
 //  {$IFDEF RMS}
   sgTransaksi.SetVisibleColumns(_KolDiscMan, _KolDiscMan, False);
 //  {$ENDIF}
-
   sgTransaksi.SetVisibleColumns(_KolIsDecimal, _ColCount, False);
 
   if (edNoPelanggan.Text = '') or (edNoPelanggan.Text = '0') then
@@ -548,7 +547,7 @@ begin
   begin
     dTotalHargaGross := (Values[ARow, _KolHarga] * Values[ARow, _KolJumlah]);
     Result := RoundTo(dTotalHargaGross - (Values[ARow, _KolDisc] * Values[ARow, _KolJumlah])
-           - (Values[ARow, _KolDiscMan] * Values[ARow, _KolJumlah]) , igPrice_Precision); //Ceil
+           - (Values[ARow, _KolDiscMan] * Values[ARow, _KolJumlah]), igPrice_Precision); //Ceil
 
 	  {Result := (((100 - Values[ARow, _KolDisc])/100) * dTotalHargaGross) +
     	((dTotalHargaGross * Values[ARow, _KolPPN]) / 100) +
@@ -818,7 +817,7 @@ begin
 //                    Row      := RowCount - 1;
 //                    AutoNumberCol(0);
                   end;
-									if (iFoundInGrid = 0) and (SellPrice = 0)
+									if (iFoundInGrid < 0) and (SellPrice = 0)
                   and (aIsLookupActive) then
 									begin
 										lblHargaKontrabon.Visible  := True;
@@ -1178,6 +1177,8 @@ begin
 //  sgTransaksi.RowCount := 2;
   //edNoPelanggan.Text := GetDefaultMember;
   //edNoPelangganExit(edNoPelanggan);
+  sgTransaksi.ClearRows;
+
   Transaksi_ID         := 0;
   edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
   HitungTotalRupiah;
@@ -1255,7 +1256,7 @@ begin
           with sgTransaksi do
           begin
             POSTransactionItems.Clear;
-            for i := 1 to DataController.RecordCount - 1 do
+            for i := 0 to DataController.RecordCount - 1 do
             begin
               if DataController.Values[i, _KolPLU] = '' then Continue;
 

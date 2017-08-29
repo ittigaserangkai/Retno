@@ -162,7 +162,7 @@ begin
         dtTgl.Date,
         sNomorSO,
         sNomorSO
-      )
+      ),[]
     );
   end;
 end;

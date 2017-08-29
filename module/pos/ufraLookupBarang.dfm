@@ -72,6 +72,7 @@ object fraLookupBarang: TfraLookupBarang
     Height = 34
     Align = alBottom
     Color = clYellow
+    ParentBackground = False
     TabOrder = 1
     Visible = False
     DesignSize = (
@@ -108,6 +109,7 @@ object fraLookupBarang: TfraLookupBarang
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
       object sgBarangColumn1: TcxGridColumn
         Caption = 'PLU'
         PropertiesClassName = 'TcxTextEditProperties'
@@ -115,7 +117,7 @@ object fraLookupBarang: TfraLookupBarang
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Styles.Header = frmTransaksi.cxStyleBold
-        Width = 27
+        Width = 39
       end
       object sgBarangColumn2: TcxGridColumn
         Caption = 'Satuan'
@@ -124,7 +126,7 @@ object fraLookupBarang: TfraLookupBarang
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Styles.Header = frmTransaksi.cxStyleBold
-        Width = 45
+        Width = 57
       end
       object sgBarangColumn3: TcxGridColumn
         Caption = 'Nama Barang'
@@ -133,7 +135,7 @@ object fraLookupBarang: TfraLookupBarang
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Styles.Header = frmTransaksi.cxStyleBold
-        Width = 80
+        Width = 92
       end
       object sgBarangColumn4: TcxGridColumn
         Caption = 'Harga Dasar'
@@ -143,7 +145,7 @@ object fraLookupBarang: TfraLookupBarang
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Styles.Header = frmTransaksi.cxStyleBold
-        Width = 75
+        Width = 87
       end
       object sgBarangColumn5: TcxGridColumn
         Caption = 'Diskon'
@@ -153,7 +155,7 @@ object fraLookupBarang: TfraLookupBarang
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Styles.Header = frmTransaksi.cxStyleBold
-        Width = 43
+        Width = 55
       end
       object sgBarangColumn6: TcxGridColumn
         Caption = 'Harga'
@@ -164,6 +166,15 @@ object fraLookupBarang: TfraLookupBarang
         Options.Editing = False
         Styles.Header = frmTransaksi.cxStyleBold
         Width = 51
+      end
+      object sgBarangColumn7: TcxGridColumn
+        Caption = 'IsActive'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.Alignment.Horz = taCenter
+        Properties.ReadOnly = True
+        HeaderAlignmentHorz = taCenter
+        Styles.Header = frmTransaksi.cxStyleBold
+        Width = 64
       end
     end
     object grdlvlLookupMember: TcxGridLevel

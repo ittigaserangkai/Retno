@@ -14,7 +14,7 @@ uses
   Data.FireDACJSONReflect, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, uClientClasses,
-  uDMClient, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, uTSFastReportFunction;
+  uDMClient, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin;
 
 type
   TDMReport = class(TForm)
@@ -57,8 +57,6 @@ type
     FDMemTable2: TFDMemTable;
     FDStanStorageBinLink1: TFDStanStorageBinLink;
     FDStanStorageJSONLink1: TFDStanStorageJSONLink;
-    IBQ3: TfrxDBDataset;
-    FDMemTable3: TFDMemTable;
     procedure actCloseExecute(Sender: TObject);
     procedure actPrintCloseExecute(Sender: TObject);
     procedure actPrintDlgExecute(Sender: TObject);
@@ -103,8 +101,8 @@ type
     procedure SetReportPath(const Value: string);
   public
     procedure AddReportVariable(AVariableName: String; AVariableValue: String);
-    procedure ExecuteReport(aReportName: String; aListDataset: TFDJSONDataSets;
-        ANamaQuery : Array of string); overload;
+    procedure ExecuteReport(aReportName: String; aListDataset: TFDJSONDataSets);
+        overload;
     function IsBisaDesignReport: Boolean;
     property BisaDesignReport: Boolean read FBisaDesignReport write
         FBisaDesignReport;
@@ -219,7 +217,7 @@ begin
 end;
 
 procedure TDMReport.ExecuteReport(aReportName: String; aListDataset:
-    TFDJSONDataSets; ANamaQuery : Array of string);
+    TFDJSONDataSets);
 var
   sTextReportFile: string;
 //  sSQL: string;
@@ -237,8 +235,8 @@ begin
 //  Filter2 := '';
 
   FReportName := aReportName;
-  sReportFile := Self.ReportPath + '\' + FReportName + '.fr3';
-  sTextReportFile := Self.ReportPath + '\' + FReportName + '_txt.fr3';
+  sReportFile := Self.ReportPath + FReportName + '.fr3';
+  sTextReportFile := Self.ReportPath + FReportName + '_txt.fr3';
 
   //tambahakan variabel report disini, sementara hardcoded dulu
   frxGlobalVariables['COMP'] := 'Goro Assalaam';
@@ -256,31 +254,13 @@ begin
   FDMemTable2.Close;
 
 
-  if high(ANamaQuery) = 0 then
-  begin
-    ANamaQuery[0] := 'IBQ1';
-    ANamaQuery[1] := 'IBQ2';
-    ANamaQuery[2] := 'IBQ3';
-  end;
-
   FDMemTable1.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 0));
   FDMemTable1.Open;
-  IBQ1.UserName := ANamaQuery[0];
 
-  if dsCount > 1 then   //sementara 3 dataset dulu gan..
+  if dsCount > 1 then   //sementara 2 dataset dulu gan..
   begin
     FDMemTable2.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 1));
     FDMemTable2.Open;
-
-    IBQ2.UserName := ANamaQuery[1];
-  end;
-
-  if dsCount > 2 then   //sementara 3 dataset dulu gan..
-  begin
-    FDMemTable3.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 2));
-    FDMemTable3.Open;
-
-    IBQ3.UserName := ANamaQuery[2];
   end;
 
   frxReport1.FileName := sReportFile;

@@ -137,6 +137,8 @@ type
         ANoBukti : String): TFDJSONDataSets;
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
+    function DSA_GetDS(aStartDate, aEndDate: TDatetime): TDataSet;
+    function DSR_GetDS(aStartDate, aEndDate: TDatetime): TFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
         aGudang_ID: string): TDataSet;
     function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
@@ -1331,6 +1333,30 @@ begin
   Result := TFDJSONDataSets.Create;
 
   S := 'SELECT * FROM V_CHECKLIST_DO where DO_NP = ' + QuotedStr(ANONP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.DSA_GetDS(aStartDate, aEndDate: TDatetime): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * '
+      +' FROM FN_DAILY_SALES_ANALYSIS('+ TDBUtils.QuotD(aStartDate)
+      +' ,' + TDBUtils.QuotD(aEndDate) + ') ';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.DSR_GetDS(aStartDate, aEndDate: TDatetime): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * '
+      +' FROM FN_DAILY_SALES_REPORT('+ TDBUtils.QuotD(aStartDate)
+      +' ,' + TDBUtils.QuotD(aEndDate) + ') ';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;

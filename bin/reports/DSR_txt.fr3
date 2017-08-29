@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42851.6618599421" ReportOptions.Description.Text="" ReportOptions.LastChange="42976.6901758218" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end.">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="IBQ1"/>
+  </Datasets>
+  <Styles>
+    <item Name="Style1" Font.Charset="1" Font.Color="-16777208" Font.Height="-12" Font.Name="Arial" Font.Style="0" ApplyFill="False" ApplyFrame="False"/>
+  </Styles>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="330.199786745971" PaperHeight="422.803893605819" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="4.49791376176403" BottomMargin="4.49791376176403" ColumnWidth="102.869933563168" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="1037" Left="0" Top="17" Width="1228.8" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="IBQ1" RowCount="0">
+      <TfrxDMPMemoView Name="IBQ1KB_BKP" Left="403.2" Top="204" Width="182.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_BKP&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="0" Top="85" Width="1228.8" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="-------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="0" Top="136" Width="1228.8" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="-------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="0" Top="102" Width="614.4" Height="34" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="P E N J U A L A N"/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="614.4" Top="102" Width="614.4" Height="34" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="K A S"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="604.8" Top="136" Width="19.2" Height="867" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="9.6" Top="170" Width="576" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penerimaan Per Kelompok Barang"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="9.6" Top="187" Width="576" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="38.4" Top="204" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Barang Kena Pajak (BKP)"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="38.4" Top="221" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Barang Tidak Kena Pajak (BTKP)"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="38.4" Top="238" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Refund Penjualan BKP"/>
+      <TfrxDMPMemoView Name="DMPMemo11" Left="38.4" Top="255" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Refund Penjualan BTKP"/>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="38.4" Top="272" Width="547.2" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="124.8" Top="289" Width="268.8" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Kotor Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="38.4" Top="323" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="PPn Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="38.4" Top="340" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Refund PPn Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo16" Left="124.8" Top="374" Width="268.8" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Pajak Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="38.4" Top="408" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="TOTAL PENJUALAN BERSIH"/>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="38.4" Top="357" Width="547.2" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="393.6" Top="204" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo20" Left="393.6" Top="221" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo21" Left="393.6" Top="238" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo22" Left="393.6" Top="255" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo23" Left="393.6" Top="289" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo24" Left="393.6" Top="323" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="393.6" Top="340" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo26" Left="393.6" Top="374" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo27" Left="393.6" Top="408" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="IBQ1KB_BTKP" Left="403.2" Top="221" Width="182.4" Height="17" DataField="KB_BTKP" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_BTKP&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_RFU_BKP" Left="403.2" Top="238" Width="182.4" Height="17" DataField="KB_RFU_BKP" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_RFU_BKP&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_RFU_BTKP" Left="403.2" Top="255" Width="182.4" Height="17" DataField="KB_RFU_BTKP" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_RFU_BTKP&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_BRU_JUAL" Left="403.2" Top="289" Width="182.4" Height="17" DataField="KB_BRU_JUAL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_BRU_JUAL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_PPN" Left="403.2" Top="323" Width="182.4" Height="17" DataField="KB_PPN" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_PPN&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_RFU_PPN" Left="403.2" Top="340" Width="182.4" Height="17" DataField="KB_RFU_PPN" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_RFU_PPN&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_BRU_PPN" Left="403.2" Top="374" Width="182.4" Height="17" DataField="KB_BRU_PPN" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_BRU_PPN&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1KB_NET" Left="403.2" Top="408" Width="182.4" Height="17" DataField="KB_NET" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;KB_NET&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo28" Left="9.6" Top="442" Width="576" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Penerimaan Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo29" Left="9.6" Top="459" Width="576" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo30" Left="38.4" Top="476" Width="124.8" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Kas"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="57.6" Top="493" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Sales"/>
+      <TfrxDMPMemoView Name="DMPMemo32" Left="57.6" Top="510" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Adjust"/>
+      <TfrxDMPMemoView Name="DMPMemo33" Left="57.6" Top="527" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Refund"/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="38.4" Top="561" Width="124.8" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Debet"/>
+      <TfrxDMPMemoView Name="DMPMemo35" Left="38.4" Top="646" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Kredit Card & Pembayaran TOP"/>
+      <TfrxDMPMemoView Name="DMPMemo36" Left="57.6" Top="578" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Sales"/>
+      <TfrxDMPMemoView Name="DMPMemo37" Left="57.6" Top="595" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Adjust"/>
+      <TfrxDMPMemoView Name="DMPMemo38" Left="57.6" Top="612" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Refund"/>
+      <TfrxDMPMemoView Name="DMPMemo39" Left="57.6" Top="663" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Sales"/>
+      <TfrxDMPMemoView Name="DMPMemo40" Left="57.6" Top="680" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Adjust"/>
+      <TfrxDMPMemoView Name="DMPMemo41" Left="57.6" Top="697" Width="105.6" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="* Refund"/>
+      <TfrxDMPMemoView Name="DMPMemo42" Left="163.2" Top="493" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo43" Left="163.2" Top="510" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo44" Left="163.2" Top="527" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo45" Left="163.2" Top="595" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo46" Left="163.2" Top="578" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo47" Left="163.2" Top="612" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo48" Left="163.2" Top="663" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo49" Left="163.2" Top="680" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo50" Left="163.2" Top="697" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo51" Left="38.4" Top="731" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Kupon Toko"/>
+      <TfrxDMPMemoView Name="DMPMemo52" Left="38.4" Top="748" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Kupon Lain-lain"/>
+      <TfrxDMPMemoView Name="DMPMemo53" Left="38.4" Top="765" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Kupon Botol"/>
+      <TfrxDMPMemoView Name="DMPMemo54" Left="38.4" Top="782" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Adjust Kupon"/>
+      <TfrxDMPMemoView Name="DMPMemo55" Left="38.4" Top="799" Width="547.2" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo56" Left="124.8" Top="816" Width="268.8" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Kupon Bersih"/>
+      <TfrxDMPMemoView Name="DMPMemo57" Left="38.4" Top="850" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Penerimaan Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo58" Left="38.4" Top="867" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Selisih Pembulatan"/>
+      <TfrxDMPMemoView Name="DMPMemo59" Left="38.4" Top="884" Width="307.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Biaya Kartu Kredit"/>
+      <TfrxDMPMemoView Name="DMPMemo60" Left="124.8" Top="918" Width="268.8" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="T O T A L"/>
+      <TfrxDMPMemoView Name="DMPMemo61" Left="38.4" Top="901" Width="547.2" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo62" Left="38.4" Top="952" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="TOTAL POTONGAN PENJUALAN"/>
+      <TfrxDMPMemoView Name="DMPMemo63" Left="393.6" Top="952" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo64" Left="393.6" Top="918" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo65" Left="393.6" Top="884" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo66" Left="393.6" Top="867" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo67" Left="393.6" Top="850" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo68" Left="393.6" Top="816" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo69" Left="393.6" Top="782" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo70" Left="393.6" Top="765" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo71" Left="393.6" Top="748" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo72" Left="393.6" Top="731" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo73" Left="393.6" Top="697" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo74" Left="393.6" Top="612" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo75" Left="393.6" Top="527" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KAS_SAL" Left="182.4" Top="493" Width="182.4" Height="17" DataField="PP_KAS_SAL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KAS_SAL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KAS_ADJ" Left="182.4" Top="510" Width="182.4" Height="17" DataField="PP_KAS_ADJ" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KAS_ADJ&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KAS_RFU" Left="182.4" Top="527" Width="182.4" Height="17" DataField="PP_KAS_RFU" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KAS_RFU&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_DEB_SAL" Left="182.4" Top="578" Width="182.4" Height="17" DataField="PP_DEB_SAL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_DEB_SAL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_DEB_RFU" Left="182.4" Top="612" Width="182.4" Height="17" DataField="PP_DEB_RFU" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_DEB_RFU&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_DEB_ADJ" Left="182.4" Top="595" Width="182.4" Height="17" DataField="PP_DEB_ADJ" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_DEB_ADJ&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_CARD_SAL" Left="182.4" Top="663" Width="182.4" Height="17" DataField="PP_CARD_SAL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_CARD_SAL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_CARD_ADJ" Left="182.4" Top="680" Width="182.4" Height="17" DataField="PP_CARD_ADJ" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_CARD_ADJ&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_CARD_RFU" Left="182.4" Top="697" Width="182.4" Height="17" DataField="PP_CARD_RFU" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_CARD_RFU&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_DEB_SUB" Left="403.2" Top="612" Width="182.4" Height="17" DataField="PP_DEB_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_DEB_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KAS_SUB" Left="403.2" Top="527" Width="182.4" Height="17" DataField="PP_KAS_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KAS_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_CARD_SUB" Left="403.2" Top="697" Width="182.4" Height="17" DataField="PP_CARD_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_CARD_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KUP_GR" Left="403.2" Top="731" Width="182.4" Height="17" DataField="PP_KUP_GR" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KUP_GR&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KUP_LL" Left="403.2" Top="748" Width="182.4" Height="17" DataField="PP_KUP_LL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KUP_LL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KUP_BTL" Left="403.2" Top="765" Width="182.4" Height="17" DataField="PP_KUP_BTL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KUP_BTL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KUP_ADJ" Left="403.2" Top="782" Width="182.4" Height="17" DataField="PP_KUP_ADJ" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KUP_ADJ&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_KUP_SUB" Left="403.2" Top="816" Width="182.4" Height="17" DataField="PP_KUP_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_KUP_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_TOTAL" Left="403.2" Top="850" Width="182.4" Height="17" DataField="PP_TOTAL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_TOTAL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_BULAT" Left="403.2" Top="867" Width="182.4" Height="17" DataField="PP_BULAT" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_BULAT&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_CARD_FEE" Left="403.2" Top="884" Width="182.4" Height="17" DataField="PP_CARD_FEE" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_CARD_FEE&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_NET" Left="403.2" Top="918" Width="182.4" Height="17" DataField="PP_NET" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_NET&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1PP_POT" Left="403.2" Top="952" Width="182.4" Height="17" DataField="PP_POT" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;PP_POT&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo77" Left="643.2" Top="170" Width="374.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Saldo Awal"/>
+      <TfrxDMPMemoView Name="IBQ1K_AWAL" Left="1027.2" Top="170" Width="172.8" Height="17" DataField="K_AWAL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_AWAL&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo78" Left="1017.6" Top="170" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo79" Left="643.2" Top="238" Width="374.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penerimaan Penjualan"/>
+      <TfrxDMPMemoView Name="DMPMemo80" Left="691.2" Top="255" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penerimaan Penjualan Kas"/>
+      <TfrxDMPMemoView Name="DMPMemo81" Left="691.2" Top="272" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penjualan Kupon"/>
+      <TfrxDMPMemoView Name="DMPMemo82" Left="691.2" Top="289" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Discount Penjualan Kupon"/>
+      <TfrxDMPMemoView Name="DMPMemo83" Left="691.2" Top="306" Width="508.8" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo84" Left="787.2" Top="323" Width="230.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Penerimaan"/>
+      <TfrxDMPMemoView Name="DMPMemo85" Left="643.2" Top="374" Width="374.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penerimaan Lain-Lain"/>
+      <TfrxDMPMemoView Name="DMPMemo86" Left="691.2" Top="391" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penerimaan Void"/>
+      <TfrxDMPMemoView Name="DMPMemo87" Left="691.2" Top="408" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Selisih Kasir (+)"/>
+      <TfrxDMPMemoView Name="DMPMemo88" Left="691.2" Top="425" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Penerimaan Lain-Lain"/>
+      <TfrxDMPMemoView Name="DMPMemo89" Left="691.2" Top="442" Width="508.8" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo90" Left="787.2" Top="459" Width="230.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Penerimaan Lain"/>
+      <TfrxDMPMemoView Name="DMPMemo91" Left="643.2" Top="510" Width="374.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Pengeluaran Lain-Lain"/>
+      <TfrxDMPMemoView Name="DMPMemo92" Left="691.2" Top="527" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Pengeluaran Void"/>
+      <TfrxDMPMemoView Name="DMPMemo93" Left="691.2" Top="544" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Selisih Kasir (-)"/>
+      <TfrxDMPMemoView Name="DMPMemo94" Left="691.2" Top="561" Width="326.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Pengeluaran Lain-Lain"/>
+      <TfrxDMPMemoView Name="DMPMemo95" Left="691.2" Top="578" Width="508.8" Height="17" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="--------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo96" Left="787.2" Top="595" Width="230.4" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="Total Pengeluaran Lain"/>
+      <TfrxDMPMemoView Name="DMPMemo97" Left="633.6" Top="680" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="TOTAL KAS"/>
+      <TfrxDMPMemoView Name="DMPMemo98" Left="633.6" Top="731" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="SALDO AKHIR"/>
+      <TfrxDMPMemoView Name="DMPMemo99" Left="633.6" Top="816" Width="355.2" Height="17" TruncOutboundText="False" VAlign="vaCenter" Text="SETOR ke BANK"/>
+      <TfrxDMPMemoView Name="DMPMemo101" Left="1017.6" Top="255" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo102" Left="1017.6" Top="272" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo103" Left="1017.6" Top="289" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo104" Left="1017.6" Top="323" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo106" Left="1017.6" Top="391" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo107" Left="1017.6" Top="408" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo108" Left="1017.6" Top="425" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo109" Left="1017.6" Top="459" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo111" Left="1017.6" Top="527" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo112" Left="1017.6" Top="544" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo113" Left="1017.6" Top="561" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo114" Left="1017.6" Top="595" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo115" Left="1017.6" Top="680" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo116" Left="1017.6" Top="731" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo117" Left="1017.6" Top="816" Width="9.6" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo76" Left="0" Top="986" Width="1228.8" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="-------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo119" Left="604.8" Top="85" Width="19.2" Height="68" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="IBQ1K_TJ_KAS" Left="1027.2" Top="255" Width="172.8" Height="17" DataField="K_TJ_KAS" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TJ_KAS&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TJ_KPN" Left="1027.2" Top="272" Width="172.8" Height="17" DataField="K_TJ_KPN" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TJ_KPN&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TJ_KPN_DISC" Left="1027.2" Top="289" Width="172.8" Height="17" DataField="K_TJ_KPN_DISC" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TJ_KPN_DISC&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TJ_SUB" Left="1027.2" Top="323" Width="172.8" Height="17" DataField="K_TJ_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TJ_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TL_VOID" Left="1027.2" Top="391" Width="172.8" Height="17" DataField="K_TL_VOID" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TL_VOID&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TL_KSR" Left="1027.2" Top="408" Width="172.8" Height="17" DataField="K_TL_KSR" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TL_KSR&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TL_LL" Left="1027.2" Top="425" Width="172.8" Height="17" DataField="K_TL_LL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TL_LL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TL_SUB" Left="1027.2" Top="459" Width="172.8" Height="17" DataField="K_TL_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TL_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_KL_VOID" Left="1027.2" Top="527" Width="172.8" Height="17" DataField="K_KL_VOID" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_KL_VOID&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_KL_LL" Left="1027.2" Top="561" Width="172.8" Height="17" DataField="K_KL_LL" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_KL_LL&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_KL_KSR" Left="1027.2" Top="544" Width="172.8" Height="17" DataField="K_KL_KSR" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_KL_KSR&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_KL_SUB" Left="1027.2" Top="595" Width="172.8" Height="17" DataField="K_KL_SUB" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_KL_SUB&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_TOT" Left="1027.2" Top="680" Width="172.8" Height="17" DataField="K_TOT" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_TOT&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_AKHIR" Left="1027.2" Top="731" Width="172.8" Height="17" DataField="K_AKHIR" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_AKHIR&#34;]"/>
+      <TfrxDMPMemoView Name="IBQ1K_SETOR" Left="1027.2" Top="816" Width="172.8" Height="17" DataField="K_SETOR" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" VAlign="vaCenter" Text="[IBQ1.&#34;K_SETOR&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo100" Left="470.4" Top="34" Width="288" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="Daily Sales Report"/>
+      <TfrxDMPMemoView Name="DMPMemo105" Left="470.4" Top="51" Width="288" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="============================="/>
+      <TfrxDMPMemoView Name="DMPMemo110" Left="470.4" Top="68" Width="288" Height="17" HAlign="haCenter" TruncOutboundText="False" VAlign="vaCenter" Text="[DateStart]   -   [DateEnd]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo118" Left="1017.6" Top="0" Width="211.2" Height="68" TruncOutboundText="False" Text="Date   : [Date]&#13;&#10;Time   : [Time]&#13;&#10;User   : [UserCetak]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo120" Left="0" Top="0" Width="393.6" Height="17" TruncOutboundText="False" Text="PT. ASSALAAM NIAGA UTAMA - MG SOLO"/>
+      <TfrxDMPMemoView Name="DMPMemo121" Left="1094.4" Top="1003" Width="134.4" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="End Of Report"/>
+    </TfrxMasterData>
+  </TfrxDMPPage>
+</TfrxReport>
