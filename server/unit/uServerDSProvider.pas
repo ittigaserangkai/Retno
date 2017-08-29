@@ -1246,29 +1246,35 @@ begin
   Result := TFDJSONDataSets.Create;
 
   sSQL := 'select * from V_BANKCASHOUT_SLIP '
-    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
+    + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
   if Trim('') <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
+
+  sSQL := sSQL + ' order by bco_nobukti';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 
   sSQL := 'select * from V_BANKCASHOUT_SLIP_APDANOTHER '
-    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
+    + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
   if Trim('') <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
+
+  sSQL := sSQL + ' order by bco_nobukti';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 
   sSQL := 'select * from V_BANKCASHOUT_SLIP_CHEQUE '
-    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
+    + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
   if Trim('') <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
+
+  sSQL := sSQL + ' order by bco_nobukti';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
