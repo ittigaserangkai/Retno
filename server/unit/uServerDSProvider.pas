@@ -133,6 +133,8 @@ type
   TDSReport = class(TComponent)
   private
   public
+    function BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir: TDatetime;
+        ANoBukti : String): TFDJSONDataSets;
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
@@ -1234,6 +1236,32 @@ var
 begin
   S := 'select * from V_REKENING_BCO_LAINLAIN';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:
+    TDatetime; ANoBukti : String): TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  sSQL := 'select * from V_BANKCASHOUT_SLIP '
+    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+
+  if Trim('') <> '' then
+    sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+
+  sSQL := 'select * from V_BANKCASHOUT_SLIP_CHEQUE '
+    + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+
+  if Trim('') <> '' then
+    sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 
 function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;

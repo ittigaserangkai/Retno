@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 8/28/2017 8:20:42 AM
+// 8/28/2017 1:52:53 PM
 //
 
 unit uClientClasses;
@@ -493,6 +493,8 @@ type
 
   TDSReportClient = class(TDSAdminRestClient)
   private
+    FBankCashOut_GetDS_SlipCommand: TDSRestCommand;
+    FBankCashOut_GetDS_SlipCommand_Cache: TDSRestCommand;
     FDO_GetDSNPCommand: TDSRestCommand;
     FDO_GetDSNPCommand_Cache: TDSRestCommand;
     FDO_GetDS_CheckListCommand: TDSRestCommand;
@@ -515,6 +517,8 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function BankCashOut_GetDS_Slip_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDSNP(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -2203,6 +2207,22 @@ const
 
   TDSProvider_RekeningBCOLain_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_BankCashOut_GetDS_Slip: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBukti'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_BankCashOut_GetDS_Slip_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBukti'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7265,6 +7285,50 @@ begin
   inherited;
 end;
 
+function TDSReportClient.BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FBankCashOut_GetDS_SlipCommand = nil then
+  begin
+    FBankCashOut_GetDS_SlipCommand := FConnection.CreateCommand;
+    FBankCashOut_GetDS_SlipCommand.RequestType := 'GET';
+    FBankCashOut_GetDS_SlipCommand.Text := 'TDSReport.BankCashOut_GetDS_Slip';
+    FBankCashOut_GetDS_SlipCommand.Prepare(TDSReport_BankCashOut_GetDS_Slip);
+  end;
+  FBankCashOut_GetDS_SlipCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FBankCashOut_GetDS_SlipCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FBankCashOut_GetDS_SlipCommand.Parameters[2].Value.SetWideString(ANoBukti);
+  FBankCashOut_GetDS_SlipCommand.Execute(ARequestFilter);
+  if not FBankCashOut_GetDS_SlipCommand.Parameters[3].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FBankCashOut_GetDS_SlipCommand.Parameters[3].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FBankCashOut_GetDS_SlipCommand.Parameters[3].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FBankCashOut_GetDS_SlipCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.BankCashOut_GetDS_Slip_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FBankCashOut_GetDS_SlipCommand_Cache = nil then
+  begin
+    FBankCashOut_GetDS_SlipCommand_Cache := FConnection.CreateCommand;
+    FBankCashOut_GetDS_SlipCommand_Cache.RequestType := 'GET';
+    FBankCashOut_GetDS_SlipCommand_Cache.Text := 'TDSReport.BankCashOut_GetDS_Slip';
+    FBankCashOut_GetDS_SlipCommand_Cache.Prepare(TDSReport_BankCashOut_GetDS_Slip_Cache);
+  end;
+  FBankCashOut_GetDS_SlipCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FBankCashOut_GetDS_SlipCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FBankCashOut_GetDS_SlipCommand_Cache.Parameters[2].Value.SetWideString(ANoBukti);
+  FBankCashOut_GetDS_SlipCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FBankCashOut_GetDS_SlipCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 function TDSReportClient.DO_GetDSNP(ANONP: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FDO_GetDSNPCommand = nil then
@@ -7642,6 +7706,8 @@ end;
 
 destructor TDSReportClient.Destroy;
 begin
+  FBankCashOut_GetDS_SlipCommand.DisposeOf;
+  FBankCashOut_GetDS_SlipCommand_Cache.DisposeOf;
   FDO_GetDSNPCommand.DisposeOf;
   FDO_GetDSNPCommand_Cache.DisposeOf;
   FDO_GetDS_CheckListCommand.DisposeOf;

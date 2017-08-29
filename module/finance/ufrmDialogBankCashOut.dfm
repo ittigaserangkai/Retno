@@ -3,7 +3,6 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   ClientHeight = 466
   ClientWidth = 799
   OnDestroy = FormDestroy
-  ExplicitTop = -82
   ExplicitWidth = 815
   ExplicitHeight = 505
   PixelsPerInch = 96
@@ -13,7 +12,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
     Height = 410
     ExplicitWidth = 799
     ExplicitHeight = 410
-    object pnlDetail2: TPanel
+    object pnlBCOHeader: TPanel
       Left = 2
       Top = 2
       Width = 795
@@ -502,20 +501,14 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       ExplicitWidth = 799
       inherited lbCTRLEnter: TLabel
         Left = 624
-        Height = 15
         ExplicitLeft = 624
       end
       inherited lbEscape: TLabel
         Left = 715
-        Height = 15
         ExplicitLeft = 715
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 548
-        Height = 15
         ExplicitLeft = 548
       end
     end
@@ -528,6 +521,9 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
     end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end
