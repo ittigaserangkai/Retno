@@ -386,7 +386,6 @@ object frmTransaksi: TfrmTransaksi
     inherited pnlInfo: TPanel
       Top = 116
       Width = 300
-      ParentBackground = False
       ExplicitTop = 116
       ExplicitWidth = 300
     end

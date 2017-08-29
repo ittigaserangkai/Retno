@@ -92,7 +92,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
-      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
+      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -573,6 +573,7 @@ object frmMain: TfrmMain
     object actDailySalesAnalysis: TAction
       Category = 'SupvCashier'
       Caption = 'Daily Sales Analysis'
+      OnExecute = actDailySalesAnalysisExecute
     end
     object actRekapitulasiCN: TAction
       Category = 'Inventory'
@@ -1180,6 +1181,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnDSR'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = False
       Row = 0
@@ -1329,6 +1334,11 @@ object frmMain: TfrmMain
     end
     object dxbrbtnWastageReal: TdxBarButton
       Action = actWastageReal
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnDSA: TdxBarButton
+      Action = actDailySalesAnalysis
       Category = 0
       PaintStyle = psCaptionGlyph
     end

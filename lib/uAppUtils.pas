@@ -833,7 +833,7 @@ end;
 
 class function TAppUtils.QuotDt(aDate : TDateTime): String;
 begin
-    result := Quot(FormatDateTime('mm/dd/yyyy hh:mm:ss', aDate));
+    result := Quot(FormatDateTime('yyyy-mm-dd hh:mm:ss', aDate));
 end;
 
 class function TAppUtils.QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean):
@@ -841,10 +841,10 @@ class function TAppUtils.QuotDT(aDate : TDateTime; aTambahJam235959 : Boolean):
 begin
     if not aTambahJam235959 then
     begin
-      Result := Quot(FormatDateTime('mm/dd/yyyy hh:mm:ss', aDate));
+      Result := Quot(FormatDateTime('yyyy-mm-dd hh:mm:ss', aDate));
     end else
     begin
-      Result := Quot(FormatDateTime('mm/dd/yyyy 23:59:59', aDate));
+      Result := Quot(FormatDateTime('yyyy-mm-dd 23:59:59', aDate));
     end;
 end;
 

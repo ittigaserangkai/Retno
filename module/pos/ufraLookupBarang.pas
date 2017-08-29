@@ -32,6 +32,7 @@ type
     sgBarangColumn4: TcxGridColumn;
     sgBarangColumn5: TcxGridColumn;
     sgBarangColumn6: TcxGridColumn;
+    sgBarangColumn7: TcxGridColumn;
     procedure edNamaBarangKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edNamaBarangChange(Sender: TObject);
@@ -72,6 +73,7 @@ const
   _KolHargaDasar  : Integer = 3;
   _KolDiskon      : Integer = 4;
   _KolHargaBersih : Integer = 5;
+  _KolIsActive    : Integer = 6;
 
 {$R *.dfm}
 
@@ -88,11 +90,13 @@ begin
   *)
 
   sSQL := 'select distinct a.brg_code, b.BHJ_SAT_CODE, a.brg_name, '
-        + ' b.BHJ_SELL_PRICE, b.BHJ_DISC_NOMINAL, b.BHJ_SELL_PRICE_DISC '
+        + ' b.BHJ_SELL_PRICE, b.BHJ_DISC_NOMINAL, b.BHJ_SELL_PRICE_DISC, '
+        + ' a.brg_is_active '
         + 'from barang a '
         + 'inner join barang_harga_jual b on a.brg_code = b.bhj_brg_code '
 // Sementara di non aktifkan
 //        + ' and a.brg_is_active = 1 '
+        + ' and b.BHJ_TPHRG_ID = 2 '
         + ' and a.brg_is_validate = 1';
   if Trim(ANamaBarang) <> '' then
     if AIsDepan then
@@ -128,6 +132,7 @@ begin
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolHargaDasar] := FieldByName('BHJ_SELL_PRICE').AsFloat;
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolDiskon]     := FieldByName('BHJ_DISC_NOMINAL').AsFloat;
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolHargaBersih]:= FieldByName('BHJ_SELL_PRICE_DISC').AsFloat;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolIsActive]   := FieldByName('brg_is_active').AsString;
 
 //			    AutoSize          := True;
         pbBarang.Position := Floor(((sgBarang.DataController.RowCount-1)/iRecordCOunt)*100);

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="42976.6846" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="BCO"/>
+    <item DataSet="IBQ3" DataSetName="BCO_CHEQUE"/>
+    <item DataSet="IBQ2" DataSetName="BCO_DETAIL"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="421.639727691009" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="0" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="255" Visible="False" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="BCO" RowCount="0">
+      <TfrxDMPMemoView Name="DMPMemo61" Left="1545.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="| "/>
+    </TfrxMasterData>
+    <TfrxGroupHeader Name="GroupHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="221" Left="0" ParentFont="False" Top="17" Width="1574.4" Condition="BCO.&#34;BCO_NoBukti&#34;" ReprintOnNewPage="True" ResetPageNumbers="True" StartNewPage="True">
+      <TfrxDMPMemoView Name="Memo3" Left="9.6" Top="0" Width="729.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="PT. ASSALAAM NIAGA UTAMA - MG SOLO&#13;&#10;JL. AHMAD YANI NO. 308 PABELAN&#13;&#10;SUKOHARJO 57162&#13;&#10;Telp : 0271-743333, 7330 Fax : 0271-718893&#13;&#10;NPWP : 02.000.274.7-532.000"/>
+      <TfrxDMPMemoView Name="DMPMemo35" Left="19.2" Top="170" Width="144" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Dibayar Kepada"/>
+      <TfrxDMPMemoView Name="DMPMemo36" Left="19.2" Top="187" Width="144" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Account Nama"/>
+      <TfrxDMPMemoView Name="DMPMemo41" Left="182.4" Top="170" Width="230.4" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[BCO.&#34;ORG_Code&#34;] - [BCO.&#34;ORG_Name&#34;]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo42" Left="182.4" Top="187" Width="230.4" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[BCO.&#34;ORG_Name&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="9.6" Top="119" Width="9.6" Height="102" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="163.2" Top="170" Width="19.2" Height="17" DataSet="IBQ1" DataSetName="BCO" HAlign="haCenter" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="163.2" Top="187" Width="19.2" Height="17" DataSet="IBQ1" DataSetName="BCO" HAlign="haCenter" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="528" Top="170" Width="76.8" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Nomor"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="528" Top="187" Width="76.8" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="Tanggal"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="624" Top="170" Width="115.2" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[BCO.&#34;BCO_NoBukti&#34;]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="624" Top="187" Width="115.2" Height="17" DataSet="IBQ1" DataSetName="BCO" DisplayFormat.FormatStr="dd/mm/yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[BCO.&#34;BCO_Tanggal&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="604.8" Top="170" Width="19.2" Height="17" DataSet="IBQ1" DataSetName="BCO" HAlign="haCenter" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo16" Left="604.8" Top="187" Width="19.2" Height="17" DataSet="IBQ1" DataSetName="BCO" HAlign="haCenter" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="9.6" Top="153" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="============================================================================"/>
+      <TfrxDMPMemoView Name="DMPMemo20" Left="9.6" Top="204" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="+------------------------------+-----------------------+-------------------+"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="19.2" Top="136" Width="710.4" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="BUKTI PENGELUARAN BANK"/>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="9.6" Top="119" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="============================================================================"/>
+      <TfrxDMPMemoView Name="DMPMemo22" Left="729.6" Top="119" Width="9.6" Height="102" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="153" Left="0" Top="578" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo60" Left="729.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="| "/>
+      <TfrxDMPMemoView Name="DMPMemo63" Left="9.6" Top="17" Width="9.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo65" Left="19.2" Top="17" Width="172.8" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" HAlign="haCenter" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="Dibuat Oleh"/>
+      <TfrxDMPMemoView Name="DMPMemo66" Left="201.6" Top="17" Width="172.8" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" HAlign="haCenter" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="Diperiksa"/>
+      <TfrxDMPMemoView Name="DMPMemo67" Left="384" Top="17" Width="172.8" Height="85" DataSet="IBQ1" DataSetName="BCO" Frame.Style="fsDash" HAlign="haCenter" WordWrap="False" TruncOutboundText="False" Text="Disetujui"/>
+      <TfrxDMPMemoView Name="DMPMemo44" Left="9.6" Top="0" Width="720" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="+--------------------------------------------------------------------------+"/>
+      <TfrxDMPMemoView Name="DMPMemo45" Left="192" Top="17" Width="9.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo46" Left="374.4" Top="17" Width="9.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo47" Left="556.8" Top="17" Width="9.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo48" Left="566.4" Top="17" Width="163.2" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" HAlign="haCenter" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="Diterima"/>
+      <TfrxDMPMemoView Name="DMPMemo51" Left="729.6" Top="17" Width="9.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo52" Left="9.6" Top="102" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="+--------------------------------------------------------------------------+"/>
+      <TfrxDMPMemoView Name="DMPMemo53" Left="9.6" Top="136" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="+--------------------------------------------------------------------------+"/>
+      <TfrxDMPMemoView Name="DMPMemo54" Left="9.6" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo55" Left="19.2" Top="119" Width="172.8" Height="17" DataSet="IBQ1" DataSetName="BCO" Frame.Style="fsDash" WordWrap="False" TruncOutboundText="False" Text="Tgl : "/>
+      <TfrxDMPMemoView Name="DMPMemo57" Left="201.6" Top="119" Width="172.8" Height="17" DataSet="IBQ1" DataSetName="BCO" Frame.Style="fsDash" WordWrap="False" TruncOutboundText="False" Text="Tgl : "/>
+      <TfrxDMPMemoView Name="DMPMemo58" Left="384" Top="119" Width="172.8" Height="17" DataSet="IBQ1" DataSetName="BCO" Frame.Style="fsDash" WordWrap="False" TruncOutboundText="False" Text="Tgl : "/>
+      <TfrxDMPMemoView Name="DMPMemo59" Left="192" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo62" Left="374.4" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo64" Left="556.8" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo68" Left="566.4" Top="119" Width="163.2" Height="17" DataSet="IBQ1" DataSetName="BCO" Frame.Style="fsDash" WordWrap="False" TruncOutboundText="False" Text="Tgl : "/>
+      <TfrxDMPMemoView Name="DMPMemo69" Left="729.6" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+    </TfrxGroupFooter>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="765" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo81" Left="9.6" Top="17" Width="288" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]"/>
+      <TfrxDMPMemoView Name="DMPMemo82" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo83" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo84" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo85" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+    </TfrxPageFooter>
+    <TfrxDetailData Name="DetailData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="340" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ2" DataSetName="BCO_DETAIL" Filter="&#60;BCO.&#34;BANKCASHOUT_ID&#34;&#62;=&#60;BCO_DETAIL.&#34;BANKCASHOUT_ID&#34;&#62;" RowCount="0">
+      <TfrxDMPMemoView Name="BCO_DETAILBCO_NoBukti" Left="19.2" Top="0" Width="288" Height="17" DataSet="IBQ2" DataSetName="BCO_DETAIL" TruncOutboundText="False" Text="[BCO_DETAIL.&#34;BCO_NoBukti&#34;]"/>
+      <TfrxDMPMemoView Name="BCO_DETAILREK_CODE" Left="316.8" Top="0" Width="220.8" Height="17" DataSet="IBQ2" DataSetName="BCO_DETAIL" TruncOutboundText="False" Text="[BCO_DETAIL.&#34;REK_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="BCO_DETAILBCOAP_Nominal" Left="547.2" Top="0" Width="182.4" Height="17" DataSet="IBQ2" DataSetName="BCO_DETAIL" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[BCO_DETAIL.&#34;BCOAP_Nominal&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo11" Left="729.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="537.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="307.2" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo26" Left="9.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+    </TfrxDetailData>
+    <TfrxHeader Name="Header1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="34" Left="0" Top="289" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo24" Left="19.2" Top="0" Width="288" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="URAIAN"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="316.8" Top="0" Width="220.8" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="NO. PERKIRAAN"/>
+      <TfrxDMPMemoView Name="DMPMemo23" Left="547.2" Top="0" Width="182.4" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="JUMLAH (Rp)"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="729.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="9.6" Top="17" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="+------------------------------+-----------------------+-------------------+"/>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="537.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="307.2" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo21" Left="9.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+    </TfrxHeader>
+    <TfrxHeader Name="Header2" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="153" Left="0" Top="374" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo27" Left="9.6" Top="34" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="+--------------------------------------------------------------------------+"/>
+      <TfrxDMPMemoView Name="Num2Let" Left="19.2" Top="68" Width="710.4" Height="17" TruncOutboundText="False" Text="TERBILANG : [Num2Let(&#60;BCO.&#34;BCO_Total&#34;&#62;,1)] RUPIAH"/>
+      <TfrxDMPMemoView Name="DMPMemo29" Left="729.6" Top="51" Width="9.6" Height="102" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo30" Left="19.2" Top="119" Width="240" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="BANK ACCOUNT NO"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="268.8" Top="119" Width="124.8" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="CHEQUE/GIRO"/>
+      <TfrxDMPMemoView Name="DMPMemo32" Left="566.4" Top="119" Width="163.2" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="NILAI (Rp)"/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="9.6" Top="136" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="============================================================================"/>
+      <TfrxDMPMemoView Name="DMPMemo37" Left="556.8" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo38" Left="259.2" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo39" Left="9.6" Top="51" Width="9.6" Height="85" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|&#13;&#10;|&#13;&#10;|&#13;&#10;|&#13;&#10;|"/>
+      <TfrxDMPMemoView Name="DMPMemo49" Left="422.4" Top="119" Width="134.4" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="DUE DATE"/>
+      <TfrxDMPMemoView Name="DMPMemo50" Left="412.8" Top="119" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo73" Left="9.6" Top="102" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="============================================================================"/>
+      <TfrxDMPMemoView Name="DMPMemo28" Left="19.2" Top="17" Width="518.4" Height="17" DataSet="IBQ2" DataSetName="BCO_DETAIL" HAlign="haRight" TruncOutboundText="False" Text="TOTAL  "/>
+      <TfrxDMPMemoView Name="DMPMemo33" Left="547.2" Top="17" Width="182.4" Height="17" DataSet="IBQ2" DataSetName="BCO_DETAIL" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[BCO.&#34;BCO_Total&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo56" Left="729.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo74" Left="537.6" Top="17" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo75" Left="9.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo76" Left="9.6" Top="0" Width="729.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="+--------------------------------------------------------------------------+"/>
+      <TfrxDMPMemoView Name="DMPMemo77" Left="9.6" Top="17" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+    </TfrxHeader>
+    <TfrxDetailData Name="DetailData2" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="544" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ3" DataSetName="BCO_CHEQUE" Filter="&#60;BCO_CHEQUE.&#34;BANKCASHOUT_ID&#34;&#62;=&#60;BCO.&#34;BANKCASHOUT_ID&#34;&#62;" RowCount="0">
+      <TfrxDMPMemoView Name="DMPMemo40" Left="9.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo43" Left="729.6" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="BCO_CHEQUEBANK_NAME" Left="19.2" Top="0" Width="240" Height="17" DataField="BANK_NAME" DataSet="IBQ3" DataSetName="BCO_CHEQUE" TruncOutboundText="False" Text="[BCO_CHEQUE.&#34;BANK_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="BCO_CHEQUEBCOCHE_No" Left="268.8" Top="0" Width="124.8" Height="17" DataField="BCOCHE_No" DataSet="IBQ3" DataSetName="BCO_CHEQUE" TruncOutboundText="False" Text="[BCO_CHEQUE.&#34;BCOCHE_No&#34;]"/>
+      <TfrxDMPMemoView Name="BCO_CHEQUEBCOCHE_JatuhTempo" Left="422.4" Top="0" Width="134.4" Height="17" DataField="BCOCHE_JatuhTempo" DataSet="IBQ3" DataSetName="BCO_CHEQUE" HAlign="haCenter" TruncOutboundText="False" Text="[BCO_CHEQUE.&#34;BCOCHE_JatuhTempo&#34;]"/>
+      <TfrxDMPMemoView Name="BCO_CHEQUEBCOCHE_Nominal" Left="566.4" Top="0" Width="163.2" Height="17" DataField="BCOCHE_Nominal" DataSet="IBQ3" DataSetName="BCO_CHEQUE" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[BCO_CHEQUE.&#34;BCOCHE_Nominal&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo70" Left="556.8" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo71" Left="412.8" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+      <TfrxDMPMemoView Name="DMPMemo72" Left="259.2" Top="0" Width="9.6" Height="17" DataSet="IBQ1" DataSetName="BCO" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="|"/>
+    </TfrxDetailData>
+  </TfrxDMPPage>
+</TfrxReport>

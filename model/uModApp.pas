@@ -37,15 +37,13 @@ type
 
   TModApp = class(TObject)
   private
+    FCrudFilterKind: TFilterClassKind;
     FDate_Create: TDatetime;
     FDate_Modify: TDatetime;
-    FCrudFilterKind: TFilterClassKind;
     FFilterClasses: TObjectList<TFilterClass>;
     FID: string;
-
     FObjectState: Integer;
     procedure SetCrudFilterKind(const Value: TFilterClassKind);
-  protected
   public
     constructor Create; reintroduce;
     constructor CreateID(AID : String);
@@ -53,7 +51,9 @@ type
     procedure AddFilterCrud(aModClass: TModAppClass);
     function FieldNameOf(aprop: TRttiProperty): String;
     function GetCodeField: String;
+    function GetPOSField: String;
     function GetCodeValue: String;
+    function GetPOSValue: Variant;
     function GetHeaderField: String;
     function GetHeaderKey: String;
     function GetHeaderProperty: String;
@@ -65,11 +65,10 @@ type
     class procedure RegisterRTTI;
     procedure SetFromDataset(ADataSet: TDataset);
     procedure UpdateToDataset(ADataSet: TDataset);
-
-    property FilterClasses: TObjectList<TFilterClass> read FFilterClasses write
-        FFilterClasses;
     property CrudFilterKind: TFilterClassKind read FCrudFilterKind write
         SetCrudFilterKind;
+    property FilterClasses: TObjectList<TFilterClass> read FFilterClasses write
+        FFilterClasses;
     property ObjectState: Integer read FObjectState write FObjectState;   // 1 Baru, 3 Edit, 5 Hapus
   published
     property Date_Create: TDatetime read FDate_Create write FDate_Create;
@@ -78,7 +77,6 @@ type
   end;
 
   TFilterClass = class(TObject)
-  strict private
   private
     FModClass: TModAppClass;
     FModClassName: String;
@@ -98,6 +96,9 @@ type
   TModComp = class(TComponent)
   end;
 
+  AttributeOfPOS = class(AttributeOfCustom)
+  end;
+
 
 
 
@@ -111,7 +112,6 @@ begin
   Self.CustomField := aCustomField;
 end;
 
-
 constructor TModApp.Create;
 begin
   inherited;
@@ -120,7 +120,6 @@ begin
   Date_Create := Now();
   Date_Modify := Now();
 end;
-
 
 constructor TModApp.CreateID(AID: String);
 begin
@@ -171,9 +170,19 @@ begin
   Result := FieldNameOf( PropFromAttr(AttributeOfCode) );
 end;
 
+function TModApp.GetPOSField: String;
+begin
+  Result := FieldNameOf(PropFromAttr(AttributeOfPOS) );
+end;
+
 function TModApp.GetCodeValue: String;
 begin
   Result := PropFromAttr(AttributeOfCode).GetValue(Self).AsString;
+end;
+
+function TModApp.GetPOSValue: Variant;
+begin
+  Result := PropFromAttr(AttributeOfPOS).GetValue(Self).AsVariant;
 end;
 
 function TModApp.GetHeaderField: String;
@@ -397,7 +406,6 @@ begin
   //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
   //jalankan di initialization section
 end;
-
 
 initialization
   TFilterClass.RegisterRTTI;
