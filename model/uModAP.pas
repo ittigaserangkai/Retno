@@ -12,6 +12,7 @@ type
     FAP_ClassRef: string;
     FAP_Description: string;
     FAP_DueDate: TDatetime;
+    FAP_IS_LUNAS: Integer;
     FAP_ORGANIZATION: TModOrganization;
     FAP_PAID: Double;
     FAP_REFNUM: string;
@@ -22,6 +23,9 @@ type
     property AP_ClassRef: string read FAP_ClassRef write FAP_ClassRef;
     property AP_Description: string read FAP_Description write FAP_Description;
     property AP_DueDate: TDatetime read FAP_DueDate write FAP_DueDate;
+    property AP_IS_LUNAS: Integer read FAP_IS_LUNAS write FAP_IS_LUNAS;
+
+    [AttributeOfForeign('AP_ORGANIZATION_ID')]
     property AP_ORGANIZATION: TModOrganization read FAP_ORGANIZATION write
         FAP_ORGANIZATION;
     property AP_PAID: Double read FAP_PAID write FAP_PAID;

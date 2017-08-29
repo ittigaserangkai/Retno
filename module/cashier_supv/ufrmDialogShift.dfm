@@ -2,19 +2,18 @@ inherited frmDialogShift: TfrmDialogShift
   Left = 380
   Top = 260
   Caption = 'frmDialogShift'
-  ClientHeight = 241
-  ClientWidth = 309
+  ClientHeight = 237
+  ClientWidth = 423
   Constraints.MinHeight = 32
   Constraints.MinWidth = 130
   OldCreateOrder = True
-  OnShow = FormShow
-  ExplicitWidth = 325
-  ExplicitHeight = 280
+  ExplicitWidth = 439
+  ExplicitHeight = 276
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 309
-    Height = 185
+    Width = 423
+    Height = 181
     ExplicitWidth = 309
     ExplicitHeight = 185
     object lbl1: TLabel
@@ -69,42 +68,42 @@ inherited frmDialogShift: TfrmDialogShift
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 185
-    Width = 309
+    Top = 181
+    Width = 423
     ExplicitTop = 185
     ExplicitWidth = 309
     inherited pnlFooter: TPanel
-      Width = 309
+      Width = 423
       ExplicitWidth = 309
       inherited btnClose: TcxButton
-        Left = 232
+        Left = 346
         Action = actCancel
         ExplicitLeft = 232
       end
       inherited btnSave: TcxButton
-        Left = 63
+        Left = 177
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 63
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 155
+        Left = 269
+        Action = actPrint
         ExplicitLeft = 155
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 309
+      Width = 423
       ExplicitWidth = 309
       inherited lbCTRLEnter: TLabel
-        Left = -49
+        Left = 65
         Height = 15
         ExplicitLeft = -49
       end
       inherited lbEscape: TLabel
-        Left = 225
+        Left = 339
         Height = 15
         ExplicitLeft = 225
       end
@@ -112,14 +111,13 @@ inherited frmDialogShift: TfrmDialogShift
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 149
+        Left = 263
+        Height = 15
         ExplicitLeft = 149
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    inherited actDelete: TAction
-      OnExecute = actDeleteExecute
-    end
+    Left = 168
   end
 end

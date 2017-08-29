@@ -30,6 +30,7 @@ type
     FCrudAdjFakClient: TCrudAdjFakturClient;
     FCrudDNClient: TCrudDNRecvClient;
     FCrudSettingAppClient: TCrudSettingAppClient;
+    FCrudBankCashOutClient: TCrudBankCashOutClient;
     FCrudSupplierClient: TCrudSupplierClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
@@ -40,6 +41,7 @@ type
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudDNClient: TCrudDNRecvClient;
     function GetCrudSettingAppClient: TCrudSettingAppClient;
+    function GetCrudBankCashOutClient: TCrudBankCashOutClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -53,16 +55,18 @@ type
         FCrudCNClient;
     property CrudAdjFakClient: TCrudAdjFakturClient read GetCrudAdjFakClient write
         FCrudAdjFakClient;
+    property CrudBankCashOutClient: TCrudBankCashOutClient read
+        GetCrudBankCashOutClient write FCrudBankCashOutClient;
     property CrudDNClient: TCrudDNRecvClient read GetCrudDNClient write
         FCrudDNClient;
+    property CrudSettingAppClient: TCrudSettingAppClient read
+        GetCrudSettingAppClient write FCrudSettingAppClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
         FDSProviderClient;
     { Public declarations }
   published
-    property CrudSettingAppClient: TCrudSettingAppClient read
-        GetCrudSettingAppClient write FCrudSettingAppClient;
   end;
 
   ERestClientError = class(Exception)
@@ -189,6 +193,15 @@ begin
 
   FCrudDNClient := TCrudDNRecvClient.Create(DMClient.RestConn, InstanceOwner);
   Result        := FCrudDNClient;
+end;
+
+function TDMClient.GetCrudBankCashOutClient: TCrudBankCashOutClient;
+begin
+  if FCrudBankCashOutClient <> nil then
+    FreeAndNil(FCrudBankCashOutClient);
+
+  FCrudBankCashOutClient := TCrudBankCashOutClient.Create(RestConn, InstanceOwner);
+  Result := FCrudBankCashOutClient;
 end;
 
 function TDMClient.GetCrudSupplierClient: TCrudSupplierClient;

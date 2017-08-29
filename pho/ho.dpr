@@ -217,7 +217,13 @@ uses
   uModClaimFaktur in '..\model\uModClaimFaktur.pas',
   uModAP in '..\model\uModAP.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
-  uModDNRecv in '..\model\uModDNRecv.pas';
+  uModDNRecv in '..\model\uModDNRecv.pas',
+  uModOrganization in '..\model\uModOrganization.pas',
+  ufrmBankCashOut in '..\module\finance\ufrmBankCashOut.pas' {frmBankCashOut},
+  ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut},
+  ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
+  ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
+  uModBankCashOut in '..\model\uModBankCashOut.pas';
 
 {$R *.res}
 

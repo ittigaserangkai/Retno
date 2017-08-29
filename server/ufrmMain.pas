@@ -8,7 +8,8 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp,
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
-  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,uModDO;
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
+  uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut;
 
 type
   TfrmMain = class(TForm)
@@ -47,10 +48,12 @@ type
     StatusBar1: TStatusBar;
     spSession: TSpinEdit;
     Label2: TLabel;
+    btnTest: TButton;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
+    procedure btnTestClick(Sender: TObject);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
@@ -130,6 +133,28 @@ begin
   end;
 end;
 
+procedure TfrmMain.btnTestClick(Sender: TObject);
+begin
+  with TCrud.Create(nil) do
+  begin
+    try
+      with Retrieve(TModBankCashOut.ClassName, InputBox('ID','ID','87331E06-2AB0-40C5-984D-351DC5F873FB')) as TModBankCashOut do
+      begin
+        try
+//          ShowMessage(AP_REFNUM);
+//          ShowMessage(AP_ClassRef);
+//          ShowMessage(DateTimeToStr(AP_DueDate));
+//          ShowMessage(DateTimeToStr(AP_TRANSDATE));
+        finally
+          Free;
+        end;
+      end;
+    finally
+      Free;
+    end;
+  end;
+end;
+
 procedure TfrmMain.ButtonStopClick(Sender: TObject);
 begin
   TerminateThreads;
@@ -166,8 +191,7 @@ end;
 
 procedure TfrmMain.grpDBClick(Sender: TObject);
 begin
-  TModDO.Create;
-  TModDOItem.Create;
+  btnTest.Visible := not btnTest.Visible;
 end;
 
 procedure TfrmMain.mmLogChange(Sender: TObject);

@@ -24,6 +24,7 @@ type
   public
     function GetFooterSummary(ASummaryIndex: Integer): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
+    function GetFooterSummaryFloat(aColumn: TcxGridColumn): Double; overload;
   end;
 
   DBDataControllerHelper = class helper for TcxGridDBDataController
@@ -133,7 +134,8 @@ type
         DoBestFit: Boolean = True; AutoFormat: Boolean = True);
     procedure LoadFromSQL(aSQL: String; aOwner: TComponent); overload;
     procedure LoadFromSQL(aSQL: String); overload;
-    procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent); overload;
+    procedure LoadFromDS(aDataSet: TDataSet; aOwner: TComponent; DoCreateAllItems:
+        Boolean = true); overload;
     procedure PrepareFromCDS(ACDS: TClientDataSet); overload;
     procedure SetAllUpperCaseColumn;
     procedure SetColumnsCaption(ColumnSets, ColumnCaption: Array Of String);
@@ -243,6 +245,27 @@ begin
 
       If FooterSummaryItems.Items[i].ItemLink = aColumn then
         Result := FooterSummaryValues[i];
+    end;
+  end;
+end;
+
+function DataControllerHelper.GetFooterSummaryFloat(aColumn: TcxGridColumn):
+    Double;
+var
+  i: Integer;
+begin
+  Result := 0;
+
+  with Self.Summary do
+  begin
+    for i :=0 to FooterSummaryItems.Count-1 do
+    begin
+//      If FooterSummaryItems.Items[i].ItemLink.ClassName <> aColumn.ClassName then
+//        continue;
+
+      If FooterSummaryItems.Items[i].ItemLink = aColumn then
+        if not VarIsNull(FooterSummaryValues[i]) then
+          Result := FooterSummaryValues[i];
     end;
   end;
 end;
@@ -991,7 +1014,8 @@ begin
   Self.LoadFromSQL(aSQL, Self);
 end;
 
-procedure TcxDBGridHelper.LoadFromDS(aDataSet: TDataSet; aOwner: TComponent);
+procedure TcxDBGridHelper.LoadFromDS(aDataSet: TDataSet; aOwner: TComponent;
+    DoCreateAllItems: Boolean = true);
 var
   lCDS: TClientDataSet;
 begin
@@ -1001,7 +1025,7 @@ begin
     if Self.DataController.DataSource.DataSet <> nil then
       Self.DataController.DataSource.DataSet.Free;
 
-  Self.LoadFromCDS(lCDS);
+  Self.LoadFromCDS(lCDS, DoCreateAllItems);
 end;
 
 procedure TcxDBGridHelper.PrepareFromCDS(ACDS: TClientDataSet);
@@ -1273,7 +1297,7 @@ begin
 
     if (IsEmpty) and (TWinControl(C).TabOrder < iTabOrd) then
     begin
-      EmptyCtrl := TWinControl(C);
+          EmptyCtrl := TWinControl(C);
       iTabOrd   := EmptyCtrl.TabOrder;
     end;
   end;
@@ -1290,7 +1314,7 @@ begin
         sMsg := 'Input Tidak Boleh Kosong';
 
       //for debugging
-      sMsg := sMsg + #13 + EmptyCtrl.ClassName + '.' + EmptyCtrl.Name;
+//      sMsg := sMsg + #13 + EmptyCtrl.ClassName + '.' + EmptyCtrl.Name;
 
       TAppUtils.Warning(sMsg);
     end;
@@ -1499,7 +1523,7 @@ end;
 
 function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
 begin
-  Result := Self.DataController.Values[ARec, ACol];
+  Result := VarToDateTime(Self.DataController.Values[ARec, ACol]);
 end;
 
 function TcxGridTableViewHelper.Int(ARec, ACol : Integer): Integer;
@@ -1542,7 +1566,10 @@ begin
 
           case prop.PropertyType.TypeKind of
             tkInteger : prop.SetValue(AObject,Self.Int(ARow,i));
-            tkFloat   : prop.SetValue(AObject,Self.Double(ARow,i));
+            tkFloat   : If LowerCase(Prop.PropertyType.Name) = LowerCase('TDateTime') then
+                          prop.SetValue(AObject,Self.Date(ARow,i))
+                        ELSE
+                          prop.SetValue(AObject,Self.Double(ARow,i));
             tkUString : prop.SetValue(AObject,Self.Text(ARow,i));
             tkClass   : begin
                         meth := prop.PropertyType.GetMethod('ToArray');

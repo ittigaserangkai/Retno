@@ -9,14 +9,14 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, uFormProperty, uGlobalProperty,
   uCompany, ufrmBank, System.UITypes, Vcl.AppEvnts, cxClasses, ufrmMerchandise,
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
-  ufrmCompany, ufrmUnit, ufrmVoucher, ufrmSupplierGroup;
+  ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
+  ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
+  dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
   TfrmMain = class(TForm)
     mmMainMenu: TMainMenu;
-    pnlHeader: TPanel;
-    imgHeader: TImage;
     actlstMain: TActionList;
     actOnCreateForm: TAction;
     actOnLogout: TAction;
@@ -108,7 +108,7 @@ type
     actClosingFiscalYear: TAction;
     actJurnalEntry: TAction;
     actOpeningFiscalYear: TAction;
-    actPemakaianBarcode: TAction;
+    actBarcodeUsage: TAction;
     actListPemakaianBarcode: TAction;
     actPostingJournal: TAction;
     actUnpostingJournal: TAction;
@@ -258,7 +258,7 @@ type
     CompanyType1: TMenuItem;
     actCostCenter: TAction;
     actCostCenter1: TMenuItem;
-    ApplicationEvents1: TApplicationEvents;
+    AppEvents: TApplicationEvents;
     Merchandise1: TMenuItem;
     MasterProduct1: TMenuItem;
     LookAndFeelController: TcxLookAndFeelController;
@@ -277,15 +277,111 @@ type
     Company1: TMenuItem;
     SalesOutlet1: TMenuItem;
     UnitStore1: TMenuItem;
-<<<<<<< HEAD
     actQuotationMailer: TAction;
-=======
-    Lokasi1: TMenuItem;
-    actTipekirimPO: TAction;
-    ipekirimPO1: TMenuItem;
+    CustomerSupport1: TMenuItem;
+    MasterCustomer1: TMenuItem;
+    actMembership: TAction;
+    actSupplier: TAction;
+    actSupplier1: TMenuItem;
     SupplierGroup1: TMenuItem;
->>>>>>> aa26bd07e468f7145f5c31848f1574b467bb41cf
+    actListingQuotationHargaBeli: TAction;
+    actListingQuotationMailer: TAction;
+    actLaporanStok: TAction;
+    actListingPObyMG: TAction;
+    actGudang: TAction;
+    Inventory1: TMenuItem;
+    Gudang1: TMenuItem;
+    actMataUang: TAction;
+    MataUang1: TMenuItem;
+    actTipeBonus: TAction;
+    ipeBonus1: TMenuItem;
+    actTipeCN: TAction;
+    ipeCN1: TMenuItem;
+    actDocument: TAction;
+    Document1: TMenuItem;
+    actTipePO: TAction;
+    ipePO1: TMenuItem;
+    actAgama: TAction;
+    MasterAgama1: TMenuItem;
+    test1: TMenuItem;
+    actSetKoneksi: TAction;
+    actCreditCard: TAction;
+    CreditCard1: TMenuItem;
+    actKompetitor: TAction;
+    Kompetitor1: TMenuItem;
+    actSettingAplikasi: TAction;
+    dxbrmngrHO: TdxBarManager;
+    dxrbntbReference: TdxRibbonTab;
+    dxrbnHO: TdxRibbon;
+    dxbrReferenceFinance: TdxBar;
+    dxbrbtnBank: TdxBarButton;
+    dxbrbtnTax: TdxBarButton;
+    dxbrbtnCostCenter: TdxBarButton;
+    dxbrReferenceInventory: TdxBar;
+    dxbrbtn1: TdxBarButton;
+    dxbrbtnTipePembayaran: TdxBarButton;
+    dxbrbtnUOM: TdxBarButton;
+    dxbrReferenceOther: TdxBar;
+    dxbrbtnTipePerusahaan: TdxBarButton;
+    dxbrbtnSupplierType: TdxBarButton;
+    dxbrbtnCompany: TdxBarButton;
+    dxbrbtnSalesOutlet: TdxBarButton;
+    dxbrbtnUnitStore: TdxBarButton;
+    dxrbntbMembership: TdxRibbonTab;
+    dxbrMembership: TdxBar;
+    dxbrbtnMembership: TdxBarButton;
+    dxbrFinanceMaster: TdxBar;
+    dxbrbtnCreditCard: TdxBarButton;
+    dxrbntbFinance: TdxRibbonTab;
+    dxrbntbMerchandize: TdxRibbonTab;
+    dxrbntbSetting: TdxRibbonTab;
+    dxrbntbWindow: TdxRibbonTab;
+    dxbrFavourite: TdxBar;
+    dxbrbtnCOA: TdxBarButton;
+    dxbrMerchandize: TdxBar;
+    dxbrbtnMerchandise: TdxBarButton;
+    dxbrbtnMerchandiseGroup: TdxBarButton;
+    dxbrbtnSubGroup: TdxBarButton;
+    dxbrbtnKategori: TdxBarButton;
+    dxbrbtnMerk: TdxBarButton;
+    dxbrbtnProduct: TdxBarButton;
+    dxbrbtnSupplierGroup: TdxBarButton;
+    dxbrbtnSupplier: TdxBarButton;
+    dxbrbtnKompetirot: TdxBarButton;
+    dxbrSetting: TdxBar;
+    dxbrbtnServerConnection: TdxBarButton;
+    dxbrbtn3: TdxBarButton;
+    dxbrWindow: TdxBar;
+    dxbrbtnCascade: TdxBarButton;
+    dxbrbtnTile: TdxBarButton;
+    dxbrbtnCloseAll: TdxBarButton;
+    dxrbntbSystem: TdxRibbonTab;
+    dxbrSystem: TdxBar;
+    dxbrbtnLogIn: TdxBarButton;
+    dxbrbtnLogOut: TdxBarButton;
+    dxbrbtnExit: TdxBarButton;
+    dxBarButton1: TdxBarButton;
+    dxbrFinanceOther: TdxBar;
+    dxbrbtnBarcodeUsage: TdxBarButton;
+    dxbrbtnElectricCustomer: TdxBarButton;
+    dxBarButton2: TdxBarButton;
+    dxbrAP: TdxBar;
+    dxbrbtnAdjustmentFaktur: TdxBarButton;
+    dxbrbtnClaim: TdxBarButton;
+<<<<<<< HEAD
+    dxbrbtnBCO: TdxBarButton;
+=======
+    actShift: TAction;
+    dxbrmngrHOBar1: TdxBar;
+    dxBarButton3: TdxBarButton;
+>>>>>>> a85ddf75f7964a5b3fb62e71f2d1e0ff4e1014d7
+    procedure actAdjustmentFakturExecute(Sender: TObject);
+    procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
+    procedure actBarcodeUsageExecute(Sender: TObject);
+    procedure actCancPOExecute(Sender: TObject);
+    procedure actChangeStatPOExecute(Sender: TObject);
+    procedure actClaimFakturExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actOnLogoutExecute(Sender: TObject);
@@ -293,12 +389,29 @@ type
     procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
+    procedure actDocumentExecute(Sender: TObject);
+    procedure actElectricCustomerExecute(Sender: TObject);
+    procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
+    procedure actHistoryPOExecute(Sender: TObject);
+    procedure actGudangExecute(Sender: TObject);
+    procedure actShiftExecute(Sender: TObject);
+    procedure actMataUangExecute(Sender: TObject);
+    procedure actSupplierExecute(Sender: TObject);
     procedure actKategoriExecute(Sender: TObject);
+    procedure actKompetitorExecute(Sender: TObject);
+    procedure actLapInvMovementQtyExecute(Sender: TObject);
+    procedure actLaporanStokExecute(Sender: TObject);
+    procedure actLapReturSupExecute(Sender: TObject);
+    procedure actListingPObyMGExecute(Sender: TObject);
+    procedure actListingQuotationHargaBeliExecute(Sender: TObject);
+    procedure actListingQuotationMailerExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
+    procedure actMembershipExecute(Sender: TObject);
     procedure actMerchandiseExecute(Sender: TObject);
     procedure actMerchanGroupExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
@@ -306,6 +419,8 @@ type
     procedure actOnExitExecute(Sender: TObject);
     procedure actOnLoginExecute(Sender: TObject);
     procedure actPajakExecute(Sender: TObject);
+    procedure actPrintHistoryPOBySupplierExecute(Sender: TObject);
+    procedure actPrintPOExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
     procedure actQuotationExecute(Sender: TObject);
@@ -314,12 +429,15 @@ type
     procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
+    procedure actSetKoneksiExecute(Sender: TObject);
+    procedure actSettingAplikasiExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
     procedure actSupplierGroupExecute(Sender: TObject);
     procedure actSupplierTypeExecute(Sender: TObject);
     procedure actSysParmCompExecute(Sender: TObject);
     procedure actSysParmExecute(Sender: TObject);
-    procedure actTipekirimPOExecute(Sender: TObject);
+    procedure actTipeBonusExecute(Sender: TObject);
+    procedure actTipeCNExecute(Sender: TObject);
     procedure actTipePengirimanPOExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actUOMNBDExecute(Sender: TObject);
@@ -333,9 +451,11 @@ type
     procedure actUnitExecute(Sender: TObject);
     procedure actUnitStoreExecute(Sender: TObject);
     procedure actVoucherExecute(Sender: TObject);
-    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure AppEventsException(Sender: TObject; E: Exception);
+    procedure AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
+    procedure test1Click(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -376,12 +496,14 @@ uses
   ufrmSupplierType, ufrmSysParm, ufrmTipePengirimanPO, ufrmSatuan, ufrmUser,
   ufrmUserGroup, ufrmMasterCustomer, ufrmMasterProductNBD, ufrmSatuan_NBD,
   ufrmTipePembayaran, Datasnap.DSHTTPClient, ufrmProduct, ufrmDialogProduct,
-<<<<<<< HEAD
-  ufrmOutlet, ufrmVoucher, ufrmQuotation, ufrmQuotationHargaBeli,
-  ufrmQuotationMailer;
-=======
-  ufrmOutlet;
->>>>>>> aa26bd07e468f7145f5c31848f1574b467bb41cf
+  ufrmOutlet, ufrmMouselessMenu, ufrmMemberShip, ufrmQuotation,
+  ufrmQuotationHargaBeli, ufrmQuotationMailer, ufrmVoucher, uFrmGenPO,
+  ufrmListQuotHB, ufrmListQuotMailer, ufrmCetakPO, ufrmCancellationPO,
+  ufrmChangeStatusPO, ufrmStokBarang, ufrmListingPOByMerchandisingGroup,
+  ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
+  ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
+  ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
+  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift;
 
 {$R *.dfm}
 
@@ -419,9 +541,40 @@ begin
   end;
 end;
 
+
+procedure TfrmMain.actAdjustmentFakturExecute(Sender: TObject);
+begin
+  frmAdjustmentFaktur := TfrmAdjustmentFaktur.Create(Self);
+end;
+
+procedure TfrmMain.actAPPaymentExecute(Sender: TObject);
+begin
+  frmBankCashOut := TfrmBankCashOut.Create(nil);
+end;
+
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
   frmBank := tfrmBank.Create(Self);
+end;
+
+procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
+begin
+  frmPemakaianBarcode := tfrmPemakaianBarcode.Create(Self);
+end;
+
+procedure TfrmMain.actCancPOExecute(Sender: TObject);
+begin
+    frmCancellationPO := TfrmCancellationPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actChangeStatPOExecute(Sender: TObject);
+begin
+    frmChangeStatusPO := TfrmChangeStatusPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actClaimFakturExecute(Sender: TObject);
+begin
+  frmClaim := TfrmClaim.Create(Self)
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -452,7 +605,7 @@ begin
 
   frmMain.Height  := 640;
   frmMain.Width   := 800;
-  frmMain.Caption := ExtractFileName(ParamStr(0)) + ' ver ' + GetAppVersionStr;
+  frmMain.Caption := ExtractFileName(ParamStr(0)) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
   actOnLogin.Enabled := true;
@@ -493,7 +646,7 @@ end;
 
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
- frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
@@ -511,14 +664,101 @@ begin
   frmCostCenter := TfrmCostCenter.Create(Application);
 end;
 
+procedure TfrmMain.actCreditCardExecute(Sender: TObject);
+begin
+  frmCreditCard := TfrmCreditCard.Create(Application);
+end;
+
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actDocumentExecute(Sender: TObject);
+begin
+  frmDocument := TfrmDocument.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actElectricCustomerExecute(Sender: TObject);
+begin
+  frmElectricCustomer := TfrmElectricCustomer.Create(Self);
+end;
+
+procedure TfrmMain.actGenPOExecute(Sender: TObject);
+begin
+    frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
+end;
+
+procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
+begin
+  frmHistoryPO := TfrmHistoryPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actGudangExecute(Sender: TObject);
+begin
+  frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actShiftExecute(Sender: TObject);
+begin
+  frmShift := TfrmShift.Create(self);
+end;
+
+procedure TfrmMain.actMataUangExecute(Sender: TObject);
+begin
+  frmMataUang := TfrmMataUang.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actSupplierExecute(Sender: TObject);
+begin
+  frmSupplier := TfrmSupplier.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actKategoriExecute(Sender: TObject);
 begin
   frmKategori := TfrmKategori.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actKompetitorExecute(Sender: TObject);
+begin
+  frmDaftarCompetitor := TfrmDaftarCompetitor.Create(Application);
+end;
+
+procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
+begin
+    frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actLaporanStokExecute(Sender: TObject);
+begin
+    frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
+
+end;
+
+procedure TfrmMain.actLapReturSupExecute(Sender: TObject);
+begin
+  frmLaporanRetur := TfrmLaporanRetur.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListingPObyMGExecute(Sender: TObject);
+begin
+    frmListingPOByMerchandisingGroup := TfrmListingPOByMerchandisingGroup.CreateWithUser(Application, FFormProperty);
+
+end;
+
+procedure TfrmMain.actListingQuotationHargaBeliExecute(Sender: TObject);
+begin
+    frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
+begin
+    frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMembershipExecute(Sender: TObject);
+begin
+  frmMembership := TfrmMembership.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMerchandiseExecute(Sender: TObject);
@@ -540,6 +780,7 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  sIDUnit: string;
 begin
   FFormProperty   := TFormProperty.Create;
   FGlobalProperty := TGlobalProperty.Create;
@@ -564,7 +805,7 @@ begin
 
   frmMain.Height := 640;
   frmMain.Width := 800;
-  frmMain.Caption := ParamStr(0) + ' ver ' + GetAppVersionStr;
+  frmMain.Caption := ParamStr(0) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
   actOnLogin.Enabled := true;
@@ -579,6 +820,11 @@ begin
 
   // setting invisible panel unit
   pnlUnit.Visible := false;
+  //setting unit toko
+  sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
+  if sIDUnit <> '' then
+    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+
 end;
 
 procedure TfrmMain.actOnExitExecute(Sender: TObject);
@@ -673,6 +919,16 @@ begin
   frmPajak := TfrmPajak.Create(Self) //WithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actPrintHistoryPOBySupplierExecute(Sender: TObject);
+begin
+    frmPrintHistoryPOBySupplier := TfrmPrintHistoryPOBySupplier.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actPrintPOExecute(Sender: TObject);
+begin
+    frmCetakPO := TfrmCetakPO.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actProductTypeExecute(Sender: TObject);
 begin
     frmProductType := TfrmProductType.CreateWithUser(Application, FFormProperty);
@@ -685,7 +941,7 @@ end;
 
 procedure TfrmMain.actQuotationExecute(Sender: TObject);
 begin
-  frmQuotation := TfrmQuotation.CreateWithUser(Application, FFormProperty);
+  frmBrowseQuotation := TfrmBrowseQuotation.Create(Self);
 end;
 
 procedure TfrmMain.actQuotationHargaBeliExecute(Sender: TObject);
@@ -711,6 +967,23 @@ end;
 procedure TfrmMain.actSalesOutletExecute(Sender: TObject);
 begin
   frmOutlet := TfrmOutlet.Create(Application);
+end;
+
+procedure TfrmMain.actSetKoneksiExecute(Sender: TObject);
+begin
+  With TfrmSettingKoneksi.Create(Self) do
+  begin
+    Try
+      ShowModal;
+    Finally
+      Free;
+    End;
+  end;
+end;
+
+procedure TfrmMain.actSettingAplikasiExecute(Sender: TObject);
+begin
+  frmSettingApp := TfrmSettingApp.Create(Self);
 end;
 
 procedure TfrmMain.actSubGroupExecute(Sender: TObject);
@@ -741,9 +1014,14 @@ begin
   frmSysParm.Show;
 end;
 
-procedure TfrmMain.actTipekirimPOExecute(Sender: TObject);
+procedure TfrmMain.actTipeBonusExecute(Sender: TObject);
 begin
-  frmTipePengirimanPO := TfrmTipePengirimanPO.CreateWithUser (Application, FFormProperty);
+  frmTipeBonus := TfrmTipeBonus.CreateWithUser (Application, FFormProperty);
+end;
+
+procedure TfrmMain.actTipeCNExecute(Sender: TObject);
+begin
+  frmTipeCN := TfrmTipeCN.CreateWithUser (Application, FFormProperty);
 end;
 
 procedure TfrmMain.actTipePembayaranExecute(Sender: TObject);
@@ -791,7 +1069,7 @@ begin
     frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
-procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
 var
   Msg: string;
 begin
@@ -800,6 +1078,19 @@ begin
     Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
 
   TAppUtils.Error(Msg);
+end;
+
+procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled:
+    Boolean);
+begin
+  if Msg.CharCode = 192 then
+  begin
+    with TfrmMouselesMenu.Create(Application) do
+    begin
+      ShowModal;
+    end;
+    Handled := True;
+  end;
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
@@ -857,6 +1148,9 @@ begin
     if _INIReadString(CONFIG_FILE, 'LOGIN', 'islangsung') = '1' then
       actOnLoginExecute(nil);
   end;
+
+  sbMain.Panels[0].Text := 'Server : ' + DMClient.RestConn.Host;
+  sbMain.Panels[1].Text := 'Port : ' + IntToStr(DMClient.RestConn.Port);
 end;
 
 procedure TfrmMain.LoginExecute;
@@ -920,13 +1214,27 @@ procedure TfrmMain.SettingMainMenu(ARole: TRole);
 begin
   EnableSubMenu(mmWindow, false);
   EnableSubMenu(miConnectionDatabase, true);
-  EnableSubMenu(miGlobalParameter, false);
+  EnableSubMenu(miGlobalParameter, true);
   if ARole = rCoba then
   Begin
     EnableSubMenu(mmWindow, false);
     EnableSubMenu(miConnectionDatabase, true);
-    EnableSubMenu(miGlobalParameter, false);
+    EnableSubMenu(miGlobalParameter, true);
   End;
+end;
+
+procedure TfrmMain.test1Click(Sender: TObject);
+begin
+  With TfrmCXLookup.Execute('Contoh lookup','TDSProvider.Suplier_GetDSLookup')  do
+  begin
+    Try
+      HideFields(['Suplier_ID']);
+      if ShowModal = mrOk then
+        showmessage(Data.FieldByName('Suplier_ID').AsString);
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 end.

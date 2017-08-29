@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
   StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
-  uModDO, uModSettingApp, uModQuotation;
+  uModDO, uModSettingApp, uModQuotation, uModBankCashOut;
 
 type
   {$METHODINFO ON}
@@ -109,6 +109,16 @@ type
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
+  end;
+
+  TCrudBankCashOut = class(TCrud)
+  private
+    function UpdateAPTerbayar(AModBankCashOut : TModBankCashOut; AIsTambah :
+        Boolean): Boolean;
+  protected
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 
@@ -882,6 +892,66 @@ begin
     lSS.Free;
   End;
   Result := True;
+end;
+
+function TCrudBankCashOut.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
+    Result := True;
+end;
+
+function TCrudBankCashOut.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  if AObject.ID = '' then
+    TModBankCashOut(AObject).BCO_NoBukti := GenerateNo(TModBankCashOut.ClassName);
+
+  if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
+    Result := True;
+end;
+
+function TCrudBankCashOut.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  if UpdateAPTerbayar(TModBankCashOut(AObject), True) then
+    Result := True;
+end;
+
+function TCrudBankCashOut.UpdateAPTerbayar(AModBankCashOut : TModBankCashOut;
+    AIsTambah : Boolean): Boolean;
+var
+  sFilterID: string;
+  sOperator: string;
+  sSQL: string;
+begin
+  if AModBankCashOut.ID = '' then
+    sFilterID := 'newid()'
+  else
+    sFilterID := QuotedStr(AModBankCashOut.ID);
+
+  if AIsTambah then
+    sOperator := ' + '
+  else
+    sOperator := ' - ';
+
+
+  sSQL := ' update a set a.AP_PAID = a.AP_PAID ' + sOperator + ' b.BCOAP_Nominal ' +
+          ' from ap a' +
+          ' INNER JOIN BankCashOutAPItem b on b.BCOAP_AP_ID = a.AP_ID ' +
+          ' where b.BCOAP_BankCashOut_ID = ' + sFilterID;
+
+  try
+    TDBUtils.ExecuteSQL(sSQL);
+    Result := True;
+  except
+    raise
+  end;
+
+
 end;
 
 
