@@ -20,7 +20,6 @@ type
   TfrmPayment = class(TForm)
     pnlTotal: TPanel;
     lblTotal: TLabel;
-    lbl1: TLabel;
     Panel12: TPanel;
     Label5: TLabel;
     Label8: TLabel;
@@ -971,7 +970,7 @@ begin
   iRow := frmTransaksi.sgTransaksi.DataController.RecordCount - 1;
   with frmTransaksi.sgTransaksi.DataController do
   begin
-  for i := 1 to iRow do
+  for i := 0 to iRow do
   begin
     if (Values[i, _KolPLU] <> '') then
     begin
@@ -1222,6 +1221,9 @@ begin
       Finally
         lPosTrans.Free;
       end;
+
+//      mmoBackup.Lines.SaveToFile(sReportPath + 'utils\' + 'POS_STRUK.TXT');
+//      PrintFile(sReportPath + 'utils\' + 'POS_STRUK.TXT');
 
       PrintStrings(mmoBackup.Lines);
     end;

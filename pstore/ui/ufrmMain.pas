@@ -239,6 +239,7 @@ type
     dxrbntbInventory: TdxRibbonTab;
     dxbrInventory: TdxBar;
     dxbrbtnWastageReal: TdxBarButton;
+    dxbrbtnDSA: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -302,6 +303,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
+    procedure actDailySalesAnalysisExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
@@ -372,8 +374,8 @@ uses
   ufrmReturTrader, ufrmSalesReportContrabon, ufrmServiceLevel, ufrmShift,
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
-  ufrmKartuStock, ufrmPreference, ufrmStockProduct,
-  ufrmPOFromTrader;
+  ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
+  ufrmDailySalesAnalysis;
 
 
 
@@ -457,6 +459,11 @@ end;
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
 begin
     frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actDailySalesAnalysisExecute(Sender: TObject);
+begin
+  frmDailySalesAnalysis := TfrmDailySalesAnalysis.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actDailySalesReportExecute(Sender: TObject);

@@ -64,6 +64,7 @@ object frmTransaksiPending: TfrmTransaksiPending
     Width = 509
     Height = 265
     Align = alTop
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -75,6 +76,7 @@ object frmTransaksiPending: TfrmTransaksiPending
     LookAndFeel.NativeStyle = False
     object sgTransaksi: TcxGridDBTableView
       OnDblClick = sgTransaksiDblClick
+      OnKeyDown = sgTransaksiKeyDown
       Navigator.Buttons.CustomButtons = <>
       FindPanel.DisplayMode = fpdmManual
       FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -91,27 +93,13 @@ object frmTransaksiPending: TfrmTransaksiPending
       OptionsData.Editing = False
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
+      Styles.Background = frmTransaksi.cxStyleGreen
       Styles.ContentEven = DMClient.cxStyleGridHeader
       Styles.Header = DMClient.cxStyleGridEven
-      object cxcolNo: TcxGridDBColumn
+      object sgTransaksiColumn1: TcxGridDBColumn
         Caption = 'No'
-      end
-      object cxcolPLU: TcxGridDBColumn
-        Caption = 'PLU'
-        Width = 66
-      end
-      object cxcolNamaBarang: TcxGridDBColumn
-        Caption = 'Nama Barang'
-        Width = 113
-      end
-      object cxcolJumlah: TcxGridDBColumn
-        Caption = 'Jumlah'
-      end
-      object cxcolHarga: TcxGridDBColumn
-        Caption = 'Harga'
-      end
-      object cxcolDisc: TcxGridDBColumn
-        Caption = 'Disc'
+        OnGetDisplayText = sgTransaksiColumn1GetDisplayText
+        Width = 90
       end
     end
     object grdlvlTransaksi: TcxGridLevel

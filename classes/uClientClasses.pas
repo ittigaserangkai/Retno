@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 8/28/2017 1:52:53 PM
+// 8/29/2017 5:08:10 PM
 //
 
 unit uClientClasses;
@@ -57,6 +57,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -78,6 +80,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -499,6 +503,10 @@ type
     FDO_GetDSNPCommand_Cache: TDSRestCommand;
     FDO_GetDS_CheckListCommand: TDSRestCommand;
     FDO_GetDS_CheckListCommand_Cache: TDSRestCommand;
+    FDSA_GetDSCommand: TDSRestCommand;
+    FDSA_GetDSCommand_Cache: TDSRestCommand;
+    FDSR_GetDSCommand: TDSRestCommand;
+    FDSR_GetDSCommand_Cache: TDSRestCommand;
     FKartuStock_GetDSCommand: TDSRestCommand;
     FKartuStock_GetDSCommand_Cache: TDSRestCommand;
     FStockProduct_GetDSCommand: TDSRestCommand;
@@ -523,6 +531,10 @@ type
     function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DO_GetDS_CheckList_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function DSA_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function DSA_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function DSR_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function DSR_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
     function KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function StockProduct_GetDS(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
@@ -576,6 +588,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -598,6 +612,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -620,6 +636,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -642,6 +660,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -665,6 +685,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -688,6 +710,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -709,6 +733,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -730,6 +756,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -751,6 +779,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -772,6 +802,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -795,6 +827,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -818,6 +852,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -840,6 +876,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -862,6 +900,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -883,6 +923,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -904,6 +946,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -925,6 +969,8 @@ type
     FSaveToDBIDCommand: TDSRestCommand;
     FTestGenerateSQLCommand: TDSRestCommand;
     FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -946,6 +992,8 @@ type
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
     procedure AfterExecuteMethod;
   end;
 
@@ -1095,6 +1143,20 @@ const
   TCrud_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrud_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrud_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -2250,6 +2312,34 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSReport_DSA_GetDS: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSReport_DSA_GetDS_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_DSR_GetDS: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_DSR_GetDS_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSReport_KartuStock_GetDS: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'aBarang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -2504,6 +2594,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudSupplier_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudSupplier_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudPO_GeneratePO: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ASOID'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -2612,6 +2716,20 @@ const
   TCrudPO_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudPO_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudPO_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -2731,6 +2849,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudDO_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudDO_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudCNRecv_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -2835,6 +2967,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudCNRecv_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudCNRecv_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudDNRecv_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -2936,6 +3082,20 @@ const
   TCrudDNRecv_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudDNRecv_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudDNRecv_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -3055,6 +3215,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudSettingApp_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudSettingApp_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudQuotation_ActivateQuotation: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AModQuotation'; Direction: 1; DBXType: 37; TypeName: 'TModQuotation'),
@@ -3165,6 +3339,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudQuotation_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudQuotation_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudAdjFaktur_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -3269,6 +3457,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudAdjFaktur_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudAdjFaktur_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudBankCashOut_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -3370,6 +3572,20 @@ const
   TCrudBankCashOut_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudBankCashOut_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudBankCashOut_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -3805,6 +4021,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrud."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrud_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrud."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrud_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -3844,6 +4102,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -7409,6 +7669,81 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FDO_GetDS_CheckListCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSReportClient.DSA_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FDSA_GetDSCommand = nil then
+  begin
+    FDSA_GetDSCommand := FConnection.CreateCommand;
+    FDSA_GetDSCommand.RequestType := 'GET';
+    FDSA_GetDSCommand.Text := 'TDSReport.DSA_GetDS';
+    FDSA_GetDSCommand.Prepare(TDSReport_DSA_GetDS);
+  end;
+  FDSA_GetDSCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FDSA_GetDSCommand.Parameters[1].Value.AsDateTime := aEndDate;
+  FDSA_GetDSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FDSA_GetDSCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FDSA_GetDSCommand.FreeOnExecute(Result);
+end;
+
+function TDSReportClient.DSA_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FDSA_GetDSCommand_Cache = nil then
+  begin
+    FDSA_GetDSCommand_Cache := FConnection.CreateCommand;
+    FDSA_GetDSCommand_Cache.RequestType := 'GET';
+    FDSA_GetDSCommand_Cache.Text := 'TDSReport.DSA_GetDS';
+    FDSA_GetDSCommand_Cache.Prepare(TDSReport_DSA_GetDS_Cache);
+  end;
+  FDSA_GetDSCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FDSA_GetDSCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
+  FDSA_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FDSA_GetDSCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TDSReportClient.DSR_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FDSR_GetDSCommand = nil then
+  begin
+    FDSR_GetDSCommand := FConnection.CreateCommand;
+    FDSR_GetDSCommand.RequestType := 'GET';
+    FDSR_GetDSCommand.Text := 'TDSReport.DSR_GetDS';
+    FDSR_GetDSCommand.Prepare(TDSReport_DSR_GetDS);
+  end;
+  FDSR_GetDSCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FDSR_GetDSCommand.Parameters[1].Value.AsDateTime := aEndDate;
+  FDSR_GetDSCommand.Execute(ARequestFilter);
+  if not FDSR_GetDSCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FDSR_GetDSCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FDSR_GetDSCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FDSR_GetDSCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.DSR_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FDSR_GetDSCommand_Cache = nil then
+  begin
+    FDSR_GetDSCommand_Cache := FConnection.CreateCommand;
+    FDSR_GetDSCommand_Cache.RequestType := 'GET';
+    FDSR_GetDSCommand_Cache.Text := 'TDSReport.DSR_GetDS';
+    FDSR_GetDSCommand_Cache.Prepare(TDSReport_DSR_GetDS_Cache);
+  end;
+  FDSR_GetDSCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FDSR_GetDSCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
+  FDSR_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FDSR_GetDSCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSReportClient.KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string): TDataSet;
 begin
   if FKartuStock_GetDSCommand = nil then
@@ -7712,6 +8047,10 @@ begin
   FDO_GetDSNPCommand_Cache.DisposeOf;
   FDO_GetDS_CheckListCommand.DisposeOf;
   FDO_GetDS_CheckListCommand_Cache.DisposeOf;
+  FDSA_GetDSCommand.DisposeOf;
+  FDSA_GetDSCommand_Cache.DisposeOf;
+  FDSR_GetDSCommand.DisposeOf;
+  FDSR_GetDSCommand_Cache.DisposeOf;
   FKartuStock_GetDSCommand.DisposeOf;
   FKartuStock_GetDSCommand_Cache.DisposeOf;
   FStockProduct_GetDSCommand.DisposeOf;
@@ -8207,6 +8546,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudSupplierClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudSupplier."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudSupplier_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudSupplierClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudSupplier."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudSupplier_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudSupplierClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -8247,6 +8628,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -8621,6 +9004,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudPOClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudPO."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudPO_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudPOClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudPO."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudPO_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudPOClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -8661,6 +9086,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -9060,6 +9487,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudDOClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudDO."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudDO_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudDOClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudDO."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudDO_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudDOClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -9101,6 +9570,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -9460,6 +9931,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudCNRecvClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudCNRecv."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudCNRecv_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudCNRecvClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudCNRecv."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudCNRecv_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudCNRecvClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -9499,6 +10012,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -9858,6 +10373,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudDNRecvClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudDNRecv."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudDNRecv_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudDNRecvClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudDNRecv."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudDNRecv_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudDNRecvClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -9897,6 +10454,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -10320,6 +10879,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudSettingAppClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudSettingApp."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudSettingApp_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudSettingAppClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudSettingApp."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudSettingApp_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudSettingAppClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -10361,6 +10962,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -10746,6 +11349,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudQuotationClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudQuotation."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudQuotation_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudQuotationClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudQuotation."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudQuotation_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudQuotationClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -10786,6 +11431,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -11145,6 +11792,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudAdjFakturClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudAdjFaktur."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudAdjFaktur_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudAdjFakturClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudAdjFaktur."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudAdjFaktur_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudAdjFakturClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -11184,6 +11873,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
@@ -11543,6 +12234,48 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TCrudBankCashOutClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudBankCashOut."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudBankCashOut_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudBankCashOutClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudBankCashOut."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudBankCashOut_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 procedure TCrudBankCashOutClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -11582,6 +12315,8 @@ begin
   FSaveToDBIDCommand.DisposeOf;
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;

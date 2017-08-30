@@ -86,6 +86,8 @@ procedure PrintStrings(aSS: TStrings);
 
 function cOpenDataset(ASQL: String; AOwner: TComponent = nil): TClientDataSet;
 
+function cGetNextIDDetail(aFieldID, aTableName: String): string;
+
 var
   dmMain: TdmMain;
   aListMerID  : TStrings;
@@ -419,12 +421,14 @@ var
   Q : TFDQuery;
   S : String;
 begin
+  Result := 1;
+  S := 'select  max('+aFieldID+') from ' + aTableName;
+  Q := cOpenQuery(S);
   try
-    S := 'select  max('+aFieldID+') from '+aTableName;
-    Q := cOpenQuery(S);
-    Result := Q.Fields[0].AsInteger + 1;
+    if not Q.Eof then
+      Result := StrToIntDef(Q.Fields[0].AsString,0) + 1;
   finally
-    FreeAndNIl(Q);
+    FreeAndNil(Q);
   end;
 end;
 
@@ -572,44 +576,6 @@ begin
   Result := True;
 end;
 
-procedure PrintStrings(aSS: TStrings);
-var
-  Handle: THandle;
-  N: DWORD;
-  DocInfo1: TDocInfo1;
-  DriverName: array [0..255] of char;
-  DeviceName: array [0..255] of char;
-  OutPut: array [0..255] of char;
-  DeviceMode: Thandle;
-//  i: Integer;
-begin
-  Printer.GetPrinter(DeviceName, DriverName, Output, DeviceMode);
-  if not OpenPrinter(DeviceName, Handle, nil) then
-  begin
-    ShowMessage('error ' + IntToStr(GetLastError));
-    Exit;
-  end;
-
-  with DocInfo1 do
-  begin
-    pDocName := PChar('test doc');
-    pOutputFile := nil;
-    pDataType := 'RAW';
-  end;
-
-  StartDocPrinter(Handle, 1, @DocInfo1);
-  StartPagePrinter(Handle);
-
-  //for i := 0 to aSS.Count-1 do
-    //WritePrinter(Handle, PChar(aSS[i]), Length(aSS[i]), N);
-
-  WritePrinter(Handle, PChar(aSS.Text), Length(aSS.Text), N);
-
-  EndPagePrinter(Handle);
-  EndDocPrinter(Handle);
-  ClosePrinter(Handle);
-end;
-
 function cOpenDataset(ASQL: String; AOwner: TComponent = nil): TClientDataSet;
 var
   LDSP: TDataSetProvider;
@@ -630,6 +596,53 @@ begin
   LDSP.DataSet            := LSQLQuery;
   Result.SetProvider(LDSP);
   Result.Open;
+end;
+
+procedure PrintStrings(aSS: TStrings);
+var
+  Handle: THandle;
+  N: DWORD;
+  DocInfo1: TDocInfo1;
+  DriverName: array [0..255] of char;
+  DeviceName: array [0..255] of char;
+  OutPut: array [0..255] of char;
+  DeviceMode: Thandle;
+  i: Integer;
+begin
+  Printer.GetPrinter(DeviceName, DriverName, Output, DeviceMode);
+
+  if not OpenPrinter(DeviceName, Handle, nil) then
+  begin
+    ShowMessage('error ' + IntToStr(GetLastError));
+    Exit;
+  end;
+
+  with DocInfo1 do
+  begin
+    pDocName := PChar('test doc');
+    pOutputFile := nil;
+    pDataType := 'RAW';
+  end;
+
+  StartDocPrinter(Handle, 1, @DocInfo1);
+  StartPagePrinter(Handle);
+
+//  for i := 0 to aSS.Count-1 do
+//    WritePrinter(Handle, PChar(aSS[i]), Length(aSS[i]), N);
+
+  WritePrinter(Handle, PChar(aSS.Text), Length(aSS.Text)*SizeOf(Char), N);
+
+  EndPagePrinter(Handle);
+  EndDocPrinter(Handle);
+  ClosePrinter(Handle);
+end;
+
+function cGetNextIDDetail(aFieldID, aTableName: String): string;
+var
+  Q : TFDQuery;
+  S : String;
+begin
+  Result := '(select ifnull(max('+aFieldID+'),0)+1 from ' + aTableName + ' ) ';
 end;
 
 end.

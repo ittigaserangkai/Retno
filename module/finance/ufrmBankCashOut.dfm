@@ -2,6 +2,7 @@ inherited frmBankCashOut: TfrmBankCashOut
   Caption = 'Bank Cash Out'
   ClientHeight = 429
   ClientWidth = 857
+  ExplicitTop = -39
   ExplicitWidth = 873
   ExplicitHeight = 468
   PixelsPerInch = 96
@@ -111,6 +112,9 @@ inherited frmBankCashOut: TfrmBankCashOut
     end
     inherited actEdit: TAction
       OnExecute = actEditExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

@@ -693,20 +693,14 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       ExplicitWidth = 784
       inherited lbCTRLEnter: TLabel
         Left = 609
-        Height = 15
         ExplicitLeft = 609
       end
       inherited lbEscape: TLabel
         Left = 700
-        Height = 15
         ExplicitLeft = 700
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 533
-        Height = 15
         ExplicitLeft = 533
       end
     end

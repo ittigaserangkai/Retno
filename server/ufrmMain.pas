@@ -177,6 +177,9 @@ begin
     edUser.Text         := BacaRegistry('User_Name');
     edPassword.Text     := BacaRegistry('Password');
     edPort.Text         := BacaRegistry('Port');
+
+    if BacaRegistry('PortRest') <> '' then
+      EditPort.Text     := BacaRegistry('PortRest');
   end;
 
   FormatSettings.DecimalSeparator := '.';
@@ -217,6 +220,7 @@ begin
     FServer.Active      := True;
     DSServer.Start;
     HTTPMemo.Lines.Add('Server Started');
+    TulisRegistry('PortRest', EditPort.Text);
   end;
 end;
 

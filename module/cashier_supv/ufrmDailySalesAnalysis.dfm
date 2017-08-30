@@ -1,5 +1,5 @@
-inherited frmDailySalesReport: TfrmDailySalesReport
-  Caption = 'Daily Sales Report'
+inherited frmDailySalesAnalysis: TfrmDailySalesAnalysis
+  Caption = 'Daily Sales Analysis'
   ClientHeight = 448
   ClientWidth = 644
   ExplicitWidth = 660
@@ -71,6 +71,8 @@ inherited frmDailySalesReport: TfrmDailySalesReport
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
+      ExplicitTop = 116
+      ExplicitHeight = 240
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual
@@ -100,9 +102,9 @@ inherited frmDailySalesReport: TfrmDailySalesReport
     Width = 644
     ExplicitWidth = 644
     inherited lblHeader: TLabel
-      Width = 98
-      Caption = 'Daily Sales Report'
-      ExplicitWidth = 98
+      Width = 108
+      Caption = 'Daily Sales Analysis'
+      ExplicitWidth = 108
     end
   end
   inherited pnlFooter: TPanel
@@ -128,8 +130,11 @@ inherited frmDailySalesReport: TfrmDailySalesReport
   inherited actReport: TActionList
     Left = 560
     Top = 64
-    inherited actPrint: TAction
-      OnExecute = actPrintExecute
+    inherited actRefresh: TAction
+      OnExecute = actRefreshExecute
+    end
+    inherited actExport: TAction
+      OnExecute = actExportExecute
     end
   end
 end

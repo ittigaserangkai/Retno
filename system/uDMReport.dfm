@@ -1013,4 +1013,23 @@ object DMReport: TDMReport
     Left = 728
     Top = 251
   end
+  object IBQ3: TfrxDBDataset
+    UserName = 'IBQ3'
+    CloseDataSource = False
+    DataSet = FDMemTable3
+    BCDToCurrency = False
+    Left = 200
+    Top = 152
+  end
+  object FDMemTable3: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 224
+    Top = 283
+  end
 end

@@ -111,6 +111,7 @@ type
     procedure ImportDataFromMDBClick(Sender: TObject);
     procedure miMasterSellingProductClick(Sender: TObject);
     procedure miProduct1Click(Sender: TObject);
+    procedure miServerConnectionClick(Sender: TObject);
     procedure UpdateMaster1Click(Sender: TObject);
   private
     FLoginUsername: string;
@@ -176,7 +177,7 @@ uses
   udmMain, ufrmTransaksi, uConstanta, HPHELP, uAppUtils, ufrmTransaksiKring,
   ufrmLogin, ufrmTransaksiPending, ufrmPaymentKring, ufrmPosDownlink,
   ufrmImportFromMDB, ufrmExportToMDB, ufrmPayment, ufrmExportOfflinePOS,
-  ufrmImportFromStore, uNewPOS;
+  ufrmImportFromStore, uNewPOS, ufrmSettingKoneksi;
 
 {$R *.dfm}
 
@@ -542,7 +543,7 @@ end;
 
 procedure TfrmMain.ExportDataPOS1Click(Sender: TObject);
 begin
-  frmExportOfflinePOS := (ShowForm(TfrmExportOfflinePOS,wsMaximized)) as TfrmExportOfflinePOS;
+  frmExportOfflinePOS := (ShowForm(TfrmExportOfflinePOS,wsNormal)) as TfrmExportOfflinePOS;
   frmExportOfflinePOS.UnitID := frmMain.UnitID;
 end;
 
@@ -618,6 +619,18 @@ end;
 procedure TfrmMain.miProduct1Click(Sender: TObject);
 begin
 //  frmProductForSelling := TfrmProductForSelling.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.miServerConnectionClick(Sender: TObject);
+begin
+  With TfrmSettingKoneksi.Create(Self) do
+  begin
+    Try
+      ShowModal;
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 procedure TfrmMain.UpdateMaster1Click(Sender: TObject);

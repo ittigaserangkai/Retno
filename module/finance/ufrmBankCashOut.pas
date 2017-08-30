@@ -19,6 +19,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
   private
     FCDS: TClientDataset;
     { Private declarations }
@@ -53,6 +54,17 @@ begin
     Exit;
 
   ShowDialogForm(TfrmDialogBankCashOut, FCDS.FieldByName('BANKCASHOUT_ID').AsString)
+end;
+
+procedure TfrmBankCashOut.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  with TfrmDialogBankCashOut.Create(nil) do
+  try
+    CetakSlip(dtAwalFilter.Date, dtAkhirFilter.Date, 'null');
+  finally
+    Free;
+  end;
 end;
 
 procedure TfrmBankCashOut.RefreshData;

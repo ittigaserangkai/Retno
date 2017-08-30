@@ -2,7 +2,6 @@ program POSOne;
 
 uses
   Forms,
-  ufrmMain in 'ufrmMain.pas' {frmMain},
   ufrmTransaksi in '..\module\pos\ufrmTransaksi.pas' {frmTransaksi},
   udmReport in '..\module\pos\udmReport.pas' {dmReport: TDataModule},
   ufrmPayment in '..\module\pos\ufrmPayment.pas' {frmPayment},
@@ -57,14 +56,20 @@ uses
   uModPropinsi in '..\model\uModPropinsi.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
   uModGudang in '..\model\uModGudang.pas',
-  uModQuotation in '..\model\uModQuotation.pas';
+  uModQuotation in '..\model\uModQuotation.pas',
+  ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
+  uModTransaksi in '..\model\uModTransaksi.pas',
+  ufrmMain in 'ufrmMain.pas' {frmMain};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmReport, dmReport);
+  Application.CreateForm(TDMClient, DMClient);
+  Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
 end.

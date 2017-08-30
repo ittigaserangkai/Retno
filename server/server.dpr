@@ -53,7 +53,9 @@ uses
   uModClaimFaktur in '..\model\uModClaimFaktur.pas',
   uModAP in '..\model\uModAP.pas',
   uModOrganization in '..\model\uModOrganization.pas',
-  uModBankCashOut in '..\model\uModBankCashOut.pas';
+  uModBankCashOut in '..\model\uModBankCashOut.pas',
+  uModTransaksi in '..\model\uModTransaksi.pas',
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas';
 
 {$R *.res}
 
