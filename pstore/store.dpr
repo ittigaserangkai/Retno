@@ -207,7 +207,8 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   uModQuotation in '..\model\uModQuotation.pas',
   ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
-  ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser};
+  ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
 
 {$R *.res}
 

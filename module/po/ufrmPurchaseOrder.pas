@@ -134,7 +134,8 @@ begin
         dtAkhirFilter.Date,
         sNomorPO,
         sNomorPO
-      )
+      ),
+      []
     );
   end;
   gbCetak.Visible := False;

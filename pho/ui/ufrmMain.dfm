@@ -169,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -192,7 +193,6 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxrbntbSetting: TdxRibbonTab
-      Active = True
       Caption = 'Setting'
       Groups = <
         item
@@ -1405,6 +1405,10 @@ object frmMain: TfrmMain
       Caption = 'actShift'
       OnExecute = actShiftExecute
     end
+    object actAPCARD: TAction
+      Caption = 'AP Card'
+      ImageIndex = 60
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1785,6 +1789,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnBCO'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnKartuAP'
         end>
       OneOnRow = False
       Row = 0
@@ -2012,6 +2020,11 @@ object frmMain: TfrmMain
       Caption = 'Master Shift'
       Category = 0
       ImageIndex = 57
+    end
+    object dxbrbtnKartuAP: TdxBarButton
+      Action = actAPCARD
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

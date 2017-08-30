@@ -12,12 +12,12 @@ inherited frmSO: TfrmSO
     ExplicitWidth = 671
     ExplicitHeight = 273
     inherited pgcBrowse: TcxPageControl
-      Width = 649
-      Height = 251
+      Width = 669
+      Height = 271
       ExplicitWidth = 649
       ExplicitHeight = 251
-      ClientRectBottom = 250
-      ClientRectRight = 648
+      ClientRectBottom = 270
+      ClientRectRight = 668
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
@@ -145,7 +145,6 @@ inherited frmSO: TfrmSO
       ExplicitWidth = 671
       inherited lbEscape: TLabel
         Left = 597
-        Height = 17
         ExplicitLeft = 597
       end
     end
