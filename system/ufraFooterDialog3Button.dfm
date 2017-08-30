@@ -106,7 +106,7 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Left = 265
       Top = 3
       Width = 85
-      Height = 15
+      Height = 16
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alRight
@@ -117,14 +117,13 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 356
       Top = 3
       Width = 79
-      Height = 15
+      Height = 16
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alRight
@@ -135,14 +134,13 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object lbCTRLDel: TLabel
       AlignWithMargins = True
       Left = 5
       Top = 3
       Width = 87
-      Height = 15
+      Height = 16
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -153,7 +151,6 @@ object fraFooterDialog3Button: TfraFooterDialog3Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object lblCTRLP: TLabel
       AlignWithMargins = True

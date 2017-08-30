@@ -55,7 +55,8 @@ uses
   uModOrganization in '..\model\uModOrganization.pas',
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uModTransaksi in '..\model\uModTransaksi.pas',
-  uModBeginningBalance in '..\model\uModBeginningBalance.pas';
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uModShift in '..\model\uModShift.pas';
 
 {$R *.res}
 
