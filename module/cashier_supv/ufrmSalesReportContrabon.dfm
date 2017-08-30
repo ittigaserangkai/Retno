@@ -15,32 +15,32 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
     ExplicitWidth = 642
     ExplicitHeight = 356
     inherited pgcBrowse: TcxPageControl
-      Top = 212
-      Width = 620
-      Height = 133
+      Top = 202
+      Width = 640
+      Height = 153
       TabOrder = 2
-      ExplicitTop = 236
-      ExplicitWidth = 620
-      ExplicitHeight = 109
-      ClientRectBottom = 132
-      ClientRectRight = 619
+      ExplicitTop = 202
+      ExplicitWidth = 640
+      ExplicitHeight = 153
+      ClientRectBottom = 152
+      ClientRectRight = 639
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 618
-        ExplicitHeight = 107
+        ExplicitWidth = 638
+        ExplicitHeight = 151
         inherited cxGrid: TcxGrid
-          Width = 618
-          Height = 131
-          ExplicitWidth = 618
-          ExplicitHeight = 107
+          Width = 638
+          Height = 151
+          ExplicitWidth = 638
+          ExplicitHeight = 151
         end
       end
     end
     object pnlTop: TPanel
-      Left = 11
-      Top = 11
-      Width = 620
+      Left = 1
+      Top = 1
+      Width = 640
       Height = 86
       Align = alTop
       Color = 15198183
@@ -131,19 +131,18 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
     end
     object pnlMiddle: TPanel
-      Left = 11
-      Top = 97
-      Width = 620
+      Left = 1
+      Top = 87
+      Width = 640
       Height = 115
       Align = alTop
       BorderWidth = 5
       Color = 15198183
       TabOrder = 1
-      ExplicitTop = 121
       object grp1: TGroupBox
         Left = 6
         Top = 6
-        Width = 608
+        Width = 628
         Height = 103
         Align = alClient
         Caption = 'LIST CONTRABON'
@@ -151,16 +150,12 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
         object cxgrdSupplier: TcxGrid
           Left = 1
           Top = 17
-          Width = 606
+          Width = 626
           Height = 85
           Align = alClient
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'
           LookAndFeel.NativeStyle = False
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 618
-          ExplicitHeight = 107
           object grdSupplier: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             FindPanel.DisplayMode = fpdmManual

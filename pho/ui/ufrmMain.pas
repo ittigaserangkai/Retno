@@ -388,6 +388,8 @@ type
     dxbrmngrHOBar1: TdxBar;
     dxBarButton3: TdxBarButton;
     dxbrbtnBCO: TdxBarButton;
+    dxbrbtnKartuAP: TdxBarButton;
+    actAPCARD: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
