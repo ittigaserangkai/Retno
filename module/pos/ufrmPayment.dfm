@@ -23,13 +23,13 @@ object frmPayment: TfrmPayment
     Left = 0
     Top = 0
     Width = 754
-    Height = 58
+    Height = 52
     Align = alTop
     Color = clYellow
     TabOrder = 1
     object lblTotal: TLabel
       Left = 1
-      Top = 6
+      Top = 0
       Width = 752
       Height = 51
       Align = alBottom
@@ -44,19 +44,13 @@ object frmPayment: TfrmPayment
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-    end
-    object lbl1: TLabel
-      Left = 1
-      Top = 1
-      Width = 752
-      Height = 5
-      Align = alClient
-      AutoSize = False
+      Transparent = False
+      ExplicitTop = 2
     end
   end
   object Panel12: TPanel
     Left = 0
-    Top = 58
+    Top = 52
     Width = 754
     Height = 82
     Align = alTop
@@ -70,6 +64,7 @@ object frmPayment: TfrmPayment
     ParentColor = True
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 58
     object Label5: TLabel
       Left = 9
       Top = 12
@@ -140,7 +135,10 @@ object frmPayment: TfrmPayment
       Top = 6
       TabStop = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.ReadOnly = True
+      Style.Color = 11796403
       TabOrder = 1
       Width = 181
     end
@@ -149,7 +147,10 @@ object frmPayment: TfrmPayment
       Top = 54
       TabStop = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.ReadOnly = True
+      Style.Color = 11796403
       TabOrder = 3
       Width = 181
     end
@@ -158,7 +159,10 @@ object frmPayment: TfrmPayment
       Top = 30
       TabStop = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.ReadOnly = True
+      Style.Color = 11796403
       TabOrder = 2
       Width = 181
     end
@@ -167,7 +171,10 @@ object frmPayment: TfrmPayment
       Top = 54
       TabStop = False
       ParentFont = False
+      Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.ReadOnly = True
+      Style.Color = 11796403
       TabOrder = 0
       Width = 46
     end
@@ -178,12 +185,13 @@ object frmPayment: TfrmPayment
       AutoSize = False
       ParentColor = True
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       Style.Font.Charset = ANSI_CHARSET
       Style.Font.Color = clWindowText
       Style.Font.Height = -21
       Style.Font.Name = 'Courier New'
-      Style.Font.Style = []
+      Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       TabOrder = 4
       Height = 33
@@ -192,17 +200,19 @@ object frmPayment: TfrmPayment
   end
   object pnlPayment: TPanel
     Left = 0
-    Top = 140
+    Top = 134
     Width = 754
-    Height = 366
+    Height = 372
     Align = alClient
     BevelInner = bvRaised
     BevelOuter = bvLowered
     ParentColor = True
     TabOrder = 3
+    ExplicitTop = 140
+    ExplicitHeight = 366
     DesignSize = (
       754
-      366)
+      372)
     object lblResetVoucher: TLabel
       Left = 528
       Top = 159
@@ -472,7 +482,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 102
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       Properties.OnChange = edtBayarCCPropertiesChange
       TabOrder = 30
       OnExit = edtBayarCCExit
@@ -483,7 +494,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 150
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 29
       Width = 181
     end
@@ -553,7 +565,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 9
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       Properties.OnChange = edtNilaiTunaiPropertiesChange
       TabOrder = 0
       OnKeyDown = edtNilaiTunaiKeyDown
@@ -564,7 +577,8 @@ object frmPayment: TfrmPayment
       Top = 78
       Enabled = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 3
       Width = 181
     end
@@ -572,7 +586,8 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 126
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       Properties.OnChange = edtNilaiCCPropertiesChange
       TabOrder = 4
       OnExit = edtNilaiCCExit
@@ -593,7 +608,8 @@ object frmPayment: TfrmPayment
       Top = 54
       Enabled = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 10
       Width = 136
     end
@@ -602,7 +618,8 @@ object frmPayment: TfrmPayment
       Top = 111
       Enabled = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 13
       OnKeyDown = edtGoroValueKeyDown
       Width = 136
@@ -611,7 +628,8 @@ object frmPayment: TfrmPayment
       Left = 498
       Top = 135
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 15
       OnKeyDown = edtVoucherValueKeyDown
       Width = 136
@@ -631,6 +649,8 @@ object frmPayment: TfrmPayment
       Top = 54
       Enabled = False
       ParentFont = False
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 2
       Width = 151
     end
@@ -647,6 +667,7 @@ object frmPayment: TfrmPayment
       Left = 468
       Top = 30
       ParentFont = False
+      Properties.Alignment.Horz = taRightJustify
       Properties.AssignedValues.DisplayFormat = True
       TabOrder = 8
       OnExit = edtNoTransBotolExit
@@ -658,6 +679,7 @@ object frmPayment: TfrmPayment
       Left = 468
       Top = 87
       ParentFont = False
+      Properties.Alignment.Horz = taRightJustify
       Properties.AssignedValues.DisplayFormat = True
       TabOrder = 11
       OnExit = edtNoVoucherExit
@@ -668,7 +690,8 @@ object frmPayment: TfrmPayment
       Left = 30
       Top = 265
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
       TabOrder = 7
       Visible = False
       OnExit = edtCashBackExit
@@ -688,6 +711,17 @@ object frmPayment: TfrmPayment
         inherited pnlHeader: TPanel
           inherited edNama: TEdit
             OnKeyDown = fraLookUpCCedNamaKeyDown
+          end
+        end
+        inherited cxGrid: TcxGrid
+          inherited cxGridView: TcxGridDBTableView
+            inherited cxcolKode: TcxGridDBColumn
+              HeaderAlignmentHorz = taCenter
+            end
+            inherited cxcolNama: TcxGridDBColumn
+              HeaderAlignmentHorz = taCenter
+              Width = 171
+            end
           end
         end
       end
@@ -729,7 +763,7 @@ object frmPayment: TfrmPayment
       Left = 663
       Top = 171
       Width = 97
-      Height = 135
+      Height = 141
       Anchors = [akLeft, akTop, akBottom]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -742,6 +776,7 @@ object frmPayment: TfrmPayment
       TabOrder = 24
       Visible = False
       WordWrap = False
+      ExplicitHeight = 135
     end
     object mmoFooterStruk: TMemo
       Left = 663
@@ -759,7 +794,15 @@ object frmPayment: TfrmPayment
       Top = 201
       TabStop = False
       ParentFont = False
-      Properties.DisplayFormat = 'Rp.,0.00;(Rp.,0.00)'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Style.Color = clGreen
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -16
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
       TabOrder = 16
       Width = 256
     end
@@ -804,13 +847,15 @@ object frmPayment: TfrmPayment
     end
     object pnlInfo: TPanel
       Left = 2
-      Top = 330
+      Top = 336
       Width = 750
       Height = 34
       Align = alBottom
       Color = clYellow
+      ParentBackground = False
       TabOrder = 27
       Visible = False
+      ExplicitTop = 330
       DesignSize = (
         750
         34)

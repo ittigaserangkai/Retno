@@ -426,7 +426,8 @@ begin
           + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
           + '   AND TRANSAKSI.OPC_UNIT = ' + IntToStr(aUnit_ID)
           + '   AND TRANSAKSI.OP_CREATE = ' + IntToStr(aUserID)
-          + '   AND CAST(TRANSAKSI.TRANS_DATE AS DATE) = ' + TAppUtils.QuotD(aDate)
+//          + '   AND CAST(TRANSAKSI.TRANS_DATE AS DATE) = ' + TAppUtils.QuotD(aDate)
+//          + '   AND DATE(TRANSAKSI.TRANS_DATE) = ' + TAppUtils.QuotD(aDate)
           + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
 end;
 
@@ -508,7 +509,7 @@ begin
     OP_CREATE := OP_MODIFY;
     DATE_CREATE := DATE_MODIFY;
     FOPC_UNITID := FOPM_UNITID;
-    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
     sSQL := 'insert into ' + CustomTableName + ' ('
       + GetFieldNameFor_Barang + ', '
       + GetFieldNameFor_TipeBarang + ', '
@@ -546,7 +547,8 @@ begin
       + InttoStr(FNewUnitID) + ', '
       + FormatFloat(sPrec, FCOGS) + ', '
       + TAppUtils.QuotDT(FDATE_CREATE) + ', '
-      + IntToStr(FID) + ', '
+//      + IntToStr(FID) + ', '
+      + cGetNextIDDetail(GetFieldNameFor_ID, CustomTableName) + ', '
       + IfThen(FIsBKP,'1','0') + ', '
       + IfThen(FIsDiscAMC,'1','0') + ', '
       + FormatFloat(sPrec, FLastCost) + ', '

@@ -208,6 +208,7 @@ uses
   uModQuotation in '..\model\uModQuotation.pas',
   ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
   ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
+  ufrmDailySalesAnalysis in '..\module\cashier_supv\ufrmDailySalesAnalysis.pas' {frmDailySalesAnalysis},
   uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
 
 {$R *.res}

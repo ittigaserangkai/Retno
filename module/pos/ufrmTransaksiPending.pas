@@ -16,13 +16,8 @@ type
     btnRefresh: TButton;
     cxTransaksi: TcxGrid;
     sgTransaksi: TcxGridDBTableView;
-    cxcolNo: TcxGridDBColumn;
-    cxcolPLU: TcxGridDBColumn;
-    cxcolNamaBarang: TcxGridDBColumn;
-    cxcolJumlah: TcxGridDBColumn;
-    cxcolHarga: TcxGridDBColumn;
-    cxcolDisc: TcxGridDBColumn;
     grdlvlTransaksi: TcxGridLevel;
+    sgTransaksiColumn1: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -30,6 +25,10 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnRefreshClick(Sender: TObject);
+    procedure sgTransaksiColumn1GetDisplayText(Sender: TcxCustomGridTableItem;
+        ARecord: TcxCustomGridRecord; var AText: string);
+    procedure sgTransaksiKeyDown(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
   private
     procedure LoadPendingFromDBwSQL(AMemberCode: String);
     procedure RefreshTransPending;
@@ -153,24 +152,22 @@ begin
   try
     with sgTransaksi.DataController do
     begin
-      frmTransaksi.edNoPelanggan.Text := Values[_Kol_MEMBER_CARD_NO, RecNo];
+      frmTransaksi.edNoPelanggan.Text := Values[FocusedRecordIndex, _Kol_MEMBER_CARD_NO];
       if (frmTransaksi.edNoPelanggan.Text = '') or (frmTransaksi.edNoPelanggan.Text = '0') then
         frmTransaksi.LoadMember(frmTransaksi.GetDefaultMember)
       else
         frmTransaksi.LoadMember(frmTransaksi.edNoPelanggan.Text);
-      frmTransaksi.edNoTrnTerakhir.Text := Values[_Kol_TRANS_NO, RecNo];
-      TryStrToInt(Values[_Kol_TRANS_ID, RecNo], iTransID);
+      frmTransaksi.edNoTrnTerakhir.Text := Values[FocusedRecordIndex, _Kol_TRANS_NO];
+      TryStrToInt(Values[FocusedRecordIndex, _Kol_TRANS_ID], iTransID);
     end;
   finally
-    frmTransaksi.SetGridHeader_Transaksi;
+//    frmTransaksi.SetGridHeader_Transaksi;
     frmTransaksi.edPLU.Text := '';
   end;
-  {
+
   if iTransID > 0 then
   begin
-    frmTransaksi.sgTransaksi.UnHideColumns(_KolIsDecimal, _ColCount-1);
-    frmTransaksi.sgTransaksi.ClearRows(1,frmTransaksi.sgTransaksi.RowCount-2);
-    frmTransaksi.sgTransaksi.RowCount := 2;
+    frmTransaksi.sgTransaksi.ClearRows;
     with cOpenQuery(GetListPendingTransDetailByHeaderID(frmMain.UnitID, iTransID)) do
     begin
       aKeyPress := VK_RETURN;
@@ -178,10 +175,10 @@ begin
         while not EoF do
         begin
           if frmTransaksi.FindInGrid(FieldByName('TransD_Brg_Code').AsString,0,
-              FieldByName('BHJ_Sat_Code').AsString) = 0 then
+              FieldByName('BHJ_Sat_Code').AsString) = -1 then
           begin
-            if frmTransaksi.sgTransaksi.Cells[_KolPLU, frmTransaksi.sgTransaksi.RowCount-1]<>'' then
-               frmTransaksi.sgTransaksi.RowCount := frmTransaksi.sgTransaksi.RowCount + 1;
+            if frmTransaksi.sgTransaksi.DataController.Values[frmTransaksi.sgTransaksi.DataController.RecordCount-1,_KolPLU]<>'' then
+//               frmTransaksi.sgTransaksi.DataController.Append;
             sQty             := FieldByName('TransD_Qty').AsString;
             sPLU             := FieldByName('TransD_Brg_Code').AsString;
             sUoM             := FieldByName('BHJ_Sat_Code').AsString;
@@ -192,14 +189,14 @@ begin
             iRow_Detail      := frmTransaksi.LoadByPLU(
                                       sQty + '*' + sPLU,
                                       sUoM, False, False, fDiscMan, sDiscoto);
-            if iRow_Detail > 0 then
-              frmTransaksi.sgTransaksi.Ints[_KolDetailID, iRow_Detail] := FieldByName('TRANSD_ID').AsInteger;
+            if iRow_Detail >= 0 then
+              frmTransaksi.sgTransaksi.DataController.Values[iRow_Detail, _KolDetailID] := FieldByName('TRANSD_ID').AsInteger;
 
-            if fBHJSellPrice=0 then
+            if fBHJSellPrice = 0 then
             begin
               frmTransaksi.edHargaKontrabon.Text := FloatToStr(fTransDSellPrice);
               frmTransaksi.edHargaKontrabonKeyDown(frmTransaksi, aKeyPress, []);
-              frmTransaksi.sgTransaksi.Ints[_KolIsKontrabon, iRow_Detail] := 1;
+              frmTransaksi.sgTransaksi.DataController.Values[iRow_Detail, _KolIsKontrabon] := 1;
             end;
           end;
             Next;
@@ -207,15 +204,16 @@ begin
       Finally
         Free;
       end;
-      frmTransaksi.sgTransaksi.AutoNumberCol(0);
+
 //      {$IFDEF RMS}
-//      frmTransaksi.sgTransaksi.HideColumn(_KolDiscMan);
+//      frmTransaksi.sgTransaksi.SetVisibleColumns(_KolDiscMan, _KolDiscMan, False);
 //      {$ENDIF}
-//      frmTransaksi.sgTransaksi.HideColumns(_KolIsDecimal, _ColCount-1);
-//      frmTransaksi.HitungTotalRupiah;
-//    end;
-//    frmTransaksi.edPLU.Text := '';
-//  end;
+//      frmTransaksi.sgTransaksi.SetVisibleColumns(_KolIsDecimal, _ColCount, False);
+
+      frmTransaksi.HitungTotalRupiah;
+    end;
+    frmTransaksi.edPLU.Text := '';
+  end;
   frmTransaksi.Transaksi_ID := iTransID;
 end;
 
@@ -241,6 +239,7 @@ begin
   end;
   }
   sgTransaksi.LoadFromCDS(cOpenDataset(GetListPendingTransByUserIDAndDate(frmMain.UnitID, frmMain.UserID, cGetServerDateTime)));
+  sgTransaksi.SetVisibleColumns(_Kol_TRANS_IS_ACTIVE, _Kol_TRANS_MEMBER_UNT_ID, False);
   if sgTransaksi.DataController.RecordCount = 0 then
   begin
     frmTransaksi := GetFormByClass(TfrmTransaksi) as TfrmTransaksi;
@@ -254,7 +253,7 @@ end;
 
 procedure TfrmTransaksiPending.sgTransaksiDblClick(Sender: TObject);
 begin
-	if sgTransaksi.DataController.RecNo = 0 then Exit;
+//	if sgTransaksi.DataController.RecNo = 0 then Exit;
 
   LoadPendingFromDBwSQL('test');
   self.Close;
@@ -272,6 +271,24 @@ end;
 procedure TfrmTransaksiPending.btnRefreshClick(Sender: TObject);
 begin
   RefreshTransPending;
+end;
+
+procedure TfrmTransaksiPending.sgTransaksiColumn1GetDisplayText(Sender:
+    TcxCustomGridTableItem; ARecord: TcxCustomGridRecord; var AText: string);
+var
+  Row: Integer;
+begin
+  Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
+  AText := IntToStr(Row+1);
+end;
+
+procedure TfrmTransaksiPending.sgTransaksiKeyDown(Sender: TObject; var Key:
+    Word; Shift: TShiftState);
+begin
+	if Key = VK_RETURN then
+  begin
+    sgTransaksiDblClick(sgTransaksi);
+  end
 end;
 
 end.
