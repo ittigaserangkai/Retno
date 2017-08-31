@@ -1408,6 +1408,13 @@ object frmMain: TfrmMain
     object actAPCARD: TAction
       Caption = 'AP Card'
       ImageIndex = 60
+      OnExecute = actAPCARDExecute
+    end
+    object actHistoryAP: TAction
+      Category = 'Finance'
+      Caption = 'History AP'
+      ImageIndex = 60
+      OnExecute = actHistoryAPExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -1793,6 +1800,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnKartuAP'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnHistoryAP'
         end>
       OneOnRow = False
       Row = 0
@@ -2023,6 +2034,11 @@ object frmMain: TfrmMain
     end
     object dxbrbtnKartuAP: TdxBarButton
       Action = actAPCARD
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnHistoryAP: TdxBarButton
+      Action = actHistoryAP
       Category = 0
       PaintStyle = psCaptionGlyph
     end

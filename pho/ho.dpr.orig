@@ -219,13 +219,19 @@ uses
   uModCNRecv in '..\model\uModCNRecv.pas',
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModOrganization in '..\model\uModOrganization.pas',
-<<<<<<< HEAD
   ufrmBankCashOut in '..\module\finance\ufrmBankCashOut.pas' {frmBankCashOut},
-  ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut};
+  ufrmDialogBankCashOut in '..\module\finance\ufrmDialogBankCashOut.pas' {frmDialogBankCashOut},
+  ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
+  ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
+  uModBankCashOut in '..\model\uModBankCashOut.pas',
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+<<<<<<< HEAD
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
+  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP};
 =======
-  uModShift in '..\model\uModShift.pas',
-  ufrmShift in '..\module\management user\ufrmShift.pas' {frmShift};
->>>>>>> a85ddf75f7964a5b3fb62e71f2d1e0ff4e1014d7
+  uModShift in '..\model\uModShift.pas';
+>>>>>>> e135a715c7acadad01a12549bd8382efaa184c07
 
 {$R *.res}
 
