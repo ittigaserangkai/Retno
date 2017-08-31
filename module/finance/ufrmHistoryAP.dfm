@@ -1,8 +1,11 @@
 inherited frmHistoryAP: TfrmHistoryAP
   Caption = 'History Report'
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
+    ExplicitHeight = 260
     object lblNoAP: TLabel
       Left = 41
       Top = 17
@@ -69,11 +72,6 @@ inherited frmHistoryAP: TfrmHistoryAP
       Top = 96
       Caption = 'Total'
       Transparent = True
-    end
-  end
-  inherited pnlShortCut: TPanel
-    inherited lbEscape: TLabel
-      Height = 17
     end
   end
   inherited actReport: TActionList

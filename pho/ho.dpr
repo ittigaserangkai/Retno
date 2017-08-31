@@ -225,7 +225,10 @@ uses
   ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
-  uModShift in '..\model\uModShift.pas';
+  uModShift in '..\model\uModShift.pas',
+  ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP};
 
 {$R *.res}
 
@@ -236,5 +239,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmHistoryAP, frmHistoryAP);
   Application.Run;
 end.
