@@ -224,7 +224,8 @@ uses
   ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
   ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
   uModBankCashOut in '..\model\uModBankCashOut.pas',
-  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+  uModShift in '..\model\uModShift.pas';
 
 {$R *.res}
 

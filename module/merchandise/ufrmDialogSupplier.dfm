@@ -7,7 +7,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -125
   ExplicitWidth = 687
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -46,6 +45,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = '&Supplier'
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lbl3: TLabel
           Left = 65
           Top = 48
@@ -1051,6 +1053,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsA: TcxTabSheet
             Caption = '&Addreses'
             ImageIndex = 1
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object pnlAddress: TPanel
               Left = 0
               Top = 0
