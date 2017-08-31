@@ -1304,7 +1304,8 @@ begin
     else if C is TComboBox then IsEmpty := TComboBox(C).ItemIndex = -1
     else if C is TEdit then IsEmpty := TRIM(TEdit(C).Text) = ''
     else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
-    else if C is TcxTextEdit then IsEmpty := TRIM(TcxTextEdit(C).Text) = '';
+    else if C is TcxTextEdit then IsEmpty := TRIM(TcxTextEdit(C).Text) = ''
+    else if C is TLabeledEdit then IsEmpty := TRIM(TLabeledEdit(C).Text) = '';
 //    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
 //    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
 
