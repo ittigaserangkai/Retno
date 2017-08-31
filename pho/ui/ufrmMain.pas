@@ -390,6 +390,8 @@ type
     dxbrbtnBCO: TdxBarButton;
     dxbrbtnKartuAP: TdxBarButton;
     actAPCARD: TAction;
+    dxBarButton4: TdxBarButton;
+    dxBarButton5: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
@@ -1071,7 +1073,7 @@ end;
 
 procedure TfrmMain.actUserExecute(Sender: TObject);
 begin
-    frmUser := TfrmUser.CreateWithUser(Application, FFormProperty);
+    frmUser := TfrmUser.Create(Self);
 end;
 
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);

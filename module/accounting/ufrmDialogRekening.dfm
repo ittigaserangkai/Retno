@@ -145,6 +145,7 @@ inherited frmDialogRekening: TfrmDialogRekening
     object intedtLevel: TcxSpinEdit
       Left = 144
       Top = 63
+      Properties.OnEditValueChanged = intedtLevelPropertiesEditValueChanged
       TabOrder = 2
       OnKeyUp = intedtLevelKeyUp
       Width = 52
@@ -181,6 +182,7 @@ inherited frmDialogRekening: TfrmDialogRekening
       end
       inherited btnPrint: TcxButton
         Left = 229
+        Action = actPrint
         ExplicitLeft = 229
       end
     end

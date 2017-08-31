@@ -1,108 +1,88 @@
 inherited frmUser: TfrmUser
-  Left = 339
-  Top = 395
-  Caption = 'User'
-  ClientHeight = 325
-  ClientWidth = 607
-  OldCreateOrder = True
-  ExplicitWidth = 623
-  ExplicitHeight = 364
+  ClientHeight = 394
+  ClientWidth = 687
+  ExplicitWidth = 703
+  ExplicitHeight = 433
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 607
-    Height = 239
-    ExplicitWidth = 539
-    ExplicitHeight = 115
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 11
-      Width = 585
-      Height = 217
-      Align = alClient
-      TabOrder = 0
-      ExplicitWidth = 517
-      ExplicitHeight = 93
-      object cxGridDBTableView1: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-      end
-      object cxGridLevel1: TcxGridLevel
-        GridView = cxGridDBTableView1
+    Width = 687
+    Height = 305
+    ExplicitWidth = 120
+    inherited pgcBrowse: TcxPageControl
+      Width = 685
+      Height = 303
+      ExplicitWidth = 118
+      ClientRectBottom = 302
+      ClientRectRight = 684
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 116
+        inherited cxGrid: TcxGrid
+          Width = 683
+          Height = 301
+          ExplicitWidth = 116
+        end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 607
-    ExplicitWidth = 539
-    inherited lblHeader: TLabel
-      Height = 18
+    Width = 687
+    ExplicitWidth = 120
+    inherited lblFilterData: TcxLabel
+      Left = 333
+      ExplicitLeft = -234
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 394
+      ExplicitLeft = -173
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 510
+      ExplicitLeft = -57
+    end
+    inherited btnSearch: TcxButton
+      Left = 605
+      ExplicitLeft = 38
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 486
+      ExplicitLeft = -81
+      AnchorY = 17
     end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
-    Top = 269
-    Width = 607
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 145
-    ExplicitWidth = 539
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 338
+    Width = 687
+    ExplicitTop = -56
+    ExplicitWidth = 120
     inherited pnlFooter: TPanel
-      Width = 607
-      ExplicitWidth = 539
-      inherited btnClose: TcxButton
-        Left = 525
-        ExplicitLeft = 457
-      end
+      Width = 687
+      ExplicitWidth = 120
       inherited btnAdd: TcxButton
-        Action = actAddUser
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditUser
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteUser
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshUser
+      inherited btnClose: TcxButton
+        Left = 610
+        Action = actClose
+        ExplicitLeft = 43
       end
-    end
-    inherited pnlSortCut: TPanel
-      Width = 607
-      ExplicitWidth = 539
-      inherited lbl5: TLabel
-        Left = 517
-        ExplicitLeft = 452
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-  end
-  object actlstMerchandiseGroup: TActionList
-    Left = 472
-    Top = 8
-    object actAddUser: TAction
-      Caption = 'Add'
-      OnExecute = actAddUserExecute
-    end
-    object actEditUser: TAction
-      Caption = 'Edit'
-      OnExecute = actEditUserExecute
-    end
-    object actDeleteUser: TAction
-      Caption = 'Delete'
-      OnExecute = actDeleteUserExecute
-    end
-    object actRefreshUser: TAction
-      Caption = 'Refresh'
-      OnExecute = actRefreshUserExecute
+    inherited pnlShortCut: TPanel
+      Width = 687
+      ExplicitWidth = 120
+      inherited lbEscape: TLabel
+        Left = 613
+      end
     end
   end
 end

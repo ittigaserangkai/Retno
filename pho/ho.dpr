@@ -89,7 +89,7 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
@@ -225,7 +225,8 @@ uses
   ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
-  uModShift in '..\model\uModShift.pas';
+  uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas';
 
 {$R *.res}
 

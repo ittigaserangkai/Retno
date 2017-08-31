@@ -126,6 +126,7 @@ type
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
     function RekeningBCOLain_GetDSLookup: TDataSet;
+    function Rekening_GetDSLookupLvl: TDataSet;
 
 
   end;
@@ -205,7 +206,7 @@ function TDSProvider.Rekening_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REKENING_PARENT_ID, REF$GRUP_REKENING_ID from REKENING';
+  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REKENING_PARENT_ID, REF$GRUP_REKENING_ID from REKENING ORDER BY REK_CODE ASC';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1216,7 +1217,7 @@ function TDSProvider.AutUser_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * AUT$USER';
+  S := 'SELECT * FROM AUT$USER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1237,6 +1238,14 @@ var
   S: string;
 begin
   S := 'select * from V_REKENING_BCO_LAINLAIN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Rekening_GetDSLookupLvl: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_LEVEL, REK_DESCRIPTION, REF$GRUP_REKENING_ID from REKENING ';
   Result := TDBUtils.OpenQuery(S);
 end;
 

@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -193,6 +192,7 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxrbntbSetting: TdxRibbonTab
+      Active = True
       Caption = 'Setting'
       Groups = <
         item
@@ -1813,6 +1813,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton3'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton5'
         end>
       OneOnRow = False
       Row = 0
@@ -2025,6 +2029,14 @@ object frmMain: TfrmMain
       Action = actAPCARD
       Category = 0
       PaintStyle = psCaptionGlyph
+    end
+    object dxBarButton4: TdxBarButton
+      Action = actRekening
+      Category = 0
+    end
+    object dxBarButton5: TdxBarButton
+      Action = actUser
+      Category = 0
     end
   end
 end
