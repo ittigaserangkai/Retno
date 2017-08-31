@@ -11,7 +11,8 @@ uses
   ufrmMerchandiseGroup, ufrmKategori, ufrmMerk, ufrmSubGroup, ufrmCostCenter,
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
-  dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut;
+  dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
+  ufrmAPCard, ufrmHistoryAP;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -374,7 +375,10 @@ type
     dxbrbtnBCO: TdxBarButton;
     dxbrbtnKartuAP: TdxBarButton;
     actAPCARD: TAction;
+    actHistoryAP: TAction;
+    dxbrbtnHistoryAP: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
+    procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeUsageExecute(Sender: TObject);
@@ -396,6 +400,7 @@ type
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
     procedure actGudangExecute(Sender: TObject);
+    procedure actHistoryAPExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
@@ -544,6 +549,11 @@ end;
 procedure TfrmMain.actAdjustmentFakturExecute(Sender: TObject);
 begin
   frmAdjustmentFaktur := TfrmAdjustmentFaktur.Create(Self);
+end;
+
+procedure TfrmMain.actAPCARDExecute(Sender: TObject);
+begin
+  frmAPCard := TfrmAPCard.Create(nil);
 end;
 
 procedure TfrmMain.actAPPaymentExecute(Sender: TObject);
@@ -696,6 +706,11 @@ end;
 procedure TfrmMain.actGudangExecute(Sender: TObject);
 begin
   frmGudang := TfrmGudang.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actHistoryAPExecute(Sender: TObject);
+begin
+  frmHistoryAP := TfrmHistoryAP.Create(nil);
 end;
 
 procedure TfrmMain.actShiftExecute(Sender: TObject);

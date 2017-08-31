@@ -139,6 +139,7 @@ type
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function DSA_GetDS(aStartDate, aEndDate: TDatetime): TDataSet;
     function DSR_GetDS(aStartDate, aEndDate: TDatetime): TFDJSONDataSets;
+    function HistoryAP(ANoAP : String): TFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
         aGudang_ID: string): TDataSet;
     function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
@@ -151,6 +152,8 @@ type
     function SO_Test: TFDJSONDataSets;
     function InvMovement_GetDS(aStartDate, aEndDate: TDatetime; aGroup_ID,
         aSupplier_ID, aGudang_ID: String): TDataSet;
+    function KartuAP(AOrgID : String; APeriodeAwal : TDateTime; APeriodeAkhir :
+        TDateTime): TFDJSONDataSets;
     function Test2: OleVariant;
     function Test: Variant;
   end;
@@ -1251,7 +1254,7 @@ begin
     + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
     + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
-  if Trim('') <> '' then
+  if Trim(ANoBukti) <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
 
   sSQL := sSQL + ' order by bco_nobukti';
@@ -1262,7 +1265,7 @@ begin
     + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
     + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
-  if Trim('') <> '' then
+  if Trim(ANoBukti) <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
 
   sSQL := sSQL + ' order by bco_nobukti';
@@ -1273,7 +1276,7 @@ begin
     + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
     + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
-  if Trim('') <> '' then
+  if Trim(ANoBukti) <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
 
   sSQL := sSQL + ' order by bco_nobukti';
@@ -1359,6 +1362,23 @@ begin
       +' ,' + TDBUtils.QuotD(aEndDate) + ') ';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.HistoryAP(ANoAP : String): TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  sSQL   := 'select * from V_AP' +
+            ' where ap_refnum = ' + QuotedStr(ANoAP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+
+  sSQL   := 'select * from V_AP_SETTLEMEN ' +
+            ' where NO_AP = ' + QuotedStr(ANoAP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 
 function TDSReport.KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate:
@@ -1478,6 +1498,18 @@ begin
     S := S + ' AND A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
 
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.KartuAP(AOrgID : String; APeriodeAwal : TDateTime;
+    APeriodeAkhir : TDateTime): TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  sSQL   := 'select * from FN_KARTU_AP (' + QuotedStr(AOrgID) + ', ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) + ',' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir)) + ')';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+
 end;
 
 function TDSReport.Test2: OleVariant;
