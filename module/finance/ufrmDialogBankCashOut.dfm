@@ -501,14 +501,20 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       ExplicitWidth = 799
       inherited lbCTRLEnter: TLabel
         Left = 624
+        Height = 15
         ExplicitLeft = 624
       end
       inherited lbEscape: TLabel
         Left = 715
+        Height = 15
         ExplicitLeft = 715
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 548
+        Height = 15
         ExplicitLeft = 548
       end
     end

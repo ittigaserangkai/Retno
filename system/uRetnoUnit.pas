@@ -3,7 +3,7 @@ unit uRetnoUnit;
 interface
 uses
   ExtCtrls, Controls, Graphics, uConstanta, udmMain, Windows, Classes, SysUtils,
-  Forms, uTSINIFile, uAppUtils, uModUnit;
+  Forms, uTSINIFile, uAppUtils, uModUnit, uDMClient, uDMReport;
 
 type
   TTag = set of byte;
@@ -21,6 +21,7 @@ type
     class procedure SetUnitStore(const Value: TModUnit); static;
   protected
   public
+    class procedure LapHistoryAP(ANoAP : String);
     class property UnitStore: TModUnit read GetUnitStore write SetUnitStore;
   end;
 
@@ -233,6 +234,15 @@ begin
   if (FUnitStore)=nil then
     FUnitStore := TModUnit.Create;
   Result := FUnitStore;
+end;
+
+class procedure TRetno.LapHistoryAP(ANoAP : String);
+begin
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport('reports/History_AP' ,ReportClient.HistoryAP(ANoAP), ['QAP','QAP_HISTORY']);
+  end;
 end;
 
 class procedure TRetno.SetUnitStore(const Value: TModUnit);

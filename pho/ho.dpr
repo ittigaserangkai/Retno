@@ -226,7 +226,10 @@ uses
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
   uModShift in '..\model\uModShift.pas',
-  uModRekening in '..\model\uModRekening.pas';
+  uModRekening in '..\model\uModRekening.pas',
+  ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP};
 
 {$R *.res}
 

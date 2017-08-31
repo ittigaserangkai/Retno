@@ -29,6 +29,8 @@ type
     property AP_ORGANIZATION: TModOrganization read FAP_ORGANIZATION write
         FAP_ORGANIZATION;
     property AP_PAID: Double read FAP_PAID write FAP_PAID;
+
+    [AttributeOfCode]
     property AP_REFNUM: string read FAP_REFNUM write FAP_REFNUM;
     property AP_REKENING: TModRekening read FAP_REKENING write FAP_REKENING;
     property AP_TOTAL: Double read FAP_TOTAL write FAP_TOTAL;
