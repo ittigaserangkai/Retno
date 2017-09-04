@@ -14,7 +14,22 @@ uses
   Data.DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxSplitter,
   cxHyperLinkEdit, Vcl.Menus, cxButtons, Datasnap.DBClient, cxLabel,
-  cxButtonEdit;
+  cxButtonEdit, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint,
+  dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
+  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
+  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
+  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
+  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter;
 
 type
 
@@ -230,6 +245,7 @@ type
     lbUOMPurchase: TLabel;
     cxLookupSatPurchase: TcxExtLookupComboBox;
     ckFilterSupMG: TcxCheckBox;
+    ckIsSOBlacklist: TcxCheckBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -385,6 +401,7 @@ begin
   CDSSupp.FieldByName('SATUAN_PURCHASE').AsString := cxLookupBRSUom.EditValue;
   CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat := crStockInOrder.Value;
   CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger := TAppUtils.BoolToInt(ckBKP.Checked);
+  CDSSupp.FieldByName('BRGSUP_IS_SO_BLACKLIST').AsInteger := TAppUtils.BoolToInt(ckIsSOBlacklist.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger := TAppUtils.BoolToInt(ckPrimarySupp.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(ckEnableCN.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger := TAppUtils.BoolToInt(ckActive.Checked);
@@ -465,6 +482,7 @@ begin
   cxLookupBRSUom.EditValue    := CDSSupp.FieldByName('SATUAN_PURCHASE').AsString;
   crStockInOrder.Value        := CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat;
   ckBKP.Checked               := CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger = 1;
+  ckIsSOBlacklist.Checked     := CDSSupp.FieldByName('BRGSUP_IS_SO_BLACKLIST').AsInteger = 1;
   ckPrimarySupp.Checked       := CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger = 1;
   ckEnableCN.Checked          := CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger = 1;
   ckActive.Checked            := CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger = 1;
