@@ -16,6 +16,8 @@ type
     dtpEnd: TDateTimePicker;
     Label1: TLabel;
     lbl1: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
   private
     FModShift: TModShift;
@@ -34,6 +36,26 @@ implementation
 uses ufrmShift, uTSCommonDlg, uRetnoUnit;
 
 {$R *.dfm}
+
+procedure TfrmDialogShift.FormCreate(Sender: TObject);
+begin
+  inherited;
+  self.AssignKeyDownEvent;
+end;
+
+procedure TfrmDialogShift.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  Try
+    DMCLient.CrudClient.DeleteFromDB(ModShift);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult:=mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
 
 procedure TfrmDialogShift.actSaveExecute(Sender: TObject);
 begin
@@ -67,7 +89,6 @@ begin
   ModShift.SHIFT_START_TIME := dtpStart.DateTime;
   ModShift.SHIFT_END_TIME   := dtpEnd.DateTime;
 
-
   try
     DMClient.CrudClient.SaveToDB(ModShift);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
@@ -77,8 +98,6 @@ begin
     raise;
   end;
 end;
-
-
 end.
 
 

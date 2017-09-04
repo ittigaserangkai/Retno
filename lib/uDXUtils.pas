@@ -1219,6 +1219,12 @@ begin
     if C is TcxExtLookupComboBox then
       if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
         TcxExtLookupComboBox(C).OnKeyDown := OnKeyEnter;
+    if C is TLabeledEdit then
+      if not Assigned(TLabeledEdit(C).OnKeyDown) then
+        TLabeledEdit(C).OnKeyDown := OnKeyEnter;
+    if C is TDateTimePicker then
+      if not Assigned(TDateTimePicker(C).OnKeyDown) then
+        TDateTimePicker(C).OnKeyDown := OnKeyEnter;
 
 
     //------ devexpress ---------//

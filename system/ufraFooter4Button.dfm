@@ -169,7 +169,7 @@ object fraFooter4Button: TfraFooter4Button
       Left = 502
       Top = 2
       Width = 72
-      Height = 17
+      Height = 16
       Align = alRight
       Caption = 'Escape [Close]'
       Font.Charset = DEFAULT_CHARSET
@@ -178,7 +178,6 @@ object fraFooter4Button: TfraFooter4Button
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object lbCTRLP: TLabel
       AlignWithMargins = True

@@ -120,6 +120,9 @@ inherited frmDialogShift: TfrmDialogShift
   end
   inherited actlstMasterDialog: TActionList
     Left = 168
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end
