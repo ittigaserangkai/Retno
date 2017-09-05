@@ -10,7 +10,7 @@ uses
   cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, Datasnap.DBClient, uDBUtils, uDMClient, uDXUtils,
-  uDMReport, uAppUtils, System.DateUtils;
+  uDMReport, uAppUtils, System.DateUtils, uRetnoUnit;
 
 type
   TfrmAPCard = class(TfrmMasterReport)
@@ -40,17 +40,7 @@ implementation
 procedure TfrmAPCard.actPrintExecute(Sender: TObject);
 begin
   inherited;
-  with DMReport do
-  begin
-    AddReportVariable('UserCetak', 'USER');
-    AddReportVariable('P1', FormatDateTime('dd/MM/yyyy',dtAwalFilter.Date));
-    AddReportVariable('P2', FormatDateTime('dd/MM/yyyy',dtAkhirFilter.Date));
-
-    ExecuteReport('reports/KartuAP',
-                  ReportClient.KartuAP(cbbOrganisasi.EditValueRest, dtAwalFilter.Date, dtAkhirFilter.Date),
-                  ['QKartuAP']
-                 );
-  end;
+  TRetno.KartuAP(cbbOrganisasi.EditValueRest, dtAwalFilter.Date, dtAkhirFilter.Date);
 end;
 
 procedure TfrmAPCard.FormCreate(Sender: TObject);

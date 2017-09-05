@@ -1385,7 +1385,8 @@ begin
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 
   sSQL   := 'select * from V_AP_SETTLEMEN ' +
-            ' where NO_AP = ' + QuotedStr(ANoAP);
+            ' where NO_AP = ' + QuotedStr(ANoAP) +
+            ' order by tanggal';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
@@ -1516,7 +1517,7 @@ var
 begin
   Result := TFDJSONDataSets.Create;
 
-  sSQL   := 'select * from FN_KARTU_AP (' + QuotedStr(AOrgID) + ', ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) + ',' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir)) + ')';
+  sSQL   := 'select * from FN_KARTU_AP (' + QuotedStr(AOrgID) + ', ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) + ',' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir)) + ') order by tanggal';
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 
 end;

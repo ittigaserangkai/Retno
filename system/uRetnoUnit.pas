@@ -21,6 +21,8 @@ type
     class procedure SetUnitStore(const Value: TModUnit); static;
   protected
   public
+    class procedure KartuAP(AOrgID : String; APeriodeAwal, APreiodeAkhir :
+        TDatetime);
     class procedure LapHistoryAP(ANoAP : String);
     class property UnitStore: TModUnit read GetUnitStore write SetUnitStore;
   end;
@@ -234,6 +236,22 @@ begin
   if (FUnitStore)=nil then
     FUnitStore := TModUnit.Create;
   Result := FUnitStore;
+end;
+
+class procedure TRetno.KartuAP(AOrgID : String; APeriodeAwal, APreiodeAkhir :
+    TDatetime);
+begin
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    AddReportVariable('P1', FormatDateTime('dd/MM/yyyy',APeriodeAwal));
+    AddReportVariable('P2', FormatDateTime('dd/MM/yyyy',APreiodeAkhir));
+
+    ExecuteReport('reports/KartuAP',
+                  ReportClient.KartuAP(AOrgID, APeriodeAwal, APreiodeAkhir),
+                  ['QKartuAP']
+                 );
+  end;
 end;
 
 class procedure TRetno.LapHistoryAP(ANoAP : String);
