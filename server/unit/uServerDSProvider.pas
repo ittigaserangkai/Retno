@@ -1385,7 +1385,8 @@ begin
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 
   sSQL   := 'select * from V_AP_SETTLEMEN ' +
-            ' where NO_AP = ' + QuotedStr(ANoAP);
+            ' where NO_AP = ' + QuotedStr(ANoAP) +
+            ' order by tanggal';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
