@@ -1516,7 +1516,7 @@ var
 begin
   Result := TFDJSONDataSets.Create;
 
-  sSQL   := 'select * from FN_KARTU_AP (' + QuotedStr(AOrgID) + ', ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) + ',' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir)) + ')';
+  sSQL   := 'select * from FN_KARTU_AP (' + QuotedStr(AOrgID) + ', ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) + ',' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir)) + ') order by tanggal';
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 
 end;
