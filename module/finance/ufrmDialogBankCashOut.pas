@@ -15,7 +15,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
   cxGridCustomView, cxGrid, cxPC, uDMClient, uClientClasses, ufrmCXLookup,
   uModOrganization, uModBankCashOut, Datasnap.DBClient, uDXUtils,
-  uDBUtils, uModBank, uAppUtils, uInterface, uModelHelper, uDMReport;
+  uDBUtils, uModBank, uAppUtils, uInterface, uModelHelper, uDMReport, uConstanta;
 
 type
   TfrmDialogBankCashOut = class(TfrmMasterDialog, ICRUDAble)
@@ -178,12 +178,20 @@ begin
   UpdateBankCashOutOtherItems;
   UpdateAPChequeOtems;
 
-  sID := DMClient.CrudBankCashOutClient.SaveToDBID(BCO);
-  if sID <> '' then
-  begin
-    FreeAndNil(FBCO);
-    FBCO := DMClient.CrudBankCashOutClient.Retrieve(TModBankCashOut.ClassName,sID) as TModBankCashOut;
-    edNoBukti.Text := FBCO.BCO_NoBukti;
+  try
+    sID := DMClient.CrudBankCashOutClient.SaveToDBID(BCO);
+    if sID <> '' then
+    begin
+      FreeAndNil(FBCO);
+      FBCO := DMClient.CrudBankCashOutClient.Retrieve(TModBankCashOut.ClassName,sID) as TModBankCashOut;
+      edNoBukti.Text := FBCO.BCO_NoBukti;
+      Self.ModalResult := mrOk;
+    end;
+
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
   end;
 
 
