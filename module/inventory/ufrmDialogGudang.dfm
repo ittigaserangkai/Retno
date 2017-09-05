@@ -158,6 +158,7 @@ inherited frmDialogGudang: TfrmDialogGudang
       end
       inherited btnPrint: TcxButton
         Left = 267
+        Action = actPrint
         ExplicitLeft = 267
       end
     end
@@ -167,18 +168,13 @@ inherited frmDialogGudang: TfrmDialogGudang
       inherited lbCTRLEnter: TLabel
         Left = 336
         Width = 88
-        Height = 15
         Caption = ' Ctrl-Enter [Save]'
         ExplicitLeft = 336
         ExplicitWidth = 88
       end
       inherited lbEscape: TLabel
         Left = 430
-        Height = 15
         ExplicitLeft = 430
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 260

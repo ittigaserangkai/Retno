@@ -1,8 +1,3 @@
-//
-// Created by the DataSnap proxy generator.
-// 8/31/2017 1:51:23 PM
-//
-
 unit uClientClasses;
 
 interface
@@ -288,6 +283,8 @@ type
     FBankCashOut_GetDSByPeriodCommand_Cache: TDSRestCommand;
     FRekeningBCOLain_GetDSLookupCommand: TDSRestCommand;
     FRekeningBCOLain_GetDSLookupCommand_Cache: TDSRestCommand;
+    FRekening_GetDSLookupLvlCommand: TDSRestCommand;
+    FRekening_GetDSLookupLvlCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -493,6 +490,8 @@ type
     function BankCashOut_GetDSByPeriod_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningBCOLain_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function RekeningBCOLain_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Rekening_GetDSLookupLvl(const ARequestFilter: string = ''): TDataSet;
+    function Rekening_GetDSLookupLvl_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -2276,6 +2275,16 @@ const
   );
 
   TDSProvider_RekeningBCOLain_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Rekening_GetDSLookupLvl: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Rekening_GetDSLookupLvl_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -7365,6 +7374,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekeningBCOLain_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Rekening_GetDSLookupLvl(const ARequestFilter: string): TDataSet;
+begin
+  if FRekening_GetDSLookupLvlCommand = nil then
+  begin
+    FRekening_GetDSLookupLvlCommand := FConnection.CreateCommand;
+    FRekening_GetDSLookupLvlCommand.RequestType := 'GET';
+    FRekening_GetDSLookupLvlCommand.Text := 'TDSProvider.Rekening_GetDSLookupLvl';
+    FRekening_GetDSLookupLvlCommand.Prepare(TDSProvider_Rekening_GetDSLookupLvl);
+  end;
+  FRekening_GetDSLookupLvlCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekening_GetDSLookupLvlCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekening_GetDSLookupLvlCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Rekening_GetDSLookupLvl_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekening_GetDSLookupLvlCommand_Cache = nil then
+  begin
+    FRekening_GetDSLookupLvlCommand_Cache := FConnection.CreateCommand;
+    FRekening_GetDSLookupLvlCommand_Cache.RequestType := 'GET';
+    FRekening_GetDSLookupLvlCommand_Cache.Text := 'TDSProvider.Rekening_GetDSLookupLvl';
+    FRekening_GetDSLookupLvlCommand_Cache.Prepare(TDSProvider_Rekening_GetDSLookupLvl_Cache);
+  end;
+  FRekening_GetDSLookupLvlCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekening_GetDSLookupLvlCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -7578,6 +7616,8 @@ begin
   FBankCashOut_GetDSByPeriodCommand_Cache.DisposeOf;
   FRekeningBCOLain_GetDSLookupCommand.DisposeOf;
   FRekeningBCOLain_GetDSLookupCommand_Cache.DisposeOf;
+  FRekening_GetDSLookupLvlCommand.DisposeOf;
+  FRekening_GetDSLookupLvlCommand_Cache.DisposeOf;
   inherited;
 end;
 

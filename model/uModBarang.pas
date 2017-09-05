@@ -211,6 +211,7 @@ type
     FBRGSUP_IS_BKP: Integer;
     FBRGSUP_IS_ACTIVE: Integer;
     FBRGSUP_FEE: Integer;
+    FBRGSUP_IS_SO_BLACKLIST: Integer;
     FBRGSUP_MARK_UP: Double;
     FSATUAN_PURCHASE: TModSatuan;
     FSupplier: TModSuplier;
@@ -248,6 +249,8 @@ type
     property BRGSUP_IS_ACTIVE: Integer read FBRGSUP_IS_ACTIVE write
         FBRGSUP_IS_ACTIVE;
     property BRGSUP_FEE: Integer read FBRGSUP_FEE write FBRGSUP_FEE;
+    property BRGSUP_IS_SO_BLACKLIST: Integer read FBRGSUP_IS_SO_BLACKLIST write
+        FBRGSUP_IS_SO_BLACKLIST;
     property BRGSUP_MARK_UP: Double read FBRGSUP_MARK_UP write FBRGSUP_MARK_UP;
     [AttributeOfForeign('REF$SATUAN_PURCHASE')]
     property SATUAN_PURCHASE: TModSatuan read FSATUAN_PURCHASE write

@@ -131,7 +131,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Caption = 'Pendptn. per Bulan'
       end
       object Label1: TLabel
-        Left = 500
+        Left = 501
         Top = 12
         Width = 46
         Height = 16
@@ -469,7 +469,6 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         ReadOnly = True
         TabOrder = 1
         Text = '01330001217'
-        ExplicitLeft = 350
       end
     end
   end
@@ -496,6 +495,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       end
       inherited btnPrint: TcxButton
         Left = 519
+        Action = actPrint
         ExplicitLeft = 519
       end
     end

@@ -1278,7 +1278,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckActive: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 26
+              Top = 50
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1293,7 +1293,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckPrimarySupp: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 2
+              Top = 26
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1303,11 +1303,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 0
               Transparent = True
+              ExplicitTop = 2
             end
             object ckBKP: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 50
+              Top = 74
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1317,11 +1318,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 2
               Transparent = True
+              ExplicitTop = 50
             end
             object ckEnableCN: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 74
+              Top = 98
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1332,6 +1334,21 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 3
               Transparent = True
               OnKeyDown = ckEnableCNKeyDown
+              ExplicitTop = 74
+            end
+            object ckIsSOBlacklist: TcxCheckBox
+              AlignWithMargins = True
+              Left = 5
+              Top = 2
+              Margins.Top = 0
+              Margins.Right = 0
+              Margins.Bottom = 0
+              Align = alTop
+              Caption = 'Is SO Blacklist'
+              Properties.ImmediatePost = True
+              TabOrder = 4
+              Transparent = True
+              ExplicitLeft = 3
             end
           end
           object crBRSSellingPrice: TcxCurrencyEdit
@@ -1444,8 +1461,8 @@ inherited frmDialogProduct: TfrmDialogProduct
           object ckFilterSupMG: TcxCheckBox
             Tag = 3
             AlignWithMargins = True
-            Left = 413
-            Top = 8
+            Left = 418
+            Top = 6
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0

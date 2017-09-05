@@ -9,7 +9,8 @@ uses
   cxEdit, cxMaskEdit, cxButtonEdit, cxTextEdit, cxCurrencyEdit, uClientClasses,
   uModRekening,  uDMClient, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, uDbutils, DBClient, Vcl.Samples.Spin,
-  cxSpinEdit, ufraFooterDialog3Button, System.Actions, Vcl.ActnList, uInterface;
+  cxSpinEdit, ufraFooterDialog3Button, System.Actions, Vcl.ActnList,
+  uInterface;
 
 type
   TStatusForm = (frNew, frEdit);
@@ -56,7 +57,9 @@ type
       Shift: TShiftState);
     procedure chkplKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure chkbsKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure intedtLevelPropertiesEditValueChanged(Sender: TObject);
   private
+    FCDS: TClientDataSet;
     FCDSRekening: tclientDataset;
     FCDSRekeningGroup: tclientDataset;
     FCrud: TCrudClient;
@@ -136,10 +139,13 @@ end;
 procedure TfrmDialogRekening.FormCreate(Sender: TObject);
 begin
   inherited;
-  dbParentCode.Properties.LoadFromCDS(CDSRekening,'REKENING_ID', 'REK_NAME', ['REKENING_ID'] , self);
+  dbParentCode.Properties.LoadFromCDS(CDSRekening,'REKENING_ID', 'REK_NAME', ['REKENING_ID', 'REK_LEVEL'] , self);
   dbParentCode.Properties.SetMultiPurposeLookup;
   dbAccountGroup.Properties.LoadFromCDS(CDSRekeningGroup,'REF$GRUP_REKENING_ID', 'GROREK_NAME', ['REF$GRUP_REKENING_ID'] , self);
   dbAccountGroup.Properties.SetMultiPurposeLookup;
+
+  intedtLevelPropertiesEditValueChanged(Self);
+
   self.ClearByTag([0]);
 end;
 
@@ -279,6 +285,23 @@ begin
   end;
 end;
 
+procedure TfrmDialogRekening.intedtLevelPropertiesEditValueChanged(
+  Sender: TObject);
+var
+  lDS: TClientDataSet;
+begin
+  inherited;
+//  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Rekening_GetDSLookupLvl(intedtLevel.Value), Self);
+//  dbParentCode.Properties.LoadFromCDS(FCDS,'REKENING_ID', 'REK_NAME', ['REKENING_ID', 'REK_LEVEL'] , self);
+
+  lDS := dbParentCode.CDS;
+  if not Assigned(lDS) then exit;
+
+  lDS.Filtered := True;
+  lDS.Filter := 'REK_LEVEL < ' + inttostr(intedtLevel.Value);
+
+end;
+
 procedure TfrmDialogRekening.edtDescriptionKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
@@ -354,7 +377,7 @@ begin
   if (dbParentCode.Text = '') then
   begin
     TAppUtils.Warning('Parent Code Tidak Boleh Kosong');
-    dbAccountGroup.SetFocus;
+    dbParentCode.SetFocus;
     Exit;
   end;
 
@@ -404,7 +427,7 @@ end;
 function TfrmDialogRekening.GetCDSRekening: tclientDataset;
 begin
   if not assigned(FCDSRekening) then
-    fCDSRekening := Tdbutils.DSToCDS(DsProvider.Rekening_GetDSLookup, self);
+    fCDSRekening := Tdbutils.DSToCDS(DsProvider.Rekening_GetDSLookupLvl, self);
   Result := FCDSRekening;
 end;
 
@@ -502,6 +525,7 @@ begin
     ModalResult := mrOK;
   except
     TAppUtils.Error('Gagal Menyimpan Data.');
+    edtRekCode.SetFocus;
     Raise
   end;
 end;

@@ -89,7 +89,7 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
@@ -226,6 +226,7 @@ uses
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
   uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas',
   ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP};
