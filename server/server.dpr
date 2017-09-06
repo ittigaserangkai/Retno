@@ -57,7 +57,8 @@ uses
   uModTransaksi in '..\model\uModTransaksi.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uModShift in '..\model\uModShift.pas',
-  uModRekening in '..\model\uModRekening.pas';
+  uModRekening in '..\model\uModRekening.pas',
+  uModJurnal in '..\model\uModJurnal.pas';
 
 {$R *.res}
 

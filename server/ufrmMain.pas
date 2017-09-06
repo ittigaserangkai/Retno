@@ -9,7 +9,7 @@ uses
   System.ImageList, Vcl.ImgList, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
-  uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut;
+  uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut, uModJurnal;
 
 type
   TfrmMain = class(TForm)
@@ -138,13 +138,17 @@ begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModBankCashOut.ClassName, InputBox('ID','ID','87331E06-2AB0-40C5-984D-351DC5F873FB')) as TModBankCashOut do
+      with Retrieve(TModJurnal.ClassName, InputBox('ID','ID','61D3BF76-DE31-49D6-8284-010DAA085E7A')) as TModJurnal do
       begin
         try
-//          ShowMessage(AP_REFNUM);
-//          ShowMessage(AP_ClassRef);
-//          ShowMessage(DateTimeToStr(AP_DueDate));
-//          ShowMessage(DateTimeToStr(AP_TRANSDATE));
+          ShowMessage(JUR_NO);
+          ShowMessage(JUR_REF_NO);
+          ShowMessage(DateTimeToStr(JUR_DATE));
+          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
+          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));
+
+
+
         finally
           Free;
         end;

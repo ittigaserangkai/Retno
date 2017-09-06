@@ -11,7 +11,7 @@ inherited frmDialogClaim: TfrmDialogClaim
     Height = 430
     BevelInner = bvNone
     ExplicitWidth = 844
-    ExplicitHeight = 391
+    ExplicitHeight = 430
     object pnlHeader: TPanel
       AlignWithMargins = True
       Left = 4
@@ -161,7 +161,6 @@ inherited frmDialogClaim: TfrmDialogClaim
       Height = 59
       Align = alBottom
       TabOrder = 1
-      ExplicitTop = 328
       DesignSize = (
         836
         59)
@@ -258,8 +257,6 @@ inherited frmDialogClaim: TfrmDialogClaim
       Height = 208
       Align = alClient
       TabOrder = 2
-      ExplicitTop = 218
-      ExplicitHeight = 107
       object cxgrdClaim: TcxGrid
         Left = 1
         Top = 1
@@ -268,7 +265,6 @@ inherited frmDialogClaim: TfrmDialogClaim
         Align = alClient
         TabOrder = 0
         RootLevelOptions.DetailTabsPosition = dtpTop
-        ExplicitHeight = 105
         object cxGridDBTableCN: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -477,7 +473,6 @@ inherited frmDialogClaim: TfrmDialogClaim
         Height = 206
         Align = alRight
         TabOrder = 1
-        ExplicitHeight = 105
         object bPoDetail: TcxButton
           AlignWithMargins = True
           Left = 4
@@ -528,7 +523,7 @@ inherited frmDialogClaim: TfrmDialogClaim
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 430
     Width = 844
-    ExplicitTop = 391
+    ExplicitTop = 430
     ExplicitWidth = 844
     inherited pnlFooter: TPanel
       Width = 844
