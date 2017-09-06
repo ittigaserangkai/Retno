@@ -169,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -180,6 +181,10 @@ object frmMain: TfrmMain
         end
         item
           ToolbarName = 'dxbrAP'
+        end
+        item
+          Caption = 'Accounting'
+          ToolbarName = 'dxbrmngrHOBarAccounting'
         end>
       Index = 3
     end
@@ -192,7 +197,6 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxrbntbSetting: TdxRibbonTab
-      Active = True
       Caption = 'Setting'
       Groups = <
         item
@@ -813,7 +817,9 @@ object frmMain: TfrmMain
     end
     object actJurnalEntry: TAction
       Category = 'Accounting'
-      Caption = 'Jurnal Entry'
+      Caption = 'Jurnal'
+      ImageIndex = 65
+      OnExecute = actJurnalEntryExecute
     end
     object actOpeningFiscalYear: TAction
       Category = 'Accounting'
@@ -1592,7 +1598,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCOA'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1770,7 +1776,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnElectricCustomer'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1806,7 +1812,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnHistoryAP'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1830,6 +1836,26 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton5'
         end>
       OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBarAccounting: TdxBar
+      Caption = 'Accounting'
+      CaptionButtons = <>
+      DockedLeft = 527
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnJurnal'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2051,6 +2077,11 @@ object frmMain: TfrmMain
     end
     object dxbrbtnHistoryAP: TdxBarButton
       Action = actHistoryAP
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnJurnal: TdxBarButton
+      Action = actJurnalEntry
       Category = 0
       PaintStyle = psCaptionGlyph
     end

@@ -28,7 +28,7 @@ uses
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter;
+  dxSkinsdxBarPainter, ufrmJurnal;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -395,6 +395,8 @@ type
     actHistoryAP: TAction;
     dxBarButton5: TdxBarButton;
     dxbrbtnHistoryAP: TdxBarButton;
+    dxbrmngrHOBarAccounting: TdxBar;
+    dxbrbtnJurnal: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -419,6 +421,7 @@ type
     procedure actHistoryPOExecute(Sender: TObject);
     procedure actGudangExecute(Sender: TObject);
     procedure actHistoryAPExecute(Sender: TObject);
+    procedure actJurnalEntryExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
@@ -729,6 +732,11 @@ end;
 procedure TfrmMain.actHistoryAPExecute(Sender: TObject);
 begin
   frmHistoryAP := TfrmHistoryAP.Create(nil);
+end;
+
+procedure TfrmMain.actJurnalEntryExecute(Sender: TObject);
+begin
+  frmJurnal := TfrmJurnal.Create(nil);
 end;
 
 procedure TfrmMain.actShiftExecute(Sender: TObject);

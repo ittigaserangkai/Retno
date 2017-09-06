@@ -229,7 +229,9 @@ uses
   uModRekening in '..\model\uModRekening.pas',
   ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
-  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP};
+  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP},
+  ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
+  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal};
 
 {$R *.res}
 
