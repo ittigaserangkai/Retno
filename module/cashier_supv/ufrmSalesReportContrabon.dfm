@@ -47,35 +47,35 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       TabOrder = 0
       object lbl3: TLabel
         Left = 16
-        Top = 2
+        Top = 5
         Width = 61
         Height = 16
         Caption = 'Suplier Code'
       end
       object lbl4: TLabel
         Left = 416
-        Top = 2
+        Top = 5
         Width = 11
         Height = 16
         Caption = 'To'
       end
       object lbl5: TLabel
         Left = 16
-        Top = 29
+        Top = 32
         Width = 61
         Height = 16
         Caption = 'Suplier Code'
       end
       object lbl6: TLabel
         Left = 16
-        Top = 53
+        Top = 56
         Width = 23
         Height = 16
         Caption = 'Type'
       end
       object cbpSuplierCodeFrom: TcxExtLookupComboBox
         Left = 82
-        Top = 1
+        Top = 4
         TabOrder = 0
         OnExit = cbpSuplierCodeFromExit
         OnKeyPress = cbpSuplierCodeFromKeyPress
@@ -84,7 +84,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object edtsuplierNameFrom: TEdit
         Left = 200
-        Top = 1
+        Top = 4
         Width = 209
         Height = 22
         CharCase = ecUpperCase
@@ -94,7 +94,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object cbpSuplierCodeTo: TcxExtLookupComboBox
         Left = 82
-        Top = 26
+        Top = 29
         TabOrder = 2
         OnExit = cbpSuplierCodeToExit
         OnKeyPress = cbpSuplierCodeToKeyPress
@@ -103,7 +103,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object edtSuplierCodeTo: TEdit
         Left = 200
-        Top = 26
+        Top = 29
         Width = 209
         Height = 22
         CharCase = ecUpperCase
@@ -113,7 +113,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object chkAll: TCheckBox
         Left = 200
-        Top = 53
+        Top = 56
         Width = 97
         Height = 17
         Caption = 'All'
@@ -122,7 +122,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object cbbtipe1: TComboBox
         Left = 82
-        Top = 51
+        Top = 54
         Width = 105
         Height = 24
         BevelKind = bkFlat
