@@ -27,6 +27,8 @@ type
     FADJFAK_Suplier: TModSuplier;
     FADJFAK_SuplierMerchanGroup: TModSuplierMerchanGroup;
     FADJFAK_TOTAL_ADJ: Double;
+    FADJFAK_PPN_ADJ: Double;
+    FADJFAK_DISC_ADJ: Double;
     FADJFAK_TOTAL_AFTER_DISC: Double;
     FADJFAK_UNIT: TModUnit;
     FAdjustmentFakturItems: TObjectList<TModAdjustmentFakturItem>;
@@ -63,6 +65,8 @@ type
         FADJFAK_SuplierMerchanGroup write FADJFAK_SuplierMerchanGroup;
     property ADJFAK_TOTAL_ADJ: Double read FADJFAK_TOTAL_ADJ write
         FADJFAK_TOTAL_ADJ;
+    property ADJFAK_PPN_ADJ: Double read FADJFAK_PPN_ADJ write FADJFAK_PPN_ADJ;
+    property ADJFAK_DISC_ADJ: Double read FADJFAK_DISC_ADJ write FADJFAK_DISC_ADJ;
     property ADJFAK_TOTAL_AFTER_DISC: Double read FADJFAK_TOTAL_AFTER_DISC
         write FADJFAK_TOTAL_AFTER_DISC;
     [AttributeOfForeign('AUT$UNIT_ID')]
@@ -83,6 +87,7 @@ type
     FAFD_Satuan: TModSatuan;
     FAFD_VAL_ADJ_AFTER_DISC: Double;
     FAFD_VAL_ADJ_PPN: Double;
+    FAFD_VAL_ADJ_DISC: Double;
     FAFD_VAL_ADJ_PPNBM: Double;
     FAFD_VAL_ADJ_TOTAL: Double;
   public
@@ -107,6 +112,8 @@ type
         FAFD_VAL_ADJ_AFTER_DISC;
     property AFD_VAL_ADJ_PPN: Double read FAFD_VAL_ADJ_PPN write
         FAFD_VAL_ADJ_PPN;
+    property AFD_VAL_ADJ_DISC: Double read FAFD_VAL_ADJ_DISC write
+        FAFD_VAL_ADJ_DISC;
     property AFD_VAL_ADJ_PPNBM: Double read FAFD_VAL_ADJ_PPNBM write
         FAFD_VAL_ADJ_PPNBM;
     property AFD_VAL_ADJ_TOTAL: Double read FAFD_VAL_ADJ_TOTAL write

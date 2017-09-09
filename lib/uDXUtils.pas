@@ -1677,7 +1677,8 @@ begin
   else
     Result := EditValue;
 
-  if Result = '' then Result := 'null';
+  if Result = '' then
+    Result := 'null';
 end;
 
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of

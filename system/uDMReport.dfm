@@ -757,32 +757,25 @@ object DMReport: TDMReport
   end
   object frxReport1: TfrxReport
     Version = '5.3.16'
-    DataSet = IBQ1
-    DataSetName = 'IBQ1'
-    DotMatrixReport = False
+    DotMatrixReport = True
     IniFile = '\Software\Fast Reports'
     Preview = frxPreview1
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 42354.363985023150000000
-    ReportOptions.LastChange = 42354.363985023150000000
+    ReportOptions.CreateDate = 42369.629797025500000000
+    ReportOptions.LastChange = 42863.652407233800000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
-      ''
-      'end.')
+      'end.          ')
     Left = 144
     Top = 87
     Datasets = <
       item
         DataSet = IBQ1
         DataSetName = 'IBQ1'
-      end
-      item
-        DataSet = IBQ2
-        DataSetName = 'IBQ2'
       end>
     Variables = <>
     Style = <>
@@ -790,14 +783,536 @@ object DMReport: TDMReport
       Height = 1000.000000000000000000
       Width = 1000.000000000000000000
     end
-    object Page1: TfrxReportPage
-      PaperWidth = 215.900000000000000000
-      PaperHeight = 279.400000000000000000
-      PaperSize = 1
-      LeftMargin = 10.000000000000000000
-      RightMargin = 10.000000000000000000
-      TopMargin = 10.000000000000000000
-      BottomMargin = 10.000000000000000000
+    object Page1: TfrxDMPPage
+      PaperWidth = 421.639727691009200000
+      PaperHeight = 296.862308276425900000
+      PaperSize = 256
+      LeftMargin = 2.539998359584390000
+      RightMargin = 2.539998359584390000
+      LargeDesignHeight = True
+      TitleBeforeHeader = False
+      FontStyle = []
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Style = []
+        Height = 17.000000000000000000
+        ParentFont = False
+        Top = 187.000000000000000000
+        Width = 1574.400000000000000000
+        DataSet = IBQ1
+        DataSetName = 'IBQ1'
+        RowCount = 0
+        object DMPMemo3: TfrxDMPMemoView
+          Left = 182.400000000000000000
+          Width = 460.800000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            '[IBQ1."BRG_NAME"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo6: TfrxDMPMemoView
+          Left = 67.200000000000000000
+          Width = 105.600000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            '[IBQ1."BRG_CODE"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo8: TfrxDMPMemoView
+          Left = 652.800000000000000000
+          Width = 105.600000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            '[IBQ1."SUP_CODE"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo10: TfrxDMPMemoView
+          Left = 768.000000000000000000
+          Width = 57.600000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            '[IBQ1."SAT_CODE"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo12: TfrxDMPMemoView
+          Left = 854.400000000000000000
+          Width = 76.800000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SOD_ROP"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo14: TfrxDMPMemoView
+          Left = 950.400000000000000000
+          Width = 76.800000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SOD_STOCK"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo16: TfrxDMPMemoView
+          Left = 1046.400000000000000000
+          Width = 86.400000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SUPMG_LEAD_TIME"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo18: TfrxDMPMemoView
+          Left = 1142.400000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SOD_ADS"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo20: TfrxDMPMemoView
+          Left = 1248.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SOD_QTYSO"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo22: TfrxDMPMemoView
+          Left = 1353.600000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SOD_QTY"]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo5: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Width = 48.000000000000000000
+          Height = 17.000000000000000000
+          OnBeforePrint = 'DMPMemo5OnBeforePrint'
+          FontStyle = []
+          Memo.UTF8W = (
+            '[Line]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+      end
+      object GroupHeader1: TfrxGroupHeader
+        FillType = ftBrush
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Style = []
+        Height = 153.000000000000000000
+        ParentFont = False
+        Top = 17.000000000000000000
+        Width = 1574.400000000000000000
+        Condition = 'IBQ1."SO_NO"'
+        ReprintOnNewPage = True
+        ResetPageNumbers = True
+        StartNewPage = True
+        object Memo3: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Width = 240.000000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Memo.UTF8W = (
+            'PT ASSALAAM NIAGA UTAMA')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo31: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 102.000000000000000000
+          Width = 1545.600000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            
+              '================================================================' +
+              '================================================================' +
+              '=================================')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo2: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 34.000000000000000000
+          Width = 1545.600000000000000000
+          Height = 51.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'LISTING SUGGESTION ORDER'
+            '================================='
+            'Tanggal : [FilterPeriode] ')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo4: TfrxDMPMemoView
+          Left = 182.400000000000000000
+          Top = 119.000000000000000000
+          Width = 460.800000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            'NAMA BARANG')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo7: TfrxDMPMemoView
+          Left = 67.200000000000000000
+          Top = 119.000000000000000000
+          Width = 105.600000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            'KODE BARANG')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo9: TfrxDMPMemoView
+          Left = 652.800000000000000000
+          Top = 119.000000000000000000
+          Width = 105.600000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            'SUPPLIER')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo11: TfrxDMPMemoView
+          Left = 768.000000000000000000
+          Top = 119.000000000000000000
+          Width = 57.600000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            'SATUAN')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo13: TfrxDMPMemoView
+          Left = 854.400000000000000000
+          Top = 119.000000000000000000
+          Width = 76.800000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'MIN STOK')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo15: TfrxDMPMemoView
+          Left = 950.400000000000000000
+          Top = 119.000000000000000000
+          Width = 76.800000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'STOK')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo17: TfrxDMPMemoView
+          Left = 1046.400000000000000000
+          Top = 119.000000000000000000
+          Width = 86.400000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'LEAD TIME')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo19: TfrxDMPMemoView
+          Left = 1142.400000000000000000
+          Top = 119.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'AVG SL/DAY')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo21: TfrxDMPMemoView
+          Left = 1248.000000000000000000
+          Top = 119.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'SO QTY')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo23: TfrxDMPMemoView
+          Left = 1353.600000000000000000
+          Top = 119.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'PURC QTY'
+            '----------')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo1: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 85.000000000000000000
+          Width = 115.200000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            'NO. SO ')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo24: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 119.000000000000000000
+          Width = 48.000000000000000000
+          Height = 17.000000000000000000
+          FontStyle = []
+          Memo.UTF8W = (
+            'NO')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo26: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 136.000000000000000000
+          Width = 1545.600000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = [fsx12cpi]
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            
+              '----------------------------------------------------------------' +
+              '----------------------------------------------------------------' +
+              '---------------------------------')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo27: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 68.000000000000000000
+          Width = 115.200000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            'MERC. GROUP')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo28: TfrxDMPMemoView
+          Left = 124.800000000000000000
+          Top = 68.000000000000000000
+          Width = 480.000000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            ': [IBQ1."MERCHANGRUP_CODE"] / [IBQ1."MERCHANGRUP_NAME"]')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
+        object DMPMemo29: TfrxDMPMemoView
+          Left = 124.800000000000000000
+          Top = 85.000000000000000000
+          Width = 374.400000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            ': [IBQ1."SO_NO"]')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo30: TfrxDMPMemoView
+          Left = 1334.400000000000000000
+          Top = 85.000000000000000000
+          Width = 115.200000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            'TANGGAL SO :')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+        object DMPMemo32: TfrxDMPMemoView
+          Left = 1459.200000000000000000
+          Top = 85.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = []
+          Frame.Style = fsDash
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[IBQ1."SO_DATE"]')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+      end
+      object GroupFooter1: TfrxGroupFooter
+        FillType = ftBrush
+        Height = 17.000000000000000000
+        Top = 221.000000000000000000
+        Width = 1574.400000000000000000
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = 17
+        Font.Name = 'Courier New'
+        Font.Style = []
+        Height = 85.000000000000000000
+        ParentFont = False
+        Top = 272.000000000000000000
+        Width = 1574.400000000000000000
+        object DMPMemo56: TfrxDMPMemoView
+          Left = 1324.800000000000000000
+          Top = 17.000000000000000000
+          Width = 240.000000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          Frame.Style = fsDash
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal [Page#] Dari [TotalPages#]')
+          TruncOutboundText = False
+        end
+        object DMPMemo58: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 17.000000000000000000
+          Width = 288.000000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = [fsx12cpi]
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            'Print At : [Date] [Time]')
+          ParentFont = False
+          TruncOutboundText = False
+        end
+        object DMPMemo25: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 34.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          TruncOutboundText = False
+        end
+        object DMPMemo34: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 51.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          TruncOutboundText = False
+        end
+        object DMPMemo38: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Top = 68.000000000000000000
+          Width = 96.000000000000000000
+          Height = 17.000000000000000000
+          TruncOutboundText = False
+        end
+        object DMPMemo39: TfrxDMPMemoView
+          Left = 9.600000000000000000
+          Width = 1555.200000000000000000
+          Height = 17.000000000000000000
+          DataSet = IBQ1
+          DataSetName = 'IBQ1'
+          FontStyle = [fsx12cpi]
+          Frame.Style = fsDash
+          Memo.UTF8W = (
+            
+              '----------------------------------------------------------------' +
+              '----------------------------------------------------------------' +
+              '----------------------------------')
+          ParentFont = False
+          WordWrap = False
+          TruncOutboundText = False
+        end
+      end
     end
   end
   object frxReport2: TfrxReport

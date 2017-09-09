@@ -10,7 +10,8 @@ inherited frmSettingApp: TfrmSettingApp
     Width = 458
     Height = 283
     BorderWidth = 0
-    ExplicitWidth = 124
+    ExplicitWidth = 458
+    ExplicitHeight = 283
     object pnlHeaderCabang: TPanel
       Left = 1
       Top = 1
@@ -18,7 +19,6 @@ inherited frmSettingApp: TfrmSettingApp
       Height = 41
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 122
       object cbbUnit: TcxExtLookupComboBox
         Left = 61
         Top = 8
@@ -58,8 +58,6 @@ inherited frmSettingApp: TfrmSettingApp
       Height = 41
       Align = alBottom
       TabOrder = 1
-      ExplicitTop = 261
-      ExplicitWidth = 122
     end
     object cxVerticalGridSettingApp: TcxVerticalGrid
       Left = 1
@@ -70,8 +68,6 @@ inherited frmSettingApp: TfrmSettingApp
       OptionsView.RowHeaderWidth = 114
       Styles.Header = cxstylSettingAppHeader
       TabOrder = 2
-      ExplicitWidth = 122
-      ExplicitHeight = 219
       Version = 1
       object cxGridRowGudangDO: TcxEditorRow
         Properties.Caption = 'GUDANG DO'
@@ -123,7 +119,7 @@ inherited frmSettingApp: TfrmSettingApp
   end
   inherited pnlHeader: TPanel
     Width = 458
-    ExplicitWidth = 124
+    ExplicitWidth = 458
     inherited lblHeader: TLabel
       Width = 83
       Height = 18
@@ -132,6 +128,8 @@ inherited frmSettingApp: TfrmSettingApp
     end
   end
   object cxStyleRepository1: TcxStyleRepository
+    Left = 432
+    Top = 16
     PixelsPerInch = 96
     object cxstylSettingAppHeader: TcxStyle
       AssignedValues = [svFont]

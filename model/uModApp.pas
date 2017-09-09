@@ -376,6 +376,7 @@ begin
       tkClass :
       begin
         lObj := prop.GetValue(Self).AsObject;
+        if lObj = nil then continue;
         if lObj.InheritsFrom(TModApp) then
           ADataSet.FieldByName(prop.Name).AsString := TModApp(lObj).ID;
       end

@@ -26,8 +26,10 @@ type
     function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; virtual;
+    function DeleteFromDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
     function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
         Boolean = True): TModApp; overload;
+    function SaveToDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
     function ValidateCode(AOBject: TModApp): Boolean;
   public
     function SaveToDB(AObject: TModApp): Boolean;
@@ -104,11 +106,10 @@ type
   end;
 
 type
-  TCrudAdjFaktur = class(TCrud)
+  TCrudClaimFaktur = class(TCrud)
   protected
-    function AfterSaveToDB(AObject: TModApp): Boolean; override;
-    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
   public
   end;
 
@@ -122,6 +123,15 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
+type
+  TCrudAdjFaktur = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
+  end;
+
 
 {$METHODINFO OFF}
 
@@ -132,7 +142,7 @@ implementation
 
 uses
   System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO,
-  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants;
+  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants, uModClaimFaktur;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -192,6 +202,28 @@ begin
     Try
       TDBUtils.ExecuteSQL(lSS, False);
       TDBUtils.Commit;
+      Result := True;
+    except
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+    lSS.Free;
+    AfterExecuteMethod;
+  End;
+end;
+
+function TCrud.DeleteFromDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
+var
+  lSS: TStrings;
+begin
+  Result := False;
+  if not BeforeDeleteFromDB(AObject) then exit;
+  lSS := TDBUtils.GenerateSQLDelete(AObject);
+  Try
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+      if DoCommit then TDBUtils.Commit;
       Result := True;
     except
       TDBUtils.RollBack;
@@ -339,6 +371,33 @@ begin
     End;
   Finally
 //    AObject.Free;
+    lSS.Free;
+    AfterExecuteMethod;
+  End;
+end;
+
+function TCrud.SaveToDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
+var
+  lSS: TStrings;
+begin
+  Result := False;
+  if not ValidateCode(AObject) then exit;
+  if not BeforeSaveToDB(AObject) then exit;
+  lSS := TDBUtils.GenerateSQL(AObject);
+  Try
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+      if not AfterSaveToDB(AObject) then exit;
+
+      if DoCommit then
+        TDBUtils.Commit;
+
+      Result := True
+    except
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
     lSS.Free;
     AfterExecuteMethod;
   End;
@@ -880,49 +939,41 @@ begin
   Result.SaveToFile('d:\debugquot.txt');
 end;
 
-function TCrudAdjFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
+function TCrudClaimFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
-  lAdj: TModAdjustmentFaktur;
+  lClaim: TModClaimFaktur;
+  lCrud: TCrud;
   lSS: TStrings;
 begin
-  lAdj := TModAdjustmentFaktur(AObject);
-  lSS := TStringList.Create;
+  lClaim := TModClaimFaktur(AObject);
+  lClaim.UpdateAP; //lCLAIM.CLM_AP.ID set here
+  //avoid recalling BeforeSaveToDB
+  lCrud := TCrud.Create(Self);
   Try
-    lSS.Append(
-        'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = DO_ADJUSTMENT + ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
-        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
-      );
-    TDBUtils.ExecuteSQL(lSS, False);
+    Result := lCrud.SaveToDBTrans(lClaim.CLM_AP, False);
   Finally
-    lSS.Free;
+    lCrud.Free;
   End;
-  Result := True;
 end;
 
-function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
-begin
-  Result := self.BeforeSaveToDB(AObject);
-end;
-
-function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
+function TCrudClaimFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
-  lAdj: TModAdjustmentFaktur;
+  lClaim: TModClaimFaktur;
+  lCrud: TCrud;
   lSS: TStrings;
 begin
-  lAdj := TModAdjustmentFaktur(AObject);
-  lSS := TStringList.Create;
+  lClaim := TModClaimFaktur(AObject);
+  if not Assigned(lClaim.CLM_AP) then
+  begin
+    Result := True;
+    exit;
+  end;
+  lCrud := TCrud.Create(Self);
   Try
-    lSS.Append(
-        'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = DO_ADJUSTMENT - ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
-        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
-      );
-    TDBUtils.ExecuteSQL(lSS, False);
+    Result := lCrud.DeleteFromDBTrans(lClaim.CLM_AP, False);
   Finally
-    lSS.Free;
+    lCrud.Free;
   End;
-  Result := True;
 end;
 
 function TCrudBankCashOut.BeforeDeleteFromDB(AObject: TModApp): Boolean;
@@ -983,6 +1034,61 @@ begin
   end;
 
 
+end;
+
+function TCrudAdjFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  lAdj: TModAdjustmentFaktur;
+  lSS: TStrings;
+begin
+  lAdj := TModAdjustmentFaktur(AObject);
+  lSS := TStringList.Create;
+  Try
+    lSS.Append(
+        'Update ' + TModDO.GetTableName
+        + ' Set DO_ADJUSTMENT = IsNull(DO_ADJUSTMENT,0) + ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
+        + ' , DO_ADJUSTMENT_PPN = IsNull(DO_ADJUSTMENT_PPN,0) + ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
+        + ' , DO_ADJUSTMENT_DISC = IsNull(DO_ADJUSTMENT_DISC,0) + ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
+        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
+      );
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
+  End;
+  Result := True;
+end;
+
+function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+begin
+  Result := self.BeforeSaveToDB(AObject);
+end;
+
+function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lAdj: TModAdjustmentFaktur;
+  lSS: TStrings;
+begin
+  if AObject.ID = '' then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  lAdj := TModAdjustmentFaktur(AObject);
+  lSS := TStringList.Create;
+  Try
+    lSS.Append(
+        'Update ' + TModDO.GetTableName
+        + ' Set DO_ADJUSTMENT = IsNull(DO_ADJUSTMENT,0) - ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
+        + ' , DO_ADJUSTMENT_PPN = IsNull(DO_ADJUSTMENT_PPN,0) - ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
+        + ' , DO_ADJUSTMENT_DISC = IsNull(DO_ADJUSTMENT_DISC,0) - ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
+        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
+      );
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
+  End;
+  Result := True;
 end;
 
 
