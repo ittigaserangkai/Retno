@@ -32,9 +32,8 @@ uses
   uModOutlet in '..\model\uModOutlet.pas',
   uModTest in '..\model\uModTest.pas',
   uModBank in '..\model\uModBank.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   ufrmHistorySO in '..\module\so\ufrmHistorySO.pas' {frmHistorySO},
-  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufrmDialogDetailSO in '..\module\so\ufrmDialogDetailSO.pas' {frmDialogDetailSO},
   ufrmSearchSO in '..\module\so\ufrmSearchSO.pas' {frmDialogSearchSO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
@@ -209,7 +208,10 @@ uses
   ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
   ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
   ufrmDailySalesAnalysis in '..\module\cashier_supv\ufrmDailySalesAnalysis.pas' {frmDailySalesAnalysis},
-  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+  uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse};
 
 {$R *.res}
 

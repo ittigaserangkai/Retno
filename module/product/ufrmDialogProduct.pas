@@ -230,6 +230,7 @@ type
     lbUOMPurchase: TLabel;
     cxLookupSatPurchase: TcxExtLookupComboBox;
     ckFilterSupMG: TcxCheckBox;
+    ckIsSOBlacklist: TcxCheckBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -385,6 +386,7 @@ begin
   CDSSupp.FieldByName('SATUAN_PURCHASE').AsString := cxLookupBRSUom.EditValue;
   CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat := crStockInOrder.Value;
   CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger := TAppUtils.BoolToInt(ckBKP.Checked);
+  CDSSupp.FieldByName('BRGSUP_IS_SO_BLACKLIST').AsInteger := TAppUtils.BoolToInt(ckIsSOBlacklist.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger := TAppUtils.BoolToInt(ckPrimarySupp.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger := TAppUtils.BoolToInt(ckEnableCN.Checked);
   CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger := TAppUtils.BoolToInt(ckActive.Checked);
@@ -465,6 +467,7 @@ begin
   cxLookupBRSUom.EditValue    := CDSSupp.FieldByName('SATUAN_PURCHASE').AsString;
   crStockInOrder.Value        := CDSSupp.FieldByName('BRGSUP_STOCK_IN_ORDER').AsFloat;
   ckBKP.Checked               := CDSSupp.FieldByName('BRGSUP_IS_BKP').AsInteger = 1;
+  ckIsSOBlacklist.Checked     := CDSSupp.FieldByName('BRGSUP_IS_SO_BLACKLIST').AsInteger = 1;
   ckPrimarySupp.Checked       := CDSSupp.FieldByName('BRGSUP_IS_PRIMARY').AsInteger = 1;
   ckEnableCN.Checked          := CDSSupp.FieldByName('BRGSUP_IS_ENABLE_CN').AsInteger = 1;
   ckActive.Checked            := CDSSupp.FieldByName('BRGSUP_IS_ACTIVE').AsInteger = 1;

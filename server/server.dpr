@@ -18,7 +18,7 @@ uses
   uDSUtils in '..\lib\uDSUtils.pas',
   uServerClasses in 'unit\uServerClasses.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   uModMember in '..\model\uModMember.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
@@ -55,7 +55,10 @@ uses
   uModOrganization in '..\model\uModOrganization.pas',
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uModTransaksi in '..\model\uModTransaksi.pas',
-  uModBeginningBalance in '..\model\uModBeginningBalance.pas';
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  uModJurnal in '..\model\uModJurnal.pas';
 
 {$R *.res}
 

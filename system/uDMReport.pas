@@ -254,9 +254,9 @@ begin
 
   FDMemTable1.Close;
   FDMemTable2.Close;
+  FDMemTable3.Close;
 
-
-  if high(ANamaQuery) = 0 then
+  if Length(ANamaQuery) = 0 then
   begin
     ANamaQuery[0] := 'IBQ1';
     ANamaQuery[1] := 'IBQ2';

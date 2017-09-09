@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 09/09/17 12:48:58 PM
+// 09/09/17 2:16:52 PM
 //
 
 unit uClientClasses;
@@ -302,6 +302,8 @@ type
     FDODetail_WithAdjCommand_Cache: TDSRestCommand;
     FRekeningBCOLain_GetDSLookupCommand: TDSRestCommand;
     FRekeningBCOLain_GetDSLookupCommand_Cache: TDSRestCommand;
+    FRekening_GetDSLookupLvlCommand: TDSRestCommand;
+    FRekening_GetDSLookupLvlCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -521,6 +523,8 @@ type
     function DODetail_WithAdj_Cache(aDOID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningBCOLain_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function RekeningBCOLain_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Rekening_GetDSLookupLvl(const ARequestFilter: string = ''): TDataSet;
+    function Rekening_GetDSLookupLvl_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -535,6 +539,8 @@ type
     FDSA_GetDSCommand_Cache: TDSRestCommand;
     FDSR_GetDSCommand: TDSRestCommand;
     FDSR_GetDSCommand_Cache: TDSRestCommand;
+    FHistoryAPCommand: TDSRestCommand;
+    FHistoryAPCommand_Cache: TDSRestCommand;
     FKartuStock_GetDSCommand: TDSRestCommand;
     FKartuStock_GetDSCommand_Cache: TDSRestCommand;
     FStockProduct_GetDSCommand: TDSRestCommand;
@@ -549,6 +555,8 @@ type
     FSO_TestCommand_Cache: TDSRestCommand;
     FInvMovement_GetDSCommand: TDSRestCommand;
     FInvMovement_GetDSCommand_Cache: TDSRestCommand;
+    FKartuAPCommand: TDSRestCommand;
+    FKartuAPCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -563,6 +571,8 @@ type
     function DSA_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DSR_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DSR_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function HistoryAP(ANoAP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function HistoryAP_Cache(ANoAP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
     function KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function StockProduct_GetDS(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
@@ -577,6 +587,8 @@ type
     function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function InvMovement_GetDS(aStartDate: TDateTime; aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
     function InvMovement_GetDS_Cache(aStartDate: TDateTime; aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function KartuAP(AOrgID: string; APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function KartuAP_Cache(AOrgID: string; APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
   end;
 
   TSuggestionOrderClient = class(TDSAdminRestClient)
@@ -2432,6 +2444,16 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_Rekening_GetDSLookupLvl: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Rekening_GetDSLookupLvl_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSReport_BankCashOut_GetDS_Slip: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -2497,6 +2519,18 @@ const
   (
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_HistoryAP: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ANoAP'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_HistoryAP_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'ANoAP'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -2613,6 +2647,22 @@ const
     (Name: 'aGroup_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_KartuAP: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'AOrgID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_KartuAP_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'AOrgID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7826,6 +7876,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekeningBCOLain_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Rekening_GetDSLookupLvl(const ARequestFilter: string): TDataSet;
+begin
+  if FRekening_GetDSLookupLvlCommand = nil then
+  begin
+    FRekening_GetDSLookupLvlCommand := FConnection.CreateCommand;
+    FRekening_GetDSLookupLvlCommand.RequestType := 'GET';
+    FRekening_GetDSLookupLvlCommand.Text := 'TDSProvider.Rekening_GetDSLookupLvl';
+    FRekening_GetDSLookupLvlCommand.Prepare(TDSProvider_Rekening_GetDSLookupLvl);
+  end;
+  FRekening_GetDSLookupLvlCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekening_GetDSLookupLvlCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekening_GetDSLookupLvlCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Rekening_GetDSLookupLvl_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekening_GetDSLookupLvlCommand_Cache = nil then
+  begin
+    FRekening_GetDSLookupLvlCommand_Cache := FConnection.CreateCommand;
+    FRekening_GetDSLookupLvlCommand_Cache.RequestType := 'GET';
+    FRekening_GetDSLookupLvlCommand_Cache.Text := 'TDSProvider.Rekening_GetDSLookupLvl';
+    FRekening_GetDSLookupLvlCommand_Cache.Prepare(TDSProvider_Rekening_GetDSLookupLvl_Cache);
+  end;
+  FRekening_GetDSLookupLvlCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekening_GetDSLookupLvlCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -8053,6 +8132,8 @@ begin
   FDODetail_WithAdjCommand_Cache.DisposeOf;
   FRekeningBCOLain_GetDSLookupCommand.DisposeOf;
   FRekeningBCOLain_GetDSLookupCommand_Cache.DisposeOf;
+  FRekening_GetDSLookupLvlCommand.DisposeOf;
+  FRekening_GetDSLookupLvlCommand_Cache.DisposeOf;
   inherited;
 end;
 
@@ -8253,6 +8334,46 @@ begin
   FDSR_GetDSCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
   FDSR_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedTFDJSONDataSets.Create(FDSR_GetDSCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TDSReportClient.HistoryAP(ANoAP: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FHistoryAPCommand = nil then
+  begin
+    FHistoryAPCommand := FConnection.CreateCommand;
+    FHistoryAPCommand.RequestType := 'GET';
+    FHistoryAPCommand.Text := 'TDSReport.HistoryAP';
+    FHistoryAPCommand.Prepare(TDSReport_HistoryAP);
+  end;
+  FHistoryAPCommand.Parameters[0].Value.SetWideString(ANoAP);
+  FHistoryAPCommand.Execute(ARequestFilter);
+  if not FHistoryAPCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FHistoryAPCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FHistoryAPCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FHistoryAPCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.HistoryAP_Cache(ANoAP: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FHistoryAPCommand_Cache = nil then
+  begin
+    FHistoryAPCommand_Cache := FConnection.CreateCommand;
+    FHistoryAPCommand_Cache.RequestType := 'GET';
+    FHistoryAPCommand_Cache.Text := 'TDSReport.HistoryAP';
+    FHistoryAPCommand_Cache.Prepare(TDSReport_HistoryAP_Cache);
+  end;
+  FHistoryAPCommand_Cache.Parameters[0].Value.SetWideString(ANoAP);
+  FHistoryAPCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FHistoryAPCommand_Cache.Parameters[1].Value.GetString);
 end;
 
 function TDSReportClient.KartuStock_GetDS(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string): TDataSet;
@@ -8540,6 +8661,50 @@ begin
   Result := TDSRestCachedDataSet.Create(FInvMovement_GetDSCommand_Cache.Parameters[5].Value.GetString);
 end;
 
+function TDSReportClient.KartuAP(AOrgID: string; APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FKartuAPCommand = nil then
+  begin
+    FKartuAPCommand := FConnection.CreateCommand;
+    FKartuAPCommand.RequestType := 'GET';
+    FKartuAPCommand.Text := 'TDSReport.KartuAP';
+    FKartuAPCommand.Prepare(TDSReport_KartuAP);
+  end;
+  FKartuAPCommand.Parameters[0].Value.SetWideString(AOrgID);
+  FKartuAPCommand.Parameters[1].Value.AsDateTime := APeriodeAwal;
+  FKartuAPCommand.Parameters[2].Value.AsDateTime := APeriodeAkhir;
+  FKartuAPCommand.Execute(ARequestFilter);
+  if not FKartuAPCommand.Parameters[3].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FKartuAPCommand.Parameters[3].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FKartuAPCommand.Parameters[3].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FKartuAPCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.KartuAP_Cache(AOrgID: string; APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FKartuAPCommand_Cache = nil then
+  begin
+    FKartuAPCommand_Cache := FConnection.CreateCommand;
+    FKartuAPCommand_Cache.RequestType := 'GET';
+    FKartuAPCommand_Cache.Text := 'TDSReport.KartuAP';
+    FKartuAPCommand_Cache.Prepare(TDSReport_KartuAP_Cache);
+  end;
+  FKartuAPCommand_Cache.Parameters[0].Value.SetWideString(AOrgID);
+  FKartuAPCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAwal;
+  FKartuAPCommand_Cache.Parameters[2].Value.AsDateTime := APeriodeAkhir;
+  FKartuAPCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FKartuAPCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 constructor TDSReportClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -8562,6 +8727,8 @@ begin
   FDSA_GetDSCommand_Cache.DisposeOf;
   FDSR_GetDSCommand.DisposeOf;
   FDSR_GetDSCommand_Cache.DisposeOf;
+  FHistoryAPCommand.DisposeOf;
+  FHistoryAPCommand_Cache.DisposeOf;
   FKartuStock_GetDSCommand.DisposeOf;
   FKartuStock_GetDSCommand_Cache.DisposeOf;
   FStockProduct_GetDSCommand.DisposeOf;
@@ -8576,6 +8743,8 @@ begin
   FSO_TestCommand_Cache.DisposeOf;
   FInvMovement_GetDSCommand.DisposeOf;
   FInvMovement_GetDSCommand_Cache.DisposeOf;
+  FKartuAPCommand.DisposeOf;
+  FKartuAPCommand_Cache.DisposeOf;
   inherited;
 end;
 

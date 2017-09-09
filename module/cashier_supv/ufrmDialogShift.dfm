@@ -14,8 +14,8 @@ inherited frmDialogShift: TfrmDialogShift
   inherited pnlBody: TPanel
     Width = 423
     Height = 181
-    ExplicitWidth = 309
-    ExplicitHeight = 185
+    ExplicitWidth = 423
+    ExplicitHeight = 181
     object lbl1: TLabel
       Left = 30
       Top = 61
@@ -31,6 +31,7 @@ inherited frmDialogShift: TfrmDialogShift
       Caption = 'End Time'
     end
     object edtNameShift: TLabeledEdit
+      Tag = 1
       Left = 30
       Top = 32
       Width = 104
@@ -70,20 +71,20 @@ inherited frmDialogShift: TfrmDialogShift
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 181
     Width = 423
-    ExplicitTop = 185
-    ExplicitWidth = 309
+    ExplicitTop = 181
+    ExplicitWidth = 423
     inherited pnlFooter: TPanel
       Width = 423
-      ExplicitWidth = 309
+      ExplicitWidth = 423
       inherited btnClose: TcxButton
         Left = 346
         Action = actCancel
-        ExplicitLeft = 232
+        ExplicitLeft = 346
       end
       inherited btnSave: TcxButton
         Left = 177
         Action = actSave
-        ExplicitLeft = 63
+        ExplicitLeft = 177
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -91,21 +92,21 @@ inherited frmDialogShift: TfrmDialogShift
       inherited btnPrint: TcxButton
         Left = 269
         Action = actPrint
-        ExplicitLeft = 155
+        ExplicitLeft = 269
       end
     end
     inherited pnlSortCut: TPanel
       Width = 423
-      ExplicitWidth = 309
+      ExplicitWidth = 423
       inherited lbCTRLEnter: TLabel
         Left = 65
         Height = 15
-        ExplicitLeft = -49
+        ExplicitLeft = 65
       end
       inherited lbEscape: TLabel
         Left = 339
         Height = 15
-        ExplicitLeft = 225
+        ExplicitLeft = 339
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -113,11 +114,17 @@ inherited frmDialogShift: TfrmDialogShift
       inherited lblCTRLP: TLabel
         Left = 263
         Height = 15
-        ExplicitLeft = 149
+        ExplicitLeft = 263
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 168
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

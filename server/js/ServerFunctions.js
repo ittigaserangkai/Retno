@@ -1,6 +1,6 @@
 ﻿// 
 // Created by the DataSnap proxy generator.
-// 09/08/17 10:14:06 AM
+// 31/08/2017 14:50:44
 // 
 
 function DSAdmin(connectionInfo)
@@ -1010,14 +1010,16 @@ function TDSProvider(connectionInfo)
   };
 
   /*
+   * @param RLevel [in] - Type on server: Integer
    * @return result - Type on server: TDataSet
    */
-  this.Rekening_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Rekening_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.Rekening_GetDSLookup = function(RLevel) {
+    var returnObject = this.executor.executeMethod('Rekening_GetDSLookup', "GET", [RLevel], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.RLevel = RLevel;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -1029,8 +1031,8 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Rekening_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Rekening_GetDSLookup", "GET", [], arguments[0])[0];
+  this.Rekening_GetDSLookup_URL = function(RLevel) {
+    return this.executor.getMethodURL("Rekening_GetDSLookup", "GET", [RLevel], arguments[1])[0];
   };
 
   /*
@@ -3455,112 +3457,6 @@ function TDSProvider(connectionInfo)
 
   this.BankCashOut_GetDSByPeriod_URL = function(APeriodeAwal, APeriodeAkhir) {
     return this.executor.getMethodURL("BankCashOut_GetDSByPeriod", "GET", [APeriodeAwal, APeriodeAkhir], arguments[2])[0];
-  };
-
-  /*
-   * @param aSuplierMerchanID [in] - Type on server: string
-   * @return result - Type on server: TDataSet
-   */
-  this.Claim_Lookup_DO = function(aSuplierMerchanID) {
-    var returnObject = this.executor.executeMethod('Claim_Lookup_DO', "GET", [aSuplierMerchanID], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aSuplierMerchanID = aSuplierMerchanID;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Claim_Lookup_DO_URL = function(aSuplierMerchanID) {
-    return this.executor.getMethodURL("Claim_Lookup_DO", "GET", [aSuplierMerchanID], arguments[1])[0];
-  };
-
-  /*
-   * @param aSuplierMerchanID [in] - Type on server: string
-   * @return result - Type on server: TDataSet
-   */
-  this.Claim_Lookup_CN = function(aSuplierMerchanID) {
-    var returnObject = this.executor.executeMethod('Claim_Lookup_CN', "GET", [aSuplierMerchanID], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aSuplierMerchanID = aSuplierMerchanID;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Claim_Lookup_CN_URL = function(aSuplierMerchanID) {
-    return this.executor.getMethodURL("Claim_Lookup_CN", "GET", [aSuplierMerchanID], arguments[1])[0];
-  };
-
-  /*
-   * @param aStartDate [in] - Type on server: TDateTime
-   * @param aEndDate [in] - Type on server: TDateTime
-   * @return result - Type on server: TDataSet
-   */
-  this.Claim_GetDSOverview = function(aStartDate, aEndDate) {
-    var returnObject = this.executor.executeMethod('Claim_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aStartDate = aStartDate;
-        resultObject.aEndDate = aEndDate;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Claim_GetDSOverview_URL = function(aStartDate, aEndDate) {
-    return this.executor.getMethodURL("Claim_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
-  };
-
-  /*
-   * @param aSuplierMerchanID [in] - Type on server: string
-   * @return result - Type on server: TDataSet
-   */
-  this.Claim_Lookup_DN = function(aSuplierMerchanID) {
-    var returnObject = this.executor.executeMethod('Claim_Lookup_DN', "GET", [aSuplierMerchanID], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aSuplierMerchanID = aSuplierMerchanID;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Claim_Lookup_DN_URL = function(aSuplierMerchanID) {
-    return this.executor.getMethodURL("Claim_Lookup_DN", "GET", [aSuplierMerchanID], arguments[1])[0];
   };
 
   /*
@@ -6723,301 +6619,12 @@ function TCrudBankCashOut(connectionInfo)
   };
 }
 
-function TCrudClaimFaktur(connectionInfo)
-{
-  this.executor = new ServerFunctionExecutor("TCrudClaimFaktur",connectionInfo);
-
-  /*
-   * @param AObject [in] - Type on server: TModApp
-   * @return result - Type on server: Boolean
-   */
-  this.SaveToDB = function(AObject) {
-    var returnObject = this.executor.executeMethod('"SaveToDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param AObject [in] - Type on server: TModApp
-   * @return result - Type on server: Boolean
-   */
-  this.DeleteFromDB = function(AObject) {
-    var returnObject = this.executor.executeMethod('"DeleteFromDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param S [in] - Type on server: string
-   * @return result - Type on server: TDataSet
-   */
-  this.OpenQuery = function(S) {
-    var returnObject = this.executor.executeMethod('OpenQuery', "GET", [S], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.S = S;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.OpenQuery_URL = function(S) {
-    return this.executor.getMethodURL("OpenQuery", "GET", [S], arguments[1])[0];
-  };
-
-  /*
-   * @param ModClassName [in] - Type on server: string
-   * @param AID [in] - Type on server: string
-   * @return result - Type on server: TModApp
-   */
-  this.Retrieve = function(ModClassName, AID) {
-    var returnObject = this.executor.executeMethod('Retrieve', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.ModClassName = ModClassName;
-        resultObject.AID = AID;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Retrieve_URL = function(ModClassName, AID) {
-    return this.executor.getMethodURL("Retrieve", "GET", [ModClassName, AID], arguments[2])[0];
-  };
-
-  /*
-   * @param aTableName [in] - Type on server: string
-   * @param aFieldName [in] - Type on server: string
-   * @param aCountDigit [in] - Type on server: Integer
-   * @return result - Type on server: string
-   */
-  this.GenerateCustomNo = function(aTableName, aFieldName, aCountDigit) {
-    var returnObject = this.executor.executeMethod('GenerateCustomNo', "GET", [aTableName, aFieldName, aCountDigit], arguments[3], true, arguments[4], arguments[5]);
-    if (arguments[3] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aTableName = aTableName;
-        resultObject.aFieldName = aFieldName;
-        resultObject.aCountDigit = aCountDigit;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.GenerateCustomNo_URL = function(aTableName, aFieldName, aCountDigit) {
-    return this.executor.getMethodURL("GenerateCustomNo", "GET", [aTableName, aFieldName, aCountDigit], arguments[3])[0];
-  };
-
-  /*
-   * @param aClassName [in] - Type on server: string
-   * @return result - Type on server: string
-   */
-  this.GenerateNo = function(aClassName) {
-    var returnObject = this.executor.executeMethod('GenerateNo', "GET", [aClassName], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aClassName = aClassName;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.GenerateNo_URL = function(aClassName) {
-    return this.executor.getMethodURL("GenerateNo", "GET", [aClassName], arguments[1])[0];
-  };
-
-  /*
-   * @param ModClassName [in] - Type on server: string
-   * @param AID [in] - Type on server: string
-   * @return result - Type on server: TModApp
-   */
-  this.RetrieveSingle = function(ModClassName, AID) {
-    var returnObject = this.executor.executeMethod('RetrieveSingle', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.ModClassName = ModClassName;
-        resultObject.AID = AID;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RetrieveSingle_URL = function(ModClassName, AID) {
-    return this.executor.getMethodURL("RetrieveSingle", "GET", [ModClassName, AID], arguments[2])[0];
-  };
-
-  /*
-   * @param ModClassName [in] - Type on server: string
-   * @param aCode [in] - Type on server: string
-   * @return result - Type on server: TModApp
-   */
-  this.RetrieveByCode = function(ModClassName, aCode) {
-    var returnObject = this.executor.executeMethod('RetrieveByCode', "GET", [ModClassName, aCode], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.ModClassName = ModClassName;
-        resultObject.aCode = aCode;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RetrieveByCode_URL = function(ModClassName, aCode) {
-    return this.executor.getMethodURL("RetrieveByCode", "GET", [ModClassName, aCode], arguments[2])[0];
-  };
-
-  /*
-   * @param AObject [in] - Type on server: TModApp
-   * @return result - Type on server: Boolean
-   */
-  this.SaveToDBLog = function(AObject) {
-    var returnObject = this.executor.executeMethod('"SaveToDBLog"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param AObject [in] - Type on server: TModApp
-   * @return result - Type on server: string
-   */
-  this.SaveToDBID = function(AObject) {
-    var returnObject = this.executor.executeMethod('"SaveToDBID"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param AObject [in] - Type on server: TModApp
-   * @return result - Type on server: TStrings
-   */
-  this.TestGenerateSQL = function(AObject) {
-    var returnObject = this.executor.executeMethod('"TestGenerateSQL"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.AfterExecuteMethod = function() {
-    this.executor.executeMethod('AfterExecuteMethod', "GET", [], arguments[0], false, arguments[1], arguments[2]);
-  };
-
-  this.AfterExecuteMethod_URL = function() {
-    return this.executor.getMethodURL("AfterExecuteMethod", "GET", [], arguments[0])[0];
-  };
-}
-
 var JSProxyClassList = {
   "DSAdmin": ["GetPlatformName","ClearResources","FindPackages","FindClasses","FindMethods","CreateServerClasses","DropServerClasses","CreateServerMethods","DropServerMethods","GetServerClasses","ListClasses","DescribeClass","ListMethods","DescribeMethod","GetServerMethods","GetServerMethodParameters","GetDatabaseConnectionProperties","GetDSServerName","ConsumeClientChannel","ConsumeClientChannelTimeout","CloseClientChannel","RegisterClientCallbackServer","UnregisterClientCallback","BroadcastToChannel","BroadcastObjectToChannel","NotifyCallback","NotifyObject"],
   "TServerMethods": ["EchoString","ReverseString"],
   "TTestMethod": ["Hallo"],
   "TCrud": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TDSProvider": ["Bank_GetDSOverview","Rekening_GetDSLookup","RefPajak_GetDSOverview","RefTipeBarang_GetDSOverview","GroupRekening_GetDSLookup","Rekening_GetDSOverview","Member_GetDSOverview","MemberActivasi_GetDSOverview","RefDiscMember_GetDSOverview","MemberKeluarga_GetDSOverview","RefGrupMember_GetDSOverview","Satuan_GetDSLookup","CostCenter_GetDSLookup","Company_GetDSLookup","CostCenter_GetDSOverview","Company_GetDSOverview","TipePembayaran_GetDSOverview","TipePerusahaan_GetDSOverview","Outlet_GetDSLookup","Lokasi_GetDSLookup","Merchandise_GetDSLookup","MerchandiseGroup_GetDSLookup","SubGroup_GetDSLookup","Satuan_GetDSOverview","Kategori_GetDSLookup","Merk_GetDSLookUp","RefPajak_GetDSLookup","RefTipeBarang_GetDSLookup","TipeSuplier_GetDSOverview","Unit_GetDSOverview","Unit_GetDSLookUp","UnitType_GetDSLookUp","UnitType_GetDSOverview","App_GetDSLookUp","App_GetDSOverview","Bank_GetDSLookup","Barang_GetDSOverview","Gudang_GetDSOverview","RefTipeMember_GetDSOverview","AutAPP_GetDSLookup","TipeKirimPO_GetDSOverview","SuplierGroup_GetDSOverview1","SuplierGroup_GetDSLookup","Suplier_GetDSOverview","TipePerusahaan_GetDSLookup","TipeSuplier_GetDSLookup","Propinsi_GetDSLookUp","Kabupaten_GetDSLookUp","MataUang_GetDSOverview","Agama_GetDSLookup","TipeBonus_GetDSOverview","Document_GetDSOverview","Agama_GetDSOverview","AutUnit_GetDSLookup","BarangSupp_GetDSLookup","BarangQuotation_GetDSLookup","BarangSupp_GetDSLookup2","Barang_ByPOLookUp","Barang_GetDSLookup","Quotation_GetDSOverview","GET_MEMBER_PAS_NO","Merchandise_GetDSOverview","SupMGByOutstandingSO_GetDSLookup","StatusPO_GetDSLookup","TipeHarga_GetDSLookup","RefWilayah_GetDSLookup","Suplier_GetDSLookup","RefTipeMember_GetDSLookup","TipePO_GetDSOverview","TipeCN_GetDSOverview","SO_GetDSOverview","SO_GetDSOLookUp","SubGroup_GetDSOverview","SuplierMerchan_GetDSLookup","DO_GetDSLookUp","DO_GetDSOverview","Gudang_GetDSLookUp","Kompetitor_GetDSOverview","SO_GetDSOLookUpGeneratePO","PO_GetDSOLookUp","PORevisi_GetDSOverview","PO_DSLookUpDetail","PO_GetDSByPeriod","PO_GetDSOLookUpForGR","PO_SKULookUP","PO_SLIP_GetDSOverview","PO_GetDSOverviewDetil","PO_GetDSOverview","RefCreditCard_GetDSOverview","CN_RCV_GetDSOverview","DN_RCV_GetDSOverview","AdjFaktur_GetDSOverview","AP_GetDSLookUp","AP_GetDSLookUpPerOrganization","Organization_GetDSLookup","Shift_GetDSOverview","DODetail_LookupAdjFak","PO_GetDSOLookUpForAdj","AutUser_GetDSOverview","BankCashOut_GetDSByPeriod","Claim_Lookup_DO","Claim_Lookup_CN","Claim_GetDSOverview","Claim_Lookup_DN","RekeningBCOLain_GetDSLookup"],
+  "TDSProvider": ["Bank_GetDSOverview","Rekening_GetDSLookup","RefPajak_GetDSOverview","RefTipeBarang_GetDSOverview","GroupRekening_GetDSLookup","Rekening_GetDSOverview","Member_GetDSOverview","MemberActivasi_GetDSOverview","RefDiscMember_GetDSOverview","MemberKeluarga_GetDSOverview","RefGrupMember_GetDSOverview","Satuan_GetDSLookup","CostCenter_GetDSLookup","Company_GetDSLookup","CostCenter_GetDSOverview","Company_GetDSOverview","TipePembayaran_GetDSOverview","TipePerusahaan_GetDSOverview","Outlet_GetDSLookup","Lokasi_GetDSLookup","Merchandise_GetDSLookup","MerchandiseGroup_GetDSLookup","SubGroup_GetDSLookup","Satuan_GetDSOverview","Kategori_GetDSLookup","Merk_GetDSLookUp","RefPajak_GetDSLookup","RefTipeBarang_GetDSLookup","TipeSuplier_GetDSOverview","Unit_GetDSOverview","Unit_GetDSLookUp","UnitType_GetDSLookUp","UnitType_GetDSOverview","App_GetDSLookUp","App_GetDSOverview","Bank_GetDSLookup","Barang_GetDSOverview","Gudang_GetDSOverview","RefTipeMember_GetDSOverview","AutAPP_GetDSLookup","TipeKirimPO_GetDSOverview","SuplierGroup_GetDSOverview1","SuplierGroup_GetDSLookup","Suplier_GetDSOverview","TipePerusahaan_GetDSLookup","TipeSuplier_GetDSLookup","Propinsi_GetDSLookUp","Kabupaten_GetDSLookUp","MataUang_GetDSOverview","Agama_GetDSLookup","TipeBonus_GetDSOverview","Document_GetDSOverview","Agama_GetDSOverview","AutUnit_GetDSLookup","BarangSupp_GetDSLookup","BarangQuotation_GetDSLookup","BarangSupp_GetDSLookup2","Barang_ByPOLookUp","Barang_GetDSLookup","Quotation_GetDSOverview","GET_MEMBER_PAS_NO","Merchandise_GetDSOverview","SupMGByOutstandingSO_GetDSLookup","StatusPO_GetDSLookup","TipeHarga_GetDSLookup","RefWilayah_GetDSLookup","Suplier_GetDSLookup","RefTipeMember_GetDSLookup","TipePO_GetDSOverview","TipeCN_GetDSOverview","SO_GetDSOverview","SO_GetDSOLookUp","SubGroup_GetDSOverview","SuplierMerchan_GetDSLookup","DO_GetDSLookUp","DO_GetDSOverview","Gudang_GetDSLookUp","Kompetitor_GetDSOverview","SO_GetDSOLookUpGeneratePO","PO_GetDSOLookUp","PORevisi_GetDSOverview","PO_DSLookUpDetail","PO_GetDSByPeriod","PO_GetDSOLookUpForGR","PO_SKULookUP","PO_SLIP_GetDSOverview","PO_GetDSOverviewDetil","PO_GetDSOverview","RefCreditCard_GetDSOverview","CN_RCV_GetDSOverview","DN_RCV_GetDSOverview","AdjFaktur_GetDSOverview","AP_GetDSLookUp","AP_GetDSLookUpPerOrganization","Organization_GetDSLookup","Shift_GetDSOverview","DODetail_LookupAdjFak","PO_GetDSOLookUpForAdj","AutUser_GetDSOverview","BankCashOut_GetDSByPeriod","RekeningBCOLain_GetDSLookup"],
   "TDSReport": ["BankCashOut_GetDS_Slip","DO_GetDSNP","DO_GetDS_CheckList","DSA_GetDS","DSR_GetDS","KartuStock_GetDS","StockProduct_GetDS","SO_ByDate","SO_ByDateNoBukti","PO_SLIP_ByDateNoBukti","SO_Test","InvMovement_GetDS"],
   "TSuggestionOrder": ["GenerateSO","RetrieveDetails","AfterExecuteMethod"],
   "TCrudSupplier": ["BeforeSaveToDB","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
@@ -7028,7 +6635,6 @@ var JSProxyClassList = {
   "TCrudSettingApp": ["RetrieveByCabang","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
   "TCrudQuotation": ["ActivateQuotation","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
   "TCrudAdjFaktur": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudBankCashOut": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudClaimFaktur": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"]
+  "TCrudBankCashOut": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"]
 };
 

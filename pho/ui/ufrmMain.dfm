@@ -169,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -180,6 +181,10 @@ object frmMain: TfrmMain
         end
         item
           ToolbarName = 'dxbrAP'
+        end
+        item
+          Caption = 'Accounting'
+          ToolbarName = 'dxbrmngrHOBarAccounting'
         end>
       Index = 3
     end
@@ -192,7 +197,6 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxrbntbSetting: TdxRibbonTab
-      Active = True
       Caption = 'Setting'
       Groups = <
         item
@@ -813,7 +817,9 @@ object frmMain: TfrmMain
     end
     object actJurnalEntry: TAction
       Category = 'Accounting'
-      Caption = 'Jurnal Entry'
+      Caption = 'Jurnal'
+      ImageIndex = 65
+      OnExecute = actJurnalEntryExecute
     end
     object actOpeningFiscalYear: TAction
       Category = 'Accounting'
@@ -1405,6 +1411,17 @@ object frmMain: TfrmMain
       Caption = 'actShift'
       OnExecute = actShiftExecute
     end
+    object actAPCARD: TAction
+      Caption = 'AP Card'
+      ImageIndex = 60
+      OnExecute = actAPCARDExecute
+    end
+    object actHistoryAP: TAction
+      Category = 'Finance'
+      Caption = 'History AP'
+      ImageIndex = 60
+      OnExecute = actHistoryAPExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1785,6 +1802,14 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnBCO'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnKartuAP'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnHistoryAP'
         end>
       OneOnRow = False
       Row = 0
@@ -1805,6 +1830,30 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton3'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton5'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBarAccounting: TdxBar
+      Caption = 'Accounting'
+      CaptionButtons = <>
+      DockedLeft = 527
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnJurnal'
         end>
       OneOnRow = False
       Row = 0
@@ -2012,6 +2061,29 @@ object frmMain: TfrmMain
       Caption = 'Master Shift'
       Category = 0
       ImageIndex = 57
+    end
+    object dxbrbtnKartuAP: TdxBarButton
+      Action = actAPCARD
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxBarButton4: TdxBarButton
+      Action = actRekening
+      Category = 0
+    end
+    object dxBarButton5: TdxBarButton
+      Action = actUser
+      Category = 0
+    end
+    object dxbrbtnHistoryAP: TdxBarButton
+      Action = actHistoryAP
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnJurnal: TdxBarButton
+      Action = actJurnalEntry
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

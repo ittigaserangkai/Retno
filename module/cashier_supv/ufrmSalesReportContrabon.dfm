@@ -15,67 +15,67 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
     ExplicitWidth = 642
     ExplicitHeight = 356
     inherited pgcBrowse: TcxPageControl
-      Top = 212
-      Width = 620
-      Height = 133
+      Top = 202
+      Width = 640
+      Height = 153
       TabOrder = 2
-      ExplicitTop = 236
-      ExplicitWidth = 620
-      ExplicitHeight = 109
-      ClientRectBottom = 132
-      ClientRectRight = 619
+      ExplicitTop = 202
+      ExplicitWidth = 640
+      ExplicitHeight = 153
+      ClientRectBottom = 152
+      ClientRectRight = 639
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 618
-        ExplicitHeight = 107
+        ExplicitWidth = 638
+        ExplicitHeight = 151
         inherited cxGrid: TcxGrid
-          Width = 618
-          Height = 131
-          ExplicitWidth = 618
-          ExplicitHeight = 107
+          Width = 638
+          Height = 151
+          ExplicitWidth = 638
+          ExplicitHeight = 151
         end
       end
     end
     object pnlTop: TPanel
-      Left = 11
-      Top = 11
-      Width = 620
+      Left = 1
+      Top = 1
+      Width = 640
       Height = 86
       Align = alTop
       Color = 15198183
       TabOrder = 0
       object lbl3: TLabel
         Left = 16
-        Top = 2
+        Top = 5
         Width = 61
         Height = 16
         Caption = 'Suplier Code'
       end
       object lbl4: TLabel
         Left = 416
-        Top = 2
+        Top = 5
         Width = 11
         Height = 16
         Caption = 'To'
       end
       object lbl5: TLabel
         Left = 16
-        Top = 29
+        Top = 32
         Width = 61
         Height = 16
         Caption = 'Suplier Code'
       end
       object lbl6: TLabel
         Left = 16
-        Top = 53
+        Top = 56
         Width = 23
         Height = 16
         Caption = 'Type'
       end
       object cbpSuplierCodeFrom: TcxExtLookupComboBox
         Left = 82
-        Top = 1
+        Top = 4
         TabOrder = 0
         OnExit = cbpSuplierCodeFromExit
         OnKeyPress = cbpSuplierCodeFromKeyPress
@@ -84,7 +84,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object edtsuplierNameFrom: TEdit
         Left = 200
-        Top = 1
+        Top = 4
         Width = 209
         Height = 22
         CharCase = ecUpperCase
@@ -94,7 +94,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object cbpSuplierCodeTo: TcxExtLookupComboBox
         Left = 82
-        Top = 26
+        Top = 29
         TabOrder = 2
         OnExit = cbpSuplierCodeToExit
         OnKeyPress = cbpSuplierCodeToKeyPress
@@ -103,7 +103,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object edtSuplierCodeTo: TEdit
         Left = 200
-        Top = 26
+        Top = 29
         Width = 209
         Height = 22
         CharCase = ecUpperCase
@@ -113,7 +113,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object chkAll: TCheckBox
         Left = 200
-        Top = 53
+        Top = 56
         Width = 97
         Height = 17
         Caption = 'All'
@@ -122,7 +122,7 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
       object cbbtipe1: TComboBox
         Left = 82
-        Top = 51
+        Top = 54
         Width = 105
         Height = 24
         BevelKind = bkFlat
@@ -131,19 +131,18 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
       end
     end
     object pnlMiddle: TPanel
-      Left = 11
-      Top = 97
-      Width = 620
+      Left = 1
+      Top = 87
+      Width = 640
       Height = 115
       Align = alTop
       BorderWidth = 5
       Color = 15198183
       TabOrder = 1
-      ExplicitTop = 121
       object grp1: TGroupBox
         Left = 6
         Top = 6
-        Width = 608
+        Width = 628
         Height = 103
         Align = alClient
         Caption = 'LIST CONTRABON'
@@ -151,16 +150,12 @@ inherited frmSalesReportContrabon: TfrmSalesReportContrabon
         object cxgrdSupplier: TcxGrid
           Left = 1
           Top = 17
-          Width = 606
+          Width = 626
           Height = 85
           Align = alClient
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'
           LookAndFeel.NativeStyle = False
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 618
-          ExplicitHeight = 107
           object grdSupplier: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             FindPanel.DisplayMode = fpdmManual

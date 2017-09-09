@@ -7,15 +7,19 @@ inherited frmMasterReport: TfrmMasterReport
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
+    Top = 0
     Width = 487
-    Height = 230
+    Height = 260
     BorderWidth = 2
     ExplicitWidth = 487
     ExplicitHeight = 230
   end
   inherited pnlHeader: TPanel
     Width = 487
+    Height = 0
+    Visible = False
     ExplicitWidth = 487
+    ExplicitHeight = 0
     inherited lblHeader: TLabel
       Height = 18
     end

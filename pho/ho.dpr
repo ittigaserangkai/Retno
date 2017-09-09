@@ -89,7 +89,7 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
@@ -223,9 +223,16 @@ uses
   ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
   ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
   uModBankCashOut in '..\model\uModBankCashOut.pas',
-  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+  uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP},
+  ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
   uModelHelper in '..\model\uModelHelper.pas',
-  ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo};
+  ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo},
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal};
 
 {$R *.res}
 
@@ -236,6 +243,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmClaim, frmClaim);
   Application.Run;
 end.

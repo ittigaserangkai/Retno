@@ -205,13 +205,14 @@ uses
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
   uClientClasses in '..\classes\uClientClasses.pas',
-<<<<<<< HEAD
   uModQuotation in '..\model\uModQuotation.pas',
-  ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
-  ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim};
+  ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
+  ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
+<<<<<<< HEAD
 =======
-  uModQuotation in '..\model\uModQuotation.pas';
->>>>>>> 20479e120d4c04d2379e20d71b4cdd033f459c7c
+  ufrmDailySalesAnalysis in '..\module\cashier_supv\ufrmDailySalesAnalysis.pas' {frmDailySalesAnalysis},
+>>>>>>> eb151b32ec11a4c00ca798b7f8858f8789b307e9
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
 
 {$R *.res}
 

@@ -989,7 +989,7 @@ begin
   Result := False;
 
   if AObject.ID = '' then
-    TModBankCashOut(AObject).BCO_NoBukti := GenerateNo(TModBankCashOut.ClassName);
+    TModBankCashOut(AObject).BCO_NoBukti := 'BKK-' + GenerateNo(TModBankCashOut.ClassName);
 
   if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
     Result := True;

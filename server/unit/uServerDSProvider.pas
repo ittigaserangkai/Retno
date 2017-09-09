@@ -133,6 +133,7 @@ type
     function DNDetail_GetDS(aID: string): TDataSet;
     function DODetail_WithAdj(aDOID: string): TDataset;
     function RekeningBCOLain_GetDSLookup: TDataSet;
+    function Rekening_GetDSLookupLvl: TDataSet;
 
 
   end;
@@ -146,6 +147,7 @@ type
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function DSA_GetDS(aStartDate, aEndDate: TDatetime): TDataSet;
     function DSR_GetDS(aStartDate, aEndDate: TDatetime): TFDJSONDataSets;
+    function HistoryAP(ANoAP : String): TFDJSONDataSets;
     function KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate: TDatetime;
         aGudang_ID: string): TDataSet;
     function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
@@ -158,6 +160,8 @@ type
     function SO_Test: TFDJSONDataSets;
     function InvMovement_GetDS(aStartDate, aEndDate: TDatetime; aGroup_ID,
         aSupplier_ID, aGudang_ID: String): TDataSet;
+    function KartuAP(AOrgID : String; APeriodeAwal : TDateTime; APeriodeAkhir :
+        TDateTime): TFDJSONDataSets;
     function Test2: OleVariant;
     function Test: Variant;
   end;
@@ -212,7 +216,7 @@ function TDSProvider.Rekening_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REKENING_PARENT_ID, REF$GRUP_REKENING_ID from REKENING';
+  S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REKENING_PARENT_ID, REF$GRUP_REKENING_ID from REKENING ORDER BY REK_CODE ASC';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1223,7 +1227,7 @@ function TDSProvider.AutUser_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * AUT$USER';
+  S := 'SELECT * FROM AUT$USER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1318,6 +1322,14 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Rekening_GetDSLookupLvl: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_LEVEL, REK_DESCRIPTION, REF$GRUP_REKENING_ID from REKENING ';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:
     TDatetime; ANoBukti : String): TFDJSONDataSets;
 var
@@ -1329,7 +1341,7 @@ begin
     + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
     + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
-  if Trim('') <> '' then
+  if Trim(ANoBukti) <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
 
   sSQL := sSQL + ' order by bco_nobukti';
@@ -1340,7 +1352,7 @@ begin
     + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
     + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
-  if Trim('') <> '' then
+  if Trim(ANoBukti) <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
 
   sSQL := sSQL + ' order by bco_nobukti';
@@ -1351,7 +1363,7 @@ begin
     + ' where BCO_Tanggal between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal))
     + ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
 
-  if Trim('') <> '' then
+  if Trim(ANoBukti) <> '' then
     sSQL := sSQL + ' and bco_nobukti = ' + QuotedStr(ANoBukti);
 
   sSQL := sSQL + ' order by bco_nobukti';
@@ -1437,6 +1449,24 @@ begin
       +' ,' + TDBUtils.QuotD(aEndDate) + ') ';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.HistoryAP(ANoAP : String): TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  sSQL   := 'select * from V_AP' +
+            ' where ap_refnum = ' + QuotedStr(ANoAP);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+
+  sSQL   := 'select * from V_AP_SETTLEMEN ' +
+            ' where NO_AP = ' + QuotedStr(ANoAP) +
+            ' order by tanggal';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 
 function TDSReport.KartuStock_GetDS(aBarang_ID: String; aStartDate, aEndDate:
@@ -1556,6 +1586,18 @@ begin
     S := S + ' AND A.GUDANG_ID = ' + QuotedStr(aGudang_ID);
 
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSReport.KartuAP(AOrgID : String; APeriodeAwal : TDateTime;
+    APeriodeAkhir : TDateTime): TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  sSQL   := 'select * from FN_KARTU_AP (' + QuotedStr(AOrgID) + ', ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) + ',' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir)) + ') order by tanggal';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+
 end;
 
 function TDSReport.Test2: OleVariant;

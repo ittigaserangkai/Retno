@@ -225,7 +225,6 @@ begin
   if Assigned(FModMember) then FreeAndNil(FModMember);
   FModMember := Crud.Retrieve(TModMember.ClassName, AID) as TModMember;
 
-  cbpMember.Properties.ReadOnly := true;
   edtName.Text                 := ModMember.MEMBER_NAME;
   edtCardNo.Text               := ModMember.MEMBER_CARD_NO;
   cbbWarganegara.ItemIndex     := ModMember.MEMBER_IS_WNI;
