@@ -85,6 +85,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudQuotation, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudAdjFaktur, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudBankCashOut, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCRUDClaimFaktur, DSServerClass.LifeCycle);
 
 end;
 

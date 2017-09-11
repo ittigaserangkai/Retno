@@ -22,6 +22,8 @@ type
   public
     procedure AddField(AFieldName: String; AFieldType: TFieldType; ALength: Integer
         = 256; IsCalculated: Boolean = False);
+    function ClonedDataset(aOwner: TComponent; DisableSourceControl: Boolean =
+        False): TClientDataSet;
     procedure LoadFromXLS(FileName: String; SheetIndex: Integer = 1);
     procedure SetFieldFrom(DestFieldName: String; SourceDataSet: TDataset;
         SourceField: String = '');
@@ -1058,6 +1060,14 @@ begin
       end;
   end;
 
+end;
+
+function TCDSHelper.ClonedDataset(aOwner: TComponent; DisableSourceControl:
+    Boolean = False): TClientDataSet;
+begin
+  Result := TClientDataSet.Create(aOwner);
+  Result.CloneCursor(Self, True);
+  if DisableSourceControl then Self.DisableControls;
 end;
 
 procedure TCDSHelper.LoadFromXLS(FileName: String; SheetIndex: Integer = 1);

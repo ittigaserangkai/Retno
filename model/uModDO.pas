@@ -18,6 +18,9 @@ type
     FDO_COLIE_ORDER: Double;
     FDO_COLIE_ORDER_RECV: Double;
     FDO_DATE: TDateTime;
+    FDO_ADJUSTMENT_PPN: Double;
+    FDO_ADJUSTMENT_DISC: Double;
+    FDO_ADJUSTMENT: Double;
     FDO_DESCRIPTION: string;
     FDO_DISC: Double;
     FDO_DN: Double;
@@ -42,6 +45,7 @@ type
     function GetDO_SUBTOTAL: Double;
     procedure SetPO(const Value: TModPO);
   public
+    constructor Create;
     destructor Destroy; override;
     property DOItems: TobjectList<TModDOItem> read GetDOItems write FDOItems;
     property DO_SUBTOTAL: Double read GetDO_SUBTOTAL;
@@ -54,6 +58,11 @@ type
     property DO_COLIE_ORDER_RECV: Double read FDO_COLIE_ORDER_RECV write
         FDO_COLIE_ORDER_RECV;
     property DO_DATE: TDateTime read FDO_DATE write FDO_DATE;
+    property DO_ADJUSTMENT_PPN: Double read FDO_ADJUSTMENT_PPN write
+        FDO_ADJUSTMENT_PPN;
+    property DO_ADJUSTMENT_DISC: Double read FDO_ADJUSTMENT_DISC write
+        FDO_ADJUSTMENT_DISC;
+    property DO_ADJUSTMENT: Double read FDO_ADJUSTMENT write FDO_ADJUSTMENT;
     property DO_DESCRIPTION: string read FDO_DESCRIPTION write FDO_DESCRIPTION;
     property DO_DISC: Double read FDO_DISC write FDO_DISC;
     property DO_DN: Double read FDO_DN write FDO_DN;
@@ -151,6 +160,14 @@ type
 
 
 implementation
+
+constructor TModDO.Create;
+begin
+  inherited;
+  Self.DO_ADJUSTMENT      := 0;
+  Self.DO_ADJUSTMENT_PPN  := 0;
+  Self.DO_ADJUSTMENT_DISC := 0;
+end;
 
 {
 ************************************ TModDO ************************************

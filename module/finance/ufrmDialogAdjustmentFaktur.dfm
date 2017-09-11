@@ -27,8 +27,6 @@ inherited frmDialogAdjustmentFaktur: TfrmDialogAdjustmentFaktur
         Height = 112
         Align = alTop
         TabOrder = 0
-        ExplicitLeft = 34
-        ExplicitTop = -3
         object lblNoBukti: TLabel
           Left = 38
           Top = 3

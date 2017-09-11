@@ -11,12 +11,16 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogClaim;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogClaim,
+  Datasnap.DBClient, uAppUtils, uDBUtils, uDXUtils;
 
 type
   TfrmClaim = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
+    FCDS: TClientDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   public
     procedure RefreshData; override;
@@ -28,18 +32,43 @@ var
 
 implementation
 
+uses
+  uModDO, uModelHelper, uDMClient, ufrmCXMsgInfo;
+
 {$R *.dfm}
 
 procedure TfrmClaim.actAddExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogClaim)
+//  TfrmCXMsgInfo.ShowSimpleMsg('Test', CDS);
+  ShowDialogForm(TfrmDialogClaim);
+end;
+
+procedure TfrmClaim.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  if not Assigned(CDS) then exit;
+  if CDS.Eof then exit;
+  ShowDialogForm(TfrmDialogClaim, CDS.FieldByName('claimfaktur_id').AsString);
 end;
 
 procedure TfrmClaim.RefreshData;
 begin
   inherited;
+  try
+    TAppUtils.cShowWaitWindow('Mohon Ditunggu');
+    if Assigned(FCDS) then FreeAndNil(FCDS);
 
+    CDS := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.Claim_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date),
+      Self
+    );
+
+    cxGridView.LoadFromCDS(CDS);
+    cxGridView.SetVisibleColumns(['claimfaktur_id'],False);
+  finally
+    TAppUtils.cCloseWaitWindow;
+  end;
 end;
 
 end.

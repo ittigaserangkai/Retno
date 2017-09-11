@@ -12,23 +12,7 @@ uses
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
-  ufrmAPCard, ufrmHistoryAP, dxSkinsCore, dxSkinBlack, dxSkinBlue,
-  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
-  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
-  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
-  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter, ufrmJurnal, ufrmContrabonSales;
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -74,7 +58,7 @@ type
     actPaymentContrabon: TAction;
     actListARBalance: TAction;
     actImportEOD: TAction;
-    actContrabonSales: TAction;
+    actInputContrabon: TAction;
     actPotonganTagihan: TAction;
     actInvoiceSewaToko: TAction;
     actMasterAgreement: TAction;
@@ -397,7 +381,6 @@ type
     dxbrbtnHistoryAP: TdxBarButton;
     dxbrmngrHOBarAccounting: TdxBar;
     dxbrbtnJurnal: TdxBarButton;
-    dxbrbtnContrabonSales: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -412,7 +395,6 @@ type
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
-    procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
@@ -668,12 +650,7 @@ end;
 
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
-  frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actContrabonSalesExecute(Sender: TObject);
-begin
-  frmContrabonSales := TfrmContrabonSales.Create(nil);
+    frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);

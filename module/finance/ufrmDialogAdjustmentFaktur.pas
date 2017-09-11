@@ -201,6 +201,7 @@ begin
       lGrandTotal   := lGrandTotal + lTotal;
 
       lCDS.Edit;
+      lCDS.FieldByName('AFD_VAL_ADJ_DISC').AsFloat := lDisc - lOldDisc;
       lCDS.FieldByName('TOTAL').AsFloat := lTotal + lPPN;
       lCDS.FieldByName('AFD_VAL_ADJ_AFTER_DISC').AsFloat := lTotal - lOldTotal;
       lCDS.FieldByName('AFD_VAL_ADJ_PPN').AsFloat := lPPN - lOldPPN;
@@ -467,6 +468,11 @@ begin
 
   CDS.DisableControls;
   Try
+    ModAdj.ADJFAK_TOTAL_ADJ := 0;
+    ModAdj.ADJFAK_PPN_ADJ := 0;
+    ModAdj.ADJFAK_TOTAL_AFTER_DISC := 0;
+    ModAdj.ADJFAK_DISC_ADJ := 0;
+
     CDS.First;
     while not CDS.Eof do
     begin
@@ -475,10 +481,14 @@ begin
       lItem.SetFromDataset(CDS);
       ModAdj.ADJFAK_TOTAL_AFTER_DISC  := ModAdj.ADJFAK_TOTAL_AFTER_DISC + lItem.AFD_VAL_ADJ_AFTER_DISC;
       ModAdj.ADJFAK_TOTAL_ADJ         := ModAdj.ADJFAK_TOTAL_ADJ + lItem.AFD_VAL_ADJ_TOTAL;
+      ModAdj.ADJFAK_PPN_ADJ           := ModAdj.ADJFAK_PPN_ADJ + lItem.AFD_VAL_ADJ_PPN;
+      ModAdj.ADJFAK_DISC_ADJ          := ModAdj.ADJFAK_DISC_ADJ + lItem.AFD_VAL_ADJ_DISC;
+
       ModAdj.AdjustmentFakturItems.Add(lItem);
 
       CDS.Next;
     end;
+
   Finally
     CDS.EnableControls;
   End;

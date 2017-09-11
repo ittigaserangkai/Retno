@@ -1,3 +1,8 @@
+//
+// Created by the DataSnap proxy generator.
+// 9/11/2017 9:09:08 AM
+//
+
 unit uClientClasses;
 
 interface
@@ -281,6 +286,20 @@ type
     FAutUser_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBankCashOut_GetDSByPeriodCommand: TDSRestCommand;
     FBankCashOut_GetDSByPeriodCommand_Cache: TDSRestCommand;
+    FClaim_Lookup_DOCommand: TDSRestCommand;
+    FClaim_Lookup_DOCommand_Cache: TDSRestCommand;
+    FClaim_Lookup_CNCommand: TDSRestCommand;
+    FClaim_Lookup_CNCommand_Cache: TDSRestCommand;
+    FClaim_GetDSOverviewCommand: TDSRestCommand;
+    FClaim_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FClaim_Lookup_DNCommand: TDSRestCommand;
+    FClaim_Lookup_DNCommand_Cache: TDSRestCommand;
+    FCNDetail_GetDSCommand: TDSRestCommand;
+    FCNDetail_GetDSCommand_Cache: TDSRestCommand;
+    FDNDetail_GetDSCommand: TDSRestCommand;
+    FDNDetail_GetDSCommand_Cache: TDSRestCommand;
+    FDODetail_WithAdjCommand: TDSRestCommand;
+    FDODetail_WithAdjCommand_Cache: TDSRestCommand;
     FRekeningBCOLain_GetDSLookupCommand: TDSRestCommand;
     FRekeningBCOLain_GetDSLookupCommand_Cache: TDSRestCommand;
     FRekening_GetDSLookupLvlCommand: TDSRestCommand;
@@ -488,6 +507,20 @@ type
     function AutUser_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function BankCashOut_GetDSByPeriod_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Claim_Lookup_DO(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
+    function Claim_Lookup_DO_Cache(aSuplierMerchanID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Claim_Lookup_CN(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
+    function Claim_Lookup_CN_Cache(aSuplierMerchanID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Claim_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function Claim_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Claim_Lookup_DN(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
+    function Claim_Lookup_DN_Cache(aSuplierMerchanID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function CNDetail_GetDS(aID: string; const ARequestFilter: string = ''): TDataSet;
+    function CNDetail_GetDS_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function DNDetail_GetDS(aID: string; const ARequestFilter: string = ''): TDataSet;
+    function DNDetail_GetDS_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function DODetail_WithAdj(aDOID: string; const ARequestFilter: string = ''): TDataSet;
+    function DODetail_WithAdj_Cache(aDOID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningBCOLain_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function RekeningBCOLain_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSLookupLvl(const ARequestFilter: string = ''): TDataSet;
@@ -959,6 +992,52 @@ type
   end;
 
   TCrudBankCashOutClient = class(TDSAdminRestClient)
+  private
+    FSaveToDBCommand: TDSRestCommand;
+    FDeleteFromDBCommand: TDSRestCommand;
+    FOpenQueryCommand: TDSRestCommand;
+    FOpenQueryCommand_Cache: TDSRestCommand;
+    FRetrieveCommand: TDSRestCommand;
+    FRetrieveCommand_Cache: TDSRestCommand;
+    FGenerateCustomNoCommand: TDSRestCommand;
+    FGenerateNoCommand: TDSRestCommand;
+    FRetrieveSingleCommand: TDSRestCommand;
+    FRetrieveSingleCommand_Cache: TDSRestCommand;
+    FRetrieveByCodeCommand: TDSRestCommand;
+    FRetrieveByCodeCommand_Cache: TDSRestCommand;
+    FSaveToDBLogCommand: TDSRestCommand;
+    FSaveToDBIDCommand: TDSRestCommand;
+    FTestGenerateSQLCommand: TDSRestCommand;
+    FTestGenerateSQLCommand_Cache: TDSRestCommand;
+    FUpdateToDBCommand: TDSRestCommand;
+    FUpdateToDBCommand_Cache: TDSRestCommand;
+    FAfterExecuteMethodCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function OpenQuery(S: string; const ARequestFilter: string = ''): TDataSet;
+    function OpenQuery_Cache(S: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Retrieve(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string = ''): string;
+    function GenerateNo(aClassName: string; const ARequestFilter: string = ''): string;
+    function RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string = ''): TModApp;
+    function RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
+    function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
+    function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
+    function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
+    function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): TStrings;
+    function UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string = ''): IDSRestCachedTStrings;
+    procedure AfterExecuteMethod;
+  end;
+
+  TCrudClaimFakturClient = class(TDSAdminRestClient)
   private
     FSaveToDBCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
@@ -2266,6 +2345,92 @@ const
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Claim_Lookup_DO: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Claim_Lookup_DO_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Claim_Lookup_CN: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Claim_Lookup_CN_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Claim_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Claim_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Claim_Lookup_DN: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Claim_Lookup_DN_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aSuplierMerchanID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_CNDetail_GetDS: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_CNDetail_GetDS_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_DNDetail_GetDS: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_DNDetail_GetDS_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_DODetail_WithAdj: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDOID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_DODetail_WithAdj_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDOID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -3628,6 +3793,124 @@ const
   );
 
   TCrudBankCashOut_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudClaimFaktur_SaveToDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudClaimFaktur_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudClaimFaktur_OpenQuery: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TCrudClaimFaktur_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudClaimFaktur_Retrieve: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudClaimFaktur_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudClaimFaktur_GenerateCustomNo: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aTableName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aFieldName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCountDigit'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudClaimFaktur_GenerateNo: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudClaimFaktur_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudClaimFaktur_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudClaimFaktur_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TCrudClaimFaktur_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudClaimFaktur_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudClaimFaktur_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TCrudClaimFaktur_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudClaimFaktur_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudClaimFaktur_UpdateToDB: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
+  );
+
+  TCrudClaimFaktur_UpdateToDB_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aDS'; Direction: 1; DBXType: 23; TypeName: 'TDataSet'),
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -7345,6 +7628,225 @@ begin
   Result := TDSRestCachedDataSet.Create(FBankCashOut_GetDSByPeriodCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.Claim_Lookup_DO(aSuplierMerchanID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FClaim_Lookup_DOCommand = nil then
+  begin
+    FClaim_Lookup_DOCommand := FConnection.CreateCommand;
+    FClaim_Lookup_DOCommand.RequestType := 'GET';
+    FClaim_Lookup_DOCommand.Text := 'TDSProvider.Claim_Lookup_DO';
+    FClaim_Lookup_DOCommand.Prepare(TDSProvider_Claim_Lookup_DO);
+  end;
+  FClaim_Lookup_DOCommand.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FClaim_Lookup_DOCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FClaim_Lookup_DOCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FClaim_Lookup_DOCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Claim_Lookup_DO_Cache(aSuplierMerchanID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FClaim_Lookup_DOCommand_Cache = nil then
+  begin
+    FClaim_Lookup_DOCommand_Cache := FConnection.CreateCommand;
+    FClaim_Lookup_DOCommand_Cache.RequestType := 'GET';
+    FClaim_Lookup_DOCommand_Cache.Text := 'TDSProvider.Claim_Lookup_DO';
+    FClaim_Lookup_DOCommand_Cache.Prepare(TDSProvider_Claim_Lookup_DO_Cache);
+  end;
+  FClaim_Lookup_DOCommand_Cache.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FClaim_Lookup_DOCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FClaim_Lookup_DOCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.Claim_Lookup_CN(aSuplierMerchanID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FClaim_Lookup_CNCommand = nil then
+  begin
+    FClaim_Lookup_CNCommand := FConnection.CreateCommand;
+    FClaim_Lookup_CNCommand.RequestType := 'GET';
+    FClaim_Lookup_CNCommand.Text := 'TDSProvider.Claim_Lookup_CN';
+    FClaim_Lookup_CNCommand.Prepare(TDSProvider_Claim_Lookup_CN);
+  end;
+  FClaim_Lookup_CNCommand.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FClaim_Lookup_CNCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FClaim_Lookup_CNCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FClaim_Lookup_CNCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Claim_Lookup_CN_Cache(aSuplierMerchanID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FClaim_Lookup_CNCommand_Cache = nil then
+  begin
+    FClaim_Lookup_CNCommand_Cache := FConnection.CreateCommand;
+    FClaim_Lookup_CNCommand_Cache.RequestType := 'GET';
+    FClaim_Lookup_CNCommand_Cache.Text := 'TDSProvider.Claim_Lookup_CN';
+    FClaim_Lookup_CNCommand_Cache.Prepare(TDSProvider_Claim_Lookup_CN_Cache);
+  end;
+  FClaim_Lookup_CNCommand_Cache.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FClaim_Lookup_CNCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FClaim_Lookup_CNCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.Claim_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FClaim_GetDSOverviewCommand = nil then
+  begin
+    FClaim_GetDSOverviewCommand := FConnection.CreateCommand;
+    FClaim_GetDSOverviewCommand.RequestType := 'GET';
+    FClaim_GetDSOverviewCommand.Text := 'TDSProvider.Claim_GetDSOverview';
+    FClaim_GetDSOverviewCommand.Prepare(TDSProvider_Claim_GetDSOverview);
+  end;
+  FClaim_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FClaim_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := aEndDate;
+  FClaim_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FClaim_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FClaim_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Claim_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FClaim_GetDSOverviewCommand_Cache = nil then
+  begin
+    FClaim_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FClaim_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FClaim_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Claim_GetDSOverview';
+    FClaim_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Claim_GetDSOverview_Cache);
+  end;
+  FClaim_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FClaim_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
+  FClaim_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FClaim_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TDSProviderClient.Claim_Lookup_DN(aSuplierMerchanID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FClaim_Lookup_DNCommand = nil then
+  begin
+    FClaim_Lookup_DNCommand := FConnection.CreateCommand;
+    FClaim_Lookup_DNCommand.RequestType := 'GET';
+    FClaim_Lookup_DNCommand.Text := 'TDSProvider.Claim_Lookup_DN';
+    FClaim_Lookup_DNCommand.Prepare(TDSProvider_Claim_Lookup_DN);
+  end;
+  FClaim_Lookup_DNCommand.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FClaim_Lookup_DNCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FClaim_Lookup_DNCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FClaim_Lookup_DNCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Claim_Lookup_DN_Cache(aSuplierMerchanID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FClaim_Lookup_DNCommand_Cache = nil then
+  begin
+    FClaim_Lookup_DNCommand_Cache := FConnection.CreateCommand;
+    FClaim_Lookup_DNCommand_Cache.RequestType := 'GET';
+    FClaim_Lookup_DNCommand_Cache.Text := 'TDSProvider.Claim_Lookup_DN';
+    FClaim_Lookup_DNCommand_Cache.Prepare(TDSProvider_Claim_Lookup_DN_Cache);
+  end;
+  FClaim_Lookup_DNCommand_Cache.Parameters[0].Value.SetWideString(aSuplierMerchanID);
+  FClaim_Lookup_DNCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FClaim_Lookup_DNCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.CNDetail_GetDS(aID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FCNDetail_GetDSCommand = nil then
+  begin
+    FCNDetail_GetDSCommand := FConnection.CreateCommand;
+    FCNDetail_GetDSCommand.RequestType := 'GET';
+    FCNDetail_GetDSCommand.Text := 'TDSProvider.CNDetail_GetDS';
+    FCNDetail_GetDSCommand.Prepare(TDSProvider_CNDetail_GetDS);
+  end;
+  FCNDetail_GetDSCommand.Parameters[0].Value.SetWideString(aID);
+  FCNDetail_GetDSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FCNDetail_GetDSCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FCNDetail_GetDSCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.CNDetail_GetDS_Cache(aID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FCNDetail_GetDSCommand_Cache = nil then
+  begin
+    FCNDetail_GetDSCommand_Cache := FConnection.CreateCommand;
+    FCNDetail_GetDSCommand_Cache.RequestType := 'GET';
+    FCNDetail_GetDSCommand_Cache.Text := 'TDSProvider.CNDetail_GetDS';
+    FCNDetail_GetDSCommand_Cache.Prepare(TDSProvider_CNDetail_GetDS_Cache);
+  end;
+  FCNDetail_GetDSCommand_Cache.Parameters[0].Value.SetWideString(aID);
+  FCNDetail_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FCNDetail_GetDSCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.DNDetail_GetDS(aID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FDNDetail_GetDSCommand = nil then
+  begin
+    FDNDetail_GetDSCommand := FConnection.CreateCommand;
+    FDNDetail_GetDSCommand.RequestType := 'GET';
+    FDNDetail_GetDSCommand.Text := 'TDSProvider.DNDetail_GetDS';
+    FDNDetail_GetDSCommand.Prepare(TDSProvider_DNDetail_GetDS);
+  end;
+  FDNDetail_GetDSCommand.Parameters[0].Value.SetWideString(aID);
+  FDNDetail_GetDSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FDNDetail_GetDSCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FDNDetail_GetDSCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.DNDetail_GetDS_Cache(aID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FDNDetail_GetDSCommand_Cache = nil then
+  begin
+    FDNDetail_GetDSCommand_Cache := FConnection.CreateCommand;
+    FDNDetail_GetDSCommand_Cache.RequestType := 'GET';
+    FDNDetail_GetDSCommand_Cache.Text := 'TDSProvider.DNDetail_GetDS';
+    FDNDetail_GetDSCommand_Cache.Prepare(TDSProvider_DNDetail_GetDS_Cache);
+  end;
+  FDNDetail_GetDSCommand_Cache.Parameters[0].Value.SetWideString(aID);
+  FDNDetail_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FDNDetail_GetDSCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.DODetail_WithAdj(aDOID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FDODetail_WithAdjCommand = nil then
+  begin
+    FDODetail_WithAdjCommand := FConnection.CreateCommand;
+    FDODetail_WithAdjCommand.RequestType := 'GET';
+    FDODetail_WithAdjCommand.Text := 'TDSProvider.DODetail_WithAdj';
+    FDODetail_WithAdjCommand.Prepare(TDSProvider_DODetail_WithAdj);
+  end;
+  FDODetail_WithAdjCommand.Parameters[0].Value.SetWideString(aDOID);
+  FDODetail_WithAdjCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FDODetail_WithAdjCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FDODetail_WithAdjCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.DODetail_WithAdj_Cache(aDOID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FDODetail_WithAdjCommand_Cache = nil then
+  begin
+    FDODetail_WithAdjCommand_Cache := FConnection.CreateCommand;
+    FDODetail_WithAdjCommand_Cache.RequestType := 'GET';
+    FDODetail_WithAdjCommand_Cache.Text := 'TDSProvider.DODetail_WithAdj';
+    FDODetail_WithAdjCommand_Cache.Prepare(TDSProvider_DODetail_WithAdj_Cache);
+  end;
+  FDODetail_WithAdjCommand_Cache.Parameters[0].Value.SetWideString(aDOID);
+  FDODetail_WithAdjCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FDODetail_WithAdjCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.RekeningBCOLain_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FRekeningBCOLain_GetDSLookupCommand = nil then
@@ -7614,6 +8116,20 @@ begin
   FAutUser_GetDSOverviewCommand_Cache.DisposeOf;
   FBankCashOut_GetDSByPeriodCommand.DisposeOf;
   FBankCashOut_GetDSByPeriodCommand_Cache.DisposeOf;
+  FClaim_Lookup_DOCommand.DisposeOf;
+  FClaim_Lookup_DOCommand_Cache.DisposeOf;
+  FClaim_Lookup_CNCommand.DisposeOf;
+  FClaim_Lookup_CNCommand_Cache.DisposeOf;
+  FClaim_GetDSOverviewCommand.DisposeOf;
+  FClaim_GetDSOverviewCommand_Cache.DisposeOf;
+  FClaim_Lookup_DNCommand.DisposeOf;
+  FClaim_Lookup_DNCommand_Cache.DisposeOf;
+  FCNDetail_GetDSCommand.DisposeOf;
+  FCNDetail_GetDSCommand_Cache.DisposeOf;
+  FDNDetail_GetDSCommand.DisposeOf;
+  FDNDetail_GetDSCommand_Cache.DisposeOf;
+  FDODetail_WithAdjCommand.DisposeOf;
+  FDODetail_WithAdjCommand_Cache.DisposeOf;
   FRekeningBCOLain_GetDSLookupCommand.DisposeOf;
   FRekeningBCOLain_GetDSLookupCommand_Cache.DisposeOf;
   FRekening_GetDSLookupLvlCommand.DisposeOf;
@@ -12462,6 +12978,448 @@ begin
 end;
 
 destructor TCrudBankCashOutClient.Destroy;
+begin
+  FSaveToDBCommand.DisposeOf;
+  FDeleteFromDBCommand.DisposeOf;
+  FOpenQueryCommand.DisposeOf;
+  FOpenQueryCommand_Cache.DisposeOf;
+  FRetrieveCommand.DisposeOf;
+  FRetrieveCommand_Cache.DisposeOf;
+  FGenerateCustomNoCommand.DisposeOf;
+  FGenerateNoCommand.DisposeOf;
+  FRetrieveSingleCommand.DisposeOf;
+  FRetrieveSingleCommand_Cache.DisposeOf;
+  FRetrieveByCodeCommand.DisposeOf;
+  FRetrieveByCodeCommand_Cache.DisposeOf;
+  FSaveToDBLogCommand.DisposeOf;
+  FSaveToDBIDCommand.DisposeOf;
+  FTestGenerateSQLCommand.DisposeOf;
+  FTestGenerateSQLCommand_Cache.DisposeOf;
+  FUpdateToDBCommand.DisposeOf;
+  FUpdateToDBCommand_Cache.DisposeOf;
+  FAfterExecuteMethodCommand.DisposeOf;
+  inherited;
+end;
+
+function TCrudClaimFakturClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBCommand = nil then
+  begin
+    FSaveToDBCommand := FConnection.CreateCommand;
+    FSaveToDBCommand.RequestType := 'POST';
+    FSaveToDBCommand.Text := 'TCrudClaimFaktur."SaveToDB"';
+    FSaveToDBCommand.Prepare(TCrudClaimFaktur_SaveToDB);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBCommand.Execute(ARequestFilter);
+  Result := FSaveToDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudClaimFakturClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FDeleteFromDBCommand = nil then
+  begin
+    FDeleteFromDBCommand := FConnection.CreateCommand;
+    FDeleteFromDBCommand.RequestType := 'POST';
+    FDeleteFromDBCommand.Text := 'TCrudClaimFaktur."DeleteFromDB"';
+    FDeleteFromDBCommand.Prepare(TCrudClaimFaktur_DeleteFromDB);
+  end;
+  if not Assigned(AObject) then
+    FDeleteFromDBCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FDeleteFromDBCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDeleteFromDBCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FDeleteFromDBCommand.Execute(ARequestFilter);
+  Result := FDeleteFromDBCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudClaimFakturClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
+begin
+  if FOpenQueryCommand = nil then
+  begin
+    FOpenQueryCommand := FConnection.CreateCommand;
+    FOpenQueryCommand.RequestType := 'GET';
+    FOpenQueryCommand.Text := 'TCrudClaimFaktur.OpenQuery';
+    FOpenQueryCommand.Prepare(TCrudClaimFaktur_OpenQuery);
+  end;
+  FOpenQueryCommand.Parameters[0].Value.SetWideString(S);
+  FOpenQueryCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FOpenQueryCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FOpenQueryCommand.FreeOnExecute(Result);
+end;
+
+function TCrudClaimFakturClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FOpenQueryCommand_Cache = nil then
+  begin
+    FOpenQueryCommand_Cache := FConnection.CreateCommand;
+    FOpenQueryCommand_Cache.RequestType := 'GET';
+    FOpenQueryCommand_Cache.Text := 'TCrudClaimFaktur.OpenQuery';
+    FOpenQueryCommand_Cache.Prepare(TCrudClaimFaktur_OpenQuery_Cache);
+  end;
+  FOpenQueryCommand_Cache.Parameters[0].Value.SetWideString(S);
+  FOpenQueryCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FOpenQueryCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TCrudClaimFakturClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveCommand = nil then
+  begin
+    FRetrieveCommand := FConnection.CreateCommand;
+    FRetrieveCommand.RequestType := 'GET';
+    FRetrieveCommand.Text := 'TCrudClaimFaktur.Retrieve';
+    FRetrieveCommand.Prepare(TCrudClaimFaktur_Retrieve);
+  end;
+  FRetrieveCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand.Execute(ARequestFilter);
+  if not FRetrieveCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClaimFakturClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveCommand_Cache = nil then
+  begin
+    FRetrieveCommand_Cache := FConnection.CreateCommand;
+    FRetrieveCommand_Cache.RequestType := 'GET';
+    FRetrieveCommand_Cache.Text := 'TCrudClaimFaktur.Retrieve';
+    FRetrieveCommand_Cache.Prepare(TCrudClaimFaktur_Retrieve_Cache);
+  end;
+  FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudClaimFakturClient.GenerateCustomNo(aTableName: string; aFieldName: string; aCountDigit: Integer; const ARequestFilter: string): string;
+begin
+  if FGenerateCustomNoCommand = nil then
+  begin
+    FGenerateCustomNoCommand := FConnection.CreateCommand;
+    FGenerateCustomNoCommand.RequestType := 'GET';
+    FGenerateCustomNoCommand.Text := 'TCrudClaimFaktur.GenerateCustomNo';
+    FGenerateCustomNoCommand.Prepare(TCrudClaimFaktur_GenerateCustomNo);
+  end;
+  FGenerateCustomNoCommand.Parameters[0].Value.SetWideString(aTableName);
+  FGenerateCustomNoCommand.Parameters[1].Value.SetWideString(aFieldName);
+  FGenerateCustomNoCommand.Parameters[2].Value.SetInt32(aCountDigit);
+  FGenerateCustomNoCommand.Execute(ARequestFilter);
+  Result := FGenerateCustomNoCommand.Parameters[3].Value.GetWideString;
+end;
+
+function TCrudClaimFakturClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
+begin
+  if FGenerateNoCommand = nil then
+  begin
+    FGenerateNoCommand := FConnection.CreateCommand;
+    FGenerateNoCommand.RequestType := 'GET';
+    FGenerateNoCommand.Text := 'TCrudClaimFaktur.GenerateNo';
+    FGenerateNoCommand.Prepare(TCrudClaimFaktur_GenerateNo);
+  end;
+  FGenerateNoCommand.Parameters[0].Value.SetWideString(aClassName);
+  FGenerateNoCommand.Execute(ARequestFilter);
+  Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TCrudClaimFakturClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveSingleCommand = nil then
+  begin
+    FRetrieveSingleCommand := FConnection.CreateCommand;
+    FRetrieveSingleCommand.RequestType := 'GET';
+    FRetrieveSingleCommand.Text := 'TCrudClaimFaktur.RetrieveSingle';
+    FRetrieveSingleCommand.Prepare(TCrudClaimFaktur_RetrieveSingle);
+  end;
+  FRetrieveSingleCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveSingleCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveSingleCommand.Execute(ARequestFilter);
+  if not FRetrieveSingleCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveSingleCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveSingleCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveSingleCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClaimFakturClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveSingleCommand_Cache = nil then
+  begin
+    FRetrieveSingleCommand_Cache := FConnection.CreateCommand;
+    FRetrieveSingleCommand_Cache.RequestType := 'GET';
+    FRetrieveSingleCommand_Cache.Text := 'TCrudClaimFaktur.RetrieveSingle';
+    FRetrieveSingleCommand_Cache.Prepare(TCrudClaimFaktur_RetrieveSingle_Cache);
+  end;
+  FRetrieveSingleCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveSingleCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveSingleCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveSingleCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudClaimFakturClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
+begin
+  if FRetrieveByCodeCommand = nil then
+  begin
+    FRetrieveByCodeCommand := FConnection.CreateCommand;
+    FRetrieveByCodeCommand.RequestType := 'GET';
+    FRetrieveByCodeCommand.Text := 'TCrudClaimFaktur.RetrieveByCode';
+    FRetrieveByCodeCommand.Prepare(TCrudClaimFaktur_RetrieveByCode);
+  end;
+  FRetrieveByCodeCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeCommand.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeCommand.Execute(ARequestFilter);
+  if not FRetrieveByCodeCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveByCodeCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FRetrieveByCodeCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveByCodeCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClaimFakturClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FRetrieveByCodeCommand_Cache = nil then
+  begin
+    FRetrieveByCodeCommand_Cache := FConnection.CreateCommand;
+    FRetrieveByCodeCommand_Cache.RequestType := 'GET';
+    FRetrieveByCodeCommand_Cache.Text := 'TCrudClaimFaktur.RetrieveByCode';
+    FRetrieveByCodeCommand_Cache.Prepare(TCrudClaimFaktur_RetrieveByCode_Cache);
+  end;
+  FRetrieveByCodeCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeCommand_Cache.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FRetrieveByCodeCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TCrudClaimFakturClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
+begin
+  if FSaveToDBLogCommand = nil then
+  begin
+    FSaveToDBLogCommand := FConnection.CreateCommand;
+    FSaveToDBLogCommand.RequestType := 'POST';
+    FSaveToDBLogCommand.Text := 'TCrudClaimFaktur."SaveToDBLog"';
+    FSaveToDBLogCommand.Prepare(TCrudClaimFaktur_SaveToDBLog);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBLogCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBLogCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBLogCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBLogCommand.Execute(ARequestFilter);
+  Result := FSaveToDBLogCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TCrudClaimFakturClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
+begin
+  if FSaveToDBIDCommand = nil then
+  begin
+    FSaveToDBIDCommand := FConnection.CreateCommand;
+    FSaveToDBIDCommand.RequestType := 'POST';
+    FSaveToDBIDCommand.Text := 'TCrudClaimFaktur."SaveToDBID"';
+    FSaveToDBIDCommand.Prepare(TCrudClaimFaktur_SaveToDBID);
+  end;
+  if not Assigned(AObject) then
+    FSaveToDBIDCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FSaveToDBIDCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FSaveToDBIDCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FSaveToDBIDCommand.Execute(ARequestFilter);
+  Result := FSaveToDBIDCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TCrudClaimFakturClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
+begin
+  if FTestGenerateSQLCommand = nil then
+  begin
+    FTestGenerateSQLCommand := FConnection.CreateCommand;
+    FTestGenerateSQLCommand.RequestType := 'POST';
+    FTestGenerateSQLCommand.Text := 'TCrudClaimFaktur."TestGenerateSQL"';
+    FTestGenerateSQLCommand.Prepare(TCrudClaimFaktur_TestGenerateSQL);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand.Execute(ARequestFilter);
+  if not FTestGenerateSQLCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTestGenerateSQLCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FTestGenerateSQLCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTestGenerateSQLCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClaimFakturClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FTestGenerateSQLCommand_Cache = nil then
+  begin
+    FTestGenerateSQLCommand_Cache := FConnection.CreateCommand;
+    FTestGenerateSQLCommand_Cache.RequestType := 'POST';
+    FTestGenerateSQLCommand_Cache.Text := 'TCrudClaimFaktur."TestGenerateSQL"';
+    FTestGenerateSQLCommand_Cache.Prepare(TCrudClaimFaktur_TestGenerateSQL_Cache);
+  end;
+  if not Assigned(AObject) then
+    FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTestGenerateSQLCommand_Cache.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AObject), True);
+      if FInstanceOwner then
+        AObject.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTestGenerateSQLCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TCrudClaimFakturClient.UpdateToDB(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): TStrings;
+begin
+  if FUpdateToDBCommand = nil then
+  begin
+    FUpdateToDBCommand := FConnection.CreateCommand;
+    FUpdateToDBCommand.RequestType := 'POST';
+    FUpdateToDBCommand.Text := 'TCrudClaimFaktur."UpdateToDB"';
+    FUpdateToDBCommand.Prepare(TCrudClaimFaktur_UpdateToDB);
+  end;
+  FUpdateToDBCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand.Execute(ARequestFilter);
+  if not FUpdateToDBCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FUpdateToDBCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TStrings(FUnMarshal.UnMarshal(FUpdateToDBCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FUpdateToDBCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudClaimFakturClient.UpdateToDB_Cache(aDS: TDataSet; ModClassName: string; const ARequestFilter: string): IDSRestCachedTStrings;
+begin
+  if FUpdateToDBCommand_Cache = nil then
+  begin
+    FUpdateToDBCommand_Cache := FConnection.CreateCommand;
+    FUpdateToDBCommand_Cache.RequestType := 'POST';
+    FUpdateToDBCommand_Cache.Text := 'TCrudClaimFaktur."UpdateToDB"';
+    FUpdateToDBCommand_Cache.Prepare(TCrudClaimFaktur_UpdateToDB_Cache);
+  end;
+  FUpdateToDBCommand_Cache.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(aDS, FInstanceOwner), True);
+  FUpdateToDBCommand_Cache.Parameters[1].Value.SetWideString(ModClassName);
+  FUpdateToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTStrings.Create(FUpdateToDBCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+procedure TCrudClaimFakturClient.AfterExecuteMethod;
+begin
+  if FAfterExecuteMethodCommand = nil then
+  begin
+    FAfterExecuteMethodCommand := FConnection.CreateCommand;
+    FAfterExecuteMethodCommand.RequestType := 'GET';
+    FAfterExecuteMethodCommand.Text := 'TCrudClaimFaktur.AfterExecuteMethod';
+  end;
+  FAfterExecuteMethodCommand.Execute;
+end;
+
+constructor TCrudClaimFakturClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TCrudClaimFakturClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TCrudClaimFakturClient.Destroy;
 begin
   FSaveToDBCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;

@@ -1,5 +1,7 @@
 inherited frmJurnal: TfrmJurnal
   Caption = 'Jurnal'
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlHeader: TPanel
@@ -39,11 +41,6 @@ inherited frmJurnal: TfrmJurnal
       end
       inherited cxButton1: TcxButton
         Action = actExport
-      end
-    end
-    inherited pnlShortCut: TPanel
-      inherited lbEscape: TLabel
-        Height = 17
       end
     end
   end
