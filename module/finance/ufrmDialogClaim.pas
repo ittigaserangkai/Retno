@@ -102,13 +102,10 @@ var
 
 implementation
 
-<<<<<<< HEAD
 uses
   ufrmCXLookup, uAppUtils, uModDO, uModPO, uModCNRecv,
-  uModDNRecv, uModAdjustmentFaktur, uModelHelper, ufrmCXMsgInfo {Ini jgn dihilangkan} ;
+  uModDNRecv, uModAdjustmentFaktur, uModelHelper;
 
-=======
->>>>>>> 1f401eedebdf0faf2676940e33b9af533ef5708f
 {$R *.dfm}
 
 procedure TfrmDialogClaim.actAddCNExecute(Sender: TObject);

@@ -33,7 +33,7 @@ var
 implementation
 
 uses
-  uModDO, uModelHelper, uDMClient, ufrmCXMsgInfo;
+  uModDO, uModelHelper, uDMClient;
 
 {$R *.dfm}
 
