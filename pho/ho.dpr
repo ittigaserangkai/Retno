@@ -231,7 +231,9 @@ uses
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP},
   ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
-  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal};
+  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal},
+  ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
+  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales};
 
 {$R *.res}
 

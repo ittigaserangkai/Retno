@@ -28,7 +28,7 @@ uses
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter, ufrmJurnal;
+  dxSkinsdxBarPainter, ufrmJurnal, ufrmContrabonSales;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -74,7 +74,7 @@ type
     actPaymentContrabon: TAction;
     actListARBalance: TAction;
     actImportEOD: TAction;
-    actInputContrabon: TAction;
+    actContrabonSales: TAction;
     actPotonganTagihan: TAction;
     actInvoiceSewaToko: TAction;
     actMasterAgreement: TAction;
@@ -397,6 +397,7 @@ type
     dxbrbtnHistoryAP: TdxBarButton;
     dxbrmngrHOBarAccounting: TdxBar;
     dxbrbtnJurnal: TdxBarButton;
+    dxbrbtnContrabonSales: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -411,6 +412,7 @@ type
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
+    procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
@@ -666,7 +668,12 @@ end;
 
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
-    frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
+  frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actContrabonSalesExecute(Sender: TObject);
+begin
+  frmContrabonSales := TfrmContrabonSales.Create(nil);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);
