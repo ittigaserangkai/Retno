@@ -824,20 +824,14 @@ inherited frmDialogClaim: TfrmDialogClaim
       ExplicitWidth = 852
       inherited lbCTRLEnter: TLabel
         Left = 677
-        Height = 15
         ExplicitLeft = 677
       end
       inherited lbEscape: TLabel
         Left = 768
-        Height = 15
         ExplicitLeft = 768
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 601
-        Height = 15
         ExplicitLeft = 601
       end
     end
