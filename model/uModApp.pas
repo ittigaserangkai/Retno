@@ -51,9 +51,7 @@ type
     procedure AddFilterCrud(aModClass: TModAppClass);
     function FieldNameOf(aprop: TRttiProperty): String;
     function GetCodeField: String;
-    function GetPOSField: String;
     function GetCodeValue: String;
-    function GetPOSValue: Variant;
     function GetHeaderField: String;
     function GetHeaderKey: String;
     function GetHeaderProperty: String;
@@ -62,7 +60,9 @@ type
     function PropFromAttr(attr: TAttributeClass; WithException: Boolean = True):
         TRttiProperty;
     function QuotValue(AProp: TRttiProperty): String;
+    function QuotValueNoBracket(AProp: TRttiProperty): String;
     class procedure RegisterRTTI;
+    function RemoveBracket(cValue: string): string;
     procedure SetFromDataset(ADataSet: TDataset);
     procedure UpdateToDataset(ADataSet: TDataset);
     property CrudFilterKind: TFilterClassKind read FCrudFilterKind write
@@ -94,9 +94,6 @@ type
   end;
 
   TModComp = class(TComponent)
-  end;
-
-  AttributeOfPOS = class(AttributeOfCustom)
   end;
 
 
@@ -170,19 +167,9 @@ begin
   Result := FieldNameOf( PropFromAttr(AttributeOfCode) );
 end;
 
-function TModApp.GetPOSField: String;
-begin
-  Result := FieldNameOf(PropFromAttr(AttributeOfPOS) );
-end;
-
 function TModApp.GetCodeValue: String;
 begin
   Result := PropFromAttr(AttributeOfCode).GetValue(Self).AsString;
-end;
-
-function TModApp.GetPOSValue: Variant;
-begin
-  Result := PropFromAttr(AttributeOfPOS).GetValue(Self).AsVariant;
 end;
 
 function TModApp.GetHeaderField: String;
@@ -280,11 +267,53 @@ begin
   end;
 end;
 
+function TModApp.QuotValueNoBracket(AProp: TRttiProperty): String;
+var
+  lDate: TDateTime;
+  lObj: TObject;
+begin
+  If LowerCase(AProp.PropertyType.Name) = LowerCase('TDateTime') then
+  begin
+    lDate := AProp.GetValue(Self).AsExtended;
+    Result := QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',lDate));
+  end
+  else
+  begin
+    case AProp.PropertyType.TypeKind of
+      tkInteger, tkInt64:
+        Result := InttoStr(AProp.GetValue(Self).AsInteger);
+      tkFloat:
+        Result := FloatToStr(AProp.GetValue(Self).AsExtended);
+      tkString, tkLString, tkUString, tkChar, tkWString, tkVariant:
+        Result := QuotedStr(AProp.GetValue(Self).AsString);
+      tkEnumeration:
+        Result := BoolToStr(AProp.GetValue(Self).AsBoolean);
+      tkClass:
+        begin
+          Result := 'NULL';
+          lObj := AProp.GetValue(Self).AsObject;
+          if lObj <> nil then
+            if lObj.InheritsFrom(TModApp) then
+              if TModApp(lObj).ID <> '' then
+                Result := QuotedStr(RemoveBracket(TModApp(lObj).ID));
+        end
+    else
+      Raise Exception.Create(
+        'Property Type tidak terdaftar atas ' + Self.ClassName + ',' + AProp.Name);
+    end;
+  end;
+end;
+
 class procedure TModApp.RegisterRTTI;
 begin
   //dummy method agar rtti diregister secara full
   //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
   //jalankan di initialization section
+end;
+
+function TModApp.RemoveBracket(cValue: string): string;
+begin
+  Result := Copy(cValue,2,cValue.Length-2);
 end;
 
 procedure TModApp.SetCrudFilterKind(const Value: TFilterClassKind);

@@ -8,7 +8,7 @@ uses
 type
   TNewMerchadize = class(TSBaseClass)
   private
-    FID: Integer;
+    FID: string;
     FKode: string;
     FNama: string;
     FNewUnit: TUnit;
@@ -17,26 +17,24 @@ type
     constructor Create(aOwner : TComponent); override;
     destructor Destroy; override;
     procedure ClearProperties;
+    function CustomTableName: string;
     function ExecuteCustomSQLTask: Boolean;
     function ExecuteCustomSQLTaskPrior: Boolean;
-    function CustomTableName: string;
-    function GenerateInterbaseMetaData: Tstrings;
     function ExecuteGenerateSQL: Boolean;
+    function GenerateInterbaseMetaData: Tstrings;
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_Kode: string; dynamic;
     function GetFieldNameFor_Nama: string; dynamic;
     function GetFieldNameFor_NewUnit: string; dynamic;
     function GetGeneratorName: string;
     function GetHeaderFlag: Integer;
-    function LoadByID(aID: Integer): Boolean;
    // function cekdata;
-    function isKodeExits(aKode : String; aUnitId : Integer; aExcludeId : Integer):
-        Boolean;
+    function isKodeExits(aKode, aUnitId: String; aExcludeId: Integer): Boolean;
+    function LoadByID(aID: string): Boolean;
     function LoadByKode(aKode: string): Boolean;
     function RemoveFromDB: Boolean;
-    procedure UpdateData(aID : Integer; aKode : string; aNama : string;
-            aNewUnit_ID : Integer);
-    property ID: Integer read FID write FID;
+    procedure UpdateData(aID, aKode, aNama, aNewUnit_ID: string);
+    property ID: string read FID write FID;
     property Kode: string read FKode write FKode;
     property Nama: string read FNama write FNama;
     property NewUnit: TUnit read FNewUnit write FNewUnit;
@@ -52,7 +50,6 @@ uses FireDAC.Comp.Client, FireDAC.Stan.Error, udmMain;
 }
 constructor TNewMerchadize.Create(aOwner : TComponent);
 begin
-
   inherited create(aOwner);
   FNewUnit := TUnit.Create(Self);
 end;
@@ -65,10 +62,15 @@ end;
 
 procedure TNewMerchadize.ClearProperties;
 begin
-  ID := 0;
+  ID := '';
   Kode := '';
   Nama := '';
   NewUnit.ClearProperties;
+end;
+
+function TNewMerchadize.CustomTableName: string;
+begin
+  result := 'REF$MERCHANDISE';
 end;
 
 function TNewMerchadize.ExecuteCustomSQLTask: Boolean;
@@ -81,9 +83,46 @@ begin
   result := True;
 end;
 
-function TNewMerchadize.CustomTableName: string;
+function TNewMerchadize.ExecuteGenerateSQL: Boolean;
+var
+  S: string;
 begin
-  result := 'REF$MERCHANDISE';
+  result := False;
+  if State = csNone then
+  Begin
+     raise Exception.create('Tidak bisa generate dalam Mode csNone')
+  end;
+
+  if not ExecuteCustomSQLTaskPrior then
+  begin
+    cRollbackTrans;
+    Exit
+  end else begin
+//    If FID <= 0 then
+    If FID = '' then
+    begin
+//      FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+      FID := cGetNextIDGUIDToString;
+      S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_ID + ', ' + GetFieldNameFor_Kode + ', ' + GetFieldNameFor_Nama + ', ' + GetFieldNameFor_NewUnit + ') values ('
+           + QuotedStr( FID) + ', '
+           + QuotedStr( FKode ) + ','
+           + QuotedStr( FNama ) + ','
+           + QuotedStr( FNewUnit.ID) + ');'
+    end else
+    begin
+      S := 'Update ' + CustomTableName + ' Set ' +  GetFieldNameFor_Kode + ' = ' + QuotedStr( FKode )
+           + ' , ' + GetFieldNameFor_Nama + ' = ' + QuotedStr( FNama )
+           + ' where ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr( FNewUnit.ID)
+           + ' and ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID) + ';';
+    end;
+
+    if not cExecSQL(S, dbtPOS, False) then
+    begin
+      cRollbackTrans;
+      Exit;
+    end else
+      Result := ExecuteCustomSQLTask;
+  end;
 end;
 
 function TNewMerchadize.FLoadFromDB( aSQL : String ): Boolean;
@@ -96,15 +135,15 @@ begin
   ClearProperties;
 
   iQ  := cOpenQuery(aSQL);
-  try                     
+  try
     with iQ do
     Begin
       if not EOF then
       begin
-         FID := FieldByName(GetFieldNameFor_ID).asInteger;
+         FID := FieldByName(GetFieldNameFor_ID).asString;
          FKode := FieldByName(GetFieldNameFor_Kode).asString;
          FNama := FieldByName(GetFieldNameFor_Nama).asString;
-         FNewUnit.LoadByID(FieldByName(GetFieldNameFor_NewUnit).asInteger);
+         FNewUnit.LoadByID(FieldByName(GetFieldNameFor_NewUnit).asString);
          Self.State := csLoaded;
          Result := True;
       end;
@@ -128,49 +167,10 @@ begin
   result.Append( ' ); ' );
 end;
 
-function TNewMerchadize.ExecuteGenerateSQL: Boolean;
-var
-  S: string;
-begin
-  result := False;
-  if State = csNone then
-  Begin
-     raise Exception.create('Tidak bisa generate dalam Mode csNone')
-  end;
-
-  if not ExecuteCustomSQLTaskPrior then
-  begin
-    cRollbackTrans;
-    Exit
-  end else begin
-    If FID <= 0 then
-    begin
-      FID := cGetNextID(GetFieldNameFor_ID, CustomTableName) ;
-      S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_ID + ', ' + GetFieldNameFor_Kode + ', ' + GetFieldNameFor_Nama + ', ' + GetFieldNameFor_NewUnit + ') values ('
-           + IntToStr( FID) + ', '
-           + QuotedStr(FKode ) + ','
-           + QuotedStr(FNama ) + ','
-           + InttoStr( FNewUnit.ID) + ');'
-    end else
-    begin
-      S := 'Update ' + CustomTableName + ' Set ' +  GetFieldNameFor_Kode + ' = ' + QuotedStr( FKode )
-           + ' , ' + GetFieldNameFor_Nama + ' = ' + QuotedStr( FNama )
-           + ' where ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr( FNewUnit.ID)
-           + ' and ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) + ';';
-    end;
-
-    if not cExecSQL(S, dbtPOS, False) then
-    begin
-      cRollbackTrans;
-      Exit;
-    end else
-      Result := ExecuteCustomSQLTask;
-  end;
-end;
-
 function TNewMerchadize.GetFieldNameFor_ID: string;
 begin
-  Result := 'MERCHAN_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'MERCHAN_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'REF$MERCHANDISE'
 end;
 
 function TNewMerchadize.GetFieldNameFor_Kode: string;
@@ -185,7 +185,8 @@ end;
 
 function TNewMerchadize.GetFieldNameFor_NewUnit: string;
 begin
-  Result := 'MERCHAN_UNT_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'MERCHAN_UNT_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'AUT$UNIT_ID'
 end;
 
 function TNewMerchadize.GetGeneratorName: string;
@@ -198,18 +199,18 @@ begin
   result := 736;
 end;
 
-function TNewMerchadize.isKodeExits(aKode : String; aUnitId : Integer;
-    aExcludeId : Integer): Boolean;
+function TNewMerchadize.isKodeExits(aKode, aUnitId: String; aExcludeId:
+    Integer): Boolean;
 var
   sSQL: string;
 begin
   Result := False;
 
   sSQL := 'select count( ' + GetFieldNameFor_ID + ' ) as Jml'
-            + ' from ' + CustomTableName
-            + ' where ' + GetFieldNameFor_Kode + '  = ' + QuotedStr(aKode)
-            + ' AND ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(aUnitID)
-            + ' AND ' + GetFieldNameFor_ID + ' <> ' + IntToStr(aExcludeId);
+        + ' from ' + CustomTableName
+        + ' where ' + GetFieldNameFor_Kode + '  = ' + QuotedStr(aKode)
+        + ' AND ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(aUnitID)
+        + ' AND ' + GetFieldNameFor_ID + ' <> ' + IntToStr(aExcludeId);
   with cOpenQuery(sSQL) do
   begin
     try
@@ -227,20 +228,16 @@ begin
 
 end;
 
-function TNewMerchadize.LoadByID(aID: Integer): Boolean;
+function TNewMerchadize.LoadByID(aID: string): Boolean;
 begin
-  result := FloadFromDB('Select * '
-                       + ' from ' + CustomTableName
-                       + ' Where  ' + GetFieldNameFor_ID + ' = ' + IntToStr(aID)
-                       );
+  result := FloadFromDB('Select * from ' + CustomTableName + ' Where  '
+                       + GetFieldNameFor_ID + ' = ' + QuotedStr(aID));
 end;
 
 function TNewMerchadize.LoadByKode(aKode: string): Boolean;
 begin
-  result := FloadFromDB('Select * '
-                        + ' from ' + CustomTableName
-                        + ' Where ' + GetFieldNameFor_Kode + ' = ' + QuotedStr(aKode)
-                        );
+  result := FloadFromDB('Select * from ' + CustomTableName + ' Where '
+                        + GetFieldNameFor_Kode + ' = ' + QuotedStr(aKode));
 end;
 
 function TNewMerchadize.RemoveFromDB: Boolean;
@@ -250,8 +247,8 @@ var
 begin
   Result := False;
   sSQL := 'delete from ' + CustomTableName
-          + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(ID)
-          + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(NewUnit.ID);
+        + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(ID)
+        + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(NewUnit.ID);
 
   try
     if cExecSQL(sSQL, dbtPOS, False) then
@@ -268,17 +265,14 @@ begin
   end;
 end;
 
-procedure TNewMerchadize.UpdateData(aID : Integer; aKode : string; aNama :
-        string; aNewUnit_ID : Integer);
+procedure TNewMerchadize.UpdateData(aID, aKode, aNama, aNewUnit_ID: string);
 begin
-
-             FID :=  aID;
-             FKode := trim(aKode);
-             FNama := trim(aNama);
-             FNewUnit.LoadByID(aNewUnit_ID);
+  FID := aID;
+  FKode := trim(aKode);
+  FNama := trim(aNama);
+  FNewUnit.LoadByID(aNewUnit_ID);
   State := csCreated;
 end;
-
 
 
 end.

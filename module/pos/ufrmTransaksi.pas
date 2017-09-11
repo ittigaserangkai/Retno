@@ -90,9 +90,9 @@ type
 		FDiscAMCPersen: Double;
     FIsEditMode: Boolean;
     FMemberCode: String;
-    FTrMemberID: Integer;
+    FTrMemberID: string;
     FProductCount: Double;
-    FTipeMemberID: Integer;
+    FTipeMemberID: string;
     FTotalColie: Integer;
     FTotalRupiah: Currency;
 		FTotalRupiahBarangAMC: Currency;
@@ -119,7 +119,7 @@ type
         ErrorText: TCaption; var Error: Boolean);
 //    procedure LoadPendingFromCSV(AMemberCode: String);
   public
-    Transaksi_ID: Integer;
+    Transaksi_ID: string;
     Brs: Integer;
     DiscOto: double;
     sDiscManBefore: String;
@@ -154,7 +154,7 @@ type
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
 		property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
     property MemberCode: String read FMemberCode write FMemberCode;
-    property TrMemberID: Integer read FTrMemberID write FTrMemberID;
+    property TrMemberID: string read FTrMemberID write FTrMemberID;
     property TotalColie: Integer read FTotalColie write FTotalColie;
     property TotalRupiah: Currency read FTotalRupiah write FTotalRupiah;
 		property TotalRupiahBarangAMC: Currency read FTotalRupiahBarangAMC write
@@ -702,13 +702,13 @@ begin
 								isBarangFound := False;  //too many 'if' will kill u :(
                 if isBarcodeUsed then
                 begin
-                    if LoadBarangBarcodeUom(sPLU,2) then
+                    if LoadBarangBarcodeUom(sPLU,'H004') then
                        isBHJExist := True;
                 end
                 else
                 if (aUoM <> '') then
                 begin
-                    if LoadBarangHargaJualTermurahUOM(Kode,2,frmMain.UnitID,aUoM) then
+                    if LoadBarangHargaJualTermurahUOM(Kode,'H004',aUoM) then
                        isBHJExist := True;
                 end
                 else
@@ -733,7 +733,7 @@ begin
                     end
                     else
                     begin
-                    if LoadBarangHargaJualTermurah(Kode,2,frmMain.UnitID) then
+                    if LoadBarangHargaJualTermurah(Kode,'H004') then
                        isBHJExist := True
                     end
                 end;
@@ -811,7 +811,7 @@ begin
                     sPLUPasangan := BarangGalon.Kode;
                     DataController.Values[Result, _KolPairCode]        := sPLUPasangan;
                     DataController.Values[Result, _KolIsGalon]  := IsGalon;
-                    DataController.Values[Result, _KolDetailID] := 0;
+                    DataController.Values[Result, _KolDetailID] := '';
 
 //                    RowCount := RowCount + 1;
 //                    Row      := RowCount - 1;
@@ -935,35 +935,40 @@ begin
 
   edNoPelanggan.Text := AMemberNo;
   edNamaPelanggan.Clear;
-  FTipeMemberID := -1;
-  TrMemberID := -1;
+  FTipeMemberID := '';//-1;
+  TrMemberID := '';//-1;
   MemberCode := '';
 
-  sSQL := 'select member_card_no, member_name, member_tpmember_id, '
-    + 'member_is_valid, member_is_active, member_id '
-    + 'from member '
-    + 'where member_card_no = ' + QuotedStr(AMemberNo)
-    + ' and member_unt_id = ' + IntToStr(frmMain.UnitID);
+  sSQL := 'select '
+        + ' member_card_no, '
+        + ' member_name, '
+        + ' member_id, '
+        + ' member_is_valid, '
+        + ' member_is_active, '
+        + ' member_id '
+        + ' from member '
+        + ' where member_card_no = ' + QuotedStr(AMemberNo);
+//        + ' and member_unt_id = ' + IntToStr(frmMain.UnitID);
 
   with cOpenQuery(sSQL) do
   begin
     try
       if not eof then
       begin
-        if Fields[3].AsInteger = 0 then
+        if FieldByName('member_is_valid').AsInteger = 0 then
         begin
           ShowInfo('Data member tersebut TIDAK VALID');
         end
-        else if Fields[4].AsInteger = 0 then
+        else if FieldByName('member_is_active').AsInteger = 0 then
         begin
           ShowInfo('Data member tersebut TIDAK AKTIF');
         end
         else
         begin
-          edNamaPelanggan.Text := Fields[1].AsString;
-          FTipeMemberID := Fields[2].AsInteger;
-          TrMemberID := Fields[5].AsInteger;
-          MemberCode := Fields[0].AsString;
+          edNamaPelanggan.Text := FieldByName('member_name').AsString;
+          FTipeMemberID := FieldByName('member_id').AsString;
+          TrMemberID := FieldByName('member_id').AsString;
+          MemberCode := FieldByName('member_card_no').AsString;
 
           sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
           SaveTransactionToCSV(False);
@@ -989,7 +994,8 @@ begin
 
   LoadMember(edNoPelanggan.Text);
   //HideInfo;
-  if FTrMemberID = -1 then
+//  if FTrMemberID = -1 then
+  if FTrMemberID = '' then
   begin
     if not fraMember.Visible then
     begin
@@ -1046,7 +1052,7 @@ begin
 //    AutoNumberCol(0);
   end;    // with
   sgTransaksi.ClearRows;
-  Transaksi_ID := 0;
+  Transaksi_ID := '';
   edPLU.Clear;
   edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
   HitungTotalRupiah;
@@ -1100,7 +1106,7 @@ begin
 	FDiscAMCPersen := 0;
   sSQL := 'select tpmember_name '
 		+ 'from ref$tipe_member '
-		+ 'where tpmember_id = ' + IntToStr(FTipeMemberID);
+		+ 'where ref$tipe_member_id = ' + QuotedStr(FTipeMemberID);
 
   with cOpenQuery(sSQL) do
   begin
@@ -1179,7 +1185,7 @@ begin
   //edNoPelangganExit(edNoPelanggan);
   sgTransaksi.ClearRows;
 
-  Transaksi_ID         := 0;
+  Transaksi_ID         := '';
   edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
   HitungTotalRupiah;
   edPLU.SetFocus;
@@ -1228,7 +1234,7 @@ var
   i                : Integer;
   lDecimalSeparator: Char;
   ssSQL            : TStrings;
-  iTrans_ID        : Integer;
+  iTrans_ID        : string;
 begin
   Result            := False;
 
@@ -1242,9 +1248,9 @@ begin
       begin
         try
           if LoadByTrans_No(edNoTrnTerakhir.Text, frmMain.UnitID) then
-             iTrans_ID := ID
+            iTrans_ID := ID
           else
-              iTrans_ID := 0;
+            iTrans_ID := '';
 
           UpdateData(TotalRupiahBarangCC,TotalRupiah,frmMain.FBeginningBalanceID,HitungTotalRupiahBarangAMC,
             self.DiscAMCPersen,iTrans_ID,True,TrMemberID,frmMain.UnitID,
@@ -1447,8 +1453,8 @@ var
   IsPercent : Boolean;
 begin
   sSql :='select a.* from aut$user a, aut$user_group b '
-       + ' where a.usr_id=b.ug_usr_id and ug_gro_id=11'
-       + ' and a.usr_unt_id = ' + IntToStr(frmMain.UnitID)
+       + ' where a.usr_id = b.ug_usr_id and ug_gro_id=11'
+       + ' and a.usr_unt_id = ' + QuotedStr(frmMain.UnitID)
        + ' and usr_username =' + QuotedStr(edtUsername.Text);
 
   with cOpenQuery(sSql) do
@@ -1461,7 +1467,7 @@ begin
           CommonDlg.ShowMessage('Password salah');
           sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
           sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
-          sgTransaksi.DataController.Values[brs, _KolTotal]      := GetTotalHarga(brs);
+          sgTransaksi.DataController.Values[brs, _KolTotal]       := GetTotalHarga(brs);
           ActiveGrid;
           Exit;
         end;
@@ -1471,7 +1477,7 @@ begin
         CommonDlg.ShowMessage('User ini tidak berhak melakukan discount manual');
         sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
         sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
-        sgTransaksi.DataController.Values[brs, _KolTotal]      := GetTotalHarga(brs);
+        sgTransaksi.DataController.Values[brs, _KolTotal]       := GetTotalHarga(brs);
         ActiveGrid;
         Exit;
       end;

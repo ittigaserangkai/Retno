@@ -18,8 +18,6 @@ type
     procedure DataModuleCreate(Sender: TObject);
     procedure DSServerClassGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
-  private
-    { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -86,6 +84,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudAdjFaktur, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudBankCashOut, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCRUDClaimFaktur, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCrudUpdatePOS, DSServerClass.LifeCycle);
 
 end;
 

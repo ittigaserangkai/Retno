@@ -1600,7 +1600,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCOA'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1778,7 +1778,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnElectricCustomer'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1818,7 +1818,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnContrabonSales'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1861,7 +1861,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnJurnal'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True

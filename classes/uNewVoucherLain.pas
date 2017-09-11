@@ -11,31 +11,28 @@ type
   private
     FDATE_CREATE: TDateTime;
     FDATE_MODIFY: TDateTime;
-    FID: Integer;
+    FID: string;
     FIsActive: Boolean;
     FNewUnit: TUnit;
-    FNewUnitID: Integer;
-    FOPC_UNIT: TUnit;
-    FOPC_UNITID: Integer;
-    FOPM_UNIT: TUnit;
-    FOPM_UNITID: Integer;
-    FOP_CREATE: Integer;
-    FOP_MODIFY: Integer;
+    FNewUnitID: string;
+//    FOPC_UNIT: TUnit;
+//    FOPC_UNITID: Integer;
+//    FOPM_UNIT: TUnit;
+//    FOPM_UNITID: Integer;
+    FOP_CREATE: string;
+    FOP_MODIFY: string;
     FQty: Integer;
     FTotalValue: Double;
     FTransNo: string;
     FValue: Double;
     function FLoadFromDB(ASQL : String ): Boolean;
     function GetNewUnit: TUnit;
-    function GetOPC_UNIT: TUnit;
-    function GetOPM_UNIT: TUnit;
+//    function GetOPC_UNIT: TUnit;
+//    function GetOPM_UNIT: TUnit;
     procedure SetNewUnit(Value: TUnit);
-    procedure SetOPC_UNIT(Value: TUnit);
-    procedure SetOPM_UNIT(Value: TUnit);
   public
     constructor Create(AOwner : TComponent); override;
-    constructor CreateWithUser(AOwner : TComponent; AUserID: Integer; AUnitID:
-        Integer);
+    constructor CreateWithUser(AOwner: TComponent; AUserID: string);
     destructor Destroy; override;
     procedure ClearProperties;
     function CustomSQLTask: Tstrings;
@@ -48,8 +45,8 @@ type
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_IsActive: string; dynamic;
     function GetFieldNameFor_NewUnit: string; dynamic;
-    function GetFieldNameFor_OPC_UNIT: string; dynamic;
-    function GetFieldNameFor_OPM_UNIT: string; dynamic;
+//    function GetFieldNameFor_OPC_UNIT: string; dynamic;
+//    function GetFieldNameFor_OPM_UNIT: string; dynamic;
     function GetFieldNameFor_OP_CREATE: string; dynamic;
     function GetFieldNameFor_OP_MODIFY: string; dynamic;
     function GetFieldNameFor_Qty: string; dynamic;
@@ -60,21 +57,21 @@ type
     function GetFieldPrefix: string;
     function GetGeneratorName: string; dynamic;
     function GetHeaderFlag: Integer;
-    function GetPlannedID: Integer;
-    function LoadByID(AID : Integer; AUnitID: Integer): Boolean;
+    function GetPlannedID: string;
+    function LoadByID(AID, AUnitID: string): Boolean;
     function RemoveFromDB: Boolean;
     function SaveToDB: Boolean;
-    procedure UpdateData(AID: Integer; AIsActive: Boolean; ANewUnit_ID: Integer;
+    procedure UpdateData(AID: string; AIsActive: Boolean; ANewUnit_ID: string;
         AQty: Integer; ATotalValue: Double; ATransNo: string; AValue: Double);
     property DATE_CREATE: TDateTime read FDATE_CREATE write FDATE_CREATE;
     property DATE_MODIFY: TDateTime read FDATE_MODIFY write FDATE_MODIFY;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property IsActive: Boolean read FIsActive write FIsActive;
     property NewUnit: TUnit read GetNewUnit write SetNewUnit;
-    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
-    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
-    property OP_CREATE: Integer read FOP_CREATE write FOP_CREATE;
-    property OP_MODIFY: Integer read FOP_MODIFY write FOP_MODIFY;
+//    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
+//    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
+    property OP_CREATE: string read FOP_CREATE write FOP_CREATE;
+    property OP_MODIFY: string read FOP_MODIFY write FOP_MODIFY;
     property Qty: Integer read FQty write FQty;
     property TotalValue: Double read FTotalValue write FTotalValue;
     property TransNo: string read FTransNo write FTransNo;
@@ -84,15 +81,15 @@ type
   TVoucherLainItem = class(TCollectionItem)
   private
     FVoucherLain: TVoucherLain;
-    FVoucherLainID: Integer;
-    FVoucherLainUnit: Integer;
+    FVoucherLainID: string;
+    FVoucherLainUnit: string;
     function GetVoucherLain: TVoucherLain;
   public
     constructor Create(aCollection : TCollection); override;
     destructor Destroy; override;
     property VoucherLain: TVoucherLain read GetVoucherLain write FVoucherLain;
-    property VoucherLainID: Integer read FVoucherLainID write FVoucherLainID;
-    property VoucherLainUnit: Integer read FVoucherLainUnit write FVoucherLainUnit;
+    property VoucherLainID: string read FVoucherLainID write FVoucherLainID;
+    property VoucherLainUnit: string read FVoucherLainUnit write FVoucherLainUnit;
   end;
 
   TVoucherLainItems = class(TCollection)
@@ -109,6 +106,7 @@ type
 implementation
 
 uses udmMain, uAppUtils;
+
 {
 ********************************* TVoucherLain *********************************
 }
@@ -117,12 +115,11 @@ begin
   inherited Create(AOwner);
 end;
 
-constructor TVoucherLain.CreateWithUser(AOwner : TComponent; AUserID: Integer;
-    AUnitID: Integer);
+constructor TVoucherLain.CreateWithUser(AOwner: TComponent; AUserID: string);
 begin
   Create(AOwner);
   OP_MODIFY := AUserID;
-  FOPM_UNITID := AUnitID;
+//  FOPM_UNITID := AUnitID;
 end;
 
 destructor TVoucherLain.Destroy;
@@ -138,7 +135,7 @@ begin
   TotalValue := 0;
   Qty := 0;
   IsActive := FALSE;
-  ID := 0;
+  ID := '';
 end;
 
 function TVoucherLain.CustomSQLTask: Tstrings;
@@ -161,25 +158,25 @@ begin
   Result := False;
   State := csNone;
   ClearProperties;
-  with cOpenQuery(aSQL) do 
-  begin 
+  with cOpenQuery(aSQL) do
+  begin
     try
-      if not EOF then 
-      begin 
+      if not EOF then
+      begin
         FDATE_CREATE := FieldByName(GetFieldNameFor_DATE_CREATE).AsDateTime;
         FDATE_MODIFY := FieldByName(GetFieldNameFor_DATE_MODIFY).AsDateTime;
-        FID := FieldByName(GetFieldNameFor_ID).AsInteger;
+        FID := FieldByName(GetFieldNameFor_ID).AsString;
         FIsActive := FieldValues[GetFieldNameFor_IsActive];
-        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsInteger;
-        FOPC_UNITID := FieldByName(GetFieldNameFor_OPC_UNIT).AsInteger;
-        FOPM_UNITID := FieldByName(GetFieldNameFor_OPM_UNIT).AsInteger;
-        FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsInteger;
-        FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsInteger;
+        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
+//        FOPC_UNITID := FieldByName(GetFieldNameFor_OPC_UNIT).AsInteger;
+//        FOPM_UNITID := FieldByName(GetFieldNameFor_OPM_UNIT).AsInteger;
+        FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsString;
+        FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsString;
         FQty := FieldByName(GetFieldNameFor_Qty).AsInteger;
         FTotalValue := FieldByName(GetFieldNameFor_TotalValue).AsFloat;
         FTransNo := FieldByName(GetFieldNameFor_TransNo).AsString;
         FValue := FieldByName(GetFieldNameFor_Value).AsFloat;
-        Self.State := csLoaded; 
+        Self.State := csLoaded;
         Result := True;
       end;
     finally
@@ -219,36 +216,38 @@ var
   ssSQL: TStrings;
 begin
   Result := TStringList.Create;
-  if State = csNone then 
+  if State = csNone then
   begin
     raise Exception.create('Tidak bisa generate dalam Mode csNone')
   end;
-  
-  ssSQL := CustomSQLTaskPrior; 
-  if ssSQL <> nil then 
-  begin 
+
+  ssSQL := CustomSQLTaskPrior;
+  if ssSQL <> nil then
+  begin
     Result.AddStrings(ssSQL);
-  end; 
+  end;
   //ssSQL := nil;
-  
+
   DATE_MODIFY := cGetServerDateTime;
-  FOPM_UNITID := FNewUnitID;
-  
-  If FID <= 0 then 
-  begin 
-    //Generate Insert SQL 
+//  FOPM_UNITID := FNewUnitID;
+
+//  If FID <= 0 then
+  if FID = '' then
+  begin
+    //Generate Insert SQL
     OP_CREATE := OP_MODIFY;
     DATE_CREATE := DATE_MODIFY;
-    FOPC_UNITID := FOPM_UNITID;
-    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//    FOPC_UNITID := FOPM_UNITID;
+//    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+    FID := cGetNextIDGUIDToString;
     sSQL := 'insert into ' + CustomTableName + ' ('
       + GetFieldNameFor_DATE_CREATE + ', '
       + GetFieldNameFor_DATE_MODIFY + ', '
       + GetFieldNameFor_ID + ', '
       + GetFieldNameFor_IsActive + ', '
       + GetFieldNameFor_NewUnit + ', '
-      + GetFieldNameFor_OPC_UNIT + ', '
-      + GetFieldNameFor_OPM_UNIT + ', '
+//      + GetFieldNameFor_OPC_UNIT + ', '
+//      + GetFieldNameFor_OPM_UNIT + ', '
       + GetFieldNameFor_OP_CREATE + ', '
       + GetFieldNameFor_OP_MODIFY + ', '
       + GetFieldNameFor_Qty + ', '
@@ -258,45 +257,45 @@ begin
       + GetFieldNameFor_Value +') values ('
       + TAppUtils.QuotDT(FDATE_CREATE) + ', '
       + TAppUtils.QuotDT(FDATE_MODIFY) + ', '
-      + IntToStr(FID) + ', '
+      + QuotedStr(FID) + ', '
       + IfThen(FIsActive,'1','0') + ', '
-      + InttoStr(FNewUnitID) + ', '
-      + InttoStr(FOPC_UNITID) + ', '
-      + InttoStr(FOPM_UNITID) + ', '
-      + IntToStr(FOP_CREATE) + ', '
-      + IntToStr(FOP_MODIFY) + ', '
+      + QuotedStr(FNewUnitID) + ', '
+//      + InttoStr(FOPC_UNITID) + ', '
+//      + InttoStr(FOPM_UNITID) + ', '
+      + QuotedStr(FOP_CREATE) + ', '
+      + QuotedStr(FOP_MODIFY) + ', '
       + IntToStr(FQty) + ', '
       + FormatFloat('0.00', FTotalValue) + ', '
       + QuotedStr(FTransNo) + ', '
-      + IntToStr(FNewUnitID) + ', '
+      + QuotedStr(FNewUnitID) + ', '
       + FormatFloat('0.00', FValue) + ');';
-  end 
-  else 
-  begin 
-    //generate Update SQL 
+  end
+  else
+  begin
+    //generate Update SQL
     sSQL := 'update ' + CustomTableName + ' set '
       + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
-      + ', ' + GetFieldNameFor_IsActive + ' = ' + IfThen(FIsActive,'1','0') 
-      + ', ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) 
-      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID) 
-      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + IntToStr(FOP_MODIFY) 
-      + ', ' + GetFieldNameFor_Qty + ' = ' + IntToStr(FQty) 
-      + ', ' + GetFieldNameFor_TotalValue + ' = ' + FormatFloat('0.00', FTotalValue) 
+      + ', ' + GetFieldNameFor_IsActive + ' = ' + IfThen(FIsActive,'1','0')
+      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
+//      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
+      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + QuotedStr(FOP_MODIFY)
+      + ', ' + GetFieldNameFor_Qty + ' = ' + IntToStr(FQty)
+      + ', ' + GetFieldNameFor_TotalValue + ' = ' + FormatFloat('0.00', FTotalValue)
       + ', ' + GetFieldNameFor_TransNo + ' = ' + QuotedStr(FTransNo)
-      + ', ' + GetFieldNameFor_TransUnit + ' = ' + IntToStr(FNewUnitID) 
+      + ', ' + GetFieldNameFor_TransUnit + ' = ' + QuotedStr(FNewUnitID)
       + ', ' + GetFieldNameFor_Value + ' = ' + FormatFloat('0.00', FValue)
-      + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
+      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
   end;
   Result.Append(sSQL);
   //generating Collections SQL
-  
-  ssSQL := CustomSQLTask; 
-  if ssSQL <> nil then 
-  begin 
+
+  ssSQL := CustomSQLTask;
+  if ssSQL <> nil then
+  begin
     Result.AddStrings(ssSQL);
-  end; 
-  
+  end;
+
   //FreeAndNil(ssSQL);
 end;
 
@@ -325,15 +324,15 @@ begin
   Result := GetFieldPrefix + 'UNT_ID';
 end;
 
-function TVoucherLain.GetFieldNameFor_OPC_UNIT: string;
-begin
-  Result := 'OPC_UNIT';
-end;
+//function TVoucherLain.GetFieldNameFor_OPC_UNIT: string;
+//begin
+//  Result := 'OPC_UNIT';
+//end;
 
-function TVoucherLain.GetFieldNameFor_OPM_UNIT: string;
-begin
-  Result := 'OPM_UNIT';
-end;
+//function TVoucherLain.GetFieldNameFor_OPM_UNIT: string;
+//begin
+//  Result := 'OPM_UNIT';
+//end;
 
 function TVoucherLain.GetFieldNameFor_OP_CREATE: string;
 begin
@@ -396,31 +395,32 @@ begin
   Result := FNewUnit;
 end;
 
-function TVoucherLain.GetOPC_UNIT: TUnit;
-begin
-//  Result := nil;
-  if FOPC_UNIT = nil then
-  begin
-    FOPC_UNIT := TUnit.Create(Self);
-    FOPC_UNIT.LoadByID(FOPC_UNITID);
-  end;
-  Result := FOPC_UNIT;
-end;
+//function TVoucherLain.GetOPC_UNIT: TUnit;
+//begin
+////  Result := nil;
+//  if FOPC_UNIT = nil then
+//  begin
+//    FOPC_UNIT := TUnit.Create(Self);
+//    FOPC_UNIT.LoadByID(FOPC_UNITID);
+//  end;
+//  Result := FOPC_UNIT;
+//end;
 
-function TVoucherLain.GetOPM_UNIT: TUnit;
-begin
-//  Result := nil;
-  if FOPM_UNIT = nil then
-  begin
-    FOPM_UNIT := TUnit.Create(Self);
-    FOPM_UNIT.LoadByID(FOPM_UNITID);
-  end;
-  Result := FOPM_UNIT;
-end;
+//function TVoucherLain.GetOPM_UNIT: TUnit;
+//begin
+////  Result := nil;
+//  if FOPM_UNIT = nil then
+//  begin
+//    FOPM_UNIT := TUnit.Create(Self);
+//    FOPM_UNIT.LoadByID(FOPM_UNITID);
+//  end;
+//  Result := FOPM_UNIT;
+//end;
 
-function TVoucherLain.GetPlannedID: Integer;
+function TVoucherLain.GetPlannedID: string;
 begin
-  result := -1;
+//  result := -1;
+  Result := '';
   if State = csNone then
   begin
      Raise exception.create('Tidak bisa GetPlannedID di Mode csNone');
@@ -428,21 +428,22 @@ begin
   end
   else if state = csCreated then
   begin
-     result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//     Result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+     Result := cGetNextIDGUIDToString;
   end
   else if State = csLoaded then
   begin
-     result := FID;
+     Result := FID;
   end;
 end;
 
-function TVoucherLain.LoadByID(AID : Integer; AUnitID: Integer): Boolean;
+function TVoucherLain.LoadByID(AID, AUnitID: string): Boolean;
 var
   sSQL: string;
 begin
   sSQL := 'select * from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(AID) 
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
+    + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(AID)
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(AUnitID);
   Result := FloadFromDB(sSQL);
 end;
 
@@ -451,10 +452,10 @@ var
   sSQL: string;
 begin
   Result := False;
-  
-  sSQL := 'delete from ' + CustomTableName 
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) 
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID);
+
+  sSQL := 'delete from ' + CustomTableName
+    + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID);
   if cExecSQL(sSQL, dbtPOS, False) then
     Result := True; //SimpanBlob(sSQL,GetHeaderFlag);
 end;
@@ -482,28 +483,28 @@ begin
   FNewUnitID := Value.ID;
 end;
 
-procedure TVoucherLain.SetOPC_UNIT(Value: TUnit);
-begin
-  FOPC_UNITID := Value.ID;
-end;
+//procedure TVoucherLain.SetOPC_UNIT(Value: TUnit);
+//begin
+//  FOPC_UNITID := Value.ID;
+//end;
 
-procedure TVoucherLain.SetOPM_UNIT(Value: TUnit);
-begin
-  FOPM_UNITID := Value.ID;
-end;
+//procedure TVoucherLain.SetOPM_UNIT(Value: TUnit);
+//begin
+//  FOPM_UNITID := Value.ID;
+//end;
 
-procedure TVoucherLain.UpdateData(AID: Integer; AIsActive: Boolean;
-    ANewUnit_ID: Integer; AQty: Integer; ATotalValue: Double; ATransNo: string;
-    AValue: Double);
+procedure TVoucherLain.UpdateData(AID: string; AIsActive: Boolean; ANewUnit_ID:
+    string; AQty: Integer; ATotalValue: Double; ATransNo: string; AValue:
+    Double);
 begin
-  FID :=  AID;
-  FIsActive :=  AIsActive;
+  FID :=  ID;
+  FIsActive := AIsActive;
   FNewUnitID := ANewUnit_ID;
-  FQty :=  AQty;
-  FTotalValue :=  ATotalValue;
+  FQty := AQty;
+  FTotalValue := ATotalValue;
   FTransNo := Trim(ATransNo);
-  FValue :=  AValue;
-  
+  FValue := AValue;
+
   State := csCreated;
 end;
 
@@ -549,7 +550,5 @@ begin
   end;
   Result := FVoucherLain;
 end;
-
-
 
 end.

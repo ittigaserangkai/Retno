@@ -28,8 +28,10 @@ type
     function GetFieldNameFor_Nama: string; dynamic;
     function GetFieldNameFor_UOM: string; dynamic;
     function GetFieldNameFor_Urutan: string; dynamic;
+    function GetFieldNameFor_ID: string; dynamic;
     function GetHeaderFlag: Integer;
     function LoadByUOM(aUOM: string): Boolean;
+    function LoadByID(aID: string): Boolean;
     function RemoveFromDB: Boolean;
     procedure UpdateData(aGroup : string; aNama : string; aNewUnit_ID : Integer;
         aUOM : string; aUrutan : Integer);
@@ -185,6 +187,11 @@ begin
   Result := 'SAT_URUTAN';// <<-- Rubah string ini untuk mapping
 end;
 
+function TNewUOM.GetFieldNameFor_ID: string;
+begin
+  Result := 'REF$SATUAN_ID';// <<-- Rubah string ini untuk mapping
+end;
+
 function TNewUOM.GetHeaderFlag: Integer;
 begin
   result := 579;
@@ -216,6 +223,12 @@ function TNewUOM.LoadByUOM(aUOM: string): Boolean;
 begin
   Result := FloadFromDB('Select * from ' + CustomTableName
                         + ' Where ' + GetFieldNameFor_UOM + ' = ' + QuotedStr(aUOM));
+end;
+
+function TNewUOM.LoadByID(aID: string): Boolean;
+begin
+  Result := FloadFromDB('Select * from ' + CustomTableName
+                        + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(aID));
 end;
 
 function TNewUOM.RemoveFromDB: Boolean;

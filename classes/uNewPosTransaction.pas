@@ -13,32 +13,32 @@ type
   private
     FBarangCode: string;
     FBarangHargaJual: TBarangHargaJual;
-    FBarangHargaJualID: Integer;
+    FBarangHargaJualID: string;
     FCOGS: Double;
     FDATE_CREATE: TDateTime;
     FDATE_MODIFY: TDateTime;
     FDiscMan: Double;
     FDisc_Card: Double;
     FDISC_GMC_NOMINAL: Double;
-    FID: Integer;
+    FID: string;
     FIsBKP: Boolean;
     FIsDiscAMC: Boolean;
     FLastCost: Double;
     FNewUnit: TUnit;
-    FNewUnitID: Integer;
-    FOPC_UNIT: TUnit;
-    FOPC_UNITID: Integer;
-    FOPM_UNIT: TUnit;
-    FOPM_UNITID: Integer;
-    FOP_CREATE: Integer;
-    FOP_MODIFY: Integer;
+    FNewUnitID: string;
+//    FOPC_UNIT: TUnit;
+//    FOPC_UNITID: Integer;
+//    FOPM_UNIT: TUnit;
+//    FOPM_UNITID: Integer;
+    FOP_CREATE: string;
+    FOP_MODIFY: string;
     FOto_Code: string;
     FPPN: Double;
     FPPNBM: Double;
     FQty: Double;
     FSellPrice: Double;
     FSellPriceDisc: Double;
-    FTipeBarangID: Integer;
+    FTipeBarangID: string;
     FTotal: Double;
     FTotalBeforeTax: Double;
     FTotalCeil: Double;
@@ -46,21 +46,19 @@ type
     FUomCode: string;
     function GetBarangHargaJual: TBarangHargaJual;
     function GetNewUnit: TUnit;
-    function GetOPC_UNIT: TUnit;
-    function GetOPM_UNIT: TUnit;
+//    function GetOPC_UNIT: TUnit;
+//    function GetOPM_UNIT: TUnit;
     procedure SetNewUnit(Value: TUnit);
-    procedure SetOPC_UNIT(Value: TUnit);
-    procedure SetOPM_UNIT(Value: TUnit);
   public
     constructor Create(aCollection : TCollection); override;
     destructor Destroy; override;
     procedure ClearProperties;
     function CustomTableName: string;
     function GenerateRemoveSQL: TStrings; virtual;
-    function GenerateSQL(AHeader_ID : Integer): TStrings;
+    function GenerateSQL(AHeader_ID: string): TStrings;
     function GetFieldNameFor_Barang: string; dynamic;
     function GetFieldNameFor_BarangHargaJual: string; dynamic;
-    function GetFieldNameFor_BarangHargaJualUnit: string; dynamic;
+//    function GetFieldNameFor_BarangHargaJualUnit: string; dynamic;
     function GetFieldNameFor_COGS: string; dynamic;
     function GetFieldNameFor_DATE_CREATE: string; dynamic;
     function GetFieldNameFor_DATE_MODIFY: string; dynamic;
@@ -69,9 +67,9 @@ type
     function GetFieldNameFor_IsBKP: string; dynamic;
     function GetFieldNameFor_IsDiscAMC: string; dynamic;
     function GetFieldNameFor_LastCost: string; dynamic;
-    function GetFieldNameFor_NewUnit: string; dynamic;
-    function GetFieldNameFor_OPC_UNIT: string; dynamic;
-    function GetFieldNameFor_OPM_UNIT: string; dynamic;
+//    function GetFieldNameFor_NewUnit: string; dynamic;
+//    function GetFieldNameFor_OPC_UNIT: string; dynamic;
+//    function GetFieldNameFor_OPM_UNIT: string; dynamic;
     function GetFieldNameFor_OP_CREATE: string; dynamic;
     function GetFieldNameFor_OP_MODIFY: string; dynamic;
     function GetFieldNameFor_PPN: string; dynamic;
@@ -88,7 +86,7 @@ type
     function GetFieldNameFor_TransID: string; dynamic;
     function GetFieldNameFor_TransNo: string; dynamic;
     function GetFieldNameFor_TransOtoCode: string; dynamic;
-    function GetFieldNameFor_TransUnit: string; dynamic;
+//    function GetFieldNameFor_TransUnit: string; dynamic;
     function GetFieldNameFor_UomCode: string; dynamic;
     function GetFieldPrefix: string;
     function GetGeneratorName: string; dynamic;
@@ -103,22 +101,22 @@ type
     property Disc_Card: Double read FDisc_Card write FDisc_Card;
     property DISC_GMC_NOMINAL: Double read FDISC_GMC_NOMINAL write
         FDISC_GMC_NOMINAL;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property IsBKP: Boolean read FIsBKP write FIsBKP;
     property IsDiscAMC: Boolean read FIsDiscAMC write FIsDiscAMC;
     property LastCost: Double read FLastCost write FLastCost;
     property NewUnit: TUnit read GetNewUnit write SetNewUnit;
-    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
-    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
-    property OP_CREATE: Integer read FOP_CREATE write FOP_CREATE;
-    property OP_MODIFY: Integer read FOP_MODIFY write FOP_MODIFY;
+//    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
+//    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
+    property OP_CREATE: string read FOP_CREATE write FOP_CREATE;
+    property OP_MODIFY: string read FOP_MODIFY write FOP_MODIFY;
     property Oto_Code: string read FOto_Code write FOto_Code;
     property PPN: Double read FPPN write FPPN;
     property PPNBM: Double read FPPNBM write FPPNBM;
     property Qty: Double read FQty write FQty;
     property SellPrice: Double read FSellPrice write FSellPrice;
     property SellPriceDisc: Double read FSellPriceDisc write FSellPriceDisc;
-    property TipeBarangID: Integer read FTipeBarangID write FTipeBarangID;
+    property TipeBarangID: string read FTipeBarangID write FTipeBarangID;
     property Total: Double read FTotal write FTotal;
     property TotalBeforeTax: Double read FTotalBeforeTax write FTotalBeforeTax;
     property TotalCeil: Double read FTotalCeil write FTotalCeil;
@@ -133,9 +131,9 @@ type
   public
     function Add: TPOSTransactionItem;
     function CustomTableName: string;
-		function GetFieldNameFor_Header: string;
-    function GetFieldNameFor_HeaderUNT: string;
-    procedure LoadByID(aHeader_ID : Integer; aUnitID: Integer);
+    function GetFieldNameFor_Header: string;
+//    function GetFieldNameFor_HeaderUNT: string;
+    procedure LoadByHeaderID(aHeader_ID: string);
     property POSTransactionItem[Index: Integer]: TPOSTransactionItem read
             GetPOSTransactionItem write SetPOSTransactionItem; default;
   end;
@@ -146,25 +144,25 @@ type
     FBayarCard: Double;
     FBayarCash: Double;
     FBeginningBalance: TBeginningBalance;
-    FBeginningBalanceID: Integer;
+    FBeginningBalanceID: string;
     FDATE_CREATE: TDateTime;
     FDATE_MODIFY: TDateTime;
     FDiscAMCNominal: Double;
     FDiscAMCPersen: Double;
-    FID: Integer;
+    FID: string;
     FIsActive: Boolean;
     FIsPending: Boolean;
     FKuponBotolNo: String;
-    FMemberID: Integer;
+    FMemberID: string;
     FNewUnit: TUnit;
-    FNewUnitID: Integer;
+    FNewUnitID: string;
     FNo: string;
-    FOPC_UNIT: TUnit;
-    FOPC_UNITID: Integer;
-    FOPM_UNIT: TUnit;
-    FOPM_UNITID: Integer;
-    FOP_CREATE: Integer;
-    FOP_MODIFY: Integer;
+//    FOPC_UNIT: TUnit;
+//    FOPC_UNITID: Integer;
+//    FOPM_UNIT: TUnit;
+//    FOPM_UNITID: Integer;
+    FOP_CREATE: string;
+    FOP_MODIFY: string;
     FPembulat: Double;
     FPOSTransactionItems: TPOSTransactionItems;
     FReturNo: TStrings;
@@ -184,8 +182,8 @@ type
     function GetBarangStockSirkulasi: TBArangStockSirkulasiItems;
     function GetBeginningBalance: TBeginningBalance;
     function GetNewUnit: TUnit;
-    function GetOPC_UNIT: TUnit;
-    function GetOPM_UNIT: TUnit;
+//    function GetOPC_UNIT: TUnit;
+//    function GetOPM_UNIT: TUnit;
     function GetPOSTransactionItems: TPOSTransactionItems;
     function GetReturNo: TStrings;
     function GetTransactionCard: TPOSTransactionCard;
@@ -193,11 +191,9 @@ type
     function GetVoucherLains: TVoucherLainItems;
     function GetVoucherNo: TStrings;
     procedure SetNewUnit(Value: TUnit);
-    procedure SetOPC_UNIT(Value: TUnit);
-    procedure SetOPM_UNIT(Value: TUnit);
   public
     constructor Create(AOwner : TComponent); override;
-    constructor CreateWithUser(AOwner : TComponent; AUserID: Integer);
+    constructor CreateWithUser(AOwner: TComponent; AUserID: string);
     destructor Destroy; override;
     procedure ClearProperties;
     function CustomSQLTask: Tstrings;
@@ -214,7 +210,7 @@ type
     function GetFieldNameFor_BayarCard: string; dynamic;
     function GetFieldNameFor_BayarCash: string; dynamic;
     function GetFieldNameFor_BeginningBalance: string; dynamic;
-    function GetFieldNameFor_BeginningBalanceUnit: string; dynamic;
+//    function GetFieldNameFor_BeginningBalanceUnit: string; dynamic;
     function GetFieldNameFor_DATE_CREATE: string; dynamic;
     function GetFieldNameFor_DATE_MODIFY: string; dynamic;
     function GetFieldNameFor_DiscAMCNominal: string; dynamic;
@@ -227,15 +223,16 @@ type
     function GetFieldNameFor_KuponBotolTransPOS: string; dynamic;
     function GetFieldNameFor_KuponBotolUnit: string; dynamic;
     function GetFieldNameFor_MemberID: string; dynamic;
-    function GetFieldNameFor_MemberUnit: string; dynamic;
+//    function GetFieldNameFor_MemberUnit: string; dynamic;
     function GetFieldNameFor_NewUnit: string; dynamic;
     function GetFieldNameFor_No: string; dynamic;
-    function GetFieldNameFor_OPC_UNIT: string; dynamic;
-    function GetFieldNameFor_OPM_UNIT: string; dynamic;
+//    function GetFieldNameFor_OPC_UNIT: string; dynamic;
+//    function GetFieldNameFor_OPM_UNIT: string; dynamic;
     function GetFieldNameFor_OP_CREATE: string; dynamic;
     function GetFieldNameFor_OP_MODIFY: string; dynamic;
     function GetFieldNameFor_Pembulat: string; dynamic;
     function GetFieldNameFor_POSTransactionItems: string; dynamic;
+    function GetFieldNameFor_ReturNo: string; dynamic;
     function GetFieldNameFor_ReturTransPOS: string; dynamic;
     function GetFieldNameFor_ReturUnit: string; dynamic;
     function GetFieldNameFor_Tanggal: string; dynamic;
@@ -246,7 +243,6 @@ type
     function GetFieldNameFor_TransCardDisc: string; dynamic;
     function GetFieldNameFor_TransStruk: string; dynamic;
     function GetFieldNameFor_VoucherNo: string; dynamic;
-    function GetFieldNameFor_ReturNo: string; dynamic;
     function GetFieldNameFor_VoucherStatus: string; dynamic;
     function GetFieldNameFor_VoucherTransPOS: string; dynamic;
     function GetFieldNameFor_VoucherUnit: string; dynamic;
@@ -269,14 +265,14 @@ type
     function GetNoTransaksi: string;
     function GetPenjualanBarang(aMerchandizeGroupID : Integer; aUnitID : Integer;
         aTipe : Integer): Double;
-    function GetPlannedID: Integer;
+    function GetPlannedID: string;
     function GetTableNameFor_KuponBotol: string; dynamic;
     function GetTableNameFor_Retur: string; dynamic;
     function GetTableNameFor_Voucher: string; dynamic;
     function GetTransactionDate: TDateTime;
+    function IsBalanceUsed(aBalance_ID, aUnitID: string): Boolean;
     function LoadByID(AID : Integer; AUnitID: Integer): Boolean;
-    function LoadByTrans_No(aTransNo: String; aUnitID: Integer): Boolean;
-    function IsBalanceUsed(aBalance_ID, aUnitID: Integer): Boolean;
+    function LoadByTrans_No(aTransNo, aUnitID: String): Boolean;
     function LoadDataJurnal(aDate1 : TDateTime; aDate2 : TDateTime; aUnitID :
         Integer): Boolean;
     function LoadDataJurnalByNo(aNoBukti : String; aUnitID : Integer): Boolean;
@@ -288,22 +284,22 @@ type
     function SaveTransactionCardToDB: Boolean;
     function SaveVoucherLainToDB: Boolean;
     function SaveVoucherToDB: Boolean;
-    procedure UpdateData(ABayarCard: Double; ABayarCash: Double;
-        ABeginningBalance_ID: Integer; ADiscAMCNominal: Double; ADiscAMCPersen:
-        Double; AID: Integer; AIsActive: Boolean; AMemberID: Integer; ANewUnit_ID:
-        Integer; ANo: string; APembulat: Double; ATanggal: TDateTime; ATotalBayar:
-        Double; ATotalDiscAMC: Double; ATotalPPN: Double; ATotalTransaction:
-        Double; AKuponBotolNo: String; AVoucherNo: TStrings; aUserID: Integer;
-        aTransDiscCard:Double;aISJURNAL : Integer = 0; aIsPending: Boolean = False);
-    procedure UpdatePOSTransactionItems(ABarangHargaJual_ID: Integer; ACOGS:
-        Double; AID: Integer; AIsBKP, AIsDiscAMC: Boolean; ALastCost, APPN, APPNBM,
-        AQty, ASellPrice, ASellPriceDisc, ATotal, ATotalBeforeTax, ATotalCeil:
-        Double; ATransNo: string; AUnitID: Integer; ABarangCode: String;
-        ATipeBarangID: Integer; aDISC_GMC_NOMINAL: Double; aUomCode: string;
-        aDisc_Card: Double = 0; aDisc_Man: Double = 0; aOtoCode: String ='');
+    procedure UpdateData(ABayarCard, ABayarCash: Double; ABeginningBalance_ID:
+        string; ADiscAMCNominal, ADiscAMCPersen: Double; AID: string; AIsActive:
+        Boolean; AMemberID, ANewUnit_ID, ANo: string; APembulat: Double; ATanggal:
+        TDateTime; ATotalBayar, ATotalDiscAMC, ATotalPPN, ATotalTransaction:
+        Double; AKuponBotolNo: String; AVoucherNo: TStrings; aUserID: string;
+        aTransDiscCard: Double; aISJURNAL: Integer = 0; aIsPending: Boolean =
+        False);
+    procedure UpdatePOSTransactionItems(ABarangHargaJual_ID: string; ACOGS: Double;
+        AID: string; AIsBKP, AIsDiscAMC: Boolean; ALastCost, APPN, APPNBM, AQty,
+        ASellPrice, ASellPriceDisc, ATotal, ATotalBeforeTax, ATotalCeil: Double;
+        ATransNo, AUnitID, ABarangCode, ATipeBarangID: string; aDISC_GMC_NOMINAL:
+        Double; aUomCode: string; aDisc_Card: Double = 0; aDisc_Man: Double = 0;
+        aOtoCode: String = '');
     function UpdateStatusJurnal(aStatus : Integer; aUnitID : Integer; aDate :
         TDateTime): Boolean;
-    function UpdateTransStruk(lTransStruk: TStrings; IDTrans: Integer): Boolean;
+    function UpdateTransStruk(lTransStruk: TStrings; IDTrans: string): Boolean;
     property BarangStockSirkulasi: TBArangStockSirkulasiItems read
         GetBarangStockSirkulasi write FBarangStockSirkulasi;
     property BayarCard: Double read FBayarCard write FBayarCard;
@@ -314,17 +310,17 @@ type
     property DATE_MODIFY: TDateTime read FDATE_MODIFY write FDATE_MODIFY;
     property DiscAMCNominal: Double read FDiscAMCNominal write FDiscAMCNominal;
     property DiscAMCPersen: Double read FDiscAMCPersen write FDiscAMCPersen;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property IsActive: Boolean read FIsActive write FIsActive;
     property IsPending: Boolean read FIsPending write FIsPending;
     property KuponBotolNo: String read FKuponBotolNo write FKuponBotolNo;
-    property MemberID: Integer read FMemberID write FMemberID;
+    property MemberID: string read FMemberID write FMemberID;
     property NewUnit: TUnit read GetNewUnit write SetNewUnit;
     property No: string read FNo write FNo;
-    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
-    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
-    property OP_CREATE: Integer read FOP_CREATE write FOP_CREATE;
-    property OP_MODIFY: Integer read FOP_MODIFY write FOP_MODIFY;
+//    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
+//    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
+    property OP_CREATE: string read FOP_CREATE write FOP_CREATE;
+    property OP_MODIFY: string read FOP_MODIFY write FOP_MODIFY;
     property Pembulat: Double read FPembulat write FPembulat;
     property POSTransactionItems: TPOSTransactionItems read
             GetPOSTransactionItems write FPOSTransactionItems;
@@ -344,91 +340,145 @@ type
     property VoucherNo: TStrings read GetVoucherNo write FVoucherNo;
   end;
 
-function GetListPendingTransAll(aUnit_ID: Integer): string;
+function GetListPendingTransAll: string;
 
-function GetListPendingTransDetailByHeaderID(aUnit_ID: Integer; aHeaderID:
-    Integer): string;
+function GetListPendingTransByUserID(aUserID: string): string;
 
-function GetListPendingTransByUserID(aUnit_ID: Integer; aUserID: Integer):
+function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime):
     string;
 
-function GetListPendingTransByUserIDAndDate(aUnit_ID, aUserID: Integer; aDate:
-    TDateTime): string;
+function GetListPendingTransDetailByHeaderID(aHeaderID: string): string;
 
 implementation
 
 uses DB, Math, udmMain, FireDAC.Stan.Error, uAppUtils;
 
-function GetListPendingTransAll(aUnit_ID: Integer): string;
+function GetListPendingTransAll: string;
 begin
-      Result :=
-        'SELECT MEMBER.MEMBER_CARD_NO as "No Kartu",  MEMBER.MEMBER_NAME as "Nama Member", '
-        + '  TRANSAKSI.TRANS_NO as "No Transaksi", TRANSAKSI.TRANS_DATE as "Tanggal Trans",  '
-        + '   TRANSAKSI.TRANS_TOTAL_TRANSACTION as "Total", '
-        + '   TRANSAKSI.TRANS_IS_ACTIVE,  TRANSAKSI.TRANS_ID, '
-        + '  TRANSAKSI.TRANS_MEMBER_ID,  TRANSAKSI.TRANS_MEMBER_UNT_ID '
-        + ' FROM MEMBER '
-        + ' INNER JOIN TRANSAKSI ON (MEMBER.MEMBER_ID = TRANSAKSI.TRANS_MEMBER_ID) '
-        + '   AND (MEMBER.MEMBER_UNT_ID = TRANSAKSI.TRANS_MEMBER_UNT_ID) '
-        + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
-        + '   AND OPC_UNIT = ' + IntToStr(aUnit_ID)
-        + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
+//      Result :=
+//        'SELECT MEMBER.MEMBER_CARD_NO as "No Kartu",  MEMBER.MEMBER_NAME as "Nama Member", '
+//        + '  TRANSAKSI.TRANS_NO as "No Transaksi", TRANSAKSI.TRANS_DATE as "Tanggal Trans",  '
+//        + '   TRANSAKSI.TRANS_TOTAL_TRANSACTION as "Total", '
+//        + '   TRANSAKSI.TRANS_IS_ACTIVE,  TRANSAKSI.TRANS_ID, '
+//        + '  TRANSAKSI.TRANS_MEMBER_ID,  TRANSAKSI.TRANS_MEMBER_UNT_ID '
+//        + ' FROM MEMBER '
+//        + ' INNER JOIN TRANSAKSI ON (MEMBER.MEMBER_ID = TRANSAKSI.TRANS_MEMBER_ID) '
+//        + '   AND (MEMBER.MEMBER_UNT_ID = TRANSAKSI.TRANS_MEMBER_UNT_ID) '
+//        + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
+//        + '   AND OPC_UNIT = ' + IntToStr(aUnit_ID)
+//        + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
+
+  Result := 'SELECT M.MEMBER_CARD_NO as "No Kartu", '
+          + '  M.MEMBER_NAME as "Nama Member", '
+          + '  T.TRANS_NO as "No Transaksi", '
+          + '  T.TRANS_DATE as "Tanggal Trans",  '
+          + '  T.TRANS_TOTAL_TRANSACTION as "Total", '
+          + '  T.TRANS_IS_ACTIVE, '
+          + '  T.TRANSAKSI_ID, '
+          + '  T.MEMBER_ID '
+          + ' FROM MEMBER M '
+          + ' INNER JOIN TRANSAKSI T ON (M.MEMBER_ID = T.MEMBER_ID) '
+          + ' WHERE (T.TRANS_IS_PENDING = 1) '
+          + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
 end;
 
-function GetListPendingTransDetailByHeaderID(aUnit_ID: Integer; aHeaderID:
-    Integer): string;
+function GetListPendingTransDetailByHeaderID(aHeaderID: string): string;
 begin
-      Result :=
-          'SELECT transd.TRANSD_ID, transd.TRANSD_UNT_ID,TRANSD_BRG_CODE, '
-          + ' transd.TRANSD_TRANS_NO, transd.TRANSD_BHJ_ID, '
-          + ' transd.TRANSD_BHJ_UNT_ID, transd.TRANSD_QTY, '
-          + ' bhj.BHJ_SAT_CODE,  '
-          + ' transd.TRANSD_SELL_PRICE, bhj.BHJ_SELL_PRICE, '
-          + ' bhj.BHJ_TPHRG_ID, bhj.BHJ_TPHRG_UNT_ID, '
-          + ' transd.TRANSD_DISC_MAN, transd.OTO_CODE '
-          + ' FROM TRANSAKSI_DETIL transd'
-          + ' INNER JOIN BARANG_HARGA_JUAL bhj ON (transd.TRANSD_BHJ_ID = bhj.BHJ_ID) '
-          + '    AND (transd.TRANSD_BHJ_UNT_ID = bhj.BHJ_UNT_ID) '
-          + ' WHERE transd.TRANSD_TRANS_ID = ' + IntToStr(aHeaderID)
-          + '    AND transd.TRANSD_TRANS_UNT_ID = ' + IntToStr(aUnit_ID)
-          + ' ORDER BY transd.TRANSD_ID';
+//      Result :=
+//          'SELECT transd.TRANSD_ID, transd.TRANSD_UNT_ID,TRANSD_BRG_CODE, '
+//          + ' transd.TRANSD_TRANS_NO, transd.TRANSD_BHJ_ID, '
+//          + ' transd.TRANSD_BHJ_UNT_ID, transd.TRANSD_QTY, '
+//          + ' bhj.BHJ_SAT_CODE,  '
+//          + ' transd.TRANSD_SELL_PRICE, bhj.BHJ_SELL_PRICE, '
+//          + ' bhj.BHJ_TPHRG_ID, bhj.BHJ_TPHRG_UNT_ID, '
+//          + ' transd.TRANSD_DISC_MAN, transd.OTO_CODE '
+//          + ' FROM TRANSAKSI_DETIL transd'
+//          + ' INNER JOIN BARANG_HARGA_JUAL bhj ON (transd.TRANSD_BHJ_ID = bhj.BHJ_ID) '
+//          + '    AND (transd.TRANSD_BHJ_UNT_ID = bhj.BHJ_UNT_ID) '
+//          + ' WHERE transd.TRANSD_TRANS_ID = ' + IntToStr(aHeaderID)
+//          + '    AND transd.TRANSD_TRANS_UNT_ID = ' + IntToStr(aUnit_ID)
+//          + ' ORDER BY transd.TRANSD_ID';
+
+  Result := 'SELECT TD.TRANSAKSI_DETIL_ID, '
+          + '  TD.TRANSD_BRG_CODE, '
+          + '  TD.TRANSD_TRANS_NO, '
+          + '  TD.BARANG_HARGA_JUAL_ID, '
+          + '  TD.TRANSD_QTY, '
+          + '  S.SAT_CODE, '
+          + '  TD.TRANSD_SELL_PRICE, '
+          + '  BHJ.BHJ_SELL_PRICE, '
+          + '  BHJ.REF$TIPE_HARGA_ID, '
+          + '  TD.TRANSD_DISC_MAN, '
+          + '  TD.OTO_CODE '
+          + ' FROM TRANSAKSI_DETIL TD'
+          + ' INNER JOIN BARANG_HARGA_JUAL BHJ ON (TD.BARANG_HARGA_JUAL_ID = BHJ.BARANG_HARGA_JUAL_ID) '
+          + ' INNER JOIN REF$SATUAN S ON S.REF$SATUAN_ID = BHJ.REF$SATUAN_ID '
+          + ' WHERE TD.TRANSAKSI_ID = ' + QuotedStr(aHeaderID)
+          + ' ORDER BY TD.TRANSAKSI_DETIL_ID';
 end;
 
-function GetListPendingTransByUserID(aUnit_ID: Integer; aUserID: Integer):
+function GetListPendingTransByUserID(aUserID: string): string;
+begin
+//      Result :=
+//        'SELECT MEMBER.MEMBER_CARD_NO as "No Kartu",  MEMBER.MEMBER_NAME as "Nama Member", '
+//        + '  TRANSAKSI.TRANS_NO as "No Transaksi", TRANSAKSI.TRANS_DATE as "Tanggal Trans",  '
+//        + '   TRANSAKSI.TRANS_TOTAL_TRANSACTION as "Total", '
+//        + '   TRANSAKSI.TRANS_IS_ACTIVE,  TRANSAKSI.TRANS_ID, '
+//        + '  TRANSAKSI.TRANS_MEMBER_ID,  TRANSAKSI.TRANS_MEMBER_UNT_ID '
+//        + ' FROM MEMBER '
+//        + ' INNER JOIN TRANSAKSI ON (MEMBER.MEMBER_ID = TRANSAKSI.TRANS_MEMBER_ID) '
+//        + '   AND (MEMBER.MEMBER_UNT_ID = TRANSAKSI.TRANS_MEMBER_UNT_ID) '
+//        + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
+//        + '   AND OPC_UNIT = ' + IntToStr(aUnit_ID)
+//        + '   AND OP_CREATE = ' + IntToStr(aUserID)
+//        + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
+
+  Result := 'SELECT M.MEMBER_CARD_NO as "No Kartu", '
+          + '  M.MEMBER_NAME as "Nama Member", '
+          + '  T.TRANS_NO as "No Transaksi", '
+          + '  T.TRANS_DATE as "Tanggal Trans",  '
+          + '  T.TRANS_TOTAL_TRANSACTION as "Total", '
+          + '  T.TRANS_IS_ACTIVE, '
+          + '  T.TRANSAKSI_ID, '
+          + '  T.MEMBER_ID '
+          + ' FROM MEMBER M '
+          + ' INNER JOIN TRANSAKSI T ON (M.MEMBER_ID = T.MEMBER_ID) '
+          + ' WHERE (T.TRANS_IS_PENDING = 1) '
+          + '  AND T.OP_CREATE = ' + QuotedStr(aUserID)
+          + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
+end;
+
+function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime):
     string;
 begin
-      Result :=
-        'SELECT MEMBER.MEMBER_CARD_NO as "No Kartu",  MEMBER.MEMBER_NAME as "Nama Member", '
-        + '  TRANSAKSI.TRANS_NO as "No Transaksi", TRANSAKSI.TRANS_DATE as "Tanggal Trans",  '
-        + '   TRANSAKSI.TRANS_TOTAL_TRANSACTION as "Total", '
-        + '   TRANSAKSI.TRANS_IS_ACTIVE,  TRANSAKSI.TRANS_ID, '
-        + '  TRANSAKSI.TRANS_MEMBER_ID,  TRANSAKSI.TRANS_MEMBER_UNT_ID '
-        + ' FROM MEMBER '
-        + ' INNER JOIN TRANSAKSI ON (MEMBER.MEMBER_ID = TRANSAKSI.TRANS_MEMBER_ID) '
-        + '   AND (MEMBER.MEMBER_UNT_ID = TRANSAKSI.TRANS_MEMBER_UNT_ID) '
-        + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
-        + '   AND OPC_UNIT = ' + IntToStr(aUnit_ID)
-        + '   AND OP_CREATE = ' + IntToStr(aUserID)
-        + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
-end;
-
-function GetListPendingTransByUserIDAndDate(aUnit_ID, aUserID: Integer; aDate:
-    TDateTime): string;
-begin
-  Result := 'SELECT MEMBER.MEMBER_CARD_NO as "No Kartu",  MEMBER.MEMBER_NAME as "Nama Member", '
-          + '  TRANSAKSI.TRANS_NO as "No Transaksi", TRANSAKSI.TRANS_DATE as "Tanggal Trans",  '
-          + '   TRANSAKSI.TRANS_TOTAL_TRANSACTION as "Total", '
-          + '   TRANSAKSI.TRANS_IS_ACTIVE,  TRANSAKSI.TRANS_ID, '
-          + '  TRANSAKSI.TRANS_MEMBER_ID,  TRANSAKSI.TRANS_MEMBER_UNT_ID '
-          + ' FROM MEMBER '
-          + ' INNER JOIN TRANSAKSI ON (MEMBER.MEMBER_ID = TRANSAKSI.TRANS_MEMBER_ID) '
-          + '   AND (MEMBER.MEMBER_UNT_ID = TRANSAKSI.TRANS_MEMBER_UNT_ID) '
-          + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
-          + '   AND TRANSAKSI.OPC_UNIT = ' + IntToStr(aUnit_ID)
-          + '   AND TRANSAKSI.OP_CREATE = ' + IntToStr(aUserID)
+//  Result := 'SELECT MEMBER.MEMBER_CARD_NO as "No Kartu",  MEMBER.MEMBER_NAME as "Nama Member", '
+//          + '  TRANSAKSI.TRANS_NO as "No Transaksi", TRANSAKSI.TRANS_DATE as "Tanggal Trans",  '
+//          + '   TRANSAKSI.TRANS_TOTAL_TRANSACTION as "Total", '
+//          + '   TRANSAKSI.TRANS_IS_ACTIVE,  TRANSAKSI.TRANS_ID, '
+//          + '  TRANSAKSI.TRANS_MEMBER_ID,  TRANSAKSI.TRANS_MEMBER_UNT_ID '
+//          + ' FROM MEMBER '
+//          + ' INNER JOIN TRANSAKSI ON (MEMBER.MEMBER_ID = TRANSAKSI.TRANS_MEMBER_ID) '
+//          + '   AND (MEMBER.MEMBER_UNT_ID = TRANSAKSI.TRANS_MEMBER_UNT_ID) '
+//          + ' WHERE (TRANSAKSI.TRANS_IS_PENDING = 1) '
+//          + '   AND TRANSAKSI.OPC_UNIT = ' + QuotedStr(aUnit_ID)
+//          + '   AND TRANSAKSI.OP_CREATE = ' + QuotedStr(aUserID)
 //          + '   AND CAST(TRANSAKSI.TRANS_DATE AS DATE) = ' + TAppUtils.QuotD(aDate)
-//          + '   AND DATE(TRANSAKSI.TRANS_DATE) = ' + TAppUtils.QuotD(aDate)
-          + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
+//          + ' ORDER BY MEMBER.MEMBER_CARD_NO, TRANSAKSI.TRANS_NO';
+
+  Result := 'SELECT M.MEMBER_CARD_NO as "No Kartu", '
+          + '  M.MEMBER_NAME as "Nama Member", '
+          + '  T.TRANS_NO as "No Transaksi", '
+          + '  T.TRANS_DATE as "Tanggal Trans",  '
+          + '  T.TRANS_TOTAL_TRANSACTION as "Total", '
+          + '  T.TRANS_IS_ACTIVE, '
+          + '  T.TRANSAKSI_ID, '
+          + '  T.MEMBER_ID '
+          + ' FROM MEMBER M '
+          + ' INNER JOIN TRANSAKSI T ON (M.MEMBER_ID = T.MEMBER_ID) '
+          + ' WHERE (T.TRANS_IS_PENDING = 1) '
+          + '  AND T.OP_CREATE = ' + QuotedStr(aUserID)
+          + '  AND DATE(T.TRANS_DATE) = ' + TAppUtils.QuotD(aDate)
+          + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
 end;
 
 {
@@ -456,23 +506,23 @@ begin
   Qty := 0;
   PPNBM := 0;
   PPN := 0;
-  OP_MODIFY := 0;
-  OP_CREATE := 0;
+  OP_MODIFY := '';
+  OP_CREATE := '';
   LastCost := 0;
   IsDiscAMC := FALSE;
   IsBKP := FALSE;
-  ID := 0;
+  ID := '';
   COGS := 0;
   BarangCode := '';
-  TipeBarangID := -1;
-  FBarangHargaJualID := -1;
-  DISC_GMC_NOMINAL := 0;   
+  TipeBarangID := '';
+  FBarangHargaJualID := '';
+  DISC_GMC_NOMINAL := 0;
   Disc_Card := 0;
 
   FreeAndNil(FBarangHargaJual);
   FreeAndNil(FNewUnit);
-  FreeAndNil(FOPC_UNIT);
-  FreeAndNil(FOPM_UNIT);
+//  FreeAndNil(FOPC_UNIT);
+//  FreeAndNil(FOPM_UNIT);
 end;
 
 function TPOSTransactionItem.CustomTableName: string;
@@ -489,40 +539,42 @@ var
 begin
   Result := TStringList.Create;
   S:= 'DELETE FROM ' + CustomTableName +
-      ' WHERE ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) +
-      ' AND ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      ' WHERE ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID);
+//      ' AND ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
   Result.Append(S);
 end;
 
-function TPOSTransactionItem.GenerateSQL(AHeader_ID : Integer): TStrings;
+function TPOSTransactionItem.GenerateSQL(AHeader_ID: string): TStrings;
 var
   sSQL: string;
   sPrec: string;
 begin
   Result := TStringList.Create;
   DATE_MODIFY := cGetServerDateTime;
-  FOPM_UNITID := FNewUnitID;
+//  FOPM_UNITID := FNewUnitID;
   sPrec := Get_Price_Precision;
-  If FID <= 0 then 
-  begin 
+//  If FID <= 0 then
+  if FID = '' then
+  begin
     //Generate Insert SQL
     OP_CREATE := OP_MODIFY;
     DATE_CREATE := DATE_MODIFY;
-    FOPC_UNITID := FOPM_UNITID;
+//    FOPC_UNITID := FOPM_UNITID;
 //    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+    FID := cGetNextIDGUIDToString;
     sSQL := 'insert into ' + CustomTableName + ' ('
       + GetFieldNameFor_Barang + ', '
       + GetFieldNameFor_TipeBarang + ', '
       + GetFieldNameFor_BarangHargaJual + ', '
-      + GetFieldNameFor_BarangHargaJualUnit + ', '
+//      + GetFieldNameFor_BarangHargaJualUnit + ', '
       + GetFieldNameFor_COGS + ', '
       + GetFieldNameFor_DATE_CREATE + ', '
       + GetFieldNameFor_ID + ', '
       + GetFieldNameFor_IsBKP + ', '
       + GetFieldNameFor_IsDiscAMC + ', '
       + GetFieldNameFor_LastCost + ', '
-      + GetFieldNameFor_NewUnit + ', '
-      + GetFieldNameFor_OPC_UNIT + ', '
+//      + GetFieldNameFor_NewUnit + ', '
+//      + GetFieldNameFor_OPC_UNIT + ', '
       + GetFieldNameFor_OP_CREATE + ', '
       + GetFieldNameFor_PPN + ', '
       + GetFieldNameFor_PPNBM + ', '
@@ -533,8 +585,8 @@ begin
       + GetFieldNameFor_Total + ', '
       + GetFieldNameFor_TotalBeforeTax + ', '
       + GetFieldNameFor_TotalCeil + ', '
-      + GetFieldNameFor_TransUnit + ', '
-      + GetFieldNameFor_TransID + ', '   
+//      + GetFieldNameFor_TransUnit + ', '
+      + GetFieldNameFor_TransID + ', '
       + GetFieldNameFor_TransDiscCard + ', '
       + GetFieldNameFor_UomCode + ', '
       + GetFieldNameFor_TransNo + ', '
@@ -542,19 +594,19 @@ begin
       + GetFieldNameFor_TransOtoCode
       + ') values ('
       + QuotedStr(BarangCode) + ', '
-      + IntToStr(TipeBarangID) + ', '
-      + InttoStr(FBarangHargaJualID) + ', '
-      + InttoStr(FNewUnitID) + ', '
+      + QuotedStr(TipeBarangID) + ', '
+      + QuotedStr(FBarangHargaJualID) + ', '
+//      + QuotedStr(FNewUnitID) + ', '
       + FormatFloat(sPrec, FCOGS) + ', '
       + TAppUtils.QuotDT(FDATE_CREATE) + ', '
-//      + IntToStr(FID) + ', '
-      + cGetNextIDDetail(GetFieldNameFor_ID, CustomTableName) + ', '
+      + QuotedStr(FID) + ', '
+//      + cGetNextIDDetail(GetFieldNameFor_ID, CustomTableName) + ', '
       + IfThen(FIsBKP,'1','0') + ', '
       + IfThen(FIsDiscAMC,'1','0') + ', '
       + FormatFloat(sPrec, FLastCost) + ', '
-      + InttoStr(FNewUnitID) + ', '
-      + InttoStr(FOPC_UNITID) + ', '
-      + IntToStr(FOP_CREATE) + ', '
+//      + QuotedStr(FNewUnitID) + ', '
+//      + InttoStr(FOPC_UNITID) + ', '
+      + QuotedStr(FOP_CREATE) + ', '
       + FormatFloat('0.00', FPPN) + ', '
       + FormatFloat('0.00', FPPNBM) + ', '
       + FormatFloat(sPrec, FDISC_GMC_NOMINAL) + ', '
@@ -564,8 +616,8 @@ begin
       + FormatFloat(sPrec, FTotal) + ', '
       + FormatFloat(sPrec, FTotalBeforeTax) + ', '
       + FormatFloat(sPrec, FTotalCeil) + ', '
-      + InttoStr(FNewUnitID) + ', '
-      + InttoStr(AHeader_ID) + ', '   
+//      + InttoStr(FNewUnitID) + ', '
+      + QuotedStr(AHeader_ID) + ', '
       + FormatFloat(sPrec, FDisc_Card) + ', '
       + QuotedStr(FUomCode) + ', '
       + QuotedStr(FTransNo) + ', '
@@ -577,17 +629,17 @@ begin
   begin
     //generate Update SQL
     sSQL := 'update ' + CustomTableName + ' set '
-      + GetFieldNameFor_BarangHargaJual + ' = ' + IntToStr(FBarangHargaJualID)
+      + GetFieldNameFor_BarangHargaJual + ' = ' + QuotedStr(FBarangHargaJualID)
       + ', ' + GetFieldNameFor_Barang + ' = ' + QuotedStr(BarangCode)
-      + ', ' + GetFieldNameFor_TipeBarang + ' = ' + IntToStr(TipeBarangID)
+      + ', ' + GetFieldNameFor_TipeBarang + ' = ' + QuotedStr(TipeBarangID)
       + ', ' + GetFieldNameFor_COGS + ' = ' + FormatFloat(sPrec, FCOGS)
       + ', ' + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
       + ', ' + GetFieldNameFor_IsBKP + ' = ' + IfThen(FIsBKP,'1','0')
       + ', ' + GetFieldNameFor_IsDiscAMC + ' = ' + IfThen(FIsDiscAMC,'1','0')
       + ', ' + GetFieldNameFor_LastCost + ' = ' + FormatFloat(sPrec, FLastCost)
-      + ', ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID)
-      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
-      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + IntToStr(FOP_MODIFY)
+//      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
+//      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
+      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + QuotedStr(FOP_MODIFY)
       + ', ' + GetFieldNameFor_PPN + ' = ' + FormatFloat('0.00', FPPN)
       + ', ' + GetFieldNameFor_PPNBM + ' = ' + FormatFloat('0.00', FPPNBM)
       + ', ' + GetFieldNameFor_DISC_GMC_NOMINAL + ' = ' + FormatFloat(sPrec, FDISC_GMC_NOMINAL)
@@ -598,14 +650,14 @@ begin
       + ', ' + GetFieldNameFor_TotalBeforeTax + ' = ' + FormatFloat(sPrec, FTotalBeforeTax)
       + ', ' + GetFieldNameFor_TotalCeil + ' = ' + FormatFloat(sPrec, FTotalCeil)
       + ', ' + GetFieldNameFor_TransNo + ' = ' + QuotedStr(FTransNo)
-      + ', ' + GetFieldNameFor_TransUnit + ' = ' + IntToStr(FNewUnitID)  
+//      + ', ' + GetFieldNameFor_TransUnit + ' = ' + IntToStr(FNewUnitID)
       + ', ' + GetFieldNameFor_TransDiscCard + ' = ' + FormatFloat(sPrec, FDisc_Card)
-      + ', ' + GetFieldNameFor_TransID + ' = ' + IntToStr(AHeader_ID)
+      + ', ' + GetFieldNameFor_TransID + ' = ' + QuotedStr(AHeader_ID)
       + ', ' + GetFieldNameFor_UomCode + ' = ' + QuotedStr(FUomCode)
       + ', ' + GetFieldNameFor_TransDiscMan + ' = ' + FormatFloat(sPrec, FDiscMan)
       + ', ' + GetFieldNameFor_TransOtoCode + ' = ' + QuotedStr(FOto_Code)
-      + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID);
+//      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
   end;
   Result.Append(sSQL);
 end;
@@ -616,7 +668,7 @@ begin
   if FBarangHargaJual = nil then
   begin
     FBarangHargaJual := TBarangHargaJual.Create(nil);
-    FBarangHargaJual.LoadByID(FBarangHargaJualID, FNewUnitID);
+    FBarangHargaJual.LoadByID(FBarangHargaJualID);
   end;
   Result := FBarangHargaJual;
 end;
@@ -629,12 +681,13 @@ end;
 function TPOSTransactionItem.GetFieldNameFor_BarangHargaJual: string;
 begin
   Result := GetFieldPrefix + 'bhj_id';
+  Result := 'BARANG_HARGA_JUAL_ID';
 end;
 
-function TPOSTransactionItem.GetFieldNameFor_BarangHargaJualUnit: string;
-begin
-  Result := GetFieldPrefix + 'bhj_unt_id';
-end;
+//function TPOSTransactionItem.GetFieldNameFor_BarangHargaJualUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'bhj_unt_id';
+//end;
 
 function TPOSTransactionItem.GetFieldNameFor_COGS: string;
 begin
@@ -658,7 +711,8 @@ end;
 
 function TPOSTransactionItem.GetFieldNameFor_ID: string;
 begin
-  Result := GetFieldPrefix + 'ID';
+//  Result := GetFieldPrefix + 'ID';
+  Result := 'TRANSAKSI_DETIL_ID'
 end;
 
 function TPOSTransactionItem.GetFieldNameFor_IsBKP: string;
@@ -676,20 +730,20 @@ begin
   Result := GetFieldPrefix + 'last_cost';
 end;
 
-function TPOSTransactionItem.GetFieldNameFor_NewUnit: string;
-begin
-  Result := GetFieldPrefix + 'unt_id';
-end;
+//function TPOSTransactionItem.GetFieldNameFor_NewUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'unt_id';
+//end;
 
-function TPOSTransactionItem.GetFieldNameFor_OPC_UNIT: string;
-begin
-  Result := 'OPC_UNIT';
-end;
+//function TPOSTransactionItem.GetFieldNameFor_OPC_UNIT: string;
+//begin
+//  Result := 'OPC_UNIT';
+//end;
 
-function TPOSTransactionItem.GetFieldNameFor_OPM_UNIT: string;
-begin
-  Result := 'OPM_UNIT';
-end;
+//function TPOSTransactionItem.GetFieldNameFor_OPM_UNIT: string;
+//begin
+//  Result := 'OPM_UNIT';
+//end;
 
 function TPOSTransactionItem.GetFieldNameFor_OP_CREATE: string;
 begin
@@ -728,7 +782,8 @@ end;
 
 function TPOSTransactionItem.GetFieldNameFor_TipeBarang: string;
 begin
-  Result := GetFieldPrefix + 'tpbrg_id';
+//  Result := GetFieldPrefix + 'tpbrg_id';
+  Result := 'REF$TIPE_BARANG_ID';
 end;
 
 function TPOSTransactionItem.GetFieldNameFor_Total: string;
@@ -758,7 +813,8 @@ end;
 
 function TPOSTransactionItem.GetFieldNameFor_TransID: string;
 begin
-  Result := GetFieldPrefix + 'trans_id';
+//  Result := GetFieldPrefix + 'trans_id';
+  Result := 'TRANSAKSI_ID'
 end;
 
 function TPOSTransactionItem.GetFieldNameFor_TransNo: string;
@@ -771,10 +827,10 @@ begin
   Result := 'OTO_CODE';
 end;
 
-function TPOSTransactionItem.GetFieldNameFor_TransUnit: string;
-begin
-  Result := GetFieldPrefix + 'trans_unt_id';
-end;
+//function TPOSTransactionItem.GetFieldNameFor_TransUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'trans_unt_id';
+//end;
 
 function TPOSTransactionItem.GetFieldNameFor_UomCode: string;
 begin
@@ -801,25 +857,25 @@ begin
   Result := FNewUnit;
 end;
 
-function TPOSTransactionItem.GetOPC_UNIT: TUnit;
-begin
-  if (FOPC_UNIT = Nil) then
-  begin
-    FOPC_UNIT:= TUnit.Create(Application);
-    FOPC_UNIT.LoadByID(FOPC_UNITID);
-  end;
-  Result := FOPC_UNIT;
-end;
+//function TPOSTransactionItem.GetOPC_UNIT: TUnit;
+//begin
+//  if (FOPC_UNIT = Nil) then
+//  begin
+//    FOPC_UNIT:= TUnit.Create(Application);
+//    FOPC_UNIT.LoadByID(IntToStr(FOPC_UNITID));
+//  end;
+//  Result := FOPC_UNIT;
+//end;
 
-function TPOSTransactionItem.GetOPM_UNIT: TUnit;
-begin
-  if (FOPM_UNIT = Nil) then
-  begin
-    FOPM_UNIT:= TUnit.Create(Application);
-    FOPM_UNIT.LoadByID(FOPM_UNITID);
-  end;
-  Result := FOPM_UNIT;
-end;
+//function TPOSTransactionItem.GetOPM_UNIT: TUnit;
+//begin
+//  if (FOPM_UNIT = Nil) then
+//  begin
+//    FOPM_UNIT:= TUnit.Create(Application);
+//    FOPM_UNIT.LoadByID(IntToStr(FOPM_UNITID));
+//  end;
+//  Result := FOPM_UNIT;
+//end;
 
 function TPOSTransactionItem.RemoveFromDB: Boolean;
 var
@@ -827,8 +883,8 @@ var
 begin
   Result := False;
   sSQL := 'delete from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID);
+        + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID);
+//        + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID);
   if cExecSQL(sSQL,dbtPOS, False) then
     Result := True; //SimpanBlob(sSQL,TPOSTransaction.GetHeaderFlag);
 end;
@@ -837,13 +893,13 @@ procedure TPOSTransactionItem.SetNewUnit(Value: TUnit);
 begin
 end;
 
-procedure TPOSTransactionItem.SetOPC_UNIT(Value: TUnit);
-begin
-end;
+//procedure TPOSTransactionItem.SetOPC_UNIT(Value: TUnit);
+//begin
+//end;
 
-procedure TPOSTransactionItem.SetOPM_UNIT(Value: TUnit);
-begin
-end;
+//procedure TPOSTransactionItem.SetOPM_UNIT(Value: TUnit);
+//begin
+//end;
 
 {
 ***************************** TPOSTransactionItems *****************************
@@ -860,13 +916,14 @@ end;
 
 function TPOSTransactionItems.GetFieldNameFor_Header: string;
 begin
-	Result := 'transd_trans_id';
+//	Result := 'transd_trans_id';
+  Result := 'TRANSAKSI_ID'
 end;
 
-function TPOSTransactionItems.GetFieldNameFor_HeaderUNT: string;
-begin
-  Result := 'TRANSD_TRANS_UNT_ID';
-end;
+//function TPOSTransactionItems.GetFieldNameFor_HeaderUNT: string;
+//begin
+//  Result := 'TRANSD_TRANS_UNT_ID';
+//end;
 
 function TPOSTransactionItems.GetPOSTransactionItem(Index: Integer):
         TPOSTransactionItem;
@@ -874,14 +931,14 @@ begin
   Result := (Inherited Items[Index]) as TPOSTransactionItem;
 end;
 
-procedure TPOSTransactionItems.LoadByID(aHeader_ID : Integer; aUnitID: Integer);
+procedure TPOSTransactionItems.LoadByHeaderID(aHeader_ID: string);
 var
   sSQL: string;
 begin
   sSQL := 'Select * '
-  	+ ' from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_Header + ' = ' + IntToStr(aHeader_ID)
-    + ' and ' + GetFieldNameFor_HeaderUNT + ' = ' + IntToStr(aUnitID);
+        + ' from ' + CustomTableName
+        + ' where ' + GetFieldNameFor_Header + ' = ' + QuotedStr(aHeader_ID);
+//        + ' and ' + GetFieldNameFor_HeaderUNT + ' = ' + IntToStr(aUnitID);
   with cOpenQuery(sSQL) do
   Begin
     self.Clear;
@@ -889,10 +946,10 @@ begin
     begin
       with Self.Add do
       begin
-        FBarangHargaJualID := FieldByName(GetFieldNameFor_BarangHargaJual).AsInteger;
+        FBarangHargaJualID := FieldByName(GetFieldNameFor_BarangHargaJual).AsString;
         FCOGS := FieldByName(GetFieldNameFor_COGS).AsFloat;
-        FID := FieldByName(GetFieldNameFor_ID).AsInteger;
-        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsInteger;
+        FID := FieldByName(GetFieldNameFor_ID).AsString;
+//        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
         FIsBKP := FieldValues[GetFieldNameFor_IsBKP];
         FIsDiscAMC := FieldValues[GetFieldNameFor_IsDiscAMC];
         FLastCost := FieldByName(GetFieldNameFor_LastCost).AsFloat;
@@ -908,7 +965,7 @@ begin
         FBarangCode := FieldByName(GetFieldNameFor_Barang).AsString;
         FDISC_GMC_NOMINAL := FieldByName(GetFieldNameFor_DISC_GMC_NOMINAL).AsFloat;
         FDisc_Card := FieldByName(GetFieldNameFor_TransDiscCard).AsFloat;
-        FTipeBarangID := FieldByname(GetFieldNameFor_TipeBarang).AsInteger;
+        FTipeBarangID := FieldByname(GetFieldNameFor_TipeBarang).AsString;
         FUomCode  := FieldByname(GetFieldNameFor_UomCode).AsString;
       end;
       Next;
@@ -931,8 +988,7 @@ begin
   inherited Create(AOwner);
 end;
 
-constructor TPOSTransaction.CreateWithUser(AOwner : TComponent; AUserID:
-        Integer);
+constructor TPOSTransaction.CreateWithUser(AOwner: TComponent; AUserID: string);
 begin
   Create(AOwner);
   OP_MODIFY := AUserID;
@@ -951,13 +1007,13 @@ begin
   TotalPPN         := 0;
   TotalBayar       := 0;
   Pembulat         := 0;
-  OP_MODIFY        := 0;
-  OP_CREATE        := 0;
+  OP_MODIFY        := '';
+  OP_CREATE        := '';
   No               := '';
-  MemberID         := 0;
+  MemberID         := '';
   IsActive         := FALSE;
   IsPending        := FALSE;
-  ID               := 0;
+  ID               := '';
   DiscAMCPersen    := 0;
   DiscAMCNominal   := 0;
   BayarCash        := 0;
@@ -969,12 +1025,12 @@ begin
   FreeAndNil(FVoucherNo);
   FreeAndNil(FBeginningBalance);
   FreeAndNil(FNewUnit);
-  FreeAndNil(FOPC_UNIT);
-  FreeAndNil(FOPM_UNIT);
+//  FreeAndNil(FOPC_UNIT);
+//  FreeAndNil(FOPM_UNIT);
   FreeAndNil(FPOSTransactionItems);
 
   If Assigned(FTrans_Struk) then FreeAndNil(FTrans_Struk);
-  
+
   if Q1 <> nil then FreeAndNil(Q1);
   if Q2 <> nil then FreeAndNil(Q2);
 end;
@@ -1006,20 +1062,20 @@ begin
       begin
         FBayarCard := FieldByName(GetFieldNameFor_BayarCard).AsFloat;
         FBayarCash := FieldByName(GetFieldNameFor_BayarCash).AsFloat;
-        FBeginningBalanceID := FieldByName(GetFieldNameFor_BeginningBalance).AsInteger;
+        FBeginningBalanceID := FieldByName(GetFieldNameFor_BeginningBalance).AsString;
         FDATE_CREATE := FieldByName(GetFieldNameFor_DATE_CREATE).AsDateTime;
         FDATE_MODIFY := FieldByName(GetFieldNameFor_DATE_MODIFY).AsDateTime;
         FDiscAMCNominal := FieldByName(GetFieldNameFor_DiscAMCNominal).AsFloat;
         FDiscAMCPersen := FieldByName(GetFieldNameFor_DiscAMCPersen).AsFloat;
-        FID := FieldByName(GetFieldNameFor_ID).AsInteger;
+        FID := FieldByName(GetFieldNameFor_ID).AsString;
         FIsActive := FieldValues[GetFieldNameFor_IsActive];
-        FMemberID := FieldByName(GetFieldNameFor_MemberID).AsInteger;
-        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsInteger;
+        FMemberID := FieldByName(GetFieldNameFor_MemberID).AsString;
+        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
         FNo := FieldByName(GetFieldNameFor_No).AsString;
-        FOPC_UNITID := FieldByName(GetFieldNameFor_OPC_UNIT).AsInteger;
-        FOPM_UNITID := FieldByName(GetFieldNameFor_OPM_UNIT).AsInteger;
-        FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsInteger;
-        FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsInteger;
+//        FOPC_UNITID := FieldByName(GetFieldNameFor_OPC_UNIT).AsInteger;
+//        FOPM_UNITID := FieldByName(GetFieldNameFor_OPM_UNIT).AsInteger;
+        FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsString;
+        FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsString;
         FPembulat := FieldByName(GetFieldNameFor_Pembulat).AsFloat;
         //FPOSTransactionItems.Clear;
         //FPOSTransactionItems.LoadByID(FieldValues['ID'] );
@@ -1155,20 +1211,22 @@ begin
   ssSQL := nil;
 
   DATE_MODIFY := cGetServerDateTime;
-  FOPM_UNITID := FNewUnitID;
+//  FOPM_UNITID := FNewUnitID;
 
-  If FID <= 0 then
+//  If FID <= 0 then
+  If FID = '' then
   begin
     //Generate Insert SQL
     OP_CREATE := OP_MODIFY;
     DATE_CREATE := DATE_MODIFY;
-    FOPC_UNITID := FOPM_UNITID;
-    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//    FOPC_UNITID := FOPM_UNITID;
+//    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+    FID := cGetNextIDGUIDToString;
     sSQL := 'insert into ' + CustomTableName + ' ('
       + GetFieldNameFor_BayarCard + ', '
       + GetFieldNameFor_BayarCash + ', '
       + GetFieldNameFor_BeginningBalance + ', '
-      + GetFieldNameFor_BeginningBalanceUnit + ', '
+//      + GetFieldNameFor_BeginningBalanceUnit + ', '
 //      + GetFieldNameFor_DATE_CREATE + ', '
       + GetFieldNameFor_DiscAMCNominal + ', '
       + GetFieldNameFor_DiscAMCPersen + ', '
@@ -1176,47 +1234,47 @@ begin
       + GetFieldNameFor_IsActive + ', '
       + GetFieldNameFor_IsPending + ', '
       + GetFieldNameFor_MemberID + ', '
-      + GetFieldNameFor_MemberUnit + ', '
+//      + GetFieldNameFor_MemberUnit + ', '
       + GetFieldNameFor_NewUnit + ', '
       + GetFieldNameFor_No + ', '
-      + GetFieldNameFor_OPC_UNIT + ', '
+//      + GetFieldNameFor_OPC_UNIT + ', '
       + GetFieldNameFor_OP_CREATE + ', '
       + GetFieldNameFor_Pembulat + ', '
       + GetFieldNameFor_Tanggal + ', '
       + GetFieldNameFor_TotalBayar + ', '
       + GetFieldNameFor_TotalDiscAMC + ', '
-      + GetFieldNameFor_TotalPPN + ', '    
+      + GetFieldNameFor_TotalPPN + ', '
       + GetFieldNameFor_TransCardDisc + ', '
       + GetFieldNameFor_TotalTransaction + ') values ('
       + FormatFloat(sPrec, FBayarCard) + ', '
       + FormatFloat(sPrec, FBayarCash) + ', '
-      + InttoStr(FBeginningBalanceID) + ', '
-      + InttoStr(FNewUnitID) + ', '
+      + QuotedStr(FBeginningBalanceID) + ', '
+//      + QuotedStr(FNewUnitID) + ', '
 //      + QuotDT(FDATE_CREATE) + ', '
       + FormatFloat(sPrec, FDiscAMCNominal) + ', '
       + FormatFloat('0.00', FDiscAMCPersen) + ', '
-      + IntToStr(FID) + ', '
+      + QuotedStr(FID) + ', '
       + IfThen(FIsActive,'1','0') + ', '
       + IfThen(FIsPending,'1','0') + ', '
-      + IntToStr(FMemberID) + ', '
-      + InttoStr(FNewUnitID) + ', '
-      + InttoStr(FNewUnitID) + ', '
+      + QuotedStr(FMemberID) + ', '
+//      + QuotedStr(FNewUnitID) + ', '
+      + QuotedStr(FNewUnitID) + ', '
       + QuotedStr(FNo) + ', '
-      + InttoStr(FOPC_UNITID) + ', '
-      + IntToStr(FOP_CREATE) + ', '
+//      + InttoStr(FOPC_UNITID) + ', '
+      + QuotedStr(FOP_CREATE) + ', '
       + FormatFloat(sPrec, FPembulat) + ', '
       + TAppUtils.QuotDT(FTanggal) + ', '
       + FormatFloat(sPrec, FTotalBayar) + ', '
       + FormatFloat(sPrec, FTotalDiscAMC) + ', '
-      + FormatFloat(sPrec, FTotalPPN) + ', '    
+      + FormatFloat(sPrec, FTotalPPN) + ', '
       + FormatFloat(sPrec, FTRANS_DISC_CARD) + ', '
       + FormatFloat(sPrec, FTotalTransaction) + ');';
     Result.Append(sSQL);
 
     sSQL := 'update setuppos '
       + ' set setuppos_counter_no = ' + IntToStr(BeginningBalance.POS.CounterNo + 1)
-      + ' where setuppos_id = ' + IntToStr(BeginningBalance.POS.ID)
-      + ' and setuppos_unt_id = ' + IntToStr(FNewUnitID) + ';';
+      + ' where setuppos_id = ' + QuotedStr(BeginningBalance.POS.ID)
+      + ' and AUT$UNIT_ID = ' + QuotedStr(FNewUnitID) + ';';
     Result.Append(sSQL);
   end
   else
@@ -1225,28 +1283,28 @@ begin
     sSQL := 'update ' + CustomTableName + ' set '
       + GetFieldNameFor_BayarCard + ' = ' + FormatFloat(sPrec, FBayarCard)
       + ', ' + GetFieldNameFor_BayarCash + ' = ' + FormatFloat(sPrec, FBayarCash)
-      + ', ' + GetFieldNameFor_BeginningBalance + ' = ' + IntToStr(FBeginningBalanceID)
-      + ', ' + GetFieldNameFor_BeginningBalanceUnit + ' = ' + IntToStr(FNewUnitID)
+      + ', ' + GetFieldNameFor_BeginningBalance + ' = ' + QuotedStr(FBeginningBalanceID)
+//      + ', ' + GetFieldNameFor_BeginningBalanceUnit + ' = ' + QuotedStr(FNewUnitID)
       + ', ' + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
       + ', ' + GetFieldNameFor_DiscAMCNominal + ' = ' + FormatFloat(sPrec, FDiscAMCNominal)
       + ', ' + GetFieldNameFor_DiscAMCPersen + ' = ' + FormatFloat('0.00', FDiscAMCPersen)
       + ', ' + GetFieldNameFor_IsActive + ' = ' + IfThen(FIsActive,'1','0')
       + ', ' + GetFieldNameFor_IsPending + ' = ' + IfThen(FIsPending,'1','0')
-      + ', ' + GetFieldNameFor_MemberID + ' = ' + IntToStr(FMemberID)
-      + ', ' + GetFieldNameFor_MemberUnit + ' = ' + IntToStr(FNewUnitID)
-      + ', ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID)
+      + ', ' + GetFieldNameFor_MemberID + ' = ' + QuotedStr(FMemberID)
+//      + ', ' + GetFieldNameFor_MemberUnit + ' = ' + QuotedStr(FNewUnitID)
+      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
       + ', ' + GetFieldNameFor_No + ' = ' + QuotedStr(FNo)
-      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
-      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + IntToStr(FOP_MODIFY)
+//      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
+      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + QuotedStr(FOP_MODIFY)
       + ', ' + GetFieldNameFor_Pembulat + ' = ' + FormatFloat(sPrec, FPembulat)
       + ', ' + GetFieldNameFor_Tanggal + ' = ' + TAppUtils.QuotDT(FTanggal)
       + ', ' + GetFieldNameFor_TotalBayar + ' = ' + FormatFloat(sPrec, FTotalBayar)
       + ', ' + GetFieldNameFor_TotalDiscAMC + ' = ' + FormatFloat(sPrec, FTotalDiscAMC)
       + ', ' + GetFieldNameFor_TotalPPN + ' = ' + FormatFloat(sPrec, FTotalPPN)
-      + ', ' + GetFieldNameFor_TotalTransaction + ' = ' + FormatFloat(sPrec, FTotalTransaction)  
+      + ', ' + GetFieldNameFor_TotalTransaction + ' = ' + FormatFloat(sPrec, FTotalTransaction)
       + ', ' + GetFieldNameFor_TransCardDisc + ' = ' + FormatFloat(sPrec, FTRANS_DISC_CARD)
-      + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
+      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
 
     Result.Append(sSQL);
   end;
@@ -1282,13 +1340,13 @@ begin
   aTempPOSTransactionItems:= TPOSTransactionItems.Create(TPOSTransactionItem);
   Try
     if (aPOSTransactionItems = nil) then exit;
-    
+
     if (aPOSTransactionItems.Count = 0) then
     Begin
       exit;
     end;
     aTempPOSTransactionItems.Clear;
-    aTempPOSTransactionItems.LoadByID(ID, FNewUnitID); //
+    aTempPOSTransactionItems.LoadByHeaderID(ID); //
     for h:= 0 to aTempPOSTransactionItems.Count - 1 do
     begin
       isRemove:= True;
@@ -1322,9 +1380,8 @@ begin
     begin
       FBarangStockSirkulasi := TBarangStockSirkulasiItems.Create(TBarangStockSirkulasiItem);
       FBarangStockSirkulasi.Clear;
-      FBarangStockSirkulasi.LoadByNoBukti(FNo, FNewUnitID, GetHeaderFlag);
+      FBarangStockSirkulasi.LoadByNoBukti(FNo, StrToInt(FNewUnitID), GetHeaderFlag);
     end;
-
   finally
     Result := FBarangStockSirkulasi;
   end;
@@ -1353,13 +1410,14 @@ end;
 
 function TPOSTransaction.GetFieldNameFor_BeginningBalance: string;
 begin
-  Result := GetFieldPrefix + 'balance_id';
+//  Result := GetFieldPrefix + 'balance_id';
+  Result := 'BEGINNING_BALANCE_ID';
 end;
 
-function TPOSTransaction.GetFieldNameFor_BeginningBalanceUnit: string;
-begin
-  Result := GetFieldPrefix + 'balance_unt_id';
-end;
+//function TPOSTransaction.GetFieldNameFor_BeginningBalanceUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'balance_unt_id';
+//end;
 
 function TPOSTransaction.GetFieldNameFor_DATE_CREATE: string;
 begin
@@ -1383,7 +1441,8 @@ end;
 
 function TPOSTransaction.GetFieldNameFor_ID: string;
 begin
-  Result := GetFieldPrefix + 'ID';
+//  Result := GetFieldPrefix + 'ID';
+  Result := 'TRANSAKSI_ID';
 end;
 
 function TPOSTransaction.GetFieldNameFor_IsActive: string;
@@ -1418,17 +1477,19 @@ end;
 
 function TPOSTransaction.GetFieldNameFor_MemberID: string;
 begin
-  Result := GetFieldPrefix + 'member_id';
+//  Result := GetFieldPrefix + 'member_id';
+  Result := 'MEMBER_ID';
 end;
 
-function TPOSTransaction.GetFieldNameFor_MemberUnit: string;
-begin
-  Result := GetFieldPrefix + 'member_unt_id';
-end;
+//function TPOSTransaction.GetFieldNameFor_MemberUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'member_unt_id';
+//end;
 
 function TPOSTransaction.GetFieldNameFor_NewUnit: string;
 begin
-  Result := GetFieldPrefix + 'UNT_ID';
+//  Result := GetFieldPrefix + 'UNT_ID';
+  Result := 'AUT$UNIT_ID';
 end;
 
 function TPOSTransaction.GetFieldNameFor_No: string;
@@ -1436,15 +1497,15 @@ begin
   Result := GetFieldPrefix + 'No';
 end;
 
-function TPOSTransaction.GetFieldNameFor_OPC_UNIT: string;
-begin
-  Result := 'OPC_UNIT';
-end;
+//function TPOSTransaction.GetFieldNameFor_OPC_UNIT: string;
+//begin
+//  Result := 'OPC_UNIT';
+//end;
 
-function TPOSTransaction.GetFieldNameFor_OPM_UNIT: string;
-begin
-  Result := 'OPM_UNIT';
-end;
+//function TPOSTransaction.GetFieldNameFor_OPM_UNIT: string;
+//begin
+//  Result := 'OPM_UNIT';
+//end;
 
 function TPOSTransaction.GetFieldNameFor_OP_CREATE: string;
 begin
@@ -1464,6 +1525,11 @@ end;
 function TPOSTransaction.GetFieldNameFor_POSTransactionItems: string;
 begin
   Result := GetFieldPrefix + 'POSTransactionItems_ID';
+end;
+
+function TPOSTransaction.GetFieldNameFor_ReturNo: string;
+begin
+  Result := 'TRANSRET_NO';
 end;
 
 function TPOSTransaction.GetFieldNameFor_ReturTransPOS: string;
@@ -1514,11 +1580,6 @@ end;
 function TPOSTransaction.GetFieldNameFor_VoucherNo: string;
 begin
   Result := 'vcrd_no';
-end;
-
-function TPOSTransaction.GetFieldNameFor_ReturNo: string;
-begin
-  Result := 'TRANSRET_NO';
 end;
 
 function TPOSTransaction.GetFieldNameFor_VoucherStatus: string;
@@ -1587,7 +1648,7 @@ begin
         end;
       end;
       Result := RoundTo(Result, -2);
-      
+
     end;
     Q1.Next;
   end;
@@ -1598,10 +1659,10 @@ procedure TPOSTransaction.GetMember(var aKodeMember: String; var aNamaMember :
 var
   sSQL: string;
 begin
-  sSQL := 'select member_card_no,member_name'
+  sSQL := 'select member_card_no, member_name '
           + ' from member'
-          + ' where member_id = ' + IntToStr(MemberID)
-          + ' and member_unt_id = ' + IntToStr(FNewUnitID);
+          + ' where member_id = ' + QuotedStr(MemberID);
+//          + ' and member_unt_id = ' + IntToStr(FNewUnitID);
 
   with cOpenQuery(sSQL) do
   begin
@@ -1610,7 +1671,7 @@ begin
       begin
         aKodeMember := FieldByName('member_card_no').AsString;
         aNamaMember := FieldByName('member_name').AsString;
-        
+
         Next;
       end;
     finally
@@ -1799,25 +1860,25 @@ begin
 
 end;
 
-function TPOSTransaction.GetOPC_UNIT: TUnit;
-begin
-  if FOPC_UNIT = nil then
-  begin
-    FOPC_UNIT := TUnit.Create(Self);
-    FOPC_UNIT.LoadByID(FOPC_UNITID);
-  end;
-  Result := FOPC_UNIT;
-end;
+//function TPOSTransaction.GetOPC_UNIT: TUnit;
+//begin
+//  if FOPC_UNIT = nil then
+//  begin
+//    FOPC_UNIT := TUnit.Create(Self);
+//    FOPC_UNIT.LoadByID(FOPC_UNITID);
+//  end;
+//  Result := FOPC_UNIT;
+//end;
 
-function TPOSTransaction.GetOPM_UNIT: TUnit;
-begin
-  if FOPM_UNIT = nil then
-  begin
-    FOPM_UNIT := TUnit.Create(Self);
-    FOPM_UNIT.LoadByID(FOPM_UNITID);
-  end;
-  Result := FOPM_UNIT;
-end;
+//function TPOSTransaction.GetOPM_UNIT: TUnit;
+//begin
+//  if FOPM_UNIT = nil then
+//  begin
+//    FOPM_UNIT := TUnit.Create(Self);
+//    FOPM_UNIT.LoadByID(FOPM_UNITID);
+//  end;
+//  Result := FOPM_UNIT;
+//end;
 
 function TPOSTransaction.GetPenjualanBarang(aMerchandizeGroupID : Integer;
     aUnitID : Integer; aTipe : Integer): Double;
@@ -1878,9 +1939,9 @@ begin
 
 end;
 
-function TPOSTransaction.GetPlannedID: Integer;
+function TPOSTransaction.GetPlannedID: string;
 begin
-  result := -1;
+  Result := '';
   if State = csNone then
   begin
      Raise exception.create('Tidak bisa GetPlannedID di Mode csNone');
@@ -1888,11 +1949,12 @@ begin
   end
   else if state = csCreated then
   begin
-     result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//     Result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+    Result := cGetNextIDGUIDToString;
   end
   else if State = csLoaded then
   begin
-     result := FID;
+     Result := FID;
   end;
 end;
 
@@ -1902,7 +1964,7 @@ begin
   begin
     FPOSTransactionItems := TPOSTransactionItems.Create(TPOSTransactionItem);
     FPOSTransactionItems.clear;
-    FPOSTransactionItems.LoadByID(ID, FNewUnitID);
+    FPOSTransactionItems.LoadByHeaderID(ID);
   end;
   Result := FPOSTransactionItems;
 end;
@@ -1958,13 +2020,13 @@ begin
   begin
     S := 'Select ' + GetFieldNameFor_TransStruk + ' from '
         + CustomTableName + ' where ' + GetFieldNameFor_ID
-        + ' = ' + inttostr(Self.ID);
+        + ' = ' + QuotedStr(Self.ID);
 
     with cOpenQuery(s) do
     begin
       Try
         If not eof then
-        begin   
+        begin
           If not Fields[0].IsNull then
           begin
             FTrans_Struk := TStringList.Create;
@@ -1982,7 +2044,7 @@ begin
 
     end;
   end;
-  
+
   Result := FTrans_Struk;
 end;
 
@@ -1991,8 +2053,8 @@ begin
   if FVoucherLains = nil then
   begin
     FVoucherLains := TVoucherLainItems.Create(TVoucherLainItem);
-  end;  
-    
+  end;
+
   Result := FVoucherLains;
 end;
 
@@ -2006,36 +2068,15 @@ begin
   Result := FVoucherNo;
 end;
 
-function TPOSTransaction.LoadByID(AID : Integer; AUnitID: Integer): Boolean;
-var
-  sSQL: string;
-begin
-  sSQL := 'select * from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(AID)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
-  Result := FloadFromDB(sSQL);
-end;
-
-function TPOSTransaction.LoadByTrans_No(aTransNo: String; aUnitID: Integer):
-    Boolean;
-var
-  sSQL: string;
-begin
-  sSQL := 'select * from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_No + ' = ' + QuotedStr(aTransNo)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID) + ';';
-  Result := FloadFromDB(sSQL);
-end;
-
-function TPOSTransaction.IsBalanceUsed(aBalance_ID, aUnitID: Integer): Boolean;
+function TPOSTransaction.IsBalanceUsed(aBalance_ID, aUnitID: string): Boolean;
 var
   sSQL: string;
 begin
   Result := False;
   sSQL := 'select count(' + GetFieldNameFor_BeginningBalance + ') as jml '
         + ' from ' + CustomTableName
-        + ' where ' + GetFieldNameFor_BeginningBalance + ' = ' + IntToStr(aBalance_ID)
-        + ' and ' + GetFieldNameFor_BeginningBalanceUnit + ' = ' + IntToStr(AUnitID) + ';';
+        + ' where ' + GetFieldNameFor_BeginningBalance + ' = ' + QuotedStr(aBalance_ID) + ';';
+//        + ' and ' + GetFieldNameFor_BeginningBalanceUnit + ' = ' + QuotedStr(AUnitID) + ';';
 
   with cOpenQuery(sSQL) do
   begin
@@ -2049,6 +2090,26 @@ begin
       Free;
     end;
   End;
+end;
+
+function TPOSTransaction.LoadByID(AID : Integer; AUnitID: Integer): Boolean;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from ' + CustomTableName
+    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(AID)
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
+  Result := FloadFromDB(sSQL);
+end;
+
+function TPOSTransaction.LoadByTrans_No(aTransNo, aUnitID: String): Boolean;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from ' + CustomTableName
+    + ' where ' + GetFieldNameFor_No + ' = ' + QuotedStr(aTransNo)
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(AUnitID) + ';';
+  Result := FloadFromDB(sSQL);
 end;
 
 function TPOSTransaction.LoadDataJurnal(aDate1 : TDateTime; aDate2 : TDateTime;
@@ -2161,8 +2222,8 @@ var
 begin
   Result := False;
   sSQL := 'delete from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID);
+    + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID);
   if cExecSQL(sSQL,dbtPOS, False) then
     Result := True; //SimpanBlob(sSQL,GetHeaderFlag);
 end;
@@ -2189,14 +2250,14 @@ begin
     + ' set ' + GetFieldNameFor_KuponBotolStatus + ' = ' + QuotedStr('CLOSE')
     + ', ' + GetFieldNameFor_KuponBotolTransPOS + ' = ' + QuotedStr(No)
     + ' where ' + GetFieldNameFor_KuponBotolNo + ' = ' + QuotedStr(KuponBotolNo)
-    + ' and ' + GetFieldNameFor_KuponBotolUnit + ' = ' + IntToStr(FNewUnitID)
+    + ' and ' + GetFieldNameFor_KuponBotolUnit + ' = ' + QuotedStr(FNewUnitID)
     + ';';
 
   ssSQL := TStringList.Create;
   ssSQL.Add(sSQL);
   //ssSQL.SaveToFile(cGetAppPath + 'POS_KuponBotol.SQL');
   FreeAndNil(ssSQL);
-  
+
   if cExecSQL(sSQL, dbtPOS, False) then
 //    if SimpanBlob(sSQL,GetHeaderFlag) then
       Result := True;
@@ -2213,16 +2274,16 @@ begin
   begin
     Result := True;
     Exit;
-  end;  
+  end;
 
-  ssSQL := TStringList.Create;    
+  ssSQL := TStringList.Create;
   for i := 0 to ReturNo.Count - 1 do // Iterate
   begin
     sSQL := 'update ' + GetTableNameFor_Retur
       + ' set ' + GetFieldNameFor_ReturTransPOS + ' = ' + QuotedStr(No)
       + ' , ' + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(DATE_MODIFY)
       + ' where ' + GetFieldNameFor_ReturNo + ' = ' + QuotedStr(ReturNo[i])
-      + ' and ' + GetFieldNameFor_ReturUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      + ' and ' + GetFieldNameFor_ReturUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
     ssSQL.Add(sSQL);
   end;    // for
 
@@ -2265,7 +2326,7 @@ begin
   begin
     Result := True;
     Exit;
-  end;  
+  end;
   Result := TransactionCard.SaveToDB;
 end;
 
@@ -2279,7 +2340,7 @@ begin
   begin
     Result := True;
     Exit;
-  end;  
+  end;
 
   ssSQL := TStringList.Create;
   for i := 0 to VoucherLains.Count - 1 do // Iterate
@@ -2311,16 +2372,16 @@ begin
   begin
     Result := True;
     Exit;
-  end;  
+  end;
 
-  ssSQL := TStringList.Create;    
+  ssSQL := TStringList.Create;
   for i := 0 to VoucherNo.Count - 1 do // Iterate
   begin
     sSQL := 'update ' + GetTableNameFor_Voucher
       + ' set ' + GetFieldNameFor_VoucherStatus + ' = ' + QuotedStr('CLOSE')
       + ', ' + GetFieldNameFor_VoucherTransPOS + ' = ' + QuotedStr(No)
       + ' where ' + GetFieldNameFor_VoucherNo + ' = ' + QuotedStr(VoucherNo[i])
-      + ' and ' + GetFieldNameFor_VoucherUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      + ' and ' + GetFieldNameFor_VoucherUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
     ssSQL.Add(sSQL);
   end;    // for
 
@@ -2342,23 +2403,23 @@ begin
   FNewUnitID := Value.ID;
 end;
 
-procedure TPOSTransaction.SetOPC_UNIT(Value: TUnit);
-begin
-  FOPC_UNITID := Value.ID;
-end;
+//procedure TPOSTransaction.SetOPC_UNIT(Value: TUnit);
+//begin
+//  FOPC_UNITID := Value.ID;
+//end;
 
-procedure TPOSTransaction.SetOPM_UNIT(Value: TUnit);
-begin
-  FOPM_UNITID := Value.ID;
-end;
+//procedure TPOSTransaction.SetOPM_UNIT(Value: TUnit);
+//begin
+//  FOPM_UNITID := Value.ID;
+//end;
 
-procedure TPOSTransaction.UpdateData(ABayarCard: Double; ABayarCash: Double;
-    ABeginningBalance_ID: Integer; ADiscAMCNominal: Double; ADiscAMCPersen:
-    Double; AID: Integer; AIsActive: Boolean; AMemberID: Integer; ANewUnit_ID:
-    Integer; ANo: string; APembulat: Double; ATanggal: TDateTime; ATotalBayar:
-    Double; ATotalDiscAMC: Double; ATotalPPN: Double; ATotalTransaction:
-    Double; AKuponBotolNo: String; AVoucherNo: TStrings; aUserID: Integer;
-    aTransDiscCard:Double;aISJURNAL : Integer = 0; aIsPending: Boolean = False);
+procedure TPOSTransaction.UpdateData(ABayarCard, ABayarCash: Double;
+    ABeginningBalance_ID: string; ADiscAMCNominal, ADiscAMCPersen: Double; AID:
+    string; AIsActive: Boolean; AMemberID, ANewUnit_ID, ANo: string; APembulat:
+    Double; ATanggal: TDateTime; ATotalBayar, ATotalDiscAMC, ATotalPPN,
+    ATotalTransaction: Double; AKuponBotolNo: String; AVoucherNo: TStrings;
+    aUserID: string; aTransDiscCard: Double; aISJURNAL: Integer = 0;
+    aIsPending: Boolean = False);
 var
   i: integer;
 begin
@@ -2399,12 +2460,11 @@ begin
 end;
 
 procedure TPOSTransaction.UpdatePOSTransactionItems(ABarangHargaJual_ID:
-    Integer; ACOGS: Double; AID: Integer; AIsBKP, AIsDiscAMC: Boolean;
-    ALastCost, APPN, APPNBM, AQty, ASellPrice, ASellPriceDisc, ATotal,
-    ATotalBeforeTax, ATotalCeil: Double; ATransNo: string; AUnitID: Integer;
-    ABarangCode: String; ATipeBarangID: Integer; aDISC_GMC_NOMINAL: Double;
-    aUomCode: string; aDisc_Card: Double = 0; aDisc_Man: Double = 0; aOtoCode:
-    String ='');
+    string; ACOGS: Double; AID: string; AIsBKP, AIsDiscAMC: Boolean; ALastCost,
+    APPN, APPNBM, AQty, ASellPrice, ASellPriceDisc, ATotal, ATotalBeforeTax,
+    ATotalCeil: Double; ATransNo, AUnitID, ABarangCode, ATipeBarangID: string;
+    aDISC_GMC_NOMINAL: Double; aUomCode: string; aDisc_Card: Double = 0;
+    aDisc_Man: Double = 0; aOtoCode: String = '');
 begin
   //Generate penambahan detail
   with POSTransactionItems.Add do
@@ -2441,11 +2501,11 @@ var
   s: string;
 begin
   Result := False;
-  
+
   s := 'Update TRANSAKSI set TRANS_IS_JURNAL = ' + IntToStr(aStatus)
-     + ' Where TRANS_DATE BETWEEN ' + TAppUtils.QuotD(aDate)
+     + ' Where DATE(TRANS_DATE) BETWEEN ' + TAppUtils.QuotD(aDate)
      + ' AND ' + TAppUtils.QuotD(aDate, True)
-     + ' AND TRANS_UNT_ID = ' + IntToStr(aUnitID)
+//     + ' AND TRANS_UNT_ID = ' + IntToStr(aUnitID)
      + ';';
 
   if cExecSQL(s, dbtPOS, False) then
@@ -2453,7 +2513,7 @@ begin
 end;
 
 function TPOSTransaction.UpdateTransStruk(lTransStruk: TStrings; IDTrans:
-    Integer): Boolean;
+    string): Boolean;
 var
   lQ: TFDQuery;
   lStream: TMemoryStream;
@@ -2463,7 +2523,7 @@ begin
 
   lStream := TMemoryStream.Create;
   lTransStruk.SaveToStream(lStream);
-  
+
   lQ := TFDQuery.Create(Self);
   lQ.Connection :=  dmMain.dbPOS;
   lQ.Transaction := dmMain.TransPOS;
@@ -2474,24 +2534,25 @@ begin
 
       lQ.SQL.Add('Update ' + CustomTableName + ' set '
                 + GetFieldNameFor_TransStruk + '= :lBlob '
-                //+ ',' + GetFieldNameFor_OP_MODIFY + '= :lModify '
+                //+ ',' + GetFieldNameFor_OP_MODIFY + ' = :lModify '
                 + ' where ' + GetFieldNameFor_ID + ' = :lID');
 
       lQ.ParamByName('lBlob').LoadFromStream(lStream, ftBlob);
-      lQ.ParamByName('lID').AsInteger := IDTrans;
+      lQ.ParamByName('lID').AsString := IDTrans;
       lQ.ExecSQL;
 
       If lQ.Transaction.Active then lQ.Transaction.Commit;
-      
+
     except
       If lQ.Transaction.Active then lQ.Transaction.Rollback;
+
       Result := False;
     end;
 
   finally
     lStream.Free;
     lQ.Free;
-  end;     
+  end;
 end;
 
 end.

@@ -12,7 +12,7 @@ uses
   FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.SQLite,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef, FireDAC.Phys.MSSQLDef,
   FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL, System.UITypes, Vcl.Forms, dxmdaset,
-  vcl.dialogs, Datasnap.DBClient;
+  vcl.dialogs, Datasnap.DBClient, uModApp;
 
 type
   TDBType = (dbtPOS, dbtStore);
@@ -88,6 +88,24 @@ function cOpenDataset(ASQL: String; AOwner: TComponent = nil): TClientDataSet;
 
 function cGetNextIDDetail(aFieldID, aTableName: String): string;
 
+function cSaveToDB(AObject: TModApp): Boolean;
+
+function cValidateCode(AOBject: TModApp): Boolean;
+
+function cIsExist(AOBject: TModApp): Boolean;
+
+function cGenerateSQL(AObject: TModApp): TStrings; overload;
+
+procedure cGenerateSQL(AObject: TModApp; SS: TStrings); overload;
+
+function cGetSQLInsert(AObject: TModApp): String;
+
+function cGetSQLUpdate(AObject: TModApp): String;
+
+function cGetNextIDGUIDToString: string;
+
+function cRemoveBracket(cValue: string): string;
+
 var
   dmMain: TdmMain;
   aListMerID  : TStrings;
@@ -97,10 +115,17 @@ var
   svFrtDec2: string = '#,##0.00';
   svFrtDec3: string = '#,##0.000';
 
+const
+  SQL_Insert  : String = 'Insert Into %s(%s) values(%s);';
+  SQL_Update  : String = 'Update %s set %s where %s;';
+  SQL_Delete  : String = 'Delete From %s where %s;';
+  SQL_Select  : String = 'Select %s from %s where %s';
+
 implementation
 
 uses
-  Vcl.Printers, Winapi.WinSpool, uTSCommonDlg, uAppUtils, Datasnap.Provider;
+  Vcl.Printers, Winapi.WinSpool, uTSCommonDlg, uAppUtils, Datasnap.Provider,
+  Rtti, TypInfo;
 
 {$R *.dfm}
 
@@ -382,6 +407,7 @@ begin
     begin
       dmMain.TransPOS.Commit;
     end;
+    dmMain.dbPOS.Connected := False;
   end
   else if ADBType = dbtStore then
   begin
@@ -404,6 +430,7 @@ begin
     begin
       dmMain.TransPOS.Rollback;
     end;
+    dmMain.dbPOS.Connected := False;
   end
   else if ADBType = dbtStore then
   begin
@@ -607,7 +634,7 @@ var
   DeviceName: array [0..255] of char;
   OutPut: array [0..255] of char;
   DeviceMode: Thandle;
-  i: Integer;
+//  i: Integer;
 begin
   Printer.GetPrinter(DeviceName, DriverName, Output, DeviceMode);
 
@@ -638,11 +665,296 @@ begin
 end;
 
 function cGetNextIDDetail(aFieldID, aTableName: String): string;
-var
-  Q : TFDQuery;
-  S : String;
 begin
   Result := '(select ifnull(max('+aFieldID+'),0)+1 from ' + aTableName + ' ) ';
+end;
+
+function cSaveToDB(AObject: TModApp): Boolean;
+var
+  lSS: TStrings;
+  sID: string;
+begin
+  Result := False;
+  sID := AObject.ID;
+  if sID <> '' then
+    AObject.ID := cRemoveBracket(sID);
+
+  if not cValidateCode(AObject) then exit;
+
+  lSS := cGenerateSQL(AObject);
+  Try
+    Try
+      cExecSQL(lSS);
+      cCommitTrans();
+
+      Result := True;
+    except
+      cRollbackTrans();
+      raise;
+    End;
+  Finally
+    lSS.Free;
+  End;
+end;
+
+function cValidateCode(AOBject: TModApp): Boolean;
+var
+  S: string;
+  sFilter: string;
+begin
+  Result  := True;
+  if AObject.PropFromAttr(AttributeOfCode, False) = nil then
+    exit;
+
+  sFilter := AOBject.GetCodeField + ' = ' + QuotedStr(AObject.GetCodeValue);
+  if AOBject.ID <> '' then
+    sFilter := sFilter + ' And ' + AOBject.GetPrimaryField + ' <> ' + QuotedStr(AOBject.ID);
+  S := Format(SQL_Select,['*', AOBject.GetTableName, sFilter]);
+  with cOpenQuery(S) do
+  begin
+    Try
+      Result := EOF;
+    Finally
+      Free;
+    End;
+  end;
+  if not Result then
+    raise Exception.Create(AOBject.GetTableName + '.' + AOBject.GetCodeField
+      + ' : ' + AOBject.GetCodeValue + ' sudah ada di Database'
+    );
+end;
+
+function cGenerateSQL(AObject: TModApp): TStrings;
+begin
+  Result := TStringList.Create;
+  cGenerateSQL(AObject, Result);
+end;
+
+procedure cGenerateSQL(AObject: TModApp; SS: TStrings);
+//var
+//  a: TCustomAttribute;
+//  ctx : TRttiContext;
+//  DoUpdateDetails: Boolean;
+//  meth : TRttiMethod;
+//  prop, propItem : TRttiProperty;
+//  rt : TRttiType;
+//  i : Integer;
+//  IDItems: string;
+//  lAppClassItem: TModAppClass;
+//  lObj : TObject;
+//  lModItem : TModApp;
+//  lObjectList: TObject;
+//  rtItem: TRttiType;
+//  sGenericItemClassName: string;
+//  value : TValue;
+//  SSItems: TStrings;
+
+  function ClassInFilter(aClassType: TModAppClass): Boolean;
+  var n: Integer;
+  begin
+    Result := True; //default no filter
+    if (AObject.CrudFilterKind = fckNone) or (AObject.FilterClasses = nil) then exit;
+    Result := AObject.CrudFilterKind <> fckInclude; //default false jika inlucde, true jika exclude
+    for n := 0 to AObject.FilterClasses.Count-1 do  //server tidak bisa baca "class of.."
+    begin
+      Result := AObject.FilterClasses[n].CheckClass(aClassType.ClassName);
+      if AObject.CrudFilterKind = fckExclude then Result := not Result;
+      If Result <>  (AObject.CrudFilterKind <> fckInclude) then exit;
+    end;
+  end;
+
+begin
+//  DoUpdateDetails := False;
+//  rt := ctx.GetType(AObject.ClassType);
+
+  If ClassInFilter(TModAppClass(AObject.ClassType)) then
+  begin
+    if cIsExist(AObject) then
+      SS.Add(cGetSQLUpdate(AObject))
+    else
+      SS.Add(cGetSQLInsert(AObject));
+  end;
+
+  {
+  for prop in rt.GetProperties do
+  begin
+    lModItem := nil;
+    If not Assigned(prop) then continue;
+    If prop.PropertyType.TypeKind = tkClass then
+    begin
+      meth := prop.PropertyType.GetMethod('ToArray');
+      if Assigned(meth) then
+      begin
+        lObjectList := prop.GetValue(AOBject).AsObject;
+        if lObjectList = nil then continue;
+
+        sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+        sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+        rtItem := ctx.FindType(sGenericItemClassName);
+
+        if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+        lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
+
+        //filter class
+        if not ClassInFilter(lAppClassItem) then continue;
+
+        value  := meth.Invoke(prop.GetValue(AObject), []);
+        Assert(value.IsArray);
+        IDItems := '';
+        SSItems := TStringList.Create;
+        Try
+          for i := 0 to value.GetArrayLength - 1 do
+          begin
+            lObj := value.GetArrayElement(i).AsObject;
+            If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+            lModItem := TModApp(lObj);
+
+            if i = 0 then //check operation at 1st loop
+              for a in ctx.GetType(lModItem.ClassType).GetAttributes do
+                if a is AttrUpdateDetails then DoUpdateDetails := True;
+
+            //dengan method dibawah, client tidak wajib menset moditem.header := modheader
+            propItem := lModItem.PropFromAttr(AttributeOfHeader);
+            if propItem.PropertyType.TypeKind = tkClass then
+              propItem.SetValue(lModItem, AObject);
+
+            If DoUpdateDetails then
+            begin
+              lModItem.ObjectState := 3; //check if update
+              if lModItem.ID <> '' then
+              begin
+                if IDItems <> '' then IDItems := IDItems + ',';
+                IDItems := IDItems + QuotedStr(lModItem.ID);
+              end;
+            end else
+              lModItem.ObjectState := 1; //always insert
+
+            cGenerateSQL(lModItem, SSItems, AUnitID);
+          end;
+
+          If Assigned(lModItem) then
+          begin
+            If (DoUpdateDetails) and (IDItems<>'') then
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)
+                + ' and ' + lModItem.GetPrimaryField + ' not in('+ IDItems +')'
+                ]))
+            else
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+          end else  //if lModItem = nil, force it
+          begin
+            lModitem := lAppClassItem.Create;
+            Try
+              SS.Add(Format(SQL_Delete,[lModItem.GetTableName,
+                lModItem.GetHeaderField + '=' + QuotedStr(AObject.ID)]));
+            Finally
+              lModItem.Free;
+            End;
+          end;
+
+          if SSItems.Text <> '' then SS.AddStrings(SSItems);
+        Finally
+          SSItems.Free;
+        End;
+      end;
+    end;
+  end;
+  }
+end;
+
+function cGetSQLInsert(AObject: TModApp): String;
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  FieldValues : string;
+  FieldNames: String;
+begin
+  FieldValues := '';
+  FieldNames  := '';
+
+  if AObject.ID = '' then AObject.ID := cGetNextIDGUIDToString();
+  rt := ctx.GetType(AObject.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    if prop.Visibility = mvPublished then
+    begin
+      if AObject.QuotValueNoBracket(prop) = 'NULL' then
+        Continue;
+
+      If FieldNames <> '' then FieldNames := FieldNames + ',';
+      If FieldValues <> '' then FieldValues := FieldValues + ',';
+
+      FieldNames  := FieldNames + AObject.FieldNameOf(prop);
+      FieldValues := FieldValues + AObject.QuotValueNoBracket(prop);
+    end;
+  end;
+
+  Result :=  Format(SQL_Insert,[AObject.GetTableName, FieldNames, FieldValues]);
+end;
+
+function cGetSQLUpdate(AObject: TModApp): String;
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  UpdateVal : string;
+  FieldName : String;
+  sFilter : String;
+begin
+  UpdateVal := '';
+
+  rt := ctx.GetType(AObject.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    if UpperCase(prop.Name) = 'ID' then continue;
+    If prop.Visibility <> mvPublished then continue;
+
+    FieldName  := AObject.FieldNameOf(prop);
+
+    If UpdateVal <> '' then UpdateVal := UpdateVal + ',';
+    UpdateVal := UpdateVal + FieldName + ' = ' + AObject.QuotValueNoBracket(prop)
+  end;
+
+  sFilter   := '';
+
+  sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
+  Result := Format(SQL_Update,[AObject.GetTableName,UpdateVal,sFilter]);
+end;
+
+function cGetNextIDGUIDToString: string;
+var
+  lGUID: TGuid;
+begin
+  CreateGUID(lGUID);
+  Result := cremoveBracket(GUIDToString(lGUID));
+end;
+
+function cIsExist(AOBject: TModApp): Boolean;
+var
+  S: string;
+  sFilter: string;
+begin
+//  Result := False;
+
+  if AOBject.ID <> '' then
+    sFilter := AOBject.GetPrimaryField + ' = ' + QuotedStr(AOBject.ID);
+
+  S := Format(SQL_Select,['1', AOBject.GetTableName, sFilter]);
+  with cOpenQuery(S) do
+  begin
+    Try
+      Result := not EOF;
+    Finally
+      Free;
+    End;
+  end;
+end;
+
+function cRemoveBracket(cValue: string): string;
+begin
+  Result := Copy(cValue,2,cValue.Length-2);
 end;
 
 end.

@@ -117,8 +117,8 @@ type
     FLoginUsername: string;
     FLoginUnitId: Integer;
     FTransNo: String;
-    FUnitID: Integer;
-    FUserID: Integer;
+    FUnitID: string;
+    FUserID: string;
     FFormProperty : TFormProperty;
     FPageLogin: string;
     IsPOSConnected: Boolean;
@@ -132,7 +132,7 @@ type
     Host, IP: string;
     Port: integer;
 
-    FBeginningBalanceID: Integer;
+    FBeginningBalanceID: string;
 
     //Store DB
     FDBServerStore: String;
@@ -159,8 +159,8 @@ type
     property LoginUsername: string read FLoginUsername write SetLoginUsername;
     property LoginUnitId: Integer read FLoginUnitId write SetLoginUnitId;
     property TransNo: String read FTransNo write FTransNo;
-    property UnitID: Integer read FUnitID write FUnitID;
-    property UserID: Integer read FUserID write FUserID;
+    property UnitID: string read FUnitID write FUnitID;
+    property UserID: string read FUserID write FUserID;
   end;
 
 function GetFormByClass(AFormClass: TClass): TForm;
@@ -366,11 +366,11 @@ begin
 
   //sementara manual dulu
   Try
-      UnitID       := _INIReadInteger(CONFIG_FILE,DB_POS,'UnitID');
+      UnitID       := _INIReadString(CONFIG_FILE,DB_POS,'UnitID');
       FPOSCode     := _INIReadString(CONFIG_FILE,DB_POS,'POSCode');
       FCashierCode := '';
       FCashierName := '';
-      FBeginningBalanceID := -1; //95;
+      FBeginningBalanceID := ''; //95;
 
       TransNo := '';
 
@@ -549,7 +549,7 @@ end;
 
 procedure TfrmMain.ImportDataStore1Click(Sender: TObject);
 begin
-  frmImportFromStore := (ShowForm(TfrmImportFromStore,wsMaximized)) as TfrmImportFromStore;
+  frmImportFromStore := (ShowForm(TfrmImportFromStore,wsNormal)) as TfrmImportFromStore;
   frmImportFromStore.UnitID := frmMain.UnitID;
 end;
 

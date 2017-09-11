@@ -123,14 +123,14 @@ begin
       begin 
 
           FCompany.LoadByID(FieldByName(GetFieldNameFor_Company).asInteger);
-          FNewUnit.LoadByID(FieldByName(GetFieldNameFor_NewUnit).asInteger);
+          FNewUnit.LoadByID(FieldByName(GetFieldNameFor_NewUnit).AsString);
           FDefaultMarkUp := FieldByName(GetFieldNameFor_DefaultMarkUp).asFloat;
           FID := FieldByName(GetFieldNameFor_ID).asInteger;
           FKode := FieldByName(GetFieldNameFor_Kode).asString;
           FKodeRekening := FieldByName(GetFieldNameFor_KodeRekening).asString;
-          FMerchandizeUnit.LoadByID(FieldByName(GetFieldNameFor_MerchandizeUnit).asInteger);
+          FMerchandizeUnit.LoadByID(FieldByName(GetFieldNameFor_MerchandizeUnit).AsString);
           FNama := FieldByName(GetFieldNameFor_Nama).asString;
-          FNewMerchadize.LoadByID(FieldByName(GetFieldNameFor_NewMerchadize).asInteger);
+          FNewMerchadize.LoadByID(FieldByName(GetFieldNameFor_NewMerchadize).AsString);
           Self.State := csLoaded;
           Result := True;
       end;
@@ -181,20 +181,20 @@ begin
            + IntToStr( FID) + ', '
            + QuotedStr(FKode ) + ','
            + QuotedStr(FKodeRekening ) + ','
-           + InttoStr( FMerchandizeUnit.ID) + ', '
+           + QuotedStr( FMerchandizeUnit.ID) + ', '
            + QuotedStr(FNama ) + ','
-           + InttoStr( FNewMerchadize.ID) + ', '
-           + InttoStr( FNewUnit.ID) + ');'
+           + QuotedStr( FNewMerchadize.ID) + ', '
+           + QuotedStr( FNewUnit.ID) + ');'
     end else
     begin
       S := 'Update ' + CustomTableName + ' set ' + GetFieldNameFor_Company + ' = ' + IntToStr( FCompany.ID)
            + ' , ' + GetFieldNameFor_DefaultMarkUp + ' = ' + FormatFloat('0.00', FDefaultMarkUp)
            + ' , ' + GetFieldNameFor_Kode + ' = ' + QuotedStr( FKode )
            + ' , ' + GetFieldNameFor_KodeRekening + ' = ' + QuotedStr( FKodeRekening )
-           + ' , ' + GetFieldNameFor_MerchandizeUnit + ' = ' + IntToStr( FMerchandizeUnit.ID)
+           + ' , ' + GetFieldNameFor_MerchandizeUnit + ' = ' + QuotedStr( FMerchandizeUnit.ID)
            + ' , ' + GetFieldNameFor_Nama + ' = ' + QuotedStr( FNama )
-           + ' , ' + GetFieldNameFor_NewMerchadize + ' = ' + IntToStr( FNewMerchadize.ID)
-           + ' where ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr( FNewUnit.ID)
+           + ' , ' + GetFieldNameFor_NewMerchadize + ' = ' + QuotedStr( FNewMerchadize.ID)
+           + ' where ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr( FNewUnit.ID)
            + ' and ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) + ';';
 
 
@@ -288,7 +288,7 @@ begin
   Result := False;
   sSQL := 'delete from ' + CustomTableName
             + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(ID)
-            + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(NewUnit.ID) ;
+            + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(NewUnit.ID) ;
 
   if not cExecSQL(sSQL, dbtPOS, False) then
   begin
@@ -308,10 +308,10 @@ begin
   FID :=  aID;
   FKode := trim(aKode);
   FKodeRekening := trim(aKodeRekening);
-  FMerchandizeUnit.LoadByID(aMerchandizeUnit_ID);
+  FMerchandizeUnit.LoadByID(IntToStr(aMerchandizeUnit_ID));
   FNama := trim(aNama);
-  FNewMerchadize.LoadByID(aNewMerchadize_ID);
-  FNewUnit.LoadByID(aNewUnit_ID);
+  FNewMerchadize.LoadByID(IntToStr(aNewMerchadize_ID));
+  FNewUnit.LoadByID(IntToStr(aNewUnit_ID));
   State := csCreated;
 end;
 

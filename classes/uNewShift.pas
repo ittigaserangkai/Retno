@@ -3,8 +3,9 @@ unit uNewShift;
 interface
 
 uses
-  SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs, StrUtils,
-  uNewUnit, uTSBaseClass, uConstanta, udmMain, uAppUtils;
+  SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
+//  uNewUnit,
+  StrUtils, uTSBaseClass, uConstanta, udmMain, uAppUtils;
 
 type
   TNewShift = class(TSBaseClass)
@@ -12,24 +13,22 @@ type
     FDATE_CREATE: TDateTime;
     FDATE_MODIFY: TDateTime;
     FEndTime: TDateTime;
-    FID: Integer;
+    FID: string;
     FName: string;
-    FNewUnit: TUnit;
-    FNewUnitID: Integer;
-    FOPC_UNIT: TUnit;
-    FOPC_UNITID: Integer;
-    FOPM_UNIT: TUnit;
-    FOPM_UNITID: Integer;
-    FOP_CREATE: Integer;
-    FOP_MODIFY: Integer;
+//    FNewUnit: TUnit;
+//    FNewUnitID: string;
+//    FOPC_UNIT: TUnit;
+//    FOPC_UNITID: Integer;
+//    FOPM_UNIT: TUnit;
+//    FOPM_UNITID: Integer;
+//    FOP_CREATE: Integer;
+//    FOP_MODIFY: Integer;
     FStartTime: TDateTime;
     function FLoadFromDB( aSQL : String ): Boolean;
-    function GetNewUnit: TUnit;
-    function GetOPC_UNIT: TUnit;
-    function GetOPM_UNIT: TUnit;
-    procedure SetNewUnit(Value: TUnit);
-    procedure SetOPC_UNIT(Value: TUnit);
-    procedure SetOPM_UNIT(Value: TUnit);
+//    function GetNewUnit: TUnit;
+//    function GetOPC_UNIT: TUnit;
+//    function GetOPM_UNIT: TUnit;
+//    procedure SetNewUnit(Value: TUnit);
   public
     constructor Create(AOwner : TComponent); override;
     constructor CreateWithUser(AOwner : TComponent; AUserID: Integer; AUnitID:
@@ -46,32 +45,32 @@ type
     function GetFieldNameFor_EndTime: string; dynamic;
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_Name: string; dynamic;
-    function GetFieldNameFor_NewUnit: string; dynamic;
-    function GetFieldNameFor_OPC_UNIT: string; dynamic;
-    function GetFieldNameFor_OPM_UNIT: string; dynamic;
-    function GetFieldNameFor_OP_CREATE: string; dynamic;
-    function GetFieldNameFor_OP_MODIFY: string; dynamic;
+//    function GetFieldNameFor_NewUnit: string; dynamic;
+//    function GetFieldNameFor_OPC_UNIT: string; dynamic;
+//    function GetFieldNameFor_OPM_UNIT: string; dynamic;
+//    function GetFieldNameFor_OP_CREATE: string; dynamic;
+//    function GetFieldNameFor_OP_MODIFY: string; dynamic;
     function GetFieldNameFor_StartTime: string; dynamic;
     function GetFieldPrefix: String; dynamic;
     function GetGeneratorName: string; dynamic;
     function GetHeaderFlag: Integer;
-    function GetPlannedID: Integer;
-    function LoadByID(AID : Integer; AUnitID: Integer): Boolean;
-    function LoadByName(AShiftName: String; AUnitID: Integer): Boolean;
+    function GetPlannedID: string;
+    function LoadByID(AID: string): Boolean;
+    function LoadByName(AShiftName: String): Boolean;
     function RemoveFromDB: Boolean;
     function SaveToDB: Boolean;
-    procedure UpdateData(ANewUnitID:Integer; AEndTime: TDateTime; AID: Integer;
-        AName: string; AStartTime: TDateTime);
+    procedure UpdateData(AEndTime: TDateTime; AID, AName: string; AStartTime:
+        TDateTime);
     property DATE_CREATE: TDateTime read FDATE_CREATE write FDATE_CREATE;
     property DATE_MODIFY: TDateTime read FDATE_MODIFY write FDATE_MODIFY;
     property EndTime: TDateTime read FEndTime write FEndTime;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property Name: string read FName write FName;
-    property NewUnit: TUnit read GetNewUnit write SetNewUnit;
-    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
-    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
-    property OP_CREATE: Integer read FOP_CREATE write FOP_CREATE;
-    property OP_MODIFY: Integer read FOP_MODIFY write FOP_MODIFY;
+//    property NewUnit: TUnit read GetNewUnit write SetNewUnit;
+//    property OPC_UNIT: TUnit read GetOPC_UNIT write SetOPC_UNIT;
+//    property OPM_UNIT: TUnit read GetOPM_UNIT write SetOPM_UNIT;
+//    property OP_CREATE: Integer read FOP_CREATE write FOP_CREATE;
+//    property OP_MODIFY: Integer read FOP_MODIFY write FOP_MODIFY;
     property StartTime: TDateTime read FStartTime write FStartTime;
   end;
   
@@ -90,8 +89,8 @@ constructor TNewShift.CreateWithUser(AOwner : TComponent; AUserID: Integer;
     AUnitID: Integer);
 begin
   Create(AOwner);
-  OP_MODIFY := AUserID;
-  FOPM_UNITID := AUnitID;
+//  OP_MODIFY := AUserID;
+//  FOPM_UNITID := AUnitID;
 end;
 
 destructor TNewShift.Destroy;
@@ -102,14 +101,14 @@ end;
 
 procedure TNewShift.ClearProperties;
 begin
-  OP_MODIFY := 0;
-  OP_CREATE := 0;
+//  OP_MODIFY := 0;
+//  OP_CREATE := 0;
   Name := '';
-  ID := 0;
-  
-  FreeAndNil(FNewUnit);
-  FreeAndNil(FOPC_UNIT);
-  FreeAndNil(FOPM_UNIT);
+  ID := '';
+
+//  FreeAndNil(FNewUnit);
+//  FreeAndNil(FOPC_UNIT);
+//  FreeAndNil(FOPM_UNIT);
 end;
 
 function TNewShift.CustomSQLTask: Tstrings;
@@ -132,23 +131,23 @@ begin
   Result := False;
   State := csNone;
   ClearProperties;
-  with cOpenQuery(aSQL) do 
-  begin 
+  with cOpenQuery(aSQL) do
+  begin
     try
-      if not EOF then 
-      begin 
+      if not EOF then
+      begin
         FDATE_CREATE := FieldByName(GetFieldNameFor_DATE_CREATE).AsDateTime;
         FDATE_MODIFY := FieldByName(GetFieldNameFor_DATE_MODIFY).AsDateTime;
         FEndTime := FieldByName(GetFieldNameFor_EndTime).AsDateTime;
-        FID := FieldByName(GetFieldNameFor_ID).AsInteger;
+        FID := FieldByName(GetFieldNameFor_ID).AsString;
         FName := FieldByName(GetFieldNameFor_Name).AsString;
-        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsInteger;
-        FOPC_UNITID := FieldByName(GetFieldNameFor_OPC_UNIT).AsInteger;
-        FOPM_UNITID := FieldByName(GetFieldNameFor_OPM_UNIT).AsInteger;
-        FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsInteger;
-        FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsInteger;
+//        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
+//        FOPC_UNITID := FieldByName(GetFieldNameFor_OPC_UNIT).AsInteger;
+//        FOPM_UNITID := FieldByName(GetFieldNameFor_OPM_UNIT).AsInteger;
+//        FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsInteger;
+//        FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsInteger;
         FStartTime := FieldByName(GetFieldNameFor_StartTime).AsDateTime;
-        Self.State := csLoaded; 
+        Self.State := csLoaded;
         Result := True;
       end;
     finally
@@ -185,75 +184,77 @@ var
   ssSQL: TStrings;
 begin
   Result := TStringList.Create;
-  if State = csNone then 
+  if State = csNone then
   begin
     raise Exception.create('Tidak bisa generate dalam Mode csNone')
   end;
-  
-  ssSQL := CustomSQLTaskPrior; 
-  if ssSQL <> nil then 
-  begin 
+
+  ssSQL := CustomSQLTaskPrior;
+  if ssSQL <> nil then
+  begin
     Result.AddStrings(ssSQL);
-  end; 
-  ssSQL := nil; 
-  
+  end;
+  ssSQL := nil;
+
   DATE_MODIFY := cGetServerDateTime;
-  FOPM_UNITID := FNewUnitID;
-  
-  If FID <= 0 then 
-  begin 
-    //Generate Insert SQL 
-    OP_CREATE := OP_MODIFY;
+//  FOPM_UNITID := FNewUnitID;
+
+//  If FID <= 0 then
+  if FID = '' then
+  begin
+    //Generate Insert SQL
+//    OP_CREATE := OP_MODIFY;
     DATE_CREATE := DATE_MODIFY;
-    FOPC_UNITID := FOPM_UNITID;
-    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//    FOPC_UNITID := FOPM_UNITID;
+//    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+    FID := cGetNextIDGUIDToString;
     sSQL := 'insert into ' + CustomTableName + ' ('
       + GetFieldNameFor_DATE_CREATE + ', '
       + GetFieldNameFor_DATE_MODIFY + ', '
       + GetFieldNameFor_EndTime + ', '
       + GetFieldNameFor_ID + ', '
       + GetFieldNameFor_Name + ', '
-      + GetFieldNameFor_NewUnit + ', '
-      + GetFieldNameFor_OPC_UNIT + ', '
-      + GetFieldNameFor_OPM_UNIT + ', '
-      + GetFieldNameFor_OP_CREATE + ', '
-      + GetFieldNameFor_OP_MODIFY + ', '
+//      + GetFieldNameFor_NewUnit + ', '
+//      + GetFieldNameFor_OPC_UNIT + ', '
+//      + GetFieldNameFor_OPM_UNIT + ', '
+//      + GetFieldNameFor_OP_CREATE + ', '
+//      + GetFieldNameFor_OP_MODIFY + ', '
       + GetFieldNameFor_StartTime +') values ('
       + TAppUtils.QuotDT(FDATE_CREATE) + ', '
       + TAppUtils.QuotDT(FDATE_MODIFY) + ', '
       + TAppUtils.QuotDT(FEndTime) + ', '
-      + IntToStr(FID) + ', '
+      + QuotedStr(FID) + ', '
       + QuotedStr(FName) + ', '
-      + InttoStr(FNewUnitID) + ', '
-      + InttoStr(FOPC_UNITID) + ', '
-      + InttoStr(FOPM_UNITID) + ', '
-      + IntToStr(FOP_CREATE) + ', '
-      + IntToStr(FOP_MODIFY) + ', '
+//      + InttoStr(FNewUnitID) + ', '
+//      + InttoStr(FOPC_UNITID) + ', '
+//      + InttoStr(FOPM_UNITID) + ', '
+//      + IntToStr(FOP_CREATE) + ', '
+//      + IntToStr(FOP_MODIFY) + ', '
       + TAppUtils.QuotDT(FStartTime) + ');'
-  end 
-  else 
-  begin 
-    //generate Update SQL 
+  end
+  else
+  begin
+    //generate Update SQL
     sSQL := 'update ' + CustomTableName + ' set '
       + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
       + ', ' + GetFieldNameFor_EndTime + ' = ' + TAppUtils.QuotDT(FEndTime)
       + ', ' + GetFieldNameFor_Name + ' = ' + QuotedStr(FName)
-      + ', ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID)
-      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
-      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + IntToStr(FOP_MODIFY)
+//      + ', ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID)
+//      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
+//      + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + IntToStr(FOP_MODIFY)
       + ', ' + GetFieldNameFor_StartTime + ' = ' + TAppUtils.QuotDT(FStartTime)
-      + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
+      + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID) + ';';
+//      + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
   end;
   Result.Append(sSQL);
   //generating Collections SQL
-  
-  ssSQL := CustomSQLTask; 
-  if ssSQL <> nil then 
-  begin 
+
+  ssSQL := CustomSQLTask;
+  if ssSQL <> nil then
+  begin
     Result.AddStrings(ssSQL);
-  end; 
-  
+  end;
+
   FreeAndNil(ssSQL)
 end;
 
@@ -282,30 +283,30 @@ begin
   Result := GetFieldPrefix + 'Name';
 end;
 
-function TNewShift.GetFieldNameFor_NewUnit: string;
-begin
-  Result := GetFieldPrefix + 'UNT_ID';
-end;
+//function TNewShift.GetFieldNameFor_NewUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'UNT_ID';
+//end;
 
-function TNewShift.GetFieldNameFor_OPC_UNIT: string;
-begin
-  Result := 'OPC_UNIT';
-end;
+//function TNewShift.GetFieldNameFor_OPC_UNIT: string;
+//begin
+//  Result := 'OPC_UNIT';
+//end;
 
-function TNewShift.GetFieldNameFor_OPM_UNIT: string;
-begin
-  Result := 'OPM_UNIT';
-end;
+//function TNewShift.GetFieldNameFor_OPM_UNIT: string;
+//begin
+//  Result := 'OPM_UNIT';
+//end;
 
-function TNewShift.GetFieldNameFor_OP_CREATE: string;
-begin
-  Result := 'OP_CREATE';
-end;
+//function TNewShift.GetFieldNameFor_OP_CREATE: string;
+//begin
+//  Result := 'OP_CREATE';
+//end;
 
-function TNewShift.GetFieldNameFor_OP_MODIFY: string;
-begin
-  Result := 'OP_MODIFY';
-end;
+//function TNewShift.GetFieldNameFor_OP_MODIFY: string;
+//begin
+//  Result := 'OP_MODIFY';
+//end;
 
 function TNewShift.GetFieldNameFor_StartTime: string;
 begin
@@ -327,42 +328,43 @@ begin
   result := 4727;
 end;
 
-function TNewShift.GetNewUnit: TUnit;
-begin
-  //Result := nil;
-  if FNewUnit = nil then
-  begin
-    FNewUnit := TUnit.Create(Self);
-    FNewUnit.LoadByID(FNewUnitID);
-  end;
-  Result := FNewUnit;
-end;
+//function TNewShift.GetNewUnit: TUnit;
+//begin
+//  //Result := nil;
+//  if FNewUnit = nil then
+//  begin
+//    FNewUnit := TUnit.Create(Self);
+//    FNewUnit.LoadByID(FNewUnitID);
+//  end;
+//  Result := FNewUnit;
+//end;
 
-function TNewShift.GetOPC_UNIT: TUnit;
-begin
-  //Result := nil;
-  if FOPC_UNIT = nil then
-  begin
-    FOPC_UNIT := TUnit.Create(Self);
-    FOPC_UNIT.LoadByID(FOPC_UNITID);
-  end;
-  Result := FOPC_UNIT;
-end;
+//function TNewShift.GetOPC_UNIT: TUnit;
+//begin
+//  //Result := nil;
+//  if FOPC_UNIT = nil then
+//  begin
+//    FOPC_UNIT := TUnit.Create(Self);
+//    FOPC_UNIT.LoadByID(FOPC_UNITID);
+//  end;
+//  Result := FOPC_UNIT;
+//end;
 
-function TNewShift.GetOPM_UNIT: TUnit;
-begin
-  //Result := nil;
-  if FOPM_UNIT = nil then
-  begin
-    FOPM_UNIT := TUnit.Create(Self);
-    FOPM_UNIT.LoadByID(FOPM_UNITID);
-  end;
-  Result := FOPM_UNIT;
-end;
+//function TNewShift.GetOPM_UNIT: TUnit;
+//begin
+//  //Result := nil;
+//  if FOPM_UNIT = nil then
+//  begin
+//    FOPM_UNIT := TUnit.Create(Self);
+//    FOPM_UNIT.LoadByID(FOPM_UNITID);
+//  end;
+//  Result := FOPM_UNIT;
+//end;
 
-function TNewShift.GetPlannedID: Integer;
+function TNewShift.GetPlannedID: string;
 begin
-  result := -1;
+//  result := -1;
+  Result := '';
   if State = csNone then
   begin
      Raise exception.create('Tidak bisa GetPlannedID di Mode csNone');
@@ -370,31 +372,32 @@ begin
   end
   else if state = csCreated then
   begin
-     result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//     Result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+     Result := cGetNextIDGUIDToString;
   end
   else if State = csLoaded then
   begin
-     result := FID;
+     Result := FID;
   end;
 end;
 
-function TNewShift.LoadByID(AID : Integer; AUnitID: Integer): Boolean;
+function TNewShift.LoadByID(AID: string): Boolean;
 var
   sSQL: string;
 begin
   sSQL := 'select * from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(AID) 
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
+    + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(AID);
+//    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
   Result := FloadFromDB(sSQL);
 end;
 
-function TNewShift.LoadByName(AShiftName: String; AUnitID: Integer): Boolean;
+function TNewShift.LoadByName(AShiftName: String): Boolean;
 var
   sSQL: string;
 begin
   sSQL := 'select * from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_Name + ' = ' + QuotedStr(AShiftName)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
+    + ' where ' + GetFieldNameFor_Name + ' = ' + QuotedStr(AShiftName);
+//    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
   Result := FloadFromDB(sSQL);
 end;
 
@@ -402,9 +405,9 @@ function TNewShift.RemoveFromDB: Boolean;
 var
   sSQL: string;
 begin
-  sSQL := 'delete from ' + CustomTableName 
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) 
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID);
+  sSQL := 'delete from ' + CustomTableName
+    + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID);
+//    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID);
   Result := cExecSQL(sSQL, dbtPOS, False);
 end;
 
@@ -426,33 +429,32 @@ begin
   end;
 end;
 
-procedure TNewShift.SetNewUnit(Value: TUnit);
-begin
-  FNewUnitID := Value.ID;
-end;
+//procedure TNewShift.SetNewUnit(Value: TUnit);
+//begin
+//  FNewUnitID := Value.ID;
+//end;
 
-procedure TNewShift.SetOPC_UNIT(Value: TUnit);
-begin
-  FOPC_UNITID := Value.ID;
-end;
+//procedure TNewShift.SetOPC_UNIT(Value: TUnit);
+//begin
+//  FOPC_UNITID := Value.ID;
+//end;
 
-procedure TNewShift.SetOPM_UNIT(Value: TUnit);
-begin
-  FOPM_UNITID := Value.ID;
-end;
+//procedure TNewShift.SetOPM_UNIT(Value: TUnit);
+//begin
+//  FOPM_UNITID := Value.ID;
+//end;
 
-procedure TNewShift.UpdateData(ANewUnitID:Integer; AEndTime: TDateTime; AID:
-    Integer; AName: string; AStartTime: TDateTime);
+procedure TNewShift.UpdateData(AEndTime: TDateTime; AID, AName: string;
+    AStartTime: TDateTime);
 begin
-  FNewUnitID :=  ANewUnitID;
-  FEndTime :=  AEndTime;
-  FID :=  AID;
+//  FNewUnitID := ANewUnitID;
+  FEndTime := AEndTime;
+  FID := AID;
   FName := Trim(AName);
   FStartTime :=  AStartTime;
-  
+
   State := csCreated;
 end;
-
 
 
 end.

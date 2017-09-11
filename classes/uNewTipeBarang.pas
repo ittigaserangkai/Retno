@@ -9,7 +9,7 @@ uses
 type
   TNewTipeBarang = class(TSBaseClass)
   private
-    FID: Integer;
+    FID: string;
     FKode: string;
     FNama: string;
     function FLoadFromDB( aSQL : String ): Boolean;
@@ -17,20 +17,20 @@ type
     constructor Create(aOwner : TComponent); override;
     destructor Destroy; override;
     procedure ClearProperties;
+    function CustomTableName: string;
     function ExecuteCustomSQLTask: Boolean;
     function ExecuteCustomSQLTaskPrior: Boolean;
-    function CustomTableName: string;
-    function GenerateInterbaseMetaData: Tstrings;
     function ExecuteGenerateSQL: Boolean;
+    function GenerateInterbaseMetaData: Tstrings;
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_Kode: string; dynamic;
     function GetFieldNameFor_Nama: string; dynamic;
     function GetGeneratorName: string;
     function GetHeaderFlag: Integer;
-    function LoadByID(aID : Integer): Boolean;
     function LoadByCode(ACode: string): Boolean;
-    procedure UpdateData(aID : Integer; aKode : string; aNama : string);
-    property ID: Integer read FID write FID;
+    function LoadByID(aID: string): Boolean;
+    procedure UpdateData(aID, aKode, aNama: string);
+    property ID: string read FID write FID;
     property Kode: string read FKode write FKode;
     property Nama: string read FNama write FNama;
   end;
@@ -45,7 +45,6 @@ uses udmMain;
 }
 constructor TNewTipeBarang.Create(aOwner : TComponent);
 begin
-  
   inherited create(aOwner);
   //FNewUnit := TUnit.Create(Self);
 end;
@@ -58,9 +57,14 @@ end;
 
 procedure TNewTipeBarang.ClearProperties;
 begin
-  ID := 0;
+  ID   := '';
   Kode := '';
   Nama := '';
+end;
+
+function TNewTipeBarang.CustomTableName: string;
+begin
+  result := 'REF$TIPE_BARANG';
 end;
 
 function TNewTipeBarang.ExecuteCustomSQLTask: Boolean;
@@ -73,9 +77,55 @@ begin
   result := True;
 end;
 
-function TNewTipeBarang.CustomTableName: string;
+function TNewTipeBarang.ExecuteGenerateSQL: Boolean;
+var
+  S: string;
+//  i: Integer;
+//  SS: Tstrings;
 begin
-  result := 'REF$TIPE_BARANG';
+  result := True;
+
+  if State = csNone then
+  Begin
+     raise Exception.create('Tidak bisa generate dalam Mode csNone')
+  end;
+
+  if not ExecuteCustomSQLTaskPrior then
+  begin
+    cRollbackTrans;
+    Exit;
+  end
+  else begin
+//    If FID <= 0 then
+    if FID = '' then
+    begin
+//      FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+      FID := cGetNextIDGUIDToString;
+      S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_ID + ', '
+           + GetFieldNameFor_Kode + ', '
+           + GetFieldNameFor_Nama
+           + ') values ('
+           + QuotedStr(FID) + ', '
+           + QuotedStr(FKode) + ','
+           + QuotedStr(FNama)
+           + ');'
+    end else
+    begin
+      S := 'Update ' + CustomTableName + ' set '
+          + GetFieldNameFor_Kode + ' = ' + QuotedStr(FKode)
+          + ', ' + GetFieldNameFor_Nama + ' = ' + QuotedStr(FNama)
+          + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID) + ';';
+    end;
+  end;
+
+  if not cExecSQL(S,dbtPOS, False) then
+  begin
+    cRollbackTrans;
+    Exit;
+  end
+  else begin
+    Result := ExecuteCustomSQLTask;
+  end;
 end;
 
 function TNewTipeBarang.FLoadFromDB( aSQL : String ): Boolean;
@@ -83,19 +133,19 @@ begin
   result := false;
   State := csNone;
   ClearProperties;
-  
+
   with cOpenQuery(aSQL) do
   Begin
-      if not EOF then
-      begin
+    if not EOF then
+    begin
+      FID   := FieldByName(GetFieldNameFor_ID).asString;
+      FKode := FieldByName(GetFieldNameFor_Kode).asString;
+      FNama := FieldByName(GetFieldNameFor_Nama).AsString;
 
-         FID := FieldByName(GetFieldNameFor_ID).asInteger;
-         FKode := FieldByName(GetFieldNameFor_Kode).asString;
-         FNama := FieldByName(GetFieldNameFor_Nama).AsString;
-             Self.State := csLoaded;
-          Result := True;
-      end;
-      Free;
+      Self.State := csLoaded;
+      Result := True;
+    end;
+    Free;
   End;
 end;
 
@@ -113,62 +163,10 @@ begin
   result.Append( ' ); ' );
 end;
 
-function TNewTipeBarang.ExecuteGenerateSQL: Boolean;
-var
-  S: string;
-//  i: Integer;
-//  SS: Tstrings;
-begin
-  result := True;
-  
-  if State = csNone then
-  Begin
-     raise Exception.create('Tidak bisa generate dalam Mode csNone')
-  end;
-  
-  if not ExecuteCustomSQLTaskPrior then
-  begin
-    cRollbackTrans;
-    Exit;
-  end
-  else begin
-
-    If FID <= 0 then
-    begin
-      FID := cGetNextID(GetFieldNameFor_ID, CustomTableName) ;
-      S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_ID + ', '
-           + GetFieldNameFor_Kode + ', '
-           + GetFieldNameFor_Nama
-           + ') values ('
-           + IntToStr( FID) + ', '
-           + QuotedStr(FKode) + ','
-           + QuotedStr(FNama)
-           + ');'
-    end else
-    begin
-      S := 'Update ' + CustomTableName + ' set '
-          + GetFieldNameFor_Kode + ' = ' + QuotedStr(FKode)
-          + ', ' + GetFieldNameFor_Nama + ' = ' + QuotedStr(FNama)
-          + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) + ';';
-
-
-    end;
-  end;
-
-  if not cExecSQL(S,dbtPOS, False) then
-  begin
-    cRollbackTrans;
-    Exit;
-  end
-  else begin
-    Result := ExecuteCustomSQLTask;
-  end;
-
-end;
-
 function TNewTipeBarang.GetFieldNameFor_ID: string;
 begin
   Result := 'TPBRG_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'REF$TIPE_BARANG_ID';
 end;
 
 function TNewTipeBarang.GetFieldNameFor_Kode: string;
@@ -183,7 +181,6 @@ end;
 
 function TNewTipeBarang.GetGeneratorName: string;
 begin
-
   Result :='GEN_REF$TIPE_BARANG_ID' ;
 end;
 
@@ -192,29 +189,27 @@ begin
   result := 4868;
 end;
 
-function TNewTipeBarang.LoadByID(aID : Integer): Boolean;
-begin
-  Result := FloadFromDB('Select * from '+ CustomTableName
-          + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(aID));
-end;
-
 function TNewTipeBarang.LoadByCode(ACode: string): Boolean;
 begin
   Result := FloadFromDB('Select * from '+ CustomTableName
           + ' Where ' + GetFieldNameFor_Kode + ' = ' + QuotedStr(ACode));
 end;
 
-procedure TNewTipeBarang.UpdateData(aID : Integer; aKode : string; aNama :
-    string);
+function TNewTipeBarang.LoadByID(aID: string): Boolean;
+begin
+  Result := FloadFromDB('Select * from '+ CustomTableName
+          + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(aID));
+end;
+
+procedure TNewTipeBarang.UpdateData(aID, aKode, aNama: string);
 begin
   ClearProperties;
-  
-  FID :=  aID;
+
+  FID   := aID;
   FKode := trim(aKode);
   FNama := Trim(aNama);
   State := csCreated;
 end;
-
 
 
 end.

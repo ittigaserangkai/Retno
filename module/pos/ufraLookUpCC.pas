@@ -12,15 +12,13 @@ uses
 
 type
   TfraLookUpCC = class(TFrame)
-    pnlHeader: TPanel;
-    Label1: TLabel;
-    edNama: TEdit;
-    Panel1: TPanel;
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
-    cxcolKode: TcxGridDBColumn;
-    cxcolNama: TcxGridDBColumn;
+    edNama: TEdit;
+    Label1: TLabel;
+    Panel1: TPanel;
+    pnlHeader: TPanel;
     procedure cxGridViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNamaChange(Sender: TObject);
     procedure edNamaKeyDown(Sender: TObject; var Key: Word;
@@ -28,15 +26,16 @@ type
   private
     FCC_Code: String;
     procedure SetGridColumn;
-    { Private declarations }
   public
-    procedure LoadData(AUnitID: Integer; aIsPaymentKring : Integer);
+    procedure LoadData(aIsPaymentKring: Integer);
     procedure SetGrid;
     property CC_Code: String read FCC_Code write FCC_Code;
-    { Public declarations }
   end;
 
 implementation
+
+uses
+  udmMain, uDXUtils;
 
 const
   _KolKode: Integer = 0;
@@ -70,33 +69,71 @@ begin
   end;
 end;
 
-procedure TfraLookUpCC.LoadData(AUnitID: Integer; aIsPaymentKring : Integer);
+procedure TfraLookUpCC.edNamaChange(Sender: TObject);
+begin
+//  with cxGridView.DataController do
+//  begin
+//    Filter.Clear;
+//    Filter.Active := False;
+//    Filter.Options := [fcoCaseInsensitive];
+//    Filter.PercentWildcard := '*';
+//    Filter.FilterText := ';*' + edNama.Text + '*';
+//    Filter.SupportedLike := True;
+//    KeyFieldNames := cxGridView.Columns[_KolNama].Caption;
+//    Filter.Active := True;
+//  end;
+end;
+
+procedure TfraLookUpCC.edNamaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (key in [VK_UP,VK_DOWN,33,34]) then
+  begin
+    cxGrid.SetFocus;
+    if cxGridView.DataController.RowCount <= 0 then exit;
+  end
+  else if (key in [VK_RETURN]) then
+  begin
+    with cxGridView.DataController do
+    begin
+      Filter.Clear;
+      Filter.Active := False;
+      Filter.Options := [fcoCaseInsensitive];
+      Filter.PercentWildcard := '*';
+      Filter.FilterText := ';*' + edNama.Text + '*';
+      Filter.SupportedLike := True;
+      KeyFieldNames := cxGridView.Columns[_KolNama].Caption;
+      Filter.Active := True;
+    end;
+  end;
+end;
+
+procedure TfraLookUpCC.LoadData(aIsPaymentKring: Integer);
 var
   sFilterCC: string;
   sSQL: string;
 begin
   CC_Code := '';
-  SetGrid;
+//  SetGrid;
 
   if aIsPaymentKring = 1 then
     sFilterCC := ' and CARD_IS_KRING = ' + IntToStr(aIsPaymentKring)
   else
     sFilterCC := ' and (CARD_IS_KRING = 0 or CARD_IS_KRING is null)';
 
-  sSQL := 'select card_code, card_name '
-    + ' from ref$credit_card '
-    + ' where card_unt_id = ' + IntToStr(AUnitID)
-    + ' and CARD_IS_ACTIVE = 1' // BP Was Here
-    + sFilterCC
-    + ' order by card_code';
-
-  {
+  sSQL := 'select card_code as Kode, card_name as Nama '
+        + ' from ref$credit_card '
+//        + ' where card_unt_id = ' + IntToStr(AUnitID)
+        + ' where CARD_IS_ACTIVE = 1' // BP Was Here
+        + sFilterCC
+        + ' order by card_code';
+{
   with cOpenQuery(sSQL) do
   begin
     try
       while not eof do
       begin
-        with sgLookup do
+        with cxGridView do
         begin
           Columns[_KolKode].Rows[RowCount-1] := Fields[0].AsString;
           Columns[_KolNama].Rows[RowCount-1] := Fields[1].AsString;
@@ -109,7 +146,9 @@ begin
       Free;
     end;
   end;
-  }
+}
+
+  cxGridView.LoadFromCDS(cOpenDataset(sSQL));
 end;
 
 procedure TfraLookUpCC.SetGrid;
@@ -131,32 +170,6 @@ begin
     DataController.Values[0, _KolNama] := 'Nama Kartu';
     Columns[_KolKode].Width := 50;
     Columns[_KolNama].Width := 160;
-  end;
-end;
-
-procedure TfraLookUpCC.edNamaChange(Sender: TObject);
-begin
-  with cxGridView.DataController do
-  begin
-    Filter.Clear;
-    Filter.Active := False;
-    with Filter do
-    begin
-//      CaseSensitive := False;
-//      Condition := ';*' + edNama.Text + '*';
-//      Column := _KolNama;
-    end;
-    Filter.Active := True;
-  end;
-end;
-
-procedure TfraLookUpCC.edNamaKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (key in [VK_UP,VK_DOWN,33,34]) then
-  begin
-    cxGrid.SetFocus;
-    if cxGridView.DataController.RowCount <= 1 then exit;
   end;
 end;
 

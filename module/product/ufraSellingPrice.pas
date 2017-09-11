@@ -234,7 +234,7 @@ procedure TfraSellingPrice.ParseDataComboPriceType();
 var
   sSQL: string;
 begin
-   sSQL := ' select TPHRG_ID, TPHRG_NAME '
+   sSQL := ' select REF$TIPE_HARGA_ID, TPHRG_NAME '
            + ' from ref$tipe_HArga '
            + ' where TPHRG_UNT_ID = ' + IntToStr(FSelfUnitId);
 //   cQueryToComboObject(cbbPriceType, sSQL);

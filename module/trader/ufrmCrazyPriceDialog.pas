@@ -388,9 +388,7 @@ procedure TfrmCrazyPriceDialog.LoadTipeHarga;
 var
   s: string;
 begin
-  // TODO -cMM: TfrmCrazyPriceDialog.LoadTipeHarga default body inserted
-
-  s := 'Select TPHRG_ID, TPHRG_NAME From REF$TIPE_HARGA Where TPHRG_CODE <> ' + QuotedStr('H002')
+  s := 'Select REF$TIPE_HARGA_ID, TPHRG_NAME From REF$TIPE_HARGA Where TPHRG_CODE <> ' + QuotedStr('H004')
      + ' AND TPHRG_UNT_ID = ' + IntToStr(DialogUnit)
      + ' Order By TPHRG_NAME';
 //  cQueryToComboObject(cbTipeHarga, s);

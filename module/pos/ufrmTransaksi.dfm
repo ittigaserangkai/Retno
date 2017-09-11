@@ -168,6 +168,7 @@ object frmTransaksi: TfrmTransaksi
     object edNoPelanggan: TcxTextEdit
       Left = 120
       Top = 6
+      StyleFocused.Color = clYellow
       TabOrder = 0
       OnEnter = edNoPelangganEnter
       OnExit = edNoPelangganExit
@@ -177,16 +178,16 @@ object frmTransaksi: TfrmTransaksi
     object edNamaPelanggan: TcxTextEdit
       Left = 120
       Top = 32
-      ParentColor = True
       Properties.ReadOnly = True
+      Style.Color = 11796403
       TabOrder = 1
       Width = 233
     end
     object edNoTrnTerakhir: TcxTextEdit
       Left = 528
       Top = 32
-      ParentColor = True
       Properties.ReadOnly = True
+      Style.Color = 11796403
       TabOrder = 2
       Width = 121
     end
@@ -394,26 +395,6 @@ object frmTransaksi: TfrmTransaksi
       Height = 43
       ExplicitWidth = 300
       ExplicitHeight = 43
-      inherited sgBarang: TcxGridTableView
-        inherited sgBarangColumn1: TcxGridColumn
-          Styles.Header = nil
-        end
-        inherited sgBarangColumn2: TcxGridColumn
-          Styles.Header = nil
-        end
-        inherited sgBarangColumn3: TcxGridColumn
-          Styles.Header = nil
-        end
-        inherited sgBarangColumn4: TcxGridColumn
-          Styles.Header = nil
-        end
-        inherited sgBarangColumn5: TcxGridColumn
-          Styles.Header = nil
-        end
-        inherited sgBarangColumn6: TcxGridColumn
-          Styles.Header = nil
-        end
-      end
     end
     inherited pbBarang: TcxProgressBar
       Top = 95
@@ -438,23 +419,6 @@ object frmTransaksi: TfrmTransaksi
       Height = 67
       ExplicitWidth = 281
       ExplicitHeight = 67
-      inherited sgLookup: TcxGridDBTableView
-        inherited cxcolKode: TcxGridDBColumn
-          HeaderAlignmentHorz = taCenter
-        end
-        inherited cxcolNama: TcxGridDBColumn
-          HeaderAlignmentHorz = taCenter
-        end
-        inherited cxcolAlamat: TcxGridDBColumn
-          HeaderAlignmentHorz = taCenter
-        end
-        inherited cxcolAktif: TcxGridDBColumn
-          HeaderAlignmentHorz = taCenter
-        end
-        inherited cxcolValid: TcxGridDBColumn
-          HeaderAlignmentHorz = taCenter
-        end
-      end
     end
     inherited pbLookup: TcxProgressBar
       Top = 125

@@ -61,7 +61,10 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
   uModTransaksi in '..\model\uModTransaksi.pas',
-  ufrmMain in 'ufrmMain.pas' {frmMain};
+  ufrmMain in 'ufrmMain.pas' {frmMain},
+  uModSetupPOS in '..\model\uModSetupPOS.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
+  uModShift in '..\model\uModShift.pas';
 
 {$R *.res}
 

@@ -3,9 +3,9 @@ unit uServerClasses;
 interface
 
 uses
-  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils,
-  StrUtils, uModSO, uModSuplier, Datasnap.DBClient, uModUnit, uModBarang,
-  uModDO, uModSettingApp, uModQuotation, uModBankCashOut;
+  System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
+  uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
+  uModQuotation, uModBankCashOut;
 
 type
   {$METHODINFO ON}
@@ -44,7 +44,6 @@ type
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
-    function UpdateToDB(aDS: TDataSet; ModClassName: string): TStrings;
   end;
 
   TSuggestionOrder = class(TBaseServerClass)
@@ -84,7 +83,6 @@ type
   public
   end;
 
-type
   TCrudDNRecv = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
@@ -105,7 +103,6 @@ type
     function ActivateQuotation(AModQuotation: TModQuotation): Boolean;
   end;
 
-type
   TCrudClaimFaktur = class(TCrud)
   protected
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
@@ -123,7 +120,12 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
-type
+  TCrudUpdatePOS = class(TCrud)
+  public
+    function RetreiveSyncronData(ModClassName, aFilter: string): TDataSet;
+    function UpdateToDB(aDS: TDataSet; ModClassName: string): Boolean;
+  end;
+
   TCrudAdjFaktur = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
@@ -426,36 +428,6 @@ end;
 function TCrud.TestGenerateSQL(AObject: TModApp): TStrings;
 begin
   Result := TDBUtils.GenerateSQL(AObject);
-end;
-
-function TCrud.UpdateToDB(aDS: TDataSet; ModClassName: string): TStrings;
-var
-  lClass: TModAppClass;
-  lMod: TModApp;
-  sSQL: string;
-begin
-  Result := TStringList.Create;
-  lClass := Self.StringToClass(ModClassName);
-
-  if not Assigned(lClass) then
-    raise Exception.Create('Class ' + ModClassName + ' not found');
-
-  while not aDS.Eof do
-  begin
-    lMod := lClass.Create;
-    try
-      TDBUtils.LoadFromDataset(lMod, aDS);
-      sSQL := 'update ' + lMod.GetTableName
-            + ' set ' + lMod.GetPrimaryField
-            + ' = ' + QuotedStr(SaveToDBID(lMod))
-            + ' where ' + lMod.GetPOSField
-            + ' = ' + VarToStr(lMod.GetPOSValue);
-      Result.Add(sSQL);
-    finally
-      lMod.Free;
-    end;
-    aDS.Next
-  end;
 end;
 
 function TCrud.ValidateCode(AOBject: TModApp): Boolean;
@@ -1034,6 +1006,25 @@ begin
 
 end;
 
+function TCrudUpdatePOS.RetreiveSyncronData(ModClassName, aFilter: string):
+    TDataSet;
+var
+  lClass: TModAppClass;
+  sSQL: string;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+
+  sSQL := ' select * from ' + lClass.GetTableName;
+  if aFilter <> '' then
+    sSQL := sSQL + ' ' + aFilter;
+
+  Result := TDBUtils.OpenQuery(sSQL);
+  AfterExecuteMethod;
+
+end;
+
 function TCrudAdjFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
 var
   lAdj: TModAdjustmentFaktur;
@@ -1055,6 +1046,31 @@ begin
   End;
   Result := True;
 end;
+
+function TCrudUpdatePOS.UpdateToDB(aDS: TDataSet; ModClassName: string):
+    Boolean;
+var
+  lMod: TModApp;
+begin
+  Result := False;
+  lMod   := Retrieve(ModClassName, '00000000-0000-0000-0000-000000000000');
+
+  try
+    while not aDS.Eof do
+    begin
+      TDBUtils.LoadFromDataset(lMod, aDS, False);
+      if not SaveToDB(lMod) then
+        Exit;
+
+      aDS.Next
+    end;
+    Result := True;
+  finally
+    lMod.Free;
+    AfterExecuteMethod;
+  end;
+end;
+
 
 function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin

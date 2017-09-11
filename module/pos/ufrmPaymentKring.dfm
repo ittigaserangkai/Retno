@@ -485,11 +485,6 @@ object frmPaymentKring: TfrmPaymentKring
       FixedRows = 0
       TabOrder = 17
       Visible = False
-      ColWidths = (
-        64
-        64)
-      RowHeights = (
-        24)
     end
     object strgTempLainLain: TStringGrid
       Left = 686
@@ -502,12 +497,6 @@ object frmPaymentKring: TfrmPaymentKring
       FixedRows = 0
       TabOrder = 18
       Visible = False
-      ColWidths = (
-        64
-        64
-        64)
-      RowHeights = (
-        24)
     end
     object pnlPembulatan: TPanel
       Left = 378

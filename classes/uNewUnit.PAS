@@ -8,11 +8,11 @@ uses
 type
   TUnit = class(TSBaseClass)
   private
-    FAppID: Integer;
+    FAppID: string;
     FCompany: TCompany;
-    FCompanyID: Integer;
+    FCompanyID: string;
     FDescription: string;
-    FID: Integer;
+    FID: string;
     FKode: string;
     FNama: string;
     function FLoadFromDB( aSQL : String ): Boolean;
@@ -21,11 +21,11 @@ type
     constructor Create(aOwner : TComponent); override;
     destructor Destroy; override;
     procedure ClearProperties;
+    function CustomTableName: string;
     function ExecuteCustomSQLTask: Boolean;
     function ExecuteCustomSQLTaskPrior: Boolean;
-    function CustomTableName: string;
-    function GenerateInterbaseMetaData: Tstrings;
     function ExecuteGenerateSQL: Boolean;
+    function GenerateInterbaseMetaData: Tstrings;
     function GetFieldNameFor_AppID: string; dynamic;
     function GetFieldNameFor_Company: string; dynamic;
     function GetFieldNameFor_Description: string; dynamic;
@@ -34,14 +34,14 @@ type
     function GetFieldNameFor_Nama: string; dynamic;
     function GetGeneratorName: string;
     function GetHeaderFlag: Integer;
-    function LoadByID( aID : Integer ): Boolean;
+    function LoadByID(aID: string): Boolean;
     function LoadByKode( aKode : string): Boolean;
-    procedure UpdateData(aAppID : Integer; aCompany_ID : Integer; aDescription :
-        String; aID : Integer; aKode : string; aNama : string);
-    property AppID: Integer read FAppID write FAppID;
+    procedure UpdateData(aAppID, aCompany_ID, aDescription, aID, aKode, aNama:
+        string);
+    property AppID: string read FAppID write FAppID;
     property Company: TCompany read GetCompany write FCompany;
     property Description: string read FDescription write FDescription;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property Kode: string read FKode write FKode;
     property Nama: string read FNama write FNama;
   end;
@@ -61,23 +61,28 @@ begin
 end;
 
 destructor TUnit.Destroy;
-begin    
+begin
    ClearProperties;
    inherited Destroy;
 end;
 
 procedure TUnit.ClearProperties;
 begin
-  AppID := 0;
+  AppID := '';
 
-  FCompanyID := 0;
+  FCompanyID := '';
   if FCompany <> nil then
     FreeAndNil(FCompany);
 
   Description := '';
-  ID := 0;
+  ID := '';
   Kode := '';
-  Nama := '';  
+  Nama := '';
+end;
+
+function TUnit.CustomTableName: string;
+begin
+  result := 'AUT$UNIT';
 end;
 
 function TUnit.ExecuteCustomSQLTask: Boolean;
@@ -90,9 +95,51 @@ begin
   result := True;
 end;
 
-function TUnit.CustomTableName: string;
+function TUnit.ExecuteGenerateSQL: Boolean;
+var
+  S: string;
 begin
-  result := 'AUT$UNIT';
+  result := False;
+  if State = csNone then
+  Begin
+     raise Exception.create('Tidak bisa generate dalam Mode csNone')
+  end;
+
+  if not ExecuteCustomSQLTaskPrior then
+  begin
+    cRollbackTrans;
+    Exit;
+  end else begin
+//    If FID <= 0 then
+    If FID = '' then
+    begin
+//      FID := cGetNextID(GetFieldNameFor_AppID, CustomTableName);
+      FID := cGetNextIDGUIDToString;
+      S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_AppID + ', ' + GetFieldNameFor_Company + ', ' + GetFieldNameFor_Description + ', ' + GetFieldNameFor_ID + ', ' + GetFieldNameFor_Kode + ', ' + GetFieldNameFor_Nama + ') values ('
+      + QuotedStr( FAppID) + ', '
+      + IntToStr( Company.ID) + ', '
+      + QuotedStr( FDescription) + ', '
+      + QuotedStr( FID) + ', '
+      + QuotedStr(FKode ) + ','
+      + QuotedStr(FNama ) + ');'
+    end else
+    begin
+      S := 'Update ' + CustomTableName + ' set Stamp = Null '
+           + ', ' + GetFieldNameFor_AppID + ' = ' + QuotedStr( FAppID)
+           + ', ' + GetFieldNameFor_Company + ' = ' + IntToStr( Company.ID)
+           + ', ' + GetFieldNameFor_Description + ' = ' + QuotedStr( FDescription)
+           + ', ' + GetFieldNameFor_Kode + ' = ' + QuotedStr( FKode )
+           + ', ' + GetFieldNameFor_Nama + ' = ' + QuotedStr( FNama )
+           + ' Where  ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID) + ';';
+    end;
+
+    if not cExecSQL(S, dbtStore, False) then
+    begin
+      cRollbackTrans;
+      Exit;
+    end else
+      Result := ExecuteGenerateSQL;
+  end;
 end;
 
 function TUnit.FLoadFromDB( aSQL : String ): Boolean;
@@ -105,15 +152,15 @@ begin
   ClearProperties;
 
   iQ := cOpenQuery(aSQL);
-  try                          
+  try
     with iQ do
     Begin
         if not EOF then
         begin
-           FAppID := FieldByName(GetFieldNameFor_AppID).asInteger;
-           FCompanyID := FieldByName(GetFieldNameFor_Company).asInteger;
+           FAppID := FieldByName(GetFieldNameFor_AppID).AsString;
+           FCompanyID := FieldByName(GetFieldNameFor_Company).AsString;
            FDescription := FieldByName(GetFieldNameFor_Description).AsString;
-           FID := FieldByName(GetFieldNameFor_ID).asInteger;
+           FID := FieldByName(GetFieldNameFor_ID).AsString;
            FKode := FieldByName(GetFieldNameFor_Kode).asString;
            FNama := FieldByName(GetFieldNameFor_Nama).asString;
            Self.State := csLoaded;
@@ -141,69 +188,26 @@ begin
   result.Append( ' ); ' );
 end;
 
-function TUnit.ExecuteGenerateSQL: Boolean;
-var
-  S: string;
-begin
-  result := False;
-  if State = csNone then
-  Begin
-     raise Exception.create('Tidak bisa generate dalam Mode csNone')
-  end;
-
-  if not ExecuteCustomSQLTaskPrior then
-  begin
-    cRollbackTrans;
-    Exit;
-  end else begin
-    If FID <= 0 then
-    begin
-      FID := cGetNextID(GetFieldNameFor_AppID, CustomTableName);
-      S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_AppID + ', ' + GetFieldNameFor_Company + ', ' + GetFieldNameFor_Description + ', ' + GetFieldNameFor_ID + ', ' + GetFieldNameFor_Kode + ', ' + GetFieldNameFor_Nama + ') values ('
-      + IntToStr( FAppID) + ', '
-      + InttoStr( Company.ID) + ', '
-      + QuotedStr( FDescription) + ', '
-      + IntToStr( FID) + ', '
-      + QuotedStr(FKode ) + ','
-      + QuotedStr(FNama ) + ');'
-    end else
-    begin
-      S := 'Update ' + CustomTableName + ' set Stamp = Null '
-           + ', ' + GetFieldNameFor_AppID + ' = ' + IntToStr( FAppID)
-           + ', ' + GetFieldNameFor_Company + ' = ' + IntToStr( Company.ID)
-           + ', ' + GetFieldNameFor_Description + ' = ' + QuotedStr( FDescription)
-           + ', ' + GetFieldNameFor_Kode + ' = ' + QuotedStr( FKode )
-           + ', ' + GetFieldNameFor_Nama + ' = ' + QuotedStr( FNama )
-           + ' Where  ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID) + ';';
-    end;
-
-    if not cExecSQL(S, dbtStore, False) then
-    begin
-      cRollbackTrans;
-      Exit;
-    end else
-      Result := ExecuteGenerateSQL;
-  end;
-end;
-
 function TUnit.GetCompany: TCompany;
 begin
   if FCompany = nil then
   begin
     FCompany := TCompany.Create(Self);
-    FCompany.LoadByID(FCompanyID);
+    FCompany.LoadByID(StrToInt(FCompanyID));
   end;
   Result := FCompany;
 end;
 
 function TUnit.GetFieldNameFor_AppID: string;
 begin
-  Result := 'UNT_APP_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'UNT_APP_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'AUT$APP_ID';
 end;
 
 function TUnit.GetFieldNameFor_Company: string;
 begin
-  Result := 'UNT_COMP_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'UNT_COMP_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'COMPANY_ID';
 end;
 
 function TUnit.GetFieldNameFor_Description: string;
@@ -213,7 +217,8 @@ end;
 
 function TUnit.GetFieldNameFor_ID: string;
 begin
-  Result := 'UNT_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'UNT_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'AUT$UNIT_ID';
 end;
 
 function TUnit.GetFieldNameFor_Kode: string;
@@ -236,9 +241,9 @@ begin
   result := 504;
 end;
 
-function TUnit.LoadByID( aID : Integer ): Boolean;
+function TUnit.LoadByID(aID: string): Boolean;
 begin
-  result := FloadFromDB('Select * from ' + CustomTableName + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(aID) );
+  result := FloadFromDB('Select * from ' + CustomTableName + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(aID) );
 end;
 
 function TUnit.LoadByKode( aKode : string): Boolean;
@@ -246,8 +251,8 @@ begin
   result := FloadFromDB('Select * from ' + CustomTableName + ' Where ' + GetFieldNameFor_Kode + ' = ' + QuotedStr(aKode));
 end;
 
-procedure TUnit.UpdateData(aAppID : Integer; aCompany_ID : Integer;
-    aDescription : String; aID : Integer; aKode : string; aNama : string);
+procedure TUnit.UpdateData(aAppID, aCompany_ID, aDescription, aID, aKode,
+    aNama: string);
 begin
   FAppID :=  aAppID;
   FCompanyID := aCompany_ID;
@@ -257,7 +262,6 @@ begin
   FNama := trim(aNama);
   State := csCreated;
 end;
-
 
 
 end.

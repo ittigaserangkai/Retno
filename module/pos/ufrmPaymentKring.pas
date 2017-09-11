@@ -440,7 +440,7 @@ end;
 
 procedure TfrmPaymentKring.FormCreate(Sender: TObject);
 begin
-  fraLookUpCC.LoadData(frmMain.UnitID, 1);
+  fraLookUpCC.LoadData(1);
   try
     CC_Minimum := StrToCurr(dmMain.getGlobalVar('POS_CC_MIN'));
     Cashback_Minimum := StrToCurr(dmMain.getGlobalVar('POS_CASHBACK_MIN'));
@@ -533,8 +533,8 @@ begin
   sSQL := 'select card_code, card_name, card_limit, card_charge, '
     +' card_is_cashback, card_is_credit, card_id, CARD_DISCOUNT '
     + ' from ref$credit_card '
-    + ' where card_unt_id = ' + IntToStr(frmMain.UnitID)
-    + ' and CARD_IS_ACTIVE = 1' // BP Was Here
+//    + ' where card_unt_id = ' + IntToStr(frmMain.UnitID)
+    + ' where CARD_IS_ACTIVE = 1' // BP Was Here
     + ' and CARD_IS_KRING = 1' // BP Was Here
     + ' and card_code = ' + QuotedStr(ACode)
     + ' order by card_code';

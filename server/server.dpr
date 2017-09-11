@@ -58,7 +58,14 @@ uses
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uModShift in '..\model\uModShift.pas',
   uModRekening in '..\model\uModRekening.pas',
-  uModJurnal in '..\model\uModJurnal.pas';
+  uModJurnal in '..\model\uModJurnal.pas',
+  uModSetupPOS in '..\model\uModSetupPOS.pas',
+  uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
+  uModCustomerVoucher in '..\model\uModCustomerVoucher.pas',
+  uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
+  uModVoucherDetil in '..\model\uModVoucherDetil.pas',
+  uModVoucher in '..\model\uModVoucher.pas',
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas';
 
 {$R *.res}
 
