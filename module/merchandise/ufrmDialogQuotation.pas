@@ -782,6 +782,13 @@ begin
   CDSHeader.FieldByName('BuyPrice').AsFloat := CDSHeader.FieldByName('BuyPrice').AsFloat / 1.1;
   CDSHeader.Post;
 
+
+
+
+
+
+
+
   CalculateNetBuyPrice;
 end;
 

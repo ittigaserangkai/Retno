@@ -125,6 +125,13 @@ type
     function AutUser_GetDSOverview: TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
+    function Claim_Lookup_DO(aSuplierMerchanID: String): TDataSet;
+    function Claim_Lookup_CN(aSuplierMerchanID: String): TDataSet;
+    function Claim_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function Claim_Lookup_DN(aSuplierMerchanID: String): TDataSet;
+    function CNDetail_GetDS(aID: string): TDataSet;
+    function DNDetail_GetDS(aID: string): TDataSet;
+    function DODetail_WithAdj(aDOID: string): TDataset;
     function RekeningBCOLain_GetDSLookup: TDataSet;
     function Rekening_GetDSLookupLvl: TDataSet;
 
@@ -1234,6 +1241,77 @@ begin
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.Claim_Lookup_DO(aSuplierMerchanID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_DO_FOR_CLAIM';
+  if aSuplierMerchanID <> '' then
+    S := S + ' where SUPLIER_MERCHAN_GRUP_ID = '+ QuotedStr(aSuplierMerchanID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Claim_Lookup_CN(aSuplierMerchanID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_CN_FOR_CLAIM';
+  if aSuplierMerchanID <> '' then
+    S := S + ' where SUPLIER_MERCHAN_GRUP_ID = '+ QuotedStr(aSuplierMerchanID);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Claim_GetDSOverview(aStartDate, aEndDate: TDateTime):
+    TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_CLAIMFAKTUR_OVERVIEW '
+    + ' where CLM_DATE between ' + TDBUtils.QuotD(aStartDate)
+    + ' and ' + TDBUtils.QuotD(aEndDate);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Claim_Lookup_DN(aSuplierMerchanID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_DN_FOR_CLAIM';
+  if aSuplierMerchanID <> '' then
+    S := S + ' where SUPLIER_MERCHAN_GRUP_ID = '+ QuotedStr(aSuplierMerchanID);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.CNDetail_GetDS(aID: string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_CN_RECV_DETAIL ' +
+          ' where CN_RECV_ID = ' + QuotedStr(aID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.DNDetail_GetDS(aID: string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_DN_RECV_DETAIL ' +
+          ' where DN_RECV_ID = ' + QuotedStr(aID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.DODetail_WithAdj(aDOID: string): TDataset;
+var
+  S: string;
+begin
+  S := 'SELECT * from FN_DETAIL_DO_ADJ(' + QuotedStr(aDOID) +')';
+  Result := TDBUtils.OpenQuery(s);
 end;
 
 function TDSProvider.RekeningBCOLain_GetDSLookup: TDataSet;

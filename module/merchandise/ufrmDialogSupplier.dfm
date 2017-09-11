@@ -448,6 +448,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = '&Category'
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object gbSupplierGrid: TcxGroupBox
           Left = 0
           Top = 0
@@ -644,6 +647,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object pnlMG: TPanel
               Left = 0
               Top = 0
@@ -1298,20 +1304,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       ExplicitWidth = 671
       inherited lbCTRLEnter: TLabel
         Left = 496
-        Height = 15
         ExplicitLeft = 496
       end
       inherited lbEscape: TLabel
         Left = 587
-        Height = 15
         ExplicitLeft = 587
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 420
-        Height = 15
         ExplicitLeft = 420
       end
     end
