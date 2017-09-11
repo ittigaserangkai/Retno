@@ -943,7 +943,6 @@ function TCrudClaimFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lClaim: TModClaimFaktur;
   lCrud: TCrud;
-  lSS: TStrings;
 begin
   lClaim := TModClaimFaktur(AObject);
   lClaim.UpdateAP; //lCLAIM.CLM_AP.ID set here
@@ -960,7 +959,6 @@ function TCrudClaimFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
   lClaim: TModClaimFaktur;
   lCrud: TCrud;
-  lSS: TStrings;
 begin
   lClaim := TModClaimFaktur(AObject);
   if not Assigned(lClaim.CLM_AP) then
