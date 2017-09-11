@@ -14,7 +14,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, uDMClient, cxGridBandedTableView, cxGridDBBandedTableView, Vcl.Menus,
   cxButtons, uDXUtils, Datasnap.DBClient, uDBUtils, uModClaimFaktur,
-  uModRekening, uModSuplier, uConstanta, uInterface;
+  uModRekening, uModSuplier, uConstanta, uInterface, System.StrUtils;
 
 type
   TfrmDialogClaim = class(TfrmMasterDialog, ICrudAble)
@@ -127,6 +127,7 @@ type
     procedure DetailDO;
     procedure DetailCN;
     procedure DetailDN;
+    procedure FilterAPAccount;
     function GetCDSDO: TClientDataSet;
     function GetCDSCN: TClientDataSet;
     function GetCDSOther: TClientDataSet;
@@ -161,7 +162,7 @@ implementation
 
 uses
   ufrmCXLookup, uAppUtils, uModDO, uModPO, uModCNRecv,
-  uModDNRecv, uModAdjustmentFaktur, uModelHelper, ufrmCXMsgInfo;
+  uModDNRecv, uModAdjustmentFaktur, uModelHelper, ufrmCXMsgInfo, uRetnoUnit;
 
 {$R *.dfm}
 
@@ -579,6 +580,22 @@ begin
   end;
 end;
 
+procedure TfrmDialogClaim.FilterAPAccount;
+var
+  lCDS: TClientDataSet;
+  sFilter: string;
+begin
+  lCDS := cbbAccount.CDS;
+  if lCDS <> nil then
+  begin
+    lCDS.Filtered := True;
+    sFilter := TRetno.SettingApp.REKENING_HUTANG;
+    sFilter := StringReplace(sFilter, ';', ',', [rfReplaceAll]);
+    sFilter := StringReplace(sFilter, ',', QuotedStr(',') , [rfReplaceAll]);
+    lCDS.Filter := 'REK_CODE in (''' + sFilter + ''')';
+  end;
+end;
+
 procedure TfrmDialogClaim.FormKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -688,6 +705,7 @@ begin
     lCDSAccount := TDBUtils.DSToCDS(Rekening_GetDSLookup, Self);
     cbbAccount.LoadFromCDS(lCDSAccount, 'REKENING_ID','REK_CODE', Self);
     cbbAccount.SetVisibleColumnsOnly(['REK_CODE', 'REK_NAME']);
+    FilterAPAccount;
 
     TcxExtLookup(cxGridColOtherCostCenter.Properties).LoadFromDS(
       CostCenter_GetDSLookup, 'COST_CENTER_ID','COCTER_NAME',['COST_CENTER_ID'],Self

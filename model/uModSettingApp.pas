@@ -16,10 +16,8 @@ type
   published
     [AttributeOfForeign('AUT$UNIT_ID')]
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
-
     [AttributeOfForeign('GUDANG_DO')]
     property GUDANG_DO: TModGudang read FGUDANG_DO write FGUDANG_DO;
-    [AttributeOfForeign('REKENING_HUTANG')]
     property REKENING_HUTANG: string read FREKENING_HUTANG write FREKENING_HUTANG;
   end;
 

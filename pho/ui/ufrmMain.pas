@@ -58,7 +58,6 @@ type
     actPaymentContrabon: TAction;
     actListARBalance: TAction;
     actImportEOD: TAction;
-    actInputContrabon: TAction;
     actPotonganTagihan: TAction;
     actInvoiceSewaToko: TAction;
     actMasterAgreement: TAction;
@@ -852,7 +851,7 @@ begin
     try
       TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
       TRetno.SettingApp := TModSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(
-        TRetno.UnitStore, TRetno.UnitStore.ID);
+        TRetno.UnitStore, TRetno.UnitStore.ID));
     except
       on E:Exception do
         TAppUtils.Error(e.Message);
