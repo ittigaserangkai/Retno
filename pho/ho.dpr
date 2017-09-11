@@ -232,7 +232,9 @@ uses
   ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
   ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal},
   ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo},
-  uRetnoUnit in '..\system\uRetnoUnit.pas';
+  uRetnoUnit in '..\system\uRetnoUnit.pas',
+  ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
+  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales};
 
 {$R *.res}
 

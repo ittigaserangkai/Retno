@@ -253,21 +253,15 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
       ExplicitWidth = 634
       inherited lbCTRLEnter: TLabel
         Left = 525
-        Height = 15
-        ExplicitLeft = 459
+        ExplicitLeft = 525
       end
       inherited lbEscape: TLabel
         Left = 616
-        Height = 15
-        ExplicitLeft = 550
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+        ExplicitLeft = 616
       end
       inherited lblCTRLP: TLabel
         Left = 449
-        Height = 15
-        ExplicitLeft = 383
+        ExplicitLeft = 449
       end
     end
   end
