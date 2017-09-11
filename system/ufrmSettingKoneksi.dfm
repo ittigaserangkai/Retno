@@ -9,8 +9,8 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
   inherited pnlBody: TPanel
     Width = 395
     Height = 227
-    ExplicitWidth = 411
-    ExplicitHeight = 259
+    ExplicitWidth = 395
+    ExplicitHeight = 227
     object cxGroupBox1: TcxGroupBox
       Left = 2
       Top = 2
@@ -20,7 +20,6 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
       ParentColor = False
       Style.Color = clWhite
       TabOrder = 0
-      ExplicitWidth = 407
       Height = 159
       Width = 391
       object edServer: TcxTextEdit
@@ -104,8 +103,6 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
       ParentColor = False
       Style.Color = clWhite
       TabOrder = 1
-      ExplicitWidth = 407
-      ExplicitHeight = 96
       Height = 64
       Width = 391
       object cxLookupCabang: TcxExtLookupComboBox
@@ -115,9 +112,9 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
         Width = 195
       end
       object cxLabel5: TcxLabel
-        Left = 53
+        Left = 69
         Top = 24
-        Caption = 'Cabang'
+        Caption = 'Unit'
         Properties.Alignment.Horz = taRightJustify
         AnchorX = 94
       end
@@ -126,20 +123,20 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 227
     Width = 395
-    ExplicitTop = 259
-    ExplicitWidth = 411
+    ExplicitTop = 227
+    ExplicitWidth = 395
     inherited pnlFooter: TPanel
       Width = 395
-      ExplicitWidth = 411
+      ExplicitWidth = 395
       inherited btnClose: TcxButton
         Left = 318
         Action = actCancel
-        ExplicitLeft = 334
+        ExplicitLeft = 318
       end
       inherited btnSave: TcxButton
         Left = 225
         Action = actSave
-        ExplicitLeft = 241
+        ExplicitLeft = 225
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -147,22 +144,23 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
       end
       inherited btnPrint: TcxButton
         Left = 148
+        Action = actPrint
         Visible = False
-        ExplicitLeft = 164
+        ExplicitLeft = 148
       end
     end
     inherited pnlSortCut: TPanel
       Width = 395
-      ExplicitWidth = 411
+      ExplicitWidth = 395
       inherited lbCTRLEnter: TLabel
         Left = 220
         Height = 15
-        ExplicitLeft = 236
+        ExplicitLeft = 220
       end
       inherited lbEscape: TLabel
         Left = 311
         Height = 15
-        ExplicitLeft = 327
+        ExplicitLeft = 311
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -172,7 +170,7 @@ inherited frmSettingKoneksi: TfrmSettingKoneksi
         Left = 144
         Height = 15
         Visible = False
-        ExplicitLeft = 160
+        ExplicitLeft = 144
       end
     end
   end

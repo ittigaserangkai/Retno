@@ -512,7 +512,8 @@ uses
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
-  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift;
+  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
+  uModSettingApp;
 
 {$R *.dfm}
 
@@ -847,8 +848,16 @@ begin
   //setting unit toko
   sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
   if sIDUnit <> '' then
-    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
-
+  begin
+    try
+      TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+      TRetno.SettingApp := TModSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(
+        TRetno.UnitStore, TRetno.UnitStore.ID);
+    except
+      on E:Exception do
+        TAppUtils.Error(e.Message);
+    end;
+  end;
 end;
 
 procedure TfrmMain.actOnExitExecute(Sender: TObject);
