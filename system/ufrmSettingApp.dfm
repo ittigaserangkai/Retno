@@ -65,9 +65,11 @@ inherited frmSettingApp: TfrmSettingApp
       Width = 456
       Height = 199
       Align = alClient
-      OptionsView.RowHeaderWidth = 114
+      OptionsView.RowHeaderWidth = 146
       Styles.Header = cxstylSettingAppHeader
       TabOrder = 2
+      ExplicitLeft = 2
+      ExplicitTop = 40
       Version = 1
       object cxGridRowGudangDO: TcxEditorRow
         Properties.Caption = 'GUDANG DO'
@@ -79,8 +81,9 @@ inherited frmSettingApp: TfrmSettingApp
         Index = 0
         Version = 1
       end
-      object cxdtrwcxvrtclgrd1EditorRow2: TcxEditorRow
-        Properties.Caption = 'XXXX'
+      object cxGridRowRekeningHutang: TcxEditorRow
+        Properties.Caption = 'REKENING HUTANG'
+        Properties.EditPropertiesClassName = 'TcxTextEditProperties'
         Properties.DataBinding.ValueType = 'String'
         Properties.Value = Null
         ID = 1

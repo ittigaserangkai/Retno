@@ -612,7 +612,6 @@ object frmMain: TfrmMain
       Category = 'Finance'
       Caption = 'Contrabon Sales'
       ImageIndex = 39
-      OnExecute = actContrabonSalesExecute
     end
     object actPotonganTagihan: TAction
       Category = 'Finance'
@@ -1600,7 +1599,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCOA'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1778,7 +1777,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnElectricCustomer'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1818,7 +1817,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnContrabonSales'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1861,7 +1860,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnJurnal'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True

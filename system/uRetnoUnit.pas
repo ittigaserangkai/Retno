@@ -3,7 +3,7 @@ unit uRetnoUnit;
 interface
 uses
   ExtCtrls, Controls, Graphics, uConstanta, udmMain, Windows, Classes, SysUtils,
-  Forms, uTSINIFile, uAppUtils, uModUnit, uDMClient, uDMReport;
+  Forms, uTSINIFile, uAppUtils, uModUnit, uDMClient, uDMReport, uModSettingApp;
 
 type
   TTag = set of byte;
@@ -17,14 +17,19 @@ type
   private
   class var
     FUnitStore: TModUnit;
+    FSettingApp: TModSettingApp;
     class function GetUnitStore: TModUnit; static;
+    class function GetSettingApp: TModSettingApp; static;
     class procedure SetUnitStore(const Value: TModUnit); static;
+    class procedure SetSettingApp(const Value: TModSettingApp); static;
   protected
   public
     class procedure KartuAP(AOrgID : String; APeriodeAwal, APreiodeAkhir :
         TDatetime);
     class procedure LapHistoryAP(ANoAP : String);
     class property UnitStore: TModUnit read GetUnitStore write SetUnitStore;
+    class property SettingApp: TModSettingApp read GetSettingApp write
+        SetSettingApp;
   end;
 
 function getGlobalVar(aVarString : string): string;
@@ -238,6 +243,15 @@ begin
   Result := FUnitStore;
 end;
 
+class function TRetno.GetSettingApp: TModSettingApp;
+begin
+  if (FSettingApp)=nil then
+  begin
+    FSettingApp := TModSettingApp.Create;
+  end;
+  Result := FSettingApp;
+end;
+
 class procedure TRetno.KartuAP(AOrgID : String; APeriodeAwal, APreiodeAkhir :
     TDatetime);
 begin
@@ -267,6 +281,12 @@ class procedure TRetno.SetUnitStore(const Value: TModUnit);
 begin
   FreeAndNil(FUnitStore);
   FUnitStore := Value;
+end;
+
+class procedure TRetno.SetSettingApp(const Value: TModSettingApp);
+begin
+  FreeAndNil(FSettingApp);
+  FSettingApp := Value;
 end;
 
 end.

@@ -19,7 +19,7 @@ type
     pnlButton: TPanel;
     cxVerticalGridSettingApp: TcxVerticalGrid;
     cxGridRowGudangDO: TcxEditorRow;
-    cxdtrwcxvrtclgrd1EditorRow2: TcxEditorRow;
+    cxGridRowRekeningHutang: TcxEditorRow;
     cxdtrwcxvrtclgrd1EditorRow3: TcxEditorRow;
     cxdtrwcxvrtclgrd1EditorRow4: TcxEditorRow;
     cxdtrwcxvrtclgrd1EditorRow5: TcxEditorRow;

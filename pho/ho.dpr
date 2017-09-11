@@ -192,7 +192,6 @@ uses
   uModRefPajak in '..\model\uModRefPajak.pas',
   uModRefAgama in '..\model\uModRefAgama.pas',
   ufrmCXLookup in '..\system\ufrmCXLookup.pas' {frmCXLookup},
-  uRetnoUnit in '..\system\uRetnoUnit.pas',
   uAppUtils in '..\lib\uAppUtils.pas',
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
@@ -231,7 +230,9 @@ uses
   ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
   ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP},
   ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
-  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal};
+  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal},
+  ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo},
+  uRetnoUnit in '..\system\uRetnoUnit.pas';
 
 {$R *.res}
 
