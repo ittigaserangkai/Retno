@@ -161,7 +161,8 @@ implementation
 
 uses
   ufrmCXLookup, uAppUtils, uModDO, uModPO, uModCNRecv,
-  uModDNRecv, uModAdjustmentFaktur, uModelHelper;
+  uModDNRecv, uModAdjustmentFaktur, uModelHelper
+  ;
 
 {$R *.dfm}
 

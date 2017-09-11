@@ -233,7 +233,8 @@ uses
   ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
   ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal},
   ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
-  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales};
+  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
+  ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo};
 
 {$R *.res}
 
@@ -244,5 +245,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmCXMsgInfo, frmCXMsgInfo);
   Application.Run;
 end.
