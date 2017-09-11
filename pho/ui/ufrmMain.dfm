@@ -608,9 +608,11 @@ object frmMain: TfrmMain
       Category = 'Finance'
       Caption = '&Import EOD'
     end
-    object actInputContrabon: TAction
+    object actContrabonSales: TAction
       Category = 'Finance'
-      Caption = 'I&nput Contrabon'
+      Caption = 'Contrabon Sales'
+      ImageIndex = 39
+      OnExecute = actContrabonSalesExecute
     end
     object actPotonganTagihan: TAction
       Category = 'Finance'
@@ -1810,6 +1812,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnHistoryAP'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnContrabonSales'
         end>
       OneOnRow = False
       Row = 1
@@ -1844,7 +1850,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBarAccounting: TdxBar
       Caption = 'Accounting'
       CaptionButtons = <>
-      DockedLeft = 527
+      DockedLeft = 568
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -2082,6 +2088,11 @@ object frmMain: TfrmMain
     end
     object dxbrbtnJurnal: TdxBarButton
       Action = actJurnalEntry
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnContrabonSales: TdxBarButton
+      Action = actContrabonSales
       Category = 0
       PaintStyle = psCaptionGlyph
     end

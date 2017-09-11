@@ -19,38 +19,30 @@ object frmPayment: TfrmPayment
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object pnlTotal: TPanel
+  object lblTotal: TLabel
     Left = 0
     Top = 0
     Width = 754
-    Height = 52
+    Height = 53
     Align = alTop
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'P E M B A Y A R A N'
     Color = clYellow
-    TabOrder = 1
-    object lblTotal: TLabel
-      Left = 1
-      Top = 0
-      Width = 752
-      Height = 51
-      Align = alBottom
-      Alignment = taCenter
-      AutoSize = False
-      Caption = 'P E M B A Y A R A N'
-      Color = clYellow
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
-      Font.Height = -40
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-      ExplicitTop = 2
-    end
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlue
+    Font.Height = -40
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    ExplicitLeft = 8
+    ExplicitTop = -5
   end
   object Panel12: TPanel
     Left = 0
-    Top = 52
+    Top = 53
     Width = 754
     Height = 82
     Align = alTop
@@ -63,8 +55,8 @@ object frmPayment: TfrmPayment
     Font.Style = [fsBold]
     ParentColor = True
     ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 58
+    TabOrder = 1
+    ExplicitTop = 52
     object Label5: TLabel
       Left = 9
       Top = 12
@@ -136,9 +128,18 @@ object frmPayment: TfrmPayment
       TabStop = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
       Properties.ReadOnly = True
+      Properties.UseLeftAlignmentOnEditing = False
       Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.TextStyle = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clWhite
       TabOrder = 1
       Width = 181
     end
@@ -148,9 +149,18 @@ object frmPayment: TfrmPayment
       TabStop = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
       Properties.ReadOnly = True
+      Properties.UseLeftAlignmentOnEditing = False
       Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.TextStyle = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clWhite
       TabOrder = 3
       Width = 181
     end
@@ -160,9 +170,18 @@ object frmPayment: TfrmPayment
       TabStop = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
       Properties.ReadOnly = True
+      Properties.UseLeftAlignmentOnEditing = False
       Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.TextStyle = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clWhite
       TabOrder = 2
       Width = 181
     end
@@ -174,45 +193,53 @@ object frmPayment: TfrmPayment
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00;(,0.00)'
       Properties.ReadOnly = True
+      Properties.UseLeftAlignmentOnEditing = False
       Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clWhite
       TabOrder = 0
       Width = 46
     end
     object edtNilaiBayar: TcxCurrencyEdit
-      Left = 357
-      Top = 33
+      Left = 356
+      Top = 32
       TabStop = False
       AutoSize = False
       ParentColor = True
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
       Style.Font.Charset = ANSI_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -21
+      Style.Font.Color = clBlue
+      Style.Font.Height = -24
       Style.Font.Name = 'Courier New'
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       TabOrder = 4
-      Height = 33
+      Height = 44
       Width = 277
     end
   end
   object pnlPayment: TPanel
     Left = 0
-    Top = 134
+    Top = 135
     Width = 754
-    Height = 372
+    Height = 371
     Align = alClient
     BevelInner = bvRaised
     BevelOuter = bvLowered
     ParentColor = True
-    TabOrder = 3
-    ExplicitTop = 140
-    ExplicitHeight = 366
+    TabOrder = 2
+    ExplicitTop = 134
+    ExplicitHeight = 372
     DesignSize = (
       754
-      372)
+      371)
     object lblResetVoucher: TLabel
       Left = 528
       Top = 159
@@ -483,8 +510,16 @@ object frmPayment: TfrmPayment
       Top = 102
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
       Properties.OnChange = edtBayarCCPropertiesChange
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 30
       OnExit = edtBayarCCExit
       OnKeyDown = edtBayarCCKeyDown
@@ -495,7 +530,15 @@ object frmPayment: TfrmPayment
       Top = 150
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 29
       Width = 181
     end
@@ -566,8 +609,16 @@ object frmPayment: TfrmPayment
       Top = 9
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
       Properties.OnChange = edtNilaiTunaiPropertiesChange
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 0
       OnKeyDown = edtNilaiTunaiKeyDown
       Width = 181
@@ -578,7 +629,16 @@ object frmPayment: TfrmPayment
       Enabled = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 3
       Width = 181
     end
@@ -587,8 +647,17 @@ object frmPayment: TfrmPayment
       Top = 126
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.ReadOnly = True
+      Properties.UseLeftAlignmentOnEditing = False
       Properties.OnChange = edtNilaiCCPropertiesChange
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 4
       OnExit = edtNilaiCCExit
       OnKeyDown = edtNilaiCCKeyDown
@@ -598,6 +667,13 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 174
       ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 5
       Text = '1234-5678-9123-4567'
       OnKeyDown = edtNomorCCKeyDown
@@ -609,7 +685,16 @@ object frmPayment: TfrmPayment
       Enabled = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 10
       Width = 136
     end
@@ -619,7 +704,16 @@ object frmPayment: TfrmPayment
       Enabled = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 13
       OnKeyDown = edtGoroValueKeyDown
       Width = 136
@@ -629,7 +723,15 @@ object frmPayment: TfrmPayment
       Top = 135
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 15
       OnKeyDown = edtVoucherValueKeyDown
       Width = 136
@@ -638,7 +740,15 @@ object frmPayment: TfrmPayment
       Left = 147
       Top = 54
       ParentFont = False
+      Properties.Alignment.Horz = taCenter
       Properties.AssignedValues.DisplayFormat = True
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 1
       OnExit = edtJenisKartuCodeExit
       OnKeyDown = edtJenisKartuCodeKeyDown
@@ -651,6 +761,13 @@ object frmPayment: TfrmPayment
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00;(,0.00)'
+      Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
       TabOrder = 2
       Width = 151
     end
@@ -659,6 +776,13 @@ object frmPayment: TfrmPayment
       Top = 198
       ParentFont = False
       Properties.AssignedValues.DisplayFormat = True
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 6
       OnKeyDown = edtNoOtorisasiCCKeyDown
       Width = 181
@@ -669,6 +793,13 @@ object frmPayment: TfrmPayment
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.AssignedValues.DisplayFormat = True
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 8
       OnExit = edtNoTransBotolExit
       OnKeyDown = edtNoTransBotolKeyDown
@@ -681,6 +812,13 @@ object frmPayment: TfrmPayment
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.AssignedValues.DisplayFormat = True
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 11
       OnExit = edtNoVoucherExit
       OnKeyDown = edtNoVoucherKeyDown
@@ -691,7 +829,15 @@ object frmPayment: TfrmPayment
       Top = 265
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 7
       Visible = False
       OnExit = edtCashBackExit
@@ -702,7 +848,7 @@ object frmPayment: TfrmPayment
       Left = 175
       Top = 54
       Width = 244
-      Height = 158
+      Height = 150
       TabOrder = 20
       Visible = False
       ExplicitLeft = 175
@@ -714,14 +860,14 @@ object frmPayment: TfrmPayment
           end
         end
         inherited cxGrid: TcxGrid
+          ExplicitTop = 1
+          ExplicitHeight = 148
           inherited cxGridView: TcxGridDBTableView
-            inherited cxcolKode: TcxGridDBColumn
-              HeaderAlignmentHorz = taCenter
-            end
-            inherited cxcolNama: TcxGridDBColumn
-              HeaderAlignmentHorz = taCenter
-              Width = 171
-            end
+            OnKeyDown = fraLookUpCCcxGridViewKeyDown
+            OptionsData.Deleting = False
+            OptionsData.DeletingConfirmation = False
+            OptionsData.Editing = False
+            OptionsData.Inserting = False
           end
         end
       end
@@ -763,7 +909,7 @@ object frmPayment: TfrmPayment
       Left = 663
       Top = 171
       Width = 97
-      Height = 141
+      Height = 140
       Anchors = [akLeft, akTop, akBottom]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -776,7 +922,7 @@ object frmPayment: TfrmPayment
       TabOrder = 24
       Visible = False
       WordWrap = False
-      ExplicitHeight = 135
+      ExplicitHeight = 141
     end
     object mmoFooterStruk: TMemo
       Left = 663
@@ -795,14 +941,16 @@ object frmPayment: TfrmPayment
       TabStop = False
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
       Style.Color = clGreen
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
       Style.Font.Height = -16
       Style.Font.Name = 'Tahoma'
-      Style.Font.Style = []
+      Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 16
       Width = 256
     end
@@ -822,7 +970,16 @@ object frmPayment: TfrmPayment
       Top = 54
       Enabled = False
       ParentFont = False
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 9
       Width = 28
     end
@@ -831,7 +988,16 @@ object frmPayment: TfrmPayment
       Top = 111
       Enabled = False
       ParentFont = False
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Color = 11796403
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 12
       OnKeyDown = edtGoroQtyKeyDown
       Width = 28
@@ -840,14 +1006,22 @@ object frmPayment: TfrmPayment
       Left = 468
       Top = 135
       ParentFont = False
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0;(,0)'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clHighlight
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
       TabOrder = 14
       OnKeyDown = edtVoucherQtyKeyDown
       Width = 28
     end
     object pnlInfo: TPanel
       Left = 2
-      Top = 336
+      Top = 335
       Width = 750
       Height = 34
       Align = alBottom
@@ -855,7 +1029,7 @@ object frmPayment: TfrmPayment
       ParentBackground = False
       TabOrder = 27
       Visible = False
-      ExplicitTop = 330
+      ExplicitTop = 336
       DesignSize = (
         750
         34)

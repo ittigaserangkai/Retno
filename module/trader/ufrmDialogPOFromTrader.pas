@@ -640,7 +640,7 @@ var
   s: string;
 begin
 
-  s := 'Select TPHRG_ID, TPHRG_NAME From REF$TIPE_HARGA Order By TPHRG_NAME';
+  s := 'Select REF$TIPE_HARGA_ID, TPHRG_NAME From REF$TIPE_HARGA Order By TPHRG_NAME';
 //  cQueryToComboObject(cbTipeHarga, s);
   cbTipeHarga.ItemIndex := -1;
   cbTipeHarga.ItemIndex := 0;

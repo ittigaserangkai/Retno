@@ -235,6 +235,7 @@ inherited frmCrazyPriceDialog: TfrmCrazyPriceDialog
       ExplicitWidth = 755
       inherited btnClose: TcxButton
         Left = 678
+        Action = actCancel
         ExplicitLeft = 678
       end
       inherited btnSave: TcxButton
@@ -245,6 +246,9 @@ inherited frmCrazyPriceDialog: TfrmCrazyPriceDialog
       end
       inherited btnDelete: TcxButton
         Action = actDelete
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
     end
     inherited pnlSortCut: TPanel

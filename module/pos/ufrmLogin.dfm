@@ -82,6 +82,7 @@ object frmLogin: TfrmLogin
     Top = 24
     Anchors = [akLeft, akTop, akRight]
     ParentFont = False
+    StyleFocused.Color = clYellow
     TabOrder = 1
     OnKeyDown = edCashierIDKeyDown
     Width = 226
@@ -100,6 +101,7 @@ object frmLogin: TfrmLogin
     Top = 102
     Anchors = [akLeft, akTop, akRight]
     ParentFont = False
+    StyleFocused.Color = clYellow
     TabOrder = 3
     OnKeyDown = edPasswordKeyDown
     Width = 226

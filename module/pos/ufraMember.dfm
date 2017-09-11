@@ -13,7 +13,7 @@ object fraMember: TfraMember
     TabOrder = 2
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    object sgLookup: TcxGridDBTableView
+    object sgLookup: TcxGridTableView
       OnDblClick = sgLookupDblClick
       OnKeyDown = sgLookupKeyDown
       Navigator.Buttons.CustomButtons = <>
@@ -27,30 +27,36 @@ object fraMember: TfraMember
       FilterRow.InfoText = 
         'Klik untuk memfilter data / Atau gunakan CTRL-F untuk panel filt' +
         'er'
-      FilterRow.Visible = True
       FilterRow.ApplyChanges = fracImmediately
       NewItemRow.InfoText = 'Baris baru'
-      OptionsData.Editing = False
+      OptionsSelection.CellSelect = False
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
-      Styles.ContentEven = DMClient.cxStyleGridHeader
-      Styles.Header = DMClient.cxStyleGridEven
-      object cxcolKode: TcxGridDBColumn
+      Styles.ContentEven = DMClient.cxStyleGridEven
+      Styles.Header = DMClient.cxStyleGridHeader
+      object cxcolKode: TcxGridColumn
         Caption = 'Kode'
+        HeaderAlignmentHorz = taCenter
       end
-      object cxcolNama: TcxGridDBColumn
+      object cxcolNama: TcxGridColumn
         Caption = 'Nama'
+        HeaderAlignmentHorz = taCenter
         Width = 130
       end
-      object cxcolAlamat: TcxGridDBColumn
+      object cxcolAlamat: TcxGridColumn
         Caption = 'Alamat'
-        Width = 127
+        HeaderAlignmentHorz = taCenter
+        Width = 144
       end
-      object cxcolAktif: TcxGridDBColumn
+      object cxcolAktif: TcxGridColumn
         Caption = 'Aktif'
+        HeaderAlignmentHorz = taCenter
+        Width = 41
       end
-      object cxcolValid: TcxGridDBColumn
+      object cxcolValid: TcxGridColumn
         Caption = 'Valid'
+        HeaderAlignmentHorz = taCenter
+        Width = 40
       end
     end
     object grdlvlLookupMember: TcxGridLevel
@@ -86,11 +92,11 @@ object fraMember: TfraMember
       Left = 6
       Top = 9
       Width = 112
-      Height = 14
+      Height = 15
       Caption = 'Nama Member [F5]'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Courier New'
       Font.Style = []
       ParentFont = False

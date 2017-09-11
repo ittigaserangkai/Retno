@@ -9,38 +9,37 @@ uses
 type
   TPOS = class(TSBaseClass)
   private
+//    FCreatedUnitID: Integer;
+    FActivationDate: TDateTime;
     FCode: string;
     FCounterNo: Integer;
     FCreatedDate: TDateTime;
-    FCreatedOP: Integer;
+    FCreatedOP: string;
     FCreatedUnit: TUnit;
-    FCreatedUnitID: Integer;
-    FActivationDate: TDateTime;
-    FID: Integer;
+    FID: string;
     FIPAddress: string;
     FIsActive: Boolean;
     FIsReset: Boolean;
     FModifiedDate: TDateTime;
-    FModifiedOP: Integer;
+    FModifiedOP: string;
     FModifiedUnit: TUnit;
-    FModifiedUnitID: Integer;
+//    FModifiedUnitID: Integer;
     FNewUnit: TUnit;
-    FNewUnitID: Integer;
+    FNewUnitID: string;
     FTransactionNo: string;
     function FLoadFromDB( aSQL : String ): Boolean;
-    function GetCreatedUnit: TUnit;
-    function GetModifiedUnit: TUnit;
+//    function GetCreatedUnit: TUnit;
+//    function GetModifiedUnit: TUnit;
     function GetNewUnit: TUnit;
-    procedure SetCreatedUnit(Value: TUnit);
-    procedure SetModifiedUnit(Value: TUnit);
+//    procedure SetCreatedUnit(Value: TUnit);
+//    procedure SetModifiedUnit(Value: TUnit);
     procedure SetNewUnit(Value: TUnit);
   public
     constructor Create(AOwner : TComponent); overload; override;
-    constructor CreateWithUser(AOwner : TComponent; AUserID: Integer); overload;
+    constructor CreateWithUser(AOwner: TComponent; AUserID: string); overload;
     destructor Destroy; override;
     procedure Activate(AActivationDate: TDateTime);
     function ActivateAndSaveToDB(AActivationDate: TDateTime): Boolean;
-    function ResetAndSaveToDB: Boolean;
     procedure ClearProperties;
     function CustomSQLTask: Tstrings;
     function CustomSQLTaskPrior: Tstrings;
@@ -49,47 +48,46 @@ type
     function GenerateSQL(aRepeatCount : Integer = 1): TStrings;
     class function GenerateTransactionNo(APOSCode: String; ADate: TDateTime):
         string;
+//    function GetFieldNameFor_CreatedUnit: string; dynamic;
+    function GetFieldNameFor_ActivationDate: string; dynamic;
     function GetFieldNameFor_Code: string; dynamic;
     function GetFieldNameFor_CounterNo: string; dynamic;
     function GetFieldNameFor_CreatedDate: string; dynamic;
     function GetFieldNameFor_CreatedOP: string; dynamic;
-    function GetFieldNameFor_CreatedUnit: string; dynamic;
-    function GetFieldNameFor_ActivationDate: string; dynamic;
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_IPAddress: string; dynamic;
     function GetFieldNameFor_IsActive: string; dynamic;
     function GetFieldNameFor_IsReset: string; dynamic;
     function GetFieldNameFor_ModifiedDate: string; dynamic;
     function GetFieldNameFor_ModifiedOP: string; dynamic;
-    function GetFieldNameFor_ModifiedUnit: string; dynamic;
+//    function GetFieldNameFor_ModifiedUnit: string; dynamic;
     function GetFieldNameFor_NewUnit: string; dynamic;
     function GetFieldNameFor_TransactionNo: string; dynamic;
     function GetGeneratorName: string;
     function GetHeaderFlag: Integer;
-    function GetPlannedID: Integer;
-    function LoadByID(AID, AUnitID : Integer): Boolean;
-    function LoadByCode(ACode: String; AUnitID : Integer; aActiveDate : TDateTime):
-        Boolean;
+    function GetPlannedID: string;
+    function LoadByCode(ACode, AUnitID: String; aActiveDate: TDateTime): Boolean;
+    function LoadByID(AID, AUnitID: string): Boolean;
     function RemoveFromDB: Boolean;
+    function ResetAndSaveToDB: Boolean;
     procedure ResetPOS;
     function SaveToDB: Boolean;
-    procedure UpdateData(AID : Integer; ANewUnit_ID : Integer; ACode : string;
-        ACounterNo : Integer; AActivationDate: TDateTime; AIPAddress : string;
-        ATransactionNo : string; AIsActive : Boolean = False; AIsReset : Boolean =
-        True; AModifiedOP : Integer = -1);
+    procedure UpdateData(AID, ANewUnit_ID, ACode: string; ACounterNo: Integer;
+        AActivationDate: TDateTime; AIPAddress, ATransactionNo: string; AIsActive:
+        Boolean = False; AIsReset: Boolean = True; AModifiedOP: string = '');
+//    property CreatedUnit: TUnit read GetCreatedUnit write SetCreatedUnit;
+    property ActivationDate: TDateTime read FActivationDate write FActivationDate;
     property Code: string read FCode write FCode;
     property CounterNo: Integer read FCounterNo write FCounterNo;
     property CreatedDate: TDateTime read FCreatedDate write FCreatedDate;
-    property CreatedOP: Integer read FCreatedOP write FCreatedOP;
-    property CreatedUnit: TUnit read GetCreatedUnit write SetCreatedUnit;
-    property ActivationDate: TDateTime read FActivationDate write FActivationDate;
-    property ID: Integer read FID write FID;
+    property CreatedOP: string read FCreatedOP write FCreatedOP;
+    property ID: string read FID write FID;
     property IPAddress: string read FIPAddress write FIPAddress;
     property IsActive: Boolean read FIsActive write FIsActive;
     property IsReset: Boolean read FIsReset write FIsReset;
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
-    property ModifiedOP: Integer read FModifiedOP write FModifiedOP;
-    property ModifiedUnit: TUnit read GetModifiedUnit write SetModifiedUnit;
+    property ModifiedOP: string read FModifiedOP write FModifiedOP;
+//    property ModifiedUnit: TUnit read GetModifiedUnit write SetModifiedUnit;
     property NewUnit: TUnit read GetNewUnit write SetNewUnit;
     property TransactionNo: string read FTransactionNo write FTransactionNo;
   end;
@@ -108,7 +106,7 @@ end;
 {
 ************************************* TPOS *************************************
 }
-constructor TPOS.CreateWithUser(AOwner : TComponent; AUserID: Integer);
+constructor TPOS.CreateWithUser(AOwner: TComponent; AUserID: string);
 begin
   inherited Create(AOwner);
   ModifiedOP := AUserID;
@@ -137,23 +135,14 @@ begin
     Result := True;
 end;
 
-function TPOS.ResetAndSaveToDB: Boolean;
-begin
-  Result := False;
-  ResetPOS;
-  ModifiedDate := cGetServerDateTime;
-  if SaveToDB then
-    Result := True;
-end;
-
 procedure TPOS.ClearProperties;
 begin
   Code := '';
   CounterNo := 0;
-  CreatedOP := 0;
-  ID := 0;
+  CreatedOP := '';
+  ID := '';
   IPAddress := '';
-  ModifiedOP := 0;
+  ModifiedOP := '';
   TransactionNo := '';
   IsActive := False;
   IsReset := False;
@@ -182,26 +171,26 @@ function TPOS.FLoadFromDB( aSQL : String ): Boolean;
 begin
   result := false;
   State := csNone;
-  with cOpenQuery(aSQL) do 
+  with cOpenQuery(aSQL) do
   Begin
     try
-      if not EOF then 
-      begin  
+      if not EOF then
+      begin
         FCode := FieldByName(GetFieldNameFor_Code).asString;
         FCounterNo := FieldByName(GetFieldNameFor_CounterNo).asInteger;
         FCreatedDate := FieldByName(GetFieldNameFor_CreatedDate).asDateTime;
-        FCreatedOP := FieldByName(GetFieldNameFor_CreatedOP).asInteger;
-        FCreatedUnitID := FieldByName(GetFieldNameFor_CreatedUnit).AsInteger;
+        FCreatedOP := FieldByName(GetFieldNameFor_CreatedOP).AsString;
+//        FCreatedUnitID := FieldByName(GetFieldNameFor_CreatedUnit).AsInteger;
         FActivationDate := FieldByName(GetFieldNameFor_ActivationDate).asDateTime;
-        FID := FieldByName(GetFieldNameFor_ID).asInteger;
-        FIPAddress := FieldByName(GetFieldNameFor_IPAddress).asString;
+        FID := FieldByName(GetFieldNameFor_ID).AsString;
+        FIPAddress := FieldByName(GetFieldNameFor_IPAddress).AsString;
         FIsActive := FieldValues[GetFieldNameFor_IsActive];
         FIsReset := FieldValues[GetFieldNameFor_IsReset];
         FModifiedDate := FieldByName(GetFieldNameFor_ModifiedDate).asDateTime;
-        FModifiedOP := FieldByName(GetFieldNameFor_ModifiedOP).asInteger;
-        FModifiedUnitID := FieldByName(GetFieldNameFor_ModifiedUnit).AsInteger;
-        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsInteger;
-        FTransactionNo := FieldByName(GetFieldNameFor_TransactionNo).asString;
+        FModifiedOP := FieldByName(GetFieldNameFor_ModifiedOP).AsString;
+//        FModifiedUnitID := FieldByName(GetFieldNameFor_ModifiedUnit).AsInteger;
+        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
+        FTransactionNo := FieldByName(GetFieldNameFor_TransactionNo).AsString;
         Self.State := csLoaded;
         Result := True;
       end;
@@ -243,28 +232,30 @@ var
   ssSQL: TStrings;
 begin
   result := TStringList.create;
-  if State = csNone then 
+  if State = csNone then
   Begin
      raise Exception.create('Tidak bisa generate dalam Mode csNone')
   end;
-  
-  ssSQL := CustomSQLTaskPrior; 
-  if ssSQL <> nil then 
-  Begin 
+
+  ssSQL := CustomSQLTaskPrior;
+  if ssSQL <> nil then
+  Begin
     Result.AddStrings(ssSQL);
-  end; 
-  ssSQL := nil; 
-  
-  If FID <= 0 then 
-  begin 
-     //Generate Insert SQL 
-     FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+  end;
+  ssSQL := nil;
+
+//  If FID <= 0 then
+  If FID = '' then
+  begin
+     //Generate Insert SQL
+//     FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+     FID := cGetNextIDGUIDToString;
      sSQL := 'insert into ' + CustomTableName + ' ('
         + GetFieldNameFor_Code + ', '
         + GetFieldNameFor_CounterNo + ', '
         + GetFieldNameFor_CreatedDate + ', '
         + GetFieldNameFor_CreatedOP + ', '
-        + GetFieldNameFor_CreatedUnit + ', '
+//        + GetFieldNameFor_CreatedUnit + ', '
         + GetFieldNameFor_ActivationDate + ', '
         + GetFieldNameFor_ID + ', '
         + GetFieldNameFor_IPAddress + ', '
@@ -272,57 +263,57 @@ begin
         + GetFieldNameFor_IsReset + ', '
         + GetFieldNameFor_ModifiedDate + ', '
         + GetFieldNameFor_ModifiedOP + ', '
-        + GetFieldNameFor_ModifiedUnit + ', '
+//        + GetFieldNameFor_ModifiedUnit + ', '
         + GetFieldNameFor_NewUnit + ', '
         + GetFieldNameFor_TransactionNo + ') values ('
         + QuotedStr(FCode) + ', '
         + IntToStr(FCounterNo) + ', '
         + TAppUtils.QuotDT(FCreatedDate) + ', '
-        + IntToStr(FCreatedOP) + ', '
-        + InttoStr(FCreatedUnitID) + ', '
+        + QuotedStr(FCreatedOP) + ', '
+//        + InttoStr(FCreatedUnitID) + ', '
         //+ IfThen(FIsActive,QuotDT(FCreatedDate),'NULL') + ', ' //activation date, waktu pertama bikin NULL aja deh
         + TAppUtils.QuotD(ActivationDate) + ','
-        + IntToStr(FID) + ', '
+        + QuotedStr(FID) + ', '
         + QuotedStr(FIPAddress) + ', '
         + IfThen(FIsActive,'1','0') + ', '
         + IfThen(FIsReset,'1','0') + ', '
         + TAppUtils.QuotDT(FModifiedDate) + ', '
-        + IntToStr(FModifiedOP) + ', '
-        + InttoStr(FModifiedUnitID) + ', '
-        + InttoStr(FNewUnitID) + ', '
+        + QuotedStr(FModifiedOP) + ', '
+//        + InttoStr(FModifiedUnitID) + ', '
+        + QuotedStr(FNewUnitID) + ', '
         + QuotedStr(FTransactionNo) + ');'
   end
-  else 
-  begin 
-     //generate Update SQL 
+  else
+  begin
+     //generate Update SQL
      sSQL := 'Update ' + CustomTableName + ' set '
         + '  ' + GetFieldNameFor_Code + ' = ' + QuotedStr(FCode)
-        + ', ' + GetFieldNameFor_CounterNo + ' = ' + IntToStr( FCounterNo) 
-        //+ ', ' + GetFieldNameFor_CreatedDate + ' = ' + Quotd(FCreatedDate) 
+        + ', ' + GetFieldNameFor_CounterNo + ' = ' + IntToStr( FCounterNo)
+        //+ ', ' + GetFieldNameFor_CreatedDate + ' = ' + Quotd(FCreatedDate)
         //+ ', ' + GetFieldNameFor_CreatedOP + ' = ' + IntToStr( FCreatedOP)
         //+ ', ' + GetFieldNameFor_CreatedUnit + ' = ' + IntToStr(FCreatedUnitID)
         + ', ' + GetFieldNameFor_ActivationDate + ' = ' + TAppUtils.QuotD(FActivationDate)
         + ', ' + GetFieldNameFor_IPAddress + ' = ' + QuotedStr(FIPAddress)
-        + ', ' + GetFieldNameFor_IsActive + ' = ' + IfThen(FIsActive,'1','0') 
-        + ', ' + GetFieldNameFor_IsReset + ' = ' + IfThen(FIsReset,'1','0') 
+        + ', ' + GetFieldNameFor_IsActive + ' = ' + IfThen(FIsActive,'1','0')
+        + ', ' + GetFieldNameFor_IsReset + ' = ' + IfThen(FIsReset,'1','0')
         + ', ' + GetFieldNameFor_ModifiedDate + ' = ' + TAppUtils.QuotDT(FModifiedDate)
-        + ', ' + GetFieldNameFor_ModifiedOP + ' = ' + IntToStr(FModifiedOP) 
-        + ', ' + GetFieldNameFor_ModifiedUnit + ' = ' + IntToStr(FModifiedUnitID) 
+        + ', ' + GetFieldNameFor_ModifiedOP + ' = ' + QuotedStr(FModifiedOP)
+//        + ', ' + GetFieldNameFor_ModifiedUnit + ' = ' + IntToStr(FModifiedUnitID)
         + ', ' + GetFieldNameFor_TransactionNo + ' = ' + QuotedStr(FTransactionNo)
-        + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-        + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ';';
-  
+        + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
+        + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
+
   end;
   result.append(sSQL);
   //generating Collections SQL
-  
-  ssSQL := CustomSQLTask; 
-  if ssSQL <> nil then 
-  Begin 
+
+  ssSQL := CustomSQLTask;
+  if ssSQL <> nil then
+  Begin
     result.AddStrings(ssSQL);
   end;
 
-  FreeAndNil(ssSQL); 
+  FreeAndNil(ssSQL);
 end;
 
 class function TPOS.GenerateTransactionNo(APOSCode: String; ADate: TDateTime):
@@ -333,16 +324,26 @@ begin
   Result := Result.PadRight(12,'0');
 end;
 
-function TPOS.GetCreatedUnit: TUnit;
+//function TPOS.GetFieldNameFor_CreatedUnit: string;
+//begin
+//  Result := 'OPC_UNIT';
+//end;
+
+function TPOS.GetFieldNameFor_ActivationDate: string;
 begin
-  //Result := nil;
-  if FCreatedUnit = nil then
-  begin
-    FCreatedUnit := TUnit.Create(Self);
-    FCreatedUnit.LoadByID(FCreatedUnitID);
-  end;  
-  Result := FCreatedUnit;    
+  Result := 'SETUPPOS_DATE';
 end;
+
+//function TPOS.GetCreatedUnit: TUnit;
+//begin
+//  //Result := nil;
+//  if FCreatedUnit = nil then
+//  begin
+//    FCreatedUnit := TUnit.Create(Self);
+//    FCreatedUnit.LoadByID(FCreatedUnitID);
+//  end;
+//  Result := FCreatedUnit;
+//end;
 
 function TPOS.GetFieldNameFor_Code: string;
 begin
@@ -362,16 +363,6 @@ end;
 function TPOS.GetFieldNameFor_CreatedOP: string;
 begin
   Result := 'OP_CREATE';
-end;
-
-function TPOS.GetFieldNameFor_CreatedUnit: string;
-begin
-  Result := 'OPC_UNIT';
-end;
-
-function TPOS.GetFieldNameFor_ActivationDate: string;
-begin
-  Result := 'SETUPPOS_DATE';
 end;
 
 function TPOS.GetFieldNameFor_ID: string;
@@ -404,14 +395,15 @@ begin
   Result := 'OP_MODIFY';
 end;
 
-function TPOS.GetFieldNameFor_ModifiedUnit: string;
-begin
-  Result := 'OPM_UNIT';
-end;
+//function TPOS.GetFieldNameFor_ModifiedUnit: string;
+//begin
+//  Result := 'OPM_UNIT';
+//end;
 
 function TPOS.GetFieldNameFor_NewUnit: string;
 begin
-  Result := 'SETUPPOS_UNT_ID';
+//  Result := 'SETUPPOS_UNT_ID';
+  Result := 'AUT$UNIT_ID';
 end;
 
 function TPOS.GetFieldNameFor_TransactionNo: string;
@@ -429,16 +421,16 @@ begin
   result := 4622;
 end;
 
-function TPOS.GetModifiedUnit: TUnit;
-begin
-  //Result := nil;
-  if FModifiedUnit = nil then
-  begin
-    FModifiedUnit := TUnit.Create(Self);
-    FModifiedUnit.LoadByID(FModifiedUnitID);
-  end;  
-  Result := FModifiedUnit;    
-end;
+//function TPOS.GetModifiedUnit: TUnit;
+//begin
+//  //Result := nil;
+//  if FModifiedUnit = nil then
+//  begin
+//    FModifiedUnit := TUnit.Create(Self);
+//    FModifiedUnit.LoadByID(FModifiedUnitID);
+//  end;
+//  Result := FModifiedUnit;
+//end;
 
 function TPOS.GetNewUnit: TUnit;
 begin
@@ -451,9 +443,10 @@ begin
   Result := FNewUnit;
 end;
 
-function TPOS.GetPlannedID: Integer;
+function TPOS.GetPlannedID: string;
 begin
-  result := -1;
+//  result := -1;
+  Result := '';
   if State = csNone then
   begin
      Raise exception.create('Tidak bisa GetPlannedID di Mode csNone');
@@ -461,33 +454,34 @@ begin
   end
   else if state = csCreated then
   begin
-     result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//     Result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+     Result := cGetNextIDGUIDToString;
   end
   else if State = csLoaded then
   begin
-     result := FID;
+     Result := FID;
   end;
 end;
 
-function TPOS.LoadByID(AID, AUnitID : Integer): Boolean;
-var
-  sSQL: string;
-begin
-  sSQL := 'select * from ' + CustomTableName
-    + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(AID)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
-  result := FloadFromDB(sSQL);
-end;
-
-function TPOS.LoadByCode(ACode: String; AUnitID : Integer; aActiveDate :
-    TDateTime): Boolean;
+function TPOS.LoadByCode(ACode, AUnitID: String; aActiveDate: TDateTime):
+    Boolean;
 var
   sSQL: string;
 begin
   sSQL := 'select * from ' + CustomTableName
     + ' Where ' + GetFieldNameFor_Code + ' = ' + QuotedStr(ACode)
     + ' and ' + GetFieldNameFor_ActivationDate + ' = ' + TAppUtils.QuotD(aActiveDate)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(AUnitID);
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(AUnitID);
+  result := FloadFromDB(sSQL);
+end;
+
+function TPOS.LoadByID(AID, AUnitID: string): Boolean;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from ' + CustomTableName
+    + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(AID)
+    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(AUnitID);
   result := FloadFromDB(sSQL);
 end;
 
@@ -495,10 +489,19 @@ function TPOS.RemoveFromDB: Boolean;
 var
   sSQL: string;
 begin
-  sSQL := 'delete from ' + CustomTableName 
-    + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
-    + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID);
+  sSQL := 'delete from ' + CustomTableName
+        + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
+        + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID);
   Result := cExecSQL(sSQL, dbtPOS, False);
+end;
+
+function TPOS.ResetAndSaveToDB: Boolean;
+begin
+  Result := False;
+  ResetPOS;
+  ModifiedDate := cGetServerDateTime;
+  if SaveToDB then
+    Result := True;
 end;
 
 procedure TPOS.ResetPOS;
@@ -525,46 +528,44 @@ begin
    end;
 end;
 
-procedure TPOS.SetCreatedUnit(Value: TUnit);
-begin
-  FCreatedUnitID := Value.ID
-end;
+//procedure TPOS.SetCreatedUnit(Value: TUnit);
+//begin
+//  FCreatedUnitID := Value.ID
+//end;
 
-procedure TPOS.SetModifiedUnit(Value: TUnit);
-begin
-  FModifiedUnitID := Value.ID;
-end;
+//procedure TPOS.SetModifiedUnit(Value: TUnit);
+//begin
+//  FModifiedUnitID := Value.ID;
+//end;
 
 procedure TPOS.SetNewUnit(Value: TUnit);
 begin
   FNewUnitID := Value.ID;
 end;
 
-procedure TPOS.UpdateData(AID : Integer; ANewUnit_ID : Integer; ACode : string;
-    ACounterNo : Integer; AActivationDate: TDateTime; AIPAddress : string;
-    ATransactionNo : string; AIsActive : Boolean = False; AIsReset : Boolean =
-    True; AModifiedOP : Integer = -1);
+procedure TPOS.UpdateData(AID, ANewUnit_ID, ACode: string; ACounterNo: Integer;
+    AActivationDate: TDateTime; AIPAddress, ATransactionNo: string; AIsActive:
+    Boolean = False; AIsReset: Boolean = True; AModifiedOP: string = '');
 begin
   FCode := Trim(aCode);
-  FCounterNo :=  aCounterNo;
-  FActivationDate :=  AActivationDate;
-  FID :=  AID;
+  FCounterNo := aCounterNo;
+  FActivationDate := AActivationDate;
+  FID := AID;
   FIPAddress := Trim(aIPAddress);
-  FIsActive :=  AIsActive;
-  FIsReset :=  AIsReset;
+  FIsActive := AIsActive;
+  FIsReset := AIsReset;
   FNewUnitID := ANewUnit_ID;
   FTransactionNo := Trim(aTransactionNo);
 
   FCreatedDate := cGetServerDateTime;
-  FCreatedOP :=  AModifiedOP;
-  FCreatedUnitID := ANewUnit_ID;
-  FModifiedDate :=  FCreatedDate;
-  FModifiedOP :=  aModifiedOP;
-  FModifiedUnitID := ANewUnit_ID;
+  FCreatedOP := AModifiedOP;
+//  FCreatedUnitID := ANewUnit_ID;
+  FModifiedDate := FCreatedDate;
+  FModifiedOP := aModifiedOP;
+//  FModifiedUnitID := ANewUnit_ID;
 
   State := csCreated;
 end;
-
 
 
 end.

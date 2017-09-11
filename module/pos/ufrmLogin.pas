@@ -25,15 +25,13 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    FBalanceID: Integer;
+    FBalanceID: string;
     FPassword: String;
-    FUserID: Integer;
-    { Private declarations }
+    FUserID: string;
   public
-    property BalanceID: Integer read FBalanceID write FBalanceID;
+    property BalanceID: string read FBalanceID write FBalanceID;
     property Password: String read FPassword write FPassword;
-    property UserID: Integer read FUserID write FUserID;
-    { Public declarations }
+    property UserID: string read FUserID write FUserID;
   end;
 
 var
@@ -73,20 +71,20 @@ begin
       {$ENDIF}
       dServerDate := cGetServerDateTime;
 
-      sSQL := 'select a.usr_fullname, a.usr_passwd, a.usr_id, b.balance_id '
+      sSQL := 'select a.usr_fullname, a.usr_passwd, a.aut$user_id, b.beginning_balance_id '
         + 'from aut$user a '
-        + ' inner join beginning_balance b on a.usr_id = b.balance_usr_id '
-        + '  and a.usr_unt_id = b.balance_usr_unt_id '
+        + ' inner join beginning_balance b on a.aut$user_id = b.aut$user_id '
+//        + '  and a.usr_unt_id = b.balance_usr_unt_id '
         + '  and a.usr_username = ' + QuotedStr(edCashierID.Text)
-        + '  and a.usr_unt_id = ' + IntToStr(frmMain.UnitID)
-        + '  and b.balance_shift_date = ' + TAppUtils.QuotD(dServerDate)
+//        + '  and a.usr_unt_id = ' + IntToStr(frmMain.UnitID)
+        + '  and date(b.balance_shift_date) = ' + TAppUtils.QuotD(dServerDate)
         + '  and b.BALANCE_STATUS = ' + QuotedStr('OPEN')
-        + ' inner join setuppos c on b.balance_setuppos_id = c.setuppos_id '
-        + '  and b.balance_setuppos_unt_id = c.setuppos_unt_id '
+        + ' inner join setuppos c on b.setuppos_id = c.setuppos_id '
+        + '  and b.aut$unit_id = c.aut$unit_id '
         + '  and c.setuppos_terminal_code = ' + QuotedStr(frmMain.FPOSCode)
         + '  and c.setuppos_is_active = 1 '
-        + ' inner join shift d on b.balance_shift_id = d.shift_id '
-        + '  and b.balance_shift_unt_id = d.shift_unt_id '
+        + ' inner join shift d on b.shift_id = d.shift_id '
+//        + '  and b.balance_shift_unt_id = d.shift_unt_id '
         + '  and time(d.shift_start_time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
         + '  and time(d.shift_end_time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
 //        + '  and cast(d.shift_start_time as time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
@@ -94,7 +92,7 @@ begin
 
       edNama.Clear;
       Password := '';
-      UserID := -1;
+      UserID := '';
 
       with cOpenQuery(sSQL) do
       begin
@@ -103,8 +101,8 @@ begin
           begin
             edNama.Text := Fields[0].AsString;
             Password    := Fields[1].AsString;
-            UserID      := Fields[2].AsInteger;
-            BalanceID   := Fields[3].AsInteger;
+            UserID      := Fields[2].AsString;
+            BalanceID   := Fields[3].AsString;
             edPassword.SelectAll;
             edPassword.SetFocus;
           end
@@ -131,7 +129,7 @@ begin
     end;
     VK_RETURN:
     begin
-      if UserID > 0 then
+      if UserID <> '' then
       begin
         if edPassword.Text = Password then
         begin

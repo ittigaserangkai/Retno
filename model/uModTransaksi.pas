@@ -3,7 +3,7 @@ unit uModTransaksi;
 interface
 
 uses
-  uModApp, uModUnit, uModMember, uModBeginningBalance;
+  uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang;
 
 type
   TModTransaksi = class(TModApp)
@@ -48,7 +48,6 @@ type
         FTRANS_DISC_GMC_NOMINAL;
     property TRANS_DISC_GMC_PERSEN: Double read FTRANS_DISC_GMC_PERSEN write
         FTRANS_DISC_GMC_PERSEN;
-    [AttributeOfPOS('')]
     property TRANS_ID: Integer read FTRANS_ID write FTRANS_ID;
     property TRANS_IS_ACTIVE: Integer read FTRANS_IS_ACTIVE write FTRANS_IS_ACTIVE;
     property TRANS_IS_JURNAL: Integer read FTRANS_IS_JURNAL write FTRANS_IS_JURNAL;
@@ -70,8 +69,7 @@ type
   TModTransaksi_Detil = class(TModApp)
   private
     FOTO_CODE: string;
-    FTRANSD_BHJ_ID: Integer;
-    FTRANSD_BHJ_UNT_ID: Integer;
+    FBARANG_HARGA_JUAL: TModBarangHargaJual;
     FTRANSD_BRG_CODE: string;
     FTRANSD_BRG_IS_GMC: Integer;
     FTRANSD_BRG_IS_PJK_INCLUDE: Integer;
@@ -98,9 +96,8 @@ type
     FTRANSD_UNT_ID: Integer;
   published
     property OTO_CODE: string read FOTO_CODE write FOTO_CODE;
-    property TRANSD_BHJ_ID: Integer read FTRANSD_BHJ_ID write FTRANSD_BHJ_ID;
-    property TRANSD_BHJ_UNT_ID: Integer read FTRANSD_BHJ_UNT_ID write
-        FTRANSD_BHJ_UNT_ID;
+    property BARANG_HARGA_JUAL: TModBarangHargaJual read FBARANG_HARGA_JUAL write
+        FBARANG_HARGA_JUAL;
     property TRANSD_BRG_CODE: string read FTRANSD_BRG_CODE write FTRANSD_BRG_CODE;
     property TRANSD_BRG_IS_GMC: Integer read FTRANSD_BRG_IS_GMC write
         FTRANSD_BRG_IS_GMC;
@@ -112,7 +109,6 @@ type
     property TRANSD_DISC_GMC_NOMINAL: Double read FTRANSD_DISC_GMC_NOMINAL write
         FTRANSD_DISC_GMC_NOMINAL;
     property TRANSD_DISC_MAN: Double read FTRANSD_DISC_MAN write FTRANSD_DISC_MAN;
-    [AttributeOfPOS('')]
     property TRANSD_ID: Integer read FTRANSD_ID write FTRANSD_ID;
     property TRANSD_IS_BKP: Integer read FTRANSD_IS_BKP write FTRANSD_IS_BKP;
     property TRANSD_LAST_COST: Double read FTRANSD_LAST_COST write

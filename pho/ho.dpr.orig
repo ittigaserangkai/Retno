@@ -89,7 +89,7 @@ uses
   uModBank in '..\model\uModBank.pas',
   uModCompany in '..\model\uModCompany.pas',
   uModOutlet in '..\model\uModOutlet.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   uModTest in '..\model\uModTest.pas',
   uModTipeKupon in '..\model\uModTipeKupon.pas',
   uModTipePembeli in '..\model\uModTipePembeli.pas',
@@ -197,7 +197,6 @@ uses
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   uModPO in '..\model\uModPO.pas',
-  uModelHelper in '..\model\uModelHelper.pas',
   uModSO in '..\model\uModSO.pas',
   uModDO in '..\model\uModDO.pas',
   ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
@@ -224,14 +223,22 @@ uses
   ufrmShift in '..\module\cashier_supv\ufrmShift.pas' {frmShift},
   ufrmDialogShift in '..\module\cashier_supv\ufrmDialogShift.pas' {frmDialogShift},
   uModBankCashOut in '..\model\uModBankCashOut.pas',
-  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
-<<<<<<< HEAD
-  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas',
   ufrmAPCard in '..\module\finance\ufrmAPCard.pas' {frmAPCard},
-  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP};
+  ufrmMasterReport in '..\system\ufrmMasterReport.pas' {frmMasterReport},
+  ufrmHistoryAP in '..\module\finance\ufrmHistoryAP.pas' {frmHistoryAP},
+  ufrmJurnal in '..\module\accounting\ufrmJurnal.pas' {frmJurnal},
+<<<<<<< HEAD
+  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal},
+  ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
+  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales};
 =======
-  uModShift in '..\model\uModShift.pas';
->>>>>>> e135a715c7acadad01a12549bd8382efaa184c07
+  uModelHelper in '..\model\uModelHelper.pas',
+  ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo},
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+  ufrmDialogJurnal in '..\module\accounting\ufrmDialogJurnal.pas' {frmDialogJurnal};
+>>>>>>> 436a798da0909b233ee344d22ebec98191b58754
 
 {$R *.res}
 

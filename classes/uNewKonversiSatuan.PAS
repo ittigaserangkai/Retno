@@ -11,71 +11,71 @@ function UpdateByBrgCodeUom(aBarCode: string; aBrgCode: string; aUom: string;
 type
   TKonversiSatuan = class(TSBaseClass)
   private
-    FBarangUnit: Integer;
+//    FBarangUnit: Integer;
     FBarcode: string;
-    FID: Integer;
+    FID: string;
     FIsUpdate: Boolean;
-    FKodeBarang: string;
+    FIDBarang: string;
     FKodeSatuanFrom: string;
-    FKodeSatuanFromUnit: Integer;
+//    FKodeSatuanFromUnit: Integer;
     FKodeSatuanTo: string;
-    FKodeSatuanToUnit: Integer;
+//    FKodeSatuanToUnit: Integer;
+//    FNewUnit: TUnit;
     FSkalaKonversi: Double;
-    FNewUnit: TUnit;
     function FLoadFromDB( aSQL : String ): Boolean;
   public
     constructor Create(aOwner : TComponent); override;
     destructor Destroy; override;
     procedure ClearProperties;
+    class function CustomTableName: string;
+    function ExecuteGenerateSQL: Boolean;
     function ExecuteSQLTask: Boolean;
     function ExecuteSQLTaskPrior: Boolean;
-		class function CustomTableName: string;
     function GenerateInterbaseMetaData: Tstrings;
-    function ExecuteGenerateSQL: Boolean;
-		class function GetFieldNameFor_BarangUnit: string; dynamic;
+    class function GetConversionValue(ABarangID: String; AUnitID: Integer;
+        AUOMFrom, AUOMTo: String): Double;
+//    class function GetFieldNameFor_BarangUnit: string; dynamic;
+    function GetFieldNameFor_Barcode: string; dynamic;
     function GetFieldNameFor_ID: string; dynamic;
-		class function GetFieldNameFor_KodeBarang: string; dynamic;
-		class function GetFieldNameFor_KodeSatuanFrom: string; dynamic;
-		class function GetFieldNameFor_KodeSatuanFromUnit: string; dynamic;
-		class function GetFieldNameFor_KodeSatuanTo: string; dynamic;
-		class function GetFieldNameFor_KodeSatuanToUnit: string; dynamic;
-		class function GetFieldNameFor_SkalaKonversi: string; dynamic;
-		class function GetFieldNameFor_UnitID: string; dynamic;
+    class function GetFieldNameFor_IDBarang: string; dynamic;
+    class function GetFieldNameFor_KodeSatuanFrom: string; dynamic;
+//    class function GetFieldNameFor_KodeSatuanFromUnit: string; dynamic;
+    class function GetFieldNameFor_KodeSatuanTo: string; dynamic;
+//    class function GetFieldNameFor_KodeSatuanToUnit: string; dynamic;
+    class function GetFieldNameFor_SkalaKonversi: string; dynamic;
+//    class function GetFieldNameFor_UnitID: string; dynamic;
     function getGeneratorName: string;
     function GetHeaderFlag: Integer;
-    function GetId(aKodeBarang : String; aKodeSatuanFrom : String; aKodeSatuanTo :
-        String; aUnitId : Integer): Integer;
+    function GetId(aBarangID, aKodeSatuanFrom, aKodeSatuanTo: String; aUnitId:
+        Integer): Integer;
     function getListSatuan(aUnitId : Integer): string;
-    function GetPlannedID: Integer;
+    function GetPlannedID: string;
+    function IsBarcodeSudahAda: Boolean;
     function isKodeExist(aKodeBarang : String; aKodeSatuanFrom : String;
         aKodeSatuanTo : String; aExcludeId : Integer; aUnitId : Integer): Boolean;
-    function LoadByID(aID: Integer): Boolean;
+    function LoadByID(aID: string): Boolean;
     function LoadByKodeBarangAndUOMStock(aKodeBarang : String; ABarangUnitID :
         Integer; aUOMStock : string; aUOMKonversiTo : String): Boolean;
-		class function GetConversionValue(APLU: String; AUnitID: Integer; AUOMFrom,
-				AUOMTo: String): Double;
-    function GetFieldNameFor_Barcode: string; dynamic;
-    function IsBarcodeSudahAda: Boolean;
     function RemoveFromDB: Boolean;
-    procedure UpdateData(aBarangUnit : Integer; aID : Integer; aKodeBarang :
-        string; aKodeSatuanFrom : string; aKodeSatuanFromUnit : Integer;
-        aKodeSatuanTo : string; aKodeSatuanToUnit : Integer; aSkalaKonversi :
-        Double; aUnitID : Integer; aBarcode : String);
+    procedure UpdateData(aBarangUnit: Integer; aID, aKodeBarang, aKodeSatuanFrom:
+        string; aKodeSatuanFromUnit: Integer; aKodeSatuanTo: string;
+        aKodeSatuanToUnit: Integer; aSkalaKonversi: Double; aUnitID, aBarcode:
+        string);
     function UpdateDataAfterUpdate: Boolean;
     function UpdateValueBarangHargaJual: Boolean;
-    property BarangUnit: Integer read FBarangUnit write FBarangUnit;
+//    property BarangUnit: Integer read FBarangUnit write FBarangUnit;
     property Barcode: string read FBarcode write FBarcode;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property IsUpdate: Boolean read FIsUpdate write FIsUpdate;
-    property KodeBarang: string read FKodeBarang write FKodeBarang;
+    property IDBarang: string read FIDBarang write FIDBarang;
     property KodeSatuanFrom: string read FKodeSatuanFrom write FKodeSatuanFrom;
-    property KodeSatuanFromUnit: Integer read FKodeSatuanFromUnit write
-        FKodeSatuanFromUnit;
+//    property KodeSatuanFromUnit: Integer read FKodeSatuanFromUnit write
+//        FKodeSatuanFromUnit;
     property KodeSatuanTo: string read FKodeSatuanTo write FKodeSatuanTo;
-    property KodeSatuanToUnit: Integer read FKodeSatuanToUnit write
-        FKodeSatuanToUnit;
+//    property KodeSatuanToUnit: Integer read FKodeSatuanToUnit write
+//        FKodeSatuanToUnit;
+//    property NewUnit: TUnit read FNewUnit write FNewUnit;
     property SkalaKonversi: Double read FSkalaKonversi write FSkalaKonversi;
-    property NewUnit: TUnit read FNewUnit write FNewUnit;
   end;
 
 implementation
@@ -91,32 +91,112 @@ const
 constructor TKonversiSatuan.Create(aOwner : TComponent);
 begin
   inherited create(aOwner);
-  NewUnit := TUnit.Create(Self);
+//  NewUnit := TUnit.Create(Self);
   ClearProperties;
 end;
 
 destructor TKonversiSatuan.Destroy;
 begin
-   FNewUnit.Free;
+//   FNewUnit.Free;
    inherited Destroy;
 end;
 
 procedure TKonversiSatuan.ClearProperties;
 begin
   IsUpdate := False;
-  BarangUnit := 0;
-  ID := 0;
-  KodeBarang := '';
+//  BarangUnit := 0;
+  ID := '';
+  IDBarang := '';
   KodeSatuanFrom := '';
-  KodeSatuanFromUnit := 0;
+//  KodeSatuanFromUnit := 0;
   KodeSatuanTo := '';
-  KodeSatuanToUnit := 0;
+//  KodeSatuanToUnit := 0;
   SkalaKonversi := 0;
   Barcode := '';
 
-  NewUnit.ClearProperties;
+//  NewUnit.ClearProperties;
+end;
 
-  
+class function TKonversiSatuan.CustomTableName: string;
+begin
+  result := 'REF$KONVERSI_SATUAN';
+end;
+
+function TKonversiSatuan.ExecuteGenerateSQL: Boolean;
+var
+//  lDecimalSeparator: Char;
+  S: string;
+begin
+  result := False;
+//  lDecimalSeparator := DecimalSeparator;
+//  DecimalSeparator := '.';
+
+  try
+    if State = csNone then
+    Begin
+       raise Exception.create('Tidak bisa generate dalam Mode csNone');
+    end;
+
+    if not ExecuteSQLTaskPrior then
+    begin
+      cRollbackTrans;
+      Exit;
+    end else begin
+//      if FID <= 0 then
+      if FID = '' then
+      begin
+//        FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+        FID := cGetNextIDGUIDToString;
+        S := 'Insert into ' + CustomTableName + ' ( '
+//            + GetFieldNameFor_BarangUnit + ', '
+            + GetFieldNameFor_ID + ', '
+            + GetFieldNameFor_IDBarang + ', '
+            + GetFieldNameFor_KodeSatuanFrom + ', '
+//            + GetFieldNameFor_KodeSatuanFromUnit + ', '
+            + GetFieldNameFor_KodeSatuanTo + ', '
+//            + GetFieldNameFor_KodeSatuanToUnit + ', '
+            + GetFieldNameFor_SkalaKonversi + ', '
+//            + GetFieldNameFor_UnitID + ','
+            + GetFieldNameFor_Barcode + ') values ('
+//            + IntToStr( FBarangUnit) + ', '
+            + QuotedStr(FID) + ', '
+            + QuotedStr(FIDBarang ) + ','
+            + QuotedStr(FKodeSatuanFrom ) + ','
+//            + IntToStr( FKodeSatuanFromUnit) + ', '
+            + QuotedStr(FKodeSatuanTo ) + ','
+//            + IntToStr( FKodeSatuanToUnit) + ', '
+            + FormatFloat(siFrtDec8, FSkalaKonversi) + ', '
+//            + IntToStr( FNewUnit.ID)  + ','
+            + QuotedStr( FBarcode)
+            + ');';
+      end else
+      begin
+        S := 'Update ' + CustomTableName + ' Set '
+//            + GetFieldNameFor_BarangUnit + ' = ' + IntToStr( FBarangUnit) + ' , '
+            + GetFieldNameFor_IDBarang + ' = ' + QuotedStr( FIDBarang ) + ' , '
+            + GetFieldNameFor_KodeSatuanFrom + ' = ' + QuotedStr( FKodeSatuanFrom ) + ' , '
+//            + GetFieldNameFor_KodeSatuanFromUnit + ' = ' + IntToStr( FKodeSatuanFromUnit) + ' , '
+            + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr( FKodeSatuanTo ) + ' , '
+            + GetFieldNameFor_Barcode + ' = ' + QuotedStr( FBarcode ) + ' , '
+//            + GetFieldNameFor_KodeSatuanToUnit + ' = ' + IntToStr( FKodeSatuanToUnit) + ' , '
+            + GetFieldNameFor_SkalaKonversi + ' = ' + FormatFloat(siFrtDec8, FSkalaKonversi)
+            + ' where '
+//            + GetFieldNameFor_UnitID + ' = ' + IntToStr( FNewUnit.ID) + ' and '
+            + GetFieldNameFor_ID + ' = ' + QuotedStr(FID) + ';';
+      end;
+
+      if not cExecSQL(S, dbtPOS, False) then
+      begin
+        cRollbackTrans;
+        Exit;
+      end else begin
+        Result := ExecuteSQLTask;
+      end;
+    end;
+  finally
+//    DecimalSeparator := lDecimalSeparator;
+
+  end;
 end;
 
 function TKonversiSatuan.ExecuteSQLTask: Boolean;
@@ -125,11 +205,11 @@ var
 begin
   result := False;
   sSQL := 'update barang_harga_Jual'
-          + ' set bhj_conv_value = ' + FormatFloat(siFrtDec2, FSkalaKonversi)
-          + ' where bhj_brg_code = ' + QuotedStr(FKodeBarang)
-          + ' and bhj_sat_code = ' + QuotedStr(FKodeSatuanFrom)
-          + ' and bhj_sat_code_unt_id = ' + IntToStr(FNewUnit.ID)
-          + ';';
+        + ' set bhj_conv_value = ' + FormatFloat(siFrtDec2, FSkalaKonversi)
+        + ' where bhj_brg_code = ' + QuotedStr(FIDBarang)
+        + ' and bhj_sat_code = ' + QuotedStr(FKodeSatuanFrom)
+//        + ' and bhj_sat_code_unt_id = ' + IntToStr(FNewUnit.ID)
+        + ';';
 
   if cExecSQL(sSQL, dbtPOS, False) then
   begin
@@ -180,18 +260,13 @@ end;
 
 function TKonversiSatuan.ExecuteSQLTaskPrior: Boolean;
 begin
-  if ID = 0 then
+//  if ID = 0 then
+  if ID = '' then
     IsUpdate := False
   else
     IsUpdate := True;
-      
+
   result := True;
-
-end;
-
-class function TKonversiSatuan.CustomTableName: string;
-begin
-  result := 'REF$KONVERSI_SATUAN';
 end;
 
 function TKonversiSatuan.FLoadFromDB( aSQL : String ): Boolean;
@@ -208,17 +283,17 @@ begin
     Begin
         if not EOF then
         begin
-           FBarangUnit          := FieldByName(GetFieldNameFor_BarangUnit).asInteger;
-           FID                  := FieldByName(GetFieldNameFor_ID).asInteger;
-           FKodeBarang          := FieldByName(GetFieldNameFor_KodeBarang).asString;
+//           FBarangUnit          := FieldByName(GetFieldNameFor_BarangUnit).asInteger;
+           FID                  := FieldByName(GetFieldNameFor_ID).asString;
+           FIDBarang          := FieldByName(GetFieldNameFor_IDBarang).asString;
            FKodeSatuanFrom      := FieldByName(GetFieldNameFor_KodeSatuanFrom).asString;
-           FKodeSatuanFromUnit  := FieldByName(GetFieldNameFor_KodeSatuanFromUnit).asInteger;
+//           FKodeSatuanFromUnit  := FieldByName(GetFieldNameFor_KodeSatuanFromUnit).asInteger;
            FKodeSatuanTo        := FieldByName(GetFieldNameFor_KodeSatuanTo).asString;
-           FKodeSatuanToUnit    := FieldByName(GetFieldNameFor_KodeSatuanToUnit).asInteger;
+//           FKodeSatuanToUnit    := FieldByName(GetFieldNameFor_KodeSatuanToUnit).asInteger;
            FSkalaKonversi       := FieldByName(GetFieldNameFor_SkalaKonversi).asFloat;
            FBarcode             := FieldByName(GetFieldNameFor_Barcode).AsString;
 
-           FNewUnit.LoadByID(FieldByName(GetFieldNameFor_UnitID).asInteger);
+//           FNewUnit.LoadByID(FieldByName(GetFieldNameFor_UnitID).AsString);
            Self.State           := csLoaded;
            Result := True;
         end;
@@ -236,7 +311,7 @@ begin
   result.Append( 'TRMSBaseClass_ID Integer not null, ' );
   result.Append( 'BarangUnitID   Integer Not Null , ' );
   result.Append( 'ID   Integer Not Null  Unique, ' );
-  result.Append( 'KodeBarang   Varchar(30) Not Null , ' );
+  result.Append( 'IDBarang   Varchar(30) Not Null , ' );
   result.Append( 'KodeSatuanFrom   Varchar(30) Not Null , ' );
   result.Append( 'KodeSatuanFromUnitID   Integer Not Null , ' );
   result.Append( 'KodeSatuanTo   Varchar(30) Not Null , ' );
@@ -247,82 +322,52 @@ begin
   result.Append( ' ); ' );
 end;
 
-function TKonversiSatuan.ExecuteGenerateSQL: Boolean;
+class function TKonversiSatuan.GetConversionValue(ABarangID: String; AUnitID:
+    Integer; AUOMFrom, AUOMTo: String): Double;
 var
-//  lDecimalSeparator: Char;
-  S: string;
+  sSQL: string;
 begin
-  result := False;
-//  lDecimalSeparator := DecimalSeparator;
-//  DecimalSeparator := '.';
+  Result := 0;
+  sSQL := 'select ' + GetFieldNameFor_SkalaKonversi
+        + ' from ' + CustomTableName
+        + ' where ' + GetFieldNameFor_IDBarang + ' = ' + QuotedStr(ABarangID)
+//        + ' and ' + GetFieldNameFor_BarangUnit + ' = ' + IntToStr(AUnitID)
+        + ' and ' + GetFieldNameFor_KodeSatuanFrom + ' = ' + QuotedStr(AUOMFrom)
+        + ' and ' + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr(AUOMTo);
 
-  try
-    if State = csNone then
-    Begin
-       raise Exception.create('Tidak bisa generate dalam Mode csNone');
-    end;
-
-    if not ExecuteSQLTaskPrior then
-    begin
-      cRollbackTrans;
-      Exit;
-    end else begin
-      if FID <= 0 then
+  with cOpenQuery(sSQL, dbtPOS, True) do
+  begin
+    try
+      if not eof then
       begin
-        FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
-        S := 'Insert into ' + CustomTableName + ' ( ' + GetFieldNameFor_BarangUnit + ', ' + GetFieldNameFor_ID + ', ' + GetFieldNameFor_KodeBarang + ', ' + GetFieldNameFor_KodeSatuanFrom + ', ' + GetFieldNameFor_KodeSatuanFromUnit + ', ' + GetFieldNameFor_KodeSatuanTo + ', ' + GetFieldNameFor_KodeSatuanToUnit + ', ' + GetFieldNameFor_SkalaKonversi + ', ' + GetFieldNameFor_UnitID + ',' + GetFieldNameFor_Barcode + ') values ('
-             + IntToStr( FBarangUnit) + ', '
-             + IntToStr( FID) + ', '
-             + QuotedStr(FKodeBarang ) + ','
-             + QuotedStr(FKodeSatuanFrom ) + ','
-             + IntToStr( FKodeSatuanFromUnit) + ', '
-             + QuotedStr(FKodeSatuanTo ) + ','
-             + IntToStr( FKodeSatuanToUnit) + ', '
-             + FormatFloat(siFrtDec8, FSkalaKonversi) + ', '
-             + IntToStr( FNewUnit.ID)  + ','
-             + QuotedStr( FBarcode)
-             + ');';
-      end else
-      begin
-        S := 'Update ' + CustomTableName + ' Set ' + GetFieldNameFor_BarangUnit + ' = ' + IntToStr( FBarangUnit)
-             + ' , ' + GetFieldNameFor_KodeBarang + ' = ' + QuotedStr( FKodeBarang )
-             + ' , ' + GetFieldNameFor_KodeSatuanFrom + ' = ' + QuotedStr( FKodeSatuanFrom )
-             + ' , ' + GetFieldNameFor_KodeSatuanFromUnit + ' = ' + IntToStr( FKodeSatuanFromUnit)
-             + ' , ' + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr( FKodeSatuanTo )
-             + ' , ' + GetFieldNameFor_Barcode + ' = ' + QuotedStr( FBarcode )
-             + ' , ' + GetFieldNameFor_KodeSatuanToUnit + ' = ' + IntToStr( FKodeSatuanToUnit)
-             + ' , ' + GetFieldNameFor_SkalaKonversi + ' = ' + FormatFloat(siFrtDec8, FSkalaKonversi)
-             + ' where ' + GetFieldNameFor_UnitID + ' = ' + IntToStr( FNewUnit.ID)
-             + ' and '  + GetFieldNameFor_ID + ' = ' + IntToStr(FID) + ';';
+        Result := Fields[0].AsFloat;
       end;
-
-      if not cExecSQL(S, dbtPOS, False) then
-      begin
-        cRollbackTrans;
-        Exit;
-      end else begin
-        Result := ExecuteSQLTask;
-      end;
+    finally
+      Free;
     end;
-  finally
-//    DecimalSeparator := lDecimalSeparator;
-
-  end;  
+  end;
 end;
 
-class function TKonversiSatuan.GetFieldNameFor_BarangUnit: string;
+//class function TKonversiSatuan.GetFieldNameFor_BarangUnit: string;
+//begin
+//  Result := 'KONVSAT_BRG_UNT_ID';// <<-- Rubah string ini untuk mapping
+//end;
+
+function TKonversiSatuan.GetFieldNameFor_Barcode: string;
 begin
-  Result := 'KONVSAT_BRG_UNT_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'KONVSAT_BARCODE';
 end;
 
 function TKonversiSatuan.GetFieldNameFor_ID: string;
 begin
-  Result := 'KONVSAT_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'KONVSAT_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'REF$KONVERSI_SATUAN_ID'
 end;
 
-class function TKonversiSatuan.GetFieldNameFor_KodeBarang: string;
+class function TKonversiSatuan.GetFieldNameFor_IDBarang: string;
 begin
-  Result := 'KONVSAT_BRG_CODE';// <<-- Rubah string ini untuk mapping
+//  Result := 'KONVSAT_BRG_CODE';// <<-- Rubah string ini untuk mapping
+  Result := 'BARANG_ID';
 end;
 
 class function TKonversiSatuan.GetFieldNameFor_KodeSatuanFrom: string;
@@ -330,30 +375,30 @@ begin
   Result := 'KONVSAT_SAT_CODE_FROM';// <<-- Rubah string ini untuk mapping
 end;
 
-class function TKonversiSatuan.GetFieldNameFor_KodeSatuanFromUnit: string;
-begin
-  Result := 'KONVSAT_SCF_UNT_ID';// <<-- Rubah string ini untuk mapping
-end;
+//class function TKonversiSatuan.GetFieldNameFor_KodeSatuanFromUnit: string;
+//begin
+//  Result := 'KONVSAT_SCF_UNT_ID';// <<-- Rubah string ini untuk mapping
+//end;
 
 class function TKonversiSatuan.GetFieldNameFor_KodeSatuanTo: string;
 begin
   Result := 'KONVSAT_SAT_CODE_TO';// <<-- Rubah string ini untuk mapping
 end;
 
-class function TKonversiSatuan.GetFieldNameFor_KodeSatuanToUnit: string;
-begin
-  Result := 'KONVSAT_SCT_UNT_ID';// <<-- Rubah string ini untuk mapping
-end;
+//class function TKonversiSatuan.GetFieldNameFor_KodeSatuanToUnit: string;
+//begin
+//  Result := 'KONVSAT_SCT_UNT_ID';// <<-- Rubah string ini untuk mapping
+//end;
 
 class function TKonversiSatuan.GetFieldNameFor_SkalaKonversi: string;
 begin
   Result := 'KONVSAT_SCALE';// <<-- Rubah string ini untuk mapping
 end;
 
-class function TKonversiSatuan.GetFieldNameFor_UnitID: string;
-begin
-  Result := 'KONVSAT_UNT_ID';// <<-- Rubah string ini untuk mapping
-end;
+//class function TKonversiSatuan.GetFieldNameFor_UnitID: string;
+//begin
+//  Result := 'KONVSAT_UNT_ID';// <<-- Rubah string ini untuk mapping
+//end;
 
 function TKonversiSatuan.getGeneratorName: string;
 begin
@@ -365,8 +410,8 @@ begin
   result := 288;
 end;
 
-function TKonversiSatuan.GetId(aKodeBarang : String; aKodeSatuanFrom : String;
-    aKodeSatuanTo : String; aUnitId : Integer): Integer;
+function TKonversiSatuan.GetId(aBarangID, aKodeSatuanFrom, aKodeSatuanTo:
+    String; aUnitId: Integer): Integer;
 var
   iQ: TFDQuery;
  sSQL : string;
@@ -375,10 +420,10 @@ begin
 
   sSQL := 'select ' + GetFieldNameFor_ID
           + ' from ' + CustomTableName
-          + ' where ' + GetFieldNameFor_KodeBarang + ' = ' + QuotedStr(aKodeBarang)
+          + ' where ' + GetFieldNameFor_IDBarang + ' = ' + QuotedStr(aBarangID)
           + ' AND ' + GetFieldNameFor_KodeSatuanFrom + ' = ' + QuotedStr(aKodeSatuanFrom)
-          + ' AND ' + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr(aKodeSatuanTo)
-          + ' AND ' + GetFieldNameFor_UnitID + ' = ' + IntToStr(aUnitId);
+          + ' AND ' + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr(aKodeSatuanTo);
+//          + ' AND ' + GetFieldNameFor_UnitID + ' = ' + IntToStr(aUnitId);
 
  try
    iQ := cOpenQuery(sSQL, dbtPOS, True);
@@ -416,22 +461,48 @@ begin
 
 end;
 
-function TKonversiSatuan.GetPlannedID: Integer;
+function TKonversiSatuan.GetPlannedID: string;
 begin
-  result := -1;
+//  result := -1;
+  Result := '';
   if State = csNone then
   begin
-      Raise exception.create('Tidak bisa GetPlannedID di Mode csNone');
-      exit;
+    Raise exception.create('Tidak bisa GetPlannedID di Mode csNone');
+    exit;
   end else
-     if state = csCreated then
+  if state = csCreated then
   begin
-  result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//    result := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+    Result := cGetNextIDGUIDToString;
   end else
-     if State = csLoaded then
+  if State = csLoaded then
   begin
-      result := FID;
+    Result := FID;
   end;
+end;
+
+function TKonversiSatuan.IsBarcodeSudahAda: Boolean;
+var
+  sSQL: string;
+begin
+  Result := False;
+  sSQL := 'select count(1)'
+          + ' from ' + CustomTableName + ' where '
+//          + ' konvsat_unt_id = ' + IntToStr(NewUnit.ID) + ' and '
+          + GetFieldNameFor_Barcode + ' = ' + QuotedStr(FBarcode) + ' and '
+          + GetFieldNameFor_ID + ' <> ' + QuotedStr(FID);
+
+  with cOpenQuery(sSQL, dbtPOS, True) do
+  begin
+    try
+      if Fields[0].AsInteger > 0 then
+        Result := True
+
+    finally
+      Free;
+    end;
+  end;
+
 end;
 
 function TKonversiSatuan.isKodeExist(aKodeBarang : String; aKodeSatuanFrom :
@@ -442,11 +513,11 @@ begin
 
   sSQL := 'select count ( ' + GetFieldNameFor_ID + ') as jumlah '
            + ' from '+ CustomTableName
-           + ' where ' + GetFieldNameFor_KodeBarang + ' = ' + QuotedStr(aKodeBarang)
+           + ' where ' + GetFieldNameFor_IDBarang + ' = ' + QuotedStr(aKodeBarang)
            + ' AND ' + GetFieldNameFor_KodeSatuanFrom + ' = ' + QuotedStr(aKodeSatuanFrom)
            + ' AND ' + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr(aKodeSatuanTo)
-           + ' AND ' + GetFieldNameFor_ID + ' <> ' + IntToStr(aExcludeId)
-           + ' AND ' + GetFieldNameFor_UnitID + ' = ' + IntToStr(aUnitId);
+           + ' AND ' + GetFieldNameFor_ID + ' <> ' + IntToStr(aExcludeId);
+//           + ' AND ' + GetFieldNameFor_UnitID + ' = ' + IntToStr(aUnitId);
 
     with cOpenQuery(sSQL, dbtPOS, True) do
   begin
@@ -463,10 +534,10 @@ begin
   end;
 end;
 
-function TKonversiSatuan.LoadByID(aID: Integer): Boolean;
+function TKonversiSatuan.LoadByID(aID: string): Boolean;
 begin
   result := FloadFromDB('Select * from ' + CustomTableName
-                       + ' Where ' + GetFieldNameFor_ID + '  = ' + IntToStr(aID)
+                       + ' Where ' + GetFieldNameFor_ID + '  = ' + QuotedStr(aID)
                        );
 end;
 
@@ -484,61 +555,6 @@ begin
           + ' and konvsat_sat_code_to = ' + QuotedStr(aUOMKonversiTo);
 
   Result := FLoadFromDB(sSQL);
-  
-end;
-
-class function TKonversiSatuan.GetConversionValue(APLU: String; AUnitID:
-		Integer; AUOMFrom, AUOMTo: String): Double;
-var
-	sSQL: string;
-begin
-  Result := 0;
-	sSQL := 'select ' + GetFieldNameFor_SkalaKonversi
-    + ' from ' + CustomTableName
-    + ' where ' + GetFieldNameFor_KodeBarang + ' = ' + QuotedStr(APLU)
-    + ' and ' + GetFieldNameFor_BarangUnit + ' = ' + IntToStr(AUnitID)
-    + ' and ' + GetFieldNameFor_KodeSatuanFrom + ' = ' + QuotedStr(AUOMFrom)
-    + ' and ' + GetFieldNameFor_KodeSatuanTo + ' = ' + QuotedStr(AUOMTo);
-
-  with cOpenQuery(sSQL, dbtPOS, True) do
-  begin
-    try
-      if not eof then
-      begin
-        Result := Fields[0].AsFloat;
-      end;  
-    finally
-      Free;
-    end;
-  end;                                  
-end;
-
-function TKonversiSatuan.GetFieldNameFor_Barcode: string;
-begin
-  Result := 'KONVSAT_BARCODE';
-end;
-
-function TKonversiSatuan.IsBarcodeSudahAda: Boolean;
-var
-  sSQL: string;
-begin
-  Result := False;
-  sSQL := 'select count(konvsat_id)'
-          + ' from REF$KONVERSI_SATUAN'
-          + ' where konvsat_unt_id = ' + IntToStr(NewUnit.ID)
-          + ' and konvsat_barcode = ' + QuotedStr(FBarcode)
-          + ' and konvsat_id <> ' + IntToStr(FID);
-
-  with cOpenQuery(sSQL, dbtPOS, True) do
-  begin
-    try
-      if Fields[0].AsInteger > 0 then
-        Result := True
-
-    finally
-      Free;
-    end;
-  end;
 
 end;
 
@@ -548,8 +564,8 @@ var
 begin
   Result := False;
   sSQL := 'delete from ' + CustomTableName
-          + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(ID)
-          + ' and ' + GetFieldNameFor_UnitID + ' = ' + IntToStr(NewUnit.ID);
+          + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(ID);
+//          + ' and ' + GetFieldNameFor_UnitID + ' = ' + IntToStr(NewUnit.ID);
 
   if not cExecSQL(sSQL, dbtPOS, False) then
   begin
@@ -557,35 +573,35 @@ begin
     Exit;
   end
   else begin
-    sSQL := 'delete from barang_harga_Jual'
-            + ' where bhj_brg_code = ' + QuotedStr(FKodeBarang)
-            + ' and bhj_sat_code = ' + QuotedStr(FKodeSatuanFrom)
-            + ' and bhj_sat_code_unt_id = ' + IntToStr(FNewUnit.ID);
-
-    if cExecSQL(sSQL, dbtPOS, False) then
-    begin
-      Result := True
-    end else begin
-      cRollbackTrans;
-    end;
+//    sSQL := 'delete from barang_harga_Jual'
+//            + ' where bhj_brg_code = ' + QuotedStr(FIDBarang)
+//            + ' and bhj_sat_code = ' + QuotedStr(FKodeSatuanFrom);
+//            + ' and bhj_sat_code_unt_id = ' + IntToStr(FNewUnit.ID);
+//
+//    if cExecSQL(sSQL, dbtPOS, False) then
+//    begin
+//      Result := True
+//    end else begin
+//      cRollbackTrans;
+//    end;
   end;
 end;
 
-procedure TKonversiSatuan.UpdateData(aBarangUnit : Integer; aID : Integer;
-    aKodeBarang : string; aKodeSatuanFrom : string; aKodeSatuanFromUnit :
-    Integer; aKodeSatuanTo : string; aKodeSatuanToUnit : Integer;
-    aSkalaKonversi : Double; aUnitID : Integer; aBarcode : String);
+procedure TKonversiSatuan.UpdateData(aBarangUnit: Integer; aID, aKodeBarang,
+    aKodeSatuanFrom: string; aKodeSatuanFromUnit: Integer; aKodeSatuanTo:
+    string; aKodeSatuanToUnit: Integer; aSkalaKonversi: Double; aUnitID,
+    aBarcode: string);
 begin
-  FBarangUnit         := aBarangUnit;
+//  FBarangUnit         := aBarangUnit;
   FID                 := aID;
-  FKodeBarang         := Trim(aKodeBarang);
+  FIDBarang           := Trim(aKodeBarang);
   FKodeSatuanFrom     := Trim(aKodeSatuanFrom);
-  FKodeSatuanFromUnit := aKodeSatuanFromUnit;
+//  FKodeSatuanFromUnit := aKodeSatuanFromUnit;
   KodeSatuanTo        := Trim(aKodeSatuanTo);
-  FKodeSatuanToUnit   := aKodeSatuanToUnit;
+//  FKodeSatuanToUnit   := aKodeSatuanToUnit;
   FSkalaKonversi      := aSkalaKonversi;
 
-  FNewUnit.LoadByID(aUnitID);
+//  FNewUnit.LoadByID(aUnitID);
   Barcode := aBarcode;
   State := csCreated;
 end;
@@ -665,12 +681,12 @@ begin
   sSQL := 'select a.bhj_id, a.bhj_unt_id'
           + ' from barang_harga_jual a'
           + ' left join barang b on a.bhj_brg_code = b.brg_code and a.bhj_brg_code_unt_id = b.brg_unt_id'
-          + ' where a.bhj_brg_code = ' + QuotedStr(KodeBarang)
-          + ' and a.bhj_brg_code_unt_id = ' + IntToStr(NewUnit.ID)
+          + ' where a.bhj_brg_code = ' + QuotedStr(IDBarang)
+//          + ' and a.bhj_brg_code_unt_id = ' + IntToStr(NewUnit.ID)
           + ' and a.bhj_sat_code = ' + QuotedStr(KodeSatuanTo)
-          + ' and a.bhj_sat_code_unt_id = ' + IntToStr(KodeSatuanToUnit)
-          + ' and b.brg_sat_code_stock = ' + QuotedStr(KodeSatuanFrom)
-          + ' and b.brg_sat_unt_id = ' + IntToStr(KodeSatuanFromUnit);
+//          + ' and a.bhj_sat_code_unt_id = ' + IntToStr(KodeSatuanToUnit)
+          + ' and b.brg_sat_code_stock = ' + QuotedStr(KodeSatuanFrom);
+//          + ' and b.brg_sat_unt_id = ' + IntToStr(KodeSatuanFromUnit);
 
   SS := TStringList.Create;
   with cOpenQuery(sSQL, dbtPOS, True) do
@@ -683,7 +699,7 @@ begin
                 + ' where bhj_id = ' + FieldByName('bhj_id').AsString
                 + ' and bhj_unt_id = ' + FieldByName('bhj_unt_id').AsString
                 + ';';
-        SS.Add(sSQL);        
+        SS.Add(sSQL);
       end;
 
       Result := cExecSQL(SS);

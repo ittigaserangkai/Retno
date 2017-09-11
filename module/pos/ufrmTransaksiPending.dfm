@@ -94,12 +94,12 @@ object frmTransaksiPending: TfrmTransaksiPending
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
       Styles.Background = frmTransaksi.cxStyleGreen
-      Styles.ContentEven = DMClient.cxStyleGridHeader
-      Styles.Header = DMClient.cxStyleGridEven
+      Styles.ContentEven = DMClient.cxStyleGridEven
+      Styles.Header = DMClient.cxStyleGridHeader
       object sgTransaksiColumn1: TcxGridDBColumn
         Caption = 'No'
         OnGetDisplayText = sgTransaksiColumn1GetDisplayText
-        Width = 90
+        Width = 30
       end
     end
     object grdlvlTransaksi: TcxGridLevel

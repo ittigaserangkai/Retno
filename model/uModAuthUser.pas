@@ -29,7 +29,7 @@ implementation
 
 class function TModAuthUser.GetTableName: String;
 begin
-  Result := 'AUTH$USER';
+  Result := 'AUT$USER';
 end;
 
 initialization

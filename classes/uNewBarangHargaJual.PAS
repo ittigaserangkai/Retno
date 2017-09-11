@@ -13,7 +13,7 @@ type
     FDATE_MODIFY: TDateTime;
     FDiscNominal: Double;
     FDiscPersen: Double;
-    FID: Integer;
+    FID: string;
     FIsLimitQty: Integer;
     FIsMailer: Integer;
     FIsQtySubsidy: Integer;
@@ -25,33 +25,32 @@ type
     FNewBarang: TNewBarang;
     FNewUnit: TUnit;
     FNewUOM: TNewUOM;
-    FOPC_UNIT: TUnit;
-    FOPC_UNITID: Integer;
-    FOPM_UNIT: TUnit;
-    FOPM_UNITID: Integer;
+//    FOPC_UNIT: TUnit;
+//    FOPC_UNITID: Integer;
+//    FOPM_UNIT: TUnit;
+//    FOPM_UNITID: Integer;
     FQtySubsidy: Integer;
     FQtySubsidyPrice: Double;
     FRemark: string;
     FSellPrice: Double;
     FSellPriceCoret: Double;
     FSellPriceDisc: Double;
-    FTipeHargaID: Integer;
-    FUnitID: Integer;
+    FTipeHargaID: string;
+    FUnitID: string;
     function ExecuteGenerateSQLPerLine: Boolean;
     function FLoadFromDB( aSQL : String ): Boolean;
-    function GetOPC_UNIT: TUnit;
-    function GetOPM_UNIT: TUnit;
   public
     constructor Create(aOwner : TComponent); override;
     destructor Destroy; override;
     procedure ClearProperties;
+    function CountBarangHargaJual(AKode: String; ATipeHargaID: Integer; AUnitID:
+        string): Integer;
+    function CustomTableName: string;
     function ExecuteCustomSQLTask: Boolean;
     function ExecuteCustomSQLTaskPrior: Boolean;
-    function CustomTableName: string;
-    function GenerateInterbaseMetaData: Tstrings;
     function ExecuteGenerateSQL: Boolean;
-    function LoadBarangHargaJualTermurah(AKode: String; ATipeHargaID: Integer;
-        AUnitID: Integer): Boolean;
+    function ExecuteGenerateSQLByUnit: Boolean;
+    function GenerateInterbaseMetaData: Tstrings;
     function GetFieldNameFor_AlokasiDanaSupplierID: string; dynamic;
     function GetFieldNameFor_DATE_CREATE: string;
     function GetFieldNameFor_DATE_MODIFY: string;
@@ -69,8 +68,8 @@ type
     function GetFieldNameFor_NewBarang: string; dynamic;
     function GetFieldNameFor_NewUnit: string; dynamic;
     function GetFieldNameFor_NewUOM: string; dynamic;
-    function GetFieldNameFor_OPC_UNIT: string;
-    function GetFieldNameFor_OPM_UNIT: string;
+//    function GetFieldNameFor_OPC_UNIT: string;
+//    function GetFieldNameFor_OPM_UNIT: string;
     function GetFieldNameFor_QtySubsidy: string; dynamic;
     function GetFieldNameFor_QtySubsidyPrice: string; dynamic;
     function GetFieldNameFor_Remark: string; dynamic;
@@ -78,44 +77,41 @@ type
     function GetFieldNameFor_SellPriceCoret: string; dynamic;
     function GetFieldNameFor_SellPriceDisc: string; dynamic;
     function GetFieldNameFor_TipeHargaID: string; dynamic;
-    function GetFieldNameFor_TipeHargaUnit: string; dynamic;
+//    function GetFieldNameFor_TipeHargaUnit: string; dynamic;
     function GetGeneratorName: string;
-    function SetHargaAverage(aKode : String; aUnitID : Integer; aUOMCode : String;
-        Var aConValue : Double; Var aHargaAvg : Double): Double;
     function GetHeaderFlag: Integer;
     function GetStorePrice(aKode : String; aUnitID : Integer; aTipeHrgID : Integer;
         aTipeHrgUnitID : Integer): Double;
+    function GetTipeHargaName: string;
     function IsSettingHargaJualSudahAda(aUnitID: integer; aKodeBrg : String;
         aSatuanCOde : String; aTiPehargID : Integer; aExcluedID : Integer): Boolean;
-    function LoadBarangBarcodeUom(ABarcode: String; ATipeHargaID: Integer): Boolean;
-    function CountBarangHargaJual(AKode: String; ATipeHargaID: Integer; AUnitID:
-        Integer): Integer;
-    function ExecuteGenerateSQLByUnit: Boolean;
-    function GetTipeHargaName: string;
-    function LoadBarangHargaJualTermurahUOM(AKode: String; ATipeHargaID: Integer;
-        AUnitID: Integer; aUoM:String): Boolean;
+    function LoadBarangBarcodeUom(ABarcode, ATipeHargaCode: String): Boolean;
+    function LoadBarangHargaJualTermurah(AKode, ATipeHargaCode: String): Boolean;
+    function LoadBarangHargaJualTermurahUOM(AKode, ATipeHargaCode, aUoM: String):
+        Boolean;
     function LoadByBarangKode(aBarangCode : String): Boolean; overload;
     function LoadByBarangKode(aBarangCode : String; aBarangUnitID : Integer;
         aSatCode : String; aSatUnitID : Integer): Boolean; overload;
     function LoadByBarangKodeTipeHarga(aBarangCode : String; aSatCode : String;
         aTipeHrg : Integer): Boolean;
-    function LoadByID(aID : Integer): Boolean; overload;
-    function LoadByID(aID : Integer; aUnitId: integer): Boolean; overload;
+    function LoadByID(aID: string): Boolean; overload;
     function RemoveFromDB: Boolean;
-    procedure UpdateData(aAlokasiDanaSupplierID : Integer; aDiscNominal : Double;
-        aDiscPersen : Double; aID : Integer; aIsLimitQty : Integer; aIsQtySubsidy :
-        Integer; aKonversiValue : Double; aLimitQty : Integer; aLimitQtyPrice :
-        Double; aMarkUp : Double; aNewBarangKode : string; aNewUnit_ID : Integer;
-        aUOM : string; aQtySubsidy : Integer; aQtySubsidyPrice : Double; aRemark :
-        string; aSellPrice : Double; aSellPriceCoret : Double; aSellPriceDisc :
-        Double; aTipeHargaID : Integer; aIsMailer : Integer; aMaxQtyDisc : Double);
+    function SetHargaAverage(aKode : String; aUnitID : Integer; aUOMCode : String;
+        Var aConValue : Double; Var aHargaAvg : Double): Double;
+    procedure UpdateData(aAlokasiDanaSupplierID: Integer; aDiscNominal,
+        aDiscPersen: Double; aID: string; aIsLimitQty, aIsQtySubsidy: Integer;
+        aKonversiValue: Double; aLimitQty: Integer; aLimitQtyPrice, aMarkUp:
+        Double; aNewBarangKode, aNewUnit_ID, aUOM: string; aQtySubsidy: Integer;
+        aQtySubsidyPrice: Double; aRemark: string; aSellPrice, aSellPriceCoret,
+        aSellPriceDisc: Double; aTipeHargaID: string; aIsMailer: Integer;
+        aMaxQtyDisc: Double);
     property AlokasiDanaSupplierID: Integer read FAlokasiDanaSupplierID write
             FAlokasiDanaSupplierID;
     property DATE_CREATE: TDateTime read FDATE_CREATE write FDATE_CREATE;
     property DATE_MODIFY: TDateTime read FDATE_MODIFY write FDATE_MODIFY;
     property DiscNominal: Double read FDiscNominal write FDiscNominal;
     property DiscPersen: Double read FDiscPersen write FDiscPersen;
-    property ID: Integer read FID write FID;
+    property ID: string read FID write FID;
     property IsLimitQty: Integer read FIsLimitQty write FIsLimitQty;
     property IsMailer: Integer read FIsMailer write FIsMailer;
     property IsQtySubsidy: Integer read FIsQtySubsidy write FIsQtySubsidy;
@@ -127,8 +123,8 @@ type
     property NewBarang: TNewBarang read FNewBarang write FNewBarang;
     property NewUnit: TUnit read FNewUnit write FNewUnit;
     property NewUOM: TNewUOM read FNewUOM write FNewUOM;
-    property OPC_UNIT: TUnit read GetOPC_UNIT write FOPC_UNIT;
-    property OPM_UNIT: TUnit read GetOPM_UNIT write FOPM_UNIT;
+//    property OPC_UNIT: TUnit read GetOPC_UNIT write FOPC_UNIT;
+//    property OPM_UNIT: TUnit read GetOPM_UNIT write FOPM_UNIT;
     property QtySubsidy: Integer read FQtySubsidy write FQtySubsidy;
     property QtySubsidyPrice: Double read FQtySubsidyPrice write
             FQtySubsidyPrice;
@@ -136,8 +132,8 @@ type
     property SellPrice: Double read FSellPrice write FSellPrice;
     property SellPriceCoret: Double read FSellPriceCoret write FSellPriceCoret;
     property SellPriceDisc: Double read FSellPriceDisc write FSellPriceDisc;
-    property TipeHargaID: Integer read FTipeHargaID write FTipeHargaID;
-    property UnitID: Integer read FUnitID write FUnitID;
+    property TipeHargaID: string read FTipeHargaID write FTipeHargaID;
+    property UnitID: string read FUnitID write FUnitID;
   end;
 
 function IsUOMSudahAdaKonversi(aBrgCode, aUOM: String): Boolean;
@@ -206,27 +202,54 @@ begin
   FAlokasiDanaSupplierID :=  0;
   FDiscNominal :=  0;
   FDiscPersen :=  0;
-  FID :=  0;
+  FID :=  '';
   FIsLimitQty :=  0;
   FIsQtySubsidy :=  0;
   FKonversiValue :=  0;
   FLimitQty :=  0;
   FLimitQtyPrice :=  0;
   FMarkUp :=  0;
-  FUnitID := 0;
+  FUnitID := '';
   FQtySubsidy :=  0;
   FQtySubsidyPrice :=  0;
   FRemark := '';
   FSellPrice :=  0;
   FSellPriceCoret :=  0;
   FSellPriceDisc :=  0;
-  FTipeHargaID :=  0;
+  FTipeHargaID :=  '';
   FIsMailer := 0;
   FMaxQtyDisc := 0;
 
   FNewBarang.ClearProperties;
   FNewUnit.ClearProperties;
   FNewUOM.ClearProperties;
+end;
+
+function TBarangHargaJual.CountBarangHargaJual(AKode: String; ATipeHargaID:
+    Integer; AUnitID: string): Integer;
+var
+  sSQL: string;
+begin
+  //Result := 0;
+  sSQL := 'select count(*) '
+    + 'from ' + CustomTableName
+    + ' where bhj_tphrg_id = ' + IntToStr(ATipeHargaID)
+    + ' and bhj_tphrg_unt_id = ' + QuotedStr(AUnitID)
+    + ' and bhj_brg_code = ' + QuotedStr(AKode);
+
+  with cOpenQuery(sSQL) do
+  begin
+      Try
+         Result := Fields[0].AsInteger;
+      Finally
+        Free;
+      end;
+  end;
+end;
+
+function TBarangHargaJual.CustomTableName: string;
+begin
+  Result := 'BARANG_HARGA_JUAL';
 end;
 
 function TBarangHargaJual.ExecuteCustomSQLTask: Boolean;
@@ -239,9 +262,151 @@ begin
   result :=True;
 end;
 
-function TBarangHargaJual.CustomTableName: string;
+function TBarangHargaJual.ExecuteGenerateSQL: Boolean;
+var
+  S: string;
+
 begin
-  Result := 'BARANG_HARGA_JUAL';
+  result := False;
+
+
+  try
+    if State = csNone then
+    Begin
+       raise Exception.create('Tidak bisa generate dalam Mode csNone')
+    end;
+
+    if not ExecuteCustomSQLTaskPrior then
+    begin
+      cRollbackTrans;
+      Exit
+    end
+    else
+    begin
+
+      DATE_MODIFY := cGetServerDateTime;
+//      FOPM_UNITID := FNewUnit.ID;
+
+//      if FID <= 0 then
+      if FID = '' then
+      begin
+          //Generate Insert SQL
+        DATE_CREATE := DATE_MODIFY;
+//        FOPC_UNITID := FOPM_UNITID;
+
+//        FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+        FID := cGetNextIDGUIDToString;
+        S := 'Insert into ' + CustomTableName + ' ( '
+        + GetFieldNameFor_DATE_CREATE + ', '
+        + GetFieldNameFor_DATE_MODIFY + ', '
+//        + GetFieldNameFor_OPC_UNIT + ', '
+//        + GetFieldNameFor_OPM_UNIT + ', '
+        + GetFieldNameFor_AlokasiDanaSupplierID  + ', '
+        + GetFieldNameFor_DiscNominal + ', ' + GetFieldNameFor_DiscPersen + ', '
+        + GetFieldNameFor_ID + ', ' + GetFieldNameFor_IsLimitQty + ', '
+        + GetFieldNameFor_IsQtySubsidy + ', ' + GetFieldNameFor_KonversiValue + ', '
+        + GetFieldNameFor_LimitQty + ', ' + GetFieldNameFor_LimitQtyPrice + ', '
+        + GetFieldNameFor_MarkUp + ', ' + GetFieldNameFor_NewBarang + ', '
+        + GetFieldNameFor_NewUnit + ', ' + GetFieldNameFor_NewUOM + ', '
+        + GetFieldNameFor_QtySubsidy + ', ' + GetFieldNameFor_QtySubsidyPrice + ', '
+        + GetFieldNameFor_Remark + ', ' + GetFieldNameFor_SellPrice + ', '
+        + GetFieldNameFor_SellPriceCoret + ', ' + GetFieldNameFor_SellPriceDisc + ','
+//        + GetFieldNameFor_TipeHargaID + ', ' + GetFieldNameFor_TipeHargaUnit + ','
+
+        + GetFieldNameFor_IsMailer + ', '
+        + GetFieldNameFor_MaxQtyDisc
+
+        + ') values ('
+        + TAppUtils.QuotDT(FDATE_CREATE) + ', '
+        + TAppUtils.QuotDT(FDATE_MODIFY) + ', '
+//        + InttoStr(FOPC_UNITID) + ', '
+//        + InttoStr(FOPM_UNITID) + ', '
+       + IfThen(FAlokasiDanaSupplierID = 0, 'null, ', IntToStr(FAlokasiDanaSupplierID) + ', ')
+       + FormatFloat('0.00', FDiscNominal) + ', '
+       + FormatFloat('0.00', FDiscPersen) + ', '
+       + QuotedStr( FID) + ', '
+       + IntToStr( FIsLimitQty) + ', '
+       + IntToStr( FIsQtySubsidy) + ', '
+       + FormatFloat('0.00000000', FKonversiValue) + ', '
+       + IntToStr( FLimitQty) + ', '
+       + FormatFloat('0.00', FLimitQtyPrice) + ', '
+       + FormatFloat('0.00', FMarkUp) + ', '
+       + QuotedStr( FNewBarang.Kode) + ', '
+       + QuotedStr( FUnitID) + ', '
+       + QuotedStr( FNewUOM.UOM) + ', '
+       + IntToStr( FQtySubsidy) + ', '
+       + FormatFloat('0.00', FQtySubsidyPrice) + ', '
+       + QuotedStr(FRemark ) + ','
+       + FormatFloat('0.00', FSellPrice) + ', '
+       + FormatFloat('0.00', FSellPriceCoret) + ', '
+       + FormatFloat('0.00', FSellPriceDisc) + ', '
+       + QuotedStr( FTipeHargaID) + ', '
+       + QuotedStr( FUnitID) + ', '
+       + InttoStr( FIsMailer) + ', '
+       + FormatFloat('0.00', FMaxQtyDisc)
+       + ');'
+      end
+      else
+      begin
+        S := 'Update ' + CustomTableName + ' set  '
+        + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
+//        + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
+        + ', ' + GetFieldNameFor_AlokasiDanaSupplierID + ' = ' + IfThen(FAlokasiDanaSupplierID = 0, 'null', IntToStr(FAlokasiDanaSupplierID) + '')
+        + ', ' + GetFieldNameFor_DiscNominal + ' = ' + FormatFloat('0.00', FDiscNominal)
+        + ', ' + GetFieldNameFor_DiscPersen + ' = ' + FormatFloat('0.00', FDiscPersen)
+        + ', ' + GetFieldNameFor_IsLimitQty + ' = ' + IntToStr( FIsLimitQty)
+        + ', ' + GetFieldNameFor_IsQtySubsidy + ' = ' + IntToStr( FIsQtySubsidy)
+        + ', ' + GetFieldNameFor_KonversiValue + ' = ' + FormatFloat('0.00000000', FKonversiValue)
+        + ', ' + GetFieldNameFor_LimitQty + ' = ' + IntToStr( FLimitQty)
+        + ', ' + GetFieldNameFor_LimitQtyPrice + ' = ' + FormatFloat('0.00', FLimitQtyPrice)
+        + ', ' + GetFieldNameFor_MarkUp + ' = ' + FormatFloat('0.00', FMarkUp)
+        + ', ' + GetFieldNameFor_NewBarang + ' = ' + QuotedStr( FNewBarang.Kode)
+        + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr( FUnitID)
+        + ', ' + GetFieldNameFor_NewUOM + ' = ' + QuotedStr( FNewUOM.UOM)
+        + ', ' + GetFieldNameFor_QtySubsidy + ' = ' + IntToStr( FQtySubsidy)
+        + ', ' + GetFieldNameFor_QtySubsidyPrice + ' = ' + FormatFloat('0.00', FQtySubsidyPrice)
+        + ' , ' + GetFieldNameFor_Remark + ' = ' + QuotedStr( FRemark )
+        + ', ' + GetFieldNameFor_SellPrice + ' = ' + FormatFloat('0.00', FSellPrice)
+        + ', ' + GetFieldNameFor_SellPriceCoret + ' = ' + FormatFloat('0.00', FSellPriceCoret)
+        + ', ' + GetFieldNameFor_SellPriceDisc + ' = ' + FormatFloat('0.00', FSellPriceDisc)
+        + ', ' + GetFieldNameFor_TipeHargaID + ' = ' + QuotedStr( FTipeHargaID)
+//        + ', ' + GetFieldNameFor_TipeHargaUnit + ' = ' + IntToStr(FUnitID)
+
+        + ', ' + GetFieldNameFor_IsMailer + ' = ' + IntToStr( IsMailer)
+        + ', ' + GetFieldNameFor_MaxQtyDisc + ' = ' + FormatFloat('0.00', FMaxQtyDisc)
+
+        + ' Where '+ GetFieldNameFor_NewUnit +' = ' + QuotedStr(FUnitID)
+        + ' and '+ GetFieldNameFor_ID +' = ' + QuotedStr(FID) + ';';
+      end;
+    end;
+    if not cExecSQL(S, dbtPOS, False) then
+    begin
+      cRollbackTrans;
+      Exit;
+    end else
+      Result := ExecuteCustomSQLTask;
+  finally
+//    DecimalSeparator := lDecimalSeparator;
+  end;
+end;
+
+function TBarangHargaJual.ExecuteGenerateSQLByUnit: Boolean;
+
+begin
+  Result := ExecuteGenerateSQLPerLine;
+end;
+
+function TBarangHargaJual.ExecuteGenerateSQLPerLine: Boolean;
+begin
+  try
+    Result  := ExecuteGenerateSQL;
+    if not IsUOMSudahAdaKonversi(fnewBarang.Kode, FNewUOM.UOM) then
+    begin
+      Result  := False;
+    end;
+  except
+    Result  := False;
+  end;
 end;
 
 function TBarangHargaJual.FLoadFromDB( aSQL : String ): Boolean;
@@ -257,7 +422,7 @@ begin
          FAlokasiDanaSupplierID := FieldByName(GetFieldNameFor_AlokasiDanaSupplierID).asInteger;
          FDiscNominal := FieldByName(GetFieldNameFor_DiscNominal).asFloat;
          FDiscPersen := FieldByName(GetFieldNameFor_DiscPersen).asFloat;
-         FID := FieldByName(GetFieldNameFor_ID).asInteger;
+         FID := FieldByName(GetFieldNameFor_ID).AsString;
          FIsLimitQty := FieldByName(GetFieldNameFor_IsLimitQty).asInteger;
          FIsQtySubsidy := FieldByName(GetFieldNameFor_IsQtySubsidy).asInteger;
          FKonversiValue := FieldByName(GetFieldNameFor_KonversiValue).asFloat;
@@ -268,17 +433,17 @@ begin
          FIsMailer := FieldByName(GetFieldNameFor_IsMailer).AsInteger;
          FMaxQtyDisc := FieldByName(GetFieldNameFor_MaxQtyDisc).asFloat;
 
-         FNewUnit.LoadByID(FieldByName(GetFieldNameFor_NewUnit).asInteger);
+         FNewUnit.LoadByID(FieldByName(GetFieldNameFor_NewUnit).AsString);
          FNewBarang.LoadByKode(FieldByName(GetFieldNameFor_NewBarang).AsString);
 
-         FNewUOM.LoadByUOM(FieldByName(GetFieldNameFor_NewUOM).AsString);
+         FNewUOM.LoadByID(FieldByName(GetFieldNameFor_NewUOM).AsString);
          FQtySubsidy := FieldByName(GetFieldNameFor_QtySubsidy).asInteger;
          FQtySubsidyPrice := FieldByName(GetFieldNameFor_QtySubsidyPrice).asFloat;
          FRemark := FieldByName(GetFieldNameFor_Remark).asString;
          FSellPrice := FieldByName(GetFieldNameFor_SellPrice).asFloat;
          FSellPriceCoret := FieldByName(GetFieldNameFor_SellPriceCoret).asFloat;
          FSellPriceDisc := FieldByName(GetFieldNameFor_SellPriceDisc).asFloat;
-         FTipeHargaID := FieldByName(GetFieldNameFor_TipeHargaID).asInteger;
+         FTipeHargaID := FieldByName(GetFieldNameFor_TipeHargaID).AsString;
 
          Self.State := csLoaded;
          Result := True;
@@ -321,149 +486,6 @@ begin
   result.Append( ' ); ' );
 end;
 
-function TBarangHargaJual.ExecuteGenerateSQL: Boolean;
-var
-  S: string;
-
-begin
-  result := False;
-
-
-  try
-    if State = csNone then
-    Begin
-       raise Exception.create('Tidak bisa generate dalam Mode csNone')
-    end;
-
-    if not ExecuteCustomSQLTaskPrior then
-    begin
-      cRollbackTrans;
-      Exit
-    end
-    else
-    begin
-
-      DATE_MODIFY := cGetServerDateTime;
-      FOPM_UNITID := FNewUnit.ID;
-
-      if FID <= 0 then
-      begin
-          //Generate Insert SQL
-        DATE_CREATE := DATE_MODIFY;
-        FOPC_UNITID := FOPM_UNITID;
-
-        FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
-        S := 'Insert into ' + CustomTableName + ' ( '
-        + GetFieldNameFor_DATE_CREATE + ', '
-        + GetFieldNameFor_DATE_MODIFY + ', '
-        + GetFieldNameFor_OPC_UNIT + ', '
-        + GetFieldNameFor_OPM_UNIT + ', '
-        + GetFieldNameFor_AlokasiDanaSupplierID  + ', '
-        + GetFieldNameFor_DiscNominal + ', ' + GetFieldNameFor_DiscPersen + ', '
-        + GetFieldNameFor_ID + ', ' + GetFieldNameFor_IsLimitQty + ', '
-        + GetFieldNameFor_IsQtySubsidy + ', ' + GetFieldNameFor_KonversiValue + ', '
-        + GetFieldNameFor_LimitQty + ', ' + GetFieldNameFor_LimitQtyPrice + ', '
-        + GetFieldNameFor_MarkUp + ', ' + GetFieldNameFor_NewBarang + ', '
-        + GetFieldNameFor_NewUnit + ', ' + GetFieldNameFor_NewUOM + ', '
-        + GetFieldNameFor_QtySubsidy + ', ' + GetFieldNameFor_QtySubsidyPrice + ', '
-        + GetFieldNameFor_Remark + ', ' + GetFieldNameFor_SellPrice + ', '
-        + GetFieldNameFor_SellPriceCoret + ', ' + GetFieldNameFor_SellPriceDisc + ','
-        + GetFieldNameFor_TipeHargaID + ', ' + GetFieldNameFor_TipeHargaUnit + ','
-
-        + GetFieldNameFor_IsMailer + ', '
-        + GetFieldNameFor_MaxQtyDisc
-
-        + ') values ('
-        + TAppUtils.QuotDT(FDATE_CREATE) + ', '
-        + TAppUtils.QuotDT(FDATE_MODIFY) + ', '
-        + InttoStr(FOPC_UNITID) + ', '
-        + InttoStr(FOPM_UNITID) + ', '
-       + IfThen(FAlokasiDanaSupplierID = 0, 'null, ', IntToStr(FAlokasiDanaSupplierID) + ', ')
-       + FormatFloat('0.00', FDiscNominal) + ', '
-       + FormatFloat('0.00', FDiscPersen) + ', '
-       + IntToStr( FID) + ', '
-       + IntToStr( FIsLimitQty) + ', '
-       + IntToStr( FIsQtySubsidy) + ', '
-       + FormatFloat('0.00000000', FKonversiValue) + ', '
-       + IntToStr( FLimitQty) + ', '
-       + FormatFloat('0.00', FLimitQtyPrice) + ', '
-       + FormatFloat('0.00', FMarkUp) + ', '
-       + QuotedStr( FNewBarang.Kode) + ', '
-       + InttoStr( FUnitID) + ', '
-       + QuotedStr( FNewUOM.UOM) + ', '
-       + IntToStr( FQtySubsidy) + ', '
-       + FormatFloat('0.00', FQtySubsidyPrice) + ', '
-       + QuotedStr(FRemark ) + ','
-       + FormatFloat('0.00', FSellPrice) + ', '
-       + FormatFloat('0.00', FSellPriceCoret) + ', '
-       + FormatFloat('0.00', FSellPriceDisc) + ', '
-       + IntToStr( FTipeHargaID) + ', '
-       + InttoStr( FUnitID) + ', '
-       + InttoStr( FIsMailer) + ', '
-       + FormatFloat('0.00', FMaxQtyDisc)
-       + ');'
-      end
-      else
-      begin
-        S := 'Update ' + CustomTableName + ' set  '
-        + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
-        + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
-        + ', ' + GetFieldNameFor_AlokasiDanaSupplierID + ' = ' + IfThen(FAlokasiDanaSupplierID = 0, 'null', IntToStr(FAlokasiDanaSupplierID) + '')
-        + ', ' + GetFieldNameFor_DiscNominal + ' = ' + FormatFloat('0.00', FDiscNominal)
-        + ', ' + GetFieldNameFor_DiscPersen + ' = ' + FormatFloat('0.00', FDiscPersen)
-        + ', ' + GetFieldNameFor_IsLimitQty + ' = ' + IntToStr( FIsLimitQty)
-        + ', ' + GetFieldNameFor_IsQtySubsidy + ' = ' + IntToStr( FIsQtySubsidy)
-        + ', ' + GetFieldNameFor_KonversiValue + ' = ' + FormatFloat('0.00000000', FKonversiValue)
-        + ', ' + GetFieldNameFor_LimitQty + ' = ' + IntToStr( FLimitQty)
-        + ', ' + GetFieldNameFor_LimitQtyPrice + ' = ' + FormatFloat('0.00', FLimitQtyPrice)
-        + ', ' + GetFieldNameFor_MarkUp + ' = ' + FormatFloat('0.00', FMarkUp)
-        + ', ' + GetFieldNameFor_NewBarang + ' = ' + QuotedStr( FNewBarang.Kode)
-        + ', ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr( FUnitID)
-        + ', ' + GetFieldNameFor_NewUOM + ' = ' + QuotedStr( FNewUOM.UOM)
-        + ', ' + GetFieldNameFor_QtySubsidy + ' = ' + IntToStr( FQtySubsidy)
-        + ', ' + GetFieldNameFor_QtySubsidyPrice + ' = ' + FormatFloat('0.00', FQtySubsidyPrice)
-        + ' , ' + GetFieldNameFor_Remark + ' = ' + QuotedStr( FRemark )
-        + ', ' + GetFieldNameFor_SellPrice + ' = ' + FormatFloat('0.00', FSellPrice)
-        + ', ' + GetFieldNameFor_SellPriceCoret + ' = ' + FormatFloat('0.00', FSellPriceCoret)
-        + ', ' + GetFieldNameFor_SellPriceDisc + ' = ' + FormatFloat('0.00', FSellPriceDisc)
-        + ', ' + GetFieldNameFor_TipeHargaID + ' = ' + IntToStr( FTipeHargaID)
-        + ', ' + GetFieldNameFor_TipeHargaUnit + ' = ' + IntToStr(FUnitID)
-
-        + ', ' + GetFieldNameFor_IsMailer + ' = ' + IntToStr( IsMailer)
-        + ', ' + GetFieldNameFor_MaxQtyDisc + ' = ' + FormatFloat('0.00', FMaxQtyDisc)
-
-        + ' Where '+ GetFieldNameFor_NewUnit +' = ' + IntToStr(FUnitID)
-        + ' and '+ GetFieldNameFor_ID +' = ' + IntToStr(FID) + ';';
-      end;
-    end;
-    if not cExecSQL(S, dbtPOS, False) then
-    begin
-      cRollbackTrans;
-      Exit;
-    end else
-      Result := ExecuteCustomSQLTask;
-  finally
-//    DecimalSeparator := lDecimalSeparator;
-  end;
-end;
-
-function TBarangHargaJual.LoadBarangHargaJualTermurah(AKode: String;
-    ATipeHargaID: Integer; AUnitID: Integer): Boolean;
-var
-  sSQL: string;
-begin
-  Result := False;
-  sSQL := 'select * '
-    + 'from ' + CustomTableName
-    + ' where bhj_tphrg_id = ' + IntToStr(ATipeHargaID)
-//    + ' and bhj_tphrg_unt_id = ' + IntToStr(AUnitID)
-    + ' and bhj_brg_code = ' + QuotedStr(AKode)
-    + ' order by bhj_sell_price asc';
-
-  if FLoadFromDB(sSQL) then
-    Result := True;
-end;
-
 function TBarangHargaJual.GetFieldNameFor_AlokasiDanaSupplierID: string;
 begin
   Result := 'BHJ_ADSO_ID';// <<-- Rubah string ini untuk mapping
@@ -471,13 +493,11 @@ end;
 
 function TBarangHargaJual.GetFieldNameFor_DATE_CREATE: string;
 begin
-  // TODO -cMM: TBarangHargaJual.GetFieldNameFor_DATE_CREATE default body inserted
   Result := 'DATE_CREATE';
 end;
 
 function TBarangHargaJual.GetFieldNameFor_DATE_MODIFY: string;
 begin
-  // TODO -cMM: TBarangHargaJual.GetFieldNameFor_DATE_MODIFY default body inserted
   Result := 'DATE_MODIFY';
 end;
 
@@ -493,7 +513,8 @@ end;
 
 function TBarangHargaJual.GetFieldNameFor_ID: string;
 begin
-  Result := 'BHJ_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'BHJ_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'BARANG_HARGA_JUAL_ID'
 end;
 
 function TBarangHargaJual.GetFieldNameFor_IsLimitQty: string;
@@ -548,20 +569,19 @@ end;
 
 function TBarangHargaJual.GetFieldNameFor_NewUOM: string;
 begin
-  Result := 'BHJ_SAT_CODE';// <<-- Rubah string ini untuk mapping
+//  Result := 'BHJ_SAT_CODE';// <<-- Rubah string ini untuk mapping
+  Result := 'REF$SATUAN_ID';
 end;
 
-function TBarangHargaJual.GetFieldNameFor_OPC_UNIT: string;
-begin
-  // TODO -cMM: TBarangHargaJual.GetFieldNameFor_OPC_UNIT default body inserted
-  Result := 'OPC_UNIT';
-end;
+//function TBarangHargaJual.GetFieldNameFor_OPC_UNIT: string;
+//begin
+//  Result := 'OPC_UNIT';
+//end;
 
-function TBarangHargaJual.GetFieldNameFor_OPM_UNIT: string;
-begin
-  // TODO -cMM: TBarangHargaJual.GetFieldNameFor_OPM_UNIT default body inserted
-  Result := 'OPM_UNIT';
-end;
+//function TBarangHargaJual.GetFieldNameFor_OPM_UNIT: string;
+//begin
+//  Result := 'OPM_UNIT';
+//end;
 
 function TBarangHargaJual.GetFieldNameFor_QtySubsidy: string;
 begin
@@ -595,13 +615,14 @@ end;
 
 function TBarangHargaJual.GetFieldNameFor_TipeHargaID: string;
 begin
-  Result := 'BHJ_TPHRG_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'BHJ_TPHRG_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'REF$TIPE_HARGA_ID';
 end;
 
-function TBarangHargaJual.GetFieldNameFor_TipeHargaUnit: string;
-begin
-  Result := 'BHJ_TPHRG_UNT_ID';// <<-- Rubah string ini untuk mapping
-end;
+//function TBarangHargaJual.GetFieldNameFor_TipeHargaUnit: string;
+//begin
+//  Result := 'BHJ_TPHRG_UNT_ID';// <<-- Rubah string ini untuk mapping
+//end;
 
 function TBarangHargaJual.GetGeneratorName: string;
 begin
@@ -610,76 +631,44 @@ begin
 
 end;
 
-function TBarangHargaJual.SetHargaAverage(aKode : String; aUnitID : Integer;
-    aUOMCode : String; Var aConValue : Double; Var aHargaAvg : Double): Double;
-var
-  s: string;
-begin
-  Result := 0;
-
-  aConValue   := 0;
-  aHargaAvg   := 0;
-
-  s := 'SELECT b.KONVSAT_SCALE, (a.BRG_HARGA_AVERAGE * b.KONVSAT_SCALE) as HargaAverage'
-     + ' FROM BARANG a, REF$KONVERSI_SATUAN b WHERE a.BRG_CODE = b.KONVSAT_BRG_CODE'
-     + ' AND a.BRG_SAT_CODE_STOCK = b.KONVSAT_SAT_CODE_TO'
-     + ' AND b.KONVSAT_SAT_CODE_FROM = ' + QuotedStr(aUOMCode)
-     + ' AND a.BRG_CODE = ' + QuotedStr(aKode);
-  with cOpenQuery(s) do
-  begin
-    try
-      if not eof then
-      begin
-        aConValue   := Fields[0].AsFloat;
-        aHargaAvg   := Fields[1].AsFloat;
-      end;
-    finally
-      Free;
-    end;
-
-  end;
-
-end;
-
 function TBarangHargaJual.GetHeaderFlag: Integer;
 begin
   result := 1678;
 end;
 
-function TBarangHargaJual.GetOPC_UNIT: TUnit;
-begin
-  try
-    if FOPC_UNIT = nil then
-    begin
-      FOPC_UNIT := TUnit.Create(nil);
-      FOPC_UNIT.LoadByID(FOPC_UNITID);
-    end;
+//function TBarangHargaJual.GetOPC_UNIT: TUnit;
+//begin
+//  try
+//    if FOPC_UNIT = nil then
+//    begin
+//      FOPC_UNIT := TUnit.Create(nil);
+//      FOPC_UNIT.LoadByID(FOPC_UNITID);
+//    end;
+//
+//  finally
+//    Result := FOPC_UNIT;
+//  end;
+//end;
 
-  finally
-    Result := FOPC_UNIT;
-  end;
-end;
-
-function TBarangHargaJual.GetOPM_UNIT: TUnit;
-begin
-  try
-    if FOPM_UNIT = nil then
-    begin
-      FOPM_UNIT := TUnit.Create(nil);
-      FOPM_UNIT.LoadByID(FOPM_UNITID);
-    end;
-
-  finally
-    Result := FOPM_UNIT;
-  end;
-end;
+//function TBarangHargaJual.GetOPM_UNIT: TUnit;
+//begin
+//  try
+//    if FOPM_UNIT = nil then
+//    begin
+//      FOPM_UNIT := TUnit.Create(nil);
+//      FOPM_UNIT.LoadByID(FOPM_UNITID);
+//    end;
+//
+//  finally
+//    Result := FOPM_UNIT;
+//  end;
+//end;
 
 function TBarangHargaJual.GetStorePrice(aKode : String; aUnitID : Integer;
     aTipeHrgID : Integer; aTipeHrgUnitID : Integer): Double;
 var
   s: string;
 begin
-  // TODO -cMM: TBarangHargaJual.GetStorePrice default body inserted
   Result := 0;
 
   s := 'SELECT BHJ_SELL_PRICE_DISC FROM BARANG_HARGA_JUAL BHJ'
@@ -703,91 +692,6 @@ begin
 
 end;
 
-function TBarangHargaJual.IsSettingHargaJualSudahAda(aUnitID: integer; aKodeBrg
-    : String; aSatuanCOde : String; aTiPehargID : Integer; aExcluedID :
-    Integer): Boolean;
-var
-  sSQL: string;
-begin
-  Result := False;
-  sSQL := 'select count(bhj_id) from barang_harga_jual'
-          + ' where bhj_unt_id = ' + IntToStr(aUnitID)
-          + ' and bhj_brg_code = ' + QuotedStr(aKodeBrg)
-          + ' and bhj_sat_code = ' + QuotedStr(aSatuanCOde)
-          + ' and bhj_tphrg_id = ' + IntToStr(aTiPehargID)
-          + ' and bhj_id <> ' + IntToStr(aExcluedID);
-
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      if Fields[0].AsInteger > 0 then
-        Result := True;
-    finally
-      Free;
-    end;
-  end;
-
-end;
-
-function TBarangHargaJual.LoadBarangBarcodeUom(ABarcode: String; ATipeHargaID:
-    Integer): Boolean;
-var
-  sSQL: string;
-begin
-  Result := False;
-  sSQL := 'select bhj.* '
-    + ' FROM REF$KONVERSI_SATUAN ks INNER JOIN '
-    + CustomTableName + ' bhj ON (ks.KONVSAT_BRG_CODE = bhj.BHJ_BRG_CODE) '
-    + '  AND (ks.KONVSAT_SAT_CODE_FROM = bhj.BHJ_SAT_CODE)'
-    + ' WHERE bhj.bhj_tphrg_id     = ' + IntToStr(ATipeHargaID)
-    + ' and   ks.KONVSAT_BARCODE   = ' + QuotedStr(ABarcode)
-    + ' order by bhj.bhj_sell_price asc';
-
-  if FLoadFromDB(sSQL) then
-    Result := True;
-end;
-
-function TBarangHargaJual.CountBarangHargaJual(AKode: String; ATipeHargaID:
-    Integer; AUnitID: Integer): Integer;
-var
-  sSQL: string;
-begin
-  //Result := 0;
-  sSQL := 'select count(*) '
-    + 'from ' + CustomTableName
-    + ' where bhj_tphrg_id = ' + IntToStr(ATipeHargaID)
-    + ' and bhj_tphrg_unt_id = ' + IntToStr(AUnitID)
-    + ' and bhj_brg_code = ' + QuotedStr(AKode);
-
-  with cOpenQuery(sSQL) do
-  begin
-      Try
-         Result := Fields[0].AsInteger;
-      Finally
-        Free;
-      end;
-  end;
-end;
-
-function TBarangHargaJual.ExecuteGenerateSQLByUnit: Boolean;
-
-begin
-  Result := ExecuteGenerateSQLPerLine;
-end;
-
-function TBarangHargaJual.ExecuteGenerateSQLPerLine: Boolean;
-begin
-  try
-    Result  := ExecuteGenerateSQL;
-    if not IsUOMSudahAdaKonversi(fnewBarang.Kode, FNewUOM.UOM) then
-    begin
-      Result  := False;
-    end;
-  except
-    Result  := False;
-  end;
-end;
-
 function TBarangHargaJual.GetTipeHargaName: string;
 var
   sSQL: string;
@@ -795,7 +699,7 @@ begin
   Result := '';
   sSQL := 'select tphrg_name'
           + ' from ref$tipe_harga'
-          + ' where tphrg_id = ' + IntToStr(TipeHargaID);
+          + ' where ref$tipe_harga_id = ' + QuotedStr(TipeHargaID);
 
   with cOpenQuery(sSQL) do
   begin
@@ -812,19 +716,88 @@ begin
 
 end;
 
-function TBarangHargaJual.LoadBarangHargaJualTermurahUOM(AKode: String;
-    ATipeHargaID: Integer; AUnitID: Integer; aUoM:String): Boolean;
+function TBarangHargaJual.IsSettingHargaJualSudahAda(aUnitID: integer; aKodeBrg
+    : String; aSatuanCOde : String; aTiPehargID : Integer; aExcluedID :
+    Integer): Boolean;
 var
   sSQL: string;
 begin
   Result := False;
-  sSQL := 'select * '
-    + 'from ' + CustomTableName
-    + ' where bhj_tphrg_id = ' + IntToStr(ATipeHargaID)
-    + ' and bhj_tphrg_unt_id = ' + IntToStr(AUnitID)
-    + ' and bhj_brg_code = ' + QuotedStr(AKode)
-    + IfThen(aUoM='', '', ' and BHJ_SAT_CODE = ' + QuotedStr(aUoM))
-    + ' order by bhj_sell_price asc';
+  sSQL := 'select count(1) from ' + CustomTableName
+//          + ' where bhj_unt_id = ' + IntToStr(aUnitID)
+          + ' WHERE bhj_brg_code = ' + QuotedStr(aKodeBrg)
+          + ' and bhj_sat_code = ' + QuotedStr(aSatuanCOde)
+          + ' and bhj_tphrg_id = ' + IntToStr(aTiPehargID)
+          + ' and ' + GetFieldNameFor_ID + ' <> ' + IntToStr(aExcluedID);
+
+  with cOpenQuery(sSQL) do
+  begin
+    try
+      if Fields[0].AsInteger > 0 then
+        Result := True;
+    finally
+      Free;
+    end;
+  end;
+
+end;
+
+function TBarangHargaJual.LoadBarangBarcodeUom(ABarcode, ATipeHargaCode:
+    String): Boolean;
+var
+  sSQL: string;
+begin
+  Result := False;
+  sSQL := 'select bhj.* '
+        + ' FROM REF$KONVERSI_SATUAN ks INNER JOIN '
+        + CustomTableName + ' bhj ON (ks.KONVSAT_BRG_CODE = bhj.BHJ_BRG_CODE) '
+        + ' AND (ks.KONVSAT_SAT_CODE_FROM = bhj.BHJ_SAT_CODE) '
+        + ' INNER JOIN REF$TIPE_HARGA TH ON TH.' + GetFieldNameFor_TipeHargaID
+        + ' = bhj.' + GetFieldNameFor_TipeHargaID
+        + ' WHERE TH.TPHRG_CODE = ' + QuotedStr(ATipeHargaCode)
+        + ' and   ks.KONVSAT_BARCODE = ' + QuotedStr(ABarcode)
+        + ' order by bhj.bhj_sell_price asc';
+
+  if FLoadFromDB(sSQL) then
+    Result := True;
+end;
+
+function TBarangHargaJual.LoadBarangHargaJualTermurah(AKode, ATipeHargaCode:
+    String): Boolean;
+var
+  sSQL: string;
+begin
+  Result := False;
+  sSQL := 'select A.* '
+    + 'from ' + CustomTableName + ' A '
+    + ' inner join REF$TIPE_HARGA B on A.' + GetFieldNameFor_TipeHargaID + ' = B.' + GetFieldNameFor_TipeHargaID
+    + ' inner join BARANG C on C.BARANG_ID = A.BARANG_ID '
+    + ' where B.TPHRG_CODE = ' + QuotedStr(ATipeHargaCode)
+//    + ' and bhj_tphrg_unt_id = ' + IntToStr(AUnitID)
+    + ' and C.brg_code = ' + QuotedStr(AKode)
+    + ' order by A.bhj_sell_price asc';
+
+  if FLoadFromDB(sSQL) then
+    Result := True;
+end;
+
+function TBarangHargaJual.LoadBarangHargaJualTermurahUOM(AKode, ATipeHargaCode,
+    aUoM: String): Boolean;
+var
+  sSQL: string;
+begin
+  Result := False;
+  sSQL := 'select B.* '
+        + ' from ' + CustomTableName + ' B '
+        + ' inner join REF$TIPE_HARGA T on T.REF$TIPE_HARGA_ID = B.REF$TIPE_HARGA_ID '
+        + ' inner join BARANG A on A.BARANG_ID = B.BARANG_ID '
+        + ' inner join REF$SATUAN S on S.REF$SATUAN_ID = B.REF$SATUAN_ID '
+//        + ' and T.TPHRG_UNT_ID = B.BHJ_TPHRG_UNT_ID '
+        + ' where T.TPHRG_CODE = ' + QuotedStr(ATipeHargaCode)
+//        + ' and B.bhj_tphrg_unt_id = ' + QuotedStr(AUnitID)
+        + ' and A.brg_code = ' + QuotedStr(AKode)
+        + IfThen(aUoM='', '', ' and S.SAT_CODE = ' + QuotedStr(aUoM))
+        + ' order by B.bhj_sell_price asc';
 
   if FLoadFromDB(sSQL) then
     Result := True;
@@ -834,8 +807,6 @@ function TBarangHargaJual.LoadByBarangKode(aBarangCode : String): Boolean;
 var
   s: string;
 begin
-  // TODO -cMM: TBarangHargaJual.LoadByBarangKode default body inserted
-
   s := 'SELECT * FROM ' + CustomTableName
      + ' WHERE BHJ_BRG_CODE =' + QuotedStr(aBarangCode);
 
@@ -871,16 +842,10 @@ begin
     Result := True;
 end;
 
-function TBarangHargaJual.LoadByID(aID : Integer): Boolean;
-begin
-  result := FloadFromDB('Select * from ' + CustomTableName + ' Where ' + GetFieldNameFor_ID +' = ' + IntToStr(aID) );
-end;
-
-function TBarangHargaJual.LoadByID(aID : Integer; aUnitId: integer): Boolean;
+function TBarangHargaJual.LoadByID(aID: string): Boolean;
 begin
   result := FloadFromDB('Select * from ' + CustomTableName + ' Where '
-          + GetFieldNameFor_ID + ' = ' + IntToStr(aID)
-          + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(aUnitId));
+          + GetFieldNameFor_ID +' = ' + QuotedStr(aID) );
 end;
 
 function TBarangHargaJual.RemoveFromDB: Boolean;
@@ -888,22 +853,52 @@ var
   sSQL: string;
 begin
   Result := False;
-   sSQL := 'delete from ' + CustomTableName
-            + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(ID)
-            + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(NewUnit.ID) ;
+  sSQL := 'delete from ' + CustomTableName
+        + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(ID)
+        + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(NewUnit.ID) ;
 
-   if cExecSQL(sSQL, dbtPOS, False) then
-        Result := True; //SimpanBlob(sSQL,GetHeaderFlag);
+  if cExecSQL(sSQL, dbtPOS, False) then
+      Result := True; //SimpanBlob(sSQL,GetHeaderFlag);
 end;
 
-procedure TBarangHargaJual.UpdateData(aAlokasiDanaSupplierID : Integer;
-    aDiscNominal : Double; aDiscPersen : Double; aID : Integer; aIsLimitQty :
-    Integer; aIsQtySubsidy : Integer; aKonversiValue : Double; aLimitQty :
-    Integer; aLimitQtyPrice : Double; aMarkUp : Double; aNewBarangKode :
-    string; aNewUnit_ID : Integer; aUOM : string; aQtySubsidy : Integer;
-    aQtySubsidyPrice : Double; aRemark : string; aSellPrice : Double;
-    aSellPriceCoret : Double; aSellPriceDisc : Double; aTipeHargaID : Integer;
-    aIsMailer : Integer; aMaxQtyDisc : Double);
+function TBarangHargaJual.SetHargaAverage(aKode : String; aUnitID : Integer;
+    aUOMCode : String; Var aConValue : Double; Var aHargaAvg : Double): Double;
+var
+  s: string;
+begin
+  Result := 0;
+
+  aConValue   := 0;
+  aHargaAvg   := 0;
+
+  s := 'SELECT b.KONVSAT_SCALE, (a.BRG_HARGA_AVERAGE * b.KONVSAT_SCALE) as HargaAverage'
+     + ' FROM BARANG a, REF$KONVERSI_SATUAN b WHERE a.BRG_CODE = b.KONVSAT_BRG_CODE'
+     + ' AND a.BRG_SAT_CODE_STOCK = b.KONVSAT_SAT_CODE_TO'
+     + ' AND b.KONVSAT_SAT_CODE_FROM = ' + QuotedStr(aUOMCode)
+     + ' AND a.BRG_CODE = ' + QuotedStr(aKode);
+  with cOpenQuery(s) do
+  begin
+    try
+      if not eof then
+      begin
+        aConValue   := Fields[0].AsFloat;
+        aHargaAvg   := Fields[1].AsFloat;
+      end;
+    finally
+      Free;
+    end;
+
+  end;
+
+end;
+
+procedure TBarangHargaJual.UpdateData(aAlokasiDanaSupplierID: Integer;
+    aDiscNominal, aDiscPersen: Double; aID: string; aIsLimitQty, aIsQtySubsidy:
+    Integer; aKonversiValue: Double; aLimitQty: Integer; aLimitQtyPrice,
+    aMarkUp: Double; aNewBarangKode, aNewUnit_ID, aUOM: string; aQtySubsidy:
+    Integer; aQtySubsidyPrice: Double; aRemark: string; aSellPrice,
+    aSellPriceCoret, aSellPriceDisc: Double; aTipeHargaID: string; aIsMailer:
+    Integer; aMaxQtyDisc: Double);
 begin
   FAlokasiDanaSupplierID :=  aAlokasiDanaSupplierID;
   FDiscNominal :=  aDiscNominal;
@@ -930,7 +925,6 @@ begin
   FMaxQtyDisc := aMaxQtyDisc;
   state := csCreated;
 end;
-
 
 
 end.

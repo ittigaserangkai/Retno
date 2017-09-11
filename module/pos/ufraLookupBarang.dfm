@@ -24,11 +24,11 @@ object fraLookupBarang: TfraLookupBarang
       Left = 6
       Top = 9
       Width = 112
-      Height = 14
+      Height = 15
       Caption = 'Nama Barang [F5]'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Courier New'
       Font.Style = []
       ParentFont = False
@@ -110,13 +110,13 @@ object fraLookupBarang: TfraLookupBarang
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       OptionsView.GroupByBox = False
+      Styles.Header = DMClient.cxStyleGridHeader
       object sgBarangColumn1: TcxGridColumn
         Caption = 'PLU'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 39
       end
       object sgBarangColumn2: TcxGridColumn
@@ -125,7 +125,6 @@ object fraLookupBarang: TfraLookupBarang
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 57
       end
       object sgBarangColumn3: TcxGridColumn
@@ -134,7 +133,6 @@ object fraLookupBarang: TfraLookupBarang
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 92
       end
       object sgBarangColumn4: TcxGridColumn
@@ -144,7 +142,6 @@ object fraLookupBarang: TfraLookupBarang
         Properties.DisplayFormat = ',0.00;(,0.00)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 87
       end
       object sgBarangColumn5: TcxGridColumn
@@ -154,7 +151,6 @@ object fraLookupBarang: TfraLookupBarang
         Properties.DisplayFormat = ',0.00;(,0.00)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 55
       end
       object sgBarangColumn6: TcxGridColumn
@@ -164,7 +160,6 @@ object fraLookupBarang: TfraLookupBarang
         Properties.DisplayFormat = ',0.00;(,0.00)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 51
       end
       object sgBarangColumn7: TcxGridColumn
@@ -173,7 +168,6 @@ object fraLookupBarang: TfraLookupBarang
         Properties.Alignment.Horz = taCenter
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
-        Styles.Header = frmTransaksi.cxStyleBold
         Width = 64
       end
     end

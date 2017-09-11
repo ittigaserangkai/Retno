@@ -18,7 +18,6 @@ type
 
 type
   TfrmPayment = class(TForm)
-    pnlTotal: TPanel;
     lblTotal: TLabel;
     Panel12: TPanel;
     Label5: TLabel;
@@ -94,8 +93,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtJenisKartuCodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure fraLookUpCCsgLookupKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure fraLookUpCCedNamaKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -136,8 +133,10 @@ type
     procedure edtNilaiTunaiPropertiesChange(Sender: TObject);
     procedure edtNilaiCCPropertiesChange(Sender: TObject);
     procedure edtBayarCCPropertiesChange(Sender: TObject);
+    procedure fraLookUpCCcxGridViewKeyDown(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
   private
-    FCardID: Integer;
+    FCardID: string;
 		FCashBackNilai: Currency;
 		FCashNilai: Currency;
 		FCCCharge: Currency;
@@ -222,7 +221,7 @@ type
     procedure UpdateDataLokal(ATotalBelanja, ATotalBarangAMC: Currency;
         ADiscAMCPersen: Double; ATotalBarangCC: Currency; ATotalBarangPPN:
         Currency);
-    property CardID: Integer read FCardID write FCardID;
+    property CardID: string read FCardID write FCardID;
     property TipeIDConcession: Integer read FTipeIDConcession write
         FTipeIDConcession;
 		property CashBackNilai: Currency read FCashBackNilai write FCashBackNilai;
@@ -539,7 +538,13 @@ begin
   else if Key in [VK_F5] then
   begin
     fraLookUpCC.Visible := True;
-    fraLookUpCC.edNama.SetFocus;
+//    fraLookUpCC.edNama.SetFocus;
+//    fraLookUpCC.cxGridView.Columns[1].Focused := True;
+    fraLookUpCC.SetFocus;
+    fraLookUpCC.cxGrid.SetFocus;
+    fraLookUpCC.cxGridView.Focused := True;
+    fraLookUpCC.cxGridView.Controller.FocusedRow := fraLookUpCC.cxGridView.ViewData.FilterRow;
+    fraLookUpCC.cxGridView.Controller.FocusedColumnIndex := 1;
   end
   else if Key in [VK_RETURN] then
   begin
@@ -556,31 +561,9 @@ begin
   end;
 end;
 
-procedure TfrmPayment.fraLookUpCCsgLookupKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  fraLookUpCC.cxGridViewKeyDown(Sender,Key,Shift);
-  if Key in [VK_ESCAPE] then
-  begin
-    fraLookUpCC.Visible := False;
-    edtJenisKartuCode.SetFocus;
-    edtJenisKartuCode.SelectAll;
-  end
-  else if Key in [VK_RETURN] then
-  begin  
-    fraLookUpCC.Visible := False;
-    edtJenisKartuCode.Text := fraLookUpCC.CC_Code;
-
-    edtJenisKartuCodeExit(edtJenisKartuCode);
-    edtBayarCC.SetFocus;
-    edtBayarCC.SelectAll;
-    iEdit := 0;
-  end;
-end;
-
 procedure TfrmPayment.FormCreate(Sender: TObject);
 begin
-  fraLookUpCC.LoadData(frmMain.UnitID, 0);
+  fraLookUpCC.LoadData(0);
   try
     //CC_Minimum := StrToCurr(getGlobalVar('POS_CC_MIN'));
     Cashback_Minimum    := StrToCurr(dmMain.getGlobalVar('POS_CASHBACK_MIN'));
@@ -611,13 +594,13 @@ var
   sSQL: string;
 begin
   sSQL := 'select card_code, card_name, card_limit, card_charge, '
-    +' card_is_cashback, card_is_credit, card_id, CARD_DISCOUNT'
-    + ' from ref$credit_card '
-    + ' where card_unt_id = ' + IntToStr(frmMain.UnitID)
-    + ' and CARD_IS_ACTIVE = 1' // BP Was Here
-    + ' and (CARD_IS_KRING = 0 or CARD_IS_KRING is null)'
-    + ' and card_code = ' + QuotedStr(ACode)
-    + ' order by card_code';
+        + ' card_is_cashback, card_is_credit, ref$credit_card_id, CARD_DISCOUNT '
+        + ' from ref$credit_card '
+//        + ' where card_unt_id = ' + IntToStr(frmMain.UnitID)
+        + ' where CARD_IS_ACTIVE = 1' // BP Was Here
+        + ' and (CARD_IS_KRING = 0 or CARD_IS_KRING is null)'
+        + ' and card_code = ' + QuotedStr(ACode)
+        + ' order by card_code';
 
   ClearCCForm;
 
@@ -627,19 +610,15 @@ begin
       if not eof then
       begin
         HideCashBack;
-        CardID                 := Fields[6].AsInteger;
-        edtJenisKartuCode.Text := Fields[0].AsString;
-        edtJenisKartuName.Text := Fields[1].AsString;
-        CCChargePersen         := Fields[3].AsCurrency;
-        CCLimit                := Fields[2].AsCurrency;
-        CCDisc                 := Fields[7].AsFloat;
+        CardID                 := FieldByName('ref$credit_card_id').AsString;
+        edtJenisKartuCode.Text := FieldByName('card_code').AsString;
+        edtJenisKartuName.Text := FieldByName('card_name').AsString;
+        CCChargePersen         := FieldByName('card_charge').AsCurrency;
+        CCLimit                := FieldByName('card_limit').AsCurrency;
+        CCDisc                 := FieldByName('CARD_DISCOUNT').AsFloat;
         edtCCDisc.Value   := CCDisc;
         edtNilaiCC.Value  := 0;
 
-
-
-
-        
         if Fields[5].AsInteger = 1 then
           IsCreditCard := True
         else
@@ -661,7 +640,6 @@ begin
         CCDiscNominal := 0;
 
         HitungSisaUang;
-
 
         if Fields[4].AsInteger = 1 then
         begin
@@ -762,7 +740,7 @@ begin
 
               ParsingPrintStrukTrans;
 
-              frmTransaksi.Transaksi_ID := 0;
+              frmTransaksi.Transaksi_ID := '';
               {$IFDEF TSN}
               if IsConcession then
                  ParsingPrintConsValidasi;
@@ -802,7 +780,7 @@ begin
           try
             if SaveToDB then
             begin
-              frmTransaksi.Transaksi_ID := 0;
+              frmTransaksi.Transaksi_ID := '';
               frmTransaksi.ResetTransaction;
 
               frmTransaksi.edNoPelanggan.Text := '';
@@ -1374,10 +1352,13 @@ begin
 
           if CCNilai > 0 then
           begin
-            TransactionCard.UpdateData(CardID,
-              0, edtCashBack.Value,
+            TransactionCard.UpdateData(
+              CardID,
+              0,
+              edtCashBack.Value,
               edtChargeCreditCard.Value,
-              0, True,
+              '',
+              True,
               frmMain.UnitID,
               edtNilaiCC.Value,
               edtNomorCC.Text,
@@ -1389,7 +1370,8 @@ begin
           begin
             with VoucherLains.Add.VoucherLain do
             begin
-              UpdateData(0,True,frmMain.UnitID,
+              UpdateData(
+                '', True, frmMain.UnitID,
                 StrToInt(Self.VoucherLainJumlah[i]),
                 (StrToInt(Self.VoucherLainJumlah[i]) * StrToFloat(Self.VoucherLainNilai[i])),
                 frmTransaksi.edNoTrnTerakhir.Text,
@@ -1607,34 +1589,32 @@ begin
   edtBotolQty.Value := 0;
   edtBotolValue.Value := 0;
   ShowTotalBayar;
-  
-  if Trim(edtNoTransBotol.Text) = '' then
+
+  if Trim(edtNoTransBotol.Text) <> '' then
   begin
-  end
-  else
-  begin
-    sSQL := 'select a.tkb_status, sum(b.tkbd_qty) as qty, '
-      + 'sum(b.tkbd_total_sell_price_disc) as harga '
-      + 'from trans_kupon_botol a '
-      + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
-      + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
-      + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
-      + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text)
-      + ' group by a.tkb_status';
+    sSQL := 'select a.tkb_status, '
+          + ' sum(b.tkbd_qty) as qty, '
+          + ' sum(b.tkbd_total_sell_price_disc) as harga '
+          + 'from trans_kupon_botol a '
+          + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
+//          + ' and a.tkb_unt_id = b.tkbd_tkb_unt_id '
+//          + ' and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
+          + ' and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text)
+          + ' group by a.tkb_status';
 
     with cOpenQuery(sSQL) do
     begin
       try
         if not eof then
         begin
-          if UpperCase(Fields[0].AsString) = 'CLOSE' then
+          if UpperCase(FieldByName('tkb_status').AsString) = 'CLOSE' then
           begin
             ShowInfo('No voucher botol tersebut sudah pernah digunakan');
             edtNoTransBotol.SetFocus;
             edtNoTransBotol.SelectAll;
             Exit;
           end
-          else if UpperCase(Fields[0].AsString) = 'PENDING' then
+          else if UpperCase(FieldByName('tkb_status').AsString) = 'PENDING' then
           begin
             ShowInfo('No voucher botol tersebut status pending');
             edtNoTransBotol.SetFocus;
@@ -1643,7 +1623,7 @@ begin
           end
           else
           begin
-            if Fields[2].AsFloat > edtNilaiBayar.Value then
+            if FieldByName('harga').AsFloat > edtNilaiBayar.Value then
             begin
               ShowInfo('Nilai voucher tidak boleh melebihi total belanja');
               edtNoTransBotol.SetFocus;
@@ -1657,8 +1637,8 @@ begin
               sSQL := 'select b.tkbd_brg_code, b.tkbd_qty '
                 + 'from trans_kupon_botol a '
                 + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
-                + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
-                + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
+//                + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
+//                + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
                 + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text);
 
               with cOpenQuery(sSQL) do
@@ -1709,8 +1689,8 @@ begin
     + 'sum(b.tkbd_total_sell_price_disc) as harga '
     + 'from trans_kupon_botol a '
     + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
-    + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
-    + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
+//    + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
+//    + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
     + '  and a.tkb_no = ' + QuotedStr(ANoTransaksi)
     + ' group by a.tkb_status';
 
@@ -1874,8 +1854,8 @@ begin
       sSQL := 'select TRANSRET_POS_TRANS_NO as Nomor, '
             + ' TRANSRET_TOTAL_PRICE as Harga '
             + ' from TRANSAKSI_RETUR_NOTA '
-            + ' where TRANSRET_UNT_ID = ' + IntToStr(frmMain.UnitID)
-            + ' and TRANSRET_NO = ' + QuotedStr(edtNoVoucher.Text);
+//            + ' where TRANSRET_UNT_ID = ' + IntToStr(frmMain.UnitID)
+            + ' where TRANSRET_NO = ' + QuotedStr(edtNoVoucher.Text);
 
       with cOpenQuery(sSQL) do
       begin
@@ -1936,9 +1916,9 @@ begin
       sSQL := 'select b.vcrd_status, a.vcr_start_date, a.vcr_expire_date, '
             + 'sum(b.vcrd_nominal) as harga '
             + 'from voucher a '
-            + 'inner join voucher_detil b on a.vcr_id = b.vcrd_vcr_id '
-            + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
-            + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
+            + 'inner join voucher_detil b on a.voucher_id = b.voucher_id '
+//            + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
+//            + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
             + '  and b.vcrd_no = ' + QuotedStr(edtNoVoucher.Text)
             + ' group by b.vcrd_status, a.vcr_start_date, a.vcr_expire_date';
 
@@ -2127,8 +2107,8 @@ begin
   sSQL := 'select b.vcrd_status '
     + 'from voucher a '
     + 'inner join voucher_detil b on a.vcr_id = b.vcrd_vcr_id '
-    + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
-    + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
+//    + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
+//    + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
     + '  and b.vcrd_no = ' + QuotedStr(ANoVoucher);
 
   with cOpenQuery(sSQL) do
@@ -2256,9 +2236,9 @@ begin
   end
   else if Key in [VK_RETURN, VK_Tab] then
   begin
-    edtNilaiCC.SetFocus;
+//    edtNilaiCC.SetFocus;
+    edtNomorCC.SetFocus;
   end;
-
 end;
 
 procedure TfrmPayment.edtBayarCCPropertiesChange(Sender: TObject);
@@ -2300,6 +2280,28 @@ procedure TfrmPayment.edtNilaiTunaiPropertiesChange(Sender: TObject);
 begin
   CashNilai := edtNilaiTunai.Value;
   HitungSisaUang;
+end;
+
+procedure TfrmPayment.fraLookUpCCcxGridViewKeyDown(Sender: TObject; var Key:
+    Word; Shift: TShiftState);
+begin
+  fraLookUpCC.cxGridViewKeyDown(Sender, Key, Shift);
+  if Key in [VK_ESCAPE] then
+  begin
+    fraLookUpCC.Visible := False;
+    edtJenisKartuCode.SetFocus;
+    edtJenisKartuCode.SelectAll;
+  end
+  else if Key in [VK_RETURN] then
+  begin
+    fraLookUpCC.Visible := False;
+    edtJenisKartuCode.Text := fraLookUpCC.CC_Code;
+
+    edtJenisKartuCodeExit(edtJenisKartuCode);
+    edtBayarCC.SetFocus;
+    edtBayarCC.SelectAll;
+    iEdit := 0;
+  end;
 end;
 
 function TfrmPayment.GetAmountNonJB(aRow: Integer): Double;

@@ -2,23 +2,23 @@ object fraLookUpCC: TfraLookUpCC
   Left = 0
   Top = 0
   Width = 244
-  Height = 158
+  Height = 150
   TabOrder = 0
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 244
-    Height = 158
+    Height = 150
     Align = alClient
     Caption = 'Panel1'
     ParentColor = True
     TabOrder = 0
+    ExplicitHeight = 158
     object pnlHeader: TPanel
       Left = 1
       Top = 1
       Width = 242
       Height = 31
-      Align = alTop
       ParentColor = True
       TabOrder = 0
       DesignSize = (
@@ -52,19 +52,23 @@ object fraLookUpCC: TfraLookUpCC
     end
     object cxGrid: TcxGrid
       Left = 1
-      Top = 32
+      Top = 1
       Width = 242
-      Height = 125
+      Height = 148
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
+      ExplicitTop = 32
+      ExplicitHeight = 125
       object cxGridView: TcxGridDBTableView
         OnKeyDown = cxGridViewKeyDown
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Filter.Options = [fcoCaseInsensitive]
+        DataController.Filter.PercentWildcard = '*'
+        DataController.Filter.Active = True
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
@@ -74,18 +78,10 @@ object fraLookUpCC: TfraLookUpCC
         FilterRow.Visible = True
         FilterRow.ApplyChanges = fracImmediately
         NewItemRow.InfoText = 'Baris baru'
-        OptionsData.Editing = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.GroupByBox = False
-        Styles.ContentEven = DMClient.cxStyleGridHeader
-        Styles.Header = DMClient.cxStyleGridEven
-        object cxcolKode: TcxGridDBColumn
-          Caption = 'Kode'
-        end
-        object cxcolNama: TcxGridDBColumn
-          Caption = 'Nama'
-          Width = 128
-        end
+        Styles.ContentEven = DMClient.cxStyleGridEven
+        Styles.Header = DMClient.cxStyleGridHeader
       end
       object cxlvMaster: TcxGridLevel
         GridView = cxGridView

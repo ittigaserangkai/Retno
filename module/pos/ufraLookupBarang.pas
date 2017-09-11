@@ -45,8 +45,7 @@ type
     FIsProcessing: Boolean;
 		FPLU: string;
     FUOM: string;
-    FUnitID: Integer;
-    { Private declarations }
+    FUnitID: string;
   public
     procedure HideInfo;
     procedure LoadBarang(ANamaBarang: String = ''; AIsDepan: Boolean = True);
@@ -57,8 +56,7 @@ type
     property IsProcessing: Boolean read FIsProcessing write FIsProcessing;
 		property PLU: string read FPLU write FPLU;
     property UOM: string read FUOM write FUOM;
-    property UnitID: Integer read FUnitID write FUnitID;
-    { Public declarations }
+    property UnitID: string read FUnitID write FUnitID;
   end;
 
 implementation
@@ -89,20 +87,29 @@ begin
   lblNamaBarang.Enabled := True;
   *)
 
-  sSQL := 'select distinct a.brg_code, b.BHJ_SAT_CODE, a.brg_name, '
-        + ' b.BHJ_SELL_PRICE, b.BHJ_DISC_NOMINAL, b.BHJ_SELL_PRICE_DISC, '
-        + ' a.brg_is_active '
-        + 'from barang a '
-        + 'inner join barang_harga_jual b on a.brg_code = b.bhj_brg_code '
+  sSQL := 'select '
+        + '  distinct a.brg_code, '
+        + '  s.SAT_CODE, '
+        + '  a.brg_name, '
+        + '  b.BHJ_SELL_PRICE, '
+        + '  b.BHJ_DISC_NOMINAL, '
+        + '  b.BHJ_SELL_PRICE_DISC, '
+        + '  a.brg_is_active '
+        + ' from barang a '
+        + ' inner join barang_harga_jual b on a.BARANG_ID = b.BARANG_ID '
+        + ' inner join ref$satuan s on b.REF$SATUAN_ID = s.REF$SATUAN_ID '
+        + ' inner join REF$TIPE_HARGA th on th.REF$TIPE_HARGA_ID = b.REF$TIPE_HARGA_ID '
 // Sementara di non aktifkan
 //        + ' and a.brg_is_active = 1 '
-        + ' and b.BHJ_TPHRG_ID = 2 '
+        + ' and th.TPHRG_CODE = ''H004'' '
         + ' and a.brg_is_validate = 1';
   if Trim(ANamaBarang) <> '' then
+  begin
     if AIsDepan then
     	sSQL := sSQL + ' and upper(a.brg_name) like ''' + UpperCase(ANamaBarang) + '%'' '
     else
       sSQL := sSQL + ' and upper(a.brg_name) like ''%' + UpperCase(ANamaBarang) + '%'' ';
+  end;
   sSQL := sSQL + ' order by a.brg_name';
 
   iRecordCOunt := 0;
@@ -127,7 +134,7 @@ begin
       begin
         sgBarang.DataController.AppendRecord;
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolPLU]        := FieldByName('brg_code').AsString;
-        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolSatuan]     := FieldByName('BHJ_SAT_CODE').AsString;
+        sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolSatuan]     := FieldByName('SAT_CODE').AsString;
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolNamaBarang] := FieldByName('brg_name').AsString;
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolHargaDasar] := FieldByName('BHJ_SELL_PRICE').AsFloat;
         sgBarang.DataController.Values[sgBarang.DataController.RowCount-1,_KolDiskon]     := FieldByName('BHJ_DISC_NOMINAL').AsFloat;
@@ -152,7 +159,6 @@ begin
       IsProcessing := False;
     end;
   end;
-
 end;
 
 procedure TfraLookupBarang.edNamaBarangKeyDown(Sender: TObject;
@@ -181,8 +187,10 @@ begin
   end
   else if (key in [VK_UP,VK_DOWN,33,34]) then
   begin
-    sgBarang.Controller.FocusedColumnIndex := _KolNamaBarang;
     cxGrid.SetFocus;
+    sgBarang.Controller.FocusedColumnIndex := _KolNamaBarang;
+    if sgBarang.DataController.RowCount > 0 then
+      sgBarang.Controller.FocusedRowIndex := 0;
 //    if sgBarang.DataController.RowCount <= 1 then exit;
   end
   else if (key in [VK_F2]) then

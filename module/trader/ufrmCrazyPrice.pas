@@ -46,8 +46,8 @@ type
     //procedure ParseDataGrid(AData: TResultDataSet);
   public
     procedure LoadTipeHarga;
-    procedure SetListAllCrazyPrice(aTipeHrgID : Integer; aDate1 : TDateTime; aDate2
-        : TDateTime); dynamic;
+    procedure SetListAllCrazyPrice(aTipeHrgID: string; aDate1, aDate2: TDateTime);
+        dynamic;
     { Public declarations }
   end;
 
@@ -101,7 +101,7 @@ begin
   dtTo.Date:= Now;
   LoadTipeHarga;
 //  iTipeHargaID := cGetIDfromCombo(cbTipeHarga, cbTipeHarga.ItemIndex);
-  SetListAllCrazyPrice(iTipeHargaID, dtFrom.Date, dtTo.Date);
+  SetListAllCrazyPrice(IntToStr(iTipeHargaID), dtFrom.Date, dtTo.Date);
 
 end;
 
@@ -122,8 +122,7 @@ procedure TfrmCrazyPrice.LoadTipeHarga;
 var
   s: string;
 begin
-  // TODO -cMM: TfrmCrazyPrice.LoadTipeHarga default body inserted
-  s := 'Select TPHRG_ID, TPHRG_NAME From REF$TIPE_HARGA Where TPHRG_CODE <> ' + QuotedStr('H002')
+  s := 'Select REF$TIPE_HARGA_ID, TPHRG_NAME From REF$TIPE_HARGA Where TPHRG_CODE <> ' + QuotedStr('H004')
 //     + ' AND TPHRG_UNT_ID = ' + IntToStr(masternewunit.id)
      + ' Order By TPHRG_NAME';
 //  cQueryToComboObject(cbTipeHarga, s);
@@ -131,8 +130,8 @@ begin
   cbTipeHarga.ItemIndex := 1;
 end;
 
-procedure TfrmCrazyPrice.SetListAllCrazyPrice(aTipeHrgID : Integer; aDate1 :
-    TDateTime; aDate2 : TDateTime);
+procedure TfrmCrazyPrice.SetListAllCrazyPrice(aTipeHrgID: string; aDate1,
+    aDate2: TDateTime);
 var
   i: Integer;
   s: string;
@@ -140,10 +139,10 @@ begin
   // TODO -cMM: TfrmCrazyPrice.SetListAllCrazyPrice default body inserted
 
   s := 'SELECT * FROM BARANG_HARGA_JUAL a'
-     + ' INNER JOIN REF$TIPE_HARGA b ON a.BHJ_TPHRG_ID = b.TPHRG_ID '
+     + ' INNER JOIN REF$TIPE_HARGA b ON a.BHJ_TPHRG_ID = b.REF$TIPE_HARGA_ID '
      + ' INNER JOIN BARANG c ON a.BHJ_BRG_CODE = c.BRG_CODE '
      + ' INNER JOIN BARANG_TRANSAKSI d ON c.BRG_CODE = d.BRGT_BRG_CODE '
-     + ' WHERE b.TPHRG_ID = ' + IntToStr(aTipeHrgID)
+     + ' WHERE b.REF$TIPE_HARGA_ID = ' + TAppUtils.Quot(aTipeHrgID)
      + ' AND a.DATE_MODIFY BETWEEN ' + TAppUtils.QuotD(aDate1)
      + ' AND ' + TAppUtils.QuotD(aDate2, True);
 
@@ -256,7 +255,7 @@ begin
   inherited;
   //GetListCrazyPriceBetweenDate;
 //  iTipeHargaID := cGetIDfromCombo(cbTipeHarga, cbTipeHarga.ItemIndex);
-  SetListAllCrazyPrice(iTipeHargaID, dtFrom.Date, dtTo.Date);
+  SetListAllCrazyPrice(IntToStr(iTipeHargaID), dtFrom.Date, dtTo.Date);
 end;
 
 end.

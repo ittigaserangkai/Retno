@@ -55,7 +55,7 @@ const
    _Kol_TRANS_IS_ACTIVE     : Byte = 6;
    _Kol_TRANS_ID            : Byte = 7;
    _Kol_TRANS_MEMBER_ID     : Byte = 8;
-   _Kol_TRANS_MEMBER_UNT_ID : Byte = 9;
+//   _Kol_TRANS_MEMBER_UNT_ID : Byte = 9;
 
 {$R *.dfm}
 
@@ -74,7 +74,7 @@ end;
 procedure TfrmTransaksiPending.LoadPendingFromDBwClass(AMemberCode: String);
 var
   i: Integer;
-  iTransID : Integer;
+  iTransID : string;
 //  fPOSTransaction : TPOSTransaction;
   sPLU, sQty, sUoM: String;
 begin
@@ -88,7 +88,8 @@ begin
       else
         frmTransaksi.LoadMember(frmTransaksi.edNoPelanggan.Text);
       frmTransaksi.edNoTrnTerakhir.Text := Values[RecNo, _Kol_TRANS_NO];
-      TryStrToInt(Values[RecNo, _Kol_TRANS_ID], iTransID);
+//      TryStrToInt(Values[RecNo, _Kol_TRANS_ID], iTransID);
+      iTransID := VarToStr(Values[RecNo, _Kol_TRANS_ID]);
     end;
   finally
     frmTransaksi.SetGridHeader_Transaksi;
@@ -141,8 +142,9 @@ end;
 
 procedure TfrmTransaksiPending.LoadPendingFromDBwSQL(AMemberCode: String);
 var
-  iTransID, iRow_Detail : Integer;
-  sPLU, sQty, sUoM: String;
+  iTransID : string;
+  iRow_Detail : Integer;
+  sPLU, sQty, sUoM: string;
   fBHJSellPrice, fTransDSellPrice : Double;
   aKeyPress : Word;
   fDiscMan: Double;
@@ -158,30 +160,31 @@ begin
       else
         frmTransaksi.LoadMember(frmTransaksi.edNoPelanggan.Text);
       frmTransaksi.edNoTrnTerakhir.Text := Values[FocusedRecordIndex, _Kol_TRANS_NO];
-      TryStrToInt(Values[FocusedRecordIndex, _Kol_TRANS_ID], iTransID);
+//      TryStrToInt(Values[FocusedRecordIndex, _Kol_TRANS_ID], iTransID);
+      iTransID := VarToStr(Values[FocusedRecordIndex, _Kol_TRANS_ID]);
     end;
   finally
 //    frmTransaksi.SetGridHeader_Transaksi;
     frmTransaksi.edPLU.Text := '';
   end;
 
-  if iTransID > 0 then
+  if iTransID <> '' then
   begin
     frmTransaksi.sgTransaksi.ClearRows;
-    with cOpenQuery(GetListPendingTransDetailByHeaderID(frmMain.UnitID, iTransID)) do
+    with cOpenQuery(GetListPendingTransDetailByHeaderID(iTransID)) do
     begin
       aKeyPress := VK_RETURN;
       Try
         while not EoF do
         begin
           if frmTransaksi.FindInGrid(FieldByName('TransD_Brg_Code').AsString,0,
-              FieldByName('BHJ_Sat_Code').AsString) = -1 then
+              FieldByName('Sat_Code').AsString) = -1 then
           begin
             if frmTransaksi.sgTransaksi.DataController.Values[frmTransaksi.sgTransaksi.DataController.RecordCount-1,_KolPLU]<>'' then
 //               frmTransaksi.sgTransaksi.DataController.Append;
             sQty             := FieldByName('TransD_Qty').AsString;
             sPLU             := FieldByName('TransD_Brg_Code').AsString;
-            sUoM             := FieldByName('BHJ_Sat_Code').AsString;
+            sUoM             := FieldByName('Sat_Code').AsString;
             fBHJSellPrice    := FieldByName('BHJ_SELL_PRICE').AsFloat;
             fTransDSellPrice := FieldByName('TRANSD_SELL_PRICE').AsFloat;
             fDiscMan         := FieldByName('TRANSD_DISC_MAN').AsFloat;
@@ -190,7 +193,7 @@ begin
                                       sQty + '*' + sPLU,
                                       sUoM, False, False, fDiscMan, sDiscoto);
             if iRow_Detail >= 0 then
-              frmTransaksi.sgTransaksi.DataController.Values[iRow_Detail, _KolDetailID] := FieldByName('TRANSD_ID').AsInteger;
+              frmTransaksi.sgTransaksi.DataController.Values[iRow_Detail, _KolDetailID] := FieldByName('TRANSAKSI_DETIL_ID').AsString;
 
             if fBHJSellPrice = 0 then
             begin
@@ -238,8 +241,8 @@ begin
      sgTransaksi.Col := 1;
   end;
   }
-  sgTransaksi.LoadFromCDS(cOpenDataset(GetListPendingTransByUserIDAndDate(frmMain.UnitID, frmMain.UserID, cGetServerDateTime)));
-  sgTransaksi.SetVisibleColumns(_Kol_TRANS_IS_ACTIVE, _Kol_TRANS_MEMBER_UNT_ID, False);
+  sgTransaksi.LoadFromCDS(cOpenDataset(GetListPendingTransByUserIDAndDate(frmMain.UserID, cGetServerDateTime)));
+  sgTransaksi.SetVisibleColumns(_Kol_TRANS_IS_ACTIVE, _Kol_TRANS_MEMBER_ID, False);
   if sgTransaksi.DataController.RecordCount = 0 then
   begin
     frmTransaksi := GetFormByClass(TfrmTransaksi) as TfrmTransaksi;

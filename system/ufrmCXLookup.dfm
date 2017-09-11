@@ -1,9 +1,9 @@
 object frmCXLookup: TfrmCXLookup
   Left = 0
   Top = 0
-  BorderStyle = bsToolWindow
-  ClientHeight = 421
-  ClientWidth = 694
+  BorderIcons = [biSystemMenu]
+  ClientHeight = 411
+  ClientWidth = 684
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object frmCXLookup: TfrmCXLookup
   object pnlHeader: TPanel
     Left = 0
     Top = 0
-    Width = 694
+    Width = 684
     Height = 33
     Align = alTop
     BevelEdges = [beLeft, beTop, beRight]
@@ -46,7 +46,7 @@ object frmCXLookup: TfrmCXLookup
       ExplicitHeight = 14
     end
     object lblFilterData: TcxLabel
-      Left = 337
+      Left = 327
       Top = 0
       Align = alRight
       AutoSize = False
@@ -59,7 +59,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object StartDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 398
+      Left = 388
       Top = 4
       Margins.Top = 4
       Margins.Bottom = 4
@@ -73,7 +73,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object EndDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 514
+      Left = 504
       Top = 4
       Margins.Top = 4
       Margins.Bottom = 4
@@ -87,7 +87,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object btnRefresh: TcxButton
       AlignWithMargins = True
-      Left = 609
+      Left = 599
       Top = 2
       Width = 78
       Height = 27
@@ -153,7 +153,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object lblsdFilter: TcxLabel
       AlignWithMargins = True
-      Left = 490
+      Left = 480
       Top = 3
       Margins.Left = 0
       Margins.Right = 0
@@ -169,8 +169,8 @@ object frmCXLookup: TfrmCXLookup
   end
   object Panel1: TPanel
     Left = 0
-    Top = 386
-    Width = 694
+    Top = 376
+    Width = 684
     Height = 35
     Align = alBottom
     BevelKind = bkTile
@@ -198,7 +198,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object btnClose: TcxButton
       AlignWithMargins = True
-      Left = 615
+      Left = 605
       Top = 2
       Width = 72
       Height = 27
@@ -215,7 +215,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object btnOK: TcxButton
       AlignWithMargins = True
-      Left = 529
+      Left = 519
       Top = 2
       Width = 80
       Height = 27
@@ -238,8 +238,8 @@ object frmCXLookup: TfrmCXLookup
   end
   object Panel2: TPanel
     Left = 0
-    Top = 365
-    Width = 694
+    Top = 355
+    Width = 684
     Height = 21
     Align = alBottom
     BevelEdges = [beLeft, beTop, beRight]
@@ -249,7 +249,7 @@ object frmCXLookup: TfrmCXLookup
     TabOrder = 3
     object lbEscape: TLabel
       AlignWithMargins = True
-      Left = 615
+      Left = 605
       Top = 1
       Width = 72
       Height = 17
@@ -267,7 +267,7 @@ object frmCXLookup: TfrmCXLookup
     end
     object Label1: TLabel
       AlignWithMargins = True
-      Left = 530
+      Left = 520
       Top = 1
       Width = 69
       Height = 17
@@ -288,8 +288,8 @@ object frmCXLookup: TfrmCXLookup
   object cxGrid: TcxGrid
     Left = 0
     Top = 33
-    Width = 694
-    Height = 332
+    Width = 684
+    Height = 322
     Align = alClient
     TabOrder = 0
     LockedStateImageOptions.Text = 'Mohon ditunggu...'

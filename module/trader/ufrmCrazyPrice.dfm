@@ -13,27 +13,27 @@ inherited frmCrazyPrice: TfrmCrazyPrice
     Width = 710
     Height = 365
     ExplicitWidth = 710
-    ExplicitHeight = 309
+    ExplicitHeight = 365
     inherited pgcBrowse: TcxPageControl
-      Top = 81
-      Width = 688
-      Height = 273
+      Top = 71
+      Width = 708
+      Height = 293
       TabOrder = 1
-      ExplicitTop = 81
-      ExplicitWidth = 688
-      ExplicitHeight = 217
-      ClientRectBottom = 272
-      ClientRectRight = 687
+      ExplicitTop = 71
+      ExplicitWidth = 708
+      ExplicitHeight = 293
+      ClientRectBottom = 292
+      ClientRectRight = 707
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 686
-        ExplicitHeight = 215
+        ExplicitWidth = 706
+        ExplicitHeight = 291
         inherited cxGrid: TcxGrid
-          Width = 686
-          Height = 271
-          ExplicitWidth = 686
-          ExplicitHeight = 215
+          Width = 706
+          Height = 291
+          ExplicitWidth = 706
+          ExplicitHeight = 291
           inherited cxGridView: TcxGridDBTableView
             object cxcolGridViewColumn1: TcxGridDBColumn
               Caption = 'CHECK'
@@ -73,9 +73,9 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       end
     end
     object pnl1: TPanel
-      Left = 11
-      Top = 11
-      Width = 688
+      Left = 1
+      Top = 1
+      Width = 708
       Height = 70
       Align = alTop
       BevelInner = bvLowered
@@ -162,13 +162,23 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 398
     Width = 710
-    ExplicitTop = 342
+    ExplicitTop = 398
     ExplicitWidth = 710
     inherited pnlFooter: TPanel
       Width = 710
       ExplicitWidth = 710
+      inherited btnAdd: TcxButton
+        Action = actAdd
+      end
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+      end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
       inherited btnClose: TcxButton
         Left = 633
+        Action = actClose
         ExplicitLeft = 633
       end
       inherited cxButton1: TcxButton

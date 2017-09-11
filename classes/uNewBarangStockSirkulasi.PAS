@@ -20,7 +20,7 @@ type
     FNewBarang: TNewBarang;
     FNewBarangKode: string;
     FNewUnit: TUnit;
-    FNewUnitID: Integer;
+    FNewUnitID: string;
     FNewUOM: TNewUOM;
     FNewUOMKode: string;
     FNoBukti: string;
@@ -57,10 +57,9 @@ type
     function GetGeneratorName: string;
     class function RemoveFromDB(aID : Integer; aUnitId : Integer): string;
     procedure UpdateData(aHeaderFlag, aID, aIsEOD, aItemID: Integer; aKeterangan,
-        aNewBArangKode: string; aNewUnitID: Integer; aNewUOMKode, aNoBukti: string;
-        aQty: Double; aTanggal: TDateTime; ATypeTransaksi: string;
-        aIsBonusForBonus: Integer; aHargaTransaksi: Double = 0; aHargaLastCost:
-        Double = 0);
+        aNewBArangKode, aNewUnitID, aNewUOMKode, aNoBukti: string; aQty: Double;
+        aTanggal: TDateTime; ATypeTransaksi: string; aIsBonusForBonus: Integer;
+        aHargaTransaksi: Double = 0; aHargaLastCost: Double = 0);
     property HargaTransaksi: Double read FHargaTransaksi write FHargaTransaksi;
     property HargaLastCost: Double read FHargaLastCost write FHargaLastCost;
     property HEADERFLAG: Integer read FHEADERFLAG write FHEADERFLAG;
@@ -79,7 +78,7 @@ type
     property UOMUnit: TUnit read GetUOMUnit write FUOMUnit;
     property KodeBarang: string read FNewBarangKode;
     property KodeUom: string read FNewUOMKode;
-    property UnitID: Integer read FNewUnitID;
+    property UnitID: string read FNewUnitID;
 
   end;
   
@@ -141,7 +140,7 @@ begin
 
 
 
-  FNewUnitID := 0;
+  FNewUnitID := '';
   if FNewUnit <> nil then
     FreeAndNil(FNewUnit);
 
@@ -214,7 +213,7 @@ begin
        + IntToStr( FIsEOD) + ', '
        + QuotedStr(FKeterangan ) + ','
        + QuotedStr(FNewBarangKode) + ', '
-       + InttoStr(FNewUnitID) + ', '
+       + QuotedStr(FNewUnitID) + ', '
        + QuotedStr(FNewUOMKode) + ', '
        + QuotedStr(aHeaderNo ) + ','
        + FormatFloat('0.000', FQty) + ', '
@@ -233,7 +232,7 @@ begin
        + ' set ' + GetFieldNameFor_NewBarang + ' = ' + QuotedStr(FNewBarangKode) + ', '
        + GetFieldNameFor_IsBonusForBonus + ' = ' + IntToStr(FISBONUSFORBONUS) + ', '
        + GetFieldNameFor_NewUOM + ' = ' + QuotedStr(FNewUOMKode) + ', '
-       + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID) + ', '
+       + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ', '
        + GetFieldNameFor_IsEOD + ' = ' + IntToStr(FIsEOD)+ ', '
        + GetFieldNameFor_ItemID + ' = ' + IntToStr(FITEM_ID) + ', '
        + GetFieldNameFor_Keterangan + ' = ' + QuotedStr(FKeterangan) + ', '
@@ -242,7 +241,7 @@ begin
        + GetFieldNameFor_Tanggal + ' = ' + TAppUtils.QuotDt(FTglBukti) + ', '
        + GetFieldNameFor_TypeTransaksi + ' = ' + QuotedStr(FTypeTransaksi)
        + ' where '+ GetFieldNameFor_NoBukti +' = ' + QuotedStr(aHeaderNo)
-       + ' and ' + GetFieldNameFor_NewUnit + ' = ' + IntToStr(FNewUnitID)
+       + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
        + ' and ' + GetFieldNameFor_HeaderFlag + ' = ' + IntToStr(FHeaderflag)
        + ' and ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
        + ';';
@@ -393,10 +392,10 @@ begin
 end;
 
 procedure TBarangStockSirkulasiItem.UpdateData(aHeaderFlag, aID, aIsEOD,
-    aItemID: Integer; aKeterangan, aNewBArangKode: string; aNewUnitID: Integer;
-    aNewUOMKode, aNoBukti: string; aQty: Double; aTanggal: TDateTime;
-    ATypeTransaksi: string; aIsBonusForBonus: Integer; aHargaTransaksi: Double
-    = 0; aHargaLastCost: Double = 0);
+    aItemID: Integer; aKeterangan, aNewBArangKode, aNewUnitID, aNewUOMKode,
+    aNoBukti: string; aQty: Double; aTanggal: TDateTime; ATypeTransaksi:
+    string; aIsBonusForBonus: Integer; aHargaTransaksi: Double = 0;
+    aHargaLastCost: Double = 0);
 begin
    FHEADERFLAG        := aHeaderFlag;
    FID                := aID;
@@ -456,7 +455,7 @@ begin
           IsAda := False;
           for i := 0 to Self.Count - 1 do
           begin
-            if (Self[i].FNewUnitID = FieldByName('BSS_UNT_ID').AsInteger) and
+            if (Self[i].FNewUnitID = FieldByName('BSS_UNT_ID').AsString) and
                (Self[i].ID = FieldByName('BSS_ID').AsInteger) then
             begin
               IsAda := True;
@@ -514,7 +513,7 @@ begin
         FIsEOD := FieldByName(GetFieldNameFor_IsEOD).asInteger;
         FKeterangan := FieldByName(GetFieldNameFor_Keterangan).asString;
         FNewBarangKode := FieldByName(GetFieldNameFor_NewBarang).AsString;
-        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).asInteger;
+        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
         FNewUOMKode := FieldByName(GetFieldNameFor_NewUOM).AsString;
         FNoBukti := FieldByName(GetFieldNameFor_NoBukti).asString;
         FQty := FieldByName(GetFieldNameFor_Qty).asFloat;
@@ -535,7 +534,6 @@ procedure TBarangStockSirkulasiItems.LoadByNoBukti(aNoBukti : String; aUnitID :
 var
   S: string;
 begin
-  // TODO -cMM: TBarangStockSirkulasiItems.LoadByNoBukti default body inserted
   S := 'Select * from ' + CustomTableName + '  Where BSS_DOC_NO = ' + QuotedStr(aNoBukti)
        + ' and BSS_UNT_ID = ' + IntToStr(aUnitID);
        //+ ' and HEADERFLAG = ' + IntToStr(aHeaderFlag);
@@ -550,7 +548,7 @@ begin
           FIsEOD := FieldByName(GetFieldNameFor_IsEOD).asInteger;
           FKeterangan := FieldByName(GetFieldNameFor_Keterangan).asString;
           FNewBarangKode := FieldByName(GetFieldNameFor_NewBarang).AsString;
-          FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).asInteger;
+          FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
           FNewUOMKode := FieldByName(GetFieldNameFor_NewUOM).AsString;
           FNoBukti := FieldByName(GetFieldNameFor_NoBukti).asString;
           FQty := FieldByName(GetFieldNameFor_Qty).asFloat;

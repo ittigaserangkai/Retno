@@ -27,10 +27,10 @@ type
   private
 //    Cnn : TConnection;
     FDefUnitID: Integer;
-    FLDateImp : TDateTime;
+//    FLDateImp : TDateTime;
     FmodTrans: TModTransaksi;
     FModTransDetail: TModTransaksi_Detil;
-    FUnitID: Integer;
+    FUnitID: string;
     function GetmodTrans: TModTransaksi;
     function GetModTransDetail: TModTransaksi_Detil;
     function UpdateData(aUnitID: Integer; aTgl: TDateTime; aModel: TModApp):
@@ -39,7 +39,7 @@ type
     property ModTransDetail: TModTransaksi_Detil read GetModTransDetail write
         FModTransDetail;
   public
-    property UnitID: Integer read FUnitID write FUnitID;
+    property UnitID: string read FUnitID write FUnitID;
   published
   end;
 
@@ -49,7 +49,7 @@ var
 implementation
 
 uses
-  uTSCommonDlg, udmMain, uAppUtils, uDMClient, uDBUtils;
+  uTSCommonDlg, udmMain, uAppUtils, uDMClient, uDBUtils, strUtils;
 
 {$R *.dfm}
 
@@ -80,7 +80,8 @@ var
   SS    : TStrings;
   sSql: String;
 begin
-  if UnitID <= 0 then
+//  if UnitID <= 0 then
+  if UnitID = '' then
   begin
     CommonDlg.ShowError('Unit Belum Dipilih');
     Close;
@@ -115,7 +116,7 @@ begin
   end
   else
   begin
-//    UpdateData(FDefUnitID, dtTanggal.DateTime, modTrans);
+    UpdateData(FDefUnitID, dtTanggal.DateTime, modTrans);
     UpdateData(FDefUnitID, dtTanggal.DateTime, modTransDetail);
 //    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransCard);
 //    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransVoucher);
@@ -202,21 +203,30 @@ function TfrmExportOfflinePOS.UpdateData(aUnitID: Integer; aTgl: TDateTime;
 var
   i: Integer;
   lCDS: TClientDataSet;
-  ss: TStrings;
+//  lModUpdatePOS: TModUpdatePOS;
   sSQL: string;
+//  sID: string;
 begin
   Result := False;
   sSQL := 'select * from ' + aModel.GetTableName;
   lCDS := cOpenDataset(sSQL);
-  ss := DMClient.CrudClient.UpdateToDB(lCDS, aModel.ClassName);
   try
-    for i:=0 to ss.Count-1 do
-    begin
-      cExecSQL(ss.Strings[i])
-    end;
-    cCommitTrans();
+    Result := DMClient.CrudUpdatePOSClient.UpdateToDB(lCDS, aModel.ClassName);
+
+//    for i:= 0 to lModUpdatePOS.ModUpdatePOSDetails.Count-1 do
+//    begin
+//      sID := cRemoveBracket(lModUpdatePOS.ModUpdatePOSDetails[i].PrimaryValue);// Copy(lModUpdatePOS.ModUpdatePOSDetails[i].PrimaryValue,2,lModUpdatePOS.ModUpdatePOSDetails[i].PrimaryValue.Length-2);
+//
+//      sSQL := 'update ' + lModUpdatePOS.TableName
+//            + ' set ' + lModUpdatePOS.PrimaryField
+//            + ' = ' + QuotedStr(sID)
+//            + ' where ' + lModUpdatePOS.POSField
+//            + ' = ' + IntToStr(lModUpdatePOS.ModUpdatePOSDetails[i].POSValue);
+//      cExecSQL(sSQL);
+//    end;
+//    cCommitTrans();
   finally
-    ss.Free;
+//    lModUpdatePOS.Free;
     lCDS.Free;
   end;
 end;

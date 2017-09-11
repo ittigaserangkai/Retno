@@ -9,7 +9,7 @@ uses
 type
   TNewPajak = class(TSBaseClass)
   private
-    FID: Integer;
+    FID: string;
     FIsDefault: Integer;
     FKode: string;
     FNama: string;
@@ -33,12 +33,12 @@ type
     function GetFieldNameFor_PPNBM: string; dynamic;
     function GetGeneratorName: string;
     function GetHeaderFlag: Integer;
-    function LoadByID(aID : Integer): Boolean;
+    function LoadByID(aID: string): Boolean;
     function LoadByKode(aKode: string): Boolean;
     function RemoveFromDB: Boolean;
-    procedure UpdateData(aID, aIsDefault: Integer; aKode, aNama: string; aPPN,
-        aPPNBM: Double);
-    property ID: Integer read FID write FID;
+    procedure UpdateData(aID: string; aIsDefault: Integer; aKode, aNama: string;
+        aPPN, aPPNBM: Double);
+    property ID: string read FID write FID;
     property IsDefault: Integer read FIsDefault write FIsDefault;
     property Kode: string read FKode write FKode;
     property Nama: string read FNama write FNama;
@@ -112,7 +112,7 @@ end;
 
 procedure TNewPajak.ClearProperties;
 begin
-  ID :=  0;
+  ID := '';
   IsDefault := 0;
   Kode := '';
   Nama := '';
@@ -145,7 +145,7 @@ begin
   Begin
       if not EOF then
       begin
-         FID := FieldByName(GetFieldNameFor_ID).asInteger;
+         FID := FieldByName(GetFieldNameFor_ID).AsString;
          FIsDefault := FieldByName(GetFieldNameFor_IsDefault).asInteger;
          FKode := FieldByName(GetFieldNameFor_Kode).asString;
          FNama := FieldByName(GetFieldNameFor_Nama).asString;
@@ -192,9 +192,11 @@ begin
     Exit;
   end
   else begin
-    If FID <= 0 then
+//    If FID <= 0 then
+    If FID = '' then
     begin
-      FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+//      FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
+      fid := cGetNextIDGUIDToString;
       S := 'Insert into ' + CustomTableName
         + ' ( ' + GetFieldNameFor_ID
         + ', ' + GetFieldNameFor_IsDefault
@@ -203,7 +205,7 @@ begin
         + ', ' + GetFieldNameFor_PPN
         + ', ' + GetFieldNameFor_PPNBM
         + ') values ('
-            + IntToStr( FID) + ', '
+            + QuotedStr( FID) + ', '
             + IntToStr( FIsDefault) + ', '
             + QuotedStr(FKode ) + ','
             + QuotedStr(FNama ) + ','
@@ -217,7 +219,7 @@ begin
             + ' , ' + GetFieldNameFor_Nama + ' = ' + QuotedStr( FNama )
             + ' , ' + GetFieldNameFor_PPN + ' = ' + FormatFloat('0.00', FPPN)
             + ' , ' + GetFieldNameFor_PPNBM + ' = ' + FormatFloat('0.00', FPPNBM)
-            + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(FID)
+            + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
             + ';';
     end;
 
@@ -233,7 +235,8 @@ end;
 
 function TNewPajak.GetFieldNameFor_ID: string;
 begin
-  Result := 'PJK_ID';// <<-- Rubah string ini untuk mapping
+//  Result := 'PJK_ID';// <<-- Rubah string ini untuk mapping
+  Result := 'REF$PAJAK_ID';
 end;
 
 function TNewPajak.GetFieldNameFor_IsDefault: string;
@@ -271,10 +274,10 @@ begin
   result := 1425;
 end;
 
-function TNewPajak.LoadByID(aID : Integer): Boolean;
+function TNewPajak.LoadByID(aID: string): Boolean;
 begin
   result := FloadFromDB('Select * from ' + CustomTableName
-                        + ' Where ' + GetFieldNameFor_ID + ' = ' + IntToStr(aID));
+                        + ' Where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(aID));
 end;
 
 function TNewPajak.LoadByKode(aKode: string): Boolean;
@@ -290,22 +293,21 @@ begin
   Result := False ;
 
   sSQL := ' delete from ' + CustomTableName
-          + ' where ' + GetFieldNameFor_ID + ' = ' + IntToStr(ID);
+          + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(ID);
 
   if cExecSQL(sSQL,dbtPOS, False) then
       Result := True; //SimpanBlob(sSQL,GetHeaderFlag);
-      
 end;
 
-procedure TNewPajak.UpdateData(aID, aIsDefault: Integer; aKode, aNama: string;
-    aPPN, aPPNBM: Double);
+procedure TNewPajak.UpdateData(aID: string; aIsDefault: Integer; aKode, aNama:
+    string; aPPN, aPPNBM: Double);
 begin
-  FID :=  aID;
-  FIsDefault :=  aIsDefault;
+  FID := aID;
+  FIsDefault := aIsDefault;
   FKode := trim(aKode);
   FNama := trim(aNama);
-  FPPN :=  aPPN;
-  FPPNBM :=  aPPNBM;
+  FPPN := aPPN;
+  FPPNBM := aPPNBM;
   State := csCreated;
 end;
 

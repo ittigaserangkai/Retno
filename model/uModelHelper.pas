@@ -25,11 +25,16 @@ type
   end;
 
   TModAppHelper = class helper for TModApp
+  private
+    procedure CopyFrom(aModApp : TModApp);
   public
     procedure Reload(LoadObjectList: Boolean = False);
   end;
 
 implementation
+
+uses
+  System.Rtti, System.TypInfo, Vcl.Dialogs;
 
 procedure TModPOHelper.LoadPO_SUPPLIER_MERCHAN_GRUP;
 begin
@@ -63,16 +68,60 @@ end;
 
 procedure TModAppHelper.Reload(LoadObjectList: Boolean = False);
 var
-  aID: string;
-  sClassName: string;
+  lModApp: TModApp;
 begin
-  sClassName  := Self.ClassName;
-  aID         := Self.ID;
-  FreeAndNil(Self);
   if LoadObjectList then
-    Self := DMClient.CrudClient.Retrieve(sClassName, aID)
+    lModApp := DMClient.CrudClient.Retrieve(Self.ClassName, Self.ID)
   else
-    Self := DMClient.CrudClient.RetrieveSingle(sClassName, aID);
+    lModApp := DMClient.CrudClient.RetrieveSingle(Self.ClassName, Self.ID);
+
+  Try
+    Self.CopyFrom(lModApp);
+  Finally
+    lModApp.Free;
+  End;
 end;
+
+
+procedure TModAppHelper.CopyFrom(aModApp : TModApp);
+var
+  ctx: TRttiContext;
+  lNewObj: TModApp;
+  lSrcObj: TObject;
+  meth: TRttiMethod;
+  RttiType: TRttiType;
+  Prop: TRttiProperty;
+begin
+  RttiType := ctx.GetType(Self.ClassType);
+  Try
+    for Prop in RttiType.GetProperties do
+    begin
+      if not (Prop.IsReadable and Prop.IsWritable) then continue;
+
+      //revisi : published saja
+      if prop.Visibility <> mvPublished then continue;
+
+      If prop.PropertyType.TypeKind = tkClass then
+      begin
+        lSrcObj := Prop.GetValue(aModApp).AsObject;
+
+
+        if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+        meth    := prop.PropertyType.GetMethod('Create');
+        lNewObj := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+
+        if lSrcObj <> nil then
+          TModApp(lNewObj).CopyFrom(TModApp(lSrcObj));
+
+        prop.SetValue(Self, lNewObj);
+      end else
+        Prop.SetValue(Self, Prop.GetValue(aModApp));
+    end;
+  except
+    ShowMessage(Self.ClassName  + '.' + Prop.Name);
+    raise;
+  End;
+end;
+
 
 end.

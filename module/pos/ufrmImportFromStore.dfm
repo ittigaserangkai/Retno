@@ -28,19 +28,26 @@ object frmImportFromStore: TfrmImportFromStore
       Left = 1
       Top = 1
       Width = 644
-      Height = 47
+      Height = 64
       Align = alTop
       TabOrder = 0
       object Label1: TLabel
         Left = 16
-        Top = 12
+        Top = 38
         Width = 42
         Height = 13
         Caption = 'Filename'
       end
+      object Label2: TLabel
+        Left = 16
+        Top = 13
+        Width = 39
+        Height = 13
+        Caption = 'Tanggal'
+      end
       object btnLoad: TButton
-        Left = 438
-        Top = 8
+        Left = 206
+        Top = 4
         Width = 75
         Height = 25
         Caption = 'Load'
@@ -48,8 +55,8 @@ object frmImportFromStore: TfrmImportFromStore
         OnClick = btnLoadClick
       end
       object btSimpan: TButton
-        Left = 518
-        Top = 8
+        Left = 438
+        Top = 33
         Width = 75
         Height = 25
         Caption = 'Simpan'
@@ -58,7 +65,7 @@ object frmImportFromStore: TfrmImportFromStore
       end
       object edtFileName: TcxButtonEdit
         Left = 87
-        Top = 9
+        Top = 35
         Properties.Buttons = <
           item
             Default = True
@@ -68,12 +75,21 @@ object frmImportFromStore: TfrmImportFromStore
         TabOrder = 2
         Width = 345
       end
+      object dtTanggal: TDateTimePicker
+        Left = 87
+        Top = 5
+        Width = 97
+        Height = 24
+        Date = 40025.356299363430000000
+        Time = 40025.356299363430000000
+        TabOrder = 3
+      end
     end
     object mmoImport: TMemo
       Left = 1
-      Top = 48
+      Top = 65
       Width = 644
-      Height = 241
+      Height = 224
       Align = alClient
       Color = 12582911
       Ctl3D = False

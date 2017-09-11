@@ -37,7 +37,6 @@ object fraSellingPrice: TfraSellingPrice
     BevelOuter = bvLowered
     BorderWidth = 20
     TabOrder = 1
-    ExplicitHeight = 121
     DesignSize = (
       792
       285)

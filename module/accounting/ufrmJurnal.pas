@@ -11,7 +11,8 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogJurnal, Datasnap.DBClient;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls,  Datasnap.DBClient,
+  ufrmDialogJurnal;
 
 type
   TfrmJurnal = class(TfrmMasterBrowse)
