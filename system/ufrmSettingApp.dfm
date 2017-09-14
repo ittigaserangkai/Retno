@@ -22,7 +22,7 @@ inherited frmSettingApp: TfrmSettingApp
       object cbbUnit: TcxExtLookupComboBox
         Left = 61
         Top = 8
-        Properties.OnValidate = cbbUnitPropertiesValidate
+        Properties.OnEditValueChanged = cbbUnitPropertiesEditValueChanged
         TabOrder = 0
         Width = 184
       end
@@ -68,8 +68,6 @@ inherited frmSettingApp: TfrmSettingApp
       OptionsView.RowHeaderWidth = 146
       Styles.Header = cxstylSettingAppHeader
       TabOrder = 2
-      ExplicitLeft = 2
-      ExplicitTop = 40
       Version = 1
       object cxGridRowGudangDO: TcxEditorRow
         Properties.Caption = 'GUDANG DO'
@@ -131,8 +129,8 @@ inherited frmSettingApp: TfrmSettingApp
     end
   end
   object cxStyleRepository1: TcxStyleRepository
-    Left = 432
-    Top = 16
+    Left = 336
+    Top = 136
     PixelsPerInch = 96
     object cxstylSettingAppHeader: TcxStyle
       AssignedValues = [svFont]

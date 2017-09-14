@@ -30,9 +30,8 @@ type
     procedure btnClearClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure cbbUnitPropertiesValidate(Sender: TObject;
-      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure btnSimpanClick(Sender: TObject);
+    procedure cbbUnitPropertiesEditValueChanged(Sender: TObject);
   private
     FCDSGUDANG: tclientDataSet;
     FCDSUNIT: tclientDataSet;
@@ -40,6 +39,7 @@ type
     function GetSettingApp: TModSettingApp;
     procedure InisialisasiGudangDO;
     procedure InisialisasiUnit;
+    procedure LoadSettingApp;
     { Private declarations }
   public
     { Public declarations }
@@ -70,25 +70,26 @@ procedure TfrmSettingApp.btnSimpanClick(Sender: TObject);
 begin
   inherited;
   SettingApp.AUTUNIT    := TModUnit.CreateID(cbbUnit.EditValue);
-  SettingApp.GUDANG_DO  := TModGudang.CreateID(cxGridRowGudangDO.Properties.Value);
+  if not VarIsNull(cxGridRowGudangDO.Properties.Value) then
+    SettingApp.GUDANG_DO  := TModGudang.CreateID(cxGridRowGudangDO.Properties.Value);
 
-  if DMClient.CrudClient.SaveToDB(SettingApp) then
+  SettingApp.REKENING_HUTANG := VarToStr(cxGridRowRekeningHutang.Properties.Value);
+
+  SettingApp.ID := DMClient.CrudClient.SaveToDBID(SettingApp);
+
+  if SettingApp.ID <>'' then
   begin
     btnClearClick(nil);
   end;
 end;
 
-procedure TfrmSettingApp.cbbUnitPropertiesValidate(Sender: TObject;
-  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+procedure TfrmSettingApp.cbbUnitPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   FreeAndNil(FSettingApp);
   FSettingApp := DMClient.CrudSettingAppClient.RetrieveByCabang(TModUnit.CreateID(cbbUnit.EditValue));
 
-  cxGridRowGudangDO.Properties.Value := null;
-
-  if FSettingApp.GUDANG_DO <> nil then
-    cxGridRowGudangDO.Properties.Value := FSettingApp.GUDANG_DO.ID;
+  LoadSettingApp;
 end;
 
 procedure TfrmSettingApp.FormCreate(Sender: TObject);
@@ -123,6 +124,14 @@ begin
   except
     raise
   end;
+end;
+
+procedure TfrmSettingApp.LoadSettingApp;
+begin
+  cxGridRowGudangDO.Properties.Value := null;
+  if SettingApp.GUDANG_DO <> nil then
+    cxGridRowGudangDO.Properties.Value := FSettingApp.GUDANG_DO.ID;
+  cxGridRowRekeningHutang.Properties.Value := SettingApp.REKENING_HUTANG;
 end;
 
 end.
