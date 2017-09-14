@@ -234,7 +234,8 @@ uses
   ufrmCXMsgInfo in '..\system\ufrmCXMsgInfo.pas' {frmCXMsgInfo},
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
-  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales};
+  ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
+  uModContrabonSales in '..\model\uModContrabonSales.pas';
 
 {$R *.res}
 

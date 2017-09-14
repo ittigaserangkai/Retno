@@ -11,7 +11,8 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls,ufrmDialogContrabonSales,Datasnap.DBClient;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls,ufrmDialogContrabonSales,
+  Datasnap.DBClient, uDBUtils,uDMClient, uDXUtils, System.DateUtils;
 
 type
   TfrmContrabonSales = class(TfrmMasterBrowse)
@@ -50,6 +51,11 @@ end;
 procedure TfrmContrabonSales.RefreshData;
 begin
   inherited;
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Contrabon_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['BANKCASHOUT_ID','BCO_Bank_ID','BCO_Organization_ID',''],False);
+
 end;
 
 end.

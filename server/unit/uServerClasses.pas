@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
-  uModQuotation, uModBankCashOut;
+  uModQuotation, uModBankCashOut, System.Generics.Collections;
 
 type
   {$METHODINFO ON}
@@ -41,6 +41,7 @@ type
     function GenerateNo(aClassName: string): String; overload;
     function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
+    function SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -134,6 +135,9 @@ type
   public
   end;
 
+  TCrudContrabonSales = class(TCrud)
+  end;
+
 
 {$METHODINFO OFF}
 
@@ -143,7 +147,7 @@ const
 implementation
 
 uses
-  System.Generics.Collections, Datasnap.DSSession, Data.DBXPlatform, uModPO,
+  Datasnap.DSSession, Data.DBXPlatform, uModPO,
   uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants, uModClaimFaktur;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
@@ -326,6 +330,25 @@ begin
   if aCode <> '' then
     TDBUtils.LoadByCode(Result, aCode);
   AfterExecuteMethod;
+end;
+
+function TCrud.SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+
+  try
+    for I := 0 to AObjectList.Count - 1 do
+    begin
+      SaveToDBTrans(AObjectList[i], False);
+      TDBUtils.Commit;
+      Result := False;
+    end;
+  except
+    raise;
+  end;
+
 end;
 
 function TCrud.SaveToDBLog(AObject: TModApp): Boolean;

@@ -114,7 +114,8 @@ type
         TModUnit = nil): TDataSet;
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
-    function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function Contrabon_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function AdjFaktur_GetDSOverview1(aStartDate, aEndDate: TDateTime): TDataSet;
     function AP_GetDSLookUp: TDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function Organization_GetDSLookup: TDataSet;
@@ -1145,7 +1146,18 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
-function TDSProvider.AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime):
+function TDSProvider.Contrabon_GetDSOverview(aStartDate, aEndDate: TDateTime):
+    TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_CONTRABON_SALES where CONT_DATE_SALES between '
+      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AdjFaktur_GetDSOverview1(aStartDate, aEndDate: TDateTime):
     TDataSet;
 var
   S: string;
@@ -1177,7 +1189,7 @@ function TDSProvider.Organization_GetDSLookup: TDataSet;
 var
   S: string;
 begin
-  S := 'select V_ORGANIZATION_ID, ORG_Code, ORG_Name from V_ORGANIZATION';
+  S := 'select * from V_ORGANIZATION';
   Result := TDBUtils.OpenQuery(S);
 end;
 

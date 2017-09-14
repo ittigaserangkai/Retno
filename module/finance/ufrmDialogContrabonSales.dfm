@@ -2,6 +2,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   Caption = 'Dialog Contrabon Sales'
   ClientHeight = 438
   ClientWidth = 700
+  ExplicitTop = -15
   ExplicitWidth = 716
   ExplicitHeight = 477
   PixelsPerInch = 96
@@ -9,7 +10,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   inherited pnlBody: TPanel
     Width = 700
     Height = 382
-    ExplicitWidth = 634
+    ExplicitWidth = 700
     ExplicitHeight = 382
     object pnlHeader: TPanel
       AlignWithMargins = True
@@ -19,15 +20,12 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
       Height = 111
       Align = alTop
       TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 630
       object lblSupMG: TLabel
-        Left = 23
+        Left = 9
         Top = 7
-        Width = 57
+        Width = 66
         Height = 16
-        Caption = 'Supplier MG'
+        Caption = 'Organization'
       end
       object lblAlamat: TLabel
         Left = 36
@@ -44,8 +42,8 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Caption = 'Post Code'
       end
       object lblTelp: TLabel
-        Left = 220
-        Top = 60
+        Left = 132
+        Top = 61
         Width = 19
         Height = 16
         Caption = 'Telp'
@@ -57,39 +55,56 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Height = 16
         Caption = 'NPWP'
       end
-      object cbbSupplierMG: TcxExtLookupComboBox
+      object lblPPN: TLabel
+        Left = 288
+        Top = 61
+        Width = 19
+        Height = 16
+        Caption = 'PPN'
+      end
+      object lblFee: TLabel
+        Left = 289
+        Top = 88
+        Width = 18
+        Height = 16
+        Caption = 'Fee'
+      end
+      object cbbOrganisasi: TcxExtLookupComboBox
+        Tag = 1
         Left = 86
         Top = 3
+        Properties.ImmediatePost = True
+        Properties.OnValidate = cbbOrganisasiPropertiesValidate
         TabOrder = 0
-        Width = 278
+        Width = 292
       end
       object edAddress: TcxTextEdit
         Left = 86
         Top = 30
         TabOrder = 1
         Text = 'edAddress'
-        Width = 278
+        Width = 292
       end
       object edPostCode: TcxTextEdit
         Left = 86
         Top = 57
         TabOrder = 2
-        Text = 'edPostCode'
-        Width = 121
+        Text = '57177'
+        Width = 43
       end
       object edTelp: TcxTextEdit
-        Left = 243
+        Left = 155
         Top = 57
         TabOrder = 3
-        Text = 'edTelp'
-        Width = 121
+        Text = '08886761775'
+        Width = 128
       end
       object edNPWP: TcxTextEdit
         Left = 86
         Top = 84
-        TabOrder = 4
+        TabOrder = 5
         Text = 'edNPWP'
-        Width = 278
+        Width = 197
       end
       object pnlLoadSales: TPanel
         AlignWithMargins = True
@@ -99,7 +114,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Height = 81
         BevelKind = bkFlat
         BevelOuter = bvNone
-        TabOrder = 5
+        TabOrder = 7
         object lblP1: TLabel
           Left = 19
           Top = 6
@@ -114,15 +129,19 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Height = 16
           Caption = 'End'
         end
-        object edP1: TcxDateEdit
+        object dtP1: TcxDateEdit
           Left = 52
           Top = 0
+          Properties.SaveTime = False
+          Properties.ShowTime = False
           TabOrder = 0
           Width = 121
         end
-        object edP2: TcxDateEdit
+        object dtP2: TcxDateEdit
           Left = 52
           Top = 25
+          Properties.SaveTime = False
+          Properties.ShowTime = False
           TabOrder = 1
           Width = 121
         end
@@ -150,7 +169,23 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
+        TabOrder = 8
+      end
+      object edPPN: TcxCurrencyEdit
+        Left = 310
+        Top = 57
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
+        TabOrder = 4
+        Width = 68
+      end
+      object edFee: TcxCurrencyEdit
+        Left = 310
+        Top = 84
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',#.##;(,#.##)'
         TabOrder = 6
+        Width = 68
       end
     end
     object cxGridContrabon: TcxGrid
@@ -160,25 +195,52 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
       Height = 261
       Align = alClient
       TabOrder = 1
+      OnEnter = cxGridContrabonEnter
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 113
-      ExplicitWidth = 630
-      ExplicitHeight = 267
       object cxGridTableContrabonSales: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColContAmountGross
+          end
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColContAmountAdj
+          end
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColContAmountNet
+          end>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnAfterInsert = cxGridTableContrabonSalesDataControllerAfterInsert
+        DataController.OnAfterPost = cxGridTableContrabonSalesDataControllerAfterPost
+        OptionsBehavior.FocusCellOnTab = True
+        OptionsBehavior.FocusFirstCellOnNewRecord = True
+        OptionsBehavior.GoToNextCellOnEnter = True
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsData.Appending = True
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColContDate: TcxGridColumn
+          AlternateCaption = 'CONT_DATE_SALES'
           Caption = 'Date'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.SaveTime = False
+          Properties.ShowTime = False
           HeaderAlignmentHorz = taCenter
           Width = 95
         end
         object cxGridColContAmountGross: TcxGridColumn
+          AlternateCaption = 'CONT_GROSS_SALES'
           Caption = 'Amount Gross'
+          DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -186,7 +248,9 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Width = 107
         end
         object cxGridColContAmountAdj: TcxGridColumn
-          Caption = 'Amount Adj'
+          AlternateCaption = 'CONT_DISC_AMOUNT'
+          Caption = 'Amount Disc'
+          DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -194,25 +258,67 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Width = 108
         end
         object cxGridColContFee: TcxGridColumn
+          AlternateCaption = 'CONT_FEE'
           Caption = 'Fee'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taCenter
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
-        object cxGridColContPPN: TcxGridColumn
-          Caption = 'PPN'
-          HeaderAlignmentHorz = taCenter
-          Width = 77
-        end
-        object cxGridColContAmountNet: TcxGridColumn
-          Caption = 'Amount Net'
+        object cxGridColContAmountSales: TcxGridColumn
+          AlternateCaption = 'CONT_TOTAL_SALES'
+          Caption = 'Amount Sales'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          Width = 92
+        end
+        object cxGridColContPPN: TcxGridColumn
+          Caption = 'PPN (%)'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          Width = 77
+        end
+        object cxGridColContPPNAmount: TcxGridColumn
+          AlternateCaption = 'CONT_TAX_AMOUNT'
+          Caption = 'PPN (Rp)'
+          DataBinding.ValueType = 'Currency'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          Width = 90
+        end
+        object cxGridColContAmountNet: TcxGridColumn
+          AlternateCaption = 'CONT_NET_SALES'
+          Caption = 'Amount Net'
+          DataBinding.ValueType = 'Currency'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 139
+        end
+        object cxGridColContIsClaimed: TcxGridColumn
+          AlternateCaption = 'CONT_IS_CLAIM'
+          Caption = 'Is Claimed'
+          DataBinding.ValueType = 'Integer'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ReadOnly = True
+          Properties.ValueChecked = 1
+          Properties.ValueUnchecked = 0
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColContID: TcxGridColumn
+          Caption = 'ID'
         end
       end
       object cxgrdlvlContrabon: TcxGridLevel
@@ -225,19 +331,19 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
     Top = 382
     Width = 700
     ExplicitTop = 382
-    ExplicitWidth = 634
+    ExplicitWidth = 700
     inherited pnlFooter: TPanel
       Width = 700
-      ExplicitWidth = 634
+      ExplicitWidth = 700
       inherited btnClose: TcxButton
         Left = 623
         Action = actCancel
-        ExplicitLeft = 557
+        ExplicitLeft = 623
       end
       inherited btnSave: TcxButton
         Left = 530
         Action = actSave
-        ExplicitLeft = 464
+        ExplicitLeft = 530
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -245,28 +351,37 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
       inherited btnPrint: TcxButton
         Left = 453
         Action = actPrint
-        ExplicitLeft = 387
+        ExplicitLeft = 453
       end
     end
     inherited pnlSortCut: TPanel
       Width = 700
-      ExplicitWidth = 634
+      ExplicitWidth = 700
       inherited lbCTRLEnter: TLabel
         Left = 525
+        Height = 15
         ExplicitLeft = 525
       end
       inherited lbEscape: TLabel
         Left = 616
+        Height = 15
         ExplicitLeft = 616
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 449
+        Height = 15
         ExplicitLeft = 449
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 8
-    Top = 32
+    Left = 136
+    Top = 216
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

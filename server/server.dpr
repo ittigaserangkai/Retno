@@ -65,7 +65,8 @@ uses
   uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
   uModVoucherDetil in '..\model\uModVoucherDetil.pas',
   uModVoucher in '..\model\uModVoucher.pas',
-  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas';
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  uModContrabonSales in '..\model\uModContrabonSales.pas';
 
 {$R *.res}
 
