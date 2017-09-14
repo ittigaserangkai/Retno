@@ -14,10 +14,10 @@ uses
   dxBarBuiltInMenu, cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar,
   Vcl.Menus, cxButtons, Datasnap.DBClient, uDBUtils,
   uDXUtils,uModOrganization, cxCheckBox,uModContrabonSales,
-  System.Generics.Collections, uAppUtils, uModApp, uConstanta;
+  System.Generics.Collections, uAppUtils, uModApp, uConstanta,uInterface;
 
 type
-  TfrmDialogContrabonSales = class(TfrmMasterDialog)
+  TfrmDialogContrabonSales = class(TfrmMasterDialog, ICRUDAble)
     pnlHeader: TPanel;
     lblSupMG: TLabel;
     lblAlamat: TLabel;
@@ -70,6 +70,7 @@ type
     procedure IsiDataAwalContrabonSales(AFocusedRecordIndex: Integer);
     { Private declarations }
   public
+    procedure LoadData(AID : String);
     { Public declarations }
   end;
 
@@ -219,6 +220,17 @@ begin
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContDate.Index, Now);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContFee.Index, FOrganization.ORG_FEE);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, FOrganization.ORG_PPN);
+end;
+
+procedure TfrmDialogContrabonSales.LoadData(AID : String);
+begin
+  ClearByTag([0,1]);
+  cxGridTableContrabonSales.ClearRows;
+
+  if AID = '' then
+    Exit;
+
+//  F
 end;
 
 end.

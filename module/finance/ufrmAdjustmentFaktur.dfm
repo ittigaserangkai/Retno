@@ -127,6 +127,7 @@ inherited frmAdjustmentFaktur: TfrmAdjustmentFaktur
       Properties.Alignment.Vert = taVCenter
       Transparent = True
       Visible = False
+      ExplicitLeft = 318
       AnchorY = 17
     end
     object cbbSupMGAwal: TcxExtLookupComboBox
@@ -136,6 +137,7 @@ inherited frmAdjustmentFaktur: TfrmAdjustmentFaktur
       Align = alRight
       Properties.DropDownListStyle = lsFixedList
       TabOrder = 6
+      ExplicitHeight = 21
       Width = 89
     end
     object lblTo: TcxLabel
@@ -160,6 +162,7 @@ inherited frmAdjustmentFaktur: TfrmAdjustmentFaktur
       Properties.DropDownListStyle = lsFixedList
       TabOrder = 8
       Visible = False
+      ExplicitHeight = 21
       Width = 89
     end
   end
@@ -194,7 +197,6 @@ inherited frmAdjustmentFaktur: TfrmAdjustmentFaktur
       ExplicitWidth = 1023
       inherited lbEscape: TLabel
         Left = 949
-        Height = 17
         ExplicitLeft = 949
       end
     end

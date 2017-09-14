@@ -11,7 +11,7 @@ uses
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
-  ufrmAPCard, ufrmHistoryAP, ufrmJurnal;
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -393,6 +393,7 @@ type
     procedure actCloseAllExecute(Sender: TObject);
     procedure actCompanyExecute(Sender: TObject);
     procedure actCompanyTypeExecute(Sender: TObject);
+    procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
@@ -650,6 +651,11 @@ end;
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
     frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actContrabonSalesExecute(Sender: TObject);
+begin
+  frmContrabonSales := TfrmContrabonSales.Create(Self);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);

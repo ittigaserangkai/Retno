@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 9/14/2017 4:02:41 PM
+// 9/14/2017 4:10:45 PM
 //
 
 unit uClientClasses;
@@ -268,8 +268,8 @@ type
     FDN_RCV_GetDSOverviewCommand_Cache: TDSRestCommand;
     FContrabon_GetDSOverviewCommand: TDSRestCommand;
     FContrabon_GetDSOverviewCommand_Cache: TDSRestCommand;
-    FAdjFaktur_GetDSOverview1Command: TDSRestCommand;
-    FAdjFaktur_GetDSOverview1Command_Cache: TDSRestCommand;
+    FAdjFaktur_GetDSOverviewCommand: TDSRestCommand;
+    FAdjFaktur_GetDSOverviewCommand_Cache: TDSRestCommand;
     FAP_GetDSLookUpCommand: TDSRestCommand;
     FAP_GetDSLookUpCommand_Cache: TDSRestCommand;
     FAP_GetDSLookUpPerOrganizationCommand: TDSRestCommand;
@@ -491,8 +491,8 @@ type
     function DN_RCV_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Contrabon_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function Contrabon_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function AdjFaktur_GetDSOverview1(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
-    function AdjFaktur_GetDSOverview1_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function AdjFaktur_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function AdjFaktur_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function AP_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
     function AP_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2322,14 +2322,14 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_AdjFaktur_GetDSOverview1: array [0..2] of TDSRestParameterMetaData =
+  TDSProvider_AdjFaktur_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_AdjFaktur_GetDSOverview1_Cache: array [0..2] of TDSRestParameterMetaData =
+  TDSProvider_AdjFaktur_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -7608,37 +7608,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FContrabon_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-function TDSProviderClient.AdjFaktur_GetDSOverview1(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.AdjFaktur_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
 begin
-  if FAdjFaktur_GetDSOverview1Command = nil then
+  if FAdjFaktur_GetDSOverviewCommand = nil then
   begin
-    FAdjFaktur_GetDSOverview1Command := FConnection.CreateCommand;
-    FAdjFaktur_GetDSOverview1Command.RequestType := 'GET';
-    FAdjFaktur_GetDSOverview1Command.Text := 'TDSProvider.AdjFaktur_GetDSOverview1';
-    FAdjFaktur_GetDSOverview1Command.Prepare(TDSProvider_AdjFaktur_GetDSOverview1);
+    FAdjFaktur_GetDSOverviewCommand := FConnection.CreateCommand;
+    FAdjFaktur_GetDSOverviewCommand.RequestType := 'GET';
+    FAdjFaktur_GetDSOverviewCommand.Text := 'TDSProvider.AdjFaktur_GetDSOverview';
+    FAdjFaktur_GetDSOverviewCommand.Prepare(TDSProvider_AdjFaktur_GetDSOverview);
   end;
-  FAdjFaktur_GetDSOverview1Command.Parameters[0].Value.AsDateTime := aStartDate;
-  FAdjFaktur_GetDSOverview1Command.Parameters[1].Value.AsDateTime := aEndDate;
-  FAdjFaktur_GetDSOverview1Command.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FAdjFaktur_GetDSOverview1Command.Parameters[2].Value.GetDBXReader(False), True);
+  FAdjFaktur_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FAdjFaktur_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := aEndDate;
+  FAdjFaktur_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FAdjFaktur_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
-    FAdjFaktur_GetDSOverview1Command.FreeOnExecute(Result);
+    FAdjFaktur_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.AdjFaktur_GetDSOverview1_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.AdjFaktur_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
-  if FAdjFaktur_GetDSOverview1Command_Cache = nil then
+  if FAdjFaktur_GetDSOverviewCommand_Cache = nil then
   begin
-    FAdjFaktur_GetDSOverview1Command_Cache := FConnection.CreateCommand;
-    FAdjFaktur_GetDSOverview1Command_Cache.RequestType := 'GET';
-    FAdjFaktur_GetDSOverview1Command_Cache.Text := 'TDSProvider.AdjFaktur_GetDSOverview1';
-    FAdjFaktur_GetDSOverview1Command_Cache.Prepare(TDSProvider_AdjFaktur_GetDSOverview1_Cache);
+    FAdjFaktur_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FAdjFaktur_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FAdjFaktur_GetDSOverviewCommand_Cache.Text := 'TDSProvider.AdjFaktur_GetDSOverview';
+    FAdjFaktur_GetDSOverviewCommand_Cache.Prepare(TDSProvider_AdjFaktur_GetDSOverview_Cache);
   end;
-  FAdjFaktur_GetDSOverview1Command_Cache.Parameters[0].Value.AsDateTime := aStartDate;
-  FAdjFaktur_GetDSOverview1Command_Cache.Parameters[1].Value.AsDateTime := aEndDate;
-  FAdjFaktur_GetDSOverview1Command_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FAdjFaktur_GetDSOverview1Command_Cache.Parameters[2].Value.GetString);
+  FAdjFaktur_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FAdjFaktur_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
+  FAdjFaktur_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FAdjFaktur_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
 function TDSProviderClient.AP_GetDSLookUp(const ARequestFilter: string): TDataSet;
@@ -8359,8 +8359,8 @@ begin
   FDN_RCV_GetDSOverviewCommand_Cache.DisposeOf;
   FContrabon_GetDSOverviewCommand.DisposeOf;
   FContrabon_GetDSOverviewCommand_Cache.DisposeOf;
-  FAdjFaktur_GetDSOverview1Command.DisposeOf;
-  FAdjFaktur_GetDSOverview1Command_Cache.DisposeOf;
+  FAdjFaktur_GetDSOverviewCommand.DisposeOf;
+  FAdjFaktur_GetDSOverviewCommand_Cache.DisposeOf;
   FAP_GetDSLookUpCommand.DisposeOf;
   FAP_GetDSLookUpCommand_Cache.DisposeOf;
   FAP_GetDSLookUpPerOrganizationCommand.DisposeOf;

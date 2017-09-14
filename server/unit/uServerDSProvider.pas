@@ -115,7 +115,7 @@ type
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
     function Contrabon_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
-    function AdjFaktur_GetDSOverview1(aStartDate, aEndDate: TDateTime): TDataSet;
+    function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function AP_GetDSLookUp: TDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function Organization_GetDSLookup: TDataSet;
@@ -1157,7 +1157,7 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.AdjFaktur_GetDSOverview1(aStartDate, aEndDate: TDateTime):
+function TDSProvider.AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime):
     TDataSet;
 var
   S: string;

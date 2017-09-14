@@ -612,6 +612,7 @@ object frmMain: TfrmMain
       Category = 'Finance'
       Caption = 'Contrabon Sales'
       ImageIndex = 39
+      OnExecute = actContrabonSalesExecute
     end
     object actPotonganTagihan: TAction
       Category = 'Finance'

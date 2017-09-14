@@ -2,7 +2,6 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   Caption = 'Dialog Contrabon Sales'
   ClientHeight = 438
   ClientWidth = 700
-  ExplicitTop = -15
   ExplicitWidth = 716
   ExplicitHeight = 477
   PixelsPerInch = 96
