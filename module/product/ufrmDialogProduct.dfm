@@ -55,9 +55,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsInfo: TcxTabSheet
         Caption = 'F1 [Informasi Barang]'
         ImageIndex = 26
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lbAlloc1: TLabel
           Left = 467
           Top = 258
@@ -629,7 +626,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 128
+            Top = 146
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -639,7 +636,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 2
             Transparent = True
             Visible = False
-            ExplicitWidth = 121
+            ExplicitTop = 128
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -653,12 +650,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 0
             Transparent = True
-            ExplicitWidth = 121
           end
           object cbisDecimal: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 44
+            Top = 50
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -668,12 +664,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 3
             Transparent = True
             ExplicitTop = 47
-            ExplicitWidth = 121
           end
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 65
+            Top = 74
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -683,12 +678,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 4
             Transparent = True
             ExplicitTop = 71
-            ExplicitWidth = 121
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 107
+            Top = 122
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -698,12 +692,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 6
             Transparent = True
             ExplicitTop = 116
-            ExplicitWidth = 121
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 86
+            Top = 98
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -713,12 +706,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 5
             Transparent = True
             ExplicitTop = 95
-            ExplicitWidth = 121
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 23
+            Top = 26
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -727,13 +719,11 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 1
             Transparent = True
-            ExplicitTop = 26
-            ExplicitWidth = 121
           end
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 149
+            Top = 170
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -743,8 +733,6 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
-            ExplicitTop = 170
-            ExplicitWidth = 121
           end
         end
         object gbPurchase: TcxGroupBox
@@ -1004,9 +992,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSupplier: TcxTabSheet
         Caption = 'F3 [Barang Supplier]'
         ImageIndex = 10
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object gbSupplier: TcxGroupBox
           Left = 0
           Top = 146
@@ -1293,7 +1278,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             object ckActive: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 44
+              Top = 50
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1303,13 +1288,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 1
               Transparent = True
-              ExplicitTop = 23
-              ExplicitWidth = 121
+              ExplicitTop = 44
             end
             object ckPrimarySupp: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 23
+              Top = 26
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1319,13 +1303,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 0
               Transparent = True
-              ExplicitTop = 2
-              ExplicitWidth = 121
+              ExplicitTop = 23
             end
             object ckBKP: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 65
+              Top = 74
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1335,13 +1318,12 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 2
               Transparent = True
-              ExplicitTop = 50
-              ExplicitWidth = 121
+              ExplicitTop = 71
             end
             object ckEnableCN: TcxCheckBox
               AlignWithMargins = True
               Left = 5
-              Top = 86
+              Top = 98
               Margins.Top = 0
               Margins.Right = 0
               Margins.Bottom = 0
@@ -1352,8 +1334,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               TabOrder = 3
               Transparent = True
               OnKeyDown = ckEnableCNKeyDown
-              ExplicitTop = 74
-              ExplicitWidth = 121
+              ExplicitTop = 95
             end
             object ckIsSOBlacklist: TcxCheckBox
               AlignWithMargins = True
@@ -1367,8 +1348,6 @@ inherited frmDialogProduct: TfrmDialogProduct
               Properties.ImmediatePost = True
               TabOrder = 4
               Transparent = True
-              ExplicitLeft = 3
-              ExplicitWidth = 121
             end
           end
           object crBRSSellingPrice: TcxCurrencyEdit
@@ -1683,9 +1662,6 @@ inherited frmDialogProduct: TfrmDialogProduct
       object tsSellingPrice: TcxTabSheet
         Caption = 'F4 [Selling Price]'
         ImageIndex = 37
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object gbSellingPrice: TcxGroupBox
           Left = 0
           Top = 180
@@ -1806,7 +1782,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             end
             object Label13: TLabel
               Left = 19
-              Top = 104
+              Top = 105
               Width = 90
               Height = 16
               Alignment = taRightJustify
@@ -2292,23 +2268,14 @@ inherited frmDialogProduct: TfrmDialogProduct
       object cxTabSheet1: TcxTabSheet
         Caption = 'F7 [Alokasi Stock]'
         Enabled = False
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object cxTabSheet2: TcxTabSheet
         Caption = 'F6 [History PO]'
         Enabled = False
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object tsImport: TcxTabSheet
         Caption = 'Import Data'
         ImageIndex = 6
-        ExplicitLeft = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel1: TPanel
           Left = 0
           Top = 0
@@ -2445,21 +2412,27 @@ inherited frmDialogProduct: TfrmDialogProduct
       ExplicitWidth = 819
       inherited lbCTRLEnter: TLabel
         Left = 644
+        Height = 15
         ExplicitLeft = 644
       end
       inherited lbEscape: TLabel
         Left = 735
+        Height = 15
         ExplicitLeft = 735
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 568
+        Height = 15
         ExplicitLeft = 568
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 376
-    Top = 400
+    Left = 768
+    Top = 192
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end
