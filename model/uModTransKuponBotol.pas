@@ -29,9 +29,9 @@ type
     property KuponBotolDetils: TobjectList<TModTransKuponBotolDetil> read
         GetKuponBotolDetils write FKuponBotolDetils;
   published
-    [AttributeOfForeign]
+    [AttributeOfForeign('AUT$UNIT_ID')]
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
-    [AttributeOfForeign]
+    [AttributeOfForeign('MEMBER_ID')]
     property MEMBER: TModMember read FMEMBER write FMEMBER;
     property TKB_DATE: TDateTime read FTKB_DATE write FTKB_DATE;
     property TKB_DESCRIPTION: string read FTKB_DESCRIPTION write FTKB_DESCRIPTION;
@@ -60,9 +60,9 @@ type
   public
     class function GetTableName: String; override;
   published
-    [AttributeOfForeign]
+    [AttributeOfForeign('BARANG_ID')]
     property BARANG: TModBarang read FBARANG write FBARANG;
-    [AttributeOfForeign]
+    [AttributeOfForeign('REF$SATUAN_ID')]
     property SATUAN: TModSatuan read FSATUAN write FSATUAN;
     property TKBD_DISC: Double read FTKBD_DISC write FTKBD_DISC;
     property TKBD_QTY: Double read FTKBD_QTY write FTKBD_QTY;
@@ -71,7 +71,7 @@ type
         FTKBD_SELL_PRICE_DISC;
     property TKBD_TOTAL_SELL_PRICE_DISC: Double read FTKBD_TOTAL_SELL_PRICE_DISC
         write FTKBD_TOTAL_SELL_PRICE_DISC;
-    [AttributeOfForeign]
+    [AttributeOfHeader('TRANS_KUPON_BOTOL_ID')]
     property TransKuponBotol: TModTransKuponBotol read FTransKuponBotol write
         FTransKuponBotol;
   end;

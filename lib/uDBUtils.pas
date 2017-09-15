@@ -46,8 +46,10 @@ type
         overload;
     class function ExecuteSQL(ASQLs: TStrings; DoCommit: Boolean = True): Boolean;
         overload;
-    class procedure GenerateSQL(AObject: TModApp; SS: TStrings); overload;
-    class function GenerateSQL(AObject: TModApp): TStrings; overload;
+    class procedure GenerateSQL(AObject: TModApp; SS: TStrings; IsSyncron: Boolean
+        = False); overload;
+    class function GenerateSQL(AObject: TModApp; IsSyncron: Boolean = False):
+        TStrings; overload;
     class procedure GenerateSQLDelete(AObject: TModApp; SS: TStrings); overload;
     class function GenerateSQLDelete(AObject: TModApp): TStrings; overload;
     class function GenerateSQLSelect(AObject : TModApp): string;
@@ -243,7 +245,8 @@ begin
   End;
 end;
 
-class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings);
+class procedure TDBUtils.GenerateSQL(AObject: TModApp; SS: TStrings; IsSyncron:
+    Boolean = False);
 var
   a: TCustomAttribute;
   ctx : TRttiContext;
@@ -282,10 +285,17 @@ begin
 
   If ClassInFilter(TModAppClass(AObject.ClassType)) then
   begin
-    if (AObject.ID = '') or (AObject.ObjectState = 1) then
-      SS.Add(TDBUtils.GetSQLInsert(AObject))
-    else
-      SS.Add(TDBUtils.GetSQLUpdate(AObject));
+    if IsSyncron then
+    begin
+      SS.Add(TDBUtils.GetSQLDelete(AObject));
+      SS.Add(TDBUtils.GetSQLInsert(AObject));
+    end else
+    begin
+      if (AObject.ID = '') or (AObject.ObjectState = 1) then
+        SS.Add(TDBUtils.GetSQLInsert(AObject))
+      else
+        SS.Add(TDBUtils.GetSQLUpdate(AObject));
+    end
   end;
 
   for prop in rt.GetProperties do
@@ -375,10 +385,11 @@ begin
 
 end;
 
-class function TDBUtils.GenerateSQL(AObject: TModApp): TStrings;
+class function TDBUtils.GenerateSQL(AObject: TModApp; IsSyncron: Boolean =
+    False): TStrings;
 begin
   Result := TStringList.Create;
-  Self.GenerateSQL(AObject, Result);
+  Self.GenerateSQL(AObject, Result, IsSyncron);
 end;
 
 class procedure TDBUtils.GenerateSQLDelete(AObject: TModApp; SS: TStrings);
@@ -791,7 +802,7 @@ begin
     begin
       if (not prop.IsWritable) then Continue;
       FieldName := AObject.FieldNameOf(prop);
-
+//       ADataSet.FieldList;
       //published has fields on dataset
       if prop.Visibility = mvPublished then
       begin

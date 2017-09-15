@@ -122,6 +122,8 @@ type
   end;
 
   TCrudUpdatePOS = class(TCrud)
+  private
+    function SinkronToDB(AObject: TModApp): Boolean;
   public
     function RetreiveSyncronData(ModClassName, aFilter: string): TDataSet;
     function UpdateToDB(aDS: TDataSet; ModClassName: string): Boolean;
@@ -1029,25 +1031,6 @@ begin
 
 end;
 
-function TCrudUpdatePOS.RetreiveSyncronData(ModClassName, aFilter: string):
-    TDataSet;
-var
-  lClass: TModAppClass;
-  sSQL: string;
-begin
-  lClass := Self.StringToClass(ModClassName);
-  If not Assigned(lClass) then
-    Raise Exception.Create('Class ' + ModClassName + ' not found');
-
-  sSQL := ' select * from ' + lClass.GetTableName;
-  if aFilter <> '' then
-    sSQL := sSQL + ' ' + aFilter;
-
-  Result := TDBUtils.OpenQuery(sSQL);
-  AfterExecuteMethod;
-
-end;
-
 function TCrudAdjFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
 var
   lAdj: TModAdjustmentFaktur;
@@ -1068,30 +1051,6 @@ begin
     lSS.Free;
   End;
   Result := True;
-end;
-
-function TCrudUpdatePOS.UpdateToDB(aDS: TDataSet; ModClassName: string):
-    Boolean;
-var
-  lMod: TModApp;
-begin
-  Result := False;
-  lMod   := Retrieve(ModClassName, '00000000-0000-0000-0000-000000000000');
-
-  try
-    while not aDS.Eof do
-    begin
-      TDBUtils.LoadFromDataset(lMod, aDS, False);
-      if not SaveToDB(lMod) then
-        Exit;
-
-      aDS.Next
-    end;
-    Result := True;
-  finally
-    lMod.Free;
-    AfterExecuteMethod;
-  end;
 end;
 
 
@@ -1126,6 +1085,73 @@ begin
     lSS.Free;
   End;
   Result := True;
+end;
+
+function TCrudUpdatePOS.RetreiveSyncronData(ModClassName, aFilter: string):
+    TDataSet;
+var
+  lClass: TModAppClass;
+  sSQL: string;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+
+  sSQL := ' select * from ' + lClass.GetTableName;
+  if aFilter <> '' then
+    sSQL := sSQL + ' where ' + aFilter;
+
+  Result := TDBUtils.OpenQuery(sSQL);
+  AfterExecuteMethod;
+end;
+
+function TCrudUpdatePOS.SinkronToDB(AObject: TModApp): Boolean;
+var
+  lSS: TStrings;
+begin
+  Result := False;
+  if not ValidateCode(AObject) then exit;
+  lSS := TDBUtils.GenerateSQL(AObject, True);
+  Try
+    Try
+      TDBUtils.ExecuteSQL(lSS, False);
+
+      TDBUtils.Commit;
+      Result := True;
+    except
+      lSS.SaveToFile(AObject.ClassName + '_ErrorSQL.log');
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+//    AObject.Free;
+    lSS.Free;
+    AfterExecuteMethod;
+  End;
+end;
+
+function TCrudUpdatePOS.UpdateToDB(aDS: TDataSet; ModClassName: string):
+    Boolean;
+var
+  lMod: TModApp;
+begin
+  Result := False;
+  lMod   := Retrieve(ModClassName, '00000000-0000-0000-0000-000000000000');
+
+  try
+    while not aDS.Eof do
+    begin
+      TDBUtils.LoadFromDataset(lMod, aDS, False);
+      if not SinkronToDB(lMod) then
+        Exit;
+
+      aDS.Next
+    end;
+    Result := True;
+  finally
+    lMod.Free;
+    AfterExecuteMethod;
+  end;
 end;
 
 

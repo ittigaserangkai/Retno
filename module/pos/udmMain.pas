@@ -88,19 +88,20 @@ function cOpenDataset(ASQL: String; AOwner: TComponent = nil): TClientDataSet;
 
 function cGetNextIDDetail(aFieldID, aTableName: String): string;
 
-function cSaveToDB(AObject: TModApp): Boolean;
+function cSaveToDB(AObject: TModApp; AFilter: string): Boolean;
 
 function cValidateCode(AOBject: TModApp): Boolean;
 
 function cIsExist(AOBject: TModApp): Boolean;
 
-function cGenerateSQL(AObject: TModApp): TStrings; overload;
+function cGenerateSQL(AObject: TModApp; AFilter: string): TStrings; overload;
 
-procedure cGenerateSQL(AObject: TModApp; SS: TStrings); overload;
+procedure cGenerateSQL(AObject: TModApp; SS: TStrings; aFilter: string);
+    overload;
 
 function cGetSQLInsert(AObject: TModApp): String;
 
-function cGetSQLUpdate(AObject: TModApp): String;
+function cGetSQLUpdate(AObject: TModApp; aFilter: string): String;
 
 function cGetNextIDGUIDToString: string;
 
@@ -669,7 +670,7 @@ begin
   Result := '(select ifnull(max('+aFieldID+'),0)+1 from ' + aTableName + ' ) ';
 end;
 
-function cSaveToDB(AObject: TModApp): Boolean;
+function cSaveToDB(AObject: TModApp; AFilter: string): Boolean;
 var
   lSS: TStrings;
   sID: string;
@@ -681,7 +682,7 @@ begin
 
   if not cValidateCode(AObject) then exit;
 
-  lSS := cGenerateSQL(AObject);
+  lSS := cGenerateSQL(AObject, AFilter);
   Try
     Try
       cExecSQL(lSS);
@@ -724,13 +725,13 @@ begin
     );
 end;
 
-function cGenerateSQL(AObject: TModApp): TStrings;
+function cGenerateSQL(AObject: TModApp; AFilter: string): TStrings;
 begin
   Result := TStringList.Create;
-  cGenerateSQL(AObject, Result);
+  cGenerateSQL(AObject, Result, AFilter);
 end;
 
-procedure cGenerateSQL(AObject: TModApp; SS: TStrings);
+procedure cGenerateSQL(AObject: TModApp; SS: TStrings; aFilter: string);
 //var
 //  a: TCustomAttribute;
 //  ctx : TRttiContext;
@@ -770,7 +771,7 @@ begin
   If ClassInFilter(TModAppClass(AObject.ClassType)) then
   begin
     if cIsExist(AObject) then
-      SS.Add(cGetSQLUpdate(AObject))
+      SS.Add(cGetSQLUpdate(AObject, aFilter))
     else
       SS.Add(cGetSQLInsert(AObject));
   end;
@@ -894,7 +895,7 @@ begin
   Result :=  Format(SQL_Insert,[AObject.GetTableName, FieldNames, FieldValues]);
 end;
 
-function cGetSQLUpdate(AObject: TModApp): String;
+function cGetSQLUpdate(AObject: TModApp; aFilter: string): String;
 var
   ctx : TRttiContext;
   rt : TRttiType;
@@ -917,9 +918,10 @@ begin
     UpdateVal := UpdateVal + FieldName + ' = ' + AObject.QuotValueNoBracket(prop)
   end;
 
-  sFilter   := '';
-
   sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
+  if aFilter <> '' then
+    sFilter := sFilter + ' AND ' + aFilter;
+
   Result := Format(SQL_Update,[AObject.GetTableName,UpdateVal,sFilter]);
 end;
 

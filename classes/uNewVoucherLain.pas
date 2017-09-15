@@ -52,7 +52,7 @@ type
     function GetFieldNameFor_Qty: string; dynamic;
     function GetFieldNameFor_TotalValue: string; dynamic;
     function GetFieldNameFor_TransNo: string; dynamic;
-    function GetFieldNameFor_TransUnit: string; dynamic;
+//    function GetFieldNameFor_TransUnit: string; dynamic;
     function GetFieldNameFor_Value: string; dynamic;
     function GetFieldPrefix: string;
     function GetGeneratorName: string; dynamic;
@@ -253,7 +253,7 @@ begin
       + GetFieldNameFor_Qty + ', '
       + GetFieldNameFor_TotalValue + ', '
       + GetFieldNameFor_TransNo + ', '
-      + GetFieldNameFor_TransUnit + ', '
+//      + GetFieldNameFor_TransUnit + ', '
       + GetFieldNameFor_Value +') values ('
       + TAppUtils.QuotDT(FDATE_CREATE) + ', '
       + TAppUtils.QuotDT(FDATE_MODIFY) + ', '
@@ -267,7 +267,7 @@ begin
       + IntToStr(FQty) + ', '
       + FormatFloat('0.00', FTotalValue) + ', '
       + QuotedStr(FTransNo) + ', '
-      + QuotedStr(FNewUnitID) + ', '
+//      + QuotedStr(FNewUnitID) + ', '
       + FormatFloat('0.00', FValue) + ');';
   end
   else
@@ -282,7 +282,7 @@ begin
       + ', ' + GetFieldNameFor_Qty + ' = ' + IntToStr(FQty)
       + ', ' + GetFieldNameFor_TotalValue + ' = ' + FormatFloat('0.00', FTotalValue)
       + ', ' + GetFieldNameFor_TransNo + ' = ' + QuotedStr(FTransNo)
-      + ', ' + GetFieldNameFor_TransUnit + ' = ' + QuotedStr(FNewUnitID)
+//      + ', ' + GetFieldNameFor_TransUnit + ' = ' + QuotedStr(FNewUnitID)
       + ', ' + GetFieldNameFor_Value + ' = ' + FormatFloat('0.00', FValue)
       + ' where ' + GetFieldNameFor_ID + ' = ' + QuotedStr(FID)
       + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID) + ';';
@@ -311,7 +311,8 @@ end;
 
 function TVoucherLain.GetFieldNameFor_ID: string;
 begin
-  Result := GetFieldPrefix + 'ID';
+//  Result := GetFieldPrefix + 'ID';
+  Result := 'VOUCHER_LAIN_LAIN_ID';
 end;
 
 function TVoucherLain.GetFieldNameFor_IsActive: string;
@@ -321,7 +322,8 @@ end;
 
 function TVoucherLain.GetFieldNameFor_NewUnit: string;
 begin
-  Result := GetFieldPrefix + 'UNT_ID';
+//  Result := GetFieldPrefix + 'UNT_ID';
+  Result := 'AUT$UNIT_ID'
 end;
 
 //function TVoucherLain.GetFieldNameFor_OPC_UNIT: string;
@@ -359,10 +361,10 @@ begin
   Result := GetFieldPrefix + 'Trans_No';
 end;
 
-function TVoucherLain.GetFieldNameFor_TransUnit: string;
-begin
-  Result := GetFieldPrefix + 'Trans_Unt_id';
-end;
+//function TVoucherLain.GetFieldNameFor_TransUnit: string;
+//begin
+//  Result := GetFieldPrefix + 'Trans_Unt_id';
+//end;
 
 function TVoucherLain.GetFieldNameFor_Value: string;
 begin

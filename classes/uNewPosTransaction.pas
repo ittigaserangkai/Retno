@@ -56,7 +56,7 @@ type
     function CustomTableName: string;
     function GenerateRemoveSQL: TStrings; virtual;
     function GenerateSQL(AHeader_ID: string): TStrings;
-    function GetFieldNameFor_Barang: string; dynamic;
+    function GetFieldNameFor_BarangCode: string; dynamic;
     function GetFieldNameFor_BarangHargaJual: string; dynamic;
 //    function GetFieldNameFor_BarangHargaJualUnit: string; dynamic;
     function GetFieldNameFor_COGS: string; dynamic;
@@ -67,7 +67,7 @@ type
     function GetFieldNameFor_IsBKP: string; dynamic;
     function GetFieldNameFor_IsDiscAMC: string; dynamic;
     function GetFieldNameFor_LastCost: string; dynamic;
-//    function GetFieldNameFor_NewUnit: string; dynamic;
+    function GetFieldNameFor_NewUnit: string; dynamic;
 //    function GetFieldNameFor_OPC_UNIT: string; dynamic;
 //    function GetFieldNameFor_OPM_UNIT: string; dynamic;
     function GetFieldNameFor_OP_CREATE: string; dynamic;
@@ -122,6 +122,7 @@ type
     property TotalCeil: Double read FTotalCeil write FTotalCeil;
     property TransNo: string read FTransNo write FTransNo;
     property UomCode: string read FUomCode write FUomCode;
+  published
   end;
   
   TPOSTransactionItems = class(TCollection)
@@ -516,6 +517,7 @@ begin
   BarangCode := '';
   TipeBarangID := '';
   FBarangHargaJualID := '';
+  FNewUnitID := '';
   DISC_GMC_NOMINAL := 0;
   Disc_Card := 0;
 
@@ -563,7 +565,7 @@ begin
 //    FID := cGetNextID(GetFieldNameFor_ID, CustomTableName);
     FID := cGetNextIDGUIDToString;
     sSQL := 'insert into ' + CustomTableName + ' ('
-      + GetFieldNameFor_Barang + ', '
+      + GetFieldNameFor_BarangCode + ', '
       + GetFieldNameFor_TipeBarang + ', '
       + GetFieldNameFor_BarangHargaJual + ', '
 //      + GetFieldNameFor_BarangHargaJualUnit + ', '
@@ -573,7 +575,7 @@ begin
       + GetFieldNameFor_IsBKP + ', '
       + GetFieldNameFor_IsDiscAMC + ', '
       + GetFieldNameFor_LastCost + ', '
-//      + GetFieldNameFor_NewUnit + ', '
+      + GetFieldNameFor_NewUnit + ', '
 //      + GetFieldNameFor_OPC_UNIT + ', '
       + GetFieldNameFor_OP_CREATE + ', '
       + GetFieldNameFor_PPN + ', '
@@ -604,7 +606,7 @@ begin
       + IfThen(FIsBKP,'1','0') + ', '
       + IfThen(FIsDiscAMC,'1','0') + ', '
       + FormatFloat(sPrec, FLastCost) + ', '
-//      + QuotedStr(FNewUnitID) + ', '
+      + QuotedStr(FNewUnitID) + ', '
 //      + InttoStr(FOPC_UNITID) + ', '
       + QuotedStr(FOP_CREATE) + ', '
       + FormatFloat('0.00', FPPN) + ', '
@@ -630,14 +632,14 @@ begin
     //generate Update SQL
     sSQL := 'update ' + CustomTableName + ' set '
       + GetFieldNameFor_BarangHargaJual + ' = ' + QuotedStr(FBarangHargaJualID)
-      + ', ' + GetFieldNameFor_Barang + ' = ' + QuotedStr(BarangCode)
+      + ', ' + GetFieldNameFor_BarangCode + ' = ' + QuotedStr(BarangCode)
       + ', ' + GetFieldNameFor_TipeBarang + ' = ' + QuotedStr(TipeBarangID)
       + ', ' + GetFieldNameFor_COGS + ' = ' + FormatFloat(sPrec, FCOGS)
       + ', ' + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
       + ', ' + GetFieldNameFor_IsBKP + ' = ' + IfThen(FIsBKP,'1','0')
       + ', ' + GetFieldNameFor_IsDiscAMC + ' = ' + IfThen(FIsDiscAMC,'1','0')
       + ', ' + GetFieldNameFor_LastCost + ' = ' + FormatFloat(sPrec, FLastCost)
-//      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
+      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
 //      + ', ' + GetFieldNameFor_OPM_UNIT + ' = ' + IntToStr(FOPM_UNITID)
       + ', ' + GetFieldNameFor_OP_MODIFY + ' = ' + QuotedStr(FOP_MODIFY)
       + ', ' + GetFieldNameFor_PPN + ' = ' + FormatFloat('0.00', FPPN)
@@ -673,14 +675,15 @@ begin
   Result := FBarangHargaJual;
 end;
 
-function TPOSTransactionItem.GetFieldNameFor_Barang: string;
+function TPOSTransactionItem.GetFieldNameFor_BarangCode: string;
 begin
   Result := GetFieldPrefix + 'brg_code';
+//  Result := 'BARANG_ID';
 end;
 
 function TPOSTransactionItem.GetFieldNameFor_BarangHargaJual: string;
 begin
-  Result := GetFieldPrefix + 'bhj_id';
+//  Result := GetFieldPrefix + 'bhj_id';
   Result := 'BARANG_HARGA_JUAL_ID';
 end;
 
@@ -730,10 +733,11 @@ begin
   Result := GetFieldPrefix + 'last_cost';
 end;
 
-//function TPOSTransactionItem.GetFieldNameFor_NewUnit: string;
-//begin
+function TPOSTransactionItem.GetFieldNameFor_NewUnit: string;
+begin
 //  Result := GetFieldPrefix + 'unt_id';
-//end;
+  Result := 'AUT$UNIT_ID';
+end;
 
 //function TPOSTransactionItem.GetFieldNameFor_OPC_UNIT: string;
 //begin
@@ -891,6 +895,7 @@ end;
 
 procedure TPOSTransactionItem.SetNewUnit(Value: TUnit);
 begin
+  FNewUnitID := Value.ID;
 end;
 
 //procedure TPOSTransactionItem.SetOPC_UNIT(Value: TUnit);
@@ -949,7 +954,7 @@ begin
         FBarangHargaJualID := FieldByName(GetFieldNameFor_BarangHargaJual).AsString;
         FCOGS := FieldByName(GetFieldNameFor_COGS).AsFloat;
         FID := FieldByName(GetFieldNameFor_ID).AsString;
-//        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
+        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
         FIsBKP := FieldValues[GetFieldNameFor_IsBKP];
         FIsDiscAMC := FieldValues[GetFieldNameFor_IsDiscAMC];
         FLastCost := FieldByName(GetFieldNameFor_LastCost).AsFloat;
@@ -962,7 +967,7 @@ begin
         FTotalBeforeTax := FieldByName(GetFieldNameFor_TotalBeforeTax).AsFloat;
         FTotalCeil := FieldByName(GetFieldNameFor_TotalCeil).AsFloat;
         FTransNo := FieldByName(GetFieldNameFor_TransNo).AsString;
-        FBarangCode := FieldByName(GetFieldNameFor_Barang).AsString;
+        FBarangCode := FieldByName(GetFieldNameFor_BarangCode).AsString;
         FDISC_GMC_NOMINAL := FieldByName(GetFieldNameFor_DISC_GMC_NOMINAL).AsFloat;
         FDisc_Card := FieldByName(GetFieldNameFor_TransDiscCard).AsFloat;
         FTipeBarangID := FieldByname(GetFieldNameFor_TipeBarang).AsString;
@@ -1594,7 +1599,8 @@ end;
 
 function TPOSTransaction.GetFieldNameFor_VoucherUnit: string;
 begin
-  Result := 'vcrd_vcr_unt_id';
+//  Result := 'vcrd_vcr_unt_id';
+  Result := 'AUT$UNIT_ID';
 end;
 
 function TPOSTransaction.GetFieldPrefix: string;
@@ -2250,7 +2256,7 @@ begin
     + ' set ' + GetFieldNameFor_KuponBotolStatus + ' = ' + QuotedStr('CLOSE')
     + ', ' + GetFieldNameFor_KuponBotolTransPOS + ' = ' + QuotedStr(No)
     + ' where ' + GetFieldNameFor_KuponBotolNo + ' = ' + QuotedStr(KuponBotolNo)
-    + ' and ' + GetFieldNameFor_KuponBotolUnit + ' = ' + QuotedStr(FNewUnitID)
+//    + ' and ' + GetFieldNameFor_KuponBotolUnit + ' = ' + QuotedStr(FNewUnitID)
     + ';';
 
   ssSQL := TStringList.Create;

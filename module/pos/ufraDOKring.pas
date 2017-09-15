@@ -106,9 +106,9 @@ begin
     else
       sSQL := sSQL + ' and upper(b.trd_name) like ''%' + UpperCase(ANama) + '%'' ';
   sSQL := sSQL + ' order by b.trd_name';
-
-  iRecordCOunt := 0;
   {
+  iRecordCOunt := 0;
+
   with sgLookup do
   begin
     FilterActive := False;

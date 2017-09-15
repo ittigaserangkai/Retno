@@ -56,7 +56,6 @@ object frmPayment: TfrmPayment
     ParentColor = True
     ParentFont = False
     TabOrder = 1
-    ExplicitTop = 52
     object Label5: TLabel
       Left = 9
       Top = 12
@@ -235,8 +234,6 @@ object frmPayment: TfrmPayment
     BevelOuter = bvLowered
     ParentColor = True
     TabOrder = 2
-    ExplicitTop = 134
-    ExplicitHeight = 372
     DesignSize = (
       754
       371)
@@ -368,9 +365,9 @@ object frmPayment: TfrmPayment
     object lbl19: TLabel
       Left = 381
       Top = 117
-      Width = 21
+      Width = 56
       Height = 14
-      Caption = 'TSN'
+      Caption = 'Assalaam'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -520,7 +517,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 30
+      TabOrder = 28
       OnExit = edtBayarCCExit
       OnKeyDown = edtBayarCCKeyDown
       Width = 181
@@ -539,7 +536,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 29
+      TabOrder = 27
       Width = 181
     end
     object strgTmpVoucher: TStringGrid
@@ -551,7 +548,7 @@ object frmPayment: TfrmPayment
       FixedCols = 0
       RowCount = 1
       FixedRows = 0
-      TabOrder = 17
+      TabOrder = 15
       Visible = False
     end
     object strgTempLainLain: TStringGrid
@@ -563,7 +560,7 @@ object frmPayment: TfrmPayment
       FixedCols = 0
       RowCount = 1
       FixedRows = 0
-      TabOrder = 18
+      TabOrder = 16
       Visible = False
     end
     object pnlPembulatan: TPanel
@@ -573,7 +570,7 @@ object frmPayment: TfrmPayment
       Height = 20
       BevelOuter = bvNone
       ParentColor = True
-      TabOrder = 19
+      TabOrder = 17
       Visible = False
       object LblPembulatan: TLabel
         Left = 93
@@ -695,7 +692,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 10
+      TabOrder = 9
       Width = 136
     end
     object edtGoroValue: TcxCurrencyEdit
@@ -714,7 +711,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 13
+      TabOrder = 11
       OnKeyDown = edtGoroValueKeyDown
       Width = 136
     end
@@ -732,7 +729,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 15
+      TabOrder = 13
       OnKeyDown = edtVoucherValueKeyDown
       Width = 136
     end
@@ -787,43 +784,6 @@ object frmPayment: TfrmPayment
       OnKeyDown = edtNoOtorisasiCCKeyDown
       Width = 181
     end
-    object edtNoTransBotol: TcxCurrencyEdit
-      Left = 468
-      Top = 30
-      ParentFont = False
-      Properties.Alignment.Horz = taRightJustify
-      Properties.AssignedValues.DisplayFormat = True
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -12
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.IsFontAssigned = True
-      StyleFocused.Color = clYellow
-      TabOrder = 8
-      OnExit = edtNoTransBotolExit
-      OnKeyDown = edtNoTransBotolKeyDown
-      OnKeyPress = edtNoTransBotolKeyPress
-      Width = 166
-    end
-    object edtNoVoucher: TcxCurrencyEdit
-      Left = 468
-      Top = 87
-      ParentFont = False
-      Properties.Alignment.Horz = taRightJustify
-      Properties.AssignedValues.DisplayFormat = True
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -12
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.IsFontAssigned = True
-      StyleFocused.Color = clYellow
-      TabOrder = 11
-      OnExit = edtNoVoucherExit
-      OnKeyDown = edtNoVoucherKeyDown
-      Width = 166
-    end
     object edtCashBack: TcxCurrencyEdit
       Left = 30
       Top = 265
@@ -849,7 +809,7 @@ object frmPayment: TfrmPayment
       Top = 54
       Width = 244
       Height = 150
-      TabOrder = 20
+      TabOrder = 18
       Visible = False
       ExplicitLeft = 175
       ExplicitTop = 54
@@ -879,7 +839,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoBackup')
-      TabOrder = 21
+      TabOrder = 19
       Visible = False
       WordWrap = False
     end
@@ -890,7 +850,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoTemp')
-      TabOrder = 22
+      TabOrder = 20
       Visible = False
       WordWrap = False
     end
@@ -901,7 +861,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoHeadStruk')
-      TabOrder = 23
+      TabOrder = 21
       Visible = False
       WordWrap = False
     end
@@ -919,10 +879,9 @@ object frmPayment: TfrmPayment
       Lines.Strings = (
         'mmoIsiStruk')
       ParentFont = False
-      TabOrder = 24
+      TabOrder = 22
       Visible = False
       WordWrap = False
-      ExplicitHeight = 141
     end
     object mmoFooterStruk: TMemo
       Left = 663
@@ -931,7 +890,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoFooterStruk')
-      TabOrder = 25
+      TabOrder = 23
       Visible = False
       WordWrap = False
     end
@@ -951,7 +910,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 16
+      TabOrder = 14
       Width = 256
     end
     object mmoIsiCB: TMemo
@@ -961,7 +920,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoFooterStruk')
-      TabOrder = 26
+      TabOrder = 24
       Visible = False
       WordWrap = False
     end
@@ -980,7 +939,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 9
+      TabOrder = 8
       Width = 28
     end
     object edtGoroQty: TcxCurrencyEdit
@@ -998,7 +957,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 12
+      TabOrder = 10
       OnKeyDown = edtGoroQtyKeyDown
       Width = 28
     end
@@ -1015,7 +974,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 14
+      TabOrder = 12
       OnKeyDown = edtVoucherQtyKeyDown
       Width = 28
     end
@@ -1027,9 +986,8 @@ object frmPayment: TfrmPayment
       Align = alBottom
       Color = clYellow
       ParentBackground = False
-      TabOrder = 27
+      TabOrder = 25
       Visible = False
-      ExplicitTop = 336
       DesignSize = (
         750
         34)
@@ -1052,9 +1010,42 @@ object frmPayment: TfrmPayment
       Left = 27
       Top = 334
       ParentFont = False
-      TabOrder = 28
+      TabOrder = 26
       Visible = False
       Width = 30
+    end
+    object edtNoTransBotol: TcxTextEdit
+      Left = 468
+      Top = 31
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'MS Sans Serif'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
+      TabOrder = 29
+      OnExit = edtNoTransBotolExit
+      OnKeyDown = edtNoTransBotolKeyDown
+      OnKeyPress = edtNoTransBotolKeyPress
+      Width = 166
+    end
+    object edtNoVoucher: TcxTextEdit
+      Left = 468
+      Top = 88
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'MS Sans Serif'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      StyleFocused.Color = clYellow
+      TabOrder = 30
+      OnExit = edtNoVoucherExit
+      OnKeyDown = edtNoVoucherKeyDown
+      Width = 166
     end
   end
   object Panel10: TPanel

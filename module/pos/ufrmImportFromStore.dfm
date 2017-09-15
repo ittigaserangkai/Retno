@@ -37,6 +37,7 @@ object frmImportFromStore: TfrmImportFromStore
         Width = 42
         Height = 13
         Caption = 'Filename'
+        Visible = False
       end
       object Label2: TLabel
         Left = 16
@@ -61,6 +62,7 @@ object frmImportFromStore: TfrmImportFromStore
         Height = 25
         Caption = 'Simpan'
         TabOrder = 1
+        Visible = False
         OnClick = btSimpanClick
       end
       object edtFileName: TcxButtonEdit
@@ -73,6 +75,7 @@ object frmImportFromStore: TfrmImportFromStore
           end>
         Properties.OnButtonClick = edtFileNamePropertiesButtonClick
         TabOrder = 2
+        Visible = False
         Width = 345
       end
       object dtTanggal: TDateTimePicker
