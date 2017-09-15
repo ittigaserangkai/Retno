@@ -63,7 +63,6 @@ uses
   uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
   uModCustomerVoucher in '..\model\uModCustomerVoucher.pas',
   uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
-  uModVoucherDetil in '..\model\uModVoucherDetil.pas',
   uModVoucher in '..\model\uModVoucher.pas',
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
   uModContrabonSales in '..\model\uModContrabonSales.pas';
