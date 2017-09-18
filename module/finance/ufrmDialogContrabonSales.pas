@@ -14,7 +14,8 @@ uses
   dxBarBuiltInMenu, cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar,
   Vcl.Menus, cxButtons, Datasnap.DBClient, uDBUtils,
   uDXUtils,uModOrganization, cxCheckBox,uModContrabonSales,
-  System.Generics.Collections, uAppUtils, uModApp, uConstanta,uInterface;
+  System.Generics.Collections, uAppUtils, uModApp, uConstanta,uInterface,
+  cxButtonEdit, ufrmCXLookup;
 
 type
   TfrmDialogContrabonSales = class(TfrmMasterDialog, ICRUDAble)
@@ -24,7 +25,6 @@ type
     lblPostCode: TLabel;
     lblTelp: TLabel;
     lblNPWP: TLabel;
-    cbbOrganisasi: TcxExtLookupComboBox;
     edAddress: TcxTextEdit;
     edPostCode: TcxTextEdit;
     edTelp: TcxTextEdit;
@@ -53,21 +53,34 @@ type
     cxGridColContIsClaimed: TcxGridColumn;
     cxGridColContID: TcxGridColumn;
     cxGridColContAmountSales: TcxGridColumn;
+    edOrganization: TcxButtonEdit;
+    edOrganizationName: TcxButtonEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
+    procedure btnLoadSalesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure cbbOrganisasiPropertiesValidate(Sender: TObject;
-      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGridContrabonEnter(Sender: TObject);
     procedure cxGridTableContrabonSalesDataControllerAfterPost(
       ADataController: TcxCustomDataController);
     procedure cxGridTableContrabonSalesDataControllerAfterInsert(
       ADataController: TcxCustomDataController);
+    procedure edOrganizationPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure edOrganizationPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FCDSOrganisasi: tclientDataSet;
+    FCS: TModContrabonSales;
     FOrganization: TModOrganization;
+    function GetCDSOrganisasi: tclientDataSet;
+//    function GetCS: TModContrabonSales;
     procedure HitungNilaiContrabon(AFocusedRecordIndex: Integer);
-    procedure InisialisasiOrganisasi;
     procedure IsiDataAwalContrabonSales(AFocusedRecordIndex: Integer);
+    procedure LoadDataOrganization(AKodeAtauID : String; AIsLoadByKode : Boolean);
+    property CDSOrganisasi: tclientDataSet read GetCDSOrganisasi write
+        FCDSOrganisasi;
+//    property CS: TModContrabonSales read GetCS write FCS;
     { Private declarations }
   public
     procedure LoadData(AID : String);
@@ -81,24 +94,75 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmDialogContrabonSales.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
+    Exit;
+
+  if FCS = nil then
+    Exit;
+
+  if FCS.CONT_IS_CLAIM = 1 then
+  begin
+    TAppUtils.Warning('Sudah Diclaim,Tidak Bisa Dihapus');
+    Exit;
+  end;
+
+
+  try
+    if DMClient.CrudContrabonSalesClient.DeleteFromDB(FCS) then
+    begin
+      TAppUtils.Information('Berhasil Hapus Data');
+      Self.ModalResult := mrOk;
+    end;
+  except
+    raise
+  end;
+end;
+
+procedure TfrmDialogContrabonSales.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(FCS);
+end;
+
 procedure TfrmDialogContrabonSales.actSaveExecute(Sender: TObject);
 var
   I: Integer;
-  lCS: TModContrabonSales;
   lListContranbonSales: TObjectList<TModApp>;
 begin
   inherited;
   if not ValidateEmptyCtrl([1]) then
     Exit;
 
+  if FOrganization = nil then
+  begin
+    TAppUtils.Warning('Organisasi Belum Dipilih');
+    edOrganization.SetFocus;
+    Exit;
+  end;
+
   lListContranbonSales := TObjectList<TModApp>.Create();
   try
     for I := 0 to cxGridTableContrabonSales.DataController.RecordCount - 1 do
     begin
-      lCS := TModContrabonSales.Create();
-      lCS.CONT_ORGANIZATION := TModOrganization.CreateID(cbbOrganisasi.EditValue);
-      cxGridTableContrabonSales.LoadObjectData(lCS, i);
-      lListContranbonSales.Add(lCS);
+      HitungNilaiContrabon(i);
+
+      if cxGridTableContrabonSales.Double(i, cxGridColContAmountGross.Index) <= 0 then
+      begin
+        TAppUtils.Warning('Nominal Baris ' + IntToStr(i+1) + ' 0');
+        Exit;
+      end;
+
+
+      FCS := TModContrabonSales.CreateID(cxGridTableContrabonSales.Text(i, cxGridColContID.Index));
+      if FCS.ID <> '' then
+        FCS.ObjectState := 3;
+
+      FCS.CONT_ORGANIZATION := TModOrganization.CreateID(FOrganization.ID);
+      cxGridTableContrabonSales.LoadObjectData(FCS, i);
+      lListContranbonSales.Add(FCS);
     end;
 
     if DMClient.CrudClient.SaveBatch(lListContranbonSales) then
@@ -108,6 +172,7 @@ begin
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     ClearByTag([0,1]);
     cxGridTableContrabonSales.ClearRows;
+    edOrganization.SetFocus;
   except
     TAppUtils.Error(ER_INSERT_FAILED);
     raise;
@@ -118,24 +183,10 @@ begin
 
 end;
 
-procedure TfrmDialogContrabonSales.cbbOrganisasiPropertiesValidate(
-  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
-  var Error: Boolean);
+procedure TfrmDialogContrabonSales.btnLoadSalesClick(Sender: TObject);
 begin
   inherited;
-  if VarIsNull(DisplayValue) then
-    Exit;
-
-  FOrganization := DMClient.CrudClient.Retrieve(TModOrganization.ClassName,cbbOrganisasi.EditValueRest) as TModOrganization;
-  if FOrganization <> nil then
-  begin
-    edAddress.Text  := FOrganization.org_address;
-    edPostCode.Text := FOrganization.ORG_PostCode;
-    edNPWP.Text     := FOrganization.ORG_NPWP;
-    edTelp.Text     := FOrganization.ORG_Telp;
-    edFee.Value     := FOrganization.ORG_FEE;
-    edPPN.Value     := FOrganization.ORG_PPN;
-  end;
+  TAppUtils.Information('Fitur Ini Belum Diimplementasikan', True);
 end;
 
 procedure TfrmDialogContrabonSales.cxGridContrabonEnter(Sender: TObject);
@@ -164,6 +215,34 @@ begin
   HitungNilaiContrabon(ADataController.FocusedRecordIndex);
 end;
 
+procedure TfrmDialogContrabonSales.edOrganizationPropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+begin
+  inherited;
+  with TfrmCXLookup.Execute(CDSOrganisasi,False, 'Look Up PO') do
+  begin
+    Try
+      HideFields(['V_ORGANIZATION_ID', 'ORG_MerchandiseGroup_id','ORG_Member_ID','ORG_Karyawan_ID','DATE_CREATE','DATE_MODIFY']);
+      if ShowModal = mrOK then
+      begin
+        edOrganization.Text := Data.FieldByName('org_code').AsString;
+        LoadDataOrganization(Data.FieldByName('V_ORGANIZATION_ID').AsString, False);
+      end;
+    Finally
+      free;
+    End;
+  end;
+end;
+
+procedure TfrmDialogContrabonSales.edOrganizationPropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+begin
+  inherited;
+  FreeAndNil(FOrganization);
+  LoadDataOrganization(VarToStr(DisplayValue), True);
+end;
+
 procedure TfrmDialogContrabonSales.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -173,8 +252,23 @@ begin
 
   cxGridTableContrabonSales.ClearRows;
 
-  InisialisasiOrganisasi;
 end;
+
+function TfrmDialogContrabonSales.GetCDSOrganisasi: tclientDataSet;
+begin
+  if FCDSOrganisasi = nil then
+    FCDSOrganisasi := TDBUtils.DSToCDS(DMClient.DSProviderClient.Organization_GetDSLookup(), Self);
+
+  Result := FCDSOrganisasi;
+end;
+
+//function TfrmDialogContrabonSales.GetCS: TModContrabonSales;
+//begin
+//  if FCS = nil then
+//    FCS := TModContrabonSales.Create;
+//
+//  Result := FCS;
+//end;
 
 procedure TfrmDialogContrabonSales.HitungNilaiContrabon(AFocusedRecordIndex:
     Integer);
@@ -199,25 +293,23 @@ begin
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContAmountNet.Index, dNet);
 end;
 
-procedure TfrmDialogContrabonSales.InisialisasiOrganisasi;
-begin
-  FreeAndNil(FCDSOrganisasi);
-
-  FCDSOrganisasi          := TDBUtils.DSToCDS( DMClient.DSProviderClient.Organization_GetDSLookup(), Self );
-  FCDSOrganisasi.Filter   := ' ORG_IsSupplierMG = 1';
-  FCDSOrganisasi.Filtered := True;
-
-  cbbOrganisasi.Properties.LoadFromCDS(FCDSOrganisasi,'V_ORGANIZATION_ID','ORG_Name',['V_ORGANIZATION_ID','ORG_MerchandiseGroup_id','DATE_CREATE','DATE_MODIFY','ORG_Member_ID','ORG_Karyawan_ID','ORG_IsSupplierMG','ORG_IsMember','ORG_IsKaryawan'],Self);
-  cbbOrganisasi.Properties.SetMultiPurposeLookup;
-end;
 
 procedure TfrmDialogContrabonSales.IsiDataAwalContrabonSales(
     AFocusedRecordIndex: Integer);
+var
+  dTanggal: TDatetime;
 begin
   if FOrganization = nil then
     Exit;
 
-  cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContDate.Index, Now);
+  dTanggal := Now;
+  if AFocusedRecordIndex <> 0 then
+  begin
+    if not VarIsNullDate(cxGridTableContrabonSales.Values(AFocusedRecordIndex-1, cxGridColContDate.Index)) then
+      dTanggal := cxGridTableContrabonSales.Date(AFocusedRecordIndex-1, cxGridColContDate.Index) + 1;
+  end;
+
+  cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContDate.Index, dTanggal);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContFee.Index, FOrganization.ORG_FEE);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, FOrganization.ORG_PPN);
 end;
@@ -230,7 +322,44 @@ begin
   if AID = '' then
     Exit;
 
-//  F
+  FreeAndNil(FCS);
+  FCS := TModContrabonSales(DMClient.CrudContrabonSalesClient.Retrieve(TModContrabonSales.ClassName, AID));
+  if FCS = nil then
+    Exit;
+
+  LoadDataOrganization(FCS.CONT_ORGANIZATION.ID, False);
+
+  cxGridTableContrabonSales.DataController.AppendRecord;
+  cxGridTableContrabonSales.SetObjectData(FCS, 0);
+  HitungNilaiContrabon(0);
+end;
+
+procedure TfrmDialogContrabonSales.LoadDataOrganization(AKodeAtauID : String;
+    AIsLoadByKode : Boolean);
+begin
+  edOrganizationName.Text := '';
+  FreeAndNil(FOrganization);
+
+  if AIsLoadByKode then
+    FOrganization := DMClient.CrudClient.RetrieveByCode(TModOrganization.ClassName,  AKodeAtauID) as TModOrganization
+  else begin
+    FOrganization := DMClient.CrudClient.Retrieve(TModOrganization.ClassName,  AKodeAtauID) as TModOrganization;
+    if FOrganization <> nil then
+    edOrganization.Text := FOrganization.ORG_Code;
+  end;
+
+  if FOrganization <> nil then
+  begin
+    edOrganizationName.Text := FOrganization.ORG_Name;
+    edAddress.Text          := FOrganization.org_address;
+    edPostCode.Text         := FOrganization.ORG_PostCode;
+    edNPWP.Text             := FOrganization.ORG_NPWP;
+    edTelp.Text             := FOrganization.ORG_Telp;
+    edFee.Value             := FOrganization.ORG_FEE;
+    edPPN.Value             := FOrganization.ORG_PPN;
+  end;
+
+
 end;
 
 end.

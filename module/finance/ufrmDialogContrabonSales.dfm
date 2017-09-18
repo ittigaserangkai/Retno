@@ -2,6 +2,8 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   Caption = 'Dialog Contrabon Sales'
   ClientHeight = 438
   ClientWidth = 700
+  OnDestroy = FormDestroy
+  ExplicitTop = -65
   ExplicitWidth = 716
   ExplicitHeight = 477
   PixelsPerInch = 96
@@ -68,40 +70,35 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Height = 16
         Caption = 'Fee'
       end
-      object cbbOrganisasi: TcxExtLookupComboBox
-        Tag = 1
-        Left = 86
-        Top = 3
-        Properties.ImmediatePost = True
-        Properties.OnValidate = cbbOrganisasiPropertiesValidate
-        TabOrder = 0
-        Width = 292
-      end
       object edAddress: TcxTextEdit
         Left = 86
         Top = 30
-        TabOrder = 1
+        TabStop = False
+        TabOrder = 2
         Text = 'edAddress'
         Width = 292
       end
       object edPostCode: TcxTextEdit
         Left = 86
         Top = 57
-        TabOrder = 2
+        TabStop = False
+        TabOrder = 3
         Text = '57177'
         Width = 43
       end
       object edTelp: TcxTextEdit
         Left = 155
         Top = 57
-        TabOrder = 3
+        TabStop = False
+        TabOrder = 4
         Text = '08886761775'
         Width = 128
       end
       object edNPWP: TcxTextEdit
         Left = 86
         Top = 84
-        TabOrder = 5
+        TabStop = False
+        TabOrder = 6
         Text = 'edNPWP'
         Width = 197
       end
@@ -113,7 +110,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Height = 81
         BevelKind = bkFlat
         BevelOuter = bvNone
-        TabOrder = 7
+        TabOrder = 8
         object lblP1: TLabel
           Left = 19
           Top = 6
@@ -151,6 +148,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Height = 25
           Caption = 'Load Sales'
           TabOrder = 2
+          OnClick = btnLoadSalesClick
         end
       end
       object pnlHeaderLoad: TPanel
@@ -168,23 +166,56 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 8
+        TabOrder = 9
       end
       object edPPN: TcxCurrencyEdit
         Left = 310
         Top = 57
+        TabStop = False
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',#.##;(,#.##)'
-        TabOrder = 4
+        TabOrder = 5
         Width = 68
       end
       object edFee: TcxCurrencyEdit
         Left = 310
         Top = 84
+        TabStop = False
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',#.##;(,#.##)'
-        TabOrder = 6
+        TabOrder = 7
         Width = 68
+      end
+      object edOrganization: TcxButtonEdit
+        Tag = 1
+        Left = 86
+        Top = 3
+        HelpType = htKeyword
+        HelpKeyword = 'Organisasi'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.CharCase = ecUpperCase
+        Properties.MaxLength = 0
+        Properties.OnButtonClick = edOrganizationPropertiesButtonClick
+        Properties.OnValidate = edOrganizationPropertiesValidate
+        TabOrder = 0
+        Width = 75
+      end
+      object edOrganizationName: TcxButtonEdit
+        Left = 163
+        Top = 3
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+            Visible = False
+          end>
+        Properties.MaxLength = 0
+        TabOrder = 1
+        Width = 215
       end
     end
     object cxGridContrabon: TcxGrid
@@ -317,7 +348,9 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColContID: TcxGridColumn
+          AlternateCaption = 'ID'
           Caption = 'ID'
+          Visible = False
         end
       end
       object cxgrdlvlContrabon: TcxGridLevel
@@ -379,6 +412,9 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   inherited actlstMasterDialog: TActionList
     Left = 136
     Top = 216
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

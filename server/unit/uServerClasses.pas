@@ -342,9 +342,10 @@ begin
     for I := 0 to AObjectList.Count - 1 do
     begin
       SaveToDBTrans(AObjectList[i], False);
-      TDBUtils.Commit;
-      Result := False;
     end;
+
+    TDBUtils.Commit;
+    Result := False;
   except
     raise;
   end;
