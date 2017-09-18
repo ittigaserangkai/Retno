@@ -3,7 +3,6 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   ClientHeight = 438
   ClientWidth = 700
   OnDestroy = FormDestroy
-  ExplicitTop = -65
   ExplicitWidth = 716
   ExplicitHeight = 477
   PixelsPerInch = 96
@@ -308,9 +307,8 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Width = 92
         end
         object cxGridColContPPN: TcxGridColumn
-          Caption = 'PPN (%)'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Caption = 'PKP'
+          PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 77

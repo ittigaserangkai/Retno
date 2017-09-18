@@ -676,23 +676,22 @@ begin
 end;
 
 class function TDBUtils.GetNextIDGUIDToString: string;
-//var
-//  lGUID: TGuid;
 var
-  sSQL: string;
+  lGUID: TGuid;
+//  sSQL: string;
 begin
-//  CreateGUID(lGUID);
-//  Result := GUIDToString(lGUID);
+  CreateGUID(lGUID);
+  Result := GUIDToString(lGUID);
 
-  sSQL := 'select NEWID()';
-  with TDBUtils.OpenQuery(sSQL) do
-  begin
-    try
-      Result := Fields[0].AsString;
-    finally
-      Free;
-    end;
-  end;
+//  sSQL := 'select NEWID()';
+//  with TDBUtils.OpenQuery(sSQL) do
+//  begin
+//    try
+//      Result := Fields[0].AsString;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 class function TDBUtils.GetSQLInsert(AObject: TModApp): String;
