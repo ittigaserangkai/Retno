@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls , IdBaseComponent, IdMailBox,
-  Datasnap.DBClient, uModApp, uModTransaksi;
+  Datasnap.DBClient, uModApp, uModTransaksi, uModVoucher, uModVoucherLainLain,
+  uModTransKuponBotol;
 
 type
   TfrmExportOfflinePOS = class(TForm)
@@ -26,18 +27,41 @@ type
       Shift: TShiftState);
   private
 //    Cnn : TConnection;
-    FDefUnitID: Integer;
+    FDefUnitID: string;
 //    FLDateImp : TDateTime;
-    FmodTrans: TModTransaksi;
-    FModTransDetail: TModTransaksi_Detil;
+    FModTrans: TModTransaksi;
+    FModTransCard: TModTransaksiCard;
+    FModTransDetail: TModTransaksiDetil;
+    FModTransKuponBotol: TModTransKuponBotol;
+    FModTransKuponBotolDetil: TModTransKuponBotolDetil;
+    FModVoucher: TModVoucher;
+    FModVoucherDetil: TModVoucherDetil;
+    FModVoucherLain: TModVoucherLainLain;
     FUnitID: string;
-    function GetmodTrans: TModTransaksi;
-    function GetModTransDetail: TModTransaksi_Detil;
-    function UpdateData(aUnitID: Integer; aTgl: TDateTime; aModel: TModApp):
+    function GetModTrans: TModTransaksi;
+    function GetModTransCard: TModTransaksiCard;
+    function GetModTransDetail: TModTransaksiDetil;
+    function GetModTransKuponBotol: TModTransKuponBotol;
+    function GetModTransKuponBotolDetil: TModTransKuponBotolDetil;
+    function GetModVoucher: TModVoucher;
+    function GetModVoucherDetil: TModVoucherDetil;
+    function GetModVoucherLain: TModVoucherLainLain;
+    function UpdateData(aTgl: TDateTime; aModel: TModApp; aWhere: string = ''):
         Boolean;
-    property modTrans: TModTransaksi read GetmodTrans write FmodTrans;
-    property ModTransDetail: TModTransaksi_Detil read GetModTransDetail write
+    property ModTrans: TModTransaksi read GetModTrans write FModTrans;
+    property ModTransCard: TModTransaksiCard read GetModTransCard write
+        FModTransCard;
+    property ModTransDetail: TModTransaksiDetil read GetModTransDetail write
         FModTransDetail;
+    property ModTransKuponBotol: TModTransKuponBotol read GetModTransKuponBotol
+        write FModTransKuponBotol;
+    property ModTransKuponBotolDetil: TModTransKuponBotolDetil read
+        GetModTransKuponBotolDetil write FModTransKuponBotolDetil;
+    property ModVoucher: TModVoucher read GetModVoucher write FModVoucher;
+    property ModVoucherDetil: TModVoucherDetil read GetModVoucherDetil write
+        FModVoucherDetil;
+    property ModVoucherLain: TModVoucherLainLain read GetModVoucherLain write
+        FModVoucherLain;
   public
     property UnitID: string read FUnitID write FUnitID;
   published
@@ -58,7 +82,7 @@ var
   ssql:string;
 begin
   dtTanggal.DateTime := Now;
-  FDefUnitID := StrToInt(dmMain.getGlobalVar('UNITID'));
+  FDefUnitID := dmMain.getGlobalVar('UNITID');
 //  sSQL := 'select UPRD_DATE from ULINK_PRD order by UPRD_DATE desc rows 1';
 //
 //  with cOpenQuery(sSQL) do
@@ -116,12 +140,16 @@ begin
   end
   else
   begin
-    UpdateData(FDefUnitID, dtTanggal.DateTime, modTrans);
-    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransDetail);
-//    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransCard);
-//    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransVoucher);
-//    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransVoucherAssalam);
-//    UpdateData(FDefUnitID, dtTanggal.DateTime, modTransKuponBotol);
+    mmoExport.Clear;
+    UpdateData(dtTanggal.DateTime, ModTrans);
+    UpdateData(dtTanggal.DateTime, ModTransDetail);
+    UpdateData(dtTanggal.DateTime, ModTransCard);
+//    UpdateData(dtTanggal.DateTime, ModVoucher);
+    UpdateData(dtTanggal.DateTime, ModVoucherDetil, 'VCRD_STATUS = ''CLOSE'' ');
+    UpdateData(dtTanggal.DateTime, ModVoucherLain);
+    UpdateData(dtTanggal.DateTime, ModTransKuponBotol, 'TKB_STATUS = ''CLOSE'' ');
+    UpdateData(dtTanggal.DateTime, ModTransKuponBotolDetil);
+    mmoExport.Lines.Add('selesai eksport ');
 
     {
     aListAll := TStringList.Create;
@@ -182,24 +210,73 @@ begin
     Close;
 end;
 
-function TfrmExportOfflinePOS.GetmodTrans: TModTransaksi;
+function TfrmExportOfflinePOS.GetModTrans: TModTransaksi;
 begin
-  if FmodTrans = nil then
-    FmodTrans := TModTransaksi.Create;
+  if FModTrans = nil then
+    FModTrans := TModTransaksi.Create;
 
-  Result := FmodTrans;
+  Result := FModTrans;
 end;
 
-function TfrmExportOfflinePOS.GetModTransDetail: TModTransaksi_Detil;
+function TfrmExportOfflinePOS.GetModTransCard: TModTransaksiCard;
+begin
+  if FModTransCard = nil then
+    FModTransCard := TModTransaksiCard.Create;
+
+  Result := FModTransCard;
+end;
+
+function TfrmExportOfflinePOS.GetModTransDetail: TModTransaksiDetil;
 begin
   if FModTransDetail = nil then
-    FModTransDetail := TModTransaksi_Detil.Create;
+    FModTransDetail := TModTransaksiDetil.Create;
 
   Result := FModTransDetail;
 end;
 
-function TfrmExportOfflinePOS.UpdateData(aUnitID: Integer; aTgl: TDateTime;
-    aModel: TModApp): Boolean;
+function TfrmExportOfflinePOS.GetModTransKuponBotol: TModTransKuponBotol;
+begin
+  if FModTransKuponBotol = nil then
+    FModTransKuponBotol := TModTransKuponBotol.Create;
+
+  Result := FModTransKuponBotol;
+end;
+
+function TfrmExportOfflinePOS.GetModTransKuponBotolDetil:
+    TModTransKuponBotolDetil;
+begin
+  if FModTransKuponBotolDetil = nil then
+    FModTransKuponBotolDetil := TModTransKuponBotolDetil.Create;
+
+  Result := FModTransKuponBotolDetil;
+end;
+
+function TfrmExportOfflinePOS.GetModVoucher: TModVoucher;
+begin
+  if FModVoucher = nil then
+    FModVoucher := TModVoucher.Create;
+
+  Result := FModVoucher;
+end;
+
+function TfrmExportOfflinePOS.GetModVoucherDetil: TModVoucherDetil;
+begin
+  if FModVoucherDetil = nil then
+    FModVoucherDetil := TModVoucherDetil.Create;
+
+  Result := FModVoucherDetil;
+end;
+
+function TfrmExportOfflinePOS.GetModVoucherLain: TModVoucherLainLain;
+begin
+  if FModVoucherLain = nil then
+    FModVoucherLain := TModVoucherLainLain.Create;
+
+  Result := FModVoucherLain;
+end;
+
+function TfrmExportOfflinePOS.UpdateData(aTgl: TDateTime; aModel: TModApp;
+    aWhere: string = ''): Boolean;
 var
   i: Integer;
   lCDS: TClientDataSet;
@@ -209,10 +286,20 @@ var
 begin
   Result := False;
   sSQL := 'select * from ' + aModel.GetTableName;
+  if aWhere <> '' then
+    sSQL := sSQL + ' where ' + aWhere;
+
   lCDS := cOpenDataset(sSQL);
   try
     Result := DMClient.CrudUpdatePOSClient.UpdateToDB(lCDS, aModel.ClassName);
 
+    if Result then
+    begin
+      mmoExport.Lines.Add('sukses eksport ' + aModel.GetTableName);
+    end else
+    begin
+      mmoExport.Lines.Add('gagal eksport ' + aModel.GetTableName);
+    end;
 //    for i:= 0 to lModUpdatePOS.ModUpdatePOSDetails.Count-1 do
 //    begin
 //      sID := cRemoveBracket(lModUpdatePOS.ModUpdatePOSDetails[i].PrimaryValue);// Copy(lModUpdatePOS.ModUpdatePOSDetails[i].PrimaryValue,2,lModUpdatePOS.ModUpdatePOSDetails[i].PrimaryValue.Length-2);

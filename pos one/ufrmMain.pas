@@ -348,7 +348,7 @@ begin
     with TPOS.Create(Self) do
     begin
       try
-        if LoadByCode(APOSCode,UnitID, aActiveDate) then
+        if LoadByCode(APOSCode, UnitID, aActiveDate) then
         begin
           Result := Copy(TransactionNo,1,8) + FormatFloat('0000',CounterNo+1);
         end;

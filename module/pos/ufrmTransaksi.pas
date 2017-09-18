@@ -1252,10 +1252,11 @@ begin
           else
             iTrans_ID := '';
 
-          UpdateData(TotalRupiahBarangCC,TotalRupiah,frmMain.FBeginningBalanceID,HitungTotalRupiahBarangAMC,
-            self.DiscAMCPersen,iTrans_ID,True,TrMemberID,frmMain.UnitID,
-            edNoTrnTerakhir.Text,0,dtTransaksi,0,
-            0, self.TotalRupiahBarangPPN, TotalRupiah,'',nil,frmMain.UserID,0, 0, True);
+          UpdateData(TotalRupiahBarangCC, TotalRupiah, frmMain.FBeginningBalanceID,
+            HitungTotalRupiahBarangAMC, self.DiscAMCPersen, iTrans_ID, True,
+            TrMemberID, frmMain.UnitID, edNoTrnTerakhir.Text, 0, dtTransaksi, 0,
+            0, self.TotalRupiahBarangPPN, TotalRupiah, '', nil, frmMain.UserID,
+            0, 0, True);
 
           //TransactionCard.UpdateData
 

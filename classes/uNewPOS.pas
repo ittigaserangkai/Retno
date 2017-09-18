@@ -470,7 +470,7 @@ var
 begin
   sSQL := 'select * from ' + CustomTableName
     + ' Where ' + GetFieldNameFor_Code + ' = ' + QuotedStr(ACode)
-    + ' and ' + GetFieldNameFor_ActivationDate + ' = ' + TAppUtils.QuotD(aActiveDate)
+    + ' and date(' + GetFieldNameFor_ActivationDate + ') = ' + TAppUtils.QuotD(aActiveDate)
     + ' and ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(AUnitID);
   result := FloadFromDB(sSQL);
 end;

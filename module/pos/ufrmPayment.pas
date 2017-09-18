@@ -67,8 +67,6 @@ type
     edtJenisKartuCode: TcxCurrencyEdit;
     edtJenisKartuName: TcxCurrencyEdit;
     edtNoOtorisasiCC: TcxCurrencyEdit;
-    edtNoTransBotol: TcxCurrencyEdit;
-    edtNoVoucher: TcxCurrencyEdit;
     edtCashBack: TcxCurrencyEdit;
     fraLookUpCC: TfraLookUpCC;
     edtPilihan: TcxCurrencyEdit;
@@ -90,6 +88,8 @@ type
     Label1: TLabel;
     edtBayarCC: TcxCurrencyEdit;
     Label2: TLabel;
+    edtNoTransBotol: TcxTextEdit;
+    edtNoVoucher: TcxTextEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtJenisKartuCodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -885,6 +885,10 @@ begin
   if Key in [VK_ESCAPE] then
   begin
     edtPilihan.SetFocus;
+  end
+  else if Key in [VK_RETURN] then
+  begin
+    edtNoTransBotolExit(Sender);
   end;
 end;
 
@@ -1596,7 +1600,7 @@ begin
           + ' sum(b.tkbd_qty) as qty, '
           + ' sum(b.tkbd_total_sell_price_disc) as harga '
           + 'from trans_kupon_botol a '
-          + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
+          + 'inner join trans_kupon_botol_detil b on a.TRANS_KUPON_BOTOL_ID = b.TRANS_KUPON_BOTOL_ID '
 //          + ' and a.tkb_unt_id = b.tkbd_tkb_unt_id '
 //          + ' and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
           + ' and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text)
@@ -1634,9 +1638,10 @@ begin
             begin
               //cek di kupon botol
               //semua PLU di kupon botol harus ada di transaksi POS dan PLU transaksi POS harus >= kupon
-              sSQL := 'select b.tkbd_brg_code, b.tkbd_qty '
+              sSQL := 'select c.brg_code, b.tkbd_qty '
                 + 'from trans_kupon_botol a '
-                + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
+                + 'inner join trans_kupon_botol_detil b on a.TRANS_KUPON_BOTOL_ID = b.TRANS_KUPON_BOTOL_ID '
+                + 'inner join barang c on c.barang_id = b.barang_id '
 //                + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
 //                + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
                 + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text);
@@ -1688,7 +1693,7 @@ begin
   sSQL := 'select a.tkb_status, sum(b.tkbd_qty) as qty, '
     + 'sum(b.tkbd_total_sell_price_disc) as harga '
     + 'from trans_kupon_botol a '
-    + 'inner join trans_kupon_botol_detil b on a.tkb_no = b.tkbd_tkb_no '
+    + 'inner join trans_kupon_botol_detil b on a.trans_kupon_botol_id = b.trans_kupon_botol_id '
 //    + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
 //    + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
     + '  and a.tkb_no = ' + QuotedStr(ANoTransaksi)
@@ -1812,6 +1817,10 @@ begin
     begin
       ResetVoucher;
     end;
+  end
+  else if Key in [VK_RETURN] then
+  begin
+    edtNoVoucherExit(Sender);
   end;
 end;
 
@@ -2106,7 +2115,8 @@ begin
   Result := -1;
   sSQL := 'select b.vcrd_status '
     + 'from voucher a '
-    + 'inner join voucher_detil b on a.vcr_id = b.vcrd_vcr_id '
+    + 'inner join voucher_detil b on a.voucher_id = b.voucher_id '
+//    + 'inner join voucher_detil b on a.vcr_id = b.vcrd_vcr_id '
 //    + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
 //    + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
     + '  and b.vcrd_no = ' + QuotedStr(ANoVoucher);

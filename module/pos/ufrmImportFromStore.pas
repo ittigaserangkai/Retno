@@ -8,7 +8,7 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
   cxButtonEdit, Vcl.ComCtrls, uModBeginningBalance, uModApp, uModBarang,
   uModSatuan, uModUnit, uModAuthApp, uModSetupPOS, uModAuthUser, uModShift,
-  uModMember, uModRefPajak, uModCreditCard;
+  uModMember, uModRefPajak, uModCreditCard, uModTransKuponBotol, uModVoucher;
 
 type
   TfrmImportFromStore = class(TForm)
@@ -44,6 +44,8 @@ type
     FModDiscMember: TModRefDiscMember;
     FModGrupMember: TModRefGrupMember;
     FModKonversi: TModKonversi;
+    FModKuponBotolDetil: TModTransKuponBotolDetil;
+    FModKuponBotol: TModTransKuponBotol;
     FModMember: TModMember;
     FModMemberActivasi: TModMemberActivasi;
     FModMemberKeluarga: TModMemberKeluarga;
@@ -55,6 +57,8 @@ type
     FModTipeBrg: TModTipeBarang;
     FModTipeHrg: TModTipeHarga;
     FModUnit: TModUnit;
+    FModVoucher: TModVoucher;
+    FModVoucherDetil: TModVoucherDetil;
     FUnitID: string;
     function GetModAutApp: TModAutApp;
     function GetModAutUser: TModAuthUser;
@@ -66,6 +70,8 @@ type
     function GetModDiscMember: TModRefDiscMember;
     function GetModGrupMember: TModRefGrupMember;
     function GetModKonversi: TModKonversi;
+    function GetModKuponBotolDetil: TModTransKuponBotolDetil;
+    function GetModKuponBotol: TModTransKuponBotol;
     function GetModMember: TModMember;
     function GetModMemberActivasi: TModMemberActivasi;
     function GetModMemberKeluarga: TModMemberKeluarga;
@@ -77,7 +83,10 @@ type
     function GetModTipeBrg: TModTipeBarang;
     function GetModTipeHrg: TModTipeHarga;
     function GetModUnit: TModUnit;
-    function LoadData(aObject: TModApp; aSelect: string = '*'): Boolean;
+    function GetModVoucher: TModVoucher;
+    function GetModVoucherDetil: TModVoucherDetil;
+    function LoadData(aObject: TModApp; aFilterSelect: string = ''; aFilterUpdate:
+        string = ''): Boolean;
     function LoadDataStore: Boolean;
     property ModAutApp: TModAutApp read GetModAutApp write FModAutApp;
     property ModAutUser: TModAuthUser read GetModAutUser write FModAutUser;
@@ -93,6 +102,10 @@ type
     property ModGrupMember: TModRefGrupMember read GetModGrupMember write
         FModGrupMember;
     property ModKonversi: TModKonversi read GetModKonversi write FModKonversi;
+    property ModKuponBotolDetil: TModTransKuponBotolDetil read
+        GetModKuponBotolDetil write FModKuponBotolDetil;
+    property ModKuponBotol: TModTransKuponBotol read GetModKuponBotol write
+        FModKuponBotol;
     property ModMember: TModMember read GetModMember write FModMember;
     property ModMemberActivasi: TModMemberActivasi read GetModMemberActivasi write
         FModMemberActivasi;
@@ -107,6 +120,9 @@ type
     property ModTipeBrg: TModTipeBarang read GetModTipeBrg write FModTipeBrg;
     property ModTipeHrg: TModTipeHarga read GetModTipeHrg write FModTipeHrg;
     property ModUnit: TModUnit read GetModUnit write FModUnit;
+    property ModVoucher: TModVoucher read GetModVoucher write FModVoucher;
+    property ModVoucherDetil: TModVoucherDetil read GetModVoucherDetil write
+        FModVoucherDetil;
   public
     function OlahStringField(aArrayOfField : String; aTableName : String): string;
     function OlahStringSQL(aStringSQL : String): string;
@@ -253,6 +269,22 @@ begin
   Result := FModKonversi;
 end;
 
+function TfrmImportFromStore.GetModKuponBotolDetil: TModTransKuponBotolDetil;
+begin
+  if FModKuponBotolDetil = nil then
+    FModKuponBotolDetil := TModTransKuponBotolDetil.Create;
+
+  Result := FModKuponBotolDetil;
+end;
+
+function TfrmImportFromStore.GetModKuponBotol: TModTransKuponBotol;
+begin
+  if FModKuponBotol = nil then
+    FModKuponBotol := TModTransKuponBotol.Create;
+
+  Result := FModKuponBotol;
+end;
+
 function TfrmImportFromStore.GetModMember: TModMember;
 begin
   if FModMember = nil then
@@ -341,20 +373,36 @@ begin
   Result := FModUnit;
 end;
 
-function TfrmImportFromStore.LoadData(aObject: TModApp; aSelect: string = '*'):
-    Boolean;
+function TfrmImportFromStore.GetModVoucher: TModVoucher;
+begin
+  if FModVoucher = nil then
+    FModVoucher := TModVoucher.Create;
+
+  Result := FModVoucher;
+end;
+
+function TfrmImportFromStore.GetModVoucherDetil: TModVoucherDetil;
+begin
+  if FModVoucherDetil = nil then
+    FModVoucherDetil := TModVoucherDetil.Create;
+
+  Result := FModVoucherDetil;
+end;
+
+function TfrmImportFromStore.LoadData(aObject: TModApp; aFilterSelect: string =
+    ''; aFilterUpdate: string = ''): Boolean;
 var
   lCDS: TClientDataSet;
   sSQL: string;
 begin
   Result := True;
 
-  lCDS := TDBUtils.DSToCDS(DMClient.CrudUpdatePOSClient.RetreiveSyncronData(aObject.ClassName,aSelect,''),Self);
+  lCDS := TDBUtils.DSToCDS(DMClient.CrudUpdatePOSClient.RetreiveSyncronData(aObject.ClassName,aFilterSelect),Self);
   lCDS.First;
   while not lCDS.Eof do
   begin
     TDBUtils.LoadFromDataset(aObject, lCDS, False);
-    Result := Result and cSaveToDB(aObject);
+    Result := Result and cSaveToDB(aObject, aFilterUpdate);
 
     if not Result then
       Break;
@@ -376,36 +424,47 @@ end;
 function TfrmImportFromStore.LoadDataStore: Boolean;
 begin
   Result := False;
+  mmoImport.Lines.Clear;
 
-//  //barang
-//  LoadData(ModTipeHrg);
-//  LoadData(ModTipeBrg);
-//  LoadData(ModSatuan);
-//  LoadData(ModKonversi);
+  //barang
+  LoadData(ModTipeHrg);
+  LoadData(ModTipeBrg);
+  LoadData(ModSatuan);
+  LoadData(ModKonversi);
 //  LoadData(ModBHJ);
-//  LoadData(ModBarang);
-//
-//  //member
-//  LoadData(ModTipeMember);
-//  LoadData(ModDiscMember);
-////      LoadData(ModGrupMember);
-////      LoadData(ModMemberKeluarga);
-////      LoadData(ModMemberActivasi);
-//  LoadData(ModMember);
-//
-//  //unit
-//  LoadData(ModAutApp);
-//  LoadData(ModUnit);
+//  LoadData(ModBarang, ' where brg_name like ''AQ%'' ');
+
+  //member
+  LoadData(ModTipeMember);
+  LoadData(ModDiscMember);
+//      LoadData(ModGrupMember);
+//      LoadData(ModMemberKeluarga);
+//      LoadData(ModMemberActivasi);
+  LoadData(ModMember);
+
+  //unit
+  LoadData(ModAutApp);
+  LoadData(ModUnit);
   LoadData(ModPajak);
   LoadData(ModCreditCard);
-//
-//  //SetupPOS
-//  LoadData(ModSetupPOS);
-//
-//  //BeginningBalance
-//  LoadData(ModAutUser);
-//  LoadData(ModShift);
-//  LoadData(ModBeginningBalance);
+
+  //SetupPOS
+  LoadData(ModSetupPOS);
+
+  //BeginningBalance
+  LoadData(ModAutUser);
+  LoadData(ModShift);
+  LoadData(ModBeginningBalance);
+
+  //Kupon
+  LoadData(ModKuponBotol);
+  LoadData(ModKuponBotolDetil);
+
+  //Voucher
+  LoadData(ModVoucher);
+  Loaddata(ModVoucherDetil, 'VCRD_STATUS = ''OPEN'' ','VCRD_STATUS = ''OPEN'' ');
+
+  mmoImport.Lines.Add('selesai import ');
 end;
 
 function TfrmImportFromStore.OlahStringField(aArrayOfField : String; aTableName

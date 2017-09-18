@@ -5,7 +5,7 @@ object frmLogin: TfrmLogin
   BorderStyle = bsDialog
   Caption = 'Login'
   ClientHeight = 152
-  ClientWidth = 239
+  ClientWidth = 344
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,7 @@ object frmLogin: TfrmLogin
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignSize = (
-    239
+    344
     152)
   PixelsPerInch = 96
   TextHeight = 14
@@ -53,7 +53,7 @@ object frmLogin: TfrmLogin
   object sbLogin: TStatusBar
     Left = 0
     Top = 133
-    Width = 239
+    Width = 344
     Height = 19
     Anchors = [akLeft, akTop, akRight, akBottom]
     Panels = <
@@ -76,6 +76,7 @@ object frmLogin: TfrmLogin
         Text = 'Shift:'
         Width = 50
       end>
+    ExplicitWidth = 239
   end
   object edCashierID: TcxTextEdit
     Left = 3
@@ -85,7 +86,8 @@ object frmLogin: TfrmLogin
     StyleFocused.Color = clYellow
     TabOrder = 1
     OnKeyDown = edCashierIDKeyDown
-    Width = 226
+    ExplicitWidth = 226
+    Width = 331
   end
   object edNama: TcxTextEdit
     Left = 3
@@ -94,7 +96,8 @@ object frmLogin: TfrmLogin
     Enabled = False
     ParentFont = False
     TabOrder = 2
-    Width = 226
+    ExplicitWidth = 226
+    Width = 331
   end
   object edPassword: TcxTextEdit
     Left = 2
@@ -104,7 +107,8 @@ object frmLogin: TfrmLogin
     StyleFocused.Color = clYellow
     TabOrder = 3
     OnKeyDown = edPasswordKeyDown
-    Width = 226
+    ExplicitWidth = 226
+    Width = 331
   end
   object tmrLogin: TTimer
     OnTimer = tmrLoginTimer

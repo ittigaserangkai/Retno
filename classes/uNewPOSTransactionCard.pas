@@ -17,7 +17,7 @@ type
     FDATE_MODIFY: TDateTime;
     FID: string;
     FIsActive: Boolean;
-//    FNewUnit: TUnit;
+    FNewUnit: TUnit;
     FNewUnitID: string;
     FNilai: Double;
     FNomor: string;
@@ -30,6 +30,8 @@ type
     FOP_MODIFY: string;
     FTransNo: string;
     function FLoadFromDB( aSQL : String ): Boolean;
+    function GetNewUnit: TUnit;
+    procedure SetNewUnit(Value: TUnit);
   public
     constructor Create(AOwner : TComponent); override;
     constructor CreateWithUser(AOwner: TComponent; AUserID: string);
@@ -49,7 +51,7 @@ type
     function GetFieldNameFor_DATE_MODIFY: string; dynamic;
     function GetFieldNameFor_ID: string; dynamic;
     function GetFieldNameFor_IsActive: string; dynamic;
-//    function GetFieldNameFor_NewUnit: string; dynamic;
+    function GetFieldNameFor_NewUnit: string; dynamic;
     function GetFieldNameFor_Nilai: string; dynamic;
     function GetFieldNameFor_Nomor: string; dynamic;
     function GetFieldNameFor_NoOtorisasi: string; dynamic;
@@ -78,7 +80,7 @@ type
     property DATE_MODIFY: TDateTime read FDATE_MODIFY write FDATE_MODIFY;
     property ID: string read FID write FID;
     property IsActive: Boolean read FIsActive write FIsActive;
-//    property NewUnit: TUnit read GetNewUnit write SetNewUnit;
+    property NewUnit: TUnit read GetNewUnit write SetNewUnit;
     property Nilai: Double read FNilai write FNilai;
     property Nomor: string read FNomor write FNomor;
     property NoOtorisasi: string read FNoOtorisasi write FNoOtorisasi;
@@ -185,7 +187,7 @@ begin
         FDATE_MODIFY := FieldByName(GetFieldNameFor_DATE_MODIFY).AsDateTime;
         FID := FieldByName(GetFieldNameFor_ID).AsString;
         FIsActive := FieldValues[GetFieldNameFor_IsActive];
-//        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
+        FNewUnitID := FieldByName(GetFieldNameFor_NewUnit).AsString;
         FNilai := FieldByName(GetFieldNameFor_Nilai).AsFloat;
         FNomor := FieldByName(GetFieldNameFor_Nomor).AsString;
         FNoOtorisasi := FieldByName(GetFieldNameFor_NoOtorisasi).AsString;
@@ -194,6 +196,7 @@ begin
         FOP_CREATE := FieldByName(GetFieldNameFor_OP_CREATE).AsString;
         FOP_MODIFY := FieldByName(GetFieldNameFor_OP_MODIFY).AsString;
         FTransNo := FieldByName(GetFieldNameFor_TransNo).AsString;
+
         Self.State := csLoaded;
         Result := True;
       end;
@@ -274,7 +277,7 @@ begin
       + GetFieldNameFor_DATE_MODIFY + ', '
       + GetFieldNameFor_ID + ', '
       + GetFieldNameFor_IsActive + ', '
-//      + GetFieldNameFor_NewUnit + ', '
+      + GetFieldNameFor_NewUnit + ', '
       + GetFieldNameFor_Nilai + ', '
       + GetFieldNameFor_Nomor + ', '
       + GetFieldNameFor_NoOtorisasi + ', '
@@ -293,7 +296,7 @@ begin
       + TAppUtils.QuotDT(FDATE_MODIFY) + ', '
       + QuotedStr(FID) + ', '
       + IfThen(FIsActive,'1','0') + ', '
-//      + QuotedStr(FNewUnitID) + ', '
+      + QuotedStr(FNewUnitID) + ', '
       + FormatFloat(sPrec, FNilai) + ', '
       + QuotedStr(FNomor) + ', '
       + QuotedStr(FNoOtorisasi) + ', '
@@ -315,7 +318,7 @@ begin
       + ', ' + GetFieldNameFor_Charge + ' = ' + FormatFloat(sPrec, FCharge)
       + ', ' + GetFieldNameFor_DATE_MODIFY + ' = ' + TAppUtils.QuotDT(FDATE_MODIFY)
       + ', ' + GetFieldNameFor_IsActive + ' = ' + IfThen(FIsActive,'1','0')
-//      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
+      + ', ' + GetFieldNameFor_NewUnit + ' = ' + QuotedStr(FNewUnitID)
       + ', ' + GetFieldNameFor_Nilai + ' = ' + FormatFloat(sPrec, FNilai)
       + ', ' + GetFieldNameFor_Nomor + ' = ' + QuotedStr(FNomor)
       + ', ' + GetFieldNameFor_NoOtorisasi + ' = ' + QuotedStr(FNoOtorisasi)
@@ -385,10 +388,11 @@ begin
   Result := GetFieldPrefix + 'Is_Active';
 end;
 
-//function TPOSTransactionCard.GetFieldNameFor_NewUnit: string;
-//begin
+function TPOSTransactionCard.GetFieldNameFor_NewUnit: string;
+begin
 //  Result := GetFieldPrefix + 'UNT_ID';
-//end;
+  Result := 'AUT$UNIT_ID';
+end;
 
 function TPOSTransactionCard.GetFieldNameFor_Nilai: string;
 begin
@@ -450,16 +454,15 @@ begin
   result := 5658;
 end;
 
-//function TPOSTransactionCard.GetNewUnit: TUnit;
-//begin
-//  //Result := nil;
-//  if FNewUnit = nil then
-//  begin
-//    FNewUnit := TUnit.Create(Self);
-//    FNewUnit.LoadByID(FNewUnitID);
-//  end;
-//  Result := FNewUnit;
-//end;
+function TPOSTransactionCard.GetNewUnit: TUnit;
+begin
+  if FNewUnit = nil then
+  begin
+    FNewUnit := TUnit.Create(Self);
+    FNewUnit.LoadByID(FNewUnitID);
+  end;
+  Result := FNewUnit;
+end;
 
 //function TPOSTransactionCard.GetOPC_UNIT: TUnit;
 //begin
@@ -554,10 +557,10 @@ begin
   end;
 end;
 
-//procedure TPOSTransactionCard.SetNewUnit(Value: TUnit);
-//begin
-//  FNewUnitID := Value.ID;
-//end;
+procedure TPOSTransactionCard.SetNewUnit(Value: TUnit);
+begin
+  FNewUnitID := Value.ID;
+end;
 
 //procedure TPOSTransactionCard.SetOPC_UNIT(Value: TUnit);
 //begin

@@ -3,22 +3,24 @@ unit uModTransaksi;
 interface
 
 uses
-  uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang;
+  uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang,
+  System.Generics.Collections, uModCreditCard;
 
 type
+  TModTransaksiDetil = class;
+  TModTransaksiCard = class;
   TModTransaksi = class(TModApp)
   private
+    FAUTUNIT: TModUnit;
     FBALANCE: TModBeginningBalance;
-    FBALANCE_UNIT: TModUnit;
     FMEMBER: TModMember;
-    FMEMBER_UNIT: TModUnit;
+    FTransaksiDetils: TobjectList<TModTransaksiDetil>;
     FTRANS_BAYAR_CARD: Double;
     FTRANS_BAYAR_CASH: Double;
     FTRANS_DATE: TDateTime;
     FTRANS_DISC_CARD: Double;
     FTRANS_DISC_GMC_NOMINAL: Double;
     FTRANS_DISC_GMC_PERSEN: Double;
-    FTRANS_ID: Integer;
     FTRANS_IS_ACTIVE: Integer;
     FTRANS_IS_JURNAL: Integer;
     FTRANS_IS_PENDING: Integer;
@@ -28,16 +30,17 @@ type
     FTRANS_TOTAL_DISC_GMC: Double;
     FTRANS_TOTAL_PPN: Double;
     FTRANS_TOTAL_TRANSACTION: Double;
-    FTRANS_UNIT: TModUnit;
+    function GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
+  public
+    property TransaksiDetils: TobjectList<TModTransaksiDetil> read
+        GetTransaksiDetils write FTransaksiDetils;
   published
-    [AttributeOfForeign('TRANS_BALANCE_ID')]
+    [AttributeOfForeign('AUT$UNIT_ID')]
+    property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
+    [AttributeOfForeign('BEGINNING_BALANCE_ID')]
     property BALANCE: TModBeginningBalance read FBALANCE write FBALANCE;
-    [AttributeOfForeign('TRANS_BALANCE_UNT_ID')]
-    property BALANCE_UNIT: TModUnit read FBALANCE_UNIT write FBALANCE_UNIT;
-    [AttributeOfForeign('TRANS_MEMBER_ID')]
+    [AttributeOfForeign('MEMBER_ID')]
     property MEMBER: TModMember read FMEMBER write FMEMBER;
-    [AttributeOfForeign('TRANS_MEMBER_UNT_ID')]
-    property MEMBER_UNIT: TModUnit read FMEMBER_UNIT write FMEMBER_UNIT;
     property TRANS_BAYAR_CARD: Double read FTRANS_BAYAR_CARD write
         FTRANS_BAYAR_CARD;
     property TRANS_BAYAR_CASH: Double read FTRANS_BAYAR_CASH write
@@ -48,7 +51,6 @@ type
         FTRANS_DISC_GMC_NOMINAL;
     property TRANS_DISC_GMC_PERSEN: Double read FTRANS_DISC_GMC_PERSEN write
         FTRANS_DISC_GMC_PERSEN;
-    property TRANS_ID: Integer read FTRANS_ID write FTRANS_ID;
     property TRANS_IS_ACTIVE: Integer read FTRANS_IS_ACTIVE write FTRANS_IS_ACTIVE;
     property TRANS_IS_JURNAL: Integer read FTRANS_IS_JURNAL write FTRANS_IS_JURNAL;
     property TRANS_IS_PENDING: Integer read FTRANS_IS_PENDING write
@@ -62,14 +64,14 @@ type
     property TRANS_TOTAL_PPN: Double read FTRANS_TOTAL_PPN write FTRANS_TOTAL_PPN;
     property TRANS_TOTAL_TRANSACTION: Double read FTRANS_TOTAL_TRANSACTION write
         FTRANS_TOTAL_TRANSACTION;
-    [AttributeOfForeign('TRANS_UNT_ID')]
-    property TRANS_UNIT: TModUnit read FTRANS_UNIT write FTRANS_UNIT;
   end;
 
-  TModTransaksi_Detil = class(TModApp)
+  TModTransaksiDetil = class(TModApp)
   private
-    FOTO_CODE: string;
     FBARANG_HARGA_JUAL: TModBarangHargaJual;
+    FOTO_CODE: string;
+    FTIPEBARANG: TModTipeBarang;
+    FTRANSAKSI: TModTransaksi;
     FTRANSD_BRG_CODE: string;
     FTRANSD_BRG_IS_GMC: Integer;
     FTRANSD_BRG_IS_PJK_INCLUDE: Integer;
@@ -77,7 +79,6 @@ type
     FTRANSD_DISC_CARD: Double;
     FTRANSD_DISC_GMC_NOMINAL: Double;
     FTRANSD_DISC_MAN: Double;
-    FTRANSD_ID: Integer;
     FTRANSD_IS_BKP: Integer;
     FTRANSD_LAST_COST: Double;
     FTRANSD_PPN: Double;
@@ -89,15 +90,17 @@ type
     FTRANSD_TOTAL: double;
     FTRANSD_TOTAL_B4_TAX: double;
     FTRANSD_TOTAL_CEIL: Integer;
-    FTRANSD_TPBRG_ID: Integer;
-    FTRANSD_TRANS_ID: Integer;
     FTRANSD_TRANS_NO: string;
-    FTRANSD_TRANS_UNT_ID: Integer;
-    FTRANSD_UNT_ID: Integer;
+  public
+    class function GetTableName: String; override;
   published
-    property OTO_CODE: string read FOTO_CODE write FOTO_CODE;
     property BARANG_HARGA_JUAL: TModBarangHargaJual read FBARANG_HARGA_JUAL write
         FBARANG_HARGA_JUAL;
+    property OTO_CODE: string read FOTO_CODE write FOTO_CODE;
+    [AttributeOfForeign('REF$TIPE_BARANG_ID')]
+    property TIPEBARANG: TModTipeBarang read FTIPEBARANG write FTIPEBARANG;
+   [AttributeOfHeader]
+    property TRANSAKSI: TModTransaksi read FTRANSAKSI write FTRANSAKSI;
     property TRANSD_BRG_CODE: string read FTRANSD_BRG_CODE write FTRANSD_BRG_CODE;
     property TRANSD_BRG_IS_GMC: Integer read FTRANSD_BRG_IS_GMC write
         FTRANSD_BRG_IS_GMC;
@@ -109,7 +112,6 @@ type
     property TRANSD_DISC_GMC_NOMINAL: Double read FTRANSD_DISC_GMC_NOMINAL write
         FTRANSD_DISC_GMC_NOMINAL;
     property TRANSD_DISC_MAN: Double read FTRANSD_DISC_MAN write FTRANSD_DISC_MAN;
-    property TRANSD_ID: Integer read FTRANSD_ID write FTRANSD_ID;
     property TRANSD_IS_BKP: Integer read FTRANSD_IS_BKP write FTRANSD_IS_BKP;
     property TRANSD_LAST_COST: Double read FTRANSD_LAST_COST write
         FTRANSD_LAST_COST;
@@ -126,17 +128,65 @@ type
         FTRANSD_TOTAL_B4_TAX;
     property TRANSD_TOTAL_CEIL: Integer read FTRANSD_TOTAL_CEIL write
         FTRANSD_TOTAL_CEIL;
-    property TRANSD_TPBRG_ID: Integer read FTRANSD_TPBRG_ID write FTRANSD_TPBRG_ID;
-    property TRANSD_TRANS_ID: Integer read FTRANSD_TRANS_ID write FTRANSD_TRANS_ID;
     property TRANSD_TRANS_NO: string read FTRANSD_TRANS_NO write FTRANSD_TRANS_NO;
-    property TRANSD_TRANS_UNT_ID: Integer read FTRANSD_TRANS_UNT_ID write
-        FTRANSD_TRANS_UNT_ID;
-    property TRANSD_UNT_ID: Integer read FTRANSD_UNT_ID write FTRANSD_UNT_ID;
+  end;
+
+  TModTransaksiCard = class(TModApp)
+  private
+    FAUTUNIT: TModUnit;
+    FCREDITCARD: TModCreditCard;
+    FTRANSC_CASHBACK_CHARGE: Double;
+    FTRANSC_CASHBACK_NILAI: Double;
+    FTRANSC_CHARGE: Double;
+    FTRANSC_IS_ACTIVE: Integer;
+    FTRANSC_NILAI: Double;
+    FTRANSC_NOMOR: string;
+    FTRANSC_NO_OTORISASI: string;
+    FTRANSC_TRANS_NO: string;
+  public
+    class function GetTableName: String; override;
+  published
+    [AttributeOfForeign('AUT$UNIT_ID')]
+    property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
+    [AttributeOfForeign('REF$CREDIT_CARD_ID')]
+    property CREDITCARD: TModCreditCard read FCREDITCARD write FCREDITCARD;
+    property TRANSC_CASHBACK_CHARGE: Double read FTRANSC_CASHBACK_CHARGE write
+        FTRANSC_CASHBACK_CHARGE;
+    property TRANSC_CASHBACK_NILAI: Double read FTRANSC_CASHBACK_NILAI write
+        FTRANSC_CASHBACK_NILAI;
+    property TRANSC_CHARGE: Double read FTRANSC_CHARGE write FTRANSC_CHARGE;
+    property TRANSC_IS_ACTIVE: Integer read FTRANSC_IS_ACTIVE write
+        FTRANSC_IS_ACTIVE;
+    property TRANSC_NILAI: Double read FTRANSC_NILAI write FTRANSC_NILAI;
+    property TRANSC_NOMOR: string read FTRANSC_NOMOR write FTRANSC_NOMOR;
+    property TRANSC_NO_OTORISASI: string read FTRANSC_NO_OTORISASI write
+        FTRANSC_NO_OTORISASI;
+    property TRANSC_TRANS_NO: string read FTRANSC_TRANS_NO write FTRANSC_TRANS_NO;
   end;
 
 implementation
 
+function TModTransaksi.GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
+begin
+  if FTransaksiDetils = nil then
+    FTransaksiDetils := TObjectList<TModTransaksiDetil>.Create();
+
+  Result := FTransaksiDetils;
+end;
+
+class function TModTransaksiDetil.GetTableName: String;
+begin
+  Result := 'TRANSAKSI_DETIL';
+end;
+
+class function TModTransaksiCard.GetTableName: String;
+begin
+  Result := 'TRANSAKSI_CARD';
+end;
+
 initialization
   TModTransaksi.RegisterRTTI;
-  TModTransaksi_Detil.RegisterRTTI;
+  TModTransaksiDetil.RegisterRTTI;
+  TModTransaksiCard.RegisterRTTI;
+
 end.

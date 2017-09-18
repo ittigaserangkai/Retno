@@ -17,7 +17,7 @@ type
   public
     class function GetTableName: String; override;
   published
-    [AttributeOfForeign]
+    [AttributeOfForeign('AUT$UNIT_ID')]
     property AutUnit: TModUnit read FAutUnit write FAutUnit;
     property VCRL_IS_ACTIVE: Integer read FVCRL_IS_ACTIVE write FVCRL_IS_ACTIVE;
     property VCRL_QTY: Double read FVCRL_QTY write FVCRL_QTY;
