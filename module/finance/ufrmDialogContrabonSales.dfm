@@ -307,7 +307,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Width = 92
         end
         object cxGridColContPPN: TcxGridColumn
-          Caption = 'PKP'
+          Caption = 'PPN'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
@@ -321,6 +321,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 90
         end

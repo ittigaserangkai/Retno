@@ -124,7 +124,7 @@ end;
 procedure TfrmDialogContrabonSales.FormDestroy(Sender: TObject);
 begin
   inherited;
-  FreeAndNil(FCS);
+  FreeAndNil(FCDSOrganisasi);
 end;
 
 procedure TfrmDialogContrabonSales.actSaveExecute(Sender: TObject);
@@ -162,6 +162,16 @@ begin
 
       FCS.CONT_ORGANIZATION := TModOrganization.CreateID(FOrganization.ID);
       cxGridTableContrabonSales.LoadObjectData(FCS, i);
+
+      if DMClient.CrudContrabonSalesClient.IsTanggalSudahDiinput(FCS) then
+      begin
+        if not TAppUtils.Confirm('Penjualan Tanggal ' + DateToStr(FCS.CONT_DATE_SALES) + ' Sudah Diinput.'
+                             + #13 + 'Apakah Data akan tetap diinput ? ') then
+        begin
+          Exit;
+        end;
+      end;
+
       lListContranbonSales.Add(FCS);
     end;
 
@@ -169,7 +179,7 @@ begin
     begin
       FreeAndNil(lListContranbonSales);
 
-      TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+      TAppUtils.Information(CONF_ADD_SUCCESSFULLY, False);
       ClearByTag([0,1]);
       cxGridTableContrabonSales.ClearRows;
       edOrganization.SetFocus;
@@ -224,6 +234,7 @@ begin
       begin
         edOrganization.Text := Data.FieldByName('org_code').AsString;
         LoadDataOrganization(Data.FieldByName('V_ORGANIZATION_ID').AsString, False);
+        cxGridTableContrabonSales.ClearRows;
       end;
     Finally
       free;
@@ -238,6 +249,7 @@ begin
   inherited;
   FreeAndNil(FOrganization);
   LoadDataOrganization(VarToStr(DisplayValue), True);
+  cxGridTableContrabonSales.ClearRows;
 end;
 
 procedure TfrmDialogContrabonSales.FormCreate(Sender: TObject);
@@ -287,7 +299,7 @@ begin
   else
     dPPN      := 0;
 
-  dNet        := dTotalSales - dPPN;
+  dNet        := dTotalSales * (100 - dFee) / 100;
 
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContAmountSales.Index, dTotalSales);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPNAmount.Index, dPPN);
@@ -314,10 +326,8 @@ begin
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContFee.Index, FOrganization.ORG_FEE);
 
   if FOrganization.ORG_PPN <> 0 then
-
     cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, 'Y')
   else
-
     cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, 'N')
 end;
 
@@ -337,6 +347,7 @@ begin
   LoadDataOrganization(FCS.CONT_ORGANIZATION.ID, False);
 
   cxGridTableContrabonSales.DataController.AppendRecord;
+  IsiDataAwalContrabonSales(0);
   cxGridTableContrabonSales.SetObjectData(FCS, 0);
   HitungNilaiContrabon(0);
 end;

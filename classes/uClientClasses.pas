@@ -1,13 +1,13 @@
 //
 // Created by the DataSnap proxy generator.
-// 9/18/2017 2:04:52 PM
+// 9/19/2017 11:03:44 AM
 //
 
 unit uClientClasses;
 
 interface
 
-uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, System.Generics.Collections, Data.FireDACJSONReflect, uModUnit, uModDO, uModSettingApp, uModQuotation, Data.DBXJSONReflect;
+uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, System.Generics.Collections, Data.FireDACJSONReflect, uModUnit, uModDO, uModSettingApp, uModQuotation, uModContrabonSales, Data.DBXJSONReflect;
 
 type
 
@@ -1117,6 +1117,7 @@ type
 
   TCrudContrabonSalesClient = class(TDSAdminRestClient)
   private
+    FIsTanggalSudahDiinputCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
     FOpenQueryCommand: TDSRestCommand;
@@ -1139,6 +1140,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function IsTanggalSudahDiinput(AModContrabonSales: TModContrabonSales; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function OpenQuery(S: string; const ARequestFilter: string = ''): TDataSet;
@@ -4048,6 +4050,12 @@ const
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudContrabonSales_IsTanggalSudahDiinput: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AModContrabonSales'; Direction: 1; DBXType: 37; TypeName: 'TModContrabonSales'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
   TCrudContrabonSales_SaveToDB: array [0..1] of TDSRestParameterMetaData =
@@ -14010,6 +14018,32 @@ begin
   inherited;
 end;
 
+function TCrudContrabonSalesClient.IsTanggalSudahDiinput(AModContrabonSales: TModContrabonSales; const ARequestFilter: string): Boolean;
+begin
+  if FIsTanggalSudahDiinputCommand = nil then
+  begin
+    FIsTanggalSudahDiinputCommand := FConnection.CreateCommand;
+    FIsTanggalSudahDiinputCommand.RequestType := 'POST';
+    FIsTanggalSudahDiinputCommand.Text := 'TCrudContrabonSales."IsTanggalSudahDiinput"';
+    FIsTanggalSudahDiinputCommand.Prepare(TCrudContrabonSales_IsTanggalSudahDiinput);
+  end;
+  if not Assigned(AModContrabonSales) then
+    FIsTanggalSudahDiinputCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FIsTanggalSudahDiinputCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FIsTanggalSudahDiinputCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AModContrabonSales), True);
+      if FInstanceOwner then
+        AModContrabonSales.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FIsTanggalSudahDiinputCommand.Execute(ARequestFilter);
+  Result := FIsTanggalSudahDiinputCommand.Parameters[1].Value.GetBoolean;
+end;
+
 function TCrudContrabonSalesClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -14414,6 +14448,7 @@ end;
 
 destructor TCrudContrabonSalesClient.Destroy;
 begin
+  FIsTanggalSudahDiinputCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;
   FOpenQueryCommand.DisposeOf;
