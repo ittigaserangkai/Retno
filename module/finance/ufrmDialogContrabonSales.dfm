@@ -3,7 +3,6 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   ClientHeight = 438
   ClientWidth = 700
   OnDestroy = FormDestroy
-  ExplicitTop = -65
   ExplicitWidth = 716
   ExplicitHeight = 477
   PixelsPerInch = 96
