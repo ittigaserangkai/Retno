@@ -314,8 +314,10 @@ begin
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContFee.Index, FOrganization.ORG_FEE);
 
   if FOrganization.ORG_PPN <> 0 then
+
     cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, 'Y')
   else
+
     cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, 'N')
 end;
 
