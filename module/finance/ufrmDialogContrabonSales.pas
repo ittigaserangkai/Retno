@@ -166,21 +166,18 @@ begin
     end;
 
     if DMClient.CrudClient.SaveBatch(lListContranbonSales) then
+    begin
+      FreeAndNil(lListContranbonSales);
 
-    FreeAndNil(lListContranbonSales);
-
-    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
-    ClearByTag([0,1]);
-    cxGridTableContrabonSales.ClearRows;
-    edOrganization.SetFocus;
+      TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+      ClearByTag([0,1]);
+      cxGridTableContrabonSales.ClearRows;
+      edOrganization.SetFocus;
+    end;
   except
     TAppUtils.Error(ER_INSERT_FAILED);
     raise;
   end;
-
-
-
-
 end;
 
 procedure TfrmDialogContrabonSales.btnLoadSalesClick(Sender: TObject);
@@ -283,9 +280,13 @@ begin
   dGrosSales  := cxGridTableContrabonSales.Double(AFocusedRecordIndex, cxGridColContAmountGross.Index);
   dDisc       := cxGridTableContrabonSales.Double(AFocusedRecordIndex, cxGridColContAmountAdj.Index);
   dFee        := cxGridTableContrabonSales.Double(AFocusedRecordIndex, cxGridColContFee.Index);
+  dTotalSales := dGrosSales - dDisc;
 
-  dTotalSales := (100 - dFee) / 100 * (dGrosSales - dDisc);
-  dPPN        := dTotalSales * (cxGridTableContrabonSales.Double(AFocusedRecordIndex, cxGridColContPPN.Index)) / 100;
+  if cxGridTableContrabonSales.Text(AFocusedRecordIndex, cxGridColContPPN.Index) = 'Y' then
+    dPPN      := dTotalSales - dTotalSales / 1.1
+  else
+    dPPN      := 0;
+
   dNet        := dTotalSales - dPPN;
 
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContAmountSales.Index, dTotalSales);
@@ -311,7 +312,13 @@ begin
 
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContDate.Index, dTanggal);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContFee.Index, FOrganization.ORG_FEE);
-  cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, FOrganization.ORG_PPN);
+
+  if FOrganization.ORG_PPN <> 0 then
+
+    cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, 'Y')
+  else
+
+    cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContPPN.Index, 'N')
 end;
 
 procedure TfrmDialogContrabonSales.LoadData(AID : String);

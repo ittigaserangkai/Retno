@@ -338,7 +338,7 @@ function TCrud.SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
 var
   I: Integer;
 begin
-  Result := False;
+//  Result := False;
 
   try
     for I := 0 to AObjectList.Count - 1 do
@@ -347,7 +347,7 @@ begin
     end;
 
     TDBUtils.Commit;
-    Result := False;
+    Result := True;
   except
     raise;
   end;
