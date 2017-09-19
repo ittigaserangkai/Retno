@@ -15,6 +15,7 @@ type
     class function GetTableName: String; override;
   published
     property SHIFT_END_TIME: TDateTime read FSHIFT_END_TIME write FSHIFT_END_TIME;
+    [AttributeOfCode]
     property SHIFT_NAME: String read FSHIFT_NAME write FSHIFT_NAME;
     property SHIFT_START_TIME: TDateTime read FSHIFT_START_TIME write
         FSHIFT_START_TIME;

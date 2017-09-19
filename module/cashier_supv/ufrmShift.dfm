@@ -29,6 +29,7 @@ inherited frmShift: TfrmShift
           ExplicitWidth = 714
           ExplicitHeight = 256
           inherited cxGridView: TcxGridDBTableView
+            FilterRow.Visible = False
             object cxGridViewColumn2: TcxGridDBColumn
               Caption = 'NAMA SHIFT'
               DataBinding.FieldName = 'SHIFT_NAME'
@@ -37,11 +38,13 @@ inherited frmShift: TfrmShift
               Caption = 'SHIFT DIMULAI'
               DataBinding.FieldName = 'SHIFT_START_TIME'
               PropertiesClassName = 'TcxTimeEditProperties'
+              Options.Editing = False
             end
             object cxGridViewColumn4: TcxGridDBColumn
               Caption = 'SHIFT BERAKHIR'
               DataBinding.FieldName = 'SHIFT_END_TIME'
               PropertiesClassName = 'TcxTimeEditProperties'
+              Options.Editing = False
             end
           end
         end
@@ -112,6 +115,7 @@ inherited frmShift: TfrmShift
       ExplicitWidth = 718
       inherited lbEscape: TLabel
         Left = 644
+        Height = 17
         ExplicitLeft = 644
       end
     end
