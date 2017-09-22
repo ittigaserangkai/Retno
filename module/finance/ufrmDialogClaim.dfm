@@ -69,19 +69,12 @@ inherited frmDialogClaim: TfrmDialogClaim
         Height = 16
         Caption = 'No Claim'
       end
-      object cbbSupplierMG: TcxExtLookupComboBox
-        Left = 95
-        Top = 3
-        Properties.OnEditValueChanged = cbbSupplierMGPropertiesEditValueChanged
-        TabOrder = 0
-        Width = 121
-      end
       object dtTglClaim: TcxDateEdit
         Left = 95
         Top = 85
         Properties.SaveTime = False
         Properties.ShowTime = False
-        TabOrder = 2
+        TabOrder = 3
         Width = 121
       end
       object edTTFNo: TcxTextEdit
@@ -105,7 +98,7 @@ inherited frmDialogClaim: TfrmDialogClaim
         Top = 111
         Properties.SaveTime = False
         Properties.ShowTime = False
-        TabOrder = 3
+        TabOrder = 4
         Width = 121
       end
       object dtDueDate: TcxDateEdit
@@ -113,49 +106,51 @@ inherited frmDialogClaim: TfrmDialogClaim
         Top = 3
         Properties.SaveTime = False
         Properties.ShowTime = False
-        TabOrder = 4
+        TabOrder = 5
         Width = 121
       end
       object cbbAccount: TcxExtLookupComboBox
         Left = 484
         Top = 30
         Properties.OnEditValueChanged = cbbAccountPropertiesEditValueChanged
-        TabOrder = 5
+        TabOrder = 6
         Width = 121
       end
       object edAKunHutang: TcxTextEdit
         Left = 484
         Top = 57
+        TabStop = False
         Enabled = False
-        TabOrder = 6
+        TabOrder = 8
         Text = 'edTTFNo'
         Width = 270
       end
       object edNoClaim: TcxTextEdit
         Left = 273
         Top = 57
-        TabOrder = 8
+        TabOrder = 2
         Text = 'edTTFNo'
         Width = 116
       end
-      object edNamaSupplierMG: TcxTextEdit
+      object edOrgName: TcxTextEdit
         Left = 95
         Top = 30
+        TabStop = False
         Enabled = False
         TabOrder = 9
         Text = 'edTTFNo'
         Width = 294
       end
-      object ckSupplier: TCheckBox
-        Left = 15
-        Top = 7
-        Width = 75
+      object ckOrganization: TCheckBox
+        Left = 7
+        Top = 8
+        Width = 83
         Height = 17
-        Caption = 'Supplier Mg'
+        Caption = 'Organization'
         Checked = True
         State = cbChecked
         TabOrder = 10
-        OnClick = ckSupplierClick
+        OnClick = ckOrganizationClick
       end
       object ckAutoDueDate: TCheckBox
         Left = 611
@@ -167,6 +162,19 @@ inherited frmDialogClaim: TfrmDialogClaim
         State = cbChecked
         TabOrder = 11
         OnClick = ckAutoDueDateClick
+      end
+      object edOrgCode: TcxButtonEdit
+        Left = 95
+        Top = 5
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.OnButtonClick = edOrgCodePropertiesButtonClick
+        Properties.OnEditValueChanged = edOrgCodePropertiesEditValueChanged
+        TabOrder = 0
+        Width = 121
       end
     end
     object pnlSummary: TPanel
@@ -258,6 +266,7 @@ inherited frmDialogClaim: TfrmDialogClaim
       object crTotalDO: TcxCurrencyEdit
         Left = 271
         Top = 2
+        TabStop = False
         Anchors = [akTop, akRight]
         EditValue = 0.000000000000000000
         ParentFont = False
@@ -282,6 +291,7 @@ inherited frmDialogClaim: TfrmDialogClaim
       object crTotalCN: TcxCurrencyEdit
         Left = 271
         Top = 29
+        TabStop = False
         Anchors = [akTop, akRight]
         EditValue = 0.000000000000000000
         ParentFont = False
@@ -306,6 +316,7 @@ inherited frmDialogClaim: TfrmDialogClaim
       object crTotalDN: TcxCurrencyEdit
         Left = 462
         Top = 2
+        TabStop = False
         Anchors = [akTop, akRight]
         EditValue = 0.000000000000000000
         ParentFont = False
@@ -330,6 +341,7 @@ inherited frmDialogClaim: TfrmDialogClaim
       object crTotalOther: TcxCurrencyEdit
         Left = 462
         Top = 29
+        TabStop = False
         Anchors = [akTop, akRight]
         EditValue = 0.000000000000000000
         ParentFont = False
@@ -354,6 +366,7 @@ inherited frmDialogClaim: TfrmDialogClaim
       object crTotal: TcxCurrencyEdit
         Left = 644
         Top = 2
+        TabStop = False
         Anchors = [akTop, akRight]
         EditValue = 0.000000000000000000
         ParentFont = False
@@ -673,6 +686,32 @@ inherited frmDialogClaim: TfrmDialogClaim
             Position.RowIndex = 0
           end
         end
+        object cxGridDBTableCS: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          OptionsView.GroupByBox = False
+          Styles.Header = DMClient.cxStyleGridHeader
+          object cxGridColCSNo: TcxGridDBColumn
+            Caption = 'Tanggal'
+            DataBinding.FieldName = 'CLMD_CS_DATE'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
+            HeaderAlignmentHorz = taCenter
+            Width = 205
+          end
+          object cxGridColCSDate: TcxGridDBColumn
+            Caption = 'Net Sales'
+            DataBinding.FieldName = 'CLMD_CS_NETSALES'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
+            Properties.DisplayFormat = ',0.##;(,0.##)'
+            Properties.ReadOnly = True
+            HeaderAlignmentHorz = taCenter
+            Width = 165
+          end
+        end
         object cxgrdlvlGR: TcxGridLevel
           Caption = 'Goods Receiving [F1]  '
           GridView = cxGridDBTableGR
@@ -692,6 +731,11 @@ inherited frmDialogClaim: TfrmDialogClaim
           Caption = 'Other [F4] '
           GridView = cxGridDBTableOther
           ImageIndex = 6
+        end
+        object cxgrdlvlCS: TcxGridLevel
+          Caption = 'Contrabon Sales [F5] '
+          GridView = cxGridDBTableCS
+          ImageIndex = 51
         end
       end
       object pnlButtonData: TPanel
@@ -789,6 +833,21 @@ inherited frmDialogClaim: TfrmDialogClaim
           TabOrder = 5
           OnClick = btnAddCNClick
         end
+        object btnAddCS: TcxButton
+          AlignWithMargins = True
+          Left = 360
+          Top = 4
+          Width = 154
+          Height = 27
+          Margins.Left = 0
+          Margins.Right = 0
+          Align = alRight
+          Caption = 'Tambah Contrabon [ALT+K]'
+          LookAndFeel.Kind = lfFlat
+          LookAndFeel.NativeStyle = False
+          TabOrder = 6
+          OnClick = btnAddCSClick
+        end
       end
     end
   end
@@ -824,14 +883,20 @@ inherited frmDialogClaim: TfrmDialogClaim
       ExplicitWidth = 852
       inherited lbCTRLEnter: TLabel
         Left = 677
+        Height = 15
         ExplicitLeft = 677
       end
       inherited lbEscape: TLabel
         Left = 768
+        Height = 15
         ExplicitLeft = 768
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 601
+        Height = 15
         ExplicitLeft = 601
       end
     end

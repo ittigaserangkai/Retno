@@ -17,10 +17,11 @@ uses
 type
   TLookupClient = class(TDSAdminRestClient)
   private
-    FLookupCommand : TDSRestCommand;
   public
+    FLookupCommand: TDSRestCommand;
     function GetLookupData(aCommandName: String; aStartDate: TDateTime = 0;
         aEndDate: TDateTime = 0; aStringFilter: String = ''): TDataSet; overload;
+    procedure PrepareCommand(aCommandName: String); overload;
   end;
 
   TfrmCXLookup = class(TForm)
@@ -61,7 +62,6 @@ type
     procedure UncheckAll1Click(Sender: TObject);
     procedure UnCheckSelected1Click(Sender: TObject);
   private
-    FLookupClient : TLookupClient;
     FCDS: TClientDataset;
     FCommandName: String;
     FData: TClientDataset;
@@ -69,15 +69,18 @@ type
     FStartExecute: TDatetime;
     FStringFilter: String;
     function CopyDataset(Source: TDataset): TClientDataSet;
-    procedure HideDateParams;
     procedure InitView;
-    procedure RefreshDataSet;
     procedure SetCheckSelected(IsChecked: Boolean = True; IsSelectAll: Boolean =
         False);
     procedure SetMultiSelect(const Value: Boolean);
     procedure SetResultData;
     property CDS: TClientDataset read FCDS write FCDS;
     { Private declarations }
+  protected
+    FLookupClient: TLookupClient;
+    function GetDatasetFromServer: TDataSet; dynamic;
+    procedure HideDateParams;
+    procedure RefreshDataSet;
   public
     constructor Create(ARestConn: TDSRestConnection; aMultiSelect: Boolean =
         False); reintroduce;
@@ -349,6 +352,11 @@ begin
   cxGridView.ApplyBestFit;
 end;
 
+function TfrmCXLookup.GetDatasetFromServer: TDataSet;
+begin
+  Result := FLookupClient.GetLookupData(CommandName, StartDate.Date, EndDate.Date, StringFilter);
+end;
+
 procedure TfrmCXLookup.ShowFieldsOnly(FieldNames: Array Of String);
 begin
   Self.cxGridView.SetVisibleColumnsOnly(FieldNames, True);
@@ -358,9 +366,8 @@ end;
 procedure TfrmCXLookup.RefreshDataSet;
 var
   ADataSet: TDataSet;
-  i: Integer;
 begin
-  ADataSet := FLookupClient.GetLookupData(CommandName, StartDate.Date, EndDate.Date, StringFilter);
+  ADataSet := GetDatasetFromServer;
 
   if Assigned(FCDS) then
     FreeAndNil(FCDS);
@@ -523,6 +530,17 @@ begin
   Result.Open;
   if FInstanceOwner then
     FLookupCommand.FreeOnExecute(Result);
+end;
+
+procedure TLookupClient.PrepareCommand(aCommandName: String);
+begin
+  if FLookupCommand = nil then
+  begin
+    FLookupCommand := Fconnection.CreateCommand;
+    FLookupCommand.RequestType := 'GET';
+    FLookupCommand.Text := aCommandName;
+    FLookupCommand.Prepare();
+  end;
 end;
 
 end.

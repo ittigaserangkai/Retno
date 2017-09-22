@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 9/15/2017 7:59:42 AM
+// 09/20/17 4:35:58 PM
 //
 
 unit uClientClasses;
@@ -292,6 +292,12 @@ type
     FClaim_Lookup_CNCommand_Cache: TDSRestCommand;
     FClaim_GetDSOverviewCommand: TDSRestCommand;
     FClaim_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FClaim_Lookup_CSCommand: TDSRestCommand;
+    FClaim_Lookup_CSCommand_Cache: TDSRestCommand;
+    FOrganization_LookupCommand: TDSRestCommand;
+    FOrganization_LookupCommand_Cache: TDSRestCommand;
+    FClaim_Lookup_ContrabonCommand: TDSRestCommand;
+    FClaim_Lookup_ContrabonCommand_Cache: TDSRestCommand;
     FClaim_Lookup_DNCommand: TDSRestCommand;
     FClaim_Lookup_DNCommand_Cache: TDSRestCommand;
     FCNDetail_GetDSCommand: TDSRestCommand;
@@ -515,6 +521,12 @@ type
     function Claim_Lookup_CN_Cache(aSuplierMerchanID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Claim_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function Claim_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Claim_Lookup_CS(aOrganizationID: string; const ARequestFilter: string = ''): TDataSet;
+    function Claim_Lookup_CS_Cache(aOrganizationID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Organization_Lookup(OrgType: Integer; const ARequestFilter: string = ''): TDataSet;
+    function Organization_Lookup_Cache(OrgType: Integer; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Claim_Lookup_Contrabon(aContrabonID: string; const ARequestFilter: string = ''): TDataSet;
+    function Claim_Lookup_Contrabon_Cache(aContrabonID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Claim_Lookup_DN(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
     function Claim_Lookup_DN_Cache(aSuplierMerchanID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function CNDetail_GetDS(aID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2465,6 +2477,42 @@ const
   (
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Claim_Lookup_CS: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aOrganizationID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Claim_Lookup_CS_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aOrganizationID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Organization_Lookup: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'OrgType'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Organization_Lookup_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'OrgType'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Claim_Lookup_Contrabon: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aContrabonID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Claim_Lookup_Contrabon_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aContrabonID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7982,6 +8030,99 @@ begin
   Result := TDSRestCachedDataSet.Create(FClaim_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.Claim_Lookup_CS(aOrganizationID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FClaim_Lookup_CSCommand = nil then
+  begin
+    FClaim_Lookup_CSCommand := FConnection.CreateCommand;
+    FClaim_Lookup_CSCommand.RequestType := 'GET';
+    FClaim_Lookup_CSCommand.Text := 'TDSProvider.Claim_Lookup_CS';
+    FClaim_Lookup_CSCommand.Prepare(TDSProvider_Claim_Lookup_CS);
+  end;
+  FClaim_Lookup_CSCommand.Parameters[0].Value.SetWideString(aOrganizationID);
+  FClaim_Lookup_CSCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FClaim_Lookup_CSCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FClaim_Lookup_CSCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Claim_Lookup_CS_Cache(aOrganizationID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FClaim_Lookup_CSCommand_Cache = nil then
+  begin
+    FClaim_Lookup_CSCommand_Cache := FConnection.CreateCommand;
+    FClaim_Lookup_CSCommand_Cache.RequestType := 'GET';
+    FClaim_Lookup_CSCommand_Cache.Text := 'TDSProvider.Claim_Lookup_CS';
+    FClaim_Lookup_CSCommand_Cache.Prepare(TDSProvider_Claim_Lookup_CS_Cache);
+  end;
+  FClaim_Lookup_CSCommand_Cache.Parameters[0].Value.SetWideString(aOrganizationID);
+  FClaim_Lookup_CSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FClaim_Lookup_CSCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.Organization_Lookup(OrgType: Integer; const ARequestFilter: string): TDataSet;
+begin
+  if FOrganization_LookupCommand = nil then
+  begin
+    FOrganization_LookupCommand := FConnection.CreateCommand;
+    FOrganization_LookupCommand.RequestType := 'GET';
+    FOrganization_LookupCommand.Text := 'TDSProvider.Organization_Lookup';
+    FOrganization_LookupCommand.Prepare(TDSProvider_Organization_Lookup);
+  end;
+  FOrganization_LookupCommand.Parameters[0].Value.SetInt32(OrgType);
+  FOrganization_LookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FOrganization_LookupCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FOrganization_LookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Organization_Lookup_Cache(OrgType: Integer; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FOrganization_LookupCommand_Cache = nil then
+  begin
+    FOrganization_LookupCommand_Cache := FConnection.CreateCommand;
+    FOrganization_LookupCommand_Cache.RequestType := 'GET';
+    FOrganization_LookupCommand_Cache.Text := 'TDSProvider.Organization_Lookup';
+    FOrganization_LookupCommand_Cache.Prepare(TDSProvider_Organization_Lookup_Cache);
+  end;
+  FOrganization_LookupCommand_Cache.Parameters[0].Value.SetInt32(OrgType);
+  FOrganization_LookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FOrganization_LookupCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.Claim_Lookup_Contrabon(aContrabonID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FClaim_Lookup_ContrabonCommand = nil then
+  begin
+    FClaim_Lookup_ContrabonCommand := FConnection.CreateCommand;
+    FClaim_Lookup_ContrabonCommand.RequestType := 'GET';
+    FClaim_Lookup_ContrabonCommand.Text := 'TDSProvider.Claim_Lookup_Contrabon';
+    FClaim_Lookup_ContrabonCommand.Prepare(TDSProvider_Claim_Lookup_Contrabon);
+  end;
+  FClaim_Lookup_ContrabonCommand.Parameters[0].Value.SetWideString(aContrabonID);
+  FClaim_Lookup_ContrabonCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FClaim_Lookup_ContrabonCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FClaim_Lookup_ContrabonCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Claim_Lookup_Contrabon_Cache(aContrabonID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FClaim_Lookup_ContrabonCommand_Cache = nil then
+  begin
+    FClaim_Lookup_ContrabonCommand_Cache := FConnection.CreateCommand;
+    FClaim_Lookup_ContrabonCommand_Cache.RequestType := 'GET';
+    FClaim_Lookup_ContrabonCommand_Cache.Text := 'TDSProvider.Claim_Lookup_Contrabon';
+    FClaim_Lookup_ContrabonCommand_Cache.Prepare(TDSProvider_Claim_Lookup_Contrabon_Cache);
+  end;
+  FClaim_Lookup_ContrabonCommand_Cache.Parameters[0].Value.SetWideString(aContrabonID);
+  FClaim_Lookup_ContrabonCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FClaim_Lookup_ContrabonCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.Claim_Lookup_DN(aSuplierMerchanID: string; const ARequestFilter: string): TDataSet;
 begin
   if FClaim_Lookup_DNCommand = nil then
@@ -8383,6 +8524,12 @@ begin
   FClaim_Lookup_CNCommand_Cache.DisposeOf;
   FClaim_GetDSOverviewCommand.DisposeOf;
   FClaim_GetDSOverviewCommand_Cache.DisposeOf;
+  FClaim_Lookup_CSCommand.DisposeOf;
+  FClaim_Lookup_CSCommand_Cache.DisposeOf;
+  FOrganization_LookupCommand.DisposeOf;
+  FOrganization_LookupCommand_Cache.DisposeOf;
+  FClaim_Lookup_ContrabonCommand.DisposeOf;
+  FClaim_Lookup_ContrabonCommand_Cache.DisposeOf;
   FClaim_Lookup_DNCommand.DisposeOf;
   FClaim_Lookup_DNCommand_Cache.DisposeOf;
   FCNDetail_GetDSCommand.DisposeOf;
