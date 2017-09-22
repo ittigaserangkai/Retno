@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
-  uModQuotation, uModBankCashOut, System.Generics.Collections, uModContrabonSales, System.DateUtils;
+  uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
+  uModContrabonSales, System.DateUtils;
 
 type
   {$METHODINFO ON}
@@ -105,7 +106,12 @@ type
   end;
 
   TCrudClaimFaktur = class(TCrud)
+  private
+    function GenerateUpdateIsClaim(IsClaim: Integer; AClaim: TModClaimFaktur):
+        TStrings;
+    function UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur): TCrud;
   protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
   public
@@ -153,7 +159,7 @@ implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModPO,
-  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants, uModClaimFaktur;
+  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -940,6 +946,12 @@ begin
   Result.SaveToFile('d:\debugquot.txt');
 end;
 
+function TCrudClaimFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  UpdateIsClaim(1, TModClaimFaktur(AObject));
+  Result := True;
+end;
+
 function TCrudClaimFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lClaim: TModClaimFaktur;
@@ -948,8 +960,10 @@ begin
   lClaim := TModClaimFaktur(AObject);
   lClaim.UpdateAP; //lCLAIM.CLM_AP.ID set here
   //avoid recalling BeforeSaveToDB
+
   lCrud := TCrud.Create(Self);
   Try
+    UpdateIsClaim(0, lClaim);
     Result := lCrud.SaveToDBTrans(lClaim.CLM_AP, False);
   Finally
     lCrud.Free;
@@ -969,9 +983,62 @@ begin
   end;
   lCrud := TCrud.Create(Self);
   Try
+    UpdateIsClaim(0, lClaim);
     Result := lCrud.DeleteFromDBTrans(lClaim.CLM_AP, False);
   Finally
     lCrud.Free;
+  End;
+end;
+
+function TCrudClaimFaktur.GenerateUpdateIsClaim(IsClaim: Integer; AClaim:
+    TModClaimFaktur): TStrings;
+begin
+  Result := TStringList.Create;
+  Result.Append(
+    'UPDATE C SET C.DO_IS_CLAIM = ' + IntToStr(IsClaim)
+    + ' FROM CLAIMFAKTUR A'
+    + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
+    + ' INNER JOIN DO C ON B.CLMD_DO_ID = C.DO_ID'
+    + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
+  );
+
+  Result.Append(
+    'UPDATE C SET C.CNR_IS_CLAIM = ' + IntToStr(IsClaim)
+    + ' FROM CLAIMFAKTUR A'
+    + ' INNER JOIN CLAIMFAKTURITEMCN B ON A.CLAIMFAKTUR_ID = B.CLMD_CN_CLAIMFAKTUR_ID'
+    + ' INNER JOIN CN_RECV C ON B.CLMD_CN_CNRECV_ID = C.CN_RECV_ID'
+    + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
+  );
+
+  Result.Append(
+    'UPDATE C SET C.DNR_IS_CLAIM = ' + IntToStr(IsClaim)
+    + ' FROM CLAIMFAKTUR A'
+    + ' INNER JOIN CLAIMFAKTURITEMDN B ON A.CLAIMFAKTUR_ID = B.CLMD_DN_CLAIMFAKTUR_ID'
+    + ' INNER JOIN DN_RECV C ON B.CLMD_DN_DNRECV_ID = C.DN_RECV_ID'
+    + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
+  );
+
+
+  Result.Append(
+    'UPDATE C SET C.CONT_IS_CLAIM = ' + IntToStr(IsClaim)
+    + ' FROM CLAIMFAKTUR A'
+    + ' INNER JOIN CLAIMFAKTURITEMCS B ON A.CLAIMFAKTUR_ID = B.CLMD_CS_CLAIMFAKTUR_ID'
+    + ' INNER JOIN CONTRABON_SALES C ON B.CLMD_CS_CONTRABON_ID = C.CONTRABON_SALES_ID'
+    + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
+  );
+end;
+
+function TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
+    TModClaimFaktur): TCrud;
+var
+  lSS: TStrings;
+begin
+  if (aClaim.ID = '') then exit;
+  lSS := GenerateUpdateIsClaim(IsClaim, aClaim);
+  Try
+    TDBUtils.ExecuteSQL(lSS, False);
+  Finally
+    lSS.Free;
   End;
 end;
 

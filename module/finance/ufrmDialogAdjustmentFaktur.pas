@@ -198,7 +198,7 @@ begin
       lGrandSub     := lGrandSub + lSubTotal;
       lGrandDisc    := lGrandDisc + lDisc;
       lGrandPPN     := lGrandPPN + lPPN;
-      lGrandTotal   := lGrandTotal + lTotal;
+      lGrandTotal   := lGrandTotal + lTotal + lPPN;
 
       lCDS.Edit;
       lCDS.FieldByName('AFD_VAL_ADJ_DISC').AsFloat := lDisc - lOldDisc;
@@ -318,7 +318,7 @@ end;
 procedure TfrmDialogAdjustmentFaktur.LoadData(aID: String);
 var
   i: Integer;
-  lBarang: TModBarang;
+//  lBarang: TModBarang;
   lItem: TModAdjustmentFakturItem;
 begin
   if aID <> '' then

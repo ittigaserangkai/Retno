@@ -5,13 +5,15 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs, uModApp,
   System.Generics.Collections, uModAP, uModRekening, uModSuplier, uModUnit,
-  uModDO, uModCNRecv, uModDNRecv, uModPO, uModCostCenter;
+  uModDO, uModCNRecv, uModDNRecv, uModPO, uModCostCenter, uModContrabonSales,
+  uModOrganization;
 
 type
   TModClaimFakturItemCN = class;
   TModClaimFakturItemDN = class;
   TModClaimFakturItemDO = class;
   TModClaimFakturItemOther = class;
+  TModClaimFakturItemCS = class;
 
   TModClaimFaktur = class(TModApp)
   private
@@ -47,15 +49,18 @@ type
     FCLM_REKENING_HUTANG: TModRekening;
     FCLM_REMARK: string;
     FCLM_RETURN_DATE: TDatetime;
-    FCLM_SupplierMG: TModSuplierMerchanGroup;
+    FCLM_Organization: TModOrganization;
     FCLM_TOTAL: Double;
     FCLM_TTF_NO: string;
     FCLM_UNIT: TModUnit;
+    FCSItems: TObjectList<TModClaimFakturItemCS>;
     function GetCNItems: TObjectList<TModClaimFakturItemCN>;
     function GetDNItems: TObjectList<TModClaimFakturItemDN>;
     function GetDOItems: TObjectList<TModClaimFakturItemDO>;
+    function GetCSItems: TObjectList<TModClaimFakturItemCS>;
     function GetOtherItems: TObjectList<TModClaimFakturItemOther>;
   public
+    constructor Create; override;
     destructor Destroy; override;
     procedure Calculate;
     procedure UpdateAP;
@@ -71,6 +76,8 @@ type
         FDNItems;
     property DOItems: TObjectList<TModClaimFakturItemDO> read GetDOItems write
         FDOItems;
+    property CSItems: TObjectList<TModClaimFakturItemCS> read GetCSItems write
+        FCSItems;
     property OtherItems: TObjectList<TModClaimFakturItemOther> read GetOtherItems write
         FOtherItems;
   published
@@ -103,8 +110,8 @@ type
     property CLM_REMARK: string read FCLM_REMARK write FCLM_REMARK;
     property CLM_RETURN_DATE: TDatetime read FCLM_RETURN_DATE write
         FCLM_RETURN_DATE;
-    property CLM_SupplierMG: TModSuplierMerchanGroup read FCLM_SupplierMG write
-        FCLM_SupplierMG;
+    property CLM_Organization: TModOrganization read FCLM_Organization write
+        FCLM_Organization;
     property CLM_TOTAL: Double read FCLM_TOTAL write FCLM_TOTAL;
     property CLM_TTF_NO: string read FCLM_TTF_NO write FCLM_TTF_NO;
     property CLM_UNIT: TModUnit read FCLM_UNIT write FCLM_UNIT;
@@ -226,11 +233,32 @@ type
         FCLMD_Other_Rekening;
   end;
 
+  TModClaimFakturItemCS = class(TModApp)
+  private
+    FCLMD_CS_ClaimFaktur: TModClaimFaktur;
+    FCLMD_CS_NETSALES: Double;
+    FCLMD_CS_Contrabon: TModContrabonSales;
+    FCLMD_CS_DATE: TDateTime;
+  public
+  published
+    [AttributeOfHeader]
+    property CLMD_CS_ClaimFaktur: TModClaimFaktur read FCLMD_CS_ClaimFaktur write
+        FCLMD_CS_ClaimFaktur;
+    property CLMD_CS_NETSALES: Double read FCLMD_CS_NETSALES write
+        FCLMD_CS_NETSALES;
+    property CLMD_CS_Contrabon: TModContrabonSales read FCLMD_CS_Contrabon write
+        FCLMD_CS_Contrabon;
+    property CLMD_CS_DATE: TDateTime read FCLMD_CS_DATE write FCLMD_CS_DATE;
+  end;
+
 
 implementation
 
-uses
-  uModOrganization;
+constructor TModClaimFaktur.Create;
+begin
+  inherited;
+//  Self.CLM_Description := 'Hasil override dari create';
+end;
 
 destructor TModClaimFaktur.Destroy;
 begin
@@ -239,7 +267,7 @@ begin
   if Assigned(FDNItems) then FreeAndNil(FDNItems);
   if Assigned(FOtherItems) then FreeAndNil(FOtherItems);
   if Assigned(FCLM_REKENING_HUTANG) then FreeAndNil(FCLM_REKENING_HUTANG);
-  if Assigned(FCLM_SupplierMG) then FreeAndNil(FCLM_SupplierMG);
+  if Assigned(FCLM_Organization) then FreeAndNil(FCLM_Organization);
   inherited;
 end;
 
@@ -247,6 +275,7 @@ procedure TModClaimFaktur.Calculate;
 var
   lItemDO: TModClaimFakturItemDO;
   lItemCN: TModClaimFakturItemCN;
+  lItemCS: TModClaimFakturItemCS;
   lItemDN: TModClaimFakturItemDN;
   lItemOther: TModClaimFakturItemOther;
 begin
@@ -293,6 +322,11 @@ begin
     CLM_OTHER_TOTAL := CLM_OTHER_TOTAL + lItemOther.CLMD_OTHER_TOTAL;
   end;
 
+  for lItemCS in Self.CSItems do
+  begin
+    CLM_OTHER_TOTAL := CLM_OTHER_TOTAL + lItemCS.CLMD_CS_NETSALES;
+  end;
+
   CLM_TOTAL := CLM_DO_TOTAL - CLM_CN_TOTAL + CLM_DN_TOTAL + CLM_OTHER_TOTAL;
   CLM_PPN   := CLM_DO_PPN - CLM_CN_PPN + CLM_DN_PPN;
 end;
@@ -321,6 +355,13 @@ begin
   Result := FDOItems;
 end;
 
+function TModClaimFaktur.GetCSItems: TObjectList<TModClaimFakturItemCS>;
+begin
+  if not Assigned(FCSItems) then
+    FCSItems := TObjectList<TModClaimFakturItemCS>.Create();
+  Result := FCSItems;
+end;
+
 function TModClaimFaktur.GetOtherItems: TObjectList<TModClaimFakturItemOther>;
 begin
   if not Assigned(FOtherItems) then
@@ -330,7 +371,7 @@ end;
 
 procedure TModClaimFaktur.UpdateAP;
 begin
-  if not Assigned(FCLM_SupplierMG) then
+  if not Assigned(FCLM_Organization) then
     Raise Exception.Create(Self.ClassName + ' : ' + ' Supplier MG belum diset');
 
   if not Assigned(FCLM_REKENING_HUTANG) then
@@ -346,7 +387,7 @@ begin
   if Assigned(CLM_AP.AP_ORGANIZATION) then
     CLM_AP.AP_ORGANIZATION.Free;
 
-  CLM_AP.AP_ORGANIZATION  := TModOrganization.CreateID(CLM_SupplierMG.ID);
+  CLM_AP.AP_ORGANIZATION  := TModOrganization.CreateID(CLM_Organization.ID);
   CLM_AP.AP_REFNUM        := CLM_NO;
   CLM_AP.AP_REKENING      := TModRekening.CreateID(CLM_REKENING_HUTANG.ID);
   CLM_AP.AP_TRANSDATE     := CLM_DATE;

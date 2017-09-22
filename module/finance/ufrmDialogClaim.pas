@@ -14,12 +14,12 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, uDMClient, cxGridBandedTableView, cxGridDBBandedTableView, Vcl.Menus,
   cxButtons, uDXUtils, Datasnap.DBClient, uDBUtils, uModClaimFaktur,
-  uModRekening, uModSuplier, uConstanta, uInterface, System.StrUtils;
+  uModRekening, uModSuplier, uConstanta, uInterface, System.StrUtils,
+  cxButtonEdit, uModOrganization;
 
 type
   TfrmDialogClaim = class(TfrmMasterDialog, ICrudAble)
     pnlHeader: TPanel;
-    cbbSupplierMG: TcxExtLookupComboBox;
     lblTTF: TLabel;
     dtTglClaim: TcxDateEdit;
     edTTFNo: TcxTextEdit;
@@ -82,23 +82,28 @@ type
     edAKunHutang: TcxTextEdit;
     lblNoClaim: TLabel;
     edNoClaim: TcxTextEdit;
-    edNamaSupplierMG: TcxTextEdit;
+    edOrgName: TcxTextEdit;
     btnDelItem: TcxButton;
     btnAdd: TcxButton;
     btnDetail: TcxButton;
-    ckSupplier: TCheckBox;
+    ckOrganization: TCheckBox;
     btnAddGR: TcxButton;
     btnAddCN: TcxButton;
     ckAutoDueDate: TCheckBox;
+    cxgrdlvlCS: TcxGridLevel;
+    cxGridDBTableCS: TcxGridDBTableView;
+    cxGridColCSNo: TcxGridDBColumn;
+    cxGridColCSDate: TcxGridDBColumn;
+    edOrgCode: TcxButtonEdit;
+    btnAddCS: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure actViewAdjExecute(Sender: TObject);
     procedure actViewPOExecute(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
-    procedure cbbSupplierMGPropertiesEditValueChanged(Sender: TObject);
     procedure btnDelItemClick(Sender: TObject);
-    procedure ckSupplierClick(Sender: TObject);
+    procedure ckOrganizationClick(Sender: TObject);
     procedure cbbAccountPropertiesEditValueChanged(Sender: TObject);
     procedure cxgrdClaimFocusedViewChanged(Sender: TcxCustomGrid; APrevFocusedView,
         AFocusedView: TcxCustomGridView);
@@ -113,14 +118,23 @@ type
     procedure btnAddCNClick(Sender: TObject);
     procedure btnAddDNClick(Sender: TObject);
     procedure ckAutoDueDateClick(Sender: TObject);
+    procedure cbbOrganizationPropertiesEditValueChanged(Sender: TObject);
+    procedure edOrgCodePropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure btnAddCSClick(Sender: TObject);
+    procedure edOrgCodePropertiesEditValueChanged(Sender: TObject);
   private
     FCDSDO: TClientDataSet;
     FCDSCN: TClientDataSet;
+    FCDSCS: TClientDataSet;
     FCDSOther: TClientDataSet;
     FCDSDN: TClientDataSet;
+    FCDSOrg: TClientDataSet;
     FModClaim: TModClaimFaktur;
+    FModOrganization: TModOrganization;
     procedure AddDOByID(aID: string);
     procedure AddCNByID(aID: string);
+    procedure AddCSByID(aID: string);
     procedure AddDNByID(aID: string);
     procedure CalculateTotal;
     procedure DeleteData;
@@ -130,8 +144,10 @@ type
     procedure FilterAPAccount;
     function GetCDSDO: TClientDataSet;
     function GetCDSCN: TClientDataSet;
+    function GetCDSCS: TClientDataSet;
     function GetCDSOther: TClientDataSet;
     function GetCDSDN: TClientDataSet;
+    function GetCDSOrg: TClientDataSet;
     function GetModClaim: TModClaimFaktur;
     procedure initView;
     procedure LoadCNDNItems;
@@ -140,14 +156,20 @@ type
     procedure LookupDO;
     procedure LookupCN;
     procedure LookupDN;
+    procedure LookupCS;
     procedure OnAfterDelete(Sender: TDataSet);
+    procedure SetModOrganization(const Value: TModOrganization);
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDSDO: TClientDataSet read GetCDSDO write FCDSDO;
     property CDSCN: TClientDataSet read GetCDSCN write FCDSCN;
+    property CDSCS: TClientDataSet read GetCDSCS write FCDSCS;
     property CDSOther: TClientDataSet read GetCDSOther write FCDSOther;
     property CDSDN: TClientDataSet read GetCDSDN write FCDSDN;
+    property CDSOrg: TClientDataSet read GetCDSOrg write FCDSOrg;
     property ModClaim: TModClaimFaktur read GetModClaim write FModClaim;
+    property ModOrganization: TModOrganization read FModOrganization write
+        SetModOrganization;
     { Private declarations }
   public
     procedure CalculateDueDate;
@@ -162,13 +184,15 @@ implementation
 
 uses
   ufrmCXLookup, uAppUtils, uModDO, uModPO, uModCNRecv,
-  uModDNRecv, uModAdjustmentFaktur, uModelHelper, ufrmCXMsgInfo, uRetnoUnit;
+  uModDNRecv, uModAdjustmentFaktur, uModelHelper, ufrmCXMsgInfo, uRetnoUnit,
+  ufrmLookupOrganization, uModContrabonSales;
 
 {$R *.dfm}
 
 procedure TfrmDialogClaim.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.AssignKeyDownEvent;
   initView;
   ckAutoDueDateClick(Self);
 end;
@@ -267,6 +291,24 @@ begin
   End;
 end;
 
+procedure TfrmDialogClaim.AddCSByID(aID: string);
+var
+  lCS: TModClaimFakturItemCS;
+begin
+  lCS := TModClaimFakturItemCS.Create;
+  Try
+    lCS.CLMD_CS_Contrabon := TModContrabonSales.CreateID(aID);
+    lCS.CLMD_CS_Contrabon.Reload;
+    lCS.CLMD_CS_NETSALES  := lCS.CLMD_CS_Contrabon.CONT_NET_SALES;
+    lCS.CLMD_CS_DATE      := lCS.CLMD_CS_Contrabon.CONT_DATE_SALES;
+    CDSCS.Append;
+    lCS.UpdateToDataset(CDSCS);
+    CDSCS.Post;
+  Finally
+    lCS.Free;
+  End;
+end;
+
 procedure TfrmDialogClaim.AddDNByID(aID: string);
 var
   lDN: TModClaimFakturItemDN;
@@ -303,6 +345,7 @@ begin
   if cxgrdClaim.FocusedView = cxGridDBTableGR then LookupDO;
   if cxgrdClaim.FocusedView = cxGridDBTableCN then LookupCN;
   if cxgrdClaim.FocusedView = cxGridDBTableDN then LookupDN;
+  if cxgrdClaim.FocusedView = cxGridDBTableCS then LookupCS;
   if cxgrdClaim.FocusedView = cxGridDBTableOther then
   begin
     CDSOther.Append;
@@ -314,6 +357,12 @@ procedure TfrmDialogClaim.btnAddCNClick(Sender: TObject);
 begin
   inherited;
   LookupCN;
+end;
+
+procedure TfrmDialogClaim.btnAddCSClick(Sender: TObject);
+begin
+  inherited;
+  LookupCS;
 end;
 
 procedure TfrmDialogClaim.btnAddDNClick(Sender: TObject);
@@ -339,6 +388,8 @@ begin
     CDSDN.Delete;;
   if (cxgrdClaim.FocusedView = cxGridDBTableOther) and (not CDSOther.eof) then
     CDSOther.Delete;
+  if (cxgrdClaim.FocusedView = cxGridDBTableCS) and (not CDSCS.eof) then
+    CDSCS.Delete;
   CalculateTotal;
 end;
 
@@ -354,14 +405,21 @@ procedure TfrmDialogClaim.CalculateDueDate;
 var
   lCDS: TClientDataset;
   lDate: TDateTime;
+  lSupp: TModSuplierMerchanGroup;
 begin
-  if not Assigned(ModClaim.CLM_SupplierMG) then exit;
+  if not Assigned(ModClaim.CLM_Organization) then exit;
   if CDSDO.Eof then exit;
+  if ModClaim.CLM_Organization.ORG_Code = '' then
+    ModClaim.CLM_Organization.Reload();
+
+  if (ModClaim.CLM_Organization.ORG_IsSupplierMG<>1) then exit;
+
 
   lCDS := CDSDO.ClonedDataset(Self);
   lDate := 0;
-
+  lSupp := TModSuplierMerchanGroup.CreateID(ModClaim.CLM_Organization.ID);
   Try
+    lSupp.Reload();
     lCDS.First;
     while not lCDS.eof do
     begin
@@ -369,13 +427,11 @@ begin
         lDate := lCDS.FieldByName('DO_DATE').AsDateTime;
       lCDS.Next;
     end;
+    dtDueDate.Date := lDate + lSupp.SUPMG_TOP;
   Finally
+    lSupp.Free;
     lCDS.Free;
   End;
-
-  if ModClaim.CLM_SupplierMG.SUPMG_SUB_CODE = '' then
-    ModClaim.CLM_SupplierMG.Reload();
-  dtDueDate.Date := lDate + ModClaim.CLM_SupplierMG.SUPMG_TOP;
 end;
 
 procedure TfrmDialogClaim.CalculateTotal;
@@ -384,6 +440,8 @@ var
   lCDSDN: TClientDataSet;
   lCDSDO: TClientDataSet;
   lCDSOther: TClientDataSet;
+  lCDSCS: TClientDataSet;
+
   lTotalCN: Double;
   lTotalDN: Double;
   lTotalDO: Double;
@@ -396,6 +454,7 @@ begin
   lCDSDO      := CDSDO.ClonedDataset(Self, True);
   lCDSCN      := CDSCN.ClonedDataset(Self, True);
   lCDSDN      := CDSDN.ClonedDataset(Self, True);
+  lCDSCS      := CDSCS.ClonedDataset(Self, True);
   lCDSOther   := CDSOther.ClonedDataset(Self, True);
   try
     lCDSDO.First;
@@ -417,6 +476,13 @@ begin
     begin
       lTotalDN := lTotalDN + lCDSDN.FieldByName('CLMD_DN_TOTAL').AsFloat;
       lCDSDN.Next;
+    end;
+
+    lCDSCS.First;
+    while not lCDSCS.Eof do
+    begin
+      lTotalOther := lTotalOther + lCDSCS.FieldByName('CLMD_CS_NETSALES').AsFloat;
+      lCDSCS.Next;
     end;
 
     lCDSOther.First;
@@ -441,6 +507,7 @@ begin
     CDSCN.EnableControls;
     CDSDN.EnableControls;
     CDSOther.EnableControls;
+    CDSCS.EnableControls;
   end;
 end;
 
@@ -450,15 +517,15 @@ begin
   edAKunHutang.Text := cbbAccount.DS.FieldByName('REK_NAME').AsString;
 end;
 
-procedure TfrmDialogClaim.cbbSupplierMGPropertiesEditValueChanged(
+procedure TfrmDialogClaim.cbbOrganizationPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
   CDSDO.EmptyDataSet;
   CDSCN.EmptyDataSet;
 
-  if cbbSupplierMG.DS = nil then exit;
-  edNamaSupplierMG.Text := cbbSupplierMG.DS.FieldByName('SUP_NAME').AsString;
+  if not CDSOrg.Eof then
+    edOrgName.Text := CDSOrg.FieldByName('ORG_Name').AsString;
 end;
 
 procedure TfrmDialogClaim.ckAutoDueDateClick(Sender: TObject);
@@ -467,20 +534,24 @@ begin
   dtDueDate.Enabled := not ckAutoDueDate.Checked;
 end;
 
-procedure TfrmDialogClaim.ckSupplierClick(Sender: TObject);
+procedure TfrmDialogClaim.ckOrganizationClick(Sender: TObject);
 begin
   inherited;
-  if not ckSupplier.Checked then cbbSupplierMG.EditValue := '';
+  if not ckOrganization.Checked then
+  begin
+    ModOrganization := nil;
+  end;
 end;
 
 procedure TfrmDialogClaim.cxgrdClaimFocusedViewChanged(Sender: TcxCustomGrid;
     APrevFocusedView, AFocusedView: TcxCustomGridView);
 begin
   inherited;
-  btnAddGR.Visible := AFocusedView <> cxGridDBTableGR;
-  btnAddCN.Visible := AFocusedView <> cxGridDBTableCN;
-  btnAddDN.Visible := AFocusedView <> cxGridDBTableDN;
+  btnAddGR.Visible  := AFocusedView <> cxGridDBTableGR;
+  btnAddCN.Visible  := AFocusedView <> cxGridDBTableCN;
+  btnAddDN.Visible  := AFocusedView <> cxGridDBTableDN;
   btnDetail.Visible := AFocusedView <> cxGridDBTableOther;
+  btnAddCS.Visible  := AFocusedView <> cxGridDBTableCS;
 end;
 
 procedure TfrmDialogClaim.cxGridColOtherAccountCodePropertiesEditValueChanged(
@@ -548,6 +619,27 @@ begin
   end;
 end;
 
+procedure TfrmDialogClaim.edOrgCodePropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+var
+  lOrg: TModOrganization;
+begin
+  inherited;
+  lOrg := TfrmLookupOrganization.Lookup;
+  if lOrg <> nil then
+    ModOrganization := lOrg;
+end;
+
+procedure TfrmDialogClaim.edOrgCodePropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  if edOrgCode.Text <> '' then
+  begin
+    ModOrganization := DMClient.CrudClient.RetrieveByCode(
+      TModOrganization.ClassName, edOrgCode.Text) as TModOrganization;
+  end;
+end;
+
 procedure TfrmDialogClaim.DetailCN;
 var
   lCNID: string;
@@ -600,7 +692,7 @@ procedure TfrmDialogClaim.FormKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
   inherited;
-  if Key in [VK_F1, VK_F2, VK_F3, VK_F4] then
+  if Key in [VK_F1, VK_F2, VK_F3, VK_F4, VK_F5] then
     cxgrdClaim.SetFocus;
 
   case Key of
@@ -608,6 +700,7 @@ begin
     VK_F2 : cxgrdClaim.FocusedView := cxGridDBTableCN;
     VK_F3 : cxgrdClaim.FocusedView := cxGridDBTableDN;
     VK_F4 : cxgrdClaim.FocusedView := cxGridDBTableOther;
+    VK_F5 : cxgrdClaim.FocusedView := cxGridDBTableCS;
   end;
   if ssAlt in Shift then
   begin
@@ -615,6 +708,7 @@ begin
       Ord('G') : LookupDO;
       Ord('C') : LookupCN;
       Ord('D') : LookupDN;
+      Ord('K') : LookupCS;
     end;
   end;
 end;
@@ -649,6 +743,17 @@ begin
   Result := FCDSCN;
 end;
 
+function TfrmDialogClaim.GetCDSCS: TClientDataSet;
+begin
+  If not Assigned(FCDSCS) then
+  begin
+    FCDSCS := TDBUtils.CreateObjectDataSet(TModClaimFakturItemCS, Self, False);
+    FCDSCS.AfterDelete := OnAfterDelete;
+    FCDSCS.CreateDataSet;
+  end;
+  Result := FCDSCS;
+end;
+
 function TfrmDialogClaim.GetCDSOther: TClientDataSet;
 begin
   If not Assigned(FCDSOther) then
@@ -676,6 +781,14 @@ begin
   Result := FCDSDN;
 end;
 
+function TfrmDialogClaim.GetCDSOrg: TClientDataSet;
+begin
+  if not Assigned(FCDSOrg) then
+    FCDSOrg := TDBUtils.DSToCDS(DMClient.DSProviderClient.Organization_GetDSLookup(), Self);
+
+  Result := FCDSOrg;
+end;
+
 function TfrmDialogClaim.GetModClaim: TModClaimFaktur;
 begin
   if not Assigned(FModClaim) then
@@ -687,14 +800,8 @@ procedure TfrmDialogClaim.initView;
 var
   lCDSAccount: TClientDataSet;
 begin
-
   With DMClient.DSProviderClient do
   begin
-    cbbSupplierMG.LoadFromDS(SuplierMerchan_GetDSLookup,
-      'SUPLIER_MERCHAN_GRUP_ID' , 'SUP_CODE', Self);
-    cbbSupplierMG.SetVisibleColumnsOnly(['SUP_CODE', 'SUP_NAME', 'MERCHANGRUP_NAME']);
-    cbbSupplierMG.SetMultiPurposeLookup;
-
     TcxExtLookup(cxGridColOtherAccountCode.Properties).LoadFromDS(
       Rekening_GetDSLookup, 'REKENING_ID','REK_CODE', Self
     );
@@ -729,6 +836,8 @@ begin
   cxGridDBTableCN.PrepareFromCDS(CDSCN);
   cxGridDBTableDN.PrepareFromCDS(CDSDN);
   cxGridDBTableOther.PrepareFromCDS(CDSOther);
+  cxGridDBTableCS.PrepareFromCDS(CDSCS);
+
   LoadData('');
 end;
 
@@ -767,41 +876,51 @@ begin
 end;
 
 procedure TfrmDialogClaim.LoadData(aID: String);
+var
+  lEvent: TNotifyEvent;
 begin
-  CDSDO.EmptyDataSet;
-  CDSCN.EmptyDataSet;
-  CDSDN.EmptyDataSet;
-  CDSOther.EmptyDataSet;
+  lEvent := edOrgCode.Properties.OnEditValueChanged;
+  Try
+    edOrgCode.Properties.OnEditValueChanged := nil;
 
-  dtTglClaim.Date       := Now();
-  dtReturnDate.Date     := Now();
-  dtDueDate.Date        := Now();
-  cbbAccount.EditValue  := '';
-  memDescription.Text   := '';
-  edNamaSupplierMG.Text := '';
-  edAKunHutang.Text     := '';
+    CDSDO.EmptyDataSet;
+    CDSCN.EmptyDataSet;
+    CDSDN.EmptyDataSet;
+    CDSOther.EmptyDataSet;
 
-  if aID <> '' then
-  begin
-    FreeAndNil(FModClaim);
-    FModClaim               := DMClient.CrudClient.Retrieve(TModClaimFaktur.ClassName, aID) as TModClaimFaktur;
-    edTTFNo.Text            := ModClaim.CLM_TTF_NO;
-    edNoClaim.Text          := ModClaim.CLM_NO;
-    dtTglClaim.Date         := ModClaim.CLM_DATE;
-    dtReturnDate.Date       := ModClaim.CLM_RETURN_DATE;
-    dtDueDate.Date          := ModClaim.CLM_DUE_DATE;
-    cbbAccount.EditValue    := ModClaim.CLM_REKENING_HUTANG.ID;
-    cbbSupplierMG.EditValue := ModClaim.CLM_SupplierMG.ID;
-    memDescription.Text     := ModClaim.CLM_Description;
+    dtTglClaim.Date       := Now();
+    dtReturnDate.Date     := Now();
+    dtDueDate.Date        := Now();
+    cbbAccount.EditValue  := '';
+    memDescription.Text   := '';
+    edOrgName.Text        := '';
+    edAKunHutang.Text     := '';
+    ModOrganization       := nil;
+    if aID <> '' then
+    begin
+      FModClaim                 := DMClient.CrudClient.Retrieve(TModClaimFaktur.ClassName, aID) as TModClaimFaktur;
+      edTTFNo.Text              := ModClaim.CLM_TTF_NO;
+      edNoClaim.Text            := ModClaim.CLM_NO;
+      dtTglClaim.Date           := ModClaim.CLM_DATE;
+      dtReturnDate.Date         := ModClaim.CLM_RETURN_DATE;
+      dtDueDate.Date            := ModClaim.CLM_DUE_DATE;
+      cbbAccount.EditValue      := ModClaim.CLM_REKENING_HUTANG.ID;
+      memDescription.Text       := ModClaim.CLM_Description;
 
-    LoadDoItems;
-    LoadCNDNItems;
-    LoadOtherItems;
-  end else begin
-    edNoClaim.Text := DMClient.CrudClient.GenerateNo(TModClaimFaktur.ClassName);
-    edTTFNo.Text   := edNoClaim.Text
-  end;
-  CalculateTotal;
+      ModClaim.CLM_Organization.Reload();
+      ModOrganization           := ModClaim.CLM_Organization;
+
+      LoadDoItems;
+      LoadCNDNItems;
+      LoadOtherItems;
+    end else begin
+      edNoClaim.Text := DMClient.CrudClient.GenerateNo(TModClaimFaktur.ClassName);
+      edTTFNo.Text   := edNoClaim.Text;
+    end;
+    CalculateTotal;
+  Finally
+    edOrgCode.Properties.OnEditValueChanged := lEvent;
+  End;
 end;
 
 procedure TfrmDialogClaim.LoadDoItems;
@@ -824,6 +943,7 @@ end;
 
 procedure TfrmDialogClaim.LoadOtherItems;
 var
+  lContrabon: TModClaimFakturItemCS;
   lOtherItem: TModClaimFakturItemOther;
 begin
   for lOtherItem in ModClaim.OtherItems do
@@ -833,6 +953,13 @@ begin
     CDSOther.FieldByName('REK_NAME').AsString  := lOtherItem.CLMD_Other_Rekening.ID;
     CDSOther.Post;
   end;
+
+  for lContrabon in ModClaim.CSItems do
+  begin
+    CDSCS.Append;
+    lContrabon.UpdateToDataset(CDSCS);
+    CDSCS.Post;
+  end;
 end;
 
 procedure TfrmDialogClaim.LookupDO;
@@ -840,28 +967,32 @@ var
   frm: TfrmCXLookup;
   lDS: TClientDataSet;
 begin
-  if (ckSupplier.Checked) and (VarToStr(cbbSupplierMG.EditValue)='') then
+  if (ckOrganization.Checked) and (ModOrganization=nil) then
   begin
-    TAppUtils.Warning('Supplier harap dipilih terlebih dahulu');
+    TAppUtils.Warning('Organization harap dipilih terlebih dahulu');
     exit;
   end;
 
   lDS := TClientDataSet(
-    DMClient.DSProviderClient.Claim_Lookup_DO(cbbSupplierMG.EditValueRest));
+    DMClient.DSProviderClient.Claim_Lookup_DO(GetModAppRestID(ModOrganization)));
   frm := TfrmCXLookup.Execute(lDS, True);
   Try
     frm.HideFields(['SUPLIER_MERCHAN_GRUP_ID','DO_ID','PO_ID']);
     if frm.ShowModal = mrOk then
     begin
-      if not frm.Data.Eof then
+      if (not frm.Data.Eof) and (ModOrganization=nil) then
       begin
-        cbbSupplierMG.EditValue := frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString;
-        ckSupplier.Checked := True;
+        ModOrganization := DMClient.CrudClient.Retrieve(
+          TModOrganization.ClassName,
+          frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString
+        ) as TModOrganization;
+
+        ckOrganization.Checked := True;
       end;
 
       while not frm.Data.eof do
       begin
-        if cbbSupplierMG.EditValue <> frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString then
+        if ModOrganization.ID <> frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString then
         begin
           TAppUtils.Warning('DO yang dipilih tidak sama supplier nya');
           break;
@@ -887,28 +1018,32 @@ var
   frm: TfrmCXLookup;
   lDS: TClientDataSet;
 begin
-  if (ckSupplier.Checked) and (VarToStr(cbbSupplierMG.EditValue)='') then
+  if (ckOrganization.Checked) and (ModOrganization=nil) then
   begin
-    TAppUtils.Warning('Supplier harap dipilih terlebih dahulu');
+    TAppUtils.Warning('Organization harap dipilih terlebih dahulu');
     exit;
   end;
 
   lDS := TClientDataSet(
-    DMClient.DSProviderClient.Claim_Lookup_DN(cbbSupplierMG.EditValueRest));
+    DMClient.DSProviderClient.Claim_Lookup_DN(GetModAppRestID(ModOrganization)));
   frm := TfrmCXLookup.Execute(lDS, True);
   Try
     frm.HideFields(['SUPLIER_MERCHAN_GRUP_ID','DN_RECV_ID']);
     if frm.ShowModal = mrOk then
     begin
-      if not frm.Data.Eof then
+      if (not frm.Data.Eof) and (ModOrganization=nil) then
       begin
-        cbbSupplierMG.EditValue := frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString;
-        ckSupplier.Checked := True;
+        ModOrganization := DMClient.CrudClient.Retrieve(
+          TModOrganization.ClassName,
+          frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString
+        ) as TModOrganization;
+
+        ckOrganization.Checked := True;
       end;
 
       while not frm.Data.eof do
       begin
-        if cbbSupplierMG.EditValue <> frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString then
+        if ModOrganization.ID <> frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString then
         begin
           TAppUtils.Warning('CN yang dipilih tidak sama supplier nya');
           break;
@@ -933,28 +1068,32 @@ var
   frm: TfrmCXLookup;
   lDS: TClientDataSet;
 begin
-  if (ckSupplier.Checked) and (VarToStr(cbbSupplierMG.EditValue)='') then
+  if (ckOrganization.Checked) and (ModOrganization=nil) then
   begin
-    TAppUtils.Warning('Supplier harap dipilih terlebih dahulu');
+    TAppUtils.Warning('Organization harap dipilih terlebih dahulu');
     exit;
   end;
 
   lDS := TClientDataSet(
-    DMClient.DSProviderClient.Claim_Lookup_CN(cbbSupplierMG.EditValueRest));
+    DMClient.DSProviderClient.Claim_Lookup_CN(GetModAppRestID(ModOrganization)));
   frm := TfrmCXLookup.Execute(lDS, True);
   Try
     frm.HideFields(['SUPLIER_MERCHAN_GRUP_ID','CN_RECV_ID']);
     if frm.ShowModal = mrOk then
     begin
-      if not frm.Data.Eof then
+      if (not frm.Data.Eof) and (ModOrganization=nil) then
       begin
-        cbbSupplierMG.EditValue := frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString;
-        ckSupplier.Checked := True;
+        ModOrganization := DMClient.CrudClient.Retrieve(
+          TModOrganization.ClassName,
+          frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString
+        ) as TModOrganization;
+
+        ckOrganization.Checked := True;
       end;
 
       while not frm.Data.eof do
       begin
-        if cbbSupplierMG.EditValue <> frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString then
+        if ModOrganization.ID <> frm.Data.FieldByName('SUPLIER_MERCHAN_GRUP_ID').AsString then
         begin
           TAppUtils.Warning('CN yang dipilih tidak sama supplier nya');
           break;
@@ -974,37 +1113,109 @@ begin
   End;
 end;
 
+procedure TfrmDialogClaim.LookupCS;
+var
+  frm: TfrmCXLookup;
+  lDS: TClientDataSet;
+begin
+  if (ckOrganization.Checked) and (ModOrganization=nil) then
+  begin
+    TAppUtils.Warning('Organization harap dipilih terlebih dahulu');
+    exit;
+  end;
+
+  lDS := TClientDataSet(
+    DMClient.DSProviderClient.Claim_Lookup_CS(GetModAppRestID(ModOrganization)));
+  frm := TfrmCXLookup.Execute(lDS, True);
+  Try
+    frm.HideFields(['CONTRABON_SALES_ID','CONT_ORGANIZATION_ID']);
+    if frm.ShowModal = mrOk then
+    begin
+      if (not frm.Data.Eof) and (ModOrganization=nil) then
+      begin
+        ModOrganization := DMClient.CrudClient.Retrieve(
+          TModOrganization.ClassName,
+          frm.Data.FieldByName('CONT_ORGANIZATION_ID').AsString
+        ) as TModOrganization;
+
+        ckOrganization.Checked := True;
+      end;
+
+      while not frm.Data.eof do
+      begin
+        if ModOrganization.ID <> frm.Data.FieldByName('CONT_ORGANIZATION_ID').AsString then
+        begin
+          TAppUtils.Warning('Contrabon yang dipilih tidak sama supplier nya');
+          break;
+        end;
+
+        if not CDSCS.Locate('CLMD_CS_Contrabon', frm.Data.FieldByName('CONTRABON_SALES_ID').AsString, [loCaseInsensitive]) then
+        begin
+          AddCSByID(frm.Data.FieldByName('CONTRABON_SALES_ID').AsString);
+        end;
+        frm.Data.Next;
+      end;
+    end;
+    CalculateTotal;
+  Finally
+    frm.Free;
+    lDS.Free;
+  End;
+end;
+
 procedure TfrmDialogClaim.OnAfterDelete(Sender: TDataSet);
 begin
   CalculateTotal;
 end;
 
+procedure TfrmDialogClaim.SetModOrganization(const Value: TModOrganization);
+var
+  lEvent: TNotifyEvent;
+begin
+  lEvent := edOrgCode.Properties.OnEditValueChanged;
+  edOrgCode.Properties.OnEditValueChanged := nil;
+  try
+    if Assigned(FModOrganization) then
+      FreeAndNil(FModOrganization);
+    FModOrganization := Value;
+
+    edOrgCode.Clear;
+    edOrgName.Clear;
+    if FModOrganization <> nil then
+    begin
+      edOrgCode.Text := FModOrganization.ORG_Code;
+      edOrgName.Text := FModOrganization.ORG_Name;
+    end;
+  finally
+    edOrgCode.Properties.OnEditValueChanged := lEvent;
+  end;
+end;
+
 procedure TfrmDialogClaim.UpdateData;
 var
   lItemCn: TModClaimFakturItemCN;
+  lItemCS: TModClaimFakturItemCS;
   lItemDN: TModClaimFakturItemDN;
   lItemDO: TModClaimFakturItemDO;
   lItemOther: TModClaimFakturItemOther;
 begin
-  ModClaim.CLM_NO := edNoClaim.Text;
-  ModClaim.CLM_TTF_NO := edTTFNo.Text;
-  ModClaim.CLM_DATE := dtTglClaim.Date;
-  ModClaim.CLM_DUE_DATE := dtDueDate.Date;
-  ModClaim.CLM_RETURN_DATE := dtReturnDate.Date;
+  ModClaim.CLM_NO           := edNoClaim.Text;
+  ModClaim.CLM_TTF_NO       := edTTFNo.Text;
+  ModClaim.CLM_DATE         := dtTglClaim.Date;
+  ModClaim.CLM_DUE_DATE     := dtDueDate.Date;
+  ModClaim.CLM_RETURN_DATE  := dtReturnDate.Date;
 
   if Assigned(ModClaim.CLM_REKENING_HUTANG) then
     ModClaim.CLM_REKENING_HUTANG.Free;
   ModClaim.CLM_REKENING_HUTANG := TModRekening.CreateID(cbbAccount.EditValue);
 
-  if Assigned(ModClaim.CLM_SupplierMG) then
-    ModClaim.CLM_SupplierMG.Free;
-  ModClaim.CLM_SupplierMG := TModSuplierMerchanGroup.CreateID(cbbSupplierMG.EditValue);
-
-  ModClaim.CLM_Description := memDescription.Text;
+  ModClaim.CLM_Organization := ModOrganization;
+  ModClaim.CLM_Description  := memDescription.Text;
 
   ModClaim.DOItems.Clear;
   ModClaim.CNItems.Clear;
   ModClaim.DNItems.Clear;
+  ModClaim.CSItems.Clear;
   ModClaim.OtherItems.Clear;
 
   CDSDO.DisableControls;
@@ -1035,6 +1246,13 @@ begin
       ModClaim.DNItems.Add(lItemDN);
       CDSDN.Next;
     end;
+    while not CDSCS.Eof do
+    begin
+      lItemCS := TModClaimFakturItemCS.Create;
+      lItemCS.SetFromDataset(CDSCS);
+      ModClaim.CSItems.Add(lItemCS);
+      CDSCS.Next;
+    end;
     while not CDSOther.Eof do
     begin
       lItemOther := TModClaimFakturItemOther.Create;
@@ -1056,9 +1274,9 @@ end;
 function TfrmDialogClaim.ValidateData: Boolean;
 begin
   Result := False;
-  if VarToStr(cbbSupplierMG.EditValue) = '' then
+  if (ModOrganization=nil) then
   begin
-    TAppUtils.Warning('Supplier belum dipilih');
+    TAppUtils.Warning('Organization belum dipilih');
     exit;
   end;
   if VarToStr(cbbAccount.EditValue) = '' then

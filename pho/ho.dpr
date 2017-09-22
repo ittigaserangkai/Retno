@@ -235,7 +235,8 @@ uses
   uRetnoUnit in '..\system\uRetnoUnit.pas',
   ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
-  uModContrabonSales in '..\model\uModContrabonSales.pas';
+  uModContrabonSales in '..\model\uModContrabonSales.pas',
+  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization};
 
 {$R *.res}
 
@@ -246,5 +247,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
   Application.Run;
 end.

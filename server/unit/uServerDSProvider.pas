@@ -129,6 +129,9 @@ type
     function Claim_Lookup_DO(aSuplierMerchanID: String): TDataSet;
     function Claim_Lookup_CN(aSuplierMerchanID: String): TDataSet;
     function Claim_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function Claim_Lookup_CS(aOrganizationID: String): TDataSet;
+    function Organization_Lookup(OrgType: Integer): TDataSet;
+    function Claim_Lookup_Contrabon(aContrabonID: String): TDataSet;
     function Claim_Lookup_DN(aSuplierMerchanID: String): TDataSet;
     function CNDetail_GetDS(aID: string): TDataSet;
     function DNDetail_GetDS(aID: string): TDataSet;
@@ -1284,6 +1287,43 @@ begin
   S := 'SELECT * FROM V_CLAIMFAKTUR_OVERVIEW '
     + ' where CLM_DATE between ' + TDBUtils.QuotD(aStartDate)
     + ' and ' + TDBUtils.QuotD(aEndDate);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Claim_Lookup_CS(aOrganizationID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_CONTRABON_FOR_CLAIM';
+  if aOrganizationID <> '' then
+    S := S + ' where CONT_ORGANIZATION_ID = '+ QuotedStr(aOrganizationID);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Organization_Lookup(OrgType: Integer): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_ORGANIZATION ';
+
+  case OrgType of
+    1 : S := S + 'where ORG_IsSupplierMG = 1';
+    2 : S := S + 'where ORG_IsMember = 1';
+    3 : S := S + 'where ORG_IsKaryawan = 1';
+  end;
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Claim_Lookup_Contrabon(aContrabonID: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_CONTRABONSALES';
+  S := S + 'where isnull(CONT_IS_CLAIM,0) = 0';
+  if aContrabonID <> '' then
+    S := S + ' and CONTRABON_SALES_ID = '+ QuotedStr(aContrabonID) ;
 
   Result := TDBUtils.OpenQuery(S);
 end;

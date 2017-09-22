@@ -27,14 +27,24 @@ type
   TModAppHelper = class helper for TModApp
   private
     procedure CopyFrom(aModApp : TModApp);
+  protected
   public
     procedure Reload(LoadObjectList: Boolean = False);
   end;
+
+function GetModAppRestID(aObject: TModApp): String;
 
 implementation
 
 uses
   System.Rtti, System.TypInfo, Vcl.Dialogs;
+
+function GetModAppRestID(aObject: TModApp): String;
+begin
+  Result := 'null';
+  if aObject <> nil then
+    Result := aObject.ID;
+end;
 
 procedure TModPOHelper.LoadPO_SUPPLIER_MERCHAN_GRUP;
 begin
@@ -70,6 +80,8 @@ procedure TModAppHelper.Reload(LoadObjectList: Boolean = False);
 var
   lModApp: TModApp;
 begin
+  If Self.ID = '' then exit;
+
   if LoadObjectList then
     lModApp := DMClient.CrudClient.Retrieve(Self.ClassName, Self.ID)
   else

@@ -45,7 +45,7 @@ type
     FObjectState: Integer;
     procedure SetCrudFilterKind(const Value: TFilterClassKind);
   public
-    constructor Create; reintroduce;
+    constructor Create; reintroduce; virtual;
     constructor CreateID(AID : String);
     destructor Destroy; override;
     procedure AddFilterCrud(aModClass: TModAppClass);

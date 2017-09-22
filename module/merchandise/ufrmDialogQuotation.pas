@@ -295,6 +295,7 @@ begin
 
   CDSHeader.Edit;
   CDSHeader.FieldByName('BuyNetPrice').AsFloat := dNet;
+  CDSHeader.FieldByName('BuyPricePPN').AsFloat := dNet;
   if CDSHeader.FieldByName('IsBKP').AsInteger = 1 then
     CDSHeader.FieldByName('BuyPricePPN').AsFloat := dNet * 1.1;
   CDSHeader.Post;
@@ -339,8 +340,8 @@ begin
   CDSDetail.Edit;
   CDSDetail.FieldByName('SellPrice').AsFloat          := dPrice;
   CDSDetail.FieldByName('Margin').AsFloat             := dMargin;
-  CDSDetail.FieldByName('SellDiscPercent').AsFloat    := dDiscRp;
-  CDSDetail.FieldByName('SellDiscRp').AsFloat         := dDiscPr;
+  CDSDetail.FieldByName('SellDiscPercent').AsFloat    := dDiscPr;
+  CDSDetail.FieldByName('SellDiscRp').AsFloat         := dDiscRp;
   CDSDetail.FieldByName('SellNetPrice').AsFloat       := dNet;
   if CDSHeader.FieldByName('IsBKP').AsInteger = 1 then
     CDSDetail.FieldByName('SellPricePPN').AsFloat := dNet * 1.1;
