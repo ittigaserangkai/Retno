@@ -240,6 +240,7 @@ type
     dxbrInventory: TdxBar;
     dxbrbtnWastageReal: TdxBarButton;
     dxbrbtnDSA: TdxBarButton;
+    dxrbntbTrader: TdxRibbonTab;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);

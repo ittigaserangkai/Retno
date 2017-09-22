@@ -174,7 +174,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Top = 57
         TabStop = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 5
         Width = 68
       end
@@ -183,7 +183,7 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
         Top = 84
         TabStop = False
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',#.##;(,#.##)'
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 7
         Width = 68
       end

@@ -105,7 +105,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
-      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -144,6 +143,16 @@ object frmMain: TfrmMain
           ToolbarName = 'dxbrWindows'
         end>
       Index = 6
+    end
+    object dxrbntbTrader: TdxRibbonTab
+      Active = True
+      Caption = 'Trader'
+      Groups = <
+        item
+          Caption = 'Trader'
+          ToolbarName = 'dxbrTrader'
+        end>
+      Index = 7
     end
   end
   object mmMainMenu: TMainMenu
@@ -1162,7 +1171,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnReturTrader'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1186,7 +1195,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnDSA'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True

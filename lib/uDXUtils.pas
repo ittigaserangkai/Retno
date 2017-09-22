@@ -123,7 +123,7 @@ type
   private
     procedure DoFormatHeaderCXGRID;
   public
-    procedure AutoFormatCurrency(ADisplayFormat: String = ',0;(,0)');
+    procedure AutoFormatCurrency(ADisplayFormat: String =',0.00;(,0.00)');
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
     function DS: TDataset;
     function CDS: TClientDataSet;
@@ -838,8 +838,8 @@ begin
   end;
 end;
 
-procedure TcxDBGridHelper.AutoFormatCurrency(ADisplayFormat: String =
-    ',0;(,0)');
+procedure TcxDBGridHelper.AutoFormatCurrency(ADisplayFormat: String
+    =',0.00;(,0.00)');
 var
   i: Integer;
   lDS: TDataSet;
