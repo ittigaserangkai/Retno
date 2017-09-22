@@ -109,6 +109,7 @@ object frmCXMsgInfo: TfrmCXMsgInfo
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      OnClick = btnSaveExcelClick
     end
     object btnOK: TcxButton
       AlignWithMargins = True
