@@ -54,7 +54,7 @@ begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Contrabon_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['CONTRABON_SALES_ID','CONT_ORGANIZATION_ID'],False);
+  cxGridView.SetVisibleColumns(['CONTRABON_SALES_ID','CONT_ORGANIZATION_ID','CONT_TAX_AMOUNT'],False);
 
 end;
 

@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
-  uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur;
+  uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
+  uModContrabonSales, System.DateUtils;
 
 type
   {$METHODINFO ON}
@@ -143,6 +144,9 @@ type
   end;
 
   TCrudContrabonSales = class(TCrud)
+  public
+    function IsTanggalSudahDiinput(AModContrabonSales : TModContrabonSales):
+        Boolean;
   end;
 
 
@@ -256,8 +260,6 @@ end;
 
 function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
     Boolean = True): TModApp;
-var
-  lDebug: TModClaimFaktur;
 begin
   Result := ModAppClass.Create;
   TDBUtils.LoadFromDB(Result, AID, LoadObjectList);
@@ -345,15 +347,16 @@ function TCrud.SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
 var
   I: Integer;
 begin
-  Result := False;
+//  Result := False;
 
   try
     for I := 0 to AObjectList.Count - 1 do
     begin
       SaveToDBTrans(AObjectList[i], False);
-      TDBUtils.Commit;
-      Result := False;
     end;
+
+    TDBUtils.Commit;
+    Result := True;
   except
     raise;
   end;
@@ -1219,6 +1222,40 @@ begin
   finally
     lMod.Free;
     AfterExecuteMethod;
+  end;
+end;
+
+function TCrudContrabonSales.IsTanggalSudahDiinput(AModContrabonSales :
+    TModContrabonSales): Boolean;
+var
+  sID: string;
+  sSQL: string;
+begin
+  Result := False;
+
+  if AModContrabonSales = nil then
+    Exit;
+
+  if AModContrabonSales.ID = '' then
+    sID := 'newid()'
+  else
+    sID := QuotedStr(AModContrabonSales.ID);
+
+  sSQL := 'select count(CONTRABON_SALES_ID) ' +
+          ' from CONTRABON_SALES ' +
+          ' where CONT_ORGANIZATION_ID = ' + QuotedStr(AModContrabonSales.CONT_ORGANIZATION.ID) +
+          ' and CONTRABON_SALES_ID <> ' + sID +
+          ' and CONT_DATE_SALES between ' + TDBUtils.QuotDt(StartOfTheDay(AModContrabonSales.CONT_DATE_SALES))  +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(AModContrabonSales.CONT_DATE_SALES));
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      if Fields[0].AsInteger > 0 then
+        Result := True;
+    finally
+      Free;
+    end;
   end;
 end;
 

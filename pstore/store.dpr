@@ -211,7 +211,9 @@ uses
   uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
   uModShift in '..\model\uModShift.pas',
   uModRekening in '..\model\uModRekening.pas',
-  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse};
+  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
+  uModContrabonSales in '..\model\uModContrabonSales.pas',
+  uModOrganization in '..\model\uModOrganization.pas';
 
 {$R *.res}
 

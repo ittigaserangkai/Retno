@@ -650,7 +650,7 @@ end;
 
 procedure TfrmMain.actCompanyTypeExecute(Sender: TObject);
 begin
-    frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
+  frmTipePerusahaan := TfrmTipePerusahaan.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actContrabonSalesExecute(Sender: TObject);
@@ -660,12 +660,12 @@ end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);
 begin
-    frmHariLibur := TfrmHariLibur.CreateWithUser(Application, FFormProperty);
+  frmHariLibur := TfrmHariLibur.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
-    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+  frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
@@ -705,7 +705,7 @@ end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
 begin
-    frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
+  frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
 end;
 
 procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
@@ -755,13 +755,12 @@ end;
 
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
 begin
-    frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+  frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLaporanStokExecute(Sender: TObject);
 begin
-    frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
-
+  frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLapReturSupExecute(Sender: TObject);
@@ -771,13 +770,12 @@ end;
 
 procedure TfrmMain.actListingPObyMGExecute(Sender: TObject);
 begin
-    frmListingPOByMerchandisingGroup := TfrmListingPOByMerchandisingGroup.CreateWithUser(Application, FFormProperty);
-
+  frmListingPOByMerchandisingGroup := TfrmListingPOByMerchandisingGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actListingQuotationHargaBeliExecute(Sender: TObject);
 begin
-    frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
+  frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);

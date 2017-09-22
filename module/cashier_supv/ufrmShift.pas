@@ -11,7 +11,9 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDXUtils, cxTimeEdit, ufrmDialogShift;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDXUtils, cxTimeEdit,
+  ufrmDialogShift;
+
 
 type
   TfrmShift = class(TfrmMasterBrowse)
