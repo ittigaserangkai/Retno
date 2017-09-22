@@ -780,7 +780,7 @@ end;
 
 procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
 begin
-    frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
+  frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);

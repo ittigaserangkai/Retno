@@ -76,8 +76,10 @@ type
     function GetCDSOrganisasi: tclientDataSet;
 //    function GetCS: TModContrabonSales;
     procedure HitungNilaiContrabon(AFocusedRecordIndex: Integer);
-    procedure IsiDataAwalContrabonSales(AFocusedRecordIndex: Integer);
+    procedure IsiDataAwalContrabonSales(AFocusedRecordIndex: Integer;
+        AIsUpdateTanggal : Boolean = True);
     procedure LoadDataOrganization(AKodeAtauID : String; AIsLoadByKode : Boolean);
+    procedure UpdatePropertyOrganisasidiGrid;
     property CDSOrganisasi: tclientDataSet read GetCDSOrganisasi write
         FCDSOrganisasi;
 //    property CS: TModContrabonSales read GetCS write FCS;
@@ -234,7 +236,7 @@ begin
       begin
         edOrganization.Text := Data.FieldByName('org_code').AsString;
         LoadDataOrganization(Data.FieldByName('V_ORGANIZATION_ID').AsString, False);
-        cxGridTableContrabonSales.ClearRows;
+        UpdatePropertyOrganisasidiGrid;
       end;
     Finally
       free;
@@ -249,7 +251,7 @@ begin
   inherited;
   FreeAndNil(FOrganization);
   LoadDataOrganization(VarToStr(DisplayValue), True);
-  cxGridTableContrabonSales.ClearRows;
+  UpdatePropertyOrganisasidiGrid;
 end;
 
 procedure TfrmDialogContrabonSales.FormCreate(Sender: TObject);
@@ -308,21 +310,25 @@ end;
 
 
 procedure TfrmDialogContrabonSales.IsiDataAwalContrabonSales(
-    AFocusedRecordIndex: Integer);
+    AFocusedRecordIndex: Integer; AIsUpdateTanggal : Boolean = True);
 var
   dTanggal: TDatetime;
 begin
   if FOrganization = nil then
     Exit;
 
-  dTanggal := Now;
-  if AFocusedRecordIndex <> 0 then
+  if AIsUpdateTanggal then
   begin
-    if not VarIsNullDate(cxGridTableContrabonSales.Values(AFocusedRecordIndex-1, cxGridColContDate.Index)) then
-      dTanggal := cxGridTableContrabonSales.Date(AFocusedRecordIndex-1, cxGridColContDate.Index) + 1;
+    dTanggal := Now;
+    if AFocusedRecordIndex <> 0 then
+    begin
+      if not VarIsNullDate(cxGridTableContrabonSales.Values(AFocusedRecordIndex-1, cxGridColContDate.Index)) then
+        dTanggal := cxGridTableContrabonSales.Date(AFocusedRecordIndex-1, cxGridColContDate.Index) + 1;
+    end;
+
+    cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContDate.Index, dTanggal);
   end;
 
-  cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContDate.Index, dTanggal);
   cxGridTableContrabonSales.SetValue(AFocusedRecordIndex, cxGridColContFee.Index, FOrganization.ORG_FEE);
 
   if FOrganization.ORG_PPN <> 0 then
@@ -378,6 +384,17 @@ begin
   end;
 
 
+end;
+
+procedure TfrmDialogContrabonSales.UpdatePropertyOrganisasidiGrid;
+var
+  I: Integer;
+begin
+  for I := 0 to cxGridTableContrabonSales.DataController.RecordCount - 1 do
+  begin
+    IsiDataAwalContrabonSales(i, False);
+    HitungNilaiContrabon(i);
+  end;
 end;
 
 end.
