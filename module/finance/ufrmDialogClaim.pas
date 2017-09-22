@@ -550,7 +550,7 @@ begin
   btnAddGR.Visible  := AFocusedView <> cxGridDBTableGR;
   btnAddCN.Visible  := AFocusedView <> cxGridDBTableCN;
   btnAddDN.Visible  := AFocusedView <> cxGridDBTableDN;
-  btnDetail.Visible := AFocusedView <> cxGridDBTableOther;
+  btnDetail.Visible := (AFocusedView <> cxGridDBTableOther) and (AFocusedView <> cxGridDBTableCS);
   btnAddCS.Visible  := AFocusedView <> cxGridDBTableCS;
 end;
 
@@ -1239,6 +1239,7 @@ begin
       ModClaim.CNItems.Add(lItemCN);
       CDSCN.Next;
     end;
+    CDSDN.First;
     while not CDSDN.Eof do
     begin
       lItemDN := TModClaimFakturItemDN.Create;
@@ -1246,6 +1247,7 @@ begin
       ModClaim.DNItems.Add(lItemDN);
       CDSDN.Next;
     end;
+    CDSCS.First;
     while not CDSCS.Eof do
     begin
       lItemCS := TModClaimFakturItemCS.Create;
@@ -1253,6 +1255,7 @@ begin
       ModClaim.CSItems.Add(lItemCS);
       CDSCS.Next;
     end;
+    CDSOther.First;
     while not CDSOther.Eof do
     begin
       lItemOther := TModClaimFakturItemOther.Create;

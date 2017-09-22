@@ -484,16 +484,16 @@ var
   lItem: TModDNRecvItem;
 begin
   CalculateTotal;
-  DNRecv.DNR_DATE     := dtDN.Date;
-  DNRecv.DNR_PO       := TModPO.CreateID(FPO.ID);
-  DNRecv.DNR_IS_CLAIM := 0;
-  DNRecv.DNR_NO       := edNoDN.Text;
-  DNRecv.DNR_PPN      := edPPN.Value;
-  DNRecv.DNR_PPNBM    := edPPNBM.Value;
-  DNRecv.DNR_TOTAL    := edTotal.Value;
-  DNRecv.DNR_UNT      := TModUnit.CreateID(TRetno.UnitStore.ID);
-  DNRecv.DNR_DO       := TModDO.CreateID(FDO.ID);
-
+  DNRecv.DNR_DATE         := dtDN.Date;
+  DNRecv.DNR_PO           := TModPO.CreateID(FPO.ID);
+  DNRecv.DNR_IS_CLAIM     := 0;
+  DNRecv.DNR_NO           := edNoDN.Text;
+  DNRecv.DNR_PPN          := edPPN.Value;
+  DNRecv.DNR_PPNBM        := edPPNBM.Value;
+  DNRecv.DNR_TOTAL        := edTotal.Value;
+  DNRecv.DNR_UNT          := TModUnit.CreateID(TRetno.UnitStore.ID);
+  DNRecv.DNR_DO           := TModDO.CreateID(FDO.ID);
+  DNRecv.DNR_TOTAL_DISC   := 0;
 
   DNRecv.DNR_DNRDITEMS.Clear;
   for i := 0 to DCItem.RecordCount-1 do
@@ -514,6 +514,7 @@ begin
     lItem.DNRD_PPNBM_PERSEN   := DCItem.Values[i, cxGridColDNDetailColumnPPNBMPERSEN.Index];
     lItem.DNRD_PRICE          := DCItem.Values[i, cxGridColDNDetailColumnHargaBeli.Index];
     lItem.DISCOUNT            := DCItem.Values[i, cxGridColDNDetailColumnDisc.Index];
+    DNRecv.DNR_TOTAL_DISC     := DNRecv.DNR_TOTAL_DISC + lItem.DNRD_TOTAL_DISC;
   end;
 
 end;
