@@ -89,8 +89,9 @@ inherited frmSettingApp: TfrmSettingApp
         Index = 1
         Version = 1
       end
-      object cxdtrwcxvrtclgrd1EditorRow3: TcxEditorRow
-        Properties.Caption = 'XXXX'
+      object cxGridRowDEFAULT_BANK_BCO: TcxEditorRow
+        Properties.Caption = 'DEFAULT_BANK_BCO '
+        Properties.EditPropertiesClassName = 'TcxExtLookupComboBoxProperties'
         Properties.DataBinding.ValueType = 'String'
         Properties.Value = Null
         ID = 2

@@ -20,7 +20,7 @@ type
     cxVerticalGridSettingApp: TcxVerticalGrid;
     cxGridRowGudangDO: TcxEditorRow;
     cxGridRowRekeningHutang: TcxEditorRow;
-    cxdtrwcxvrtclgrd1EditorRow3: TcxEditorRow;
+    cxGridRowDEFAULT_BANK_BCO: TcxEditorRow;
     cxdtrwcxvrtclgrd1EditorRow4: TcxEditorRow;
     cxdtrwcxvrtclgrd1EditorRow5: TcxEditorRow;
     cxStyleRepository1: TcxStyleRepository;
@@ -33,11 +33,13 @@ type
     procedure btnSimpanClick(Sender: TObject);
     procedure cbbUnitPropertiesEditValueChanged(Sender: TObject);
   private
+    FCDSBANK: tclientDataSet;
     FCDSGUDANG: tclientDataSet;
     FCDSUNIT: tclientDataSet;
     FSettingApp: TModSettingApp;
     function GetSettingApp: TModSettingApp;
     procedure InisialisasiGudangDO;
+    procedure InisialisasiBank;
     procedure InisialisasiUnit;
     procedure LoadSettingApp;
     { Private declarations }
@@ -51,6 +53,9 @@ var
   frmSettingApp: TfrmSettingApp;
 
 implementation
+
+uses
+  uModBank;
 
 {$R *.dfm}
 
@@ -75,6 +80,10 @@ begin
 
   SettingApp.REKENING_HUTANG := VarToStr(cxGridRowRekeningHutang.Properties.Value);
 
+  if not VarIsNull(cxGridRowDEFAULT_BANK_BCO.Properties.Value) then
+    SettingApp.DEFAULT_BANK_BCO  := TModBank.CreateID(cxGridRowDEFAULT_BANK_BCO.Properties.Value);
+
+
   SettingApp.ID := DMClient.CrudClient.SaveToDBID(SettingApp);
 
   if SettingApp.ID <>'' then
@@ -97,6 +106,7 @@ begin
   inherited;
   InisialisasiUnit;
   InisialisasiGudangDO;
+  InisialisasiBank;
 end;
 
 function TfrmSettingApp.GetSettingApp: TModSettingApp;
@@ -112,6 +122,13 @@ begin
   FCDSGUDANG := TDBUtils.DSToCDS(DMClient.DSProviderClient.Gudang_GetDSLookUp(), Self);
   TcxExtLookupComboBoxProperties(cxGridRowGudangDO.Properties.EditProperties).LoadFromCDS(FCDSGUDANG,'gudang_id','GUD_NAME',['gudang_id','gud_code'],Self);
   TcxExtLookupComboBoxProperties(cxGridRowGudangDO.Properties.EditProperties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmSettingApp.InisialisasiBank;
+begin
+  FCDSBANK := TDBUtils.DSToCDS(DMClient.DSProviderClient.Bank_GetDSLookup(), Self);
+  TcxExtLookupComboBoxProperties(cxGridRowDEFAULT_BANK_BCO.Properties.EditProperties).LoadFromCDS(FCDSBANK,'bank_id','bank_code',['bank_id'],Self);
+  TcxExtLookupComboBoxProperties(cxGridRowDEFAULT_BANK_BCO.Properties.EditProperties).SetMultiPurposeLookup;
 end;
 
 procedure TfrmSettingApp.InisialisasiUnit;
@@ -131,6 +148,10 @@ begin
   cxGridRowGudangDO.Properties.Value := null;
   if SettingApp.GUDANG_DO <> nil then
     cxGridRowGudangDO.Properties.Value := FSettingApp.GUDANG_DO.ID;
+
+  if SettingApp.DEFAULT_BANK_BCO <> nil then
+    cxGridRowDEFAULT_BANK_BCO.Properties.Value := FSettingApp.DEFAULT_BANK_BCO.ID;
+
   cxGridRowRekeningHutang.Properties.Value := SettingApp.REKENING_HUTANG;
 end;
 

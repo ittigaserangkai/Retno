@@ -3,12 +3,13 @@ unit uModSettingApp;
 interface
 
 uses
-  uModApp, uModUnit, uModGudang, System.Classes;
+  uModApp, uModUnit, uModGudang, System.Classes, uModBank;
 
 type
   TModSettingApp = class(TModApp)
   private
     FAUTUNIT: TModUnit;
+    FDEFAULT_BANK_BCO: TModBank;
     FGUDANG_DO: TModGudang;
     FREKENING_HUTANG: string;
   public
@@ -16,6 +17,8 @@ type
   published
     [AttributeOfForeign('AUT$UNIT_ID')]
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
+    property DEFAULT_BANK_BCO: TModBank read FDEFAULT_BANK_BCO write
+        FDEFAULT_BANK_BCO;
     [AttributeOfForeign('GUDANG_DO')]
     property GUDANG_DO: TModGudang read FGUDANG_DO write FGUDANG_DO;
     property REKENING_HUTANG: string read FREKENING_HUTANG write FREKENING_HUTANG;
