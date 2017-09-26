@@ -65,10 +65,34 @@ inherited frmAPCard: TfrmAPCard
       Caption = 'Organisasi'
       Transparent = True
     end
-    object cbbOrganisasi: TcxExtLookupComboBox
+    object edOrganization: TcxButtonEdit
+      Tag = 1
       Left = 94
       Top = 36
+      HelpType = htKeyword
+      HelpKeyword = 'Organisasi'
+      Properties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.MaxLength = 0
+      Properties.OnButtonClick = edOrganizationPropertiesButtonClick
+      Properties.OnValidate = edOrganizationPropertiesValidate
       TabOrder = 5
+      Width = 207
+    end
+    object edOrganizationName: TcxButtonEdit
+      Left = 94
+      Top = 64
+      Properties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+          Visible = False
+        end>
+      Properties.MaxLength = 0
+      TabOrder = 6
       Width = 207
     end
   end

@@ -96,6 +96,7 @@ type
     cxGridColCSDate: TcxGridDBColumn;
     edOrgCode: TcxButtonEdit;
     btnAddCS: TcxButton;
+    cxgridColOtherKeterangan: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -195,6 +196,8 @@ begin
   Self.AssignKeyDownEvent;
   initView;
   ckAutoDueDateClick(Self);
+
+  cbbAccount.SetDefaultValue(True);
 end;
 
 procedure TfrmDialogClaim.actDeleteExecute(Sender: TObject);

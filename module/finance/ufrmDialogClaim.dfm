@@ -551,7 +551,13 @@ inherited frmDialogClaim: TfrmDialogClaim
             Properties.ImmediatePost = True
             Properties.OnEditValueChanged = cxGridColOtherAccountNamePropertiesEditValueChanged
             HeaderAlignmentHorz = taCenter
-            Width = 227
+            Width = 173
+          end
+          object cxgridColOtherKeterangan: TcxGridDBColumn
+            Caption = 'Keterangan'
+            DataBinding.FieldName = 'CLMD_Other_Description'
+            HeaderAlignmentHorz = taCenter
+            Width = 129
           end
           object cxGridColOtherNominal: TcxGridDBColumn
             Caption = 'Nominal'

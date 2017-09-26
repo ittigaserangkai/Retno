@@ -15,7 +15,8 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
   cxGridCustomView, cxGrid, cxPC, uDMClient, uClientClasses, ufrmCXLookup,
   uModOrganization, uModBankCashOut, Datasnap.DBClient, uDXUtils,
-  uDBUtils, uModBank, uAppUtils, uInterface, uModelHelper, uDMReport, uConstanta;
+  uDBUtils, uModBank, uAppUtils, uInterface, uModelHelper, uDMReport,
+  uConstanta, uRetnoUnit;
 
 type
   TfrmDialogBankCashOut = class(TfrmMasterDialog, ICRUDAble)
@@ -205,6 +206,9 @@ begin
   InisialisasiBank;
   InisialisasiRekeningLain;
   InisialisasiCostCenter;
+
+  if TRetno.SettingApp.DEFAULT_BANK_BCO <> nil then
+    cbbBank.EditValue := TRetno.SettingApp.DEFAULT_BANK_BCO.ID;
 end;
 
 procedure TfrmDialogBankCashOut.FormDestroy(Sender: TObject);
@@ -376,7 +380,7 @@ begin
 
   FCDSBank := TDBUtils.DSToCDS( DMClient.DSProviderClient.Bank_GetDSLookup, Self );
 
-  cbbBank.Properties.LoadFromCDS(CDSBank,'Bank_ID','Bank_Name',['Bank_ID'],Self);
+  cbbBank.Properties.LoadFromCDS(CDSBank,'Bank_ID','Bank_Code',['Bank_ID'],Self);
   cbbBank.Properties.SetMultiPurposeLookup;
 end;
 
