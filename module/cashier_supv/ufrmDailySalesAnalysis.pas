@@ -10,7 +10,7 @@ uses
   cxNavigator, Data.DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
   cxDropDownEdit, cxDBExtLookupComboBox, cxTextEdit, cxMaskEdit, cxCalendar,
-  cxCustomData, cxFilter, cxData;
+  cxImageComboBox, cxCustomData, cxFilter, cxData;
 
 type
   TfrmDailySalesAnalysis = class(TfrmMasterReport)
@@ -22,7 +22,10 @@ type
     cxGrid: TcxGrid;
     cxGridView: TcxGridDBTableView;
     cxlvMaster: TcxGridLevel;
+    Label4: TLabel;
+    cbGroup: TcxImageComboBox;
     procedure actExportExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -44,6 +47,18 @@ begin
   cxGridView.ExportToXLS();
 end;
 
+procedure TfrmDailySalesAnalysis.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    AddReportVariable('DateStart', FormatDateTime('dd/MM/yyyy', dtStart.Date));
+    AddReportVariable('DateEnd', FormatDateTime('dd/MM/yyyy', dtEnd.Date));
+    ExecuteReport('Reports\DSA', ReportClient.DSA_GetDSPrint(dtStart.Date, dtEnd.Date, cbGroup.EditValue),[]);
+  end;
+end;
+
 procedure TfrmDailySalesAnalysis.actRefreshExecute(Sender: TObject);
 begin
   inherited;
@@ -55,11 +70,18 @@ begin
   inherited;
   dtStart.Date := Now();
   dtEnd.Date := Now();
+  cbGroup.ItemIndex := 0;
 end;
 
 procedure TfrmDailySalesAnalysis.LoadData;
 begin
-  cxGridView.LoadFromDS(DMReport.ReportClient.DSA_GetDS(dtStart.Date, dtEnd.Date), Self);
+  cxGridView.LoadFromDS(DMReport.ReportClient.DSA_GetDS(dtStart.Date, dtEnd.Date, cbGroup.EditValue), Self);
+  cxGridView.AutoFormatCurrency(',0.00;(,0.00)');
+  cxGridView.SetSummaryByColumns(['LastSales','LastSalesProcent',
+                                  'LastProfit','LastProfitProcent',
+                                  'AllSales','AllSalesProcent',
+                                  'AllProfit','AllProfitProcent']);
+  cxGridView.ApplyBestFit();
 end;
 
 end.

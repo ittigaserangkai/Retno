@@ -8,9 +8,9 @@ inherited frmDailySalesReport: TfrmDailySalesReport
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 644
-    Height = 362
+    Height = 392
     ExplicitWidth = 644
-    ExplicitHeight = 362
+    ExplicitHeight = 392
     object Panel2: TPanel
       Left = 3
       Top = 3
@@ -66,7 +66,7 @@ inherited frmDailySalesReport: TfrmDailySalesReport
       Left = 6
       Top = 44
       Width = 632
-      Height = 312
+      Height = 342
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
@@ -122,6 +122,7 @@ inherited frmDailySalesReport: TfrmDailySalesReport
     ExplicitWidth = 644
     inherited lbEscape: TLabel
       Left = 570
+      Height = 17
       ExplicitLeft = 570
     end
   end
