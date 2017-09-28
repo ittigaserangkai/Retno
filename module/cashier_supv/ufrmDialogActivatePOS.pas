@@ -64,7 +64,7 @@ var
 implementation
 
 uses
-  uTSCommonDlg, DB, uAppUtils, uDMClient, uRetnoUnit;
+  DB, uAppUtils, uDMClient, uRetnoUnit;
 
 {$R *.dfm}
 
