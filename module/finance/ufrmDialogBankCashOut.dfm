@@ -279,6 +279,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           AlternateCaption = 'BCOAP_AP'
           Caption = 'AP'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ImmediatePost = True
+          Properties.OnEditValueChanged = cxGridColAPAPPropertiesEditValueChanged
           Properties.OnValidate = cxGridColAPAPPropertiesValidate
           HeaderAlignmentHorz = taCenter
         end
@@ -417,7 +419,9 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           end>
         DataController.Summary.SummaryGroups = <>
         DataController.OnAfterDelete = cxGridTableChequeDataControllerAfterDelete
+        DataController.OnAfterInsert = cxGridTableChequeDataControllerAfterInsert
         DataController.OnAfterPost = cxGridTableChequeDataControllerAfterPost
+        DataController.OnBeforeInsert = cxGridTableChequeDataControllerBeforeInsert
         OptionsBehavior.FocusFirstCellOnNewRecord = True
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True

@@ -515,7 +515,8 @@ var
   S: string;
 begin
   S := 'select * from V_CONTRABON_SALES where CONT_DATE_SALES between '
-      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate)
+      + ' ORDER BY CONT_DATE_SALES DESC ';
 
   Result := TDBUtils.OpenQuery(S);
 end;
