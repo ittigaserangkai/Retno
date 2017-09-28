@@ -84,6 +84,7 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -154,7 +155,6 @@ object frmMain: TfrmMain
       Index = 7
     end
     object dxrbntbSupvCashier: TdxRibbonTab
-      Active = True
       Caption = 'Supervisor Cashier'
       Groups = <
         item
