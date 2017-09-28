@@ -31,8 +31,7 @@ inherited frmActivatePOS: TfrmActivatePOS
           Top = 34
           Width = 558
           Height = 203
-          ExplicitLeft = -1
-          ExplicitTop = 35
+          ExplicitTop = 34
           ExplicitWidth = 558
           ExplicitHeight = 203
         end
@@ -71,27 +70,44 @@ inherited frmActivatePOS: TfrmActivatePOS
             Left = 248
             Top = 7
             Cursor = crHandPoint
+            ParentCustomHint = False
             Anchors = [akRight]
             Caption = 'Check All'
             ParentColor = False
             ParentFont = False
+            ParentShowHint = False
+            ShowHint = False
             Style.Color = 15198183
-            Style.TextColor = clWindowText
+            Style.TextColor = clMenuHighlight
             Style.TextStyle = []
             StyleFocused.TextColor = clHotLight
+            StyleFocused.TextStyle = [fsUnderline]
+            StyleHot.TextStyle = [fsUnderline]
             Transparent = True
             OnClick = lblCheckAllClick
+            OnMouseEnter = lblCheckAllMouseEnter
+            OnMouseLeave = lblCheckAllMouseLeave
           end
           object lblClearAll: TcxLabel
             Left = 313
             Top = 7
             Cursor = crHandPoint
+            ParentCustomHint = False
             Anchors = [akRight]
             Caption = 'Clear All'
+            ParentColor = False
             ParentFont = False
+            ParentShowHint = False
+            ShowHint = False
+            Style.TextColor = clMenuHighlight
+            Style.TextStyle = []
             StyleFocused.TextColor = clHotLight
+            StyleFocused.TextStyle = [fsUnderline]
+            StyleHot.TextStyle = [fsUnderline]
             Transparent = True
             OnClick = lblClearAllClick
+            OnMouseEnter = lblClearAllMouseEnter
+            OnMouseLeave = lblClearAllMouseLeave
           end
         end
       end
@@ -103,14 +119,13 @@ inherited frmActivatePOS: TfrmActivatePOS
     inherited lblFilterData: TcxLabel
       Left = 324
       Visible = True
-      ExplicitLeft = 327
-      ExplicitTop = 5
+      ExplicitLeft = 324
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 211
       TabStop = False
-      ExplicitLeft = 158
+      ExplicitLeft = 211
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit

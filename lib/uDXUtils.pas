@@ -1240,6 +1240,7 @@ procedure TcxDBGridHelper.SetReadOnlyAllColumns(IsReadOnly: Boolean);
 var
   i: Integer;
 begin
+  SetReadOnly(not IsReadOnly);
   for i := 0 to Self.ColumnCount-1 do
   begin
     If Assigned(Self.Columns[i]) then
