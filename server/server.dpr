@@ -65,7 +65,11 @@ uses
   uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
   uModVoucher in '..\model\uModVoucher.pas',
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
-  uModContrabonSales in '..\model\uModContrabonSales.pas';
+  uModContrabonSales in '..\model\uModContrabonSales.pas',
+  uModCustomerInvoice in '..\model\uModCustomerInvoice.pas',
+  uModAR in '..\model\uModAR.pas',
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uModPOTrader in '..\model\uModPOTrader.pas';
 
 {$R *.res}
 
