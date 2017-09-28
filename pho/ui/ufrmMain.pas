@@ -830,8 +830,8 @@ begin
 
 //  FFilePathReport := GetFilePathReport;
 
-  frmMain.Height := 640;
-  frmMain.Width := 800;
+  frmMain.Height  := 640;
+  frmMain.Width   := 800;
   frmMain.Caption := ParamStr(0) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
