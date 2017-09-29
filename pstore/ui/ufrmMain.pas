@@ -245,6 +245,7 @@ type
     dxbrmngrStoreBar1: TdxBar;
     dxbrbtnActivatePOS: TdxBarButton;
     dxBarLargeButton1: TdxBarLargeButton;
+    dxbrbtnBeginningBalance: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -409,7 +410,7 @@ end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
 begin
-    frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
+  frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actCancellingPOExecute(Sender: TObject);

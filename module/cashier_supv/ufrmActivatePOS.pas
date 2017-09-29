@@ -23,7 +23,6 @@ type
     actActivatePOS: TAction;
     procedure FormCreate(Sender: TObject);
     procedure actActivatePOSExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
@@ -31,11 +30,12 @@ type
     procedure lblClearAllClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure strgGridCanEditCell(Sender: TObject; ARow, ACol: Integer;
-      var CanEdit: Boolean);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
+    procedure lblCheckAllMouseEnter(Sender: TObject);
+    procedure lblCheckAllMouseLeave(Sender: TObject);
+    procedure lblClearAllMouseEnter(Sender: TObject);
+    procedure lblClearAllMouseLeave(Sender: TObject);
   private
     FCDS: TClientDataSet;
     function GetFilterPOSCode: string;
@@ -57,12 +57,12 @@ implementation
 
 uses
   ufrmDialogActivatePOS, uTSCommonDlg, uConstanta, uAppUtils, uDBUtils, uDXUtils,
-  uDMClient;
+  uDMClient, uRetnoUnit;
 
-const
-  _ColPosCode = 1;
-  _ColCheckBox = 0;
-  _ColStatus = 5;
+//const
+//  _ColPosCode = 1;
+//  _ColCheckBox = 0;
+//  _ColStatus = 5;
 
 {$R *.dfm}
 
@@ -98,7 +98,7 @@ begin
       CDS.First;
       while not CDS.Eof do
       begin
-        if CDS.FieldByName('IsCheck').AsBoolean = True then
+        if CDS.FieldByName('CHECK').AsBoolean = True then
         begin
           lModPOS := DMClient.CrudClient.Retrieve(TModSetupPOS.ClassName, CDS.FieldByName('SETUPPOS_ID').AsString) as TModSetupPOS;
           lModPOS.SETUPPOS_IS_ACTIVE := 1;
@@ -117,13 +117,6 @@ begin
       raise;
     end;
   end;
-end;
-
-procedure TfrmActivatePOS.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-  Action := caFree;
 end;
 
 procedure TfrmActivatePOS.FormDestroy(Sender: TObject);
@@ -356,7 +349,7 @@ begin
   while not CDS.Eof do
   begin
     CDS.Edit;
-    CDS.FieldByName('isCheck').AsBoolean := True;
+    CDS.FieldByName('CHECK').AsBoolean := True;
     CDS.Post;
     CDS.Next;
   end;
@@ -377,7 +370,7 @@ begin
   while not CDS.Eof do
   begin
     CDS.Edit;
-    CDS.FieldByName('isCheck').AsBoolean := False;
+    CDS.FieldByName('CHECK').AsBoolean := False;
     CDS.Post;
     CDS.Next;
   end;
@@ -391,24 +384,12 @@ begin
     actActivatePOSExecute(Self);
 end;
 
-procedure TfrmActivatePOS.strgGridCanEditCell(Sender: TObject; ARow,
-  ACol: Integer; var CanEdit: Boolean);
-begin
-  if (ACol in [0]) then CanEdit := true;
-end;
-
 procedure TfrmActivatePOS.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
 //  if (Key = VK_RETURN) and (ssctrl in Shift) then
 //    actActivatePOSExecute(Sender);
-end;
-
-procedure TfrmActivatePOS.fraFooter5Button1btnUpdateClick(Sender: TObject);
-begin
-  inherited;
-//  prepareEdit;
 end;
 
 function TfrmActivatePOS.GetFilterPOSCode: string;
@@ -511,16 +492,39 @@ begin
   Result := True;
 end;
 
+procedure TfrmActivatePOS.lblCheckAllMouseEnter(Sender: TObject);
+begin
+  inherited;
+  lblCheckAll.Style.TextStyle := [fsUnderline];
+end;
+
+procedure TfrmActivatePOS.lblCheckAllMouseLeave(Sender: TObject);
+begin
+  inherited;
+  lblCheckAll.Style.TextStyle := [];
+end;
+
+procedure TfrmActivatePOS.lblClearAllMouseEnter(Sender: TObject);
+begin
+  inherited;
+  lblClearAll.Style.TextStyle := [fsUnderline];
+end;
+
+procedure TfrmActivatePOS.lblClearAllMouseLeave(Sender: TObject);
+begin
+  inherited;
+  lblClearAll.Style.TextStyle := [];
+end;
+
 procedure TfrmActivatePOS.RefreshData;
 begin
   inherited;
   if Assigned(FCDS) then FreeAndNil(FCDS);
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.SetupPOS_GetDSOverview(dtAkhirFilter.Date) ,Self );
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.SetupPOS_GetDSOverview(dtAkhirFilter.Date, TRetno.UnitStore.ID) ,Self );
   cxGridView.LoadFromCDS(CDS);
-  cxGridView.SetReadOnly(False);
-  cxGridView.SetVisibleColumns(['SETUPPOS_ID'],False);
+  cxGridView.SetVisibleColumns(['SETUPPOS_ID','SETUPPOS_DATE','AUT$UNIT_ID'],False);
   cxGridView.SetReadOnlyAllColumns(True);
-  cxGridView.SetReadOnlyColumns(['IsCheck'],False);
+  cxGridView.SetReadOnlyColumns(['CHECK'],False);
 end;
 
 end.

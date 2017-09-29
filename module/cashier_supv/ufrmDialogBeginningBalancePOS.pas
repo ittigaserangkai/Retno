@@ -8,52 +8,58 @@ uses
   ufraFooterDialog3Button, cxGraphics, cxControls, cxLookAndFeels, Data.DB,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxCurrencyEdit, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox;
+  cxDBExtLookupComboBox, uClientClasses, uInterface, uModBeginningBalance,
+  Datasnap.DBClient;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogBeginBalancePOS = class(TfrmMasterDialog)
+  TfrmDialogBeginBalancePOS = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
     lbl4: TLabel;
     cbpCashierID: TcxExtLookupComboBox;
     curredtBeginBalance: TcxCurrencyEdit;
-    edtDescrp: TEdit;
     cbpPosCode: TcxExtLookupComboBox;
-    edtCashierName: TEdit;
+    edtCashierName: TcxTextEdit;
+    edtDescrp: TcxTextEdit;
+    procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbpCashierIDCloseUp(Sender: TObject);
     procedure curredtBeginBalanceEnter(Sender: TObject);
+    procedure cbpCashierIDPropertiesEditValueChanged(Sender: TObject);
   private
-    { Private declarations }
     FKasirUsrNm : string;
-    FIsProcessSuccessfull: boolean;
-    FFormMode: TFormMode;
     dataUser,dataSetupPos: TDataSet;
-
-    procedure SetFormMode(const Value: TFormMode);
-    procedure SetIsProcessSuccessfull(const Value: boolean);
+    FCDSSetupPOS: TClientDataSet;
+    FCDSUser: TClientDataSet;
+    FDSClient: TDSProviderClient;
+    procedure ClearForm;
+    function GetDSClient: TDSProviderClient;
+    procedure InitLookUp;
+    function IsValidate: Boolean;
     procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer; aTgl :
         TDateTime);
+    procedure SavingData;
+    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
   public
-    { Public declarations }
     Balance_ID: Integer;
     Balance_Shift_ID: Integer;
     Balance_Shift_Date: TDateTime;
     PosCode,CashierID, CashierName: string;
     Modal: Currency;
     Descrpt: string;
+    FModBalance: TModBeginningBalance;
+    function GetModBalance: TModBeginningBalance;
+    procedure LoadData(AID: string);
+    property ModBalance: TModBeginningBalance read GetModBalance write FModBalance;
 //    FTgl: TDateTime;
-
   published
-    property FormMode: TFormMode read FFormMode write SetFormMode;
-    property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
 var
@@ -61,13 +67,30 @@ var
 
 implementation
 
-uses uConstanta, uTSCommonDlg, uRetnoUnit, ufrmBeginningBalancePOS;
+uses
+  uConstanta, uTSCommonDlg, uRetnoUnit, ufrmBeginningBalancePOS, uDXUtils,
+  uDMClient, uAppUtils, uModSetupPOS, uModAuthUser, uDBUtils, uModShift,
+  uModelHelper;
 
 {$R *.dfm}
+
+procedure TfrmDialogBeginBalancePOS.FormCreate(Sender: TObject);
+begin
+  inherited;
+  ClearForm;
+  InitLookUp;
+  Self.AssignKeyDownEvent;
+end;
 
 procedure TfrmDialogBeginBalancePOS.actDeleteExecute(Sender: TObject);
 begin
   inherited;
+  if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
+  begin
+    DMClient.CrudClient.DeleteFromDB(ModBalance);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.Close;
+  end;
   {
   if (strgGrid.Cells[_kolBegBal_ID,strgGrid.Row] = '0') or (strgGrid.Cells[_kolPosCode,strgGrid.Row] = '') then Exit;
 
@@ -104,28 +127,17 @@ begin
   }
 end;
 
-procedure TfrmDialogBeginBalancePOS.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmDialogBeginBalancePOS.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  Action := caFree;
+  if IsValidate then
+    SavingData;
 end;
 
 procedure TfrmDialogBeginBalancePOS.FormDestroy(Sender: TObject);
 begin
   inherited;
   frmDialogBeginBalancePOS := nil;
-end;
-
-procedure TfrmDialogBeginBalancePOS.SetFormMode(const Value: TFormMode);
-begin
-  FFormMode := Value;
-end;
-
-procedure TfrmDialogBeginBalancePOS.SetIsProcessSuccessfull(
-  const Value: boolean);
-begin
-  FIsProcessSuccessfull := Value;
 end;
 
 procedure TfrmDialogBeginBalancePOS.footerDialogMasterbtnSaveClick(
@@ -340,11 +352,101 @@ begin
 //  CashierID := cbpCashierID.Cells[0,cbpCashierID.Row];
 end;
 
+procedure TfrmDialogBeginBalancePOS.cbpCashierIDPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  edtCashierName.EditValue := FCDSUser.FieldByName('USR_FULLNAME').AsString;
+end;
+
+procedure TfrmDialogBeginBalancePOS.ClearForm;
+begin
+  ClearByTag([0]);
+
+  ModBalance.BALANCE_SHIFT_DATE := frmBeginningBalancePOS.dtAkhirFilter.Date;
+  ModBalance.BALANCE_STATUS     := 'OPEN';
+  ModBalance.ISJOURNALIZED      := 0;
+  ModBalance.SHIFT              := TModShift.CreateID(frmBeginningBalancePOS.FShiftID);
+end;
+
 procedure TfrmDialogBeginBalancePOS.curredtBeginBalanceEnter(
   Sender: TObject);
 begin
   inherited;
   curredtBeginBalance.SelectAll;
+end;
+
+function TfrmDialogBeginBalancePOS.GetDSClient: TDSProviderClient;
+begin
+  if not Assigned(FDSClient) then
+    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+  Result := FDSClient;
+end;
+
+function TfrmDialogBeginBalancePOS.GetModBalance: TModBeginningBalance;
+begin
+  if not Assigned(FModBalance) then
+    FModBalance := TModBeginningBalance.Create;
+  Result := FModBalance;
+end;
+
+procedure TfrmDialogBeginBalancePOS.InitLookUp;
+begin
+  FCDSUser := TDBUtils.DSToCDS(DMClient.DSProviderClient.AutUser_GetDSLookUp('OPERATOR POS'), Self);
+  cbpCashierID.LoadFromCDS(FCDSUser,'AUT$USER_ID','CASHIER_NAME',['AUT$USER_ID','USR_FULLNAME'],Self);
+
+  FCDSSetupPOS := TDBUtils.DSToCDS(DMClient.DSProviderClient.SetupPOS_GetDSLookUp(ModBalance.BALANCE_SHIFT_DATE, TRetno.UnitStore.ID), Self);
+  cbpPosCode.LoadFromCDS(FCDSSetupPOS,'SETUPPOS_ID','POS_CODE',['SETUPPOS_ID'],Self);
+end;
+
+function TfrmDialogBeginBalancePOS.IsValidate: Boolean;
+begin
+  Result := False;
+
+  if VarIsNull(cbpPosCode.EditValue) then
+  begin
+    TAppUtils.Warning('POS CODE belum diisi');
+    exit;
+  end else
+  if VarIsNull(cbpCashierID.EditValue) then
+  begin
+    TAppUtils.Warning('CASHIER ID belum diisi');
+    exit;
+  end else
+    Result := True;
+end;
+
+procedure TfrmDialogBeginBalancePOS.LoadData(AID: string);
+begin
+  if Assigned(FModBalance) then
+    FreeAndNil(FModBalance);
+
+  FModBalance := DMClient.CrudClient.Retrieve(TModBeginningBalance.ClassName, AID) as TModBeginningBalance;
+
+  ModBalance.AUTUSER.Reload();
+  cbpPosCode.EditValue          := ModBalance.SETUPPOS.ID;
+  cbpCashierID.EditValue        := ModBalance.AUTUSER.ID;
+  edtCashierName.EditValue      := ModBalance.AUTUSER.USR_FULLNAME;
+  curredtBeginBalance.EditValue := ModBalance.BALANCE_MODAL;
+  edtDescrp.EditValue           := ModBalance.BALANCE_DESCRIPTION;
+end;
+
+procedure TfrmDialogBeginBalancePOS.SavingData;
+begin
+  ModBalance.SETUPPOS             := TModSetupPOS.CreateID(cbpPosCode.EditValue);
+  ModBalance.AUTUSER              := TModAuthUser.CreateID(cbpCashierID.EditValue);
+  ModBalance.BALANCE_MODAL        := curredtBeginBalance.EditValue;
+  ModBalance.BALANCE_DESCRIPTION  := VarToStr(edtDescrp.EditValue);
+  ModBalance.AUTUNIT              := TRetno.UnitStore;
+
+  Try
+    DMClient.CrudClient.SaveToDB(ModBalance);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    Raise;
+  End;
 end;
 
 end.

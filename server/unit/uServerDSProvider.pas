@@ -20,6 +20,7 @@ type
     function AutAPP_GetDSLookup: TDataSet;
     function AutUnit_GetDSLookup: TDataSet;
     function AutUser_GetDSOverview: TDataSet;
+    function AutUser_GetDSLookUp(aGroupName: string): TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
     function Bank_GetDSLookup: TDataSet;
@@ -106,7 +107,10 @@ type
     function Rekening_GetDSOverview: TDataSet;
     function Satuan_GetDSLookup: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
-    function SetupPOS_GetDSOverview(aDate: TDatetime): TDataSet;
+    function SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string): TDataSet;
+    function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
+        string): TDataSet;
+    function SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string): TDataSet;
     function Shift_GetDSOverview: TDataSet;
     function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
@@ -257,6 +261,15 @@ var
   S: string;
 begin
   S := 'SELECT * FROM AUT$USER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AutUser_GetDSLookUp(aGroupName: string): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT U.AUT$USER_ID, U.USR_USERNAME AS CASHIER_NAME, U.USR_FULLNAME '
+    + ' FROM AUT$USER U ';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -502,7 +515,8 @@ var
   S: string;
 begin
   S := 'select * from V_CONTRABON_SALES where CONT_DATE_SALES between '
-      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate)
+      + ' ORDER BY CONT_DATE_SALES DESC ';
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -1108,12 +1122,40 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.SetupPOS_GetDSOverview(aDate: TDatetime): TDataSet;
+function TDSProvider.SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string):
+    TDataSet;
 var
   sSQL: string;
 begin
-  sSQL  := 'SELECT * FROM V_SetupPOS where dbo.DateOnly(SETUPPOS_DATE) '
-        + ' = ' + TDBUtils.QuotD(StartOfTheDay(aDate));
+  sSQL  := 'SELECT * FROM V_SETUPPOS WHERE dbo.DateOnly(SETUPPOS_DATE) '
+        + ' = ' + TDBUtils.QuotD(aDate)
+        + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID);
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.BeginningBalance_GetDSOverview(aDate: TDatetime;
+    aShiftName, AUnitID: string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BEGINNINGBALANCE '
+        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
+        + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
+        + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string):
+    TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT SETUPPOS_ID, SETUPPOS_TERMINAL_CODE AS POS_CODE '
+        + ' FROM SETUPPOS '
+        + ' WHERE dbo.DateOnly(SETUPPOS_DATE) = ' + TDBUtils.QuotD(aDate)
+        + ' AND SETUPPOS_IS_ACTIVE = 1 '
+        + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
+        + ' ORDER BY SETUPPOS_TERMINAL_CODE';
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
