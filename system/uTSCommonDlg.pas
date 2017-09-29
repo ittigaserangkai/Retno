@@ -216,7 +216,7 @@ begin
   begin
     OptionsBehavior.DisplayTime := 10000;
     OptionsMessage.Text.Font.Name := 'Trebuchet MS';
-    OptionsMessage.Text.Font.Size := 11;
+    OptionsMessage.Text.Font.Size := 10;
     {$IFNDEF POS}
     OptionsMessage.Images := DMClient.imgListIcon;
     {$ENDIF}

@@ -139,7 +139,6 @@ type
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
-    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
   end;
 
@@ -1112,9 +1111,9 @@ begin
   Try
     lSS.Append(
         'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = IsNull(DO_ADJUSTMENT,0) + ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
-        + ' , DO_ADJUSTMENT_PPN = IsNull(DO_ADJUSTMENT_PPN,0) + ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
-        + ' , DO_ADJUSTMENT_DISC = IsNull(DO_ADJUSTMENT_DISC,0) + ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
+        + ' Set DO_ADJUSTMENT = ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
+        + ' , DO_ADJUSTMENT_PPN = ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
+        + ' , DO_ADJUSTMENT_DISC = ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
         + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
       );
     TDBUtils.ExecuteSQL(lSS, False);
@@ -1126,11 +1125,6 @@ end;
 
 
 function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
-begin
-  Result := self.BeforeSaveToDB(AObject);
-end;
-
-function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lAdj: TModAdjustmentFaktur;
   lSS: TStrings;
@@ -1146,9 +1140,9 @@ begin
   Try
     lSS.Append(
         'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = IsNull(DO_ADJUSTMENT,0) - ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
-        + ' , DO_ADJUSTMENT_PPN = IsNull(DO_ADJUSTMENT_PPN,0) - ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
-        + ' , DO_ADJUSTMENT_DISC = IsNull(DO_ADJUSTMENT_DISC,0) - ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
+        + ' Set DO_ADJUSTMENT = 0'
+        + ' , DO_ADJUSTMENT_PPN = 0'
+        + ' , DO_ADJUSTMENT_DISC = 0'
         + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
       );
     TDBUtils.ExecuteSQL(lSS, False);

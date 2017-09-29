@@ -159,6 +159,7 @@ type
     procedure LookupDN;
     procedure LookupCS;
     procedure OnAfterDelete(Sender: TDataSet);
+    procedure ResetGrid;
     procedure SetModOrganization(const Value: TModOrganization);
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -254,7 +255,7 @@ begin
     CDSDO.Append;
     lDO.UpdateToDataset(CDSDO);
     CDSDO.FieldByName('DO_NO').AsString     := lDO.CLMD_DO.DO_NO;
-    CDSDO.FieldByName('DO_NP').AsString     := lDO.CLMD_DO.DO_NO;
+    CDSDO.FieldByName('DO_NP').AsString     := lDO.CLMD_DO.DO_NP;
     CDSDO.FieldByName('PO_NO').AsString     := lDO.CLMD_DO_PO.PO_NO;
     CDSDO.FieldByName('DO_DATE').AsDateTime := lDO.CLMD_DO.DO_DATE;
 
@@ -524,9 +525,6 @@ procedure TfrmDialogClaim.cbbOrganizationPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  CDSDO.EmptyDataSet;
-  CDSCN.EmptyDataSet;
-
   if not CDSOrg.Eof then
     edOrgName.Text := CDSOrg.FieldByName('ORG_Name').AsString;
 end;
@@ -886,10 +884,7 @@ begin
   Try
     edOrgCode.Properties.OnEditValueChanged := nil;
 
-    CDSDO.EmptyDataSet;
-    CDSCN.EmptyDataSet;
-    CDSDN.EmptyDataSet;
-    CDSOther.EmptyDataSet;
+    ResetGrid;
 
     dtTglClaim.Date       := Now();
     dtReturnDate.Date     := Now();
@@ -1171,15 +1166,34 @@ begin
   CalculateTotal;
 end;
 
+procedure TfrmDialogClaim.ResetGrid;
+begin
+  CDSDO.EmptyDataSet;
+  CDSCN.EmptyDataSet;
+  CDSDN.EmptyDataSet;
+  CDSCS.EmptyDataSet;
+  CDSOther.EmptyDataSet;
+end;
+
 procedure TfrmDialogClaim.SetModOrganization(const Value: TModOrganization);
 var
   lEvent: TNotifyEvent;
+  NewID: string;
+  OldID: string;
 begin
   lEvent := edOrgCode.Properties.OnEditValueChanged;
   edOrgCode.Properties.OnEditValueChanged := nil;
   try
+    NewID := '';
+    OldID := '';
+    if Assigned(Value) then NewID := Value.ID;
+
     if Assigned(FModOrganization) then
+    begin
+      OLDID := FModOrganization.ID;
       FreeAndNil(FModOrganization);
+    end;
+
     FModOrganization := Value;
 
     edOrgCode.Clear;
@@ -1189,6 +1203,12 @@ begin
       edOrgCode.Text := FModOrganization.ORG_Code;
       edOrgName.Text := FModOrganization.ORG_Name;
     end;
+
+    if (NewID <> OldID) or(NewID = '') then
+    begin
+      ResetGrid;
+    end;
+
   finally
     edOrgCode.Properties.OnEditValueChanged := lEvent;
   end;
