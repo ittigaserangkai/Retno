@@ -108,8 +108,6 @@ uses
   ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal},
   ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
   ufrmProductForSelling in '..\module\cashier_supv\ufrmProductForSelling.pas' {frmProductForSelling},
-  ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
-  ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
   ufrmBeginningBalancePOS in '..\module\cashier_supv\ufrmBeginningBalancePOS.pas' {frmBeginningBalancePOS},
   ufrmDialogBeginningBalancePOS in '..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas' {frmDialogBeginBalancePOS},
   ufrmMaintenancePassword in '..\module\cashier_supv\ufrmMaintenancePassword.pas' {frmMaintenancePassword},
@@ -213,7 +211,11 @@ uses
   uModRekening in '..\model\uModRekening.pas',
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
-  uModOrganization in '..\model\uModOrganization.pas';
+  uModOrganization in '..\model\uModOrganization.pas',
+  ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
+  ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
+  uModSetupPOS in '..\model\uModSetupPOS.pas',
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas';
 
 {$R *.res}
 

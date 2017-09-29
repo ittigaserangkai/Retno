@@ -34,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-uses uDMClient, uDMReport, uDXUtils, DateUtils;
+uses uDMClient, uDMReport, DateUtils;
 
 procedure TfrmDailySalesReport.actPrintExecute(Sender: TObject);
 var

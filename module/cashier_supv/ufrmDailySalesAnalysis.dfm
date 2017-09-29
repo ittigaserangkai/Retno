@@ -8,18 +8,18 @@ inherited frmDailySalesAnalysis: TfrmDailySalesAnalysis
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 644
-    Height = 362
+    Height = 392
     ExplicitWidth = 644
-    ExplicitHeight = 362
+    ExplicitHeight = 392
     object Panel2: TPanel
       Left = 3
       Top = 3
       Width = 638
-      Height = 38
+      Height = 72
       Align = alTop
       TabOrder = 0
       object Label2: TLabel
-        Left = 32
+        Left = 24
         Top = 7
         Width = 37
         Height = 16
@@ -33,6 +33,13 @@ inherited frmDailySalesAnalysis: TfrmDailySalesAnalysis
         Height = 16
         Alignment = taRightJustify
         Caption = 's/d'
+      end
+      object Label4: TLabel
+        Left = 24
+        Top = 38
+        Width = 45
+        Height = 16
+        Caption = 'Grouping'
       end
       object dtStart: TcxDateEdit
         AlignWithMargins = True
@@ -60,19 +67,37 @@ inherited frmDailySalesAnalysis: TfrmDailySalesAnalysis
         TabOrder = 1
         Width = 89
       end
+      object cbGroup: TcxImageComboBox
+        Left = 75
+        Top = 34
+        Properties.Items = <
+          item
+            Description = 'Kategori'
+            ImageIndex = 0
+            Value = 'KAT_NAME'
+          end
+          item
+            Description = 'SubGrup'
+            Value = 'SUBGRUP_NAME'
+          end
+          item
+            Description = 'Merchandise'
+            Value = 'MERCHANGRUP_NAME'
+          end>
+        TabOrder = 2
+        Width = 204
+      end
     end
     object cxGrid: TcxGrid
       AlignWithMargins = True
       Left = 6
-      Top = 44
+      Top = 78
       Width = 632
-      Height = 312
+      Height = 308
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitTop = 116
-      ExplicitHeight = 240
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual
@@ -89,6 +114,9 @@ inherited frmDailySalesAnalysis: TfrmDailySalesAnalysis
         NewItemRow.InfoText = 'Baris baru'
         OptionsData.Editing = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+        OptionsView.Footer = True
+        OptionsView.FooterAutoHeight = True
+        OptionsView.FooterMultiSummaries = True
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
@@ -124,12 +152,16 @@ inherited frmDailySalesAnalysis: TfrmDailySalesAnalysis
     ExplicitWidth = 644
     inherited lbEscape: TLabel
       Left = 570
+      Height = 17
       ExplicitLeft = 570
     end
   end
   inherited actReport: TActionList
     Left = 560
     Top = 64
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
+    end
     inherited actRefresh: TAction
       OnExecute = actRefreshExecute
     end

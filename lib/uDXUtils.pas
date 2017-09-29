@@ -124,7 +124,9 @@ type
     procedure DoFormatHeaderCXGRID;
   public
     procedure AutoFormatCurrency(ADisplayFormat: String =',0.00;(,0.00)');
+    procedure AutoFormatText;
     procedure AutoFormatDate(ADisplayFormat: String = 'yyyy/mm/dd');
+    procedure AutoFormatBoolean;
     function DS: TDataset;
     function CDS: TClientDataSet;
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
@@ -156,6 +158,9 @@ type
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
     procedure SetVisibleColumns(FromCol, ToCol: Integer; IsVisible: Boolean);
         overload;
+    procedure SetReadOnlyColumns(ColumnSets: Array Of String; IsReadOnly: Boolean);
+        overload;
+    procedure SetReadOnlyAllColumns(IsReadOnly: Boolean); overload;
     procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
         = True); overload;
   end;
@@ -864,6 +869,29 @@ begin
   end;
 end;
 
+procedure TcxDBGridHelper.AutoFormatText;
+var
+  i: Integer;
+  lDS: TDataSet;
+begin
+  lDS := Self.DataController.DataSource.DataSet;
+
+  //why use DS, because sometime format CDS <> grid.column.format
+  for i := 0 to lDS.FieldCount-1 do
+  begin
+    If not Assigned(Self.GetColumnByFieldName(lDS.Fields[i].FieldName)) then
+      continue;
+    with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
+    begin
+      If lDS.Fields[i].DataType in [ftString] then
+      begin
+        PropertiesClassName := 'TcxTextEditProperties';
+        DataBinding.ValueType := 'String';
+      end;
+    end;
+  end;
+end;
+
 procedure TcxDBGridHelper.AutoFormatDate(ADisplayFormat: String =
     'yyyy/mm/dd');
 var
@@ -879,12 +907,35 @@ begin
       continue;
     with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
     begin
-      If lDS.Fields[i].DataType in [ftDate, ftDateTime] then
+      If lDS.Fields[i].DataType in [ftDate, ftDateTime, ftTimeStamp] then
       begin
         PropertiesClassName := 'TcxDateEditProperties';
         TcxDateEditProperties( Properties).DisplayFormat := ADisplayFormat;
         TcxDateEditProperties( Properties).EditMask := ADisplayFormat;
         DataBinding.ValueType := 'DateTime';
+      end;
+    end;
+  end;
+end;
+
+procedure TcxDBGridHelper.AutoFormatBoolean;
+var
+  i: Integer;
+  lDS: TDataSet;
+begin
+  lDS := Self.DataController.DataSource.DataSet;
+
+  //why use DS, because sometime format CDS <> grid.column.format
+  for i := 0 to lDS.FieldCount-1 do
+  begin
+    If not Assigned(Self.GetColumnByFieldName(lDS.Fields[i].FieldName)) then
+      continue;
+    with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
+    begin
+      If lDS.Fields[i].DataType in [ftBoolean] then
+      begin
+        PropertiesClassName := 'TcxCheckBoxProperties';
+        DataBinding.ValueType := 'Boolean';
       end;
     end;
   end;
@@ -981,6 +1032,8 @@ begin
 
   if AutoFormat then
   begin
+    AutoFormatText;
+    AutoFormatBoolean;
     AutoFormatDate;
     AutoFormatCurrency;
     SetAllUpperCaseColumn;
@@ -991,9 +1044,6 @@ begin
     Self.OptionsBehavior.BestFitMaxRecordCount := 100;
     Self.ApplyBestFit;
   end;
-
-
-
 end;
 
 procedure TcxDBGridHelper.LoadFromSQL(aSQL: String; aOwner: TComponent);
@@ -1162,6 +1212,48 @@ begin
   for i := FromCol to ToCol do
   begin
     Self.Columns[i].Visible := IsVisible;
+  end;
+end;
+
+procedure TcxDBGridHelper.SetReadOnlyColumns(ColumnSets: Array Of String;
+    IsReadOnly: Boolean);
+var
+  i: Integer;
+begin
+  for i := Low(ColumnSets) to High(ColumnSets) do
+  begin
+    If Assigned(Self.GetColumnByFieldName(ColumnSets[i])) then
+    begin
+      if Self.GetColumnByFieldName(ColumnSets[i]).PropertiesClassName = 'TcxTextEditProperties' then
+        TcxTextEditProperties(Self.GetColumnByFieldName(ColumnSets[i]).Properties).ReadOnly := IsReadOnly
+      else if Self.GetColumnByFieldName(ColumnSets[i]).PropertiesClassName = 'TcxCurrencyEditProperties' then
+        TcxCurrencyEditProperties(Self.GetColumnByFieldName(ColumnSets[i]).Properties).ReadOnly := IsReadOnly
+      else if Self.GetColumnByFieldName(ColumnSets[i]).PropertiesClassName = 'TcxDateEditProperties' then
+        TcxDateEditProperties(Self.GetColumnByFieldName(ColumnSets[i]).Properties).ReadOnly := IsReadOnly
+      else if Self.GetColumnByFieldName(ColumnSets[i]).PropertiesClassName = 'TcxCheckBoxProperties' then
+        TcxCheckBoxProperties(Self.GetColumnByFieldName(ColumnSets[i]).Properties).ReadOnly := IsReadOnly;
+    end;
+  end;
+end;
+
+procedure TcxDBGridHelper.SetReadOnlyAllColumns(IsReadOnly: Boolean);
+var
+  i: Integer;
+begin
+  SetReadOnly(not IsReadOnly);
+  for i := 0 to Self.ColumnCount-1 do
+  begin
+    If Assigned(Self.Columns[i]) then
+    begin
+      if Self.Columns[i].PropertiesClassName = 'TcxTextEditProperties' then
+        TcxTextEditProperties(Self.Columns[i].Properties).ReadOnly := IsReadOnly
+      else if Self.Columns[i].PropertiesClassName = 'TcxCurrencyEditProperties' then
+        TcxCurrencyEditProperties(Self.Columns[i].Properties).ReadOnly := IsReadOnly
+      else if Self.Columns[i].PropertiesClassName = 'TcxDateEditProperties' then
+        TcxDateEditProperties(Self.Columns[i].Properties).ReadOnly := IsReadOnly
+      else if Self.Columns[i].PropertiesClassName = 'TcxCheckBoxProperties' then
+        TcxCheckBoxProperties(Self.Columns[i].Properties).ReadOnly := IsReadOnly;
+    end;
   end;
 end;
 
@@ -1402,13 +1494,14 @@ var
   C: TComponent;
   i: Integer;
   iTabOrd: Integer;
-  sMsg: string;
+//  sMsg: string;
   EmptyCtrl: TWinControl;
   IsEmpty: Boolean;
 begin
-  IsEmpty   := False;
-  iTabOrd   := MaxInt;
-  EmptyCtrl := nil;
+  Result := False;
+//  IsEmpty   := False;
+//  iTabOrd   := MaxInt;
+//  EmptyCtrl := nil;
   for i := 0 to Self.ComponentCount-1 do
   begin
     C := Self.Components[i];

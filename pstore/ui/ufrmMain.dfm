@@ -84,6 +84,7 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -145,7 +146,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbTrader: TdxRibbonTab
-      Active = True
       Caption = 'Trader'
       Groups = <
         item
@@ -153,6 +153,15 @@ object frmMain: TfrmMain
           ToolbarName = 'dxbrTrader'
         end>
       Index = 7
+    end
+    object dxrbntbSupvCashier: TdxRibbonTab
+      Caption = 'Supervisor Cashier'
+      Groups = <
+        item
+          Caption = 'Transaction'
+          ToolbarName = 'dxbrmngrStoreBar1'
+        end>
+      Index = 8
     end
   end
   object mmMainMenu: TMainMenu
@@ -1221,6 +1230,30 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
+    object dxbrmngrStoreBar1: TdxBar
+      Caption = 'Custom 1'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 691
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnActivatePOS'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBeginningBalance'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
     object dxbrbtnSO: TdxBarButton
       Action = actCreateSO
       Category = 0
@@ -1350,6 +1383,26 @@ object frmMain: TfrmMain
       Action = actDailySalesAnalysis
       Category = 0
       PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnActivatePOS: TdxBarButton
+      Caption = 'Activate POS'
+      Category = 0
+      Hint = 'Activate POS'
+      Visible = ivAlways
+      OnClick = actActivatePOSExecute
+    end
+    object dxBarLargeButton1: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxbrbtnBeginningBalance: TdxBarButton
+      Caption = 'Beginning Balance'
+      Category = 0
+      Hint = 'Beginning Balance'
+      Visible = ivAlways
+      OnClick = actBeginBalancePOSExecute
     end
   end
 end

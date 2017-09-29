@@ -1,19 +1,20 @@
 inherited frmDialogActivePOS: TfrmDialogActivePOS
   Left = 451
   Top = 259
-  Caption = 'frmDialogActivatePOS'
+  Caption = 'POS ACTIVATION'
   ClientHeight = 219
-  ClientWidth = 360
+  ClientWidth = 364
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 376
+  OnDestroy = FormDestroy
+  ExplicitWidth = 380
   ExplicitHeight = 258
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 360
+    Width = 364
     Height = 163
-    ExplicitWidth = 360
+    ExplicitWidth = 364
     ExplicitHeight = 163
     object lbl1: TLabel
       Left = 35
@@ -24,35 +25,35 @@ inherited frmDialogActivePOS: TfrmDialogActivePOS
     end
     object lbl2: TLabel
       Left = 35
-      Top = 65
+      Top = 63
       Width = 79
       Height = 16
       Caption = 'Transaction No.'
     end
     object lbl3: TLabel
       Left = 35
-      Top = 89
+      Top = 86
       Width = 61
       Height = 16
       Caption = 'Counter No.'
     end
     object lbl4: TLabel
       Left = 35
-      Top = 17
+      Top = 16
       Width = 24
       Height = 16
       Caption = 'Date'
     end
     object Label1: TLabel
       Left = 35
-      Top = 115
-      Width = 55
+      Top = 110
+      Width = 51
       Height = 16
-      Caption = 'IP Address.'
+      Caption = 'IP Address'
     end
     object edtTerminalCode: TEdit
       Left = 127
-      Top = 37
+      Top = 38
       Width = 103
       Height = 22
       CharCase = ecUpperCase
@@ -65,7 +66,7 @@ inherited frmDialogActivePOS: TfrmDialogActivePOS
     object edtTranscNo: TEdit
       Left = 127
       Top = 61
-      Width = 155
+      Width = 103
       Height = 22
       Ctl3D = False
       MaxLength = 6
@@ -76,8 +77,8 @@ inherited frmDialogActivePOS: TfrmDialogActivePOS
     end
     object edtCountNo: TEdit
       Left = 127
-      Top = 85
-      Width = 59
+      Top = 84
+      Width = 42
       Height = 22
       Ctl3D = False
       MaxLength = 4
@@ -86,67 +87,72 @@ inherited frmDialogActivePOS: TfrmDialogActivePOS
       Text = '0'
       OnKeyPress = edtCountNoKeyPress
     end
-    object dt1: TcxDateEdit
+    object dtSetupPOS: TcxDateEdit
       Left = 127
       Top = 13
+      Properties.ImmediatePost = True
+      Properties.SaveTime = False
+      Properties.ShowTime = False
       TabOrder = 0
       Width = 103
     end
     object edmIPAddr: TcxMaskEdit
-      Left = 128
-      Top = 110
-      Properties.Alignment.Horz = taCenter
+      Left = 127
+      Top = 107
+      Properties.Alignment.Horz = taLeftJustify
       Properties.EditMask = '!999.999.999.999;1;_'
       TabOrder = 4
       Text = '127.  0.  0.  1'
-      Width = 145
+      Width = 103
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 163
-    Width = 360
+    Width = 364
     ExplicitTop = 163
-    ExplicitWidth = 360
+    ExplicitWidth = 364
     inherited pnlFooter: TPanel
-      Width = 360
-      ExplicitWidth = 360
+      Width = 364
+      ExplicitWidth = 364
       inherited btnClose: TcxButton
-        Left = 283
+        Left = 287
         Action = actCancel
-        ExplicitLeft = 283
+        ExplicitLeft = 287
       end
       inherited btnSave: TcxButton
-        Left = 114
+        Left = 194
         Action = actSave
-        ExplicitLeft = 114
+        ExplicitLeft = 194
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 206
-        ExplicitLeft = 206
+        Left = 117
+        Action = actPrint
+        ExplicitLeft = 117
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 360
-      ExplicitWidth = 360
+      Width = 364
+      ExplicitWidth = 364
       inherited lbCTRLEnter: TLabel
-        Left = 2
+        Left = 189
         Height = 15
-        ExplicitLeft = 2
+        ExplicitLeft = 189
       end
       inherited lbEscape: TLabel
-        Left = 276
+        Left = 280
         Height = 15
-        ExplicitLeft = 276
+        ExplicitLeft = 280
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 200
-        ExplicitLeft = 200
+        Left = 113
+        Height = 15
+        ExplicitLeft = 113
       end
     end
   end
