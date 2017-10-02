@@ -189,6 +189,7 @@ type
     procedure SetValue(ARec, ACol : Integer; AValue : Variant);
     function Double(ARec, ACol : Integer): Double;
     function Date(ARec, ACol : Integer): TDatetime;
+    function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
     function Int(ARec, ACol : Integer): Integer;
     function Text(ARec, ACol : Integer): string;
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
@@ -1544,6 +1545,25 @@ end;
 function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
 begin
   Result := VarToDateTime(Self.DataController.Values[ARec, ACol]);
+end;
+
+function TcxGridTableViewHelper.GetFooterSummary(aColumn: TcxGridColumn):
+    Variant;
+var
+  i: Integer;
+begin
+  Result := 0;
+
+  with Self.DataController.Summary do
+  begin
+    for i :=0 to FooterSummaryItems.Count-1 do
+    begin
+//      If FooterSummaryItems.Items[i].ItemLink.ClassName <> aColumn.ClassName then
+//        continue;
+      If FooterSummaryItems.Items[i].ItemLink = aColumn then
+        Result := FooterSummaryValues[i];
+    end;
+  end;
 end;
 
 function TcxGridTableViewHelper.Int(ARec, ACol : Integer): Integer;

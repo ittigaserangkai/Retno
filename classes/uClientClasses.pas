@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 09/22/17 11:25:38 AM
+// 25/09/2017 16:35:24
 //
 
 unit uClientClasses;
@@ -310,6 +310,8 @@ type
     FRekeningBCOLain_GetDSLookupCommand_Cache: TDSRestCommand;
     FRekening_GetDSLookupLvlCommand: TDSRestCommand;
     FRekening_GetDSLookupLvlCommand_Cache: TDSRestCommand;
+    FJurnal_GetDSOverviewCommand: TDSRestCommand;
+    FJurnal_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -539,6 +541,8 @@ type
     function RekeningBCOLain_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSLookupLvl(const ARequestFilter: string = ''): TDataSet;
     function Rekening_GetDSLookupLvl_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Jurnal_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Jurnal_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -2582,6 +2586,16 @@ const
   );
 
   TDSProvider_Rekening_GetDSLookupLvl_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Jurnal_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Jurnal_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -8313,6 +8327,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekening_GetDSLookupLvlCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Jurnal_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FJurnal_GetDSOverviewCommand = nil then
+  begin
+    FJurnal_GetDSOverviewCommand := FConnection.CreateCommand;
+    FJurnal_GetDSOverviewCommand.RequestType := 'GET';
+    FJurnal_GetDSOverviewCommand.Text := 'TDSProvider.Jurnal_GetDSOverview';
+    FJurnal_GetDSOverviewCommand.Prepare(TDSProvider_Jurnal_GetDSOverview);
+  end;
+  FJurnal_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FJurnal_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FJurnal_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Jurnal_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FJurnal_GetDSOverviewCommand_Cache = nil then
+  begin
+    FJurnal_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FJurnal_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FJurnal_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Jurnal_GetDSOverview';
+    FJurnal_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Jurnal_GetDSOverview_Cache);
+  end;
+  FJurnal_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FJurnal_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -8550,6 +8593,8 @@ begin
   FRekeningBCOLain_GetDSLookupCommand_Cache.DisposeOf;
   FRekening_GetDSLookupLvlCommand.DisposeOf;
   FRekening_GetDSLookupLvlCommand_Cache.DisposeOf;
+  FJurnal_GetDSOverviewCommand.DisposeOf;
+  FJurnal_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

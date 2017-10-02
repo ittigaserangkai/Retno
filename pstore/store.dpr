@@ -203,7 +203,6 @@ uses
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModQuotation in '..\model\uModQuotation.pas',
   ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
   ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
@@ -213,7 +212,8 @@ uses
   uModRekening in '..\model\uModRekening.pas',
   ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
-  uModOrganization in '..\model\uModOrganization.pas';
+  uModOrganization in '..\model\uModOrganization.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
