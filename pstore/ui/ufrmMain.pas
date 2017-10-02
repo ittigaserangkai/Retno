@@ -241,6 +241,11 @@ type
     dxbrbtnWastageReal: TdxBarButton;
     dxbrbtnDSA: TdxBarButton;
     dxrbntbTrader: TdxRibbonTab;
+    dxrbntbSupvCashier: TdxRibbonTab;
+    dxbrmngrStoreBar1: TdxBar;
+    dxbrbtnActivatePOS: TdxBarButton;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxbrbtnBeginningBalance: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -330,14 +335,12 @@ type
 //    procedure SetLoginFullname(const Value: string);
 //    procedure SetLoginRole(const Value: string);
     procedure SettingMainMenu(ARole: TRole);
-    { Private declarations }
   public
     Host, IP: string;
     Port: integer;
     class procedure ShowBorwseForm(BrowseFormClass: TMasterBrowseClass);
 //    property IsStore: Integer read FIsStore write FIsStore;
     property IsTesting: Boolean read FIsTesting write FIsTesting;
-    { Public declarations }
   published
 //    property LoginFullname: string read FLoginFullname write SetLoginFullname;
 //    property LoginRole: string read FLoginRole write SetLoginRole;
@@ -382,7 +385,7 @@ uses
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
-    frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+  frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actactListMemberTransactionExecute(Sender: TObject);
@@ -407,7 +410,7 @@ end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
 begin
-    frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
+  frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actCancellingPOExecute(Sender: TObject);

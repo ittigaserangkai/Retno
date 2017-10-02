@@ -6,12 +6,13 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, ActnList, Mask,
   System.Actions, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter,
-  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
+  cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
   Vcl.ComCtrls, dxCore, cxDateUtils, ufraFooter4Button, cxButtons, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, cxPC, Vcl.Menus;
+  cxGrid, cxPC, Vcl.Menus, Datasnap.DBClient, System.Generics.Collections,
+  uModApp, uModSetupPOS, cxCustomData, cxFilter, cxData;
 
 type
   TfrmActivatePOS = class(TfrmMasterBrowse)
@@ -20,32 +21,33 @@ type
     lblCheckAll: TcxLabel;
     lblClearAll: TcxLabel;
     actActivatePOS: TAction;
+    procedure FormCreate(Sender: TObject);
     procedure actActivatePOSExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
     procedure lblCheckAllClick(Sender: TObject);
     procedure lblClearAllClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure strgGridCanEditCell(Sender: TObject; ARow, ACol: Integer;
-      var CanEdit: Boolean);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
-    procedure fraFooter5Button1btnUpdateClick(Sender: TObject);
+    procedure lblCheckAllMouseEnter(Sender: TObject);
+    procedure lblCheckAllMouseLeave(Sender: TObject);
+    procedure lblClearAllMouseEnter(Sender: TObject);
+    procedure lblClearAllMouseLeave(Sender: TObject);
   private
+    FCDS: TClientDataSet;
     function GetFilterPOSCode: string;
     function IsBisaSimpan: Boolean;
     //dataActivePOS: TResultDataSet;
     procedure ParseHeaderGrid(jmlData: Integer);
     procedure ParseDataGrid();
     procedure prepareEdit();
+    property CDS: TClientDataSet read FCDS write FCDS;
   public
     function IsBelumResetBB: Boolean;
-    { Public declarations }
+    procedure RefreshData; override;
   end;
 
 var
@@ -53,22 +55,30 @@ var
 
 implementation
 
-uses ufrmDialogActivatePOS, uTSCommonDlg, uConstanta, uAppUtils;
+uses
+  ufrmDialogActivatePOS, uTSCommonDlg, uConstanta, uAppUtils, uDBUtils, uDXUtils,
+  uDMClient, uRetnoUnit;
 
-const
-  _ColPosCode = 1;
-  _ColCheckBox = 0;
-  _ColStatus = 5;
+//const
+//  _ColPosCode = 1;
+//  _ColCheckBox = 0;
+//  _ColStatus = 5;
 
 {$R *.dfm}
 
-procedure TfrmActivatePOS.actActivatePOSExecute(Sender: TObject);
-var chkStatue,CancelStatue: Boolean;
-    intI: Integer;
-    POSID: Integer;
+procedure TfrmActivatePOS.FormCreate(Sender: TObject);
 begin
   inherited;
-  {
+  lblHeader.Caption:= 'POS ACTIVATION';
+end;
+
+procedure TfrmActivatePOS.actActivatePOSExecute(Sender: TObject);
+var
+  lListPOS: TObjectList<TModApp>;
+  lModPOS: TModSetupPOS;
+begin
+  inherited;
+{
   if not IsValidDateKarenaEOD(masternewunit.id,dtActivate.Date,FMasterIsStore) then
     Exit;
 
@@ -80,57 +90,33 @@ begin
     CommonDlg.ShowMessage('Masih ada POS yang belum direset');
     Exit;
   end;
-
-  if (CommonDlg.Confirm('Anda Yakin Akan Mengakatifkan POS (Tanggal : ' + FormatDateTime('dd/MMM/yyyy', dtActivate.Date) + ') ?') = mrYes) then
+}
+  if (CommonDlg.Confirm('Anda Yakin Akan Mengaktifkan POS (Tanggal : ' + FormatDateTime('dd/MMM/yyyy', dtAkhirFilter.Date) + ') ?') = mrYes) then
   begin
-    CancelStatue := False;
-    for intI := 1 to strgGrid.RowCount - 1 do
-    begin
-      strgGrid.GetCheckBoxState(0,intI,chkStatue);
-      POSID := StrToInt(strgGrid.Cells[7,intI]);
-      if strgGrid.Cells[_colStatus,intI] <> 'ACTIVE' then
+    lListPOS := TObjectList<TModApp>.Create();
+    try
+      CDS.First;
+      while not CDS.Eof do
       begin
-        if chkStatue then
+        if CDS.FieldByName('CHECK').AsBoolean = True then
         begin
-          with TPOS.Create(Self) do
-          begin
-            try
-              if LoadByID(POSID,masternewunit.id) then
-              begin
-                if not ActivateAndSaveToDB(dtActivate.Date) then
-                begin
-                  CancelStatue := True;
-                  Break;
-                end;
-              end;
-            finally
-              Free;
-            end;  // try/finally
-          end;    // with
+          lModPOS := DMClient.CrudClient.Retrieve(TModSetupPOS.ClassName, CDS.FieldByName('SETUPPOS_ID').AsString) as TModSetupPOS;
+          lModPOS.SETUPPOS_IS_ACTIVE := 1;
+          lListPOS.Add(lModPOS);
         end;
+        CDS.Next;
       end;
-    end; // for to do
 
-    if CancelStatue then
-    begin
-      cRollbackTrans;
-      CommonDlg.ShowError(POS_ACTIVATION_FAILED);
-    end
-    else
-    begin
-      cCommitTrans;
-      CommonDlg.ShowConfirmGlobal(POS_ACTIVATION_SUCCESSFULLY);
-      actRefreshActivatePOSExecute(Self);
+      if DMClient.CrudClient.SaveBatch(lListPOS) then
+      begin
+        FreeAndNil(lListPOS);
+        TAppUtils.Information(CONF_EDIT_SUCCESSFULLY, False);
+      end;
+    except
+      TAppUtils.Error(ER_UPDATE_FAILED);
+      raise;
     end;
   end;
-  }
-end;
-
-procedure TfrmActivatePOS.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-  Action := caFree;
 end;
 
 procedure TfrmActivatePOS.FormDestroy(Sender: TObject);
@@ -140,9 +126,10 @@ begin
 end;
 
 procedure TfrmActivatePOS.ParseDataGrid;
-var intI: Integer;
+var
+//  intI: Integer;
   sSQL: string;
-    tempTransc: string;
+//  tempTransc: string;
 begin
   sSQL := 'SELECT * FROM SETUPPOS'
           + ' where setuppos_date = ' + TAppUtils.QuotD(dtAwalFilter.Date)
@@ -247,8 +234,9 @@ procedure TfrmActivatePOS.prepareEdit();
     iLen:= i;
     Result:= sTmp;
   end;
-var sTmp: String;
-    iLen,iStart: Byte;
+//var
+//  sTmp: String;
+//  iLen,iStart: Byte;
 begin
   {
   if strgGrid.Cells[5,strgGrid.Row] = 'ACTIVE' then
@@ -302,6 +290,7 @@ end;
 procedure TfrmActivatePOS.actAddExecute(Sender: TObject);
 begin
   inherited;
+  {
   if not assigned(frmDialogActivePOS) then
     Application.CreateForm(TfrmDialogActivePOS, frmDialogActivePOS);
 
@@ -316,6 +305,8 @@ begin
     CommonDlg.ShowConfirmSuccessfull(atAdd);
   end;
   frmDialogActivePOS.Free;
+  }
+  ShowDialogForm(TfrmDialogActivePOS);
 end;
 
 procedure TfrmActivatePOS.actEditExecute(Sender: TObject);
@@ -339,16 +330,11 @@ begin
   end;
   frmDialogActivePOS.Free;
   }
-end;
-
-procedure TfrmActivatePOS.actRefreshExecute(Sender: TObject);
-begin
-  inherited;
-  ParseDataGrid;
+  ShowDialogForm(TfrmDialogActivePOS, CDS.FieldByName('SETUPPOS_ID').AsString);
 end;
 
 procedure TfrmActivatePOS.lblCheckAllClick(Sender: TObject);
-var i: Integer;
+//var i: Integer;
 begin
   {with strgGrid do
   begin
@@ -358,10 +344,19 @@ begin
     end;
   end;
   }
+
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    CDS.Edit;
+    CDS.FieldByName('CHECK').AsBoolean := True;
+    CDS.Post;
+    CDS.Next;
+  end;
 end;
 
 procedure TfrmActivatePOS.lblClearAllClick(Sender: TObject);
-var i: Integer;
+//var i: Integer;
 begin
   {with strgGrid do
   begin
@@ -371,48 +366,36 @@ begin
     end;
   end;
   }
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    CDS.Edit;
+    CDS.FieldByName('CHECK').AsBoolean := False;
+    CDS.Post;
+    CDS.Next;
+  end;
 end;
 
 procedure TfrmActivatePOS.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  if Key = VK_F9 then actActivatePOSExecute(Self);   
-end;
-
-procedure TfrmActivatePOS.strgGridCanEditCell(Sender: TObject; ARow,
-  ACol: Integer; var CanEdit: Boolean);
-begin
-  if (ACol in [0]) then CanEdit := true;
+  if Key = VK_F9 then
+    actActivatePOSExecute(Self);
 end;
 
 procedure TfrmActivatePOS.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  if (Key = VK_RETURN) and (ssctrl in Shift) then
-    actActivatePOSExecute(Sender);
-end;
-
-procedure TfrmActivatePOS.FormShow(Sender: TObject);
-begin
-  inherited;      
-  lblHeader.Caption := 'POS ACTIVATION';
-  ParseDataGrid;
-//  dtAwalFilter.Date := cGetServerTime;
-  actRefreshExecute(nil);
-end;
-
-procedure TfrmActivatePOS.fraFooter5Button1btnUpdateClick(Sender: TObject);
-begin
-  inherited;
-  prepareEdit;
+//  if (Key = VK_RETURN) and (ssctrl in Shift) then
+//    actActivatePOSExecute(Sender);
 end;
 
 function TfrmActivatePOS.GetFilterPOSCode: string;
-var
-  chkStatue: Boolean;
-  intI: Integer;
+//var
+//  chkStatue: Boolean;
+//  intI: Integer;
 begin
   Result := '';
   {
@@ -436,7 +419,7 @@ end;
 
 function TfrmActivatePOS.IsBelumResetBB: Boolean;
 var
-  sDaftarTanggal: string;
+//  sDaftarTanggal: string;
   sSQL: String;
 begin
   Result := False;
@@ -478,13 +461,14 @@ begin
 end;
 
 function TfrmActivatePOS.IsBisaSimpan: Boolean;
-var
-  i: Integer;
-  iCountActive: Integer;
-  IsChecked: Boolean;
+//var
+//  i: Integer;
+//  iCountActive: Integer;
+//  IsChecked: Boolean;
 begin
-  Result := False;
   {
+  Result := False;
+
   iCountActive := 0;
   for i := 1 to strgGrid.RowCount - 1 do
   begin
@@ -506,6 +490,41 @@ begin
   end;
   }
   Result := True;
+end;
+
+procedure TfrmActivatePOS.lblCheckAllMouseEnter(Sender: TObject);
+begin
+  inherited;
+  lblCheckAll.Style.TextStyle := [fsUnderline];
+end;
+
+procedure TfrmActivatePOS.lblCheckAllMouseLeave(Sender: TObject);
+begin
+  inherited;
+  lblCheckAll.Style.TextStyle := [];
+end;
+
+procedure TfrmActivatePOS.lblClearAllMouseEnter(Sender: TObject);
+begin
+  inherited;
+  lblClearAll.Style.TextStyle := [fsUnderline];
+end;
+
+procedure TfrmActivatePOS.lblClearAllMouseLeave(Sender: TObject);
+begin
+  inherited;
+  lblClearAll.Style.TextStyle := [];
+end;
+
+procedure TfrmActivatePOS.RefreshData;
+begin
+  inherited;
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.SetupPOS_GetDSOverview(dtAkhirFilter.Date, TRetno.UnitStore.ID) ,Self );
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['SETUPPOS_ID','SETUPPOS_DATE','AUT$UNIT_ID'],False);
+  cxGridView.SetReadOnlyAllColumns(True);
+  cxGridView.SetReadOnlyColumns(['CHECK'],False);
 end;
 
 end.

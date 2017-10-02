@@ -8,25 +8,24 @@ uses
   uConstanta, ActnList, System.Actions, ufraFooterDialog3Button, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.ComCtrls, dxCore, cxDateUtils, cxMaskEdit, cxTextEdit, cxDropDownEdit,
-  cxCalendar;
+  cxCalendar, uInterface, uClientClasses, uModSetupPOS;
 
 type                             
   TFormMode = (fmAdd, fmEdit);
   
-  TfrmDialogActivePOS = class(TfrmMasterDialog)
+  TfrmDialogActivePOS = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
     edtTerminalCode: TEdit;
     edtTranscNo: TEdit;
     edtCountNo: TEdit;
-    dt1: TcxDateEdit;
+    dtSetupPOS: TcxDateEdit;
     lbl4: TLabel;
     Label1: TLabel;
     edmIPAddr: TcxMaskEdit;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure edtTranscNoKeyPress(Sender: TObject; var Key: Char);
     procedure edtCountNoKeyPress(Sender: TObject; var Key: Char);
@@ -39,13 +38,21 @@ type
   private
     FIsProcessSuccessfull: boolean;
     FFormMode: TFormMode;
+    FModSetupPOS: TModSetupPOS;
+    procedure ClearForm;
+    function GenerateTransactionNo(APOSCode: String; ADate: TDateTime): string;
+    function GetModSetupPOS: TModSetupPOS;
+    function IsValidate: Boolean;
+    procedure SavingData;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
+    property ModSetupPOS: TModSetupPOS read GetModSetupPOS write FModSetupPOS;
   public
     SetupPOS_ID: Integer;
     SetupPOS_Status: SmallInt;
     function IsKodePosSudahAda(aKodePOS : String; aTgl : TDateTime; aPosID :
         Integer; aUnitID : Integer): Boolean;
+    procedure LoadData(AID: string);
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
     property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
@@ -56,13 +63,20 @@ var
 
 implementation
 
-uses uTSCommonDlg,  DB, uAppUtils;
+uses
+  DB, uAppUtils, uDMClient, uRetnoUnit;
 
 {$R *.dfm}
 
 procedure TfrmDialogActivePOS.actDeleteExecute(Sender: TObject);
 begin
   inherited;
+  if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
+  begin
+    DMClient.CrudClient.DeleteFromDB(ModSetupPOS);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.Close;
+  end;
   {if not IsValidDateKarenaEOD(masternewunit.id,cGetServerTime,FMasterIsStore) then
     Exit;
 
@@ -104,14 +118,17 @@ end;
 procedure TfrmDialogActivePOS.actSaveExecute(Sender: TObject);
 begin
   inherited;
+  if IsValidate then
+    SavingData;
+
   IsProcessSuccessfull := False;
 
-  if edtTerminalCode.Text = '' then
-  begin
-    CommonDlg.ShowErrorEmpty('POS CODE');
-    edtTerminalCode.SetFocus;
-    Exit;
-  end;
+//  if edtTerminalCode.Text = '' then
+//  begin
+//    CommonDlg.ShowErrorEmpty('POS CODE');
+//    edtTerminalCode.SetFocus;
+//    Exit;
+//  end;
   {
   if not IsValidDateKarenaEOD(dialogunit,dt1.Date,FMasterIsStore) then
     Exit;
@@ -161,11 +178,13 @@ begin
   Close;
 end;
 
-procedure TfrmDialogActivePOS.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmDialogActivePOS.ClearForm;
 begin
-  inherited;
-  Action := caFree;
+  dtSetupPOS.Date := Now;
+  edtTerminalCode.Clear;
+  edtTranscNo.Clear;
+  edtCountNo.Text := '0';
+  edmIPAddr.Clear;
 end;
 
 procedure TfrmDialogActivePOS.FormDestroy(Sender: TObject);
@@ -199,13 +218,15 @@ end;
 
 procedure TfrmDialogActivePOS.edtTerminalCodeChange(Sender: TObject);
 begin
-//  edtTranscNo.Text := TPOS.GenerateTransactionNo(edtTerminalCode.Text,dt1.Date);
+  edtTranscNo.Text := GenerateTransactionNo(edtTerminalCode.Text, dtSetupPOS.Date);
 end;
 
 procedure TfrmDialogActivePOS.FormCreate(Sender: TObject);
 begin
   inherited;
-  SetupPOS_ID := 0;
+//  SetupPOS_ID := 0;
+  ClearForm;
+  Self.AssignKeyDownEvent;
 end;
 
 function TfrmDialogActivePOS.IsKodePosSudahAda(aKodePOS : String; aTgl :
@@ -216,10 +237,10 @@ begin
   Result := False;
 
   sSQL := 'select count(setuppos_id) from setuppos'
-          + ' where setuppos_terminal_code = ' + QuotedStr(aKodePOS)
-          + ' and setuppos_date = ' + TAppUtils.QuotD(aTgl)
-          + ' and setuppos_id <> ' + IntToStr(aPosID)
-          + ' and setuppos_unt_id = ' + IntToStr(aUnitID);
+        + ' where setuppos_terminal_code = ' + QuotedStr(aKodePOS)
+        + ' and setuppos_date = ' + TAppUtils.QuotD(aTgl)
+        + ' and setuppos_id <> ' + IntToStr(aPosID)
+        + ' and setuppos_unt_id = ' + IntToStr(aUnitID);
   {
   with cOpenQuery(sSQL) do
   begin
@@ -243,6 +264,33 @@ begin
     actCancelExecute(Self);
 end;
 
+function TfrmDialogActivePOS.GenerateTransactionNo(APOSCode: String; ADate:
+    TDateTime): string;
+begin
+  Result := APOSCode.PadRight(2,'0') + FormatDateTime('ddmmyy',ADate);
+  Result := Result.PadRight(12,'0')
+end;
+
+function TfrmDialogActivePOS.GetModSetupPOS: TModSetupPOS;
+begin
+  if not Assigned(FModSetupPOS) then
+    FModSetupPOS := TModSetupPOS.Create;
+
+  Result := FModSetupPOS;
+end;
+
+function TfrmDialogActivePOS.IsValidate: Boolean;
+begin
+  Result := False;
+
+  if edtTerminalCode.Text = '' then
+  begin
+    TAppUtils.Warning('POS Code belum diisi');
+    exit;
+  end else
+    Result := True;
+end;
+
 procedure TfrmDialogActivePOS.jvpdrsPOSKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
@@ -251,6 +299,45 @@ begin
     actSaveExecute(Self);
   if (Key = VK_Escape) then
   actCancelExecute(Self);
+end;
+
+procedure TfrmDialogActivePOS.LoadData(AID: string);
+begin
+  if Assigned(FModSetupPOS) then
+    FreeAndNil(FModSetupPOS);
+
+  FModSetupPOS := DMClient.CrudClient.Retrieve(TModSetupPOS.ClassName, AID) as TModSetupPOS;
+
+  if AID = '' then
+  begin
+    ModSetupPOS.SETUPPOS_IS_ACTIVE     := 0;
+    ModSetupPOS.SETUPPOS_IS_RESET      := 1;
+  end;
+
+  dtSetupPOS.Date       := ModSetupPOS.SETUPPOS_DATE;
+  edtTerminalCode.Text  := ModSetupPOS.SETUPPOS_TERMINAL_CODE;
+  edtTranscNo.Text      := ModSetupPOS.SETUPPOS_NO_TRANSAKSI;
+  edtCountNo.Text       := IntToStr(ModSetupPOS.SETUPPOS_COUNTER_NO);
+  edmIPAddr.Text        := ModSetupPOS.SETUPPOS_IP;
+end;
+
+procedure TfrmDialogActivePOS.SavingData;
+begin
+  ModSetupPOS.SETUPPOS_DATE          := dtSetupPOS.Date;
+  ModSetupPOS.SETUPPOS_TERMINAL_CODE := edtTerminalCode.Text;
+  ModSetupPOS.SETUPPOS_NO_TRANSAKSI  := edtTranscNo.Text;
+  ModSetupPOS.SETUPPOS_COUNTER_NO    := StrToInt(edtCountNo.Text);
+  ModSetupPOS.SETUPPOS_IP            := edmIPAddr.Text;
+  ModSetupPOS.AUTUNIT                := TRetno.UnitStore;
+
+  Try
+    DMClient.CrudClient.SaveToDB(ModSetupPOS);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    Raise;
+  End;
 end;
 
 end.

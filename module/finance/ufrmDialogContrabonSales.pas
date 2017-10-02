@@ -228,7 +228,7 @@ procedure TfrmDialogContrabonSales.edOrganizationPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
   inherited;
-  with TfrmCXLookup.Execute(CDSOrganisasi,False, 'Look Up PO') do
+  with TfrmCXLookup.Execute(CDSOrganisasi,False, 'Look Up Data') do
   begin
     Try
       HideFields(['V_ORGANIZATION_ID', 'ORG_MerchandiseGroup_id','ORG_Member_ID','ORG_Karyawan_ID','DATE_CREATE','DATE_MODIFY']);

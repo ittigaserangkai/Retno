@@ -236,8 +236,9 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uModJurnal in '..\model\uModJurnal.pas',
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uModAR in '..\model\uModAR.pas',
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModJurnal in '..\model\uModJurnal.pas';
 
 {$R *.res}
 

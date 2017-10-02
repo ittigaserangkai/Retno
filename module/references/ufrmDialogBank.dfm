@@ -83,11 +83,11 @@ inherited frmDialogBank: TfrmDialogBank
     object edtCode: TEdit
       Left = 92
       Top = 12
-      Width = 101
+      Width = 174
       Height = 22
       CharCase = ecUpperCase
       Ctl3D = False
-      MaxLength = 8
+      MaxLength = 30
       ParentCtl3D = False
       TabOrder = 0
     end

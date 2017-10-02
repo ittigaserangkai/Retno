@@ -529,7 +529,7 @@ uses
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
-  uModSettingApp;
+  uModSettingApp, uTSCommonDlg;
 
 {$R *.dfm}
 
@@ -829,6 +829,7 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  Msg: string;
   sIDUnit: string;
 begin
   FFormProperty   := TFormProperty.Create;
@@ -852,8 +853,8 @@ begin
 
 //  FFilePathReport := GetFilePathReport;
 
-  frmMain.Height := 640;
-  frmMain.Width := 800;
+  frmMain.Height  := 640;
+  frmMain.Width   := 800;
   frmMain.Caption := ParamStr(0) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
@@ -879,7 +880,13 @@ begin
         TRetno.UnitStore, TRetno.UnitStore.ID));
     except
       on E:Exception do
-        TAppUtils.Error(e.Message);
+      begin
+        if E is EHTTPProtocolException then
+          Msg := EHTTPProtocolException(E).ErrorMessage;
+
+        //notif saja. jangan warning
+        CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
+      end;
     end;
   end;
 end;

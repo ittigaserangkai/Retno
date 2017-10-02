@@ -470,6 +470,7 @@ inherited frmDialogClaim: TfrmDialogClaim
           DataController.Summary.FooterSummaryItems = <
             item
               Format = ',0.##;(,0.##)'
+              Kind = skSum
               Column = cxGridColDNNominal
             end>
           DataController.Summary.SummaryGroups = <>
@@ -519,6 +520,7 @@ inherited frmDialogClaim: TfrmDialogClaim
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <
             item
+              Format = ',0.#;(,0.##)'
               Kind = skSum
               Column = cxGridColOtherNominal
             end>
@@ -551,7 +553,13 @@ inherited frmDialogClaim: TfrmDialogClaim
             Properties.ImmediatePost = True
             Properties.OnEditValueChanged = cxGridColOtherAccountNamePropertiesEditValueChanged
             HeaderAlignmentHorz = taCenter
-            Width = 227
+            Width = 173
+          end
+          object cxgridColOtherKeterangan: TcxGridDBColumn
+            Caption = 'Keterangan'
+            DataBinding.FieldName = 'CLMD_Other_Description'
+            HeaderAlignmentHorz = taCenter
+            Width = 129
           end
           object cxGridColOtherNominal: TcxGridDBColumn
             Caption = 'Nominal'
@@ -689,8 +697,14 @@ inherited frmDialogClaim: TfrmDialogClaim
         object cxGridDBTableCS: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0.#;(,0.##)'
+              Kind = skSum
+              Column = cxGridColCSDate
+            end>
           DataController.Summary.SummaryGroups = <>
+          OptionsView.Footer = True
           OptionsView.GroupByBox = False
           Styles.Header = DMClient.cxStyleGridHeader
           object cxGridColCSNo: TcxGridDBColumn

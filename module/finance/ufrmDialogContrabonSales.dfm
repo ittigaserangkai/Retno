@@ -10,8 +10,6 @@ inherited frmDialogContrabonSales: TfrmDialogContrabonSales
   inherited pnlBody: TPanel
     Width = 700
     Height = 382
-    ExplicitLeft = 56
-    ExplicitTop = -6
     ExplicitWidth = 700
     ExplicitHeight = 382
     object pnlHeader: TPanel
