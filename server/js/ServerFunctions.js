@@ -1,6 +1,6 @@
 ﻿// 
 // Created by the DataSnap proxy generator.
-// 31/08/2017 14:50:44
+// 9/29/2017 2:14:43 PM
 // 
 
 function DSAdmin(connectionInfo)
@@ -891,6 +891,24 @@ function TCrud(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -948,30 +966,6 @@ function TCrud(connectionInfo)
     }
   };
 
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
   this.AfterExecuteMethod = function() {
     this.executor.executeMethod('AfterExecuteMethod', "GET", [], arguments[0], false, arguments[1], arguments[2]);
   };
@@ -986,10 +980,38 @@ function TDSProvider(connectionInfo)
   this.executor = new ServerFunctionExecutor("TDSProvider",connectionInfo);
 
   /*
+   * @param aStartDate [in] - Type on server: TDateTime
+   * @param aEndDate [in] - Type on server: TDateTime
    * @return result - Type on server: TDataSet
    */
-  this.Bank_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Bank_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+  this.AdjFaktur_GetDSOverview = function(aStartDate, aEndDate) {
+    var returnObject = this.executor.executeMethod('AdjFaktur_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aStartDate = aStartDate;
+        resultObject.aEndDate = aEndDate;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.AdjFaktur_GetDSOverview_URL = function(aStartDate, aEndDate) {
+    return this.executor.getMethodURL("AdjFaktur_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Agama_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Agama_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -1005,41 +1027,15 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Bank_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Bank_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @param RLevel [in] - Type on server: Integer
-   * @return result - Type on server: TDataSet
-   */
-  this.Rekening_GetDSLookup = function(RLevel) {
-    var returnObject = this.executor.executeMethod('Rekening_GetDSLookup', "GET", [RLevel], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.RLevel = RLevel;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Rekening_GetDSLookup_URL = function(RLevel) {
-    return this.executor.getMethodURL("Rekening_GetDSLookup", "GET", [RLevel], arguments[1])[0];
+  this.Agama_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Agama_GetDSLookup", "GET", [], arguments[0])[0];
   };
 
   /*
    * @return result - Type on server: TDataSet
    */
-  this.RefPajak_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('RefPajak_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+  this.Agama_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Agama_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -1055,728 +1051,8 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.RefPajak_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("RefPajak_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefTipeBarang_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('RefTipeBarang_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefTipeBarang_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("RefTipeBarang_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.GroupRekening_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('GroupRekening_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.GroupRekening_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("GroupRekening_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Rekening_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Rekening_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Rekening_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Rekening_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Member_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Member_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Member_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Member_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.MemberActivasi_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('MemberActivasi_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.MemberActivasi_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("MemberActivasi_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefDiscMember_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('RefDiscMember_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefDiscMember_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("RefDiscMember_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.MemberKeluarga_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('MemberKeluarga_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.MemberKeluarga_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("MemberKeluarga_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefGrupMember_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('RefGrupMember_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefGrupMember_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("RefGrupMember_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Satuan_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Satuan_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Satuan_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Satuan_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.CostCenter_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('CostCenter_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.CostCenter_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("CostCenter_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Company_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Company_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Company_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Company_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.CostCenter_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('CostCenter_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.CostCenter_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("CostCenter_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Company_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Company_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Company_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Company_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipePembayaran_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipePembayaran_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipePembayaran_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipePembayaran_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipePerusahaan_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipePerusahaan_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipePerusahaan_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipePerusahaan_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Outlet_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Outlet_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Outlet_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Outlet_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Lokasi_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Lokasi_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Lokasi_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Lokasi_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Merchandise_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Merchandise_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Merchandise_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Merchandise_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.MerchandiseGroup_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('MerchandiseGroup_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.MerchandiseGroup_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("MerchandiseGroup_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.SubGroup_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('SubGroup_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.SubGroup_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("SubGroup_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Satuan_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Satuan_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Satuan_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Satuan_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Kategori_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Kategori_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Kategori_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Kategori_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Merk_GetDSLookUp = function() {
-    var returnObject = this.executor.executeMethod('Merk_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Merk_GetDSLookUp_URL = function() {
-    return this.executor.getMethodURL("Merk_GetDSLookUp", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefPajak_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('RefPajak_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefPajak_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("RefPajak_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefTipeBarang_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('RefTipeBarang_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefTipeBarang_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("RefTipeBarang_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipeSuplier_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipeSuplier_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipeSuplier_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipeSuplier_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Unit_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Unit_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Unit_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Unit_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Unit_GetDSLookUp = function() {
-    var returnObject = this.executor.executeMethod('Unit_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Unit_GetDSLookUp_URL = function() {
-    return this.executor.getMethodURL("Unit_GetDSLookUp", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.UnitType_GetDSLookUp = function() {
-    var returnObject = this.executor.executeMethod('UnitType_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.UnitType_GetDSLookUp_URL = function() {
-    return this.executor.getMethodURL("UnitType_GetDSLookUp", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.UnitType_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('UnitType_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.UnitType_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("UnitType_GetDSOverview", "GET", [], arguments[0])[0];
+  this.Agama_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Agama_GetDSOverview", "GET", [], arguments[0])[0];
   };
 
   /*
@@ -1830,8 +1106,8 @@ function TDSProvider(connectionInfo)
   /*
    * @return result - Type on server: TDataSet
    */
-  this.Bank_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Bank_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+  this.AP_GetDSLookUp = function() {
+    var returnObject = this.executor.executeMethod('AP_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -1847,23 +1123,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Bank_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Bank_GetDSLookup", "GET", [], arguments[0])[0];
+  this.AP_GetDSLookUp_URL = function() {
+    return this.executor.getMethodURL("AP_GetDSLookUp", "GET", [], arguments[0])[0];
   };
 
   /*
-   * @param aMerchanGroupID [in] - Type on server: string
-   * @param AProductCode [in] - Type on server: string
+   * @param AOrgID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.Barang_GetDSOverview = function(aMerchanGroupID, AProductCode) {
-    var returnObject = this.executor.executeMethod('Barang_GetDSOverview', "GET", [aMerchanGroupID, AProductCode], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
+  this.AP_GetDSLookUpPerOrganization = function(AOrgID) {
+    var returnObject = this.executor.executeMethod('AP_GetDSLookUpPerOrganization', "GET", [AOrgID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aMerchanGroupID = aMerchanGroupID;
-        resultObject.AProductCode = AProductCode;
+        resultObject.AOrgID = AOrgID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -1875,56 +1149,8 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Barang_GetDSOverview_URL = function(aMerchanGroupID, AProductCode) {
-    return this.executor.getMethodURL("Barang_GetDSOverview", "GET", [aMerchanGroupID, AProductCode], arguments[2])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Gudang_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Gudang_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Gudang_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Gudang_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefTipeMember_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('RefTipeMember_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefTipeMember_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("RefTipeMember_GetDSOverview", "GET", [], arguments[0])[0];
+  this.AP_GetDSLookUpPerOrganization_URL = function(AOrgID) {
+    return this.executor.getMethodURL("AP_GetDSLookUpPerOrganization", "GET", [AOrgID], arguments[1])[0];
   };
 
   /*
@@ -1954,318 +1180,6 @@ function TDSProvider(connectionInfo)
   /*
    * @return result - Type on server: TDataSet
    */
-  this.TipeKirimPO_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipeKirimPO_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipeKirimPO_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipeKirimPO_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.SuplierGroup_GetDSOverview1 = function() {
-    var returnObject = this.executor.executeMethod('SuplierGroup_GetDSOverview1', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.SuplierGroup_GetDSOverview1_URL = function() {
-    return this.executor.getMethodURL("SuplierGroup_GetDSOverview1", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.SuplierGroup_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('SuplierGroup_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.SuplierGroup_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("SuplierGroup_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Suplier_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Suplier_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Suplier_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Suplier_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipePerusahaan_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('TipePerusahaan_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipePerusahaan_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("TipePerusahaan_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipeSuplier_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('TipeSuplier_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipeSuplier_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("TipeSuplier_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Propinsi_GetDSLookUp = function() {
-    var returnObject = this.executor.executeMethod('Propinsi_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Propinsi_GetDSLookUp_URL = function() {
-    return this.executor.getMethodURL("Propinsi_GetDSLookUp", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Kabupaten_GetDSLookUp = function() {
-    var returnObject = this.executor.executeMethod('Kabupaten_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Kabupaten_GetDSLookUp_URL = function() {
-    return this.executor.getMethodURL("Kabupaten_GetDSLookUp", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.MataUang_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('MataUang_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.MataUang_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("MataUang_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Agama_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Agama_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Agama_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Agama_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipeBonus_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipeBonus_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipeBonus_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipeBonus_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Document_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Document_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Document_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Document_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Agama_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Agama_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Agama_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Agama_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
   this.AutUnit_GetDSLookup = function() {
     var returnObject = this.executor.executeMethod('AutUnit_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
@@ -2288,16 +1202,14 @@ function TDSProvider(connectionInfo)
   };
 
   /*
-   * @param aMerchandise [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.BarangSupp_GetDSLookup = function(aMerchandise) {
-    var returnObject = this.executor.executeMethod('BarangSupp_GetDSLookup', "GET", [aMerchandise], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
+  this.AutUser_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('AutUser_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aMerchandise = aMerchandise;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2309,8 +1221,110 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.BarangSupp_GetDSLookup_URL = function(aMerchandise) {
-    return this.executor.getMethodURL("BarangSupp_GetDSLookup", "GET", [aMerchandise], arguments[1])[0];
+  this.AutUser_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("AutUser_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @param aGroupName [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.AutUser_GetDSLookUp = function(aGroupName) {
+    var returnObject = this.executor.executeMethod('AutUser_GetDSLookUp', "GET", [aGroupName], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aGroupName = aGroupName;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.AutUser_GetDSLookUp_URL = function(aGroupName) {
+    return this.executor.getMethodURL("AutUser_GetDSLookUp", "GET", [aGroupName], arguments[1])[0];
+  };
+
+  /*
+   * @param APeriodeAwal [in] - Type on server: TDateTime
+   * @param APeriodeAkhir [in] - Type on server: TDateTime
+   * @return result - Type on server: TDataSet
+   */
+  this.BankCashOut_GetDSByPeriod = function(APeriodeAwal, APeriodeAkhir) {
+    var returnObject = this.executor.executeMethod('BankCashOut_GetDSByPeriod', "GET", [APeriodeAwal, APeriodeAkhir], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.APeriodeAwal = APeriodeAwal;
+        resultObject.APeriodeAkhir = APeriodeAkhir;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.BankCashOut_GetDSByPeriod_URL = function(APeriodeAwal, APeriodeAkhir) {
+    return this.executor.getMethodURL("BankCashOut_GetDSByPeriod", "GET", [APeriodeAwal, APeriodeAkhir], arguments[2])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Bank_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Bank_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Bank_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Bank_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Bank_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Bank_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Bank_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Bank_GetDSOverview", "GET", [], arguments[0])[0];
   };
 
   /*
@@ -2337,6 +1351,32 @@ function TDSProvider(connectionInfo)
 
   this.BarangQuotation_GetDSLookup_URL = function(aSuplierMerchanID) {
     return this.executor.getMethodURL("BarangQuotation_GetDSLookup", "GET", [aSuplierMerchanID], arguments[1])[0];
+  };
+
+  /*
+   * @param aMerchandise [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.BarangSupp_GetDSLookup = function(aMerchandise) {
+    var returnObject = this.executor.executeMethod('BarangSupp_GetDSLookup', "GET", [aMerchandise], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aMerchandise = aMerchandise;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.BarangSupp_GetDSLookup_URL = function(aMerchandise) {
+    return this.executor.getMethodURL("BarangSupp_GetDSLookup", "GET", [aMerchandise], arguments[1])[0];
   };
 
   /*
@@ -2418,12 +1458,40 @@ function TDSProvider(connectionInfo)
   };
 
   /*
+   * @param aMerchanGroupID [in] - Type on server: string
+   * @param AProductCode [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.Barang_GetDSOverview = function(aMerchanGroupID, AProductCode) {
+    var returnObject = this.executor.executeMethod('Barang_GetDSOverview', "GET", [aMerchanGroupID, AProductCode], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aMerchanGroupID = aMerchanGroupID;
+        resultObject.AProductCode = AProductCode;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Barang_GetDSOverview_URL = function(aMerchanGroupID, AProductCode) {
+    return this.executor.getMethodURL("Barang_GetDSOverview", "GET", [aMerchanGroupID, AProductCode], arguments[2])[0];
+  };
+
+  /*
    * @param aStartDate [in] - Type on server: TDateTime
    * @param aEndDate [in] - Type on server: TDateTime
    * @return result - Type on server: TDataSet
    */
-  this.Quotation_GetDSOverview = function(aStartDate, aEndDate) {
-    var returnObject = this.executor.executeMethod('Quotation_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
+  this.Claim_GetDSOverview = function(aStartDate, aEndDate) {
+    var returnObject = this.executor.executeMethod('Claim_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
     if (arguments[2] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -2441,41 +1509,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Quotation_GetDSOverview_URL = function(aStartDate, aEndDate) {
-    return this.executor.getMethodURL("Quotation_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
+  this.Claim_GetDSOverview_URL = function(aStartDate, aEndDate) {
+    return this.executor.getMethodURL("Claim_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
   };
 
   /*
-   * @param ATPMEMBER [in] - Type on server: string
-   * @return result - Type on server: string
+   * @param aSuplierMerchanID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
    */
-  this.GET_MEMBER_PAS_NO = function(ATPMEMBER) {
-    var returnObject = this.executor.executeMethod('GET_MEMBER_PAS_NO', "GET", [ATPMEMBER], arguments[1], true, arguments[2], arguments[3]);
+  this.Claim_Lookup_CN = function(aSuplierMerchanID) {
+    var returnObject = this.executor.executeMethod('Claim_Lookup_CN', "GET", [aSuplierMerchanID], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.ATPMEMBER = ATPMEMBER;
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.GET_MEMBER_PAS_NO_URL = function(ATPMEMBER) {
-    return this.executor.getMethodURL("GET_MEMBER_PAS_NO", "GET", [ATPMEMBER], arguments[1])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Merchandise_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('Merchandise_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
+        resultObject.aSuplierMerchanID = aSuplierMerchanID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2487,21 +1535,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Merchandise_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("Merchandise_GetDSOverview", "GET", [], arguments[0])[0];
+  this.Claim_Lookup_CN_URL = function(aSuplierMerchanID) {
+    return this.executor.getMethodURL("Claim_Lookup_CN", "GET", [aSuplierMerchanID], arguments[1])[0];
   };
 
   /*
-   * @param ID [in] - Type on server: string
+   * @param aContrabonID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.SupMGByOutstandingSO_GetDSLookup = function(ID) {
-    var returnObject = this.executor.executeMethod('SupMGByOutstandingSO_GetDSLookup', "GET", [ID], arguments[1], true, arguments[2], arguments[3]);
+  this.Claim_Lookup_Contrabon = function(aContrabonID) {
+    var returnObject = this.executor.executeMethod('Claim_Lookup_Contrabon', "GET", [aContrabonID], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.ID = ID;
+        resultObject.aContrabonID = aContrabonID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2513,19 +1561,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.SupMGByOutstandingSO_GetDSLookup_URL = function(ID) {
-    return this.executor.getMethodURL("SupMGByOutstandingSO_GetDSLookup", "GET", [ID], arguments[1])[0];
+  this.Claim_Lookup_Contrabon_URL = function(aContrabonID) {
+    return this.executor.getMethodURL("Claim_Lookup_Contrabon", "GET", [aContrabonID], arguments[1])[0];
   };
 
   /*
+   * @param aOrganizationID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.StatusPO_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('StatusPO_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.Claim_Lookup_CS = function(aOrganizationID) {
+    var returnObject = this.executor.executeMethod('Claim_Lookup_CS', "GET", [aOrganizationID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aOrganizationID = aOrganizationID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2537,19 +1587,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.StatusPO_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("StatusPO_GetDSLookup", "GET", [], arguments[0])[0];
+  this.Claim_Lookup_CS_URL = function(aOrganizationID) {
+    return this.executor.getMethodURL("Claim_Lookup_CS", "GET", [aOrganizationID], arguments[1])[0];
   };
 
   /*
+   * @param aSuplierMerchanID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.TipeHarga_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('TipeHarga_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.Claim_Lookup_DN = function(aSuplierMerchanID) {
+    var returnObject = this.executor.executeMethod('Claim_Lookup_DN', "GET", [aSuplierMerchanID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aSuplierMerchanID = aSuplierMerchanID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2561,19 +1613,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.TipeHarga_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("TipeHarga_GetDSLookup", "GET", [], arguments[0])[0];
+  this.Claim_Lookup_DN_URL = function(aSuplierMerchanID) {
+    return this.executor.getMethodURL("Claim_Lookup_DN", "GET", [aSuplierMerchanID], arguments[1])[0];
   };
 
   /*
+   * @param aSuplierMerchanID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.RefWilayah_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('RefWilayah_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.Claim_Lookup_DO = function(aSuplierMerchanID) {
+    var returnObject = this.executor.executeMethod('Claim_Lookup_DO', "GET", [aSuplierMerchanID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aSuplierMerchanID = aSuplierMerchanID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2585,19 +1639,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.RefWilayah_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("RefWilayah_GetDSLookup", "GET", [], arguments[0])[0];
+  this.Claim_Lookup_DO_URL = function(aSuplierMerchanID) {
+    return this.executor.getMethodURL("Claim_Lookup_DO", "GET", [aSuplierMerchanID], arguments[1])[0];
   };
 
   /*
+   * @param aID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.Suplier_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Suplier_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.CNDetail_GetDS = function(aID) {
+    var returnObject = this.executor.executeMethod('CNDetail_GetDS', "GET", [aID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aID = aID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2609,80 +1665,8 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.Suplier_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Suplier_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.RefTipeMember_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('RefTipeMember_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.RefTipeMember_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("RefTipeMember_GetDSLookup", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipePO_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipePO_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipePO_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipePO_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.TipeCN_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('TipeCN_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.TipeCN_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("TipeCN_GetDSOverview", "GET", [], arguments[0])[0];
+  this.CNDetail_GetDS_URL = function(aID) {
+    return this.executor.getMethodURL("CNDetail_GetDS", "GET", [aID], arguments[1])[0];
   };
 
   /*
@@ -2691,8 +1675,8 @@ function TDSProvider(connectionInfo)
    * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.SO_GetDSOverview = function(ATglAwal, ATglAkhir, AUnit) {
-    var returnObject = this.executor.executeMethod('"SO_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
+  this.CN_RCV_GetDSOverview = function(ATglAwal, ATglAkhir, AUnit) {
+    var returnObject = this.executor.executeMethod('"CN_RCV_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
     if (arguments[3] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -2712,15 +1696,169 @@ function TDSProvider(connectionInfo)
   };
 
   /*
-   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.SO_GetDSOLookUp = function(AUnit) {
-    var returnObject = this.executor.executeMethod('"SO_GetDSOLookUp"', "POST", [AUnit], arguments[1], true, arguments[2], arguments[3]);
+  this.Company_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Company_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Company_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Company_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Company_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Company_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Company_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Company_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @param aStartDate [in] - Type on server: TDateTime
+   * @param aEndDate [in] - Type on server: TDateTime
+   * @return result - Type on server: TDataSet
+   */
+  this.Contrabon_GetDSOverview = function(aStartDate, aEndDate) {
+    var returnObject = this.executor.executeMethod('Contrabon_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aStartDate = aStartDate;
+        resultObject.aEndDate = aEndDate;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Contrabon_GetDSOverview_URL = function(aStartDate, aEndDate) {
+    return this.executor.getMethodURL("Contrabon_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.CostCenter_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('CostCenter_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.CostCenter_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("CostCenter_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.CostCenter_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('CostCenter_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.CostCenter_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("CostCenter_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @param aID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.DNDetail_GetDS = function(aID) {
+    var returnObject = this.executor.executeMethod('DNDetail_GetDS', "GET", [aID], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aID = aID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.DNDetail_GetDS_URL = function(aID) {
+    return this.executor.getMethodURL("DNDetail_GetDS", "GET", [aID], arguments[1])[0];
+  };
+
+  /*
+   * @param ATglAwal [in] - Type on server: TDateTime
+   * @param ATglAkhir [in] - Type on server: TDateTime
+   * @param AUnit [in] - Type on server: TModUnit
+   * @return result - Type on server: TDataSet
+   */
+  this.DN_RCV_GetDSOverview = function(ATglAwal, ATglAkhir, AUnit) {
+    var returnObject = this.executor.executeMethod('"DN_RCV_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ATglAwal = ATglAwal;
+        resultObject.ATglAkhir = ATglAkhir;
         resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
@@ -2736,8 +1874,8 @@ function TDSProvider(connectionInfo)
   /*
    * @return result - Type on server: TDataSet
    */
-  this.SubGroup_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('SubGroup_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+  this.Document_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Document_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -2753,19 +1891,21 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.SubGroup_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("SubGroup_GetDSOverview", "GET", [], arguments[0])[0];
+  this.Document_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Document_GetDSOverview", "GET", [], arguments[0])[0];
   };
 
   /*
+   * @param aDOID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.SuplierMerchan_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('SuplierMerchan_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.DODetail_LookupAdjFak = function(aDOID) {
+    var returnObject = this.executor.executeMethod('DODetail_LookupAdjFak', "GET", [aDOID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aDOID = aDOID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2777,8 +1917,34 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.SuplierMerchan_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("SuplierMerchan_GetDSLookup", "GET", [], arguments[0])[0];
+  this.DODetail_LookupAdjFak_URL = function(aDOID) {
+    return this.executor.getMethodURL("DODetail_LookupAdjFak", "GET", [aDOID], arguments[1])[0];
+  };
+
+  /*
+   * @param aDOID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.DODetail_WithAdj = function(aDOID) {
+    var returnObject = this.executor.executeMethod('DODetail_WithAdj', "GET", [aDOID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aDOID = aDOID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.DODetail_WithAdj_URL = function(aDOID) {
+    return this.executor.getMethodURL("DODetail_WithAdj", "GET", [aDOID], arguments[1])[0];
   };
 
   /*
@@ -2838,6 +2004,52 @@ function TDSProvider(connectionInfo)
   };
 
   /*
+   * @param ATPMEMBER [in] - Type on server: string
+   * @return result - Type on server: string
+   */
+  this.GET_MEMBER_PAS_NO = function(ATPMEMBER) {
+    var returnObject = this.executor.executeMethod('GET_MEMBER_PAS_NO', "GET", [ATPMEMBER], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ATPMEMBER = ATPMEMBER;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GET_MEMBER_PAS_NO_URL = function(ATPMEMBER) {
+    return this.executor.getMethodURL("GET_MEMBER_PAS_NO", "GET", [ATPMEMBER], arguments[1])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.GroupRekening_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('GroupRekening_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GroupRekening_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("GroupRekening_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
    * @return result - Type on server: TDataSet
    */
   this.Gudang_GetDSLookUp = function() {
@@ -2859,6 +2071,78 @@ function TDSProvider(connectionInfo)
 
   this.Gudang_GetDSLookUp_URL = function() {
     return this.executor.getMethodURL("Gudang_GetDSLookUp", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Gudang_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Gudang_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Gudang_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Gudang_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Kabupaten_GetDSLookUp = function() {
+    var returnObject = this.executor.executeMethod('Kabupaten_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Kabupaten_GetDSLookUp_URL = function() {
+    return this.executor.getMethodURL("Kabupaten_GetDSLookUp", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Kategori_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Kategori_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Kategori_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Kategori_GetDSLookup", "GET", [], arguments[0])[0];
   };
 
   /*
@@ -2886,16 +2170,14 @@ function TDSProvider(connectionInfo)
   };
 
   /*
-   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.SO_GetDSOLookUpGeneratePO = function(AUnit) {
-    var returnObject = this.executor.executeMethod('"SO_GetDSOLookUpGeneratePO"', "POST", [AUnit], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
+  this.Lokasi_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Lokasi_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2905,19 +2187,21 @@ function TDSProvider(connectionInfo)
       }
       return returnObject;
     }
+  };
+
+  this.Lokasi_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Lokasi_GetDSLookup", "GET", [], arguments[0])[0];
   };
 
   /*
-   * @param AUnitID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.PO_GetDSOLookUp = function(AUnitID) {
-    var returnObject = this.executor.executeMethod('PO_GetDSOLookUp', "GET", [AUnitID], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
+  this.MataUang_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('MataUang_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.AUnitID = AUnitID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -2929,8 +2213,250 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.PO_GetDSOLookUp_URL = function(AUnitID) {
-    return this.executor.getMethodURL("PO_GetDSOLookUp", "GET", [AUnitID], arguments[1])[0];
+  this.MataUang_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("MataUang_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.MemberActivasi_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('MemberActivasi_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.MemberActivasi_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("MemberActivasi_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.MemberKeluarga_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('MemberKeluarga_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.MemberKeluarga_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("MemberKeluarga_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Member_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Member_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Member_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Member_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.MerchandiseGroup_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('MerchandiseGroup_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.MerchandiseGroup_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("MerchandiseGroup_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Merchandise_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Merchandise_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Merchandise_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Merchandise_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Merchandise_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Merchandise_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Merchandise_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Merchandise_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Merk_GetDSLookUp = function() {
+    var returnObject = this.executor.executeMethod('Merk_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Merk_GetDSLookUp_URL = function() {
+    return this.executor.getMethodURL("Merk_GetDSLookUp", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Organization_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Organization_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Organization_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Organization_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @param OrgType [in] - Type on server: Integer
+   * @return result - Type on server: TDataSet
+   */
+  this.Organization_Lookup = function(OrgType) {
+    var returnObject = this.executor.executeMethod('Organization_Lookup', "GET", [OrgType], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.OrgType = OrgType;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Organization_Lookup_URL = function(OrgType) {
+    return this.executor.getMethodURL("Organization_Lookup", "GET", [OrgType], arguments[1])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Outlet_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Outlet_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Outlet_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Outlet_GetDSLookup", "GET", [], arguments[0])[0];
   };
 
   /*
@@ -3017,6 +2543,62 @@ function TDSProvider(connectionInfo)
    * @param AUnitID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
+  this.PO_GetDSOLookUp = function(AUnitID) {
+    var returnObject = this.executor.executeMethod('PO_GetDSOLookUp', "GET", [AUnitID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AUnitID = AUnitID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.PO_GetDSOLookUp_URL = function(AUnitID) {
+    return this.executor.getMethodURL("PO_GetDSOLookUp", "GET", [AUnitID], arguments[1])[0];
+  };
+
+  /*
+   * @param aStartDate [in] - Type on server: TDateTime
+   * @param aEndDate [in] - Type on server: TDateTime
+   * @param aSuplierMerchanID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.PO_GetDSOLookUpForAdj = function(aStartDate, aEndDate, aSuplierMerchanID) {
+    var returnObject = this.executor.executeMethod('PO_GetDSOLookUpForAdj', "GET", [aStartDate, aEndDate, aSuplierMerchanID], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aStartDate = aStartDate;
+        resultObject.aEndDate = aEndDate;
+        resultObject.aSuplierMerchanID = aSuplierMerchanID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.PO_GetDSOLookUpForAdj_URL = function(aStartDate, aEndDate, aSuplierMerchanID) {
+    return this.executor.getMethodURL("PO_GetDSOLookUpForAdj", "GET", [aStartDate, aEndDate, aSuplierMerchanID], arguments[3])[0];
+  };
+
+  /*
+   * @param AUnitID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
   this.PO_GetDSOLookUpForGR = function(AUnitID) {
     var returnObject = this.executor.executeMethod('PO_GetDSOLookUpForGR', "GET", [AUnitID], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
@@ -3037,6 +2619,64 @@ function TDSProvider(connectionInfo)
 
   this.PO_GetDSOLookUpForGR_URL = function(AUnitID) {
     return this.executor.getMethodURL("PO_GetDSOLookUpForGR", "GET", [AUnitID], arguments[1])[0];
+  };
+
+  /*
+   * @param ATglAwal [in] - Type on server: TDateTime
+   * @param ATglAkhir [in] - Type on server: TDateTime
+   * @param AkodeSupplierMGAwal [in] - Type on server: string
+   * @param AKodeSupplierMGAkhir [in] - Type on server: string
+   * @param AStatusPOID [in] - Type on server: string
+   * @param AUnit [in] - Type on server: TModUnit
+   * @return result - Type on server: TDataSet
+   */
+  this.PO_GetDSOverview = function(ATglAwal, ATglAkhir, AkodeSupplierMGAwal, AKodeSupplierMGAkhir, AStatusPOID, AUnit) {
+    var returnObject = this.executor.executeMethod('"PO_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AkodeSupplierMGAwal, AKodeSupplierMGAkhir, AStatusPOID, AUnit], arguments[6], true, arguments[7], arguments[8]);
+    if (arguments[6] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ATglAwal = ATglAwal;
+        resultObject.ATglAkhir = ATglAkhir;
+        resultObject.AkodeSupplierMGAwal = AkodeSupplierMGAwal;
+        resultObject.AKodeSupplierMGAkhir = AKodeSupplierMGAkhir;
+        resultObject.AStatusPOID = AStatusPOID;
+        resultObject.AUnit = AUnit;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param ATglAwal [in] - Type on server: TDateTime
+   * @param ATglAkhir [in] - Type on server: TDateTime
+   * @param AUnit [in] - Type on server: TModUnit
+   * @return result - Type on server: TDataSet
+   */
+  this.PO_GetDSOverviewDetil = function(ATglAwal, ATglAkhir, AUnit) {
+    var returnObject = this.executor.executeMethod('"PO_GetDSOverviewDetil"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ATglAwal = ATglAwal;
+        resultObject.ATglAkhir = ATglAkhir;
+        resultObject.AUnit = AUnit;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
   };
 
   /*
@@ -3092,20 +2732,14 @@ function TDSProvider(connectionInfo)
   };
 
   /*
-   * @param ATglAwal [in] - Type on server: TDateTime
-   * @param ATglAkhir [in] - Type on server: TDateTime
-   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.PO_GetDSOverviewDetil = function(ATglAwal, ATglAkhir, AUnit) {
-    var returnObject = this.executor.executeMethod('"PO_GetDSOverviewDetil"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
-    if (arguments[3] == null) {
+  this.Propinsi_GetDSLookUp = function() {
+    var returnObject = this.executor.executeMethod('Propinsi_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.ATglAwal = ATglAwal;
-        resultObject.ATglAkhir = ATglAkhir;
-        resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3117,27 +2751,23 @@ function TDSProvider(connectionInfo)
     }
   };
 
+  this.Propinsi_GetDSLookUp_URL = function() {
+    return this.executor.getMethodURL("Propinsi_GetDSLookUp", "GET", [], arguments[0])[0];
+  };
+
   /*
-   * @param ATglAwal [in] - Type on server: TDateTime
-   * @param ATglAkhir [in] - Type on server: TDateTime
-   * @param AkodeSupplierMGAwal [in] - Type on server: string
-   * @param AKodeSupplierMGAkhir [in] - Type on server: string
-   * @param AStatusPOID [in] - Type on server: string
-   * @param AUnit [in] - Type on server: TModUnit
+   * @param aStartDate [in] - Type on server: TDateTime
+   * @param aEndDate [in] - Type on server: TDateTime
    * @return result - Type on server: TDataSet
    */
-  this.PO_GetDSOverview = function(ATglAwal, ATglAkhir, AkodeSupplierMGAwal, AKodeSupplierMGAkhir, AStatusPOID, AUnit) {
-    var returnObject = this.executor.executeMethod('"PO_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AkodeSupplierMGAwal, AKodeSupplierMGAkhir, AStatusPOID, AUnit], arguments[6], true, arguments[7], arguments[8]);
-    if (arguments[6] == null) {
+  this.Quotation_GetDSOverview = function(aStartDate, aEndDate) {
+    var returnObject = this.executor.executeMethod('Quotation_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.ATglAwal = ATglAwal;
-        resultObject.ATglAkhir = ATglAkhir;
-        resultObject.AkodeSupplierMGAwal = AkodeSupplierMGAwal;
-        resultObject.AKodeSupplierMGAkhir = AKodeSupplierMGAkhir;
-        resultObject.AStatusPOID = AStatusPOID;
-        resultObject.AUnit = AUnit;
+        resultObject.aStartDate = aStartDate;
+        resultObject.aEndDate = aEndDate;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3147,6 +2777,10 @@ function TDSProvider(connectionInfo)
       }
       return returnObject;
     }
+  };
+
+  this.Quotation_GetDSOverview_URL = function(aStartDate, aEndDate) {
+    return this.executor.getMethodURL("Quotation_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
   };
 
   /*
@@ -3174,20 +2808,14 @@ function TDSProvider(connectionInfo)
   };
 
   /*
-   * @param ATglAwal [in] - Type on server: TDateTime
-   * @param ATglAkhir [in] - Type on server: TDateTime
-   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.CN_RCV_GetDSOverview = function(ATglAwal, ATglAkhir, AUnit) {
-    var returnObject = this.executor.executeMethod('"CN_RCV_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
-    if (arguments[3] == null) {
+  this.RefDiscMember_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('RefDiscMember_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.ATglAwal = ATglAwal;
-        resultObject.ATglAkhir = ATglAkhir;
-        resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3199,21 +2827,19 @@ function TDSProvider(connectionInfo)
     }
   };
 
+  this.RefDiscMember_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("RefDiscMember_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
   /*
-   * @param ATglAwal [in] - Type on server: TDateTime
-   * @param ATglAkhir [in] - Type on server: TDateTime
-   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.DN_RCV_GetDSOverview = function(ATglAwal, ATglAkhir, AUnit) {
-    var returnObject = this.executor.executeMethod('"DN_RCV_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
-    if (arguments[3] == null) {
+  this.RefGrupMember_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('RefGrupMember_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.ATglAwal = ATglAwal;
-        resultObject.ATglAkhir = ATglAkhir;
-        resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3225,19 +2851,335 @@ function TDSProvider(connectionInfo)
     }
   };
 
+  this.RefGrupMember_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("RefGrupMember_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
   /*
-   * @param aStartDate [in] - Type on server: TDateTime
-   * @param aEndDate [in] - Type on server: TDateTime
    * @return result - Type on server: TDataSet
    */
-  this.AdjFaktur_GetDSOverview = function(aStartDate, aEndDate) {
-    var returnObject = this.executor.executeMethod('AdjFaktur_GetDSOverview', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
+  this.RefPajak_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('RefPajak_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefPajak_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("RefPajak_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RefPajak_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('RefPajak_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefPajak_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("RefPajak_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RefTipeBarang_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('RefTipeBarang_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefTipeBarang_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("RefTipeBarang_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RefTipeBarang_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('RefTipeBarang_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefTipeBarang_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("RefTipeBarang_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RefTipeMember_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('RefTipeMember_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefTipeMember_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("RefTipeMember_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RefTipeMember_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('RefTipeMember_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefTipeMember_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("RefTipeMember_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RefWilayah_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('RefWilayah_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RefWilayah_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("RefWilayah_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.RekeningBCOLain_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('RekeningBCOLain_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RekeningBCOLain_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("RekeningBCOLain_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Rekening_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Rekening_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Rekening_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Rekening_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Rekening_GetDSLookupLvl = function() {
+    var returnObject = this.executor.executeMethod('Rekening_GetDSLookupLvl', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Rekening_GetDSLookupLvl_URL = function() {
+    return this.executor.getMethodURL("Rekening_GetDSLookupLvl", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Rekening_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Rekening_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Rekening_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Rekening_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Satuan_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Satuan_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Satuan_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Satuan_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Satuan_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Satuan_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Satuan_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Satuan_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @param aDate [in] - Type on server: TDateTime
+   * @param AUnitID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.SetupPOS_GetDSOverview = function(aDate, AUnitID) {
+    var returnObject = this.executor.executeMethod('SetupPOS_GetDSOverview', "GET", [aDate, AUnitID], arguments[2], true, arguments[3], arguments[4]);
     if (arguments[2] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aStartDate = aStartDate;
-        resultObject.aEndDate = aEndDate;
+        resultObject.aDate = aDate;
+        resultObject.AUnitID = AUnitID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3249,19 +3191,25 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.AdjFaktur_GetDSOverview_URL = function(aStartDate, aEndDate) {
-    return this.executor.getMethodURL("AdjFaktur_GetDSOverview", "GET", [aStartDate, aEndDate], arguments[2])[0];
+  this.SetupPOS_GetDSOverview_URL = function(aDate, AUnitID) {
+    return this.executor.getMethodURL("SetupPOS_GetDSOverview", "GET", [aDate, AUnitID], arguments[2])[0];
   };
 
   /*
+   * @param aDate [in] - Type on server: TDateTime
+   * @param aShiftName [in] - Type on server: string
+   * @param AUnitID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.AP_GetDSLookUp = function() {
-    var returnObject = this.executor.executeMethod('AP_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
+  this.BeginningBalance_GetDSOverview = function(aDate, aShiftName, AUnitID) {
+    var returnObject = this.executor.executeMethod('BeginningBalance_GetDSOverview', "GET", [aDate, aShiftName, AUnitID], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
+        resultObject.aDate = aDate;
+        resultObject.aShiftName = aShiftName;
+        resultObject.AUnitID = AUnitID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3273,21 +3221,23 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.AP_GetDSLookUp_URL = function() {
-    return this.executor.getMethodURL("AP_GetDSLookUp", "GET", [], arguments[0])[0];
+  this.BeginningBalance_GetDSOverview_URL = function(aDate, aShiftName, AUnitID) {
+    return this.executor.getMethodURL("BeginningBalance_GetDSOverview", "GET", [aDate, aShiftName, AUnitID], arguments[3])[0];
   };
 
   /*
-   * @param AOrgID [in] - Type on server: string
+   * @param aDate [in] - Type on server: TDateTime
+   * @param AUnitID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.AP_GetDSLookUpPerOrganization = function(AOrgID) {
-    var returnObject = this.executor.executeMethod('AP_GetDSLookUpPerOrganization', "GET", [AOrgID], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
+  this.SetupPOS_GetDSLookUp = function(aDate, AUnitID) {
+    var returnObject = this.executor.executeMethod('SetupPOS_GetDSLookUp', "GET", [aDate, AUnitID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.AOrgID = AOrgID;
+        resultObject.aDate = aDate;
+        resultObject.AUnitID = AUnitID;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3299,32 +3249,8 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.AP_GetDSLookUpPerOrganization_URL = function(AOrgID) {
-    return this.executor.getMethodURL("AP_GetDSLookUpPerOrganization", "GET", [AOrgID], arguments[1])[0];
-  };
-
-  /*
-   * @return result - Type on server: TDataSet
-   */
-  this.Organization_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('Organization_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.Organization_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("Organization_GetDSLookup", "GET", [], arguments[0])[0];
+  this.SetupPOS_GetDSLookUp_URL = function(aDate, AUnitID) {
+    return this.executor.getMethodURL("SetupPOS_GetDSLookUp", "GET", [aDate, AUnitID], arguments[2])[0];
   };
 
   /*
@@ -3352,16 +3278,16 @@ function TDSProvider(connectionInfo)
   };
 
   /*
-   * @param aDOID [in] - Type on server: string
+   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.DODetail_LookupAdjFak = function(aDOID) {
-    var returnObject = this.executor.executeMethod('DODetail_LookupAdjFak', "GET", [aDOID], arguments[1], true, arguments[2], arguments[3]);
+  this.SO_GetDSOLookUp = function(AUnit) {
+    var returnObject = this.executor.executeMethod('"SO_GetDSOLookUp"', "POST", [AUnit], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aDOID = aDOID;
+        resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3373,25 +3299,43 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.DODetail_LookupAdjFak_URL = function(aDOID) {
-    return this.executor.getMethodURL("DODetail_LookupAdjFak", "GET", [aDOID], arguments[1])[0];
+  /*
+   * @param AUnit [in] - Type on server: TModUnit
+   * @return result - Type on server: TDataSet
+   */
+  this.SO_GetDSOLookUpGeneratePO = function(AUnit) {
+    var returnObject = this.executor.executeMethod('"SO_GetDSOLookUpGeneratePO"', "POST", [AUnit], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AUnit = AUnit;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
   };
 
   /*
-   * @param aStartDate [in] - Type on server: TDateTime
-   * @param aEndDate [in] - Type on server: TDateTime
-   * @param aSuplierMerchanID [in] - Type on server: string
+   * @param ATglAwal [in] - Type on server: TDateTime
+   * @param ATglAkhir [in] - Type on server: TDateTime
+   * @param AUnit [in] - Type on server: TModUnit
    * @return result - Type on server: TDataSet
    */
-  this.PO_GetDSOLookUpForAdj = function(aStartDate, aEndDate, aSuplierMerchanID) {
-    var returnObject = this.executor.executeMethod('PO_GetDSOLookUpForAdj', "GET", [aStartDate, aEndDate, aSuplierMerchanID], arguments[3], true, arguments[4], arguments[5]);
+  this.SO_GetDSOverview = function(ATglAwal, ATglAkhir, AUnit) {
+    var returnObject = this.executor.executeMethod('"SO_GetDSOverview"', "POST", [ATglAwal, ATglAkhir, AUnit], arguments[3], true, arguments[4], arguments[5]);
     if (arguments[3] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aStartDate = aStartDate;
-        resultObject.aEndDate = aEndDate;
-        resultObject.aSuplierMerchanID = aSuplierMerchanID;
+        resultObject.ATglAwal = ATglAwal;
+        resultObject.ATglAkhir = ATglAkhir;
+        resultObject.AUnit = AUnit;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3403,15 +3347,11 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.PO_GetDSOLookUpForAdj_URL = function(aStartDate, aEndDate, aSuplierMerchanID) {
-    return this.executor.getMethodURL("PO_GetDSOLookUpForAdj", "GET", [aStartDate, aEndDate, aSuplierMerchanID], arguments[3])[0];
-  };
-
   /*
    * @return result - Type on server: TDataSet
    */
-  this.AutUser_GetDSOverview = function() {
-    var returnObject = this.executor.executeMethod('AutUser_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+  this.StatusPO_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('StatusPO_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -3427,43 +3367,15 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.AutUser_GetDSOverview_URL = function() {
-    return this.executor.getMethodURL("AutUser_GetDSOverview", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @param APeriodeAwal [in] - Type on server: TDateTime
-   * @param APeriodeAkhir [in] - Type on server: TDateTime
-   * @return result - Type on server: TDataSet
-   */
-  this.BankCashOut_GetDSByPeriod = function(APeriodeAwal, APeriodeAkhir) {
-    var returnObject = this.executor.executeMethod('BankCashOut_GetDSByPeriod', "GET", [APeriodeAwal, APeriodeAkhir], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.APeriodeAwal = APeriodeAwal;
-        resultObject.APeriodeAkhir = APeriodeAkhir;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.BankCashOut_GetDSByPeriod_URL = function(APeriodeAwal, APeriodeAkhir) {
-    return this.executor.getMethodURL("BankCashOut_GetDSByPeriod", "GET", [APeriodeAwal, APeriodeAkhir], arguments[2])[0];
+  this.StatusPO_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("StatusPO_GetDSLookup", "GET", [], arguments[0])[0];
   };
 
   /*
    * @return result - Type on server: TDataSet
    */
-  this.RekeningBCOLain_GetDSLookup = function() {
-    var returnObject = this.executor.executeMethod('RekeningBCOLain_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+  this.SubGroup_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('SubGroup_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
     if (arguments[0] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
@@ -3479,8 +3391,514 @@ function TDSProvider(connectionInfo)
     }
   };
 
-  this.RekeningBCOLain_GetDSLookup_URL = function() {
-    return this.executor.getMethodURL("RekeningBCOLain_GetDSLookup", "GET", [], arguments[0])[0];
+  this.SubGroup_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("SubGroup_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.SubGroup_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('SubGroup_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.SubGroup_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("SubGroup_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.SuplierGroup_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('SuplierGroup_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.SuplierGroup_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("SuplierGroup_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.SuplierGroup_GetDSOverview1 = function() {
+    var returnObject = this.executor.executeMethod('SuplierGroup_GetDSOverview1', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.SuplierGroup_GetDSOverview1_URL = function() {
+    return this.executor.getMethodURL("SuplierGroup_GetDSOverview1", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.SuplierMerchan_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('SuplierMerchan_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.SuplierMerchan_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("SuplierMerchan_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Suplier_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('Suplier_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Suplier_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("Suplier_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Suplier_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Suplier_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Suplier_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Suplier_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @param ID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.SupMGByOutstandingSO_GetDSLookup = function(ID) {
+    var returnObject = this.executor.executeMethod('SupMGByOutstandingSO_GetDSLookup', "GET", [ID], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ID = ID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.SupMGByOutstandingSO_GetDSLookup_URL = function(ID) {
+    return this.executor.getMethodURL("SupMGByOutstandingSO_GetDSLookup", "GET", [ID], arguments[1])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipeBonus_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipeBonus_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipeBonus_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipeBonus_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipeCN_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipeCN_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipeCN_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipeCN_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipeHarga_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('TipeHarga_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipeHarga_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("TipeHarga_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipeKirimPO_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipeKirimPO_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipeKirimPO_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipeKirimPO_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipePembayaran_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipePembayaran_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipePembayaran_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipePembayaran_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipePerusahaan_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('TipePerusahaan_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipePerusahaan_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("TipePerusahaan_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipePerusahaan_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipePerusahaan_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipePerusahaan_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipePerusahaan_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipePO_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipePO_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipePO_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipePO_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipeSuplier_GetDSLookup = function() {
+    var returnObject = this.executor.executeMethod('TipeSuplier_GetDSLookup', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipeSuplier_GetDSLookup_URL = function() {
+    return this.executor.getMethodURL("TipeSuplier_GetDSLookup", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.TipeSuplier_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('TipeSuplier_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.TipeSuplier_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("TipeSuplier_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.UnitType_GetDSLookUp = function() {
+    var returnObject = this.executor.executeMethod('UnitType_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.UnitType_GetDSLookUp_URL = function() {
+    return this.executor.getMethodURL("UnitType_GetDSLookUp", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.UnitType_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('UnitType_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.UnitType_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("UnitType_GetDSOverview", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Unit_GetDSLookUp = function() {
+    var returnObject = this.executor.executeMethod('Unit_GetDSLookUp', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Unit_GetDSLookUp_URL = function() {
+    return this.executor.getMethodURL("Unit_GetDSLookUp", "GET", [], arguments[0])[0];
+  };
+
+  /*
+   * @return result - Type on server: TDataSet
+   */
+  this.Unit_GetDSOverview = function() {
+    var returnObject = this.executor.executeMethod('Unit_GetDSOverview', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Unit_GetDSOverview_URL = function() {
+    return this.executor.getMethodURL("Unit_GetDSOverview", "GET", [], arguments[0])[0];
   };
 }
 
@@ -3573,16 +3991,18 @@ function TDSReport(connectionInfo)
   /*
    * @param aStartDate [in] - Type on server: TDateTime
    * @param aEndDate [in] - Type on server: TDateTime
+   * @param aGroupField [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.DSA_GetDS = function(aStartDate, aEndDate) {
-    var returnObject = this.executor.executeMethod('DSA_GetDS', "GET", [aStartDate, aEndDate], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
+  this.DSA_GetDS = function(aStartDate, aEndDate, aGroupField) {
+    var returnObject = this.executor.executeMethod('DSA_GetDS', "GET", [aStartDate, aEndDate, aGroupField], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.aStartDate = aStartDate;
         resultObject.aEndDate = aEndDate;
+        resultObject.aGroupField = aGroupField;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3594,8 +4014,38 @@ function TDSReport(connectionInfo)
     }
   };
 
-  this.DSA_GetDS_URL = function(aStartDate, aEndDate) {
-    return this.executor.getMethodURL("DSA_GetDS", "GET", [aStartDate, aEndDate], arguments[2])[0];
+  this.DSA_GetDS_URL = function(aStartDate, aEndDate, aGroupField) {
+    return this.executor.getMethodURL("DSA_GetDS", "GET", [aStartDate, aEndDate, aGroupField], arguments[3])[0];
+  };
+
+  /*
+   * @param aStartDate [in] - Type on server: TDateTime
+   * @param aEndDate [in] - Type on server: TDateTime
+   * @param aGroupField [in] - Type on server: string
+   * @return result - Type on server: TFDJSONDataSets
+   */
+  this.DSA_GetDSPrint = function(aStartDate, aEndDate, aGroupField) {
+    var returnObject = this.executor.executeMethod('DSA_GetDSPrint', "GET", [aStartDate, aEndDate, aGroupField], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aStartDate = aStartDate;
+        resultObject.aEndDate = aEndDate;
+        resultObject.aGroupField = aGroupField;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.DSA_GetDSPrint_URL = function(aStartDate, aEndDate, aGroupField) {
+    return this.executor.getMethodURL("DSA_GetDSPrint", "GET", [aStartDate, aEndDate, aGroupField], arguments[3])[0];
   };
 
   /*
@@ -3624,6 +4074,96 @@ function TDSReport(connectionInfo)
 
   this.DSR_GetDS_URL = function(aStartDate, aEndDate) {
     return this.executor.getMethodURL("DSR_GetDS", "GET", [aStartDate, aEndDate], arguments[2])[0];
+  };
+
+  /*
+   * @param ANoAP [in] - Type on server: string
+   * @return result - Type on server: TFDJSONDataSets
+   */
+  this.HistoryAP = function(ANoAP) {
+    var returnObject = this.executor.executeMethod('HistoryAP', "GET", [ANoAP], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ANoAP = ANoAP;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.HistoryAP_URL = function(ANoAP) {
+    return this.executor.getMethodURL("HistoryAP", "GET", [ANoAP], arguments[1])[0];
+  };
+
+  /*
+   * @param aStartDate [in] - Type on server: TDateTime
+   * @param aEndDate [in] - Type on server: TDateTime
+   * @param aGroup_ID [in] - Type on server: string
+   * @param aSupplier_ID [in] - Type on server: string
+   * @param aGudang_ID [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.InvMovement_GetDS = function(aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
+    var returnObject = this.executor.executeMethod('InvMovement_GetDS', "GET", [aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[5], true, arguments[6], arguments[7]);
+    if (arguments[5] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aStartDate = aStartDate;
+        resultObject.aEndDate = aEndDate;
+        resultObject.aGroup_ID = aGroup_ID;
+        resultObject.aSupplier_ID = aSupplier_ID;
+        resultObject.aGudang_ID = aGudang_ID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.InvMovement_GetDS_URL = function(aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
+    return this.executor.getMethodURL("InvMovement_GetDS", "GET", [aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[5])[0];
+  };
+
+  /*
+   * @param AOrgID [in] - Type on server: string
+   * @param APeriodeAwal [in] - Type on server: TDateTime
+   * @param APeriodeAkhir [in] - Type on server: TDateTime
+   * @return result - Type on server: TFDJSONDataSets
+   */
+  this.KartuAP = function(AOrgID, APeriodeAwal, APeriodeAkhir) {
+    var returnObject = this.executor.executeMethod('KartuAP', "GET", [AOrgID, APeriodeAwal, APeriodeAkhir], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AOrgID = AOrgID;
+        resultObject.APeriodeAwal = APeriodeAwal;
+        resultObject.APeriodeAkhir = APeriodeAkhir;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.KartuAP_URL = function(AOrgID, APeriodeAwal, APeriodeAkhir) {
+    return this.executor.getMethodURL("KartuAP", "GET", [AOrgID, APeriodeAwal, APeriodeAkhir], arguments[3])[0];
   };
 
   /*
@@ -3659,22 +4199,22 @@ function TDSReport(connectionInfo)
   };
 
   /*
-   * @param aEndDate [in] - Type on server: TDateTime
-   * @param aGroup_ID [in] - Type on server: string
-   * @param aSupplier_ID [in] - Type on server: string
-   * @param aGudang_ID [in] - Type on server: string
-   * @return result - Type on server: TDataSet
+   * @param StartDate [in] - Type on server: TDateTime
+   * @param EndDate [in] - Type on server: TDateTime
+   * @param aNoBuktiAwal [in] - Type on server: string
+   * @param aNoBuktiAkhir [in] - Type on server: string
+   * @return result - Type on server: TFDJSONDataSets
    */
-  this.StockProduct_GetDS = function(aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
-    var returnObject = this.executor.executeMethod('StockProduct_GetDS', "GET", [aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[4], true, arguments[5], arguments[6]);
+  this.PO_SLIP_ByDateNoBukti = function(StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir) {
+    var returnObject = this.executor.executeMethod('PO_SLIP_ByDateNoBukti', "GET", [StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir], arguments[4], true, arguments[5], arguments[6]);
     if (arguments[4] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aEndDate = aEndDate;
-        resultObject.aGroup_ID = aGroup_ID;
-        resultObject.aSupplier_ID = aSupplier_ID;
-        resultObject.aGudang_ID = aGudang_ID;
+        resultObject.StartDate = StartDate;
+        resultObject.EndDate = EndDate;
+        resultObject.aNoBuktiAwal = aNoBuktiAwal;
+        resultObject.aNoBuktiAkhir = aNoBuktiAkhir;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -3686,8 +4226,8 @@ function TDSReport(connectionInfo)
     }
   };
 
-  this.StockProduct_GetDS_URL = function(aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
-    return this.executor.getMethodURL("StockProduct_GetDS", "GET", [aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[4])[0];
+  this.PO_SLIP_ByDateNoBukti_URL = function(StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir) {
+    return this.executor.getMethodURL("PO_SLIP_ByDateNoBukti", "GET", [StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir], arguments[4])[0];
   };
 
   /*
@@ -3751,38 +4291,6 @@ function TDSReport(connectionInfo)
   };
 
   /*
-   * @param StartDate [in] - Type on server: TDateTime
-   * @param EndDate [in] - Type on server: TDateTime
-   * @param aNoBuktiAwal [in] - Type on server: string
-   * @param aNoBuktiAkhir [in] - Type on server: string
-   * @return result - Type on server: TFDJSONDataSets
-   */
-  this.PO_SLIP_ByDateNoBukti = function(StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir) {
-    var returnObject = this.executor.executeMethod('PO_SLIP_ByDateNoBukti', "GET", [StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir], arguments[4], true, arguments[5], arguments[6]);
-    if (arguments[4] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.StartDate = StartDate;
-        resultObject.EndDate = EndDate;
-        resultObject.aNoBuktiAwal = aNoBuktiAwal;
-        resultObject.aNoBuktiAkhir = aNoBuktiAkhir;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.PO_SLIP_ByDateNoBukti_URL = function(StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir) {
-    return this.executor.getMethodURL("PO_SLIP_ByDateNoBukti", "GET", [StartDate, EndDate, aNoBuktiAwal, aNoBuktiAkhir], arguments[4])[0];
-  };
-
-  /*
    * @return result - Type on server: TFDJSONDataSets
    */
   this.SO_Test = function() {
@@ -3807,20 +4315,18 @@ function TDSReport(connectionInfo)
   };
 
   /*
-   * @param aStartDate [in] - Type on server: TDateTime
    * @param aEndDate [in] - Type on server: TDateTime
    * @param aGroup_ID [in] - Type on server: string
    * @param aSupplier_ID [in] - Type on server: string
    * @param aGudang_ID [in] - Type on server: string
    * @return result - Type on server: TDataSet
    */
-  this.InvMovement_GetDS = function(aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
-    var returnObject = this.executor.executeMethod('InvMovement_GetDS', "GET", [aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[5], true, arguments[6], arguments[7]);
-    if (arguments[5] == null) {
+  this.StockProduct_GetDS = function(aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
+    var returnObject = this.executor.executeMethod('StockProduct_GetDS', "GET", [aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[4], true, arguments[5], arguments[6]);
+    if (arguments[4] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.aStartDate = aStartDate;
         resultObject.aEndDate = aEndDate;
         resultObject.aGroup_ID = aGroup_ID;
         resultObject.aSupplier_ID = aSupplier_ID;
@@ -3836,8 +4342,45 @@ function TDSReport(connectionInfo)
     }
   };
 
-  this.InvMovement_GetDS_URL = function(aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
-    return this.executor.getMethodURL("InvMovement_GetDS", "GET", [aStartDate, aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[5])[0];
+  this.StockProduct_GetDS_URL = function(aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID) {
+    return this.executor.getMethodURL("StockProduct_GetDS", "GET", [aEndDate, aGroup_ID, aSupplier_ID, aGudang_ID], arguments[4])[0];
+  };
+}
+
+function TJSONCRUD(connectionInfo)
+{
+  this.executor = new ServerFunctionExecutor("TJSONCRUD",connectionInfo);
+
+  /*
+   * @return result - Type on server: TJSONObject
+   */
+  this.Test = function() {
+    var returnObject = this.executor.executeMethod('Test', "GET", [], arguments[0], true, arguments[1], arguments[2]);
+    if (arguments[0] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Test_URL = function() {
+    return this.executor.getMethodURL("Test", "GET", [], arguments[0])[0];
+  };
+
+  this.AfterExecuteMethod = function() {
+    this.executor.executeMethod('AfterExecuteMethod', "GET", [], arguments[0], false, arguments[1], arguments[2]);
+  };
+
+  this.AfterExecuteMethod_URL = function() {
+    return this.executor.getMethodURL("AfterExecuteMethod", "GET", [], arguments[0])[0];
   };
 }
 
@@ -4127,6 +4670,24 @@ function TCrudSupplier(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -4173,30 +4734,6 @@ function TCrudSupplier(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -4440,6 +4977,24 @@ function TCrudPO(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -4486,30 +5041,6 @@ function TCrudPO(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -4755,6 +5286,24 @@ function TCrudDO(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -4801,30 +5350,6 @@ function TCrudDO(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -5044,6 +5569,24 @@ function TCrudCNRecv(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -5090,30 +5633,6 @@ function TCrudCNRecv(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -5333,6 +5852,24 @@ function TCrudDNRecv(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -5379,30 +5916,6 @@ function TCrudDNRecv(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -5644,6 +6157,24 @@ function TCrudSettingApp(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -5690,30 +6221,6 @@ function TCrudSettingApp(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -5951,6 +6458,24 @@ function TCrudQuotation(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -5997,30 +6522,6 @@ function TCrudQuotation(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -6240,6 +6741,24 @@ function TCrudAdjFaktur(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -6286,30 +6805,6 @@ function TCrudAdjFaktur(connectionInfo)
         var resultArray = returnObject.result;
         var resultObject = new Object();
         resultObject.AObject = AObject;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param aDS [in] - Type on server: TDataSet
-   * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
-   */
-  this.UpdateToDB = function(aDS, ModClassName) {
-    var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
-    if (arguments[2] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.aDS = aDS;
-        resultObject.ModClassName = ModClassName;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -6529,6 +7024,24 @@ function TCrudBankCashOut(connectionInfo)
   };
 
   /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
    * @param AObject [in] - Type on server: TModApp
    * @return result - Type on server: Boolean
    */
@@ -6586,10 +7099,334 @@ function TCrudBankCashOut(connectionInfo)
     }
   };
 
+  this.AfterExecuteMethod = function() {
+    this.executor.executeMethod('AfterExecuteMethod', "GET", [], arguments[0], false, arguments[1], arguments[2]);
+  };
+
+  this.AfterExecuteMethod_URL = function() {
+    return this.executor.getMethodURL("AfterExecuteMethod", "GET", [], arguments[0])[0];
+  };
+}
+
+function TCrudClaimFaktur(connectionInfo)
+{
+  this.executor = new ServerFunctionExecutor("TCrudClaimFaktur",connectionInfo);
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.SaveToDB = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.DeleteFromDB = function(AObject) {
+    var returnObject = this.executor.executeMethod('"DeleteFromDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param S [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.OpenQuery = function(S) {
+    var returnObject = this.executor.executeMethod('OpenQuery', "GET", [S], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.S = S;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.OpenQuery_URL = function(S) {
+    return this.executor.getMethodURL("OpenQuery", "GET", [S], arguments[1])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param AID [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.Retrieve = function(ModClassName, AID) {
+    var returnObject = this.executor.executeMethod('Retrieve', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.AID = AID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Retrieve_URL = function(ModClassName, AID) {
+    return this.executor.getMethodURL("Retrieve", "GET", [ModClassName, AID], arguments[2])[0];
+  };
+
+  /*
+   * @param aTableName [in] - Type on server: string
+   * @param aFieldName [in] - Type on server: string
+   * @param aCountDigit [in] - Type on server: Integer
+   * @return result - Type on server: string
+   */
+  this.GenerateCustomNo = function(aTableName, aFieldName, aCountDigit) {
+    var returnObject = this.executor.executeMethod('GenerateCustomNo', "GET", [aTableName, aFieldName, aCountDigit], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aTableName = aTableName;
+        resultObject.aFieldName = aFieldName;
+        resultObject.aCountDigit = aCountDigit;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GenerateCustomNo_URL = function(aTableName, aFieldName, aCountDigit) {
+    return this.executor.getMethodURL("GenerateCustomNo", "GET", [aTableName, aFieldName, aCountDigit], arguments[3])[0];
+  };
+
+  /*
+   * @param aClassName [in] - Type on server: string
+   * @return result - Type on server: string
+   */
+  this.GenerateNo = function(aClassName) {
+    var returnObject = this.executor.executeMethod('GenerateNo', "GET", [aClassName], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aClassName = aClassName;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GenerateNo_URL = function(aClassName) {
+    return this.executor.getMethodURL("GenerateNo", "GET", [aClassName], arguments[1])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param AID [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.RetrieveSingle = function(ModClassName, AID) {
+    var returnObject = this.executor.executeMethod('RetrieveSingle', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.AID = AID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetrieveSingle_URL = function(ModClassName, AID) {
+    return this.executor.getMethodURL("RetrieveSingle", "GET", [ModClassName, AID], arguments[2])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param aCode [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.RetrieveByCode = function(ModClassName, aCode) {
+    var returnObject = this.executor.executeMethod('RetrieveByCode', "GET", [ModClassName, aCode], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.aCode = aCode;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetrieveByCode_URL = function(ModClassName, aCode) {
+    return this.executor.getMethodURL("RetrieveByCode", "GET", [ModClassName, aCode], arguments[2])[0];
+  };
+
+  /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.SaveToDBLog = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDBLog"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: string
+   */
+  this.SaveToDBID = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDBID"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: TStrings
+   */
+  this.TestGenerateSQL = function(AObject) {
+    var returnObject = this.executor.executeMethod('"TestGenerateSQL"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.AfterExecuteMethod = function() {
+    this.executor.executeMethod('AfterExecuteMethod', "GET", [], arguments[0], false, arguments[1], arguments[2]);
+  };
+
+  this.AfterExecuteMethod_URL = function() {
+    return this.executor.getMethodURL("AfterExecuteMethod", "GET", [], arguments[0])[0];
+  };
+}
+
+function TCrudUpdatePOS(connectionInfo)
+{
+  this.executor = new ServerFunctionExecutor("TCrudUpdatePOS",connectionInfo);
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param aFilter [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.RetreiveSyncronData = function(ModClassName, aFilter) {
+    var returnObject = this.executor.executeMethod('RetreiveSyncronData', "GET", [ModClassName, aFilter], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.aFilter = aFilter;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetreiveSyncronData_URL = function(ModClassName, aFilter) {
+    return this.executor.getMethodURL("RetreiveSyncronData", "GET", [ModClassName, aFilter], arguments[2])[0];
+  };
+
   /*
    * @param aDS [in] - Type on server: TDataSet
    * @param ModClassName [in] - Type on server: string
-   * @return result - Type on server: TStrings
+   * @return result - Type on server: Boolean
    */
   this.UpdateToDB = function(aDS, ModClassName) {
     var returnObject = this.executor.executeMethod('ToDB', "POST", [aDS, ModClassName], arguments[2], true, arguments[3], arguments[4]);
@@ -6599,6 +7436,573 @@ function TCrudBankCashOut(connectionInfo)
         var resultObject = new Object();
         resultObject.aDS = aDS;
         resultObject.ModClassName = ModClassName;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.SaveToDB = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.DeleteFromDB = function(AObject) {
+    var returnObject = this.executor.executeMethod('"DeleteFromDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param S [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.OpenQuery = function(S) {
+    var returnObject = this.executor.executeMethod('OpenQuery', "GET", [S], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.S = S;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.OpenQuery_URL = function(S) {
+    return this.executor.getMethodURL("OpenQuery", "GET", [S], arguments[1])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param AID [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.Retrieve = function(ModClassName, AID) {
+    var returnObject = this.executor.executeMethod('Retrieve', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.AID = AID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Retrieve_URL = function(ModClassName, AID) {
+    return this.executor.getMethodURL("Retrieve", "GET", [ModClassName, AID], arguments[2])[0];
+  };
+
+  /*
+   * @param aTableName [in] - Type on server: string
+   * @param aFieldName [in] - Type on server: string
+   * @param aCountDigit [in] - Type on server: Integer
+   * @return result - Type on server: string
+   */
+  this.GenerateCustomNo = function(aTableName, aFieldName, aCountDigit) {
+    var returnObject = this.executor.executeMethod('GenerateCustomNo', "GET", [aTableName, aFieldName, aCountDigit], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aTableName = aTableName;
+        resultObject.aFieldName = aFieldName;
+        resultObject.aCountDigit = aCountDigit;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GenerateCustomNo_URL = function(aTableName, aFieldName, aCountDigit) {
+    return this.executor.getMethodURL("GenerateCustomNo", "GET", [aTableName, aFieldName, aCountDigit], arguments[3])[0];
+  };
+
+  /*
+   * @param aClassName [in] - Type on server: string
+   * @return result - Type on server: string
+   */
+  this.GenerateNo = function(aClassName) {
+    var returnObject = this.executor.executeMethod('GenerateNo', "GET", [aClassName], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aClassName = aClassName;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GenerateNo_URL = function(aClassName) {
+    return this.executor.getMethodURL("GenerateNo", "GET", [aClassName], arguments[1])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param AID [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.RetrieveSingle = function(ModClassName, AID) {
+    var returnObject = this.executor.executeMethod('RetrieveSingle', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.AID = AID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetrieveSingle_URL = function(ModClassName, AID) {
+    return this.executor.getMethodURL("RetrieveSingle", "GET", [ModClassName, AID], arguments[2])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param aCode [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.RetrieveByCode = function(ModClassName, aCode) {
+    var returnObject = this.executor.executeMethod('RetrieveByCode', "GET", [ModClassName, aCode], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.aCode = aCode;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetrieveByCode_URL = function(ModClassName, aCode) {
+    return this.executor.getMethodURL("RetrieveByCode", "GET", [ModClassName, aCode], arguments[2])[0];
+  };
+
+  /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.SaveToDBLog = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDBLog"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: string
+   */
+  this.SaveToDBID = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDBID"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: TStrings
+   */
+  this.TestGenerateSQL = function(AObject) {
+    var returnObject = this.executor.executeMethod('"TestGenerateSQL"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.AfterExecuteMethod = function() {
+    this.executor.executeMethod('AfterExecuteMethod', "GET", [], arguments[0], false, arguments[1], arguments[2]);
+  };
+
+  this.AfterExecuteMethod_URL = function() {
+    return this.executor.getMethodURL("AfterExecuteMethod", "GET", [], arguments[0])[0];
+  };
+}
+
+function TCrudContrabonSales(connectionInfo)
+{
+  this.executor = new ServerFunctionExecutor("TCrudContrabonSales",connectionInfo);
+
+  /*
+   * @param AModContrabonSales [in] - Type on server: TModContrabonSales
+   * @return result - Type on server: Boolean
+   */
+  this.IsTanggalSudahDiinput = function(AModContrabonSales) {
+    var returnObject = this.executor.executeMethod('"IsTanggalSudahDiinput"', "POST", [AModContrabonSales], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AModContrabonSales = AModContrabonSales;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.SaveToDB = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.DeleteFromDB = function(AObject) {
+    var returnObject = this.executor.executeMethod('"DeleteFromDB"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param S [in] - Type on server: string
+   * @return result - Type on server: TDataSet
+   */
+  this.OpenQuery = function(S) {
+    var returnObject = this.executor.executeMethod('OpenQuery', "GET", [S], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.S = S;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.OpenQuery_URL = function(S) {
+    return this.executor.getMethodURL("OpenQuery", "GET", [S], arguments[1])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param AID [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.Retrieve = function(ModClassName, AID) {
+    var returnObject = this.executor.executeMethod('Retrieve', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.AID = AID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.Retrieve_URL = function(ModClassName, AID) {
+    return this.executor.getMethodURL("Retrieve", "GET", [ModClassName, AID], arguments[2])[0];
+  };
+
+  /*
+   * @param aTableName [in] - Type on server: string
+   * @param aFieldName [in] - Type on server: string
+   * @param aCountDigit [in] - Type on server: Integer
+   * @return result - Type on server: string
+   */
+  this.GenerateCustomNo = function(aTableName, aFieldName, aCountDigit) {
+    var returnObject = this.executor.executeMethod('GenerateCustomNo', "GET", [aTableName, aFieldName, aCountDigit], arguments[3], true, arguments[4], arguments[5]);
+    if (arguments[3] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aTableName = aTableName;
+        resultObject.aFieldName = aFieldName;
+        resultObject.aCountDigit = aCountDigit;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GenerateCustomNo_URL = function(aTableName, aFieldName, aCountDigit) {
+    return this.executor.getMethodURL("GenerateCustomNo", "GET", [aTableName, aFieldName, aCountDigit], arguments[3])[0];
+  };
+
+  /*
+   * @param aClassName [in] - Type on server: string
+   * @return result - Type on server: string
+   */
+  this.GenerateNo = function(aClassName) {
+    var returnObject = this.executor.executeMethod('GenerateNo', "GET", [aClassName], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.aClassName = aClassName;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.GenerateNo_URL = function(aClassName) {
+    return this.executor.getMethodURL("GenerateNo", "GET", [aClassName], arguments[1])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param AID [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.RetrieveSingle = function(ModClassName, AID) {
+    var returnObject = this.executor.executeMethod('RetrieveSingle', "GET", [ModClassName, AID], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.AID = AID;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetrieveSingle_URL = function(ModClassName, AID) {
+    return this.executor.getMethodURL("RetrieveSingle", "GET", [ModClassName, AID], arguments[2])[0];
+  };
+
+  /*
+   * @param ModClassName [in] - Type on server: string
+   * @param aCode [in] - Type on server: string
+   * @return result - Type on server: TModApp
+   */
+  this.RetrieveByCode = function(ModClassName, aCode) {
+    var returnObject = this.executor.executeMethod('RetrieveByCode', "GET", [ModClassName, aCode], arguments[2], true, arguments[3], arguments[4]);
+    if (arguments[2] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.ModClassName = ModClassName;
+        resultObject.aCode = aCode;
+        resultObject.result = resultArray[0];
+        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
+          resultObject._cacheId = returnObject.cacheId;
+          resultObject._cmdIndex = returnObject.cmdIndex;
+        }
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  this.RetrieveByCode_URL = function(ModClassName, aCode) {
+    return this.executor.getMethodURL("RetrieveByCode", "GET", [ModClassName, aCode], arguments[2])[0];
+  };
+
+  /*
+   * @param AObjectList [in] - Type on server: TObjectList<uModApp.TModApp>
+   * @return result - Type on server: Boolean
+   */
+  this.SaveBatch = function(AObjectList) {
+    var returnObject = this.executor.executeMethod('"SaveBatch"', "POST", [AObjectList], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObjectList = AObjectList;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: Boolean
+   */
+  this.SaveToDBLog = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDBLog"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: string
+   */
+  this.SaveToDBID = function(AObject) {
+    var returnObject = this.executor.executeMethod('"SaveToDBID"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
+        resultObject.result = resultArray[0];
+        return resultObject;
+      }
+      return returnObject;
+    }
+  };
+
+  /*
+   * @param AObject [in] - Type on server: TModApp
+   * @return result - Type on server: TStrings
+   */
+  this.TestGenerateSQL = function(AObject) {
+    var returnObject = this.executor.executeMethod('"TestGenerateSQL"', "POST", [AObject], arguments[1], true, arguments[2], arguments[3]);
+    if (arguments[1] == null) {
+      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
+        var resultArray = returnObject.result;
+        var resultObject = new Object();
+        resultObject.AObject = AObject;
         resultObject.result = resultArray[0];
         if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
           resultObject._cacheId = returnObject.cacheId;
@@ -6623,18 +8027,22 @@ var JSProxyClassList = {
   "DSAdmin": ["GetPlatformName","ClearResources","FindPackages","FindClasses","FindMethods","CreateServerClasses","DropServerClasses","CreateServerMethods","DropServerMethods","GetServerClasses","ListClasses","DescribeClass","ListMethods","DescribeMethod","GetServerMethods","GetServerMethodParameters","GetDatabaseConnectionProperties","GetDSServerName","ConsumeClientChannel","ConsumeClientChannelTimeout","CloseClientChannel","RegisterClientCallbackServer","UnregisterClientCallback","BroadcastToChannel","BroadcastObjectToChannel","NotifyCallback","NotifyObject"],
   "TServerMethods": ["EchoString","ReverseString"],
   "TTestMethod": ["Hallo"],
-  "TCrud": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TDSProvider": ["Bank_GetDSOverview","Rekening_GetDSLookup","RefPajak_GetDSOverview","RefTipeBarang_GetDSOverview","GroupRekening_GetDSLookup","Rekening_GetDSOverview","Member_GetDSOverview","MemberActivasi_GetDSOverview","RefDiscMember_GetDSOverview","MemberKeluarga_GetDSOverview","RefGrupMember_GetDSOverview","Satuan_GetDSLookup","CostCenter_GetDSLookup","Company_GetDSLookup","CostCenter_GetDSOverview","Company_GetDSOverview","TipePembayaran_GetDSOverview","TipePerusahaan_GetDSOverview","Outlet_GetDSLookup","Lokasi_GetDSLookup","Merchandise_GetDSLookup","MerchandiseGroup_GetDSLookup","SubGroup_GetDSLookup","Satuan_GetDSOverview","Kategori_GetDSLookup","Merk_GetDSLookUp","RefPajak_GetDSLookup","RefTipeBarang_GetDSLookup","TipeSuplier_GetDSOverview","Unit_GetDSOverview","Unit_GetDSLookUp","UnitType_GetDSLookUp","UnitType_GetDSOverview","App_GetDSLookUp","App_GetDSOverview","Bank_GetDSLookup","Barang_GetDSOverview","Gudang_GetDSOverview","RefTipeMember_GetDSOverview","AutAPP_GetDSLookup","TipeKirimPO_GetDSOverview","SuplierGroup_GetDSOverview1","SuplierGroup_GetDSLookup","Suplier_GetDSOverview","TipePerusahaan_GetDSLookup","TipeSuplier_GetDSLookup","Propinsi_GetDSLookUp","Kabupaten_GetDSLookUp","MataUang_GetDSOverview","Agama_GetDSLookup","TipeBonus_GetDSOverview","Document_GetDSOverview","Agama_GetDSOverview","AutUnit_GetDSLookup","BarangSupp_GetDSLookup","BarangQuotation_GetDSLookup","BarangSupp_GetDSLookup2","Barang_ByPOLookUp","Barang_GetDSLookup","Quotation_GetDSOverview","GET_MEMBER_PAS_NO","Merchandise_GetDSOverview","SupMGByOutstandingSO_GetDSLookup","StatusPO_GetDSLookup","TipeHarga_GetDSLookup","RefWilayah_GetDSLookup","Suplier_GetDSLookup","RefTipeMember_GetDSLookup","TipePO_GetDSOverview","TipeCN_GetDSOverview","SO_GetDSOverview","SO_GetDSOLookUp","SubGroup_GetDSOverview","SuplierMerchan_GetDSLookup","DO_GetDSLookUp","DO_GetDSOverview","Gudang_GetDSLookUp","Kompetitor_GetDSOverview","SO_GetDSOLookUpGeneratePO","PO_GetDSOLookUp","PORevisi_GetDSOverview","PO_DSLookUpDetail","PO_GetDSByPeriod","PO_GetDSOLookUpForGR","PO_SKULookUP","PO_SLIP_GetDSOverview","PO_GetDSOverviewDetil","PO_GetDSOverview","RefCreditCard_GetDSOverview","CN_RCV_GetDSOverview","DN_RCV_GetDSOverview","AdjFaktur_GetDSOverview","AP_GetDSLookUp","AP_GetDSLookUpPerOrganization","Organization_GetDSLookup","Shift_GetDSOverview","DODetail_LookupAdjFak","PO_GetDSOLookUpForAdj","AutUser_GetDSOverview","BankCashOut_GetDSByPeriod","RekeningBCOLain_GetDSLookup"],
-  "TDSReport": ["BankCashOut_GetDS_Slip","DO_GetDSNP","DO_GetDS_CheckList","DSA_GetDS","DSR_GetDS","KartuStock_GetDS","StockProduct_GetDS","SO_ByDate","SO_ByDateNoBukti","PO_SLIP_ByDateNoBukti","SO_Test","InvMovement_GetDS"],
+  "TCrud": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TDSProvider": ["AdjFaktur_GetDSOverview","Agama_GetDSLookup","Agama_GetDSOverview","App_GetDSLookUp","App_GetDSOverview","AP_GetDSLookUp","AP_GetDSLookUpPerOrganization","AutAPP_GetDSLookup","AutUnit_GetDSLookup","AutUser_GetDSOverview","AutUser_GetDSLookUp","BankCashOut_GetDSByPeriod","Bank_GetDSLookup","Bank_GetDSOverview","BarangQuotation_GetDSLookup","BarangSupp_GetDSLookup","BarangSupp_GetDSLookup2","Barang_ByPOLookUp","Barang_GetDSLookup","Barang_GetDSOverview","Claim_GetDSOverview","Claim_Lookup_CN","Claim_Lookup_Contrabon","Claim_Lookup_CS","Claim_Lookup_DN","Claim_Lookup_DO","CNDetail_GetDS","CN_RCV_GetDSOverview","Company_GetDSLookup","Company_GetDSOverview","Contrabon_GetDSOverview","CostCenter_GetDSLookup","CostCenter_GetDSOverview","DNDetail_GetDS","DN_RCV_GetDSOverview","Document_GetDSOverview","DODetail_LookupAdjFak","DODetail_WithAdj","DO_GetDSLookUp","DO_GetDSOverview","GET_MEMBER_PAS_NO","GroupRekening_GetDSLookup","Gudang_GetDSLookUp","Gudang_GetDSOverview","Kabupaten_GetDSLookUp","Kategori_GetDSLookup","Kompetitor_GetDSOverview","Lokasi_GetDSLookup","MataUang_GetDSOverview","MemberActivasi_GetDSOverview","MemberKeluarga_GetDSOverview","Member_GetDSOverview","MerchandiseGroup_GetDSLookup","Merchandise_GetDSLookup","Merchandise_GetDSOverview","Merk_GetDSLookUp","Organization_GetDSLookup","Organization_Lookup","Outlet_GetDSLookup","PORevisi_GetDSOverview","PO_DSLookUpDetail","PO_GetDSByPeriod","PO_GetDSOLookUp","PO_GetDSOLookUpForAdj","PO_GetDSOLookUpForGR","PO_GetDSOverview","PO_GetDSOverviewDetil","PO_SKULookUP","PO_SLIP_GetDSOverview","Propinsi_GetDSLookUp","Quotation_GetDSOverview","RefCreditCard_GetDSOverview","RefDiscMember_GetDSOverview","RefGrupMember_GetDSOverview","RefPajak_GetDSLookup","RefPajak_GetDSOverview","RefTipeBarang_GetDSLookup","RefTipeBarang_GetDSOverview","RefTipeMember_GetDSLookup","RefTipeMember_GetDSOverview","RefWilayah_GetDSLookup","RekeningBCOLain_GetDSLookup","Rekening_GetDSLookup","Rekening_GetDSLookupLvl","Rekening_GetDSOverview","Satuan_GetDSLookup","Satuan_GetDSOverview","SetupPOS_GetDSOverview","BeginningBalance_GetDSOverview","SetupPOS_GetDSLookUp","Shift_GetDSOverview","SO_GetDSOLookUp","SO_GetDSOLookUpGeneratePO","SO_GetDSOverview","StatusPO_GetDSLookup","SubGroup_GetDSLookup","SubGroup_GetDSOverview","SuplierGroup_GetDSLookup","SuplierGroup_GetDSOverview1","SuplierMerchan_GetDSLookup","Suplier_GetDSLookup","Suplier_GetDSOverview","SupMGByOutstandingSO_GetDSLookup","TipeBonus_GetDSOverview","TipeCN_GetDSOverview","TipeHarga_GetDSLookup","TipeKirimPO_GetDSOverview","TipePembayaran_GetDSOverview","TipePerusahaan_GetDSLookup","TipePerusahaan_GetDSOverview","TipePO_GetDSOverview","TipeSuplier_GetDSLookup","TipeSuplier_GetDSOverview","UnitType_GetDSLookUp","UnitType_GetDSOverview","Unit_GetDSLookUp","Unit_GetDSOverview"],
+  "TDSReport": ["BankCashOut_GetDS_Slip","DO_GetDSNP","DO_GetDS_CheckList","DSA_GetDS","DSA_GetDSPrint","DSR_GetDS","HistoryAP","InvMovement_GetDS","KartuAP","KartuStock_GetDS","PO_SLIP_ByDateNoBukti","SO_ByDate","SO_ByDateNoBukti","SO_Test","StockProduct_GetDS"],
+  "TJSONCRUD": ["Test","AfterExecuteMethod"],
   "TSuggestionOrder": ["GenerateSO","RetrieveDetails","AfterExecuteMethod"],
-  "TCrudSupplier": ["BeforeSaveToDB","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudPO": ["GeneratePO","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudDO": ["RetrieveByPO","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudCNRecv": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudDNRecv": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudSettingApp": ["RetrieveByCabang","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudQuotation": ["ActivateQuotation","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudAdjFaktur": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"],
-  "TCrudBankCashOut": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveToDBLog","SaveToDBID","TestGenerateSQL","UpdateToDB","AfterExecuteMethod"]
+  "TCrudSupplier": ["BeforeSaveToDB","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudPO": ["GeneratePO","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudDO": ["RetrieveByPO","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudCNRecv": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudDNRecv": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudSettingApp": ["RetrieveByCabang","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudQuotation": ["ActivateQuotation","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudAdjFaktur": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudBankCashOut": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudClaimFaktur": ["SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudUpdatePOS": ["RetreiveSyncronData","UpdateToDB","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"],
+  "TCrudContrabonSales": ["IsTanggalSudahDiinput","SaveToDB","DeleteFromDB","OpenQuery","Retrieve","GenerateCustomNo","GenerateNo","RetrieveSingle","RetrieveByCode","SaveBatch","SaveToDBLog","SaveToDBID","TestGenerateSQL","AfterExecuteMethod"]
 };
 

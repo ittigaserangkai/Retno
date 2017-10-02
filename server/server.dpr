@@ -69,7 +69,8 @@ uses
   uModCustomerInvoice in '..\model\uModCustomerInvoice.pas',
   uModAR in '..\model\uModAR.pas',
   uModDOTrader in '..\model\uModDOTrader.pas',
-  uModPOTrader in '..\model\uModPOTrader.pas';
+  uModPOTrader in '..\model\uModPOTrader.pas',
+  uJSONUtils in '..\lib\uJSONUtils.pas';
 
 {$R *.res}
 
