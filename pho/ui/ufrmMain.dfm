@@ -4,7 +4,7 @@ object frmMain: TfrmMain
   ActiveControl = cbbCompCode
   Caption = 'Head Office :: ASSALAAM HYPERMARKET'
   ClientHeight = 527
-  ClientWidth = 800
+  ClientWidth = 869
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object frmMain: TfrmMain
   object sbMain: TdxStatusBar
     Left = 0
     Top = 507
-    Width = 800
+    Width = 869
     Height = 20
     Panels = <
       item
@@ -49,16 +49,18 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitWidth = 800
   end
   object pnlUnit: TPanel
     Left = 0
     Top = 148
-    Width = 800
+    Width = 869
     Height = 38
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
+    ExplicitWidth = 800
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -105,7 +107,7 @@ object frmMain: TfrmMain
   object dxrbnHO: TdxRibbon
     Left = 0
     Top = 0
-    Width = 800
+    Width = 869
     Height = 120
     BarManager = dxbrmngrHO
     Style = rs2013
@@ -134,6 +136,7 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 6
     TabStop = False
+    ExplicitWidth = 800
     object dxrbntbSystem: TdxRibbonTab
       Caption = 'System'
       Groups = <
@@ -185,6 +188,10 @@ object frmMain: TfrmMain
         item
           Caption = 'Accounting'
           ToolbarName = 'dxbrmngrHOBarAccounting'
+        end
+        item
+          Caption = 'AR'
+          ToolbarName = 'dxbrmngrHOBar3'
         end>
       Index = 3
     end
@@ -1425,6 +1432,12 @@ object frmMain: TfrmMain
       ImageIndex = 60
       OnExecute = actHistoryAPExecute
     end
+    object actCustomerInvoice: TAction
+      Category = 'Finance'
+      Caption = 'Customer Invoice'
+      ImageIndex = 46
+      OnExecute = actCustomerInvoiceExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1601,7 +1614,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCOA'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1779,7 +1792,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnElectricCustomer'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1819,7 +1832,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnContrabonSales'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1863,6 +1876,26 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnJurnal'
         end>
       OneOnRow = False
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrmngrHOBar3: TdxBar
+      Caption = 'AR'
+      CaptionButtons = <>
+      DockedLeft = 645
+      DockedTop = 0
+      FloatLeft = 834
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCustomerInvoice'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2094,6 +2127,11 @@ object frmMain: TfrmMain
     end
     object dxbrbtnContrabonSales: TdxBarButton
       Action = actContrabonSales
+      Category = 0
+      PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnCustomerInvoice: TdxBarButton
+      Action = actCustomerInvoice
       Category = 0
       PaintStyle = psCaptionGlyph
     end

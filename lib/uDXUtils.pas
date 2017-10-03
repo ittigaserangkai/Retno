@@ -1363,6 +1363,7 @@ begin
     else if C is TcxSpinEdit then TcxSpinEdit(C).Value := 0
     else If C.InheritsFrom(TcxCustomEdit) then //standard devexpress parent
       TcxCustomEdit(C).Clear;
+
   end;
 end;
 

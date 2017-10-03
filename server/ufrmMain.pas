@@ -143,7 +143,11 @@ begin
       begin
         try
           ShowMessage(CI_NOBUKTI);
-//          ShowMessage(cont_);
+          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
+          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
+          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
           ShowMessage(DateTimeToStr(CI_TRANSDATE));
 //          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
 //          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));

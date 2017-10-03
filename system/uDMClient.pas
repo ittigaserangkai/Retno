@@ -37,6 +37,7 @@ type
     FCrudContrabonSalesClient: TCrudContrabonSalesClient;
     FCrudUpdatePOSClient: TCrudUpdatePOSClient;
     FCrudSupplierClient: TCrudSupplierClient;
+    FCrudCustomerInvoiceClient: TCrudCustomerInvoiceClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
     function GetCrudClient: TCrudClient;
@@ -49,6 +50,7 @@ type
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
     function GetCrudClaimFakturClient: TCRUDClaimFakturClient;
     function GetCrudContrabonSalesClient: TCrudContrabonSalesClient;
+    function GetCrudCustomerInvoiceClient: TCrudCustomerInvoiceClient;
     function GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
     function GetDSProviderClient: TDSProviderClient;
@@ -77,6 +79,8 @@ type
         GetCrudSettingAppClient write FCrudSettingAppClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
+    property CrudCustomerInvoiceClient: TCrudCustomerInvoiceClient read
+        GetCrudCustomerInvoiceClient write FCrudCustomerInvoiceClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
         FDSProviderClient;
     { Public declarations }
@@ -235,6 +239,15 @@ begin
 
   FCrudContrabonSalesClient := TCrudContrabonSalesClient.Create(DMClient.RestConn, InstanceOwner);
   Result := FCrudContrabonSalesClient;
+end;
+
+function TDMClient.GetCrudCustomerInvoiceClient: TCrudCustomerInvoiceClient;
+begin
+  if FCrudCustomerInvoiceClient = nil then
+    FreeAndNil(FCrudCustomerInvoiceClient);
+
+  FCrudCustomerInvoiceClient := TCrudCustomerInvoiceClient.Create(DMClient.RestConn, InstanceOwner);
+  Result := FCrudCustomerInvoiceClient;
 end;
 
 function TDMClient.GetCrudUpdatePOSClient: TCrudUpdatePOSClient;

@@ -238,7 +238,9 @@ uses
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
   uModAR in '..\model\uModAR.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
-  uModJurnal in '..\model\uModJurnal.pas';
+  uModJurnal in '..\model\uModJurnal.pas',
+  ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
+  ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice};
 
 {$R *.res}
 
@@ -250,5 +252,7 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
   Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
+  Application.CreateForm(TfrmCustomerInvoice, frmCustomerInvoice);
+  Application.CreateForm(TfrmDialogCustomerInvoice, frmDialogCustomerInvoice);
   Application.Run;
 end.

@@ -160,6 +160,9 @@ type
     function Test: TJSONObject;
   end;
 
+  TCrudCustomerInvoice = class(TCrud)
+  end;
+
 
 {$METHODINFO OFF}
 

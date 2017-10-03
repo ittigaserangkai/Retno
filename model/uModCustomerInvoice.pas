@@ -53,20 +53,20 @@ type
 
   TModCustomerInvoiceAPMinus = class(TModApp)
   private
-    FTS_AP: TModAP;
-    FTS_CustomerInvoice: TModCustomerInvoice;
-    FTS_DUEDATE: TDatetime;
-    FTS_NOBUKTI: string;
-    FTS_NOMINAL: Double;
-    FTS_TRANSDATE: TDatetime;
+    FCIPAMINUS_AP: TModAP;
+    FCIPAMINUS_CustomerInvoice: TModCustomerInvoice;
+    FCIPAMINUS_DUEDATE: TDatetime;
+    FCIPAMINUS_NOBUKTI: string;
+    FCIPAMINUS_NOMINAL: Double;
+    FCIPAMINUS_TRANSDATE: TDatetime;
   published
-    property TS_AP: TModAP read FTS_AP write FTS_AP;
-    property TS_CustomerInvoice: TModCustomerInvoice read FTS_CustomerInvoice
-        write FTS_CustomerInvoice;
-    property TS_DUEDATE: TDatetime read FTS_DUEDATE write FTS_DUEDATE;
-    property TS_NOBUKTI: string read FTS_NOBUKTI write FTS_NOBUKTI;
-    property TS_NOMINAL: Double read FTS_NOMINAL write FTS_NOMINAL;
-    property TS_TRANSDATE: TDatetime read FTS_TRANSDATE write FTS_TRANSDATE;
+    property CIPAMINUS_AP: TModAP read FCIPAMINUS_AP write FCIPAMINUS_AP;
+    property CIPAMINUS_CustomerInvoice: TModCustomerInvoice read FCIPAMINUS_CustomerInvoice
+        write FCIPAMINUS_CustomerInvoice;
+    property CIPAMINUS_DUEDATE: TDatetime read FCIPAMINUS_DUEDATE write FCIPAMINUS_DUEDATE;
+    property CIPAMINUS_NOBUKTI: string read FCIPAMINUS_NOBUKTI write FCIPAMINUS_NOBUKTI;
+    property CIPAMINUS_NOMINAL: Double read FCIPAMINUS_NOMINAL write FCIPAMINUS_NOMINAL;
+    property CIPAMINUS_TRANSDATE: TDatetime read FCIPAMINUS_TRANSDATE write FCIPAMINUS_TRANSDATE;
   end;
 
   TModCustomerInvoiceARNew = class(TModApp)
@@ -145,25 +145,38 @@ implementation
 function TModCustomerInvoice.GetCustomerInvoiceAPMinusItems:
     TObjectList<TModCustomerInvoiceAPMinus>;
 begin
+  if FCustomerInvoiceAPMinusItems = nil then
+    FCustomerInvoiceAPMinusItems := TObjectList<TModCustomerInvoiceAPMinus>.Create();
+
   Result := FCustomerInvoiceAPMinusItems;
 end;
 
 function TModCustomerInvoice.GeTModCustomerInvoiceARNews:
     TObjectList<TModCustomerInvoiceARNew>;
 begin
+  if FCustomerInvoiceARNewItems  = nil then
+    FCustomerInvoiceARNewItems := TObjectList<TModCustomerInvoiceARNew>.Create();
+
   Result := FCustomerInvoiceARNewItems;
 end;
 
 function TModCustomerInvoice.GetCustomerInvoiceDOTraderItems:
     TObjectList<TModCustomerInvoiceDOTrader>;
 begin
+  if FCustomerInvoiceDOTraderItems = nil then
+    FCustomerInvoiceDOTraderItems := TObjectList<TModCustomerInvoiceDOTrader>.Create();
+
   Result := FCustomerInvoiceDOTraderItems;
 end;
 
 function TModCustomerInvoice.GetCustomerInvoicePotongAPItems:
     TObjectList<TModCustomerInvoicePotongAP>;
 begin
+  if FCustomerInvoicePotongAPItems = nil then
+    FCustomerInvoicePotongAPItems := TObjectList<TModCustomerInvoicePotongAP>.Create();
+
   Result := FCustomerInvoicePotongAPItems;
+
 end;
 
 

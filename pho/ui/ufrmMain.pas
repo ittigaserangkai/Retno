@@ -27,7 +27,7 @@ uses
   dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter;
+  dxSkinsdxBarPainter, ufrmCustomerInvoice;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -395,6 +395,9 @@ type
     dxbrbtnHistoryAP: TdxBarButton;
     dxbrmngrHOBarAccounting: TdxBar;
     dxbrbtnJurnal: TdxBarButton;
+    dxbrbtnCustomerInvoice: TdxBarButton;
+    actCustomerInvoice: TAction;
+    dxbrmngrHOBar3: TdxBar;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -412,6 +415,7 @@ type
     procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
+    procedure actCustomerInvoiceExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
@@ -703,6 +707,11 @@ end;
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
 begin
   frmCreditCard := TfrmCreditCard.Create(Application);
+end;
+
+procedure TfrmMain.actCustomerInvoiceExecute(Sender: TObject);
+begin
+  frmCustomerInvoice := TfrmCustomerInvoice.Create(Application);
 end;
 
 procedure TfrmMain.actDataProductExecute(Sender: TObject);

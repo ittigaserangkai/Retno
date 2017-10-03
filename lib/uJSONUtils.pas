@@ -22,7 +22,7 @@ class function TJSONUtils.ModelToJSON(AObject: TModApp): TJSONObject;
 var
   ctx : TRttiContext;
   i: Integer;
-  lDate: TDatetime;
+//  lDate: TDatetime;
   lModItem: TModApp;
   lObj: TObject;
   lObjectList: TObject;
@@ -31,7 +31,7 @@ var
   pairName: string;
   rt : TRttiType;
   prop : TRttiProperty;
-  sGenericItemClassName: string;
+//  sGenericItemClassName: string;
   value: TValue;
 begin
   Result := TJSONObject.Create;
