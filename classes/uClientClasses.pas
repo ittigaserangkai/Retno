@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 9/29/2017 10:49:43 AM
+// 02/10/2017 16:29:47
 //
 
 unit uClientClasses;
@@ -262,6 +262,8 @@ type
     FSetupPOS_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBeginningBalance_GetDSOverviewCommand: TDSRestCommand;
     FBeginningBalance_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FJurnal_GetDSOverviewCommand: TDSRestCommand;
+    FJurnal_GetDSOverviewCommand_Cache: TDSRestCommand;
     FSetupPOS_GetDSLookUpCommand: TDSRestCommand;
     FSetupPOS_GetDSLookUpCommand_Cache: TDSRestCommand;
     FShift_GetDSOverviewCommand: TDSRestCommand;
@@ -499,6 +501,8 @@ type
     function SetupPOS_GetDSOverview_Cache(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
     function BeginningBalance_GetDSOverview_Cache(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Jurnal_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Jurnal_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SetupPOS_GetDSLookUp(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
     function SetupPOS_GetDSLookUp_Cache(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Shift_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -623,6 +627,20 @@ type
     function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function StockProduct_GetDS(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
     function StockProduct_GetDS_Cache(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+  end;
+
+  TJSONCRUDClient = class(TDSAdminRestClient)
+  private
+    FTestCommand: TDSRestCommand;
+    FTestCommand_Cache: TDSRestCommand;
+    FAfterExecuteMethodCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function Test(const ARequestFilter: string = ''): TJSONObject;
+    function Test_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    procedure AfterExecuteMethod;
   end;
 
   TSuggestionOrderClient = class(TDSAdminRestClient)
@@ -2366,6 +2384,16 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_Jurnal_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Jurnal_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_SetupPOS_GetDSLookUp: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -2889,6 +2917,16 @@ const
     (Name: 'aGroup_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aSupplier_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aGudang_ID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_Test: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_Test_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7639,6 +7677,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FBeginningBalance_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.Jurnal_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FJurnal_GetDSOverviewCommand = nil then
+  begin
+    FJurnal_GetDSOverviewCommand := FConnection.CreateCommand;
+    FJurnal_GetDSOverviewCommand.RequestType := 'GET';
+    FJurnal_GetDSOverviewCommand.Text := 'TDSProvider.Jurnal_GetDSOverview';
+    FJurnal_GetDSOverviewCommand.Prepare(TDSProvider_Jurnal_GetDSOverview);
+  end;
+  FJurnal_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FJurnal_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FJurnal_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Jurnal_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FJurnal_GetDSOverviewCommand_Cache = nil then
+  begin
+    FJurnal_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FJurnal_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FJurnal_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Jurnal_GetDSOverview';
+    FJurnal_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Jurnal_GetDSOverview_Cache);
+  end;
+  FJurnal_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FJurnal_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.SetupPOS_GetDSLookUp(aDate: TDateTime; AUnitID: string; const ARequestFilter: string): TDataSet;
 begin
   if FSetupPOS_GetDSLookUpCommand = nil then
@@ -8728,6 +8795,8 @@ begin
   FSetupPOS_GetDSOverviewCommand_Cache.DisposeOf;
   FBeginningBalance_GetDSOverviewCommand.DisposeOf;
   FBeginningBalance_GetDSOverviewCommand_Cache.DisposeOf;
+  FJurnal_GetDSOverviewCommand.DisposeOf;
+  FJurnal_GetDSOverviewCommand_Cache.DisposeOf;
   FSetupPOS_GetDSLookUpCommand.DisposeOf;
   FSetupPOS_GetDSLookUpCommand_Cache.DisposeOf;
   FShift_GetDSOverviewCommand.DisposeOf;
@@ -9443,6 +9512,61 @@ begin
   FSO_TestCommand_Cache.DisposeOf;
   FStockProduct_GetDSCommand.DisposeOf;
   FStockProduct_GetDSCommand_Cache.DisposeOf;
+  inherited;
+end;
+
+function TJSONCRUDClient.Test(const ARequestFilter: string): TJSONObject;
+begin
+  if FTestCommand = nil then
+  begin
+    FTestCommand := FConnection.CreateCommand;
+    FTestCommand.RequestType := 'GET';
+    FTestCommand.Text := 'TJSONCRUD.Test';
+    FTestCommand.Prepare(TJSONCRUD_Test);
+  end;
+  FTestCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FTestCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.Test_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FTestCommand_Cache = nil then
+  begin
+    FTestCommand_Cache := FConnection.CreateCommand;
+    FTestCommand_Cache.RequestType := 'GET';
+    FTestCommand_Cache.Text := 'TJSONCRUD.Test';
+    FTestCommand_Cache.Prepare(TJSONCRUD_Test_Cache);
+  end;
+  FTestCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FTestCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+procedure TJSONCRUDClient.AfterExecuteMethod;
+begin
+  if FAfterExecuteMethodCommand = nil then
+  begin
+    FAfterExecuteMethodCommand := FConnection.CreateCommand;
+    FAfterExecuteMethodCommand.RequestType := 'GET';
+    FAfterExecuteMethodCommand.Text := 'TJSONCRUD.AfterExecuteMethod';
+  end;
+  FAfterExecuteMethodCommand.Execute;
+end;
+
+constructor TJSONCRUDClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TJSONCRUDClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TJSONCRUDClient.Destroy;
+begin
+  FTestCommand.DisposeOf;
+  FTestCommand_Cache.DisposeOf;
+  FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
 

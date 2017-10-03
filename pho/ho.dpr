@@ -209,7 +209,6 @@ uses
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
   uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
   ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim},
   uModQuotation in '..\model\uModQuotation.pas',
@@ -237,7 +236,9 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uModAR in '..\model\uModAR.pas';
+  uModAR in '..\model\uModAR.pas',
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModJurnal in '..\model\uModJurnal.pas';
 
 {$R *.res}
 

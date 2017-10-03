@@ -9,6 +9,7 @@ uses
 type
   {$METHODINFO ON}
   TDSProvider = class(TComponent)
+  private
   public
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function Agama_GetDSLookup: TDataSet;
@@ -110,6 +111,7 @@ type
     function SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string): TDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
         string): TDataSet;
+    function Jurnal_GetDSOverview: TDataSet;
     function SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string): TDataSet;
     function Shift_GetDSOverview: TDataSet;
     function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
@@ -1424,6 +1426,14 @@ var
   S: string;
 begin
   S := 'SELECT * FROM V_AUT$UNIT';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Jurnal_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM JURNAL';
   Result := TDBUtils.OpenQuery(S);
 end;
 

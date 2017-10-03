@@ -201,7 +201,6 @@ uses
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModQuotation in '..\model\uModQuotation.pas',
   ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
   ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
@@ -215,7 +214,8 @@ uses
   ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
   ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
   uModSetupPOS in '..\model\uModSetupPOS.pas',
-  uModBeginningBalance in '..\model\uModBeginningBalance.pas';
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

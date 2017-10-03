@@ -1178,6 +1178,7 @@ object frmMain: TfrmMain
     object actJurnal: TAction
       Category = 'Accounting'
       Caption = 'actJurnal'
+      OnExecute = actJurnalExecute
     end
     object actListingProductNBD: TAction
       Caption = 'Listing Produk NBD'

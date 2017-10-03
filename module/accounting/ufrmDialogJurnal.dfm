@@ -2,6 +2,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
   Caption = 'frmDialogJurnal'
   ClientHeight = 468
   ClientWidth = 851
+  ExplicitTop = -62
   ExplicitWidth = 867
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -46,7 +47,6 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Left = 81
         Top = 7
         TabOrder = 4
-        Text = 'edNo'
         Width = 153
       end
       object dtTanggal: TcxDateEdit
@@ -73,7 +73,6 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Left = 81
         Top = 61
         TabOrder = 7
-        Text = 'edNo'
         Width = 153
       end
     end
@@ -100,22 +99,33 @@ inherited frmDialogJurnal: TfrmDialogJurnal
             Column = cxGridColJurCredit
           end>
         DataController.Summary.SummaryGroups = <>
+        OptionsBehavior.FocusFirstCellOnNewRecord = True
+        OptionsBehavior.GoToNextCellOnEnter = True
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsData.Appending = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColJurKode: TcxGridColumn
           Caption = 'Kode'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ImmediatePost = True
+          Properties.OnEditValueChanged = cxGridColJurKodePropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
-          Width = 94
+          Width = 134
         end
         object cxGridColJurNama: TcxGridColumn
           Caption = 'Nama'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = False
           HeaderAlignmentHorz = taCenter
-          Width = 125
+          Options.Editing = False
+          Width = 191
         end
         object cxGridColJurCostCenter: TcxGridColumn
           Caption = 'Cost Center'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
           Width = 124
         end
@@ -128,8 +138,6 @@ inherited frmDialogJurnal: TfrmDialogJurnal
           Caption = 'Debet'
           DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
           HeaderAlignmentHorz = taCenter
           Width = 96
         end
@@ -200,7 +208,10 @@ inherited frmDialogJurnal: TfrmDialogJurnal
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 344
-    Top = 120
+    Left = 520
+    Top = 264
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end
