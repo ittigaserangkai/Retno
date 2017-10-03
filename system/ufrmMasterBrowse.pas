@@ -47,7 +47,6 @@ type
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
     FAutoRefreshData: Boolean;
-    { Private declarations }
   protected
     function ShowDialogForm(DlgFormClass: TMasterDlgClass; AID: String = ''):
         Integer; dynamic;
@@ -56,8 +55,6 @@ type
 //    constructor CreateWithUser(aOwner: TComponent; afrmMaster : TfrmMasterBrowse);
 //        overload;
     procedure GetAndRunButton(AButtonName: string);
-
-    { Public declarations }
   published
     property AutoRefreshData: Boolean read FAutoRefreshData write FAutoRefreshData;
   end;

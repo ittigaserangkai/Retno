@@ -70,6 +70,7 @@ procedure TfrmActivatePOS.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption:= 'POS ACTIVATION';
+  AutoRefreshData := true;
 end;
 
 procedure TfrmActivatePOS.actActivatePOSExecute(Sender: TObject);
@@ -111,6 +112,7 @@ begin
       begin
         FreeAndNil(lListPOS);
         TAppUtils.Information(CONF_EDIT_SUCCESSFULLY, False);
+        RefreshData;
       end;
     except
       TAppUtils.Error(ER_UPDATE_FAILED);
