@@ -411,17 +411,18 @@ var
   lDate: TDateTime;
   lSupp: TModSuplierMerchanGroup;
 begin
-  if not Assigned(ModClaim.CLM_Organization) then exit;
+  if not Assigned(ModOrganization) then exit;
   if CDSDO.Eof then exit;
-  if ModClaim.CLM_Organization.ORG_Code = '' then
-    ModClaim.CLM_Organization.Reload();
 
-  if (ModClaim.CLM_Organization.ORG_IsSupplierMG<>1) then exit;
+  if ModOrganization.ORG_Code = '' then
+    ModOrganization.Reload();
+
+  if (ModOrganization.ORG_IsSupplierMG<>1) then exit;
 
 
   lCDS := CDSDO.ClonedDataset(Self);
   lDate := 0;
-  lSupp := TModSuplierMerchanGroup.CreateID(ModClaim.CLM_Organization.ID);
+  lSupp := TModSuplierMerchanGroup.CreateID(ModOrganization.ID);
   Try
     lSupp.Reload();
     lCDS.First;
@@ -431,7 +432,13 @@ begin
         lDate := lCDS.FieldByName('DO_DATE').AsDateTime;
       lCDS.Next;
     end;
-    dtDueDate.Date := lDate + lSupp.SUPMG_TOP;
+    dtDueDate.Date    := lDate + lSupp.SUPMG_TOP;
+    dtReturnDate.Date := dtDueDate.Date + 1;
+
+    while not (DayOfWeek(dtReturnDate.Date) in [3,5]) do
+    begin
+      dtReturnDate.Date := dtReturnDate.Date + 1;
+    end;
   Finally
     lSupp.Free;
     lCDS.Free;

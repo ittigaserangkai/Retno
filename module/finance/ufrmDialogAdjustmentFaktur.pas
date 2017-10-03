@@ -510,10 +510,10 @@ begin
     exit;
   end;
 
-  if (edOldSubTotal.Value = edNewSubTotal.Value)
-    and (edOldDisc.Value = edNewDisc.Value) then
+  if (Abs(edOldSubTotal.Value - edNewSubTotal.Value)<1)
+    or (Abs(edOldDisc.Value - edNewDisc.Value)<1) then
   begin
-    TAppUtils.Warning('Nilai Subtotal && Discount sebelum && sesudah adjustment sama');
+    TAppUtils.Warning('Nilai Subtotal & Discount sebelum & sesudah adjustment sama');
     exit;
   end;
 
