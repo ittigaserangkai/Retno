@@ -10,7 +10,7 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
   uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut,
-  uModJurnal, uModContrabonSales;
+  uModJurnal, uModContrabonSales, uModCustomerInvoice;
 
 type
   TfrmMain = class(TForm)
@@ -139,12 +139,12 @@ begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModContrabonSales.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModContrabonSales do
+      with Retrieve(TModCustomerInvoice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCustomerInvoice do
       begin
         try
-          ShowMessage(CONT_ORGANIZATION.ID);
+          ShowMessage(CI_NOBUKTI);
 //          ShowMessage(cont_);
-          ShowMessage(DateTimeToStr(CONT_DATE_SALES));
+          ShowMessage(DateTimeToStr(CI_TRANSDATE));
 //          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
 //          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));
 
