@@ -110,7 +110,7 @@ type
   private
     function GenerateUpdateIsClaim(IsClaim: Integer; AClaim: TModClaimFaktur):
         TStrings;
-    function UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur): TCrud;
+    procedure UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur);
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
@@ -1040,8 +1040,8 @@ begin
   );
 end;
 
-function TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
-    TModClaimFaktur): TCrud;
+procedure TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
+    TModClaimFaktur);
 var
   lSS: TStrings;
 begin
