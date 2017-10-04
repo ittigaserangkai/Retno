@@ -1,7 +1,6 @@
 unit ufrmMain;
 
 interface
-
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Menus, Vcl.ComCtrls,
@@ -13,26 +12,26 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
 <<<<<<< HEAD
-  ufrmAPCard, ufrmHistoryAP, dxSkinsCore, dxSkinBlack, dxSkinBlue,
-  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
-  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
-  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
-  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, dxSkinsCore,
+  dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
+  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
+  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
+  dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
+  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
+  dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter, ufrmJurnal, ufrmContrabonSales;
+  dxSkinsdxBarPainter, ufrmCustomerInvoice;
 =======
-  ufrmAPCard, ufrmHistoryAP, ufrmJurnal;
->>>>>>> 436a798da0909b233ee344d22ebec98191b58754
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales;
+>>>>>>> 1f32b40c0f269463ca62f23f8a0f25f5754b5a20
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -78,7 +77,6 @@ type
     actPaymentContrabon: TAction;
     actListARBalance: TAction;
     actImportEOD: TAction;
-    actContrabonSales: TAction;
     actPotonganTagihan: TAction;
     actInvoiceSewaToko: TAction;
     actMasterAgreement: TAction;
@@ -401,7 +399,9 @@ type
     dxbrbtnHistoryAP: TdxBarButton;
     dxbrmngrHOBarAccounting: TdxBar;
     dxbrbtnJurnal: TdxBarButton;
-    dxbrbtnContrabonSales: TdxBarButton;
+    dxbrbtnCustomerInvoice: TdxBarButton;
+    actCustomerInvoice: TAction;
+    dxbrmngrHOBar3: TdxBar;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -419,6 +419,7 @@ type
     procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
+    procedure actCustomerInvoiceExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
@@ -428,6 +429,7 @@ type
     procedure actGudangExecute(Sender: TObject);
     procedure actHistoryAPExecute(Sender: TObject);
     procedure actJurnalEntryExecute(Sender: TObject);
+    procedure actJurnalExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
@@ -534,7 +536,8 @@ uses
   ufrmHistoryPO, ufrmPrintHistoryPOBySupplier, ufrmInvMovementQTY,
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
-  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift;
+  ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
+  uModSettingApp, uTSCommonDlg;
 
 {$R *.dfm}
 
@@ -677,17 +680,17 @@ end;
 
 procedure TfrmMain.actContrabonSalesExecute(Sender: TObject);
 begin
-  frmContrabonSales := TfrmContrabonSales.Create(nil);
+  frmContrabonSales := TfrmContrabonSales.Create(Self);
 end;
 
 procedure TfrmMain.actHariLiburExecute(Sender: TObject);
 begin
-    frmHariLibur := TfrmHariLibur.CreateWithUser(Application, FFormProperty);
+  frmHariLibur := TfrmHariLibur.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLokasiExecute(Sender: TObject);
 begin
-    frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
+  frmLokasi := TfrmLokasi.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMasterCustomerExecute(Sender: TObject);
@@ -710,6 +713,11 @@ begin
   frmCreditCard := TfrmCreditCard.Create(Application);
 end;
 
+procedure TfrmMain.actCustomerInvoiceExecute(Sender: TObject);
+begin
+  frmCustomerInvoice := TfrmCustomerInvoice.Create(Application);
+end;
+
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
@@ -727,7 +735,7 @@ end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
 begin
-    frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
+  frmGenPO := TfrmGenPO.Create(Application);//, FFormProperty);
 end;
 
 procedure TfrmMain.actHistoryPOExecute(Sender: TObject);
@@ -748,6 +756,11 @@ end;
 procedure TfrmMain.actJurnalEntryExecute(Sender: TObject);
 begin
   frmJurnal := TfrmJurnal.Create(nil);
+end;
+
+procedure TfrmMain.actJurnalExecute(Sender: TObject);
+begin
+  frmJurnal := TfrmJurnal.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actShiftExecute(Sender: TObject);
@@ -777,13 +790,12 @@ end;
 
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
 begin
-    frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+  frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLaporanStokExecute(Sender: TObject);
 begin
-    frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
-
+  frmStokBarang := TfrmStokBarang.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLapReturSupExecute(Sender: TObject);
@@ -793,18 +805,17 @@ end;
 
 procedure TfrmMain.actListingPObyMGExecute(Sender: TObject);
 begin
-    frmListingPOByMerchandisingGroup := TfrmListingPOByMerchandisingGroup.CreateWithUser(Application, FFormProperty);
-
+  frmListingPOByMerchandisingGroup := TfrmListingPOByMerchandisingGroup.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actListingQuotationHargaBeliExecute(Sender: TObject);
 begin
-    frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
+  frmListQuotHB := TfrmListQuotHB.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
 begin
-    frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
+  frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);
@@ -831,6 +842,7 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  Msg: string;
   sIDUnit: string;
 begin
   FFormProperty   := TFormProperty.Create;
@@ -854,8 +866,8 @@ begin
 
 //  FFilePathReport := GetFilePathReport;
 
-  frmMain.Height := 640;
-  frmMain.Width := 800;
+  frmMain.Height  := 640;
+  frmMain.Width   := 800;
   frmMain.Caption := ParamStr(0) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
@@ -874,8 +886,22 @@ begin
   //setting unit toko
   sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
   if sIDUnit <> '' then
-    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+  begin
+    try
+      TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
+      TRetno.SettingApp := TModSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(
+        TRetno.UnitStore, TRetno.UnitStore.ID));
+    except
+      on E:Exception do
+      begin
+        if E is EHTTPProtocolException then
+          Msg := EHTTPProtocolException(E).ErrorMessage;
 
+        //notif saja. jangan warning
+        CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMain.actOnExitExecute(Sender: TObject);
