@@ -91,9 +91,9 @@ object fraMember: TfraMember
     object Label1: TLabel
       Left = 6
       Top = 9
-      Width = 112
+      Width = 91
       Height = 15
-      Caption = 'Nama Member [F5]'
+      Caption = 'Nama Member :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
