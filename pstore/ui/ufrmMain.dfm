@@ -84,7 +84,6 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
-      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
+      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -1205,7 +1205,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False

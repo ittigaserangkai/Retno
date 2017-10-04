@@ -1615,7 +1615,7 @@ inherited frmDialogProduct: TfrmDialogProduct
                 Width = 49
               end
               object clSuppSupplier: TcxGridDBColumn
-                Caption = 'SUPPLIER'
+                Caption = 'SUPPLIER 2'
                 DataBinding.FieldName = 'Supplier_Merchan'
                 PropertiesClassName = 'TcxExtLookupComboBoxProperties'
                 Width = 233

@@ -435,7 +435,7 @@ end;
 procedure TfrmTransaksi.FormShow(Sender: TObject);
 begin
 //  {$IFDEF RMS}
-  sgTransaksi.SetVisibleColumns(_KolDiscMan, _KolDiscMan, False);
+  sgTransaksi.SetVisibleColumns(_KolDiscManForm, _KolDiscMan, False);
 //  {$ENDIF}
   sgTransaksi.SetVisibleColumns(_KolIsDecimal, _ColCount, False);
 

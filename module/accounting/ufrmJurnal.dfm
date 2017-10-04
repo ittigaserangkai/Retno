@@ -2,6 +2,7 @@ inherited frmJurnal: TfrmJurnal
   Caption = 'Jurnal'
   ClientWidth = 702
   ExplicitWidth = 718
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
@@ -116,7 +117,6 @@ inherited frmJurnal: TfrmJurnal
       ExplicitWidth = 702
       inherited lbEscape: TLabel
         Left = 628
-        Height = 17
         ExplicitLeft = 628
       end
     end

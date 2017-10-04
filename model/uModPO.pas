@@ -90,6 +90,7 @@ type
     FPOItems: TObjectList<TModPOItem>;
     FPO_NO_REF: string;
     FPO_COLIE: Double;
+    FPO_IS_CLAIM: Integer;
     FPO_DATE: TDateTime;
     FPO_DELIVER_DATE: TDateTime;
     FPO_DESCRIPTION: string;
@@ -120,6 +121,7 @@ type
     property PO_SUBTOTAL: Double read GetPO_SUBTOTAL;
   published
     property PO_COLIE: Double read FPO_COLIE write FPO_COLIE;
+    property PO_IS_CLAIM: Integer read FPO_IS_CLAIM write FPO_IS_CLAIM;
     property PO_DATE: TDateTime read FPO_DATE write FPO_DATE;
     property PO_DELIVER_DATE: TDateTime read FPO_DELIVER_DATE write
         FPO_DELIVER_DATE;

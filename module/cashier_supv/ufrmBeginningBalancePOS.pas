@@ -76,6 +76,7 @@ begin
   inherited;
   lblHeader.Caption := _Caption;
   ClearByTag([0]);
+  AutoRefreshData := true;
 //  edtSupervisorID.EditValue := FLoginFullname;
 end;
 
@@ -366,7 +367,9 @@ procedure TfrmBeginningBalancePOS.cxGridViewFocusedRecordChanged(Sender:
     TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  edtCashierName.EditValue := CDS.FieldByName('CASHIER_NAME').Value;
+  if Assigned(CDS) then
+    if CDS.RecordCount > 0 then
+      edtCashierName.EditValue := CDS.FieldByName('CASHIER_NAME').Value;
 end;
 
 function TfrmBeginningBalancePOS.IsBeginningBalanceUsed(aBalance_ID, aUnitID:

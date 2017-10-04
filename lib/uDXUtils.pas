@@ -873,22 +873,19 @@ end;
 procedure TcxDBGridHelper.AutoFormatText;
 var
   i: Integer;
+  lCol: TcxGridDBColumn;
   lDS: TDataSet;
 begin
   lDS := Self.DataController.DataSource.DataSet;
-
-  //why use DS, because sometime format CDS <> grid.column.format
   for i := 0 to lDS.FieldCount-1 do
   begin
-    If not Assigned(Self.GetColumnByFieldName(lDS.Fields[i].FieldName)) then
-      continue;
-    with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
+    lCol := Self.GetColumnByFieldName(lDS.Fields[i].FieldName);
+    If not Assigned(lCol) then  continue;
+    If lDS.Fields[i].DataType in [ftString] then
     begin
-      If lDS.Fields[i].DataType in [ftString] then
-      begin
-        PropertiesClassName := 'TcxTextEditProperties';
-        DataBinding.ValueType := 'String';
-      end;
+      lCol.DataBinding.ValueType := 'String';
+      if lCol.PropertiesClass = nil then
+        lCol.PropertiesClassName := 'TcxTextEditProperties';
     end;
   end;
 end;

@@ -110,7 +110,7 @@ type
   private
     function GenerateUpdateIsClaim(IsClaim: Integer; AClaim: TModClaimFaktur):
         TStrings;
-    function UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur): TCrud;
+    procedure UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur);
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
@@ -1009,11 +1009,20 @@ function TCrudClaimFaktur.GenerateUpdateIsClaim(IsClaim: Integer; AClaim:
     TModClaimFaktur): TStrings;
 begin
   Result := TStringList.Create;
+
   Result.Append(
     'UPDATE C SET C.DO_IS_CLAIM = ' + IntToStr(IsClaim)
     + ' FROM CLAIMFAKTUR A'
     + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
     + ' INNER JOIN DO C ON B.CLMD_DO_ID = C.DO_ID'
+    + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
+  );
+
+  Result.Append(
+    'UPDATE C SET C.PO_IS_CLAIM = ' + IntToStr(IsClaim)
+    + ' FROM CLAIMFAKTUR A'
+    + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
+    + ' INNER JOIN PO C ON B.CLMD_DO_PO_ID = C.PO_ID'
     + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
   );
 
@@ -1043,8 +1052,8 @@ begin
   );
 end;
 
-function TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
-    TModClaimFaktur): TCrud;
+procedure TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
+    TModClaimFaktur);
 var
   lSS: TStrings;
 begin

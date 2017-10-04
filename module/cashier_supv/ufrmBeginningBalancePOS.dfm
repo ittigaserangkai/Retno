@@ -112,7 +112,7 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
     inherited btnSearch: TcxButton
       Left = 561
       TabOrder = 2
-      ExplicitLeft = 534
+      ExplicitLeft = 561
     end
     inherited lblsdFilter: TcxLabel
       Left = 316
@@ -120,25 +120,22 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
       AnchorY = 17
     end
     object cxLabel1: TcxLabel
-      Left = 490
+      Left = 531
       Top = 1
       Align = alRight
       Caption = 'Shift'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 479
-      ExplicitTop = -2
       AnchorY = 17
     end
     object edtShift: TcxTextEdit
       AlignWithMargins = True
-      Left = 520
+      Left = 493
       Top = 4
       Align = alRight
       Properties.Alignment.Horz = taCenter
       TabOrder = 1
       OnKeyPress = edtShiftKeyPress
-      ExplicitLeft = 493
       Width = 35
     end
   end
@@ -173,7 +170,6 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
       ExplicitWidth = 643
       inherited lbEscape: TLabel
         Left = 569
-        Height = 17
         ExplicitLeft = 569
       end
     end
