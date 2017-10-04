@@ -2,7 +2,6 @@ inherited frmDialogJurnal: TfrmDialogJurnal
   Caption = 'frmDialogJurnal'
   ClientHeight = 468
   ClientWidth = 851
-  ExplicitTop = -62
   ExplicitWidth = 867
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -61,7 +60,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Width = 153
       end
       object memDesc: TcxMemo
-        Tag = -1
+        Tag = 1
         Left = 359
         Top = 7
         Properties.ScrollBars = ssVertical
@@ -70,6 +69,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Width = 223
       end
       object edReference: TcxTextEdit
+        Tag = 1
         Left = 81
         Top = 61
         TabOrder = 7
@@ -138,6 +138,9 @@ inherited frmDialogJurnal: TfrmDialogJurnal
           Caption = 'Debet'
           DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.Nullable = False
           HeaderAlignmentHorz = taCenter
           Width = 96
         end
@@ -147,6 +150,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.Nullable = False
           HeaderAlignmentHorz = taCenter
           Width = 100
         end
@@ -189,14 +193,20 @@ inherited frmDialogJurnal: TfrmDialogJurnal
       ExplicitWidth = 851
       inherited lbCTRLEnter: TLabel
         Left = 676
+        Height = 15
         ExplicitLeft = 676
       end
       inherited lbEscape: TLabel
         Left = 767
+        Height = 15
         ExplicitLeft = 767
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 600
+        Height = 15
         ExplicitLeft = 600
       end
     end

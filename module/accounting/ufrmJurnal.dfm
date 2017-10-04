@@ -1,24 +1,29 @@
 inherited frmJurnal: TfrmJurnal
   Caption = 'Jurnal'
-  ClientWidth = 702
-  ExplicitWidth = 718
-  ExplicitHeight = 240
+  ClientHeight = 430
+  ClientWidth = 724
+  ExplicitWidth = 740
+  ExplicitHeight = 469
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 702
+    Width = 724
+    Height = 341
     ExplicitWidth = 702
     inherited pgcBrowse: TcxPageControl
-      Width = 700
+      Width = 722
+      Height = 339
       ExplicitWidth = 700
-      ClientRectRight = 699
+      ClientRectBottom = 338
+      ClientRectRight = 721
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 698
         ExplicitHeight = 310
         inherited cxGrid: TcxGrid
-          Width = 698
+          Width = 720
+          Height = 337
           ExplicitWidth = 698
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
@@ -51,7 +56,7 @@ inherited frmJurnal: TfrmJurnal
     end
   end
   inherited pnlHeader: TPanel
-    Width = 702
+    Width = 724
     ExplicitWidth = 702
     inherited lblHeader: TLabel
       Width = 34
@@ -59,40 +64,41 @@ inherited frmJurnal: TfrmJurnal
       ExplicitWidth = 34
     end
     inherited lblFilterData: TcxLabel
-      Left = 348
+      Left = 370
       Visible = True
       ExplicitLeft = 348
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 409
+      Left = 431
       Visible = True
       ExplicitLeft = 409
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 525
+      Left = 547
       Visible = True
       ExplicitLeft = 525
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 620
+      Left = 642
       ExplicitLeft = 620
     end
     inherited lblsdFilter: TcxLabel
-      Left = 501
+      Left = 523
       Visible = True
       ExplicitLeft = 501
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Width = 702
+    Top = 374
+    Width = 724
     ExplicitTop = -56
     ExplicitWidth = 702
     inherited pnlFooter: TPanel
-      Width = 702
+      Width = 724
       ExplicitWidth = 702
       inherited btnAdd: TcxButton
         Action = actAdd
@@ -104,7 +110,7 @@ inherited frmJurnal: TfrmJurnal
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 625
+        Left = 647
         Action = actClose
         ExplicitLeft = 625
       end
@@ -113,10 +119,11 @@ inherited frmJurnal: TfrmJurnal
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 702
+      Width = 724
       ExplicitWidth = 702
       inherited lbEscape: TLabel
-        Left = 628
+        Left = 650
+        Height = 17
         ExplicitLeft = 628
       end
     end

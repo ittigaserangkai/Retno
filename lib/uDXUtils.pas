@@ -208,6 +208,8 @@ type
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
 
+function VarToFLoat(aValue: Variant): Double;
+
 
 implementation
 
@@ -231,6 +233,14 @@ begin
   cxGridLevel          := Result.Levels.Add;
   cxGridDBTableView    := Result.CreateView(TcxGridDBTableView) as TcxGridDBTableView;
   cxGridLevel.GridView := cxGridDBTableView;
+end;
+
+function VarToFLoat(aValue: Variant): Double;
+begin
+  if VarIsNull(aValue) then
+    Result := 0
+  else
+    Result := aValue;
 end;
 
 function DataControllerHelper.GetFooterSummary(ASummaryIndex: Integer): Variant;
