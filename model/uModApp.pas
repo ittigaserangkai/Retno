@@ -60,6 +60,7 @@ type
     function PropFromAttr(attr: TAttributeClass; WithException: Boolean = True):
         TRttiProperty;
     function QuotValue(AProp: TRttiProperty): String;
+    function GetSQLServerFieldType(AProp: TRttiProperty): String;
     function QuotValueNoBracket(AProp: TRttiProperty): String;
     class procedure RegisterRTTI;
     function RemoveBracket(cValue: string): string;
@@ -260,6 +261,35 @@ begin
               if TModApp(lObj).ID <> '' then
                 Result := QuotedStr(TModApp(lObj).ID);
         end
+    else
+      Raise Exception.Create(
+        'Property Type tidak terdaftar atas ' + Self.ClassName + ',' + AProp.Name);
+    end;
+  end;
+end;
+
+function TModApp.GetSQLServerFieldType(AProp: TRttiProperty): String;
+var
+  lDate: TDateTime;
+  lObj: TObject;
+begin
+  if AProp.Name = 'ID' then
+    Result := ' uniqueidentifier primary key nonclustered '
+  else If LowerCase(AProp.PropertyType.Name) = LowerCase('TDateTime') then
+  begin
+    Result := ' datetime2 '
+  end else begin
+    case AProp.PropertyType.TypeKind of
+      tkInteger, tkInt64:
+        Result := ' integer ';
+      tkFloat:
+        Result := ' double precision ';
+      tkString, tkLString, tkUString, tkChar, tkWString, tkVariant:
+        Result := ' varchar(20) ';
+      tkEnumeration:
+        Result := ' ineter ';
+      tkClass:
+        Result := ' uniqueidentifier ';
     else
       Raise Exception.Create(
         'Property Type tidak terdaftar atas ' + Self.ClassName + ',' + AProp.Name);

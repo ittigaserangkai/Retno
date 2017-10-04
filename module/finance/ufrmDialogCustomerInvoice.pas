@@ -12,7 +12,8 @@ uses
   cxData, cxDataStorage, cxNavigator, cxDBExtLookupComboBox, cxCurrencyEdit,
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxClasses,
   cxGridCustomView, cxGrid, cxMemo, cxListView, uInterface, uDXUtils,
-  ufrmCXLookup, uModOrganization, Datasnap.DBClient, uDBUtils;
+  ufrmCXLookup, uModOrganization, Datasnap.DBClient, uDBUtils,
+  uModCustomerInvoice, uAppUtils;
 
 type
   TfrmDialogCustomerInvoice = class(TfrmMasterDialog, ICRUDAble)
@@ -25,16 +26,14 @@ type
     edOrganization: TcxButtonEdit;
     dtTanggal: TcxDateEdit;
     cxgrdDetail: TcxGrid;
-    cxGridTableAPList: TcxGridTableView;
-    cxGridColAPAP: TcxGridColumn;
-    cxGridColAPTanggal: TcxGridColumn;
-    cxGridColAPJatuhTempo: TcxGridColumn;
+    cxGridTableARNew: TcxGridTableView;
+    cxGridColARNoBukti: TcxGridColumn;
+    cxGridColARTanggal: TcxGridColumn;
+    cxGridColARJatuhTempo: TcxGridColumn;
     cxGridColAPRekeningID: TcxGridColumn;
-    cxGridColAPRekening: TcxGridColumn;
-    cxGridColAPKeterangan: TcxGridColumn;
-    cxGridColAPNominal: TcxGridColumn;
-    cxGridColAPSisa: TcxGridColumn;
-    cxGridColAPBayar: TcxGridColumn;
+    cxGridColARRekening: TcxGridColumn;
+    cxGridColARKeterangan: TcxGridColumn;
+    cxGridColARNominal: TcxGridColumn;
     cxGridTableOther: TcxGridTableView;
     cxGridColOtherKode: TcxGridColumn;
     cxGridColOtherNama: TcxGridColumn;
@@ -54,15 +53,23 @@ type
     memDesc: TcxMemo;
     lblKeteranan: TLabel;
     lblTotal: TLabel;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edOrganizationPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure edOrganizationPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGridTableARNewDataControllerAfterInsert(
+      ADataController: TcxCustomDataController);
   private
     FCDSOrganisasi: tclientDataSet;
+    FCI: TModCustomerInvoice;
     FOrganization: TModOrganization;
     function GetCDSOrganisasi: tclientDataSet;
+    function GetCI: TModCustomerInvoice;
+    function IsBisaHapus: Boolean;
+    function IsBisaSimpan: Boolean;
     procedure LoadDataOrganization(AKodeAtauID : String; AIsLoadByKode : Boolean);
     property CDSOrganisasi: tclientDataSet read GetCDSOrganisasi write
         FCDSOrganisasi;
@@ -70,6 +77,7 @@ type
   protected
   public
     procedure LoadData(AID : String);
+    property CI: TModCustomerInvoice read GetCI write FCI;
     { Public declarations }
   end;
 
@@ -81,6 +89,51 @@ implementation
 {$R *.dfm}
 
 uses uDMClient;
+
+procedure TfrmDialogCustomerInvoice.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+
+  if not IsBisaHapus then
+    Exit;
+
+  if DMClient.CrudCustomerInvoiceClient.DeleteFromDB(CI) then
+  begin
+    Self.ModalResult := mrOk;
+  end;
+end;
+
+procedure TfrmDialogCustomerInvoice.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+
+  if not IsBisaSimpan then
+    Exit;
+
+  CI.CI_NOBUKTI := edNoBukti.Text;
+  CI.CI_Description := memDesc.Text;
+  CI.CI_ORGANIZATION := TModOrganization.CreateID(FOrganization.ID);
+  CI.CI_TRANSDATE := dtTanggal.Date;
+
+  try
+    if DMClient.CrudCustomerInvoiceClient.SaveToDB(CI) then
+    begin
+      TAppUtils.InformationBerhasilSimpan;
+    end;
+  except
+    raise;
+  end;
+
+end;
+
+procedure TfrmDialogCustomerInvoice.cxGridTableARNewDataControllerAfterInsert(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARNoBukti.Index] := edNoBukti.Text + '-xx';
+  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARTanggal.Index] := dtTanggal.Date;
+  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARJatuhTempo.Index] := dtTanggal.Date + 1;
+end;
 
 procedure TfrmDialogCustomerInvoice.edOrganizationPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
@@ -123,14 +176,62 @@ begin
   Result := FCDSOrganisasi;
 end;
 
+function TfrmDialogCustomerInvoice.GetCI: TModCustomerInvoice;
+begin
+  if FCI = nil then
+    FCI := TModCustomerInvoice.Create;
+
+  Result := FCI;
+end;
+
+function TfrmDialogCustomerInvoice.IsBisaHapus: Boolean;
+begin
+  Result := False;
+
+  if not TAppUtils.Confirm('Anda yakin akan menghapus data ?') then
+    Exit;
+
+  Result := True;
+end;
+
+function TfrmDialogCustomerInvoice.IsBisaSimpan: Boolean;
+begin
+  Result := False;
+
+  if not ValidateEmptyCtrl([1]) then
+    Exit;
+
+  if FOrganization = nil then
+  begin
+    TAppUtils.Warning('Organisasi Belum Dipilih');
+    Exit;
+  end else if FOrganization.id = '' then
+  begin
+    TAppUtils.Warning('Organisasi Belum Dipilih');
+    Exit;
+  end;
+
+
+  Result := True;
+end;
+
 procedure TfrmDialogCustomerInvoice.LoadData(AID : String);
 begin
   ClearByTag([0,1]);
   edNoBukti.Text := 'Otomatis';
+  FreeAndNil(FCI);
 
   if AID = '' then
     Exit;
 
+  FCI := TModCustomerInvoice(DMClient.CrudCustomerInvoiceClient.Retrieve(TModCustomerInvoice.ClassName, AID));
+  if FCI = nil then
+    Exit;
+
+  edNoBukti.Text := CI.CI_NOBUKTI;
+  memDesc.Text   := CI.CI_Description;
+  dtTanggal.Date := CI.CI_TRANSDATE;
+  LoadDataOrganization(CI.CI_ORGANIZATION.ID, False);
 end;
 
 procedure TfrmDialogCustomerInvoice.LoadDataOrganization(AKodeAtauID : String;

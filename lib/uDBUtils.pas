@@ -59,6 +59,7 @@ type
     class function GetSQLDelete(AObject: TModApp): String; overload;
     class function GetSQLInsert(AObject: TModApp): String;
     class function GetSQLUpdate(AObject: TModApp): String;
+    class function GetSQLCreate(AObject: TModApp): String;
     class procedure LoadFromDB(AOBject: TModApp; AID: String; LoadObjectList:
         Boolean = True);
     class procedure LoadByCode(AOBject: TModApp; aCode: String);
@@ -90,6 +91,7 @@ const
   SQL_Update  : String = 'Update %s set %s where %s;';
   SQL_Delete  : String = 'Delete From %s where %s;';
   SQL_Select  : String = 'Select %s from %s where %s';
+  SQL_Create  : String = 'create table %s ( %s );';
 
 implementation
 
@@ -756,6 +758,35 @@ var
 begin
   sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
   Result  := Format(SQL_Delete,[AObject.GetTableName,sFilter]);
+end;
+
+class function TDBUtils.GetSQLCreate(AObject: TModApp): String;
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  UpdateVal : string;
+  FieldName : String;
+  sFilter : String;
+begin
+  UpdateVal := '';
+
+  rt := ctx.GetType(AObject.ClassType);
+  for prop in rt.GetProperties do
+  begin
+//    if UpperCase(prop.Name) = 'ID' then continue;
+    If prop.Visibility <> mvPublished then continue;
+
+    FieldName  := AObject.FieldNameOf(prop);
+
+    If UpdateVal <> '' then UpdateVal := UpdateVal + ',';
+    UpdateVal := UpdateVal + FieldName + ' ' + AObject.GetSQLServerFieldType(prop)
+  end;
+
+  sFilter   := '';
+
+  Result := Format(SQL_Create,[AObject.GetTableName,UpdateVal]);
+  Result := UpperCase(Result);
 end;
 
 class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String;

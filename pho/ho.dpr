@@ -236,11 +236,14 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uModAR in '..\model\uModAR.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
   uModJurnal in '..\model\uModJurnal.pas',
   ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
-  ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice};
+  ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice},
+  uModCustomerInvoice in '..\model\uModCustomerInvoice.pas',
+  uModPOTrader in '..\model\uModPOTrader.pas',
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uModAR in '..\model\uModAR.pas';
 
 {$R *.res}
 

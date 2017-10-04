@@ -24,6 +24,8 @@ type
     function AutUser_GetDSLookUp(aGroupName: string): TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
+    function CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: String): TDataSet;
@@ -283,6 +285,19 @@ begin
   sSQL := 'select * from V_BANKCASHOUT '
     + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_CUSTOMERINVOICE '
+    + ' where CI_TRANSDATE between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
+    + ' order by CI_TRANSDATE desc, CI_NOBUKTI desc';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;

@@ -195,26 +195,25 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       ExplicitTop = 121
       ExplicitWidth = 795
       ExplicitHeight = 287
-      object cxGridTableAPList: TcxGridTableView
+      object cxGridTableARNew: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
           item
             Format = ',0.00;(,0.00)'
             Kind = skSum
-            Column = cxGridColAPNominal
+            Column = cxGridColARNominal
           end
           item
             Format = ',0.00;(,0.00)'
             Kind = skSum
-            Column = cxGridColAPSisa
           end
           item
             Format = ',0.00;(,0.00)'
             Kind = skSum
-            Column = cxGridColAPBayar
           end>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnAfterInsert = cxGridTableARNewDataControllerAfterInsert
         OptionsBehavior.FocusFirstCellOnNewRecord = True
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True
@@ -223,27 +222,31 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColAPAP: TcxGridColumn
-          AlternateCaption = 'BCOAP_AP'
-          Caption = 'AP'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
-          Properties.ImmediatePost = True
+        object cxGridColARNoBukti: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_NOBUKTI'
+          Caption = 'No Bukti'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          Width = 133
         end
-        object cxGridColAPTanggal: TcxGridColumn
+        object cxGridColARTanggal: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_TRANSDATE'
           Caption = 'Tanggal'
           PropertiesClassName = 'TcxDateEditProperties'
-          Properties.ReadOnly = True
+          Properties.ReadOnly = False
           Properties.ShowTime = False
           HeaderAlignmentHorz = taCenter
+          Width = 107
         end
-        object cxGridColAPJatuhTempo: TcxGridColumn
+        object cxGridColARJatuhTempo: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_DUEDATE'
           Caption = 'Jatuh Tempo'
           PropertiesClassName = 'TcxDateEditProperties'
-          Properties.ReadOnly = True
+          Properties.ReadOnly = False
           Properties.ShowTime = False
           HeaderAlignmentHorz = taCenter
-          Width = 86
+          Width = 137
         end
         object cxGridColAPRekeningID: TcxGridColumn
           AlternateCaption = 'BCOAP_Rekening'
@@ -251,19 +254,21 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
           Visible = False
           Width = 78
         end
-        object cxGridColAPRekening: TcxGridColumn
+        object cxGridColARRekening: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_REKENING'
           Caption = 'Rekening'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 88
+          Width = 133
         end
-        object cxGridColAPKeterangan: TcxGridColumn
-          AlternateCaption = 'BCOAP_Keterangan'
+        object cxGridColARKeterangan: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_DESCRIPTION'
           Caption = 'Keterangan'
           HeaderAlignmentHorz = taCenter
-          Width = 124
+          Width = 213
         end
-        object cxGridColAPNominal: TcxGridColumn
+        object cxGridColARNominal: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_NOMINAL'
           Caption = 'Nominal'
           DataBinding.ValueType = 'Currency'
           PropertiesClassName = 'TcxCurrencyEditProperties'
@@ -271,27 +276,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 100
-        end
-        object cxGridColAPSisa: TcxGridColumn
-          Caption = 'Sisa'
-          DataBinding.ValueType = 'Currency'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          Properties.ReadOnly = True
-          HeaderAlignmentHorz = taCenter
-          Width = 100
-        end
-        object cxGridColAPBayar: TcxGridColumn
-          AlternateCaption = 'BCOAP_Nominal'
-          Caption = 'Bayar'
-          DataBinding.ValueType = 'Currency'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          HeaderAlignmentHorz = taCenter
-          Width = 100
+          Width = 151
         end
       end
       object cxGridTableOther: TcxGridTableView
@@ -400,7 +385,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       end
       object cxgrdlvlAPList: TcxGridLevel
         Caption = 'AR New'
-        GridView = cxGridTableAPList
+        GridView = cxGridTableARNew
       end
       object cxgrdlvlOther: TcxGridLevel
         Caption = 'AP Minus'
@@ -455,5 +440,11 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
   inherited actlstMasterDialog: TActionList
     Left = 632
     Top = 240
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

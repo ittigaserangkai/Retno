@@ -7,7 +7,7 @@ uses
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON,
-  System.JSON.Builders, System.JSON.Types, System.JSON.Writers;
+  System.JSON.Builders, System.JSON.Types, System.JSON.Writers, uModCustomerInvoice;
 
 type
   {$METHODINFO ON}
@@ -34,6 +34,8 @@ type
     function SaveToDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
     function ValidateCode(AOBject: TModApp): Boolean;
   public
+    function CreateTableSQL(AModAPP : TModApp): string; overload;
+    function CreateTableSQLByClassName(AClassName : String): string; overload;
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
     function OpenQuery(S: string): TDataSet;
@@ -161,6 +163,8 @@ type
   end;
 
   TCrudCustomerInvoice = class(TCrud)
+  protected
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 
@@ -194,6 +198,21 @@ end;
 function TCrud.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin
   Result := True;
+end;
+
+function TCrud.CreateTableSQL(AModAPP : TModApp): string;
+begin
+  Result := TDBUtils.GetSQLCreate(AModAPP);
+  // TODO -cMM: TCrud.CreateTableSQLByClassName default body inserted
+end;
+
+function TCrud.CreateTableSQLByClassName(AClassName : String): string;
+var
+  AObject: TObject;
+  C : TRttiContext;
+begin
+  AObject := (C.FindType(AClassName) as TRttiInstanceType).MetaClassType.Create;;
+  Result := CreateTableSQL(TModApp(AObject));
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
@@ -1302,6 +1321,19 @@ begin
   finally
     lModCNR.Free;
   end;
+end;
+
+function TCrudCustomerInvoice.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  if AObject = nil then
+    Exit;
+
+  if AObject.ID = '' then
+    TModCustomerInvoice(AObject).CI_NOBUKTI := 'CI-' + GenerateNo(TModCustomerInvoice.ClassName);
+
+  Result := True;
 end;
 
 

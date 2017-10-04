@@ -11,7 +11,8 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogCustomerInvoice, Datasnap.DBClient;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogCustomerInvoice,
+  Datasnap.DBClient, uDBUtils, uDMClient, System.DateUtils, uDXUtils;
 
 type
   TfrmCustomerInvoice = class(TfrmMasterBrowse)
@@ -48,10 +49,10 @@ procedure TfrmCustomerInvoice.RefreshData;
 begin
   inherited;
 
-//  if Assigned(FCDS) then FreeAndNil(FCDS);
-//  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.BankCashOut_GetDSByPeriod(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
-//  cxGridView.LoadFromCDS(FCDS);
-//  cxGridView.SetVisibleColumns(['BANKCASHOUT_ID','BCO_Bank_ID','BCO_Organization_ID',''],False);
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.CustomerInvoice_Overview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['CUSTOMERINVOICE_ID', 'ci_organization_id',''],False);
 
 end;
 
