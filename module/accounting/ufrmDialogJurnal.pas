@@ -13,10 +13,25 @@ uses
   dxCore, cxDateUtils, cxMemo, cxMaskEdit, cxDropDownEdit, cxCalendar,
   uModJurnal, uAppUtils,
   uConstanta, uDXUtils, cxDBExtLookupComboBox, cxCalc, Datasnap.DBClient,
-  uDBUtils, uModRekening, uModCostCenter;
+  uDBUtils, uModRekening, uModCostCenter, dxSkinsCore, dxSkinBlack, dxSkinBlue,
+  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
+  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
+  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
+  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
+  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter, uInterface;
 
 type
-  TfrmDialogJurnal = class(TfrmMasterDialog)
+  TfrmDialogJurnal = class(TfrmMasterDialog, ICRUDAble)
     pnlHeader: TPanel;
     cxgrdlvlDetail: TcxGridLevel;
     cxgrdJurnal: TcxGrid;
@@ -45,7 +60,7 @@ type
     function GetModJurnal: TModJurnal;
     procedure initView;
     procedure SimpanData;
-    procedure ValidateData;
+    function ValidateData: Boolean;
     procedure UpdateData;
     property CDSAccount: TClientDataSet read FCDSAccount write FCDSAccount;
     property CDSCostCenter: TClientDataSet read FCDSCostCenter write FCDSCostCenter;
@@ -60,6 +75,9 @@ var
   frmDialogJurnal: TfrmDialogJurnal;
 
 implementation
+
+uses
+  uModelHelper;
 
 {$R *.dfm}
 
@@ -90,6 +108,7 @@ end;
 procedure TfrmDialogJurnal.actSaveExecute(Sender: TObject);
 begin
   inherited;
+  if not ValidateData then exit;
   UpdateData;
   SimpanData;
 end;
@@ -118,23 +137,50 @@ begin
     );
   end;
 
-//  LoadData('');
+  LoadData('');
 end;
 
 procedure TfrmDialogJurnal.LoadData(ID: String);
+var
+  i: Integer;
+  iRec: Integer;
+  lItem: TModJurnalItem;
 begin
-  FModJurnal := DMclient.CrudClient.Retrieve(TModJurnal.ClassName, ID) as TModJurnal;
+  if ID <> '' then //berarti lihat/edit
+  begin
+    FModJurnal      := DMclient.CrudClient.Retrieve(TModJurnal.ClassName, ID) as TModJurnal;
+  end else
+  begin
+    FModJurnal            := TModJurnal.Create;
+    FModJurnal.JUR_DATE   := Now();
+  end;
 
+  //isi dari modjurnal
   edNo.Text         := ModJurnal.JUR_NO;
   dtTanggal.Date    := ModJurnal.JUR_DATE;
   edReference.Text  := ModJurnal.JUR_REF_NO;
   memDesc.Text      := ModJurnal.JUR_DESCRIPTION;
+
+  //load detail
+
+  cxGridTableJurnal.ClearRows;
+  for i := 0 to ModJurnal.JUR_JURNALITEMS.Count-1 do
+  begin
+    lItem := ModJurnal.JUR_JURNALITEMS[i];
+    iRec  := cxGridTableJurnal.DataController.AppendRecord;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurKode.Index] := lItem.JURD_REKENING.ID;
+
+    //rekening di load dulu, karena sebelumny cuma isi ID saja. biar REK_NAME bisa diakses
+    lItem.JURD_REKENING.Reload();
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurNama.Index] := lItem.JURD_REKENING.REK_NAME;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCostCenter.Index] := lItem.JURD_COCENTER.ID;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDebet.Index] := lItem.JURD_DEBET;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCredit.Index] := lItem.JURD_CREDIT;
+  end;
 end;
 
 procedure TfrmDialogJurnal.SimpanData;
 begin
-//  if not ValidateEmptyCtrl([1], True, pnlBody) then exit;
-
   try
     DMClient.CrudClient.SaveToDB(ModJurnal);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
@@ -145,9 +191,45 @@ begin
   end;
 end;
 
-procedure TfrmDialogJurnal.ValidateData;
-begin
+function TfrmDialogJurnal.ValidateData: Boolean;
+var
+  i: Integer;
+  lTotalCredit: Double;
+  lTotalDebet: Double;
 
+begin
+  Result := False;
+  if not ValidateEmptyCtrl([0,1]) then exit;
+
+  // validasi total debet = total credit
+  lTotalDebet := cxGridTableJurnal.GetFooterSummary(cxGridColJurDebet);
+  lTotalCredit:= cxGridTableJurnal.GetFooterSummary(cxGridColJurCredit);
+  if not (lTotalDebet = lTotalCredit) then
+  begin
+    TAppUtils.Warning('Total debet dan kredit tidak sama');
+    exit;
+  end;
+
+  //validasi jumlah baris harus lebih dari 1
+  if cxGridTableJurnal.DataController.RecordCount < 2 then
+  begin
+    TAppUtils.Warning('Jurnal minimal 2 baris');
+    exit;
+  end;
+
+  //validasi harus terisi: kode (rekening), deskripsi,
+  for i := 0 to cxGridTableJurnal.DataController.RecordCount-1 do
+    begin
+    if varisnull (cxGridTableJurnal.Values(i,cxGridColJurKode.Index)) then
+      begin
+        TAppUtils.Warning('Rekening belum diisi pada baris ke-'+IntToStr(i+1));
+        exit;
+      end;
+    end;
+
+  //validasi ga boleh ada baris D K 0
+
+  Result := True;
 end;
 
 procedure TfrmDialogJurnal.UpdateData;
@@ -173,8 +255,8 @@ begin
         lItem.JURD_COCENTER := TModCostCenter.CreateID(cxGridTableJurnal.Values(i,cxGridColJurCostCenter.Index));
       if not VarIsNull(cxGridTableJurnal.Values(i,cxGridColJurDescription.Index)) then
         lItem.JURD_DESCRIPTION  := cxGridTableJurnal.Values(i,cxGridColJurDescription.Index);
-      lItem.JURD_DEBET        := cxGridTableJurnal.Values(i,cxGridColJurDebet.Index);
-      lItem.JURD_CREDIT       := cxGridTableJurnal.Values(i,cxGridColJurCredit.Index);
+      lItem.JURD_DEBET        := VarToFloat(cxGridTableJurnal.Values(i,cxGridColJurDebet.Index));
+      lItem.JURD_CREDIT       := VarToFloat(cxGridTableJurnal.Values(i,cxGridColJurCredit.Index));
       ModJurnal.JUR_JURNALITEMS.Add(lItem)
     end;
 
