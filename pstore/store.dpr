@@ -213,6 +213,8 @@ uses
   uModOrganization in '..\model\uModOrganization.pas',
   ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
   ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
+
+  
   uModSetupPOS in '..\model\uModSetupPOS.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uClientClasses in '..\classes\uClientClasses.pas';

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/5/2017 8:43:22 AM
+// 10/5/2017 9:05:52 AM
 //
 
 unit uClientClasses;
@@ -597,6 +597,8 @@ type
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
     FSO_ByDateNoBuktiCommand_Cache: TDSRestCommand;
+    FClaim_by_IdCommand: TDSRestCommand;
+    FClaim_by_IdCommand_Cache: TDSRestCommand;
     FSO_TestCommand: TDSRestCommand;
     FSO_TestCommand_Cache: TDSRestCommand;
     FStockProduct_GetDSCommand: TDSRestCommand;
@@ -631,6 +633,8 @@ type
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function Claim_by_Id(id: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function Claim_by_Id_Cache(id: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_Test(const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_Test_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function StockProduct_GetDS(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): TDataSet;
@@ -3019,6 +3023,18 @@ const
     (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_Claim_by_Id: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'id'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_Claim_by_Id_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'id'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -9868,6 +9884,46 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FSO_ByDateNoBuktiCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSReportClient.Claim_by_Id(id: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FClaim_by_IdCommand = nil then
+  begin
+    FClaim_by_IdCommand := FConnection.CreateCommand;
+    FClaim_by_IdCommand.RequestType := 'GET';
+    FClaim_by_IdCommand.Text := 'TDSReport.Claim_by_Id';
+    FClaim_by_IdCommand.Prepare(TDSReport_Claim_by_Id);
+  end;
+  FClaim_by_IdCommand.Parameters[0].Value.SetWideString(id);
+  FClaim_by_IdCommand.Execute(ARequestFilter);
+  if not FClaim_by_IdCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FClaim_by_IdCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FClaim_by_IdCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FClaim_by_IdCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.Claim_by_Id_Cache(id: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FClaim_by_IdCommand_Cache = nil then
+  begin
+    FClaim_by_IdCommand_Cache := FConnection.CreateCommand;
+    FClaim_by_IdCommand_Cache.RequestType := 'GET';
+    FClaim_by_IdCommand_Cache.Text := 'TDSReport.Claim_by_Id';
+    FClaim_by_IdCommand_Cache.Prepare(TDSReport_Claim_by_Id_Cache);
+  end;
+  FClaim_by_IdCommand_Cache.Parameters[0].Value.SetWideString(id);
+  FClaim_by_IdCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FClaim_by_IdCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSReportClient.SO_Test(const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_TestCommand = nil then
@@ -9981,6 +10037,8 @@ begin
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;
   FSO_ByDateNoBuktiCommand_Cache.DisposeOf;
+  FClaim_by_IdCommand.DisposeOf;
+  FClaim_by_IdCommand_Cache.DisposeOf;
   FSO_TestCommand.DisposeOf;
   FSO_TestCommand_Cache.DisposeOf;
   FStockProduct_GetDSCommand.DisposeOf;

@@ -12,12 +12,13 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, ufrmDialogClaim,
-  Datasnap.DBClient, uAppUtils, uDBUtils, uDXUtils;
+  Datasnap.DBClient, uAppUtils, uDBUtils, uDXUtils, uDMReport, uClientClasses;
 
 type
   TfrmClaim = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -50,6 +51,19 @@ begin
   if not Assigned(CDS) then exit;
   if CDS.Eof then exit;
   ShowDialogForm(TfrmDialogClaim, CDS.FieldByName('claimfaktur_id').AsString);
+end;
+
+procedure TfrmClaim.actPrintExecute(Sender: TObject);
+var
+  id: string;
+begin
+  inherited;
+  id:= CDS.FieldByName('claimfaktur_id').AsString;
+  DmReport.ExecuteReport(
+  'reports/Slip_Claim' ,
+  DMReport.ReportClient.Claim_by_Id(id) ,
+  []
+  );
 end;
 
 procedure TfrmClaim.RefreshData;
