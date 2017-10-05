@@ -641,6 +641,8 @@ begin
   if ASupMGCodeID <> '' then
     sSQL := sSQL + ' and SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMGCodeID);
 
+  sSQL := sSQL + ' order by DO_DATE desc';
+
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
