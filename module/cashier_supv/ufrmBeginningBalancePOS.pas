@@ -11,51 +11,43 @@ uses
   cxDateUtils, Vcl.Menus, cxCurrencyEdit, ufraFooter4Button, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC;
+  cxGridDBTableView, cxGrid, cxPC, Datasnap.DBClient;
 
 type
   TfrmBeginningBalancePOS = class(TfrmMasterBrowse)
-    pnl1: TPanel;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    dt1: TcxDateEdit;
     pnl3: TPanel;
     lbl3: TLabel;
-    edtCashierName: TEdit;
-    edtSupervisorID: TEdit;
     lbl4: TLabel;
     lbl5: TLabel;
     curredtGrandTot: TcxCurrencyEdit;
-    edtShift: TEdit;
-    btnPrint: TcxButton;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    cxLabel1: TcxLabel;
+    edtShift: TcxTextEdit;
+    edtCashierName: TcxTextEdit;
+    edtSupervisorID: TcxTextEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
-    procedure dt1AcceptDate(Sender: TObject; var ADate: TDateTime;
-      var Action: Boolean);
     procedure FormShow(Sender: TObject);
-    procedure strgGridRowChanging(Sender: TObject; OldRow, NewRow: Integer;
-      var Allow: Boolean);
     procedure edtShiftKeyPress(Sender: TObject; var Key: Char);
-    procedure edtShiftChange(Sender: TObject);
-    procedure edtShiftExit(Sender: TObject);
-    procedure edtShiftEnter(Sender: TObject);
-    procedure strgGridGetFloatFormat(Sender: TObject; ACol, ARow: Integer;
-      var IsFloat: Boolean; var FloatFormat: String);
     procedure actPrintExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
+    procedure cxGridViewFocusedRecordChanged(Sender: TcxCustomGridTableView;
+        APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+        ANewItemRecordFocusingChanged: Boolean);
+    procedure dtAkhirFilterPropertiesEditValueChanged(Sender: TObject);
   private
-    dataBeginningBlnc: TDataSet;
-    bufShift: String;
+//    dataBeginningBlnc: TDataSet;
+    FCDS: TClientDataSet;
     function IsBeginningBalanceUsed(aBalance_ID, aUnitID: Integer): Boolean;
+    function IsShiftExist: Boolean;
     procedure ParseHeaderGrid(jmlData: Integer);
     procedure ParseDataGrid();
     procedure prepareAdd();
     procedure prepareEdit();
+    property CDS: TClientDataSet read FCDS write FCDS;
   public
-    { Public declarations }
+    FShiftID: string;
+    procedure RefreshData; override;
   end;
 
 var
@@ -63,39 +55,29 @@ var
 
 implementation
 
-uses ufrmDialogBeginningBalancePOS, uTSCommonDlg,
-   uConstanta, uRetnoUnit, udmReport;
+uses
+  ufrmDialogBeginningBalancePOS, uTSCommonDlg, uConstanta, uRetnoUnit,
+  uDXUtils, uDBUtils, uDMClient, uModShift, uAppUtils;
 
 const
-      _Caption      : String = 'SETTING POS BEGINNING BALANCE';
-      _kolNo        : Integer = 0;
-      _kolPosCode   : Integer = 1;
-      _kolCashierName: Integer = 2;
-      _kolBegBal    : Integer = 3;
-      _kolDesc      : Integer = 4;
-      _kolBegBal_ID : Integer = 5;
-      _kolUser_ID   : Integer = 6;
+  _Caption        : String = 'SETTING POS BEGINNING BALANCE';
+//  _kolNo          : Integer = 0;
+//  _kolPosCode     : Integer = 1;
+//  _kolCashierName : Integer = 2;
+//  _kolBegBal      : Integer = 3;
+//  _kolDesc        : Integer = 4;
+//  _kolBegBal_ID   : Integer = 5;
+//  _kolUser_ID     : Integer = 6;
 
 {$R *.dfm}
-
-procedure TfrmBeginningBalancePOS.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-  ////frmMain.DestroyMenu((Sender as TForm));
-  Action := caFree;
-end;
 
 procedure TfrmBeginningBalancePOS.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := _Caption;
-  edtCashierName.Clear;
-  edtSupervisorID.Clear;
-  curredtGrandTot.Value:= 0;
-  dt1.Date := now;
-  edtShift.Text := '';
-  ParseDataGrid;
+  ClearByTag([0]);
+  AutoRefreshData := true;
+//  edtSupervisorID.EditValue := FLoginFullname;
 end;
 
 procedure TfrmBeginningBalancePOS.FormDestroy(Sender: TObject);
@@ -107,52 +89,33 @@ end;
 procedure TfrmBeginningBalancePOS.actAddExecute(Sender: TObject);
 begin
   inherited;
-  if (dt1.Date = null) then Exit;
-
-  if edtShift.Text = '' then
+  if VarIsNull(edtShift.EditValue) then
   begin
     CommonDlg.ShowMessage('Shift harap di isi dulu');
     edtShift.SetFocus;
     Exit;
   end;
-
-  prepareAdd();
-
-  if (frmDialogBeginBalancePOS.IsProcessSuccessfull) then
-  begin
-    actRefreshExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atAdd);
-  end;
-
-  frmDialogBeginBalancePOS.Free;
+  ShowDialogForm(TfrmDialogBeginBalancePOS);
 end;
 
 procedure TfrmBeginningBalancePOS.actEditExecute(Sender: TObject);
 begin
   inherited;
-  {if (strgGrid.Cells[_kolBegBal_ID,strgGrid.Row] = '0') or (strgGrid.Cells[_kolPosCode,strgGrid.Row] = '') then Exit;
-
+  {
   if IsBeginningBalanceUsed(StrToInt(strgGrid.Cells[_kolBegBal_ID,strgGrid.Row]),masternewunit.id) then
   begin
     CommonDlg.ShowMessage('Kasir sudah transaksi, tidak bisa diedit.');
     Exit;
   end;
-
-  prepareEdit();
-
-  if (frmDialogBeginBalancePOS.IsProcessSuccessfull) then
-  begin
-    actRefreshBeginBalancePOSExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atEdit);
-  end;
-  frmDialogBeginBalancePOS.Free;
   }
+  ShowDialogForm(TfrmDialogBeginBalancePOS, CDS.FieldByName('BEGINNING_BALANCE_ID').AsString);
 end;
 
-procedure TfrmBeginningBalancePOS.dt1AcceptDate(Sender: TObject;
-  var ADate: TDateTime; var Action: Boolean);
+procedure TfrmBeginningBalancePOS.dtAkhirFilterPropertiesEditValueChanged(
+  Sender: TObject);
 begin
-  actRefreshExecute(Self);
+  inherited;
+  RefreshData;
 end;
 
 procedure TfrmBeginningBalancePOS.ParseHeaderGrid(jmlData: Integer);
@@ -186,15 +149,12 @@ begin
 end;
 
 procedure TfrmBeginningBalancePOS.ParseDataGrid;
-var intI: Integer;
-    tempBool: Boolean;
-    grandTotal: Currency;
-    sTemp : String;
+//var intI: Integer;
+//    tempBool: Boolean;
+//    grandTotal: Currency;
+//    sTemp : String;
 begin
-  if edtShift.Text='' then Exit;
-  edtCashierName.Clear;
-  edtSupervisorID.Clear;
-  curredtGrandTot.Value:= 0;
+
   {
   if not Assigned(BeginningBalancePOS) then
     BeginningBalancePOS := TBeginningBalancePOS.Create;
@@ -258,38 +218,34 @@ begin
   edtShift.SetFocus;
 end;
 
-procedure TfrmBeginningBalancePOS.strgGridRowChanging(Sender: TObject;
-  OldRow, NewRow: Integer; var Allow: Boolean);
-begin
-//  edtCashierName.Text := strgGrid.Cells[_kolCashierName,NewRow];
-  edtSupervisorID.Text := FLoginFullname;
-end;
-
 procedure TfrmBeginningBalancePOS.prepareAdd();
 begin
+  {
   if not assigned(frmDialogBeginBalancePOS) then
     Application.CreateForm(TfrmDialogBeginBalancePOS, frmDialogBeginBalancePOS);
 
   frmDialogBeginBalancePOS.Caption := 'Add POS Beginning Balance';
-  frmDialogBeginBalancePOS.FormMode := fmAdd;
+//  frmDialogBeginBalancePOS.FormMode := fmAdd;
   frmDialogBeginBalancePOS.Balance_ID := 0;
 
-  frmDialogBeginBalancePOS.Balance_Shift_Date := dt1.Date;
+  frmDialogBeginBalancePOS.Balance_Shift_Date := dtAkhirFilter.Date;
 //  if not assigned(BeginningBalancePOS) then
 //    BeginningBalancePOS := TBeginningBalancePOS.Create;
 //  frmDialogBeginBalancePOS.Balance_Shift_ID := BeginningBalancePOS.GetShiftId(edtShift.Text, masternewunit.id);
 
   SetFormPropertyAndShowDialog(frmDialogBeginBalancePOS);
+  }
 end;
 
 procedure TfrmBeginningBalancePOS.prepareEdit();
 begin
-  if not assigned(frmDialogBeginBalancePOS) then
+  {
+    if not assigned(frmDialogBeginBalancePOS) then
     Application.CreateForm(TfrmDialogBeginBalancePOS, frmDialogBeginBalancePOS);
 
   frmDialogBeginBalancePOS.Caption := 'Edit POS Beginning Balance';
   frmDialogBeginBalancePOS.FormMode := fmEdit;
-  {
+
   //setting var
   frmDialogBeginBalancePOS.Balance_ID := StrToInt(strgGrid.Cells[_kolBegBal_ID,strgGrid.Row]);
   frmDialogBeginBalancePOS.Balance_Shift_Date := dt1.Date;
@@ -314,40 +270,8 @@ begin
   inherited;
   if Key = Chr(VK_RETURN) then
   begin
-    edtShiftExit(Self);
+    RefreshData;
   end 
-end;
-
-procedure TfrmBeginningBalancePOS.edtShiftChange(Sender: TObject);
-begin
-  inherited;
-  edtCashierName.Clear;
-  edtSupervisorID.Clear;
-  curredtGrandTot.Value:= 0;
-  ParseHeaderGrid(1);
-end;
-
-procedure TfrmBeginningBalancePOS.edtShiftExit(Sender: TObject);
-begin
-  inherited;
-  if edtShift.Text <> '' then
-    ParseDataGrid();
-end;
-
-procedure TfrmBeginningBalancePOS.edtShiftEnter(Sender: TObject);
-begin
-  inherited;
-  bufShift:= edtShift.Text;
-end;
-
-procedure TfrmBeginningBalancePOS.strgGridGetFloatFormat(Sender: TObject;
-  ACol, ARow: Integer; var IsFloat: Boolean; var FloatFormat: String);
-begin
-  inherited;
-  FloatFormat:= '%.2n';
-  if ACol = 3 then
-    IsFloat:= True
-  else IsFloat:= False;
 end;
 
 procedure TfrmBeginningBalancePOS.actPrintExecute(Sender: TObject);
@@ -438,10 +362,14 @@ begin
   }
 end;
 
-procedure TfrmBeginningBalancePOS.actRefreshExecute(Sender: TObject);
+procedure TfrmBeginningBalancePOS.cxGridViewFocusedRecordChanged(Sender:
+    TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
+    TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  ParseDataGrid();
+  if Assigned(CDS) then
+    if CDS.RecordCount > 0 then
+      edtCashierName.EditValue := CDS.FieldByName('CASHIER_NAME').Value;
 end;
 
 function TfrmBeginningBalancePOS.IsBeginningBalanceUsed(aBalance_ID, aUnitID:
@@ -456,6 +384,55 @@ begin
     end;
   end;
   }
+end;
+
+function TfrmBeginningBalancePOS.IsShiftExist: Boolean;
+var
+  lModShift: TModShift;
+begin
+  Result := False;
+  lModShift := TModShift.Create;
+  try
+    lModShift := DMclient.CrudClient.RetrieveByCode(TModShift.ClassName, edtShift.EditValue) as TModShift;
+
+    if lModShift.SHIFT_NAME = '' then
+    begin
+      lblHeader.Caption := _Caption;
+      TAppUtils.Error(ER_SHIFT_NOT_FOUND);
+      edtShift.SetFocus;
+    end else
+    begin
+      FShiftID  := lModShift.ID;
+      lblHeader.Caption := _Caption + ' ['
+                        + FormatDateTime('hh:mm:ss', lModShift.SHIFT_START_TIME) + ' - '
+                        + FormatDateTime('hh:mm:ss', lModShift.SHIFT_END_TIME) + ']';
+      Result := True;
+    end;
+  finally
+    lModShift.Free;
+  end;
+end;
+
+procedure TfrmBeginningBalancePOS.RefreshData;
+begin
+  inherited;
+  if edtShift.Text = '' then
+    Exit
+  else if not IsShiftExist then
+    Exit;
+
+  edtCashierName.Clear;
+  edtSupervisorID.Clear;
+  curredtGrandTot.Value := 0;
+
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.BeginningBalance_GetDSOverview(dtAkhirFilter.Date, edtShift.EditValue, TRetno.UnitStore.ID) ,Self );
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['BEGINNING_BALANCE_ID','AUT$UNIT_ID','BALANCE_SHIFT_DATE','SHIFT_NAME'],False);
+  cxGridView.SetReadOnlyAllColumns(True);
+  cxGridView.SetSummaryByColumns(['BEGINNING_BALANCE']);
+  curredtGrandTot.EditValue := cxGridView.GetFooterSummary('BEGINNING_BALANCE');
+//  cxGridView.DataController.FocusedRecordIndex := 0;
 end;
 
 end.

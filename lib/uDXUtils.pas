@@ -194,6 +194,7 @@ type
     procedure SetValue(ARec, ACol : Integer; AValue : Variant);
     function Double(ARec, ACol : Integer): Double;
     function Date(ARec, ACol : Integer): TDatetime;
+    function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
     function Int(ARec, ACol : Integer): Integer;
     function Text(ARec, ACol : Integer): string;
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
@@ -206,6 +207,8 @@ type
 
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
+
+function VarToFLoat(aValue: Variant): Double;
 
 
 implementation
@@ -230,6 +233,14 @@ begin
   cxGridLevel          := Result.Levels.Add;
   cxGridDBTableView    := Result.CreateView(TcxGridDBTableView) as TcxGridDBTableView;
   cxGridLevel.GridView := cxGridDBTableView;
+end;
+
+function VarToFLoat(aValue: Variant): Double;
+begin
+  if VarIsNull(aValue) then
+    Result := 0
+  else
+    Result := aValue;
 end;
 
 function DataControllerHelper.GetFooterSummary(ASummaryIndex: Integer): Variant;
@@ -872,22 +883,19 @@ end;
 procedure TcxDBGridHelper.AutoFormatText;
 var
   i: Integer;
+  lCol: TcxGridDBColumn;
   lDS: TDataSet;
 begin
   lDS := Self.DataController.DataSource.DataSet;
-
-  //why use DS, because sometime format CDS <> grid.column.format
   for i := 0 to lDS.FieldCount-1 do
   begin
-    If not Assigned(Self.GetColumnByFieldName(lDS.Fields[i].FieldName)) then
-      continue;
-    with Self.GetColumnByFieldName(lDS.Fields[i].FieldName) do
+    lCol := Self.GetColumnByFieldName(lDS.Fields[i].FieldName);
+    If not Assigned(lCol) then  continue;
+    If lDS.Fields[i].DataType in [ftString] then
     begin
-      If lDS.Fields[i].DataType in [ftString] then
-      begin
-        PropertiesClassName := 'TcxTextEditProperties';
-        DataBinding.ValueType := 'String';
-      end;
+      lCol.DataBinding.ValueType := 'String';
+      if lCol.PropertiesClass = nil then
+        lCol.PropertiesClassName := 'TcxTextEditProperties';
     end;
   end;
 end;
@@ -1240,6 +1248,7 @@ procedure TcxDBGridHelper.SetReadOnlyAllColumns(IsReadOnly: Boolean);
 var
   i: Integer;
 begin
+  SetReadOnly(not IsReadOnly);
   for i := 0 to Self.ColumnCount-1 do
   begin
     If Assigned(Self.Columns[i]) then
@@ -1361,6 +1370,7 @@ begin
     else if C is TcxSpinEdit then TcxSpinEdit(C).Value := 0
     else If C.InheritsFrom(TcxCustomEdit) then //standard devexpress parent
       TcxCustomEdit(C).Clear;
+
   end;
 end;
 
@@ -1636,6 +1646,25 @@ end;
 function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
 begin
   Result := VarToDateTime(Self.DataController.Values[ARec, ACol]);
+end;
+
+function TcxGridTableViewHelper.GetFooterSummary(aColumn: TcxGridColumn):
+    Variant;
+var
+  i: Integer;
+begin
+  Result := 0;
+
+  with Self.DataController.Summary do
+  begin
+    for i :=0 to FooterSummaryItems.Count-1 do
+    begin
+//      If FooterSummaryItems.Items[i].ItemLink.ClassName <> aColumn.ClassName then
+//        continue;
+      If FooterSummaryItems.Items[i].ItemLink = aColumn then
+        Result := FooterSummaryValues[i];
+    end;
+  end;
 end;
 
 function TcxGridTableViewHelper.Int(ARec, ACol : Integer): Integer;

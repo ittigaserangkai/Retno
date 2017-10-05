@@ -45,7 +45,7 @@ type
     function GetDO_SUBTOTAL: Double;
     procedure SetPO(const Value: TModPO);
   public
-    constructor Create;
+    constructor Create; override;
     destructor Destroy; override;
     property DOItems: TobjectList<TModDOItem> read GetDOItems write FDOItems;
     property DO_SUBTOTAL: Double read GetDO_SUBTOTAL;

@@ -630,12 +630,12 @@ end;
 
 class procedure TAppUtils.InformationBerhasilHapus;
 begin
-  //MessageDlg(_MSG_BERHASIL_HAPUS, mtInformation, [mbYes], 0);;
+  Information(_MSG_BERHASIL_HAPUS);
 end;
 
 class procedure TAppUtils.InformationBerhasilSimpan;
 begin
-  //MessageDlg(_MSG_BERHASIL_SIMPAN, mtInformation, [mbYes], 0);;
+  Information(_MSG_BERHASIL_SIMPAN);
 end;
 
 class procedure TAppUtils.InformationBerhasilSimpan(aNoBukti: string);

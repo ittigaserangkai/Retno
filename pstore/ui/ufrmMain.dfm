@@ -105,6 +105,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
+      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -154,7 +155,6 @@ object frmMain: TfrmMain
       Index = 7
     end
     object dxrbntbSupvCashier: TdxRibbonTab
-      Active = True
       Caption = 'Supervisor Cashier'
       Groups = <
         item
@@ -1205,7 +1205,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1243,6 +1243,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnActivatePOS'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBeginningBalance'
         end>
       OneOnRow = True
       Row = 0
@@ -1392,6 +1396,13 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'New Button'
       Visible = ivAlways
+    end
+    object dxbrbtnBeginningBalance: TdxBarButton
+      Caption = 'Beginning Balance'
+      Category = 0
+      Hint = 'Beginning Balance'
+      Visible = ivAlways
+      OnClick = actBeginBalancePOSExecute
     end
   end
 end

@@ -6,7 +6,8 @@ uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
-  uModContrabonSales, System.DateUtils;
+  uModContrabonSales, System.DateUtils, System.JSON,
+  System.JSON.Builders, System.JSON.Types, System.JSON.Writers, uModCustomerInvoice;
 
 type
   {$METHODINFO ON}
@@ -33,6 +34,8 @@ type
     function SaveToDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
     function ValidateCode(AOBject: TModApp): Boolean;
   public
+    function CreateTableSQL(AModAPP : TModApp): string; overload;
+    function CreateTableSQLByClassName(AClassName : String): string; overload;
     function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
     function OpenQuery(S: string): TDataSet;
@@ -109,7 +112,7 @@ type
   private
     function GenerateUpdateIsClaim(IsClaim: Integer; AClaim: TModClaimFaktur):
         TStrings;
-    function UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur): TCrud;
+    procedure UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur);
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
@@ -139,7 +142,6 @@ type
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
-    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
   end;
 
@@ -147,6 +149,22 @@ type
   public
     function IsTanggalSudahDiinput(AModContrabonSales : TModContrabonSales):
         Boolean;
+  end;
+
+  TJSONCRUD = class(TBaseServerClass)
+  private
+    FCRUD: TCrud;
+  protected
+    function GetCRUD: TCrud;
+    function ModToJSON(aModApp: TModApp): TJSONObject;
+    property CRUD: TCrud read GetCRUD write FCRUD;
+  public
+    function Test: TJSONObject;
+  end;
+
+  TCrudCustomerInvoice = class(TCrud)
+  protected
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 
@@ -159,7 +177,8 @@ implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModPO,
-  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants;
+  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants, REST.Json, uModBank,
+  uJSONUtils;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -179,6 +198,21 @@ end;
 function TCrud.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin
   Result := True;
+end;
+
+function TCrud.CreateTableSQL(AModAPP : TModApp): string;
+begin
+  Result := TDBUtils.GetSQLCreate(AModAPP);
+  // TODO -cMM: TCrud.CreateTableSQLByClassName default body inserted
+end;
+
+function TCrud.CreateTableSQLByClassName(AClassName : String): string;
+var
+  AObject: TObject;
+  C : TRttiContext;
+begin
+  AObject := (C.FindType(AClassName) as TRttiInstanceType).MetaClassType.Create;;
+  Result := CreateTableSQL(TModApp(AObject));
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
@@ -994,11 +1028,20 @@ function TCrudClaimFaktur.GenerateUpdateIsClaim(IsClaim: Integer; AClaim:
     TModClaimFaktur): TStrings;
 begin
   Result := TStringList.Create;
+
   Result.Append(
     'UPDATE C SET C.DO_IS_CLAIM = ' + IntToStr(IsClaim)
     + ' FROM CLAIMFAKTUR A'
     + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
     + ' INNER JOIN DO C ON B.CLMD_DO_ID = C.DO_ID'
+    + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
+  );
+
+  Result.Append(
+    'UPDATE C SET C.PO_IS_CLAIM = ' + IntToStr(IsClaim)
+    + ' FROM CLAIMFAKTUR A'
+    + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
+    + ' INNER JOIN PO C ON B.CLMD_DO_PO_ID = C.PO_ID'
     + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
   );
 
@@ -1028,8 +1071,8 @@ begin
   );
 end;
 
-function TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
-    TModClaimFaktur): TCrud;
+procedure TCrudClaimFaktur.UpdateIsClaim(IsClaim: Integer; aClaim:
+    TModClaimFaktur);
 var
   lSS: TStrings;
 begin
@@ -1112,9 +1155,9 @@ begin
   Try
     lSS.Append(
         'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = IsNull(DO_ADJUSTMENT,0) + ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
-        + ' , DO_ADJUSTMENT_PPN = IsNull(DO_ADJUSTMENT_PPN,0) + ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
-        + ' , DO_ADJUSTMENT_DISC = IsNull(DO_ADJUSTMENT_DISC,0) + ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
+        + ' Set DO_ADJUSTMENT = ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
+        + ' , DO_ADJUSTMENT_PPN = ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
+        + ' , DO_ADJUSTMENT_DISC = ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
         + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
       );
     TDBUtils.ExecuteSQL(lSS, False);
@@ -1126,11 +1169,6 @@ end;
 
 
 function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
-begin
-  Result := self.BeforeSaveToDB(AObject);
-end;
-
-function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lAdj: TModAdjustmentFaktur;
   lSS: TStrings;
@@ -1146,9 +1184,9 @@ begin
   Try
     lSS.Append(
         'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = IsNull(DO_ADJUSTMENT,0) - ' + FloatToStr(lAdj.ADJFAK_TOTAL_ADJ)
-        + ' , DO_ADJUSTMENT_PPN = IsNull(DO_ADJUSTMENT_PPN,0) - ' + FloatToStr(lAdj.ADJFAK_PPN_ADJ)
-        + ' , DO_ADJUSTMENT_DISC = IsNull(DO_ADJUSTMENT_DISC,0) - ' + FloatToStr(lAdj.ADJFAK_DISC_ADJ)
+        + ' Set DO_ADJUSTMENT = 0'
+        + ' , DO_ADJUSTMENT_PPN = 0'
+        + ' , DO_ADJUSTMENT_DISC = 0'
         + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
       );
     TDBUtils.ExecuteSQL(lSS, False);
@@ -1257,6 +1295,45 @@ begin
       Free;
     end;
   end;
+end;
+
+function TJSONCRUD.GetCRUD: TCrud;
+begin
+  if not Assigned(FCRUD) then
+    FCRUD := TCrud.Create(Self);
+  Result := FCRUD;
+end;
+
+function TJSONCRUD.ModToJSON(aModApp: TModApp): TJSONObject;
+begin
+  Result := TJSONObject.Create;
+end;
+
+function TJSONCRUD.Test: TJSONObject;
+var
+  lModCNR : TModCNRecv;
+  sID: string;
+begin
+  sID := 'D21144E2-31DF-4995-BECC-4D0E5DD1DB48';
+  lModCNR := Self.CRUD.Retrieve(TModCNRecv.ClassName, sID) as TModCNRecv;
+  try
+    Result := TJSONUtils.ModelToJSON(lModCNR);
+  finally
+    lModCNR.Free;
+  end;
+end;
+
+function TCrudCustomerInvoice.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  if AObject = nil then
+    Exit;
+
+  if AObject.ID = '' then
+    TModCustomerInvoice(AObject).CI_NOBUKTI := 'CI-' + GenerateNo(TModCustomerInvoice.ClassName);
+
+  Result := True;
 end;
 
 

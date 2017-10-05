@@ -71,6 +71,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrud, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TDSProvider, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TDSReport, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TJSONCRUD, DSServerClass.LifeCycle);
 
   //custom class here :
   TCustServerClass.Create(Self, DSServer, TSuggestionOrder, DSServerClass.LifeCycle);
@@ -86,7 +87,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCRUDClaimFaktur, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudUpdatePOS, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudContrabonSales, DSServerClass.LifeCycle);
-
+  TCustServerClass.Create(Self, DSServer, TCrudCustomerInvoice, DSServerClass.LifeCycle);
 end;
 
 

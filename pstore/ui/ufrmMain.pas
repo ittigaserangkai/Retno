@@ -245,6 +245,7 @@ type
     dxbrmngrStoreBar1: TdxBar;
     dxbrbtnActivatePOS: TdxBarButton;
     dxBarLargeButton1: TdxBarLargeButton;
+    dxbrbtnBeginningBalance: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -384,7 +385,7 @@ uses
 
 procedure TfrmMain.actActivatePOSExecute(Sender: TObject);
 begin
-  frmActivatePOS := TfrmActivatePOS.CreateWithUser(Application, FFormProperty);
+  frmActivatePOS := TfrmActivatePOS.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actactListMemberTransactionExecute(Sender: TObject);
@@ -409,7 +410,7 @@ end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
 begin
-    frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Application, FFormProperty);
+  frmBeginningBalancePOS := TfrmBeginningBalancePOS.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actCancellingPOExecute(Sender: TObject);
@@ -466,12 +467,12 @@ end;
 
 procedure TfrmMain.actDailySalesAnalysisExecute(Sender: TObject);
 begin
-  frmDailySalesAnalysis := TfrmDailySalesAnalysis.CreateWithUser(Application, FFormProperty);
+  frmDailySalesAnalysis := TfrmDailySalesAnalysis.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actDailySalesReportExecute(Sender: TObject);
 begin
-  frmDailySalesReport := TfrmDailySalesReport.CreateWithUser(Application, FFormProperty);
+  frmDailySalesReport := TfrmDailySalesReport.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actDataCostumerExecute(Sender: TObject);

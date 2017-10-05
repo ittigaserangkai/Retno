@@ -2,6 +2,7 @@ inherited frmDialogClaim: TfrmDialogClaim
   Caption = 'Claim'
   ClientHeight = 611
   ClientWidth = 852
+  ExplicitLeft = -8
   ExplicitWidth = 868
   ExplicitHeight = 650
   PixelsPerInch = 96
@@ -470,6 +471,7 @@ inherited frmDialogClaim: TfrmDialogClaim
           DataController.Summary.FooterSummaryItems = <
             item
               Format = ',0.##;(,0.##)'
+              Kind = skSum
               Column = cxGridColDNNominal
             end>
           DataController.Summary.SummaryGroups = <>
@@ -519,6 +521,7 @@ inherited frmDialogClaim: TfrmDialogClaim
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <
             item
+              Format = ',0.#;(,0.##)'
               Kind = skSum
               Column = cxGridColOtherNominal
             end>
@@ -594,7 +597,7 @@ inherited frmDialogClaim: TfrmDialogClaim
             item
               Caption = 'Goods Receiving'
               Styles.Header = DMClient.cxStyleGridHeader
-              Width = 438
+              Width = 448
             end
             item
               Caption = 'Faktur Pajak'
@@ -668,14 +671,14 @@ inherited frmDialogClaim: TfrmDialogClaim
             Position.RowIndex = 0
           end
           object cxGridColGRTglFaktur: TcxGridDBBandedColumn
-            Caption = 'Tgl Faktur'
+            Caption = 'Tgl Delivery'
             DataBinding.FieldName = 'DO_DATE'
             PropertiesClassName = 'TcxDateEditProperties'
             Properties.ReadOnly = True
             Properties.SaveTime = False
             Properties.ShowTime = False
             HeaderAlignmentHorz = taCenter
-            Width = 66
+            Width = 76
             Position.BandIndex = 0
             Position.ColIndex = 3
             Position.RowIndex = 0
@@ -686,7 +689,7 @@ inherited frmDialogClaim: TfrmDialogClaim
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.DisplayFormat = ',0.##;(,0.##)'
             HeaderAlignmentHorz = taCenter
-            Width = 89
+            Width = 79
             Position.BandIndex = 0
             Position.ColIndex = 4
             Position.RowIndex = 0
@@ -695,8 +698,14 @@ inherited frmDialogClaim: TfrmDialogClaim
         object cxGridDBTableCS: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0.#;(,0.##)'
+              Kind = skSum
+              Column = cxGridColCSDate
+            end>
           DataController.Summary.SummaryGroups = <>
+          OptionsView.Footer = True
           OptionsView.GroupByBox = False
           Styles.Header = DMClient.cxStyleGridHeader
           object cxGridColCSNo: TcxGridDBColumn

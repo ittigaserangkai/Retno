@@ -10,7 +10,7 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
   uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut,
-  uModJurnal, uModContrabonSales;
+  uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons;
 
 type
   TfrmMain = class(TForm)
@@ -50,6 +50,8 @@ type
     spSession: TSpinEdit;
     Label2: TLabel;
     btnTest: TButton;
+    lblGenerateSQL: TLabel;
+    bGenerateSQLCreateTable: TcxButton;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
@@ -58,9 +60,10 @@ type
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
-    procedure grpDBClick(Sender: TObject);
     procedure mmLogChange(Sender: TObject);
     procedure rbTraceClick(Sender: TObject);
+    procedure bGenerateSQLCreateTableClick(Sender: TObject);
+    procedure grpDBDblClick(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
     procedure StartServer;
@@ -116,6 +119,11 @@ begin
 //  frmGenerateModel.ShowModal;
 end;
 
+procedure TfrmMain.bGenerateSQLCreateTableClick(Sender: TObject);
+begin
+  HTTPMemo.Lines.Add(TCrud.Create(Self).CreateTableSQLByClassName(InputBox('Nama Kelas','Nama Kelas', '')));
+end;
+
 procedure TfrmMain.btnKonekDBClick(Sender: TObject);
 begin
   if btnKonekDB.Caption = 'Connect' then
@@ -139,12 +147,17 @@ begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModContrabonSales.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModContrabonSales do
+      with Retrieve(TModCustomerInvoice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCustomerInvoice do
       begin
         try
-          ShowMessage(CONT_ORGANIZATION.ID);
-//          ShowMessage(cont_);
-          ShowMessage(DateTimeToStr(CONT_DATE_SALES));
+          ShowMessage(CreateTableSQLByClassName('uModCustomerInvoice.TModCustomerInvoice'));
+          ShowMessage(CI_NOBUKTI);
+          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
+          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
+          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
+          ShowMessage(DateTimeToStr(CI_TRANSDATE));
 //          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
 //          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));
 
@@ -190,14 +203,10 @@ begin
   FormatSettings.DecimalSeparator := '.';
   FormatSettings.ThousandSeparator := ',';
 
-
   StartServer;
-
-
-
 end;
 
-procedure TfrmMain.grpDBClick(Sender: TObject);
+procedure TfrmMain.grpDBDblClick(Sender: TObject);
 begin
   btnTest.Visible := not btnTest.Visible;
 end;
@@ -221,8 +230,10 @@ begin
   if not FServer.Active then
   begin
     FServer.Bindings.Clear;
-    FServer.DefaultPort := StrToInt(EditPort.Text);
-    FServer.Active      := True;
+
+    FServer.DefaultPort     := StrToInt(EditPort.Text);
+    FServer.Active          := True;
+
     DSServer.Start;
     HTTPMemo.Lines.Add('Server Started');
     TulisRegistry('PortRest', EditPort.Text);

@@ -5223,7 +5223,7 @@ object frmMain: TfrmMain
     Align = alTop
     Caption = 'Koneksi Database'
     TabOrder = 0
-    OnClick = grpDBClick
+    OnDblClick = grpDBDblClick
     object lblServer: TLabel
       Left = 36
       Top = 51
@@ -5272,6 +5272,13 @@ object frmMain: TfrmMain
       Width = 86
       Height = 13
       Caption = 'Current  Sesions :'
+    end
+    object lblGenerateSQL: TLabel
+      Left = 552
+      Top = 73
+      Width = 139
+      Height = 13
+      Caption = 'Generate SQL Create Table :'
     end
     object edServer: TcxTextEdit
       Left = 78
@@ -5408,7 +5415,7 @@ object frmMain: TfrmMain
     object spSession: TSpinEdit
       Left = 552
       Top = 45
-      Width = 81
+      Width = 139
       Height = 22
       MaxValue = 0
       MinValue = 0
@@ -5416,14 +5423,23 @@ object frmMain: TfrmMain
       Value = 0
     end
     object btnTest: TButton
-      Left = 624
-      Top = 73
+      Left = 552
+      Top = 121
       Width = 75
       Height = 25
       Caption = 'btnTest'
       TabOrder = 10
       Visible = False
       OnClick = btnTestClick
+    end
+    object bGenerateSQLCreateTable: TcxButton
+      Left = 552
+      Top = 92
+      Width = 139
+      Height = 25
+      Caption = 'SQL Create Table'
+      TabOrder = 11
+      OnClick = bGenerateSQLCreateTableClick
     end
   end
   object mmLog: TMemo
@@ -5461,8 +5477,8 @@ object frmMain: TfrmMain
     Top = 8
   end
   object ImageList1: TImageList
-    Left = 552
-    Top = 80
+    Left = 680
+    Top = 8
   end
   object mmMainMenu: TMainMenu
     Left = 776

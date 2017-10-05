@@ -209,7 +209,6 @@ uses
   ufrmDialogAdjustmentFaktur in '..\module\finance\ufrmDialogAdjustmentFaktur.pas' {frmDialogAdjustmentFaktur},
   ufrmBrowseQuotation in '..\module\merchandise\ufrmBrowseQuotation.pas' {frmBrowseQuotation},
   uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmClaim in '..\module\finance\ufrmClaim.pas' {frmClaim},
   ufrmDialogClaim in '..\module\finance\ufrmDialogClaim.pas' {frmDialogClaim},
   uModQuotation in '..\model\uModQuotation.pas',
@@ -236,7 +235,15 @@ uses
   ufrmContrabonSales in '..\module\finance\ufrmContrabonSales.pas' {frmContrabonSales},
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
-  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization};
+  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModJurnal in '..\model\uModJurnal.pas',
+  ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
+  ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice},
+  uModCustomerInvoice in '..\model\uModCustomerInvoice.pas',
+  uModPOTrader in '..\model\uModPOTrader.pas',
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uModAR in '..\model\uModAR.pas';
 
 {$R *.res}
 
@@ -248,5 +255,7 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
   Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
+  Application.CreateForm(TfrmCustomerInvoice, frmCustomerInvoice);
+  Application.CreateForm(TfrmDialogCustomerInvoice, frmDialogCustomerInvoice);
   Application.Run;
 end.

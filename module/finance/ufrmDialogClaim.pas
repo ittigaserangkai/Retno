@@ -159,6 +159,7 @@ type
     procedure LookupDN;
     procedure LookupCS;
     procedure OnAfterDelete(Sender: TDataSet);
+    procedure ResetGrid;
     procedure SetModOrganization(const Value: TModOrganization);
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -254,7 +255,7 @@ begin
     CDSDO.Append;
     lDO.UpdateToDataset(CDSDO);
     CDSDO.FieldByName('DO_NO').AsString     := lDO.CLMD_DO.DO_NO;
-    CDSDO.FieldByName('DO_NP').AsString     := lDO.CLMD_DO.DO_NO;
+    CDSDO.FieldByName('DO_NP').AsString     := lDO.CLMD_DO.DO_NP;
     CDSDO.FieldByName('PO_NO').AsString     := lDO.CLMD_DO_PO.PO_NO;
     CDSDO.FieldByName('DO_DATE').AsDateTime := lDO.CLMD_DO.DO_DATE;
 
@@ -410,17 +411,18 @@ var
   lDate: TDateTime;
   lSupp: TModSuplierMerchanGroup;
 begin
-  if not Assigned(ModClaim.CLM_Organization) then exit;
+  if not Assigned(ModOrganization) then exit;
   if CDSDO.Eof then exit;
-  if ModClaim.CLM_Organization.ORG_Code = '' then
-    ModClaim.CLM_Organization.Reload();
 
-  if (ModClaim.CLM_Organization.ORG_IsSupplierMG<>1) then exit;
+  if ModOrganization.ORG_Code = '' then
+    ModOrganization.Reload();
+
+  if (ModOrganization.ORG_IsSupplierMG<>1) then exit;
 
 
   lCDS := CDSDO.ClonedDataset(Self);
   lDate := 0;
-  lSupp := TModSuplierMerchanGroup.CreateID(ModClaim.CLM_Organization.ID);
+  lSupp := TModSuplierMerchanGroup.CreateID(ModOrganization.ID);
   Try
     lSupp.Reload();
     lCDS.First;
@@ -430,7 +432,13 @@ begin
         lDate := lCDS.FieldByName('DO_DATE').AsDateTime;
       lCDS.Next;
     end;
-    dtDueDate.Date := lDate + lSupp.SUPMG_TOP;
+    dtDueDate.Date    := lDate + lSupp.SUPMG_TOP;
+    dtReturnDate.Date := dtDueDate.Date + 1;
+
+    while not (DayOfWeek(dtReturnDate.Date) in [3,5]) do
+    begin
+      dtReturnDate.Date := dtReturnDate.Date + 1;
+    end;
   Finally
     lSupp.Free;
     lCDS.Free;
@@ -524,9 +532,6 @@ procedure TfrmDialogClaim.cbbOrganizationPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  CDSDO.EmptyDataSet;
-  CDSCN.EmptyDataSet;
-
   if not CDSOrg.Eof then
     edOrgName.Text := CDSOrg.FieldByName('ORG_Name').AsString;
 end;
@@ -886,10 +891,7 @@ begin
   Try
     edOrgCode.Properties.OnEditValueChanged := nil;
 
-    CDSDO.EmptyDataSet;
-    CDSCN.EmptyDataSet;
-    CDSDN.EmptyDataSet;
-    CDSOther.EmptyDataSet;
+    ResetGrid;
 
     dtTglClaim.Date       := Now();
     dtReturnDate.Date     := Now();
@@ -1171,15 +1173,34 @@ begin
   CalculateTotal;
 end;
 
+procedure TfrmDialogClaim.ResetGrid;
+begin
+  CDSDO.EmptyDataSet;
+  CDSCN.EmptyDataSet;
+  CDSDN.EmptyDataSet;
+  CDSCS.EmptyDataSet;
+  CDSOther.EmptyDataSet;
+end;
+
 procedure TfrmDialogClaim.SetModOrganization(const Value: TModOrganization);
 var
   lEvent: TNotifyEvent;
+  NewID: string;
+  OldID: string;
 begin
   lEvent := edOrgCode.Properties.OnEditValueChanged;
   edOrgCode.Properties.OnEditValueChanged := nil;
   try
+    NewID := '';
+    OldID := '';
+    if Assigned(Value) then NewID := Value.ID;
+
     if Assigned(FModOrganization) then
+    begin
+      OLDID := FModOrganization.ID;
       FreeAndNil(FModOrganization);
+    end;
+
     FModOrganization := Value;
 
     edOrgCode.Clear;
@@ -1189,6 +1210,12 @@ begin
       edOrgCode.Text := FModOrganization.ORG_Code;
       edOrgName.Text := FModOrganization.ORG_Name;
     end;
+
+    if (NewID <> OldID) or(NewID = '') then
+    begin
+      ResetGrid;
+    end;
+
   finally
     edOrgCode.Properties.OnEditValueChanged := lEvent;
   end;

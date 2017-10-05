@@ -398,16 +398,19 @@ begin
   Result := True;
 
   lCDS := TDBUtils.DSToCDS(DMClient.CrudUpdatePOSClient.RetreiveSyncronData(aObject.ClassName,aFilterSelect),Self);
-  lCDS.First;
-  while not lCDS.Eof do
+  if lCDS <> nil then
   begin
-    TDBUtils.LoadFromDataset(aObject, lCDS, False);
-    Result := Result and cSaveToDB(aObject, aFilterUpdate);
+    lCDS.First;
+    while not lCDS.Eof do
+    begin
+      TDBUtils.LoadFromDataset(aObject, lCDS, False);
+      Result := Result and cSaveToDB(aObject, aFilterUpdate);
 
-    if not Result then
-      Break;
+      if not Result then
+        Break;
 
-    lCDS.Next;
+      lCDS.Next;
+    end;
   end;
 
   if Result then

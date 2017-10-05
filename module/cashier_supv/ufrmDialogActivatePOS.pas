@@ -64,7 +64,7 @@ var
 implementation
 
 uses
-  uTSCommonDlg, DB, uAppUtils, uDMClient, uRetnoUnit;
+  DB, uAppUtils, uDMClient, uRetnoUnit;
 
 {$R *.dfm}
 
@@ -121,7 +121,7 @@ begin
   if IsValidate then
     SavingData;
 
-  IsProcessSuccessfull := False;
+//  IsProcessSuccessfull := False;
 
 //  if edtTerminalCode.Text = '' then
 //  begin
@@ -175,7 +175,7 @@ begin
     end;
   end;
    }
-  Close;
+//  Close;
 end;
 
 procedure TfrmDialogActivePOS.ClearForm;

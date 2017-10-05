@@ -11,7 +11,7 @@ uses
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
-  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales;
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -379,6 +379,9 @@ type
     dxbrbtnHistoryAP: TdxBarButton;
     dxbrmngrHOBarAccounting: TdxBar;
     dxbrbtnJurnal: TdxBarButton;
+    dxbrbtnCustomerInvoice: TdxBarButton;
+    actCustomerInvoice: TAction;
+    dxbrmngrHOBar3: TdxBar;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -396,6 +399,7 @@ type
     procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
+    procedure actCustomerInvoiceExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
@@ -405,6 +409,7 @@ type
     procedure actGudangExecute(Sender: TObject);
     procedure actHistoryAPExecute(Sender: TObject);
     procedure actJurnalEntryExecute(Sender: TObject);
+    procedure actJurnalExecute(Sender: TObject);
     procedure actShiftExecute(Sender: TObject);
     procedure actMataUangExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
@@ -512,7 +517,7 @@ uses
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
-  uModSettingApp;
+  uModSettingApp, uTSCommonDlg;
 
 {$R *.dfm}
 
@@ -688,6 +693,11 @@ begin
   frmCreditCard := TfrmCreditCard.Create(Application);
 end;
 
+procedure TfrmMain.actCustomerInvoiceExecute(Sender: TObject);
+begin
+  frmCustomerInvoice := TfrmCustomerInvoice.Create(Application);
+end;
+
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
@@ -726,6 +736,11 @@ end;
 procedure TfrmMain.actJurnalEntryExecute(Sender: TObject);
 begin
   frmJurnal := TfrmJurnal.Create(nil);
+end;
+
+procedure TfrmMain.actJurnalExecute(Sender: TObject);
+begin
+  frmJurnal := TfrmJurnal.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actShiftExecute(Sender: TObject);
@@ -807,6 +822,7 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
+  Msg: string;
   sIDUnit: string;
 begin
   FFormProperty   := TFormProperty.Create;
@@ -830,8 +846,8 @@ begin
 
 //  FFilePathReport := GetFilePathReport;
 
-  frmMain.Height := 640;
-  frmMain.Width := 800;
+  frmMain.Height  := 640;
+  frmMain.Width   := 800;
   frmMain.Caption := ParamStr(0) + ' ver ' + TAppUtils.GetAppVersionStr;
 
   // set menu on user nobody
@@ -857,7 +873,13 @@ begin
         TRetno.UnitStore, TRetno.UnitStore.ID));
     except
       on E:Exception do
-        TAppUtils.Error(e.Message);
+      begin
+        if E is EHTTPProtocolException then
+          Msg := EHTTPProtocolException(E).ErrorMessage;
+
+        //notif saja. jangan warning
+        CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
+      end;
     end;
   end;
 end;
