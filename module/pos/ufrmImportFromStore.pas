@@ -24,6 +24,8 @@ type
     Panel1: TPanel;
     pnlBody: TPanel;
     pnlHeader: TPanel;
+    btnLoadAll: TButton;
+    procedure btnLoadAllClick(Sender: TObject);
     procedure btnLoadClick(Sender: TObject);
     procedure btSimpanClick(Sender: TObject);
     procedure edtFileNamePropertiesButtonClick(Sender: TObject;
@@ -87,7 +89,7 @@ type
     function GetModVoucherDetil: TModVoucherDetil;
     function LoadData(aObject: TModApp; aFilterSelect: string = ''; aFilterUpdate:
         string = ''): Boolean;
-    function LoadDataStore: Boolean;
+    function LoadDataStore(aFilter: string = ''): Boolean;
     property ModAutApp: TModAutApp read GetModAutApp write FModAutApp;
     property ModAutUser: TModAuthUser read GetModAutUser write FModAutUser;
     property ModBarang: TModBarang read GetModBarang write FModBarang;
@@ -139,10 +141,15 @@ uses uTSCommonDlg, uAppUtils, udmMain, Datasnap.DBClient, uDMClient, uDBUtils;
 
 {$R *.dfm}
 
+procedure TfrmImportFromStore.btnLoadAllClick(Sender: TObject);
+begin
+  LoadDataStore;
+end;
+
 procedure TfrmImportFromStore.btnLoadClick(Sender: TObject);
 begin
 //  mmoImport.Lines.LoadFromFile(edtFileName.Text);
-  LoadDataStore;
+  LoadDataStore(' dbo.dateonly(DATE_MODIFY) >= ' + TDBUtils.QuotD(dtTanggal.DateTime));
 end;
 
 procedure TfrmImportFromStore.btSimpanClick(Sender: TObject);
@@ -424,48 +431,52 @@ begin
   end;
 end;
 
-function TfrmImportFromStore.LoadDataStore: Boolean;
+function TfrmImportFromStore.LoadDataStore(aFilter: string = ''): Boolean;
 begin
   Result := False;
   mmoImport.Lines.Clear;
 
   //barang
-  LoadData(ModTipeHrg);
-  LoadData(ModTipeBrg);
-  LoadData(ModSatuan);
-  LoadData(ModKonversi);
-//  LoadData(ModBHJ);
-//  LoadData(ModBarang, ' where brg_name like ''AQ%'' ');
+  LoadData(ModTipeHrg, aFilter);
+  LoadData(ModTipeBrg, aFilter);
+  LoadData(ModSatuan, aFilter);
+  LoadData(ModKonversi, aFilter);
+  LoadData(ModBHJ, aFilter);
+  LoadData(ModBarang, aFilter);//' where brg_name like ''AQ%'' ');
 
   //member
-  LoadData(ModTipeMember);
-  LoadData(ModDiscMember);
+  LoadData(ModTipeMember, aFilter);
+  LoadData(ModDiscMember, aFilter);
 //      LoadData(ModGrupMember);
 //      LoadData(ModMemberKeluarga);
 //      LoadData(ModMemberActivasi);
-  LoadData(ModMember);
+  LoadData(ModMember, aFilter);
 
   //unit
-  LoadData(ModAutApp);
-  LoadData(ModUnit);
-  LoadData(ModPajak);
-  LoadData(ModCreditCard);
+  LoadData(ModAutApp, aFilter);
+  LoadData(ModUnit, aFilter);
+  LoadData(ModPajak, aFilter);
+  LoadData(ModCreditCard, aFilter);
 
   //SetupPOS
-  LoadData(ModSetupPOS);
+  LoadData(ModSetupPOS, aFilter);
 
   //BeginningBalance
-  LoadData(ModAutUser);
-  LoadData(ModShift);
-  LoadData(ModBeginningBalance);
+  LoadData(ModAutUser, aFilter);
+  LoadData(ModShift, aFilter);
+  LoadData(ModBeginningBalance, aFilter);
 
   //Kupon
-  LoadData(ModKuponBotol);
-  LoadData(ModKuponBotolDetil);
+  LoadData(ModKuponBotol, aFilter);
+  LoadData(ModKuponBotolDetil, aFilter);
 
   //Voucher
-  LoadData(ModVoucher);
-  Loaddata(ModVoucherDetil, 'VCRD_STATUS = ''OPEN'' ','VCRD_STATUS = ''OPEN'' ');
+  LoadData(ModVoucher, aFilter);
+
+  if aFilter = '' then
+    Loaddata(ModVoucherDetil, ' VCRD_STATUS = ''OPEN'' ','VCRD_STATUS = ''OPEN'' ')
+  else
+    Loaddata(ModVoucherDetil, aFilter + ' AND VCRD_STATUS = ''OPEN'' ','VCRD_STATUS = ''OPEN'' ');
 
   mmoImport.Lines.Add('selesai import ');
 end;
