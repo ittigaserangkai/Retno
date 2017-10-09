@@ -1167,8 +1167,9 @@ begin
   end;
   mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER);
   mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
-  mmoBackup.Lines.AddStrings(mmoFooterStruk.Lines);
   }
+  mmoBackup.Lines.AddStrings(mmoFooterStruk.Lines);
+
   Application.ProcessMessages;
 
   if (edtCashBack.Visible) and (edtCashBack.Value > 0) then

@@ -172,6 +172,7 @@ type
 
 const
   CloseSession : Boolean = True;
+  PO_STATUS_CODE_CLAIM : String = '008';
 
 implementation
 
@@ -1038,7 +1039,9 @@ begin
   );
 
   Result.Append(
-    'UPDATE C SET C.PO_IS_CLAIM = ' + IntToStr(IsClaim)
+    'UPDATE C SET C.REF$STATUS_PO_ID = '
+    + ' (SELECT TOP 1 REF$STATUS_PO_ID FROM REF$STATUS_PO WHERE STAPO_CODE = '
+    + QuotedStr(PO_STATUS_CODE_CLAIM) + ')'
     + ' FROM CLAIMFAKTUR A'
     + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
     + ' INNER JOIN PO C ON B.CLMD_DO_PO_ID = C.PO_ID'

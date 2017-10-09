@@ -10,10 +10,12 @@ inherited frmJurnal: TfrmJurnal
     Width = 724
     Height = 341
     ExplicitWidth = 702
+    ExplicitHeight = 341
     inherited pgcBrowse: TcxPageControl
       Width = 722
       Height = 339
       ExplicitWidth = 700
+      ExplicitHeight = 339
       ClientRectBottom = 338
       ClientRectRight = 721
       inherited tsBrowse: TcxTabSheet
@@ -25,6 +27,7 @@ inherited frmJurnal: TfrmJurnal
           Width = 720
           Height = 337
           ExplicitWidth = 698
+          ExplicitHeight = 337
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               DataBinding.FieldName = 'JURNAL_ID'
@@ -57,7 +60,7 @@ inherited frmJurnal: TfrmJurnal
   end
   inherited pnlHeader: TPanel
     Width = 724
-    ExplicitWidth = 702
+    ExplicitWidth = 724
     inherited lblHeader: TLabel
       Width = 34
       Caption = 'Jurnal'
@@ -66,7 +69,7 @@ inherited frmJurnal: TfrmJurnal
     inherited lblFilterData: TcxLabel
       Left = 370
       Visible = True
-      ExplicitLeft = 348
+      ExplicitLeft = 370
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -88,7 +91,7 @@ inherited frmJurnal: TfrmJurnal
     inherited lblsdFilter: TcxLabel
       Left = 523
       Visible = True
-      ExplicitLeft = 501
+      ExplicitLeft = 523
       AnchorY = 17
     end
   end
@@ -123,8 +126,7 @@ inherited frmJurnal: TfrmJurnal
       ExplicitWidth = 702
       inherited lbEscape: TLabel
         Left = 650
-        Height = 17
-        ExplicitLeft = 628
+        ExplicitLeft = 650
       end
     end
   end

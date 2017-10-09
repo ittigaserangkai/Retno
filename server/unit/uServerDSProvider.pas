@@ -170,6 +170,7 @@ type
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function Claim_by_Id(id: string): TFDJSONDataSets;
     function SO_Test: TFDJSONDataSets;
     function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
         aGudang_ID: String): TDataSet;
@@ -642,6 +643,8 @@ begin
 
   if ASupMGCodeID <> '' then
     sSQL := sSQL + ' and SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMGCodeID);
+
+  sSQL := sSQL + ' order by DO_DATE desc';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -1725,6 +1728,27 @@ begin
         + QuotedStr(aNoBuktiAkhir);
 
   S := S + ' order by so_no, sup_code';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.Claim_by_Id(id: string): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT *'
+  + ' from CLAIMFAKTUR A'
+  + ' INNER JOIN V_ORGANIZATION B ON A.CLM_ORGANIZATION_ID = B.V_ORGANIZATION_ID'
+  + ' where CLAIMFAKTUR_ID='+ QuotedStr(id);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+  S := 'SELECT * FROM CLAIMFAKTURITEMDO A'
+  + ' INNER JOIN DO B on A.CLMD_DO_ID = B.DO_ID'
+  + ' WHERE CLMD_DO_CLAIMFAKTUR_ID ='+ QuotedStr(id);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 

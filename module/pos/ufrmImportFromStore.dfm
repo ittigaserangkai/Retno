@@ -41,13 +41,13 @@ object frmImportFromStore: TfrmImportFromStore
       end
       object Label2: TLabel
         Left = 16
-        Top = 13
+        Top = 9
         Width = 39
         Height = 13
         Caption = 'Tanggal'
       end
       object btnLoad: TButton
-        Left = 206
+        Left = 198
         Top = 4
         Width = 75
         Height = 25
@@ -86,6 +86,15 @@ object frmImportFromStore: TfrmImportFromStore
         Date = 40025.356299363430000000
         Time = 40025.356299363430000000
         TabOrder = 3
+      end
+      object btnLoadAll: TButton
+        Left = 294
+        Top = 4
+        Width = 75
+        Height = 25
+        Caption = 'Load All'
+        TabOrder = 4
+        OnClick = btnLoadAllClick
       end
     end
     object mmoImport: TMemo
