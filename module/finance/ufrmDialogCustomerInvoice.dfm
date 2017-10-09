@@ -9,15 +9,17 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
   inherited pnlBody: TPanel
     Width = 805
     Height = 446
+    ExplicitWidth = 805
+    ExplicitHeight = 446
     object pnlHeader: TPanel
       AlignWithMargins = True
       Left = 5
       Top = 5
       Width = 795
-      Height = 116
+      Height = 137
       Align = alTop
       TabOrder = 0
-      ExplicitTop = 2
+      ExplicitTop = 32
       object lblNoBukti: TLabel
         Left = 22
         Top = 7
@@ -133,7 +135,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         Style.Font.Style = [fsBold]
         Style.TextColor = clRed
         Style.IsFontAssigned = True
-        TabOrder = 6
+        TabOrder = 8
         Height = 24
         Width = 428
       end
@@ -171,30 +173,50 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         Style.Shadow = False
         Style.TransparentBorder = True
         Style.IsFontAssigned = True
-        TabOrder = 5
+        TabOrder = 7
         ViewStyle = vsReport
       end
       object memDesc: TcxMemo
         Tag = -1
         Left = 360
-        Top = 3
+        Top = 57
         Properties.ScrollBars = ssVertical
+        TabOrder = 6
+        Height = 24
+        Width = 223
+      end
+      object cbbRekPiutangLain: TcxExtLookupComboBox
+        Left = 360
+        Top = 0
+        Properties.OnValidate = cbbRekPiutangLainPropertiesValidate
         TabOrder = 4
-        Height = 78
+        Width = 223
+      end
+      object edRekPiutangLainNama: TcxButtonEdit
+        Left = 360
+        Top = 30
+        Enabled = False
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+            Visible = False
+          end>
+        Properties.MaxLength = 0
+        TabOrder = 5
         Width = 223
       end
     end
     object cxgrdDetail: TcxGrid
       Left = 2
-      Top = 124
+      Top = 145
       Width = 801
-      Height = 320
+      Height = 299
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 121
-      ExplicitWidth = 795
-      ExplicitHeight = 287
+      ExplicitTop = 124
+      ExplicitHeight = 320
       object cxGridTableARNew: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -222,44 +244,25 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
+        object cxGridColARRekening: TcxGridColumn
+          AlternateCaption = 'CIPARNEW_REKENING'
+          Caption = 'Kode'
+          PropertiesClassName = 'TcxTextEditProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 133
+        end
         object cxGridColARNoBukti: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_NOBUKTI'
-          Caption = 'No Bukti'
+          Caption = 'Nama'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 133
-        end
-        object cxGridColARTanggal: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_TRANSDATE'
-          Caption = 'Tanggal'
-          PropertiesClassName = 'TcxDateEditProperties'
-          Properties.ReadOnly = False
-          Properties.ShowTime = False
-          HeaderAlignmentHorz = taCenter
-          Width = 107
-        end
-        object cxGridColARJatuhTempo: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_DUEDATE'
-          Caption = 'Jatuh Tempo'
-          PropertiesClassName = 'TcxDateEditProperties'
-          Properties.ReadOnly = False
-          Properties.ShowTime = False
-          HeaderAlignmentHorz = taCenter
-          Width = 137
         end
         object cxGridColAPRekeningID: TcxGridColumn
           AlternateCaption = 'BCOAP_Rekening'
           Caption = 'RekeningID'
           Visible = False
           Width = 78
-        end
-        object cxGridColARRekening: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_REKENING'
-          Caption = 'Rekening'
-          PropertiesClassName = 'TcxTextEditProperties'
-          HeaderAlignmentHorz = taCenter
-          Width = 133
         end
         object cxGridColARKeterangan: TcxGridColumn
           AlternateCaption = 'CIPARNEW_DESCRIPTION'
@@ -400,15 +403,20 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 446
     Width = 805
+    ExplicitTop = 446
+    ExplicitWidth = 805
     inherited pnlFooter: TPanel
       Width = 805
+      ExplicitWidth = 805
       inherited btnClose: TcxButton
         Left = 728
         Action = actCancel
+        ExplicitLeft = 728
       end
       inherited btnSave: TcxButton
         Left = 635
         Action = actSave
+        ExplicitLeft = 635
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -416,17 +424,21 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       inherited btnPrint: TcxButton
         Left = 558
         Action = actPrint
+        ExplicitLeft = 558
       end
     end
     inherited pnlSortCut: TPanel
       Width = 805
+      ExplicitWidth = 805
       inherited lbCTRLEnter: TLabel
         Left = 630
         Height = 15
+        ExplicitLeft = 630
       end
       inherited lbEscape: TLabel
         Left = 721
         Height = 15
+        ExplicitLeft = 721
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -434,6 +446,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       inherited lblCTRLP: TLabel
         Left = 554
         Height = 15
+        ExplicitLeft = 554
       end
     end
   end

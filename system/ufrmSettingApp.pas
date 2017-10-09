@@ -21,8 +21,8 @@ type
     cxGridRowGudangDO: TcxEditorRow;
     cxGridRowRekeningHutang: TcxEditorRow;
     cxGridRowDEFAULT_BANK_BCO: TcxEditorRow;
-    cxdtrwcxvrtclgrd1EditorRow4: TcxEditorRow;
-    cxdtrwcxvrtclgrd1EditorRow5: TcxEditorRow;
+    cxGridRowrEKENING_PIUTANG_LAIN: TcxEditorRow;
+    cxGridRowREKENING_PENDAPATAN_LAIN: TcxEditorRow;
     cxStyleRepository1: TcxStyleRepository;
     cxstylSettingAppHeader: TcxStyle;
     btnSimpan: TcxButton;
@@ -63,6 +63,10 @@ procedure TfrmSettingApp.btnClearClick(Sender: TObject);
 begin
   inherited;
   cxGridRowGudangDO.Properties.Value := null;
+  cxGridRowRekeningHutang.Properties.Value := null;
+  cxGridRowDEFAULT_BANK_BCO.Properties.Value := null;
+  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value := null;
+  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value := null;
 end;
 
 procedure TfrmSettingApp.FormDestroy(Sender: TObject);
@@ -79,6 +83,8 @@ begin
     SettingApp.GUDANG_DO  := TModGudang.CreateID(cxGridRowGudangDO.Properties.Value);
 
   SettingApp.REKENING_HUTANG := VarToStr(cxGridRowRekeningHutang.Properties.Value);
+  SettingApp.REKENING_PENDAPATAN_LAIN := VarToStr(cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value);
+  SettingApp.REKENING_PIUTANG_LAIN := VarToStr(cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value);
 
   if not VarIsNull(cxGridRowDEFAULT_BANK_BCO.Properties.Value) then
     SettingApp.DEFAULT_BANK_BCO  := TModBank.CreateID(cxGridRowDEFAULT_BANK_BCO.Properties.Value);
@@ -153,6 +159,8 @@ begin
     cxGridRowDEFAULT_BANK_BCO.Properties.Value := FSettingApp.DEFAULT_BANK_BCO.ID;
 
   cxGridRowRekeningHutang.Properties.Value := SettingApp.REKENING_HUTANG;
+  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value := SettingApp.REKENING_PIUTANG_LAIN;
+  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value := SettingApp.REKENING_PENDAPATAN_LAIN;
 end;
 
 end.

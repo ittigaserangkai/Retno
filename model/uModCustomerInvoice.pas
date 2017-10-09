@@ -15,8 +15,10 @@ type
 
   TModCustomerInvoice = class(TModApp)
   private
+    FCI_REKENING: TModRekening;
     FCI_Description: string;
     FCI_NOBUKTI: string;
+    FCI_NOINVOICE: string;
     FCI_ORGANIZATION: TModOrganization;
     FCI_TRANSDATE: TDatetime;
     FCustomerInvoiceAPMinusItems: TObjectList<TModCustomerInvoiceAPMinus>;
@@ -44,10 +46,12 @@ type
         TObjectList<TModCustomerInvoicePotongAP> read
         GetCustomerInvoicePotongAPItems write FCustomerInvoicePotongAPItems;
   published
+    property CI_REKENING: TModRekening read FCI_REKENING write FCI_REKENING;
     property CI_Description: string read FCI_Description write FCI_Description;
 
     [AttributeOfCode]
     property CI_NOBUKTI: string read FCI_NOBUKTI write FCI_NOBUKTI;
+    property CI_NOINVOICE: string read FCI_NOINVOICE write FCI_NOINVOICE;
     property CI_ORGANIZATION: TModOrganization read FCI_ORGANIZATION write
         FCI_ORGANIZATION;
     property CI_TRANSDATE: TDatetime read FCI_TRANSDATE write FCI_TRANSDATE;
@@ -75,32 +79,20 @@ type
 
   TModCustomerInvoiceARNew = class(TModApp)
   private
-    FCIPARNEW_AR: TModAR;
     FCIPARNEW_CustomerInvoice: TModCustomerInvoice;
     FCIPARNEW_DESCRIPTION: string;
-    FCIPARNEW_DUEDATE: TDatetime;
-    FCIPARNEW_NOBUKTI: string;
     FCIPARNEW_NOMINAL: Double;
     FCIPARNEW_REKENING: TModRekening;
-    FCIPARNEW_TRANSDATE: TDatetime;
   published
-    property CIPARNEW_AR: TModAR read FCIPARNEW_AR write FCIPARNEW_AR;
-
     [AttributeOfHeader('CIPARNEW_CustomerInvoice_ID')]
     property CIPARNEW_CustomerInvoice: TModCustomerInvoice read
         FCIPARNEW_CustomerInvoice write FCIPARNEW_CustomerInvoice;
     property CIPARNEW_DESCRIPTION: string read FCIPARNEW_DESCRIPTION write
         FCIPARNEW_DESCRIPTION;
-    property CIPARNEW_DUEDATE: TDatetime read FCIPARNEW_DUEDATE write
-        FCIPARNEW_DUEDATE;
-    property CIPARNEW_NOBUKTI: string read FCIPARNEW_NOBUKTI write
-        FCIPARNEW_NOBUKTI;
     property CIPARNEW_NOMINAL: Double read FCIPARNEW_NOMINAL write
         FCIPARNEW_NOMINAL;
     property CIPARNEW_REKENING: TModRekening read FCIPARNEW_REKENING write
         FCIPARNEW_REKENING;
-    property CIPARNEW_TRANSDATE: TDatetime read FCIPARNEW_TRANSDATE write
-        FCIPARNEW_TRANSDATE;
   end;
 
   TModCustomerInvoiceDOTrader = class(TModApp)

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/4/2017 3:11:47 PM
+// 10/5/2017 1:56:45 PM
 //
 
 unit uClientClasses;
@@ -268,6 +268,8 @@ type
     FSetupPOS_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBeginningBalance_GetDSOverviewCommand: TDSRestCommand;
     FBeginningBalance_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRekening_GetDSLookupFilterCommand: TDSRestCommand;
+    FRekening_GetDSLookupFilterCommand_Cache: TDSRestCommand;
     FJurnal_GetDSOverviewCommand: TDSRestCommand;
     FJurnal_GetDSOverviewCommand_Cache: TDSRestCommand;
     FSetupPOS_GetDSLookUpCommand: TDSRestCommand;
@@ -509,6 +511,8 @@ type
     function SetupPOS_GetDSOverview_Cache(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
     function BeginningBalance_GetDSOverview_Cache(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Rekening_GetDSLookupFilter(AFilterRekeningSettingApp: string; const ARequestFilter: string = ''): TDataSet;
+    function Rekening_GetDSLookupFilter_Cache(AFilterRekeningSettingApp: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Jurnal_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Jurnal_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function SetupPOS_GetDSLookUp(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2511,6 +2515,18 @@ const
     (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aShiftName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Rekening_GetDSLookupFilter: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AFilterRekeningSettingApp'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Rekening_GetDSLookupFilter_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AFilterRekeningSettingApp'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -8148,6 +8164,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FBeginningBalance_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.Rekening_GetDSLookupFilter(AFilterRekeningSettingApp: string; const ARequestFilter: string): TDataSet;
+begin
+  if FRekening_GetDSLookupFilterCommand = nil then
+  begin
+    FRekening_GetDSLookupFilterCommand := FConnection.CreateCommand;
+    FRekening_GetDSLookupFilterCommand.RequestType := 'GET';
+    FRekening_GetDSLookupFilterCommand.Text := 'TDSProvider.Rekening_GetDSLookupFilter';
+    FRekening_GetDSLookupFilterCommand.Prepare(TDSProvider_Rekening_GetDSLookupFilter);
+  end;
+  FRekening_GetDSLookupFilterCommand.Parameters[0].Value.SetWideString(AFilterRekeningSettingApp);
+  FRekening_GetDSLookupFilterCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekening_GetDSLookupFilterCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekening_GetDSLookupFilterCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Rekening_GetDSLookupFilter_Cache(AFilterRekeningSettingApp: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekening_GetDSLookupFilterCommand_Cache = nil then
+  begin
+    FRekening_GetDSLookupFilterCommand_Cache := FConnection.CreateCommand;
+    FRekening_GetDSLookupFilterCommand_Cache.RequestType := 'GET';
+    FRekening_GetDSLookupFilterCommand_Cache.Text := 'TDSProvider.Rekening_GetDSLookupFilter';
+    FRekening_GetDSLookupFilterCommand_Cache.Prepare(TDSProvider_Rekening_GetDSLookupFilter_Cache);
+  end;
+  FRekening_GetDSLookupFilterCommand_Cache.Parameters[0].Value.SetWideString(AFilterRekeningSettingApp);
+  FRekening_GetDSLookupFilterCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekening_GetDSLookupFilterCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.Jurnal_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FJurnal_GetDSOverviewCommand = nil then
@@ -9268,6 +9315,8 @@ begin
   FSetupPOS_GetDSOverviewCommand_Cache.DisposeOf;
   FBeginningBalance_GetDSOverviewCommand.DisposeOf;
   FBeginningBalance_GetDSOverviewCommand_Cache.DisposeOf;
+  FRekening_GetDSLookupFilterCommand.DisposeOf;
+  FRekening_GetDSLookupFilterCommand_Cache.DisposeOf;
   FJurnal_GetDSOverviewCommand.DisposeOf;
   FJurnal_GetDSOverviewCommand_Cache.DisposeOf;
   FSetupPOS_GetDSLookUpCommand.DisposeOf;

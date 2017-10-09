@@ -13,7 +13,7 @@ uses
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxClasses,
   cxGridCustomView, cxGrid, cxMemo, cxListView, uInterface, uDXUtils,
   ufrmCXLookup, uModOrganization, Datasnap.DBClient, uDBUtils,
-  uModCustomerInvoice, uAppUtils;
+  uModCustomerInvoice, uAppUtils, uRetnoUnit, cxLookupEdit, cxDBLookupEdit;
 
 type
   TfrmDialogCustomerInvoice = class(TfrmMasterDialog, ICRUDAble)
@@ -28,8 +28,6 @@ type
     cxgrdDetail: TcxGrid;
     cxGridTableARNew: TcxGridTableView;
     cxGridColARNoBukti: TcxGridColumn;
-    cxGridColARTanggal: TcxGridColumn;
-    cxGridColARJatuhTempo: TcxGridColumn;
     cxGridColAPRekeningID: TcxGridColumn;
     cxGridColARRekening: TcxGridColumn;
     cxGridColARKeterangan: TcxGridColumn;
@@ -53,6 +51,8 @@ type
     memDesc: TcxMemo;
     lblKeteranan: TLabel;
     lblTotal: TLabel;
+    cbbRekPiutangLain: TcxExtLookupComboBox;
+    edRekPiutangLainNama: TcxButtonEdit;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -62,12 +62,16 @@ type
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGridTableARNewDataControllerAfterInsert(
       ADataController: TcxCustomDataController);
+    procedure cbbRekPiutangLainPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FCDSOrganisasi: tclientDataSet;
+    FCDSRekeningPiutangLain: tclientDataSet;
     FCI: TModCustomerInvoice;
     FOrganization: TModOrganization;
     function GetCDSOrganisasi: tclientDataSet;
     function GetCI: TModCustomerInvoice;
+    procedure InisialisasiCBBRekeningPiutang;
     function IsBisaHapus: Boolean;
     function IsBisaSimpan: Boolean;
     procedure LoadDataOrganization(AKodeAtauID : String; AIsLoadByKode : Boolean);
@@ -104,6 +108,9 @@ begin
 end;
 
 procedure TfrmDialogCustomerInvoice.actSaveExecute(Sender: TObject);
+var
+  I: Integer;
+  lModCustomerInvoiceARNew: TModCustomerInvoiceARNew;
 begin
   inherited;
 
@@ -116,6 +123,13 @@ begin
   CI.CI_TRANSDATE := dtTanggal.Date;
 
   try
+    for I := 0 to cxGridTableARNew.DataController.RecordCount - 1 do
+    begin
+      lModCustomerInvoiceARNew := TModCustomerInvoiceARNew.Create;
+      cxGridTableARNew.LoadObjectData(lModCustomerInvoiceARNew,i);
+      CI.CustomerInvoiceARNewItems.Add(lModCustomerInvoiceARNew);
+    end;
+
     if DMClient.CrudCustomerInvoiceClient.SaveToDB(CI) then
     begin
       TAppUtils.InformationBerhasilSimpan;
@@ -126,13 +140,21 @@ begin
 
 end;
 
+procedure TfrmDialogCustomerInvoice.cbbRekPiutangLainPropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+begin
+  inherited;
+  edRekPiutangLainNama.Text := FCDSRekeningPiutangLain.FieldByName('rek_name').AsString;
+end;
+
 procedure TfrmDialogCustomerInvoice.cxGridTableARNewDataControllerAfterInsert(
   ADataController: TcxCustomDataController);
 begin
   inherited;
-  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARNoBukti.Index] := edNoBukti.Text + '-xx';
-  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARTanggal.Index] := dtTanggal.Date;
-  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARJatuhTempo.Index] := dtTanggal.Date + 1;
+//  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARNoBukti.Index] := edNoBukti.Text + '-xx';
+//  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARTanggal.Index] := dtTanggal.Date;
+//  ADataController.Values[ADataController.FocusedRecordIndex, cxGridColARJatuhTempo.Index] := dtTanggal.Date + 1;
 end;
 
 procedure TfrmDialogCustomerInvoice.edOrganizationPropertiesButtonClick(
@@ -166,6 +188,8 @@ procedure TfrmDialogCustomerInvoice.FormCreate(Sender: TObject);
 begin
   inherited;
   LoadData('');
+
+  InisialisasiCBBRekeningPiutang;
 end;
 
 function TfrmDialogCustomerInvoice.GetCDSOrganisasi: tclientDataSet;
@@ -182,6 +206,15 @@ begin
     FCI := TModCustomerInvoice.Create;
 
   Result := FCI;
+end;
+
+procedure TfrmDialogCustomerInvoice.InisialisasiCBBRekeningPiutang;
+begin
+  FCDSRekeningPiutangLain := TDBUtils.DSToCDS(DMClient.DSProviderClient.Rekening_GetDSLookupFilter(TRetno.SettingApp.REKENING_PIUTANG_LAIN), Self, False);
+
+  cbbRekPiutangLain.LoadFromCDS(FCDSRekeningPiutangLain,'rekening_id','rek_code',['rekening_id','REF$GRUP_REKENING_ID','REK_DESCRIPTION'],Self);
+  cbbRekPiutangLain.SetMultiPurposeLookup;
+
 end;
 
 function TfrmDialogCustomerInvoice.IsBisaHapus: Boolean;

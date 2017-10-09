@@ -113,6 +113,8 @@ type
     function SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string): TDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
         string): TDataSet;
+    function Rekening_GetDSLookupFilter(AFilterRekeningSettingApp : String):
+        TDataSet;
     function Jurnal_GetDSOverview: TDataSet;
     function SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string): TDataSet;
     function Shift_GetDSOverview: TDataSet;
@@ -1160,6 +1162,29 @@ begin
         + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
         + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.Rekening_GetDSLookupFilter(AFilterRekeningSettingApp :
+    String): TDataSet;
+var
+  S: string;
+  sFilter: string;
+begin
+  sFilter := ' where 1 = 1 and REK_CODE in (''';
+  if Trim(AFilterRekeningSettingApp) <> '' then
+  begin
+    sFilter := sFilter + AFilterRekeningSettingApp;
+    sFilter := StringReplace(sFilter, ';', ',', [rfReplaceAll]);
+    sFilter := StringReplace(sFilter, ',', QuotedStr(',') , [rfReplaceAll]);
+    sFilter := sFilter + ''')';
+  end;
+
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION,' +
+       ' REF$GRUP_REKENING_ID from REKENING' +
+       sFilter +
+       ' order by REK_CODE';
+
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string):
