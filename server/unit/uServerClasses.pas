@@ -7,7 +7,8 @@ uses
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON,
-  System.JSON.Builders, System.JSON.Types, System.JSON.Writers, uModCustomerInvoice;
+  System.JSON.Builders, System.JSON.Types, System.JSON.Writers,
+  uModCustomerInvoice, uModPO;
 
 type
   {$METHODINFO ON}
@@ -142,6 +143,7 @@ type
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
   end;
 
@@ -172,14 +174,13 @@ type
 
 const
   CloseSession : Boolean = True;
-  PO_STATUS_CODE_CLAIM : String = '008';
+
 
 implementation
 
 uses
-  Datasnap.DSSession, Data.DBXPlatform, uModPO,
-  uModCNRecv, uModDNRecv, uModAdjustmentFaktur, Variants, REST.Json, uModBank,
-  uJSONUtils;
+  Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
+  uModAdjustmentFaktur, Variants, REST.Json, uModBank, uJSONUtils;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -212,7 +213,7 @@ var
   AObject: TObject;
   C : TRttiContext;
 begin
-  AObject := (C.FindType(AClassName) as TRttiInstanceType).MetaClassType.Create;;
+  AObject := (C.FindType(AClassName) as TRttiInstanceType).MetaClassType.Create;
   Result := CreateTableSQL(TModApp(AObject));
 end;
 
@@ -460,10 +461,8 @@ begin
     Try
       TDBUtils.ExecuteSQL(lSS, False);
       if not AfterSaveToDB(AObject) then exit;
-
       if DoCommit then
         TDBUtils.Commit;
-
       Result := True
     except
       TDBUtils.RollBack;
@@ -1027,6 +1026,8 @@ end;
 
 function TCrudClaimFaktur.GenerateUpdateIsClaim(IsClaim: Integer; AClaim:
     TModClaimFaktur): TStrings;
+var
+  lStatusPO: string;
 begin
   Result := TStringList.Create;
 
@@ -1038,10 +1039,15 @@ begin
     + ' WHERE A.CLAIMFAKTUR_ID=' + QuotedStr(AClaim.ID)
   );
 
+  if (IsClaim = 1) then
+    lStatusPO := PO_STATUS_CODE_CLAIM
+  else
+    lStatusPO := PO_STATUS_CODE_RECV;
+
   Result.Append(
     'UPDATE C SET C.REF$STATUS_PO_ID = '
     + ' (SELECT TOP 1 REF$STATUS_PO_ID FROM REF$STATUS_PO WHERE STAPO_CODE = '
-    + QuotedStr(PO_STATUS_CODE_CLAIM) + ')'
+    + QuotedStr(lStatusPO) + ')'
     + ' FROM CLAIMFAKTUR A'
     + ' INNER JOIN CLAIMFAKTURITEMDO B ON A.CLAIMFAKTUR_ID = B.CLMD_DO_CLAIMFAKTUR_ID'
     + ' INNER JOIN PO C ON B.CLMD_DO_PO_ID = C.PO_ID'
@@ -1186,17 +1192,23 @@ begin
   lSS := TStringList.Create;
   Try
     lSS.Append(
-        'Update ' + TModDO.GetTableName
-        + ' Set DO_ADJUSTMENT = 0'
-        + ' , DO_ADJUSTMENT_PPN = 0'
-        + ' , DO_ADJUSTMENT_DISC = 0'
-        + ' Where DO_ID = ' + QuotedStr(lAdj.ADJFAK_DO.ID) + ';'
+        'Update B Set B.DO_ADJUSTMENT = 0'
+        + ' , B.DO_ADJUSTMENT_PPN = 0'
+        + ' , B.DO_ADJUSTMENT_DISC = 0'
+        + ' FROM ADJUSTMENT_FAKTUR A'
+        + ' INNER JOIN DO B ON A.DO_ID=B.DO_ID'
+        + ' Where A.ADJUSTMENT_FAKTUR_ID = ' + QuotedStr(lAdj.ID) + ';'
       );
     TDBUtils.ExecuteSQL(lSS, False);
   Finally
     lSS.Free;
   End;
   Result := True;
+end;
+
+function TCrudAdjFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := BeforeDeleteFromDB(AObject);
 end;
 
 function TCrudUpdatePOS.RetreiveSyncronData(ModClassName, aFilter: string):

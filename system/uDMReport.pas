@@ -227,8 +227,8 @@ var
   AisTextReport : Boolean;
   dsCount: Integer;
 //  FilterState1, FilterState2 : -> kalau besuk butuh filtering , smntara tutup sik
-  Filter1, Filter2 : String;
-  lCDS: TClientDataSet;
+//  Filter1, Filter2 : String;
+//  lCDS: TClientDataSet;
 begin
   frxPreview1.Clear;
   frxPreview2.Clear;

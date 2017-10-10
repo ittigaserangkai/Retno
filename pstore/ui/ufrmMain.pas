@@ -858,14 +858,8 @@ begin
 end;
 
 procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
-var
-  Msg: string;
 begin
-  Msg := 'Ada kesalahan dengan pesan : ' + #13 +   E.Message;
-  if E is EHTTPProtocolException then
-    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
-
-  TAppUtils.Error(Msg);
+  TAppUtils.RaiseException(E);
 end;
 
 procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);

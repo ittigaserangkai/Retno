@@ -385,7 +385,10 @@ procedure TfrmDialogClaim.btnDelItemClick(Sender: TObject);
 begin
   inherited;
   if (cxgrdClaim.FocusedView = cxGridDBTableGR) and (not CDSDO.eof) then
-    CDSDO.Delete;;
+  begin
+    CDSDO.Delete;
+    CalculateDueDate;
+  end;
   if (cxgrdClaim.FocusedView = cxGridDBTableCN) and (not CDSCN.eof) then
     CDSCN.Delete;;
   if (cxgrdClaim.FocusedView = cxGridDBTableDN) and (not CDSDN.eof) then
@@ -394,6 +397,7 @@ begin
     CDSOther.Delete;
   if (cxgrdClaim.FocusedView = cxGridDBTableCS) and (not CDSCS.eof) then
     CDSCS.Delete;
+
   CalculateTotal;
 end;
 
@@ -411,6 +415,7 @@ var
   lDate: TDateTime;
   lSupp: TModSuplierMerchanGroup;
 begin
+  if not ckAutoDueDate.Checked then exit;
   if not Assigned(ModOrganization) then exit;
   if CDSDO.Eof then exit;
 
@@ -428,7 +433,9 @@ begin
     lCDS.First;
     while not lCDS.eof do
     begin
-      if lDate < lCDS.FieldByName('DO_DATE').AsDateTime then
+      if lDate = 0 then
+        lDate := lCDS.FieldByName('DO_DATE').AsDateTime
+      else if lDate > lCDS.FieldByName('DO_DATE').AsDateTime then
         lDate := lCDS.FieldByName('DO_DATE').AsDateTime;
       lCDS.Next;
     end;
@@ -807,6 +814,7 @@ end;
 procedure TfrmDialogClaim.initView;
 var
   lCDSAccount: TClientDataSet;
+  lCDSAPAccount: TClientDataSet;
 begin
   With DMClient.DSProviderClient do
   begin
@@ -818,7 +826,11 @@ begin
     );
 
     lCDSAccount := TDBUtils.DSToCDS(Rekening_GetDSLookup, Self);
-    cbbAccount.LoadFromCDS(lCDSAccount, 'REKENING_ID','REK_CODE', Self);
+    lCDSAPAccount := TClientDataSet.Create(Self);
+    lCDSAPAccount.CloneCursor(lCDSAccount, True);
+
+
+    cbbAccount.LoadFromCDS(lCDSAPAccount, 'REKENING_ID','REK_CODE', Self);
     cbbAccount.SetVisibleColumnsOnly(['REK_CODE', 'REK_NAME']);
     FilterAPAccount;
 
