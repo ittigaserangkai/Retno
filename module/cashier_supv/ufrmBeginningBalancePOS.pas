@@ -20,10 +20,9 @@ type
     lbl4: TLabel;
     lbl5: TLabel;
     curredtGrandTot: TcxCurrencyEdit;
-    cxLabel1: TcxLabel;
-    edtShift: TcxTextEdit;
     edtCashierName: TcxTextEdit;
     edtSupervisorID: TcxTextEdit;
+    edtShift: TcxTextEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actAddExecute(Sender: TObject);

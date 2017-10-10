@@ -88,54 +88,55 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
     end
   end
   inherited pnlHeader: TPanel
+    Tag = 1
     Width = 643
-    ExplicitWidth = 643
+    inherited lblHeader: TLabel
+      Tag = 1
+    end
     inherited lblFilterData: TcxLabel
+      Tag = 1
       Left = 337
       Visible = True
-      ExplicitLeft = 337
+      ExplicitLeft = 289
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 224
-      TabStop = False
-      TabOrder = 4
-      ExplicitLeft = 224
+      Tag = 1
+      Left = 398
+      Visible = True
+      ExplicitLeft = 350
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 398
-      Properties.OnEditValueChanged = dtAkhirFilterPropertiesEditValueChanged
-      TabOrder = 0
-      Visible = True
-      ExplicitLeft = 398
+      Tag = 1
+      Left = 245
+      ExplicitLeft = 193
+      ExplicitTop = 4
     end
     inherited btnSearch: TcxButton
+      Tag = 1
       Left = 561
-      TabOrder = 2
       ExplicitLeft = 561
     end
     inherited lblsdFilter: TcxLabel
-      Left = 316
-      ExplicitLeft = 316
-      AnchorY = 17
-    end
-    object cxLabel1: TcxLabel
-      Left = 531
-      Top = 1
-      Align = alRight
+      Tag = 1
+      Left = 490
+      AutoSize = True
       Caption = 'Shift'
-      Properties.Alignment.Vert = taVCenter
-      Transparent = True
+      Visible = True
+      ExplicitLeft = 490
+      ExplicitWidth = 27
       AnchorY = 17
     end
     object edtShift: TcxTextEdit
+      Tag = 1
       AlignWithMargins = True
-      Left = 493
+      Left = 520
       Top = 4
       Align = alRight
       Properties.Alignment.Horz = taCenter
-      TabOrder = 1
+      TabOrder = 5
       OnKeyPress = edtShiftKeyPress
+      ExplicitLeft = 495
       Width = 35
     end
   end
