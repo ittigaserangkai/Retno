@@ -859,7 +859,7 @@ end;
 
 procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
 begin
-  TAppUtils.RaiseException(E);
+  TAppUtils.ShowException(E);
 end;
 
 procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled: Boolean);
