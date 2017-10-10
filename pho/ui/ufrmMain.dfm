@@ -49,7 +49,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitWidth = 800
   end
   object pnlUnit: TPanel
     Left = 0
@@ -60,7 +59,6 @@ object frmMain: TfrmMain
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitWidth = 800
     object lbl1: TLabel
       Left = 360
       Top = 8
@@ -136,7 +134,6 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 6
     TabStop = False
-    ExplicitWidth = 800
     object dxrbntbSystem: TdxRibbonTab
       Caption = 'System'
       Groups = <
@@ -1614,7 +1611,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCOA'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1792,7 +1789,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnElectricCustomer'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1832,7 +1829,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnContrabonSales'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1876,7 +1873,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnJurnal'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1895,7 +1892,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnCustomerInvoice'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True

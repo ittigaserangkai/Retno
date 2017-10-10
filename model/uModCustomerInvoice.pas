@@ -15,14 +15,19 @@ type
 
   TModCustomerInvoice = class(TModApp)
   private
+    FCI_AR: TModAR;
+    FCI_REKENING: TModRekening;
     FCI_Description: string;
     FCI_NOBUKTI: string;
+    FCI_NOINVOICE: string;
     FCI_ORGANIZATION: TModOrganization;
+    FCI_TOTAL: Double;
     FCI_TRANSDATE: TDatetime;
     FCustomerInvoiceAPMinusItems: TObjectList<TModCustomerInvoiceAPMinus>;
     FCustomerInvoiceARNewItems: TObjectList<TModCustomerInvoiceARNew>;
     FCustomerInvoiceDOTraderItems: TObjectList<TModCustomerInvoiceDOTrader>;
     FCustomerInvoicePotongAPItems: TObjectList<TModCustomerInvoicePotongAP>;
+    function GetCI_TOTAL: Double;
     function GetCustomerInvoiceAPMinusItems:
         TObjectList<TModCustomerInvoiceAPMinus>;
     function GeTModCustomerInvoiceARNews:
@@ -44,12 +49,16 @@ type
         TObjectList<TModCustomerInvoicePotongAP> read
         GetCustomerInvoicePotongAPItems write FCustomerInvoicePotongAPItems;
   published
+    property CI_AR: TModAR read FCI_AR write FCI_AR;
+    property CI_REKENING: TModRekening read FCI_REKENING write FCI_REKENING;
     property CI_Description: string read FCI_Description write FCI_Description;
 
     [AttributeOfCode]
     property CI_NOBUKTI: string read FCI_NOBUKTI write FCI_NOBUKTI;
+    property CI_NOINVOICE: string read FCI_NOINVOICE write FCI_NOINVOICE;
     property CI_ORGANIZATION: TModOrganization read FCI_ORGANIZATION write
         FCI_ORGANIZATION;
+    property CI_TOTAL: Double read GetCI_TOTAL write FCI_TOTAL;
     property CI_TRANSDATE: TDatetime read FCI_TRANSDATE write FCI_TRANSDATE;
   end;
 
@@ -75,32 +84,20 @@ type
 
   TModCustomerInvoiceARNew = class(TModApp)
   private
-    FCIPARNEW_AR: TModAR;
     FCIPARNEW_CustomerInvoice: TModCustomerInvoice;
     FCIPARNEW_DESCRIPTION: string;
-    FCIPARNEW_DUEDATE: TDatetime;
-    FCIPARNEW_NOBUKTI: string;
     FCIPARNEW_NOMINAL: Double;
     FCIPARNEW_REKENING: TModRekening;
-    FCIPARNEW_TRANSDATE: TDatetime;
   published
-    property CIPARNEW_AR: TModAR read FCIPARNEW_AR write FCIPARNEW_AR;
-
     [AttributeOfHeader('CIPARNEW_CustomerInvoice_ID')]
     property CIPARNEW_CustomerInvoice: TModCustomerInvoice read
         FCIPARNEW_CustomerInvoice write FCIPARNEW_CustomerInvoice;
     property CIPARNEW_DESCRIPTION: string read FCIPARNEW_DESCRIPTION write
         FCIPARNEW_DESCRIPTION;
-    property CIPARNEW_DUEDATE: TDatetime read FCIPARNEW_DUEDATE write
-        FCIPARNEW_DUEDATE;
-    property CIPARNEW_NOBUKTI: string read FCIPARNEW_NOBUKTI write
-        FCIPARNEW_NOBUKTI;
     property CIPARNEW_NOMINAL: Double read FCIPARNEW_NOMINAL write
         FCIPARNEW_NOMINAL;
     property CIPARNEW_REKENING: TModRekening read FCIPARNEW_REKENING write
         FCIPARNEW_REKENING;
-    property CIPARNEW_TRANSDATE: TDatetime read FCIPARNEW_TRANSDATE write
-        FCIPARNEW_TRANSDATE;
   end;
 
   TModCustomerInvoiceDOTrader = class(TModApp)
@@ -154,6 +151,20 @@ type
 
 
 implementation
+
+function TModCustomerInvoice.GetCI_TOTAL: Double;
+var
+  I: Integer;
+begin
+  FCI_TOTAL := 0;
+
+  for I := 0 to CustomerInvoiceARNewItems.Count - 1 do
+  begin
+    FCI_TOTAL := FCI_TOTAL + CustomerInvoiceARNewItems[i].CIPARNEW_NOMINAL;
+  end;
+
+  Result := FCI_TOTAL;
+end;
 
 {
 ***************************** TModCustomerInvoice ******************************

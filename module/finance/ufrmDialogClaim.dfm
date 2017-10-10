@@ -2,7 +2,6 @@ inherited frmDialogClaim: TfrmDialogClaim
   Caption = 'Claim'
   ClientHeight = 611
   ClientWidth = 852
-  ExplicitLeft = -8
   ExplicitWidth = 868
   ExplicitHeight = 650
   PixelsPerInch = 96

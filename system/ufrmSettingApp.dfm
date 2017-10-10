@@ -99,8 +99,8 @@ inherited frmSettingApp: TfrmSettingApp
         Index = 2
         Version = 1
       end
-      object cxdtrwcxvrtclgrd1EditorRow4: TcxEditorRow
-        Properties.Caption = 'XXXX'
+      object cxGridRowrEKENING_PIUTANG_LAIN: TcxEditorRow
+        Properties.Caption = 'REKENING_PIUTANG_LAIN'
         Properties.DataBinding.ValueType = 'String'
         Properties.Value = Null
         ID = 3
@@ -108,8 +108,8 @@ inherited frmSettingApp: TfrmSettingApp
         Index = 3
         Version = 1
       end
-      object cxdtrwcxvrtclgrd1EditorRow5: TcxEditorRow
-        Properties.Caption = 'XXXX'
+      object cxGridRowREKENING_PENDAPATAN_LAIN: TcxEditorRow
+        Properties.Caption = 'REKENING_PENDAPATAN_LAIN'
         Properties.DataBinding.ValueType = 'String'
         Properties.Value = Null
         ID = 4

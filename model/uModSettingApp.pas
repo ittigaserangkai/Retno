@@ -12,6 +12,8 @@ type
     FDEFAULT_BANK_BCO: TModBank;
     FGUDANG_DO: TModGudang;
     FREKENING_HUTANG: string;
+    FREKENING_PENDAPATAN_LAIN: string;
+    FREKENING_PIUTANG_LAIN: string;
   public
     function GetListRekeningHutang: TStrings;
   published
@@ -22,6 +24,10 @@ type
     [AttributeOfForeign('GUDANG_DO')]
     property GUDANG_DO: TModGudang read FGUDANG_DO write FGUDANG_DO;
     property REKENING_HUTANG: string read FREKENING_HUTANG write FREKENING_HUTANG;
+    property REKENING_PENDAPATAN_LAIN: string read FREKENING_PENDAPATAN_LAIN write
+        FREKENING_PENDAPATAN_LAIN;
+    property REKENING_PIUTANG_LAIN: string read FREKENING_PIUTANG_LAIN write
+        FREKENING_PIUTANG_LAIN;
   end;
 
 implementation

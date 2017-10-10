@@ -9,6 +9,8 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
   inherited pnlBody: TPanel
     Width = 805
     Height = 446
+    ExplicitWidth = 805
+    ExplicitHeight = 446
     object pnlHeader: TPanel
       AlignWithMargins = True
       Left = 5
@@ -17,7 +19,6 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       Height = 116
       Align = alTop
       TabOrder = 0
-      ExplicitTop = 2
       object lblNoBukti: TLabel
         Left = 22
         Top = 7
@@ -41,17 +42,24 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       end
       object lblKeteranan: TLabel
         Left = 294
-        Top = 7
+        Top = 61
         Width = 58
         Height = 16
         Caption = 'Keterangan'
       end
-      object lblTotal: TLabel
-        Left = 328
-        Top = 88
-        Width = 24
+      object lblRekening: TLabel
+        Left = 307
+        Top = 34
+        Width = 45
         Height = 16
-        Caption = 'Total'
+        Caption = 'Rekening'
+      end
+      object lblNoRef: TLabel
+        Left = 320
+        Top = 7
+        Width = 32
+        Height = 16
+        Caption = 'No Ref'
       end
       object edOrganizationName: TcxButtonEdit
         Left = 78
@@ -64,7 +72,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
             Visible = False
           end>
         Properties.MaxLength = 0
-        TabOrder = 3
+        TabOrder = 6
         Width = 199
       end
       object edNoBukti: TcxButtonEdit
@@ -97,6 +105,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
             Default = True
             Kind = bkEllipsis
           end>
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
         Properties.OnButtonClick = edOrganizationPropertiesButtonClick
         Properties.OnValidate = edOrganizationPropertiesValidate
@@ -114,74 +123,44 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         TabOrder = 1
         Width = 199
       end
-      object edSummaryAll: TcxCurrencyEdit
-        Tag = 1
-        Left = 360
-        Top = 84
-        TabStop = False
-        AutoSize = False
-        EditValue = 0.000000000000000000
-        Enabled = False
-        ParentFont = False
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.00;(,0.00)'
-        Properties.ReadOnly = True
-        Style.Font.Charset = DEFAULT_CHARSET
-        Style.Font.Color = clWindowText
-        Style.Font.Height = -17
-        Style.Font.Name = 'Tahoma'
-        Style.Font.Style = [fsBold]
-        Style.TextColor = clRed
-        Style.IsFontAssigned = True
-        TabOrder = 6
-        Height = 24
-        Width = 428
-      end
-      object lvSumary: TcxListView
-        Left = 589
-        Top = 3
-        Width = 200
-        Height = 78
-        TabStop = False
-        Columns = <
-          item
-            AutoSize = True
-            Caption = 'Desc'
-          end
-          item
-            Alignment = taRightJustify
-            AutoSize = True
-            Caption = 'Nominal'
-          end>
-        Enabled = False
-        Items.ItemData = {
-          055C0000000200000000000000FFFFFFFFFFFFFFFF01000000FFFFFFFF000000
-          00024100500001300028BD0C3900000000FFFFFFFFFFFFFFFF01000000FFFFFF
-          FF00000000094C00610069006E002D004C00610069006E0001300080BC0C39FF
-          FFFFFF}
-        ParentFont = False
-        ReadOnly = True
-        RowSelect = True
-        ShowColumnHeaders = False
-        Style.Font.Charset = DEFAULT_CHARSET
-        Style.Font.Color = clWindowText
-        Style.Font.Height = -12
-        Style.Font.Name = 'Tahoma'
-        Style.Font.Style = []
-        Style.Shadow = False
-        Style.TransparentBorder = True
-        Style.IsFontAssigned = True
-        TabOrder = 5
-        ViewStyle = vsReport
-      end
       object memDesc: TcxMemo
         Tag = -1
         Left = 360
-        Top = 3
+        Top = 57
         Properties.ScrollBars = ssVertical
+        TabOrder = 5
+        Height = 51
+        Width = 360
+      end
+      object cbbRekPiutangLain: TcxExtLookupComboBox
+        Tag = 1
+        Left = 360
+        Top = 30
+        Properties.OnValidate = cbbRekPiutangLainPropertiesValidate
         TabOrder = 4
-        Height = 78
-        Width = 223
+        Width = 160
+      end
+      object edNoRef: TcxButtonEdit
+        Tag = 1
+        Left = 360
+        Top = 3
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+            Visible = False
+          end>
+        Properties.MaxLength = 0
+        TabOrder = 3
+        Width = 162
+      end
+      object cbbRekPiutangLainNama: TcxExtLookupComboBox
+        Tag = 1
+        Left = 522
+        Top = 30
+        Enabled = False
+        TabOrder = 7
+        Width = 198
       end
     end
     object cxgrdDetail: TcxGrid
@@ -192,9 +171,8 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 121
-      ExplicitWidth = 795
-      ExplicitHeight = 287
+      ExplicitTop = 145
+      ExplicitHeight = 299
       object cxGridTableARNew: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -203,14 +181,6 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
             Format = ',0.00;(,0.00)'
             Kind = skSum
             Column = cxGridColARNominal
-          end
-          item
-            Format = ',0.00;(,0.00)'
-            Kind = skSum
-          end
-          item
-            Format = ',0.00;(,0.00)'
-            Kind = skSum
           end>
         DataController.Summary.SummaryGroups = <>
         DataController.OnAfterInsert = cxGridTableARNewDataControllerAfterInsert
@@ -222,44 +192,21 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColARNoBukti: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_NOBUKTI'
-          Caption = 'No Bukti'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.ReadOnly = True
-          HeaderAlignmentHorz = taCenter
-          Width = 133
-        end
-        object cxGridColARTanggal: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_TRANSDATE'
-          Caption = 'Tanggal'
-          PropertiesClassName = 'TcxDateEditProperties'
-          Properties.ReadOnly = False
-          Properties.ShowTime = False
-          HeaderAlignmentHorz = taCenter
-          Width = 107
-        end
-        object cxGridColARJatuhTempo: TcxGridColumn
-          AlternateCaption = 'CIPARNEW_DUEDATE'
-          Caption = 'Jatuh Tempo'
-          PropertiesClassName = 'TcxDateEditProperties'
-          Properties.ReadOnly = False
-          Properties.ShowTime = False
-          HeaderAlignmentHorz = taCenter
-          Width = 137
-        end
-        object cxGridColAPRekeningID: TcxGridColumn
-          AlternateCaption = 'BCOAP_Rekening'
-          Caption = 'RekeningID'
-          Visible = False
-          Width = 78
-        end
         object cxGridColARRekening: TcxGridColumn
           AlternateCaption = 'CIPARNEW_REKENING'
-          Caption = 'Rekening'
-          PropertiesClassName = 'TcxTextEditProperties'
+          Caption = 'Kode'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.OnValidate = cxGridColARRekeningPropertiesValidate
           HeaderAlignmentHorz = taCenter
           Width = 133
+        end
+        object cxGridColARRekeningNama: TcxGridColumn
+          Caption = 'Nama'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ReadOnly = False
+          Properties.OnValidate = cxGridColARRekeningNamaPropertiesValidate
+          HeaderAlignmentHorz = taCenter
+          Width = 214
         end
         object cxGridColARKeterangan: TcxGridColumn
           AlternateCaption = 'CIPARNEW_DESCRIPTION'
@@ -274,141 +221,35 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
-          Properties.ReadOnly = True
+          Properties.ReadOnly = False
+          FooterAlignmentHorz = taRightJustify
           HeaderAlignmentHorz = taCenter
           Width = 151
         end
       end
-      object cxGridTableOther: TcxGridTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <
-          item
-            Format = ',0.00;(,0.00)'
-            Kind = skSum
-            Column = cxGridColOtherBayar
-          end>
-        DataController.Summary.SummaryGroups = <>
-        OptionsBehavior.FocusFirstCellOnNewRecord = True
-        OptionsBehavior.GoToNextCellOnEnter = True
-        OptionsBehavior.FocusCellOnCycle = True
-        OptionsData.Appending = True
-        OptionsView.Footer = True
-        OptionsView.GroupByBox = False
-        Styles.ContentEven = DMClient.cxStyleGridEven
-        Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColOtherKode: TcxGridColumn
-          AlternateCaption = 'BCOOTH_Rekening'
-          Caption = 'Kode'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
-          Properties.ImmediatePost = True
-          HeaderAlignmentHorz = taCenter
-          Width = 121
-        end
-        object cxGridColOtherNama: TcxGridColumn
-          Caption = 'Nama'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
-          HeaderAlignmentHorz = taCenter
-          Options.Editing = False
-          Width = 123
-        end
-        object cxGridColOtherCostCenter: TcxGridColumn
-          AlternateCaption = 'BCOOTH_CostCenter'
-          Caption = 'Cost Center'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
-          HeaderAlignmentHorz = taCenter
-          Width = 124
-        end
-        object cxGridColOtherKeterangan: TcxGridColumn
-          AlternateCaption = 'BCOOTH_Keterangan'
-          Caption = 'Keterangan'
-          HeaderAlignmentHorz = taCenter
-          Width = 147
-        end
-        object cxGridColOtherBayar: TcxGridColumn
-          AlternateCaption = 'BCOOTH_Nominal'
-          Caption = 'Bayar'
-          DataBinding.ValueType = 'Currency'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          HeaderAlignmentHorz = taCenter
-          Width = 107
-        end
-      end
-      object cxGridTableCheque: TcxGridTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <
-          item
-            Format = ',0.00;(,0.00)'
-            Kind = skSum
-            Column = cxGridColChequeBayar
-          end>
-        DataController.Summary.SummaryGroups = <>
-        OptionsBehavior.FocusFirstCellOnNewRecord = True
-        OptionsBehavior.GoToNextCellOnEnter = True
-        OptionsBehavior.FocusCellOnCycle = True
-        OptionsData.Appending = True
-        OptionsView.Footer = True
-        OptionsView.GroupByBox = False
-        Styles.ContentEven = DMClient.cxStyleGridEven
-        Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColChequeNo: TcxGridColumn
-          AlternateCaption = 'BCOCHE_No'
-          Caption = 'Nomor'
-          HeaderAlignmentHorz = taCenter
-          Width = 104
-        end
-        object cxGridColChequeJatuhTempo: TcxGridColumn
-          AlternateCaption = 'BCOCHE_JatuhTempo'
-          Caption = 'Jatuh Tempo'
-          PropertiesClassName = 'TcxDateEditProperties'
-          HeaderAlignmentHorz = taCenter
-          Width = 133
-        end
-        object cxGridColChequeKeterangan: TcxGridColumn
-          AlternateCaption = 'BCOCHE_Keterangan'
-          Caption = 'Keterangan'
-          Width = 103
-        end
-        object cxGridColChequeBayar: TcxGridColumn
-          AlternateCaption = 'BCOCHE_Nominal'
-          Caption = 'Bayar'
-          DataBinding.ValueType = 'Currency'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          HeaderAlignmentHorz = taCenter
-          Width = 116
-        end
-      end
       object cxgrdlvlAPList: TcxGridLevel
-        Caption = 'AR New'
+        Caption = 'Detail Tagihan'
         GridView = cxGridTableARNew
-      end
-      object cxgrdlvlOther: TcxGridLevel
-        Caption = 'AP Minus'
-        GridView = cxGridTableOther
-      end
-      object cxgrdlvlCheque: TcxGridLevel
-        Caption = 'Potong AP'
-        GridView = cxGridTableCheque
       end
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 446
     Width = 805
+    ExplicitTop = 446
+    ExplicitWidth = 805
     inherited pnlFooter: TPanel
       Width = 805
+      ExplicitWidth = 805
       inherited btnClose: TcxButton
         Left = 728
         Action = actCancel
+        ExplicitLeft = 728
       end
       inherited btnSave: TcxButton
         Left = 635
         Action = actSave
+        ExplicitLeft = 635
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -416,17 +257,21 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       inherited btnPrint: TcxButton
         Left = 558
         Action = actPrint
+        ExplicitLeft = 558
       end
     end
     inherited pnlSortCut: TPanel
       Width = 805
+      ExplicitWidth = 805
       inherited lbCTRLEnter: TLabel
         Left = 630
         Height = 15
+        ExplicitLeft = 630
       end
       inherited lbEscape: TLabel
         Left = 721
         Height = 15
+        ExplicitLeft = 721
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -434,6 +279,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       inherited lblCTRLP: TLabel
         Left = 554
         Height = 15
+        ExplicitLeft = 554
       end
     end
   end

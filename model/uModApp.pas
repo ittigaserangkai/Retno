@@ -269,9 +269,6 @@ begin
 end;
 
 function TModApp.GetSQLServerFieldType(AProp: TRttiProperty): String;
-var
-  lDate: TDateTime;
-  lObj: TObject;
 begin
   if AProp.Name = 'ID' then
     Result := ' uniqueidentifier primary key nonclustered '
