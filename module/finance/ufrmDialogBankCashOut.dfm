@@ -1,15 +1,15 @@
 inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   Caption = 'Bank Cash Out'
-  ClientHeight = 466
+  ClientHeight = 482
   ClientWidth = 799
   OnDestroy = FormDestroy
   ExplicitWidth = 815
-  ExplicitHeight = 505
+  ExplicitHeight = 521
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 799
-    Height = 410
+    Height = 426
     ExplicitWidth = 799
     ExplicitHeight = 410
     object pnlBCOHeader: TPanel
@@ -241,10 +241,12 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       Left = 2
       Top = 121
       Width = 795
-      Height = 287
+      Height = 303
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
+      ExplicitLeft = 4
+      ExplicitTop = 122
       object cxGridTableAPList: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -459,9 +461,47 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           Width = 116
         end
       end
+      object cxGridTablePotTagihan: TcxGridTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridEven
+        Styles.Header = DMClient.cxStyleGridHeader
+        object cxGridColPotagAR: TcxGridColumn
+          Caption = 'AR'
+          HeaderAlignmentHorz = taCenter
+          Width = 105
+        end
+        object cxGridColPotagKode: TcxGridColumn
+          Caption = 'Kode'
+          HeaderAlignmentHorz = taCenter
+          Width = 130
+        end
+        object cxGridColPotagNama: TcxGridColumn
+          Caption = 'Nama'
+          HeaderAlignmentHorz = taCenter
+          Width = 129
+        end
+        object cxGridColPotagKeterangan: TcxGridColumn
+          Caption = 'Keterangan'
+          HeaderAlignmentHorz = taCenter
+          Width = 174
+        end
+        object cxGridColPotagNominal: TcxGridColumn
+          Caption = 'Nominal'
+          HeaderAlignmentHorz = taCenter
+          Width = 168
+        end
+      end
       object cxgrdlvlAPList: TcxGridLevel
         Caption = 'Klaim'
         GridView = cxGridTableAPList
+      end
+      object cxgrdlvlPotongTagihan: TcxGridLevel
+        Caption = 'Potong Tagihan'
+        GridView = cxGridTablePotTagihan
       end
       object cxgrdlvlOther: TcxGridLevel
         Caption = 'Lain-Lain'
@@ -474,7 +514,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 410
+    Top = 426
     Width = 799
     ExplicitTop = 410
     ExplicitWidth = 799

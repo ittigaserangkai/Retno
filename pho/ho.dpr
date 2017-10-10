@@ -254,8 +254,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
-  Application.CreateForm(TfrmCustomerInvoice, frmCustomerInvoice);
-  Application.CreateForm(TfrmDialogCustomerInvoice, frmDialogCustomerInvoice);
   Application.Run;
 end.

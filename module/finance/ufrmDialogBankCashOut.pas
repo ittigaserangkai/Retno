@@ -61,6 +61,13 @@ type
     lblBank: TLabel;
     lblKeteranan: TLabel;
     lblTotal: TLabel;
+    cxgrdlvlPotongTagihan: TcxGridLevel;
+    cxGridTablePotTagihan: TcxGridTableView;
+    cxGridColPotagAR: TcxGridColumn;
+    cxGridColPotagKode: TcxGridColumn;
+    cxGridColPotagNama: TcxGridColumn;
+    cxGridColPotagKeterangan: TcxGridColumn;
+    cxGridColPotagNominal: TcxGridColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
