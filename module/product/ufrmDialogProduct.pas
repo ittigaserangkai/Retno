@@ -1511,6 +1511,17 @@ begin
   Result := False;
   If not ValidateEmptyCtrl([1], True, tsInfo) then exit;
 
+  //check konversi
+  if not CDSKonv.Locate('Satuan', VarToStr(cxLookupSatPurchase.EditValue), [loCaseInsensitive]) then
+  begin
+    TAppUtils.Warning('Satuan Purchase : ' + cxLookupSatPurchase.Text + ' belum didefinisikan konversinya');
+    exit;
+  end;
+  if not CDSKonv.Locate('Satuan', VarToStr(cxLookupSatuan.EditValue), [loCaseInsensitive]) then
+  begin
+    TAppUtils.Warning('Satuan Stock : ' + cxLookupSatuan.Text + ' belum didefinisikan konversinya');
+    exit;
+  end;
 
 
 

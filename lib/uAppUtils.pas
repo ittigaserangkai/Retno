@@ -49,6 +49,7 @@ type
     class procedure Error(const Text: string);
     class procedure ErrorHapus(AErrorMessage : String = '');
     class procedure ErrorSimpan(AErrorMessage : String = '');
+    class procedure ShowException(E: Exception; Header: String = '');
     class function FileToString(AFileName : String; Var ASize : Double): string;
     class procedure FinalisasiProgressBar(ANomorPB : Integer = 0);
     class function GetAppPath: string;
@@ -89,6 +90,7 @@ type
     class function QuotF(ANumber : Double): String;
 
     class procedure SetRegionalSetting_ID;
+    class procedure NotifException(E: Exception);
     class function TulisRegistry(aName, aValue: String; sAppName : String = ''):
         Boolean;
     class procedure Warning(const Text: string);
@@ -105,6 +107,13 @@ type
     class function _MakeReadable(Input: AnsiString): AnsiString;
     class function _MakeOriginal(Input: AnsiString): AnsiString;
     class function VarAsRestParam(Value: Variant): String;
+  end;
+
+  TRestExcept = class(TObject)
+  private
+    Ferror: String;
+  public
+    property error: String read Ferror write Ferror;
   end;
 
 procedure SetIDCurrencyRegionalSetting;
@@ -148,7 +157,7 @@ const
 implementation
 
 uses
-  uTSCommonDlg;
+  uTSCommonDlg, Datasnap.DSHTTPClient, REST.Json;
 
 class function TAppUtils.GetAppVersionStr: string;
 var
@@ -507,6 +516,27 @@ begin
   else
     MessageDlg(_MSG_GAGAL_SIMPAN + #13 + 'Dengan Error : ' + AErrorMessage , mtError, [mbYes], 0)
 
+end;
+
+class procedure TAppUtils.ShowException(E: Exception; Header: String = '');
+var
+  lObj: TRestExcept;
+  Msg: string;
+begin
+  if Header = '' then
+    Header := 'Ada kesalahan dengan pesan : ';
+
+  Msg := Header + #13 +  E.Message;
+  if E is EHTTPProtocolException then
+  begin
+    lObj := TJson.JsonToObject<TRestExcept>(EHTTPProtocolException(E).ErrorMessage);
+    try
+      Msg := Msg + #13 + lObj.error;
+    finally
+      lObj.Free;
+    end;
+  end;
+  TAppUtils.Error(Msg);
 end;
 
 class function TAppUtils.FileToString(AFileName : String; Var ASize : Double):
@@ -1189,6 +1219,24 @@ begin
   finally
     FreeMem(buf);
   end;
+end;
+
+class procedure TAppUtils.NotifException(E: Exception);
+var
+  lObj: TRestExcept;
+  Msg: string;
+begin
+  if E is EHTTPProtocolException then
+  begin
+    lObj := TJson.JsonToObject<TRestExcept>(EHTTPProtocolException(E).ErrorMessage);;
+    try
+      Msg := Msg + #13 + lObj.error;
+    finally
+      lObj.Free;
+    end;
+  end else
+    Msg := E.Message;
+  CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
 end;
 
 class function TAppUtils.VarAsRestParam(Value: Variant): String;

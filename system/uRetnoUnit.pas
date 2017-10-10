@@ -80,8 +80,8 @@ var
 implementation
 
 function getGlobalVar(aVarString : string): string;
-var
-  sSQL: string;
+//var
+//  sSQL: string;
 begin
   Result := '';
 //  sSQL := ' select PAR_VALUE '
@@ -138,8 +138,8 @@ end;
 }
 
 function GetIsStoreUnitID(aUnit_ID : Integer): Integer;
-var
-  sSQL: string;
+//var
+//  sSQL: string;
 begin
   Result := 0;
 //  sSQL := 'select UNT_IS_STORE, UNT_IS_HO from aut$unit'

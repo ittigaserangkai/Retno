@@ -196,10 +196,9 @@ begin
     TAppUtils.Information('Data Bank Berhasil Disimpan');
     ModalResult := mrOk;
   except
-    TAppUtils.Error('Gagal Menyimpan Data Bank');
-    Raise;
+    on E:Exception do
+      TAppUtils.ShowException(E, 'Gagal Menyimpan Data Bank');
   End;
-
 end;
 
 function TfrmDialogBank.ValidateData: Boolean;

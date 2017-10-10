@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsSellingPrice
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -1360,7 +1360,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.OnEditValueChanged = crBRSSellingPricePropertiesEditValueChanged
             Style.Font.Charset = DEFAULT_CHARSET
             Style.Font.Color = clWindowText
-            Style.Font.Height = -12
+            Style.Font.Height = -11
             Style.Font.Name = 'Trebuchet MS'
             Style.Font.Style = []
             Style.LookAndFeel.NativeStyle = False

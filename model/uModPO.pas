@@ -158,7 +158,9 @@ type
   end;
 
 
-
+const
+  PO_STATUS_CODE_CLAIM : String = '008';
+  PO_STATUS_CODE_RECV : String = '005';
 
 
 

@@ -872,14 +872,7 @@ begin
       TRetno.SettingApp := TModSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(
         TRetno.UnitStore, TRetno.UnitStore.ID));
     except
-      on E:Exception do
-      begin
-        if E is EHTTPProtocolException then
-          Msg := EHTTPProtocolException(E).ErrorMessage;
-
-        //notif saja. jangan warning
-        CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
-      end;
+      on E:Exception do TAppUtils.NotifException(E);
     end;
   end;
 end;
@@ -1127,14 +1120,8 @@ begin
 end;
 
 procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
-var
-  Msg: string;
 begin
-  Msg := 'Ada kesalahan dengan pesan : ' + #13 +   E.Message;
-  if E is EHTTPProtocolException then
-    Msg := Msg + #13 + EHTTPProtocolException(E).ErrorMessage;
-
-  TAppUtils.Error(Msg);
+  TAppUtils.ShowException(E);
 end;
 
 procedure TfrmMain.AppEventsShortCut(var Msg: TWMKey; var Handled:
