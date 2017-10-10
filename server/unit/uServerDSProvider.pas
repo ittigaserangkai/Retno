@@ -1179,8 +1179,9 @@ begin
     sFilter := sFilter + AFilterRekeningSettingApp;
     sFilter := StringReplace(sFilter, ';', ',', [rfReplaceAll]);
     sFilter := StringReplace(sFilter, ',', QuotedStr(',') , [rfReplaceAll]);
-    sFilter := sFilter + ''')';
   end;
+
+  sFilter := sFilter + ''')';
 
   S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION,' +
        ' REF$GRUP_REKENING_ID from REKENING' +

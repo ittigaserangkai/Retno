@@ -76,7 +76,6 @@ object frmLogin: TfrmLogin
         Text = 'Shift:'
         Width = 50
       end>
-    ExplicitWidth = 239
   end
   object edCashierID: TcxTextEdit
     Left = 3
@@ -86,7 +85,6 @@ object frmLogin: TfrmLogin
     StyleFocused.Color = clYellow
     TabOrder = 1
     OnKeyDown = edCashierIDKeyDown
-    ExplicitWidth = 226
     Width = 331
   end
   object edNama: TcxTextEdit
@@ -96,7 +94,6 @@ object frmLogin: TfrmLogin
     Enabled = False
     ParentFont = False
     TabOrder = 2
-    ExplicitWidth = 226
     Width = 331
   end
   object edPassword: TcxTextEdit
@@ -104,10 +101,11 @@ object frmLogin: TfrmLogin
     Top = 102
     Anchors = [akLeft, akTop, akRight]
     ParentFont = False
+    Properties.EchoMode = eemPassword
+    Properties.PasswordChar = '*'
     StyleFocused.Color = clYellow
     TabOrder = 3
     OnKeyDown = edPasswordKeyDown
-    ExplicitWidth = 226
     Width = 331
   end
   object tmrLogin: TTimer

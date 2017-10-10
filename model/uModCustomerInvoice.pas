@@ -15,16 +15,19 @@ type
 
   TModCustomerInvoice = class(TModApp)
   private
+    FCI_AR: TModAR;
     FCI_REKENING: TModRekening;
     FCI_Description: string;
     FCI_NOBUKTI: string;
     FCI_NOINVOICE: string;
     FCI_ORGANIZATION: TModOrganization;
+    FCI_TOTAL: Double;
     FCI_TRANSDATE: TDatetime;
     FCustomerInvoiceAPMinusItems: TObjectList<TModCustomerInvoiceAPMinus>;
     FCustomerInvoiceARNewItems: TObjectList<TModCustomerInvoiceARNew>;
     FCustomerInvoiceDOTraderItems: TObjectList<TModCustomerInvoiceDOTrader>;
     FCustomerInvoicePotongAPItems: TObjectList<TModCustomerInvoicePotongAP>;
+    function GetCI_TOTAL: Double;
     function GetCustomerInvoiceAPMinusItems:
         TObjectList<TModCustomerInvoiceAPMinus>;
     function GeTModCustomerInvoiceARNews:
@@ -46,6 +49,7 @@ type
         TObjectList<TModCustomerInvoicePotongAP> read
         GetCustomerInvoicePotongAPItems write FCustomerInvoicePotongAPItems;
   published
+    property CI_AR: TModAR read FCI_AR write FCI_AR;
     property CI_REKENING: TModRekening read FCI_REKENING write FCI_REKENING;
     property CI_Description: string read FCI_Description write FCI_Description;
 
@@ -54,6 +58,7 @@ type
     property CI_NOINVOICE: string read FCI_NOINVOICE write FCI_NOINVOICE;
     property CI_ORGANIZATION: TModOrganization read FCI_ORGANIZATION write
         FCI_ORGANIZATION;
+    property CI_TOTAL: Double read GetCI_TOTAL write FCI_TOTAL;
     property CI_TRANSDATE: TDatetime read FCI_TRANSDATE write FCI_TRANSDATE;
   end;
 
@@ -146,6 +151,20 @@ type
 
 
 implementation
+
+function TModCustomerInvoice.GetCI_TOTAL: Double;
+var
+  I: Integer;
+begin
+  FCI_TOTAL := 0;
+
+  for I := 0 to CustomerInvoiceARNewItems.Count - 1 do
+  begin
+    FCI_TOTAL := FCI_TOTAL + CustomerInvoiceARNewItems[i].CIPARNEW_NOMINAL;
+  end;
+
+  Result := FCI_TOTAL;
+end;
 
 {
 ***************************** TModCustomerInvoice ******************************

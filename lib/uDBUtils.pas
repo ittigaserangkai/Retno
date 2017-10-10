@@ -870,7 +870,8 @@ begin
                 lAppObject      := TModApp(meth.Invoke(
                 prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
 
-                lAppObject.ID := ADataSet.FieldByName(FieldName).AsString;
+                lAppObject.ID          := ADataSet.FieldByName(FieldName).AsString;
+                lAppObject.ObjectState := 3;
 
 //                if prop.Name <> lAppObject.GetHeaderProperty then
 //                  if (ARetrieveProp) and (lAppObject.ID  <> '') then

@@ -76,12 +76,15 @@ end;
 procedure TfrmDailySalesAnalysis.LoadData;
 begin
   cxGridView.LoadFromDS(DMReport.ReportClient.DSA_GetDS(dtStart.Date, dtEnd.Date, cbGroup.EditValue), Self);
-  cxGridView.AutoFormatCurrency(',0.00;(,0.00)');
-  cxGridView.SetSummaryByColumns(['LastSales','LastSalesProcent',
-                                  'LastProfit','LastProfitProcent',
-                                  'AllSales','AllSalesProcent',
-                                  'AllProfit','AllProfitProcent']);
-  cxGridView.ApplyBestFit();
+  if Assigned(cxGridView.DataController.DataSource) then
+  begin
+    cxGridView.AutoFormatCurrency(',0.00;(,0.00)');
+    cxGridView.SetSummaryByColumns(['LastSales','LastSalesProcent',
+                                    'LastProfit','LastProfitProcent',
+                                    'AllSales','AllSalesProcent',
+                                    'AllProfit','AllProfitProcent']);
+    cxGridView.ApplyBestFit();
+  end;
 end;
 
 end.

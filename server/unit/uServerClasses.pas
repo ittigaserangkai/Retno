@@ -6,7 +6,7 @@ uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
-  uModContrabonSales, System.DateUtils, System.JSON,
+  uModContrabonSales, System.DateUtils, System.JSON,uModAR,uModRekening,uModOrganization,
   System.JSON.Builders, System.JSON.Types, System.JSON.Writers,
   uModCustomerInvoice, uModPO;
 
@@ -1339,16 +1339,42 @@ begin
 end;
 
 function TCrudCustomerInvoice.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lCI: TModCustomerInvoice;
+  lcrud: TCrud;
 begin
+
   Result := False;
 
   if AObject = nil then
     Exit;
 
-  if AObject.ID = '' then
-    TModCustomerInvoice(AObject).CI_NOBUKTI := 'CI-' + GenerateNo(TModCustomerInvoice.ClassName);
+  lCI := TModCustomerInvoice(AObject);
 
-  Result := True;
+  if lCI.ID = '' then
+    lCI.CI_NOBUKTI := 'CI-' + GenerateNo(TModCustomerInvoice.ClassName);
+
+  if lCI.CI_AR = nil then
+  begin
+    lCI.CI_AR := TModAR.Create;
+  end;
+
+  lCI.CI_AR.AR_ClassRef     := TModCustomerInvoice.ClassName;
+  lCI.CI_AR.AR_Description  := lCI.CI_Description;
+  lCI.CI_AR.AR_DueDate      := lCI.CI_TRANSDATE + 7;
+  lCI.CI_AR.AR_ORGANIZATION := TModOrganization.CreateID(lCI.CI_ORGANIZATION.ID);
+  lCI.CI_AR.AR_REFNUM       := lCI.CI_NOBUKTI;
+  lCI.CI_AR.AR_REKENING     := TModRekening.CreateID(lCI.CI_REKENING.ID);
+  lCI.CI_AR.AR_TRANSDATE    := lCI.CI_TRANSDATE;
+  lCI.CI_AR.AR_TOTAL        := lCI.CI_TOTAL;
+
+  lcrud := TCrud.Create(nil);
+  try
+    if lcrud.SaveToDBTrans(lCI.CI_AR, False) then
+      Result := True;
+  finally
+    lcrud.Free;
+  end;
 end;
 
 
