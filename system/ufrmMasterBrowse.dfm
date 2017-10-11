@@ -1,5 +1,5 @@
 inherited frmMasterBrowse: TfrmMasterBrowse
-  Align = alClient
+  BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'form Master Browse Data'
   ClientHeight = 403
   ClientWidth = 701

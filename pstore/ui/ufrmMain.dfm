@@ -79,7 +79,7 @@ object frmMain: TfrmMain
     Fonts.TabHeader.Height = -12
     Fonts.TabHeader.Name = 'Verdana'
     Fonts.TabHeader.Style = []
-    QuickAccessToolbar.Visible = False
+    SupportNonClientDrawing = True
     Contexts = <>
     TabOrder = 5
     TabStop = False
@@ -977,9 +977,13 @@ object frmMain: TfrmMain
       True)
     ImageOptions.Images = DMClient.imgListButton
     ImageOptions.LargeImages = DMClient.ilImage24
+    ImageOptions.LargeIcons = True
     IniFileName = 'storemenu.ini'
     NotDocking = [dsTop]
     PopupMenuLinks = <>
+    ShowCloseButton = True
+    ShowHelpButton = True
+    ShowShortCutInHint = True
     StoreInIniFile = True
     UseSystemFont = False
     Left = 264
@@ -987,7 +991,7 @@ object frmMain: TfrmMain
     DockControlHeights = (
       0
       0
-      26
+      42
       0)
     object dxbrPurchasing: TdxBar
       Caption = 'Procure To Pay'

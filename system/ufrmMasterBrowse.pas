@@ -123,6 +123,8 @@ begin
   AutoRefreshData     := True;
 
   Self.AssignKeyDownEvent;
+
+  WindowState := wsMaximized;
 end;
 
 procedure TfrmMasterBrowse.FormKeyDown(Sender: TObject; var Key: Word;
