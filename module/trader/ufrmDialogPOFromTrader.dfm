@@ -406,6 +406,7 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       inherited btnPrint: TcxButton
         Left = 527
         Action = actPrint
+        ExplicitLeft = 527
       end
     end
     inherited pnlSortCut: TPanel
@@ -427,10 +428,13 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       inherited lblCTRLP: TLabel
         Left = 523
         Height = 15
+        ExplicitLeft = 523
       end
     end
   end
   inherited actlstMasterDialog: TActionList
+    Left = 528
+    Top = 176
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end

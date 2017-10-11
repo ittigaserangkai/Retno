@@ -199,6 +199,7 @@ end;
 procedure TfrmPOFromTrader.actRefreshExecute(Sender: TObject);
 begin
   inherited;
+  {
   ClearForm;
   //ParseDataComboPOTraderNo;
   if (edtPOTraderNo.Text = '') then Exit;
@@ -206,6 +207,7 @@ begin
   ShowPODetilByPONo(edtPOTraderNo.Text);
   edtPOTraderNo.setFocus;
 //  strgGrid.ColWidths[_KolPPN] := 0;
+  }
 end;
 
 procedure TfrmPOFromTrader.ParseDataGrid;
