@@ -14,7 +14,8 @@ uses
   Data.FireDACJSONReflect, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, uClientClasses,
-  uDMClient, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, uTSFastReportFunction;
+  uDMClient, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin,
+  uTSFastReportFunction, frxUtils;
 
 type
   TDMReport = class(TForm)
@@ -43,7 +44,6 @@ type
     IBQ2: TfrxDBDataset;
     exExcel: TfrxXLSExport;
     exEmail: TfrxMailExport;
-    exPDF: TfrxPDFExport;
     exHTML: TfrxHTMLExport;
     exText: TfrxSimpleTextExport;
     frxDMexport: TfrxDotMatrixExport;
@@ -59,6 +59,8 @@ type
     FDStanStorageJSONLink1: TFDStanStorageJSONLink;
     IBQ3: TfrxDBDataset;
     FDMemTable3: TFDMemTable;
+    exPDF: TfrxPDFExport;
+    pdfSaveDlg: TSaveDialog;
     procedure actCloseExecute(Sender: TObject);
     procedure actPrintCloseExecute(Sender: TObject);
     procedure actPrintDlgExecute(Sender: TObject);
@@ -175,7 +177,14 @@ begin
   case cbFileType.ItemIndex of
     0 : FocusedReport.Export(exText);
     1 : FocusedReport.Export(exExcel);
-    2 : FocusedReport.Export(exPDF);
+    2 :
+    begin
+      if not pdfSaveDlg.Execute() then exit;
+      exPDF.FileName    := pdfSaveDlg.FileName;
+      exPDF.Compressed  := False;
+      exPDF.ShowDialog  := False;
+      FocusedReport.Export(exPDF);
+    end;
     3 : FocusedReport.Export(exHTML);
     4 : FocusedReport.Export(exEmail);
   end;
@@ -455,12 +464,5 @@ begin
   FocusedPreview.SetFocus;
 end;
 
+
 end.
-
-
-
-
-
-
-
-
