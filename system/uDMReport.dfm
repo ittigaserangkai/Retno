@@ -279,7 +279,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 4
       Text = 'PDF'
-      ExplicitHeight = 21
       Width = 78
     end
     object btnPrev: TcxButton
@@ -616,7 +615,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 10
       Text = '100%'
-      ExplicitHeight = 21
       Width = 60
     end
     object btnFastPrint: TcxButton
@@ -1400,29 +1398,6 @@ object DMReport: TDMReport
     Left = 672
     Top = 96
   end
-  object exPDF: TfrxPDFExport
-    UseFileCache = False
-    ShowProgress = True
-    OverwritePrompt = False
-    DataOnly = False
-    Compressed = False
-    PrintOptimized = False
-    Outline = False
-    Background = False
-    HTMLTags = False
-    Quality = 95
-    Author = 'FastReport'
-    Subject = 'FastReport PDF export'
-    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
-    HideToolbar = False
-    HideMenubar = False
-    HideWindowUI = False
-    FitWindow = False
-    CenterWindow = False
-    PrintScaling = False
-    Left = 712
-    Top = 96
-  end
   object exHTML: TfrxHTMLExport
     UseFileCache = True
     ShowProgress = True
@@ -1548,5 +1523,34 @@ object DMReport: TDMReport
     UpdateOptions.AutoCommitUpdates = True
     Left = 224
     Top = 283
+  end
+  object exPDF: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Quality = 95
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    Left = 616
+    Top = 275
+  end
+  object pdfSaveDlg: TSaveDialog
+    DefaultExt = '.pdf'
+    Filter = 'PDF Files|*.pdf'
+    FilterIndex = 0
+    Left = 456
+    Top = 264
   end
 end
