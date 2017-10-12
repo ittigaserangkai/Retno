@@ -120,25 +120,17 @@ type
     procedure btnCetakNPClick(Sender: TObject);
   private
     FCDSBARANG: TClientDataSet;
-    FCDSPO: TClientDataSet;
+//    FCDSPO: TClientDataSet;
     FCDSUOM: TClientDataSet;
-    FValidDate: TDate;
-    FStatusPO: string;
-    FTOP: Integer;
-    FCommon,FAssgros,FTrader: Real;
-    FHargaDisc: Real;
+//    FValidDate: TDate;
+//    FStatusPO: string;
+//    FTOP: Integer;
+//    FCommon: Real;
+//    FHargaDisc: Real;
     FModDO: TModDO;
     FPO: TModPO;
-    function SaveData: Boolean;
-    function CheckIsPOExist(ANoPO:string): Boolean;
-    function CekChekBoxInGrid: Boolean;
-    procedure ShowDetailPO(ANoPO:string);
-    procedure FormulaDisconPerRow(Row:Integer; QTYReceive:Real);
     procedure SetHeaderGrid;
     procedure SetClearValue;
-    procedure ClearForm;
-    procedure AllocatedStock(Receive: Real;
-                             var FCommon,FAssgros,FTrader: Real);
     function GetModDO: TModDO;
     procedure HitungSummary(ABaris : Integer; AValue : Double);
     procedure InisialisasiCBBPO;
@@ -187,344 +179,6 @@ begin
   Action := caFree;
 end;
 
-procedure TfrmGoodsReceiving.FormulaDisconPerRow(Row:Integer; QTYReceive:Real);
-var Total, Price,
-    Disc1, Disc2, Disc3,
-    TotalDiscTemp, TotalDisc: Real;
-begin
-  {Price:= StrToFloat(strgGrid.Cells[2,Row]);
-  Disc1:= StrToFloat(strgGrid.Cells[9,Row]);
-  Disc2:= StrToFloat(strgGrid.Cells[10,Row]);
-  Disc3:= StrToFloat(strgGrid.Cells[11,Row]);
-
-  //TotalDisc = Total Harga setelah discount
-  Total := Price * QTYReceive;
-  TotalDiscTemp := ((100-Disc1)/100) * Total;
-  TotalDisc := (((100-Disc2)/100) * TotalDiscTemp) - (Disc3* QTYReceive);
-
-  strgGrid.Cells[18,Row]:= FormatFloat('##0.00',TotalDisc);
-
-  //Nilai dicountnya
-  strgGrid.Cells[31,Row]:= FormatFloat('##0.00',TOTAL - TotalDisc);
-   }
-end;
-
-procedure TfrmGoodsReceiving.AllocatedStock
-          (Receive: Real;
-           var FCommon,FAssgros,FTrader: Real);
-var sisa,
-    AllocCommon,
-    AllocAssgros,
-    AllocTrader: Real;
-begin
-  AllocAssgros:= 0;
-  AllocTrader:= 0;
-  sisa:= Receive - FCommon;
-  if sisa <= 0 then
-    AllocCommon:= Receive
-  else
-  begin
-    AllocCommon:= FCommon;
-    Receive:= sisa;
-    sisa:= Receive - FTrader;
-    if sisa <= 0 then
-      AllocTrader:= Receive
-    else
-    begin
-      AllocTrader:= FTrader;
-      AllocAssgros:= sisa;
-    end;
-  end;
-
-  FCommon:= AllocCommon;
-  FAssgros:= AllocAssgros;
-  FTrader:= AllocTrader;
-end;
-
-function TfrmGoodsReceiving.CekChekBoxInGrid: Boolean;
-var i: Integer;
-    hasil: Boolean;
-begin
-  hasil:= True;
-  i:=1;
-  {while(hasil)and(i<=strgGrid.RowCount-1)do
-  begin
-    strgGrid.GetCheckBoxState(7,i,hasil);
-    Inc(i);
-  end;
-  Result:= hasil;
-  }
-end;
-
-function TfrmGoodsReceiving.SaveData: Boolean;
-var
-    Hasil: Boolean;
-    i: Integer;
-    Receive,DOId: Real;
-begin
-  try
-  Screen.Cursor:= crHourGlass;
-  Hasil:= False;
-  {
-  if not assigned(DeliveryOrder) then
-    DeliveryOrder := TDeliveryOrder.Create;
-
-  if lblStatusPO.Font.Color=clRed then
-  begin
-    //Set Status PO to Expired
-    SetLength(arrParam,3);
-    arrParam[0].tipe:= ptString;
-    arrParam[0].data:= PO_DESCRIPTION_EXPIRED;
-    arrParam[1].tipe:= ptInteger;
-    arrParam[1].data:= FLoginId;
-    arrParam[2].tipe:= ptString;
-    arrParam[2].data:= edtPONo.Text;
-    Hasil:= DeliveryOrder.SetPOExpired(arrParam);
-  end
-  else
-  if lblStatusPO.Font.Color=clBlack then
-  begin
-    //Set Status PO to Received
-    SetLength(arrParam,4);
-    arrParam[0].tipe:= ptDateTime;
-    arrParam[0].data:= dtDateDO.Date;
-    arrParam[1].tipe:= ptString;
-    arrParam[1].data:= PO_DESCRIPTION_RECEIVED;
-    arrParam[2].tipe:= ptInteger;
-    arrParam[2].data:= FLoginId;
-    arrParam[3].tipe:= ptString;
-    arrParam[3].data:= edtPONo.Text;
-    Hasil:= DeliveryOrder.SetPOOrdered(arrParam);
-    if not Hasil then
-    begin
-      Result:= Hasil;
-      Exit;
-    end;
-
-    //Insert Data to DO
-    SetLength(arrParam,25);
-    arrParam[0].tipe := ptString;
-    arrParam[0].data := edtNP.Text;
-    arrParam[1].tipe := ptString;
-    arrParam[1].data := edtPONo.Text;
-    arrParam[2].tipe := ptDateTime;
-    arrParam[2].data := dtDateDO.Date;
-    arrParam[3].tipe := ptCurrency;
-    arrParam[3].data := 0; //hitung sama triger - jvcuredtSubTotal.Value;
-    arrParam[4].tipe := ptCurrency;
-    arrParam[4].data := 0; //hitung sama triger
-    arrParam[5].tipe := ptCurrency;
-    arrParam[5].data := 0; //hitung sama triger
-    arrParam[6].tipe := ptCurrency;
-    arrParam[6].data := 0; //hitung sama triger
-    arrParam[7].tipe := ptInteger;
-    arrParam[7].data := 0;
-    arrParam[8].tipe := ptDateTime;
-    arrParam[8].data := Now + FTOP;
-    arrParam[9].tipe := ptInteger;
-    arrParam[9].data := 0;
-    arrParam[10].tipe:= ptString;
-    arrParam[10].data:= DO_DESCRIPTION_RECEIVED;
-    arrParam[11].tipe:= ptInteger;
-    arrParam[11].data:= 0;
-    arrParam[12].tipe:= ptInteger;
-    arrParam[12].data:= 0;
-    arrParam[13].tipe:= ptInteger;
-    arrParam[13].data:= 0;
-    arrParam[14].tipe:= ptCurrency;
-    arrParam[14].data:= edtjfTotalOrder.Value;
-    arrParam[15].tipe:= ptCurrency;
-    arrParam[15].data:= edtjfBonus.Value;
-    arrParam[16].tipe:= ptCurrency;
-    arrParam[16].data:= edtjfTotalColie.Value;
-    arrParam[17].tipe:= ptCurrency;
-    arrParam[17].data:= edtjfRecvBonus.Value;
-    arrParam[18].tipe:= ptInteger;
-    arrParam[18].data:= 1;
-    arrParam[19].tipe:= ptInteger;
-    arrParam[19].data:= 0;
-    arrParam[20].tipe:= ptInteger;
-    arrParam[20].data:= 0;
-    arrParam[21].tipe:= ptString;
-    arrParam[21].data:= edtDONo.Text;
-    arrParam[22].tipe:= ptInteger;
-    arrParam[22].data:= FLoginId;
-    arrParam[23].tipe:= ptCurrency;
-    arrParam[23].data:= edtjfBonus.Value;
-    arrParam[24].tipe:= ptCurrency;
-    arrParam[24].data:= edtjfRecvBonus.Value;
-    Hasil:= DeliveryOrder.InputDO(arrParam);
-    if not Hasil then
-    begin
-      Result:= Hasil;
-      Exit;
-    end;
-
-    //Insert Data to DO Detil
-    for i:=1 to strgGrid.RowCount-1 do
-    begin
-      DOId:= DeliveryOrder.GetDODID;
-      SetLength(arrParam,21);
-      arrParam[0].tipe := ptString;
-      arrParam[0].data := edtDONo.Text;
-      arrParam[1].tipe := ptInteger;
-      arrParam[1].data := StrToInt(strgGrid.Cells[19,i]);
-      arrParam[2].tipe := ptCurrency;
-      arrParam[2].data := StrToFloat(strgGrid.Cells[3,i]);
-      arrParam[3].tipe := ptCurrency;
-      arrParam[3].data := StrToFloat(strgGrid.Cells[4,i]);
-      Receive:= StrToFloat(strgGrid.Cells[4,i]);
-      FCommon:= StrToFloat(strgGrid.Cells[20,i]);
-      FAssgros:= StrToFloat(strgGrid.Cells[21,i]);
-      FTrader:= StrToFloat(strgGrid.Cells[22,i]);
-      AllocatedStock(Receive,FCommon,FAssgros,FTrader);
-      arrParam[4].tipe := ptCurrency;
-      arrParam[4].data := StrToFloat(strgGrid.Cells[20,i]);
-      arrParam[5].tipe := ptCurrency;
-      arrParam[5].data := StrToFloat(strgGrid.Cells[21,i]);
-      arrParam[6].tipe := ptCurrency;
-      arrParam[6].data := StrToFloat(strgGrid.Cells[22,i]);
-      arrParam[7].tipe := ptCurrency;
-      arrParam[7].data := FCommon;
-      arrParam[8].tipe := ptCurrency;
-      arrParam[8].data := FTrader;
-      arrParam[9].tipe := ptCurrency;
-      arrParam[9].data := FAssgros;
-      arrParam[10].tipe := ptString;
-      arrParam[10].data := strgGrid.Cells[5,i];
-      arrParam[11].tipe := ptCurrency;
-      arrParam[11].data := StrToFloat(strgGrid.Cells[2,i]); //harga
-      arrParam[12].tipe := ptCurrency;
-      arrParam[12].data := StrToFloat(strgGrid.Cells[9,i]);  //disc1
-      arrParam[13].tipe := ptCurrency;
-      arrParam[13].data := StrToFloat(strgGrid.Cells[10,i]); //disc2
-      arrParam[14].tipe := ptCurrency;
-      arrParam[14].data := StrToFloat(strgGrid.Cells[11,i]); //disc3
-      arrParam[15].tipe := ptCurrency;
-      arrParam[15].data := StrToFloat(strgGrid.Cells[29,i]); //PPN PERSEN >> PPN = BY TRIGGER
-      arrParam[16].tipe := ptCurrency;
-      arrParam[16].data := StrToFloat(strgGrid.Cells[30,i]); //PPNBM PERSEN >> PPNBM = BY TRIGGER
-      arrParam[17].tipe:= ptInteger;
-      arrParam[17].data:= FLoginId;
-      arrParam[18].tipe := ptCurrency;
-      arrParam[18].data := StrToFloat(strgGrid.Cells[4,i]);
-      arrParam[19].tipe := ptCurrency;
-      arrParam[19].data := StrToFloat(strgGrid.Cells[3,i]) - StrToFloat(strgGrid.Cells[4,i]);
-      arrParam[20].tipe := ptInteger;
-      arrParam[20].data := DOId;
-      Hasil:= DeliveryOrder.InputDOStokDetil(arrParam);
-      if not Hasil then
-      begin
-        Result:= Hasil;
-        ADConn.Rollback;
-        Exit;
-      end;
-
-      // Update Barang Transaksi Set Cogs (HPP) And Last Cost and stok in order
-      SetLength(arrParam, 6);
-      arrParam[0].tipe := ptCurrency;
-      arrParam[0].data := StrToFloat(strgGrid.Cells[28,i]);
-      arrParam[1].tipe := ptCurrency;
-      arrParam[1].data := StrToFloat(strgGrid.Cells[2,i]);
-      arrParam[2].tipe := ptVariant;
-      arrParam[2].data := StrToFloat(strgGrid.Cells[33,i]) - StrToFloat(strgGrid.Cells[3,i]);
-      arrParam[3].tipe := ptInteger;
-      arrParam[3].data := FLoginId;
-      arrParam[4].tipe := ptString;
-      arrParam[4].data := strgGrid.Cells[1,i];
-      arrParam[5].tipe := ptInteger;
-      arrParam[5].data := DeliveryOrder.GetUnitId;
-
-      Hasil := DeliveryOrder.UpdateBarangTransaksiSetCogsAndLastCostByBrgCode(arrParam);
-      }
-      // Update Barang Transaksi Set Cogs (HPP) Untuk barang bonus}
-      {if StrToInt(strgGrid.Cells[24,i])>0 then
-      begin
-        SetLength(arrParam, 4);
-        arrParam[0].tipe := ptCurrency;
-        arrParam[0].data := StrToFloat(strgGrid.Cells[24,i]) * StrToFloat(strgGrid.Cells[32,i]); //QTY Bonus Sales
-        arrParam[1].tipe := ptInteger;
-        arrParam[1].data := FLoginId;
-        arrParam[2].tipe := ptString;
-        arrParam[2].data := strgGrid.Cells[25,i]; //Code Barang Bonus
-        arrParam[3].tipe := ptInteger;
-        arrParam[3].data := DeliveryOrder.GetUnitId;
-        Hasil := DeliveryOrder.UpdateCOGSForBonus(arrParam);
-      end;
-
-      if(StrToInt(strgGrid.Cells[6,i])>0)then
-      begin
-        //Insert data to"DO_Bonus"
-        SetLength(arrParam,6);
-        arrParam[0].tipe := ptInteger;
-        arrParam[0].data := DOId;
-        arrParam[1].tipe := ptString;
-        arrParam[1].data := strgGrid.Cells[25,i]; //Code Barang Bonus
-        arrParam[2].tipe := ptCurrency;
-        if strgGrid.Cells[23,i]='' then
-          strgGrid.Cells[23,i]:='0';
-        arrParam[2].data := StrToFloat(strgGrid.Cells[23,i]); //QTY Bonus CS
-        arrParam[3].tipe := ptCurrency;
-        if strgGrid.Cells[24,i]='' then
-          strgGrid.Cells[24,i]:='0';
-        arrParam[3].data := StrToFloat(strgGrid.Cells[24,i]); //QTY Bonus Sales
-        arrParam[4].tipe := ptInteger;
-        arrParam[4].data := FLoginId;
-        arrParam[5].tipe := ptInteger;
-        arrParam[5].data := FLoginId;
-        Hasil:= DeliveryOrder.InsertBonusDO(arrParam);
-        if not Hasil then
-        begin
-          Result:= Hasil;
-          Exit;
-        end;
-      end;
-
-      if not Hasil then
-      begin
-        Result := Hasil;
-        Exit;
-      end;
-    end;
-  end;    }
-  Result:= Hasil;
-  finally
-    Screen.Cursor:= crDefault;
-  end;
-end;
-
-procedure TfrmGoodsReceiving.ClearForm;
-begin
-//  edtSONo.Clear;
-//  edtSuplierCode.Clear;
-//  edtSuplierName.Clear;
-//  edtDONo.Clear;
-//  edtNP.Clear;
-//  edtProductName.Clear;
-//  dtDatePO.Clear;
-//  dtDateSO.Clear;
-//  dtDateDO.Clear;
-//  edtjfBonus.Value:=0;
-//  edtjfTotalColie.Value:=0;
-//  edtjfTotalOrder.Value:=0;
-//  edtjfRecvBonus.Value:=0;
-//  edtjfDisc1.Value:=0;
-//  edtjfDisc2.Value:=0;
-//  jvcuredtSubTotal.Value:=0;
-//  jvcuredtPPN.Value:=0;
-//  jvcuredtPPNBM.Value:=0;
-//  jvcuredtDiscount.Value:=0;
-//  jvcuredtTotalBeli.Value:=0;
-//  jvcuredtNilaiDisc.Value:=0;
-//  jvcuredtTotalDisc.Value:=0;
-//  FHargaDisc:=0;
-//  jvcuredtSellPrice.Value;
-//  lblStatusPO.Caption:='';
-//  SetHeaderGrid;
-//  actSave.Enabled:= False;
-//  actDelete.Enabled:= False;
-end;
-
 procedure TfrmGoodsReceiving.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -536,168 +190,6 @@ begin
   dtDateDO.Date := now;
 
 
-end;
-
-procedure TfrmGoodsReceiving.ShowDetailPO(ANoPO: string);
-var data: TDataSet;
-    i: Integer;
-begin
-  SetHeaderGrid;
-  {if not Assigned(DeliveryOrder) then
-    DeliveryOrder:= TDeliveryOrder.Create;
-  if lblStatusPO.Caption='Status PO : RECEIVED' then
-    data:= DeliveryOrder.GetListDataDODetil(ANoPO)
-  else
-    data:= DeliveryOrder.GetListDataPODetil(ANoPO);
-  strgGrid.RowCount:= data.RecordCount+1;
-  i:=1;
-  with data do
-  if not IsEmpty then
-  begin
-    while not Eof do
-    begin
-      strgGrid.Cells[0,i]:= IntToStr(i);
-      strgGrid.Alignments[0,i] := taCenter;
-      strgGrid.Cells[1,i]:= fieldbyname('BRG_CODE').AsString;
-      strgGrid.Cells[2,i]:= FloatToStr(fieldbyname('PRICE').AsFloat);
-      strgGrid.Alignments[2,i] := taRightJustify;
-      strgGrid.Cells[3,i]:= FloatToStr(fieldbyname('QTY_ORDER').AsFloat);
-      strgGrid.Alignments[3,i] := taRightJustify;
-      //Cell 6 buat hitung qty bonus
-      strgGrid.Cells[6,i]:= FloatToStr(fieldbyname('QTY_CS').AsFloat+
-                            fieldbyname('QTY_SALES').AsFloat); //QTY Bonus PO
-      if lblStatusPO.Caption='Status PO : RECEIVED' then
-      begin
-        strgGrid.Cells[4,i]:= fieldbyname('DOD_QTY_ORDER_RECV').AsString; //QTY Receive DO
-        strgGrid.AddCheckBox(7,i,True,True);
-        strgGrid.SetCheckBoxState(7,i,True);
-      end
-      else
-      begin
-        strgGrid.Cells[4,i]:= '0'; //QTY Receive
-        strgGrid.AddCheckBox(7,i,False,False);
-        if strgGrid.Cells[6,i] = '0' then
-          strgGrid.SetCheckBoxState(7,i,True)
-        else
-          strgGrid.SetCheckBoxState(7,i,False);
-      end;
-      strgGrid.Cells[5,i]:= fieldbyname('SAT_CODE_ORDER').AsString;
-      strgGrid.Alignments[4,i] := taRightJustify;
-      strgGrid.Alignments[5,i] := taCenter;
-      strgGrid.Alignments[7,i]:= taCenter;
-      strgGrid.Cells[8,i]:= fieldbyname('BRG_NAME').AsString;
-      strgGrid.Cells[9,i]:= FloatToStr(fieldbyname('DISC1').AsFloat);
-      strgGrid.Cells[10,i]:= FloatToStr(fieldbyname('DISC2').AsFloat);
-      strgGrid.Cells[11,i]:= FloatToStr(fieldbyname('DISC3').AsFloat);
-      if lblStatusPO.Caption='Status PO : RECEIVED' then
-      begin
-        strgGrid.Cells[12,i]:= FloatToStr(fieldbyname('TOTAL_DISC').AsFloat);
-        strgGrid.Cells[13,i]:= FloatToStr(fieldbyname('PPN').AsFloat);
-        strgGrid.Cells[14,i]:= FloatToStr(fieldbyname('PPNBM').AsFloat);
-        strgGrid.Cells[15,i]:= FloatToStr(fieldbyname('SUB_TOTAL').AsFloat);
-        strgGrid.Cells[16,i]:= FloatToStr(fieldbyname('PPN').AsFloat);//FloatToStr(StrToFloat(strgGrid.Cells[13,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPN * QTY Receive)
-        strgGrid.Cells[17,i]:= FloatToStr(fieldbyname('PPNBM').AsFloat);//FloatToStr(StrToFloat(strgGrid.Cells[14,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPNBM * QTY Receive)
-      end
-      else
-      begin
-        strgGrid.Cells[12,i]:= '0'; //FloatToStr(fieldbyname('TOTAL_DISC').AsFloat);
-        strgGrid.Cells[13,i]:= '0'; //FloatToStr(fieldbyname('PPN').AsFloat);
-        strgGrid.Cells[14,i]:= '0'; //FloatToStr(fieldbyname('PPNBM').AsFloat);
-        strgGrid.Cells[15,i]:= '0'; //FloatToStr(fieldbyname('SUB_TOTAL').AsFloat);
-        strgGrid.Cells[16,i]:= '0'; //FloatToStr(StrToFloat(strgGrid.Cells[13,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPN * QTY Receive)
-        strgGrid.Cells[17,i]:= '0'; //FloatToStr(StrToFloat(strgGrid.Cells[14,i])*StrToFloat(strgGrid.Cells[4,i])); //(POD_PPNBM * QTY Receive)
-      end;
-      FormulaDisconPerRow(i,StrToFloat(strgGrid.Cells[4,i]));
-      strgGrid.Cells[19,i]:= IntToStr(fieldbyname('BRGSUP_ID').AsInteger);
-      strgGrid.Cells[20,i]:= FloatToStr(fieldbyname('COMMON').AsFloat);
-      strgGrid.Cells[21,i]:= FloatToStr(fieldbyname('ASSGROS').AsFloat);
-      strgGrid.Cells[22,i]:= FloatToStr(fieldbyname('TRADER').AsFloat);
-      strgGrid.Cells[23,i]:= FloatToStr(fieldbyname('QTY_CS').AsFloat); //QTY Bonus CS
-      strgGrid.Cells[24,i]:= FloatToStr(fieldbyname('QTY_SALES').AsFloat); //QTY Bonus Sales
-      strgGrid.Cells[25,i]:= fieldbyname('BNS_BRG_CODE').AsString; //Code Barang Bonus
-      strgGrid.Cells[26,i]:= FloatToStr(fieldByname('HPP_OLD').AsFloat); // Nilai HPP Lama (Added By Luqman)
-      strgGrid.Cells[27,i]:= FloatToStr(fieldbyname('BRGT_STOCK').AsFloat); // Stok Barang Lama (Added By Luqman)
-      strgGrid.Cells[28,i]:= '0'; // HPP dihitung saat on validate qty receive
-      strgGrid.Cells[29,i]:= FloatToStr(fieldByname('PPN_PERSEN').AsFloat); // PPN PERSEN
-      strgGrid.Cells[30,i]:= FloatToStr(fieldbyname('PPNBM_PERSEN').AsFloat); // PPNBM PERSEN
-      if lblStatusPO.Caption='Status PO : RECEIVED' then
-      begin
-        strgGrid.Cells[32,i] := '1';
-        strgGrid.Cells[33,i] := '0';
-        strgGrid.Cells[34,i] := '';
-      end
-      else
-      begin
-        strgGrid.Cells[32,i] := FloatToStr(fieldbyname('KONVSAT_SCALE').AsFloat);
-        strgGrid.Cells[33,i] := FloatToStr(fieldbyname('BRGT_STOCK_IN_ORDER').AsFloat);
-        strgGrid.Cells[34,i] := fieldbyname('KONVSAT_SAT_CODE_FROM').AsString;
-      end;
-      Inc(i);
-      Next;
-    end;
-    edtjfTotalColie.Value:= SumColStringGrid(strgGrid,4,1,strgGrid.RowCount-1);
-    edtjfBonus.Value:= SumColStringGrid(strgGrid,6,1,strgGrid.RowCount-1);
-    jvcuredtSubTotal.Value:= SumColStringGrid(strgGrid,15,1,strgGrid.RowCount-1);
-    jvcuredtPPN.Value:= SumColStringGrid(strgGrid,16,1,strgGrid.RowCount-1);
-    jvcuredtPPNBM.Value:= SumColStringGrid(strgGrid,17,1,strgGrid.RowCount-1);
-    jvcuredtDiscount.Value:= SumColStringGrid(strgGrid,31,1,strgGrid.RowCount-1);
-    edtjfTotalOrder.Value:= SumColStringGrid(strgGrid,3,1,strgGrid.RowCount-1);
-    FHargaDisc:= SumColStringGrid(strgGrid,18,1,strgGrid.RowCount-1);
-  end
-  else
-  begin
-    strgGrid.RowCount:=2;
-    strgGrid.ClearRows(1,1);
-    edtjfTotalColie.Value:= 0;
-    edtjfBonus.Value:= 0;
-    jvcuredtSubTotal.Value:= 0;
-    jvcuredtPPN.Value:= 0;
-    jvcuredtPPNBM.Value:= 0;
-    jvcuredtDiscount.Value:= 0;
-    edtjfTotalOrder.Value:= 0;
-    FHargaDisc:= 0;
-  end;
-
-  jvcuredtTotalBeli.Value:= FHargaDisc +
-                            jvcuredtPPN.Value +
-                            jvcuredtPPNBM.Value;
-
-  if lblStatusPO.Caption='Status PO : RECEIVED' then
-    edtjfRecvBonus.Value:= edtjfBonus.Value
-  else
-    edtjfRecvBonus.Value:= 0;
-  strgGrid.FixedRows := 1;
-  strgGrid.AutoSize := true;
-  }
-end;
-
-function TfrmGoodsReceiving.CheckIsPOExist(ANoPO: string): boolean;
-var data: TDataSet;
-begin
-  {if not Assigned(DeliveryOrder) then
-    DeliveryOrder:= TDeliveryOrder.Create;
-  data:= DeliveryOrder.GetListDataPOByNo(ANoPO);
-  with data do
-  if not IsEmpty then
-  begin
-    dtDatePO.Date:= fieldbyname('PO_DATE').AsDateTime;
-    edtSONo.Text:= fieldbyname('SO_NO').AsString;
-    dtDateSO.Date:= fieldbyname('SO_DATE').AsDateTime;
-    edtSuplierCode.Text:= fieldbyname('SUPMG_CODE').AsString;
-    edtSuplierName.Text:= fieldbyname('SUP_NAME').AsString;
-    FStatusPO := UpperCase(fieldbyname('STAPO_NAME').AsString);
-    lblStatusPO.Caption:= 'Status PO : ' + FStatusPO;
-    FValidDate:= fieldbyname('PO_VALID_DATE').AsDateTime;
-    FTOP:= fieldbyname('SUPMG_TOP').AsInteger;
-    edtDONo.Text:= ANoPO;
-    dtDateDO.Date:= Now;
-
-    ShowDetailPO(ANoPO);
-    result := true;
-  end
-  else
-    result := false;
-    }
 end;
 
 procedure TfrmGoodsReceiving.strgGridCellValidate(Sender: TObject; ACol,
@@ -796,7 +288,7 @@ begin
 end;
 
 procedure TfrmGoodsReceiving.SetClearValue;
-var i: integer;
+//var i: integer;
 begin
   {for i:=1 to strgGrid.RowCount-1 do
   begin
@@ -868,8 +360,8 @@ end;
 
 procedure TfrmGoodsReceiving.edtPONoKeyPress(Sender: TObject;
   var Key: Char);
-var data: TDataSet;
-    NewNPNumber: Integer;
+//var data: TDataSet;
+//    NewNPNumber: Integer;
 begin
   inherited;
   {if Key=#13 then
@@ -1076,9 +568,9 @@ end;
 
 procedure TfrmGoodsReceiving.HitungSummary(ABaris : Integer; AValue : Double);
 var
-  dLinePrice: Double;
+//  dLinePrice: Double;
   dQtyAwal: Double;
-  I: Integer;
+//  I: Integer;
 begin
   dQtyAwal           := cxGridTableGR.Double(ABaris, cxgrdclmnQtyRecv.Index);
   edTotalColie.Value := edTotalColie.Value - dQtyAwal;

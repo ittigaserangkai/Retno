@@ -1,4 +1,4 @@
-unit ufrmDialogCustomerInvoice;
+  unit ufrmDialogCustomerInvoice;
 
 interface
 
@@ -273,6 +273,11 @@ begin
     TAppUtils.Warning('Organisasi Belum Dipilih');
     edOrganization.SetFocus;
     Exit;
+  end  else if not cxGridTableARNew.Validate then
+  begin
+    Exit;
+//    TAppUtils.Warning('Detail Invoice Belum Diisi');
+//    edOrganization.SetFocus;
   end;
 
 

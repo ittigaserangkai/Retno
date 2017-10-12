@@ -13,7 +13,8 @@ uses
   ActnList, System.Actions, Vcl.StdCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit,  cxLookupEdit, cxDBLookupEdit, cxCheckBox, cxSpinEdit, Data.DB,
-  cxPC, Vcl.ComCtrls, Vcl.Mask, Datasnap.DBClient,  System.Rtti, uModApp, System.TypInfo;
+  cxPC, Vcl.ComCtrls, Vcl.Mask, Datasnap.DBClient,  System.Rtti, uModApp,
+  System.TypInfo, cxButtonEdit, System.DateUtils, cxCalc, cxGridLevel;
 
 
 type
@@ -195,6 +196,7 @@ type
     function Double(ARec, ACol : Integer): Double;
     function Date(ARec, ACol : Integer): TDatetime;
     function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
+    function GetLevel: TcxGridLevel;
     function Int(ARec, ACol : Integer): Integer;
     function Text(ARec, ACol : Integer): string;
     procedure LoadObjectData(AObject : TModApp; ARow : Integer);
@@ -202,6 +204,7 @@ type
     procedure SetObjectData(AObject : TModApp; ARow : Integer);
     procedure SetVisibleColumns(FromCol, ToCol: Integer; IsVisible: Boolean);
         overload;
+    function Validate: Boolean;
     function Values(ARec, ACol : Integer): Variant; overload;
   end;
 
@@ -212,9 +215,6 @@ function VarToFLoat(aValue: Variant): Double;
 
 
 implementation
-
-uses
-  cxGridLevel;
 
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
@@ -1412,6 +1412,7 @@ begin
     else if C is TEdit then IsEmpty := TRIM(TEdit(C).Text) = ''
     else if C is TcxComboBox then IsEmpty := TcxComboBox(C).ItemIndex = -1
     else if C is TcxTextEdit then IsEmpty := TRIM(TcxTextEdit(C).Text) = ''
+    else if C is TcxButtonEdit then IsEmpty := TRIM(TcxButtonEdit(C).Text) = ''
     else if C is TLabeledEdit then IsEmpty := TRIM(TLabeledEdit(C).Text) = '';
 //    else if C is TcxSpinEdit then IsEmpty := TcxSpinEdit(C).Value = 0
 //    else if C is TcxCurrencyEdit then IsEmpty := TcxCurrencyEdit(C).Value = 0;
@@ -1502,10 +1503,10 @@ function TFormHelper.EnableDisableControl(ParentCtrl: TWinControl; aState:
 var
   C: TComponent;
   i: Integer;
-  iTabOrd: Integer;
+//  iTabOrd: Integer;
 //  sMsg: string;
-  EmptyCtrl: TWinControl;
-  IsEmpty: Boolean;
+//  EmptyCtrl: TWinControl;
+//  IsEmpty: Boolean;
 begin
   Result := False;
 //  IsEmpty   := False;
@@ -1667,6 +1668,21 @@ begin
   end;
 end;
 
+function TcxGridTableViewHelper.GetLevel: TcxGridLevel;
+var
+  I: Integer;
+begin
+  Result := nil;
+  
+  for I := 0 to Self.Owner.ComponentCount - 1 do
+  begin
+    if Self.Owner.Components[i] is TcxGridLevel then
+      Result :=  Self.Owner.Components[i] as TcxGridLevel;
+    
+  end;
+
+end;
+
 function TcxGridTableViewHelper.Int(ARec, ACol : Integer): Integer;
 begin
   if Self.DataController.Values[ARec, ACol] = null  then
@@ -1789,6 +1805,78 @@ begin
   begin
     Self.Columns[i].Visible := IsVisible;
   end;
+end;
+
+function TcxGridTableViewHelper.Validate: Boolean;
+var
+  IsEmpty: Boolean;
+  j: Integer;
+  k: Integer;
+  sMsg: string;
+begin
+  Result  := False;
+
+  if Self.DataController.RecordCount = 0 then
+  begin
+    TAppUtils.Warning('Data Pada ' + Self.GetLevel.Caption + ' Masih Kosong' );
+    Exit;
+  end;
+
+  IsEmpty := False;
+  
+  for j := 0 to Self.ColumnCount - 1 do
+  begin
+    if not (Self.Columns[j].Tag = 1) then continue;
+
+    for k := 0 to Self.DataController.RecordCount - 1 do
+    begin
+      if Self.Columns[j].PropertiesClass = TcxTextEditProperties then
+      begin
+        IsEmpty := Self.Text(k,j) = '';
+        if IsEmpty then
+          Break;
+      end else if Self.Columns[j].PropertiesClass = TcxButtonEditProperties then
+      begin
+        IsEmpty := Self.Text(k,j) = '';
+        if IsEmpty then
+          Break;
+      end else if Self.Columns[j].PropertiesClass = TcxExtLookupComboBoxProperties then
+      begin
+        IsEmpty := Self.Values(k,j) = null;
+        if IsEmpty then
+          Break;
+      end else if Self.Columns[j].PropertiesClass = TcxCurrencyEditProperties then
+      begin
+        IsEmpty := Self.Double(k,j) = 0;
+        if IsEmpty then
+          Break;
+      end else if Self.Columns[j].PropertiesClass = TcxCalcEditProperties then
+      begin
+        IsEmpty := Self.Int(k,j) = 0;
+        if IsEmpty then
+          Break;
+      end else if Self.Columns[j].PropertiesClass = TcxDateEditProperties then
+      begin
+        IsEmpty := YearOf(Self.Date(k,j)) = 1899;
+        if IsEmpty then
+          Break;
+      end else if Self.Columns[j].PropertiesClass = TcxCurrencyEditProperties then
+      begin
+        IsEmpty := Self.Double(k,j) = 0;
+        if IsEmpty then
+          Break;
+      end;        
+    end;
+
+    if IsEmpty then
+    begin
+      sMsg := 'Data ' + Self.Columns[j].Caption + ' Baris ' + IntToStr(k+1) + ' Masih Salah';
+      TAppUtils.Warning(sMsg);
+      Exit;
+    end;    
+  end;
+
+  Result := True;
 end;
 
 function TcxGridTableViewHelper.Values(ARec, ACol : Integer): Variant;

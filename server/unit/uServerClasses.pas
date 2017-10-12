@@ -166,6 +166,7 @@ type
 
   TCrudCustomerInvoice = class(TCrud)
   protected
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
@@ -1338,6 +1339,29 @@ begin
   end;
 end;
 
+function TCrudCustomerInvoice.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+var
+  lCI: TModCustomerInvoice;
+  lcrud: TCrud;
+begin
+  Result := False;
+
+  if AObject = nil then
+    Exit;
+
+  lCI := TModCustomerInvoice(AObject);
+
+  lcrud := TCrud.Create(nil);
+  try
+    if lcrud.DeleteFromDBTrans(lCI.CI_AR, False) then
+      Result := True;
+  finally
+    lcrud.Free;
+  end;
+
+  Result := True;
+end;
+
 function TCrudCustomerInvoice.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lCI: TModCustomerInvoice;
@@ -1367,6 +1391,10 @@ begin
   lCI.CI_AR.AR_REKENING     := TModRekening.CreateID(lCI.CI_REKENING.ID);
   lCI.CI_AR.AR_TRANSDATE    := lCI.CI_TRANSDATE;
   lCI.CI_AR.AR_TOTAL        := lCI.CI_TOTAL;
+
+  if lCI.CI_AR.AR_PAID > 0then
+    raise Exception.Create('Invoice Sudah Terbayar, Tidak Bisa Diedit');
+
 
   lcrud := TCrud.Create(nil);
   try

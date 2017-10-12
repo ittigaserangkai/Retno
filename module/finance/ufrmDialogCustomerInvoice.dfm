@@ -55,11 +55,11 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         Caption = 'Rekening'
       end
       object lblNoRef: TLabel
-        Left = 320
+        Left = 299
         Top = 7
-        Width = 32
+        Width = 53
         Height = 16
-        Caption = 'No Ref'
+        Caption = 'No Invoice'
       end
       object edOrganizationName: TcxButtonEdit
         Left = 78
@@ -144,6 +144,8 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         Tag = 1
         Left = 360
         Top = 3
+        HelpType = htKeyword
+        HelpKeyword = 'No Invoice'
         Properties.Buttons = <
           item
             Default = True
@@ -152,7 +154,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
           end>
         Properties.MaxLength = 0
         TabOrder = 3
-        Width = 162
+        Width = 160
       end
       object cbbRekPiutangLainNama: TcxExtLookupComboBox
         Tag = 1
@@ -171,9 +173,8 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 145
-      ExplicitHeight = 299
       object cxGridTableARNew: TcxGridTableView
+        Tag = 1
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
@@ -193,6 +194,7 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColARRekening: TcxGridColumn
+          Tag = 1
           AlternateCaption = 'CIPARNEW_REKENING'
           Caption = 'Kode'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
@@ -209,12 +211,14 @@ inherited frmDialogCustomerInvoice: TfrmDialogCustomerInvoice
           Width = 214
         end
         object cxGridColARKeterangan: TcxGridColumn
+          Tag = 1
           AlternateCaption = 'CIPARNEW_DESCRIPTION'
           Caption = 'Keterangan'
           HeaderAlignmentHorz = taCenter
           Width = 213
         end
         object cxGridColARNominal: TcxGridColumn
+          Tag = 1
           AlternateCaption = 'CIPARNEW_NOMINAL'
           Caption = 'Nominal'
           DataBinding.ValueType = 'Currency'
