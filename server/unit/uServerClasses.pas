@@ -170,6 +170,9 @@ type
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
+  TCrudPOTrader = class(TCrud)
+  end;
+
 
 {$METHODINFO OFF}
 
@@ -1353,8 +1356,8 @@ begin
 
   lcrud := TCrud.Create(nil);
   try
-    if lcrud.DeleteFromDBTrans(lCI.CI_AR, False) then
-      Result := True;
+    if not lcrud.DeleteFromDBTrans(lCI.CI_AR, False) then
+      Exit;
   finally
     lcrud.Free;
   end;

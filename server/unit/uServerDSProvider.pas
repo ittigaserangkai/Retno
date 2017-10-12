@@ -145,6 +145,8 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function Unit_GetDSLookUp: TDataSet;
     function Unit_GetDSOverview: TDataSet;
+    function POTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -1479,6 +1481,19 @@ var
 begin
   S := 'SELECT * FROM JURNAL';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.POTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_POTRADER '
+    + ' where POT_DATE between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
+    + ' order by POT_DATE desc, POT_NO desc';
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:

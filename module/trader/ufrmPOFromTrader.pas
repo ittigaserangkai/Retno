@@ -13,7 +13,7 @@ uses
   cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
   cxCurrencyEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  System.Actions;
+  System.Actions, uDBUtils, uDMClient, System.DateUtils, uDXUtils, Datasnap.DBClient;
 
 type
   TfrmPOFromTrader = class(TfrmMasterBrowse)
@@ -40,13 +40,11 @@ type
     edtPOTraderNo: TEdit;
     Label1: TLabel;
     procedure actAddExecute(Sender: TObject);
-    procedure fraFooter5Button1btnAddClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
     procedure dtTglKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure cbpPOTraderNoKeyUp(Sender: TObject; var Key: Word;
@@ -64,6 +62,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
   private
+    FCDS: TClientDataset;
     FDataMember: TStringList;
     //FDataReport: TResultDataSet;
 //    FAlamatTrader: string;
@@ -111,35 +110,7 @@ uses ufrmDialogPOFromTrader, uTSCommonDlg,
 procedure TfrmPOFromTrader.actAddExecute(Sender: TObject);
 begin
   inherited;
-  if not Assigned(frmDialogPOFromTrader) then
-    Application.CreateForm(TfrmDialogPOFromTrader, frmDialogPOFromTrader);
-
-  frmDialogPOFromTrader.Modul:= mPOFromTrader;
-  frmDialogPOFromTrader.Caption := 'Add PO From Trader';
-  frmDialogPOFromTrader.FormMode := fmAdd;
-  SetFormPropertyAndShowDialog(frmDialogPOFromTrader);
-
-  if (frmDialogPOFromTrader.IsProcessSuccessfull) then
-  begin
-    NomorPO := frmDialogPOFromTrader.NomorPO;
-    edtPOTraderNo.Text := NomorPO;
-
-    actRefreshExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atAdd);
-    if (CommonDlg.Confirm('Apakah Anda Akan Mencetak Laporan') = mrYES) then
-    begin
-      fraFooter5Button1btnUpdateClick(Self);
-    end;
-    edtPOTraderNo.setFocus;
-  end;
-
-  frmDialogPOFromTrader.Free;
-end;
-
-procedure TfrmPOFromTrader.fraFooter5Button1btnAddClick(Sender: TObject);
-begin
-  inherited;
-  actAddExecute(Self);
+  ShowDialogForm(TfrmDialogPOFromTrader)
 end;
 
 procedure TfrmPOFromTrader.FormClose(Sender: TObject;
@@ -168,46 +139,15 @@ end;
 procedure TfrmPOFromTrader.actEditExecute(Sender: TObject);
 begin
   inherited;
-  if not Assigned(frmDialogPOFromTrader) then
-    Application.CreateForm(TfrmDialogPOFromTrader, frmDialogPOFromTrader);
-
-  frmDialogPOFromTrader.Caption := 'Edit PO From Trader';
-  frmDialogPOFromTrader.edtPONo.Text := edtPOTraderNo.Text;
-
-  frmDialogPOFromTrader.FormMode := fmEdit;
-  SetFormPropertyAndShowDialog(frmDialogPOFromTrader);
-
-  if (frmDialogPOFromTrader.IsProcessSuccessfull) then
-  begin
-    actRefreshExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atEdit);
-    if (CommonDlg.Confirm('Cetak Laporan') = mrYES) then
-    begin
-      fraFooter5Button1btnUpdateClick(Self);
-    end;
-  end;
-
-  frmDialogPOFromTrader.Free;
+  if FCDS = nil  then
+    Exit;
+  ShowDialogForm(TfrmDialogPOFromTrader, FCDS.FieldByName('pot_no').AsString)
 end;
 
 procedure TfrmPOFromTrader.actPrintExecute(Sender: TObject);
 begin
   inherited;
   //
-end;
-
-procedure TfrmPOFromTrader.actRefreshExecute(Sender: TObject);
-begin
-  inherited;
-  {
-  ClearForm;
-  //ParseDataComboPOTraderNo;
-  if (edtPOTraderNo.Text = '') then Exit;
-  ParseTraderPO(edtPOTraderNo.Text);
-  ShowPODetilByPONo(edtPOTraderNo.Text);
-  edtPOTraderNo.setFocus;
-//  strgGrid.ColWidths[_KolPPN] := 0;
-  }
 end;
 
 procedure TfrmPOFromTrader.ParseDataGrid;
@@ -552,7 +492,11 @@ end;
 procedure TfrmPOFromTrader.RefreshData;
 begin
   inherited;
-  // TODO -cMM: TfrmPOFromTrader.RefreshData default body inserted
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.POTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'V_ORGANIZATION_ID', 'POTRADER_ID'],False);
+
 end;
 
 end.

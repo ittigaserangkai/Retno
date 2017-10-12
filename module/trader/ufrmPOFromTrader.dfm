@@ -12,7 +12,7 @@ inherited frmPOFromTrader: TfrmPOFromTrader
   inherited pnlBody: TPanel
     Width = 905
     Height = 282
-    ExplicitWidth = 674
+    ExplicitWidth = 905
     ExplicitHeight = 282
     inherited pgcBrowse: TcxPageControl
       Top = 111
@@ -20,19 +20,19 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       Height = 170
       TabOrder = 1
       ExplicitTop = 111
-      ExplicitWidth = 672
+      ExplicitWidth = 903
       ExplicitHeight = 170
       ClientRectBottom = 169
       ClientRectRight = 902
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 670
+        ExplicitWidth = 901
         ExplicitHeight = 168
         inherited cxGrid: TcxGrid
           Width = 901
           Height = 168
-          ExplicitWidth = 670
+          ExplicitWidth = 901
           ExplicitHeight = 168
         end
       end
@@ -54,7 +54,6 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       ParentFont = False
       TabOrder = 0
       Visible = False
-      ExplicitWidth = 672
       object lbl1: TLabel
         Left = 15
         Top = 6
@@ -235,33 +234,33 @@ inherited frmPOFromTrader: TfrmPOFromTrader
   end
   inherited pnlHeader: TPanel
     Width = 905
-    ExplicitWidth = 674
+    ExplicitWidth = 905
     inherited lblFilterData: TcxLabel
       Left = 551
       Visible = True
-      ExplicitLeft = 320
+      ExplicitLeft = 551
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 612
       Visible = True
-      ExplicitLeft = 381
+      ExplicitLeft = 612
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 728
       Visible = True
-      ExplicitLeft = 497
+      ExplicitLeft = 728
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 823
-      ExplicitLeft = 592
+      ExplicitLeft = 823
     end
     inherited lblsdFilter: TcxLabel
       Left = 704
       Visible = True
-      ExplicitLeft = 473
+      ExplicitLeft = 704
       AnchorY = 17
     end
   end
@@ -269,10 +268,10 @@ inherited frmPOFromTrader: TfrmPOFromTrader
     Top = 315
     Width = 905
     ExplicitTop = 315
-    ExplicitWidth = 674
+    ExplicitWidth = 905
     inherited pnlFooter: TPanel
       Width = 905
-      ExplicitWidth = 674
+      ExplicitWidth = 905
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -285,7 +284,7 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       inherited btnClose: TcxButton
         Left = 828
         Action = actClose
-        ExplicitLeft = 597
+        ExplicitLeft = 828
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -293,11 +292,11 @@ inherited frmPOFromTrader: TfrmPOFromTrader
     end
     inherited pnlShortCut: TPanel
       Width = 905
-      ExplicitWidth = 674
+      ExplicitWidth = 905
       inherited lbEscape: TLabel
         Left = 831
         Height = 17
-        ExplicitLeft = 600
+        ExplicitLeft = 831
       end
     end
   end
