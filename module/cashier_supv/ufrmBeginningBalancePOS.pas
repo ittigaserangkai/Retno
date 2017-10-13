@@ -392,7 +392,7 @@ begin
   Result := False;
   lModShift := TModShift.Create;
   try
-    lModShift := DMclient.CrudClient.RetrieveByCode(TModShift.ClassName, edtShift.EditValue) as TModShift;
+    lModShift := DMClient.CrudClient.RetrieveByCode(TModShift.ClassName, edtShift.EditValue) as TModShift;
 
     if lModShift.SHIFT_NAME = '' then
     begin

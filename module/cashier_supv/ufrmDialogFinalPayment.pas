@@ -7,14 +7,13 @@ uses
   Dialogs, ufrmMasterDialog, StdCtrls, ExtCtrls, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxMaskEdit, cxSpinEdit,
-  cxTimeEdit, cxTextEdit, cxCurrencyEdit;
-  // tambahan
-  // Ini juga tambahan
+  cxTimeEdit, cxTextEdit, cxCurrencyEdit, uClientClasses, uModBeginningBalance,
+  uModFinalPayment, Datasnap.DBClient, uInterface;
 
 type
 //  TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogFinalPayment = class(TfrmMasterDialog)
+  TfrmDialogFinalPayment = class(TfrmMasterDialog, ICRUDAble)
     lbl4: TLabel;
     edtPOSCode: TEdit;
     lbl1: TLabel;
@@ -23,31 +22,31 @@ type
     lbl3: TLabel;
     edtFinPay: TcxCurrencyEdit;
     edtClock: TcxTimeEdit;
-    edtFinPay1: TcxCurrencyEdit;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    Timer1: TTimer;
+    procedure actSaveExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure edtFinPay1Enter(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
-    FIsProcessSuccessfull: boolean;
-//    FFormMode: TFormMode;
-    FNominalEdit: Double;
-    FNominalSisa: Double;
-//    procedure SetFormMode(const Value: TFormMode);
-    procedure SetIsProcessSuccessfull(const Value: boolean);
+//    dataBeginningBlnc: TDataSet;
+    FCDS: TClientDataSet;
+    FDSClient: TDSProviderClient;
+    FModBeginningBalance: TModBeginningBalance;
+    FModFinalPayment: TModFinalPayment;
+    function GetDSClient: TDSProviderClient;
+    function GetModBeginningBalance: TModBeginningBalance;
+    function GetModFinalPayment: TModFinalPayment;
+    function IsValidate: Boolean;
+    procedure SavingData;
+    property CDS: TClientDataSet read FCDS write FCDS;
+    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
+    property ModBeginningBalance: TModBeginningBalance read GetModBeginningBalance
+        write FModBeginningBalance;
+    property ModFinalPayment: TModFinalPayment read GetModFinalPayment write
+        FModFinalPayment;
   public
-    { Public declarations }
-    balanceID: Integer;
-    balanceUnitID: Integer;
-    posCode: String;
-    cashierID: String;
-    totalFinalPayment: Currency;
-    property NominalEdit: Double read FNominalEdit write FNominalEdit;
-    property NominalSisa: Double read FNominalSisa write FNominalSisa;
+    procedure LoadData(AID: string);
   published
-//    property FormMode: TFormMode read FFormMode write SetFormMode;
-    property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
 var
@@ -55,15 +54,23 @@ var
 
 implementation
 
-uses uConn, uRetnoUnit, uTSCommonDlg;
+uses
+  uConn, uRetnoUnit, uTSCommonDlg, DB, uConstanta, uAppUtils, uDMClient,
+  uDBUtils;
 
 {$R *.dfm}
 
-procedure TfrmDialogFinalPayment.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmDialogFinalPayment.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  Action := caFree;
+  if IsValidate then
+    SavingData;
+end;
+
+procedure TfrmDialogFinalPayment.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
 end;
 
 procedure TfrmDialogFinalPayment.FormDestroy(Sender: TObject);
@@ -72,84 +79,90 @@ begin
   frmDialogFinalPayment := nil;
 end;
 
-//procedure TfrmDialogFinalPayment.SetFormMode(const Value: TFormMode);
-//begin
-//  FFormMode := Value;
-//end;
-
-procedure TfrmDialogFinalPayment.SetIsProcessSuccessfull(
-  const Value: boolean);
+function TfrmDialogFinalPayment.GetDSClient: TDSProviderClient;
 begin
-  FIsProcessSuccessfull := Value;
+  if not Assigned(FDSClient) then
+    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+  Result := FDSClient;
 end;
 
-procedure TfrmDialogFinalPayment.footerDialogMasterbtnSaveClick(
-  Sender: TObject);   
+function TfrmDialogFinalPayment.GetModBeginningBalance: TModBeginningBalance;
 begin
-  inherited;
-  IsProcessSuccessfull := False;
+  if not Assigned(FModBeginningBalance) then
+    FModBeginningBalance := TModBeginningBalance.Create;
+  Result := FModBeginningBalance;
+end;
 
-  // Dihilangkan untuk pengecekkan nominal inputan final payment dari kasir
-  {
-  if edtFinPay.Value >  (NominalEdit + NominalSisa) then
+function TfrmDialogFinalPayment.GetModFinalPayment: TModFinalPayment;
+begin
+  if not Assigned(FModFinalPayment) then
+    FModFinalPayment := TModFinalPayment.Create;
+  Result := FModFinalPayment;
+end;
+
+function TfrmDialogFinalPayment.IsValidate: Boolean;
+begin
+  Result := False;
+
+  if edtFinPay.Value > (CDS.FieldByName('LAST_FINAL_PAYMENT').AsFloat + CDS.FieldByName('PHYSICAL').AsFloat) then
   begin
     CommonDlg.ShowError('Nilai final payment tidak boleh melebihi payment cash!');
     exit;
-  end;
-  }
-  {
-  with TNewFinalPayment.CreateWithUser(Self,FLoginId,FLoginUnitId) do
+  end else
+  if not ModBeginningBalance.SETUPPOS.SETUPPOS_IS_ACTIVE = 0 then
   begin
-    try
-      Self.Enabled := False;
+    CommonDlg.ShowError('POS ' + ModBeginningBalance.SETUPPOS.SETUPPOS_TERMINAL_CODE
+                      + ' sudah tidak Active' + #13
+                      + 'Final Payment Tidak Bisa Dilaksanakan');
+    Exit;
+  end else
+    Result := True;
+end;
 
-      UpdateData(0,balanceID,
-        edtFinPay.Value,
-        dialogunit,
-        edtFinPay.Value);
+procedure TfrmDialogFinalPayment.LoadData(AID: string);
+begin
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.FinalPayment_GetDSByBeginningBalance(AID) ,Self );
 
-      if not BeginningBalance.POS.IsActive then
-      begin
-        CommonDlg.ShowError('POS ' + BeginningBalance.POS.Code + ' sudah tidak Active'
-                           + #13 + 'Final Payment Tidak Bisa Dilaksanakan');
-        Exit;
-      end;
+  if Assigned(FModBeginningBalance) then
+    FreeAndNil(FModBeginningBalance);
+  FModBeginningBalance := DMClient.CrudClient.Retrieve(TModBeginningBalance.ClassName, CDS.FieldByName('BEGINNING_BALANCE_ID').AsString) as TModBeginningBalance;
 
-      IsProcessSuccessfull := SaveToDB;
-      if IsProcessSuccessfull then
-      begin
-        cCommitTrans;
-      end
-      else
-      begin
-        cRollbackTrans;
-        CommonDlg.ShowError('Gagal Update Data!! Cek Total droping');
-      end;    
-    finally
-      Free;
-      Self.Enabled := True;
-    end;
+  if Assigned(FModFinalPayment) then
+    FreeAndNil(FModFinalPayment);
+  if CDS.FieldByName('FINAL_PAYMENT_ID').AsString = '' then
+  begin
+    edtPOSCode.Text   := CDS.FieldByName('POS_CODE').AsString;
+    edtCashierID.Text := CDS.FieldByName('CASHIER').AsString;
+    edtFinPay.Value   := CDS.FieldByName('PHYSICAL').AsFloat;
+  end else
+  begin
+    FModFinalPayment  := DMClient.CrudClient.Retrieve(TModFinalPayment.ClassName, CDS.FieldByName('FINAL_PAYMENT_ID').AsString) as TModFinalPayment;
+    edtPOSCode.Text   := CDS.FieldByName('POS_CODE').AsString;
+    edtCashierID.Text := CDS.FieldByName('CASHIER').AsString;
+    edtFinPay.Value   := CDS.FieldByName('LAST_FINAL_PAYMENT').AsFloat;
   end;
-  Close;
-  Exit;
-  }
 end;
 
-procedure TfrmDialogFinalPayment.FormShow(Sender: TObject);
+procedure TfrmDialogFinalPayment.SavingData;
 begin
-  inherited;
-  edtFinPay.Value := 0;
-  edtFinPay.SelectAll;
+  ModFinalPayment.BEGINNING_BALANCE := ModBeginningBalance;
+  ModFinalPayment.FINPAYMENT_TOTAL  := edtFinPay.Value;
 
-    edtPOSCode.Text   := posCode;
-    edtCashierID.Text := cashierID;
-    edtFinPay.Value   := totalFinalPayment;
+  Try
+    DMClient.CrudClient.SaveToDB(ModFinalPayment);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    Raise;
+  End;
 end;
 
-procedure TfrmDialogFinalPayment.edtFinPay1Enter(Sender: TObject);
+procedure TfrmDialogFinalPayment.Timer1Timer(Sender: TObject);
 begin
   inherited;
-  edtFinPay.SelectAll;
+  edtClock.Time := Now;
 end;
 
 end.

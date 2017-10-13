@@ -246,6 +246,7 @@ type
     dxbrbtnActivatePOS: TdxBarButton;
     dxBarLargeButton1: TdxBarLargeButton;
     dxbrbtnBeginningBalance: TdxBarButton;
+    dxbrbtnFinalPayment: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -503,7 +504,7 @@ end;
 
 procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
 begin
-  frmFinalPayment := TfrmFinalPayment.CreateWithUser(Application, FFormProperty);
+  frmFinalPayment := TfrmFinalPayment.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);

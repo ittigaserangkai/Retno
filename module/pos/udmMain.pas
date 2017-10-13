@@ -880,6 +880,7 @@ begin
   for prop in rt.GetProperties do
   begin
     if prop.Visibility = mvPublished then
+//    if (prop.Visibility = mvPublished) or (prop.Visibility = mvPublic) then
     begin
       if AObject.QuotValueNoBracket(prop) = 'NULL' then
         Continue;
@@ -910,7 +911,8 @@ begin
   for prop in rt.GetProperties do
   begin
     if UpperCase(prop.Name) = 'ID' then continue;
-    If prop.Visibility <> mvPublished then continue;
+    if (prop.Visibility <> mvPublished) then continue;
+//    if (prop.Visibility <> mvPublished) and (prop.Visibility <> mvPublic) then continue;
 
     FieldName  := AObject.FieldNameOf(prop);
 

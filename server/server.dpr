@@ -70,7 +70,8 @@ uses
   uModAR in '..\model\uModAR.pas',
   uModDOTrader in '..\model\uModDOTrader.pas',
   uJSONUtils in '..\lib\uJSONUtils.pas',
-  uModPOTrader in '..\model\uModPOTrader.pas';
+  uModPOTrader in '..\model\uModPOTrader.pas',
+  uModFinalPayment in '..\model\uModFinalPayment.pas';
 
 {$R *.res}
 

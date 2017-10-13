@@ -13,6 +13,7 @@ object frmPopupHistCDFP: TfrmPopupHistCDFP
   Font.Name = 'Trebuchet MS'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnClose = FormClose
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -111,10 +112,6 @@ object frmPopupHistCDFP: TfrmPopupHistCDFP
       TabOrder = 2
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 675
-      ExplicitHeight = 226
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual

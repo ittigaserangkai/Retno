@@ -11,32 +11,34 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,  System.Actions,
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  Datasnap.DBClient, cxSpinEdit, cxTimeEdit;
 
 type
-  TStringArray = array of string;
-  TFloatArray = array of Double;
+//  TStringArray = array of string;
+//  TFloatArray = array of Double;
                                           
   TfrmFinalPayment = class(TfrmMasterBrowse)
-    pnl1: TPanel;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    dtDate: TcxDateEdit;
     pnl3: TPanel;
     lbl3: TLabel;
     lbl4: TLabel;
     lbl7: TcxLabel;
-    lbl5: TLabel;
-    edtCashierName: TEdit;
-    edtSupervisor: TEdit;
-    edtShift: TEdit;
+    lblTime: TLabel;
     pnl5: TPanel;
     lbl16: TLabel;
+    edtShift: TcxTextEdit;
+    edtClock: TcxTimeEdit;
+    Timer1: TTimer;
+    edtSupervisor: TcxTextEdit;
+    edtCashierName: TcxTextEdit;
     procedure actAddExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actEditExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
+    procedure cxGridViewFocusedRecordChanged(Sender: TcxCustomGridTableView;
+        APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+        ANewItemRecordFocusingChanged: Boolean);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure lbl7Click(Sender: TObject);
@@ -48,8 +50,12 @@ type
     procedure dtDateKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure fraFooter5Button1btnPrintClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
+//    dataBeginningBlnc: TDataSet;
+    FCDS: TClientDataSet;
     function GetAddedValue(BalanceID, BalanceUnitID: Integer): TStrings;
+    function IsShiftExist: Boolean;
 //    dataFinPay: TResultDataSet;
 
     procedure ParseHeaderGrid(jmlData: Integer);
@@ -57,8 +63,10 @@ type
     procedure ParseFooterGrid;
     procedure PrintFinalPayment(BalanceID, BalanceUnitID: Integer);
     procedure ShowPopUpHistoryCashDropFinalPay();
+    property CDS: TClientDataSet read FCDS write FCDS;
   public
-    { Public declarations }
+    FShiftID: string;
+    procedure RefreshData; override;
   end;
 
 var
@@ -66,7 +74,9 @@ var
 
 implementation
 
-uses ufrmDialogFinalPayment, uTSCommonDlg, ufrmPopupHistCDFP, uRetnoUnit;
+uses
+  ufrmDialogFinalPayment, uTSCommonDlg, ufrmPopupHistCDFP, uRetnoUnit, uDXUtils,
+  uModShift, uDMClient, uAppUtils, uConstanta, uDBUtils;
 
 {$R *.dfm}
 const
@@ -146,26 +156,50 @@ begin
   end;
   frmDialogFinalPayment.Free;
   }
+  if VarIsNull(edtShift.EditValue) then
+  begin
+    CommonDlg.ShowMessage('Shift harap di isi dulu');
+    edtShift.SetFocus;
+    Exit;
+  end;
+  if CDS.FieldByName('BALANCE_STATUS').AsString = 'OPEN' then
+  begin
+    CommonDlg.ShowMessage('Status masih OPEN!'+ #13+'Lakukan RESET CASHIER terlebih dahulu');
+    Exit;
+  end;
+  if not VarIsNull(CDS.FieldByName('FINAL_PAYMENT_ID').Value) then
+  begin
+    CommonDlg.ShowMessage('Sudah pernah dilakukan Final Payment');
+    Exit;
+  end;
+
+  ShowDialogForm(TfrmDialogFinalPayment, CDS.FieldByName('BEGINNING_BALANCE_ID').AsString);
 end;
 
-procedure TfrmFinalPayment.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmFinalPayment.actEditExecute(Sender: TObject);
 begin
   inherited;
-  Action := caFree;
+  if VarIsNull(CDS.FieldByName('FINAL_PAYMENT_ID').Value) then
+  begin
+    CommonDlg.ShowMessage('Belum pernah dilakukan Final Payment');
+    Exit;
+  end;
+
+  ShowDialogForm(TfrmDialogFinalPayment, CDS.FieldByName('BEGINNING_BALANCE_ID').AsString);
 end;
 
 procedure TfrmFinalPayment.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'FINAL PAYMENT';
-  dtDate.Date := now;
+  ClearByTag([0]);
+  AutoRefreshData := true;
 
-  edtSupervisor.Text := FLoginFullname;
-
-  pnl5.Align := alClient;
-  pnl5.Visible := true;
-  ParseHeaderGrid(0);
+//  dtDate.Date := now;
+//  edtSupervisor.Text := FLoginFullname;
+//  pnl5.Align := alClient;
+//  pnl5.Visible := true;
+//  ParseHeaderGrid(0);
 end;
 
 procedure TfrmFinalPayment.FormDestroy(Sender: TObject);
@@ -278,7 +312,17 @@ end;
 procedure TfrmFinalPayment.actRefreshExecute(Sender: TObject);
 begin
   inherited;
-  ParseDataGrid();
+//  ParseDataGrid();
+end;
+
+procedure TfrmFinalPayment.cxGridViewFocusedRecordChanged(Sender:
+    TcxCustomGridTableView; APrevFocusedRecord, AFocusedRecord:
+    TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  if Assigned(CDS) then
+    if CDS.RecordCount > 0 then
+      edtCashierName.EditValue := CDS.FieldByName('CASHIER').Value;
 end;
 
 procedure TfrmFinalPayment.FormKeyUp(Sender: TObject; var Key: Word;
@@ -312,7 +356,7 @@ begin
   if (Key = Chr(VK_RETURN)) then
   begin
     pnl5.Visible := false;
-    ParseDataGrid;
+//    ParseDataGrid;
     cxGrid.SetFocus;
   end;
 end;
@@ -426,6 +470,29 @@ begin
   }
 end;
 
+function TfrmFinalPayment.IsShiftExist: Boolean;
+var
+  lModShift: TModShift;
+begin
+  Result := False;
+  lModShift := TModShift.Create;
+  try
+    lModShift := DMClient.CrudClient.RetrieveByCode(TModShift.ClassName, edtShift.EditValue) as TModShift;
+
+    if lModShift.ID = '' then
+    begin
+      TAppUtils.Error(ER_SHIFT_NOT_FOUND);
+      edtShift.SetFocus;
+    end else
+    begin
+      FShiftID := lModShift.ID;
+      Result   := True;
+    end;
+  finally
+    lModShift.Free;
+  end;
+end;
+
 procedure TfrmFinalPayment.ParseFooterGrid;
 begin
   {with strgGrid do
@@ -485,6 +552,30 @@ begin
     end;
   end;
   }
+end;
+
+procedure TfrmFinalPayment.RefreshData;
+begin
+  inherited;
+  if edtShift.Text = '' then
+    Exit
+  else if not IsShiftExist then
+    Exit;
+
+  edtCashierName.Clear;
+  edtSupervisor.Clear;
+
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.FinalPayment_GetDSOverview(dtAkhirFilter.Date, edtShift.EditValue, TRetno.UnitStore.ID) ,Self );
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['BEGINNING_BALANCE_ID','FINAL_PAYMENT_ID','SHIFT_NAME','BALANCE_SHIFT_DATE','AUT$UNIT_ID'],False);
+  cxGridView.SetReadOnlyAllColumns(True);
+end;
+
+procedure TfrmFinalPayment.Timer1Timer(Sender: TObject);
+begin
+  inherited;
+  edtClock.Time := Now;
 end;
 
 end.

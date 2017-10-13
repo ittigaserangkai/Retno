@@ -26,9 +26,9 @@ type
   private
     function StringToClass(ModClassName: string): TModAppClass;
   protected
-    function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function AfterSaveToDB(AObject: TModApp): Boolean; virtual;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; virtual;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function DeleteFromDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
     function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
         Boolean = True): TModApp; overload;
@@ -37,18 +37,18 @@ type
   public
     function CreateTableSQL(AModAPP : TModApp): string; overload;
     function CreateTableSQLByClassName(AClassName : String): string; overload;
-    function SaveToDB(AObject: TModApp): Boolean;
     function DeleteFromDB(AObject: TModApp): Boolean;
-    function OpenQuery(S: string): TDataSet;
-    function Retrieve(ModClassName, AID: string): TModApp; overload;
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
-    function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
+    function OpenQuery(S: string): TDataSet;
+    function Retrieve(ModClassName, AID: string): TModApp; overload;
     function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
+    function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
-    function SaveToDBLog(AObject: TModApp): Boolean;
+    function SaveToDB(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
+    function SaveToDBLog(AObject: TModApp): Boolean;
     function TestGenerateSQL(AObject: TModApp): TStrings;
   end;
 
@@ -86,7 +86,6 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
-  public
   end;
 
   TCrudDNRecv = class(TCrud)
@@ -94,7 +93,6 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
-  public
   end;
 
   TCrudSettingApp = class(TCrud)
@@ -116,9 +114,8 @@ type
     procedure UpdateIsClaim(IsClaim: Integer; aClaim: TModClaimFaktur);
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
-    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
-  public
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
   TCrudBankCashOut = class(TCrud)
@@ -126,9 +123,9 @@ type
     function UpdateAPTerbayar(AModBankCashOut : TModBankCashOut; AIsTambah :
         Boolean): Boolean;
   protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
-    function AfterSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
   TCrudUpdatePOS = class(TCrud)
@@ -144,7 +141,6 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
-  public
   end;
 
   TCrudContrabonSales = class(TCrud)
@@ -173,6 +169,12 @@ type
   TCrudPOTrader = class(TCrud)
   end;
 
+type
+  TCrudBarangHargaJual = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+  end;
+
 
 {$METHODINFO OFF}
 
@@ -191,11 +193,6 @@ begin
   Result := 'Hello Word ' + DateToStr(aTanggal);
 end;
 
-function TCrud.BeforeSaveToDB(AObject: TModApp): Boolean;
-begin
-  Result := True;
-end;
-
 function TCrud.AfterSaveToDB(AObject: TModApp): Boolean;
 begin
   Result := True;
@@ -206,10 +203,14 @@ begin
   Result := True;
 end;
 
+function TCrud.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
+end;
+
 function TCrud.CreateTableSQL(AModAPP : TModApp): string;
 begin
   Result := TDBUtils.GetSQLCreate(AModAPP);
-  // TODO -cMM: TCrud.CreateTableSQLByClassName default body inserted
 end;
 
 function TCrud.CreateTableSQLByClassName(AClassName : String): string;
@@ -219,33 +220,6 @@ var
 begin
   AObject := (C.FindType(AClassName) as TRttiInstanceType).MetaClassType.Create;
   Result := CreateTableSQL(TModApp(AObject));
-end;
-
-function TCrud.SaveToDB(AObject: TModApp): Boolean;
-var
-  lSS: TStrings;
-begin
-  Result := False;
-  if not ValidateCode(AObject) then exit;
-  if not BeforeSaveToDB(AObject) then exit;
-  lSS := TDBUtils.GenerateSQL(AObject);
-  Try
-    Try
-      TDBUtils.ExecuteSQL(lSS, False);
-      if not AfterSaveToDB(AObject) then exit;
-
-      TDBUtils.Commit;
-      Result := True;
-    except
-      lSS.SaveToFile(AObject.ClassName + '_ErrorSQL.log');
-      TDBUtils.RollBack;
-      raise;
-    End;
-  Finally
-//    AObject.Free;
-    lSS.Free;
-    AfterExecuteMethod;
-  End;
 end;
 
 function TCrud.DeleteFromDB(AObject: TModApp): Boolean;
@@ -292,31 +266,6 @@ begin
   End;
 end;
 
-function TCrud.OpenQuery(S: string): TDataSet;
-begin
-  Result := TDBUtils.OpenQuery(S);
-  AfterExecuteMethod;
-end;
-
-function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
-    Boolean = True): TModApp;
-begin
-  Result := ModAppClass.Create;
-  TDBUtils.LoadFromDB(Result, AID, LoadObjectList);
-end;
-
-function TCrud.Retrieve(ModClassName, AID: string): TModApp;
-var
-  lClass: TModAppClass;
-begin
-  lClass := Self.StringToClass(ModClassName);
-  If not Assigned(lClass) then
-    Raise Exception.Create('Class ' + ModClassName + ' not found');
-  Result := Self.Retrieve(lClass, AID);
-
-  AfterExecuteMethod;
-end;
-
 function TCrud.GenerateCustomNo(aTableName, aFieldName: string; aCountDigit:
     Integer = 11): String;
 var
@@ -358,16 +307,29 @@ begin
   End;
 end;
 
-function TCrud.RetrieveSingle(ModClassName, AID: string): TModApp;
+function TCrud.OpenQuery(S: string): TDataSet;
+begin
+  Result := TDBUtils.OpenQuery(S);
+  AfterExecuteMethod;
+end;
+
+function TCrud.Retrieve(ModClassName, AID: string): TModApp;
 var
   lClass: TModAppClass;
 begin
   lClass := Self.StringToClass(ModClassName);
   If not Assigned(lClass) then
     Raise Exception.Create('Class ' + ModClassName + ' not found');
-  Result := Self.Retrieve(lClass, AID, False);
+  Result := Self.Retrieve(lClass, AID);
 
   AfterExecuteMethod;
+end;
+
+function TCrud.Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
+    Boolean = True): TModApp;
+begin
+  Result := ModAppClass.Create;
+  TDBUtils.LoadFromDB(Result, AID, LoadObjectList);
 end;
 
 function TCrud.RetrieveByCode(ModClassName, aCode: string): TModApp;
@@ -380,6 +342,18 @@ begin
   Result := lClass.Create;
   if aCode <> '' then
     TDBUtils.LoadByCode(Result, aCode);
+  AfterExecuteMethod;
+end;
+
+function TCrud.RetrieveSingle(ModClassName, AID: string): TModApp;
+var
+  lClass: TModAppClass;
+begin
+  lClass := Self.StringToClass(ModClassName);
+  If not Assigned(lClass) then
+    Raise Exception.Create('Class ' + ModClassName + ' not found');
+  Result := Self.Retrieve(lClass, AID, False);
+
   AfterExecuteMethod;
 end;
 
@@ -403,25 +377,30 @@ begin
 
 end;
 
-function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
+function TCrud.SaveToDB(AObject: TModApp): Boolean;
 var
   lSS: TStrings;
 begin
   Result := False;
   if not ValidateCode(AObject) then exit;
+  if not BeforeSaveToDB(AObject) then exit;
   lSS := TDBUtils.GenerateSQL(AObject);
   Try
     Try
-      lSS.SaveToFile(ExtractFilePath(ParamStr(0)) + '\SaveToDB.log');
       TDBUtils.ExecuteSQL(lSS, False);
+      if not AfterSaveToDB(AObject) then exit;
+
       TDBUtils.Commit;
       Result := True;
     except
+      lSS.SaveToFile(AObject.ClassName + '_ErrorSQL.log');
       TDBUtils.RollBack;
       raise;
     End;
   Finally
+//    AObject.Free;
     lSS.Free;
+    AfterExecuteMethod;
   End;
 end;
 
@@ -450,6 +429,28 @@ begin
 //    AObject.Free;
     lSS.Free;
     AfterExecuteMethod;
+  End;
+end;
+
+function TCrud.SaveToDBLog(AObject: TModApp): Boolean;
+var
+  lSS: TStrings;
+begin
+  Result := False;
+  if not ValidateCode(AObject) then exit;
+  lSS := TDBUtils.GenerateSQL(AObject);
+  Try
+    Try
+      lSS.SaveToFile(ExtractFilePath(ParamStr(0)) + '\SaveToDB.log');
+      TDBUtils.ExecuteSQL(lSS, False);
+      TDBUtils.Commit;
+      Result := True;
+    except
+      TDBUtils.RollBack;
+      raise;
+    End;
+  Finally
+    lSS.Free;
   End;
 end;
 
@@ -990,24 +991,6 @@ begin
   Result := True;
 end;
 
-function TCrudClaimFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
-var
-  lClaim: TModClaimFaktur;
-  lCrud: TCrud;
-begin
-  lClaim := TModClaimFaktur(AObject);
-  lClaim.UpdateAP; //lCLAIM.CLM_AP.ID set here
-  //avoid recalling BeforeSaveToDB
-
-  lCrud := TCrud.Create(Self);
-  Try
-    UpdateIsClaim(0, lClaim);
-    Result := lCrud.SaveToDBTrans(lClaim.CLM_AP, False);
-  Finally
-    lCrud.Free;
-  End;
-end;
-
 function TCrudClaimFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
   lClaim: TModClaimFaktur;
@@ -1023,6 +1006,24 @@ begin
   Try
     UpdateIsClaim(0, lClaim);
     Result := lCrud.DeleteFromDBTrans(lClaim.CLM_AP, False);
+  Finally
+    lCrud.Free;
+  End;
+end;
+
+function TCrudClaimFaktur.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lClaim: TModClaimFaktur;
+  lCrud: TCrud;
+begin
+  lClaim := TModClaimFaktur(AObject);
+  lClaim.UpdateAP; //lCLAIM.CLM_AP.ID set here
+  //avoid recalling BeforeSaveToDB
+
+  lCrud := TCrud.Create(Self);
+  Try
+    UpdateIsClaim(0, lClaim);
+    Result := lCrud.SaveToDBTrans(lClaim.CLM_AP, False);
   Finally
     lCrud.Free;
   End;
@@ -1098,6 +1099,14 @@ begin
   End;
 end;
 
+function TCrudBankCashOut.AfterSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := False;
+
+  if UpdateAPTerbayar(TModBankCashOut(AObject), True) then
+    Result := True;
+end;
+
 function TCrudBankCashOut.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin
   Result := False;
@@ -1114,14 +1123,6 @@ begin
     TModBankCashOut(AObject).BCO_NoBukti := 'BKK-' + GenerateNo(TModBankCashOut.ClassName);
 
   if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
-    Result := True;
-end;
-
-function TCrudBankCashOut.AfterSaveToDB(AObject: TModApp): Boolean;
-begin
-  Result := False;
-
-  if UpdateAPTerbayar(TModBankCashOut(AObject), True) then
     Result := True;
 end;
 
@@ -1179,7 +1180,6 @@ begin
   End;
   Result := True;
 end;
-
 
 function TCrudAdjFaktur.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
@@ -1408,5 +1408,20 @@ begin
   end;
 end;
 
+function TCrudBarangHargaJual.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  sSQL: string;
+begin
+  sSQL := ' update BHJ set BHJ.BHJ_BRG_ID = B.BRG_ID '+
+          ' from ' + TModBarangHargaJual.GetTableName + ' BHJ ' +
+          ' INNER JOIN ' + TModBarang.GetTableName + ' B on B.BARANG_ID = BHJ.BARANG_ID ' +
+          ' where BHJ.BARANG_HARGA_JUAL_ID = ' + TModBarangHargaJual(AObject).ID;
+  try
+    TDBUtils.ExecuteSQL(sSQL);
+    Result := True;
+  except
+    raise
+  end;
+end;
 
 end.

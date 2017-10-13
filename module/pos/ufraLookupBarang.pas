@@ -96,7 +96,8 @@ begin
         + '  b.BHJ_SELL_PRICE_DISC, '
         + '  a.brg_is_active '
         + ' from barang a '
-        + ' inner join barang_harga_jual b on a.BARANG_ID = b.BARANG_ID '
+//        + ' inner join barang_harga_jual b on a.BARANG_ID = b.BARANG_ID '
+        + ' inner join barang_harga_jual b on a.BRG_ID = b.BHJ_BRG_ID '
         + ' inner join ref$satuan s on b.REF$SATUAN_ID = s.REF$SATUAN_ID '
         + ' inner join REF$TIPE_HARGA th on th.REF$TIPE_HARGA_ID = b.REF$TIPE_HARGA_ID '
 // Sementara di non aktifkan

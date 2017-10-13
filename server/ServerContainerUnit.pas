@@ -88,6 +88,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudUpdatePOS, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudContrabonSales, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudCustomerInvoice, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCrudBarangHargaJual, DSServerClass.LifeCycle);
 end;
 
 

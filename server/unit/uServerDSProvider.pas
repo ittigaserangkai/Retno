@@ -9,7 +9,6 @@ uses
 type
   {$METHODINFO ON}
   TDSProvider = class(TComponent)
-  private
   public
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function Agama_GetDSLookup: TDataSet;
@@ -20,11 +19,9 @@ type
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function AutAPP_GetDSLookup: TDataSet;
     function AutUnit_GetDSLookup: TDataSet;
-    function AutUser_GetDSOverview: TDataSet;
     function AutUser_GetDSLookUp(aGroupName: string): TDataSet;
+    function AutUser_GetDSOverview: TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
-        TDataset;
-    function CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
@@ -35,6 +32,8 @@ type
     function Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
     function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode : String):
         TDataSet;
+    function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
+        string): TDataSet;
     function Claim_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function Claim_Lookup_CN(aSuplierMerchanID: String): TDataSet;
     function Claim_Lookup_Contrabon(aContrabonID: String): TDataSet;
@@ -49,6 +48,8 @@ type
     function Contrabon_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function CostCenter_GetDSLookup: TDataSet;
     function CostCenter_GetDSOverview: TDataSet;
+    function CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataset;
     function DNDetail_GetDS(aID: string): TDataSet;
     function DN_RCV_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataSet;
@@ -58,10 +59,15 @@ type
     function DO_GetDSLookUp: TDataSet;
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
+    function FinalPayment_GetDSByBeginningBalance(ABeginningBalanceID: string):
+        TDataSet;
+    function FinalPayment_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
+        string): TDataSet;
     function GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
     function GroupRekening_GetDSLookup: TDataSet;
     function Gudang_GetDSLookUp: TDataSet;
     function Gudang_GetDSOverview: TDataSet;
+    function Jurnal_GetDSOverview: TDataSet;
     function Kabupaten_GetDSLookUp: TDataSet;
     function Kategori_GetDSLookup: TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
@@ -78,6 +84,8 @@ type
     function Organization_Lookup(OrgType: Integer): TDataSet;
     function Outlet_GetDSLookup: TDataSet;
     function PORevisi_GetDSOverview(ID: string): TDataset;
+    function POTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataSet;
     function PO_DSLookUpDetail(ANOPO : String): TDataSet;
     function PO_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime): TDataset;
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
@@ -106,17 +114,14 @@ type
     function RefWilayah_GetDSLookup: TDataSet;
     function RekeningBCOLain_GetDSLookup: TDataSet;
     function Rekening_GetDSLookup: TDataSet;
+    function Rekening_GetDSLookupFilter(AFilterRekeningSettingApp : String):
+        TDataSet;
     function Rekening_GetDSLookupLvl: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
     function Satuan_GetDSLookup: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
-    function SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string): TDataSet;
-    function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
-        string): TDataSet;
-    function Rekening_GetDSLookupFilter(AFilterRekeningSettingApp : String):
-        TDataSet;
-    function Jurnal_GetDSOverview: TDataSet;
     function SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string): TDataSet;
+    function SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string): TDataSet;
     function Shift_GetDSOverview: TDataSet;
     function SO_GetDSOLookUp(AUnit : TModUnit = nil): TDataSet;
     function SO_GetDSOLookUpGeneratePO(AUnit : TModUnit = nil): TDataSet;
@@ -145,14 +150,13 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function Unit_GetDSLookUp: TDataSet;
     function Unit_GetDSOverview: TDataSet;
-    function POTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
-        TDataSet;
   end;
 
   TDSReport = class(TComponent)
   public
     function BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir: TDatetime;
         ANoBukti : String): TFDJSONDataSets;
+    function Claim_by_Id(id: string): TFDJSONDataSets;
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function DSA_GetDS(aStartDate, aEndDate: TDatetime; aGroupField: string):
@@ -172,7 +176,6 @@ type
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
-    function Claim_by_Id(id: string): TFDJSONDataSets;
     function SO_Test: TFDJSONDataSets;
     function StockProduct_GetDS(aEndDate: TDatetime; aGroup_ID, aSupplier_ID,
         aGudang_ID: String): TDataSet;
@@ -265,20 +268,20 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.AutUser_GetDSOverview: TDataSet;
-var
-  S: string;
-begin
-  S := 'SELECT * FROM AUT$USER';
-  Result := TDBUtils.OpenQuery(S);
-end;
-
 function TDSProvider.AutUser_GetDSLookUp(aGroupName: string): TDataSet;
 var
   S: string;
 begin
   S := 'SELECT U.AUT$USER_ID, U.USR_USERNAME AS CASHIER_NAME, U.USR_FULLNAME '
     + ' FROM AUT$USER U ';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AutUser_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM AUT$USER';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -290,19 +293,6 @@ begin
   sSQL := 'select * from V_BANKCASHOUT '
     + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
-
-  Result := TDBUtils.OpenQuery(sSQL);
-end;
-
-function TDSProvider.CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir:
-    TDatetime): TDataset;
-var
-  sSQL: string;
-begin
-  sSQL := 'select * from V_CUSTOMERINVOICE '
-    + ' where CI_TRANSDATE between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
-    + ' order by CI_TRANSDATE desc, CI_NOBUKTI desc';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -421,6 +411,18 @@ begin
     S := S + ' and A.BRG_CODE like ' + QuotedStr('%' + AProductCode + '%');
 
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.BeginningBalance_GetDSOverview(aDate: TDatetime;
+    aShiftName, AUnitID: string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BEGINNINGBALANCE '
+        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
+        + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
+        + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSProvider.Claim_GetDSOverview(aStartDate, aEndDate: TDateTime):
@@ -561,6 +563,19 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_CUSTOMERINVOICE '
+    + ' where CI_TRANSDATE between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
+    + ' order by CI_TRANSDATE desc, CI_NOBUKTI desc';
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.DNDetail_GetDS(aID: string): TDataSet;
 var
   sSQL: string;
@@ -651,6 +666,28 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.FinalPayment_GetDSByBeginningBalance(ABeginningBalanceID:
+    string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_FINALPAYMENT '
+        + ' where BEGINNING_BALANCE_ID = ' + TDBUtils.Quot(ABeginningBalanceID);
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.FinalPayment_GetDSOverview(aDate: TDatetime; aShiftName,
+    AUnitID: string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_FINALPAYMENT '
+        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
+        + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
+        + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.GET_MEMBER_PAS_NO(ATPMEMBER: String): String;
 var
   S: String;
@@ -691,6 +728,14 @@ begin
   S:= 'select GUDANG_ID, GUD_CODE as KODE, GUD_NAME as NAMA, GUD_ADDRESS as ALAMAT, GUD_TELP as TELEPON,'
       + ' GUD_FAX as FAX, GUD_CITY as KOTA, GUD_POST_CODE as [KODE POS], GUD_CONTACT_PERSON as KONTAK'
       + ' from GUDANG'  ;
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Jurnal_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM JURNAL';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -856,6 +901,19 @@ var
   sSQL: string;
 begin
   sSQL := 'select* from PO_DETAIL where PO_ID = ' + TDBUtils.Quot(ID);
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.POTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'select * from V_POTRADER '
+    + ' where POT_DATE between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
+    + ' order by POT_DATE desc, POT_NO desc';
+
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -1108,6 +1166,30 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.Rekening_GetDSLookupFilter(AFilterRekeningSettingApp :
+    String): TDataSet;
+var
+  S: string;
+  sFilter: string;
+begin
+  sFilter := ' where 1 = 1 and REK_CODE in (''';
+  if Trim(AFilterRekeningSettingApp) <> '' then
+  begin
+    sFilter := sFilter + AFilterRekeningSettingApp;
+    sFilter := StringReplace(sFilter, ';', ',', [rfReplaceAll]);
+    sFilter := StringReplace(sFilter, ',', QuotedStr(',') , [rfReplaceAll]);
+  end;
+
+  sFilter := sFilter + ''')';
+
+  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION,' +
+       ' REF$GRUP_REKENING_ID from REKENING' +
+       sFilter +
+       ' order by REK_CODE';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.Rekening_GetDSLookupLvl: TDataSet;
 var
   S: string;
@@ -1146,53 +1228,6 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string):
-    TDataSet;
-var
-  sSQL: string;
-begin
-  sSQL  := 'SELECT * FROM V_SETUPPOS WHERE dbo.DateOnly(SETUPPOS_DATE) '
-        + ' = ' + TDBUtils.QuotD(aDate)
-        + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID);
-  Result := TDBUtils.OpenQuery(sSQL);
-end;
-
-function TDSProvider.BeginningBalance_GetDSOverview(aDate: TDatetime;
-    aShiftName, AUnitID: string): TDataSet;
-var
-  sSQL: string;
-begin
-  sSQL := 'SELECT * FROM V_BEGINNINGBALANCE '
-        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
-        + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
-        + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
-  Result := TDBUtils.OpenQuery(sSQL);
-end;
-
-function TDSProvider.Rekening_GetDSLookupFilter(AFilterRekeningSettingApp :
-    String): TDataSet;
-var
-  S: string;
-  sFilter: string;
-begin
-  sFilter := ' where 1 = 1 and REK_CODE in (''';
-  if Trim(AFilterRekeningSettingApp) <> '' then
-  begin
-    sFilter := sFilter + AFilterRekeningSettingApp;
-    sFilter := StringReplace(sFilter, ';', ',', [rfReplaceAll]);
-    sFilter := StringReplace(sFilter, ',', QuotedStr(',') , [rfReplaceAll]);
-  end;
-
-  sFilter := sFilter + ''')';
-
-  S := 'select REKENING_ID, REK_CODE, REK_NAME, REK_DESCRIPTION,' +
-       ' REF$GRUP_REKENING_ID from REKENING' +
-       sFilter +
-       ' order by REK_CODE';
-
-  Result := TDBUtils.OpenQuery(S);
-end;
-
 function TDSProvider.SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string):
     TDataSet;
 var
@@ -1204,6 +1239,17 @@ begin
         + ' AND SETUPPOS_IS_ACTIVE = 1 '
         + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
         + ' ORDER BY SETUPPOS_TERMINAL_CODE';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.SetupPOS_GetDSOverview(aDate: TDatetime; AUnitID: string):
+    TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL  := 'SELECT * FROM V_SETUPPOS WHERE dbo.DateOnly(SETUPPOS_DATE) '
+        + ' = ' + TDBUtils.QuotD(aDate)
+        + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID);
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
@@ -1475,27 +1521,6 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.Jurnal_GetDSOverview: TDataSet;
-var
-  S: string;
-begin
-  S := 'SELECT * FROM JURNAL';
-  Result := TDBUtils.OpenQuery(S);
-end;
-
-function TDSProvider.POTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir:
-    TDatetime): TDataSet;
-var
-  sSQL: string;
-begin
-  sSQL := 'select * from V_POTRADER '
-    + ' where POT_DATE between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
-    + ' order by POT_DATE desc, POT_NO desc';
-
-  Result := TDBUtils.OpenQuery(sSQL);
-end;
-
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:
     TDatetime; ANoBukti : String): TFDJSONDataSets;
 var
@@ -1535,6 +1560,27 @@ begin
   sSQL := sSQL + ' order by bco_nobukti';
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+end;
+
+function TDSReport.Claim_by_Id(id: string): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT *'
+  + ' from CLAIMFAKTUR A'
+  + ' INNER JOIN V_ORGANIZATION B ON A.CLM_ORGANIZATION_ID = B.V_ORGANIZATION_ID'
+  + ' where CLAIMFAKTUR_ID='+ QuotedStr(id);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+  S := 'SELECT * FROM CLAIMFAKTURITEMDO A'
+  + ' INNER JOIN DO B on A.CLMD_DO_ID = B.DO_ID'
+  + ' WHERE CLMD_DO_CLAIMFAKTUR_ID ='+ QuotedStr(id);
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
 end;
 
 function TDSReport.DO_GetDSNP(ANONP : String): TFDJSONDataSets;
@@ -1744,27 +1790,6 @@ begin
         + QuotedStr(aNoBuktiAkhir);
 
   S := S + ' order by so_no, sup_code';
-
-  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
-
-end;
-
-function TDSReport.Claim_by_Id(id: string): TFDJSONDataSets;
-var
-  S: string;
-begin
-  Result := TFDJSONDataSets.Create;
-
-  S := 'SELECT *'
-  + ' from CLAIMFAKTUR A'
-  + ' INNER JOIN V_ORGANIZATION B ON A.CLM_ORGANIZATION_ID = B.V_ORGANIZATION_ID'
-  + ' where CLAIMFAKTUR_ID='+ QuotedStr(id);
-
-  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
-
-  S := 'SELECT * FROM CLAIMFAKTURITEMDO A'
-  + ' INNER JOIN DO B on A.CLMD_DO_ID = B.DO_ID'
-  + ' WHERE CLMD_DO_CLAIMFAKTUR_ID ='+ QuotedStr(id);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 

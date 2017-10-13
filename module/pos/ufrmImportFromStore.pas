@@ -441,8 +441,8 @@ begin
   LoadData(ModTipeBrg, aFilter);
   LoadData(ModSatuan, aFilter);
   LoadData(ModKonversi, aFilter);
-  LoadData(ModBHJ, aFilter);
   LoadData(ModBarang, aFilter);//' where brg_name like ''AQ%'' ');
+  LoadData(ModBHJ, aFilter);
 
   //member
   LoadData(ModTipeMember, aFilter);

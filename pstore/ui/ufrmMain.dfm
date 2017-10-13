@@ -105,7 +105,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
-      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -155,6 +154,7 @@ object frmMain: TfrmMain
       Index = 7
     end
     object dxrbntbSupvCashier: TdxRibbonTab
+      Active = True
       Caption = 'Supervisor Cashier'
       Groups = <
         item
@@ -1184,7 +1184,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnReturTrader'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1208,7 +1208,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtnDSA'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1251,6 +1251,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnBeginningBalance'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnFinalPayment'
         end>
       OneOnRow = True
       Row = 0
@@ -1407,6 +1411,13 @@ object frmMain: TfrmMain
       Hint = 'Beginning Balance'
       Visible = ivAlways
       OnClick = actBeginBalancePOSExecute
+    end
+    object dxbrbtnFinalPayment: TdxBarButton
+      Caption = 'Final Payment'
+      Category = 0
+      Hint = 'Final Payment'
+      Visible = ivAlways
+      OnClick = actFinalPaymentExecute
     end
   end
 end

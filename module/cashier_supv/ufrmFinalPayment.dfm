@@ -12,35 +12,31 @@ inherited frmFinalPayment: TfrmFinalPayment
   inherited pnlBody: TPanel
     Width = 679
     Height = 323
-    BorderWidth = 0
     ExplicitWidth = 679
-    ExplicitHeight = 267
+    ExplicitHeight = 323
     inherited pgcBrowse: TcxPageControl
-      Left = 1
-      Top = 38
       Width = 677
-      Height = 284
-      TabOrder = 2
-      ExplicitLeft = 1
-      ExplicitTop = 38
+      Height = 321
+      TabOrder = 1
       ExplicitWidth = 677
-      ExplicitHeight = 228
-      ClientRectBottom = 283
+      ExplicitHeight = 321
+      ClientRectBottom = 320
       ClientRectRight = 676
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
         ExplicitWidth = 675
-        ExplicitHeight = 282
+        ExplicitHeight = 319
         inherited cxGrid: TcxGrid
           Width = 675
-          Height = 226
+          Height = 263
           ExplicitWidth = 675
-          ExplicitHeight = 226
+          ExplicitHeight = 263
+          inherited cxGridView: TcxGridDBTableView
+            OnFocusedRecordChanged = cxGridViewFocusedRecordChanged
+          end
         end
         object pnl3: TPanel
           Left = 0
-          Top = 226
+          Top = 263
           Width = 675
           Height = 56
           Align = alBottom
@@ -51,119 +47,73 @@ inherited frmFinalPayment: TfrmFinalPayment
             56)
           object lbl3: TLabel
             Left = 8
-            Top = 6
+            Top = 7
             Width = 68
             Height = 16
             Caption = 'Cashier Name'
           end
           object lbl4: TLabel
             Left = 8
-            Top = 30
+            Top = 32
             Width = 53
             Height = 16
             Caption = 'Supervisor'
           end
-          object lbl5: TLabel
+          object lblTime: TLabel
             Left = 216
-            Top = 8
+            Top = 7
             Width = 27
             Height = 16
             Caption = 'Time:'
           end
           object lbl7: TcxLabel
+            Tag = 1
             Left = 217
-            Top = 32
+            Top = 31
             Cursor = crHandPoint
             Anchors = [akLeft, akBottom]
             Caption = 'History Cash Dropping - Final Payment (F7)'
-            ParentFont = False
             Transparent = True
             OnClick = lbl7Click
           end
-          object edtCashierName: TEdit
-            Left = 80
-            Top = 6
-            Width = 121
-            Height = 22
-            Ctl3D = False
-            ParentCtl3D = False
-            ReadOnly = True
-            TabOrder = 0
-            Text = 'Ani'
-          end
-          object edtSupervisor: TEdit
-            Left = 80
-            Top = 30
-            Width = 121
-            Height = 22
-            Ctl3D = False
-            ParentCtl3D = False
-            ReadOnly = True
+          object edtClock: TcxTimeEdit
+            Left = 249
+            Top = 4
+            EditValue = 0d
             TabOrder = 1
-            Text = 'Adi Nugroho'
+            Width = 81
+          end
+          object edtSupervisor: TcxTextEdit
+            Left = 82
+            Top = 30
+            Properties.ReadOnly = True
+            TabOrder = 2
+            Width = 121
+          end
+          object edtCashierName: TcxTextEdit
+            Left = 82
+            Top = 4
+            Properties.ReadOnly = True
+            TabOrder = 3
+            Width = 121
           end
         end
       end
     end
-    object pnl1: TPanel
-      Left = 1
-      Top = 1
-      Width = 677
-      Height = 37
-      Align = alTop
-      BevelInner = bvRaised
-      BevelOuter = bvLowered
-      Color = 15198183
-      TabOrder = 0
-      object lbl1: TLabel
-        Left = 14
-        Top = 7
-        Width = 24
-        Height = 16
-        Caption = 'Date'
-      end
-      object lbl2: TLabel
-        Left = 150
-        Top = 7
-        Width = 23
-        Height = 16
-        Caption = 'Shift'
-      end
-      object dtDate: TcxDateEdit
-        Left = 40
-        Top = 7
-        TabOrder = 0
-        OnKeyUp = dtDateKeyUp
-        Width = 97
-      end
-      object edtShift: TEdit
-        Left = 176
-        Top = 7
-        Width = 49
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        MaxLength = 2
-        ParentCtl3D = False
-        TabOrder = 1
-        Text = '01'
-        OnKeyPress = edtShiftKeyPress
-      end
-    end
     object pnl5: TPanel
-      Left = 232
-      Top = 128
+      Left = 209
+      Top = 104
       Width = 369
       Height = 81
       BevelOuter = bvLowered
       BorderWidth = 10
-      TabOrder = 1
+      TabOrder = 0
       Visible = False
       object lbl16: TLabel
         Left = 11
         Top = 11
-        Width = 306
-        Height = 54
+        Width = 347
+        Height = 59
         Align = alClient
         Alignment = taCenter
         Caption = 
@@ -175,6 +125,8 @@ inherited frmFinalPayment: TfrmFinalPayment
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
+        ExplicitWidth = 306
+        ExplicitHeight = 54
       end
     end
   end
@@ -182,34 +134,52 @@ inherited frmFinalPayment: TfrmFinalPayment
     Width = 679
     ExplicitWidth = 679
     inherited lblFilterData: TcxLabel
-      Left = 325
-      ExplicitLeft = 325
+      Left = 373
+      AutoSize = True
+      Visible = True
+      ExplicitLeft = 373
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 386
-      ExplicitLeft = 386
-      ExplicitHeight = 23
+      Left = 281
+      ExplicitLeft = 281
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 502
-      ExplicitLeft = 502
-      ExplicitHeight = 23
+      Left = 434
+      Visible = True
+      ExplicitLeft = 434
     end
     inherited btnSearch: TcxButton
       Left = 597
       ExplicitLeft = 597
     end
     inherited lblsdFilter: TcxLabel
-      Left = 478
-      ExplicitLeft = 478
+      Left = 526
+      AutoSize = True
+      Caption = 'Shift'
+      Visible = True
+      ExplicitLeft = 526
+      ExplicitWidth = 27
       AnchorY = 17
+    end
+    object edtShift: TcxTextEdit
+      Tag = 1
+      AlignWithMargins = True
+      Left = 556
+      Top = 4
+      Align = alRight
+      ParentShowHint = False
+      Properties.Alignment.Horz = taCenter
+      ShowHint = False
+      TabOrder = 5
+      OnKeyPress = edtShiftKeyPress
+      Width = 35
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 356
     Width = 679
-    ExplicitTop = 300
+    ExplicitTop = 356
     ExplicitWidth = 679
     inherited pnlFooter: TPanel
       Width = 679
@@ -245,5 +215,13 @@ inherited frmFinalPayment: TfrmFinalPayment
     inherited actAdd: TAction
       OnExecute = actAddExecute
     end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 256
+    Top = 88
   end
 end
