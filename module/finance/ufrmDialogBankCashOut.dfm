@@ -79,7 +79,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       object lvSumary: TcxListView
         Left = 599
         Top = 30
-        Width = 213
+        Width = 250
         Height = 60
         Columns = <
           item
@@ -94,10 +94,10 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Enabled = False
         Items.ItemData = {
           05950000000300000000000000FFFFFFFFFFFFFFFF01000000FFFFFFFF000000
-          0002410050000130000009D42F00000000FFFFFFFFFFFFFFFF01000000FFFFFF
-          FF00000000094C00610069006E002D004C00610069006E00013000F850D42F00
+          00024100500001300030BCD42F00000000FFFFFFFFFFFFFFFF01000000FFFFFF
+          FF00000000094C00610069006E002D004C00610069006E0001300078B1D42F00
           000000FFFFFFFFFFFFFFFF01000000FFFFFFFF000000000B50006F0074002000
-          5400610067006900680061006E00013000B805D42FFFFFFFFFFFFF}
+          5400610067006900680061006E00013000B8A1D42FFFFFFFFFFFFF}
         ParentFont = False
         ReadOnly = True
         RowSelect = True
@@ -116,7 +116,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       object lvCheque: TcxListView
         Left = 599
         Top = 3
-        Width = 213
+        Width = 250
         Height = 24
         Columns = <
           item
@@ -198,7 +198,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         Style.IsFontAssigned = True
         TabOrder = 6
         Height = 30
-        Width = 441
+        Width = 478
       end
       object edOrganization: TcxButtonEdit
         Tag = 1
@@ -246,9 +246,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 121
-      ExplicitWidth = 795
-      ExplicitHeight = 303
+      ExplicitLeft = 4
+      ExplicitTop = 133
       object cxGridTableAPList: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -467,16 +466,35 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       object cxGridTablePotongTagihan: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPotagNominal
+          end
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPotagSisa
+          end
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPotagBayar
+          end>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnAfterDelete = cxGridTablePotongTagihanDataControllerAfterDelete
+        DataController.OnAfterPost = cxGridTablePotongTagihanDataControllerAfterPost
         OptionsBehavior.FocusFirstCellOnNewRecord = True
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True
         OptionsData.Appending = True
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColPotagAR: TcxGridColumn
+          AlternateCaption = 'BCOAR_AR'
           Caption = 'AR'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           Properties.ImmediatePost = True
@@ -509,6 +527,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           Width = 115
         end
         object cxGridColPotagKeterangan: TcxGridColumn
+          AlternateCaption = 'BCOAR_Keterangan'
           Caption = 'Keterangan'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
@@ -533,6 +552,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           Width = 104
         end
         object cxGridColPotagBayar: TcxGridColumn
+          AlternateCaption = 'BCOAR_Nominal'
           Caption = 'Bayar'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -614,7 +634,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 856
+    Left = 424
     Top = 40
     inherited actDelete: TAction
       OnExecute = actDeleteExecute

@@ -8,6 +8,7 @@ uses
 
 type
   TModBankCashOutAPItem = class;
+  TModBankCashOutARItem = class;
   TModBankCashOutOtherItem = class;
   TModBankCashOutChequeItem = class;
 
@@ -16,6 +17,7 @@ type
   private
     FBCO_Bank: TModBank;
     FBCO_BankCashOutAPItems: TObjectList<TModBankCashOutAPItem>;
+    FBCO_BankCashOutARItems: TObjectList<TModBankCashOutARItem>;
     FBCO_BankCashOutChequeItems: TObjectList<TModBankCashOutChequeItem>;
     FBCO_BankCashOutOtherItems: TObjectList<TModBankCashOutOtherItem>;
     FBCO_Keterangan: string;
@@ -26,11 +28,14 @@ type
     FBCO_Total: Double;
     FBCO_TotalHutang: Double;
     function GetBCO_BankCashOutAPItems: TObjectList<TModBankCashOutAPItem>;
+    function GetBCO_BankCashOutARItems: TObjectList<TModBankCashOutARItem>;
     function GetBCO_BankCashOutChequeItems: TObjectList<TModBankCashOutChequeItem>;
     function GetBCO_BankCashOutOtherItems: TObjectList<TModBankCashOutOtherItem>;
   public
     property BCO_BankCashOutAPItems: TObjectList<TModBankCashOutAPItem> read
         GetBCO_BankCashOutAPItems write FBCO_BankCashOutAPItems;
+    property BCO_BankCashOutARItems: TObjectList<TModBankCashOutARItem> read
+        GetBCO_BankCashOutARItems write FBCO_BankCashOutARItems;
     property BCO_BankCashOutChequeItems: TObjectList<TModBankCashOutChequeItem>
         read GetBCO_BankCashOutChequeItems write FBCO_BankCashOutChequeItems;
     property BCO_BankCashOutOtherItems: TObjectList<TModBankCashOutOtherItem> read
@@ -109,7 +114,6 @@ type
         FBCOOTH_Rekening;
   end;
 
-type
   TModBankCashOutARItem = class(TModApp)
   private
     FBCOAR_AR: TModAP;
@@ -140,6 +144,15 @@ begin
     FBCO_BankCashOutAPItems := TObjectList<TModBankCashOutAPItem>.Create();
 
   Result := FBCO_BankCashOutAPItems;
+end;
+
+function TModBankCashOut.GetBCO_BankCashOutARItems:
+    TObjectList<TModBankCashOutARItem>;
+begin
+  if FBCO_BankCashOutARItems = nil then
+    FBCO_BankCashOutARItems := TObjectList<TModBankCashOutARItem>.Create();
+
+  Result := FBCO_BankCashOutARItems;
 end;
 
 function TModBankCashOut.GetBCO_BankCashOutChequeItems:

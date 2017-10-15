@@ -103,6 +103,10 @@ type
       ADataController: TcxCustomDataController);
     procedure cxGridColAPAPPropertiesEditValueChanged(Sender: TObject);
     procedure cxGridColPotagARPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridTablePotongTagihanDataControllerAfterPost(
+      ADataController: TcxCustomDataController);
+    procedure cxGridTablePotongTagihanDataControllerAfterDelete(
+      ADataController: TcxCustomDataController);
   private
     FBCO: TModBankCashOut;
     FCDSAP: TClientDataset;
@@ -126,11 +130,13 @@ type
     procedure UpdateBankCashOutAPItems;
     procedure UpdateBankCashOutOtherItems;
     procedure LoadDataBankCashOutAPItems;
+    procedure LoadDataBankCashOutARItems;
     procedure LoadDataBankCashOutChequeItems;
     procedure LoadDataBankCashOutOtherItems;
     procedure SetDataAPItems(ANoAP : String; ABaris : Integer; AIsEdit : Boolean);
     procedure SetDataARItems(ANoAR: String; ABaris: Integer; AIsEdit: Boolean);
     procedure UpdateAPChequeOtems;
+    procedure UpdateBankCashOutARItems;
     property CDSOrganisasi: tclientDataSet read GetCDSOrganisasi write
         FCDSOrganisasi;
     { Private declarations }
@@ -201,6 +207,7 @@ begin
   BCO.BCO_TotalHutang := cxGridTableAPList.DataController.GetFooterSummaryFloat(cxGridColAPBayar);
 
   UpdateBankCashOutAPItems;
+  UpdateBankCashOutARItems;
   UpdateBankCashOutOtherItems;
   UpdateAPChequeOtems;
 
@@ -379,7 +386,7 @@ procedure TfrmDialogBankCashOut.cxGridTableChequeDataControllerBeforeInsert(
   ADataController: TcxCustomDataController);
 begin
   inherited;
-  IsiDefaultNominalCheque;
+//  IsiDefaultNominalCheque;    block fma
 end;
 
 procedure TfrmDialogBankCashOut.cxGridTableOtherDataControllerAfterDelete(
@@ -390,6 +397,20 @@ begin
 end;
 
 procedure TfrmDialogBankCashOut.cxGridTableOtherDataControllerAfterPost(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.cxGridTablePotongTagihanDataControllerAfterDelete(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  HitungSummary;
+end;
+
+procedure TfrmDialogBankCashOut.cxGridTablePotongTagihanDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 begin
   inherited;
@@ -427,17 +448,18 @@ var
 begin
   dTotal := cxGridTableAPList.DataController.GetFooterSummaryFloat(cxGridColAPBayar);
   edSummaryAll.Value := dTotal;
-
   lvSumary.Items[0].SubItems[0] := FormatFloat(',0.00;(,0.00)',dTotal);
 
   dTotal := cxGridTableOther.DataController.GetFooterSummaryFloat(cxGridColOtherBayar);
   edSummaryAll.Value := edSummaryAll.Value + dTotal;
-
   lvSumary.Items[1].SubItems[0] := FormatFloat(',0.00;(,0.00)',dTotal);
+
+  dTotal := -1 * cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar);
+  edSummaryAll.Value := edSummaryAll.Value + dTotal;
+  lvSumary.Items[2].SubItems[0] := FormatFloat(',0.00;(,0.00)',dTotal);
 
   dTotal := cxGridTableCheque.DataController.GetFooterSummaryFloat(cxGridColChequeBayar);
   lvCheque.Items[0].SubItems[0] := FormatFloat(',0.00;(,0.00)',dTotal);
-
 end;
 
 procedure TfrmDialogBankCashOut.InisialisasiBank;
@@ -531,6 +553,7 @@ begin
   memDesc.Text := BCO.BCO_Keterangan;
 
   LoadDataBankCashOutAPItems;
+  LoadDataBankCashOutARItems;
   LoadDataBankCashOutOtherItems;
   LoadDataBankCashOutChequeItems;
   HitungSummary;
@@ -582,6 +605,19 @@ begin
   end;
 end;
 
+procedure TfrmDialogBankCashOut.LoadDataBankCashOutARItems;
+var
+  I: Integer;
+begin
+  cxGridTablePotongTagihan.ClearRows;
+  for I := 0 to BCO.BCO_BankCashOutARItems.Count - 1 do
+  begin
+    cxGridTablePotongTagihan.DataController.AppendRecord;
+    cxGridTablePotongTagihan.SetObjectData(BCO.BCO_BankCashOutARItems[i], i);
+    SetDataARItems(BCO.BCO_BankCashOutARItems[i].BCOAP_AR.ID,i, True);
+  end;
+end;
+
 procedure TfrmDialogBankCashOut.LoadDataBankCashOutChequeItems;
 var
   I: Integer;
@@ -591,7 +627,6 @@ begin
    begin
      cxGridTableCheque.DataController.AppendRecord;
      cxGridTableCheque.SetObjectData(BCO.BCO_BankCashOutChequeItems[i],i);
-
    end;
 end;
 
@@ -687,6 +722,20 @@ begin
     lModBankCashOutAPItem := TModBankCashOutAPItem.Create;
     cxGridTableAPList.LoadObjectData(lModBankCashOutAPItem, i);
     BCO.BCO_BankCashOutAPItems.Add(lModBankCashOutAPItem);
+  end;
+end;
+
+procedure TfrmDialogBankCashOut.UpdateBankCashOutARItems;
+var
+  I: Integer;
+  lModBankCashOutARItem: TModBankCashOutARItem;
+begin
+  BCO.BCO_BankCashOutARItems.Clear;
+  for I := 0 to cxGridTablePotongTagihan.DataController.RecordCount - 1 do
+  begin
+    lModBankCashOutARItem := TModBankCashOutARItem.Create;
+    cxGridTablePotongTagihan.LoadObjectData(lModBankCashOutARItem, i);
+    BCO.BCO_BankCashOutARItems.Add(lModBankCashOutARItem);
   end;
 end;
 
