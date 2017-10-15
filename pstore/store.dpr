@@ -216,7 +216,8 @@ uses
   uModSetupPOS in '..\model\uModSetupPOS.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
-  uModFinalPayment in '..\model\uModFinalPayment.pas';
+  uModFinalPayment in '..\model\uModFinalPayment.pas',
+  ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol};
 
 {$R *.res}
 
