@@ -561,6 +561,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           Width = 105
         end
         object cxGridColPotagRekeningID: TcxGridColumn
+          AlternateCaption = 'BCOAR_Rekening'
           PropertiesClassName = 'TcxTextEditProperties'
           Visible = False
         end

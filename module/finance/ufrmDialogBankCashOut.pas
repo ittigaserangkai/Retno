@@ -191,7 +191,8 @@ begin
     Exit;
   end;
 
-  if edSummaryAll.Value <= 0 then
+  if (cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar) = 0)
+    and (edSummaryAll.Value <= 0) then
   begin
     TAppUtils.Error('Total Pembayaran Harus > 0');
     Exit;
@@ -614,7 +615,7 @@ begin
   begin
     cxGridTablePotongTagihan.DataController.AppendRecord;
     cxGridTablePotongTagihan.SetObjectData(BCO.BCO_BankCashOutARItems[i], i);
-    SetDataARItems(BCO.BCO_BankCashOutARItems[i].BCOAP_AR.ID,i, True);
+    SetDataARItems(BCO.BCO_BankCashOutARItems[i].BCOAR_AR.ID,i, True);
   end;
 end;
 

@@ -124,7 +124,7 @@ type
   published
     property BCOAR_AR: TModAP read FBCOAR_AR write FBCOAR_AR;
 
-    [AttributeOfHeader('BCOAP_BankCashOut_ID')]
+    [AttributeOfHeader('BCOAR_BankCashOut_ID')]
     property BCOAR_BankCashOut: TModBankCashOut read FBCOAR_BankCashOut write
         FBCOAR_BankCashOut;
     property BCOAR_Keterangan: string read FBCOAR_Keterangan write
