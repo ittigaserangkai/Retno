@@ -54,7 +54,6 @@ type
   private
     FBCOAP_AP: TModAP;
     FBCOAP_BankCashOut: TModBankCashOut;
-    FBCOAP_CostCenter: TModCostCenter;
     FBCOAP_Keterangan: string;
     FBCOAP_Nominal: Double;
     FBCOAP_Rekening: TModRekening;
@@ -64,8 +63,6 @@ type
     [AttributeOfHeader('BCOAP_BankCashOut_ID')]
     property BCOAP_BankCashOut: TModBankCashOut read FBCOAP_BankCashOut write
         FBCOAP_BankCashOut;
-    property BCOAP_CostCenter: TModCostCenter read FBCOAP_CostCenter write
-        FBCOAP_CostCenter;
     property BCOAP_Keterangan: string read FBCOAP_Keterangan write
         FBCOAP_Keterangan;
     property BCOAP_Nominal: Double read FBCOAP_Nominal write FBCOAP_Nominal;
@@ -110,6 +107,27 @@ type
     property BCOOTH_Nominal: Double read FBCOOTH_Nominal write FBCOOTH_Nominal;
     property BCOOTH_Rekening: TModRekening read FBCOOTH_Rekening write
         FBCOOTH_Rekening;
+  end;
+
+type
+  TModBankCashOutARItem = class(TModApp)
+  private
+    FBCOAR_AR: TModAP;
+    FBCOAR_BankCashOut: TModBankCashOut;
+    FBCOAR_Keterangan: string;
+    FBCOAR_Nominal: Double;
+    FBCOAR_Rekening: TModRekening;
+  published
+    property BCOAR_AR: TModAP read FBCOAR_AR write FBCOAR_AR;
+
+    [AttributeOfHeader('BCOAP_BankCashOut_ID')]
+    property BCOAR_BankCashOut: TModBankCashOut read FBCOAR_BankCashOut write
+        FBCOAR_BankCashOut;
+    property BCOAR_Keterangan: string read FBCOAR_Keterangan write
+        FBCOAR_Keterangan;
+    property BCOAR_Nominal: Double read FBCOAR_Nominal write FBCOAR_Nominal;
+    property BCOAR_Rekening: TModRekening read FBCOAR_Rekening write
+        FBCOAR_Rekening;
   end;
 
 

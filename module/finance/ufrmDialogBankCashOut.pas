@@ -62,12 +62,16 @@ type
     lblKeteranan: TLabel;
     lblTotal: TLabel;
     cxgrdlvlPotongTagihan: TcxGridLevel;
-    cxGridTablePotTagihan: TcxGridTableView;
+    cxGridTablePotongTagihan: TcxGridTableView;
     cxGridColPotagAR: TcxGridColumn;
-    cxGridColPotagKode: TcxGridColumn;
-    cxGridColPotagNama: TcxGridColumn;
+    cxGridColPotagTgl: TcxGridColumn;
+    cxGridColPotagDueDate: TcxGridColumn;
     cxGridColPotagKeterangan: TcxGridColumn;
     cxGridColPotagNominal: TcxGridColumn;
+    cxGridColPotagRekening: TcxGridColumn;
+    cxGridColPotagSisa: TcxGridColumn;
+    cxGridColPotagBayar: TcxGridColumn;
+    cxGridColPotagRekeningID: TcxGridColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -98,9 +102,11 @@ type
     procedure cxGridTableChequeDataControllerBeforeInsert(
       ADataController: TcxCustomDataController);
     procedure cxGridColAPAPPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridColPotagARPropertiesEditValueChanged(Sender: TObject);
   private
     FBCO: TModBankCashOut;
     FCDSAP: TClientDataset;
+    FCDSAR: TClientDataset;
     FCDSBank: TClientDataset;
     FCDSCostCenter: tclientDataSet;
     FCDSOrganisasi: tclientDataSet;
@@ -111,6 +117,7 @@ type
     procedure HitungSummary;
     procedure InisialisasiBank;
     procedure InisialisasiAPList(AOrgID : String);
+    procedure InisialisasiARList(AOrgID : String);
     procedure InisialisasiCostCenter;
     procedure InisialisasiRekeningLain;
     function IsBisaHapus: Boolean;
@@ -122,6 +129,7 @@ type
     procedure LoadDataBankCashOutChequeItems;
     procedure LoadDataBankCashOutOtherItems;
     procedure SetDataAPItems(ANoAP : String; ABaris : Integer; AIsEdit : Boolean);
+    procedure SetDataARItems(ANoAR: String; ABaris: Integer; AIsEdit: Boolean);
     procedure UpdateAPChequeOtems;
     property CDSOrganisasi: tclientDataSet read GetCDSOrganisasi write
         FCDSOrganisasi;
@@ -321,6 +329,17 @@ begin
   end;
 end;
 
+procedure TfrmDialogBankCashOut.cxGridColPotagARPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  if FCDSAR = nil then
+      Exit;
+
+  SetDataARItems(FCDSAR.FieldByName('AR_REfnum').AsString,cxGridTablePotongTagihan.RecordIndex, False);
+  cxGridTablePotongTagihan.DataController.Post;
+end;
+
 procedure TfrmDialogBankCashOut.cxGridTableAPListDataControllerAfterDelete(
   ADataController: TcxCustomDataController);
 begin
@@ -437,6 +456,13 @@ begin
   FCDSAP := TDBUtils.DSToCDS(DMClient.DSProviderClient.AP_GetDSLookUpPerOrganization(AOrgID), Self, False);
   TcxExtLookupComboBoxProperties(cxGridTableAPList.Columns[cxGridColAPAP.Index].Properties).LoadFromCDS(FCDSAP,'AP_id','AP_REfnum',['ap_id','ap_rekening_id','ap_organization_id'],Self);
   TcxExtLookupComboBoxProperties(cxGridTableAPList.Columns[cxGridColAPAP.Index].Properties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogBankCashOut.InisialisasiARList(AOrgID : String);
+begin
+  FCDSAR := TDBUtils.DSToCDS(DMClient.DSProviderClient.AR_GetDSLookUpPerOrganization(AOrgID), Self, False);
+  TcxExtLookupComboBoxProperties(cxGridColPotagAR.Properties).LoadFromCDS(FCDSAR,'AR_id','AR_REfnum',['aR_id','aR_rekening_id','aR_organization_id'],Self);
+  TcxExtLookupComboBoxProperties(cxGridColPotagAR.Properties).SetMultiPurposeLookup;
 end;
 
 procedure TfrmDialogBankCashOut.InisialisasiCostCenter;
@@ -600,6 +626,38 @@ begin
     edOrganizationName.Text := FOrganization.ORG_Name;
 
   InisialisasiAPList(FOrganization.ID);
+  InisialisasiARList(FOrganization.ID);
+end;
+
+procedure TfrmDialogBankCashOut.SetDataARItems(ANoAR: String; ABaris: Integer;
+    AIsEdit: Boolean);
+var
+  dSisa: Double;
+begin
+  try
+    FCDSAR.Filter := ' AR_REfnum = ' + QuotedStr(ANoAR);
+    FCDSAR.Filter := FCDSAR.Filter + ' or AR_ID = ' + QuotedStr(ANoAR);
+    FCDSAR.Filtered := True;
+
+//    ABaris := cxGridTableAPList.DataController.FocusedRecordIndex;
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagTgl.Index, FCDSAR.FieldByName('ar_transdate').AsDateTime);
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagDueDate.Index, FCDSAR.FieldByName('ar_duedate').AsDateTime);
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagRekening.Index, FCDSAR.FieldByName('rek_code').AsString);
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagRekeningID.Index, FCDSAR.FieldByName('Ar_REKENING_ID').AsString);
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagNominal.Index, FCDSAR.FieldByName('ar_total').AsFloat);
+
+    dSisa := FCDSAR.FieldByName('ar_total').AsFloat - FCDSAR.FieldByName('ar_paid').AsFloat;
+    if AIsEdit then
+    begin
+      dSisa := dSisa + cxGridTablePotongTagihan.Double(ABaris, cxGridColPotagBayar.Index);
+    end else begin
+      cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagBayar.Index, dSisa);
+    end;
+
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagSisa.Index, dSisa);
+  finally
+    FCDSAR.Filtered := False;
+  end;
 end;
 
 procedure TfrmDialogBankCashOut.UpdateAPChequeOtems;

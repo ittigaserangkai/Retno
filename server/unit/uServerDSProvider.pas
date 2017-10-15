@@ -17,6 +17,7 @@ type
     function App_GetDSOverview: TDataSet;
     function AP_GetDSLookUp: TDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
+    function AR_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function AutAPP_GetDSLookup: TDataSet;
     function AutUnit_GetDSLookup: TDataSet;
     function AutUser_GetDSLookUp(aGroupName: string): TDataSet;
@@ -246,6 +247,16 @@ var
 begin
   S := 'select * from V_AP ' +
        ' where  ap_organization_id = ' + QuotedStr(AOrgID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.AR_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_AR ' +
+       ' where  ar_organization_id = ' + QuotedStr(AOrgID);
 
   Result := TDBUtils.OpenQuery(S);
 end;

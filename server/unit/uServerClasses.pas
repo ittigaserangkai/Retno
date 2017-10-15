@@ -122,6 +122,8 @@ type
   private
     function UpdateAPTerbayar(AModBankCashOut : TModBankCashOut; AIsTambah :
         Boolean): Boolean;
+    function UpdateARTerbayar(AModBankCashOut : TModBankCashOut; AIsTambah :
+        Boolean): Boolean;
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
@@ -1101,29 +1103,27 @@ end;
 
 function TCrudBankCashOut.AfterSaveToDB(AObject: TModApp): Boolean;
 begin
-  Result := False;
-
-  if UpdateAPTerbayar(TModBankCashOut(AObject), True) then
-    Result := True;
+  Result := UpdateAPTerbayar(TModBankCashOut(AObject), True);
+  if Result then
+    Result := UpdateARTerbayar(TModBankCashOut(AObject), True);
 end;
 
 function TCrudBankCashOut.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 begin
-  Result := False;
-
-  if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
-    Result := True;
+  Result := UpdateAPTerbayar(TModBankCashOut(AObject), False);
+  if Result then
+    Result := UpdateARTerbayar(TModBankCashOut(AObject), False);
 end;
 
 function TCrudBankCashOut.BeforeSaveToDB(AObject: TModApp): Boolean;
 begin
-  Result := False;
-
   if AObject.ID = '' then
     TModBankCashOut(AObject).BCO_NoBukti := 'BKK-' + GenerateNo(TModBankCashOut.ClassName);
 
-  if UpdateAPTerbayar(TModBankCashOut(AObject), False) then
-    Result := True;
+  Result := UpdateAPTerbayar(TModBankCashOut(AObject), False);
+
+  if Result then
+    Result := UpdateARTerbayar(TModBankCashOut(AObject), False);
 end;
 
 function TCrudBankCashOut.UpdateAPTerbayar(AModBankCashOut : TModBankCashOut;
@@ -1148,6 +1148,42 @@ begin
           ' from ap a' +
           ' INNER JOIN BankCashOutAPItem b on b.BCOAP_AP_ID = a.AP_ID ' +
           ' where b.BCOAP_BankCashOut_ID = ' + sFilterID;
+
+  try
+    TDBUtils.ExecuteSQL(sSQL);
+    Result := True;
+  except
+    raise
+  end;
+
+
+end;
+
+function TCrudBankCashOut.UpdateARTerbayar(AModBankCashOut : TModBankCashOut;
+    AIsTambah : Boolean): Boolean;
+var
+  sFilterID: string;
+  sOperator: string;
+  sSQL: string;
+begin
+  if AModBankCashOut.ID = '' then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  sFilterID := QuotedStr(AModBankCashOut.ID);
+
+  if AIsTambah then
+    sOperator := ' + '
+  else
+    sOperator := ' - ';
+
+
+  sSQL := ' update a set a.AR_PAID = a.AR_PAID ' + sOperator + ' b.BCOAR_Nominal ' +
+          ' from aR a' +
+          ' INNER JOIN BankCashOutARItem b on b.BCOAR_AR_ID = a.AR_ID ' +
+          ' where b.BCOAR_BankCashOut_ID = ' + sFilterID;
 
   try
     TDBUtils.ExecuteSQL(sSQL);

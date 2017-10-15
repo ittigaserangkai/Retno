@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/13/2017 2:13:30 PM
+// 10/15/2017 11:37:40 AM
 //
 
 unit uClientClasses;
@@ -103,6 +103,8 @@ type
     FAP_GetDSLookUpCommand_Cache: TDSRestCommand;
     FAP_GetDSLookUpPerOrganizationCommand: TDSRestCommand;
     FAP_GetDSLookUpPerOrganizationCommand_Cache: TDSRestCommand;
+    FAR_GetDSLookUpPerOrganizationCommand: TDSRestCommand;
+    FAR_GetDSLookUpPerOrganizationCommand_Cache: TDSRestCommand;
     FAutAPP_GetDSLookupCommand: TDSRestCommand;
     FAutAPP_GetDSLookupCommand_Cache: TDSRestCommand;
     FAutUnit_GetDSLookupCommand: TDSRestCommand;
@@ -352,6 +354,8 @@ type
     function AP_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID: string; const ARequestFilter: string = ''): TDataSet;
     function AP_GetDSLookUpPerOrganization_Cache(AOrgID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function AR_GetDSLookUpPerOrganization(AOrgID: string; const ARequestFilter: string = ''): TDataSet;
+    function AR_GetDSLookUpPerOrganization_Cache(AOrgID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function AutAPP_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function AutAPP_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function AutUnit_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -1621,6 +1625,18 @@ const
   );
 
   TDSProvider_AP_GetDSLookUpPerOrganization_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AOrgID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_AR_GetDSLookUpPerOrganization: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AOrgID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_AR_GetDSLookUpPerOrganization_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AOrgID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -5753,6 +5769,37 @@ begin
   Result := TDSRestCachedDataSet.Create(FAP_GetDSLookUpPerOrganizationCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSProviderClient.AR_GetDSLookUpPerOrganization(AOrgID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FAR_GetDSLookUpPerOrganizationCommand = nil then
+  begin
+    FAR_GetDSLookUpPerOrganizationCommand := FConnection.CreateCommand;
+    FAR_GetDSLookUpPerOrganizationCommand.RequestType := 'GET';
+    FAR_GetDSLookUpPerOrganizationCommand.Text := 'TDSProvider.AR_GetDSLookUpPerOrganization';
+    FAR_GetDSLookUpPerOrganizationCommand.Prepare(TDSProvider_AR_GetDSLookUpPerOrganization);
+  end;
+  FAR_GetDSLookUpPerOrganizationCommand.Parameters[0].Value.SetWideString(AOrgID);
+  FAR_GetDSLookUpPerOrganizationCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FAR_GetDSLookUpPerOrganizationCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FAR_GetDSLookUpPerOrganizationCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.AR_GetDSLookUpPerOrganization_Cache(AOrgID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FAR_GetDSLookUpPerOrganizationCommand_Cache = nil then
+  begin
+    FAR_GetDSLookUpPerOrganizationCommand_Cache := FConnection.CreateCommand;
+    FAR_GetDSLookUpPerOrganizationCommand_Cache.RequestType := 'GET';
+    FAR_GetDSLookUpPerOrganizationCommand_Cache.Text := 'TDSProvider.AR_GetDSLookUpPerOrganization';
+    FAR_GetDSLookUpPerOrganizationCommand_Cache.Prepare(TDSProvider_AR_GetDSLookUpPerOrganization_Cache);
+  end;
+  FAR_GetDSLookUpPerOrganizationCommand_Cache.Parameters[0].Value.SetWideString(AOrgID);
+  FAR_GetDSLookUpPerOrganizationCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FAR_GetDSLookUpPerOrganizationCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSProviderClient.AutAPP_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FAutAPP_GetDSLookupCommand = nil then
@@ -9489,6 +9536,8 @@ begin
   FAP_GetDSLookUpCommand_Cache.DisposeOf;
   FAP_GetDSLookUpPerOrganizationCommand.DisposeOf;
   FAP_GetDSLookUpPerOrganizationCommand_Cache.DisposeOf;
+  FAR_GetDSLookUpPerOrganizationCommand.DisposeOf;
+  FAR_GetDSLookUpPerOrganizationCommand_Cache.DisposeOf;
   FAutAPP_GetDSLookupCommand.DisposeOf;
   FAutAPP_GetDSLookupCommand_Cache.DisposeOf;
   FAutUnit_GetDSLookupCommand.DisposeOf;
