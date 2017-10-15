@@ -72,6 +72,7 @@ type
     function Kabupaten_GetDSLookUp: TDataSet;
     function Kategori_GetDSLookup: TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
+    function KuponBotol_GetDSLookUp(aDate: TDatetime; AUnitID: string): TDataSet;
     function Lokasi_GetDSLookup: TDataSet;
     function MataUang_GetDSOverview: TDataSet;
     function MemberActivasi_GetDSOverview: TDataSet;
@@ -119,6 +120,8 @@ type
         TDataSet;
     function Rekening_GetDSLookupLvl: TDataSet;
     function Rekening_GetDSOverview: TDataSet;
+    function ResetCashier_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
+        string): TDataSet;
     function Satuan_GetDSLookup: TDataSet;
     function Satuan_GetDSOverview: TDataSet;
     function SetupPOS_GetDSLookUp(aDate: TDatetime; AUnitID: string): TDataSet;
@@ -777,6 +780,21 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.KuponBotol_GetDSLookUp(aDate: TDatetime; AUnitID: string):
+    TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT '
+        + ' TKB_NO as NO_VOUCHER, TKB_DATE as TANGGAL, '
+        + ' TKB_QTY as QTY, TKB_SELL_PRICE_DISC as TOTAL '
+        + ' FROM TRANS_KUPON_BOTOL '
+        + ' WHERE TKB_DATE = ' + TDBUtils.QuotD(aDate)
+        + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
+        + ' ORDER BY SETUPPOS_TERMINAL_CODE';
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.Lokasi_GetDSLookup: TDataSet;
 var
   S: string;
@@ -1215,6 +1233,18 @@ var
 begin
   S := 'select REKENING_ID, (REK_CODE + '' - ''+ REK_NAME) as REKENING, REK_CODE, REK_NAME, REK_DESCRIPTION, REKENING_PARENT_ID, REF$GRUP_REKENING_ID from REKENING ORDER BY REK_CODE ASC';
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.ResetCashier_GetDSOverview(aDate: TDatetime; aShiftName,
+    AUnitID: string): TDataSet;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_RESETCASHIER '
+        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
+        + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
+        + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSProvider.Satuan_GetDSLookup: TDataSet;

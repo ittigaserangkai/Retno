@@ -1787,6 +1787,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnElectricCustomer'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnGenerateVoucher'
         end>
       OneOnRow = False
       Row = 0
@@ -2131,6 +2135,11 @@ object frmMain: TfrmMain
       Action = actCustomerInvoice
       Category = 0
       PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnGenerateVoucher: TdxBarButton
+      Action = actVoucher
+      Category = 0
+      ImageIndex = 58
     end
   end
 end

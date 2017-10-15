@@ -84,6 +84,7 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -154,7 +155,6 @@ object frmMain: TfrmMain
       Index = 7
     end
     object dxrbntbSupvCashier: TdxRibbonTab
-      Active = True
       Caption = 'Supervisor Cashier'
       Groups = <
         item
@@ -547,6 +547,7 @@ object frmMain: TfrmMain
     object actVoucherBotol: TAction
       Category = 'CustomerSupport'
       Caption = 'Voucher Botol'
+      OnExecute = actVoucherBotolExecute
     end
     object actShift: TAction
       Category = 'SupvCashier'
@@ -1209,7 +1210,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1250,11 +1251,19 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
+          ItemName = 'dxbrbtnResetCashier'
+        end
+        item
+          Visible = True
           ItemName = 'dxbrbtnBeginningBalance'
         end
         item
           Visible = True
           ItemName = 'dxbrbtnFinalPayment'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton1'
         end>
       OneOnRow = True
       Row = 0
@@ -1393,11 +1402,8 @@ object frmMain: TfrmMain
       PaintStyle = psCaptionGlyph
     end
     object dxbrbtnActivatePOS: TdxBarButton
-      Caption = 'Activate POS'
+      Action = actActivatePOS
       Category = 0
-      Hint = 'Activate POS'
-      Visible = ivAlways
-      OnClick = actActivatePOSExecute
     end
     object dxBarLargeButton1: TdxBarLargeButton
       Caption = 'New Button'
@@ -1406,18 +1412,20 @@ object frmMain: TfrmMain
       Visible = ivAlways
     end
     object dxbrbtnBeginningBalance: TdxBarButton
-      Caption = 'Beginning Balance'
+      Action = actBeginBalancePOS
       Category = 0
-      Hint = 'Beginning Balance'
-      Visible = ivAlways
-      OnClick = actBeginBalancePOSExecute
     end
     object dxbrbtnFinalPayment: TdxBarButton
-      Caption = 'Final Payment'
+      Action = actFinalPayment
       Category = 0
-      Hint = 'Final Payment'
-      Visible = ivAlways
-      OnClick = actFinalPaymentExecute
+    end
+    object dxbrbtnResetCashier: TdxBarButton
+      Action = actResetCashier
+      Category = 0
+    end
+    object dxBarButton1: TdxBarButton
+      Action = actVoucherBotol
+      Category = 0
     end
   end
 end

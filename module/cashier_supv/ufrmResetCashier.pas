@@ -7,52 +7,51 @@ uses
   Dialogs, ufrmMasterBrowse, StdCtrls, ExtCtrls, uConstanta, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
-  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus, Vcl.Mask,
-  System.Actions, Vcl.ActnList, ufraFooter4Button,
-  cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel,
-  cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+  cxDBData, cxContainer, ComCtrls, dxCore, cxDateUtils, Menus, System.Actions,
+  ActnList, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
+  Datasnap.DBClient, System.Generics.Collections, uModApp, uModBeginningBalance;
 
 type
   TfrmResetCashier = class(TfrmMasterBrowse)
     pnl1: TPanel;
-    pnl2: TPanel;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    edtShift: TEdit;
-    dtActivate: TcxDateEdit;
     pnl3: TPanel;
     btnResetCashier: TcxButton;
-    lbl8: TcxLabel;
-    lbl3: TcxLabel;
-    lbl4: TLabel;
     btnUnResetCashier: TcxButton;
     actResetCashier: TAction;
     actUnResetCashier: TAction;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    edtShift: TcxTextEdit;
+    lblClearAll: TcxLabel;
+    lblCheckAll: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actResetCashierExecute(Sender: TObject);
     procedure actUnResetCashierExecute(Sender: TObject);
     procedure edtShiftEnter(Sender: TObject);
-    procedure lbl8Click(Sender: TObject);
-    procedure lbl3Click(Sender: TObject);
+    procedure lblCheckAllClick(Sender: TObject);
+    procedure lblClearAllClick(Sender: TObject);
     procedure edtShiftExit(Sender: TObject);
-    procedure edtShiftChange(Sender: TObject);
     procedure edtShiftKeyPress(Sender: TObject; var Key: Char);
-    procedure dtActivateChange(Sender: TObject);
-    procedure dtActivateExit(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure btnUnResetCashierClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure lblCheckAllMouseEnter(Sender: TObject);
+    procedure lblCheckAllMouseLeave(Sender: TObject);
+    procedure lblClearAllMouseEnter(Sender: TObject);
+    procedure lblClearAllMouseLeave(Sender: TObject);
+    procedure dtAkhirFilterPropertiesEditValueChanged(Sender: TObject);
   private
+//    dataBeginningBlnc: TDataSet;
+    FCDS: TClientDataSet;
+    procedure ChangeResetStatus(AReset: string);
+    function IsShiftExist: Boolean;
 //    datacashier: TResultDataSet;
     procedure ParseHeaderGrid;
     procedure ParseDataGrid();
     procedure WM_STORE_MESSAGE_Handle(var msg: TMessage); message WM_STORE_MESSAGE;
+    property CDS: TClientDataSet read FCDS write FCDS;
   public
-    { Public declarations }
+    procedure RefreshData; override;
   end;
 
 var
@@ -62,7 +61,8 @@ implementation
 
 {$R *.dfm}
 
-uses uTSCommonDlg, uRetnoUnit, uAppUtils;
+uses
+  uTSCommonDlg, uRetnoUnit, uAppUtils, uModShift, uDMClient, uDBUtils, uDXUtils;
 
 const
 {
@@ -93,20 +93,10 @@ IS RESET
   _rowCount     : Integer = 2;
   _fixedRow     : Integer = 1;
 
-procedure TfrmResetCashier.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-//  frmMain.DestroyMenu((Sender as TForm));
-  Action := caFree;
-end;
-
 procedure TfrmResetCashier.FormCreate(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'RESET CASHIER';
-//  dtActivate.Date := ActivatePOS.getServerDate;
-  ParseDataGrid;
 end;
 
 procedure TfrmResetCashier.FormDestroy(Sender: TObject);
@@ -116,29 +106,29 @@ begin
 end;
 
 procedure TfrmResetCashier.ParseDataGrid;
-var
-  intI: Integer;
-  aIsReset: Boolean;
-  ssQL: string;
-  tempTransc: string;
+//var
+//  intI: Integer;
+//  aIsReset: Boolean;
+//  ssQL: string;
+//  tempTransc: string;
 begin
 
-  ssQL := 'SELECT SP.*, FP.FINPAYMENT_GRAND_TOTAL, AU.USR_FULLNAME,'
-        + '   BB.BALANCE_ID, BB.BALANCE_STATUS, S.SHIFT_NAME, FP.FINPAYMENT_BALANCE_ID'
-        + ' FROM SETUPPOS SP'
-        + ' INNER JOIN BEGINNING_BALANCE BB ON BB.BALANCE_SETUPPOS_ID = SP.SETUPPOS_ID'
-        + '   AND BB.BALANCE_SETUPPOS_UNT_ID = SP.SETUPPOS_UNT_ID'
-        + ' INNER JOIN SHIFT S ON S.SHIFT_ID = BB.BALANCE_SHIFT_ID'
-        + '   AND S.SHIFT_UNT_ID = BB.BALANCE_SHIFT_UNT_ID'
-        + ' LEFT JOIN FINAL_PAYMENT FP ON FP.FINPAYMENT_BALANCE_ID = BB.BALANCE_ID'
-        + '   AND FP.FINPAYMENT_BALANCE_UNT_ID = BB.BALANCE_UNT_ID'
-        + ' LEFT JOIN AUT$USER AU ON AU.USR_ID = BB.BALANCE_USR_ID'
-        + '   AND AU.USR_UNT_ID=BB.BALANCE_USR_UNT_ID'
-        + ' WHERE BB.BALANCE_SHIFT_DATE = '+ TAppUtils.QuotD(dtActivate.Date)
-        + '   AND BB.BALANCE_UNT_ID = '+ IntToStr(MasterNewUnit)
-//        + '   and BB.BALANCE_STATUS = ''CLOSE'''
-//        + '   and sp.SETUPPOS_IS_RESET = 0'
-        + ' ORDER BY SP.SETUPPOS_TERMINAL_CODE';
+//  ssQL := 'SELECT SP.*, FP.FINPAYMENT_GRAND_TOTAL, AU.USR_FULLNAME,'
+//        + '   BB.BALANCE_ID, BB.BALANCE_STATUS, S.SHIFT_NAME, FP.FINPAYMENT_BALANCE_ID'
+//        + ' FROM SETUPPOS SP'
+//        + ' INNER JOIN BEGINNING_BALANCE BB ON BB.BALANCE_SETUPPOS_ID = SP.SETUPPOS_ID'
+//        + '   AND BB.BALANCE_SETUPPOS_UNT_ID = SP.SETUPPOS_UNT_ID'
+//        + ' INNER JOIN SHIFT S ON S.SHIFT_ID = BB.BALANCE_SHIFT_ID'
+//        + '   AND S.SHIFT_UNT_ID = BB.BALANCE_SHIFT_UNT_ID'
+//        + ' LEFT JOIN FINAL_PAYMENT FP ON FP.FINPAYMENT_BALANCE_ID = BB.BALANCE_ID'
+//        + '   AND FP.FINPAYMENT_BALANCE_UNT_ID = BB.BALANCE_UNT_ID'
+//        + ' LEFT JOIN AUT$USER AU ON AU.USR_ID = BB.BALANCE_USR_ID'
+//        + '   AND AU.USR_UNT_ID=BB.BALANCE_USR_UNT_ID'
+//        + ' WHERE BB.BALANCE_SHIFT_DATE = '+ TAppUtils.QuotD(dtActivate.Date)
+//        + '   AND BB.BALANCE_UNT_ID = '+ IntToStr(MasterNewUnit)
+////        + '   and BB.BALANCE_STATUS = ''CLOSE'''
+////        + '   and sp.SETUPPOS_IS_RESET = 0'
+//        + ' ORDER BY SP.SETUPPOS_TERMINAL_CODE';
   {
   ParseHeaderGrid;
   with cOpenQuery(ssQL) do
@@ -221,15 +211,15 @@ begin
 end;
 
 procedure TfrmResetCashier.actResetCashierExecute(Sender: TObject);
-var
-  chkReset: Boolean;
-  cKey: Char;
-  iResetCount: Integer;
-  isSuccess: boolean;
-  PosIP: string;
-  PosCode: string;
-  chkStatus: Boolean;
-  i: Integer;
+//var
+//  chkReset: Boolean;
+//  cKey: Char;
+//  iResetCount: Integer;
+//  isSuccess: boolean;
+//  PosIP: string;
+//  PosCode: string;
+//  chkStatus: Boolean;
+//  i: Integer;
 begin
   {
   if not IsValidDateKarenaEOD(MasterNewUnit.ID,dtActivate.Date,FMasterIsStore) then
@@ -297,18 +287,21 @@ begin
       end;
     end;
   end;
-
   }
+  if (CommonDlg.Confirm(CONF_RESET_CASHIER) = mrYes) then
+  begin
+    ChangeResetStatus('CLOSE');
+  end;
 end;
 
 procedure TfrmResetCashier.actUnResetCashierExecute(Sender: TObject);
-var
-  chkReset: Boolean;
-  chkStatus: Boolean;
-  cKey: Char;
-  PosIP: string;
-  PosCode: string;
-  i: Integer;
+//var
+//  chkReset: Boolean;
+//  chkStatus: Boolean;
+//  cKey: Char;
+//  PosIP: string;
+//  PosCode: string;
+//  i: Integer;
 begin
   {
   if not IsValidDateKarenaEOD(MasterNewUnit.ID, dtActivate.Date, FMasterIsStore) then
@@ -380,6 +373,10 @@ begin
     Exit;
   end;
   }
+  if (CommonDlg.Confirm(CONF_UNRESET_CASHIER) = mrYes) then
+  begin
+    ChangeResetStatus('OPEN');
+  end;
 end;
 
 procedure TfrmResetCashier.edtShiftEnter(Sender: TObject);
@@ -387,7 +384,7 @@ begin
   edtShift.SelectAll;
 end;
 
-procedure TfrmResetCashier.lbl8Click(Sender: TObject);
+procedure TfrmResetCashier.lblCheckAllClick(Sender: TObject);
 var i: integer;
 begin
   {with strgGrid do
@@ -399,9 +396,17 @@ begin
     end;
   end;
   }
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    CDS.Edit;
+    CDS.FieldByName('CHECK').AsBoolean := True;
+    CDS.Post;
+    CDS.Next;
+  end;
 end;
 
-procedure TfrmResetCashier.lbl3Click(Sender: TObject);
+procedure TfrmResetCashier.lblClearAllClick(Sender: TObject);
 var i: integer;
 begin
   {with strgGrid do
@@ -413,18 +418,20 @@ begin
     end;
   end;
   }
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    CDS.Edit;
+    CDS.FieldByName('CHECK').AsBoolean := False;
+    CDS.Post;
+    CDS.Next;
+  end;
 end;
 
 procedure TfrmResetCashier.edtShiftExit(Sender: TObject);
 begin
   inherited;
-  ParseDataGrid;
-end;
-
-procedure TfrmResetCashier.edtShiftChange(Sender: TObject);
-begin
-  inherited;
-  ParseHeaderGrid;
+  RefreshData;
 end;
 
 procedure TfrmResetCashier.edtShiftKeyPress(Sender: TObject;
@@ -432,19 +439,14 @@ procedure TfrmResetCashier.edtShiftKeyPress(Sender: TObject;
 begin
   inherited;
   if Key=(Chr(VK_RETURN)) then
-    ParseDataGrid;
+    RefreshData;
 end;
 
-procedure TfrmResetCashier.dtActivateChange(Sender: TObject);
+procedure TfrmResetCashier.dtAkhirFilterPropertiesEditValueChanged(
+  Sender: TObject);
 begin
   inherited;
-  ParseHeaderGrid;
-end;
-
-procedure TfrmResetCashier.dtActivateExit(Sender: TObject);
-begin
-  inherited;
-  ParseDataGrid;
+  RefreshData;
 end;
 
 procedure TfrmResetCashier.WM_STORE_MESSAGE_Handle(var msg: TMessage);
@@ -464,16 +466,100 @@ begin
     actUnResetCashierExecute(Self);
 end;
 
-procedure TfrmResetCashier.btnUnResetCashierClick(Sender: TObject);
+procedure TfrmResetCashier.ChangeResetStatus(AReset: string);
+var
+  lListBalance: TObjectList<TModApp>;
+  lModBalance: TModBeginningBalance;
 begin
-  inherited;
-  actUnResetCashierExecute(actUnResetCashier);
+  lListBalance := TObjectList<TModApp>.Create();
+  try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      if CDS.FieldByName('CHECK').AsBoolean = True then
+      begin
+        lModBalance := DMClient.CrudClient.Retrieve(TModBeginningBalance.ClassName, CDS.FieldByName('BEGINNING_BALANCE_ID').AsString) as TModBeginningBalance;
+        if lModBalance.BALANCE_STATUS <> AReset then
+        begin
+          lModBalance.BALANCE_STATUS := AReset;
+          lListBalance.Add(lModBalance);
+        end;
+      end;
+      CDS.Next;
+    end;
+
+    if DMClient.CrudClient.SaveBatch(lListBalance) then
+    begin
+      FreeAndNil(lListBalance);
+      TAppUtils.Information(CONF_EDIT_SUCCESSFULLY, False);
+      RefreshData;
+    end;
+  except
+    TAppUtils.Error(ER_UPDATE_FAILED);
+    raise;
+  end;
 end;
 
-procedure TfrmResetCashier.FormShow(Sender: TObject);
+function TfrmResetCashier.IsShiftExist: Boolean;
+var
+  lModShift: TModShift;
+begin
+  Result := False;
+  lModShift := TModShift.Create;
+  try
+    lModShift := DMClient.CrudClient.RetrieveByCode(TModShift.ClassName, edtShift.EditValue) as TModShift;
+
+    if lModShift.ID = '' then
+    begin
+      TAppUtils.Error(ER_SHIFT_NOT_FOUND);
+      edtShift.SetFocus;
+    end else
+    begin
+      Result   := True;
+    end;
+  finally
+    lModShift.Free;
+  end;
+end;
+
+procedure TfrmResetCashier.lblCheckAllMouseEnter(Sender: TObject);
 begin
   inherited;
-  btnUnResetCashier.Enabled := True;
+  lblCheckAll.Style.TextStyle := [fsUnderline];
+end;
+
+procedure TfrmResetCashier.lblCheckAllMouseLeave(Sender: TObject);
+begin
+  inherited;
+  lblCheckAll.Style.TextStyle := [];
+end;
+
+procedure TfrmResetCashier.lblClearAllMouseEnter(Sender: TObject);
+begin
+  inherited;
+  lblClearAll.Style.TextStyle := [fsUnderline];
+end;
+
+procedure TfrmResetCashier.lblClearAllMouseLeave(Sender: TObject);
+begin
+  inherited;
+  lblClearAll.Style.TextStyle := [];
+end;
+
+procedure TfrmResetCashier.RefreshData;
+begin
+  inherited;
+  if edtShift.Text = '' then
+    Exit
+  else if not IsShiftExist then
+    Exit;
+
+  if Assigned(FCDS) then FreeAndNil(FCDS);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.ResetCashier_GetDSOverview(dtAkhirFilter.Date, edtShift.EditValue, TRetno.UnitStore.ID) ,Self );
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['BEGINNING_BALANCE_ID','FINAL_PAYMENT_ID','SHIFT_NAME','BALANCE_SHIFT_DATE','AUT$UNIT_ID'],False);
+  cxGridView.SetReadOnlyAllColumns(True);
+  cxGridView.SetReadOnlyColumns(['CHECK'],False);
 end;
 
 end.

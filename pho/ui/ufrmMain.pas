@@ -382,6 +382,7 @@ type
     dxbrbtnCustomerInvoice: TdxBarButton;
     actCustomerInvoice: TAction;
     dxbrmngrHOBar3: TdxBar;
+    dxbrbtnGenerateVoucher: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -1116,7 +1117,8 @@ end;
 
 procedure TfrmMain.actVoucherExecute(Sender: TObject);
 begin
-    frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
+//  frmVoucher := TfrmVoucher.CreateWithUser(Application, FFormProperty);
+  frmVoucher := TfrmVoucher.Create(Self);
 end;
 
 procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);

@@ -268,9 +268,7 @@ procedure TfrmBeginningBalancePOS.edtShiftKeyPress(Sender: TObject;
 begin
   inherited;
   if Key = Chr(VK_RETURN) then
-  begin
     RefreshData;
-  end 
 end;
 
 procedure TfrmBeginningBalancePOS.actPrintExecute(Sender: TObject);

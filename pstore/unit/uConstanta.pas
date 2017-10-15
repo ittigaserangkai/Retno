@@ -98,6 +98,12 @@ const
   // BEGINNING BALANCE
   BEGINNING_BALANCE_MODAL = 200000;
 
+  //POS
+  POS_ACTIVATION_FAILED       = 'Failed to activate POS';
+  POS_ACTIVATION_SUCCESSFULLY = 'POS Activated successfully';
+  CONF_RESET_CASHIER          = 'Are you sure want to Close this Cashier(s)?';
+  CONF_UNRESET_CASHIER        = 'Are you sure want to Open this Cashier(s)?';
+
   // loading caption
   USER_MENU_LOADING = 'Please wait. Creating user menu ...';
   USER_LOGIN_LOADING = 'Please wait. Authorizing user ...';

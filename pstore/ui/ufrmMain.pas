@@ -247,6 +247,8 @@ type
     dxBarLargeButton1: TdxBarLargeButton;
     dxbrbtnBeginningBalance: TdxBarButton;
     dxbrbtnFinalPayment: TdxBarButton;
+    dxbrbtnResetCashier: TdxBarButton;
+    dxBarButton1: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -321,6 +323,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
     procedure actStockProductExecute(Sender: TObject);
+    procedure actVoucherBotolExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
     //FUnitName: string;
@@ -380,7 +383,7 @@ uses
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
   ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
-  ufrmDailySalesAnalysis;
+  ufrmDailySalesAnalysis, ufrmKuponBotol;
 
 
 
@@ -782,7 +785,7 @@ end;
 
 procedure TfrmMain.actResetCashierExecute(Sender: TObject);
 begin
-    frmResetCashier := TfrmResetCashier.CreateWithUser(Application, FFormProperty);
+  frmResetCashier := TfrmResetCashier.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actResetMenuExecute(Sender: TObject);
@@ -851,6 +854,11 @@ end;
 procedure TfrmMain.actUbahQtyPOExecute(Sender: TObject);
 begin
   frmUbahQTYPO := TfrmUbahQTYPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actVoucherBotolExecute(Sender: TObject);
+begin
+  frmKuponBotol := TfrmKuponBotol.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actWastageRealExecute(Sender: TObject);
