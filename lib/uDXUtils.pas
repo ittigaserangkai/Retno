@@ -170,6 +170,7 @@ type
   protected
   public
     class procedure OnInitPopupCustom(Sender: TObject);
+    class procedure OnClosePopupCustom(Sender: TObject);
 
   end;
 
@@ -641,6 +642,8 @@ begin
   If not Assigned(Self.OnInitPopup) then
     Self.OnInitPopup := TcxExtLookup.OnInitPopupCustom;
 
+  If not Assigned(Self.OnClosePopup) then
+    Self.OnCloseUp := TcxExtLookup.OnClosePopupCustom;
 end;
 
 procedure TcxExtLookupPropHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
@@ -1286,6 +1289,14 @@ begin
   begin
     TcxExtLookupComboBox(Sender).Properties.View.DataController.Filter.Clear;
     TcxExtLookupComboBox(Sender).Properties.ListFieldItem.Focused := True;
+  end;
+end;
+
+class procedure TcxExtLookup.OnClosePopupCustom(Sender: TObject);
+begin
+  If Sender is TcxExtLookupComboBox then
+  begin
+    TcxExtLookupComboBox(Sender).SetFocus;
   end;
 end;
 

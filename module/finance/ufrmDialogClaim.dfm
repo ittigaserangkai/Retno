@@ -525,8 +525,11 @@ inherited frmDialogClaim: TfrmDialogClaim
               Column = cxGridColOtherNominal
             end>
           DataController.Summary.SummaryGroups = <>
+          OptionsBehavior.PostponedSynchronization = False
+          OptionsBehavior.FocusFirstCellOnNewRecord = True
           OptionsBehavior.GoToNextCellOnEnter = True
           OptionsBehavior.FocusCellOnCycle = True
+          OptionsData.Appending = True
           OptionsView.Footer = True
           OptionsView.GroupByBox = False
           Styles.ContentEven = DMClient.cxStyleGridEven
@@ -542,6 +545,7 @@ inherited frmDialogClaim: TfrmDialogClaim
             Caption = 'Kode'
             DataBinding.FieldName = 'CLMD_Other_Rekening'
             PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+            Properties.ImmediatePost = True
             Properties.OnEditValueChanged = cxGridColOtherAccountCodePropertiesEditValueChanged
             HeaderAlignmentHorz = taCenter
             Width = 141

@@ -15,7 +15,7 @@ uses
   cxGrid, uDMClient, cxGridBandedTableView, cxGridDBBandedTableView, Vcl.Menus,
   cxButtons, uDXUtils, Datasnap.DBClient, uDBUtils, uModClaimFaktur,
   uModRekening, uModSuplier, uConstanta, uInterface, System.StrUtils,
-  cxButtonEdit, uModOrganization;
+  cxButtonEdit, uModOrganization, cxGridDBDataDefinitions;
 
 type
   TfrmDialogClaim = class(TfrmMasterDialog, ICrudAble)
@@ -108,10 +108,6 @@ type
     procedure cbbAccountPropertiesEditValueChanged(Sender: TObject);
     procedure cxgrdClaimFocusedViewChanged(Sender: TcxCustomGrid; APrevFocusedView,
         AFocusedView: TcxCustomGridView);
-    procedure cxGridColOtherAccountNamePropertiesEditValueChanged(
-      Sender: TObject);
-    procedure cxGridColOtherAccountCodePropertiesEditValueChanged(
-      Sender: TObject);
     procedure cxGridColOtherNominalPropertiesEditValueChanged(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnDetailClick(Sender: TObject);
@@ -124,6 +120,10 @@ type
       AButtonIndex: Integer);
     procedure btnAddCSClick(Sender: TObject);
     procedure edOrgCodePropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridColOtherAccountCodePropertiesEditValueChanged(
+      Sender: TObject);
+    procedure cxGridColOtherAccountNamePropertiesEditValueChanged(
+      Sender: TObject);
   private
     FCDSDO: TClientDataSet;
     FCDSCN: TClientDataSet;
@@ -131,6 +131,7 @@ type
     FCDSOther: TClientDataSet;
     FCDSDN: TClientDataSet;
     FCDSOrg: TClientDataSet;
+    FDCOther: TcxGridDBDataController;
     FModClaim: TModClaimFaktur;
     FModOrganization: TModOrganization;
     procedure AddDOByID(aID: string);
@@ -149,6 +150,7 @@ type
     function GetCDSOther: TClientDataSet;
     function GetCDSDN: TClientDataSet;
     function GetCDSOrg: TClientDataSet;
+    function GetDCOther: TcxGridDBDataController;
     function GetModClaim: TModClaimFaktur;
     procedure initView;
     procedure LoadCNDNItems;
@@ -176,6 +178,7 @@ type
   public
     procedure CalculateDueDate;
     procedure LoadData(aID: String);
+    property DCOther: TcxGridDBDataController read GetDCOther write FDCOther;
     { Public declarations }
   end;
 
@@ -575,8 +578,9 @@ begin
   inherited;
   if CDSOther.State in [dsEdit] then CDSOther.Post;
   CDSOther.Edit;
-  CDSOther.FieldValues['REK_NAME'] := CDSOther.FieldValues['CLMD_Other_Rekening'];
+  CDSOther.FieldByName('REK_NAME').AsString :=  CDSOther.FieldByName('CLMD_Other_Rekening').AsString;
   CDSOther.Post;
+  cxGridColOtherAccountName.Focused := True;
 end;
 
 procedure TfrmDialogClaim.cxGridColOtherAccountNamePropertiesEditValueChanged(
@@ -585,7 +589,7 @@ begin
   inherited;
   if CDSOther.State in [dsEdit] then CDSOther.Post;
   CDSOther.Edit;
-  CDSOther.FieldValues['CLMD_Other_Rekening'] := CDSOther.FieldValues['REK_NAME'];
+  CDSOther.FieldByName('CLMD_Other_Rekening').AsString :=  CDSOther.FieldByName('REK_NAME').AsString;
   CDSOther.Post;
 end;
 
@@ -804,6 +808,11 @@ begin
   Result := FCDSOrg;
 end;
 
+function TfrmDialogClaim.GetDCOther: TcxGridDBDataController;
+begin
+  Result := cxGridDBTableOther.DataController;
+end;
+
 function TfrmDialogClaim.GetModClaim: TModClaimFaktur;
 begin
   if not Assigned(FModClaim) then
@@ -841,6 +850,8 @@ begin
     TcxExtLookup(cxGridColOtherAccountCode.Properties).LoadFromCDS(
       lCDSAccount, 'REKENING_ID','REK_CODE' ,Self
     );
+    TcxExtLookup(cxGridColOtherAccountCode.Properties).SetMultiPurposeLookup;
+
     TcxExtLookup(cxGridColOtherAccountCode.Properties).SetVisibleColumnsOnly(
       ['REK_CODE', 'REK_NAME']
     );
@@ -850,6 +861,7 @@ begin
     TcxExtLookup(cxGridColOtherAccountName.Properties).SetVisibleColumnsOnly(
       ['REK_CODE', 'REK_NAME']
     );
+//    TcxExtLookup(cxGridColOtherAccountName.Properties).SetMultiPurposeLookup;
 
   end;
   cxGridDBTableGR.PrepareFromCDS(CDSDO);
