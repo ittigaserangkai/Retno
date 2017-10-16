@@ -38,6 +38,7 @@ type
     property TKB_INC: Integer read FTKB_INC write FTKB_INC;
     property TKB_IS_JURNAL: Integer read FTKB_IS_JURNAL write FTKB_IS_JURNAL;
     property TKB_IS_PRINTED: string read FTKB_IS_PRINTED write FTKB_IS_PRINTED;
+    [AttributeOfCode]
     property TKB_NO: string read FTKB_NO write FTKB_NO;
     property TKB_POS_TRANS_NO: string read FTKB_POS_TRANS_NO write
         FTKB_POS_TRANS_NO;
