@@ -789,9 +789,9 @@ begin
         + ' TKB_NO as NO_VOUCHER, TKB_DATE as TANGGAL, '
         + ' TKB_QTY as QTY, TKB_SELL_PRICE_DISC as TOTAL '
         + ' FROM TRANS_KUPON_BOTOL '
-        + ' WHERE TKB_DATE = ' + TDBUtils.QuotD(aDate)
+        + ' WHERE dbo.DateOnly(TKB_DATE) = ' + TDBUtils.QuotD(aDate)
         + ' AND AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
-        + ' ORDER BY SETUPPOS_TERMINAL_CODE';
+        + ' ORDER BY TKB_NO';
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 

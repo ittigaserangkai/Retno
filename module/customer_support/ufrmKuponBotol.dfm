@@ -1,56 +1,184 @@
 inherited frmKuponBotol: TfrmKuponBotol
+  Left = 353
+  Top = 279
   Caption = 'Transaksi Kupon Botol'
-  ClientWidth = 747
-  ExplicitWidth = 763
+  ClientHeight = 361
+  ClientWidth = 709
+  Position = poDesigned
+  ExplicitWidth = 725
+  ExplicitHeight = 400
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Top = 147
-    Width = 747
-    Height = 200
+    Width = 709
+    Height = 158
+    ExplicitTop = 147
+    ExplicitWidth = 747
+    ExplicitHeight = 200
     inherited pgcBrowse: TcxPageControl
-      Width = 745
-      Height = 198
-      ClientRectBottom = 197
-      ClientRectRight = 744
+      Width = 707
+      Height = 156
+      ExplicitWidth = 745
+      ExplicitHeight = 198
+      ClientRectBottom = 155
+      ClientRectRight = 706
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 697
-        ExplicitHeight = 310
+        ExplicitWidth = 743
+        ExplicitHeight = 196
         inherited cxGrid: TcxGrid
-          Width = 743
-          Height = 196
+          Width = 705
+          Height = 154
+          ExplicitWidth = 743
+          ExplicitHeight = 196
+          object cxGridViewDetail: TcxGridTableView [1]
+            Navigator.Buttons.CustomButtons = <>
+            DataController.Summary.DefaultGroupSummaryItems = <
+              item
+                Format = ',0.00;(,0.00)'
+                Kind = skSum
+                Position = spFooter
+                Column = colTotal
+              end
+              item
+                Format = ',0.00;(,0.00)'
+                Kind = skSum
+                Column = colTotal
+              end>
+            DataController.Summary.FooterSummaryItems = <
+              item
+                Format = ',0.00;(,0.00)'
+                Kind = skSum
+                Column = colTotal
+              end>
+            DataController.Summary.SummaryGroups = <>
+            OptionsView.Footer = True
+            OptionsView.GroupByBox = False
+            object colPLU: TcxGridColumn
+              Caption = 'PLU'
+              PropertiesClassName = 'TcxTextEditProperties'
+              Properties.ReadOnly = True
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 37
+            end
+            object colProductName: TcxGridColumn
+              Caption = 'PRODUCT NAME'
+              PropertiesClassName = 'TcxTextEditProperties'
+              Properties.ReadOnly = True
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 98
+            end
+            object colUoM: TcxGridColumn
+              Caption = 'UOM'
+              PropertiesClassName = 'TcxTextEditProperties'
+              Properties.ReadOnly = True
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 40
+            end
+            object colQty: TcxGridColumn
+              Caption = 'QTY'
+              PropertiesClassName = 'TcxSpinEditProperties'
+              Properties.Alignment.Horz = taRightJustify
+              Properties.DisplayFormat = ',0.##;(,0.##)'
+              Properties.ReadOnly = True
+              Properties.SpinButtons.Visible = False
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 40
+            end
+            object colSellPrice: TcxGridColumn
+              Caption = 'SELL PRICE'
+              PropertiesClassName = 'TcxSpinEditProperties'
+              Properties.Alignment.Horz = taRightJustify
+              Properties.DisplayFormat = ',0.00;(,0.00)'
+              Properties.ReadOnly = True
+              Properties.SpinButtons.Visible = False
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 73
+            end
+            object colDisc: TcxGridColumn
+              Caption = 'DISC'
+              PropertiesClassName = 'TcxSpinEditProperties'
+              Properties.Alignment.Horz = taRightJustify
+              Properties.DisplayFormat = ',0.##;(,0.##)'
+              Properties.ReadOnly = True
+              Properties.SpinButtons.Visible = False
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 40
+            end
+            object colSellPriceDisc: TcxGridColumn
+              Caption = 'SELL PRICE DISC'
+              PropertiesClassName = 'TcxSpinEditProperties'
+              Properties.Alignment.Horz = taRightJustify
+              Properties.DisplayFormat = ',0.00;(,0.00)'
+              Properties.ReadOnly = True
+              Properties.SpinButtons.Visible = False
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 99
+            end
+            object colTotal: TcxGridColumn
+              Caption = 'TOTAL'
+              PropertiesClassName = 'TcxSpinEditProperties'
+              Properties.Alignment.Horz = taRightJustify
+              Properties.DisplayFormat = ',0.00;(,0.00)'
+              Properties.ReadOnly = True
+              Properties.SpinButtons.Visible = False
+              HeaderAlignmentHorz = taCenter
+              Styles.Header = DMClient.cxStyleGridHeader
+              Width = 51
+            end
+          end
+          inherited cxlvMaster: TcxGridLevel
+            GridView = cxGridViewDetail
+          end
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 747
+    Width = 709
+    ExplicitWidth = 747
     inherited lblFilterData: TcxLabel
-      Left = 393
+      Left = 355
+      ExplicitLeft = 393
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 454
+      Left = 416
+      ExplicitLeft = 454
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 570
+      Left = 532
+      ExplicitLeft = 570
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 665
+      Left = 627
+      ExplicitLeft = 665
     end
     inherited lblsdFilter: TcxLabel
-      Left = 546
+      Left = 508
+      ExplicitLeft = 546
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Width = 747
+    Top = 305
+    Width = 709
+    ExplicitTop = -56
+    ExplicitWidth = 747
     inherited pnlFooter: TPanel
-      Width = 747
+      Width = 709
+      ExplicitWidth = 747
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -61,29 +189,35 @@ inherited frmKuponBotol: TfrmKuponBotol
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 670
+        Left = 632
         Action = actClose
+        ExplicitLeft = 670
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 747
+      Width = 709
+      ExplicitWidth = 747
       inherited lbEscape: TLabel
-        Left = 673
+        Left = 635
         Height = 17
+        ExplicitLeft = 673
       end
     end
   end
   object Panel1: TPanel [3]
     Left = 0
     Top = 33
-    Width = 747
+    Width = 709
     Height = 114
     Align = alTop
     BevelOuter = bvLowered
     TabOrder = 3
+    ExplicitLeft = -8
+    ExplicitTop = 35
+    ExplicitWidth = 736
     object cxLabel1: TcxLabel
       Left = 8
       Top = 6
@@ -129,6 +263,8 @@ inherited frmKuponBotol: TfrmKuponBotol
     object dtpTanggal: TcxDateEdit
       Left = 88
       Top = 5
+      Properties.SaveTime = False
+      Properties.ShowTime = False
       TabOrder = 7
       Width = 89
     end
@@ -141,6 +277,7 @@ inherited frmKuponBotol: TfrmKuponBotol
           Default = True
           Kind = bkEllipsis
         end>
+      Properties.ReadOnly = True
       Properties.OnButtonClick = edTransactionNoPropertiesButtonClick
       TabOrder = 8
       Text = '[Input Voucher No.]'
@@ -150,6 +287,7 @@ inherited frmKuponBotol: TfrmKuponBotol
       Left = 88
       Top = 57
       Properties.ReadOnly = True
+      Style.Color = clInfoBk
       TabOrder = 9
       Width = 137
     end
@@ -157,6 +295,7 @@ inherited frmKuponBotol: TfrmKuponBotol
       Left = 88
       Top = 83
       Properties.ReadOnly = True
+      Style.Color = clInfoBk
       TabOrder = 10
       Width = 265
     end
@@ -164,6 +303,7 @@ inherited frmKuponBotol: TfrmKuponBotol
       Left = 435
       Top = 5
       Properties.ReadOnly = True
+      Style.Color = clInfoBk
       TabOrder = 11
       Width = 137
     end
@@ -171,6 +311,7 @@ inherited frmKuponBotol: TfrmKuponBotol
       Left = 435
       Top = 31
       Properties.ReadOnly = True
+      Style.Color = clInfoBk
       TabOrder = 12
       Width = 137
     end
@@ -178,17 +319,18 @@ inherited frmKuponBotol: TfrmKuponBotol
       Left = 435
       Top = 57
       Properties.ReadOnly = True
+      Style.Color = clInfoBk
       TabOrder = 13
       Width = 265
     end
     object cxLabel8: TcxLabel
       Left = 359
-      Top = 84
+      Top = 83
       Caption = 'Total Price'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
-      Style.Font.Height = -11
+      Style.Font.Height = -12
       Style.Font.Name = 'Trebuchet MS'
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
@@ -201,9 +343,10 @@ inherited frmKuponBotol: TfrmKuponBotol
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00;(,0.00)'
       Properties.ReadOnly = True
+      Style.Color = clInfoBk
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
-      Style.Font.Height = -11
+      Style.Font.Height = -12
       Style.Font.Name = 'Trebuchet MS'
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
@@ -212,7 +355,13 @@ inherited frmKuponBotol: TfrmKuponBotol
     end
   end
   inherited actlstBrowse: TActionList
-    Left = 584
-    Top = 224
+    Left = 632
+    Top = 40
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
+    end
   end
 end

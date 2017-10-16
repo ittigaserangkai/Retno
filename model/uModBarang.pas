@@ -78,7 +78,6 @@ type
     FBRG_HARGA_AVERAGE: Double;
     FBRG_HEIGHT: string;
     FBRG_HO_AUTHORIZE: Integer;
-    FBRG_ID: Integer;
     FBRG_IS_ACTIVE: Integer;
     FBRG_IS_BASIC: Integer;
     FBRG_IS_BUILD: Integer;
@@ -120,7 +119,6 @@ type
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
-    property BRG_ID: Integer read FBRG_ID write FBRG_ID;
     property Suppliers: TObjectList<TModBarangSupplier> read GetSuppliers write
         FSuppliers;
     property Konversi: TObjectList<TModKonversi> read GetKonversi write FKonversi;
@@ -304,7 +302,6 @@ type
   TModBarangHargaJual = class(TModApp)
   private
     FBarang: TModBarang;
-    FBHJ_BRG_ID: Integer;
     FBHJ_SELL_PRICE: Double;
     FBHJ_DISC_PERSEN: Double;
     FBHJ_DISC_NOMINAL: Double;
@@ -333,7 +330,6 @@ type
   published
     [AttributeOfHeader]
     property Barang: TModBarang read FBarang write FBarang;
-    property BHJ_BRG_ID: Integer read FBHJ_BRG_ID write FBHJ_BRG_ID;
     property BHJ_SELL_PRICE: Double read FBHJ_SELL_PRICE write FBHJ_SELL_PRICE;
     property BHJ_DISC_PERSEN: Double read FBHJ_DISC_PERSEN write FBHJ_DISC_PERSEN;
     property BHJ_DISC_NOMINAL: Double read FBHJ_DISC_NOMINAL write
