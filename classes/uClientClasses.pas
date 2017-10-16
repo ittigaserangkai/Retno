@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/15/2017 11:37:40 AM
+// 10/16/2017 11:47:32 AM
 //
 
 unit uClientClasses;
@@ -194,6 +194,8 @@ type
     FKategori_GetDSLookupCommand_Cache: TDSRestCommand;
     FKompetitor_GetDSOverviewCommand: TDSRestCommand;
     FKompetitor_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FKuponBotol_GetDSLookUpCommand: TDSRestCommand;
+    FKuponBotol_GetDSLookUpCommand_Cache: TDSRestCommand;
     FLokasi_GetDSLookupCommand: TDSRestCommand;
     FLokasi_GetDSLookupCommand_Cache: TDSRestCommand;
     FMataUang_GetDSOverviewCommand: TDSRestCommand;
@@ -274,6 +276,8 @@ type
     FRekening_GetDSLookupLvlCommand_Cache: TDSRestCommand;
     FRekening_GetDSOverviewCommand: TDSRestCommand;
     FRekening_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FResetCashier_GetDSOverviewCommand: TDSRestCommand;
+    FResetCashier_GetDSOverviewCommand_Cache: TDSRestCommand;
     FSatuan_GetDSLookupCommand: TDSRestCommand;
     FSatuan_GetDSLookupCommand_Cache: TDSRestCommand;
     FSatuan_GetDSOverviewCommand: TDSRestCommand;
@@ -445,6 +449,8 @@ type
     function Kategori_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Kompetitor_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Kompetitor_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function KuponBotol_GetDSLookUp(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
+    function KuponBotol_GetDSLookUp_Cache(aDate: TDateTime; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Lokasi_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Lokasi_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function MataUang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -525,6 +531,8 @@ type
     function Rekening_GetDSLookupLvl_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Rekening_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Rekening_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function ResetCashier_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
+    function ResetCashier_GetDSOverview_Cache(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Satuan_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Satuan_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Satuan_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -2172,6 +2180,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_KuponBotol_GetDSLookUp: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_KuponBotol_GetDSLookUp_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_Lokasi_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -2625,6 +2647,22 @@ const
 
   TDSProvider_Rekening_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_ResetCashier_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aShiftName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_ResetCashier_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aShiftName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7231,6 +7269,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FKompetitor_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.KuponBotol_GetDSLookUp(aDate: TDateTime; AUnitID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FKuponBotol_GetDSLookUpCommand = nil then
+  begin
+    FKuponBotol_GetDSLookUpCommand := FConnection.CreateCommand;
+    FKuponBotol_GetDSLookUpCommand.RequestType := 'GET';
+    FKuponBotol_GetDSLookUpCommand.Text := 'TDSProvider.KuponBotol_GetDSLookUp';
+    FKuponBotol_GetDSLookUpCommand.Prepare(TDSProvider_KuponBotol_GetDSLookUp);
+  end;
+  FKuponBotol_GetDSLookUpCommand.Parameters[0].Value.AsDateTime := aDate;
+  FKuponBotol_GetDSLookUpCommand.Parameters[1].Value.SetWideString(AUnitID);
+  FKuponBotol_GetDSLookUpCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FKuponBotol_GetDSLookUpCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FKuponBotol_GetDSLookUpCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.KuponBotol_GetDSLookUp_Cache(aDate: TDateTime; AUnitID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FKuponBotol_GetDSLookUpCommand_Cache = nil then
+  begin
+    FKuponBotol_GetDSLookUpCommand_Cache := FConnection.CreateCommand;
+    FKuponBotol_GetDSLookUpCommand_Cache.RequestType := 'GET';
+    FKuponBotol_GetDSLookUpCommand_Cache.Text := 'TDSProvider.KuponBotol_GetDSLookUp';
+    FKuponBotol_GetDSLookUpCommand_Cache.Prepare(TDSProvider_KuponBotol_GetDSLookUp_Cache);
+  end;
+  FKuponBotol_GetDSLookUpCommand_Cache.Parameters[0].Value.AsDateTime := aDate;
+  FKuponBotol_GetDSLookUpCommand_Cache.Parameters[1].Value.SetWideString(AUnitID);
+  FKuponBotol_GetDSLookUpCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FKuponBotol_GetDSLookUpCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSProviderClient.Lokasi_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FLokasi_GetDSLookupCommand = nil then
@@ -8519,6 +8590,41 @@ begin
   Result := TDSRestCachedDataSet.Create(FRekening_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.ResetCashier_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FResetCashier_GetDSOverviewCommand = nil then
+  begin
+    FResetCashier_GetDSOverviewCommand := FConnection.CreateCommand;
+    FResetCashier_GetDSOverviewCommand.RequestType := 'GET';
+    FResetCashier_GetDSOverviewCommand.Text := 'TDSProvider.ResetCashier_GetDSOverview';
+    FResetCashier_GetDSOverviewCommand.Prepare(TDSProvider_ResetCashier_GetDSOverview);
+  end;
+  FResetCashier_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := aDate;
+  FResetCashier_GetDSOverviewCommand.Parameters[1].Value.SetWideString(aShiftName);
+  FResetCashier_GetDSOverviewCommand.Parameters[2].Value.SetWideString(AUnitID);
+  FResetCashier_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FResetCashier_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FResetCashier_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.ResetCashier_GetDSOverview_Cache(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FResetCashier_GetDSOverviewCommand_Cache = nil then
+  begin
+    FResetCashier_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FResetCashier_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FResetCashier_GetDSOverviewCommand_Cache.Text := 'TDSProvider.ResetCashier_GetDSOverview';
+    FResetCashier_GetDSOverviewCommand_Cache.Prepare(TDSProvider_ResetCashier_GetDSOverview_Cache);
+  end;
+  FResetCashier_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := aDate;
+  FResetCashier_GetDSOverviewCommand_Cache.Parameters[1].Value.SetWideString(aShiftName);
+  FResetCashier_GetDSOverviewCommand_Cache.Parameters[2].Value.SetWideString(AUnitID);
+  FResetCashier_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FResetCashier_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 function TDSProviderClient.Satuan_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FSatuan_GetDSLookupCommand = nil then
@@ -9627,6 +9733,8 @@ begin
   FKategori_GetDSLookupCommand_Cache.DisposeOf;
   FKompetitor_GetDSOverviewCommand.DisposeOf;
   FKompetitor_GetDSOverviewCommand_Cache.DisposeOf;
+  FKuponBotol_GetDSLookUpCommand.DisposeOf;
+  FKuponBotol_GetDSLookUpCommand_Cache.DisposeOf;
   FLokasi_GetDSLookupCommand.DisposeOf;
   FLokasi_GetDSLookupCommand_Cache.DisposeOf;
   FMataUang_GetDSOverviewCommand.DisposeOf;
@@ -9707,6 +9815,8 @@ begin
   FRekening_GetDSLookupLvlCommand_Cache.DisposeOf;
   FRekening_GetDSOverviewCommand.DisposeOf;
   FRekening_GetDSOverviewCommand_Cache.DisposeOf;
+  FResetCashier_GetDSOverviewCommand.DisposeOf;
+  FResetCashier_GetDSOverviewCommand_Cache.DisposeOf;
   FSatuan_GetDSLookupCommand.DisposeOf;
   FSatuan_GetDSLookupCommand_Cache.DisposeOf;
   FSatuan_GetDSOverviewCommand.DisposeOf;

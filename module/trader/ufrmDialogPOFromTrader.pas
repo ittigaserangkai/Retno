@@ -36,8 +36,14 @@ type
     edTOP: TcxTextEdit;
     memDescription: TcxMemo;
     lblDesc: TLabel;
-    cxGridColGridViewColumn1: TcxGridDBColumn;
-    cxGridColGridViewColumn2: TcxGridDBColumn;
+    cxGridColPODKode: TcxGridDBColumn;
+    cxGridColPODNama: TcxGridDBColumn;
+    cxGridColPODUOM: TcxGridDBColumn;
+    cxGridColPODHarga: TcxGridDBColumn;
+    cxGridColPODQty: TcxGridDBColumn;
+    cxGridColPODDisc: TcxGridDBColumn;
+    cxGridColPODPPN: TcxGridDBColumn;
+    cxGridColPODTotal: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
   public

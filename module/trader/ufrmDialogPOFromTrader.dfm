@@ -6,6 +6,7 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
   ClientWidth = 774
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  ExplicitTop = -158
   ExplicitWidth = 790
   ExplicitHeight = 537
   PixelsPerInch = 96
@@ -21,13 +22,46 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       Height = 320
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 137
+      ExplicitLeft = 4
+      ExplicitTop = 121
       ExplicitWidth = 770
-      ExplicitHeight = 244
+      ExplicitHeight = 320
       inherited cxGridView: TcxGridDBTableView
-        object cxGridColGridViewColumn1: TcxGridDBColumn
+        object cxGridColPODKode: TcxGridDBColumn
+          Caption = 'Kode'
+          HeaderAlignmentHorz = taCenter
+          Width = 91
         end
-        object cxGridColGridViewColumn2: TcxGridDBColumn
+        object cxGridColPODNama: TcxGridDBColumn
+          Caption = 'Nama'
+          HeaderAlignmentHorz = taCenter
+          Width = 209
+        end
+        object cxGridColPODUOM: TcxGridDBColumn
+          Caption = 'UOM'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColPODHarga: TcxGridDBColumn
+          Caption = 'Harga'
+          HeaderAlignmentHorz = taCenter
+          Width = 88
+        end
+        object cxGridColPODQty: TcxGridDBColumn
+          Caption = 'Qty'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColPODDisc: TcxGridDBColumn
+          Caption = 'Disc'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColPODPPN: TcxGridDBColumn
+          Caption = 'PPN'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColPODTotal: TcxGridDBColumn
+          Caption = 'Total'
+          HeaderAlignmentHorz = taCenter
+          Width = 131
         end
       end
       inherited cxlvMaster: TcxGridLevel

@@ -60,7 +60,6 @@ type
   private
     FPOTITEM_BARANG: TModBarang;
     FPOTITEM_COGS: Double;
-    FPOTITEM_COST: Double;
     FPOTITEM_DISC: Double;
     FPOTITEM_DISCRP: Double;
     FPOTITEM_NETSALE: Double;
@@ -75,7 +74,6 @@ type
     property POTITEM_BARANG: TModBarang read FPOTITEM_BARANG write
         FPOTITEM_BARANG;
     property POTITEM_COGS: Double read FPOTITEM_COGS write FPOTITEM_COGS;
-    property POTITEM_COST: Double read FPOTITEM_COST write FPOTITEM_COST;
     property POTITEM_DISC: Double read FPOTITEM_DISC write FPOTITEM_DISC;
     property POTITEM_DISCRP: Double read FPOTITEM_DISCRP write FPOTITEM_DISCRP;
     property POTITEM_NETSALE: Double read FPOTITEM_NETSALE write
