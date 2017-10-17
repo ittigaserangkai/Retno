@@ -14,25 +14,25 @@ inherited frmKuponBotol: TfrmKuponBotol
     Width = 709
     Height = 158
     ExplicitTop = 147
-    ExplicitWidth = 747
-    ExplicitHeight = 200
+    ExplicitWidth = 709
+    ExplicitHeight = 158
     inherited pgcBrowse: TcxPageControl
       Width = 707
       Height = 156
-      ExplicitWidth = 745
-      ExplicitHeight = 198
+      ExplicitWidth = 707
+      ExplicitHeight = 156
       ClientRectBottom = 155
       ClientRectRight = 706
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 743
-        ExplicitHeight = 196
+        ExplicitWidth = 705
+        ExplicitHeight = 154
         inherited cxGrid: TcxGrid
           Width = 705
           Height = 154
-          ExplicitWidth = 743
-          ExplicitHeight = 196
+          ExplicitWidth = 705
+          ExplicitHeight = 154
           object cxGridViewDetail: TcxGridTableView [1]
             Navigator.Buttons.CustomButtons = <>
             DataController.Summary.DefaultGroupSummaryItems = <
@@ -46,12 +46,28 @@ inherited frmKuponBotol: TfrmKuponBotol
                 Format = ',0.00;(,0.00)'
                 Kind = skSum
                 Column = colTotal
+              end
+              item
+                Format = ',0.##;(,0.##)'
+                Kind = skSum
+                Position = spFooter
+                Column = colQty
+              end
+              item
+                Format = ',0.##;(,0.##)'
+                Kind = skSum
+                Column = colQty
               end>
             DataController.Summary.FooterSummaryItems = <
               item
                 Format = ',0.00;(,0.00)'
                 Kind = skSum
                 Column = colTotal
+              end
+              item
+                Format = ',0.##;(,0.##)'
+                Kind = skSum
+                Column = colQty
               end>
             DataController.Summary.SummaryGroups = <>
             OptionsView.Footer = True
@@ -87,6 +103,7 @@ inherited frmKuponBotol: TfrmKuponBotol
               Properties.DisplayFormat = ',0.##;(,0.##)'
               Properties.ReadOnly = True
               Properties.SpinButtons.Visible = False
+              FooterAlignmentHorz = taRightJustify
               HeaderAlignmentHorz = taCenter
               Styles.Header = DMClient.cxStyleGridHeader
               Width = 40
@@ -131,6 +148,7 @@ inherited frmKuponBotol: TfrmKuponBotol
               Properties.DisplayFormat = ',0.00;(,0.00)'
               Properties.ReadOnly = True
               Properties.SpinButtons.Visible = False
+              FooterAlignmentHorz = taRightJustify
               HeaderAlignmentHorz = taCenter
               Styles.Header = DMClient.cxStyleGridHeader
               Width = 51
@@ -145,40 +163,40 @@ inherited frmKuponBotol: TfrmKuponBotol
   end
   inherited pnlHeader: TPanel
     Width = 709
-    ExplicitWidth = 747
+    ExplicitWidth = 709
     inherited lblFilterData: TcxLabel
       Left = 355
-      ExplicitLeft = 393
+      ExplicitLeft = 355
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 416
-      ExplicitLeft = 454
+      ExplicitLeft = 416
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 532
-      ExplicitLeft = 570
+      ExplicitLeft = 532
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 627
-      ExplicitLeft = 665
+      ExplicitLeft = 627
     end
     inherited lblsdFilter: TcxLabel
       Left = 508
-      ExplicitLeft = 546
+      ExplicitLeft = 508
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 305
     Width = 709
-    ExplicitTop = -56
-    ExplicitWidth = 747
+    ExplicitTop = 305
+    ExplicitWidth = 709
     inherited pnlFooter: TPanel
       Width = 709
-      ExplicitWidth = 747
+      ExplicitWidth = 709
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -191,7 +209,7 @@ inherited frmKuponBotol: TfrmKuponBotol
       inherited btnClose: TcxButton
         Left = 632
         Action = actClose
-        ExplicitLeft = 670
+        ExplicitLeft = 632
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -199,11 +217,11 @@ inherited frmKuponBotol: TfrmKuponBotol
     end
     inherited pnlShortCut: TPanel
       Width = 709
-      ExplicitWidth = 747
+      ExplicitWidth = 709
       inherited lbEscape: TLabel
         Left = 635
         Height = 17
-        ExplicitLeft = 673
+        ExplicitLeft = 635
       end
     end
   end
@@ -215,46 +233,50 @@ inherited frmKuponBotol: TfrmKuponBotol
     Align = alTop
     BevelOuter = bvLowered
     TabOrder = 3
-    ExplicitLeft = -8
-    ExplicitTop = 35
-    ExplicitWidth = 736
     object cxLabel1: TcxLabel
+      Tag = 2
       Left = 8
       Top = 6
       Caption = 'Date'
       Transparent = True
     end
     object cxLabel2: TcxLabel
+      Tag = 2
       Left = 8
       Top = 32
       Caption = 'Voucher No'
       Transparent = True
     end
     object cxLabel3: TcxLabel
+      Tag = 2
       Left = 8
       Top = 58
       Caption = 'Member Code'
       Transparent = True
     end
     object cxLabel4: TcxLabel
+      Tag = 2
       Left = 8
       Top = 84
       Caption = 'member name'
       Transparent = True
     end
     object cxLabel5: TcxLabel
+      Tag = 2
       Left = 356
       Top = 6
       Caption = 'POS Trans. No'
       Transparent = True
     end
     object cxLabel6: TcxLabel
+      Tag = 2
       Left = 356
       Top = 32
       Caption = 'Status'
       Transparent = True
     end
     object cxLabel7: TcxLabel
+      Tag = 2
       Left = 356
       Top = 58
       Caption = 'Description'
@@ -324,6 +346,7 @@ inherited frmKuponBotol: TfrmKuponBotol
       Width = 265
     end
     object cxLabel8: TcxLabel
+      Tag = 2
       Left = 359
       Top = 83
       Caption = 'Total Price'
@@ -359,6 +382,9 @@ inherited frmKuponBotol: TfrmKuponBotol
     Top = 40
     inherited actAdd: TAction
       OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
     inherited actPrint: TAction
       OnExecute = actPrintExecute

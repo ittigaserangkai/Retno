@@ -21,14 +21,11 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    FDSClient: TDSProviderClient;
     FModKompetitor: TModKompetitor;
     procedure ClearForm;
-    function GetDSClient: TDSProviderClient;
     function GetModKompetitor: TModKompetitor;
     function IsValidate: Boolean;
     procedure SavingData;
-    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
     property ModKompetitor: TModKompetitor read GetModKompetitor write
         FModKompetitor;
   public
@@ -50,9 +47,14 @@ begin
   inherited;
   if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
   begin
-    DMClient.CrudClient.DeleteFromDB(ModKompetitor);
-    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
-    Self.Close;
+    try
+      DMClient.CrudClient.DeleteFromDB(ModKompetitor);
+      TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+      ModalResult := mrOk;
+    except
+      TAppUtils.Error(ER_DELETE_FAILED);
+      raise;
+    end;
   end;
 end;
 
@@ -80,13 +82,6 @@ end;
 procedure TfrmDialogDaftarKompetitor.FormDestroy(Sender: TObject);
 begin
   frmDialogDaftarKompetitor := nil;
-end;
-
-function TfrmDialogDaftarKompetitor.GetDSClient: TDSProviderClient;
-begin
-  if not Assigned(FDSClient) then
-    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
-  Result := FDSClient;
 end;
 
 function TfrmDialogDaftarKompetitor.GetModKompetitor: TModKompetitor;

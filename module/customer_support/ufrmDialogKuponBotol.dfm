@@ -13,6 +13,7 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
     ExplicitWidth = 634
     ExplicitHeight = 170
     object cxLabel1: TcxLabel
+      Tag = 2
       Left = 8
       Top = 6
       Caption = 'Date'
@@ -21,12 +22,15 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
     object dtpTanggal: TcxDateEdit
       Left = 88
       Top = 5
+      Properties.ReadOnly = True
       Properties.SaveTime = False
       Properties.ShowTime = False
+      Style.Color = clInfoBk
       TabOrder = 1
       Width = 89
     end
     object cxLabel2: TcxLabel
+      Tag = 2
       Left = 8
       Top = 32
       Caption = 'Voucher No'
@@ -42,11 +46,13 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
           Kind = bkEllipsis
         end>
       Properties.ReadOnly = True
+      Properties.OnButtonClick = edtKodeMemberPropertiesButtonClick
       TabOrder = 3
       Text = '[Input Card No.]'
       Width = 137
     end
     object cxLabel3: TcxLabel
+      Tag = 2
       Left = 8
       Top = 58
       Caption = 'Member Code'
@@ -55,12 +61,13 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
     object edTransactionNo: TcxTextEdit
       Left = 88
       Top = 31
-      Properties.ReadOnly = True
+      Properties.ReadOnly = False
       Style.Color = clInfoBk
       TabOrder = 5
       Width = 137
     end
     object cxLabel4: TcxLabel
+      Tag = 2
       Left = 8
       Top = 84
       Caption = 'member name'
@@ -75,6 +82,7 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       Width = 265
     end
     object cxLabel7: TcxLabel
+      Tag = 2
       Left = 8
       Top = 110
       Caption = 'Description'
@@ -83,12 +91,13 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
     object edtKeterangan: TcxTextEdit
       Left = 88
       Top = 109
-      Properties.ReadOnly = True
+      Properties.ReadOnly = False
       Style.Color = clWindow
       TabOrder = 9
       Width = 265
     end
     object cxLabel8: TcxLabel
+      Tag = 2
       Left = 8
       Top = 136
       Caption = 'Total Price'
@@ -122,15 +131,20 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 319
     Width = 634
+    ExplicitTop = 319
+    ExplicitWidth = 634
     inherited pnlFooter: TPanel
       Width = 634
+      ExplicitWidth = 634
       inherited btnClose: TcxButton
         Left = 557
         Action = actCancel
+        ExplicitLeft = 557
       end
       inherited btnSave: TcxButton
         Left = 464
         Action = actSave
+        ExplicitLeft = 464
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -138,17 +152,21 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       inherited btnPrint: TcxButton
         Left = 387
         Action = actPrint
+        ExplicitLeft = 387
       end
     end
     inherited pnlSortCut: TPanel
       Width = 634
+      ExplicitWidth = 634
       inherited lbCTRLEnter: TLabel
         Left = 459
         Height = 15
+        ExplicitLeft = 459
       end
       inherited lbEscape: TLabel
         Left = 550
         Height = 15
+        ExplicitLeft = 550
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -156,6 +174,7 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       inherited lblCTRLP: TLabel
         Left = 383
         Height = 15
+        ExplicitLeft = 383
       end
     end
   end
@@ -167,9 +186,6 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
     Style.BorderStyle = ebsNone
     Style.Edges = [bRight, bBottom]
     TabOrder = 2
-    ExplicitLeft = -261
-    ExplicitTop = 121
-    ExplicitWidth = 885
     Height = 27
     Width = 634
     object Label29: TLabel
@@ -189,7 +205,6 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 631
       ExplicitHeight = 16
     end
     object btnDeletePrice: TcxButton
@@ -213,6 +228,7 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      OnClick = btnDeletePriceClick
     end
     object btnAddPrice: TcxButton
       AlignWithMargins = True
@@ -236,6 +252,7 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      OnClick = btnAddPriceClick
     end
   end
   object cxGrid: TcxGrid [3]
@@ -247,10 +264,6 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
     TabOrder = 3
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitLeft = -71
-    ExplicitTop = 0
-    ExplicitWidth = 705
-    ExplicitHeight = 154
     object cxGridView: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       FindPanel.DisplayMode = fpdmManual
@@ -284,20 +297,39 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
           Format = ',0.00;(,0.00)'
           Kind = skSum
           Column = colTotal
+        end
+        item
+          Format = ',0.##;(,0.##)'
+          Kind = skSum
+          Position = spFooter
+          Column = colQty
+        end
+        item
+          Format = ',0.##;(,0.##)'
+          Kind = skSum
+          Column = colQty
         end>
       DataController.Summary.FooterSummaryItems = <
         item
           Format = ',0.00;(,0.00)'
           Kind = skSum
           Column = colTotal
+        end
+        item
+          Format = ',0.##;(,0.##)'
+          Kind = skSum
+          Column = colQty
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       object colPLU: TcxGridColumn
         Caption = 'PLU'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.DropDownSizeable = True
+        Properties.ImmediatePost = True
+        Properties.OnValidate = colPLUPropertiesValidate
         HeaderAlignmentHorz = taCenter
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 37
@@ -307,14 +339,17 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
+        Styles.Content = DMClient.cxStyleInfoBK
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 98
       end
       object colUoM: TcxGridColumn
         Caption = 'UOM'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+        Properties.ImmediatePost = True
+        Properties.OnInitPopup = colUoMPropertiesInitPopup
         HeaderAlignmentHorz = taCenter
+        Styles.Content = DMClient.cxStyleInfoBK
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 40
       end
@@ -323,8 +358,11 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
-        Properties.ReadOnly = True
+        Properties.ImmediatePost = True
+        Properties.ReadOnly = False
         Properties.SpinButtons.Visible = False
+        Properties.OnValidate = colQtyPropertiesValidate
+        FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taCenter
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 40
@@ -334,9 +372,11 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Properties.ImmediatePost = True
         Properties.ReadOnly = True
         Properties.SpinButtons.Visible = False
         HeaderAlignmentHorz = taCenter
+        Styles.Content = DMClient.cxStyleInfoBK
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 73
       end
@@ -345,9 +385,11 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
+        Properties.ImmediatePost = True
         Properties.ReadOnly = True
         Properties.SpinButtons.Visible = False
         HeaderAlignmentHorz = taCenter
+        Styles.Content = DMClient.cxStyleInfoBK
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 40
       end
@@ -356,9 +398,11 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Properties.ImmediatePost = True
         Properties.ReadOnly = True
         Properties.SpinButtons.Visible = False
         HeaderAlignmentHorz = taCenter
+        Styles.Content = DMClient.cxStyleInfoBK
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 99
       end
@@ -367,15 +411,26 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Properties.ImmediatePost = True
         Properties.ReadOnly = True
         Properties.SpinButtons.Visible = False
+        FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taCenter
+        Styles.Content = DMClient.cxStyleInfoBK
         Styles.Header = DMClient.cxStyleGridHeader
         Width = 51
       end
     end
     object cxlvMaster: TcxGridLevel
       GridView = cxGridViewDetail
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
