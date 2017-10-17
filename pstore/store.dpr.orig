@@ -32,9 +32,8 @@ uses
   uModOutlet in '..\model\uModOutlet.pas',
   uModTest in '..\model\uModTest.pas',
   uModBank in '..\model\uModBank.pas',
-  uModRekening in '..\model\uModRekening.pas',
+  uModAuthUser in '..\model\uModAuthUser.pas',
   ufrmHistorySO in '..\module\so\ufrmHistorySO.pas' {frmHistorySO},
-  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
   ufrmDialogDetailSO in '..\module\so\ufrmDialogDetailSO.pas' {frmDialogDetailSO},
   ufrmSearchSO in '..\module\so\ufrmSearchSO.pas' {frmDialogSearchSO},
   ufrmMasterDialogBrowse in '..\system\ufrmMasterDialogBrowse.pas' {frmMasterDialogBrowse},
@@ -59,7 +58,6 @@ uses
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
   ufrmCrazyPriceDialog in '..\module\trader\ufrmCrazyPriceDialog.pas' {frmCrazyPriceDialog},
   ufrmPOFromTrader in '..\module\trader\ufrmPOFromTrader.pas' {ufrmPOFromTrader},
-  ufrmDialogPOFromTrader in '..\module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader},
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
@@ -109,8 +107,6 @@ uses
   ufrmDialogWastageReal in '..\module\inventory\ufrmDialogWastageReal.pas' {frmDialogWastageReal},
   ufrmReprintNP in '..\module\inventory\ufrmReprintNP.pas' {frmReprintNP},
   ufrmProductForSelling in '..\module\cashier_supv\ufrmProductForSelling.pas' {frmProductForSelling},
-  ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
-  ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
   ufrmBeginningBalancePOS in '..\module\cashier_supv\ufrmBeginningBalancePOS.pas' {frmBeginningBalancePOS},
   ufrmDialogBeginningBalancePOS in '..\module\cashier_supv\ufrmDialogBeginningBalancePOS.pas' {frmDialogBeginBalancePOS},
   ufrmMaintenancePassword in '..\module\cashier_supv\ufrmMaintenancePassword.pas' {frmMaintenancePassword},
@@ -204,15 +200,34 @@ uses
   ufrmStockProduct in '..\module\inventory\ufrmStockProduct.pas' {frmStockProduct},
   ufrmInventoryMovement in '..\module\inventory\ufrmInventoryMovement.pas' {frmInventoryMovement},
   ufrmSplash in 'ui\ufrmSplash.pas' {frmSplash},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModQuotation in '..\model\uModQuotation.pas',
   ufrmUser in '..\module\management user\ufrmUser.pas' {frmUser},
   ufrmDialogUser in '..\module\management user\ufrmDialogUser.pas' {frmDialogUser},
-<<<<<<< HEAD
-=======
   ufrmDailySalesAnalysis in '..\module\cashier_supv\ufrmDailySalesAnalysis.pas' {frmDailySalesAnalysis},
->>>>>>> eb151b32ec11a4c00ca798b7f8858f8789b307e9
-  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas';
+  uTSFastReportFunction in '..\lib\uTSFastReportFunction.pas',
+  uModShift in '..\model\uModShift.pas',
+  uModRekening in '..\model\uModRekening.pas',
+  ufrmMasterBrowse in '..\system\ufrmMasterBrowse.pas' {frmMasterBrowse},
+  uModContrabonSales in '..\model\uModContrabonSales.pas',
+  uModOrganization in '..\model\uModOrganization.pas',
+  ufrmActivatePOS in '..\module\cashier_supv\ufrmActivatePOS.pas' {frmActivatePOS},
+  ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
+  uModSetupPOS in '..\model\uModSetupPOS.pas',
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModFinalPayment in '..\model\uModFinalPayment.pas',
+  ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol},
+<<<<<<< HEAD
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  uModPOTrader in '..\model\uModPOTrader.pas',
+  ufrmDOForTrader in '..\module\trader\ufrmDOForTrader.pas' {frmDOForTrader},
+  ufrmDialogDOForTrader in '..\module\trader\ufrmDialogDOForTrader.pas' {frmDialogDOForTrader},
+  ufrmDialogPOFromTrader in '..\module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader};
+=======
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  ufrmDialogKuponBotol in '..\module\customer_support\ufrmDialogKuponBotol.pas' {frmDialogKuponBotol};
+>>>>>>> d217ec3aad6d21abc0f7cc6d930a1e27859e49d2
 
 {$R *.res}
 
@@ -223,5 +238,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogKuponBotol, frmDialogKuponBotol);
   Application.Run;
 end.

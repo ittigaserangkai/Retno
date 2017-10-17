@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement;
+  ufrmInventoryMovement, ufrmDOForTrader;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -249,6 +249,7 @@ type
     dxbrbtnFinalPayment: TdxBarButton;
     dxbrbtnResetCashier: TdxBarButton;
     dxBarButton1: TdxBarButton;
+    dxbrbtnDOForTrader: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -314,6 +315,7 @@ type
     procedure actCNReceivingExecute(Sender: TObject);
     procedure actDailySalesAnalysisExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
+    procedure actDOForTraderExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
     procedure actInvMovementExecute(Sender: TObject);
@@ -498,6 +500,11 @@ end;
 procedure TfrmMain.actDNReceivingExecute(Sender: TObject);
 begin
   frmDN := TfrmDN.Create(Application);
+end;
+
+procedure TfrmMain.actDOForTraderExecute(Sender: TObject);
+begin
+  frmDOForTrader := TfrmDOForTrader.Create(Application);
 end;
 
 procedure TfrmMain.actDSIExecute(Sender: TObject);

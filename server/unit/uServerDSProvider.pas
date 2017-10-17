@@ -156,6 +156,8 @@ type
     function UnitType_GetDSOverview: TDataSet;
     function Unit_GetDSLookUp: TDataSet;
     function Unit_GetDSOverview: TDataSet;
+    function DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -1580,6 +1582,18 @@ var
   S: string;
 begin
   S := 'SELECT * FROM V_AUT$UNIT';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_DOTRADER' +
+       ' where DOT_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) +
+       ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
