@@ -9,82 +9,87 @@ uses
 
 type
   TDMClient = class(TDataModule)
-    RestConn: TDSRestConnection;
-    imgListButton: TImageList;
     cxStyle: TcxStyleRepository;
+    cxStyleBold: TcxStyle;
     cxStyleGridEven: TcxStyle;
     cxStyleGridHeader: TcxStyle;
-    imgListIcon: TImageList;
-    cxStyleMoneyGreen: TcxStyle;
     cxStyleInfoBK: TcxStyle;
-    cxStyleSkyBlue: TcxStyle;
-    ilImage24: TImageList;
     cxStyleMaroon: TcxStyle;
-    cxStyleBold: TcxStyle;
+    cxStyleMoneyGreen: TcxStyle;
+    cxStyleSkyBlue: TcxStyle;
     cxStyleTabGrid: TcxStyle;
     cxStyleTabGridBg: TcxStyle;
+    ilImage24: TImageList;
+    imgListButton: TImageList;
+    imgListIcon: TImageList;
+    RestConn: TDSRestConnection;
     procedure DataModuleCreate(Sender: TObject);
   private
-    FCrudClient: TCrudClient;
-    FCrudDOClient: TCrudDOClient;
-    FCrudPOClient: TCrudPOClient;
-    FCrudCNClient: TCrudCNRecvClient;
     FCrudAdjFakClient: TCrudAdjFakturClient;
-    FCrudDNClient: TCrudDNRecvClient;
-    FCrudSettingAppClient: TCrudSettingAppClient;
     FCrudBankCashOutClient: TCrudBankCashOutClient;
+    FCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     FCrudClaimFakturClient: TCRUDClaimFakturClient;
+    FCrudClient: TCrudClient;
+    FCrudCNClient: TCrudCNRecvClient;
     FCrudContrabonSalesClient: TCrudContrabonSalesClient;
-    FCrudUpdatePOSClient: TCrudUpdatePOSClient;
-    FCrudSupplierClient: TCrudSupplierClient;
     FCrudCustomerInvoiceClient: TCrudCustomerInvoiceClient;
+    FCrudDNClient: TCrudDNRecvClient;
+    FCrudDOClient: TCrudDOClient;
+    FCrudKuponBotolClient: TCrudKuponBotolClient;
+    FCrudPOClient: TCrudPOClient;
+    FCrudSettingAppClient: TCrudSettingAppClient;
+    FCrudSupplierClient: TCrudSupplierClient;
+    FCrudUpdatePOSClient: TCrudUpdatePOSClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
-    function GetCrudClient: TCrudClient;
-    function GetCrudDOClient: TCrudDOClient;
-    function GetCrudPOClient: TCrudPOClient;
-    function GetCrudCNClient: TCrudCNRecvClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
-    function GetCrudDNClient: TCrudDNRecvClient;
-    function GetCrudSettingAppClient: TCrudSettingAppClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
+    function GetCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     function GetCrudClaimFakturClient: TCRUDClaimFakturClient;
+    function GetCrudClient: TCrudClient;
+    function GetCrudCNClient: TCrudCNRecvClient;
     function GetCrudContrabonSalesClient: TCrudContrabonSalesClient;
     function GetCrudCustomerInvoiceClient: TCrudCustomerInvoiceClient;
-    function GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
+    function GetCrudDNClient: TCrudDNRecvClient;
+    function GetCrudDOClient: TCrudDOClient;
+    function GetCrudKuponBotolClient: TCrudKuponBotolClient;
+    function GetCrudPOClient: TCrudPOClient;
+    function GetCrudSettingAppClient: TCrudSettingAppClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
+    function GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
-    { Private declarations }
   public
-    property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
-    property CrudDOClient: TCrudDOClient read GetCrudDOClient write FCrudDOClient;
-    property CrudPOClient: TCrudPOClient read GetCrudPOClient write FCrudPOClient;
-    property CrudCNClient: TCrudCNRecvClient read GetCrudCNClient write
-        FCrudCNClient;
     property CrudAdjFakClient: TCrudAdjFakturClient read GetCrudAdjFakClient write
         FCrudAdjFakClient;
     property CrudBankCashOutClient: TCrudBankCashOutClient read
         GetCrudBankCashOutClient write FCrudBankCashOutClient;
-    property CrudDNClient: TCrudDNRecvClient read GetCrudDNClient write
-        FCrudDNClient;
+    property CrudBarangHargaJualClient: TCrudBarangHargaJualClient read
+        GetCrudBarangHargaJualClient write FCrudBarangHargaJualClient;
     property CrudClaimFakturClient: TCRUDClaimFakturClient read
         GetCrudClaimFakturClient write FCrudClaimFakturClient;
+    property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
+    property CrudCNClient: TCrudCNRecvClient read GetCrudCNClient write
+        FCrudCNClient;
     property CrudContrabonSalesClient: TCrudContrabonSalesClient read
         GetCrudContrabonSalesClient write FCrudContrabonSalesClient;
-    property CrudUpdatePOSClient: TCrudUpdatePOSClient read GetCrudUpdatePOSClient
-        write FCrudUpdatePOSClient;
+    property CrudCustomerInvoiceClient: TCrudCustomerInvoiceClient read
+        GetCrudCustomerInvoiceClient write FCrudCustomerInvoiceClient;
+    property CrudDNClient: TCrudDNRecvClient read GetCrudDNClient write
+        FCrudDNClient;
+    property CrudDOClient: TCrudDOClient read GetCrudDOClient write FCrudDOClient;
+    property CrudKuponBotolClient: TCrudKuponBotolClient read
+        GetCrudKuponBotolClient write FCrudKuponBotolClient;
+    property CrudPOClient: TCrudPOClient read GetCrudPOClient write FCrudPOClient;
     property CrudSettingAppClient: TCrudSettingAppClient read
         GetCrudSettingAppClient write FCrudSettingAppClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
-    property CrudCustomerInvoiceClient: TCrudCustomerInvoiceClient read
-        GetCrudCustomerInvoiceClient write FCrudCustomerInvoiceClient;
+    property CrudUpdatePOSClient: TCrudUpdatePOSClient read GetCrudUpdatePOSClient
+        write FCrudUpdatePOSClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
         FDSProviderClient;
-    { Public declarations }
-  published
   end;
 
   ERestClientError = class(Exception)
@@ -149,52 +154,6 @@ begin
   RestConn.PreserveSessionID := False;
 end;
 
-function TDMClient.GetCrudClient: TCrudClient;
-begin
-  if FCrudClient <> nil then
-    FreeAndNil(FCrudClient);
-
-  FCrudClient := TCrudClient.Create(RestConn, InstanceOwner);
-  Result := FCrudClient;
-end;
-
-function TDMClient.GetCrudDOClient: TCrudDOClient;
-begin
-  if FCrudDOClient <> nil then
-    FreeAndNil(FCrudDOClient);
-
-  FCrudDOClient := TCrudDOClient.Create(DMClient.RestConn, InstanceOwner);
-  Result := FCrudDOClient;
-end;
-
-function TDMClient.GetCrudPOClient: TCrudPOClient;
-begin
-  if FCrudPOClient <> nil then
-    FreeAndNil(FCrudPOClient);
-
-  FCrudPOClient := TCrudPOClient.Create(DMClient.RestConn, InstanceOwner);
-  Result        := FCrudPOClient;
-end;
-
-function TDMClient.GetCrudSettingAppClient: TCrudSettingAppClient;
-begin
-  if FCrudSettingAppClient <> nil then
-    FreeAndNil(FCrudSettingAppClient);
-
-  FCrudSettingAppClient := TCrudSettingAppClient.Create(RestConn, InstanceOwner);
-  Result := FCrudSettingAppClient;
-end;
-
-
-function TDMClient.GetCrudCNClient: TCrudCNRecvClient;
-begin
-  if FCrudCNClient <> nil then
-    FreeAndNil(FCrudCNClient);
-
-  FCrudCNClient := TCrudCNRecvClient.Create(DMClient.RestConn, InstanceOwner);
-  Result        := FCrudCNClient;
-end;
-
 function TDMClient.GetCrudAdjFakClient: TCrudAdjFakturClient;
 begin
   if FCrudAdjFakClient <> nil then
@@ -202,15 +161,6 @@ begin
 
   FCrudAdjFakClient := TCrudAdjFakturClient.Create(DMClient.RestConn, InstanceOwner);
   Result            := FCrudAdjFakClient;
-end;
-
-function TDMClient.GetCrudDNClient: TCrudDNRecvClient;
-begin
-  if FCrudDNClient <> nil then
-    FreeAndNil(FCrudDNClient);
-
-  FCrudDNClient := TCrudDNRecvClient.Create(DMClient.RestConn, InstanceOwner);
-  Result        := FCrudDNClient;
 end;
 
 function TDMClient.GetCrudBankCashOutClient: TCrudBankCashOutClient;
@@ -222,6 +172,15 @@ begin
   Result := FCrudBankCashOutClient;
 end;
 
+function TDMClient.GetCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
+begin
+  if FCrudBarangHargaJualClient <> nil then
+    FreeAndNil(FCrudBarangHargaJualClient);
+
+  FCrudBarangHargaJualClient := TCrudBarangHargaJualClient.Create(DMClient.RestConn, InstanceOwner);
+  Result := FCrudBarangHargaJualClient;
+end;
+
 function TDMClient.GetCrudClaimFakturClient: TCRUDClaimFakturClient;
 begin
   if FCrudClaimFakturClient <> nil then
@@ -230,6 +189,24 @@ begin
   FCrudClaimFakturClient := TCRUDClaimFakturClient.Create(
     DMClient.RestConn, InstanceOwner);
   Result        := FCrudClaimFakturClient;
+end;
+
+function TDMClient.GetCrudClient: TCrudClient;
+begin
+  if FCrudClient <> nil then
+    FreeAndNil(FCrudClient);
+
+  FCrudClient := TCrudClient.Create(RestConn, InstanceOwner);
+  Result := FCrudClient;
+end;
+
+function TDMClient.GetCrudCNClient: TCrudCNRecvClient;
+begin
+  if FCrudCNClient <> nil then
+    FreeAndNil(FCrudCNClient);
+
+  FCrudCNClient := TCrudCNRecvClient.Create(DMClient.RestConn, InstanceOwner);
+  Result        := FCrudCNClient;
 end;
 
 function TDMClient.GetCrudContrabonSalesClient: TCrudContrabonSalesClient;
@@ -250,13 +227,49 @@ begin
   Result := FCrudCustomerInvoiceClient;
 end;
 
-function TDMClient.GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
+function TDMClient.GetCrudDNClient: TCrudDNRecvClient;
 begin
-  if FCrudUpdatePOSClient <> nil then
-    FreeAndNil(FCrudUpdatePOSClient);
+  if FCrudDNClient <> nil then
+    FreeAndNil(FCrudDNClient);
 
-  FCrudUpdatePOSClient := TCrudUpdatePOSClient.Create(DMClient.RestConn, InstanceOwner);
-  Result := FCrudUpdatePOSClient;
+  FCrudDNClient := TCrudDNRecvClient.Create(DMClient.RestConn, InstanceOwner);
+  Result        := FCrudDNClient;
+end;
+
+function TDMClient.GetCrudDOClient: TCrudDOClient;
+begin
+  if FCrudDOClient <> nil then
+    FreeAndNil(FCrudDOClient);
+
+  FCrudDOClient := TCrudDOClient.Create(DMClient.RestConn, InstanceOwner);
+  Result := FCrudDOClient;
+end;
+
+function TDMClient.GetCrudKuponBotolClient: TCrudKuponBotolClient;
+begin
+  if FCrudKuponBotolClient <> nil then
+    FreeAndNil(FCrudKuponBotolClient);
+
+  FCrudKuponBotolClient := TCrudKuponBotolClient.Create(DMClient.RestConn, InstanceOwner);
+  Result := FCrudKuponBotolClient;
+end;
+
+function TDMClient.GetCrudPOClient: TCrudPOClient;
+begin
+  if FCrudPOClient <> nil then
+    FreeAndNil(FCrudPOClient);
+
+  FCrudPOClient := TCrudPOClient.Create(DMClient.RestConn, InstanceOwner);
+  Result        := FCrudPOClient;
+end;
+
+function TDMClient.GetCrudSettingAppClient: TCrudSettingAppClient;
+begin
+  if FCrudSettingAppClient <> nil then
+    FreeAndNil(FCrudSettingAppClient);
+
+  FCrudSettingAppClient := TCrudSettingAppClient.Create(RestConn, InstanceOwner);
+  Result := FCrudSettingAppClient;
 end;
 
 function TDMClient.GetCrudSupplierClient: TCrudSupplierClient;
@@ -266,6 +279,15 @@ begin
 
   FCrudSupplierClient := TCrudSupplierClient.Create(RestConn, InstanceOwner);
   Result := FCrudSupplierClient;
+end;
+
+function TDMClient.GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
+begin
+  if FCrudUpdatePOSClient <> nil then
+    FreeAndNil(FCrudUpdatePOSClient);
+
+  FCrudUpdatePOSClient := TCrudUpdatePOSClient.Create(DMClient.RestConn, InstanceOwner);
+  Result := FCrudUpdatePOSClient;
 end;
 
 function TDMClient.GetDSProviderClient: TDSProviderClient;

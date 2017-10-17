@@ -43,6 +43,7 @@ type
     colSellPriceDisc: TcxGridColumn;
     colTotal: TcxGridColumn;
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -50,6 +51,7 @@ type
       AButtonIndex: Integer);
   private
     FModKuponBotol: TModTransKuponBotol;
+    procedure ClearForm;
     function GetModKuponBotol: TModTransKuponBotol;
     procedure ParseDataDetilTransaksiKuponBotol(ATransNo: string);
     property ModKuponBotol: TModTransKuponBotol read GetModKuponBotol write
@@ -64,20 +66,33 @@ var
 implementation
 
 uses
-  ufrmCXLookup, uDMClient, uDXUtils, uModelHelper, uDBUtils, uRetnoUnit;
+  ufrmCXLookup, uDMClient, uDXUtils, uModelHelper, uDBUtils, uRetnoUnit,
+  ufrmDialogKuponBotol;
 
 {$R *.dfm}
 
 procedure TfrmKuponBotol.actAddExecute(Sender: TObject);
 begin
   inherited;
-  //
+  ShowDialogForm(TfrmDialogKuponBotol, '');
+end;
+
+procedure TfrmKuponBotol.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogKuponBotol, edTransactionNo.EditValue);
 end;
 
 procedure TfrmKuponBotol.actPrintExecute(Sender: TObject);
 begin
   inherited;
   //
+end;
+
+procedure TfrmKuponBotol.ClearForm;
+begin
+  ClearByTag([0]);
+  cxGridViewDetail.ClearRows;
 end;
 
 procedure TfrmKuponBotol.FormDestroy(Sender: TObject);
@@ -115,6 +130,7 @@ begin
   inherited;
   lblHeader.Caption    := 'TRANSAKSI KUPON BOTOL';
   dtpTanggal.EditValue := Now;
+  AutoRefreshData      := True;
 end;
 
 function TfrmKuponBotol.GetModKuponBotol: TModTransKuponBotol;
@@ -138,11 +154,12 @@ begin
   FModKuponBotol := DMClient.CrudClient.RetrieveByCode(TModTransKuponBotol.ClassName, ATransNo) as TModTransKuponBotol;
   FModKuponBotol.MEMBER.Reload();
 
-  edtKodeMember.EditValue := FModKuponBotol.MEMBER.MEMBER_CARD_NO;
-  edtMemberName.EditValue := FModKuponBotol.MEMBER.MEMBER_NAME;
-  edtPOSTransNo.EditValue := FModKuponBotol.TKB_POS_TRANS_NO;
-  edtStatus.EditValue     := FModKuponBotol.TKB_STATUS;
-  edtKeterangan.EditValue := FModKuponBotol.TKB_DESCRIPTION;
+  edTransactionNo.EditValue := FModKuponBotol.TKB_NO;
+  edtKodeMember.EditValue   := FModKuponBotol.MEMBER.MEMBER_CARD_NO;
+  edtMemberName.EditValue   := FModKuponBotol.MEMBER.MEMBER_NAME;
+  edtPOSTransNo.EditValue   := FModKuponBotol.TKB_POS_TRANS_NO;
+  edtStatus.EditValue       := FModKuponBotol.TKB_STATUS;
+  edtKeterangan.EditValue   := FModKuponBotol.TKB_DESCRIPTION;
 
   cxGridViewDetail.ClearRows;
   lDC := cxGridViewDetail.DataController;
@@ -170,6 +187,7 @@ var
   lCDS: TClientDataSet;
 begin
   inherited;
+  ClearForm;
   lCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.KuponBotol_GetDSLookUp(dtpTanggal.Date, TRetno.UnitStore.ID) ,Self );
   if Assigned(lCDS) then
   begin

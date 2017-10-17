@@ -217,7 +217,9 @@ uses
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
   uModFinalPayment in '..\model\uModFinalPayment.pas',
-  ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol};
+  ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol},
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  ufrmDialogKuponBotol in '..\module\customer_support\ufrmDialogKuponBotol.pas' {frmDialogKuponBotol};
 
 {$R *.res}
 
@@ -228,5 +230,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogKuponBotol, frmDialogKuponBotol);
   Application.Run;
 end.

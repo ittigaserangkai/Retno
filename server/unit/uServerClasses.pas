@@ -6,9 +6,8 @@ uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
-  uModContrabonSales, System.DateUtils, System.JSON,uModAR,uModRekening,uModOrganization,
-  System.JSON.Builders, System.JSON.Types, System.JSON.Writers,
-  uModCustomerInvoice, uModPO;
+  uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
+  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO;
 
 type
   {$METHODINFO ON}
@@ -30,6 +29,8 @@ type
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; virtual;
     function BeforeSaveToDB(AObject: TModApp): Boolean; virtual;
     function DeleteFromDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; virtual;
     function Retrieve(ModAppClass: TModAppClass; AID: String; LoadObjectList:
         Boolean = True): TModApp; overload;
     function SaveToDBTrans(AObject: TModApp; DoCommit: Boolean): Boolean;
@@ -38,8 +39,6 @@ type
     function CreateTableSQL(AModAPP : TModApp): string; overload;
     function CreateTableSQLByClassName(AClassName : String): string; overload;
     function DeleteFromDB(AObject: TModApp): Boolean;
-    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
-        = 11): String; overload;
     function GenerateNo(aClassName: string): String; overload;
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
@@ -171,24 +170,27 @@ type
   TCrudPOTrader = class(TCrud)
   end;
 
-type
   TCrudBarangHargaJual = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
+  TCrudKuponBotol = class(TCrud)
+  protected
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; override;
+  end;
 
 {$METHODINFO OFF}
 
 const
   CloseSession : Boolean = True;
 
-
 implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
-  uModAdjustmentFaktur, Variants, REST.Json, uModBank, uJSONUtils;
+  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -302,7 +304,7 @@ begin
   lClass := Self.StringToClass(aClassName);
   lObj := lClass.Create;
   Try
-    Result := Self.GenerateCustomNo(lObj.GetTableName, lObj.GetCodeField, 11);
+    Result := GenerateCustomNo(lObj.GetTableName, lObj.GetCodeField);
   Finally
     AfterExecuteMethod;
     lObj.Free;
@@ -1458,6 +1460,34 @@ begin
   except
     raise
   end;
+end;
+
+function TCrudKuponBotol.GenerateCustomNo(aTableName, aFieldName: string;
+    aCountDigit: Integer = 11): String;
+var
+  i: Integer;
+  lNum: Integer;
+  S: string;
+begin
+  aCountDigit := 3;
+  lNum := 0;
+  S := 'select max(' + aFieldName + ') from ' + aTableName
+    + ' where dbo.DateOnly(TKB_DATE) = dbo.DateOnly(GETDATE())';
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      Free;
+    End;
+  end;
+  inc(lNum);
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := 'RB' + FormatDateTime('yyMMdd',Now) + RightStr(Result, aCountDigit);
+
+  AfterExecuteMethod;
 end;
 
 end.

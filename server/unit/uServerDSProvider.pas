@@ -26,6 +26,7 @@ type
         TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
+    function BarangGalon_GetDSLookup: TDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: String): TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
@@ -77,6 +78,7 @@ type
     function MataUang_GetDSOverview: TDataSet;
     function MemberActivasi_GetDSOverview: TDataSet;
     function MemberKeluarga_GetDSOverview: TDataSet;
+    function Member_GetDSLookUp: TDataSet;
     function Member_GetDSOverview: TDataSet;
     function MerchandiseGroup_GetDSLookup: TDataSet;
     function Merchandise_GetDSLookup: TDataSet;
@@ -328,6 +330,14 @@ var
 begin
   S := 'SELECT * FROM V_BANK order by bank_code';
 
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.BarangGalon_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT  * FROM V_BARANG_GALON';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -828,6 +838,16 @@ var
   S: string;
 begin
   S := 'select * from MEMBER_KELUARGA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Member_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select MEMBER_ID, MEMBER_CARD_NO AS NOMOR_KARTU, '
+    + ' MEMBER_KTP_NO AS NO_IDENTITAS, MEMBER_NAME AS NAMA, MEMBER_ADDRESS'
+    +' FROM MEMBER ';
   Result := TDBUtils.OpenQuery(S);
 end;
 

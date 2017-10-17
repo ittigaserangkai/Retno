@@ -38,15 +38,12 @@ type
     dataUser,dataSetupPos: TDataSet;
     FCDSSetupPOS: TClientDataSet;
     FCDSUser: TClientDataSet;
-    FDSClient: TDSProviderClient;
     procedure ClearForm;
-    function GetDSClient: TDSProviderClient;
     procedure InitLookUp;
     function IsValidate: Boolean;
     procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer; aTgl :
         TDateTime);
     procedure SavingData;
-    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
   public
     Balance_ID: Integer;
     Balance_Shift_ID: Integer;
@@ -87,9 +84,14 @@ begin
   inherited;
   if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
   begin
-    DMClient.CrudClient.DeleteFromDB(ModBalance);
-    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
-    Self.Close;
+    try
+      DMClient.CrudClient.DeleteFromDB(ModBalance);
+      TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+      ModalResult := mrOk;
+    except
+      TAppUtils.Error(ER_DELETE_FAILED);
+      raise;
+    end;
   end;
   {
   if (strgGrid.Cells[_kolBegBal_ID,strgGrid.Row] = '0') or (strgGrid.Cells[_kolPosCode,strgGrid.Row] = '') then Exit;
@@ -374,13 +376,6 @@ procedure TfrmDialogBeginBalancePOS.curredtBeginBalanceEnter(
 begin
   inherited;
   curredtBeginBalance.SelectAll;
-end;
-
-function TfrmDialogBeginBalancePOS.GetDSClient: TDSProviderClient;
-begin
-  if not Assigned(FDSClient) then
-    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
-  Result := FDSClient;
 end;
 
 function TfrmDialogBeginBalancePOS.GetModBalance: TModBeginningBalance;
