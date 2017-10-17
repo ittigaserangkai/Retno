@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="43025.6111252894" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="IBQ1"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="281.939817913868" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="0" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="187" Width="1046.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="IBQ1" RowCount="0">
+      <TfrxDMPMemoView Name="DMPMemo3" Left="182.4" Top="0" Width="460.8" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;BRG_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="67.2" Top="0" Width="105.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;BRG_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="652.8" Top="0" Width="57.6" Height="17" DisplayFormat.FormatStr="%g" DisplayFormat.Kind="fkNumeric" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;TKBD_QTY&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="720" Top="0" Width="57.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;SAT_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="796.8" Top="0" Width="115.2" Height="17" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;TKBD_SELL_PRICE_DISC&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="921.6" Top="0" Width="115.2" Height="17" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;TKBD_TOTAL_SELL_PRICE_DISC&#34;]">
+        <Formats>
+          <item FormatStr="%2.2n" Kind="fkNumeric"/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="9.6" Top="0" Width="48" Height="17" OnBeforePrint="DMPMemo5OnBeforePrint" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="[Line]"/>
+    </TfrxMasterData>
+    <TfrxGroupHeader Name="GroupHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="153" Left="0" ParentFont="False" Top="17" Width="1046.4" Condition="IBQ1.&#34;TKB_NO&#34;" ReprintOnNewPage="True" ResetPageNumbers="True" StartNewPage="True">
+      <TfrxDMPMemoView Name="Memo3" Left="9.6" Top="0" Width="336" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="PT. ASSALAAM NIAGA UTAMA - MG SOLO"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="9.6" Top="102" Width="1027.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="================================================================================================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="9.6" Top="17" Width="1027.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" HAlign="haCenter" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="&#62;&#62;&#62;  KUPON BOTOL  &#60;&#60;&#60;"/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="182.4" Top="119" Width="460.8" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="NAMA BARANG"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="67.2" Top="119" Width="105.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="PLU"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="652.8" Top="119" Width="57.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="QTY"/>
+      <TfrxDMPMemoView Name="DMPMemo11" Left="720" Top="119" Width="57.6" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="SATUAN"/>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="796.8" Top="119" Width="115.2" Height="17" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="HARGA SATUAN"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="921.6" Top="119" Width="115.2" Height="17" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="TOTAL NILAI"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="9.6" Top="51" Width="153.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="NO. TRANSAKSI"/>
+      <TfrxDMPMemoView Name="DMPMemo24" Left="9.6" Top="119" Width="48" Height="17" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="NO"/>
+      <TfrxDMPMemoView Name="DMPMemo26" Left="9.6" Top="136" Width="1027.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo27" Left="9.6" Top="34" Width="153.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="TANGGAL"/>
+      <TfrxDMPMemoView Name="DMPMemo28" Left="172.8" Top="34" Width="470.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text=": [IBQ1.&#34;TKB_NO&#34;]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo33" Left="9.6" Top="68" Width="153.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="NO. ANGGOTA"/>
+      <TfrxDMPMemoView Name="DMPMemo35" Left="9.6" Top="85" Width="153.6" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="NAMA PERUSAHAAN"/>
+      <TfrxDMPMemoView Name="DMPMemo29" Left="172.8" Top="51" Width="470.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" DisplayFormat.FormatStr="dd mmm yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text=": [IBQ1.&#34;TKB_DATE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo36" Left="172.8" Top="68" Width="470.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text=": [IBQ1.&#34;MEMBER_CARD_NO&#34;] [IBQ1.&#34;MEMBER_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo37" Left="172.8" Top="85" Width="470.4" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="0" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text=": [IBQ1.&#34;GROMEMBER_NAME&#34;]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="187" Left="0" Top="221" Width="1046.4">
+      <TfrxDMPMemoView Name="DMPMemo16" Left="9.6" Top="51" Width="768" Height="51" Frame.Style="fsDash" TruncOutboundText="False" Text="KETERANGAN :  - KUPON INI HANYA BERLAKU PADA TANGGAL [IBQ1.&#34;TKB_DATE&#34;]&#13;&#10;              - KUPON INI TIDAK DAPAT DIUANGKAN&#13;&#10;              - KUPON INI TIDAK DAPAT DITUKARKAN DENGAN BARANG LAIN"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="9.6" Top="17" Width="739.2" Height="34" Frame.Style="fsDash" TruncOutboundText="False" Text="TERBILANG : [Num2Let(&#60;IBQ1.&#34;TKB_SELL_PRICE_DISC&#34;&#62;,0)] RUPIAH"/>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="758.4" Top="17" Width="153.6" Height="17" Frame.Style="fsDash" TruncOutboundText="False" Text="GRAND TOTAL &#62;&#62;&#62;"/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="86.4" Top="119" Width="220.8" Height="68" Frame.Style="fsDash" HAlign="haCenter" TruncOutboundText="False" Text="Yang Menyetujui&#13;&#10;&#13;&#10;&#13;&#10;(..................)"/>
+      <TfrxDMPMemoView Name="DMPMemo20" Left="720" Top="119" Width="220.8" Height="68" Frame.Style="fsDash" HAlign="haCenter" TruncOutboundText="False" Text="Yang Menyerahkan&#13;&#10;&#13;&#10;&#13;&#10;(..................)"/>
+      <TfrxDMPMemoView Name="DMPMemo21" Left="9.6" Top="0" Width="1027.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo22" Left="921.6" Top="17" Width="115.2" Height="17" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" FontStyle="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[IBQ1.&#34;TKB_SELL_PRICE_DISC&#34;]"/>
+    </TfrxGroupFooter>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="442" Width="1046.4">
+      <TfrxDMPMemoView Name="DMPMemo56" Left="796.8" Top="17" Width="240" Height="17" DataSet="IBQ1" DataSetName="IBQ1" Frame.Style="fsDash" HAlign="haRight" TruncOutboundText="False" Text="Hal [Page#] Dari [TotalPages#]"/>
+      <TfrxDMPMemoView Name="DMPMemo58" Left="9.6" Top="17" Width="288" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo38" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo39" Left="9.6" Top="0" Width="1027.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="------------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+    </TfrxPageFooter>
+  </TfrxDMPPage>
+</TfrxReport>
