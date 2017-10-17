@@ -58,7 +58,6 @@ uses
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
   ufrmCrazyPriceDialog in '..\module\trader\ufrmCrazyPriceDialog.pas' {frmCrazyPriceDialog},
   ufrmPOFromTrader in '..\module\trader\ufrmPOFromTrader.pas' {ufrmPOFromTrader},
-  ufrmDialogPOFromTrader in '..\module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader},
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
@@ -217,7 +216,13 @@ uses
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
   uModFinalPayment in '..\model\uModFinalPayment.pas',
-  ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol};
+  ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol},
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  uModPOTrader in '..\model\uModPOTrader.pas',
+  ufrmDOForTrader in '..\module\trader\ufrmDOForTrader.pas' {frmDOForTrader},
+  ufrmDialogDOForTrader in '..\module\trader\ufrmDialogDOForTrader.pas' {frmDialogDOForTrader},
+  ufrmDialogPOFromTrader in '..\module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader};
 
 {$R *.res}
 

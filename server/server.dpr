@@ -68,10 +68,10 @@ uses
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   uModCustomerInvoice in '..\model\uModCustomerInvoice.pas',
   uModAR in '..\model\uModAR.pas',
-  uModDOTrader in '..\model\uModDOTrader.pas',
   uJSONUtils in '..\lib\uJSONUtils.pas',
   uModPOTrader in '..\model\uModPOTrader.pas',
-  uModFinalPayment in '..\model\uModFinalPayment.pas';
+  uModFinalPayment in '..\model\uModFinalPayment.pas',
+  uModDOTrader in '..\model\uModDOTrader.pas';
 
 {$R *.res}
 

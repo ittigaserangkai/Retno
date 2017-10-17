@@ -84,7 +84,6 @@ object frmMain: TfrmMain
     TabOrder = 5
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
-      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
+      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -573,6 +573,7 @@ object frmMain: TfrmMain
     object actDOForTrader: TAction
       Category = 'Trader'
       Caption = 'actDOForTrader'
+      OnExecute = actDOForTraderExecute
     end
     object actDailySalesReport: TAction
       Category = 'SupvCashier'
@@ -1183,6 +1184,10 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
+          ItemName = 'dxbrbtnDOForTrader'
+        end
+        item
+          Visible = True
           ItemName = 'dxbrbtnReturTrader'
         end>
       OneOnRow = True
@@ -1426,6 +1431,13 @@ object frmMain: TfrmMain
     object dxBarButton1: TdxBarButton
       Action = actVoucherBotol
       Category = 0
+    end
+    object dxbrbtnDOForTrader: TdxBarButton
+      Action = actDOForTrader
+      Caption = 'DO For Trader'
+      Category = 0
+      ImageIndex = 58
+      PaintStyle = psCaptionGlyph
     end
   end
 end
