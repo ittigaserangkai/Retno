@@ -13,7 +13,22 @@ uses
   dxCore, cxDateUtils, cxMemo, cxMaskEdit, cxDropDownEdit, cxCalendar,
   uModJurnal, uAppUtils,
   uConstanta, uDXUtils, cxDBExtLookupComboBox, cxCalc, Datasnap.DBClient,
-  uDBUtils, uModRekening, uModCostCenter, uInterface;
+  uDBUtils, uModRekening, uModCostCenter, uInterface, dxSkinsCore, dxSkinBlack,
+  dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
+  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
+  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
+  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
+  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter;
 
 type
   TfrmDialogJurnal = class(TfrmMasterDialog, ICRUDAble)
@@ -35,6 +50,7 @@ type
     memDesc: TcxMemo;
     edReference: TcxTextEdit;
     edNo: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure cxGridColJurKodePropertiesEditValueChanged(Sender: TObject);
@@ -42,6 +58,7 @@ type
     FCDSAccount: TClientDataSet;
     FModJurnal: TModJurnal;
     FCDSCostCenter: TClientDataSet;
+    procedure DeleteData;
     function GetModJurnal: TModJurnal;
     procedure initView;
     procedure SimpanData;
@@ -65,6 +82,12 @@ uses
   uModelHelper;
 
 {$R *.dfm}
+
+procedure TfrmDialogJurnal.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if TAppUtils.Confirm('Anda Yakin Menghapus Data') then DeleteData;
+end;
 
 procedure TfrmDialogJurnal.cxGridColJurKodePropertiesEditValueChanged(
   Sender: TObject);
@@ -96,6 +119,27 @@ begin
   if not ValidateData then exit;
   UpdateData;
   SimpanData;
+end;
+
+procedure TfrmDialogJurnal.DeleteData;
+begin
+  if not Assigned(ModJurnal) then
+    Raise Exception.Create('Data not Loaded');
+
+  if ModJurnal.ID = '' then
+  begin
+    TAppUtils.Error('Tidak ada data yang dihapus');
+    exit;
+  end;
+
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModJurnal);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
 end;
 
 function TfrmDialogJurnal.GetModJurnal: TModJurnal;

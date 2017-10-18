@@ -173,6 +173,7 @@ type
     function DSA_GetDSPrint(aStartDate, aEndDate: TDatetime; aGroupField: string):
         TFDJSONDataSets;
     function DSR_GetDS(aStartDate, aEndDate: TDatetime): TFDJSONDataSets;
+    function KuponBotol_GetDS_Slip(ANomor: string): TFDJSONDataSets;
     function HistoryAP(ANoAP : String): TFDJSONDataSets;
     function InvMovement_GetDS(aStartDate, aEndDate: TDatetime; aGroup_ID,
         aSupplier_ID, aGudang_ID: String): TDataSet;
@@ -1744,6 +1745,18 @@ begin
   S := 'SELECT * '
       +' FROM FN_DAILY_SALES_REPORT('+ TDBUtils.QuotD(aStartDate)
       +' ,' + TDBUtils.QuotD(aEndDate) + ') ';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.KuponBotol_GetDS_Slip(ANomor: string): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_KUPONBOTOL_SLIP '
+     + ' WHERE TKB_NO = ' + TDBUtils.Quot(ANomor);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;

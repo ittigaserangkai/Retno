@@ -67,7 +67,7 @@ implementation
 
 uses
   ufrmCXLookup, uDMClient, uDXUtils, uModelHelper, uDBUtils, uRetnoUnit,
-  ufrmDialogKuponBotol;
+  ufrmDialogKuponBotol, udmReport;
 
 {$R *.dfm}
 
@@ -86,7 +86,11 @@ end;
 procedure TfrmKuponBotol.actPrintExecute(Sender: TObject);
 begin
   inherited;
-  //
+  with DMReport do
+  begin
+    AddReportVariable('UserCetak', 'USER');
+    ExecuteReport('Reports\KuponBotol_Slip', ReportClient.KuponBotol_GetDS_Slip(edTransactionNo.EditValue),[]);
+  end;
 end;
 
 procedure TfrmKuponBotol.ClearForm;

@@ -193,14 +193,20 @@ inherited frmDialogJurnal: TfrmDialogJurnal
       ExplicitWidth = 851
       inherited lbCTRLEnter: TLabel
         Left = 676
+        Height = 15
         ExplicitLeft = 676
       end
       inherited lbEscape: TLabel
         Left = 767
+        Height = 15
         ExplicitLeft = 767
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 600
+        Height = 15
         ExplicitLeft = 600
       end
     end
@@ -208,6 +214,9 @@ inherited frmDialogJurnal: TfrmDialogJurnal
   inherited actlstMasterDialog: TActionList
     Left = 520
     Top = 264
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end
