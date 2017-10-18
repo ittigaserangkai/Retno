@@ -9,6 +9,8 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
   inherited pnlBody: TPanel
     Width = 786
     Height = 380
+    ExplicitWidth = 786
+    ExplicitHeight = 380
     object pnl1: TPanel
       Left = 2
       Top = 2
@@ -21,7 +23,6 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 0
-      ExplicitWidth = 770
       object lblPONo: TLabel
         Left = 30
         Top = 8
@@ -125,6 +126,7 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
           end>
         Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
+        Properties.OnButtonClick = edOrganizationPropertiesButtonClick
         TabOrder = 2
         Width = 146
       end
@@ -212,8 +214,6 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitWidth = 770
-      ExplicitHeight = 320
       object cxGridDBTablePOTrader: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -270,15 +270,20 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 380
     Width = 786
+    ExplicitTop = 380
+    ExplicitWidth = 786
     inherited pnlFooter: TPanel
       Width = 786
+      ExplicitWidth = 786
       inherited btnClose: TcxButton
         Left = 709
         Action = actCancel
+        ExplicitLeft = 709
       end
       inherited btnSave: TcxButton
         Left = 616
         Action = actSave
+        ExplicitLeft = 616
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -286,17 +291,21 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       inherited btnPrint: TcxButton
         Left = 539
         Action = actPrint
+        ExplicitLeft = 539
       end
     end
     inherited pnlSortCut: TPanel
       Width = 786
+      ExplicitWidth = 786
       inherited lbCTRLEnter: TLabel
         Left = 611
         Height = 15
+        ExplicitLeft = 611
       end
       inherited lbEscape: TLabel
         Left = 702
         Height = 15
+        ExplicitLeft = 702
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -304,6 +313,7 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       inherited lblCTRLP: TLabel
         Left = 535
         Height = 15
+        ExplicitLeft = 535
       end
     end
   end

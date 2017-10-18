@@ -14,7 +14,6 @@ uses
   cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView, cxGrid, cxPC;
 
 type
-  TStatusForm = (frNew, frEdit);
   TfrmPemakaianBarcode = class(TfrmMasterBrowse)
     pnlTop: TPanel;
     lbl1: TLabel;
