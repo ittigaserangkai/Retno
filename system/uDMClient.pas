@@ -186,8 +186,7 @@ begin
   if FCrudClaimFakturClient <> nil then
     FreeAndNil(FCrudClaimFakturClient);
 
-  FCrudClaimFakturClient := TCRUDClaimFakturClient.Create(
-    DMClient.RestConn, InstanceOwner);
+  FCrudClaimFakturClient := TCRUDClaimFakturClient.Create(DMClient.RestConn,InstanceOwner);
   Result        := FCrudClaimFakturClient;
 end;
 
