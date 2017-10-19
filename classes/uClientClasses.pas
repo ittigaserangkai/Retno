@@ -82,7 +82,7 @@ type
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
-    procedure AfterExecuteMethod;
+    procedure AfterExecuteMethod;     //
   end;
 
   TDSProviderClient = class(TDSAdminRestClient)
