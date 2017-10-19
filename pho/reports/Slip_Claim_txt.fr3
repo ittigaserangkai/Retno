@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="43027.5882002431" ScriptLanguage="PascalScript" ScriptText.Text="procedure DMPMemo20OnAfterPrint(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10; // if (&#60;Line#&#62; mod 5 = 0) then&#13;&#10; //      engine.newpage;      &#13;&#10;end;&#13;&#10;&#13;&#10;procedure MasterData1OnBeforePrint(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10;                                               &#13;&#10;end;&#13;&#10;&#13;&#10;procedure Page1OnAfterPrint(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10;&#13;&#10;end;&#13;&#10;&#13;&#10;begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="IBQ1"/>
+    <item DataSet="IBQ2" DataSetName="IBQ2"/>
+    <item DataSet="IBQ3" DataSetName="IBQ3"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="253.999835958439" PaperHeight="152.929067899977" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" OnAfterPrint="Page1OnAfterPrint" FontStyle="0">
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="102" Left="0" ParentFont="False" Top="595" Width="940.8">
+      <TfrxDMPMemoView Name="DMPMemo58" Left="9.6" Top="17" Width="288" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo38" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo39" Left="9.6" Top="0" Width="1555.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="------------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="720" Top="17" Width="211.2" Height="17" DataSet="IBQ1" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Halaman :[Page] dari [TotalPages#]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+    </TfrxPageFooter>
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="272" Width="940.8" OnBeforePrint="MasterData1OnBeforePrint" ColumnWidth="0" ColumnGap="0" DataSet="IBQ2" DataSetName="IBQ2" RowCount="0">
+      <TfrxDMPMemoView Name="IBQ2DO_NO" Left="67.2" Top="0" Width="144" Height="17" DataSet="IBQ2" DataSetName="IBQ2" Frame.Typ="1" TruncOutboundText="False" Text=" [IBQ1.&#34;CLM_NO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="220.8" Top="0" Width="172.8" Height="17" Frame.Typ="1" TruncOutboundText="False" Text=" [IBQ2.&#34;DO_NP&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="720" Top="0" Width="201.6" Height="17" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" Frame.Typ="3" HAlign="haRight" TruncOutboundText="False" Text="[IBQ2.&#34;DO_TOTAL&#34;] "/>
+      <TfrxDMPMemoView Name="DMPMemo20" Left="28.8" Top="0" Width="38.4" Height="17" OnAfterPrint="DMPMemo20OnAfterPrint" Frame.Typ="1" TruncOutboundText="False" Text=" [Line#]"/>
+      <TfrxDMPMemoView Name="DMPMemo21" Left="345.6" Top="0" Width="278.4" Height="17" Frame.Typ="1" TruncOutboundText="False" Text=" [IBQ2.&#34;DO_NO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo22" Left="604.8" Top="0" Width="105.6" Height="17" DisplayFormat.FormatStr="dd/mm/yy" DisplayFormat.Kind="fkDateTime" Frame.Typ="1" HAlign="haCenter" TruncOutboundText="False" Text="[IBQ2.&#34;DO_DATE&#34;]"/>
+    </TfrxMasterData>
+    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="255" Left="0" Top="323" Width="940.8">
+      <TfrxDMPMemoView Name="DMPMemo26" Left="720" Top="17" Width="201.6" Height="17" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" Frame.Typ="3" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;IBQ2.&#34;DO_TOTAL&#34;&#62;,MasterData1)]"/>
+      <TfrxDMPMemoView Name="DMPMemo27" Left="556.8" Top="17" Width="134.4" Height="17" HAlign="haRight" TruncOutboundText="False" Text="T O T A L"/>
+      <TfrxDMPMemoView Name="DMPMemo28" Left="28.8" Top="136" Width="892.8" Height="17" Frame.Typ="3" TruncOutboundText="False" Text="----------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo29" Left="28.8" Top="51" Width="182.4" Height="17" Frame.Typ="3" HAlign="haCenter" TruncOutboundText="False" Text="DITERIMA"/>
+      <TfrxDMPMemoView Name="DMPMemo30" Left="28.8" Top="85" Width="182.4" Height="17" Frame.Typ="3" HAlign="haCenter" TruncOutboundText="False" Text="(            )"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="28.8" Top="119" Width="182.4" Height="17" Frame.Typ="3" TruncOutboundText="False" Text=" Tgl :"/>
+      <TfrxDMPMemoView Name="DMPMemo32" Left="230.4" Top="51" Width="144" Height="17" TruncOutboundText="False" Text="CATATAN:"/>
+      <TfrxDMPMemoView Name="DMPMemo33" Left="76.8" Top="51" Width="633.6" Height="85" Frame.Typ="2" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo35" Left="720" Top="51" Width="201.6" Height="51" Frame.Typ="2" HAlign="haCenter" TruncOutboundText="False" Text="TANDA TERIMA"/>
+      <TfrxDMPMemoView Name="DMPMemo36" Left="720" Top="119" Width="201.6" Height="17" Frame.Typ="2" HAlign="haCenter" TruncOutboundText="False" Text="( SUPPLIER  )"/>
+      <TfrxDMPMemoView Name="DMPMemo37" Left="19.2" Top="170" Width="144" Height="34" TruncOutboundText="False" Text="1. SUPPLIER&#13;&#10;2. ARSIP"/>
+      <TfrxDMPMemoView Name="DMPMemo24" Left="28.8" Top="34" Width="892.8" Height="17" Frame.Typ="3" TruncOutboundText="False" Text="----------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo23" Left="28.8" Top="0" Width="892.8" Height="17" Frame.Typ="3" TruncOutboundText="False" Text="----------------------------------------------------------------------------------------------"/>
+    </TfrxReportSummary>
+    <TfrxPageHeader Name="PageHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="221" Left="0" Top="17" Width="940.8">
+      <TfrxDMPMemoView Name="DMPMemo40" Left="67.2" Top="187" Width="134.4" Height="17" Frame.Typ="1" HAlign="haCenter" TruncOutboundText="False" Text="NO. CLAIM"/>
+      <TfrxDMPMemoView Name="DMPMemo41" Left="220.8" Top="187" Width="115.2" Height="17" Frame.Typ="1" HAlign="haCenter" TruncOutboundText="False" Text="NOMOR NP#"/>
+      <TfrxDMPMemoView Name="DMPMemo42" Left="720" Top="187" Width="201.6" Height="17" Frame.Typ="3" HAlign="haCenter" TruncOutboundText="False" Text="JUMLAH (RP)"/>
+      <TfrxDMPMemoView Name="DMPMemo43" Left="19.2" Top="170" Width="1200" Height="17" TruncOutboundText="False" Text="==============================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo44" Left="28.8" Top="136" Width="96" Height="17" TruncOutboundText="False" Text="ALAMAT  :"/>
+      <TfrxDMPMemoView Name="DMPMemo45" Left="259.2" Top="17" Width="393.6" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="01 PT. ASSALAAM NIAGA UTAMA - MG SOLO"/>
+      <TfrxDMPMemoView Name="DMPMemo46" Left="316.8" Top="34" Width="268.8" Height="17" HAlign="haCenter" TruncOutboundText="False" Text="TANDA TERIMA FAKTUR"/>
+      <TfrxDMPMemoView Name="DMPMemo47" Left="345.6" Top="187" Width="163.2" Height="17" Frame.Typ="1" HAlign="haCenter" TruncOutboundText="False" Text="NO. FAKTUR / CN"/>
+      <TfrxDMPMemoView Name="DMPMemo48" Left="604.8" Top="187" Width="105.6" Height="17" Frame.Typ="1" HAlign="haCenter" TruncOutboundText="False" Text="TGL FAKTUR"/>
+      <TfrxDMPMemoView Name="DMPMemo49" Left="28.8" Top="187" Width="38.4" Height="17" Frame.Typ="1" TruncOutboundText="False" Text=" NO"/>
+      <TfrxDMPMemoView Name="DMPMemo50" Left="28.8" Top="119" Width="96" Height="17" TruncOutboundText="False" Text="SUPPLIER:"/>
+      <TfrxDMPMemoView Name="DMPMemo51" Left="19.2" Top="204" Width="1200" Height="17" TruncOutboundText="False" Text="==============================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo52" Left="700.8" Top="153" Width="192" Height="17" TruncOutboundText="False" Text="(TRANSFER / Cheque)"/>
+      <TfrxDMPMemoView Name="DMPMemo53" Left="672" Top="68" Width="96" Height="17" TruncOutboundText="False" Text="NOMOR:"/>
+      <TfrxDMPMemoView Name="DMPMemo54" Left="672" Top="85" Width="249.6" Height="17" Frame.Typ="8" TruncOutboundText="False" Text="TGL. KEMBALI:"/>
+      <TfrxDMPMemoView Name="DMPMemo55" Left="672" Top="119" Width="249.6" Height="17" Frame.Typ="11" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="134.4" Top="119" Width="96" Height="17" TruncOutboundText="False" Text="[IBQ1.&#34;ORG_Name&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="134.4" Top="136" Width="96" Height="17" TruncOutboundText="False" Text="[IBQ1.&#34;Org_Address&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="739.2" Top="68" Width="134.4" Height="17" TruncOutboundText="False" Text="[IBQ1.&#34;CLM_NO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="806.4" Top="85" Width="96" Height="17" TruncOutboundText="False" Text="[IBQ1.&#34;CLM_RETURN_DATE&#34;]"/>
+    </TfrxPageHeader>
+  </TfrxDMPPage>
+</TfrxReport>
