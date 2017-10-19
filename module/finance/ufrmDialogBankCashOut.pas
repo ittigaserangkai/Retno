@@ -40,7 +40,6 @@ type
     cxGridColAPAP: TcxGridColumn;
     cxGridColAPTanggal: TcxGridColumn;
     cxGridColAPJatuhTempo: TcxGridColumn;
-    cxGridColAPRekening: TcxGridColumn;
     cxGridColAPNominal: TcxGridColumn;
     cxGridColAPSisa: TcxGridColumn;
     cxGridColAPBayar: TcxGridColumn;
@@ -72,6 +71,7 @@ type
     cxGridColPotagSisa: TcxGridColumn;
     cxGridColPotagBayar: TcxGridColumn;
     cxGridColPotagRekeningID: TcxGridColumn;
+    cxGridColAPRekening: TcxGridColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -112,16 +112,22 @@ type
     FCDSAP: TClientDataset;
     FCDSAR: TClientDataset;
     FCDSBank: TClientDataset;
+    FCDSRekening: TClientDataset;
     FCDSCostCenter: tclientDataSet;
     FCDSOrganisasi: tclientDataSet;
     FCDSRekeningLain: tclientDataSet;
     FOrganization: TModOrganization;
     function GetBCO: TModBankCashOut;
     function GetCDSOrganisasi: tclientDataSet;
+    function GetDCAP: TcxGridDataController;
+    function GetDCAR: TcxGridDataController;
+    function GetDCOther: TcxGridDataController;
+    function GetDCCheque: TcxGridDataController;
     procedure HitungSummary;
     procedure InisialisasiBank;
     procedure InisialisasiAPList(AOrgID : String);
     procedure InisialisasiARList(AOrgID : String);
+    procedure InisialisasiRekening;
     procedure InisialisasiCostCenter;
     procedure InisialisasiRekeningLain;
     function IsBisaHapus: Boolean;
@@ -137,8 +143,13 @@ type
     procedure SetDataARItems(ANoAR: String; ABaris: Integer; AIsEdit: Boolean);
     procedure UpdateAPChequeOtems;
     procedure UpdateBankCashOutARItems;
+    function ValidateData: Boolean;
     property CDSOrganisasi: tclientDataSet read GetCDSOrganisasi write
         FCDSOrganisasi;
+    property DCAP: TcxGridDataController read GetDCAP;
+    property DCAR: TcxGridDataController read GetDCAR;
+    property DCOther: TcxGridDataController read GetDCOther;
+    property DCCheque: TcxGridDataController read GetDCCheque;
     { Private declarations }
   protected
     procedure LoadData(AID : String);
@@ -149,6 +160,7 @@ type
     { Public declarations }
   published
     property CDSBank: TClientDataset read FCDSBank write FCDSBank;
+    property CDSRekening: TClientDataset read FCDSRekening write FCDSRekening;
   end;
 
 var
@@ -161,13 +173,10 @@ implementation
 procedure TfrmDialogBankCashOut.actDeleteExecute(Sender: TObject);
 begin
   inherited;
-
-  if not IsBisaHapus then
-    Exit;
-
+  if not IsBisaHapus then  Exit;
   if DMClient.CrudBankCashOutClient.DeleteFromDB(BCO) then
   begin
-    LoadData('');
+    Self.ModalResult := mrOk;
   end;
 end;
 
@@ -182,21 +191,7 @@ var
   sID: string;
 begin
   inherited;
-  if not ValidateEmptyCtrl([1]) then
-    Exit;
-
-  if FOrganization = nil then
-  begin
-    TAppUtils.Error('Organisasi Belum Dipilih');
-    Exit;
-  end;
-
-  if (cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar) = 0)
-    and (edSummaryAll.Value <= 0) then
-  begin
-    TAppUtils.Error('Total Pembayaran Harus > 0');
-    Exit;
-  end;
+  if not ValidateData then exit;
 
   BCO.BCO_NoBukti     := edNoBukti.Text;
   BCO.BCO_Bank        := TModBank.CreateID(cbbBank.EditValueRest);
@@ -237,6 +232,7 @@ begin
   dtTanggal.Date := Now;
 
   InisialisasiBank;
+  InisialisasiRekening;
   InisialisasiRekeningLain;
   InisialisasiCostCenter;
 
@@ -316,7 +312,6 @@ var
   iBaris: Integer;
 begin
   inherited;
-
   if VarIsNull(DisplayValue) then
     Exit;
 
@@ -341,9 +336,6 @@ procedure TfrmDialogBankCashOut.cxGridColPotagARPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  if FCDSAR = nil then
-      Exit;
-
   SetDataARItems(FCDSAR.FieldByName('AR_REfnum').AsString,cxGridTablePotongTagihan.RecordIndex, False);
   cxGridTablePotongTagihan.DataController.Post;
 end;
@@ -443,6 +435,26 @@ begin
   Result := FCDSOrganisasi;
 end;
 
+function TfrmDialogBankCashOut.GetDCAP: TcxGridDataController;
+begin
+  Result := cxGridTableAPList.DataController;
+end;
+
+function TfrmDialogBankCashOut.GetDCAR: TcxGridDataController;
+begin
+  Result := cxGridTablePotongTagihan.DataController;
+end;
+
+function TfrmDialogBankCashOut.GetDCOther: TcxGridDataController;
+begin
+  Result := cxGridTableOther.DataController;
+end;
+
+function TfrmDialogBankCashOut.GetDCCheque: TcxGridDataController;
+begin
+  Result := cxGridTableCheque.DataController;
+end;
+
 procedure TfrmDialogBankCashOut.HitungSummary;
 var
   dTotal: Double;
@@ -486,6 +498,26 @@ begin
   FCDSAR := TDBUtils.DSToCDS(DMClient.DSProviderClient.AR_GetDSLookUpPerOrganization(AOrgID), Self, False);
   TcxExtLookupComboBoxProperties(cxGridColPotagAR.Properties).LoadFromCDS(FCDSAR,'AR_id','AR_REfnum',['aR_id','aR_rekening_id','aR_organization_id'],Self);
   TcxExtLookupComboBoxProperties(cxGridColPotagAR.Properties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmDialogBankCashOut.InisialisasiRekening;
+begin
+  FreeAndNil(FCDSRekening);
+
+  FCDSRekening := TDBUtils.DSToCDS( DMClient.DSProviderClient.Rekening_GetDSLookup, Self );
+
+  TcxExtLookup(cxGridColAPRekening.Properties).LoadFromCDS(
+    FCDSRekening, 'REKENING_ID','REK_NAME', Self
+  );
+  TcxExtLookup(cxGridColAPRekeningID.Properties).LoadFromCDS(
+    FCDSRekening, 'REKENING_ID','REK_CODE', Self
+  );
+  TcxExtLookup(cxGridColPotagRekening.Properties).LoadFromCDS(
+    FCDSRekening, 'REKENING_ID','REK_NAME', Self
+  );
+  TcxExtLookup(cxGridColPotagRekeningID.Properties).LoadFromCDS(
+    FCDSRekening, 'REKENING_ID','REK_CODE', Self
+  );
 end;
 
 procedure TfrmDialogBankCashOut.InisialisasiCostCenter;
@@ -573,7 +605,7 @@ begin
 //    ABaris := cxGridTableAPList.DataController.FocusedRecordIndex;
     cxGridTableAPList.SetValue(ABaris, cxGridColAPTanggal.Index, FCDSAP.FieldByName('ap_transdate').AsDateTime);
     cxGridTableAPList.SetValue(ABaris, cxGridColAPJatuhTempo.Index, FCDSAP.FieldByName('ap_duedate').AsDateTime);
-    cxGridTableAPList.SetValue(ABaris, cxGridColAPRekening.Index, FCDSAP.FieldByName('rek_code').AsString);
+    cxGridTableAPList.SetValue(ABaris, cxGridColAPRekening.Index, FCDSAP.FieldByName('AP_REKENING_ID').AsString);
     cxGridTableAPList.SetValue(ABaris, cxGridColAPRekeningID.Index, FCDSAP.FieldByName('AP_REKENING_ID').AsString);
     cxGridTableAPList.SetValue(ABaris, cxGridColAPNominal.Index, FCDSAP.FieldByName('ap_total').AsFloat);
 
@@ -670,6 +702,7 @@ procedure TfrmDialogBankCashOut.SetDataARItems(ANoAR: String; ABaris: Integer;
 var
   dSisa: Double;
 begin
+  if FCDSAR = nil then exit;
   try
     FCDSAR.Filter := ' AR_REfnum = ' + QuotedStr(ANoAR);
     FCDSAR.Filter := FCDSAR.Filter + ' or AR_ID = ' + QuotedStr(ANoAR);
@@ -678,7 +711,7 @@ begin
 //    ABaris := cxGridTableAPList.DataController.FocusedRecordIndex;
     cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagTgl.Index, FCDSAR.FieldByName('ar_transdate').AsDateTime);
     cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagDueDate.Index, FCDSAR.FieldByName('ar_duedate').AsDateTime);
-    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagRekening.Index, FCDSAR.FieldByName('rek_code').AsString);
+    cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagRekening.Index, FCDSAR.FieldByName('Ar_REKENING_ID').AsString);
     cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagRekeningID.Index, FCDSAR.FieldByName('Ar_REKENING_ID').AsString);
     cxGridTablePotongTagihan.SetValue(ABaris, cxGridColPotagNominal.Index, FCDSAR.FieldByName('ar_total').AsFloat);
 
@@ -752,6 +785,96 @@ begin
     cxGridTableOther.LoadObjectData(lModBankCashOutOtherItem, i);
     BCO.BCO_BankCashOutOtherItems.Add(lModBankCashOutOtherItem);
   end;
+end;
+
+function TfrmDialogBankCashOut.ValidateData: Boolean;
+var
+  i: Integer;
+  j: Integer;
+begin
+  Result := False;
+
+  if not ValidateEmptyCtrl([1]) then
+    Exit;
+
+  if FOrganization = nil then
+  begin
+    TAppUtils.Error('Organisasi Belum Dipilih');
+    Exit;
+  end;
+
+  if (cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar) = 0)
+    and (edSummaryAll.Value <= 0) then
+  begin
+    TAppUtils.Error('Total Pembayaran Harus > 0');
+    Exit;
+  end;
+
+  for i := 0 to DCAP.RecordCount-1 do
+  begin
+    if (DCAP.Values[i, cxGridColAPSisa.Index]- DCAP.Values[i, cxGridColAPBayar.Index]) < -1 then
+    begin
+      TAppUtils.Error('Nominal bayar AP melebihi sisa nya, baris : ' + inttostr(i+1));
+      exit;
+    end;
+    if (DCAP.Values[i, cxGridColAPBayar.Index] <= 0) then
+    begin
+      TAppUtils.Error('Nominal bayar AP tidak boleh <= 0, baris : ' + inttostr(i+1));
+      exit;
+    end;
+    for j := 0 to DCAP.RecordCount-1 do
+    begin
+      if (i=j) then continue;
+      if DCAP.Values[i, cxGridColAPAP.Index] = DCAP.Values[j, cxGridColAPAP.Index] then
+      begin
+        TAppUtils.Error('Klaim AP sama antara baris ' + inttostr(i+1) + ' dengan ' + inttostr(j+1));
+        exit;
+      end;
+    end;
+  end;
+
+  for i := 0 to DCAR.RecordCount-1 do
+  begin
+    if (DCAR.Values[i, cxGridColPotagSisa.Index]- DCAR.Values[i, cxGridColPotagBayar.Index]) < -1 then
+    begin
+      TAppUtils.Error('Nominal bayar Tagihan melebihi sisa nya, baris : ' + inttostr(i+1));
+      exit;
+    end;
+    if (DCAR.Values[i, cxGridColPotagBayar.Index] <= 0) then
+    begin
+      TAppUtils.Error('Nominal bayar Tagihan tidak boleh <= 0, baris : ' + inttostr(i+1));
+      exit;
+    end;
+    for j := 0 to DCAR.RecordCount-1 do
+    begin
+      if (i=j) then continue;
+      if DCAR.Values[i, cxGridColPotagAR.Index] = DCAR.Values[j, cxGridColPotagAR.Index] then
+      begin
+        TAppUtils.Error('Potong tagihan sama antara baris ' + inttostr(i+1) + ' dengan ' + inttostr(j+1));
+        exit;
+      end;
+    end;
+  end;
+
+  for i := 0 to DCOther.RecordCount-1 do
+  begin
+    if VarToFLoat(DCOther.Values[i, cxGridColOtherBayar.Index]) = 0 then
+    begin
+      TAppUtils.Error('Nominal bayar lain-lain tidak boleh = 0, baris : ' + inttostr(i+1));
+      exit;
+    end;
+  end;
+
+  for i := 0 to DCCheque.RecordCount-1 do
+  begin
+    if VarToFLoat(DCCheque.Values[i, cxGridColChequeBayar.Index]) <= 0 then
+    begin
+      TAppUtils.Error('Nominal bayar lain-lain tidak boleh <= 0, baris : ' + inttostr(i+1));
+      exit;
+    end;
+  end;
+
+  if not Result then Result := True;
 end;
 
 end.

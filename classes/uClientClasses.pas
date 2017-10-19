@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 18/10/2017 10:40:14
+// 10/19/2017 1:45:00 PM
 //
 
 unit uClientClasses;
@@ -82,7 +82,7 @@ type
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function TestGenerateSQL(AObject: TModApp; const ARequestFilter: string = ''): TStrings;
     function TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string = ''): IDSRestCachedTStrings;
-    procedure AfterExecuteMethod;
+    procedure AfterExecuteMethod;     //
   end;
 
   TDSProviderClient = class(TDSAdminRestClient)
@@ -344,6 +344,8 @@ type
     FUnit_GetDSOverviewCommand_Cache: TDSRestCommand;
     FDOTrader_GetDSOverviewCommand: TDSRestCommand;
     FDOTrader_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FOrganization_Trader_GetDSLookupCommand: TDSRestCommand;
+    FOrganization_Trader_GetDSLookupCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -605,6 +607,8 @@ type
     function Unit_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DOTrader_GetDSOverview(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function DOTrader_GetDSOverview_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Organization_Trader_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function Organization_Trader_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -3051,6 +3055,16 @@ const
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Organization_Trader_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Organization_Trader_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -9762,6 +9776,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FDOTrader_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.Organization_Trader_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FOrganization_Trader_GetDSLookupCommand = nil then
+  begin
+    FOrganization_Trader_GetDSLookupCommand := FConnection.CreateCommand;
+    FOrganization_Trader_GetDSLookupCommand.RequestType := 'GET';
+    FOrganization_Trader_GetDSLookupCommand.Text := 'TDSProvider.Organization_Trader_GetDSLookup';
+    FOrganization_Trader_GetDSLookupCommand.Prepare(TDSProvider_Organization_Trader_GetDSLookup);
+  end;
+  FOrganization_Trader_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FOrganization_Trader_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FOrganization_Trader_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Organization_Trader_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FOrganization_Trader_GetDSLookupCommand_Cache = nil then
+  begin
+    FOrganization_Trader_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FOrganization_Trader_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FOrganization_Trader_GetDSLookupCommand_Cache.Text := 'TDSProvider.Organization_Trader_GetDSLookup';
+    FOrganization_Trader_GetDSLookupCommand_Cache.Prepare(TDSProvider_Organization_Trader_GetDSLookup_Cache);
+  end;
+  FOrganization_Trader_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FOrganization_Trader_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -10031,6 +10074,8 @@ begin
   FUnit_GetDSOverviewCommand_Cache.DisposeOf;
   FDOTrader_GetDSOverviewCommand.DisposeOf;
   FDOTrader_GetDSOverviewCommand_Cache.DisposeOf;
+  FOrganization_Trader_GetDSLookupCommand.DisposeOf;
+  FOrganization_Trader_GetDSLookupCommand_Cache.DisposeOf;
   inherited;
 end;
 

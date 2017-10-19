@@ -312,7 +312,8 @@ var
 begin
   sSQL := 'select * from V_BANKCASHOUT '
     + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
+    + ' order by Tanggal, NoBukti';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -1662,9 +1663,27 @@ begin
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 
-  S := 'SELECT * FROM CLAIMFAKTURITEMDO A'
+  S := 'SELECT B.DO_NO, B.DO_NO AS DO_NP, B.DO_DATE, B.DO_TOTAL FROM CLAIMFAKTURITEMDO A'
   + ' INNER JOIN DO B on A.CLMD_DO_ID = B.DO_ID'
-  + ' WHERE CLMD_DO_CLAIMFAKTUR_ID ='+ QuotedStr(id);
+  + ' WHERE CLMD_DO_CLAIMFAKTUR_ID ='+ QuotedStr(id)
+  + ' UNION ALL'
+  + ' SELECT B.CNR_NO, B.CNR_NO, B.CNR_DATE, B.CNR_TOTAL  * -1'
+  + ' FROM CLAIMFAKTURITEMCN A'
+  + ' INNER JOIN CN_RECV B ON A.CLMD_CN_CNRECV_ID = B.CN_RECV_ID'
+  + ' WHERE CLMD_CN_CLAIMFAKTUR_ID ='+ QuotedStr(id)
+  + ' UNION ALL'
+  + ' SELECT B.DNR_NO, B.DNR_NO, B.DNR_DATE, B.DNR_TOTAL'
+  + ' FROM CLAIMFAKTURITEMDN A'
+  + ' INNER JOIN DN_RECV B ON A.CLMD_DN_DNRECV_ID = B.DN_RECV_ID'
+  + ' WHERE CLMD_DN_CLAIMFAKTUR_ID ='+ QuotedStr(id)
+  + ' UNION ALL'
+  + ' SELECT ''CONTRABON'', ''CONTRABON'', B.CONT_DATE_SALES, B.CONT_NET_SALES'
+  + ' FROM CLAIMFAKTURITEMCS A'
+  + ' INNER JOIN CONTRABON_SALES B ON A.CLMD_CS_CONTRABON_ID = B.CONTRABON_SALES_ID'
+  + ' WHERE CLMD_CS_CLAIMFAKTUR_ID ='+ QuotedStr(id);
+
+
+
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 

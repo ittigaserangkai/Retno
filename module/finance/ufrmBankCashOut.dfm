@@ -2,7 +2,7 @@ inherited frmBankCashOut: TfrmBankCashOut
   Caption = 'Bank Cash Out'
   ClientHeight = 429
   ClientWidth = 857
-  ExplicitTop = -39
+  ExplicitTop = 2
   ExplicitWidth = 873
   ExplicitHeight = 468
   PixelsPerInch = 96
@@ -107,6 +107,8 @@ inherited frmBankCashOut: TfrmBankCashOut
     end
   end
   inherited actlstBrowse: TActionList
+    Left = 744
+    Top = 200
     inherited actAdd: TAction
       OnExecute = actAddExecute
     end
@@ -115,6 +117,20 @@ inherited frmBankCashOut: TfrmBankCashOut
     end
     inherited actPrint: TAction
       OnExecute = actPrintExecute
+    end
+  end
+  object pmPrint: TPopupMenu
+    Alignment = paCenter
+    OwnerDraw = True
+    Left = 202
+    Top = 155
+    object CetakBatch1: TMenuItem
+      Caption = 'Cetak Slip Transaksi'
+      OnClick = CetakBatch1Click
+    end
+    object CetakBatch2: TMenuItem
+      Caption = 'Cetak Slip Batch'
+      OnClick = CetakBatch2Click
     end
   end
 end

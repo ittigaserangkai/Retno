@@ -64,7 +64,18 @@ uses
   ufrmMain in 'ufrmMain.pas' {frmMain},
   uModSetupPOS in '..\model\uModSetupPOS.pas',
   uModAuthUser in '..\model\uModAuthUser.pas',
-  uModShift in '..\model\uModShift.pas';
+  uModShift in '..\model\uModShift.pas',
+  uModContrabonSales in '..\model\uModContrabonSales.pas',
+  uModOrganization in '..\model\uModOrganization.pas',
+  uModMember in '..\model\uModMember.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uModCreditCard in '..\model\uModCreditCard.pas',
+  uModVoucher in '..\model\uModVoucher.pas',
+  uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
+  uModCustomerVoucher in '..\model\uModCustomerVoucher.pas',
+  uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas';
 
 {$R *.res}
 
