@@ -108,7 +108,7 @@ end;
 
 procedure TfrmMain.ButtonStartClick(Sender: TObject);
 begin
-  StartServer;
+  StartServer; //123
 end;
 
 procedure TerminateThreads;
