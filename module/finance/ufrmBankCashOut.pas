@@ -23,6 +23,8 @@ type
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
+    procedure CetakBatch1Click(Sender: TObject);
+    procedure CetakBatch2Click(Sender: TObject);
   private
     FCDS: TClientDataset;
     { Private declarations }
@@ -35,6 +37,9 @@ var
   frmBankCashOut: TfrmBankCashOut;
 
 implementation
+
+uses
+  System.UITypes;
 
 {$R *.dfm}
 
@@ -61,17 +66,45 @@ end;
 
 procedure TfrmBankCashOut.actPrintExecute(Sender: TObject);
 var
+  lSize: Integer;
   pnt: TPoint;
 begin
   inherited;
-  GetCursorPos(pnt);
-  pmPrint.Popup(pnt.X,pnt.Y);
-//  with TfrmDialogBankCashOut.Create(nil) do
-//  try
-//    CetakSlip(dtAwalFilter.Date, dtAkhirFilter.Date, 'null');
-//  finally
-//    Free;
-//  end;
+  lSize := Screen.MenuFont.Size;
+  try
+    Screen.MenuFont.Size := 12;
+    pnt := Self.fraFooter4Button1.btnPrint.ClientToScreen(Point(0,0));
+    pmPrint.Popup(pnt.X + 100,pnt.Y - 50);
+  finally
+    Screen.MenuFont.Size := lSize;
+  end;
+end;
+
+procedure TfrmBankCashOut.CetakBatch1Click(Sender: TObject);
+var
+  lNoBukti: string;
+begin
+  inherited;
+  if not Assigned(FCDS) then exit;
+  if FCDS.Eof then exit;
+  lNoBukti := FCDS.FieldByName('NoBukti').AsString;
+  with TfrmDialogBankCashOut.Create(nil) do
+  try
+    CetakSlip(dtAwalFilter.Date, dtAkhirFilter.Date, lNoBukti);
+  finally
+    Free;
+  end;
+end;
+
+procedure TfrmBankCashOut.CetakBatch2Click(Sender: TObject);
+begin
+  inherited;
+  with TfrmDialogBankCashOut.Create(nil) do
+  try
+    CetakSlip(dtAwalFilter.Date, dtAkhirFilter.Date, 'null');
+  finally
+    Free;
+  end;
 end;
 
 procedure TfrmBankCashOut.RefreshData;

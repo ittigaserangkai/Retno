@@ -121,13 +121,16 @@ inherited frmBankCashOut: TfrmBankCashOut
   end
   object pmPrint: TPopupMenu
     Alignment = paCenter
-    Left = 178
-    Top = 123
+    OwnerDraw = True
+    Left = 202
+    Top = 155
     object CetakBatch1: TMenuItem
-      Caption = 'Cetak Slip Payment :'#13#10#13#10
+      Caption = 'Cetak Slip Transaksi'
+      OnClick = CetakBatch1Click
     end
     object CetakBatch2: TMenuItem
-      Caption = 'Cetak Batch'
+      Caption = 'Cetak Slip Batch'
+      OnClick = CetakBatch2Click
     end
   end
 end

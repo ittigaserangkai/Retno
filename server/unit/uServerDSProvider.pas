@@ -312,7 +312,8 @@ var
 begin
   sSQL := 'select * from V_BANKCASHOUT '
     + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
-    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir);
+    + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
+    + ' order by Tanggal, NoBukti';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
