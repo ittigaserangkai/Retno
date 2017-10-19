@@ -856,6 +856,24 @@ begin
     end;
   end;
 
+  for i := 0 to DCOther.RecordCount-1 do
+  begin
+    if VarToFLoat(DCOther.Values[i, cxGridColOtherBayar.Index]) = 0 then
+    begin
+      TAppUtils.Error('Nominal bayar lain-lain tidak boleh = 0, baris : ' + inttostr(i+1));
+      exit;
+    end;
+  end;
+
+  for i := 0 to DCCheque.RecordCount-1 do
+  begin
+    if VarToFLoat(DCCheque.Values[i, cxGridColChequeBayar.Index]) <= 0 then
+    begin
+      TAppUtils.Error('Nominal bayar lain-lain tidak boleh <= 0, baris : ' + inttostr(i+1));
+      exit;
+    end;
+  end;
+
   if not Result then Result := True;
 end;
 
