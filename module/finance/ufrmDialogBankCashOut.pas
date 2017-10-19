@@ -121,6 +121,8 @@ type
     function GetCDSOrganisasi: tclientDataSet;
     function GetDCAP: TcxGridDataController;
     function GetDCAR: TcxGridDataController;
+    function GetDCOther: TcxGridDataController;
+    function GetDCCheque: TcxGridDataController;
     procedure HitungSummary;
     procedure InisialisasiBank;
     procedure InisialisasiAPList(AOrgID : String);
@@ -146,6 +148,8 @@ type
         FCDSOrganisasi;
     property DCAP: TcxGridDataController read GetDCAP;
     property DCAR: TcxGridDataController read GetDCAR;
+    property DCOther: TcxGridDataController read GetDCOther;
+    property DCCheque: TcxGridDataController read GetDCCheque;
     { Private declarations }
   protected
     procedure LoadData(AID : String);
@@ -439,6 +443,16 @@ end;
 function TfrmDialogBankCashOut.GetDCAR: TcxGridDataController;
 begin
   Result := cxGridTablePotongTagihan.DataController;
+end;
+
+function TfrmDialogBankCashOut.GetDCOther: TcxGridDataController;
+begin
+  Result := cxGridTableOther.DataController;
+end;
+
+function TfrmDialogBankCashOut.GetDCCheque: TcxGridDataController;
+begin
+  Result := cxGridTableCheque.DataController;
 end;
 
 procedure TfrmDialogBankCashOut.HitungSummary;
