@@ -70,16 +70,13 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    FStatusForm: TStatusForm;
     FIsProcessSuccessfull: Boolean;
     procedure ParseDataPotonganTagihanContrabonByDateAndType(ADate: TDateTime; AType: string);
 //    procedure ClearComponent;
     procedure ParseDataSuplierByType(AType: string);
-    procedure SetStatusForm(const Value: TStatusForm);
     procedure SetIsProcessSuccessfull(const Value: Boolean);
   public
     procedure RefreshData; override;
-    property StatusForm: TStatusForm read FStatusForm write SetStatusForm;
     property IsProcessSuccessfull: Boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
@@ -139,7 +136,6 @@ begin
 //  grdMain.CellProperties[_Kol_SUPPLIER_CODE ,1].BrushColor:= clInfoBk;
 //  grdMain.CellProperties[_Kol_SUPPLIER_NAME ,1].BrushColor:= clInfoBk;
 //  grdMain.CellProperties[_Kol_TOTAL_PRICE ,1].BrushColor:= clInfoBk;
-  StatusForm := frNew;
   edtDescription.SetFocus;
   btnSave.Enabled := True;
   fraFooter4Button1.btnAdd.Enabled := False;
@@ -234,8 +230,6 @@ var
     i: Integer;
 begin
   inherited;
-  if StatusForm = frNew then
-    Exit;
   isError := FAlse;
   bResult := False;
   {
@@ -313,7 +307,6 @@ begin
   ParseDataSuplierByType(cbbTipeSuplier.Text);
   ParseDataPotonganTagihanContrabonByDateAndType(dtBarcode.Date, cbbTipeSuplier.Text);
   btnSave.Enabled := True;
-  StatusForm := frEdit;
   lblAddRow.Visible := False;
   lblDeleteRow.Visible := False;
 end;
@@ -323,11 +316,6 @@ begin
   inherited;
   btnSave.Enabled := False;
   fraFooter4Button1.btnAdd.Enabled := True;
-end;
-
-procedure TfrmPemakaianBarcode.SetStatusForm(const Value: TStatusForm);
-begin
-  FStatusForm := Value;
 end;
 
 procedure TfrmPemakaianBarcode.dtBarcodeKeyUp(Sender: TObject;

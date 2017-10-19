@@ -10,8 +10,8 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   inherited pnlBody: TPanel
     Width = 885
     Height = 480
-    ExplicitWidth = 799
-    ExplicitHeight = 426
+    ExplicitWidth = 885
+    ExplicitHeight = 480
     object pnlBCOHeader: TPanel
       Left = 2
       Top = 2
@@ -246,8 +246,6 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitLeft = 4
-      ExplicitTop = 133
       object cxGridTableAPList: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -587,20 +585,20 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 480
     Width = 885
-    ExplicitTop = 426
-    ExplicitWidth = 799
+    ExplicitTop = 480
+    ExplicitWidth = 885
     inherited pnlFooter: TPanel
       Width = 885
-      ExplicitWidth = 799
+      ExplicitWidth = 885
       inherited btnClose: TcxButton
         Left = 808
         Action = actCancel
-        ExplicitLeft = 722
+        ExplicitLeft = 808
       end
       inherited btnSave: TcxButton
         Left = 715
         Action = actSave
-        ExplicitLeft = 629
+        ExplicitLeft = 715
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -608,21 +606,21 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       inherited btnPrint: TcxButton
         Left = 638
         Action = actPrint
-        ExplicitLeft = 552
+        ExplicitLeft = 638
       end
     end
     inherited pnlSortCut: TPanel
       Width = 885
-      ExplicitWidth = 799
+      ExplicitWidth = 885
       inherited lbCTRLEnter: TLabel
         Left = 710
         Height = 15
-        ExplicitLeft = 624
+        ExplicitLeft = 710
       end
       inherited lbEscape: TLabel
         Left = 801
         Height = 15
-        ExplicitLeft = 715
+        ExplicitLeft = 801
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -630,13 +628,13 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       inherited lblCTRLP: TLabel
         Left = 634
         Height = 15
-        ExplicitLeft = 548
+        ExplicitLeft = 634
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 424
-    Top = 40
+    Top = 208
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end

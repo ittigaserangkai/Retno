@@ -316,7 +316,6 @@ var
   iBaris: Integer;
 begin
   inherited;
-
   if VarIsNull(DisplayValue) then
     Exit;
 
@@ -341,9 +340,6 @@ procedure TfrmDialogBankCashOut.cxGridColPotagARPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  if FCDSAR = nil then
-      Exit;
-
   SetDataARItems(FCDSAR.FieldByName('AR_REfnum').AsString,cxGridTablePotongTagihan.RecordIndex, False);
   cxGridTablePotongTagihan.DataController.Post;
 end;
@@ -670,6 +666,7 @@ procedure TfrmDialogBankCashOut.SetDataARItems(ANoAR: String; ABaris: Integer;
 var
   dSisa: Double;
 begin
+  if FCDSAR = nil then exit;
   try
     FCDSAR.Filter := ' AR_REfnum = ' + QuotedStr(ANoAR);
     FCDSAR.Filter := FCDSAR.Filter + ' or AR_ID = ' + QuotedStr(ANoAR);
