@@ -5,6 +5,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
   ClientHeight = 611
   ClientWidth = 968
   Constraints.MinHeight = 32
+  ExplicitLeft = -159
   ExplicitWidth = 984
   ExplicitHeight = 650
   PixelsPerInch = 96
@@ -892,6 +893,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
     end
   end
   object pmHeader: TPopupMenu
+    OwnerDraw = True
     Left = 240
     Top = 240
     object SetHargaBeliHargaIncludePPN1: TMenuItem

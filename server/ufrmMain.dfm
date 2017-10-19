@@ -5224,8 +5224,6 @@ object frmMain: TfrmMain
     Caption = 'Koneksi Database'
     TabOrder = 0
     OnDblClick = grpDBDblClick
-    ExplicitLeft = 8
-    ExplicitTop = -6
     object lblServer: TLabel
       Left = 36
       Top = 51

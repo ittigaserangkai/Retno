@@ -1,14 +1,14 @@
 inherited frmDialogJurnal: TfrmDialogJurnal
-  Caption = 'frmDialogJurnal'
-  ClientHeight = 468
+  Caption = 'Dialog Jurnal'
+  ClientHeight = 473
   ClientWidth = 851
   ExplicitWidth = 867
-  ExplicitHeight = 507
+  ExplicitHeight = 512
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 851
-    Height = 412
+    Height = 417
     ExplicitWidth = 851
     ExplicitHeight = 412
     object pnlHeader: TPanel
@@ -22,30 +22,27 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Left = 58
         Top = 8
         Caption = 'No'
-        Transparent = True
       end
       object lblJurnalDate: TcxLabel
         Left = 14
         Top = 35
         Caption = 'Jurnal Date'
-        Transparent = True
       end
       object lblReferensi: TcxLabel
         Left = 20
         Top = 62
         Caption = 'Reference'
-        Transparent = True
       end
       object lblDescription: TcxLabel
         Left = 291
         Top = 9
         Caption = 'Description'
-        Transparent = True
       end
       object edNo: TcxTextEdit
         Left = 81
         Top = 7
-        TabOrder = 4
+        Enabled = False
+        TabOrder = 0
         Width = 153
       end
       object dtTanggal: TcxDateEdit
@@ -56,7 +53,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         HelpKeyword = 'Tanggal'
         Properties.ImmediatePost = True
         Properties.ShowTime = False
-        TabOrder = 5
+        TabOrder = 1
         Width = 153
       end
       object memDesc: TcxMemo
@@ -64,7 +61,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Left = 359
         Top = 7
         Properties.ScrollBars = ssVertical
-        TabOrder = 6
+        TabOrder = 3
         Height = 78
         Width = 223
       end
@@ -72,7 +69,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
         Tag = 1
         Left = 81
         Top = 61
-        TabOrder = 7
+        TabOrder = 2
         Width = 153
       end
     end
@@ -80,10 +77,11 @@ inherited frmDialogJurnal: TfrmDialogJurnal
       Left = 2
       Top = 105
       Width = 847
-      Height = 305
+      Height = 310
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
+      ExplicitHeight = 305
       object cxGridTableJurnal: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -162,7 +160,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 412
+    Top = 417
     Width = 851
     ExplicitTop = 412
     ExplicitWidth = 851
