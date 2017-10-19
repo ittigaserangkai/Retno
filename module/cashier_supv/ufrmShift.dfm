@@ -115,6 +115,7 @@ inherited frmShift: TfrmShift
       ExplicitWidth = 718
       inherited lbEscape: TLabel
         Left = 644
+        Height = 17
         ExplicitLeft = 644
       end
     end
