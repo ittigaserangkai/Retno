@@ -826,7 +826,7 @@ begin
       TAppUtils.Error('Nominal bayar Tagihan melebihi sisa nya, baris : ' + inttostr(i+1));
       exit;
     end;
-    if (DCAP.Values[i, cxGridColPotagBayar.Index] <= 0) then
+    if (DCAR.Values[i, cxGridColPotagBayar.Index] <= 0) then
     begin
       TAppUtils.Error('Nominal bayar Tagihan tidak boleh <= 0, baris : ' + inttostr(i+1));
       exit;
@@ -834,7 +834,7 @@ begin
     for j := 0 to DCAR.RecordCount-1 do
     begin
       if (i=j) then continue;
-      if DCAR.Values[i, cxGridColPotagAR.Index] = DCAP.Values[j, cxGridColPotagAR.Index] then
+      if DCAR.Values[i, cxGridColPotagAR.Index] = DCAR.Values[j, cxGridColPotagAR.Index] then
       begin
         TAppUtils.Error('Potong tagihan sama antara baris ' + inttostr(i+1) + ' dengan ' + inttostr(j+1));
         exit;
