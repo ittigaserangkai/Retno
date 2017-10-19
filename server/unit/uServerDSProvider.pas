@@ -158,6 +158,7 @@ type
     function Unit_GetDSOverview: TDataSet;
     function DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataSet;
+    function Organization_Trader_GetDSLookup: TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -1593,6 +1594,16 @@ begin
   S := 'SELECT * FROM V_DOTRADER' +
        ' where DOT_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) +
        ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Organization_Trader_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_ORGANIZATION ' +
+       ' where ORG_IsMember = 1';
 
   Result := TDBUtils.OpenQuery(S);
 end;
