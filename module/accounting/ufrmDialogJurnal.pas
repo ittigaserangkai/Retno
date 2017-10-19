@@ -182,6 +182,7 @@ begin
   begin
     FModJurnal            := TModJurnal.Create;
     FModJurnal.JUR_DATE   := Now();
+    FModJurnal.JUR_NO     := 'Otomatis';
   end;
 
   //isi dari modjurnal
@@ -267,6 +268,9 @@ var
   lItem: TModJurnalItem;  //var nama bebas
 begin
 //header
+  if ModJurnal.ID = '' then
+    edNo.Text := DMClient.CrudClient.GenerateNo(ModJurnal.ClassName);
+
   ModJurnal.JUR_NO          := edNo.Text;
   ModJurnal.JUR_DATE        := dtTanggal.Date;
   ModJurnal.JUR_REF_NO      := edReference.Text;
