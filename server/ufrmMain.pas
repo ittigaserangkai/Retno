@@ -10,7 +10,8 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
   uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut,
-  uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry;
+  uModJurnal, uModContrabonSales, uModCustomerInvoice,
+  cxButtons,System.Win.Registry, uModCrazyPrice;
 
 type
   TfrmMain = class(TForm)
