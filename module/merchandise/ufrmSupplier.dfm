@@ -15,24 +15,25 @@ inherited frmSupplier: TfrmSupplier
     ExplicitWidth = 803
     ExplicitHeight = 397
     inherited pgcBrowse: TcxPageControl
-      Width = 781
-      Height = 375
+      Width = 801
+      Height = 395
+      Properties.ActivePage = cxTSSupplier
       Properties.HideTabs = False
-      ExplicitWidth = 781
-      ExplicitHeight = 375
-      ClientRectBottom = 374
-      ClientRectRight = 780
+      ExplicitWidth = 801
+      ExplicitHeight = 395
+      ClientRectBottom = 394
+      ClientRectRight = 800
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 24
-        ExplicitWidth = 779
-        ExplicitHeight = 350
+        ExplicitWidth = 799
+        ExplicitHeight = 370
         inherited cxGrid: TcxGrid
-          Width = 779
-          Height = 350
-          ExplicitWidth = 779
-          ExplicitHeight = 350
+          Width = 799
+          Height = 370
+          ExplicitWidth = 799
+          ExplicitHeight = 370
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
               DataBinding.FieldName = 'SUPLIER_ID'
@@ -61,8 +62,8 @@ inherited frmSupplier: TfrmSupplier
           end
         end
       end
-      object cxTabSheet1: TcxTabSheet
-        Caption = 'cxTabSheet1'
+      object cxTSSupplier: TcxTabSheet
+        Caption = 'Data Supplier'
         ImageIndex = 1
         object bvl1: TBevel
           Left = 8

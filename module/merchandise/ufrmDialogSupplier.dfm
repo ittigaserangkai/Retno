@@ -3,11 +3,11 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   Top = 98
   Caption = 'frmDialogSupplier'
   ClientHeight = 511
-  ClientWidth = 671
+  ClientWidth = 757
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitWidth = 687
+  ExplicitWidth = 773
   ExplicitHeight = 550
   PixelsPerInch = 96
   TextHeight = 16
@@ -20,14 +20,14 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     Caption = 'Contact Person'
   end
   inherited pnlBody: TPanel
-    Width = 671
+    Width = 757
     Height = 455
     ExplicitWidth = 671
     ExplicitHeight = 455
     object pc1: TcxPageControl
       Left = 2
       Top = 2
-      Width = 667
+      Width = 753
       Height = 451
       Align = alClient
       Font.Charset = ANSI_CHARSET
@@ -40,14 +40,13 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
       OnChange = pc1Change
+      ExplicitWidth = 667
       ClientRectBottom = 451
-      ClientRectRight = 667
+      ClientRectRight = 753
       ClientRectTop = 27
       object tsSupplier: TcxTabSheet
         Caption = '&Supplier'
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 667
         object lbl3: TLabel
           Left = 65
           Top = 48
@@ -448,9 +447,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = '&Category'
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 667
         object gbSupplierGrid: TcxGroupBox
           Left = 0
           Top = 0
@@ -458,8 +455,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
+          ExplicitWidth = 667
           Height = 151
-          Width = 667
+          Width = 753
           object pnlGridSupplierBtn: TcxGroupBox
             Left = 2
             Top = 122
@@ -468,8 +466,9 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
+            ExplicitWidth = 663
             Height = 27
-            Width = 663
+            Width = 749
             object btnDelSupp: TcxButton
               AlignWithMargins = True
               Left = 334
@@ -592,11 +591,12 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object cxGridSupplier: TcxGrid
             Left = 2
             Top = 2
-            Width = 663
+            Width = 749
             Height = 120
             Align = alClient
             TabOrder = 1
             TabStop = False
+            ExplicitWidth = 663
             object cxGrdDBSupplierMerchan: TcxGridDBTableView
               PopupMenu = PopupMenu1
               Navigator.Buttons.CustomButtons = <>
@@ -634,262 +634,255 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         object pgcMerchan: TcxPageControl
           Left = 0
           Top = 151
-          Width = 667
+          Width = 753
           Height = 273
           Align = alBottom
           TabOrder = 1
           Properties.ActivePage = tsMG
           Properties.CustomButtons.Buttons = <>
           OnExit = pgcMerchanExit
+          ExplicitWidth = 667
           ClientRectBottom = 273
-          ClientRectRight = 667
+          ClientRectRight = 753
           ClientRectTop = 27
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
+            ExplicitWidth = 667
             object pnlMG: TPanel
               Left = 0
               Top = 0
-              Width = 667
+              Width = 753
               Height = 246
               Align = alClient
               TabOrder = 0
+              ExplicitWidth = 667
               object Label11: TLabel
-                Left = 548
-                Top = 57
+                Left = 605
+                Top = 61
                 Width = 21
                 Height = 16
                 Caption = 'Disc'
               end
               object Label12: TLabel
-                Left = 607
+                Left = 664
                 Top = 55
                 Width = 7
                 Height = 16
                 Caption = '%'
               end
               object Label2: TLabel
-                Left = 424
-                Top = 127
+                Left = 481
+                Top = 139
                 Width = 18
                 Height = 16
                 Caption = 'Fee'
               end
               object Label3: TLabel
-                Left = 472
-                Top = 127
+                Left = 529
+                Top = 139
                 Width = 7
                 Height = 16
                 Caption = '%'
               end
               object lbl15: TLabel
-                Left = 291
-                Top = 32
+                Left = 348
+                Top = 35
                 Width = 89
                 Height = 16
                 Caption = 'AP Ending Balance'
               end
               object lbl16: TLabel
-                Left = 318
-                Top = 55
+                Left = 375
+                Top = 61
                 Width = 61
                 Height = 16
                 Caption = 'C/N Balance'
               end
               object lbl22: TLabel
                 Left = 54
-                Top = 129
+                Top = 139
                 Width = 60
                 Height = 16
                 Caption = 'Credit Limit'
               end
               object lbl23: TLabel
-                Left = 32
-                Top = 35
+                Left = 33
+                Top = 61
                 Width = 81
                 Height = 16
                 Caption = 'Type of Payment'
               end
               object lbl24: TLabel
-                Left = 31
-                Top = 58
+                Left = 32
+                Top = 87
                 Width = 82
                 Height = 16
                 Caption = 'Term of Payment'
               end
               object lbl25: TLabel
-                Left = 65
-                Top = 82
+                Left = 181
+                Top = 87
                 Width = 50
                 Height = 16
                 Caption = 'Lead Time'
               end
               object lbl26: TLabel
                 Left = 62
-                Top = 104
+                Top = 113
                 Width = 52
                 Height = 16
                 Caption = 'Deliver PO'
               end
-              object lbl27: TLabel
-                Left = 146
-                Top = 62
-                Width = 24
-                Height = 16
-                Caption = 'Days'
-              end
-              object lbl28: TLabel
-                Left = 146
-                Top = 83
-                Width = 24
-                Height = 16
-                Caption = 'Days'
-              end
               object lbl29: TLabel
-                Left = 37
-                Top = 153
+                Left = 36
+                Top = 165
                 Width = 78
                 Height = 16
                 Caption = 'Extended Desc.'
               end
               object lbl33: TLabel
-                Left = 329
-                Top = 127
+                Left = 386
+                Top = 139
                 Width = 49
                 Height = 16
                 Caption = 'No. Of PO'
               end
               object lbl34: TLabel
-                Left = 273
-                Top = 83
+                Left = 330
+                Top = 87
                 Width = 106
                 Height = 16
                 Caption = 'Last Pusch./Payment'
               end
               object lbl35: TLabel
-                Left = 482
-                Top = 80
+                Left = 539
+                Top = 87
                 Width = 6
                 Height = 16
                 Caption = '/'
               end
               object lbl37: TLabel
-                Left = 66
-                Top = 10
+                Left = 67
+                Top = 9
                 Width = 47
                 Height = 16
                 Caption = 'Category'
               end
               object lbl45: TLabel
                 Left = 39
-                Top = 187
+                Top = 200
                 Width = 74
                 Height = 16
                 Caption = 'Day of Proc PO'
               end
               object lbl9: TLabel
-                Left = 272
-                Top = 103
+                Left = 329
+                Top = 113
                 Width = 107
                 Height = 16
                 Caption = 'Outstanding Payment'
               end
               object lblPPN: TLabel
-                Left = 435
-                Top = 155
+                Left = 492
+                Top = 165
                 Width = 19
                 Height = 16
                 Caption = 'PPN'
               end
+              object lblKode: TLabel
+                Left = 90
+                Top = 35
+                Width = 24
+                Height = 16
+                Caption = 'Kode'
+              end
               object chkAllMer: TCheckBox
-                Left = 526
-                Top = 12
+                Left = 583
+                Top = 9
                 Width = 110
                 Height = 17
                 Caption = 'All Category'
                 Checked = True
                 State = cbChecked
-                TabOrder = 18
+                TabOrder = 19
                 Visible = False
               end
               object chkEnableCN: TCheckBox
-                Left = 526
+                Left = 583
                 Top = 35
                 Width = 110
                 Height = 17
                 Caption = 'Enable Create CN'
                 Checked = True
                 State = cbChecked
-                TabOrder = 19
+                TabOrder = 20
               end
               object chkFee: TCheckBox
-                Left = 499
-                Top = 128
+                Left = 556
+                Top = 138
                 Width = 85
                 Height = 17
                 Caption = 'Fee for All'
-                TabOrder = 15
+                TabOrder = 16
               end
               object chkPKP: TCheckBox
-                Left = 385
-                Top = 154
+                Left = 442
+                Top = 164
                 Width = 44
                 Height = 17
                 Caption = 'PKP'
                 Checked = True
                 State = cbChecked
-                TabOrder = 16
+                TabOrder = 17
                 OnClick = chkPKPClick
               end
               object curedtAPEndB: TcxCurrencyEdit
-                Left = 385
+                Left = 442
                 Top = 31
                 TabStop = False
                 Properties.Alignment.Horz = taRightJustify
                 Properties.DisplayFormat = '0.00;(0.00)'
                 Properties.ReadOnly = True
-                TabOrder = 7
+                TabOrder = 8
                 Width = 135
               end
               object curedtCNBln: TcxCurrencyEdit
-                Left = 385
-                Top = 54
+                Left = 442
+                Top = 57
                 TabStop = False
                 Properties.Alignment.Horz = taRightJustify
                 Properties.DisplayFormat = ',0;(,0)'
                 Properties.ReadOnly = True
-                TabOrder = 8
+                TabOrder = 9
                 Width = 135
               end
               object curedtCreditLmt: TcxCurrencyEdit
                 Left = 120
-                Top = 128
+                Top = 135
                 Properties.Alignment.Horz = taRightJustify
                 Properties.DisplayFormat = ',0;(,0)'
-                TabOrder = 5
+                TabOrder = 6
                 Width = 135
               end
               object curedtOutsdPaymnt: TcxCurrencyEdit
-                Left = 385
-                Top = 102
+                Left = 442
+                Top = 109
+                TabStop = False
+                Properties.Alignment.Horz = taRightJustify
+                Properties.DisplayFormat = ',0;(,0)'
+                Properties.ReadOnly = True
+                TabOrder = 13
+                Width = 136
+              end
+              object curedtPaymnt: TcxCurrencyEdit
+                Left = 543
+                Top = 83
                 TabStop = False
                 Properties.Alignment.Horz = taRightJustify
                 Properties.DisplayFormat = ',0;(,0)'
                 Properties.ReadOnly = True
                 TabOrder = 12
-                Width = 136
-              end
-              object curedtPaymnt: TcxCurrencyEdit
-                Left = 486
-                Top = 77
-                TabStop = False
-                Properties.Alignment.Horz = taRightJustify
-                Properties.DisplayFormat = ',0;(,0)'
-                Properties.ReadOnly = True
-                TabOrder = 11
                 Width = 131
               end
               object cxLookupMerchGroup: TcxExtLookupComboBox
@@ -900,89 +893,89 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                 HelpKeyword = 'Kategori'
                 Properties.ImmediatePost = True
                 TabOrder = 0
-                Width = 400
+                Width = 457
               end
               object cxLookupPaymentType: TcxExtLookupComboBox
                 Tag = 1
                 Left = 120
-                Top = 32
-                TabOrder = 1
+                Top = 57
+                TabOrder = 2
                 Width = 166
               end
               object cxLookupPODeliver: TcxExtLookupComboBox
                 Tag = 2
                 Left = 120
-                Top = 105
-                TabOrder = 4
+                Top = 109
+                TabOrder = 5
                 Width = 123
               end
               object cxLookupPPN: TcxExtLookupComboBox
-                Left = 460
-                Top = 151
-                TabOrder = 17
+                Left = 517
+                Top = 161
+                TabOrder = 18
                 Width = 123
               end
               object dtLastPurchs: TcxDateEdit
-                Left = 385
-                Top = 77
+                Left = 442
+                Top = 83
                 TabStop = False
                 Properties.ReadOnly = True
-                TabOrder = 10
+                TabOrder = 11
                 Width = 95
               end
               object edtDisc: TcxCurrencyEdit
-                Left = 574
-                Top = 54
+                Left = 631
+                Top = 58
                 TabStop = False
                 ParentFont = False
                 Properties.DisplayFormat = '0.00;(0.00)'
                 Properties.ReadOnly = True
-                TabOrder = 9
+                TabOrder = 10
                 Width = 46
               end
               object edtExtdDesc: TcxTextEdit
                 Left = 120
-                Top = 152
-                TabOrder = 6
+                Top = 161
+                TabOrder = 7
                 Width = 176
               end
               object edtFee: TcxTextEdit
-                Left = 445
-                Top = 125
+                Left = 502
+                Top = 135
                 Hint = 
                   'Fee adalah pendapatan atas penjualan barang contrabon, konsinyas' +
                   'i, titipan'
                 ParentShowHint = False
                 ShowHint = True
-                TabOrder = 14
+                TabOrder = 15
                 Width = 25
               end
               object edtLeadTime: TcxTextEdit
-                Left = 120
-                Top = 81
-                TabOrder = 3
-                Width = 24
+                Left = 235
+                Top = 83
+                TabOrder = 4
+                Width = 51
               end
               object edtNoOfPO: TcxTextEdit
-                Left = 385
-                Top = 125
+                Left = 442
+                Top = 135
                 TabStop = False
                 Properties.ReadOnly = True
-                TabOrder = 13
+                TabOrder = 14
                 Width = 25
               end
               object edtTermOP: TcxTextEdit
                 Left = 120
-                Top = 58
-                TabOrder = 2
-                Width = 24
+                Top = 83
+                TabOrder = 3
+                Width = 51
               end
               object grp: TGroupBox
-                Left = 121
-                Top = 178
-                Width = 496
+                Left = 119
+                Top = 191
+                Width = 558
                 Height = 34
-                TabOrder = 20
+                TabOrder = 21
                 object chkMon: TCheckBox
                   Left = 7
                   Top = 12
@@ -1054,22 +1047,27 @@ inherited frmDialogSupplier: TfrmDialogSupplier
                   TabOrder = 6
                 end
               end
+              object edSubMgKode: TcxTextEdit
+                Left = 120
+                Top = 31
+                TabOrder = 1
+                Width = 166
+              end
             end
           end
           object tsA: TcxTabSheet
             Caption = '&Addreses'
             ImageIndex = 1
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
+            ExplicitWidth = 667
             object pnlAddress: TPanel
               Left = 0
               Top = 0
-              Width = 667
+              Width = 753
               Height = 246
               Align = alClient
               Color = clWhite
               TabOrder = 0
+              ExplicitWidth = 667
               object lbl30: TLabel
                 Left = 52
                 Top = 28
@@ -1274,19 +1272,19 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 455
-    Width = 671
+    Width = 757
     ExplicitTop = 455
     ExplicitWidth = 671
     inherited pnlFooter: TPanel
-      Width = 671
+      Width = 757
       ExplicitWidth = 671
       inherited btnClose: TcxButton
-        Left = 594
+        Left = 680
         Action = actCancel
         ExplicitLeft = 594
       end
       inherited btnSave: TcxButton
-        Left = 501
+        Left = 587
         Action = actSave
         ExplicitLeft = 501
       end
@@ -1294,24 +1292,30 @@ inherited frmDialogSupplier: TfrmDialogSupplier
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 424
+        Left = 510
         Action = actPrint
         ExplicitLeft = 424
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 671
+      Width = 757
       ExplicitWidth = 671
       inherited lbCTRLEnter: TLabel
-        Left = 496
+        Left = 582
+        Height = 15
         ExplicitLeft = 496
       end
       inherited lbEscape: TLabel
-        Left = 587
+        Left = 673
+        Height = 15
         ExplicitLeft = 587
       end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
       inherited lblCTRLP: TLabel
-        Left = 420
+        Left = 506
+        Height = 15
         ExplicitLeft = 420
       end
     end
