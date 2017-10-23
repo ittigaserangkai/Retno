@@ -585,14 +585,12 @@ end;
 function TCrudSupplier.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lModSupplier: TModSuplier;
-//  lSS: TStrings;
   I: Integer;
 begin
   Result := False;
 
   if not ValidateCodeOnObject(AObject) then
     Exit;
-
 
   lModSupplier := TModSuplier(AObject);
   for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
