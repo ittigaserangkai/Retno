@@ -18,7 +18,7 @@ type
   TRefreshMode = (refFormShow, refEdit);
 
   TfrmSupplier = class(TfrmMasterBrowse)
-    cxTabSheet1: TcxTabSheet;
+    cxTSSupplier: TcxTabSheet;
     bvl1: TBevel;
     bvl2: TBevel;
     cbpMerchanGroup: TComboBox;

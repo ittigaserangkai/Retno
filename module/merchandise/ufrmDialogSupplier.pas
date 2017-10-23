@@ -91,8 +91,6 @@ type
     lbl24: TLabel;
     lbl25: TLabel;
     lbl26: TLabel;
-    lbl27: TLabel;
-    lbl28: TLabel;
     lbl29: TLabel;
     lbl33: TLabel;
     lbl34: TLabel;
@@ -168,6 +166,8 @@ type
     Label10: TLabel;
     edtEmailMer: TcxTextEdit;
     Label15: TLabel;
+    edSubMgKode: TcxTextEdit;
+    lblKode: TLabel;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -565,6 +565,7 @@ begin
     InitCategory(false);
 
     cxLookupMerchGroup.EditValue  := CDSItems.FieldByName('MERCHANDISE_GRUP').AsString;
+    edSubMgKode.Text              := CDSItems.FieldByName('SUPMG_SUB_CODE').AsString;
     cxLookupPaymentType.EditValue := CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString;
     edtTermOP.Text                := CDSItems.FieldByName('SUPMG_TOP').AsString;
     edtLeadTime.Text              := CDSItems.FieldByName('SUPMG_LEAD_TIME').AsString;
@@ -707,8 +708,8 @@ begin
 end;
 
 function TfrmDialogSupplier.UpdateDetail: Boolean;
-var
-  lItem: TModSuplierMerchanGroup;
+//var
+//  lItem: TModSuplierMerchanGroup;
 begin
   if DisableUpdateDetail then
   begin
@@ -737,7 +738,8 @@ begin
 
     //isikan property ke sini , contoh :
     //COBA START
-    CDSItems.FieldByName('SUPMG_SUB_CODE').AsString     := edtSupCode.Text;
+    CDSItems.FieldByName('SUPMG_SUB_CODE').AsString     := edSubMgKode.Text;
+    CDSItems.FieldByName('supmg_name').AsString         := edtSupName.Text;
     //COBA END
     CDSItems.FieldByName('MERCHANDISE_GRUP').AsString   := cxLookupMerchGroup.EditValue;
     CDSItems.FieldByName('TIPE_PEMBAYARAN').AsString    := cxLookupPaymentType.EditValue;
