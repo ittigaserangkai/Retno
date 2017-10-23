@@ -189,6 +189,7 @@ begin
     lItem.JURD_REKENING.Reload();
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurNama.Index] := lItem.JURD_REKENING.REK_NAME;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCostCenter.Index] := lItem.JURD_COCENTER.ID;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDescription.Index] := lItem.JURD_DESCRIPTION;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDebet.Index] := lItem.JURD_DEBET;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCredit.Index] := lItem.JURD_CREDIT;
   end;
@@ -222,6 +223,13 @@ begin
   if not (lTotalDebet = lTotalCredit) then
   begin
     TAppUtils.Warning('Total debet dan kredit tidak sama');
+    exit;
+  end;
+
+  //validasi antara total D dan K tidak boleh 0
+  if (lTotalDebet = 0) or (lTotalCredit = 0) then
+  begin
+    TAppUtils.Warning('Total Debet atau Kredit tidak boleh 0');
     exit;
   end;
 

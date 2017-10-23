@@ -69,7 +69,7 @@ type
     function GroupRekening_GetDSLookup: TDataSet;
     function Gudang_GetDSLookUp: TDataSet;
     function Gudang_GetDSOverview: TDataSet;
-    function Jurnal_GetDSOverview: TDataSet;
+    function Jurnal_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function Kabupaten_GetDSLookUp: TDataSet;
     function Kategori_GetDSLookup: TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
@@ -760,11 +760,13 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.Jurnal_GetDSOverview: TDataSet;
+function TDSProvider.Jurnal_GetDSOverview(aStartDate, aEndDate: TDateTime):
+    TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM JURNAL';
+  S := 'SELECT * FROM JURNAL where cast (JUR_DATE as date) between '
+      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
   Result := TDBUtils.OpenQuery(S);
 end;
 
