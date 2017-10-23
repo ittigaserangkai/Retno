@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/23/2017 9:06:02 AM
+// 23/10/2017 14:04:17
 //
 
 unit uClientClasses;
@@ -449,8 +449,8 @@ type
     function Gudang_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Gudang_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Gudang_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function Jurnal_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
-    function Jurnal_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Jurnal_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function Jurnal_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Kabupaten_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
     function Kabupaten_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Kategori_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -2178,13 +2178,17 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_Jurnal_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  TDSProvider_Jurnal_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
   (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_Jurnal_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  TDSProvider_Jurnal_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
   (
+    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7251,7 +7255,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FGudang_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
-function TDSProviderClient.Jurnal_GetDSOverview(const ARequestFilter: string): TDataSet;
+function TDSProviderClient.Jurnal_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
 begin
   if FJurnal_GetDSOverviewCommand = nil then
   begin
@@ -7260,14 +7264,16 @@ begin
     FJurnal_GetDSOverviewCommand.Text := 'TDSProvider.Jurnal_GetDSOverview';
     FJurnal_GetDSOverviewCommand.Prepare(TDSProvider_Jurnal_GetDSOverview);
   end;
+  FJurnal_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := aStartDate;
+  FJurnal_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := aEndDate;
   FJurnal_GetDSOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FJurnal_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result := TCustomSQLDataSet.Create(nil, FJurnal_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
     FJurnal_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.Jurnal_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.Jurnal_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FJurnal_GetDSOverviewCommand_Cache = nil then
   begin
@@ -7276,8 +7282,10 @@ begin
     FJurnal_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Jurnal_GetDSOverview';
     FJurnal_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Jurnal_GetDSOverview_Cache);
   end;
+  FJurnal_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := aStartDate;
+  FJurnal_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := aEndDate;
   FJurnal_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FJurnal_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+  Result := TDSRestCachedDataSet.Create(FJurnal_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
 function TDSProviderClient.Kabupaten_GetDSLookUp(const ARequestFilter: string): TDataSet;

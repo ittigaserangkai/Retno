@@ -12,7 +12,7 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls,  Datasnap.DBClient,
-  ufrmDialogJurnal, uDXUtils;
+  ufrmDialogJurnal, uDXUtils, uAppUtils, uDButils;
 
 type
   TfrmJurnal = class(TfrmMasterBrowse)
@@ -25,7 +25,8 @@ type
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
-    FCDS: TClientDataset;
+    FCDS: TClientDataSet;
+    property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   protected
   public
@@ -57,8 +58,19 @@ end;
 procedure TfrmJurnal.RefreshData;
 begin
   inherited;
-  cxGridView.LoadFromDS(
-    DMClient.DSProviderClient.Jurnal_GetDSOverview(),Self,false);
+    try
+    TAppUtils.cShowWaitWindow('Mohon Ditunggu');
+    if Assigned(FCDS) then FreeAndNil(FCDS);
+
+    CDS := TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.Jurnal_GetDSOverview(dtAwalFilter.Date,dtAkhirFilter.Date),
+      Self
+    );
+    cxGridView.LoadFromCDS(FCDS, False, False);
+//    cxGridView.SetVisibleColumns(['adjustment_faktur_id'],False);
+  finally
+    TAppUtils.cCloseWaitWindow;
+  end;
 end;
 
 end.
