@@ -64,6 +64,8 @@ type
   end;
 
   TCrudSupplier = class(TCrud)
+  private
+    function ValidateCodeOnObject(AObject: TModApp): Boolean;
   public
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
@@ -586,11 +588,18 @@ var
 //  lSS: TStrings;
   I: Integer;
 begin
-  Result := True;
+  Result := False;
+
+  if not ValidateCodeOnObject(AObject) then
+    Exit;
+
 
   lModSupplier := TModSuplier(AObject);
   for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
   begin
+    if not ValidateCode(lModSupplier.SuplierMerchanGroups[i]) then
+    Exit;
+
     if lModSupplier.SuplierMerchanGroups[i].SUPMG_IS_DIF_CONTACT = 0 then
     begin
       lModSupplier.SuplierMerchanGroups[i].SUPMG_ADDRESS := lModSupplier.SUP_ADDRESS;
@@ -610,6 +619,27 @@ begin
 
   end;
 
+end;
+
+function TCrudSupplier.ValidateCodeOnObject(AObject: TModApp): Boolean;
+var
+  lModSupplier: TModSuplier;
+  I: Integer;
+  j: Integer;
+begin
+  lModSupplier := TModSuplier(AObject);
+  for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+  begin
+    for j := i + 1 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+    begin
+      if lModSupplier.SuplierMerchanGroups[i].SUPMG_SUB_CODE = lModSupplier.SuplierMerchanGroups[j].SUPMG_SUB_CODE then
+      begin
+        raise Exception.Create('Kode Supplier Merchandise Group Double : ' + lModSupplier.SuplierMerchanGroups[i].SUPMG_SUB_CODE);
+      end;
+    end;
+  end;
+
+  Result := True;
 end;
 
 procedure TBaseServerClass.AfterExecuteMethod;
