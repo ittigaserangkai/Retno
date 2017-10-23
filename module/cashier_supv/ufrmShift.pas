@@ -37,7 +37,7 @@ implementation
 
 {$R *.dfm}
 
-uses uDMClient;
+uses uDMClient, uDBUtils;
 
 procedure TfrmShift.actAddExecute(Sender: TObject);
 begin
@@ -55,8 +55,8 @@ end;
 procedure TfrmShift.RefreshData;
 begin
   inherited;
-  cxGridView.LoadFromDS(
-    DMClient.DSProviderClient.Shift_GetDSOverview(),Self,false);
+  cxGridView.PrepareFromCDS(
+    TDBUtils.DSToCDS(DMClient.DSProviderClient.Shift_GetDSOverview(),Self) );
 end;
 
 end.

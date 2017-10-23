@@ -97,8 +97,8 @@ object frmMain: TfrmMain
     TabOrder = 2
   end
   object mnMain: TMainMenu
-    Left = 76
-    Top = 9
+    Left = 12
+    Top = 73
     object mmFile: TMenuItem
       Caption = '&File'
       object miLogin: TMenuItem
@@ -358,10 +358,10 @@ object frmMain: TfrmMain
     end
   end
   object ilMain: TImageList
-    Left = 303
-    Top = 147
+    Left = 15
+    Top = 19
     Bitmap = {
-      494C010103000400680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101030004006C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -502,7 +502,7 @@ object frmMain: TfrmMain
   end
   object tmrMain: TTimer
     OnTimer = tmrMainTimer
-    Left = 66
-    Top = 270
+    Left = 18
+    Top = 126
   end
 end

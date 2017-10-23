@@ -71,7 +71,8 @@ uses
   uJSONUtils in '..\lib\uJSONUtils.pas',
   uModPOTrader in '..\model\uModPOTrader.pas',
   uModFinalPayment in '..\model\uModFinalPayment.pas',
-  uModDOTrader in '..\model\uModDOTrader.pas';
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas';
 
 {$R *.res}
 
