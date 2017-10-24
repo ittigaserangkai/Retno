@@ -39,6 +39,7 @@ type
     FCrudPOClient: TCrudPOClient;
     FCrudSettingAppClient: TCrudSettingAppClient;
     FCrudSupplierClient: TCrudSupplierClient;
+    FPOSClient: TPOSClient;
     FCrudUpdatePOSClient: TCrudUpdatePOSClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
@@ -56,6 +57,7 @@ type
     function GetCrudPOClient: TCrudPOClient;
     function GetCrudSettingAppClient: TCrudSettingAppClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
+    function GetPOSClient: TPOSClient;
     function GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -86,6 +88,7 @@ type
         GetCrudSettingAppClient write FCrudSettingAppClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
+    property POSClient: TPOSClient read GetPOSClient write FPOSClient;
     property CrudUpdatePOSClient: TCrudUpdatePOSClient read GetCrudUpdatePOSClient
         write FCrudUpdatePOSClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
@@ -278,6 +281,15 @@ begin
 
   FCrudSupplierClient := TCrudSupplierClient.Create(RestConn, InstanceOwner);
   Result := FCrudSupplierClient;
+end;
+
+function TDMClient.GetPOSClient: TPOSClient;
+begin
+  if FPOSClient <> nil then
+    FreeAndNil(FPOSClient);
+
+  FPOSClient := TPOSCLient.Create(RestConn, InstanceOwner);
+  Result := FPOSClient;
 end;
 
 function TDMClient.GetCrudUpdatePOSClient: TCrudUpdatePOSClient;

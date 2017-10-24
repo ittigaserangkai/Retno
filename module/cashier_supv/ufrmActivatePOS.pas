@@ -1,3 +1,4 @@
+
 unit ufrmActivatePOS;
 
 interface

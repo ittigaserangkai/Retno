@@ -1,13 +1,13 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/23/2017 3:07:05 PM
+// 10/23/2017 2:31:56 PM
 //
 
 unit uClientClasses;
 
 interface
 
-uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, System.Generics.Collections, Data.FireDACJSONReflect, uModUnit, uModDO, uModSettingApp, uModQuotation, uModContrabonSales, Data.DBXJSONReflect;
+uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, System.Generics.Collections, Data.FireDACJSONReflect, uModUnit, uModBeginningBalance, uModDO, uModSettingApp, uModQuotation, uModContrabonSales, Data.DBXJSONReflect;
 
 type
 
@@ -15,6 +15,7 @@ type
   IDSRestCachedTFDJSONDataSets = interface;
   IDSRestCachedTStrings = interface;
   IDSRestCachedTModApp = interface;
+  IDSRestCachedTModBeginningBalance = interface;
   IDSRestCachedTModDO = interface;
 
   TServerMethodsClient = class(TDSAdminRestClient)
@@ -698,6 +699,40 @@ type
     destructor Destroy; override;
     function Test(const ARequestFilter: string = ''): TJSONObject;
     function Test_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    procedure AfterExecuteMethod;
+  end;
+
+  TPOSClient = class(TDSAdminRestClient)
+  private
+    FGetBeginningBalanceCommand: TDSRestCommand;
+    FGetBeginningBalanceCommand_Cache: TDSRestCommand;
+    FGetListPendingTransAllCommand: TDSRestCommand;
+    FGetListPendingTransAllCommand_Cache: TDSRestCommand;
+    FGetListPendingTransByUserIDCommand: TDSRestCommand;
+    FGetListPendingTransByUserIDCommand_Cache: TDSRestCommand;
+    FGetListPendingTransByUserIDAndDateCommand: TDSRestCommand;
+    FGetListPendingTransByUserIDAndDateCommand_Cache: TDSRestCommand;
+    FGetListPendingTransDetailByHeaderIDCommand: TDSRestCommand;
+    FGetListPendingTransDetailByHeaderIDCommand_Cache: TDSRestCommand;
+    FGetServerDateCommand: TDSRestCommand;
+    FGetTransactionNoCommand: TDSRestCommand;
+    FAfterExecuteMethodCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function GetBeginningBalance(UserID: string; const ARequestFilter: string = ''): TModBeginningBalance;
+    function GetBeginningBalance_Cache(UserID: string; const ARequestFilter: string = ''): IDSRestCachedTModBeginningBalance;
+    function GetListPendingTransAll(const ARequestFilter: string = ''): TDataSet;
+    function GetListPendingTransAll_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetListPendingTransByUserID(aUserID: string; const ARequestFilter: string = ''): TDataSet;
+    function GetListPendingTransByUserID_Cache(aUserID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function GetListPendingTransByUserIDAndDate_Cache(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetListPendingTransDetailByHeaderID(aHeaderID: string; const ARequestFilter: string = ''): TDataSet;
+    function GetListPendingTransDetailByHeaderID_Cache(aHeaderID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetServerDate(const ARequestFilter: string = ''): TDateTime;
+    function GetTransactionNo(aPOSCODE: string; aUNITID: string; const ARequestFilter: string = ''): string;
     procedure AfterExecuteMethod;
   end;
 
@@ -1450,6 +1485,11 @@ type
   end;
 
   TDSRestCachedTModApp = class(TDSRestCachedObject<TModApp>, IDSRestCachedTModApp, IDSRestCachedCommand)
+  end;
+  IDSRestCachedTModBeginningBalance = interface(IDSRestCachedObject<TModBeginningBalance>)
+  end;
+
+  TDSRestCachedTModBeginningBalance = class(TDSRestCachedObject<TModBeginningBalance>, IDSRestCachedTModBeginningBalance, IDSRestCachedCommand)
   end;
   IDSRestCachedTModDO = interface(IDSRestCachedObject<TModDO>)
   end;
@@ -3334,6 +3374,78 @@ const
   TJSONCRUD_Test_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetBeginningBalance: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'UserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModBeginningBalance')
+  );
+
+  TPOS_GetBeginningBalance_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'UserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetListPendingTransAll: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetListPendingTransAll_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetListPendingTransByUserID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aUserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetListPendingTransByUserID_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aUserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetListPendingTransByUserIDAndDate: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aUserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetListPendingTransByUserIDAndDate_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aUserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetListPendingTransDetailByHeaderID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aHeaderID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetListPendingTransDetailByHeaderID_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aHeaderID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetServerDate: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 11; TypeName: 'TDateTime')
+  );
+
+  TPOS_GetTransactionNo: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aPOSCODE'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aUNITID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
   TSuggestionOrder_GenerateSO: array [0..3] of TDSRestParameterMetaData =
@@ -10881,6 +10993,237 @@ destructor TJSONCRUDClient.Destroy;
 begin
   FTestCommand.DisposeOf;
   FTestCommand_Cache.DisposeOf;
+  FAfterExecuteMethodCommand.DisposeOf;
+  inherited;
+end;
+
+function TPOSClient.GetBeginningBalance(UserID: string; const ARequestFilter: string): TModBeginningBalance;
+begin
+  if FGetBeginningBalanceCommand = nil then
+  begin
+    FGetBeginningBalanceCommand := FConnection.CreateCommand;
+    FGetBeginningBalanceCommand.RequestType := 'GET';
+    FGetBeginningBalanceCommand.Text := 'TPOS.GetBeginningBalance';
+    FGetBeginningBalanceCommand.Prepare(TPOS_GetBeginningBalance);
+  end;
+  FGetBeginningBalanceCommand.Parameters[0].Value.SetWideString(UserID);
+  FGetBeginningBalanceCommand.Execute(ARequestFilter);
+  if not FGetBeginningBalanceCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FGetBeginningBalanceCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModBeginningBalance(FUnMarshal.UnMarshal(FGetBeginningBalanceCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FGetBeginningBalanceCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TPOSClient.GetBeginningBalance_Cache(UserID: string; const ARequestFilter: string): IDSRestCachedTModBeginningBalance;
+begin
+  if FGetBeginningBalanceCommand_Cache = nil then
+  begin
+    FGetBeginningBalanceCommand_Cache := FConnection.CreateCommand;
+    FGetBeginningBalanceCommand_Cache.RequestType := 'GET';
+    FGetBeginningBalanceCommand_Cache.Text := 'TPOS.GetBeginningBalance';
+    FGetBeginningBalanceCommand_Cache.Prepare(TPOS_GetBeginningBalance_Cache);
+  end;
+  FGetBeginningBalanceCommand_Cache.Parameters[0].Value.SetWideString(UserID);
+  FGetBeginningBalanceCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModBeginningBalance.Create(FGetBeginningBalanceCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TPOSClient.GetListPendingTransAll(const ARequestFilter: string): TDataSet;
+begin
+  if FGetListPendingTransAllCommand = nil then
+  begin
+    FGetListPendingTransAllCommand := FConnection.CreateCommand;
+    FGetListPendingTransAllCommand.RequestType := 'GET';
+    FGetListPendingTransAllCommand.Text := 'TPOS.GetListPendingTransAll';
+    FGetListPendingTransAllCommand.Prepare(TPOS_GetListPendingTransAll);
+  end;
+  FGetListPendingTransAllCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetListPendingTransAllCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetListPendingTransAllCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetListPendingTransAll_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetListPendingTransAllCommand_Cache = nil then
+  begin
+    FGetListPendingTransAllCommand_Cache := FConnection.CreateCommand;
+    FGetListPendingTransAllCommand_Cache.RequestType := 'GET';
+    FGetListPendingTransAllCommand_Cache.Text := 'TPOS.GetListPendingTransAll';
+    FGetListPendingTransAllCommand_Cache.Prepare(TPOS_GetListPendingTransAll_Cache);
+  end;
+  FGetListPendingTransAllCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetListPendingTransAllCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TPOSClient.GetListPendingTransByUserID(aUserID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FGetListPendingTransByUserIDCommand = nil then
+  begin
+    FGetListPendingTransByUserIDCommand := FConnection.CreateCommand;
+    FGetListPendingTransByUserIDCommand.RequestType := 'GET';
+    FGetListPendingTransByUserIDCommand.Text := 'TPOS.GetListPendingTransByUserID';
+    FGetListPendingTransByUserIDCommand.Prepare(TPOS_GetListPendingTransByUserID);
+  end;
+  FGetListPendingTransByUserIDCommand.Parameters[0].Value.SetWideString(aUserID);
+  FGetListPendingTransByUserIDCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetListPendingTransByUserIDCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetListPendingTransByUserIDCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetListPendingTransByUserID_Cache(aUserID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetListPendingTransByUserIDCommand_Cache = nil then
+  begin
+    FGetListPendingTransByUserIDCommand_Cache := FConnection.CreateCommand;
+    FGetListPendingTransByUserIDCommand_Cache.RequestType := 'GET';
+    FGetListPendingTransByUserIDCommand_Cache.Text := 'TPOS.GetListPendingTransByUserID';
+    FGetListPendingTransByUserIDCommand_Cache.Prepare(TPOS_GetListPendingTransByUserID_Cache);
+  end;
+  FGetListPendingTransByUserIDCommand_Cache.Parameters[0].Value.SetWideString(aUserID);
+  FGetListPendingTransByUserIDCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetListPendingTransByUserIDCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TPOSClient.GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FGetListPendingTransByUserIDAndDateCommand = nil then
+  begin
+    FGetListPendingTransByUserIDAndDateCommand := FConnection.CreateCommand;
+    FGetListPendingTransByUserIDAndDateCommand.RequestType := 'GET';
+    FGetListPendingTransByUserIDAndDateCommand.Text := 'TPOS.GetListPendingTransByUserIDAndDate';
+    FGetListPendingTransByUserIDAndDateCommand.Prepare(TPOS_GetListPendingTransByUserIDAndDate);
+  end;
+  FGetListPendingTransByUserIDAndDateCommand.Parameters[0].Value.SetWideString(aUserID);
+  FGetListPendingTransByUserIDAndDateCommand.Parameters[1].Value.AsDateTime := aDate;
+  FGetListPendingTransByUserIDAndDateCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetListPendingTransByUserIDAndDateCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetListPendingTransByUserIDAndDateCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetListPendingTransByUserIDAndDate_Cache(aUserID: string; aDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetListPendingTransByUserIDAndDateCommand_Cache = nil then
+  begin
+    FGetListPendingTransByUserIDAndDateCommand_Cache := FConnection.CreateCommand;
+    FGetListPendingTransByUserIDAndDateCommand_Cache.RequestType := 'GET';
+    FGetListPendingTransByUserIDAndDateCommand_Cache.Text := 'TPOS.GetListPendingTransByUserIDAndDate';
+    FGetListPendingTransByUserIDAndDateCommand_Cache.Prepare(TPOS_GetListPendingTransByUserIDAndDate_Cache);
+  end;
+  FGetListPendingTransByUserIDAndDateCommand_Cache.Parameters[0].Value.SetWideString(aUserID);
+  FGetListPendingTransByUserIDAndDateCommand_Cache.Parameters[1].Value.AsDateTime := aDate;
+  FGetListPendingTransByUserIDAndDateCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetListPendingTransByUserIDAndDateCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TPOSClient.GetListPendingTransDetailByHeaderID(aHeaderID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FGetListPendingTransDetailByHeaderIDCommand = nil then
+  begin
+    FGetListPendingTransDetailByHeaderIDCommand := FConnection.CreateCommand;
+    FGetListPendingTransDetailByHeaderIDCommand.RequestType := 'GET';
+    FGetListPendingTransDetailByHeaderIDCommand.Text := 'TPOS.GetListPendingTransDetailByHeaderID';
+    FGetListPendingTransDetailByHeaderIDCommand.Prepare(TPOS_GetListPendingTransDetailByHeaderID);
+  end;
+  FGetListPendingTransDetailByHeaderIDCommand.Parameters[0].Value.SetWideString(aHeaderID);
+  FGetListPendingTransDetailByHeaderIDCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetListPendingTransDetailByHeaderIDCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetListPendingTransDetailByHeaderIDCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetListPendingTransDetailByHeaderID_Cache(aHeaderID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetListPendingTransDetailByHeaderIDCommand_Cache = nil then
+  begin
+    FGetListPendingTransDetailByHeaderIDCommand_Cache := FConnection.CreateCommand;
+    FGetListPendingTransDetailByHeaderIDCommand_Cache.RequestType := 'GET';
+    FGetListPendingTransDetailByHeaderIDCommand_Cache.Text := 'TPOS.GetListPendingTransDetailByHeaderID';
+    FGetListPendingTransDetailByHeaderIDCommand_Cache.Prepare(TPOS_GetListPendingTransDetailByHeaderID_Cache);
+  end;
+  FGetListPendingTransDetailByHeaderIDCommand_Cache.Parameters[0].Value.SetWideString(aHeaderID);
+  FGetListPendingTransDetailByHeaderIDCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetListPendingTransDetailByHeaderIDCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TPOSClient.GetServerDate(const ARequestFilter: string): TDateTime;
+begin
+  if FGetServerDateCommand = nil then
+  begin
+    FGetServerDateCommand := FConnection.CreateCommand;
+    FGetServerDateCommand.RequestType := 'GET';
+    FGetServerDateCommand.Text := 'TPOS.GetServerDate';
+    FGetServerDateCommand.Prepare(TPOS_GetServerDate);
+  end;
+  FGetServerDateCommand.Execute(ARequestFilter);
+  Result := FGetServerDateCommand.Parameters[0].Value.AsDateTime;
+end;
+
+function TPOSClient.GetTransactionNo(aPOSCODE: string; aUNITID: string; const ARequestFilter: string): string;
+begin
+  if FGetTransactionNoCommand = nil then
+  begin
+    FGetTransactionNoCommand := FConnection.CreateCommand;
+    FGetTransactionNoCommand.RequestType := 'GET';
+    FGetTransactionNoCommand.Text := 'TPOS.GetTransactionNo';
+    FGetTransactionNoCommand.Prepare(TPOS_GetTransactionNo);
+  end;
+  FGetTransactionNoCommand.Parameters[0].Value.SetWideString(aPOSCODE);
+  FGetTransactionNoCommand.Parameters[1].Value.SetWideString(aUNITID);
+  FGetTransactionNoCommand.Execute(ARequestFilter);
+  Result := FGetTransactionNoCommand.Parameters[2].Value.GetWideString;
+end;
+
+procedure TPOSClient.AfterExecuteMethod;
+begin
+  if FAfterExecuteMethodCommand = nil then
+  begin
+    FAfterExecuteMethodCommand := FConnection.CreateCommand;
+    FAfterExecuteMethodCommand.RequestType := 'GET';
+    FAfterExecuteMethodCommand.Text := 'TPOS.AfterExecuteMethod';
+  end;
+  FAfterExecuteMethodCommand.Execute;
+end;
+
+constructor TPOSClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TPOSClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TPOSClient.Destroy;
+begin
+  FGetBeginningBalanceCommand.DisposeOf;
+  FGetBeginningBalanceCommand_Cache.DisposeOf;
+  FGetListPendingTransAllCommand.DisposeOf;
+  FGetListPendingTransAllCommand_Cache.DisposeOf;
+  FGetListPendingTransByUserIDCommand.DisposeOf;
+  FGetListPendingTransByUserIDCommand_Cache.DisposeOf;
+  FGetListPendingTransByUserIDAndDateCommand.DisposeOf;
+  FGetListPendingTransByUserIDAndDateCommand_Cache.DisposeOf;
+  FGetListPendingTransDetailByHeaderIDCommand.DisposeOf;
+  FGetListPendingTransDetailByHeaderIDCommand_Cache.DisposeOf;
+  FGetServerDateCommand.DisposeOf;
+  FGetTransactionNoCommand.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;

@@ -448,7 +448,7 @@ var
   sSQL: string;
 begin
   sSQL := 'SELECT * FROM V_BEGINNINGBALANCE '
-        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
+        + ' where cast(BALANCE_SHIFT_DATE as date) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
         + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
         + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
   Result := TDBUtils.OpenQuery(sSQL);

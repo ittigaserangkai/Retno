@@ -184,14 +184,14 @@ object fraLookupBarang: TfraLookupBarang
     Width = 569
   end
   object pmLookup: TPopupMenu
-    Left = 105
-    Top = 51
+    Left = 169
+    Top = 155
   end
   object tmrInfo: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrInfoTimer
-    Left = 72
+    Left = 240
     Top = 104
   end
 end

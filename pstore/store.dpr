@@ -223,7 +223,8 @@ uses
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
   uModDOTrader in '..\model\uModDOTrader.pas',
   uModPOTrader in '..\model\uModPOTrader.pas',
-  ufrmDialogPOFromTrader in '..\module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader};
+  ufrmDialogPOFromTrader in '..\module\trader\ufrmDialogPOFromTrader.pas' {frmDialogPOFromTrader},
+  uUnit in '..\classes\uUnit.pas';
 
 {$R *.res}
 

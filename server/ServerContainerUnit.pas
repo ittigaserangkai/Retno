@@ -9,7 +9,7 @@ uses
   Datasnap.DSProxyJavaAndroid, Datasnap.DSProxyJavaBlackBerry,
   Datasnap.DSProxyObjectiveCiOS, Datasnap.DSProxyCsharpSilverlight,
   Datasnap.DSProxyFreePascal_iOS,
-  Datasnap.DSAuth, Datasnap.DSNames, uServerDSProvider;
+  Datasnap.DSAuth, Datasnap.DSNames, uServerDSProvider, uServerPOS;
 
 type
   TServerContainer = class(TDataModule)
@@ -72,6 +72,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TDSProvider, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TDSReport, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TJSONCRUD, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TPOS, DSServerClass.LifeCycle);
 
   //custom class here :
   TCustServerClass.Create(Self, DSServer, TSuggestionOrder, DSServerClass.LifeCycle);

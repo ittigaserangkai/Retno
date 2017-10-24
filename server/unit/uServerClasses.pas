@@ -516,8 +516,7 @@ var
   sFilter: string;
 begin
   Result  := True;
-  if AObject.PropFromAttr(AttributeOfCode, False) = nil then
-    exit;
+  if AObject.PropFromAttr(AttributeOfCode, False) = nil then exit;
   sFilter := AOBject.GetCodeField + ' = ' + QuotedStr(AObject.GetCodeValue);
   if AOBject.ID <> '' then
     sFilter := sFilter + ' And ' + AOBject.GetPrimaryField + ' <> ' + QuotedStr(AOBject.ID);

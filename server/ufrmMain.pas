@@ -1,4 +1,4 @@
-unit ufrmMain;
+﻿unit ufrmMain;
 //testsfasdf
 
 interface
@@ -11,8 +11,10 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
   uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut,
-  uModJurnal, uModContrabonSales, uModCustomerInvoice,
-  cxButtons,System.Win.Registry, uModCrazyPrice;
+  uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client;
 
 type
   TfrmMain = class(TForm)
@@ -54,6 +56,7 @@ type
     btnTest: TButton;
     lblGenerateSQL: TLabel;
     bGenerateSQLCreateTable: TcxButton;
+    FDConnection1: TFDConnection;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);

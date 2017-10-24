@@ -15,7 +15,7 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, uClientClasses,
   uDMClient, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin,
-  uTSFastReportFunction, frxUtils;
+  frxUtils;
 
 type
   TDMReport = class(TForm)

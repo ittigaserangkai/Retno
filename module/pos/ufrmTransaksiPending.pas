@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxClasses, cxGridCustomView, cxGrid;
+  cxClasses, cxGridCustomView, cxGrid, uDMClient, uAppUtils;
 
 type
   TfrmTransaksiPending = class(TForm)
@@ -241,14 +241,23 @@ begin
      sgTransaksi.Col := 1;
   end;
   }
-  sgTransaksi.LoadFromCDS(cOpenDataset(GetListPendingTransByUserIDAndDate(frmMain.UserID, cGetServerDateTime)));
-  sgTransaksi.SetVisibleColumns(_Kol_TRANS_IS_ACTIVE, _Kol_TRANS_MEMBER_ID, False);
+//  sgTransaksi.LoadFromCDS(cOpenDataset(GetListPendingTransByUserIDAndDate(frmMain.UserID, cGetServerDateTime)));
+  if frmMain.AuthUser.ID = '' then
+    Raise Exception.Create('User Login belum ada');
+
+  sgTransaksi.LoadFromDS(
+    DMCLient.POSClient.GetListPendingTransByUserIDAndDate(frmMain.AuthUser.ID, Now()), Self
+  );
   if sgTransaksi.DataController.RecordCount = 0 then
   begin
     frmTransaksi := GetFormByClass(TfrmTransaksi) as TfrmTransaksi;
     if frmTransaksi <> nil then
-      CommonDlg.ShowMessage('Tidak ada Transaksi Pending');
+      TAppUtils.Information('Tidak ada Transaksi Pending');
+//      CommonDlg.ShowMessage('Tidak ada Transaksi Pending');
     Close;
+  end else
+  begin
+    sgTransaksi.SetVisibleColumns(_Kol_TRANS_IS_ACTIVE, _Kol_TRANS_MEMBER_ID, False);
   end;
 //  sgTransaksi.SetVisibleColumns(['_Kol_TRANS_ID'],False);
 //  sgTransaksi.SetColumnsWidth(['_Kol_TRANS_TOTAL'],100);

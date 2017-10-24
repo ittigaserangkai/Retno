@@ -13,8 +13,9 @@ object frmMain: TfrmMain
   FormStyle = fsMDIForm
   Menu = mnMain
   OldCreateOrder = False
+  Visible = True
   WindowState = wsMaximized
-  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -361,7 +362,7 @@ object frmMain: TfrmMain
     Left = 15
     Top = 19
     Bitmap = {
-      494C0101030004006C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000400800010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -504,5 +505,10 @@ object frmMain: TfrmMain
     OnTimer = tmrMainTimer
     Left = 18
     Top = 126
+  end
+  object AppEvents: TApplicationEvents
+    OnException = AppEventsException
+    Left = 32
+    Top = 280
   end
 end

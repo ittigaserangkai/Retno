@@ -3,7 +3,6 @@ program POSOne;
 uses
   Forms,
   ufrmTransaksi in '..\module\pos\ufrmTransaksi.pas' {frmTransaksi},
-  udmReport in '..\module\pos\udmReport.pas' {dmReport: TDataModule},
   ufrmPayment in '..\module\pos\ufrmPayment.pas' {frmPayment},
   ufraLookupBarang in '..\module\pos\ufraLookupBarang.pas' {fraLookupBarang: TFrame},
   ufrmTransaksiPending in '..\module\pos\ufrmTransaksiPending.pas' {frmTransaksiPending},
@@ -75,15 +74,17 @@ uses
   uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
   uModCustomerVoucher in '..\model\uModCustomerVoucher.pas',
   uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
-  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas';
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  uDMReport in '..\system\uDMReport.pas' {DMReport};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TdmReport, dmReport);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
+  frmMain.DoLogin();
+  Application.CreateForm(TDMReport, DMReport);
   Application.Run;
 end.
