@@ -188,7 +188,6 @@ inherited frmActivatePOS: TfrmActivatePOS
       ExplicitWidth = 562
       inherited lbEscape: TLabel
         Left = 488
-        Height = 17
         ExplicitLeft = 488
       end
     end

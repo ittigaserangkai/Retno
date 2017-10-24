@@ -3,7 +3,6 @@ inherited frmDataCostumer: TfrmDataCostumer
   ClientHeight = 383
   ClientWidth = 603
   OldCreateOrder = True
-  ExplicitTop = 8
   ExplicitWidth = 619
   ExplicitHeight = 422
   PixelsPerInch = 96
@@ -14,12 +13,12 @@ inherited frmDataCostumer: TfrmDataCostumer
     ExplicitWidth = 569
     ExplicitHeight = 238
     inherited pgcBrowse: TcxPageControl
-      Width = 581
-      Height = 272
+      Width = 601
+      Height = 292
       ExplicitWidth = 547
       ExplicitHeight = 216
-      ClientRectBottom = 271
-      ClientRectRight = 580
+      ClientRectBottom = 291
+      ClientRectRight = 600
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
@@ -36,10 +35,10 @@ inherited frmDataCostumer: TfrmDataCostumer
   end
   inherited pnlHeader: TPanel
     Width = 603
-    ExplicitWidth = 569
+    ExplicitWidth = 603
     inherited lblFilterData: TcxLabel
       Left = 249
-      ExplicitLeft = 215
+      ExplicitLeft = 249
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -58,7 +57,7 @@ inherited frmDataCostumer: TfrmDataCostumer
     end
     inherited lblsdFilter: TcxLabel
       Left = 402
-      ExplicitLeft = 368
+      ExplicitLeft = 402
       AnchorY = 17
     end
   end
@@ -83,7 +82,6 @@ inherited frmDataCostumer: TfrmDataCostumer
         Left = 526
         Action = actClose
         ExplicitLeft = 492
-        ExplicitTop = 4
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -94,8 +92,7 @@ inherited frmDataCostumer: TfrmDataCostumer
       ExplicitWidth = 569
       inherited lbEscape: TLabel
         Left = 529
-        Height = 17
-        ExplicitLeft = 495
+        ExplicitLeft = 529
       end
     end
   end

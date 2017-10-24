@@ -12,16 +12,13 @@ inherited frmCashDropping: TfrmCashDropping
   inherited pnlBody: TPanel
     Width = 775
     Height = 368
-    BorderWidth = 0
     ExplicitWidth = 775
     ExplicitHeight = 312
     inherited pgcBrowse: TcxPageControl
-      Left = 1
       Top = 39
       Width = 773
       Height = 328
       TabOrder = 2
-      ExplicitLeft = 1
       ExplicitTop = 39
       ExplicitWidth = 773
       ExplicitHeight = 272
@@ -31,7 +28,7 @@ inherited frmCashDropping: TfrmCashDropping
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 771
-        ExplicitHeight = 270
+        ExplicitHeight = 326
         inherited cxGrid: TcxGrid
           Width = 771
           Height = 270
@@ -46,9 +43,6 @@ inherited frmCashDropping: TfrmCashDropping
           Align = alBottom
           BevelOuter = bvLowered
           TabOrder = 1
-          ExplicitLeft = 11
-          ExplicitTop = 205
-          ExplicitWidth = 751
           DesignSize = (
             771
             56)
@@ -165,8 +159,8 @@ inherited frmCashDropping: TfrmCashDropping
       object lbl16: TLabel
         Left = 11
         Top = 11
-        Width = 347
-        Height = 59
+        Width = 321
+        Height = 54
         Align = alClient
         Alignment = taCenter
         Caption = 
@@ -178,8 +172,6 @@ inherited frmCashDropping: TfrmCashDropping
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitWidth = 321
-        ExplicitHeight = 54
       end
     end
   end
@@ -231,12 +223,10 @@ inherited frmCashDropping: TfrmCashDropping
       inherited btnClose: TcxButton
         Left = 698
         Action = actClose
-        OnClick = nil
         ExplicitLeft = 698
       end
       inherited cxButton1: TcxButton
         Action = actExport
-        OnClick = nil
       end
     end
     inherited pnlShortCut: TPanel
@@ -244,7 +234,7 @@ inherited frmCashDropping: TfrmCashDropping
       ExplicitWidth = 775
       inherited lbEscape: TLabel
         Left = 701
-        Height = 17
+        ExplicitLeft = 701
       end
     end
   end

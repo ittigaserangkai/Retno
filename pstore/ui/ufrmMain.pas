@@ -250,6 +250,14 @@ type
     dxbrbtnResetCashier: TdxBarButton;
     dxBarButton1: TdxBarButton;
     dxbrbtnDOForTrader: TdxBarButton;
+    dxbrMarketingAgreement: TdxBar;
+    dxbrbtnCustomerAgreement: TdxBarButton;
+    actMasterAgreement: TAction;
+    dxbrbtn2: TdxBarButton;
+    actScheduleAgreement: TAction;
+    dxbrbtn3: TdxBarButton;
+    actFakturPajakAgreement: TAction;
+    dxbrbtn4: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -313,14 +321,18 @@ type
     procedure FormShow(Sender: TObject);
     procedure miExit1Click(Sender: TObject);
     procedure actCNReceivingExecute(Sender: TObject);
+    procedure actCustomerAgreementExecute(Sender: TObject);
     procedure actDailySalesAnalysisExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
     procedure actDOForTraderExecute(Sender: TObject);
+    procedure actFakturPajakAgreementExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
     procedure actInvMovementExecute(Sender: TObject);
+    procedure actMasterAgreementExecute(Sender: TObject);
     procedure actPreferenceExecute(Sender: TObject);
     procedure actResetMenuExecute(Sender: TObject);
+    procedure actScheduleAgreementExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
@@ -385,7 +397,8 @@ uses
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
   ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
-  ufrmDailySalesAnalysis, ufrmKuponBotol;
+  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement,
+  ufrmFakturPajakAgreement, ufrmMasterAgreement, ufrmScheduleAgreement;
 
 
 
@@ -471,6 +484,11 @@ begin
     frmCreditCard := TfrmCreditCard.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actCustomerAgreementExecute(Sender: TObject);
+begin
+  frmCustomerAgreement := TfrmCustomerAgreement.CreateWithUser(Self, FFormProperty);
+end;
+
 procedure TfrmMain.actDailySalesAnalysisExecute(Sender: TObject);
 begin
   frmDailySalesAnalysis := TfrmDailySalesAnalysis.CreateWithUser(Self, FFormProperty);
@@ -510,6 +528,11 @@ end;
 procedure TfrmMain.actDSIExecute(Sender: TObject);
 begin
   frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actFakturPajakAgreementExecute(Sender: TObject);
+begin
+  frmFakturPajakAgreement := TfrmFakturPajakAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
@@ -582,6 +605,11 @@ begin
     frmMaintenancePassword := TfrmMaintenancePassword.CreateWithUser(Application, FFormProperty);
 end;
 
+procedure TfrmMain.actMasterAgreementExecute(Sender: TObject);
+begin
+    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actMemberActivationExecute(Sender: TObject);
 begin
   frmMemberActivation := TfrmMemberActivation.CreateWithUser(Application,FFormProperty);
@@ -620,9 +648,9 @@ begin
     ConLog.DefaultConfig;
     ConLog.Connected:= True;
     ConLog.CanMonitor:= True;
-    suistbMain.Panels[4].Text:= 'Log : Yes';
+    stbMain.Panels[4].Text:= 'Log : Yes';
   except
-    suistbMain.Panels[4].Text:= 'Log : No';
+    stbMain.Panels[4].Text:= 'Log : No';
     ConLog.CanMonitor:= False;
   end;
    }
@@ -808,6 +836,11 @@ end;
 procedure TfrmMain.actSalesReportContrabonExecute(Sender: TObject);
 begin
   frmSalesReportContrabon := TfrmSalesReportContrabon.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actScheduleAgreementExecute(Sender: TObject);
+begin
+  frmScheduleAgreement:= TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actServiceLevelExecute(Sender: TObject);
