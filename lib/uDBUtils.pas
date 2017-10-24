@@ -458,6 +458,8 @@ begin
   Result := '';
   ResultObjectList := '';
 
+  AObject.Date_Create := Now;
+
   rt := ctx.GetType(AObject.ClassType);
 
   if AObject.ID = '' then
@@ -593,6 +595,8 @@ begin
 
   Result := '';
 
+  AObject.Date_Modify := Now;
+
   rt := ctx.GetType(AObject.ClassType);
   Result := 'update ' + AObject.ClassName + ' set ';
 
@@ -706,6 +710,8 @@ var
 begin
   FieldValues := '';
   FieldNames  := '';
+
+  AObject.Date_Create := Now;
  
   if AObject.ID = '' then AObject.ID := TDBUtils.GetNextIDGUIDToString();
   rt := ctx.GetType(AObject.ClassType);
@@ -733,6 +739,8 @@ var
   sFilter : String;
 begin
   UpdateVal := '';
+
+  AObject.Date_Modify := Now;
 
   rt := ctx.GetType(AObject.ClassType);
   for prop in rt.GetProperties do

@@ -10,7 +10,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
     Width = 851
     Height = 417
     ExplicitWidth = 851
-    ExplicitHeight = 412
+    ExplicitHeight = 417
     object pnlHeader: TPanel
       Left = 2
       Top = 2
@@ -81,7 +81,6 @@ inherited frmDialogJurnal: TfrmDialogJurnal
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitHeight = 305
       object cxGridTableJurnal: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -162,7 +161,7 @@ inherited frmDialogJurnal: TfrmDialogJurnal
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 417
     Width = 851
-    ExplicitTop = 412
+    ExplicitTop = 417
     ExplicitWidth = 851
     inherited pnlFooter: TPanel
       Width = 851

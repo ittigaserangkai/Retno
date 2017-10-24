@@ -13,7 +13,22 @@ uses
   dxCore, cxDateUtils, cxMemo, cxMaskEdit, cxDropDownEdit, cxCalendar,
   uModJurnal, uAppUtils,
   uConstanta, uDXUtils, cxDBExtLookupComboBox, cxCalc, Datasnap.DBClient,
-  uDBUtils, uModRekening, uModCostCenter, uInterface;
+  uDBUtils, uModRekening, uModCostCenter, uInterface, dxSkinsCore, dxSkinBlack,
+  dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
+  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
+  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
+  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
+  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter;
 
 type
   TfrmDialogJurnal = class(TfrmMasterDialog, ICRUDAble)
@@ -167,7 +182,8 @@ begin
   begin
     FModJurnal            := TModJurnal.Create;
     FModJurnal.JUR_DATE   := Now();
-    FModJurnal.JUR_NO     := 'Otomatis';
+//    FModJurnal.JUR_NO     := 'Otomatis';
+    FModJurnal.JUR_NO     := DMClient.CRUDJurnalClient.GenerateNo(ModJurnal.ClassName);
   end;
 
   //isi dari modjurnal
@@ -189,6 +205,7 @@ begin
     lItem.JURD_REKENING.Reload();
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurNama.Index] := lItem.JURD_REKENING.REK_NAME;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCostCenter.Index] := lItem.JURD_COCENTER.ID;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDescription.Index] := lItem.JURD_DESCRIPTION;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDebet.Index] := lItem.JURD_DEBET;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCredit.Index] := lItem.JURD_CREDIT;
   end;
@@ -197,7 +214,7 @@ end;
 procedure TfrmDialogJurnal.SimpanData;
 begin
   try
-    DMClient.CrudClient.SaveToDB(ModJurnal);
+    DMClient.CRUDJurnalClient.SaveToDB(ModJurnal);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     self.ModalResult:=mrOk;
   except
@@ -214,14 +231,22 @@ var
 
 begin
   Result := False;
-  if not ValidateEmptyCtrl([0,1]) then exit;
+  cxGridTableJurnal.DataController.Post();
 
+  if not ValidateEmptyCtrl([0,1]) then exit;
   // validasi total debet = total credit
   lTotalDebet := cxGridTableJurnal.GetFooterSummary(cxGridColJurDebet);
   lTotalCredit:= cxGridTableJurnal.GetFooterSummary(cxGridColJurCredit);
   if not (lTotalDebet = lTotalCredit) then
   begin
     TAppUtils.Warning('Total debet dan kredit tidak sama');
+    exit;
+  end;
+
+  //validasi antara total D dan K tidak boleh 0
+  if (lTotalDebet = 0) or (lTotalCredit = 0) then
+  begin
+    TAppUtils.Warning('Total Debet atau Kredit tidak boleh 0');
     exit;
   end;
 
@@ -254,7 +279,7 @@ var
 begin
 //header
   if ModJurnal.ID = '' then
-    edNo.Text := DMClient.CrudClient.GenerateNo(ModJurnal.ClassName);
+    edNo.Text := DMClient.CRUDJurnalClient.GenerateNo(ModJurnal.ClassName);
 
   ModJurnal.JUR_NO          := edNo.Text;
   ModJurnal.JUR_DATE        := dtTanggal.Date;

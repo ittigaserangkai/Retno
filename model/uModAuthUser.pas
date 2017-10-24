@@ -1,6 +1,7 @@
 unit uModAuthUser;
 
 interface
+
 uses uModApp;
 type
   TModAuthUser = class(TModApp)
@@ -18,6 +19,7 @@ type
     property MaxUbahPO: Integer read FMaxUbahPO write FMaxUbahPO;
     property OTOQTYSO: Integer read FOTOQTYSO write FOTOQTYSO;
     property USR_FULLNAME: String read FUSR_FULLNAME write FUSR_FULLNAME;
+    [AttributeOfCode]
     property USR_USERNAME: String read FUSR_USERNAME write FUSR_USERNAME;
     property USR_PASSWD: String read FUSR_PASSWD write FUSR_PASSWD;
     property USR_STATUS: Integer read FUSR_STATUS write FUSR_STATUS;

@@ -9,24 +9,22 @@ inherited frmJurnal: TfrmJurnal
   inherited pnlBody: TPanel
     Width = 724
     Height = 341
-    ExplicitWidth = 702
+    ExplicitWidth = 724
     ExplicitHeight = 341
     inherited pgcBrowse: TcxPageControl
       Width = 722
       Height = 339
-      ExplicitWidth = 700
+      ExplicitWidth = 722
       ExplicitHeight = 339
       ClientRectBottom = 338
       ClientRectRight = 721
       inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 698
-        ExplicitHeight = 310
+        ExplicitWidth = 720
+        ExplicitHeight = 337
         inherited cxGrid: TcxGrid
           Width = 720
           Height = 337
-          ExplicitWidth = 698
+          ExplicitWidth = 720
           ExplicitHeight = 337
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
@@ -36,22 +34,27 @@ inherited frmJurnal: TfrmJurnal
             object cxGridViewColumn2: TcxGridDBColumn
               Caption = 'NOMOR JURNAL'
               DataBinding.FieldName = 'JUR_NO'
+              Width = 100
             end
             object cxGridViewColumn3: TcxGridDBColumn
               Caption = 'DEBET'
               DataBinding.FieldName = 'JUR_DEBET'
+              Width = 100
             end
             object cxGridViewColumn4: TcxGridDBColumn
               Caption = 'CREDIT'
               DataBinding.FieldName = 'JUR_CREDIT'
+              Width = 100
             end
             object cxGridViewColumn5: TcxGridDBColumn
               Caption = 'TANGGAL JURNAL'
               DataBinding.FieldName = 'JUR_DATE'
+              Width = 100
             end
             object cxGridViewColumn6: TcxGridDBColumn
               Caption = 'DESKRIPSI'
               DataBinding.FieldName = 'JUR_DESCRIPTION'
+              Width = 200
             end
           end
         end
@@ -75,18 +78,16 @@ inherited frmJurnal: TfrmJurnal
     inherited dtAwalFilter: TcxDateEdit
       Left = 431
       Visible = True
-      ExplicitLeft = 409
-      ExplicitHeight = 23
+      ExplicitLeft = 431
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 547
       Visible = True
-      ExplicitLeft = 525
-      ExplicitHeight = 23
+      ExplicitLeft = 547
     end
     inherited btnSearch: TcxButton
       Left = 642
-      ExplicitLeft = 620
+      ExplicitLeft = 642
     end
     inherited lblsdFilter: TcxLabel
       Left = 523
@@ -98,11 +99,11 @@ inherited frmJurnal: TfrmJurnal
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 374
     Width = 724
-    ExplicitTop = -56
-    ExplicitWidth = 702
+    ExplicitTop = 374
+    ExplicitWidth = 724
     inherited pnlFooter: TPanel
       Width = 724
-      ExplicitWidth = 702
+      ExplicitWidth = 724
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -115,7 +116,7 @@ inherited frmJurnal: TfrmJurnal
       inherited btnClose: TcxButton
         Left = 647
         Action = actClose
-        ExplicitLeft = 625
+        ExplicitLeft = 647
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -123,9 +124,10 @@ inherited frmJurnal: TfrmJurnal
     end
     inherited pnlShortCut: TPanel
       Width = 724
-      ExplicitWidth = 702
+      ExplicitWidth = 724
       inherited lbEscape: TLabel
         Left = 650
+        Height = 17
         ExplicitLeft = 650
       end
     end

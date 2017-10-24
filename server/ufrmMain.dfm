@@ -5507,4 +5507,8 @@ object frmMain: TfrmMain
       OnExecute = actToolsGenerateModelExecute
     end
   end
+  object FDConnection1: TFDConnection
+    Left = 272
+    Top = 256
+  end
 end

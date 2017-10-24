@@ -5,17 +5,21 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit;
+  cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxGroupBox,
+  dxGDIPlusClasses, uModAuthUser, uDMClient, uModBeginningBalance, cxLabel;
 
 type
   TfrmLogin = class(TForm)
-    Label1: TLabel;
-    Label2: TLabel;
     sbLogin: TStatusBar;
+    tmrLogin: TTimer;
+    cxGroupBox1: TcxGroupBox;
+    Label1: TLabel;
     edCashierID: TcxTextEdit;
     edNama: TcxTextEdit;
     edPassword: TcxTextEdit;
-    tmrLogin: TTimer;
+    Label2: TLabel;
+    Image1: TImage;
+    cxLabel1: TcxLabel;
     procedure tmrLoginTimer(Sender: TObject);
     procedure edCashierIDKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -25,13 +29,15 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
+    FAuthUser: TModAuthUser;
+    FBeginningBalance: TModBeginningBalance;
     FBalanceID: string;
-    FPassword: String;
-    FUserID: string;
+    function SetAuthUser(UserID: string): TModAuthUser;
   public
+    property AuthUser: TModAuthUser read FAuthUser write FAuthUser;
     property BalanceID: string read FBalanceID write FBalanceID;
-    property Password: String read FPassword write FPassword;
-    property UserID: string read FUserID write FUserID;
+    property BeginningBalance: TModBeginningBalance read FBeginningBalance write
+        FBeginningBalance;
   end;
 
 var
@@ -40,7 +46,7 @@ var
 implementation
 
 uses
-  ufrmMain, uTSCommonDlg, DB, uAppUtils, udmMain;
+  ufrmMain, uTSCommonDlg, DB, udmMain, uAppUtils;
 
 {$R *.dfm}
 
@@ -56,67 +62,51 @@ var
   sSQL: string;
   dServerDate : TDateTime;
 begin
-  case Key of    //
-    VK_RETURN:
-    begin
-      {$IFDEF TSN}
-      frmLogin.Caption := 'Selamat Datang di TSN POS System';
-      edCashierID.Text := Trim(edCashierID.Text);
-      {$ELSE}
-      try
-        frmLogin.Caption := 'Selamat Datang di Assaalaam POS System';
-        edCashierID.Text := TAppUtils.StrPadRight('',4 - Length(edCashierID.Text),'0') + edCashierID.Text;
-      except
-      end;
-      {$ENDIF}
-      dServerDate := cGetServerDateTime;
+  if Key = VK_RETURN then
+  begin
+    edCashierID.Text := TAppUtils.StrPadRight('',4 - Length(edCashierID.Text),'0') + edCashierID.Text;
+    SetAuthUser(edCashierID.Text);
+  end;
 
-      sSQL := 'select a.usr_fullname, a.usr_passwd, a.aut$user_id, b.beginning_balance_id '
-        + 'from aut$user a '
-        + ' inner join beginning_balance b on a.aut$user_id = b.aut$user_id '
-//        + '  and a.usr_unt_id = b.balance_usr_unt_id '
-        + '  and a.usr_username = ' + QuotedStr(edCashierID.Text)
-//        + '  and a.usr_unt_id = ' + IntToStr(frmMain.UnitID)
-        + '  and date(b.balance_shift_date) = ' + TAppUtils.QuotD(dServerDate)
-        + '  and b.BALANCE_STATUS = ' + QuotedStr('OPEN')
-        + ' inner join setuppos c on b.setuppos_id = c.setuppos_id '
-        + '  and b.aut$unit_id = c.aut$unit_id '
-        + '  and c.setuppos_terminal_code = ' + QuotedStr(frmMain.FPOSCode)
-        + '  and c.setuppos_is_active = 1 '
-        + ' inner join shift d on b.shift_id = d.shift_id '
-//        + '  and b.balance_shift_unt_id = d.shift_unt_id '
-        + '  and time(d.shift_start_time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
-        + '  and time(d.shift_end_time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
-//        + '  and cast(d.shift_start_time as time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
-//        + '  and cast(d.shift_end_time as time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
+//  dServerDate := cGetServerDateTime;
+//  sSQL := 'select a.usr_fullname, a.usr_passwd, a.aut$user_id, b.beginning_balance_id '
+//    + 'from aut$user a '
+//    + ' inner join beginning_balance b on a.aut$user_id = b.aut$user_id '
+//    + '  and a.usr_username = ' + QuotedStr(edCashierID.Text)
+//    + '  and date(b.balance_shift_date) = ' + TAppUtils.QuotD(dServerDate)
+//    + '  and b.BALANCE_STATUS = ' + QuotedStr('OPEN')
+//    + ' inner join setuppos c on b.setuppos_id = c.setuppos_id '
+//    + '  and b.aut$unit_id = c.aut$unit_id '
+//    + '  and c.setuppos_terminal_code = ' + QuotedStr(frmMain.FPOSCode)
+//    + '  and c.setuppos_is_active = 1 '
+//    + ' inner join shift d on b.shift_id = d.shift_id '
+//    + '  and time(d.shift_start_time) <= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate))
+//    + '  and time(d.shift_end_time) >= ' + QuotedStr(FormatDateTime('hh:nn:ss', dServerDate));
+//  edNama.Clear;
+//  Password := '';
+//  UserID := '';
+//  with cOpenQuery(sSQL) do
+//  begin
+//    try
+//      if not eof then
+//      begin
+//        edNama.Text := Fields[0].AsString;
+//        Password    := Fields[1].AsString;
+//        UserID      := Fields[2].AsString;
+//        BalanceID   := Fields[3].AsString;
+//        edPassword.SelectAll;
+//        edPassword.SetFocus;
+//      end
+//      else
+//      begin
+//        edNama.Text := 'Kasir Tidak Aktif ! ( ' + FormatDateTime('dd-MM-yy hh:nn:ss', dServerDate) + ')';
+//        edCashierID.SelectAll;
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end;
 
-      edNama.Clear;
-      Password := '';
-      UserID := '';
-
-      with cOpenQuery(sSQL) do
-      begin
-        try
-          if not eof then
-          begin
-            edNama.Text := Fields[0].AsString;
-            Password    := Fields[1].AsString;
-            UserID      := Fields[2].AsString;
-            BalanceID   := Fields[3].AsString;
-            edPassword.SelectAll;
-            edPassword.SetFocus;
-          end
-          else
-          begin
-            edNama.Text := 'Kasir Tidak Aktif ! ( ' + FormatDateTime('dd-MM-yy hh:nn:ss', dServerDate) + ')';
-            edCashierID.SelectAll;
-          end;
-        finally
-          Free;
-        end;
-      end;
-    end;
-  end;    // case
 end;
 
 procedure TfrmLogin.edPasswordKeyDown(Sender: TObject; var Key: Word;
@@ -129,47 +119,53 @@ begin
     end;
     VK_RETURN:
     begin
-      if UserID <> '' then
+      if not Assigned(AuthUser) then exit;
+      if edPassword.Text = AuthUser.USR_PASSWD then
       begin
-        if edPassword.Text = Password then
-        begin
-          with frmMain do
-          begin
-            FCashierCode        := edCashierID.Text;
-            FCashierName        := edNama.Text;
-            FBeginningBalanceID := BalanceID;
-            UserID              := Self.UserID;
-//            LoginUsername       := edCashierID.Text;
-//            LoginUnitId         := frmMain.UnitID;
-            EnableMenu;
-            miTransactionPending1Click(miTransactionPending1);
-//            miTransactionEndUserClick(miTransactionEndUser);
-            sbMain.Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
-          end;
-          Self.Close;
-        end
-        else
-        begin
-          CommonDlg.ShowError('Password Anda salah');
-        end;  
-      end;  
+        Self.ModalResult := mrOk;
+      end else
+        CommonDlg.ShowError('Password Anda salah');
     end;    
-  end;    // case
+  end;
 end;
 
 procedure TfrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Action := caFree;
+//  Action := caFree;
 end;
 
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   sbLogin.Panels[2].Text := 'POS Code: ' + frmMain.FPOSCode;
+  frmLogin.Caption := 'Selamat Datang di Assaalaam POS System';
 end;
 
 procedure TfrmLogin.FormDestroy(Sender: TObject);
 begin
-     frmLogin := nil;
+  frmLogin := nil;
+end;
+
+function TfrmLogin.SetAuthUser(UserID: string): TModAuthUser;
+begin
+  FreeAndNil(FAuthUser);
+  FAuthUser := DMClient.CrudClient.RetrieveByCode(TModAuthUser.ClassName, UserID) as TModAuthUser;
+  if FAuthUser.ID = '' then
+  begin
+    CommonDlg.ShowError('User ' + UserID + ' tidak ditemukan di database');
+    exit;
+  end;
+  edNama.Text := AuthUser.USR_FULLNAME;
+
+  //set balance
+  FreeAndNil(FBeginningBalance);
+  FBeginningBalance := DMClient.POSClient.GetBeginningBalance(AuthUser.ID);
+  if FBeginningBalance.ID = '' then
+  begin
+    CommonDlg.ShowError('Beginning Balance atas User ' + UserID + ' belum diset');
+    exit;
+  end;
+
+  edPassword.SetFocus;
 end;
 
 end.

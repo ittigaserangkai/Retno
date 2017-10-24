@@ -180,7 +180,7 @@ var
 implementation
 
 uses
-  ufrmMain, Math, uConstanta, StrUtils, udmMain, uDXUtils;
+  ufrmMain, Math, uConstanta, StrUtils, udmMain, uDXUtils, uDMClient;
 
 {$R *.dfm}
 
@@ -282,7 +282,7 @@ end;
 procedure TfrmTransaksi.FormCreate(Sender: TObject);
 begin
   try
-    FServerDateTime      := cGetServerDateTime;
+    FServerDateTime      := DMClient.POSClient.GetServerDate;
     edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
     sgHeader := TStringList.Create;
     SetGridHeader_Transaksi;

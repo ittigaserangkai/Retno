@@ -243,7 +243,9 @@ uses
   uModCustomerInvoice in '..\model\uModCustomerInvoice.pas',
   uModPOTrader in '..\model\uModPOTrader.pas',
   uModDOTrader in '..\model\uModDOTrader.pas',
-  uModAR in '..\model\uModAR.pas';
+  uModAR in '..\model\uModAR.pas',
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uModSetupPOS in '..\model\uModSetupPOS.pas';
 
 {$R *.res}
 

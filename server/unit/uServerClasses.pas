@@ -64,6 +64,8 @@ type
   end;
 
   TCrudSupplier = class(TCrud)
+  private
+    function ValidateCodeOnObject(AObject: TModApp): Boolean;
   public
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
@@ -179,6 +181,13 @@ type
   protected
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; override;
+  end;
+
+  TCRUDJurnal = class(TCrud)
+  protected
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; override;
+  public
   end;
 
 {$METHODINFO OFF}
@@ -514,8 +523,7 @@ var
   sFilter: string;
 begin
   Result  := True;
-  if AObject.PropFromAttr(AttributeOfCode, False) = nil then
-    exit;
+  if AObject.PropFromAttr(AttributeOfCode, False) = nil then exit;
   sFilter := AOBject.GetCodeField + ' = ' + QuotedStr(AObject.GetCodeValue);
   if AOBject.ID <> '' then
     sFilter := sFilter + ' And ' + AOBject.GetPrimaryField + ' <> ' + QuotedStr(AOBject.ID);
@@ -583,14 +591,19 @@ end;
 function TCrudSupplier.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lModSupplier: TModSuplier;
-//  lSS: TStrings;
   I: Integer;
 begin
-  Result := True;
+  Result := False;
+
+  if not ValidateCodeOnObject(AObject) then
+    Exit;
 
   lModSupplier := TModSuplier(AObject);
   for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
   begin
+    if not ValidateCode(lModSupplier.SuplierMerchanGroups[i]) then
+    Exit;
+
     if lModSupplier.SuplierMerchanGroups[i].SUPMG_IS_DIF_CONTACT = 0 then
     begin
       lModSupplier.SuplierMerchanGroups[i].SUPMG_ADDRESS := lModSupplier.SUP_ADDRESS;
@@ -610,6 +623,27 @@ begin
 
   end;
 
+end;
+
+function TCrudSupplier.ValidateCodeOnObject(AObject: TModApp): Boolean;
+var
+  lModSupplier: TModSuplier;
+  I: Integer;
+  j: Integer;
+begin
+  lModSupplier := TModSuplier(AObject);
+  for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+  begin
+    for j := i + 1 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+    begin
+      if lModSupplier.SuplierMerchanGroups[i].SUPMG_SUB_CODE = lModSupplier.SuplierMerchanGroups[j].SUPMG_SUB_CODE then
+      begin
+        raise Exception.Create('Kode Supplier Merchandise Group Double : ' + lModSupplier.SuplierMerchanGroups[i].SUPMG_SUB_CODE);
+      end;
+    end;
+  end;
+
+  Result := True;
 end;
 
 procedure TBaseServerClass.AfterExecuteMethod;
@@ -1486,6 +1520,43 @@ begin
   Result := IntToStr(lNum);
   for i := 0 to aCountDigit-1 do Result := '0' + Result;
   Result := 'RB' + FormatDateTime('yyMMdd',Now) + RightStr(Result, aCountDigit);
+
+  AfterExecuteMethod;
+end;
+
+function TCRUDJurnal.GenerateCustomNo(aTableName, aFieldName: string;
+    aCountDigit: Integer = 11): String;
+var
+  i: Integer;
+  lMonth: string;
+  lNum: Integer;
+  lPrefix: string;
+  lTahun: string;
+  S: string;
+begin
+  aCountDigit := 4;
+  lNum := 0;
+  lTahun := FormatDateTime('YYYY', Now());
+  lMonth := FormatDateTime('MM', Now());
+  lPrefix := 'JM.' + lTahun + '.' + lMonth + '.' ;
+
+  S := 'select max(' + aFieldName + ') from ' + aTableName
+      + ' where ' + aFieldName + ' like '+  QuotedStr(lPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt( RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      free;
+    End;
+  end;
+  inc(lNum);
+
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := lPrefix +  RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
 end;

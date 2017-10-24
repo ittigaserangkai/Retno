@@ -69,7 +69,7 @@ type
     function GroupRekening_GetDSLookup: TDataSet;
     function Gudang_GetDSLookUp: TDataSet;
     function Gudang_GetDSOverview: TDataSet;
-    function Jurnal_GetDSOverview: TDataSet;
+    function Jurnal_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function Kabupaten_GetDSLookUp: TDataSet;
     function Kategori_GetDSLookup: TDataSet;
     function Kompetitor_GetDSOverview: TDataSet;
@@ -448,7 +448,7 @@ var
   sSQL: string;
 begin
   sSQL := 'SELECT * FROM V_BEGINNINGBALANCE '
-        + ' where dbo.DateOnly(BALANCE_SHIFT_DATE) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
+        + ' where cast(BALANCE_SHIFT_DATE as date) = ' + TDBUtils.QuotD(StartOfTheDay(aDate))
         + ' and AUT$UNIT_ID = ' + TDBUtils.Quot(AUnitID)
         + ' and SHIFT_NAME = ' + TDBUtils.Quot(aShiftName);
   Result := TDBUtils.OpenQuery(sSQL);
@@ -760,11 +760,13 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.Jurnal_GetDSOverview: TDataSet;
+function TDSProvider.Jurnal_GetDSOverview(aStartDate, aEndDate: TDateTime):
+    TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM JURNAL';
+  S := 'SELECT * FROM JURNAL where cast (JUR_DATE as date) between '
+      + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
   Result := TDBUtils.OpenQuery(S);
 end;
 

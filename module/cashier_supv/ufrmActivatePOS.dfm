@@ -46,17 +46,17 @@ inherited frmActivatePOS: TfrmActivatePOS
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          DesignSize = (
-            558
-            34)
           object btnActivatePOS: TcxButton
-            Left = 407
+            AlignWithMargins = True
+            Left = 416
             Top = 3
             Width = 137
-            Height = 27
+            Height = 28
             Cursor = crHandPoint
+            Margins.Top = 1
+            Margins.Bottom = 1
+            Align = alRight
             Action = actActivatePOS
-            Anchors = [akRight]
             OptionsImage.Images = DMClient.imgListButton
             TabOrder = 0
             Font.Charset = DEFAULT_CHARSET
@@ -65,13 +65,16 @@ inherited frmActivatePOS: TfrmActivatePOS
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
+            ExplicitLeft = 486
+            ExplicitTop = 2
           end
           object lblCheckAll: TcxLabel
-            Left = 248
-            Top = 7
+            AlignWithMargins = True
+            Left = 314
+            Top = 5
             Cursor = crHandPoint
             ParentCustomHint = False
-            Anchors = [akRight]
+            Align = alRight
             Caption = 'Check All'
             ParentColor = False
             ParentFont = False
@@ -83,17 +86,22 @@ inherited frmActivatePOS: TfrmActivatePOS
             StyleFocused.TextColor = clHotLight
             StyleFocused.TextStyle = [fsUnderline]
             StyleHot.TextStyle = [fsUnderline]
+            Properties.Alignment.Vert = taVCenter
             Transparent = True
             OnClick = lblCheckAllClick
             OnMouseEnter = lblCheckAllMouseEnter
             OnMouseLeave = lblCheckAllMouseLeave
+            ExplicitLeft = 287
+            ExplicitTop = 4
+            AnchorY = 17
           end
           object lblClearAll: TcxLabel
-            Left = 313
-            Top = 7
+            AlignWithMargins = True
+            Left = 367
+            Top = 5
             Cursor = crHandPoint
             ParentCustomHint = False
-            Anchors = [akRight]
+            Align = alRight
             Caption = 'Clear All'
             ParentColor = False
             ParentFont = False
@@ -104,10 +112,15 @@ inherited frmActivatePOS: TfrmActivatePOS
             StyleFocused.TextColor = clHotLight
             StyleFocused.TextStyle = [fsUnderline]
             StyleHot.TextStyle = [fsUnderline]
+            Properties.Alignment.Vert = taVCenter
             Transparent = True
             OnClick = lblClearAllClick
             OnMouseEnter = lblClearAllMouseEnter
             OnMouseLeave = lblClearAllMouseLeave
+            ExplicitLeft = 313
+            ExplicitTop = 7
+            ExplicitHeight = 17
+            AnchorY = 17
           end
         end
       end

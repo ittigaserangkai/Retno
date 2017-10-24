@@ -39,6 +39,8 @@ type
     FCrudPOClient: TCrudPOClient;
     FCrudSettingAppClient: TCrudSettingAppClient;
     FCrudSupplierClient: TCrudSupplierClient;
+    FCRUDJurnalClient: TCRUDJurnalClient;
+    FPOSClient: TPOSClient;
     FCrudUpdatePOSClient: TCrudUpdatePOSClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
@@ -56,6 +58,8 @@ type
     function GetCrudPOClient: TCrudPOClient;
     function GetCrudSettingAppClient: TCrudSettingAppClient;
     function GetCrudSupplierClient: TCrudSupplierClient;
+    function GetCRUDJurnalClient: TCRUDJurnalClient;
+    function GetPOSClient: TPOSClient;
     function GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
@@ -86,6 +90,9 @@ type
         GetCrudSettingAppClient write FCrudSettingAppClient;
     property CrudSupplierClient: TCrudSupplierClient read GetCrudSupplierClient
         write FCrudSupplierClient;
+    property CRUDJurnalClient: TCRUDJurnalClient read GetCRUDJurnalClient write
+        FCRUDJurnalClient;
+    property POSClient: TPOSClient read GetPOSClient write FPOSClient;
     property CrudUpdatePOSClient: TCrudUpdatePOSClient read GetCrudUpdatePOSClient
         write FCrudUpdatePOSClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
@@ -278,6 +285,24 @@ begin
 
   FCrudSupplierClient := TCrudSupplierClient.Create(RestConn, InstanceOwner);
   Result := FCrudSupplierClient;
+end;
+
+function TDMClient.GetCRUDJurnalClient: TCRUDJurnalClient;
+begin
+  if FCRUDJurnalClient <> nil then
+    FreeAndNil(FCRUDJurnalClient);
+
+  FCRUDJurnalClient := TCRUDJurnalClient.Create(RestConn, InstanceOwner);
+  Result := FCRUDJurnalClient;
+end;
+
+function TDMClient.GetPOSClient: TPOSClient;
+begin
+  if FPOSClient <> nil then
+    FreeAndNil(FPOSClient);
+
+  FPOSClient := TPOSCLient.Create(RestConn, InstanceOwner);
+  Result := FPOSClient;
 end;
 
 function TDMClient.GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
