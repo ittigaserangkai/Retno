@@ -422,6 +422,7 @@ type
     procedure actListingPObyMGExecute(Sender: TObject);
     procedure actListingQuotationHargaBeliExecute(Sender: TObject);
     procedure actListingQuotationMailerExecute(Sender: TObject);
+    procedure actListScheduleAgreementExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
@@ -797,6 +798,11 @@ end;
 procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
 begin
   frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListScheduleAgreementExecute(Sender: TObject);
+begin
+  frmScheduleAgreement := TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);

@@ -5,13 +5,18 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMaster, ufraFooter5Button, StdCtrls, ExtCtrls, Grids,
-  BaseGrid, AdvGrid, JvLabel, SUIButton, ActnList, AdvObj, JvExControls;
+  BaseGrid, ActnList,
+  cxGridCustomTableView, ufrmMasterBrowse, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  System.Actions, ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
+  cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
 
 type
-  TfrmCustomerAgreement = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmCustomerAgreement = class(TfrmMasterBrowse)
     pnl1: TPanel;
-    strgGrid: TAdvStringGrid;
     edtName: TEdit;
     edtContact: TEdit;
     edtPhone: TEdit;
@@ -20,17 +25,10 @@ type
     lbl2: TLabel;
     lbl4: TLabel;
     lbl3: TLabel;
-    lblSearchCompany: TJvLabel;
-    btnSearch: TsuiButton;
+    lblSearchCompany: TLinkLabel;
     Label1: TLabel;
     edtCode: TEdit;
-    pnl2: TPanel;
-    btnValidate: TsuiButton;
-    actlstInputSupplierForNotSO: TActionList;
-    actAddCustomerAgreement: TAction;
-    actEditCustomerAgreement: TAction;
-    actDeleteCustomerAgreement: TAction;
-    actRefreshCustomerAgreement: TAction;
+    btnValidate: TcxButton;
     procedure FormActivate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edtCodeKeyPress(Sender: TObject; var Key: Char);
@@ -38,24 +36,17 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure actAddCustomerAgreementExecute(Sender: TObject);
-    procedure actEditCustomerAgreementExecute(Sender: TObject);
-    procedure actDeleteCustomerAgreementExecute(Sender: TObject);
-    procedure actRefreshCustomerAgreementExecute(Sender: TObject);
+    procedure actRefreshExecute(Sender: TObject);
     procedure edtCodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure strgGridCheckBoxClick(Sender: TObject; ACol, ARow: Integer;
-      State: Boolean);
-    procedure strgGridCanEditCell(Sender: TObject; ARow, ACol: Integer;
-      var CanEdit: Boolean);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
     procedure btnValidateClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure btnSearchExit(Sender: TObject);
-    procedure btnSearchEnter(Sender: TObject);
+    procedure btnAddClick(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
+    procedure cxGridViewEditing(Sender: TcxCustomGridTableView; AItem:
+        TcxCustomGridTableItem; var AAllow: Boolean);
   private
     FCustomerId: Integer;
     procedure ParseHeaderGrid();
@@ -69,8 +60,8 @@ var
 
 implementation
 
-uses  suithemes, uDataCustomer, uConn, DB, ufrmDialogCustomerAgreement,
-  uGTSUICommonDlg, uCustomerAgreement, uConstanta, ufrmSearchDataCustomer;
+uses  uConn, ufrmDialogCustomerAgreement,
+  uTSCommonDlg, uConstanta, ufrmSearchDataCustomer;
 
 {$R *.dfm}
 
@@ -89,18 +80,16 @@ end;
 
 procedure TfrmCustomerAgreement.edtCodeKeyPress(Sender: TObject;
   var Key: Char);
-var data: TResultDataSet;
+var data: TDataSet;
     arr: TArr;
 begin
   inherited;
   if Key = Chr(VK_RETURN) then
   begin
     SetLength(arr,1);
-    if not assigned(DataCustomer) then
-      DataCustomer := TDataCustomer.Create;
     arr[0].tipe:= ptstring;
     arr[0].data:= edtcode.Text;
-    data:= DataCustomer.GetListCustomer(arr);
+//    data:= DataCustomer.GetListCustomer(arr);
     if not data.IsEmpty then
     begin
       edtName.Text:= data.fieldbyname('CUSTV_NAME').AsString;
@@ -136,7 +125,7 @@ begin
   inherited;
   Self.Caption := 'CUSTOMER AGREEMENT';
   lblHeader.Caption := Self.Caption;
-  actRefreshCustomerAgreementExecute(Self);
+  actRefreshExecute(Self);
 end;
 
 procedure TfrmCustomerAgreement.FormDestroy(Sender: TObject);
@@ -145,93 +134,7 @@ begin
   frmCustomerAgreement := nil;
 end;
 
-procedure TfrmCustomerAgreement.actAddCustomerAgreementExecute(
-  Sender: TObject);
-begin
-  inherited;
-  if edtName.Text='' then
-  begin
-    edtCode.SetFocus;
-    Exit;
-  end;
-  if not Assigned(frmDialogCustomerAgreement) then
-    Application.CreateForm(TfrmDialogCustomerAgreement, frmDialogCustomerAgreement);
-  frmDialogCustomerAgreement.frmSuiMasterDialog.Caption := 'Add Data Customer';
-  frmDialogCustomerAgreement.FormMode:=fmAdd;
-
-  SetFormPropertyAndShowDialog(frmDialogCustomerAgreement);
-  if (frmDialogCustomerAgreement.IsProcessSuccessfull) then
-  begin
-    actRefreshCustomerAgreementExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atAdd);
-  end;
-
-  frmDialogCustomerAgreement.Free;
-  strgGrid.SetFocus;
-end;
-
-procedure TfrmCustomerAgreement.actEditCustomerAgreementExecute(
-  Sender: TObject);
-begin
-  inherited;
-  if edtName.Text='' then
-  begin
-    edtCode.SetFocus;
-    Exit;
-  end;
-  if strgGrid.Cells[6,strgGrid.Row]='' then Exit;
-  if strgGrid.Cells[5,strgGrid.Row]<>'OPEN' then
-  begin
-    CommonDlg.ShowConfirmGlobal(CONF_COULD_NOT_EDIT);
-    strgGrid.SetFocus;
-    Exit;
-  end;
-  if not Assigned(frmDialogCustomerAgreement) then
-    Application.CreateForm(TfrmDialogCustomerAgreement, frmDialogCustomerAgreement);
-  frmDialogCustomerAgreement.frmSuiMasterDialog.Caption := 'Edit Data Customer';
-  frmDialogCustomerAgreement.FormMode:=fmEdit;
-  frmDialogCustomerAgreement.CustAgreementId:=StrToInt(strgGrid.Cells[6,strgGrid.row]);
-
-  SetFormPropertyAndShowDialog(frmDialogCustomerAgreement);
-  if (frmDialogCustomerAgreement.IsProcessSuccessfull) then
-  begin
-    actRefreshCustomerAgreementExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atEdit);
-  end;
-
-  frmDialogCustomerAgreement.Free;
-  strgGrid.SetFocus;
-end;
-
-procedure TfrmCustomerAgreement.actDeleteCustomerAgreementExecute(
-  Sender: TObject);
-var arr: TArr;
-begin
-  inherited;
-  if strgGrid.Cells[6,strgGrid.Row]='' then Exit;
-  if strgGrid.Cells[5,strgGrid.Row]<>'OPEN' then
-  begin
-    CommonDlg.ShowConfirmGlobal(CONF_COULD_NOT_DELETE);
-    strgGrid.SetFocus;
-    Exit;
-  end;
-  if (CommonDlg.Confirm('Are you sure you wish to delete Customer Agreement (NO: '+ strgGrid.Cells[0,strgGrid.Row] +')?') = mrNo) then
-    Exit;
-  SetLength(arr,1);
-  arr[0].tipe:= ptInteger;
-  arr[0].data:= strgGrid.Cells[6,strgGrid.Row];
-  if not assigned(CustomerAgreement) then
-    CustomerAgreement := TCustomerAgreement.Create;
-  if CustomerAgreement.DeleteCustomerAgreement(arr) then
-  begin
-    actRefreshCustomerAgreementExecute(Self);
-    CommonDlg.ShowConfirmSuccessfull(atDelete);
-  end;
-  strgGrid.SetFocus;
-end;
-
-procedure TfrmCustomerAgreement.actRefreshCustomerAgreementExecute(
-  Sender: TObject);
+procedure TfrmCustomerAgreement.actRefreshExecute(Sender: TObject);
 begin
   inherited;
   ParseDataGrid();
@@ -242,28 +145,28 @@ procedure TfrmCustomerAgreement.edtCodeKeyDown(Sender: TObject;
 begin
   inherited;
   if (Key in [VK_UP,VK_DOWN]) then
-    strgGrid.SetFocus;
+    cxGrid.SetFocus;
 end;
 
 procedure TfrmCustomerAgreement.ParseHeaderGrid();
 begin
-  with strgGrid do
+  with cxGridView.DataController do
   begin
-    Clear;
-    RowCount:= 2;
-    ColCount:= 6;
-    Cells[0,0]:= 'NO';
-    Cells[1,0]:= 'DATE';
-    Cells[2,0]:= 'TOTAL';
-    Cells[3,0]:= 'DUE DATE';
-    Cells[4,0]:= 'STATUS';
-    Cells[5,0]:= 'VALIDATE';
-    AutoSize:= True;
+//    Clear;
+//    RowCount:= 2;
+//    ColCount:= 6;
+//    Cells[0,0]:= 'NO';
+//    Cells[1,0]:= 'DATE';
+//    Cells[2,0]:= 'TOTAL';
+//    Cells[3,0]:= 'DUE DATE';
+//    Cells[4,0]:= 'STATUS';
+//    Cells[5,0]:= 'VALIDATE';
+//    AutoSize:= True;
   end;
 end;
 
 procedure TfrmCustomerAgreement.ParseDataGrid;
-var data: TResultDataSet;
+var data: TDataSet;
     arr: TArr;
     i: Integer;
 begin
@@ -271,60 +174,33 @@ begin
   SetLength(arr,1);
   arr[0].tipe:= ptString;
   arr[0].data:= edtCode.Text;
-  if not assigned(CustomerAgreement) then
-    CustomerAgreement := TCustomerAgreement.Create;
-  data:= CustomerAgreement.GetListCustomerAgreement(arr);
-  with strgGrid, data do
-  begin
-    if not IsEmpty then
-    begin
-      RowCount:= RecordCount+1;
-      i:=0;
-      while not Eof do
-      begin
-        Inc(i);
-        Cells[0,i]:= fieldbyname('AGRV_NO').AsString;
-        Cells[1,i]:= FormatDateTime('dd/MM/yyyy',fieldbyname('AGRV_DATE').AsDateTime);
-        Cells[2,i]:= FormatFloat('#,##0.00	',fieldbyname('AGRV_TOTAL').AsFloat);
-        Cells[3,i]:= FormatDateTime('dd/MM/yyyy',fieldbyname('AGRV_DUE_DATE').AsDateTime);
-        Cells[4,i]:= fieldbyname('AGRV_STATUS').AsString;
-        AddCheckBox(5,i,False,False);
-        if fieldbyname('AGRV_STATUS').AsString<>'OPEN' then
-          SetCheckBoxState(5,i,True)
-        else
-          SetCheckBoxState(5,i,False);
-        //Cells[5,i] := fieldbyname('ARGV_STATUS').AsString;
-        Cells[6,i]:= IntToStr(fieldbyname('AGRV_ID').AsInteger);
-        Next;
-      end;
-      AutoSize:= True;
-    end;
-  end;
-end;
-
-procedure TfrmCustomerAgreement.strgGridCheckBoxClick(Sender: TObject;
-  ACol, ARow: Integer; State: Boolean);
-begin
-  inherited;
-  if strgGrid.Cells[4,ARow]<>'OPEN' then
-    strgGrid.SetCheckBoxState(ACol,ARow,True);
-end;
-
-procedure TfrmCustomerAgreement.strgGridCanEditCell(Sender: TObject; ARow,
-  ACol: Integer; var CanEdit: Boolean);
-begin
-  inherited;
-  if ACol=5 then CanEdit:= True;
-end;
-
-procedure TfrmCustomerAgreement.strgGridGetAlignment(Sender: TObject; ARow,
-  ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-begin
-  inherited;
-  if(ARow=0)or(ACol in [1,3,4,5])then
-    HAlign:= taCenter;
-  if(ACol=2)and(ARow<>0)then
-    HAlign:= taRightJustify;
+//  data:= CustomerAgreement.GetListCustomerAgreement(arr);
+//  with strgGrid, data do
+//  begin
+//    if not IsEmpty then
+//    begin
+//      RowCount:= RecordCount+1;
+//      i:=0;
+//      while not Eof do
+//      begin
+//        Inc(i);
+//        Cells[0,i]:= fieldbyname('AGRV_NO').AsString;
+//        Cells[1,i]:= FormatDateTime('dd/MM/yyyy',fieldbyname('AGRV_DATE').AsDateTime);
+//        Cells[2,i]:= FormatFloat('#,##0.00	',fieldbyname('AGRV_TOTAL').AsFloat);
+//        Cells[3,i]:= FormatDateTime('dd/MM/yyyy',fieldbyname('AGRV_DUE_DATE').AsDateTime);
+//        Cells[4,i]:= fieldbyname('AGRV_STATUS').AsString;
+//        AddCheckBox(5,i,False,False);
+//        if fieldbyname('AGRV_STATUS').AsString<>'OPEN' then
+//          SetCheckBoxState(5,i,True)
+//        else
+//          SetCheckBoxState(5,i,False);
+//        //Cells[5,i] := fieldbyname('ARGV_STATUS').AsString;
+//        Cells[6,i]:= IntToStr(fieldbyname('AGRV_ID').AsInteger);
+//        Next;
+//      end;
+//      AutoSize:= True;
+//    end;
+//  end;
 end;
 
 procedure TfrmCustomerAgreement.btnValidateClick(Sender: TObject);
@@ -335,30 +211,55 @@ begin
   inherited;
   State:= False;
   isValidate:= False;
-  for i:=1 to strgGrid.RowCount-1 do
-  begin
-    if(strgGrid.Cells[4,i]='OPEN')then
-    begin
-      strgGrid.GetCheckBoxState(5,i,State);
-      if(State)then
-      begin
-        SetLength(arr,2);
-        arr[0].tipe:= ptString;
-        arr[0].data:= 'VALID';
-        arr[1].tipe:= ptInteger;
-        arr[1].data:= strgGrid.Cells[6,strgGrid.Row];
-        if not assigned(CustomerAgreement) then
-          CustomerAgreement := TCustomerAgreement.Create;
-        isValidate:= CustomerAgreement.ValidateCustomerAgreement(arr);
-      end;
-    end;
-  end;
+//  for i:=1 to strgGrid.RowCount-1 do
+//  begin
+//    if(strgGrid.Cells[4,i]='OPEN')then
+//    begin
+//      strgGrid.GetCheckBoxState(5,i,State);
+//      if(State)then
+//      begin
+//        SetLength(arr,2);
+//        arr[0].tipe:= ptString;
+//        arr[0].data:= 'VALID';
+//        arr[1].tipe:= ptInteger;
+//        arr[1].data:= strgGrid.Cells[6,strgGrid.Row];
+//        if not assigned(CustomerAgreement) then
+//          CustomerAgreement := TCustomerAgreement.Create;
+//        isValidate:= CustomerAgreement.ValidateCustomerAgreement(arr);
+//      end;
+//    end;
+//  end;
   if isValidate then
   begin
-    actRefreshCustomerAgreementExecute(Self);
+    actRefreshExecute(Self);
     CommonDlg.ShowConfirmGlobal(CONF_VALIDATE_SUCCESSFULLY);
   end;
-  strgGrid.SetFocus;
+  cxGrid.SetFocus;
+end;
+
+procedure TfrmCustomerAgreement.btnAddClick(Sender: TObject);
+begin
+  inherited;
+  if edtName.Text='' then
+  begin
+    edtCode.SetFocus;
+    Exit;
+  end;
+  if not Assigned(frmDialogCustomerAgreement) then
+    Application.CreateForm(TfrmDialogCustomerAgreement, frmDialogCustomerAgreement);
+  frmDialogCustomerAgreement.Caption := 'Add Data Customer';
+  frmDialogCustomerAgreement.FormMode:=fmAdd;
+
+  SetFormPropertyAndShowDialog(frmDialogCustomerAgreement);
+  if (frmDialogCustomerAgreement.IsProcessSuccessfull) then
+  begin
+    actRefreshExecute(Self);
+    CommonDlg.ShowConfirmSuccessfull(atAdd);
+  end;
+
+  frmDialogCustomerAgreement.Free;
+  cxGrid.SetFocus;
+
 end;
 
 procedure TfrmCustomerAgreement.btnSearchClick(Sender: TObject);
@@ -378,16 +279,46 @@ begin
     btnSearch.Click;
 end;
 
-procedure TfrmCustomerAgreement.btnSearchExit(Sender: TObject);
+procedure TfrmCustomerAgreement.btnUpdateClick(Sender: TObject);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := BlueGlass;
+  if edtName.Text='' then
+  begin
+    edtCode.SetFocus;
+    Exit;
+  end;
+//  if strgGrid.Cells[6,strgGrid.Row]='' then Exit;
+//  if strgGrid.Cells[5,strgGrid.Row]<>'OPEN' then
+//  begin
+//    CommonDlg.ShowConfirmGlobal(CONF_COULD_NOT_EDIT);
+//    strgGrid.SetFocus;
+//    Exit;
+//  end;
+  if not Assigned(frmDialogCustomerAgreement) then
+    Application.CreateForm(TfrmDialogCustomerAgreement, frmDialogCustomerAgreement);
+  frmDialogCustomerAgreement.Caption := 'Edit Data Customer';
+  frmDialogCustomerAgreement.FormMode:=fmEdit;
+//  frmDialogCustomerAgreement.CustAgreementId:=StrToInt(strgGrid.Cells[6,strgGrid.row]);
+
+  SetFormPropertyAndShowDialog(frmDialogCustomerAgreement);
+  if (frmDialogCustomerAgreement.IsProcessSuccessfull) then
+  begin
+    actRefreshExecute(Self);
+    CommonDlg.ShowConfirmSuccessfull(atEdit);
+  end;
+
+  frmDialogCustomerAgreement.Free;
+  cxGrid.SetFocus;
 end;
 
-procedure TfrmCustomerAgreement.btnSearchEnter(Sender: TObject);
+procedure TfrmCustomerAgreement.cxGridViewEditing(Sender:
+    TcxCustomGridTableView; AItem: TcxCustomGridTableItem; var AAllow: Boolean);
 begin
   inherited;
-  (Sender as TsuiButton).UIStyle := DeepBlue;
+//  if ACol=5 then CanEdit:= True;
+//  if strgGrid.Cells[4,ARow]<>'OPEN' then
+//    strgGrid.SetCheckBoxState(ACol,ARow,True);
+
 end;
 
 end.

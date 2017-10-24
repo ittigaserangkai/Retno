@@ -85,7 +85,7 @@ begin
   {if strgGrid.Cells[5,strgGrid.Row]='' then Exit;
   if not Assigned(frmDialogDataCostumer) then
     Application.CreateForm(TfrmDialogDataCostumer, frmDialogDataCostumer);
-  frmDialogDataCostumer.frmSuiMasterDialog.Caption := 'Edit Data Customer';
+  frmDialogDataCostumer.Caption := 'Edit Data Customer';
   frmDialogDataCostumer.FormMode:=fmEdit;
   frmDialogDataCostumer.DataCustomerId:=StrToInt(strgGrid.Cells[5,strgGrid.row]);
 

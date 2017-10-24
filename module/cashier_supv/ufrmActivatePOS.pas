@@ -320,7 +320,7 @@ begin
   if not assigned(frmDialogActivePOS) then
     Application.CreateForm(TfrmDialogActivePOS, frmDialogActivePOS);
 
-  frmDialogActivePOS.frmSuiMasterDialog.Caption := 'Edit POS Terminal';
+  frmDialogActivePOS.Caption := 'Edit POS Terminal';
   frmDialogActivePOS.FormMode := fmEdit;
   prepareEdit();
   SetFormPropertyAndShowDialog(frmDialogActivePOS);

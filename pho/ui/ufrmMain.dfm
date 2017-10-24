@@ -994,6 +994,7 @@ object frmMain: TfrmMain
     object actListScheduleAgreement: TAction
       Category = 'Finance'
       Caption = 'actListScheduleAgreement'
+      OnExecute = actListScheduleAgreementExecute
     end
     object actDailySalesReport: TAction
       Category = 'Finance'
