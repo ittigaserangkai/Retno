@@ -140,8 +140,6 @@ uses
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
-  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
-  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
@@ -245,7 +243,16 @@ uses
   uModDOTrader in '..\model\uModDOTrader.pas',
   uModAR in '..\model\uModAR.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
-  uModSetupPOS in '..\model\uModSetupPOS.pas';
+  uModSetupPOS in '..\model\uModSetupPOS.pas',
+  ufrmCustomerAgreement in '..\module\customer_support\ufrmCustomerAgreement.pas' {frmCustomerAgreement},
+  ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
+  ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement},
+  ufrmPopupSelectCustomer in '..\module\customer_support\ufrmPopupSelectCustomer.pas' {frmPopUpSelectCustomer},
+  ufrmSearchDataCustomer in '..\module\customer_support\ufrmSearchDataCustomer.pas' {frmSearchDataCustomer},
+  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
+  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
+  ufrmMasterAgreement in '..\module\marketing\ufrmMasterAgreement.pas' {frmMasterAgreement},
+  ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement};
 
 {$R *.res}
 

@@ -434,20 +434,14 @@ inherited frmDialogViewInvoice: TfrmDialogViewInvoice
       ExplicitWidth = 662
       inherited lbCTRLEnter: TLabel
         Left = 487
-        Height = 15
         ExplicitLeft = 487
       end
       inherited lbEscape: TLabel
         Left = 578
-        Height = 15
         ExplicitLeft = 578
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 411
-        Height = 15
         ExplicitLeft = 411
       end
     end

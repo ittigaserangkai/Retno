@@ -535,7 +535,7 @@ uses
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
-  uModSettingApp, uTSCommonDlg;
+  uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement;
 
 {$R *.dfm}
 
