@@ -67,7 +67,7 @@ begin
       Self
     );
     cxGridView.LoadFromCDS(FCDS, False, False);
-//    cxGridView.SetVisibleColumns(['adjustment_faktur_id'],False);
+//    cxGridView.ApplyBestFit();
   finally
     TAppUtils.cCloseWaitWindow;
   end;

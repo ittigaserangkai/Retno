@@ -34,22 +34,27 @@ inherited frmJurnal: TfrmJurnal
             object cxGridViewColumn2: TcxGridDBColumn
               Caption = 'NOMOR JURNAL'
               DataBinding.FieldName = 'JUR_NO'
+              Width = 100
             end
             object cxGridViewColumn3: TcxGridDBColumn
               Caption = 'DEBET'
               DataBinding.FieldName = 'JUR_DEBET'
+              Width = 100
             end
             object cxGridViewColumn4: TcxGridDBColumn
               Caption = 'CREDIT'
               DataBinding.FieldName = 'JUR_CREDIT'
+              Width = 100
             end
             object cxGridViewColumn5: TcxGridDBColumn
               Caption = 'TANGGAL JURNAL'
               DataBinding.FieldName = 'JUR_DATE'
+              Width = 100
             end
             object cxGridViewColumn6: TcxGridDBColumn
               Caption = 'DESKRIPSI'
               DataBinding.FieldName = 'JUR_DESCRIPTION'
+              Width = 200
             end
           end
         end
@@ -122,6 +127,7 @@ inherited frmJurnal: TfrmJurnal
       ExplicitWidth = 724
       inherited lbEscape: TLabel
         Left = 650
+        Height = 17
         ExplicitLeft = 650
       end
     end
