@@ -183,6 +183,13 @@ type
         = 11): String; override;
   end;
 
+  TCRUDJurnal = class(TCrud)
+  protected
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; override;
+  public
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -1513,6 +1520,43 @@ begin
   Result := IntToStr(lNum);
   for i := 0 to aCountDigit-1 do Result := '0' + Result;
   Result := 'RB' + FormatDateTime('yyMMdd',Now) + RightStr(Result, aCountDigit);
+
+  AfterExecuteMethod;
+end;
+
+function TCRUDJurnal.GenerateCustomNo(aTableName, aFieldName: string;
+    aCountDigit: Integer = 11): String;
+var
+  i: Integer;
+  lMonth: string;
+  lNum: Integer;
+  lPrefix: string;
+  lTahun: string;
+  S: string;
+begin
+  aCountDigit := 4;
+  lNum := 0;
+  lTahun := FormatDateTime('YYYY', Now());
+  lMonth := FormatDateTime('MM', Now());
+  lPrefix := 'JM.' + lTahun + '.' + lMonth + '.' ;
+
+  S := 'select max(' + aFieldName + ') from ' + aTableName
+      + ' where ' + aFieldName + ' like '+  QuotedStr(lPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt( RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      free;
+    End;
+  end;
+  inc(lNum);
+
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := lPrefix +  RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
 end;
