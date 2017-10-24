@@ -72,7 +72,7 @@ uses
   uModPOTrader in '..\model\uModPOTrader.pas',
   uModFinalPayment in '..\model\uModFinalPayment.pas',
   uModDOTrader in '..\model\uModDOTrader.pas',
-  uServerPOS in 'unit\uServerPOS.pas';
+  uServerPOS in 'unit\uServerPOS.pas',
   uModCrazyPrice in '..\model\uModCrazyPrice.pas';
 
 {$R *.res}
