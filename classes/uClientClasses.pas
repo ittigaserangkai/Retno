@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/24/2017 8:59:29 AM
+// 10/24/2017 1:47:17 PM
 //
 
 unit uClientClasses;
@@ -716,6 +716,8 @@ type
     FGetListPendingTransDetailByHeaderIDCommand_Cache: TDSRestCommand;
     FGetServerDateCommand: TDSRestCommand;
     FGetTransactionNoCommand: TDSRestCommand;
+    FLookupBarangCommand: TDSRestCommand;
+    FLookupBarangCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
@@ -733,6 +735,8 @@ type
     function GetListPendingTransDetailByHeaderID_Cache(aHeaderID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetServerDate(const ARequestFilter: string = ''): TDateTime;
     function GetTransactionNo(aPOSCODE: string; aUNITID: string; const ARequestFilter: string = ''): string;
+    function LookupBarang(sFilter: string; const ARequestFilter: string = ''): TDataSet;
+    function LookupBarang_Cache(sFilter: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     procedure AfterExecuteMethod;
   end;
 
@@ -3446,6 +3450,18 @@ const
     (Name: 'aPOSCODE'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aUNITID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TPOS_LookupBarang: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'sFilter'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_LookupBarang_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'sFilter'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
   TSuggestionOrder_GenerateSO: array [0..3] of TDSRestParameterMetaData =
@@ -11189,6 +11205,37 @@ begin
   Result := FGetTransactionNoCommand.Parameters[2].Value.GetWideString;
 end;
 
+function TPOSClient.LookupBarang(sFilter: string; const ARequestFilter: string): TDataSet;
+begin
+  if FLookupBarangCommand = nil then
+  begin
+    FLookupBarangCommand := FConnection.CreateCommand;
+    FLookupBarangCommand.RequestType := 'GET';
+    FLookupBarangCommand.Text := 'TPOS.LookupBarang';
+    FLookupBarangCommand.Prepare(TPOS_LookupBarang);
+  end;
+  FLookupBarangCommand.Parameters[0].Value.SetWideString(sFilter);
+  FLookupBarangCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FLookupBarangCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FLookupBarangCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.LookupBarang_Cache(sFilter: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FLookupBarangCommand_Cache = nil then
+  begin
+    FLookupBarangCommand_Cache := FConnection.CreateCommand;
+    FLookupBarangCommand_Cache.RequestType := 'GET';
+    FLookupBarangCommand_Cache.Text := 'TPOS.LookupBarang';
+    FLookupBarangCommand_Cache.Prepare(TPOS_LookupBarang_Cache);
+  end;
+  FLookupBarangCommand_Cache.Parameters[0].Value.SetWideString(sFilter);
+  FLookupBarangCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FLookupBarangCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 procedure TPOSClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
@@ -11224,6 +11271,8 @@ begin
   FGetListPendingTransDetailByHeaderIDCommand_Cache.DisposeOf;
   FGetServerDateCommand.DisposeOf;
   FGetTransactionNoCommand.DisposeOf;
+  FLookupBarangCommand.DisposeOf;
+  FLookupBarangCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;

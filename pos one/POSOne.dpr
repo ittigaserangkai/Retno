@@ -12,7 +12,6 @@ uses
   ufrmPaymentKring in '..\module\pos\ufrmPaymentKring.pas' {frmPaymentKring},
   ufraDOKring in '..\module\pos\ufraDOKring.pas' {fraDOKring: TFrame},
   ufrmLogin in '..\module\pos\ufrmLogin.pas' {frmLogin},
-  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
   ufrmPosDownlink in '..\module\pos\ufrmPosDownlink.pas' {frmPosDownlink},
   ufrmImportFromStore in '..\module\pos\ufrmImportFromStore.pas' {frmImportFromStore},
@@ -75,7 +74,8 @@ uses
   uModCustomerVoucher in '..\model\uModCustomerVoucher.pas',
   uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
-  uDMReport in '..\system\uDMReport.pas' {DMReport};
+  uDMReport in '..\system\uDMReport.pas' {DMReport},
+  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang};
 
 {$R *.res}
 
@@ -84,6 +84,7 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmLookupBarang, frmLookupBarang);
   frmMain.DoLogin();
   Application.CreateForm(TDMReport, DMReport);
   Application.Run;

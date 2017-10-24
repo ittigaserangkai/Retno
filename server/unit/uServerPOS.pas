@@ -23,6 +23,7 @@ type
     function GetListPendingTransDetailByHeaderID(aHeaderID: string): TDataset;
     function GetServerDate: TDatetime;
     function GetTransactionNo(aPOSCODE, aUNITID: string): string;
+    function LookupBarang(sFilter: string): TDataset;
   end;
 
 implementation
@@ -176,6 +177,24 @@ begin
       Free;
     End;
   end;
+end;
+
+function TPOS.LookupBarang(sFilter: string): TDataset;
+var
+  S: string;
+begin
+  S := 'select a.brg_code, s.SAT_CODE, a.brg_name, b.BHJ_SELL_PRICE,'
+      +' b.BHJ_DISC_NOMINAL, b.BHJ_SELL_PRICE_DISC, a.brg_is_active'
+      +' from barang a'
+      +' inner join barang_harga_jual b on a.BARANG_ID = b.BARANG_ID'
+      +' left join ref$satuan s on b.REF$SATUAN_ID = s.REF$SATUAN_ID'
+      +' left join REF$TIPE_HARGA th on th.REF$TIPE_HARGA_ID = b.REF$TIPE_HARGA_ID'
+//      +' and a.brg_is_active = 1
+      +' where th.TPHRG_CODE = ''H004'' '
+      +' and a.brg_is_validate = 1'
+      +' and upper(a.brg_name) like ' + QuotedStr(sFilter)
+      +' order by a.brg_name';
+  Result := TDBUtils.OpenQuery(s);
 end;
 
 end.
