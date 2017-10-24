@@ -968,13 +968,11 @@ object frmMain: TfrmMain
       Category = 'Marketing'
       Caption = 'Schedule Agreement'
       ImageIndex = 4
-      OnExecute = actScheduleAgreementExecute
     end
     object actFakturPajakAgreement: TAction
       Category = 'Marketing'
       Caption = 'Faktur Pajak Agreement'
       ImageIndex = 7
-      OnExecute = actFakturPajakAgreementExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -1320,10 +1318,6 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtn3'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn4'
         end>
       OneOnRow = True
       Row = 0

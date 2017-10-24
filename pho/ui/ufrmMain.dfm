@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -220,6 +219,18 @@ object frmMain: TfrmMain
           ToolbarName = 'dxbrWindow'
         end>
       Index = 6
+    end
+    object dxrbntbMarketing: TdxRibbonTab
+      Active = True
+      Caption = 'Marketing'
+      Groups = <
+        item
+          ToolbarName = 'dxbrAgreement'
+        end
+        item
+          ToolbarName = 'dxbrVoucher'
+        end>
+      Index = 7
     end
   end
   object mmMainMenu: TMainMenu
@@ -627,8 +638,9 @@ object frmMain: TfrmMain
       Caption = 'In&voice Sewa Toko'
     end
     object actMasterAgreement: TAction
-      Category = 'Finance'
+      Category = 'Marketing'
       Caption = '&Master Agreement'
+      OnExecute = actMasterAgreementExecute
     end
     object actMasterAdjustment: TAction
       Category = 'Finance'
@@ -1436,6 +1448,21 @@ object frmMain: TfrmMain
       ImageIndex = 46
       OnExecute = actCustomerInvoiceExecute
     end
+    object actCustomerAgreement: TAction
+      Category = 'Marketing'
+      Caption = 'actCustomerAgreement'
+      OnExecute = actCustomerAgreementExecute
+    end
+    object actScheduleAgreement: TAction
+      Category = 'Marketing'
+      Caption = 'actScheduleAgreement'
+      OnExecute = actScheduleAgreementExecute
+    end
+    object actFakturPajakAgreement: TAction
+      Category = 'Marketing'
+      Caption = 'actFakturPajakAgreement'
+      OnExecute = actFakturPajakAgreementExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1709,8 +1736,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn3'
         end>
-      OneOnRow = False
-      Row = 0
+      OneOnRow = True
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1842,7 +1869,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar1: TdxBar
       Caption = 'User Management'
       CaptionButtons = <>
-      DockedLeft = 152
+      DockedLeft = 97
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1857,7 +1884,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton5'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1886,7 +1913,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar3: TdxBar
       Caption = 'AR'
       CaptionButtons = <>
-      DockedLeft = 645
+      DockedLeft = 97
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1898,6 +1925,40 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnCustomerInvoice'
         end>
       OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrAgreement: TdxBar
+      Caption = 'Agreement'
+      CaptionButtons = <
+        item
+        end>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 903
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrVoucher: TdxBar
+      Caption = 'Voucher'
+      CaptionButtons = <>
+      DockedLeft = 97
+      DockedTop = 0
+      FloatLeft = 903
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2141,6 +2202,11 @@ object frmMain: TfrmMain
       Action = actVoucher
       Category = 0
       ImageIndex = 58
+    end
+    object dxRibbonColorGalleryItem1: TdxRibbonColorGalleryItem
+      Caption = #208#194#189#168#207#238
+      Category = 0
+      Visible = ivAlways
     end
   end
 end

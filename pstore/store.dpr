@@ -232,9 +232,7 @@ uses
   ufrmPopupSelectCustomer in '..\module\customer_support\ufrmPopupSelectCustomer.pas' {frmPopUpSelectCustomer},
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement},
-  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
   ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
-  ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
   uUnit in '..\classes\uUnit.pas';
 
 {$R *.res}

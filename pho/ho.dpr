@@ -252,7 +252,11 @@ uses
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
   ufrmMasterAgreement in '..\module\marketing\ufrmMasterAgreement.pas' {frmMasterAgreement},
-  ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement};
+  ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement},
+  ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
+  ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
+  ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
+  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice};
 
 {$R *.res}
 
