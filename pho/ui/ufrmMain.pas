@@ -27,7 +27,7 @@ uses
   dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter, dxRibbonColorGallery;
+  dxSkinsdxBarPainter, dxRibbonColorGallery, ufrmCrazyPrice;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -406,6 +406,8 @@ type
     actCustomerAgreement: TAction;
     actScheduleAgreement: TAction;
     actFakturPajakAgreement: TAction;
+    dxbrbtnCrazy: TdxBarButton;
+    actCrazyPrice: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -422,6 +424,7 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actCrazyPriceExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
     procedure actCustomerAgreementExecute(Sender: TObject);
     procedure actCustomerInvoiceExecute(Sender: TObject);
@@ -716,6 +719,11 @@ end;
 procedure TfrmMain.actCostCenterExecute(Sender: TObject);
 begin
   frmCostCenter := TfrmCostCenter.Create(Application);
+end;
+
+procedure TfrmMain.actCrazyPriceExecute(Sender: TObject);
+begin
+  frmCrazyPrice := TfrmCrazyPrice.Create(Application);
 end;
 
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);

@@ -234,7 +234,6 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModJurnal in '..\model\uModJurnal.pas',
   ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
   ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice},
@@ -257,7 +256,10 @@ uses
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
   ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
   ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
-  uModCrazyPrice in '..\model\uModCrazyPrice.pas';
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

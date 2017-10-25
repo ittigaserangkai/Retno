@@ -1,4 +1,4 @@
-inherited frmCrazyPriceDialog: TfrmCrazyPriceDialog
+inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   Left = 167
   Top = 210
   Caption = 'Dialog Crazy Price'
@@ -239,15 +239,16 @@ inherited frmCrazyPriceDialog: TfrmCrazyPriceDialog
         ExplicitLeft = 678
       end
       inherited btnSave: TcxButton
-        Left = 575
+        Left = 585
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 575
+        ExplicitLeft = 585
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
+        Left = 508
         Action = actPrint
       end
     end
@@ -257,6 +258,7 @@ inherited frmCrazyPriceDialog: TfrmCrazyPriceDialog
       inherited lbCTRLEnter: TLabel
         Left = 162
         Width = 503
+        Height = 15
         Alignment = taRightJustify
         Caption = 
           'Ctrl-T [Add]        Ctrl-R [Remove]                             ' +
@@ -267,7 +269,15 @@ inherited frmCrazyPriceDialog: TfrmCrazyPriceDialog
       end
       inherited lbEscape: TLabel
         Left = 671
+        Height = 15
         ExplicitLeft = 671
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 86
+        Height = 15
       end
     end
   end

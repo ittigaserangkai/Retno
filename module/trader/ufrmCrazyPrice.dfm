@@ -5,6 +5,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   ClientHeight = 512
   ClientWidth = 808
   OldCreateOrder = True
+  ExplicitTop = -172
   ExplicitWidth = 824
   ExplicitHeight = 551
   PixelsPerInch = 96
@@ -12,61 +13,25 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   inherited pnlBody: TPanel
     Width = 808
     Height = 423
-    ExplicitWidth = 710
-    ExplicitHeight = 365
+    ExplicitWidth = 808
+    ExplicitHeight = 423
     inherited pgcBrowse: TcxPageControl
       Width = 806
       Height = 421
-      ExplicitTop = 71
-      ExplicitWidth = 708
-      ExplicitHeight = 293
+      ExplicitWidth = 806
+      ExplicitHeight = 421
       ClientRectBottom = 420
       ClientRectRight = 805
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 706
-        ExplicitHeight = 291
+        ExplicitWidth = 804
+        ExplicitHeight = 419
         inherited cxGrid: TcxGrid
           Width = 804
           Height = 419
-          ExplicitWidth = 706
-          ExplicitHeight = 291
-          inherited cxGridView: TcxGridDBTableView
-            object cxcolGridViewColumn1: TcxGridDBColumn
-              Caption = 'CHECK'
-            end
-            object cxcolGridViewColumn2: TcxGridDBColumn
-              Caption = 'PRODUCT CODE'
-            end
-            object cxcolGridViewColumn3: TcxGridDBColumn
-              Caption = 'PRODUCT NAME'#13#10
-            end
-            object cxcolGridViewColumn4: TcxGridDBColumn
-              Caption = 'UOM'
-            end
-            object cxcolGridViewColumn5: TcxGridDBColumn
-              Caption = 'BUY PRICE'
-            end
-            object cxcolGridViewColumn6: TcxGridDBColumn
-              Caption = 'MARK UP %'
-            end
-            object cxcolGridViewColumn7: TcxGridDBColumn
-              Caption = 'SELL PRICE'
-            end
-            object cxcolGridViewColumn8: TcxGridDBColumn
-              Caption = 'KONVERSI VALUE'
-            end
-            object cxcolGridViewColumn9: TcxGridDBColumn
-              Caption = 'DISC PERSEN'
-            end
-            object cxcolGridViewColumn10: TcxGridDBColumn
-              Caption = 'DISC NOMINAL'
-            end
-            object cxcolGridViewColumn11: TcxGridDBColumn
-              Caption = 'SELL PRICE DISC'
-            end
-          end
+          ExplicitWidth = 804
+          ExplicitHeight = 419
         end
       end
     end
@@ -81,25 +46,29 @@ inherited frmCrazyPrice: TfrmCrazyPrice
     end
     inherited lblFilterData: TcxLabel
       Left = 454
+      Visible = True
       ExplicitLeft = 454
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 515
-      ExplicitLeft = 417
+      Visible = True
+      ExplicitLeft = 515
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 631
-      ExplicitLeft = 533
+      Visible = True
+      ExplicitLeft = 631
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 726
-      ExplicitLeft = 628
+      ExplicitLeft = 726
     end
     inherited lblsdFilter: TcxLabel
       Left = 607
+      Visible = True
       ExplicitLeft = 607
       AnchorY = 17
     end
@@ -107,16 +76,17 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 456
     Width = 808
-    ExplicitTop = 398
-    ExplicitWidth = 710
+    ExplicitTop = 456
+    ExplicitWidth = 808
     inherited pnlFooter: TPanel
       Width = 808
-      ExplicitWidth = 710
+      ExplicitWidth = 808
       inherited btnAdd: TcxButton
         Action = actAdd
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
+        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Action = actPrint
@@ -124,7 +94,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       inherited btnClose: TcxButton
         Left = 731
         Action = actClose
-        ExplicitLeft = 633
+        ExplicitLeft = 731
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -132,9 +102,10 @@ inherited frmCrazyPrice: TfrmCrazyPrice
     end
     inherited pnlShortCut: TPanel
       Width = 808
-      ExplicitWidth = 710
+      ExplicitWidth = 808
       inherited lbEscape: TLabel
         Left = 734
+        Height = 17
         ExplicitLeft = 734
       end
     end

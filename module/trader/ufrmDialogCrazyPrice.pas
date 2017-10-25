@@ -1,4 +1,4 @@
-unit ufrmCrazyPriceDialog;
+unit ufrmDialogCrazyPrice;
 
 interface
 
@@ -15,7 +15,7 @@ uses
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmCrazyPriceDialog = class(TfrmMasterDialogBrowse)
+  TfrmDialogCrazyPrice = class(TfrmMasterDialogBrowse)
     pnl2: TPanel;
     lbl3: TLabel;
     lbl7: TLabel;
@@ -40,7 +40,6 @@ type
     btnAdd: TcxButton;
     btnRemove: TcxButton;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCodeKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -93,7 +92,7 @@ type
   end;
 
 var
-  frmCrazyPriceDialog: TfrmCrazyPriceDialog;
+  frmDialogCrazyPrice: TfrmDialogCrazyPrice;
 
 const
   _KolBrgKode           : Integer = 0;
@@ -116,7 +115,7 @@ uses uTSCommonDlg, ufrmSearchProduct, uRetnoUnit;
 {$R *.dfm}
 
 
-procedure TfrmCrazyPriceDialog.footerDialogMasterbtnSaveClick(
+procedure TfrmDialogCrazyPrice.footerDialogMasterbtnSaveClick(
   Sender: TObject);
 begin
   inherited;
@@ -137,20 +136,14 @@ begin
   Close;
 end;
 
-procedure TfrmCrazyPriceDialog.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  frmCrazyPriceDialog := nil;
-end;
-
-procedure TfrmCrazyPriceDialog.FormClose(Sender: TObject;
+procedure TfrmDialogCrazyPrice.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
   Action := caFree;
 end;
 
-procedure TfrmCrazyPriceDialog.edtCodeKeyUp(Sender: TObject; var Key: Word;
+procedure TfrmDialogCrazyPrice.edtCodeKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   s: string;
@@ -210,7 +203,7 @@ begin
     end;
 end;
 
-procedure TfrmCrazyPriceDialog.btnAddClick(Sender: TObject);
+procedure TfrmDialogCrazyPrice.btnAddClick(Sender: TObject);
 var
   aRow  : Integer;
 begin
@@ -260,7 +253,7 @@ begin
     edtCode.SetFocus;
 end;
 
-procedure TfrmCrazyPriceDialog.strgGridGetFloatFormat(Sender: TObject;
+procedure TfrmDialogCrazyPrice.strgGridGetFloatFormat(Sender: TObject;
   ACol, ARow: Integer; var IsFloat: Boolean; var FloatFormat: String);
 begin
   inherited;
@@ -272,14 +265,14 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.strgGridCanEditCell(Sender: TObject; ARow,
+procedure TfrmDialogCrazyPrice.strgGridCanEditCell(Sender: TObject; ARow,
   ACol: Integer; var CanEdit: Boolean);
 begin
   inherited;
   if ACol in [_KolBHJDiscPersen, _KolBHJSellPriceDisc] then CanEdit := True else CanEdit := False;
 end;
 
-procedure TfrmCrazyPriceDialog.GetUOMByBrgCode;
+procedure TfrmDialogCrazyPrice.GetUOMByBrgCode;
 var
   s: string;
 begin
@@ -289,7 +282,7 @@ begin
 //  cQueryToCombo(cbbUOM, s);
 end;
 
-procedure TfrmCrazyPriceDialog.cbbUOMChange(Sender: TObject);
+procedure TfrmDialogCrazyPrice.cbbUOMChange(Sender: TObject);
 begin
   inherited;
 
@@ -299,7 +292,7 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.FormShow(Sender: TObject);
+procedure TfrmDialogCrazyPrice.FormShow(Sender: TObject);
 begin
   inherited;
   Fidx  := 0;
@@ -313,7 +306,7 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.cbbUOMKeyPress(Sender: TObject;
+procedure TfrmDialogCrazyPrice.cbbUOMKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
@@ -321,7 +314,7 @@ begin
     Key:= UpCase(Key)
 end;
 
-procedure TfrmCrazyPriceDialog.ParseHeaderGrid;
+procedure TfrmDialogCrazyPrice.ParseHeaderGrid;
 begin
   {with strgGrid do
   begin
@@ -346,7 +339,7 @@ begin
   }
 end;
 
-procedure TfrmCrazyPriceDialog.CalcDiscAndNominalDisc;
+procedure TfrmDialogCrazyPrice.CalcDiscAndNominalDisc;
 var
   curCP,
   curSP,
@@ -372,7 +365,7 @@ begin
   curredtDiscNominal.Value:= curNominalDisc;
 end;
 
-procedure TfrmCrazyPriceDialog.edtDiscPersenKeyDown(Sender: TObject;
+procedure TfrmDialogCrazyPrice.edtDiscPersenKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
@@ -384,7 +377,7 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.LoadTipeHarga;
+procedure TfrmDialogCrazyPrice.LoadTipeHarga;
 var
   s: string;
 begin
@@ -396,7 +389,7 @@ begin
   cbTipeHarga.ItemIndex := IdxTipeHarga;
 end;
 
-procedure TfrmCrazyPriceDialog.SaveDataCrazyPrice_New;
+procedure TfrmDialogCrazyPrice.SaveDataCrazyPrice_New;
 var
   FTipeHrgID: Integer;
   strSat: string;
@@ -478,7 +471,7 @@ begin
   }
 end;
 
-procedure TfrmCrazyPriceDialog.btnRemoveClick(Sender: TObject);
+procedure TfrmDialogCrazyPrice.btnRemoveClick(Sender: TObject);
 var
   i: Integer;
 begin
@@ -497,7 +490,7 @@ begin
   }
 end;
 
-procedure TfrmCrazyPriceDialog.ClearTextValue;
+procedure TfrmDialogCrazyPrice.ClearTextValue;
 begin
   // TODO -cMM: TfrmCrazyPriceDialog.ClearTextValue default body inserted
   edtDisc.Value             := 0;
@@ -508,7 +501,7 @@ begin
   curredtDiscNominal.Value  := 0;
 end;
 
-procedure TfrmCrazyPriceDialog.edtCrazyPriceKeyDown(Sender: TObject;
+procedure TfrmDialogCrazyPrice.edtCrazyPriceKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
@@ -519,7 +512,7 @@ begin
   end;
 end;
 
-procedure TfrmCrazyPriceDialog.strgGridCellValidate(Sender: TObject; ACol,
+procedure TfrmDialogCrazyPrice.strgGridCellValidate(Sender: TObject; ACol,
   ARow: Integer; var Value: String; var Valid: Boolean);
 var
   dDiscNominal: Double;
@@ -551,7 +544,7 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmDialogCrazyPrice.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 //var
 //  K: String;
@@ -569,19 +562,19 @@ begin
     footerDialogMasterbtnSaveClick(Sender);
 end;
 
-procedure TfrmCrazyPriceDialog.edtDiscPersenExit(Sender: TObject);
+procedure TfrmDialogCrazyPrice.edtDiscPersenExit(Sender: TObject);
 begin
   inherited;
   CalcDiscAndNominalDisc
 end;
 
-procedure TfrmCrazyPriceDialog.edtCrazyPriceExit(Sender: TObject);
+procedure TfrmDialogCrazyPrice.edtCrazyPriceExit(Sender: TObject);
 begin
   inherited;
   CalcDiscAndNominalDisc;
 end;
 
-procedure TfrmCrazyPriceDialog.curredtDiscNominalKeyDown(Sender: TObject;
+procedure TfrmDialogCrazyPrice.curredtDiscNominalKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
@@ -592,7 +585,7 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.curredtDiscNominalExit(Sender: TObject);
+procedure TfrmDialogCrazyPrice.curredtDiscNominalExit(Sender: TObject);
 begin
   inherited;
   if curredtStorePrice.Value <> 0 then
@@ -603,7 +596,7 @@ begin
   FSellPrice := edtCrazyPrice.Value + curredtDiscNominal.Value;
 end;
 
-procedure TfrmCrazyPriceDialog.setHarga;
+procedure TfrmDialogCrazyPrice.setHarga;
 var
   iTipeHrgID        : Integer;
   dHargaAvg         : Double;
@@ -639,7 +632,7 @@ begin
   }
 end;
 
-procedure TfrmCrazyPriceDialog.strgGridDblClickCell(Sender: TObject; ARow,
+procedure TfrmDialogCrazyPrice.strgGridDblClickCell(Sender: TObject; ARow,
   ACol: Integer);
 begin
   inherited;
@@ -665,7 +658,7 @@ begin
 
 end;
 
-procedure TfrmCrazyPriceDialog.FormCreate(Sender: TObject);
+procedure TfrmDialogCrazyPrice.FormCreate(Sender: TObject);
 begin
   inherited;
   FIdxTipeHarga := 0;

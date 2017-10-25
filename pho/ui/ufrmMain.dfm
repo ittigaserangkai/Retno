@@ -192,6 +192,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -221,7 +222,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
-      Active = True
       Caption = 'Marketing'
       Groups = <
         item
@@ -1463,6 +1463,12 @@ object frmMain: TfrmMain
       Caption = 'actFakturPajakAgreement'
       OnExecute = actFakturPajakAgreementExecute
     end
+    object actCrazyPrice: TAction
+      Category = 'Merchandise'
+      Caption = 'Crazy Price'
+      ImageIndex = 47
+      OnExecute = actCrazyPriceExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1711,6 +1717,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCrazy'
         end>
       OneOnRow = True
       Row = 0
@@ -1736,8 +1746,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn3'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1869,7 +1879,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar1: TdxBar
       Caption = 'User Management'
       CaptionButtons = <>
-      DockedLeft = 97
+      DockedLeft = 152
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1884,7 +1894,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton5'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1942,8 +1952,8 @@ object frmMain: TfrmMain
       FloatClientWidth = 0
       FloatClientHeight = 0
       ItemLinks = <>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1958,7 +1968,7 @@ object frmMain: TfrmMain
       FloatClientWidth = 0
       FloatClientHeight = 0
       ItemLinks = <>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2207,6 +2217,11 @@ object frmMain: TfrmMain
       Caption = #208#194#189#168#207#238
       Category = 0
       Visible = ivAlways
+    end
+    object dxbrbtnCrazy: TdxBarButton
+      Action = actCrazyPrice
+      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

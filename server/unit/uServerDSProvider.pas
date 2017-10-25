@@ -15,7 +15,8 @@ type
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
-    function CrazyPrice_GetDSOverview: TDataSet;
+    function CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataSet;
     function AP_GetDSLookUp: TDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function AR_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
@@ -243,19 +244,15 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.CrazyPrice_GetDSOverview: TDataSet;
+function TDSProvider.CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT b.ORG_Code,b.ORG_Name,a.CRAZY_DATE,c.BRG_CODE,c.BRG_NAME,d.SAT_CODE,' +
-       ' a.CRAZY_COGS,a.CRAZY_DISC_NOMINAL,a.CRAZY_DISC_PERSEN,a.CRAZY_SELLPRICE_DISC,' +
-       ' a.CRAZY_MARKUP,a.CRAZY_PPN,a.CRAZY_SELLPRICE_PPN,a.CRAZY_START_DATE,' +
-       ' a.CRAZY_END_DATE,a.DATE_CREATE,a.DATE_MODIFY,a.CRAZYPRICE_ID,a.CRAZY_ORGANIZATION_ID,' +
-       ' a.CRAZY_KONVERSI' +
-       ' from CRAZYPRICE a' +
-       ' INNER JOIN V_ORGANIZATION b on a.crazy_organization_id = b.V_ORGANIZATION_ID' +
-       ' INNER JOIN BARANG c on a.CRAZY_BARANG_ID = c.BARANG_ID' +
-       ' INNER JOIN ref$satuan d on d.REF$SATUAN_ID = a.CRAZY_SATUAN_ID' ;
+  S := ' SELECT FROM V_CRAZYPRICE ' +
+       ' where CRAZY_DATE between ' + TDBUtils.QuotDt(APeriodeAwal) +
+       ' and ' + TDBUtils.QuotDt(APeriodeAkhir) +
+       ' order by CRAZY_DATE desc, ORG_Code, ORG_Name';
 
   Result := TDBUtils.OpenQuery(S);
 end;
