@@ -305,7 +305,7 @@ begin
   if not assigned(frmDialogCashDropping) then
     Application.CreateForm(TfrmDialogCashDropping, frmDialogCashDropping);
 
-  frmDialogCashDropping.frmSuiMasterDialog.Caption := 'Add Cash Dropping';
+  frmDialogCashDropping.Caption := 'Add Cash Dropping';
   frmDialogCashDropping.FormMode := fmAdd;
   frmDialogCashDropping.balanceID := StrToInt(strgGrid.cells[_kolBalanceID,strgGrid.Row]);
   frmDialogCashDropping.supervisorID := FLoginId;

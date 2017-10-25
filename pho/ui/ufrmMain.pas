@@ -11,7 +11,23 @@ uses
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
-  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice;
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
+  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel,
+  dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
+  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
+  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
+  dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
+  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
+  dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
+  dxSkinsdxBarPainter, dxRibbonColorGallery;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -383,6 +399,13 @@ type
     actCustomerInvoice: TAction;
     dxbrmngrHOBar3: TdxBar;
     dxbrbtnGenerateVoucher: TdxBarButton;
+    dxbrAgreement: TdxBar;
+    dxrbntbMarketing: TdxRibbonTab;
+    dxbrVoucher: TdxBar;
+    dxRibbonColorGalleryItem1: TdxRibbonColorGalleryItem;
+    actCustomerAgreement: TAction;
+    actScheduleAgreement: TAction;
+    actFakturPajakAgreement: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -400,10 +423,12 @@ type
     procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
+    procedure actCustomerAgreementExecute(Sender: TObject);
     procedure actCustomerInvoiceExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
+    procedure actFakturPajakAgreementExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
@@ -422,7 +447,9 @@ type
     procedure actListingPObyMGExecute(Sender: TObject);
     procedure actListingQuotationHargaBeliExecute(Sender: TObject);
     procedure actListingQuotationMailerExecute(Sender: TObject);
+    procedure actListScheduleAgreementExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
+    procedure actMasterAgreementExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
     procedure actMembershipExecute(Sender: TObject);
@@ -443,6 +470,7 @@ type
     procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
+    procedure actScheduleAgreementExecute(Sender: TObject);
     procedure actSetKoneksiExecute(Sender: TObject);
     procedure actSettingAplikasiExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
@@ -518,7 +546,8 @@ uses
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
-  uModSettingApp, uTSCommonDlg;
+  uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
+  ufrmMasterAgreement, ufrmFakturPajakAgreement;
 
 {$R *.dfm}
 
@@ -694,6 +723,11 @@ begin
   frmCreditCard := TfrmCreditCard.Create(Application);
 end;
 
+procedure TfrmMain.actCustomerAgreementExecute(Sender: TObject);
+begin
+  frmCustomerAgreement := TfrmCustomerAgreement.CreateWithUser(Self, FFormProperty);
+end;
+
 procedure TfrmMain.actCustomerInvoiceExecute(Sender: TObject);
 begin
   frmCustomerInvoice := TfrmCustomerInvoice.Create(Application);
@@ -712,6 +746,11 @@ end;
 procedure TfrmMain.actElectricCustomerExecute(Sender: TObject);
 begin
   frmElectricCustomer := TfrmElectricCustomer.Create(Self);
+end;
+
+procedure TfrmMain.actFakturPajakAgreementExecute(Sender: TObject);
+begin
+  frmFakturPajakAgreement := TfrmFakturPajakAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
@@ -797,6 +836,16 @@ end;
 procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
 begin
   frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListScheduleAgreementExecute(Sender: TObject);
+begin
+  frmScheduleAgreement := TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMasterAgreementExecute(Sender: TObject);
+begin
+    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);
@@ -1018,6 +1067,11 @@ end;
 procedure TfrmMain.actSalesOutletExecute(Sender: TObject);
 begin
   frmOutlet := TfrmOutlet.Create(Application);
+end;
+
+procedure TfrmMain.actScheduleAgreementExecute(Sender: TObject);
+begin
+  frmScheduleAgreement:= TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actSetKoneksiExecute(Sender: TObject);

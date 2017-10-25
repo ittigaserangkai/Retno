@@ -22,10 +22,6 @@ type
     lbx2: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveEnter(Sender: TObject);
-    procedure footerDialogMasterbtnSaveExit(Sender: TObject);
-    procedure footerDialogMasterbtnCloseEnter(Sender: TObject);
-    procedure footerDialogMasterbtnCloseExit(Sender: TObject);
   private
   public
   end;
@@ -68,30 +64,6 @@ begin
   inherited;
 
   frmAbout:= nil;
-end;
-
-procedure TfrmAbout.footerDialogMasterbtnSaveEnter(Sender: TObject);
-begin
-  inherited;
-  //(Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmAbout.footerDialogMasterbtnSaveExit(Sender: TObject);
-begin
-  inherited;
-//  (Sender as TsuiButton).UIStyle := BlueGlass;
-end;
-
-procedure TfrmAbout.footerDialogMasterbtnCloseEnter(Sender: TObject);
-begin
-  inherited;
-//  (Sender as TsuiButton).UIStyle := DeepBlue;
-end;
-
-procedure TfrmAbout.footerDialogMasterbtnCloseExit(Sender: TObject);
-begin
-  inherited;
-//  (Sender as TsuiButton).UIStyle := BlueGlass;
 end;
 
 end.

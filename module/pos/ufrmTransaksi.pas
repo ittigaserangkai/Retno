@@ -10,7 +10,8 @@ uses
   cxTextEdit, cxCurrencyEdit, cxGridCustomTableView, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid,
-  uNewBarang, uNewBarangHargaJual, uNewPosTransaction, cxSpinEdit;
+  uNewBarang, uNewBarangHargaJual, uNewPosTransaction, cxSpinEdit,
+  ufrmLookupBarang;
 
 type
   TfrmTransaksi = class(TForm)
@@ -18,9 +19,6 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    lbl1: TLabel;
-    lblHargaKontrabon: TLabel;
-    edHargaKontrabon: TcxCurrencyEdit;
     pnlFooter: TPanel;
     btnHapus: TButton;
     btnBayar: TButton;
@@ -31,7 +29,6 @@ type
     pnlInfo: TPanel;
     lblInfo: TLabel;
     tmrInfo: TTimer;
-    edPLU: TEdit;
     fraLookupBarang: TfraLookupBarang;
     fraMember: TfraMember;
     lbl3: TLabel;
@@ -54,6 +51,12 @@ type
     cxStyleRepository1: TcxStyleRepository;
     cxStyleGreen: TcxStyle;
     cxStyleBold: TcxStyle;
+    pnlContainer: TPanel;
+    pnlBarCode: TPanel;
+    lbl1: TLabel;
+    edPLU: TEdit;
+    lblHargaKontrabon: TLabel;
+    edHargaKontrabon: TcxCurrencyEdit;
     procedure FormCreate(Sender: TObject);
     procedure edPLUKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -117,6 +120,7 @@ type
         ErrorText: TCaption; var Error: Boolean);
     procedure colDiscManualValidate(Sender: TObject; var DisplayValue: Variant; var
         ErrorText: TCaption; var Error: Boolean);
+    procedure DoLookupBarang;
 //    procedure LoadPendingFromCSV(AMemberCode: String);
   public
     Transaksi_ID: string;
@@ -311,17 +315,18 @@ begin
   else
   if (Key = VK_F5) then
   begin
-    cxTransaksi.Visible := False;
-    pnlFooter.Visible := False;
-    with fraLookupBarang do
-    begin
-      UnitID  := frmMain.UnitID;
-      Align   := alClient;
-      Visible := True;
-      SetPanelHeaderEnable(True);
-      edNamaBarang.SetFocus;
-      edNamaBarang.SelectAll;
-    end;    // with
+    DoLookupBarang;
+//    cxTransaksi.Visible := False;
+//    pnlFooter.Visible := False;
+//    with fraLookupBarang do
+//    begin
+//      UnitID  := frmMain.UnitID;
+//      Align   := alClient;
+//      Visible := True;
+//      SetPanelHeaderEnable(True);
+//      edNamaBarang.SetFocus;
+//      edNamaBarang.SelectAll;
+//    end;    // with
   end
   else if Key = VK_F12 then
   begin
@@ -1803,6 +1808,22 @@ begin
   end else
   begin
     CalculateManualDisc(DisplayValue, Error, ARow)
+  end;
+end;
+
+procedure TfrmTransaksi.DoLookupBarang;
+var
+  lfrm: TfrmLookupBarang;
+begin
+  lfrm := TfrmLookupBarang.CreateAt(pnlContainer);
+  try
+    if lfrm.ShowModal = mrOK then
+    begin
+      edPLU.Text          := Copy(edPLU.Text, 1, Pos('*', edPLU.Text)) + lfrm.PLU;
+      LoadByPLU(edPLU.Text, lfrm.UOM, True);
+    end;
+  finally
+    FreeAndNil(lfrm);
   end;
 end;
 

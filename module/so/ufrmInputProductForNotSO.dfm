@@ -18,12 +18,12 @@ inherited frmInputProductForNotSO: TfrmInputProductForNotSO
     ExplicitWidth = 604
     ExplicitHeight = 197
     inherited pgcBrowse: TcxPageControl
-      Width = 582
-      Height = 231
+      Width = 602
+      Height = 251
       ExplicitWidth = 582
       ExplicitHeight = 175
-      ClientRectBottom = 230
-      ClientRectRight = 581
+      ClientRectBottom = 250
+      ClientRectRight = 601
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
@@ -98,7 +98,7 @@ inherited frmInputProductForNotSO: TfrmInputProductForNotSO
       ExplicitWidth = 604
       inherited lbEscape: TLabel
         Left = 530
-        Height = 17
+        ExplicitLeft = 530
       end
     end
   end

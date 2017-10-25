@@ -91,6 +91,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudCustomerInvoice, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudBarangHargaJual, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudKuponBotol, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCRUDJurnal, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudCrazyPrice, DSServerClass.LifeCycle);
 
 end;

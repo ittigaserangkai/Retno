@@ -181,7 +181,7 @@ begin
   if strgGrid.Cells[2,strgGrid.Row]='0' then Exit;
   if not Assigned(frmDialogInputProductForNotSO) then
     Application.CreateForm(TfrmDialogInputProductForNotSO, frmDialogInputProductForNotSO);
-  frmDialogInputProductForNotSO.frmSuiMasterDialog.Caption := 'Edit Product For Not SO';
+  frmDialogInputProductForNotSO.Caption := 'Edit Product For Not SO';
   frmDialogInputProductForNotSO.FormMode:=fmEdit;
   frmDialogInputProductForNotSO.SuplierCode:=cbpCode.Text;
 
