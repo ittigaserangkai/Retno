@@ -258,8 +258,8 @@ uses
   ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
-  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice};
 
 {$R *.res}
 
@@ -270,5 +270,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogCrazyPrice, frmDialogCrazyPrice);
   Application.Run;
 end.
