@@ -183,6 +183,9 @@ type
         = 11): String; override;
   end;
 
+  TCrudCrazyPrice = class(TCrud)
+  end;
+
 {$METHODINFO OFF}
 
 const

@@ -2,36 +2,34 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   Left = 247
   Top = 117
   Caption = 'Crazy Price'
-  ClientHeight = 454
-  ClientWidth = 710
+  ClientHeight = 512
+  ClientWidth = 808
   OldCreateOrder = True
-  ExplicitWidth = 726
-  ExplicitHeight = 493
+  ExplicitWidth = 824
+  ExplicitHeight = 551
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 710
-    Height = 365
+    Width = 808
+    Height = 423
     ExplicitWidth = 710
     ExplicitHeight = 365
     inherited pgcBrowse: TcxPageControl
-      Top = 71
-      Width = 708
-      Height = 293
-      TabOrder = 1
+      Width = 806
+      Height = 421
       ExplicitTop = 71
       ExplicitWidth = 708
       ExplicitHeight = 293
-      ClientRectBottom = 292
-      ClientRectRight = 707
+      ClientRectBottom = 420
+      ClientRectRight = 805
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 706
         ExplicitHeight = 291
         inherited cxGrid: TcxGrid
-          Width = 706
-          Height = 291
+          Width = 804
+          Height = 419
           ExplicitWidth = 706
           ExplicitHeight = 291
           inherited cxGridView: TcxGridDBTableView
@@ -72,62 +70,9 @@ inherited frmCrazyPrice: TfrmCrazyPrice
         end
       end
     end
-    object pnl1: TPanel
-      Left = 1
-      Top = 1
-      Width = 708
-      Height = 70
-      Align = alTop
-      BevelInner = bvLowered
-      ParentColor = True
-      TabOrder = 0
-      object Label4: TLabel
-        Left = 21
-        Top = 42
-        Width = 62
-        Height = 16
-        Caption = 'Date Create'
-      end
-      object Label1: TLabel
-        Left = 197
-        Top = 42
-        Width = 15
-        Height = 16
-        Caption = 'S.d'
-      end
-      object Label2: TLabel
-        Left = 20
-        Top = 9
-        Width = 54
-        Height = 16
-        Caption = 'Tipe Harga'
-      end
-      object dtFrom: TcxDateEdit
-        Left = 91
-        Top = 39
-        TabOrder = 1
-        Width = 97
-      end
-      object dtTo: TcxDateEdit
-        Left = 219
-        Top = 39
-        TabOrder = 2
-        Width = 97
-      end
-      object cbTipeHarga: TComboBox
-        Left = 91
-        Top = 9
-        Width = 225
-        Height = 24
-        BevelKind = bkSoft
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 0
-      end
-    end
   end
   inherited pnlHeader: TPanel
-    Width = 710
+    Width = 808
     ExplicitWidth = 710
     inherited lblHeader: TLabel
       Width = 74
@@ -135,37 +80,37 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       ExplicitWidth = 74
     end
     inherited lblFilterData: TcxLabel
-      Left = 356
+      Left = 454
       ExplicitLeft = 356
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 417
+      Left = 515
       ExplicitLeft = 417
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 533
+      Left = 631
       ExplicitLeft = 533
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 628
+      Left = 726
       ExplicitLeft = 628
     end
     inherited lblsdFilter: TcxLabel
-      Left = 509
+      Left = 607
       ExplicitLeft = 509
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 398
-    Width = 710
+    Top = 456
+    Width = 808
     ExplicitTop = 398
     ExplicitWidth = 710
     inherited pnlFooter: TPanel
-      Width = 710
+      Width = 808
       ExplicitWidth = 710
       inherited btnAdd: TcxButton
         Action = actAdd
@@ -177,7 +122,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 633
+        Left = 731
         Action = actClose
         ExplicitLeft = 633
       end
@@ -186,10 +131,11 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 710
+      Width = 808
       ExplicitWidth = 710
       inherited lbEscape: TLabel
-        Left = 636
+        Left = 734
+        Height = 17
         ExplicitLeft = 636
       end
     end

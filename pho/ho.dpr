@@ -245,7 +245,8 @@ uses
   uModDOTrader in '..\model\uModDOTrader.pas',
   uModAR in '..\model\uModAR.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
-  uModSetupPOS in '..\model\uModSetupPOS.pas';
+  uModSetupPOS in '..\model\uModSetupPOS.pas',
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas';
 
 {$R *.res}
 

@@ -15,13 +15,6 @@ uses
 
 type
   TfrmCrazyPrice = class(TfrmMasterBrowse)
-    pnl1: TPanel;
-    Label4: TLabel;
-    dtTo: TcxDateEdit;
-    dtFrom: TcxDateEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    cbTipeHarga: TComboBox;
     cxcolGridViewColumn1: TcxGridDBColumn;
     cxcolGridViewColumn2: TcxGridDBColumn;
     cxcolGridViewColumn3: TcxGridDBColumn;
