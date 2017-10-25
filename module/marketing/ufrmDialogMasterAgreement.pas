@@ -50,7 +50,6 @@ type
     lblSearchProduct: TLabel;
     intedtInvoice: TcxCurrencyEdit;
     intedtPeriode: TcxCurrencyEdit;
-    lblStaPro: TLabel;
     lblTipeBayar: TLabel;
     curredtTotal: TcxCurrencyEdit;
     cbCustCode: TcxLookupComboBox;
@@ -77,10 +76,10 @@ type
     grdlvlMaster1: TcxGridLevel;
     cxcolDetilUnitPrice: TcxGridDBColumn;
     cxcolDetilSubTotal: TcxGridDBColumn;
-    cbPeriode: TcxLookupComboBox;
     cbbTipeBayar: TComboBox;
     cbPajak: TComboBox;
-    cbbStaPro: TComboBox;
+    Label1: TLabel;
+    cxDateEdit1: TcxDateEdit;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
