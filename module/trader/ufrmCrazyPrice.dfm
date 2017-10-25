@@ -73,7 +73,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   end
   inherited pnlHeader: TPanel
     Width = 808
-    ExplicitWidth = 710
+    ExplicitWidth = 808
     inherited lblHeader: TLabel
       Width = 74
       Caption = 'CRAZY PRICE '
@@ -81,7 +81,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
     end
     inherited lblFilterData: TcxLabel
       Left = 454
-      ExplicitLeft = 356
+      ExplicitLeft = 454
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -100,7 +100,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
     end
     inherited lblsdFilter: TcxLabel
       Left = 607
-      ExplicitLeft = 509
+      ExplicitLeft = 607
       AnchorY = 17
     end
   end
@@ -135,8 +135,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       ExplicitWidth = 710
       inherited lbEscape: TLabel
         Left = 734
-        Height = 17
-        ExplicitLeft = 636
+        ExplicitLeft = 734
       end
     end
   end

@@ -90,11 +90,11 @@ var
   iTipeHargaID: Integer;
 begin
   inherited;
-  dtFrom.Date:= Now - 5;
-  dtTo.Date:= Now;
+//  dtFrom.Date:= Now - 5;
+//  dtTo.Date:= Now;
   LoadTipeHarga;
 //  iTipeHargaID := cGetIDfromCombo(cbTipeHarga, cbTipeHarga.ItemIndex);
-  SetListAllCrazyPrice(IntToStr(iTipeHargaID), dtFrom.Date, dtTo.Date);
+//  SetListAllCrazyPrice(IntToStr(iTipeHargaID), dtFrom.Date, dtTo.Date);
 
 end;
 
@@ -119,8 +119,8 @@ begin
 //     + ' AND TPHRG_UNT_ID = ' + IntToStr(masternewunit.id)
      + ' Order By TPHRG_NAME';
 //  cQueryToComboObject(cbTipeHarga, s);
-  cbTipeHarga.ItemIndex := -1;
-  cbTipeHarga.ItemIndex := 1;
+//  cbTipeHarga.ItemIndex := -1;
+//  cbTipeHarga.ItemIndex := 1;
 end;
 
 procedure TfrmCrazyPrice.SetListAllCrazyPrice(aTipeHrgID: string; aDate1,
@@ -248,7 +248,7 @@ begin
   inherited;
   //GetListCrazyPriceBetweenDate;
 //  iTipeHargaID := cGetIDfromCombo(cbTipeHarga, cbTipeHarga.ItemIndex);
-  SetListAllCrazyPrice(IntToStr(iTipeHargaID), dtFrom.Date, dtTo.Date);
+//  SetListAllCrazyPrice(IntToStr(iTipeHargaID), dtFrom.Date, dtTo.Date);
 end;
 
 end.

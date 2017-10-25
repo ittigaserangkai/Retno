@@ -188,6 +188,7 @@ type
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; override;
   public
+  end;
   TCrudCrazyPrice = class(TCrud)
   end;
 
