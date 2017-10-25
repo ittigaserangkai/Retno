@@ -12,22 +12,7 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
-  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel,
-  dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
-  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
-  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
-  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
-  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
-  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
-  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
-  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
-  dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter, dxRibbonColorGallery;
+  dxRibbonColorGallery;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -406,7 +391,18 @@ type
     actCustomerAgreement: TAction;
     actScheduleAgreement: TAction;
     actFakturPajakAgreement: TAction;
+    dxbrbtn2: TdxBarButton;
+    dxbrbtn4: TdxBarButton;
+    dxbrbtn5: TdxBarButton;
+    dxbrbtn6: TdxBarButton;
+    dxbrbtn7: TdxBarButton;
+    dxbrbtn8: TdxBarButton;
+    dxbrbtn9: TdxBarButton;
+    dxbrbtn10: TdxBarButton;
+    dxbrbtn11: TdxBarButton;
+    dxbrbtn12: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
+    procedure actAgreementVoucherExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
@@ -425,10 +421,12 @@ type
     procedure actCreditCardExecute(Sender: TObject);
     procedure actCustomerAgreementExecute(Sender: TObject);
     procedure actCustomerInvoiceExecute(Sender: TObject);
+    procedure actCustomerVoucherExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
     procedure actFakturPajakAgreementExecute(Sender: TObject);
+    procedure actGenerateVoucherExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
@@ -547,7 +545,8 @@ uses
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
   uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
-  ufrmMasterAgreement, ufrmFakturPajakAgreement;
+  ufrmMasterAgreement, ufrmFakturPajakAgreement, ufrmCustomerVoucher,
+  ufrmAgreementVoucher, ufrmGenerateVoucher;
 
 {$R *.dfm}
 
@@ -589,6 +588,11 @@ end;
 procedure TfrmMain.actAdjustmentFakturExecute(Sender: TObject);
 begin
   frmAdjustmentFaktur := TfrmAdjustmentFaktur.Create(Self);
+end;
+
+procedure TfrmMain.actAgreementVoucherExecute(Sender: TObject);
+begin
+  frmAgreementVoucher := TfrmAgreementVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actAPCARDExecute(Sender: TObject);
@@ -733,6 +737,11 @@ begin
   frmCustomerInvoice := TfrmCustomerInvoice.Create(Application);
 end;
 
+procedure TfrmMain.actCustomerVoucherExecute(Sender: TObject);
+begin
+  frmCustomerVoucher := TfrmCustomerVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actDataProductExecute(Sender: TObject);
 begin
   frmProduct := TfrmProduct.CreateWithUser(Application, FFormProperty);
@@ -751,6 +760,11 @@ end;
 procedure TfrmMain.actFakturPajakAgreementExecute(Sender: TObject);
 begin
   frmFakturPajakAgreement := TfrmFakturPajakAgreement.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actGenerateVoucherExecute(Sender: TObject);
+begin
+  frmGenerateVoucher := TfrmGenerateVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);

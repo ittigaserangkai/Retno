@@ -982,14 +982,17 @@ object frmMain: TfrmMain
     object actCustomerVoucher: TAction
       Category = 'Marketing'
       Caption = 'Customer Voucher'
+      OnExecute = actCustomerVoucherExecute
     end
     object actAgreementVoucher: TAction
       Category = 'Marketing'
       Caption = 'Agreement Voucher'
+      OnExecute = actAgreementVoucherExecute
     end
     object actGenerateVoucher: TAction
       Category = 'Marketing'
       Caption = 'Generate Voucher'
+      OnExecute = actGenerateVoucherExecute
     end
     object actListQuotation: TAction
       Category = 'Merchandise'
@@ -1450,17 +1453,17 @@ object frmMain: TfrmMain
     end
     object actCustomerAgreement: TAction
       Category = 'Marketing'
-      Caption = 'actCustomerAgreement'
+      Caption = 'Customer Agreement'
       OnExecute = actCustomerAgreementExecute
     end
     object actScheduleAgreement: TAction
       Category = 'Marketing'
-      Caption = 'actScheduleAgreement'
+      Caption = 'Schedule Agreement'
       OnExecute = actScheduleAgreementExecute
     end
     object actFakturPajakAgreement: TAction
       Category = 'Marketing'
-      Caption = 'actFakturPajakAgreement'
+      Caption = 'Faktur Pajak Agreement'
       OnExecute = actFakturPajakAgreementExecute
     end
   end
@@ -1736,8 +1739,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbtn3'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1884,7 +1887,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton5'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1941,9 +1944,29 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
-      OneOnRow = True
-      Row = 1
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtn2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn4'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn5'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn6'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn12'
+        end>
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1951,14 +1974,30 @@ object frmMain: TfrmMain
     object dxbrVoucher: TdxBar
       Caption = 'Voucher'
       CaptionButtons = <>
-      DockedLeft = 97
+      DockedLeft = 310
       DockedTop = 0
       FloatLeft = 903
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
-      OneOnRow = True
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbtn9'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn8'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn11'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtn10'
+        end>
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2207,6 +2246,48 @@ object frmMain: TfrmMain
       Caption = #208#194#189#168#207#238
       Category = 0
       Visible = ivAlways
+    end
+    object dxbrbtn2: TdxBarButton
+      Action = actCustomerAgreement
+      Category = 0
+    end
+    object dxbrbtn4: TdxBarButton
+      Action = actMasterAgreement
+      Category = 0
+    end
+    object dxbrbtn5: TdxBarButton
+      Action = actScheduleAgreement
+      Category = 0
+    end
+    object dxbrbtn6: TdxBarButton
+      Action = actFakturPajakAgreement
+      Category = 0
+    end
+    object dxbrbtn7: TdxBarButton
+      Caption = #208#194#189#168#176#180#197#165
+      Category = 0
+      Hint = #208#194#189#168#176#180#197#165
+      Visible = ivAlways
+    end
+    object dxbrbtn8: TdxBarButton
+      Action = actAgreementVoucher
+      Category = 0
+    end
+    object dxbrbtn9: TdxBarButton
+      Action = actCustomerVoucher
+      Category = 0
+    end
+    object dxbrbtn10: TdxBarButton
+      Action = actGenerateVoucher
+      Category = 0
+    end
+    object dxbrbtn11: TdxBarButton
+      Action = actVoucher
+      Category = 0
+    end
+    object dxbrbtn12: TdxBarButton
+      Action = actListAgreementDetil
+      Category = 0
     end
   end
 end

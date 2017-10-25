@@ -7,7 +7,7 @@ uses
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   Mask, StdCtrls, Grids,DateUtils,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils, AdvUtil,
+  cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, AdvObj,
   cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxCalendar, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, dxBarBuiltInMenu, cxStyles,

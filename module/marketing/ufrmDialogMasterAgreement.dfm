@@ -407,6 +407,7 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       object tsKontrak: TcxTabSheet
         Caption = 'F2 - Detil Agreement'
         ImageIndex = 0
+        ExplicitTop = 0
         ExplicitWidth = 736
         ExplicitHeight = 123
         object cxGrid: TcxGrid
@@ -472,6 +473,8 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       object tsJadwalInvoice: TcxTabSheet
         Caption = 'F3 - Invoice Schedule'
         ImageIndex = 1
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 42
         object cxgrd1: TcxGrid
           Left = 0
@@ -569,21 +572,15 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       ExplicitWidth = 760
       inherited lbCTRLEnter: TLabel
         Left = 739
-        Height = 15
-        ExplicitLeft = 585
+        ExplicitLeft = 739
       end
       inherited lbEscape: TLabel
         Left = 830
-        Height = 15
-        ExplicitLeft = 676
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+        ExplicitLeft = 830
       end
       inherited lblCTRLP: TLabel
         Left = 663
-        Height = 15
-        ExplicitLeft = 509
+        ExplicitLeft = 663
       end
     end
   end

@@ -256,7 +256,14 @@ uses
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
   ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
-  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice};
+  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
+  ufrmCustomerVoucher in '..\module\voucher\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
+  ufrmDialogCustomerVoucher in '..\module\voucher\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
+  ufrmAgreementVoucher in '..\module\voucher\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
+  ufrmDialogAgreementVoucher in '..\module\voucher\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
+  ufrmGenerateVoucher in '..\module\voucher\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
+  ufrmDialogGenerateVoucher in '..\module\voucher\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
+  ufrmPopupDetailVoucher in '..\module\voucher\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher};
 
 {$R *.res}
 
