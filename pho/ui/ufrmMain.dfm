@@ -192,7 +192,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
-      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -222,6 +221,7 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
+      Active = True
       Caption = 'Marketing'
       Groups = <
         item
@@ -1450,17 +1450,17 @@ object frmMain: TfrmMain
     end
     object actCustomerAgreement: TAction
       Category = 'Marketing'
-      Caption = 'actCustomerAgreement'
+      Caption = 'Customer Agreement'
       OnExecute = actCustomerAgreementExecute
     end
     object actScheduleAgreement: TAction
       Category = 'Marketing'
-      Caption = 'actScheduleAgreement'
+      Caption = 'Schedule Agreement'
       OnExecute = actScheduleAgreementExecute
     end
     object actFakturPajakAgreement: TAction
       Category = 'Marketing'
-      Caption = 'actFakturPajakAgreement'
+      Caption = 'Faktur Pajak Agreement'
       OnExecute = actFakturPajakAgreementExecute
     end
     object actCrazyPrice: TAction
@@ -1951,7 +1951,27 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbAgCustomer'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbAgMaster'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbAgListDetil'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbAgSchedule'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbAgFakturPajak'
+        end>
       OneOnRow = False
       Row = 0
       UseOwnFont = False
@@ -1961,13 +1981,29 @@ object frmMain: TfrmMain
     object dxbrVoucher: TdxBar
       Caption = 'Voucher'
       CaptionButtons = <>
-      DockedLeft = 97
+      DockedLeft = 322
       DockedTop = 0
       FloatLeft = 903
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbVouCustomer'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbVouAgreement'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbVouGenerate'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbVoucher'
+        end>
       OneOnRow = False
       Row = 0
       UseOwnFont = False
@@ -2222,6 +2258,52 @@ object frmMain: TfrmMain
       Action = actCrazyPrice
       Category = 0
       PaintStyle = psCaptionGlyph
+    end
+    object dxbrbAgCustomer: TdxBarButton
+      Action = actCustomerAgreement
+      Category = 0
+    end
+    object dxbAgMaster: TdxBarButton
+      Action = actMasterAgreement
+      Category = 0
+    end
+    object dxbrbAgListDetil: TdxBarButton
+      Action = actListAgreementDetil
+      Category = 0
+      OnClick = dxbrbAgListDetilClick
+    end
+    object dxbrbAgSchedule: TdxBarButton
+      Action = actScheduleAgreement
+      Category = 0
+    end
+    object dxbrbAgFakturPajak: TdxBarButton
+      Action = actFakturPajakAgreement
+      Category = 0
+    end
+    object dxbrbVouCustomer: TdxBarButton
+      Action = actCustomerVoucher
+      Category = 0
+      OnClick = dxbrbVouCustomerClick
+    end
+    object dxbrbVouAgreement: TdxBarButton
+      Action = actAgreementVoucher
+      Category = 0
+      OnClick = dxbrbVouAgreementClick
+    end
+    object dxbrbVouGenerate: TdxBarButton
+      Action = actGenerateVoucher
+      Category = 0
+      OnClick = dxbrbVouGenerateClick
+    end
+    object dxbrb4: TdxBarButton
+      Caption = #208#194#189#168#176#180#197#165
+      Category = 0
+      Hint = #208#194#189#168#176#180#197#165
+      Visible = ivAlways
+    end
+    object dxbrbVoucher: TdxBarButton
+      Action = actVoucher
+      Category = 0
     end
   end
 end

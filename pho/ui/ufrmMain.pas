@@ -408,6 +408,16 @@ type
     actFakturPajakAgreement: TAction;
     dxbrbtnCrazy: TdxBarButton;
     actCrazyPrice: TAction;
+    dxbrbAgCustomer: TdxBarButton;
+    dxbAgMaster: TdxBarButton;
+    dxbrbAgListDetil: TdxBarButton;
+    dxbrbAgSchedule: TdxBarButton;
+    dxbrbAgFakturPajak: TdxBarButton;
+    dxbrbVouCustomer: TdxBarButton;
+    dxbrbVouAgreement: TdxBarButton;
+    dxbrbVouGenerate: TdxBarButton;
+    dxbrb4: TdxBarButton;
+    dxbrbVoucher: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -501,6 +511,10 @@ type
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
+    procedure dxbrbAgListDetilClick(Sender: TObject);
+    procedure dxbrbVouCustomerClick(Sender: TObject);
+    procedure dxbrbVouAgreementClick(Sender: TObject);
+    procedure dxbrbVouGenerateClick(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -550,7 +564,8 @@ uses
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
   uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
-  ufrmMasterAgreement, ufrmFakturPajakAgreement;
+  ufrmMasterAgreement, ufrmFakturPajakAgreement, ufrmListAgreementDetil,
+  ufrmAgreementVoucher, ufrmCustomerVoucher, ufrmGenerateVoucher;
 
 {$R *.dfm}
 
@@ -1213,6 +1228,26 @@ begin
     ShowModal;
     Free;
   end;
+end;
+
+procedure TfrmMain.dxbrbAgListDetilClick(Sender: TObject);
+begin
+  frmListAgreementDetil := TfrmListAgreementDetil.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouAgreementClick(Sender: TObject);
+begin
+  frmAgreementVoucher := TfrmAgreementVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouCustomerClick(Sender: TObject);
+begin
+  frmCustomerVoucher := TfrmCustomerVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouGenerateClick(Sender: TObject);
+begin
+  frmGenerateVoucher := TfrmGenerateVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
