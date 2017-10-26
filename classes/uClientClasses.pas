@@ -1,17 +1,18 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/25/2017 10:29:43 AM
+// 10/26/2017 1:49:02 PM
 //
 
 unit uClientClasses;
 
 interface
 
-uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, System.Generics.Collections, Data.FireDACJSONReflect, uModUnit, uModBeginningBalance, uModDO, uModSettingApp, uModQuotation, uModContrabonSales, Data.DBXJSONReflect;
+uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, uModApp, System.Generics.Collections, Data.FireDACJSONReflect, uModUnit, uModBeginningBalance, uModDO, uModSettingApp, uModQuotation, uModContrabonSales, uModBarang, uModSatuan, Data.DBXJSONReflect;
 
 type
 
   IDSRestCachedTModSettingApp = interface;
+  IDSRestCachedTModBarangHargaJual = interface;
   IDSRestCachedTFDJSONDataSets = interface;
   IDSRestCachedTStrings = interface;
   IDSRestCachedTModApp = interface;
@@ -1384,6 +1385,8 @@ type
 
   TCrudBarangHargaJualClient = class(TDSAdminRestClient)
   private
+    FRetrieveByPLUCommand: TDSRestCommand;
+    FRetrieveByPLUCommand_Cache: TDSRestCommand;
     FCreateTableSQLCommand: TDSRestCommand;
     FCreateTableSQLByClassNameCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
@@ -1407,6 +1410,8 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function RetrieveByPLU(AModBarang: TModBarang; AModUOM: TModSatuan; const ARequestFilter: string = ''): TModBarangHargaJual;
+    function RetrieveByPLU_Cache(AModBarang: TModBarang; AModUOM: TModSatuan; const ARequestFilter: string = ''): IDSRestCachedTModBarangHargaJual;
     function CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string = ''): string;
     function CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string = ''): string;
     function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1570,6 +1575,11 @@ type
   end;
 
   TDSRestCachedTModSettingApp = class(TDSRestCachedObject<TModSettingApp>, IDSRestCachedTModSettingApp, IDSRestCachedCommand)
+  end;
+  IDSRestCachedTModBarangHargaJual = interface(IDSRestCachedObject<TModBarangHargaJual>)
+  end;
+
+  TDSRestCachedTModBarangHargaJual = class(TDSRestCachedObject<TModBarangHargaJual>, IDSRestCachedTModBarangHargaJual, IDSRestCachedCommand)
   end;
   IDSRestCachedTFDJSONDataSets = interface(IDSRestCachedObject<TFDJSONDataSets>)
   end;
@@ -5151,6 +5161,20 @@ const
   TCrudCustomerInvoice_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudBarangHargaJual_RetrieveByPLU: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AModBarang'; Direction: 1; DBXType: 37; TypeName: 'TModBarang'),
+    (Name: 'AModUOM'; Direction: 1; DBXType: 37; TypeName: 'TModSatuan'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModBarangHargaJual')
+  );
+
+  TCrudBarangHargaJual_RetrieveByPLU_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AModBarang'; Direction: 1; DBXType: 37; TypeName: 'TModBarang'),
+    (Name: 'AModUOM'; Direction: 1; DBXType: 37; TypeName: 'TModSatuan'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -17853,6 +17877,96 @@ begin
   inherited;
 end;
 
+function TCrudBarangHargaJualClient.RetrieveByPLU(AModBarang: TModBarang; AModUOM: TModSatuan; const ARequestFilter: string): TModBarangHargaJual;
+begin
+  if FRetrieveByPLUCommand = nil then
+  begin
+    FRetrieveByPLUCommand := FConnection.CreateCommand;
+    FRetrieveByPLUCommand.RequestType := 'POST';
+    FRetrieveByPLUCommand.Text := 'TCrudBarangHargaJual."RetrieveByPLU"';
+    FRetrieveByPLUCommand.Prepare(TCrudBarangHargaJual_RetrieveByPLU);
+  end;
+  if not Assigned(AModBarang) then
+    FRetrieveByPLUCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FRetrieveByPLUCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FRetrieveByPLUCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AModBarang), True);
+      if FInstanceOwner then
+        AModBarang.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  if not Assigned(AModUOM) then
+    FRetrieveByPLUCommand.Parameters[1].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FRetrieveByPLUCommand.Parameters[1].ConnectionHandler).GetJSONMarshaler;
+    try
+      FRetrieveByPLUCommand.Parameters[1].Value.SetJSONValue(FMarshal.Marshal(AModUOM), True);
+      if FInstanceOwner then
+        AModUOM.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FRetrieveByPLUCommand.Execute(ARequestFilter);
+  if not FRetrieveByPLUCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveByPLUCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModBarangHargaJual(FUnMarshal.UnMarshal(FRetrieveByPLUCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveByPLUCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudBarangHargaJualClient.RetrieveByPLU_Cache(AModBarang: TModBarang; AModUOM: TModSatuan; const ARequestFilter: string): IDSRestCachedTModBarangHargaJual;
+begin
+  if FRetrieveByPLUCommand_Cache = nil then
+  begin
+    FRetrieveByPLUCommand_Cache := FConnection.CreateCommand;
+    FRetrieveByPLUCommand_Cache.RequestType := 'POST';
+    FRetrieveByPLUCommand_Cache.Text := 'TCrudBarangHargaJual."RetrieveByPLU"';
+    FRetrieveByPLUCommand_Cache.Prepare(TCrudBarangHargaJual_RetrieveByPLU_Cache);
+  end;
+  if not Assigned(AModBarang) then
+    FRetrieveByPLUCommand_Cache.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FRetrieveByPLUCommand_Cache.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FRetrieveByPLUCommand_Cache.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(AModBarang), True);
+      if FInstanceOwner then
+        AModBarang.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  if not Assigned(AModUOM) then
+    FRetrieveByPLUCommand_Cache.Parameters[1].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FRetrieveByPLUCommand_Cache.Parameters[1].ConnectionHandler).GetJSONMarshaler;
+    try
+      FRetrieveByPLUCommand_Cache.Parameters[1].Value.SetJSONValue(FMarshal.Marshal(AModUOM), True);
+      if FInstanceOwner then
+        AModUOM.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FRetrieveByPLUCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModBarangHargaJual.Create(FRetrieveByPLUCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TCrudBarangHargaJualClient.CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string): string;
 begin
   if FCreateTableSQLCommand = nil then
@@ -18281,6 +18395,8 @@ end;
 
 destructor TCrudBarangHargaJualClient.Destroy;
 begin
+  FRetrieveByPLUCommand.DisposeOf;
+  FRetrieveByPLUCommand_Cache.DisposeOf;
   FCreateTableSQLCommand.DisposeOf;
   FCreateTableSQLByClassNameCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;

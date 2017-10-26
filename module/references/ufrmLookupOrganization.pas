@@ -53,9 +53,9 @@ var
 begin
   Result := nil;
   lfrm := TfrmLookupOrganization.Create(DMClient.RestConn, False);
+  lfrm.CommandName  := 'TDSProvider.Organization_Lookup';
   lfrm.rbOrgType.ItemIndex := DefaultType-1;
   Try
-    lfrm.CommandName  := 'TDSProvider.Organization_Lookup';
     lfrm.HideDateParams;
     lfrm.RefreshDataSet;
     lfrm.ShowFieldsOnly(['ORG_CODE', 'ORG_NAME', 'ORG_Address', 'Org_NPWP']);

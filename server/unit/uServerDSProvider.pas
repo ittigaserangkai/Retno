@@ -249,7 +249,7 @@ function TDSProvider.CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir:
 var
   S: string;
 begin
-  S := ' SELECT FROM V_CRAZYPRICE ' +
+  S := ' SELECT * FROM V_CRAZYPRICE ' +
        ' where CRAZY_DATE between ' + TDBUtils.QuotDt(APeriodeAwal) +
        ' and ' + TDBUtils.QuotDt(APeriodeAkhir) +
        ' order by CRAZY_DATE desc, ORG_Code, ORG_Name';

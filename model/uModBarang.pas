@@ -324,9 +324,15 @@ type
     FBHJ_REMARK: string;
     FSatuan: TModSatuan;
     FTipeHarga: TModTipeHarga;
+    function GetBHJ_PURCHASE_PRICE: Double;
+    function GetBHJ_PPN: Double;
+    function GetBHJ_SELL_PRICE_EX_PPN: Double;
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
+    property BHJ_PURCHASE_PRICE: Double read GetBHJ_PURCHASE_PRICE;
+    property BHJ_PPN: Double read GetBHJ_PPN;
+    property BHJ_SELL_PRICE_EX_PPN: Double read GetBHJ_SELL_PRICE_EX_PPN;
   published
     [AttributeOfHeader]
     property Barang: TModBarang read FBarang write FBarang;
@@ -466,6 +472,21 @@ begin
   inherited;
   if Assigned(FSatuan) then FreeAndNil(FSatuan);
   if Assigned(FTipeHarga) then FreeAndNil(FTipeHarga);
+end;
+
+function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE: Double;
+begin
+  Result := BHJ_SELL_PRICE / 1.1 * (100 / (100 + BHJ_MARK_UP));
+end;
+
+function TModBarangHargaJual.GetBHJ_PPN: Double;
+begin
+  Result := 10;
+end;
+
+function TModBarangHargaJual.GetBHJ_SELL_PRICE_EX_PPN: Double;
+begin
+  Result := BHJ_SELL_PRICE / (100 + BHJ_PPN)/100;
 end;
 
 class function TModBarangHargaJual.GetTableName: string;
