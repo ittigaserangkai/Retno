@@ -12,22 +12,7 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
-  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel,
-  dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
-  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
-  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
-  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
-  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
-  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
-  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
-  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
-  dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinsdxRibbonPainter,
-  dxSkinsdxBarPainter, dxRibbonColorGallery, ufrmCrazyPrice;
+  ufrmCrazyPrice, dxRibbonColorGallery;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -408,6 +393,22 @@ type
     actFakturPajakAgreement: TAction;
     dxbrbtnCrazy: TdxBarButton;
     actCrazyPrice: TAction;
+    dxbrbAgCustomer: TdxBarButton;
+    dxbAgMaster: TdxBarButton;
+    dxbrbAgListDetil: TdxBarButton;
+    dxbrbAgSchedule: TdxBarButton;
+    dxbrbAgFakturPajak: TdxBarButton;
+    dxbrbVouCustomer: TdxBarButton;
+    dxbrbVouAgreement: TdxBarButton;
+    dxbrbVouGenerate: TdxBarButton;
+    dxbrb4: TdxBarButton;
+    dxbrbVoucher: TdxBarButton;
+    dxbrbElectricCustomer: TdxBarButton;
+    dxbrElectric: TdxBar;
+    dxbrbElectricCustomerMar: TdxBarButton;
+    dxbrbElectricInvoice: TdxBarButton;
+    dxbrbElectricTransaction: TdxBarButton;
+    dxbrbElectricPayment: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -501,6 +502,13 @@ type
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
+    procedure dxbrbAgListDetilClick(Sender: TObject);
+    procedure dxbrbVouCustomerClick(Sender: TObject);
+    procedure dxbrbVouAgreementClick(Sender: TObject);
+    procedure dxbrbVouGenerateClick(Sender: TObject);
+    procedure dxbrbElectricInvoiceClick(Sender: TObject);
+    procedure dxbrbElectricTransactionClick(Sender: TObject);
+    procedure dxbrbElectricPaymentClick(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -550,7 +558,9 @@ uses
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
   uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
-  ufrmMasterAgreement, ufrmFakturPajakAgreement;
+  ufrmMasterAgreement, ufrmFakturPajakAgreement, ufrmListAgreementDetil,
+  ufrmAgreementVoucher, ufrmCustomerVoucher, ufrmGenerateVoucher,
+  ufrmElectricInvoice, ufrmElectricTransaction, ufrmElectricPayment;
 
 {$R *.dfm}
 
@@ -1213,6 +1223,41 @@ begin
     ShowModal;
     Free;
   end;
+end;
+
+procedure TfrmMain.dxbrbAgListDetilClick(Sender: TObject);
+begin
+  frmListAgreementDetil := TfrmListAgreementDetil.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbElectricInvoiceClick(Sender: TObject);
+begin
+  frmElectricInvoice := TfrmElectricInvoice.Create(Self);
+end;
+
+procedure TfrmMain.dxbrbElectricPaymentClick(Sender: TObject);
+begin
+  frmElectricPayment := TfrmElectricPayment.Create(Self);
+end;
+
+procedure TfrmMain.dxbrbElectricTransactionClick(Sender: TObject);
+begin
+  frmElectricTransaction := TfrmElectricTransaction.Create(Self);
+end;
+
+procedure TfrmMain.dxbrbVouAgreementClick(Sender: TObject);
+begin
+  frmAgreementVoucher := TfrmAgreementVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouCustomerClick(Sender: TObject);
+begin
+  frmCustomerVoucher := TfrmCustomerVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouGenerateClick(Sender: TObject);
+begin
+  frmGenerateVoucher := TfrmGenerateVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

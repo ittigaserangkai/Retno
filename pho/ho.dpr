@@ -259,7 +259,18 @@ uses
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice};
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
+  ufrmListAgreementDetil in '..\module\marketing\ufrmListAgreementDetil.pas' {frmListAgreementDetil},
+  ufrmAgreementVoucher in '..\module\customer_support\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
+  ufrmGenerateVoucher in '..\module\customer_support\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
+  ufrmCustomerVoucher in '..\module\customer_support\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
+  ufrmDialogAgreementVoucher in '..\module\customer_support\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
+  ufrmDialogCustomerVoucher in '..\module\customer_support\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
+  ufrmPopupDetailVoucher in '..\module\customer_support\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher},
+  ufrmDialogGenerateVoucher in '..\module\customer_support\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
+  ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
+  ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
+  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment};
 
 {$R *.res}
 
