@@ -169,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -221,7 +222,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
-      Active = True
       Caption = 'Marketing'
       Groups = <
         item
@@ -229,6 +229,10 @@ object frmMain: TfrmMain
         end
         item
           ToolbarName = 'dxbrVoucher'
+        end
+        item
+          Caption = 'Electric'
+          ToolbarName = 'dxbrElectric'
         end>
       Index = 7
     end
@@ -733,6 +737,7 @@ object frmMain: TfrmMain
     object actVoucher: TAction
       Category = 'Accounting'
       Caption = '&Voucher'
+      ImageIndex = 58
       OnExecute = actVoucherExecute
     end
     object actSetupCashManagement: TAction
@@ -888,11 +893,11 @@ object frmMain: TfrmMain
     end
     object actElectricTransaction: TAction
       Category = 'Finance'
-      Caption = 'actElectricTransaction'
+      Caption = 'Electric Transaction'
     end
     object actElectricInvoice: TAction
       Category = 'Finance'
-      Caption = 'actElectricInvoice'
+      Caption = 'Electric Invoice'
     end
     object actCashFlow: TAction
       Category = 'Accounting'
@@ -912,7 +917,7 @@ object frmMain: TfrmMain
     end
     object actElectricPayment: TAction
       Category = 'Finance'
-      Caption = 'actElectricPayment'
+      Caption = 'Electric Payment'
     end
     object actQuotation: TAction
       Category = 'Merchandise'
@@ -1829,6 +1834,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnGenerateVoucher'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbElectricPayment'
         end>
       OneOnRow = False
       Row = 0
@@ -1839,7 +1848,7 @@ object frmMain: TfrmMain
     object dxbrAP: TdxBar
       Caption = 'AP'
       CaptionButtons = <>
-      DockedLeft = 285
+      DockedLeft = 396
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1879,7 +1888,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar1: TdxBar
       Caption = 'User Management'
       CaptionButtons = <>
-      DockedLeft = 152
+      DockedLeft = 539
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1903,7 +1912,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBarAccounting: TdxBar
       Caption = 'Accounting'
       CaptionButtons = <>
-      DockedLeft = 568
+      DockedLeft = 679
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1923,7 +1932,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar3: TdxBar
       Caption = 'AR'
       CaptionButtons = <>
-      DockedLeft = 97
+      DockedLeft = 756
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1973,7 +1982,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbAgFakturPajak'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -2005,6 +2014,34 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbVoucher'
         end>
       OneOnRow = False
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxbrElectric: TdxBar
+      Caption = 'Electric'
+      CaptionButtons = <>
+      DockedLeft = 539
+      DockedTop = 0
+      FloatLeft = 903
+      FloatTop = 8
+      FloatClientWidth = 51
+      FloatClientHeight = 22
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxbrbElectricCustomerMar'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbElectricInvoice'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbElectricTransaction'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2247,7 +2284,6 @@ object frmMain: TfrmMain
     object dxbrbtnGenerateVoucher: TdxBarButton
       Action = actVoucher
       Category = 0
-      ImageIndex = 58
     end
     object dxRibbonColorGalleryItem1: TdxRibbonColorGalleryItem
       Caption = #208#194#189#168#207#238
@@ -2270,7 +2306,6 @@ object frmMain: TfrmMain
     object dxbrbAgListDetil: TdxBarButton
       Action = actListAgreementDetil
       Category = 0
-      OnClick = dxbrbAgListDetilClick
     end
     object dxbrbAgSchedule: TdxBarButton
       Action = actScheduleAgreement
@@ -2283,17 +2318,14 @@ object frmMain: TfrmMain
     object dxbrbVouCustomer: TdxBarButton
       Action = actCustomerVoucher
       Category = 0
-      OnClick = dxbrbVouCustomerClick
     end
     object dxbrbVouAgreement: TdxBarButton
       Action = actAgreementVoucher
       Category = 0
-      OnClick = dxbrbVouAgreementClick
     end
     object dxbrbVouGenerate: TdxBarButton
       Action = actGenerateVoucher
       Category = 0
-      OnClick = dxbrbVouGenerateClick
     end
     object dxbrb4: TdxBarButton
       Caption = #208#194#189#168#176#180#197#165
@@ -2304,6 +2336,29 @@ object frmMain: TfrmMain
     object dxbrbVoucher: TdxBarButton
       Action = actVoucher
       Category = 0
+    end
+    object dxbrbElectricCustomer: TdxBarButton
+      Action = actElectricCustomer
+      Category = 0
+    end
+    object dxbrbElectricCustomerMar: TdxBarButton
+      Action = actElectricCustomer
+      Category = 0
+    end
+    object dxbrbElectricInvoice: TdxBarButton
+      Action = actElectricInvoice
+      Category = 0
+      OnClick = dxbrbElectricInvoiceClick
+    end
+    object dxbrbElectricTransaction: TdxBarButton
+      Action = actElectricTransaction
+      Category = 0
+      OnClick = dxbrbElectricTransactionClick
+    end
+    object dxbrbElectricPayment: TdxBarButton
+      Action = actElectricPayment
+      Category = 0
+      OnClick = dxbrbElectricPaymentClick
     end
   end
 end
