@@ -1,26 +1,20 @@
 inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   Caption = 'Dialog Crazy Price'
-  ClientHeight = 457
-  ClientWidth = 897
-  ExplicitWidth = 913
-  ExplicitHeight = 496
+  ClientHeight = 479
+  ClientWidth = 700
+  ExplicitWidth = 716
+  ExplicitHeight = 518
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 897
-    Height = 401
-    object lblSebelumDisc: TLabel
-      Left = 440
-      Top = 240
-      Width = 70
-      Height = 16
-      Caption = 'lblSebelumDisc'
-    end
+    Width = 700
+    Height = 423
     object cxgrdCP: TcxGrid
-      Left = 2
-      Top = 2
-      Width = 893
-      Height = 294
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 690
+      Height = 303
       Align = alClient
       TabOrder = 0
       ExplicitLeft = 288
@@ -40,18 +34,6 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         OptionsData.Appending = True
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColCPPeriodeMulai: TcxGridColumn
-          Caption = 'Periode Awal'
-          PropertiesClassName = 'TcxDateEditProperties'
-          HeaderAlignmentHorz = taCenter
-          Width = 104
-        end
-        object cxGridColCPPeriodeAkhir: TcxGridColumn
-          Caption = 'Periode Akhir'
-          PropertiesClassName = 'TcxDateEditProperties'
-          HeaderAlignmentHorz = taCenter
-          Width = 108
-        end
         object cxGridColCPKode: TcxGridColumn
           Caption = 'Kode'
           HeaderAlignmentHorz = taCenter
@@ -68,6 +50,18 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Caption = 'Nama Barang'
           HeaderAlignmentHorz = taCenter
           Width = 87
+        end
+        object cxGridColCPPeriodeMulai: TcxGridColumn
+          Caption = 'Periode Awal'
+          PropertiesClassName = 'TcxDateEditProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 104
+        end
+        object cxGridColCPPeriodeAkhir: TcxGridColumn
+          Caption = 'Periode Akhir'
+          PropertiesClassName = 'TcxDateEditProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 108
         end
         object cxGridColSatuan: TcxGridColumn
           Caption = 'Satuan'
@@ -109,61 +103,134 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
           Width = 100
         end
-        object cxGridColCPTglInput: TcxGridColumn
-          Caption = 'Tgl Input'
-          PropertiesClassName = 'TcxDateEditProperties'
-          HeaderAlignmentHorz = taCenter
-        end
       end
       object cxgrdlvlCP: TcxGridLevel
         GridView = cxGridTableCP
       end
     end
     object pnlKeterangan: TPanel
-      Left = 2
-      Top = 296
-      Width = 893
-      Height = 103
+      AlignWithMargins = True
+      Left = 5
+      Top = 314
+      Width = 690
+      Height = 104
       Align = alBottom
       TabOrder = 1
+      ExplicitLeft = 2
+      ExplicitTop = 296
+      ExplicitWidth = 696
+      object lblSebelumDisc: TLabel
+        Left = 12
+        Top = 33
+        Width = 63
+        Height = 16
+        Caption = 'Sebelum Disc'
+      end
+      object lblSetelahDisc: TLabel
+        Left = 12
+        Top = 55
+        Width = 60
+        Height = 16
+        Caption = 'Setelah Disc'
+      end
+      object lblHJ: TLabel
+        Left = 108
+        Top = 2
+        Width = 52
+        Height = 16
+        Caption = 'Harga Jual'
+      end
+      object lblMU: TLabel
+        Left = 235
+        Top = 2
+        Width = 59
+        Height = 16
+        Caption = 'Mark Up (%)'
+      end
+      object lblHJPPN: TLabel
+        Left = 12
+        Top = 80
+        Width = 83
+        Height = 16
+        Caption = 'Harga Jual + PPN'
+      end
+      object edHJBelumDisc: TcxCurrencyEdit
+        Left = 108
+        Top = 24
+        TabOrder = 0
+        Width = 121
+      end
+      object edHGSetelahDisc: TcxCurrencyEdit
+        Left = 108
+        Top = 50
+        TabOrder = 1
+        Width = 121
+      end
+      object edMarkUpSebelum: TcxCurrencyEdit
+        Left = 235
+        Top = 24
+        TabOrder = 2
+        Width = 68
+      end
+      object edMarkUpSesudah: TcxCurrencyEdit
+        Left = 235
+        Top = 50
+        TabOrder = 3
+        Width = 68
+      end
+      object edHJPPN: TcxCurrencyEdit
+        Left = 108
+        Top = 76
+        EditValue = 100.000000000000000000
+        ParentFont = False
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -11
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.TextStyle = [fsBold]
+        Style.IsFontAssigned = True
+        TabOrder = 4
+        Width = 121
+      end
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 401
-    Width = 897
+    Top = 423
+    Width = 700
     inherited pnlFooter: TPanel
-      Width = 897
+      Width = 700
       inherited btnClose: TcxButton
-        Left = 820
+        Left = 623
         Action = actCancel
       end
       inherited btnSave: TcxButton
-        Left = 727
+        Left = 530
         Action = actSave
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 650
+        Left = 453
         Action = actPrint
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 897
+      Width = 700
       inherited lbCTRLEnter: TLabel
-        Left = 722
+        Left = 525
         Height = 15
       end
       inherited lbEscape: TLabel
-        Left = 813
+        Left = 616
         Height = 15
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 646
+        Left = 449
         Height = 15
       end
     end

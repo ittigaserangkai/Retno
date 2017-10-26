@@ -10,7 +10,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxGridCustomTableView,
   cxGridTableView, cxGridCustomView, cxClasses, cxGridLevel, cxGrid, uDMClient,
-  cxCalendar, Vcl.StdCtrls;
+  cxCalendar, Vcl.StdCtrls, cxContainer, cxTextEdit, cxCurrencyEdit;
 
 type
   TfrmDialogCrazyPrice = class(TfrmMasterDialog, ICRUDAble)
@@ -30,11 +30,19 @@ type
     cxGridColCPSebelumDisc: TcxGridColumn;
     cxGridColSebelumDiscMarkUp: TcxGridColumn;
     cxGridColCPPPN: TcxGridColumn;
-    cxGridColCPTglInput: TcxGridColumn;
     cxGridColCPPeriodeMulai: TcxGridColumn;
     cxGridColCPPeriodeAkhir: TcxGridColumn;
     pnlKeterangan: TPanel;
     lblSebelumDisc: TLabel;
+    lblSetelahDisc: TLabel;
+    edHJBelumDisc: TcxCurrencyEdit;
+    edHGSetelahDisc: TcxCurrencyEdit;
+    edMarkUpSebelum: TcxCurrencyEdit;
+    edMarkUpSesudah: TcxCurrencyEdit;
+    lblHJ: TLabel;
+    lblMU: TLabel;
+    lblHJPPN: TLabel;
+    edHJPPN: TcxCurrencyEdit;
     procedure cxGridTableCPDataControllerNewRecord(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
@@ -55,8 +63,6 @@ procedure TfrmDialogCrazyPrice.cxGridTableCPDataControllerNewRecord(
   ADataController: TcxCustomDataController; ARecordIndex: Integer);
 begin
   inherited;
-  ADataController.Values[ARecordIndex, cxGridColCPTglInput.Index] := Now;
-
   if ARecordIndex = 0 then
   begin
     ADataController.Values[ARecordIndex, cxGridColCPPeriodeMulai.Index] := StartOfTheDay(Now);

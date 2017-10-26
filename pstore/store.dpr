@@ -233,7 +233,8 @@ uses
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement},
   ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
-  uUnit in '..\classes\uUnit.pas';
+  uUnit in '..\classes\uUnit.pas',
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas';
 
 {$R *.res}
 

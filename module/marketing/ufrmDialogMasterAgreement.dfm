@@ -382,26 +382,21 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       TabOrder = 2
       Properties.ActivePage = tsKontrak
       Properties.CustomButtons.Buttons = <>
-      ExplicitTop = 219
-      ExplicitHeight = 155
-      ClientRectBottom = 129
-      ClientRectLeft = 4
-      ClientRectRight = 886
+      ClientRectBottom = 133
+      ClientRectRight = 890
       ClientRectTop = 27
       object tsKontrak: TcxTabSheet
         Caption = 'F2 - Detil Agreement'
         ImageIndex = 0
-        ExplicitHeight = 124
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
-          Width = 882
-          Height = 102
+          Width = 890
+          Height = 106
           Align = alClient
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'
           LookAndFeel.NativeStyle = False
-          ExplicitHeight = 124
           object grdGridView: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             FindPanel.DisplayMode = fpdmManual
@@ -454,6 +449,8 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       object tsJadwalInvoice: TcxTabSheet
         Caption = 'F3 - Invoice Schedule'
         ImageIndex = 1
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 124
         object cxgrd1: TcxGrid
           Left = 0
