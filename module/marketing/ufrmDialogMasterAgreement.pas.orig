@@ -8,7 +8,11 @@ uses
   Mask, StdCtrls, Grids,DateUtils,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
+<<<<<<< HEAD
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, AdvObj,
+=======
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
+>>>>>>> 7045e0c9deb965a4b08725c5b339b1c951dc4f09
   cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxCalendar, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, dxBarBuiltInMenu, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,

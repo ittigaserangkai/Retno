@@ -189,6 +189,8 @@ type
         = 11): String; override;
   public
   end;
+  TCrudCrazyPrice = class(TCrud)
+  end;
 
 {$METHODINFO OFF}
 

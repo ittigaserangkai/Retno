@@ -192,6 +192,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -221,7 +222,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
-      Active = True
       Caption = 'Marketing'
       Groups = <
         item
@@ -982,17 +982,14 @@ object frmMain: TfrmMain
     object actCustomerVoucher: TAction
       Category = 'Marketing'
       Caption = 'Customer Voucher'
-      OnExecute = actCustomerVoucherExecute
     end
     object actAgreementVoucher: TAction
       Category = 'Marketing'
       Caption = 'Agreement Voucher'
-      OnExecute = actAgreementVoucherExecute
     end
     object actGenerateVoucher: TAction
       Category = 'Marketing'
       Caption = 'Generate Voucher'
-      OnExecute = actGenerateVoucherExecute
     end
     object actListQuotation: TAction
       Category = 'Merchandise'
@@ -1453,18 +1450,24 @@ object frmMain: TfrmMain
     end
     object actCustomerAgreement: TAction
       Category = 'Marketing'
-      Caption = 'Customer Agreement'
+      Caption = 'actCustomerAgreement'
       OnExecute = actCustomerAgreementExecute
     end
     object actScheduleAgreement: TAction
       Category = 'Marketing'
-      Caption = 'Schedule Agreement'
+      Caption = 'actScheduleAgreement'
       OnExecute = actScheduleAgreementExecute
     end
     object actFakturPajakAgreement: TAction
       Category = 'Marketing'
-      Caption = 'Faktur Pajak Agreement'
+      Caption = 'actFakturPajakAgreement'
       OnExecute = actFakturPajakAgreementExecute
+    end
+    object actCrazyPrice: TAction
+      Category = 'Merchandise'
+      Caption = 'Crazy Price'
+      ImageIndex = 47
+      OnExecute = actCrazyPriceExecute
     end
   end
   object AppEvents: TApplicationEvents
@@ -1714,6 +1717,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCrazy'
         end>
       OneOnRow = True
       Row = 0
@@ -1872,7 +1879,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar1: TdxBar
       Caption = 'User Management'
       CaptionButtons = <>
-      DockedLeft = 97
+      DockedLeft = 152
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -1944,27 +1951,7 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxbrbtn2'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn4'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn5'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn6'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn12'
-        end>
+      ItemLinks = <>
       OneOnRow = False
       Row = 0
       UseOwnFont = False
@@ -1974,29 +1961,13 @@ object frmMain: TfrmMain
     object dxbrVoucher: TdxBar
       Caption = 'Voucher'
       CaptionButtons = <>
-      DockedLeft = 310
+      DockedLeft = 97
       DockedTop = 0
       FloatLeft = 903
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxbrbtn9'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn8'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn11'
-        end
-        item
-          Visible = True
-          ItemName = 'dxbrbtn10'
-        end>
+      ItemLinks = <>
       OneOnRow = False
       Row = 0
       UseOwnFont = False
@@ -2247,47 +2218,10 @@ object frmMain: TfrmMain
       Category = 0
       Visible = ivAlways
     end
-    object dxbrbtn2: TdxBarButton
-      Action = actCustomerAgreement
+    object dxbrbtnCrazy: TdxBarButton
+      Action = actCrazyPrice
       Category = 0
-    end
-    object dxbrbtn4: TdxBarButton
-      Action = actMasterAgreement
-      Category = 0
-    end
-    object dxbrbtn5: TdxBarButton
-      Action = actScheduleAgreement
-      Category = 0
-    end
-    object dxbrbtn6: TdxBarButton
-      Action = actFakturPajakAgreement
-      Category = 0
-    end
-    object dxbrbtn7: TdxBarButton
-      Caption = #208#194#189#168#176#180#197#165
-      Category = 0
-      Hint = #208#194#189#168#176#180#197#165
-      Visible = ivAlways
-    end
-    object dxbrbtn8: TdxBarButton
-      Action = actAgreementVoucher
-      Category = 0
-    end
-    object dxbrbtn9: TdxBarButton
-      Action = actCustomerVoucher
-      Category = 0
-    end
-    object dxbrbtn10: TdxBarButton
-      Action = actGenerateVoucher
-      Category = 0
-    end
-    object dxbrbtn11: TdxBarButton
-      Action = actVoucher
-      Category = 0
-    end
-    object dxbrbtn12: TdxBarButton
-      Action = actListAgreementDetil
-      Category = 0
+      PaintStyle = psCaptionGlyph
     end
   end
 end

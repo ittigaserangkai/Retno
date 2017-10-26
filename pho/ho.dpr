@@ -234,7 +234,6 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModJurnal in '..\model\uModJurnal.pas',
   ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
   ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice},
@@ -257,13 +256,10 @@ uses
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
   ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
   ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
-  ufrmCustomerVoucher in '..\module\voucher\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
-  ufrmDialogCustomerVoucher in '..\module\voucher\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
-  ufrmAgreementVoucher in '..\module\voucher\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
-  ufrmDialogAgreementVoucher in '..\module\voucher\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
-  ufrmGenerateVoucher in '..\module\voucher\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
-  ufrmDialogGenerateVoucher in '..\module\voucher\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
-  ufrmPopupDetailVoucher in '..\module\voucher\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher};
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice};
 
 {$R *.res}
 
@@ -274,5 +270,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmDialogCrazyPrice, frmDialogCrazyPrice);
   Application.Run;
 end.

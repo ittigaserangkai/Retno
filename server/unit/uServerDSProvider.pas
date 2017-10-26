@@ -15,6 +15,8 @@ type
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
+    function CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataSet;
     function AP_GetDSLookUp: TDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function AR_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
@@ -239,6 +241,19 @@ var
   S: string;
 begin
   S := 'select APP_CODE, APP_NAME, APP_DESCRIPTION,AUT$APP_ID from AUT$APP';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataSet;
+var
+  S: string;
+begin
+  S := ' SELECT FROM V_CRAZYPRICE ' +
+       ' where CRAZY_DATE between ' + TDBUtils.QuotDt(APeriodeAwal) +
+       ' and ' + TDBUtils.QuotDt(APeriodeAkhir) +
+       ' order by CRAZY_DATE desc, ORG_Code, ORG_Name';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
