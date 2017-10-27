@@ -8,7 +8,11 @@ uses
   Mask, StdCtrls, Grids,DateUtils,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils,
+<<<<<<< HEAD
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, AdvObj,
+=======
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
+>>>>>>> 7045e0c9deb965a4b08725c5b339b1c951dc4f09
   cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxCalendar, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, dxBarBuiltInMenu, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
@@ -50,6 +54,7 @@ type
     lblSearchProduct: TLabel;
     intedtInvoice: TcxCurrencyEdit;
     intedtPeriode: TcxCurrencyEdit;
+    lblStaPro: TLabel;
     lblTipeBayar: TLabel;
     curredtTotal: TcxCurrencyEdit;
     cbCustCode: TcxLookupComboBox;
@@ -76,10 +81,10 @@ type
     grdlvlMaster1: TcxGridLevel;
     cxcolDetilUnitPrice: TcxGridDBColumn;
     cxcolDetilSubTotal: TcxGridDBColumn;
+    cbPeriode: TcxLookupComboBox;
     cbbTipeBayar: TComboBox;
     cbPajak: TComboBox;
-    Label1: TLabel;
-    cxDateEdit1: TcxDateEdit;
+    cbbStaPro: TComboBox;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -405,96 +410,96 @@ begin
 end;
 
 function TfrmDialogMasterAgreement.checkEmpty(): Boolean;
-//var countChk: Integer;
-//    projasCode: string;
-//    errorField: string;
+var countChk: Integer;
+    projasCode: string;
+    errorField: string;
 begin
   //init
-//  Result := True;
-//  errorField := ' ';
-//  //checking for empty field
-//  //agreement
-//  if cbCustCode.Text = '' then
+  Result := True;
+  errorField := ' ';
+  //checking for empty field
+  //agreement
+  if cbCustCode.Text = '' then
+  begin
+    errorField := 'CUSTOMER CODE, ';
+    cbCustCode.SetFocus;
+    Result:= False;
+  end;
+  if edtNoAgreement.Text = '' then
+  begin
+    errorField := errorField + 'NO. AGREEMENT, ';
+    edtNoAgreement.SetFocus;
+    Result:= False;
+  end;
+  if (cbPeriode.Text = '') or (PerID = 0) then
+  begin
+    errorField := errorField + 'PERIODE, ';
+    cbPeriode.SetFocus;
+    Result:= False;
+  end;
+
+  if Result = False then
+  begin
+    SetLength(errorField,Length(errorField)-2);
+    CommonDlg.ShowErrorEmpty(errorField);
+    Exit;
+  end;
+
+  //detil agreement
+//  if strgGrid.RowCount > 1 then
 //  begin
-//    errorField := 'CUSTOMER CODE, ';
-//    cbCustCode.SetFocus;
-//    Result:= False;
-//  end;
-//  if edtNoAgreement.Text = '' then
-//  begin
-//    errorField := errorField + 'NO. AGREEMENT, ';
-//    edtNoAgreement.SetFocus;
-//    Result:= False;
-//  end;
-//  if (cbPeriode.Text = '') or (PerID = 0) then
-//  begin
-//    errorField := errorField + 'PERIODE, ';
-//    cbPeriode.SetFocus;
-//    Result:= False;
-//  end;
+//    for countChk := 2 to strgGrid.RowCount do
+//    begin
+//      projasCode := strgGrid.Cells[_KolCODE,countChk-1];
+//      if countChk = 2 then
+//      begin
+//        if projasCode = '' then
+//        begin
+//          strgGrid.SelectRows(1,1);
+//          strgGrid.RemoveSelectedRows;
+//        end
+//        else
+//        begin
+//          with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
+//          begin
+//            try
+//              Last;
+//              if RecordCount < 1 then
+//              begin
+//                CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
+//                Result := False;
+//                Exit;
+//              end;
 //
-//  if Result = False then
-//  begin
-//    SetLength(errorField,Length(errorField)-2);
-//    CommonDlg.ShowErrorEmpty(errorField);
-//    Exit;
-//  end;
+//            finally
+//              Free;
+//            end;
+//          end;
+//        end; //else '' projas
+//      end
+//      else
+//      begin
+//        with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
+//        begin
+//          try
+//            Last;
+//            if RecordCount < 1 then
+//            begin
+//              CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
+//              Result := False;
+//              Exit;
+//            end;
 //
-//  //detil agreement
-////  if strgGrid.RowCount > 1 then
-////  begin
-////    for countChk := 2 to strgGrid.RowCount do
-////    begin
-////      projasCode := strgGrid.Cells[_KolCODE,countChk-1];
-////      if countChk = 2 then
-////      begin
-////        if projasCode = '' then
-////        begin
-////          strgGrid.SelectRows(1,1);
-////          strgGrid.RemoveSelectedRows;
-////        end
-////        else
-////        begin
-////          with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
-////          begin
-////            try
-////              Last;
-////              if RecordCount < 1 then
-////              begin
-////                CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
-////                Result := False;
-////                Exit;
-////              end;
-////
-////            finally
-////              Free;
-////            end;
-////          end;
-////        end; //else '' projas
-////      end
-////      else
-////      begin
-////        with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
-////        begin
-////          try
-////            Last;
-////            if RecordCount < 1 then
-////            begin
-////              CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
-////              Result := False;
-////              Exit;
-////            end;
-////
-////          finally
-////            Free;
-////          end;
-////        end;
-////      end;
-////    end; // for to do
-////
-////  end; //f strgrid.rowcnt
+//          finally
+//            Free;
+//          end;
+//        end;
+//      end;
+//    end; // for to do
 //
-//  //jadwal agreement
+//  end; //f strgrid.rowcnt
+
+  //jadwal agreement
 end;
 
 procedure TfrmDialogMasterAgreement.footerDialogMasterbtnSaveClick(
@@ -1173,71 +1178,71 @@ begin
 end;
 
 procedure TfrmDialogMasterAgreement.CountEndEffectiveDate;
-//var {tempHariPer,} countI, tempPeriode: Integer;
-//    tempSubTotal{, tempQTY}: Currency;
+var {tempHariPer,} countI, tempPeriode: Integer;
+    tempSubTotal{, tempQTY}: Currency;
 //    tempDate: TDateTime;
-//    tempDay, tempMonth, tempYear: Word;
+    tempDay, tempMonth, tempYear: Word;
 begin
-//  if (PerID = 0) then
-//    Exit;
-//
-//  tempPeriode:= Round(intedtPeriode.Value);
-//
-//  tempDay   := DayOf(dtStart.Date);
-//  tempMonth := MonthOf(dtStart.Date);
-//  tempYear  := YearOf(dtStart.Date);
-//
-//
-//  if cbPeriode.Text = 'BULAN' then
+  if (PerID = 0) then
+    Exit;
+
+  tempPeriode:= Round(intedtPeriode.Value);
+
+  tempDay   := DayOf(dtStart.Date);
+  tempMonth := MonthOf(dtStart.Date);
+  tempYear  := YearOf(dtStart.Date);
+
+
+  if cbPeriode.Text = 'BULAN' then
+  begin
+    tempMonth := tempMonth + tempPeriode;
+    if tempMonth > 12 then
+    begin
+      tempYear  := tempYear + 1;
+      tempMonth := tempMonth - 12;
+    end;
+
+
+    if IsValidDate(tempYear, tempMonth, tempDay) then
+      dtEnd.Date := EncodeDate(tempYear, tempMonth, tempDay)
+    else
+      dtEnd.Date := EncodeDate(tempYear, tempMonth + 1, tempDay - 1 - DaysInMonth(EncodeDate(tempYear, tempMonth, 1)));
+  end
+  else
+  begin
+    dtEnd.Date := dtStart.Date + intedtPeriode.Value;
+  end;
+
+
+  hariPeriode := DaysBetween(dtEnd.Date, dtStart.Date);
+
+//  if (strgGrid.RowCount >= 2) and (strgGrid.Cells[_KolCODE, 1] <> '') then
+//  for countI := 1 to strgGrid.RowCount-1  do
 //  begin
-//    tempMonth := tempMonth + tempPeriode;
-//    if tempMonth > 12 then
-//    begin
-//      tempYear  := tempYear + 1;
-//      tempMonth := tempMonth - 12;
+//    try
+//      tempSubTotal := (strgGrid.Floats[_KolSUB_TOTAL,countI]);
+//    except
+//      tempSubTotal := 0;
 //    end;
 //
+//      dayScale := intedtPeriode.Value;
 //
-//    if IsValidDate(tempYear, tempMonth, tempDay) then
-//      dtEnd.Date := EncodeDate(tempYear, tempMonth, tempDay)
-//    else
-//      dtEnd.Date := EncodeDate(tempYear, tempMonth + 1, tempDay - 1 - DaysInMonth(EncodeDate(tempYear, tempMonth, 1)));
-//  end
-//  else
-//  begin
-//    dtEnd.Date := dtStart.Date + intedtPeriode.Value;
-//  end;
-//
-//
-//  hariPeriode := DaysBetween(dtEnd.Date, dtStart.Date);
-//
-////  if (strgGrid.RowCount >= 2) and (strgGrid.Cells[_KolCODE, 1] <> '') then
-////  for countI := 1 to strgGrid.RowCount-1  do
-////  begin
-////    try
-////      tempSubTotal := (strgGrid.Floats[_KolSUB_TOTAL,countI]);
-////    except
-////      tempSubTotal := 0;
-////    end;
-////
-////      dayScale := intedtPeriode.Value;
-////
-////    strgGrid.Cells[_KolTOTAL_AMOUNT,countI] := CurrToStr(dayScale * tempSubTotal);
-////  end;// end for count to rowcount
-//  curredtTotal.Text := FormatCurr('##,##0.00',CountTotal);
+//    strgGrid.Cells[_KolTOTAL_AMOUNT,countI] := CurrToStr(dayScale * tempSubTotal);
+//  end;// end for count to rowcount
+  curredtTotal.Text := FormatCurr('##,##0.00',CountTotal);
 end;
 
 procedure TfrmDialogMasterAgreement.intedtPeriodeKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-//  if Key = VK_RETURN then
-//  begin
-//    if (PerID = 0) then
-//      cbPeriode.SetFocus
-//    else
-//      CountEndEffectiveDate;
-//  end;
+  if Key = VK_RETURN then
+  begin
+    if (PerID = 0) then
+      cbPeriode.SetFocus
+    else
+      CountEndEffectiveDate;
+  end;
 end;
 
 procedure TfrmDialogMasterAgreement.SetIsPajak(const Value: Boolean);

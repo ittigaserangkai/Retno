@@ -7,7 +7,7 @@ uses
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
-  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO;
+  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO, uModSatuan;
 
 type
   {$METHODINFO ON}
@@ -175,6 +175,9 @@ type
   TCrudBarangHargaJual = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
+  public
+    function RetrieveByPLU(AModBarang : TModBarang; AModUOM : TModSatuan):
+        TModBarangHargaJual;
   end;
 
   TCrudKuponBotol = class(TCrud)
@@ -188,6 +191,8 @@ type
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; override;
   public
+  end;
+  TCrudCrazyPrice = class(TCrud)
   end;
 
   TCrudBarang = class(TCrud)
@@ -1498,6 +1503,40 @@ begin
     Result := True;
   except
     raise
+  end;
+end;
+
+function TCrudBarangHargaJual.RetrieveByPLU(AModBarang : TModBarang; AModUOM :
+    TModSatuan): TModBarangHargaJual;
+var
+  sSQL: string;
+begin
+  Result := TModBarangHargaJual.Create;
+
+  if (AModUOM = nil) or (AModBarang = nil) then
+    Exit;
+
+  if (AModUOM.ID = '') or (AModBarang.ID = '') then
+    Exit;
+
+
+  sSQL := 'select BARANG_HARGA_JUAL_ID from BARANG_HARGA_JUAL  ' +
+          ' where BARANG_ID = ' + QuotedStr(AModBarang.ID) +
+          ' and REF$SATUAN_ID =  ' + QuotedStr(AModUOM.ID);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        Result.Free;
+
+        Result := TModBarangHargaJual(Retrieve(TModBarangHargaJual, FieldByName('BARANG_HARGA_JUAL_ID').AsString));
+        Next;
+      end;
+    finally
+      Free;
+    end;
   end;
 end;
 

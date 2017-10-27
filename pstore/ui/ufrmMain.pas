@@ -325,14 +325,12 @@ type
     procedure actDailySalesAnalysisExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
     procedure actDOForTraderExecute(Sender: TObject);
-    procedure actFakturPajakAgreementExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
     procedure actInvMovementExecute(Sender: TObject);
     procedure actMasterAgreementExecute(Sender: TObject);
     procedure actPreferenceExecute(Sender: TObject);
     procedure actResetMenuExecute(Sender: TObject);
-    procedure actScheduleAgreementExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
@@ -398,7 +396,7 @@ uses
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
   ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
   ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement,
-  ufrmFakturPajakAgreement, ufrmMasterAgreement, ufrmScheduleAgreement;
+  ufrmMasterAgreement;
 
 
 
@@ -528,11 +526,6 @@ end;
 procedure TfrmMain.actDSIExecute(Sender: TObject);
 begin
   frmDSI := TfrmDSI.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actFakturPajakAgreementExecute(Sender: TObject);
-begin
-  frmFakturPajakAgreement := TfrmFakturPajakAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actFinalPaymentExecute(Sender: TObject);
@@ -836,11 +829,6 @@ end;
 procedure TfrmMain.actSalesReportContrabonExecute(Sender: TObject);
 begin
   frmSalesReportContrabon := TfrmSalesReportContrabon.CreateWithUser(Application, FFormProperty);
-end;
-
-procedure TfrmMain.actScheduleAgreementExecute(Sender: TObject);
-begin
-  frmScheduleAgreement:= TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actServiceLevelExecute(Sender: TObject);

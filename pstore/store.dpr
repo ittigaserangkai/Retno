@@ -56,7 +56,7 @@ uses
   ufrmDialogPlafonTrader in '..\module\trader\ufrmDialogPlafonTrader.pas' {frmDialogPlafonTrader},
   ufrmSearchPO in '..\module\merchandise\ufrmSearchPO.pas' {frmDialogSearchPO},
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
-  ufrmCrazyPriceDialog in '..\module\trader\ufrmCrazyPriceDialog.pas' {frmCrazyPriceDialog},
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
   ufrmDialogPrintKasirPreview in '..\module\cashier_supv\ufrmDialogPrintKasirPreview.pas' {frmDialogPrintKasirPreview},
   uTemplatePrintText in '..\system\uTemplatePrintText.pas',
   uDMClient in '..\system\uDMClient.pas' {DMClient: TDataModule},
@@ -232,10 +232,10 @@ uses
   ufrmPopupSelectCustomer in '..\module\customer_support\ufrmPopupSelectCustomer.pas' {frmPopUpSelectCustomer},
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement},
-  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
   ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
-  ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
-  uUnit in '..\classes\uUnit.pas';
+  uUnit in '..\classes\uUnit.pas',
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization};
 
 {$R *.res}
 
@@ -246,5 +246,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
   Application.Run;
 end.

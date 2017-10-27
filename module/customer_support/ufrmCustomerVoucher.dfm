@@ -1,112 +1,100 @@
-inherited frmCrazyPrice: TfrmCrazyPrice
-  Left = 247
-  Top = 117
-  Caption = 'Crazy Price'
-  ClientHeight = 512
-  ClientWidth = 808
+inherited frmCustomerVoucher: TfrmCustomerVoucher
+  Left = 334
+  Top = 208
+  Caption = 'frmCustomerVoucher'
+  ClientHeight = 399
+  ClientWidth = 621
   OldCreateOrder = True
-  ExplicitTop = -172
-  ExplicitWidth = 824
-  ExplicitHeight = 551
+  ExplicitWidth = 637
+  ExplicitHeight = 438
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 808
-    Height = 423
-    ExplicitWidth = 808
-    ExplicitHeight = 423
+    Width = 621
+    Height = 310
+    ExplicitWidth = 120
+    ExplicitHeight = 235
     inherited pgcBrowse: TcxPageControl
-      Width = 806
-      Height = 421
-      ExplicitWidth = 806
-      ExplicitHeight = 421
-      ClientRectBottom = 420
-      ClientRectRight = 805
+      Width = 619
+      Height = 308
+      ExplicitWidth = 118
+      ExplicitHeight = 233
+      ClientRectBottom = 307
+      ClientRectRight = 618
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 804
-        ExplicitHeight = 419
+        ExplicitWidth = 116
+        ExplicitHeight = 231
         inherited cxGrid: TcxGrid
-          Width = 804
-          Height = 419
-          ExplicitWidth = 804
-          ExplicitHeight = 419
+          Width = 617
+          Height = 306
+          ExplicitWidth = 116
+          ExplicitHeight = 231
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 808
-    ExplicitWidth = 808
-    inherited lblHeader: TLabel
-      Width = 74
-      Caption = 'CRAZY PRICE '
-      ExplicitWidth = 74
-    end
+    Width = 621
+    ExplicitWidth = 621
     inherited lblFilterData: TcxLabel
-      Left = 454
-      Visible = True
-      ExplicitLeft = 454
+      Left = 267
+      ExplicitLeft = 267
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 515
-      Visible = True
-      ExplicitLeft = 515
+      Left = 328
+      ExplicitLeft = -173
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 631
-      Visible = True
-      ExplicitLeft = 631
+      Left = 444
+      ExplicitLeft = -57
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 726
-      ExplicitLeft = 726
+      Left = 539
+      ExplicitLeft = 38
     end
     inherited lblsdFilter: TcxLabel
-      Left = 607
-      Visible = True
-      ExplicitLeft = 607
+      Left = 420
+      ExplicitLeft = 420
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 456
-    Width = 808
-    ExplicitTop = 456
-    ExplicitWidth = 808
+    Top = 343
+    Width = 621
+    ExplicitTop = -56
+    ExplicitWidth = 120
     inherited pnlFooter: TPanel
-      Width = 808
-      ExplicitWidth = 808
+      Width = 621
+      ExplicitWidth = 120
       inherited btnAdd: TcxButton
         Action = actAdd
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
-        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 731
+        Left = 544
         Action = actClose
-        ExplicitLeft = 731
+        ExplicitLeft = 43
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 808
-      ExplicitWidth = 808
+      Width = 621
+      ExplicitWidth = 120
       inherited lbEscape: TLabel
-        Left = 734
-        Height = 17
-        ExplicitLeft = 734
+        Left = 547
+        ExplicitLeft = 547
       end
     end
   end

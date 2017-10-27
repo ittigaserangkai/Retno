@@ -14,7 +14,7 @@ uses
   uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
-  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client;
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice;
 
 type
   TfrmMain = class(TForm)
@@ -184,17 +184,18 @@ begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModCustomerInvoice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCustomerInvoice do
+      with Retrieve(TModCrazyPrice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCrazyPrice do
+//      with TModCrazyPrice.Create do
       begin
         try
-          ShowMessage(CreateTableSQLByClassName('uModCustomerInvoice.TModCustomerInvoice'));
-          ShowMessage(CI_NOBUKTI);
-          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
-          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
-          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
-          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
-          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
-          ShowMessage(DateTimeToStr(CI_TRANSDATE));
+          ShowMessage(CreateTableSQLByClassName('uModCrazyPrice.TModCrazyPrice'));
+//          ShowMessage(crCI_NOBUKTI);
+//          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+//          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
+//          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+//          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
+//          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
+//          ShowMessage(DateTimeToStr(CI_TRANSDATE));
 //          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
 //          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));
 

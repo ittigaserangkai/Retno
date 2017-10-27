@@ -430,6 +430,9 @@ inherited frmMasterAgreement: TfrmMasterAgreement
       object tsKontrak: TcxTabSheet
         Caption = 'F2 - Detil Agreement'
         ImageIndex = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
@@ -612,7 +615,6 @@ inherited frmMasterAgreement: TfrmMasterAgreement
     ExplicitWidth = 758
     inherited lblHeader: TLabel
       Width = 129
-      Height = 18
       Caption = 'List Master Agreement'
       ExplicitWidth = 129
     end

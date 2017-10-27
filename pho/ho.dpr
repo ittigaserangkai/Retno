@@ -140,8 +140,6 @@ uses
   ufrmDialogCompany in '..\module\references\ufrmDialogCompany.pas' {frmDialogCompany},
   uModUnit in '..\model\uModUnit.pas',
   ufrmOutlet in '..\module\references\ufrmOutlet.pas' {frmOutlet},
-  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
-  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
   ufrmSetupCashManagement in '..\module\accounting\ufrmSetupCashManagement.pas' {frmSetupCashManagement},
   ufrmPemakaianBarcode in '..\module\finance\ufrmPemakaianBarcode.pas' {frmPemakaianBarcode},
   ufrmElectricCustomer in '..\module\finance\ufrmElectricCustomer.pas' {frmElectricCustomer},
@@ -236,7 +234,6 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModJurnal in '..\model\uModJurnal.pas',
   ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
   ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice},
@@ -246,7 +243,34 @@ uses
   uModAR in '..\model\uModAR.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
   uModSetupPOS in '..\model\uModSetupPOS.pas',
-  ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement};
+  ufrmCustomerAgreement in '..\module\customer_support\ufrmCustomerAgreement.pas' {frmCustomerAgreement},
+  ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
+  ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement},
+  ufrmPopupSelectCustomer in '..\module\customer_support\ufrmPopupSelectCustomer.pas' {frmPopUpSelectCustomer},
+  ufrmSearchDataCustomer in '..\module\customer_support\ufrmSearchDataCustomer.pas' {frmSearchDataCustomer},
+  ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
+  ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
+  ufrmMasterAgreement in '..\module\marketing\ufrmMasterAgreement.pas' {frmMasterAgreement},
+  ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement},
+  ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
+  ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
+  ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
+  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
+  ufrmListAgreementDetil in '..\module\marketing\ufrmListAgreementDetil.pas' {frmListAgreementDetil},
+  ufrmAgreementVoucher in '..\module\customer_support\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
+  ufrmGenerateVoucher in '..\module\customer_support\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
+  ufrmCustomerVoucher in '..\module\customer_support\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
+  ufrmDialogAgreementVoucher in '..\module\customer_support\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
+  ufrmDialogCustomerVoucher in '..\module\customer_support\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
+  ufrmPopupDetailVoucher in '..\module\customer_support\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher},
+  ufrmDialogGenerateVoucher in '..\module\customer_support\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
+  ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
+  ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
+  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment};
 
 {$R *.res}
 
@@ -257,5 +281,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmCrazyPrice, frmCrazyPrice);
   Application.Run;
 end.
