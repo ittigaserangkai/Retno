@@ -57,7 +57,6 @@ object frmLookupBarang: TfrmLookupBarang
       TabOrder = 0
       OnChange = edNamaBarangChange
       OnKeyDown = edNamaBarangKeyDown
-      ExplicitWidth = 430
     end
     object rbDepan: TRadioButton
       Left = 132
@@ -101,9 +100,6 @@ object frmLookupBarang: TfrmLookupBarang
     ParentBackground = False
     TabOrder = 1
     Visible = False
-    ExplicitLeft = -25
-    ExplicitTop = 260
-    ExplicitWidth = 569
     object lblInfo: TLabel
       AlignWithMargins = True
       Left = 4
@@ -131,10 +127,6 @@ object frmLookupBarang: TfrmLookupBarang
     TabOrder = 2
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitLeft = -25
-    ExplicitTop = 52
-    ExplicitWidth = 569
-    ExplicitHeight = 208
     object sgBarang: TcxGridTableView
       OnDblClick = sgBarangDblClick
       OnKeyDown = sgBarangKeyDown
@@ -269,9 +261,6 @@ object frmLookupBarang: TfrmLookupBarang
     Align = alBottom
     TabOrder = 3
     Visible = False
-    ExplicitLeft = -25
-    ExplicitTop = 294
-    ExplicitWidth = 569
     Width = 544
   end
   object pmLookup: TPopupMenu

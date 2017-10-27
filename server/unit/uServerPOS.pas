@@ -184,7 +184,8 @@ var
   S: string;
 begin
   S := 'select a.brg_code, s.SAT_CODE, a.brg_name, b.BHJ_SELL_PRICE,'
-      +' b.BHJ_DISC_NOMINAL, b.BHJ_SELL_PRICE_DISC, a.brg_is_active'
+      +' b.BHJ_DISC_NOMINAL, b.BHJ_SELL_PRICE_DISC, a.brg_is_active,'
+      +' b.REF$SATUAN_ID'
       +' from barang a'
       +' inner join barang_harga_jual b on a.BARANG_ID = b.BARANG_ID'
       +' left join ref$satuan s on b.REF$SATUAN_ID = s.REF$SATUAN_ID'

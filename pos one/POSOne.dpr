@@ -75,7 +75,8 @@ uses
   uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
   uDMReport in '..\system\uDMReport.pas' {DMReport},
-  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang};
+  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
+  uModelHelper in '..\model\uModelHelper.pas';
 
 {$R *.res}
 

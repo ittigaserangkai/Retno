@@ -115,9 +115,15 @@ type
     FTipeBarang: TModTipeBarang;
     function GetSuppliers: TObjectList<TModBarangSupplier>;
     function GetKonversi: TObjectList<TModKonversi>;
-    function GetHargaJual: TObjectList<TModBarangHargaJual>;
+    function GetHargaJual: TObjectList<TModBarangHargaJual>; overload;
   public
     destructor Destroy; override;
+    function GetHargaAvg(aUOMID: String): Double;
+    function GetLastCost(aUOMID: String): Double;
+    function GetHargaJual(sBarCode, TipeHargaID: String; UOMID: String = ''):
+        TModBarangHargaJual; overload;
+    function GetKonversiUOM(aUOMID: string): Double;
+    function HasBarCode(sBarCode: String): Boolean;
     class function GetTableName: string; override;
     property Suppliers: TObjectList<TModBarangSupplier> read GetSuppliers write
         FSuppliers;
@@ -291,6 +297,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property TPHRG_CODE: string read FTPHRG_CODE write FTPHRG_CODE;
     property TPHRG_NAME: string read FTPHRG_NAME write FTPHRG_NAME;
     property TPHRG_MARKUP: Double read FTPHRG_MARKUP write FTPHRG_MARKUP;
@@ -396,10 +403,80 @@ begin
   if Assigned(FMerk) then FreeAndNil(FMerk);
   if Assigned(FOutlet) then FreeAndNil(FOutlet);
   if Assigned(FLokasi) then FreeAndNil(FLokasi);
-
+  if Assigned(FRefPajak) then FreeAndNil(FRefPajak);
   if Assigned(FKonversi) then FreeAndNil(FKonversi);
   if Assigned(FSuppliers) then FreeAndNil(FSuppliers);
   if Assigned(FTipeBarang) then FreeAndNil(FTipeBarang);
+
+  //obj list
+  if Assigned(FHargaJual) then FreeAndNil(FHargaJual);
+  if Assigned(FKonversi) then FreeAndNil(FKonversi);
+  if Assigned(FSuppliers) then FreeAndNil(FSuppliers);
+end;
+
+function TModBarang.GetHargaAvg(aUOMID: String): Double;
+var
+  lPurchaseKonv: Double;
+  lUOMKonv: Double;
+begin
+  Result        := Self.BRG_HARGA_AVERAGE;
+  lPurchaseKonv := Self.GetKonversiUOM(Self.SATUAN_PURCHASE.ID);
+  lUOMKonv      := Self.GetKonversiUOM(aUOMID);
+  if (lPurchaseKonv <> 0) then
+    Result := Result / lPurchaseKonv * lUOMKonv;
+end;
+
+function TModBarang.GetLastCost(aUOMID: String): Double;
+var
+  lPurchaseKonv: Double;
+  lUOMKonv: Double;
+begin
+  Result        := Self.BRG_LASTCOST;
+  lPurchaseKonv := Self.GetKonversiUOM(Self.SATUAN_PURCHASE.ID);
+  lUOMKonv      := Self.GetKonversiUOM(aUOMID);
+  if (lPurchaseKonv <> 0) then
+    Result := Result / lPurchaseKonv * lUOMKonv;
+end;
+
+function TModBarang.GetHargaJual(sBarCode, TipeHargaID: String; UOMID: String =
+    ''): TModBarangHargaJual;
+var
+  BHJ: TModBarangHargaJual;
+  lKonv: TModKonversi;
+  lUOM: TModSatuan;
+begin
+  Result  := nil;
+
+  if UOMID = '' then
+  begin
+    for lKonv in Self.Konversi do
+    begin
+      if UpperCase(lKonv.KONVSAT_BARCODE) = UpperCase(Trim(sBarCode)) then
+      begin
+        UOMID := lKonv.Satuan.ID;
+      end;
+    end;
+  end;
+  for BHJ in Self.HargaJual do
+    if (UOMID = BHJ.Satuan.ID) and (TipeHargaID = BHJ.TipeHarga.ID) then
+      Result := BHJ;
+end;
+
+function TModBarang.HasBarCode(sBarCode: String): Boolean;
+var
+  lKonv: TModKonversi;
+  UOMID: string;
+begin
+  Result  := False;
+  UOMID   := '';
+  for lKonv in Self.Konversi do
+  begin
+    if UpperCase(lKonv.KONVSAT_BARCODE) = UpperCase(Trim(sBarCode)) then
+    begin
+      Result := True;
+      exit;
+    end;
+  end;
 end;
 
 function TModBarang.GetSuppliers: TObjectList<TModBarangSupplier>;
@@ -421,6 +498,18 @@ begin
   If not Assigned(FHargaJual) then
     FHargaJual := TObjectList<TModBarangHargaJual>.Create;
   Result := FHargaJual;
+end;
+
+function TModBarang.GetKonversiUOM(aUOMID: string): Double;
+var
+  lKonv: TModKonversi;
+begin
+  Result := 0;
+  for lKonv in Self.Konversi do
+  begin
+    if lKonv.Satuan.ID = aUOMID then
+      Result := lKonv.KONVSAT_SCALE;
+  end;
 end;
 
 class function TModBarang.GetTableName: string;

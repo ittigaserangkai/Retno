@@ -23,6 +23,7 @@ type
   end;
 
   TAppUtils = class(TObject)
+  private
   protected
   public
     class function BacaRegistry(aNama: String; aPath : String = ''): string;
@@ -91,6 +92,8 @@ type
 
     class procedure SetRegionalSetting_ID;
     class procedure NotifException(E: Exception);
+    class function SplitLeftStr(S: String; Separator: Char): String;
+    class function SplitRightStr(S: String; Separator: Char): String;
     class function TulisRegistry(aName, aValue: String; sAppName : String = ''):
         Boolean;
     class procedure Warning(const Text: string);
@@ -1237,6 +1240,22 @@ begin
   end else
     Msg := E.Message;
   CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
+end;
+
+class function TAppUtils.SplitLeftStr(S: String; Separator: Char): String;
+begin
+  if Pos(Separator, S) <> 0 then
+    Result := LeftStr(S, Pos(Separator, S)-1)
+  else
+    Result := '';
+end;
+
+class function TAppUtils.SplitRightStr(S: String; Separator: Char): String;
+begin
+  if Pos(Separator, S) <> 0 then
+    Result := RightStr(S, Length(S) - Pos(Separator, S))
+  else
+    Result := '';
 end;
 
 class function TAppUtils.VarAsRestParam(Value: Variant): String;

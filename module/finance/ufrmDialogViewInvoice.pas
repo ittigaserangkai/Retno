@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
-  BaseGrid, AdvGrid, cxGraphics, cxControls, cxLookAndFeels,
+  cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit,
   cxCurrencyEdit, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
   Vcl.Menus, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,

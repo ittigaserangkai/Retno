@@ -53,12 +53,14 @@ type
     procedure sgBarangKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tmrInfoTimer(Sender: TObject);
   private
+    FBarangHargaJualID: string;
     FCDS: TClientDataSet;
     FIsProcessing: Boolean;
     FIsStop: Boolean;
     FPLU: string;
     FUnitID: string;
     FUOM: string;
+    FUOMID: string;
     property CDS: TClientDataSet read FCDS write FCDS;
     { Private declarations }
   public
@@ -66,12 +68,18 @@ type
     procedure LoadBarang(ANamaBarang: String = ''; AIsDepan: Boolean = True);
     procedure SetPanelHeaderEnable(aIsEnable: Boolean);
     procedure ShowInfo(AInfo: String);
-    class function CreateAt(aContainer: TWinControl): TfrmLookupBarang;
+    class function CreateAt(aContainer: TWinControl; aPLU: String = ''):
+        TfrmLookupBarang;
+    procedure LoadData;
+    procedure SelectItem;
+    property BarangHargaJualID: string read FBarangHargaJualID write
+        FBarangHargaJualID;
     property IsProcessing: Boolean read FIsProcessing write FIsProcessing;
     property IsStop: Boolean read FIsStop write FIsStop;
     property PLU: string read FPLU write FPLU;
     property UnitID: string read FUnitID write FUnitID;
     property UOM: string read FUOM write FUOM;
+    property UOMID: string read FUOMID write FUOMID;
     { Public declarations }
   end;
 
@@ -122,21 +130,7 @@ begin
 //    sgBarangKeyDown(Sender,Key,Shift);
   end
   else if (key in [VK_RETURN]) then
-  begin
-    if edNamaBarang.Text = '' then
-    begin
-      if Assigned(frmTransaksi) then
-      begin
-        Self.ShowInfo('Harap Ketikkan Terlebih dahulu minimal 1 Huruf pada Nama Barang utk melakukan pencarian !!');
-      end;
-      exit;
-    end;
-    IsStop := False;
-    if IsProcessing then
-      IsStop := True
-    else
-      LoadBarang(Trim(edNamaBarang.Text),rbDepan.Checked);
-  end
+    LoadData()
   else if (key in [VK_UP,VK_DOWN,33,34]) then
   begin
     cxGrid.SetFocus;
@@ -186,6 +180,7 @@ begin
     if Assigned(FCDS) then FreeAndNil(FCDS);
     FCDS := TDBUtils.DSToCDS(DMClient.POSClient.LookupBarang(sFilter), Self);
     cxGrdBarang.LoadFromCDS(FCDS);
+    cxGrdBarang.SetVisibleColumns(['REF$SATUAN_ID'], false);
   finally
     IsProcessing := False;
   end;
@@ -276,8 +271,8 @@ begin
   Self.pnlInfo.Visible := True;
 end;
 
-class function TfrmLookupBarang.CreateAt(aContainer: TWinControl):
-    TfrmLookupBarang;
+class function TfrmLookupBarang.CreateAt(aContainer: TWinControl; aPLU: String
+    = ''): TfrmLookupBarang;
 begin
   Result              := TfrmLookupBarang.Create(Application);
   Result.BoundsRect   := aContainer.BoundsRect;
@@ -286,23 +281,17 @@ begin
   Result.UNITID       := frmMain.UnitID;
   Result.BorderIcons  := [];
   Result.BorderStyle  := bsNone;
+
+  if aPLU <> '' then
+  begin
+    Result.edNamaBarang.Text := aPLU;
+    Result.LoadData;
+  end;
 end;
 
 procedure TfrmLookupBarang.cxGrdBarangDblClick(Sender: TObject);
 begin
-  if not Assigned(FCDS) then exit;
-  if FCDS.Eof then exit;
-  PLU  := CDS.FieldByName('BRG_CODE').AsString;
-  UOM  := CDS.FieldByName('SAT_CODE').AsString;
-
-  Self.ModalResult := mrOK;
-//  with (Self.Parent as TfrmTransaksi) do
-//  begin
-//    cxTransaksi.Visible := True;
-//    pnlFooter.Visible   := True;
-//    edPLU.Text          := Copy(edPLU.Text, 1, Pos('*', edPLU.Text)) + PLU;
-//    LoadByPLU(edPLU.Text, UOM, True);
-//  end;    // with
+  SelectItem;
 end;
 
 procedure TfrmLookupBarang.cxGrdBarangKeyDown(Sender: TObject; var Key: Word;
@@ -340,20 +329,45 @@ begin
   end
   else if (Key in [VK_ESCAPE])  then
   begin
-    PLU := '';
-    UOM := '';
     Self.ModalResult := mrCancel;
   end
   else if Key = VK_RETURN then
   begin
     IsStop := True;
-    cxGrdBarangDblClick(sgBarang);
+    SelectItem;
   end
   else if Key in [VK_MULTIPLY,Ord('*')] then
   begin
     //IsStop := True;
   end;
 
+end;
+
+procedure TfrmLookupBarang.LoadData;
+begin
+  if edNamaBarang.Text = '' then
+  begin
+    if Assigned(frmTransaksi) then
+    begin
+      Self.ShowInfo('Harap Ketikkan Terlebih dahulu minimal 1 Huruf pada Nama Barang utk melakukan pencarian !!');
+    end;
+    exit;
+  end;
+  IsStop := False;
+  if IsProcessing then
+    IsStop := True
+  else
+    LoadBarang(Trim(edNamaBarang.Text),rbDepan.Checked);
+end;
+
+procedure TfrmLookupBarang.SelectItem;
+begin
+  if not Assigned(FCDS) then exit;
+  if FCDS.Eof then exit;
+  PLU     := CDS.FieldByName('BRG_CODE').AsString;
+  UOM     := CDS.FieldByName('SAT_CODE').AsString;
+  UOMID   := CDS.FieldByName('REF$SATUAN_ID').AsString;
+  Self.ModalResult    := mrOK;
 end;
 
 procedure TfrmLookupBarang.tmrInfoTimer(Sender: TObject);

@@ -48,7 +48,6 @@ object frmTransaksi: TfrmTransaksi
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitHeight = 273
       object sgTransaksi: TcxGridTableView
         OnKeyDown = sgTransaksiKeyDown
         Navigator.Buttons.CustomButtons = <>
@@ -83,7 +82,6 @@ object frmTransaksi: TfrmTransaksi
       BevelOuter = bvLowered
       Color = 13303754
       TabOrder = 1
-      ExplicitTop = 491
       DesignSize = (
         888
         38)
@@ -170,8 +168,6 @@ object frmTransaksi: TfrmTransaksi
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = -8
-      ExplicitTop = 288
       object lbl1: TLabel
         AlignWithMargins = True
         Left = 3
@@ -187,8 +183,6 @@ object frmTransaksi: TfrmTransaksi
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitLeft = 5
-        ExplicitTop = 27
         ExplicitHeight = 23
       end
       object lblHargaKontrabon: TLabel
@@ -207,8 +201,6 @@ object frmTransaksi: TfrmTransaksi
         Font.Style = [fsBold]
         ParentFont = False
         Visible = False
-        ExplicitLeft = 361
-        ExplicitTop = 27
         ExplicitHeight = 23
       end
       object edPLU: TEdit
@@ -233,8 +225,6 @@ object frmTransaksi: TfrmTransaksi
         OnEnter = edPLUEnter
         OnExit = edPLUExit
         OnKeyDown = edPLUKeyDown
-        ExplicitLeft = 156
-        ExplicitTop = 21
         ExplicitHeight = 29
       end
       object edHargaKontrabon: TcxCurrencyEdit
@@ -255,9 +245,6 @@ object frmTransaksi: TfrmTransaksi
         TabOrder = 1
         Visible = False
         OnKeyDown = edHargaKontrabonKeyDown
-        ExplicitLeft = 435
-        ExplicitTop = 29
-        ExplicitHeight = 31
         Width = 169
       end
     end
@@ -463,7 +450,7 @@ object frmTransaksi: TfrmTransaksi
     end
     inherited pbLookup: TcxProgressBar
       Top = 125
-      ExplicitTop = 121
+      ExplicitTop = 125
       ExplicitWidth = 281
       Width = 281
     end

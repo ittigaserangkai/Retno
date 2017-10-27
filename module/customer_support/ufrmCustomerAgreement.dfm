@@ -14,6 +14,7 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
     Width = 636
     Height = 370
     ExplicitWidth = 636
+    ExplicitHeight = 370
     inherited pgcBrowse: TcxPageControl
       Top = 151
       Width = 634
@@ -246,6 +247,7 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 403
     Width = 636
+    ExplicitTop = 403
     ExplicitWidth = 636
     inherited pnlFooter: TPanel
       Width = 636
@@ -275,6 +277,7 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
       ExplicitWidth = 636
       inherited lbEscape: TLabel
         Left = 562
+        ExplicitLeft = 562
       end
     end
   end

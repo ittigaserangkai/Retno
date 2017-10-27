@@ -5,7 +5,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
   ClientHeight = 611
   ClientWidth = 968
   Constraints.MinHeight = 32
-  ExplicitLeft = -159
+  ExplicitTop = -230
   ExplicitWidth = 984
   ExplicitHeight = 650
   PixelsPerInch = 96
