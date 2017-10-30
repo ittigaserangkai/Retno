@@ -24,6 +24,10 @@ type
     function GetServerDate: TDatetime;
     function GetTransactionNo(aPOSCODE, aUNITID: string): string;
     function LookupBarang(sFilter: string): TDataset;
+    function LookupMember(sFilter: string): TDataset;
+  end;
+
+  TCRUDPos = class(TCRUD)
   end;
 
 implementation
@@ -162,7 +166,7 @@ begin
   Result := '';
   S := 'select SETUPPOS_NO_TRANSAKSI, SETUPPOS_COUNTER_NO from SETUPPOS'
       +' WHERE AUT$UNIT_ID = ' + QuotedStr(aUNITID)
-      +' AND SETUPPOS_ID = ' + QuotedStr(aUNITID)
+      +' AND SETUPPOS_TERMINAL_CODE = ' + QuotedStr(aPOSCODE)
       +' AND cast(SETUPPOS_DATE as Date) =  ' + TDBUtils.QuotD(Now());
   with TDBUtils.OpenQuery(S) do
   begin
@@ -195,6 +199,18 @@ begin
       +' and a.brg_is_validate = 1'
       +' and upper(a.brg_name) like ' + QuotedStr(sFilter)
       +' order by a.brg_name';
+  Result := TDBUtils.OpenQuery(s);
+end;
+
+function TPOS.LookupMember(sFilter: string): TDataset;
+var
+  S: string;
+begin
+  S := 'select MEMBER_ID, MEMBER_CARD_NO AS KODE, MEMBER_NAME AS NAMA, MEMBER_ADDRESS AS ALAMAT'
+      +' from MEMBER WHERE MEMBER_IS_ACTIVE = 1 AND MEMBER_IS_VALID = 1'
+      +' and upper(MEMBER_NAME) like ' + QuotedStr(sFilter)
+      +' order by MEMBER_NAME';
+
   Result := TDBUtils.OpenQuery(s);
 end;
 

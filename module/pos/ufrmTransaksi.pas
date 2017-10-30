@@ -11,7 +11,8 @@ uses
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid,
   uNewBarang, uNewBarangHargaJual, uNewPosTransaction, cxSpinEdit,
-  ufrmLookupBarang, uAppUtils, uModBarang, uModelHelper;
+  ufrmLookupBarang, uAppUtils, uModBarang, uModelHelper, uModMember,
+  ufrmLookupMember, uModTransaksi, uModUnit;
 
 type
   TfrmTransaksi = class(TForm)
@@ -29,8 +30,6 @@ type
     pnlInfo: TPanel;
     lblInfo: TLabel;
     tmrInfo: TTimer;
-    fraLookupBarang: TfraLookupBarang;
-    fraMember: TfraMember;
     lbl3: TLabel;
     pnlotorisasi: TPanel;
     lbl4: TLabel;
@@ -92,7 +91,8 @@ type
     FCCUoMs: TStrings;
 		FDiscAMCPersen: Double;
     FIsEditMode: Boolean;
-    FMemberCode: String;
+    FModMember: TModMember;
+    FModTransaksi: TModTransaksi;
     FTrMemberID: string;
     FProductCount: Double;
     FTipeMemberID: string;
@@ -102,7 +102,7 @@ type
     FTotalRupiahBarangPPN: Currency;
     FTotalRupiahBarangCC: Currency;
     FServerDateTime    : TDatetime;
-    FTipeHarga: TModTipeHarga;
+    FModTipeHarga: TModTipeHarga;
     FTotalRupiahBarangBKP: Currency;
     FTotalRupiahBarangDPP: Currency;
     FTotalRupiahBarangBebasPPN: Currency;
@@ -122,8 +122,11 @@ type
     procedure colDiscManualValidate(Sender: TObject; var DisplayValue: Variant; var
         ErrorText: TCaption; var Error: Boolean);
     procedure DoLookupBarang(aPLU: string = '');
+    procedure DoLookupMember;
     function GetDCGrid: TcxGridDataController;
-    function GetTipeHarga: TModTipeHarga;
+    function GetModMember: TModMember;
+    function GetModTransaksi: TModTransaksi;
+    function GetModTipeHarga: TModTipeHarga;
 //    procedure LoadPendingFromCSV(AMemberCode: String);
   public
     Transaksi_ID: string;
@@ -149,9 +152,6 @@ type
     function HitungTotalRupiahBarangBebasPPN: Currency;
     function HitungTotalRupiahBarangDiscount: Currency;
     function IsCCUoM(AUoM: String): Boolean;
-    function LoadByPLUOLD(aPLU_Qty: String; aUoM: String = ''; aIsLookupActive:
-        Boolean = True; aIsLoadFromPending: Boolean = False; aDiscMan: Double = 0;
-        aDiscOto: string = ''): Integer;
     procedure LoadMember(AMemberNo: String);
     procedure ResetTransaction;
     function SaveToDBPending: Boolean;
@@ -161,16 +161,19 @@ type
     function LoadByPLU(aPLU_Qty: String; aUoM: String = ''; aIsLookupActive:
         Boolean = True; aIsLoadFromPending: Boolean = False; aDiscMan: Double = 0;
         aDiscOto: string = ''): Integer;
+    function SaveToDBPendingOld: Boolean;
     procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True;
         aEditing: Boolean = True);
     function SetProductToGrid(aBarang: TModBarang; aBHJ: TModBarangHargaJual; aQTY:
         Double): Integer;
     procedure SetVisibleContrabon(IsVisible: Boolean);
+    procedure UpdateData;
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
     property DCGrid: TcxGridDataController read GetDCGrid;
 		property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
-    property MemberCode: String read FMemberCode write FMemberCode;
-    property TipeHarga: TModTipeHarga read GetTipeHarga write FTipeHarga;
+    property ModMember: TModMember read GetModMember write FModMember;
+    property ModTransaksi: TModTransaksi read GetModTransaksi write FModTransaksi;
+    property ModTipeHarga: TModTipeHarga read GetModTipeHarga write FModTipeHarga;
     property TrMemberID: string read FTrMemberID write FTrMemberID;
     property TotalColie: Integer read FTotalColie write FTotalColie;
     property TotalRupiah: Currency read FTotalRupiah write FTotalRupiah;
@@ -301,7 +304,7 @@ procedure TfrmTransaksi.FormCreate(Sender: TObject);
 begin
   try
     FServerDateTime      := DMClient.POSClient.GetServerDate;
-    edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
+    edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
     sgHeader := TStringList.Create;
     SetGridHeader_Transaksi;
   finally
@@ -330,17 +333,6 @@ begin
   if (Key = VK_F5) then
   begin
     DoLookupBarang;
-//    cxTransaksi.Visible := False;
-//    pnlFooter.Visible := False;
-//    with fraLookupBarang do
-//    begin
-//      UnitID  := frmMain.UnitID;
-//      Align   := alClient;
-//      Visible := True;
-//      SetPanelHeaderEnable(True);
-//      edNamaBarang.SetFocus;
-//      edNamaBarang.SelectAll;
-//    end;    // with
   end
   else if Key = VK_F12 then
   begin
@@ -350,20 +342,11 @@ begin
   if(Key = VK_RETURN)and(edPLU.Text <> '') then
   begin
     LoadByPLU(edPLU.Text);
-//		LoadByPLUOLD(edPLU.Text);
-//    edPLU.Enabled := True;
-    if (not edHargaKontrabon.Focused) and (not fraLookupBarang.Showing) then
-      begin
-         edPLU.SetFocus
-      end
-    else
-    if (fraLookupBarang.Showing) then
-       fraLookupBarang.cxGrid.SetFocus;
+    if (not edHargaKontrabon.Focused) then edPLU.SetFocus;
   end
   else
   if Key in [VK_F9] then
   begin
-    //ShowForm(TfrmPayment,wsMaximized);
     ShowPayment;
   end
   else
@@ -587,331 +570,6 @@ begin
   end;
 end;
 
-function TfrmTransaksi.LoadByPLUOLD(aPLU_Qty: String; aUoM: String = '';
-    aIsLookupActive: Boolean = True; aIsLoadFromPending: Boolean = False;
-    aDiscMan: Double = 0; aDiscOto: string = ''): Integer;
-var
-//  sUOMLastPurchase: string;
-//  dLastPurchas: Double;
-  sPLUPasangan     : String;
-	IsDecimalVerified: Boolean;
-	isValidPLU       : Boolean;
-	isActivePLU      : Boolean;
-	isBarangFound    : Boolean;
-	sTemp            : string;
-	sPLU             : string;
-	isBintang        : Boolean;
-	i, j             : Integer;
-	iFoundInGrid     : Integer;
-  isBarcodeUsed    : boolean;
-  isBHJExist       : boolean;
-begin
-  Result            := 0;
-	FProductCount     := 1;
-	isBintang         := False;
-//	isBarangFound     := False;
-	isActivePLU       := False;
-	IsDecimalVerified := False;
-	isValidPLU        := False;
-  isBarcodeUsed     := False;
-  isBHJExist        := False;
-  iFoundInGrid      := -1;
-	j := 0;
-	i := pos('*', aPLU_Qty);
-  if i>0 then
-  begin
-    j := i + 1;
-    isBintang := True;
-  end;
-
-	if isBintang then
-	begin
-		sTemp := '';
-
-		{tambahan untuk produk count}
-		for i := 1 to (j - 2) do
-		begin
-			if (aPLU_Qty[i] = '*') and (i = 1) then
-				sTemp := '1'
-			else
-				sTemp:= sTemp + aPLU_Qty[i];
-		end;
-
-		try
-      if sTemp='' then
-        FProductCount := 1
-      else
-      	FProductCount := StrToFloat(sTemp);
-		except
-			FProductCount := 1;
-		end;
-
-    if FProductCount <= 0 then
-    begin
-      ShowInfo('Jumlah barang tidak valid');
-      edPLU.SelectAll;
-      Exit;
-    end;
-
-		sTemp := '';
-
-		for i := j to Length(aPLU_Qty) do
-			sPLU:= sPLU + aPLU_Qty[i];
-	end
-	else
-		sPLU:= aPLU_Qty;
-
-	if Length(sPLU) < igProd_Code_Length then
-	begin
-    sTemp := StringOfChar('0', igProd_Code_Length);   //'000000'
-		try
-			sPLU := FormatFloat(sTemp,StrToFloatDef(sPLU,0));
-		except
-		end;
-	end;
-
-  sPLUPasangan := '';
-
-
-  with TNewBarang.Create(Self) do
-	begin
-		try
-      if System.Length(sPLU) = igProd_Code_Length then
-      begin
-      	isBarangFound := LoadByKode(sPLU);
-      end
-      else
-      begin
-      	isBarangFound := LoadByBarcodeNew(sPLU);
-        isBarcodeUsed := True;
-      end;
-
-			if isBarangFound then
-			begin
-				isBarangFound := True;
-
-				if IsActive = 1 then
-					isActivePLU := True
-				else
-					isActivePLU := False;
-
-				if IsValidate = 1 then
-					isValidPLU := True
-				else
-					isValidPLU := False;
-
-				//check QTY
-				IsDecimalVerified := True;
-				if IsDecimal = 0 then
-				begin
-					if (FProductCount - Floor(FProductCount)) > 0 then
-					begin
-						IsDecimalVerified := False;
-					end;
-				end;
-
-				if (isActivePLU) and (isValidPLU) and (IsDecimalVerified) then
-				begin
-					with sgTransaksi do
-					begin
-						with TBarangHargaJual.Create(Self) do
-						begin
-							try
-								isBarangFound := False;  //too many 'if' will kill u :(
-                if isBarcodeUsed then
-                begin
-                    if LoadBarangBarcodeUom(sPLU,'H004') then
-                       isBHJExist := True;
-                end
-                else
-                if (aUoM <> '') then
-                begin
-                    if LoadBarangHargaJualTermurahUOM(Kode,'H004',aUoM) then
-                       isBHJExist := True;
-                end
-                else
-                begin
-                    //jika input dr EdPLU, ada byk UOM -> tmplkan lookup frame
-                    if (CountBarangHargaJual(Kode,2,frmMain.UnitID)>1) and aIsLookupActive then
-                    begin
-                      with fraLookupBarang do
-                      begin
-                        UnitID  := frmMain.UnitID;
-                        Align   := alBottom;
-                        Visible := True;
-                        Height  := 150;
-                        edNamaBarang.Text := Alias;
-                        IsStop := False;
-                        if IsProcessing then
-                          IsStop := True
-                        else
-                          LoadBarangByPLU(sPLU);
-                        Exit;
-                      end;    // with
-                    end
-                    else
-                    begin
-                    if LoadBarangHargaJualTermurah(Kode,'H004') then
-                       isBHJExist := True
-                    end
-                end;
-
-                if isBHJExist then
-                begin
-                	if (SellPrice <> 0) and (IsDecimal = 0) then
-                  begin
-                    //cari di grid
-                    iFoundInGrid := FindInGridOld(Kode,FProductCount,NewUOM.UOM);
-                    if iFoundInGrid > -1 then
-                    begin
-                       Result := iFoundInGrid;
-                       //sPLUPasangan disini tidak pernah dipakai
-                       sPLUPasangan := DataController.Values[iFoundInGrid, _KolPairCode];
-                    end;
-                  end;
-
-                  if iFoundInGrid < 0 then
-                  begin
-                    DataController.AppendRecord;
-                    Result   := DataController.RecordCount-1;
-                    //DataController.Values[0,RowCount-1] := IntToStr(RowCount-1);
-                    DataController.Values[Result, _KolPLU]               := Kode;
-                    DataController.Values[Result, _KolNamaBarang]        := Alias;
-                    DataController.Values[Result, _KolIsDecimal] := IsDecimal;
-                    DataController.Values[Result, _KolIsDiscGMC] := IsDiscGMC;
-                    DataController.Values[Result, _KolIsMailer]  := IntToStr(IsMailer);
-                    if IsCCUoM(NewUOM.UOM) then
-                    begin
-                      DataController.Values[Result, _KolIsCharge] := '1';
-                    end
-                    else
-                    begin
-                      DataController.Values[Result, _KolIsCharge] := '0';
-                    end;
-
-                    DataController.Values[Result, _KolMaxDiscQTY] := MaxQtyDisc;
-                    DataController.Values[Result, _KolPPN]        := NewPajak.PPN;
-                    DataController.Values[Result, _KolPPNBM]      := 0;   // ketoke mmg ga pernah PPNBM > 0
-//                    Columns[_KolCOGS].Floats[RowCount-1]       := BarangTransaksi.COGS;
-//                    Columns[_KolLastCost].Floats[RowCount-1]   := BarangTransaksi.LastCost;
-                   // GetLastPurchasePrice(dLastPurchas,sUOMLastPurchase );
-                    DataController.Values[Result, _KolCOGS]       := GetHargaAVG(NewUOM.UOM);
-                    DataController.Values[Result, _KolLastCost]   := NewBarang.HargaLastCost;
-                    DataController.Values[Result, _KolBHJID]        := ID;
-                    DataController.Values[Result, _KolTipeBarang]   := TipeBarangID;
-                    DataController.Values[Result, _KolHargaAvg]   := GetHargaAVG(NewUOM.UOM);
-
-                    if (NewPajak.PPN > 0) or (NewPajak.PPNBM > 0) then
-                      DataController.Values[Result, _KolIsBKP] := 1
-                    else
-                      DataController.Values[Result, _KolIsBKP] := 0;
-
-                    DataController.Values[Result, _KolJumlah]        := FProductCount;
-                    DataController.Values[Result, _KolUOM]             := NewUOM.UOM;
-
-                    DataController.Values[Result, _KolHargaExcPajak] := RoundTo(SellPrice / ((NewPajak.PPN + 100) / 100), igPrice_Precision);
-                    DataController.Values[Result, _KolHarga]         := RoundTo(SellPrice, igPrice_Precision);  //inc Tax
-//                    Columns[_KolHarga].Floats[RowCount-1]         := GetSellPriceWithTax(RowCount-1);
-                    DataController.Values[Result, _KolDisc]          := RoundTo(DiscNominal, igPrice_Precision);
-                    DataController.Values[Result, _KolDiscMan]       := RoundTo(aDiscMan, igPrice_Precision);
-                    DataController.Values[Result, _KolDiscManForm]   := RoundTo(aDiscMan, igPrice_Precision);
-                    DataController.Values[Result, _Koldiscoto]         := aDiscOto;
-
-                    if SellPrice = 0 then
-                      DataController.Values[Result, _KolIsKontrabon]   := 1
-                    else
-                      DataController.Values[Result, _KolIsKontrabon]   := 0;
-
-                    {$IFDEF TSN}
-                    DataController.Values[Result, _KolDiscP]         := (DiscPersen);
-                    {$ENDIF}
-                    DataController.Values[Result, _KolTotal]         := GetTotalHarga(Result);
-
-                    sPLUPasangan := BarangGalon.Kode;
-                    DataController.Values[Result, _KolPairCode]        := sPLUPasangan;
-                    DataController.Values[Result, _KolIsGalon]  := IsGalon;
-                    DataController.Values[Result, _KolDetailID] := '';
-
-//                    RowCount := RowCount + 1;
-//                    Row      := RowCount - 1;
-//                    AutoNumberCol(0);
-                  end;
-									if (iFoundInGrid < 0) and (SellPrice = 0)   and (aIsLookupActive)  then
-									begin
-										lblHargaKontrabon.Visible  := True;
-										edHargaKontrabon.Visible   := True;
-										edPLU.Enabled              := False;
-                    cxTransaksi.Enabled        := False;
-                    //clear ketika nilai di ambil
-										//edHargaKontrabon.Text      := '0';
-										edHargaKontrabon.SetFocus;
-										edHargaKontrabon.SelectAll;
-									end
-									else
-									begin
-										HitungTotalRupiah;
-										edPLU.Clear;
-										FocusToPLUEdit;
-                    SaveTransactionToCSV;
-                    edPLU.Enabled := True;
-									end;
-									isBarangFound := True;
-                end
-							finally
-								Free;
-							end;  // try/finally
-						end;    // with
-					end;
-				end;
-			end;
-		finally
-			Free;
-		end;  // try/finally
-
-	end;
-
-	FocusToPLUEdit;
-	if not isBarangFound then
-	begin
-    ShowInfo('Barang tidak ditemukan');
-		FocusToPLUEdit;
-    Exit;
-	end
-//Barang tidak aktif tidak bisa dijual.
-	else if not isActivePLU then
-	begin
-		ShowInfo('Barang tidak aktif');
-		FocusToPLUEdit;
-    Exit;
-	end
-	else if not isValidPLU then
-	begin
-		ShowInfo('Barang tidak valid');
-		FocusToPLUEdit;
-    Exit;
-	end
-	else if not IsDecimalVerified then
-	begin
-		ShowInfo('Jumlah barang ini tidak boleh desimal');
-		FocusToPLUEdit;
-    Exit;
-	end
-  else if isBarcodeUsed and (not isBHJExist) then
-	begin
-		ShowInfo('Harga Barang Barcode tidak ditemukan');
-		FocusToPLUEdit;
-    Exit;
-	end;
-
-  if (sPLUPasangan<>'') {and (aIsLoadFromPending)} then
-  begin
-    edPLU.Text := FloatToStr(FProductCount) + '*' + sPLUPasangan;
-    LoadByPLUOLD(edPLU.Text);
-//    LoadByPLUOLD(sPLUPasangan);
-  end;
-  //SaveTransactionToCSV;
-end;
-
 procedure TfrmTransaksi.edNoPelangganKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
@@ -925,16 +583,7 @@ begin
   end
   else if (Key = VK_F5) then
   begin
-    cxTransaksi.Visible := False;
-    pnlFooter.Visible := False;
-    with fraMember do
-    begin
-      UnitID := frmMain.UnitID;
-      Align := alClient;
-      Visible := True;
-      edNama.SetFocus;
-      edNama.SelectAll;
-    end;    // with
+    DoLookupMember;
   end
   else if Key in [VK_F9] then
   begin
@@ -945,112 +594,54 @@ end;
 
 procedure TfrmTransaksi.LoadMember(AMemberNo: String);
 var
-  sSQL: string;
+  lEvent: TNotifyEvent;
 begin
-  HideInfo;
-  if AMemberNo = '' then
-    AMemberNo := GetDefaultMember;
+  lEvent := edNoPelanggan.OnExit;
+  Try
+    edNoPelanggan.OnExit := nil;
 
-  edNoPelanggan.Text := AMemberNo;
-  edNamaPelanggan.Clear;
-  FTipeMemberID := '';//-1;
-  TrMemberID := '';//-1;
-  MemberCode := '';
-
-  sSQL := 'select '
-        + ' member_card_no, '
-        + ' member_name, '
-        + ' member_id, '
-        + ' member_is_valid, '
-        + ' member_is_active, '
-        + ' member_id '
-        + ' from member '
-        + ' where member_card_no = ' + QuotedStr(AMemberNo);
-//        + ' and member_unt_id = ' + IntToStr(frmMain.UnitID);
-
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      if not eof then
-      begin
-        if FieldByName('member_is_valid').AsInteger = 0 then
-        begin
-          ShowInfo('Data member tersebut TIDAK VALID');
-        end
-        else if FieldByName('member_is_active').AsInteger = 0 then
-        begin
-          ShowInfo('Data member tersebut TIDAK AKTIF');
-        end
-        else
-        begin
-          edNamaPelanggan.Text := FieldByName('member_name').AsString;
-          FTipeMemberID := FieldByName('member_id').AsString;
-          TrMemberID := FieldByName('member_id').AsString;
-          MemberCode := FieldByName('member_card_no').AsString;
-
-          sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
-          SaveTransactionToCSV(False);
-        end;
-      end
-      else
-      begin
-        ShowInfo('Data member tersebut TIDAK DITEMUKAN');
-      end;
-    finally
-      Free;
+    if not ModMember.ReloadByCode(aMemberNo) then
+    begin
+      ShowInfo('Data ModMember tersebut TIDAK DITEMUKAN');
+      exit;
     end;
-  end;
+
+    if ModMember.MEMBER_IS_VALID = 0 then
+    begin
+      ShowInfo('Data ModMember tidak valid');
+      exit;
+    end;
+
+    if ModMember.MEMBER_IS_ACTIVE = 0 then
+    begin
+      ShowInfo('Data ModMember tidak aktif');
+      exit;
+    end;
+    edNoPelanggan.Text                  := ModMember.MEMBER_CARD_NO;
+    edNamaPelanggan.Text                := ModMember.MEMBER_NAME;
+    sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
+    SaveTransactionToCSV(False);
+  Finally
+    edNoPelanggan.OnExit := lEvent;
+  End;
 end;
 
 procedure TfrmTransaksi.edNoPelangganExit(Sender: TObject);
 begin
   edNoPelanggan.Style.Color := clWhite;
-  if Trim(edNoPelanggan.Text) <> Trim(MemberCode)  then
-  begin
-//    SavePendingToCSV(MemberCode);
-  end;
-
-  LoadMember(edNoPelanggan.Text);
-  //HideInfo;
-//  if FTrMemberID = -1 then
-  if FTrMemberID = '' then
-  begin
-    if not fraMember.Visible then
-    begin
-      edNoPelanggan.SetFocus;
-      edNoPelanggan.SelectAll;
-      //ShowInfo('Member tersebut tidak ditemukan');
-    end;
-  end
-  else
-  begin
-//    LoadPendingFromCSV(MemberCode);
-  end;
+  if Trim(edNoPelanggan.Text) <> Trim(ModMember.MEMBER_CARD_NO)  then
+    LoadMember(edNoPelanggan.Text);
 end;
 
 procedure TfrmTransaksi.SaveTransactionToCSV(ASaveDetail: Boolean = true;
     ASaveHeader: Boolean = true);
 begin
   if ASaveHeader then
-  begin
-    try
-      sgHeader.SaveToFile(ExtractFilePath(application.ExeName) + 'trans_header.csv');
-    finally
-
-    end;
-  end;
+    sgHeader.SaveToFile(ExtractFilePath(application.ExeName) + 'trans_header.csv');
 
   if ASaveDetail then
-  begin
-    try
-//      sgTransaksi.UnHideColumns(_KolIsDecimal, _ColCount);
-//      sgTransaksi.SaveToCSV(cGetAppPath + 'trans_detail.csv');
-      SavePendingToCSV(MemberCode);
-//      sgTransaksi.HideColumns(_KolIsDecimal, _ColCount);
-    finally
+    SavePendingToCSV(ModMember.MEMBER_CARD_NO);
 
-    end;
-  end;
 end;
 
 procedure TfrmTransaksi.btnResetClick(Sender: TObject);
@@ -1072,10 +663,10 @@ begin
   sgTransaksi.ClearRows;
   Transaksi_ID := '';
   edPLU.Clear;
-  edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
+  edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
   HitungTotalRupiah;
   SaveTransactionToCSV;
-  SavePendingToCSV(MemberCode);
+  SavePendingToCSV(ModMember.MEMBER_CARD_NO);
   FocusToPLUEdit;
 end;
 
@@ -1204,7 +795,7 @@ begin
   sgTransaksi.ClearRows;
 
   Transaksi_ID         := '';
-  edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, FServerDateTime);
+  edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
   HitungTotalRupiah;
   edPLU.SetFocus;
   SaveTransactionToCSV;
@@ -1245,96 +836,20 @@ end;
 //end;
 
 function TfrmTransaksi.SaveToDBPending: Boolean;
-var
-  dtTransaksi      : TDateTime;
-  bIsBKP           : Boolean;
-  bIsDiscAMC       : Boolean;
-  i                : Integer;
-  lDecimalSeparator: Char;
-  ssSQL            : TStrings;
-  iTrans_ID        : string;
 begin
   Result            := False;
-
-  lDecimalSeparator := FormatSettings.DecimalSeparator;
-  FormatSettings.DecimalSeparator  := '.';
-
-  ssSQL := TStringList.Create;
-  try
-      dtTransaksi := cGetServerDateTime;
-      with TPOSTransaction.Create(Self) do
-      begin
-        try
-          if LoadByTrans_No(edNoTrnTerakhir.Text, frmMain.UnitID) then
-            iTrans_ID := ID
-          else
-            iTrans_ID := '';
-
-          UpdateData(TotalRupiahBarangCC, TotalRupiah, frmMain.FBeginningBalanceID,
-            HitungTotalRupiahBarangAMC, self.DiscAMCPersen, iTrans_ID, True,
-            TrMemberID, frmMain.UnitID, edNoTrnTerakhir.Text, 0, dtTransaksi, 0,
-            0, self.TotalRupiahBarangPPN, TotalRupiah, '', nil, frmMain.UserID,
-            0, 0, True);
-
-          //TransactionCard.UpdateData
-
-          with sgTransaksi do
-          begin
-            POSTransactionItems.Clear;
-            for i := 0 to DataController.RecordCount - 1 do
-            begin
-              if DataController.Values[i, _KolPLU] = '' then Continue;
-
-              bIsBKP := False;
-              if DataController.Values[i, _KolIsBKP] = '1' then
-                bIsBKP := True;
-
-              bIsDiscAMC := False;
-              if DataController.Values[i, _KolIsDiscGMC] = '1' then
-                bIsDiscAMC := True;
-
-              UpdatePOSTransactionItems(DataController.Values[i, _KolBHJID], //Barang harga jual ID
-                DataController.Values[i, _KolCOGS], //COGS
-                DataController.Values[i, _KolDetailID], //Detail ID
-                bIsBKP, bIsDiscAMC, //ID, IsBKP, IsDiscAMC
-                DataController.Values[i, _KolLastCost], //last cost
-                DataController.Values[i, _KolPPN], //PPN
-                DataController.Values[i, _KolPPNBM], //PPNBM
-                DataController.Values[i, _KolJumlah], //QTY
-                DataController.Values[i, _KolHarga], //SellPrice
-                DataController.Values[i, _KolHarga] - DataController.Values[i, _KolDisc], //SellPriceDisc
-                DataController.Values[i, _KolTotal], //Total
-                RoundTo(DataController.Values[i, _KolJumlah] * DataController.Values[i, _KolHargaExcPajak], igPrice_Precision), //totalb4tax
-                (DataController.Values[i, _KolTotal]), //total ceil
-                edNoTrnTerakhir.Text,
-                frmMain.UnitID,
-                DataController.Values[i, _KolPLU],
-                DataController.Values[i, _KolTipeBarang], GetDiscItemAMCRp(i),
-                DataController.Values[i, _KolUOM],
-                0,
-                DataController.Values[i, _KolDiscMan],
-                DataController.Values[i, _Koldiscoto]);
-                // discount cc
-            end;
-          end;    // with
-
-          if SaveToDB then
-          begin
-              Result := True;
-              cCommitTrans;
-          end
-          else
-          begin
-            cRollbackTrans;
-          end;
-        finally
-          Free;
-        end;
-      end; // with
-  finally
-    FormatSettings.DecimalSeparator := lDecimalSeparator;
-    FreeAndNil(ssSQL);
-  end;
+//  if not ValidateData then exit;
+  UpdateData;
+  Try
+    ModTransaksi.ID := DMClient.CrudPOClient.SaveToDBID(ModTransaksi);
+    Result          := True;
+  except
+    on E:Exception do
+    begin
+      TAppUtils.ShowException(E);
+      Result          := False;
+    end;
+  End;
 end;
 
 procedure TfrmTransaksi.ShowPayment;
@@ -1397,23 +912,13 @@ procedure TfrmTransaksi.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    if fraLookupBarang.Visible then
-    begin
-       fraLookupBarang.SetPanelHeaderEnable(True);
-       fraLookupBarang.Visible := False;
-    end
-    else
-    if fraMember.Visible then
-    begin
-       fraMember.Visible := False;
-    end
-    else if edHargaKontrabon.Visible then
+    if edHargaKontrabon.Visible then
     begin
       with sgTransaksi do
       begin
         DataController.FocusedRecordIndex := DataController.RecordCount-2;
         ClearRows;
-//        AutoNumberCol(0);
+    //        AutoNumberCol(0);
         HitungTotalRupiah;
         SaveTransactionToCSV;
         edHargaKontrabon.Visible  := False;
@@ -1842,6 +1347,22 @@ begin
   end;
 end;
 
+procedure TfrmTransaksi.DoLookupMember;
+var
+  lfrm: TfrmLookupMember;
+begin
+  lfrm := TfrmLookupMember.CreateAt(pnlContainer);
+  try
+    if lfrm.ShowModal = mrOK then
+    begin
+      LoadMember(lfrm.MemberCode);
+      edPLU.SetFocus;
+    end;
+  finally
+    FreeAndNil(lfrm);
+  end;
+end;
+
 function TfrmTransaksi.FindInGrid(BHJ: TModBarangHargaJual): Integer;
 var
   i: Integer;
@@ -1862,11 +1383,25 @@ begin
   Result := sgTransaksi.DataController;
 end;
 
-function TfrmTransaksi.GetTipeHarga: TModTipeHarga;
+function TfrmTransaksi.GetModMember: TModMember;
 begin
-  if not Assigned(FTipeHarga) then
-    FTipeHarga := DMClient.CrudClient.RetrieveByCode(TModTipeHarga.ClassName, 'H004') as TModTipeHarga;
-  Result := FTipeHarga;
+  if not Assigned(FModMember) then
+    FModMember := TModMember.Create;
+  Result := FModMember;
+end;
+
+function TfrmTransaksi.GetModTransaksi: TModTransaksi;
+begin
+  if not Assigned(FModTransaksi) then
+    FModTransaksi := TModTransaksi.Create;
+  Result := FModTransaksi;
+end;
+
+function TfrmTransaksi.GetModTipeHarga: TModTipeHarga;
+begin
+  if not Assigned(FModTipeHarga) then
+    FModTipeHarga := DMClient.CrudClient.RetrieveByCode(TModTipeHarga.ClassName, 'H004') as TModTipeHarga;
+  Result := FModTipeHarga;
 end;
 
 function TfrmTransaksi.LoadByPLU(aPLU_Qty: String; aUoM: String = '';
@@ -1924,12 +1459,12 @@ var
   begin
     Result := nil;
     if lModBarang.HasBarCode(lPLU) then //dari barcode
-      Result := lModBarang.GetHargaJual(lPLU, TipeHarga.ID)
+      Result := lModBarang.GetHargaJual(lPLU, ModTipeHarga.ID)
     else if aUOM <> '' then  //barcode tidak ditemukan & satuan di definiskan
     begin
       lModSatuan := DMClient.CRUDClient.RetrieveByCode(TModSatuan.ClassName, aUOM) as TModSatuan;
       try
-        Result := lModBarang.GetHargaJual(lPLU, TipeHarga.ID, lModSatuan.ID);
+        Result := lModBarang.GetHargaJual(lPLU, ModTipeHarga.ID, lModSatuan.ID);
       finally
         lModSatuan.Free;
       end;
@@ -1940,7 +1475,7 @@ var
         lfrm := TfrmLookupBarang.CreateAt(pnlContainer, lModBarang.BRG_NAME);
         try
           if lfrm.ShowModal = mrOK then
-            Result := lModBarang.GetHargaJual(lfrm.PLU, TipeHarga.ID, lfrm.UOMID);
+            Result := lModBarang.GetHargaJual(lfrm.PLU, ModTipeHarga.ID, lfrm.UOMID);
         finally
           lfrm.Free;
         end;
@@ -1985,6 +1520,122 @@ begin
   finally
     edPLU.Enabled := True;
     FreeAndNil(lModBarang);
+  end;
+end;
+
+//procedure TfrmTransaksi.LoadPendingFromCSV(AMemberCode: String);
+//var
+//  sFile: String;
+//begin
+//  try
+//    sFile := cGetAppPath + 'trans_detail_' + AMemberCode + '.csv';
+//    if FileExists(sFile) then
+//    begin
+//      sgTransaksi.UnHideColumns(_KolIsDecimal, _ColCount-1);
+//      sgTransaksi.ClearRows(1,sgTransaksi.RowCount-2);
+//	    sgTransaksi.LoadFromCSV(sFile);
+//  	  sgTransaksi.AutoNumberCol(0);
+//      sgTransaksi.HideColumns(_KolIsDecimal, _ColCount-1);
+//    	HitungTotalRupiah;
+//    end;
+//  finally
+//    //SetGridHeader_Transaksi;
+//    edPLU.Text := '';
+//  end;
+//
+//  edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode);
+//end;
+
+function TfrmTransaksi.SaveToDBPendingOld: Boolean;
+var
+  dtTransaksi      : TDateTime;
+  bIsBKP           : Boolean;
+  bIsDiscAMC       : Boolean;
+  i                : Integer;
+  lDecimalSeparator: Char;
+  ssSQL            : TStrings;
+  iTrans_ID        : string;
+begin
+  Result            := False;
+
+  lDecimalSeparator := FormatSettings.DecimalSeparator;
+  FormatSettings.DecimalSeparator  := '.';
+
+  ssSQL := TStringList.Create;
+  try
+      dtTransaksi := cGetServerDateTime;
+      with TPOSTransaction.Create(Self) do
+      begin
+        try
+          if LoadByTrans_No(edNoTrnTerakhir.Text, frmMain.UnitID) then
+            iTrans_ID := ID
+          else
+            iTrans_ID := '';
+
+          UpdateData(TotalRupiahBarangCC, TotalRupiah, frmMain.FBeginningBalanceID,
+            HitungTotalRupiahBarangAMC, self.DiscAMCPersen, iTrans_ID, True,
+            TrMemberID, frmMain.UnitID, edNoTrnTerakhir.Text, 0, dtTransaksi, 0,
+            0, self.TotalRupiahBarangPPN, TotalRupiah, '', nil, frmMain.UserID,
+            0, 0, True);
+
+          //TransactionCard.UpdateData
+
+          with sgTransaksi do
+          begin
+            POSTransactionItems.Clear;
+            for i := 0 to DataController.RecordCount - 1 do
+            begin
+              if DataController.Values[i, _KolPLU] = '' then Continue;
+
+              bIsBKP := False;
+              if DataController.Values[i, _KolIsBKP] = '1' then
+                bIsBKP := True;
+
+              bIsDiscAMC := False;
+              if DataController.Values[i, _KolIsDiscGMC] = '1' then
+                bIsDiscAMC := True;
+
+              UpdatePOSTransactionItems(DataController.Values[i, _KolBHJID], //Barang harga jual ID
+                DataController.Values[i, _KolCOGS], //COGS
+                DataController.Values[i, _KolDetailID], //Detail ID
+                bIsBKP, bIsDiscAMC, //ID, IsBKP, IsDiscAMC
+                DataController.Values[i, _KolLastCost], //last cost
+                DataController.Values[i, _KolPPN], //PPN
+                DataController.Values[i, _KolPPNBM], //PPNBM
+                DataController.Values[i, _KolJumlah], //QTY
+                DataController.Values[i, _KolHarga], //SellPrice
+                DataController.Values[i, _KolHarga] - DataController.Values[i, _KolDisc], //SellPriceDisc
+                DataController.Values[i, _KolTotal], //Total
+                RoundTo(DataController.Values[i, _KolJumlah] * DataController.Values[i, _KolHargaExcPajak], igPrice_Precision), //totalb4tax
+                (DataController.Values[i, _KolTotal]), //total ceil
+                edNoTrnTerakhir.Text,
+                frmMain.UnitID,
+                DataController.Values[i, _KolPLU],
+                DataController.Values[i, _KolTipeBarang], GetDiscItemAMCRp(i),
+                DataController.Values[i, _KolUOM],
+                0,
+                DataController.Values[i, _KolDiscMan],
+                DataController.Values[i, _Koldiscoto]);
+                // discount cc
+            end;
+          end;    // with
+
+          if SaveToDB then
+          begin
+              Result := True;
+              cCommitTrans;
+          end
+          else
+          begin
+            cRollbackTrans;
+          end;
+        finally
+          Free;
+        end;
+      end; // with
+  finally
+    FormatSettings.DecimalSeparator := lDecimalSeparator;
+    FreeAndNil(ssSQL);
   end;
 end;
 
@@ -2041,8 +1692,8 @@ begin
   if ((Key = VK_DOWN) or (Key = 34))
      and (sgTransaksi.DataController.FocusedRecordIndex = sgTransaksi.DataController.RecordCount-1) then
   begin
-    if fraLookupBarang.Showing then
-       fraLookupBarang.cxGrid.SetFocus;
+//    if fraLookupBarang.Showing then
+//       fraLookupBarang.cxGrid.SetFocus;
   end
   else
   if Key = VK_RETURN then
@@ -2141,6 +1792,50 @@ begin
   cxTransaksi.Enabled        := not IsVisible;
   edHargaKontrabon.SetFocus;
   edHargaKontrabon.SelectAll;
+end;
+
+procedure TfrmTransaksi.UpdateData;
+var
+  i: Integer;
+  lItem: TModTransaksiDetil;
+begin
+  ModTransaksi.MEMBER                   := ModMember;
+  ModTransaksi.AUTUNIT                  := TModUnit.CreateID(frmMain.UnitID);
+  ModTransaksi.TRANS_DATE               := DMClient.POSClient.GetServerDate();
+  ModTransaksi.TRANS_BAYAR_CARD         := 0;
+  ModTransaksi.TRANS_BAYAR_CASH         := 0;
+  ModTransaksi.TRANS_DISC_CARD          := 0;
+  ModTransaksi.TRANS_NO                 := edNoTrnTerakhir.Text;
+  ModTransaksi.TRANS_TOTAL_BAYAR        := 0;
+  ModTransaksi.TRANS_TOTAL_TRANSACTION  := 0;
+  ModTransaksi.TRANS_TOTAL_PPN          := 0;
+  ModTransaksi.TransaksiDetils.Clear;
+
+  for i := 0 to DCGrid.RecordCount-1 do
+  begin
+    lItem                           := TModTransaksiDetil.Create;
+    lItem.BARANG_HARGA_JUAL         := TModBarangHargaJual.CreateID(DCGrid.Values[i, _KolBHJID]);
+    lItem.TIPEBARANG                := TModTipeBarang.CreateID(DCGrid.Values[i, _KolTipeBarang]);
+    lItem.TRANSD_BRG_CODE           := VarToStr(DCGrid.Values[i, _KolPLU]);
+    lItem.TRANSD_COGS               := VarToFloat(DCGrid.Values[i, _KolHargaAvg]);
+    lItem.TRANSD_SAT_CODE           := VarToStr(DCGrid.Values[i, _KolUOM]);
+    lItem.TRANSD_SELL_PRICE         := VarToFloat(DCGrid.Values[i, _KolHarga]);
+    lItem.TRANSD_SELL_PRICE_DISC    := lItem.TRANSD_SELL_PRICE - VarToFloat(DCGrid.Values[i, _KolDisc]);
+    lItem.TRANSD_PPN                := VarToFloat(DCGrid.Values[i, _KolPPN]);
+    lItem.TRANSD_PPNBM              := VarToFloat(DCGrid.Values[i, _KolPPNBM]);
+    lItem.TRANSD_LAST_COST          := VarToFloat(DCGrid.Values[i, _KolLastCost]);
+    lItem.TRANSD_TOTAL              := VarToFloat(DCGrid.Values[i, _KolTotal]);
+    lItem.TRANSD_TRANS_NO           := ModTransaksi.TRANS_NO;
+    lItem.TRANSD_COGS               := VarToFloat(DCGrid.Values[i, _KolCOGS]);
+    lItem.TRANSD_QTY                := VarToFloat(DCGrid.Values[i, _KolJumlah]);
+    lItem.TRANSD_IS_BKP             := VarToInt(DCGrid.Values[i, _KolIsBKP]);
+    lItem.TRANSD_TOTAL_B4_TAX       := lItem.GetTotalExclTax;
+    lItem.TRANSD_BRG_IS_PJK_INCLUDE := 1;
+    lItem.TRANSD_DISC_CARD          := 0; //set later
+    ModTransaksi.TRANS_TOTAL_TRANSACTION
+      := ModTransaksi.TRANS_TOTAL_TRANSACTION + lItem.TRANSD_TOTAL;
+    ModTransaksi.TransaksiDetils.Add(lItem);
+  end;
 end;
 
 end.
