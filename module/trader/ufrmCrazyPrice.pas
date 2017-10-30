@@ -72,7 +72,7 @@ begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.CrazyPrice_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['CUSTOMERINVOICE_ID', 'ci_organization_id',''],False);
+  cxGridView.SetVisibleColumns(['CRAZY_BARANG_ID','CRAZY_KONVERSI', 'CRAZY_SATUAN_ID','CRAZY_ORGANIZATION_ID','CRAZYPRICE_ID'],False);
 
 end;
 
