@@ -803,7 +803,6 @@ var
   Q: TFDQuery;
   sSQL: string;
 begin
-
   sSQL := Format(SQL_Select,['*', AOBject.GetTableName,
     AOBject.GetPrimaryField + ' = ' + QuotedStr(AID) ]);
   Q := TDBUtils.OpenQuery(sSQL, nil);

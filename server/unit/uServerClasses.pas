@@ -195,6 +195,11 @@ type
   TCrudCrazyPrice = class(TCrud)
   end;
 
+  TCrudBarang = class(TCrud)
+  public
+    function RetrievePOS(sPLUBarCode: string): TModBarang;
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -204,7 +209,7 @@ implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
-  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils;
+  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -1598,6 +1603,29 @@ begin
   Result := lPrefix +  RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
+end;
+
+function TCrudBarang.RetrievePOS(sPLUBarCode: string): TModBarang;
+var
+  Q: TFDQuery;
+  S: string;
+begin
+  S := 'select A.* from BARANG A '
+      +' INNER JOIN REF$KONVERSI_SATUAN B ON A.BARANG_ID=B.BARANG_ID'
+      +' WHERE B.KONVSAT_BARCODE = ' + QuotedStr(sPLUBarCode);
+  Q := TDBUtils.OpenQuery(S);
+  Try
+    if Q.Eof then
+      Result := inherited
+        RetrieveByCode(TModBarang.ClassName, sPLUBarCode) as TModBarang
+    else
+    begin
+      Result := TModBarang.Create;
+      TDBUtils.LoadFromDataset(Result, Q);
+    end;
+  Finally
+    Q.Free;
+  End;
 end;
 
 end.

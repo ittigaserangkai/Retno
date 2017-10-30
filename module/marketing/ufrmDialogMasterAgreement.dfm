@@ -556,9 +556,6 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
         Height = 15
         ExplicitLeft = 830
       end
-      inherited lbCTRLDel: TLabel
-        Height = 15
-      end
       inherited lblCTRLP: TLabel
         Left = 663
         Height = 15

@@ -177,7 +177,7 @@ begin
       Try
         while not EoF do
         begin
-          if frmTransaksi.FindInGrid(FieldByName('TransD_Brg_Code').AsString,0,
+          if frmTransaksi.FindInGridOld(FieldByName('TransD_Brg_Code').AsString,0,
               FieldByName('Sat_Code').AsString) = -1 then
           begin
             if frmTransaksi.sgTransaksi.DataController.Values[frmTransaksi.sgTransaksi.DataController.RecordCount-1,_KolPLU]<>'' then

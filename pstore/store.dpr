@@ -234,7 +234,8 @@ uses
   ufrmScheduleAgreement in '..\module\finance\ufrmScheduleAgreement.pas' {frmScheduleAgreement},
   ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
   uUnit in '..\classes\uUnit.pas',
-  uModCrazyPrice in '..\model\uModCrazyPrice.pas';
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization};
 
 {$R *.res}
 
@@ -245,5 +246,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
   Application.Run;
 end.
