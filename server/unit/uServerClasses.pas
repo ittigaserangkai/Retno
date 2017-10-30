@@ -7,7 +7,8 @@ uses
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
-  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO, uModSatuan;
+  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,
+  uModSatuan;
 
 type
   {$METHODINFO ON}
@@ -42,9 +43,11 @@ type
     function GenerateNo(aClassName: string): String; overload;
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function RetrieveBatch(ModClassName, AIDs: string): TModApps; overload;
     function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
     function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
+    function DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
     function SaveToDB(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function SaveToDBLog(AObject: TModApp): Boolean;
@@ -355,6 +358,30 @@ begin
   TDBUtils.LoadFromDB(Result, AID, LoadObjectList);
 end;
 
+function TCrud.RetrieveBatch(ModClassName, AIDs: string): TModApps;
+var
+  IDs: TStrings;
+//  lClass: TModAppClass;
+  I: Integer;
+  lModApp: TModApp;
+begin
+  Result := TModApps.Create;
+
+  IDs := TStringList.Create;
+  try
+    IDs.CommaText := AIDs;
+
+    for I := 0 to IDs.Count - 1 do
+    begin
+      lModApp := Retrieve(ModClassName, IDs[i]);
+      if lModApp.ID <> '' then
+        Result.APPs.Add(lModApp);
+    end;
+  finally
+    IDs.Free;
+  end;
+end;
+
 function TCrud.RetrieveByCode(ModClassName, aCode: string): TModApp;
 var
   lClass: TModAppClass;
@@ -390,6 +417,26 @@ begin
     for I := 0 to AObjectList.Count - 1 do
     begin
       SaveToDBTrans(AObjectList[i], False);
+    end;
+
+    TDBUtils.Commit;
+    Result := True;
+  except
+    raise;
+  end;
+
+end;
+
+function TCrud.DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
+var
+  I: Integer;
+begin
+//  Result := False;
+
+  try
+    for I := 0 to AObjectList.Count - 1 do
+    begin
+      DeleteFromDBTrans(AObjectList[i], False);
     end;
 
     TDBUtils.Commit;
