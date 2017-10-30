@@ -34,10 +34,10 @@ implementation
 
 function TModSettingApp.GetListRekeningHutang: TStrings;
 begin
-  Result := TStringList.Create;
-  Result.Delimiter := ';';
-  Result.StrictDelimiter := True; // Requires D2006 or newer.
-  Result.DelimitedText   := Self.REKENING_HUTANG
+  Result                  := TStringList.Create;
+  Result.Delimiter        := ';';
+  Result.StrictDelimiter  := True; // Requires D2006 or newer.
+  Result.DelimitedText    := Self.REKENING_HUTANG
 end;
 
 initialization

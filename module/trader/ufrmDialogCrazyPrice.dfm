@@ -1,25 +1,27 @@
 inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   Caption = 'Dialog Crazy Price'
   ClientHeight = 479
-  ClientWidth = 854
-  ExplicitWidth = 870
+  ClientWidth = 960
+  ExplicitLeft = 5
+  ExplicitTop = -123
+  ExplicitWidth = 976
   ExplicitHeight = 518
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 854
+    Width = 960
     Height = 423
-    ExplicitWidth = 700
+    ExplicitWidth = 854
     ExplicitHeight = 423
     object cxgrdCP: TcxGrid
       AlignWithMargins = True
       Left = 5
       Top = 5
-      Width = 844
+      Width = 950
       Height = 303
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 690
+      ExplicitWidth = 844
       object cxGridTableCP: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridTableCPEditing
@@ -52,9 +54,10 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         object cxGridColCPNama: TcxGridColumn
           Caption = 'Nama'
           HeaderAlignmentHorz = taCenter
-          Width = 172
+          Width = 140
         end
         object cxGridColCPOrgID: TcxGridColumn
+          AlternateCaption = 'CRAZY_ORGANIZATION'
           Caption = 'OrgID'
           Visible = False
         end
@@ -77,10 +80,12 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Width = 87
         end
         object cxGridColCPPLUID: TcxGridColumn
+          AlternateCaption = 'CRAZY_BARANG'
           Caption = 'PLUID'
           Visible = False
         end
         object cxGridColCPSatuan: TcxGridColumn
+          AlternateCaption = 'CRAZY_SATUAN'
           Caption = 'Satuan'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           Properties.ImmediatePost = True
@@ -88,18 +93,21 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPPeriodeMulai: TcxGridColumn
+          AlternateCaption = 'CRAZY_START_DATE'
           Caption = 'Periode Awal'
           PropertiesClassName = 'TcxDateEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 104
         end
         object cxGridColCPPeriodeAkhir: TcxGridColumn
+          AlternateCaption = 'CRAZY_END_DATE'
           Caption = 'Periode Akhir'
           PropertiesClassName = 'TcxDateEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 108
         end
         object cxGridColCPCOGS: TcxGridColumn
+          AlternateCaption = 'CRAZY_COGS'
           Caption = 'COGS'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -107,6 +115,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPPPN: TcxGridColumn
+          AlternateCaption = 'CRAZY_PPN'
           Caption = 'PPN'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -114,6 +123,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPDisc: TcxGridColumn
+          AlternateCaption = 'CRAZY_DISC_PERSEN'
           Caption = 'Disc %'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -121,6 +131,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPMarkUp: TcxGridColumn
+          AlternateCaption = 'CRAZY_MARKUP'
           Caption = 'Mark Up'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -128,14 +139,17 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPSellpriceDisc: TcxGridColumn
+          AlternateCaption = 'CRAZY_SELLPRICE_DISC'
           Caption = 'Setelah Disc'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 71
         end
         object cxGridColCPSellPriceDiscPPN: TcxGridColumn
+          AlternateCaption = 'CRAZY_SELLPRICE_PPN'
           Caption = 'Setelah Disc + PPN'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -148,6 +162,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 100
         end
@@ -156,12 +171,20 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Visible = False
         end
         object cxGridColCPBHJSellpriceDiscPPN: TcxGridColumn
           Caption = 'BHJ Sellprice PPN'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Visible = False
+        end
+        object cxGridColCPTglInput: TcxGridColumn
+          AlternateCaption = 'CRAZY_DATE'
+          Caption = 'Tgl Input'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Visible = False
         end
       end
       object cxgrdlvlCP: TcxGridLevel
@@ -172,21 +195,21 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       AlignWithMargins = True
       Left = 5
       Top = 314
-      Width = 844
+      Width = 950
       Height = 104
       Align = alBottom
       TabOrder = 1
-      ExplicitWidth = 690
+      ExplicitWidth = 844
       object lblSebelumDisc: TLabel
-        Left = 12
-        Top = 33
+        Left = 32
+        Top = 28
         Width = 63
         Height = 16
         Caption = 'Sebelum Disc'
       end
       object lblSetelahDisc: TLabel
-        Left = 12
-        Top = 55
+        Left = 35
+        Top = 54
         Width = 60
         Height = 16
         Caption = 'Setelah Disc'
@@ -223,13 +246,17 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         Left = 108
         Top = 24
         Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 0
         Width = 121
       end
-      object edHGSetelahDisc: TcxCurrencyEdit
+      object edHJSetelahDisc: TcxCurrencyEdit
         Left = 108
         Top = 50
         Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 1
         Width = 121
       end
@@ -237,6 +264,8 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         Left = 235
         Top = 24
         Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 2
         Width = 68
       end
@@ -244,6 +273,8 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         Left = 235
         Top = 50
         Enabled = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 3
         Width = 68
       end
@@ -253,6 +284,8 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         EditValue = 100.000000000000000000
         Enabled = False
         ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         Style.Font.Charset = DEFAULT_CHARSET
         Style.Font.Color = clWindowText
         Style.Font.Height = -11
@@ -275,55 +308,58 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 423
-    Width = 854
+    Width = 960
     ExplicitTop = 423
-    ExplicitWidth = 700
+    ExplicitWidth = 854
     inherited pnlFooter: TPanel
-      Width = 854
-      ExplicitWidth = 700
+      Width = 960
+      ExplicitWidth = 854
       inherited btnClose: TcxButton
-        Left = 777
+        Left = 883
         Action = actCancel
-        ExplicitLeft = 623
+        ExplicitLeft = 777
       end
       inherited btnSave: TcxButton
-        Left = 684
+        Left = 790
         Action = actSave
-        ExplicitLeft = 530
+        ExplicitLeft = 684
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 607
+        Left = 713
         Action = actPrint
-        ExplicitLeft = 453
+        ExplicitLeft = 607
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 854
-      ExplicitWidth = 700
+      Width = 960
+      ExplicitWidth = 854
       inherited lbCTRLEnter: TLabel
-        Left = 679
+        Left = 785
         Height = 15
-        ExplicitLeft = 525
+        ExplicitLeft = 679
       end
       inherited lbEscape: TLabel
-        Left = 770
+        Left = 876
         Height = 15
-        ExplicitLeft = 616
+        ExplicitLeft = 770
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 603
+        Left = 709
         Height = 15
-        ExplicitLeft = 449
+        ExplicitLeft = 603
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Top = 72
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

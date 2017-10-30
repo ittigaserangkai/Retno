@@ -11,7 +11,8 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxGridCustomTableView,
   cxGridTableView, cxGridCustomView, cxClasses, cxGridLevel, cxGrid, uDMClient,
   cxCalendar, Vcl.StdCtrls, cxContainer, cxTextEdit, cxCurrencyEdit,uModBarang,
-  cxButtonEdit, ufrmLookupOrganization, uModOrganization, cxDBExtLookupComboBox, uModSatuan;
+  cxButtonEdit, ufrmLookupOrganization, uModOrganization,uModApp,
+  cxDBExtLookupComboBox, uModSatuan, uAppUtils, System.Generics.Collections;
 
 type
   TfrmDialogCrazyPrice = class(TfrmMasterDialog, ICRUDAble)
@@ -36,7 +37,7 @@ type
     lblSebelumDisc: TLabel;
     lblSetelahDisc: TLabel;
     edHJBelumDisc: TcxCurrencyEdit;
-    edHGSetelahDisc: TcxCurrencyEdit;
+    edHJSetelahDisc: TcxCurrencyEdit;
     edMarkUpSebelum: TcxCurrencyEdit;
     edMarkUpSesudah: TcxCurrencyEdit;
     lblHJ: TLabel;
@@ -49,6 +50,8 @@ type
     cxGridColCPPLUID: TcxGridColumn;
     cxGridColCPBHJSellpriceDisc: TcxGridColumn;
     cxGridColCPBHJSellpriceDiscPPN: TcxGridColumn;
+    cxGridColCPTglInput: TcxGridColumn;
+    procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxGridTableCPDataControllerNewRecord(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
@@ -70,6 +73,8 @@ type
     function GetCDSSatuan: TClientDataset;
     procedure LoadDataBHJ(ARecordIndex : Integer; ABHJ : TModBarangHargaJual);
     procedure LoadDataOrg(ARecordIndex : Integer; AOrg : TModOrganization);
+    function IsBisaSimpan: Boolean;
+
     property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
     { Private declarations }
   public
@@ -83,6 +88,34 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmDialogCrazyPrice.actSaveExecute(Sender: TObject);
+var
+  I: Integer;
+  lCP: TModCrazyPrice;
+  lObjectCPs: tobjectList<TModApp>;
+begin
+  inherited;
+  if not IsBisaSimpan then
+    Exit;
+
+  lObjectCPs := TObjectList<TModApp>.Create();
+  for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
+  begin
+    lCP := TModCrazyPrice.Create;
+    cxGridTableCP.LoadObjectData(lCP, i);
+
+    lObjectCPs.Add(lCP);
+  end;
+
+  if DMClient.CrudCrazyPriceClient.SaveBatch(lObjectCPs) then
+  begin
+    TAppUtils.Information('Berhasil Simpan');
+    ModalResult := mrOk;
+  end;
+
+
+end;
 
 procedure TfrmDialogCrazyPrice.FormCreate(Sender: TObject);
 begin
@@ -185,9 +218,11 @@ begin
   begin
     ADataController.Values[ARecordIndex, cxGridColCPPeriodeMulai.Index] := StartOfTheDay(Now);
     ADataController.Values[ARecordIndex, cxGridColCPPeriodeAkhir.Index] := EndOfTheDay(Now);
+    ADataController.Values[ARecordIndex, cxGridColCPTglInput.Index]     := Now;
   end else begin
     ADataController.Values[ARecordIndex, cxGridColCPPeriodeMulai.Index] := ADataController.Values[ARecordIndex - 1, cxGridColCPPeriodeMulai.Index];
     ADataController.Values[ARecordIndex, cxGridColCPPeriodeAkhir.Index] := ADataController.Values[ARecordIndex - 1, cxGridColCPPeriodeAkhir.Index];
+    ADataController.Values[ARecordIndex, cxGridColCPTglInput.Index]     := ADataController.Values[ARecordIndex - 1, cxGridColCPTglInput.Index];
     ADataController.Values[ARecordIndex, cxGridColCPKode.Index]         := ADataController.Values[ARecordIndex - 1, cxGridColCPKode.Index];
     ADataController.Values[ARecordIndex, cxGridColCPNama.Index]         := ADataController.Values[ARecordIndex - 1, cxGridColCPNama.Index];
     ADataController.Values[ARecordIndex, cxGridColCPOrgID.Index]        := ADataController.Values[ARecordIndex - 1, cxGridColCPOrgID.Index];
@@ -204,6 +239,9 @@ begin
                             cxGridColCPSatuan.Index,
                             cxGridColCPPeriodeMulai.Index,
                             cxGridColCPPeriodeAkhir.Index,
+                            cxGridColCPMarkUp.Index,
+                            cxGridColCPSellpriceDisc.Index,
+                            cxGridColCPSellPriceDiscPPN.Index,
                             cxGridColCPNamaBarang.Index];
 end;
 
@@ -216,9 +254,24 @@ begin
     Exit;
 
   if VarIsNull(AFocusedRecord.Values[cxGridColCPNamaBarang.Index]) then
-    edNamaBarang.Text := ''
-  else
-    edNamaBarang.Text := AFocusedRecord.Values[cxGridColCPNamaBarang.Index];
+  begin
+    edNamaBarang.Text     := '';
+    edMarkUpSebelum.Value := 0;
+    edMarkUpSesudah.Value := 0;
+
+    edHJBelumDisc.Value   := 0;
+    edHJSetelahDisc.Value := 0;
+    edHJPPN.Value         := 0;
+  end else begin
+    edNamaBarang.Text     := AFocusedRecord.Values[cxGridColCPNamaBarang.Index];
+    edMarkUpSebelum.Value := AFocusedRecord.Values[cxGridColCPBHJMarkUp.Index];
+    edMarkUpSesudah.Value := AFocusedRecord.Values[cxGridColCPMarkUp.Index];
+
+    edHJBelumDisc.Value   := AFocusedRecord.Values[cxGridColCPBHJSellpriceDisc.Index];
+    edHJSetelahDisc.Value := AFocusedRecord.Values[cxGridColCPSellpriceDisc.Index];
+
+    edHJPPN.Value         := AFocusedRecord.Values[cxGridColCPSellPriceDiscPPN.Index];
+  end;
 end;
 
 function TfrmDialogCrazyPrice.GetCDSSatuan: TClientDataset;
@@ -227,6 +280,11 @@ begin
     FCDSSatuan := TDBUtils.DSToCDS(DMClient.DSProviderClient.Satuan_GetDSLookup(), Self);
 
   Result := FCDSSatuan;
+end;
+
+function TfrmDialogCrazyPrice.IsBisaSimpan: Boolean;
+begin
+  Result := True;
 end;
 
 procedure TfrmDialogCrazyPrice.LoadData(AID : String);
