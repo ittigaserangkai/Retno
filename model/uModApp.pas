@@ -97,6 +97,14 @@ type
   TModComp = class(TComponent)
   end;
 
+  TModApps = class(TObject)
+  private
+    FAPPs: TObjectList<TModApp>;
+    function GetAPPs: TObjectList<TModApp>;
+  public
+    property APPs: TObjectList<TModApp> read GetAPPs write FAPPs;
+  end;
+
 
 
 
@@ -462,6 +470,14 @@ begin
   //dummy method agar rtti diregister secara full
   //akan error "delphi cannot instantiate type" pada datasnapserver kalau ini tidak dilakukan
   //jalankan di initialization section
+end;
+
+function TModApps.GetAPPs: TObjectList<TModApp>;
+begin
+  if FAPPs = nil then
+    FAPPs := TObjectList<TModApp>.Create();
+
+  Result := FAPPs;
 end;
 
 initialization

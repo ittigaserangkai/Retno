@@ -5,6 +5,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   ClientHeight = 512
   ClientWidth = 808
   OldCreateOrder = True
+  ExplicitTop = -25
   ExplicitWidth = 824
   ExplicitHeight = 551
   PixelsPerInch = 96
@@ -31,6 +32,34 @@ inherited frmCrazyPrice: TfrmCrazyPrice
           Height = 419
           ExplicitWidth = 804
           ExplicitHeight = 419
+          inherited cxGridView: TcxGridDBTableView
+            OnEditing = cxGridViewEditing
+            OptionsData.Editing = True
+            object cxgridColCPPilih: TcxGridDBColumn
+              DataBinding.FieldName = 'pilih'
+              PropertiesClassName = 'TcxCheckBoxProperties'
+              Width = 100
+              IsCaptionAssigned = True
+            end
+          end
+        end
+        object chksELECTaLL: TCheckBox
+          Left = 12
+          Top = 4
+          Width = 76
+          Height = 17
+          Caption = 'PILIH SEMUA'
+          Color = clInactiveCaption
+          Ctl3D = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Trebuchet MS'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 1
         end
       end
     end

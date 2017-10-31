@@ -258,7 +258,6 @@ uses
   ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
   ufrmListAgreementDetil in '..\module\marketing\ufrmListAgreementDetil.pas' {frmListAgreementDetil},
   ufrmAgreementVoucher in '..\module\customer_support\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
@@ -270,7 +269,8 @@ uses
   ufrmDialogGenerateVoucher in '..\module\customer_support\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
   ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
-  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment};
+  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

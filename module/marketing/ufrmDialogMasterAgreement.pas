@@ -20,7 +20,6 @@ type
 
   TfrmDialogMasterAgreement = class(TfrmMasterDialog)
     pnl1: TPanel;
-    lblInput: TLabel;
     lblComboGrid: TLabel;
     lbl9: TLabel;
     lbl3: TLabel;
@@ -33,7 +32,6 @@ type
     lbl12: TLabel;
     lbl6: TLabel;
     lbl13: TLabel;
-    edtSupName: TEdit;
     edtCustName: TEdit;
     edtNoAgreement: TEdit;
     dtStart: TcxDateEdit;
@@ -41,45 +39,34 @@ type
     edtDesc: TEdit;
     cbbPKP: TComboBox;
     cbbPPH: TComboBox;
-    pnl2: TPanel;
-    lbl5: TLabel;
-    lbl14: TLabel;
-    edtUnitPrice: TEdit;
-    lblNewRow: TLabel;
-    lblRemoveRow: TLabel;
-    lblSearchProduct: TLabel;
     intedtInvoice: TcxCurrencyEdit;
     intedtPeriode: TcxCurrencyEdit;
     lblTipeBayar: TLabel;
-    curredtTotal: TcxCurrencyEdit;
     cbCustCode: TcxLookupComboBox;
-    cbSupCode: TcxLookupComboBox;
-    pcDialogAgreement: TcxPageControl;
-    tsKontrak: TcxTabSheet;
     cxGrid: TcxGrid;
-    grdGridView: TcxGridDBTableView;
+    grdGridDetail: TcxGridDBTableView;
     cxcolGridViewColumn2: TcxGridDBColumn;
     cxcolGridViewColumn3: TcxGridDBColumn;
     cxcolGridViewColumn4: TcxGridDBColumn;
     cxcolGridViewColumn5: TcxGridDBColumn;
-    grdlvlMaster: TcxGridLevel;
-    tsJadwalInvoice: TcxTabSheet;
-    cxgrd1: TcxGrid;
-    grdInvoice: TcxGridDBTableView;
-    cxcol1: TcxGridDBColumn;
-    cxcol2: TcxGridDBColumn;
-    cxcol3: TcxGridDBColumn;
-    cxcol4: TcxGridDBColumn;
-    cxcol5: TcxGridDBColumn;
-    cxcol6: TcxGridDBColumn;
-    cxcol7: TcxGridDBColumn;
-    grdlvlMaster1: TcxGridLevel;
+    grdlvlDetail: TcxGridLevel;
     cxcolDetilUnitPrice: TcxGridDBColumn;
     cxcolDetilSubTotal: TcxGridDBColumn;
     cbbTipeBayar: TComboBox;
     cbPajak: TComboBox;
     Label1: TLabel;
     cxDateEdit1: TcxDateEdit;
+    lbl14: TLabel;
+    curredtTotal: TcxCurrencyEdit;
+    grdlvlInvoice: TcxGridLevel;
+    grdGridInvoice: TcxGridDBTableView;
+    grdGridInvoiceColumn1: TcxGridDBColumn;
+    grdGridInvoiceColumn2: TcxGridDBColumn;
+    grdGridInvoiceColumn3: TcxGridDBColumn;
+    grdGridInvoiceColumn4: TcxGridDBColumn;
+    grdGridInvoiceColumn5: TcxGridDBColumn;
+    grdGridInvoiceColumn6: TcxGridDBColumn;
+    grdGridInvoiceColumn7: TcxGridDBColumn;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -359,9 +346,9 @@ begin
   Result := False;
 //  if AgreementID>0 then
 //     FNewMasterAgreement.LoadByID(aAgreementID, DialogUnit);
-  if Trim(cbSupCode.Text)='' then
-     iSup_Unt_ID := 0
-  else iSup_Unt_ID := DialogUnit;
+//  if Trim(cbSupCode.Text)='' then
+//     iSup_Unt_ID := 0
+//  else iSup_Unt_ID := DialogUnit;
 
 //  FNewMasterAgreement.UpdateData(CustCode, DialogUnit, dtEnd.Date,
 //             dtStart.Date, aAgreementID, intedtInvoice.Value,
@@ -655,7 +642,7 @@ begin
   if FormMode = fmEdit then
     showDataEdit();
 
-  tsKontrak.Show;
+  //tsKontrak.Show;
   CountEndEffectiveDate;
 
   CurrTipeProdukId := '';
@@ -892,12 +879,12 @@ end;
 
 procedure TfrmDialogMasterAgreement.cbpSupCodeCloseUp(Sender: TObject);
 begin
-  if cbSupCode.ItemIndex>1 then
-  begin
+//  if cbSupCode.ItemIndex>1 then
+//  begin
 //    SupCode         := cbSupCode.Cells[1, cbpSupCode.Row];
 //    cbSupCode.Text := SupCode;
 //    edtSupName.Text := cbSupCode.Cells[2, cbpSupCode.Row];
-  end;
+//  end;
 end;
 
 procedure TfrmDialogMasterAgreement.strgGridCellValidate(Sender: TObject;
@@ -1031,11 +1018,11 @@ procedure TfrmDialogMasterAgreement.cbpSupCodeKeyUp(Sender: TObject;
 //var arrParam: TArr;
 begin
   inherited;
-  if Length(cbSupCode.Text) = 1 then
-  begin
-    supCode   := UpperCase(cbSupCode.Text);
+//  if Length(cbSupCode.Text) = 1 then
+//  begin
+//    supCode   := UpperCase(cbSupCode.Text);
 //    LoadDropDownData(cbSupCode, GetListSuplierByUnitId(DialogUnit, supCode + '%'));
-  end;
+//  end;
 
   if (Key = Word(Ord(VK_F5))) then
   begin
@@ -1469,8 +1456,8 @@ end;
 procedure TfrmDialogMasterAgreement.cbCustCodeChange(Sender: TObject);
 begin
   inherited;
-    cbSupCode.Text  := '';
-    edtSupName.Text := '';
+//    cbSupCode.Text  := '';
+//    edtSupName.Text := '';
 end;
 
 procedure TfrmDialogMasterAgreement.lblNewRowClick(Sender: TObject);
@@ -1519,7 +1506,7 @@ procedure TfrmDialogMasterAgreement.footerDialogMasterbtnCloseClick(
 begin
   inherited;
   Self.ModalResult := mrCancel;
-  if grdGridView.DataController.RecordCount > 0then
+  if grdGridDetail.DataController.RecordCount > 0then
   if CommonDlg.Confirm('Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrNo then
   begin
     Self.ModalResult := mrNone;
