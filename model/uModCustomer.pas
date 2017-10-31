@@ -24,7 +24,7 @@ type
     FCUST_TELP: string;
     FCUST_TITLE: string;
     FCUST_TOP: Integer;
-    FMODMERCHANDISE_GRUP: TModMerchandiseGroup;
+    FMODSUPLIERMERCHANGROUP: TModSuplierMerchanGroup;
     FMODTIPE_PEMBAYARAN: TModTipePembayaran;
   published
     property CUST_ADDRESS: string read FCUST_ADDRESS write FCUST_ADDRESS;
@@ -46,8 +46,8 @@ type
     property CUST_TELP: string read FCUST_TELP write FCUST_TELP;
     property CUST_TITLE: string read FCUST_TITLE write FCUST_TITLE;
     property CUST_TOP: Integer read FCUST_TOP write FCUST_TOP;
-    property MODMERCHANDISE_GRUP: TModMerchandiseGroup read FMODMERCHANDISE_GRUP
-        write FMODMERCHANDISE_GRUP;
+    property MODSUPLIERMERCHANGROUP: TModSuplierMerchanGroup read
+        FMODSUPLIERMERCHANGROUP write FMODSUPLIERMERCHANGROUP;
     property MODTIPE_PEMBAYARAN: TModTipePembayaran read FMODTIPE_PEMBAYARAN write
         FMODTIPE_PEMBAYARAN;
   end;
