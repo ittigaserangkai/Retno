@@ -256,20 +256,21 @@ uses
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
   ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
   ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
-<<<<<<< HEAD
-  ufrmCustomerVoucher in '..\module\voucher\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
-  ufrmDialogCustomerVoucher in '..\module\voucher\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
-  ufrmAgreementVoucher in '..\module\voucher\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
-  ufrmDialogAgreementVoucher in '..\module\voucher\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
-  ufrmGenerateVoucher in '..\module\voucher\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
-  ufrmDialogGenerateVoucher in '..\module\voucher\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
-  ufrmPopupDetailVoucher in '..\module\voucher\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher};
-=======
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice};
->>>>>>> 7045e0c9deb965a4b08725c5b339b1c951dc4f09
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
+  ufrmListAgreementDetil in '..\module\marketing\ufrmListAgreementDetil.pas' {frmListAgreementDetil},
+  ufrmAgreementVoucher in '..\module\customer_support\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
+  ufrmGenerateVoucher in '..\module\customer_support\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
+  ufrmCustomerVoucher in '..\module\customer_support\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
+  ufrmDialogAgreementVoucher in '..\module\customer_support\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
+  ufrmDialogCustomerVoucher in '..\module\customer_support\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
+  ufrmPopupDetailVoucher in '..\module\customer_support\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher},
+  ufrmDialogGenerateVoucher in '..\module\customer_support\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
+  ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
+  ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
+  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment};
 
 {$R *.res}
 
@@ -280,6 +281,9 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmDialogCrazyPrice, frmDialogCrazyPrice);
+<<<<<<< HEAD
+  Application.CreateForm(TfrmCrazyPrice, frmCrazyPrice);
+=======
+>>>>>>> 1d991f2e8e5f71afa2e97a969dc5fa948bbc6d34
   Application.Run;
 end.

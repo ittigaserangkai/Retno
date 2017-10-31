@@ -1982,7 +1982,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbAgFakturPajak'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -2014,7 +2014,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbVoucher'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -2041,7 +2041,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxbrbElectricTransaction'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -2348,17 +2348,14 @@ object frmMain: TfrmMain
     object dxbrbElectricInvoice: TdxBarButton
       Action = actElectricInvoice
       Category = 0
-      OnClick = dxbrbElectricInvoiceClick
     end
     object dxbrbElectricTransaction: TdxBarButton
       Action = actElectricTransaction
       Category = 0
-      OnClick = dxbrbElectricTransactionClick
     end
     object dxbrbElectricPayment: TdxBarButton
       Action = actElectricPayment
       Category = 0
-      OnClick = dxbrbElectricPaymentClick
     end
   end
 end

@@ -250,7 +250,6 @@ uses
   ufrmSearchDataCustomer in '..\module\customer_support\ufrmSearchDataCustomer.pas' {frmSearchDataCustomer},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
-  ufrmMasterAgreement in '..\module\marketing\ufrmMasterAgreement.pas' {frmMasterAgreement},
   ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement},
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},

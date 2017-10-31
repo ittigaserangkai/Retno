@@ -17,10 +17,11 @@ uses
 
 type
   TfrmCrazyPrice = class(TfrmMasterBrowse)
-    cxgridColCPPilih: TcxGridDBColumn;
-    chksELECTaLL: TCheckBox;
+    chkPilih: TcxCheckBox;
+    cxGridColCPPilih: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure chkPilihClick(Sender: TObject);
     procedure cxGridViewEditing(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; var AAllow: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -83,15 +84,30 @@ begin
   ShowDialogForm(TfrmDialogCrazyPrice, sIDs);
 end;
 
+procedure TfrmCrazyPrice.chkPilihClick(Sender: TObject);
+begin
+  inherited;
+  if FCDS = nil then
+    Exit;
+
+  FCDS.First;
+
+  while not FCDS.Eof do
+  begin
+    FCDS.Edit;
+    FCDS.FieldByName('pilih').AsBoolean := chkPilih.Checked;
+    FCDS.Post;
+
+    FCDS.Next;
+  end;
+
+end;
+
 procedure TfrmCrazyPrice.cxGridViewEditing(Sender: TcxCustomGridTableView;
     AItem: TcxCustomGridTableItem; var AAllow: Boolean);
 begin
   inherited;
-  if UpperCase(AItem.Caption) = 'PILIH' then
-  begin
-    AAllow := True;
-  end else
-    AAllow := False;
+  AAllow := AItem.Index = 0;
 end;
 
 procedure TfrmCrazyPrice.FormClose(Sender: TObject;
@@ -113,6 +129,7 @@ begin
 
   if Assigned(FCDS) then FreeAndNil(FCDS);
 
+  chkPilih.Checked := False;
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.CrazyPrice_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
   cxGridView.LoadFromCDS(FCDS);
   cxGridView.SetVisibleColumns(['CRAZY_BARANG_ID','CRAZY_KONVERSI', 'CRAZY_SATUAN_ID','CRAZY_ORGANIZATION_ID','CRAZYPRICE_ID'],False);

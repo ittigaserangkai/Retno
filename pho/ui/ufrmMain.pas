@@ -558,7 +558,7 @@ uses
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
   uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
-  ufrmMasterAgreement, ufrmFakturPajakAgreement, ufrmListAgreementDetil,
+  ufrmFakturPajakAgreement, ufrmListAgreementDetil,
   ufrmAgreementVoucher, ufrmCustomerVoucher, ufrmGenerateVoucher,
   ufrmElectricInvoice, ufrmElectricTransaction, ufrmElectricPayment;
 
@@ -863,7 +863,7 @@ end;
 
 procedure TfrmMain.actMasterAgreementExecute(Sender: TObject);
 begin
-    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
+//    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);

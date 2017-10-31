@@ -9,6 +9,9 @@
         <Projects Include="pho\ho.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="pstore\store.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="ho:Make">
         <MSBuild Projects="pho\ho.dproj" Targets="Make"/>
     </Target>
+    <Target Name="store">
+        <MSBuild Projects="pstore\store.dproj"/>
+    </Target>
+    <Target Name="store:Clean">
+        <MSBuild Projects="pstore\store.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="store:Make">
+        <MSBuild Projects="pstore\store.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="server;ho"/>
+        <CallTarget Targets="server;ho;store"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="server:Clean;ho:Clean"/>
+        <CallTarget Targets="server:Clean;ho:Clean;store:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="server:Make;ho:Make"/>
+        <CallTarget Targets="server:Make;ho:Make;store:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
