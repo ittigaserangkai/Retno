@@ -50,8 +50,23 @@ type
         FCRAZY_START_DATE;
   end;
 
+  TModCrazyPrices = class(TModApp)
+  private
+    FCrazyPrices: tobjectList<TModCrazyPrice>;
+    procedure SetCrazyPrices(const Value: tobjectList<TModCrazyPrice>);
+  public
+    property CrazyPrices: tobjectList<TModCrazyPrice> read FCrazyPrices write
+        SetCrazyPrices;
+  end;
+
 
 implementation
+
+procedure TModCrazyPrices.SetCrazyPrices(const Value:
+    tobjectList<TModCrazyPrice>);
+begin
+  FCrazyPrices := Value;
+end;
 
 
 

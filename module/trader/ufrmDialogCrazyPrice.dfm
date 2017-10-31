@@ -3,7 +3,6 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   ClientHeight = 479
   ClientWidth = 960
   ExplicitLeft = 5
-  ExplicitTop = -123
   ExplicitWidth = 976
   ExplicitHeight = 518
   PixelsPerInch = 96
@@ -37,6 +36,12 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         OptionsData.Appending = True
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
+        object cxGridColCPCrazyPrice_ID: TcxGridColumn
+          AlternateCaption = 'ID'
+          Caption = 'CRAZYPRICE_ID'
+          Visible = False
+          Width = 88
+        end
         object cxGridColCPKode: TcxGridColumn
           Caption = 'Kode [F5]'
           PropertiesClassName = 'TcxButtonEditProperties'
@@ -128,6 +133,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.OnValidate = cxGridColCPDiscPropertiesValidate
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPMarkUp: TcxGridColumn
@@ -144,7 +150,6 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
-          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 71
         end
@@ -358,6 +363,9 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   end
   inherited actlstMasterDialog: TActionList
     Top = 72
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

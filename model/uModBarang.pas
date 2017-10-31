@@ -449,7 +449,7 @@ function TModBarang.GetHargaJual(sBarCode, TipeHargaID: String; UOMID: String =
 var
   BHJ: TModBarangHargaJual;
   lKonv: TModKonversi;
-  lUOM: TModSatuan;
+//  lUOM: TModSatuan;
 begin
   Result  := nil;
 

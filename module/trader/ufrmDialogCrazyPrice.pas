@@ -51,6 +51,8 @@ type
     cxGridColCPBHJSellpriceDisc: TcxGridColumn;
     cxGridColCPBHJSellpriceDiscPPN: TcxGridColumn;
     cxGridColCPTglInput: TcxGridColumn;
+    cxGridColCPCrazyPrice_ID: TcxGridColumn;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxGridTableCPDataControllerNewRecord(
@@ -68,9 +70,12 @@ type
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGridColCPSatuanPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGridColCPDiscPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FCDSSatuan: TClientDataset;
     function GetCDSSatuan: TClientDataset;
+    function IsBisaHapus: Boolean;
     procedure LoadDataBHJ(ARecordIndex : Integer; ABHJ : TModBarangHargaJual);
     procedure LoadDataOrg(ARecordIndex : Integer; AOrg : TModOrganization);
     function IsBisaSimpan: Boolean;
@@ -89,6 +94,31 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmDialogCrazyPrice.actDeleteExecute(Sender: TObject);
+var
+  I: Integer;
+  lCP: TModCrazyPrice;
+  lObjectCPs: tobjectList<TModApp>;
+begin
+  inherited;
+  if not IsBisaHapus then
+    Exit;
+
+  lObjectCPs := TObjectList<TModApp>.Create();
+  for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
+  begin
+    lCP := TModCrazyPrice.CreateID(cxGridTableCP.Text(I, cxGridColCPCrazyPrice_ID.Index));
+    lObjectCPs.Add(lCP);
+  end;
+
+  if DMClient.CrudCrazyPriceClient.DeleteBatch(lObjectCPs) then
+  begin
+    TAppUtils.Information('Berhasil Hapus');
+    ModalResult := mrOk;
+  end;
+
+end;
+
 procedure TfrmDialogCrazyPrice.actSaveExecute(Sender: TObject);
 var
   I: Integer;
@@ -102,7 +132,7 @@ begin
   lObjectCPs := TObjectList<TModApp>.Create();
   for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
   begin
-    lCP := TModCrazyPrice.Create;
+    lCP := TModCrazyPrice.CreateID(cxGridTableCP.Text(I, cxGridColCPCrazyPrice_ID.Index));
     cxGridTableCP.LoadObjectData(lCP, i);
 
     lObjectCPs.Add(lCP);
@@ -114,7 +144,6 @@ begin
     ModalResult := mrOk;
   end;
 
-
 end;
 
 procedure TfrmDialogCrazyPrice.FormCreate(Sender: TObject);
@@ -122,6 +151,32 @@ begin
   inherited;
   TcxExtLookupComboBoxProperties(cxGridTableCP.Columns[cxGridColCPSatuan.Index].Properties).LoadFromCDS(CDSSatuan,'REF$SATUAN_ID', 'sat_code',['SAT_NAME','SAT_GROUP', 'SAT_URUTAN','OPC_UNIT', 'OPM_UNIT', 'SAT_HO_AUTHORIZE', 'REF$SATUAN_ID'],Self);
   TcxExtLookupComboBoxProperties(cxGridTableCP.Columns[cxGridColCPSatuan.Index].Properties).SetMultiPurposeLookup;
+
+end;
+
+procedure TfrmDialogCrazyPrice.cxGridColCPDiscPropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+var
+  dCOGS: Double;
+  dMU: Double;
+  dPPN: Double;
+  dSellpriceDisc: Double;
+  dSellpriceDiscPPN: Double;
+begin
+  inherited;
+  if VarIsNull(DisplayValue) then
+    Exit;
+
+  dPPN              := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPPPN.Index);
+  dCOGS             := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPCOGS.Index);
+  dSellpriceDiscPPN := dCOGS * (100 - DisplayValue)/100;
+  dSellpriceDisc    := dSellpriceDiscPPN / ((dPPN + 100) / 100);
+  dMU               := (dSellpriceDiscPPN - dCOGS) / dCOGS * 100;
+
+  cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPSellpriceDisc.Index, dSellpriceDisc);
+  cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPSellPriceDiscPPN.Index, dSellpriceDiscPPN);
+  cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPMarkUp.Index, dMU);
 
 end;
 
@@ -263,14 +318,14 @@ begin
     edHJSetelahDisc.Value := 0;
     edHJPPN.Value         := 0;
   end else begin
-    edNamaBarang.Text     := AFocusedRecord.Values[cxGridColCPNamaBarang.Index];
-    edMarkUpSebelum.Value := AFocusedRecord.Values[cxGridColCPBHJMarkUp.Index];
-    edMarkUpSesudah.Value := AFocusedRecord.Values[cxGridColCPMarkUp.Index];
+    edNamaBarang.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNamaBarang.Index);
+    edMarkUpSebelum.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJMarkUp.Index);
+    edMarkUpSesudah.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPMarkUp.Index);
 
-    edHJBelumDisc.Value   := AFocusedRecord.Values[cxGridColCPBHJSellpriceDisc.Index];
-    edHJSetelahDisc.Value := AFocusedRecord.Values[cxGridColCPSellpriceDisc.Index];
+    edHJBelumDisc.Value   := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJSellpriceDisc.Index);
+    edHJSetelahDisc.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPSellpriceDisc.Index);
 
-    edHJPPN.Value         := AFocusedRecord.Values[cxGridColCPSellPriceDiscPPN.Index];
+    edHJPPN.Value         := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPSellPriceDiscPPN.Index);
   end;
 end;
 
@@ -282,14 +337,52 @@ begin
   Result := FCDSSatuan;
 end;
 
+function TfrmDialogCrazyPrice.IsBisaHapus: Boolean;
+begin
+  Result := False;
+
+  if not TAppUtils.Confirm('Anda Yakin Akan Menghapus Data ?') then
+    Exit;
+
+  Result := True;
+end;
+
 function TfrmDialogCrazyPrice.IsBisaSimpan: Boolean;
 begin
   Result := True;
 end;
 
 procedure TfrmDialogCrazyPrice.LoadData(AID : String);
+var
+  lCPS: TModApps;
+  I: Integer;
+  lBrg: TModBarang;
+  lCP: TModCrazyPrice;
+  lModBHJ: TModBarangHargaJual;
+  lOrg: TModOrganization;
 begin
+  lCPS := DMClient.CrudCrazyPriceClient.RetrieveBatch(TModCrazyPrice.ClassName, AID);
+  for I := 0 to lCPS.APPs.Count - 1 do
+  begin
+    cxGridTableCP.DataController.AppendRecord;
 
+    lCP := TModCrazyPrice(lCPS.APPs[i]);
+    cxGridTableCP.SetObjectData(lCP, i);
+
+    lOrg := TModOrganization(DMClient.CrudClient.Retrieve(TModOrganization.ClassName,lCP.CRAZY_ORGANIZATION.ID));
+    LoadDataOrg(I, lOrg);
+
+    lBrg := TModBarang(DMClient.CrudClient.Retrieve(TModBarang.ClassName, lCP.CRAZY_BARANG.ID));
+    cxGridTableCP.SetValue(i, cxGridColCPPLU.Index, lBrg.BRG_CODE);
+    cxGridTableCP.SetValue(i, cxGridColCPNamaBarang.Index, lBrg.BRG_NAME);
+
+    lModBHJ := DMClient.CrudBarangHargaJualClient.RetrieveByPLU(lCP.CRAZY_BARANG, lCP.CRAZY_SATUAN);
+    try
+      LoadDataBHJ(cxGridTableCP.RecordIndex, lModBHJ);
+    finally
+      lModBHJ.Free;
+    end;
+  end;
 end;
 
 procedure TfrmDialogCrazyPrice.LoadDataBHJ(ARecordIndex : Integer; ABHJ :
