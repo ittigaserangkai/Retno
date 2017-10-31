@@ -370,21 +370,21 @@ begin
 
   //sementara manual dulu
   Try
-      UnitID       := _INIReadString(CONFIG_FILE,DB_POS,'UnitID');
-      FPOSCode     := _INIReadString(CONFIG_FILE,DB_POS,'POSCode');
-      FCashierCode := '';
-      FCashierName := '';
-      FBeginningBalanceID := ''; //95;
+    UnitID       := _INIReadString(CONFIG_FILE,DB_POS,'UnitID');
+    FPOSCode     := _INIReadString(CONFIG_FILE,DB_POS,'POSCode');
+    FCashierCode := '';
+    FCashierName := '';
+    FBeginningBalanceID := ''; //95;
 
-      TransNo := '';
+    TransNo := '';
 
-      with sbMain do
-      begin
-        Panels[0].Text := 'Store DB : ' + FDBServerStore;  //IfThen(IsStoreConnected,'','Not') + ' Connected';
-        Panels[1].Text := 'POS DB : ' + FDBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
-        Panels[2].Text := 'POS Code : ' + FPOSCode;
-        Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
-      end;    // with
+    with sbMain do
+    begin
+      Panels[0].Text := 'Store DB : ' + FDBServerStore;  //IfThen(IsStoreConnected,'','Not') + ' Connected';
+      Panels[1].Text := 'POS DB : ' + FDBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
+      Panels[2].Text := 'POS Code : ' + FPOSCode;
+      Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
+    end;    // with
 
     {
     Cnn := TConnection.create(frmMain.FIBServerStore,frmMain.FIBUserStore,
@@ -683,3 +683,4 @@ begin
 end;
 
 end.
+

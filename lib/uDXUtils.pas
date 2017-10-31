@@ -212,7 +212,9 @@ type
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
 
-function VarToFLoat(aValue: Variant): Double;
+function VarToInt(aValue: Variant): Integer;
+
+function VarToFloat(aValue: Variant): Double;
 
 
 implementation
@@ -236,7 +238,15 @@ begin
   cxGridLevel.GridView := cxGridDBTableView;
 end;
 
-function VarToFLoat(aValue: Variant): Double;
+function VarToFloat(aValue: Variant): Double;
+begin
+  if VarIsNull(aValue) then
+    Result := 0
+  else
+    Result := aValue;
+end;
+
+function VarToInt(aValue: Variant): Integer;
 begin
   if VarIsNull(aValue) then
     Result := 0

@@ -31,7 +31,6 @@ type
     sgBarangColumn7: TcxGridColumn;
     grdLvlBarang: TcxGridLevel;
     pbBarang: TcxProgressBar;
-    pmLookup: TPopupMenu;
     tmrInfo: TTimer;
     cxGrdBarang: TcxGridDBTableView;
     cxGrdBarangColumn1: TcxGridDBColumn;

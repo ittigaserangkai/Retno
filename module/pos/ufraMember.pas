@@ -18,13 +18,10 @@ type
     cxcolNama: TcxGridColumn;
     cxcolValid: TcxGridColumn;
     cxGrid: TcxGrid;
-    dlgSaveLookup: TSaveDialog;
     edNama: TEdit;
-    ExporttoCSV1: TMenuItem;
     grdlvlLookupMember: TcxGridLevel;
     Label1: TLabel;
     pbLookup: TcxProgressBar;
-    pmLookup: TPopupMenu;
     pnlHeader: TPanel;
     rbDepan: TRadioButton;
     rbSemua: TRadioButton;
@@ -32,7 +29,6 @@ type
     procedure edNamaChange(Sender: TObject);
     procedure edNamaKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure ExporttoCSV1Click(Sender: TObject);
     procedure sgLookupDblClick(Sender: TObject);
     procedure sgLookupKeyDown(Sender: TObject; var Key: Word; Shift:
         TShiftState);
@@ -107,15 +103,6 @@ begin
   else if (key in [VK_F3]) then
   begin
     rbSemua.Checked := True;
-  end;
-end;
-
-procedure TfraMember.ExporttoCSV1Click(Sender: TObject);
-begin
-  if dlgSaveLookup.Execute then
-  begin
-//    sgLookup.SaveToCSV(dlgSaveLookup.FileName);
-    ShowMessage('Berhasil export ke:' + dlgSaveLookup.FileName);
   end;
 end;
 

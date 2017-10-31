@@ -93,6 +93,7 @@ type
     FTRANSD_TRANS_NO: string;
   public
     class function GetTableName: String; override;
+    function GetTotalExclTax: Double;
   published
     property BARANG_HARGA_JUAL: TModBarangHargaJual read FBARANG_HARGA_JUAL write
         FBARANG_HARGA_JUAL;
@@ -177,6 +178,13 @@ end;
 class function TModTransaksiDetil.GetTableName: String;
 begin
   Result := 'TRANSAKSI_DETIL';
+end;
+
+function TModTransaksiDetil.GetTotalExclTax: Double;
+begin
+  Result := Self.TRANSD_TOTAL;
+  if Self.TRANSD_PPN <> 0 then
+    Result := Result / ((100+Self.TRANSD_PPN)/100);
 end;
 
 class function TModTransaksiCard.GetTableName: String;

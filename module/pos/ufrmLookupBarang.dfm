@@ -263,10 +263,6 @@ object frmLookupBarang: TfrmLookupBarang
     Visible = False
     Width = 544
   end
-  object pmLookup: TPopupMenu
-    Left = 89
-    Top = 195
-  end
   object tmrInfo: TTimer
     Enabled = False
     Interval = 500
