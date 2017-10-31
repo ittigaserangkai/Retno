@@ -91,7 +91,6 @@ type
     FCCUoMs: TStrings;
 		FDiscAMCPersen: Double;
     FIsEditMode: Boolean;
-    FModMember: TModMember;
     FModTransaksi: TModTransaksi;
     FTrMemberID: string;
     FProductCount: Double;
@@ -101,7 +100,6 @@ type
 		FTotalRupiahBarangAMC: Currency;
     FTotalRupiahBarangPPN: Currency;
     FTotalRupiahBarangCC: Currency;
-    FServerDateTime    : TDatetime;
     FModTipeHarga: TModTipeHarga;
     FTotalRupiahBarangBKP: Currency;
     FTotalRupiahBarangDPP: Currency;
@@ -123,8 +121,7 @@ type
         ErrorText: TCaption; var Error: Boolean);
     procedure DoLookupBarang(aPLU: string = '');
     procedure DoLookupMember;
-    function GetDCGrid: TcxGridDataController;
-    function GetModMember: TModMember;
+    function GetDCItem: TcxGridDataController;
     function GetModTransaksi: TModTransaksi;
     function GetModTipeHarga: TModTipeHarga;
 //    procedure LoadPendingFromCSV(AMemberCode: String);
@@ -159,8 +156,7 @@ type
     procedure ActiveGrid;
     function FindInGrid(BHJ: TModBarangHargaJual): Integer;
     function LoadByPLU(aPLU_Qty: String; aUoM: String = ''; aIsLookupActive:
-        Boolean = True; aIsLoadFromPending: Boolean = False; aDiscMan: Double = 0;
-        aDiscOto: string = ''): Integer;
+        Boolean = False): Integer;
     function SaveToDBPendingOld: Boolean;
     procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True;
         aEditing: Boolean = True);
@@ -168,10 +164,10 @@ type
         Double): Integer;
     procedure SetVisibleContrabon(IsVisible: Boolean);
     procedure UpdateData;
+    procedure LoadData(aID: string = '');
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
-    property DCGrid: TcxGridDataController read GetDCGrid;
+    property DCItem: TcxGridDataController read GetDCItem;
 		property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
-    property ModMember: TModMember read GetModMember write FModMember;
     property ModTransaksi: TModTransaksi read GetModTransaksi write FModTransaksi;
     property ModTipeHarga: TModTipeHarga read GetModTipeHarga write FModTipeHarga;
     property TrMemberID: string read FTrMemberID write FTrMemberID;
@@ -303,9 +299,8 @@ end;
 procedure TfrmTransaksi.FormCreate(Sender: TObject);
 begin
   try
-    FServerDateTime      := DMClient.POSClient.GetServerDate;
-    edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
     sgHeader := TStringList.Create;
+    LoadData();
     SetGridHeader_Transaksi;
   finally
     edPLU.Text := '';
@@ -352,7 +347,7 @@ begin
   else
   if (Key in [Ord('P'), Ord('p')]) and (ssShift in Shift) and (ssCtrl in Shift)then
   begin
-    if sgTransaksi.DataController.Values[1, _KolPLU] = '' then Exit;
+    if sgTransaksi.DataController.Values[0, _KolPLU] = '' then Exit;
     if not SaveToDBPending then
     begin
       CommonDlg.ShowError('Gagal menyimpan Transaksi Pending !');
@@ -435,16 +430,7 @@ end;
 
 procedure TfrmTransaksi.FormShow(Sender: TObject);
 begin
-//  {$IFDEF RMS}
-  sgTransaksi.SetVisibleColumns(_KolDiscManForm, _KolDiscMan, False);
-//  {$ENDIF}
   sgTransaksi.SetVisibleColumns(_KolIsDecimal, _ColCount, False);
-
-  if (edNoPelanggan.Text = '') or (edNoPelanggan.Text = '0') then
-    LoadMember(GetDefaultMember)
-  else
-    LoadMember(edNoPelanggan.Text);
-
   sValueBefore := '';
 end;
 
@@ -600,25 +586,25 @@ begin
   Try
     edNoPelanggan.OnExit := nil;
 
-    if not ModMember.ReloadByCode(aMemberNo) then
+    if not ModTransaksi.Member.ReloadByCode(aMemberNo) then
     begin
       ShowInfo('Data ModMember tersebut TIDAK DITEMUKAN');
       exit;
     end;
 
-    if ModMember.MEMBER_IS_VALID = 0 then
+    if ModTransaksi.Member.MEMBER_IS_VALID = 0 then
     begin
       ShowInfo('Data ModMember tidak valid');
       exit;
     end;
 
-    if ModMember.MEMBER_IS_ACTIVE = 0 then
+    if ModTransaksi.Member.MEMBER_IS_ACTIVE = 0 then
     begin
       ShowInfo('Data ModMember tidak aktif');
       exit;
     end;
-    edNoPelanggan.Text                  := ModMember.MEMBER_CARD_NO;
-    edNamaPelanggan.Text                := ModMember.MEMBER_NAME;
+    edNoPelanggan.Text                  := ModTransaksi.Member.MEMBER_CARD_NO;
+    edNamaPelanggan.Text                := ModTransaksi.Member.MEMBER_NAME;
     sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
     SaveTransactionToCSV(False);
   Finally
@@ -629,7 +615,7 @@ end;
 procedure TfrmTransaksi.edNoPelangganExit(Sender: TObject);
 begin
   edNoPelanggan.Style.Color := clWhite;
-  if Trim(edNoPelanggan.Text) <> Trim(ModMember.MEMBER_CARD_NO)  then
+  if Trim(edNoPelanggan.Text) <> Trim(ModTransaksi.Member.MEMBER_CARD_NO)  then
     LoadMember(edNoPelanggan.Text);
 end;
 
@@ -640,7 +626,7 @@ begin
     sgHeader.SaveToFile(ExtractFilePath(application.ExeName) + 'trans_header.csv');
 
   if ASaveDetail then
-    SavePendingToCSV(ModMember.MEMBER_CARD_NO);
+    SavePendingToCSV(ModTransaksi.Member.MEMBER_CARD_NO);
 
 end;
 
@@ -666,7 +652,7 @@ begin
   edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
   HitungTotalRupiah;
   SaveTransactionToCSV;
-  SavePendingToCSV(ModMember.MEMBER_CARD_NO);
+  SavePendingToCSV(ModTransaksi.Member.MEMBER_CARD_NO);
   FocusToPLUEdit;
 end;
 
@@ -680,30 +666,31 @@ var
   sSQL: string;
 begin
 //  Result := nil;
-  try
-    if FCCUoMs = nil then
-    begin
-      FCCUoMs := TStringList.Create;
-      sSQL := 'select ccuom_sat_code '
-        + ' from ccuom ';
-
-      with cOpenQuery(sSQL) do
-      begin
-        try
-          while not eof do
-          begin
-            FCCUoMs.Add(Fields[0].AsString);
-            Next;
-          end;
-        finally
-          Free;
-        end;
-      end;
-
-    end;
-  except
-  end;
-
+  FCCUoMs := TStringList.Create;
+//  try
+//    if FCCUoMs = nil then
+//    begin
+//      FCCUoMs := TStringList.Create;
+//      sSQL := 'select ccuom_sat_code '
+//        + ' from ccuom ';
+//
+//      with cOpenQuery(sSQL) do
+//      begin
+//        try
+//          while not eof do
+//          begin
+//            FCCUoMs.Add(Fields[0].AsString);
+//            Next;
+//          end;
+//        finally
+//          Free;
+//        end;
+//      end;
+//
+//    end;
+//  except
+//  end;
+//
   Result := FCCUoMs;
 end;
 
@@ -840,6 +827,7 @@ begin
   Result            := False;
 //  if not ValidateData then exit;
   UpdateData;
+  ModTransaksi.TRANS_IS_PENDING := 1;
   Try
     ModTransaksi.ID := DMClient.CrudPOClient.SaveToDBID(ModTransaksi);
     Result          := True;
@@ -1339,7 +1327,7 @@ begin
     begin
 //      edPLU.Text          := Copy(edPLU.Text, 1, Pos('*', edPLU.Text)) + lfrm.PLU; //??
       edPLU.Text          := lfrm.PLU;
-      LoadByPLU(edPLU.Text, lfrm.UOM, True);
+      LoadByPLU(edPLU.Text, lfrm.UOM);
     end;
   finally
     edPLU.SetFocus;
@@ -1378,22 +1366,18 @@ begin
   end;
 end;
 
-function TfrmTransaksi.GetDCGrid: TcxGridDataController;
+function TfrmTransaksi.GetDCItem: TcxGridDataController;
 begin
   Result := sgTransaksi.DataController;
-end;
-
-function TfrmTransaksi.GetModMember: TModMember;
-begin
-  if not Assigned(FModMember) then
-    FModMember := TModMember.Create;
-  Result := FModMember;
 end;
 
 function TfrmTransaksi.GetModTransaksi: TModTransaksi;
 begin
   if not Assigned(FModTransaksi) then
+  begin
     FModTransaksi := TModTransaksi.Create;
+    FModTransaksi.MEMBER := TModMember.Create;
+  end;
   Result := FModTransaksi;
 end;
 
@@ -1405,8 +1389,7 @@ begin
 end;
 
 function TfrmTransaksi.LoadByPLU(aPLU_Qty: String; aUoM: String = '';
-    aIsLookupActive: Boolean = True; aIsLoadFromPending: Boolean = False;
-    aDiscMan: Double = 0; aDiscOto: string = ''): Integer;
+    aIsLookupActive: Boolean = False): Integer;
 var
   BHJ: TModBarangHargaJual;
   IsNewRecord: Boolean;
@@ -1743,44 +1726,44 @@ function TfrmTransaksi.SetProductToGrid(aBarang: TModBarang; aBHJ:
     TModBarangHargaJual; aQTY: Double): Integer;
 begin
   Result  := FindInGrid(aBHJ);
-  if Result < 0 then Result := DCGrid.AppendRecord;
-  DCGrid.Values[Result, _KolPLU]            := aBarang.BRG_CODE;
-  DCGrid.Values[Result, _KolNamaBarang]     := aBarang.BRG_NAME;
-  DCGrid.Values[Result, _KolIsDecimal]      := aBarang.BRG_IS_DECIMAL;
-  DCGrid.Values[Result, _KolIsDiscGMC]      := aBarang.BRG_IS_DISC_GMC;
-  DCGrid.Values[Result, _KolIsMailer]       := aBHJ.BHJ_IS_MAILER;
-  DCGrid.Values[Result, _KolIsCharge]       := 0;
+  if Result < 0 then Result := DCItem.AppendRecord;
+  DCItem.Values[Result, _KolPLU]            := aBarang.BRG_CODE;
+  DCItem.Values[Result, _KolNamaBarang]     := aBarang.BRG_NAME;
+  DCItem.Values[Result, _KolIsDecimal]      := aBarang.BRG_IS_DECIMAL;
+  DCItem.Values[Result, _KolIsDiscGMC]      := aBarang.BRG_IS_DISC_GMC;
+  DCItem.Values[Result, _KolIsMailer]       := aBHJ.BHJ_IS_MAILER;
+  DCItem.Values[Result, _KolIsCharge]       := 0;
 
   //    if IsCCUoM(NewUOM.UOM) then   //belum tahu
-  //      DCGrid.Values[Result, _KolIsCharge] := 1;
+  //      DCItem.Values[Result, _KolIsCharge] := 1;
 
   aBarang.RefPajak.Reload();
-  DCGrid.Values[Result, _KolMaxDiscQTY]     := aBHJ.BHJ_MAX_QTY_DISC;
-  DCGrid.Values[Result, _KolPPN]            := aBarang.RefPajak.PJK_PPN;
-  DCGrid.Values[Result, _KolPPNBM]          := aBarang.RefPajak.PJK_PPNBM;
-  DCGrid.Values[Result, _KolCOGS]           := aBarang.GetHargaAvg(aBHJ.Satuan.ID);
-  DCGrid.Values[Result, _KolLastCost]       := aBarang.GetLastCost(aBHJ.Satuan.ID);
-  DCGrid.Values[Result, _KolBHJID]          := aBHJ.ID;
-  DCGrid.Values[Result, _KolTipeBarang]     := aBarang.TipeBarang.ID;
-  DCGrid.Values[Result, _KolHargaAvg]       := DCGrid.Values[Result, _KolCOGS];
-  if aBarang.RefPajak.PJK_PPN <> 0 then DCGrid.Values[Result, _KolIsBKP] := 1;
-  DCGrid.Values[Result, _KolJumlah]         := VarToFLoat(DCGrid.Values[Result, _KolJumlah]) + aQTY;
-  DCGrid.Values[Result, _KolUOM]            := aBHJ.Satuan.SAT_CODE;
-  DCGrid.Values[Result, _KolHargaExcPajak]
+  DCItem.Values[Result, _KolMaxDiscQTY]     := aBHJ.BHJ_MAX_QTY_DISC;
+  DCItem.Values[Result, _KolPPN]            := aBarang.RefPajak.PJK_PPN;
+  DCItem.Values[Result, _KolPPNBM]          := aBarang.RefPajak.PJK_PPNBM;
+  DCItem.Values[Result, _KolCOGS]           := aBarang.GetHargaAvg(aBHJ.Satuan.ID);
+  DCItem.Values[Result, _KolLastCost]       := aBarang.GetLastCost(aBHJ.Satuan.ID);
+  DCItem.Values[Result, _KolBHJID]          := aBHJ.ID;
+  DCItem.Values[Result, _KolTipeBarang]     := aBarang.TipeBarang.ID;
+  DCItem.Values[Result, _KolHargaAvg]       := DCItem.Values[Result, _KolCOGS];
+  if aBarang.RefPajak.PJK_PPN <> 0 then DCItem.Values[Result, _KolIsBKP] := 1;
+  DCItem.Values[Result, _KolJumlah]         := VarToFLoat(DCItem.Values[Result, _KolJumlah]) + aQTY;
+  DCItem.Values[Result, _KolUOM]            := aBHJ.Satuan.SAT_CODE;
+  DCItem.Values[Result, _KolHargaExcPajak]
     := RoundTo(aBHJ.BHJ_SELL_PRICE / ((aBarang.RefPajak.PJK_PPN + 100) / 100), igPrice_Precision);
-  DCGrid.Values[Result, _KolHarga]          := RoundTo(aBHJ.BHJ_SELL_PRICE, igPrice_Precision);  //inc Tax
-  DCGrid.Values[Result, _KolDisc]           := RoundTo(aBHJ.BHJ_DISC_NOMINAL, igPrice_Precision);
-  DCGrid.Values[Result, _KolDiscMan]        := 0; //tidak dipakai di goro
-  DCGrid.Values[Result, _KolDiscManForm]    := 0; //tidak dipakai di goro
-  DCGrid.Values[Result, _Koldiscoto]        := ''; //aDiscOto;
+  DCItem.Values[Result, _KolHarga]          := RoundTo(aBHJ.BHJ_SELL_PRICE, igPrice_Precision);  //inc Tax
+  DCItem.Values[Result, _KolDisc]           := RoundTo(aBHJ.BHJ_DISC_NOMINAL, igPrice_Precision);
+  DCItem.Values[Result, _KolDiscMan]        := 0; //tidak dipakai di goro
+  DCItem.Values[Result, _KolDiscManForm]    := 0; //tidak dipakai di goro
+  DCItem.Values[Result, _Koldiscoto]        := ''; //aDiscOto;
   if aBHJ.BHJ_SELL_PRICE = 0 then
-    DCGrid.Values[Result, _KolIsKontrabon]  := 1
+    DCItem.Values[Result, _KolIsKontrabon]  := 1
   else
-    DCGrid.Values[Result, _KolIsKontrabon]  := 0;
-  DCGrid.Values[Result, _KolTotal]          := GetTotalHarga(Result);
-  DCGrid.Values[Result, _KolPairCode]       := aBarang.BRG_GALON_CODE;
-  DCGrid.Values[Result, _KolIsGalon]        := aBarang.BRG_IS_GALON;
-  DCGrid.Values[Result, _KolDetailID]       := '';
+    DCItem.Values[Result, _KolIsKontrabon]  := 0;
+  DCItem.Values[Result, _KolTotal]          := GetTotalHarga(Result);
+  DCItem.Values[Result, _KolPairCode]       := aBarang.BRG_GALON_CODE;
+  DCItem.Values[Result, _KolIsGalon]        := aBarang.BRG_IS_GALON;
+  DCItem.Values[Result, _KolDetailID]       := '';
 end;
 
 
@@ -1799,7 +1782,7 @@ var
   i: Integer;
   lItem: TModTransaksiDetil;
 begin
-  ModTransaksi.MEMBER                   := ModMember;
+//  ModTransaksi.MEMBER                   := ModMember;
   ModTransaksi.AUTUNIT                  := TModUnit.CreateID(frmMain.UnitID);
   ModTransaksi.TRANS_DATE               := DMClient.POSClient.GetServerDate();
   ModTransaksi.TRANS_BAYAR_CARD         := 0;
@@ -1809,26 +1792,28 @@ begin
   ModTransaksi.TRANS_TOTAL_BAYAR        := 0;
   ModTransaksi.TRANS_TOTAL_TRANSACTION  := 0;
   ModTransaksi.TRANS_TOTAL_PPN          := 0;
+  ModTransaksi.OP_CREATE                := frmMain.AuthUser;
+  ModTransaksi.BALANCE                  := frmMain.BeginningBalance;
   ModTransaksi.TransaksiDetils.Clear;
 
-  for i := 0 to DCGrid.RecordCount-1 do
+  for i := 0 to DCItem.RecordCount-1 do
   begin
     lItem                           := TModTransaksiDetil.Create;
-    lItem.BARANG_HARGA_JUAL         := TModBarangHargaJual.CreateID(DCGrid.Values[i, _KolBHJID]);
-    lItem.TIPEBARANG                := TModTipeBarang.CreateID(DCGrid.Values[i, _KolTipeBarang]);
-    lItem.TRANSD_BRG_CODE           := VarToStr(DCGrid.Values[i, _KolPLU]);
-    lItem.TRANSD_COGS               := VarToFloat(DCGrid.Values[i, _KolHargaAvg]);
-    lItem.TRANSD_SAT_CODE           := VarToStr(DCGrid.Values[i, _KolUOM]);
-    lItem.TRANSD_SELL_PRICE         := VarToFloat(DCGrid.Values[i, _KolHarga]);
-    lItem.TRANSD_SELL_PRICE_DISC    := lItem.TRANSD_SELL_PRICE - VarToFloat(DCGrid.Values[i, _KolDisc]);
-    lItem.TRANSD_PPN                := VarToFloat(DCGrid.Values[i, _KolPPN]);
-    lItem.TRANSD_PPNBM              := VarToFloat(DCGrid.Values[i, _KolPPNBM]);
-    lItem.TRANSD_LAST_COST          := VarToFloat(DCGrid.Values[i, _KolLastCost]);
-    lItem.TRANSD_TOTAL              := VarToFloat(DCGrid.Values[i, _KolTotal]);
+    lItem.BARANG_HARGA_JUAL         := TModBarangHargaJual.CreateID(DCItem.Values[i, _KolBHJID]);
+    lItem.TIPEBARANG                := TModTipeBarang.CreateID(DCItem.Values[i, _KolTipeBarang]);
+    lItem.TRANSD_BRG_CODE           := VarToStr(DCItem.Values[i, _KolPLU]);
+    lItem.TRANSD_COGS               := VarToFloat(DCItem.Values[i, _KolHargaAvg]);
+    lItem.TRANSD_SAT_CODE           := VarToStr(DCItem.Values[i, _KolUOM]);
+    lItem.TRANSD_SELL_PRICE         := VarToFloat(DCItem.Values[i, _KolHarga]);
+    lItem.TRANSD_SELL_PRICE_DISC    := lItem.TRANSD_SELL_PRICE - VarToFloat(DCItem.Values[i, _KolDisc]);
+    lItem.TRANSD_PPN                := VarToFloat(DCItem.Values[i, _KolPPN]);
+    lItem.TRANSD_PPNBM              := VarToFloat(DCItem.Values[i, _KolPPNBM]);
+    lItem.TRANSD_LAST_COST          := VarToFloat(DCItem.Values[i, _KolLastCost]);
+    lItem.TRANSD_TOTAL              := VarToFloat(DCItem.Values[i, _KolTotal]);
     lItem.TRANSD_TRANS_NO           := ModTransaksi.TRANS_NO;
-    lItem.TRANSD_COGS               := VarToFloat(DCGrid.Values[i, _KolCOGS]);
-    lItem.TRANSD_QTY                := VarToFloat(DCGrid.Values[i, _KolJumlah]);
-    lItem.TRANSD_IS_BKP             := VarToInt(DCGrid.Values[i, _KolIsBKP]);
+    lItem.TRANSD_COGS               := VarToFloat(DCItem.Values[i, _KolCOGS]);
+    lItem.TRANSD_QTY                := VarToFloat(DCItem.Values[i, _KolJumlah]);
+    lItem.TRANSD_IS_BKP             := VarToInt(DCItem.Values[i, _KolIsBKP]);
     lItem.TRANSD_TOTAL_B4_TAX       := lItem.GetTotalExclTax;
     lItem.TRANSD_BRG_IS_PJK_INCLUDE := 1;
     lItem.TRANSD_DISC_CARD          := 0; //set later
@@ -1836,6 +1821,91 @@ begin
       := ModTransaksi.TRANS_TOTAL_TRANSACTION + lItem.TRANSD_TOTAL;
     ModTransaksi.TransaksiDetils.Add(lItem);
   end;
+
+  Self.HitungTotalRupiah;
+end;
+
+procedure TfrmTransaksi.LoadData(aID: string = '');
+var
+  i: Integer;
+  lItem: TModTransaksiDetil;
+  lModBarang: TModBarang;
+begin
+
+  if aID <> '' then
+  begin
+    ModTransaksi := DMClient.CRUDPOSClient.Retrieve(TModTransaksi.ClassName, aID) as TModTransaksi;
+    ModTransaksi.MEMBER.Reload();
+  end else
+  begin
+    if Assigned(FModTransaksi) then FreeAndNil(FModTransaksi); //reset;
+    ModTransaksi.TRANS_NO := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
+    ModTransaksi.MEMBER.ReloadByCode(GetDefaultMember);
+  end;
+
+  edNoTrnTerakhir.Text                := ModTransaksi.TRANS_NO;
+  edNoPelanggan.Text                  := ModTransaksi.Member.MEMBER_CARD_NO;
+  edNamaPelanggan.Text                := ModTransaksi.Member.MEMBER_NAME;
+  sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
+
+  lModBarang := TModBarang.Create;
+  Try
+
+    for lItem in ModTransaksi.TransaksiDetils do
+    begin
+      i := DCItem.AppendRecord;
+      lModBarang.ReloadByCode(lItem.TRANSD_BRG_CODE);
+      lModBarang.RefPajak.Reload();
+      lItem.BARANG_HARGA_JUAL.Reload(False);
+      DCItem.Values[i, _KolBHJID]         := lItem.BARANG_HARGA_JUAL.ID;
+      DCItem.Values[i, _KolNamaBarang]    := lModBarang.BRG_NAME;
+      DCItem.Values[i, _KolTipeBarang]    := Self.ModTipeHarga.ID;
+      DCItem.Values[i, _KolPLU]           := lItem.TRANSD_BRG_CODE;
+      DCItem.Values[i, _KolCOGS]          := lItem.TRANSD_COGS;
+      DCItem.Values[i, _KolHargaAvg]      := lItem.TRANSD_COGS;
+      DCItem.Values[i, _KolUOM]           := lItem.TRANSD_SAT_CODE;
+      DCItem.Values[i, _KolHarga]         := lItem.TRANSD_SELL_PRICE;
+      DCItem.Values[i, _KolDisc]          := lItem.TRANSD_SELL_PRICE - lItem.TRANSD_SELL_PRICE_DISC;
+      DCItem.Values[i, _KolPPN]           := lItem.TRANSD_PPN;
+      DCItem.Values[i, _KolPPNBM]         := lItem.TRANSD_PPNBM;
+//      DCItem.Values[i, _KolTotal]         := lItem.TRANSD_TOTAL;
+      DCItem.Values[i, _KolLastCost]      := lItem.TRANSD_LAST_COST;
+      DCItem.Values[i, _KolJumlah]        := lItem.TRANSD_QTY;
+      DCItem.Values[i, _KolIsBKP]         := lItem.TRANSD_IS_BKP;
+      DCItem.Values[i, _KolMaxDiscQTY]    := lItem.BARANG_HARGA_JUAL.BHJ_MAX_QTY_DISC;
+      DCItem.Values[i, _KolIsBKP]         := 0;
+      if lModBarang.RefPajak.PJK_PPN <> 0 then DCItem.Values[i, _KolIsBKP] := 1;
+      DCItem.Values[i, _KolHargaExcPajak]
+        := RoundTo(lItem.BARANG_HARGA_JUAL.BHJ_SELL_PRICE /
+          ((lModBarang.RefPajak.PJK_PPN + 100) / 100), igPrice_Precision);
+      DCItem.Values[i, _KolDiscMan]        := 0; //tidak dipakai di goro
+      DCItem.Values[i, _KolDiscManForm]    := 0; //tidak dipakai di goro
+      DCItem.Values[i, _Koldiscoto]        := ''; //aDiscOto;
+      if lItem.BARANG_HARGA_JUAL.BHJ_SELL_PRICE = 0 then
+        DCItem.Values[i, _KolIsKontrabon]  := 1
+      else
+        DCItem.Values[i, _KolIsKontrabon]  := 0;
+      DCItem.Values[i, _KolTotal]          := GetTotalHarga(i);
+      DCItem.Values[i, _KolPairCode]       := lModBarang.BRG_GALON_CODE;
+      DCItem.Values[i, _KolIsGalon]        := lModBarang.BRG_IS_GALON;
+      DCItem.Values[i, _KolDetailID]       := '';
+
+    end;
+    HitungTotalRupiah;
+  Finally
+    FreeAndNil(lModBarang);
+  End;
 end;
 
 end.
+
+//To DO :
+//Ganti cOpenQuery ke DSProvider Rest -> done
+//Ganti Lookup Barang from frame to Dialog -> done
+//Ganti Lookup Member from frame to Dialog -> done
+//Set Ke Grid via Object -> Grid -> done
+//UpdateData -> done
+//SaveDB to Pending -> done
+
+//LoadData ->
+//Setting Discount ->

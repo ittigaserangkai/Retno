@@ -4,7 +4,7 @@ interface
 
 uses
   uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang,
-  System.Generics.Collections, uModCreditCard;
+  System.Generics.Collections, uModCreditCard, uModAuthUser, System.SysUtils;
 
 type
   TModTransaksiDetil = class;
@@ -25,6 +25,7 @@ type
     FTRANS_IS_JURNAL: Integer;
     FTRANS_IS_PENDING: Integer;
     FTRANS_NO: string;
+    FOP_CREATE: TModAuthUser;
     FTRANS_PEMBULAT: Integer;
     FTRANS_TOTAL_BAYAR: Double;
     FTRANS_TOTAL_DISC_GMC: Double;
@@ -32,6 +33,7 @@ type
     FTRANS_TOTAL_TRANSACTION: Double;
     function GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
   public
+    destructor Destroy; override;
     property TransaksiDetils: TobjectList<TModTransaksiDetil> read
         GetTransaksiDetils write FTransaksiDetils;
   published
@@ -56,6 +58,8 @@ type
     property TRANS_IS_PENDING: Integer read FTRANS_IS_PENDING write
         FTRANS_IS_PENDING;
     property TRANS_NO: string read FTRANS_NO write FTRANS_NO;
+    [AttributeOfForeign('OP_CREATE')]
+    property OP_CREATE: TModAuthUser read FOP_CREATE write FOP_CREATE;
     property TRANS_PEMBULAT: Integer read FTRANS_PEMBULAT write FTRANS_PEMBULAT;
     property TRANS_TOTAL_BAYAR: Double read FTRANS_TOTAL_BAYAR write
         FTRANS_TOTAL_BAYAR;
@@ -92,6 +96,7 @@ type
     FTRANSD_TOTAL_CEIL: Integer;
     FTRANSD_TRANS_NO: string;
   public
+    destructor Destroy; override;
     class function GetTableName: String; override;
     function GetTotalExclTax: Double;
   published
@@ -167,12 +172,27 @@ type
 
 implementation
 
+destructor TModTransaksi.Destroy;
+begin
+  inherited;
+  if Assigned(FMEMBER) then
+    FreeAndNil(FMember);
+  //jangan destroy AUTUNIT karena diset dari luar
+end;
+
 function TModTransaksi.GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
 begin
   if FTransaksiDetils = nil then
     FTransaksiDetils := TObjectList<TModTransaksiDetil>.Create();
 
   Result := FTransaksiDetils;
+end;
+
+destructor TModTransaksiDetil.Destroy;
+begin
+  inherited;
+  if Assigned(FBARANG_HARGA_JUAL) then FreeAndNil(FBARANG_HARGA_JUAL);
+  //jangan destroy AUTUNIT karena diset dari luar
 end;
 
 class function TModTransaksiDetil.GetTableName: String;
