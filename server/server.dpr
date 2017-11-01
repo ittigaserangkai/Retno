@@ -73,7 +73,11 @@ uses
   uModDOTrader in '..\model\uModDOTrader.pas',
   uServerPOS in 'unit\uServerPOS.pas',
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
-  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas';
+  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
+  uModCustomer in '..\model\uModCustomer.pas',
+  uModAgreement in '..\model\uModAgreement.pas',
+  uModElectric in '..\model\uModElectric.pas',
+  uModProdukJasa in '..\model\uModProdukJasa.pas';
 
 {$R *.res}
 

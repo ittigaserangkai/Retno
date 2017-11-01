@@ -4,7 +4,7 @@ interface
 
 uses
   uModApp, uModRefPajak, uModTipePembayaran, uModCustomer, uModProdukJasa,
-  uModBank;
+  uModBank, uModOrganization, uModUnit;
 
 type
   TModAgreement = class(TModApp)
@@ -19,10 +19,10 @@ type
     FAGR_IS_PPN: Integer;
     FAGR_NO: string;
     FAGR_PER_CNT: Integer;
-    FMODABANK: TModBank;
-    FMODCUSTOMER: TModCustomer;
+    FMODORGANIZATION: TModOrganization;
     FMODPAJAK: TModRefPajak;
     FMODTIPEBAYAR: TModTipePembayaran;
+    FMODUNIT: TModUnit;
   published
     property AGR_DATE_END: TDatetime read FAGR_DATE_END write FAGR_DATE_END;
     property AGR_DATE_INV: TDateTime read FAGR_DATE_INV write FAGR_DATE_INV;
@@ -36,11 +36,12 @@ type
     property AGR_IS_PPN: Integer read FAGR_IS_PPN write FAGR_IS_PPN;
     property AGR_NO: string read FAGR_NO write FAGR_NO;
     property AGR_PER_CNT: Integer read FAGR_PER_CNT write FAGR_PER_CNT;
-    property MODABANK: TModBank read FMODABANK write FMODABANK;
-    property MODCUSTOMER: TModCustomer read FMODCUSTOMER write FMODCUSTOMER;
+    property MODORGANIZATION: TModOrganization read FMODORGANIZATION write
+        FMODORGANIZATION;
     property MODPAJAK: TModRefPajak read FMODPAJAK write FMODPAJAK;
     property MODTIPEBAYAR: TModTipePembayaran read FMODTIPEBAYAR write
         FMODTIPEBAYAR;
+    property MODUNIT: TModUnit read FMODUNIT write FMODUNIT;
   end;
 
   TModAgreementDetil = class(TModApp)
@@ -71,7 +72,7 @@ type
     FAGRJDWL_TERM_NO: Integer;
     FAGRJDWL_TRANSDATE: TDateTime;
     FMODAGREEMENT: TModAgreement;
-    FMODCUSTOMER: TModCustomer;
+    FMODORGANIZATION: TModOrganization;
   published
     property AGRJDWL_DESCRIPTION: string read FAGRJDWL_DESCRIPTION write
         FAGRJDWL_DESCRIPTION;
@@ -84,7 +85,8 @@ type
     property AGRJDWL_TRANSDATE: TDateTime read FAGRJDWL_TRANSDATE write
         FAGRJDWL_TRANSDATE;
     property MODAGREEMENT: TModAgreement read FMODAGREEMENT write FMODAGREEMENT;
-    property MODCUSTOMER: TModCustomer read FMODCUSTOMER write FMODCUSTOMER;
+    property MODORGANIZATION: TModOrganization read FMODORGANIZATION write
+        FMODORGANIZATION;
   end;
 
 implementation
