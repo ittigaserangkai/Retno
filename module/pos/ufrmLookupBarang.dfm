@@ -128,8 +128,6 @@ object frmLookupBarang: TfrmLookupBarang
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
     object sgBarang: TcxGridTableView
-      OnDblClick = sgBarangDblClick
-      OnKeyDown = sgBarangKeyDown
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>

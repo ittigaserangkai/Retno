@@ -3,11 +3,12 @@ unit ufrmPayment;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Dialogs, ExtCtrls, StdCtrls, Mask, ufraLookUpCC, uSpell, uNewPosTransaction,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
   cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids, FireDAC.Comp.Client,
-  uNewBarangStockSirkulasi, uNewBarang;
+  uNewBarangStockSirkulasi, uNewBarang, uModBarang, uModTransaksi,
+  Vcl.Controls, Vcl.Forms;
 
 type
   VoucherDetail = record
@@ -150,20 +151,12 @@ type
     FCCBayar: Currency;
     FCCDisc: Double;
     FCCDiscNominal: Currency;
-    FSisaUang_Maksimum: Currency;
-		FDiscAMCPersen: Double;
-		FDiscAMCRupiah: Currency;
     FIsCashbackCard: Boolean;
     FIsCreditCard: Boolean;
     FKonstantaPembulatan: Currency;
 		FPembulatan: Currency;
     FShowFooterKembalian: Integer;
-		FSisaUang: Currency;
-		FTotalBarangAMC: Currency;
-    FTotalBarangPPN: Currency;
     FTotalBarangCC: Currency;
-		FTotalBayar: Currency;
-		FTotalBelanja: Currency;
     FVoucherLainJumlah: TStrings;
     FVoucherLainNilai: TStrings;
     FVoucherAssalaamNomor: TStrings;
@@ -174,62 +167,56 @@ type
     FTipeIDConcession: Integer;
     FIsConcession: Boolean;
     FIsSaved: Boolean;
+    FModTransaksi: TModTransaksi;
     FNewBarang: TNewBarang;
+    FSisaUang: Currency;
+    FSisaUang_Maksimum: Currency;
+    procedure AddVoucherAssalaam(AVoucherNo: String; AVoucherNilai: Double);
+    procedure AddVoucherLain(AVoucherQty, AVoucherNilai: Double);
+    function CekPLUQtyInGrid(APLU: String; AQTY: Integer): Boolean;
     procedure ClearCCForm;
     function GetAmountNonJB(aRow: Integer): Double;
-		function GetDiscAMCRupiah: Currency;
+    function GetCCChargePersen: Double;
+    function GetKonstantaPembulatan: Currency;
+    function GetKuponBotolStatus(ANoTransaksi: String): Integer;
     function GetNewBarang: TNewBarang;
 		function GetPembulatan: Currency;
-		function GetTotalBayar: Currency;
+    function GetSisaBayar(AExclude: Double = 0): Currency;
     function GetVoucherLainJumlah: TStrings;
     function GetVoucherLainNilai: TStrings;
     function GetVoucherAssalaamNomor: TStrings;
     function GetVoucherAssalaamJumlah: TStrings;
     function GetVoucherAssalaamNilai: TStrings;
-    procedure LoadCreditCard(ACode: String);
-    //procedure LineReceived(Sender : TLineSocketBase; const line : string;
-    //          complete : Boolean);
-    procedure ParsingPrintStrukTrans;
-    procedure SetCCDisc(const Value: Double);
-    procedure SetCCDiscNominal(const Value: Currency);
-    property IsSaved: Boolean read FIsSaved write FIsSaved;
-  public
-    procedure AddVoucherAssalaam(AVoucherNo: String; AVoucherNilai: Double);
-    procedure AddVoucherLain(AVoucherQty, AVoucherNilai: Double);
-    function CekPLUQtyInGrid(APLU: String; AQTY: Integer): Boolean;
-    function GetCCChargePersen: Double;
-		function GetKonstantaPembulatan: Currency;
-    function GetKuponBotolStatus(ANoTransaksi: String): Integer;
     function GetVoucherStatus(ANoVoucher: String): Integer;
-    function GetSisaBayar(AExclude: Double = 0): Currency;
     function Get_Qty_Precision: string;
-    function HitungCCCharge: Currency;
-		procedure HitungSisaUang;
-		procedure ResetAll;
-    procedure ShowCashBack;
     procedure HideCashBack;
     procedure HideInfo;
+    function HitungCCCharge: Currency;
+    procedure HitungSisaUang;
+    procedure LoadCreditCard(ACode: String);
     //procedure LineReceived(Sender : TLineSocketBase; const line : string;
     //          complete : Boolean);
     procedure ParsingPrintCardValidasi;
     procedure ParsingPrintConsValidasi;
+    //procedure LineReceived(Sender : TLineSocketBase; const line : string;
+    //          complete : Boolean);
+    procedure ParsingPrintStrukTrans;
+    procedure ResetAll;
     procedure ResetVoucher;
-    function SaveToDB: Boolean;
+    function SaveToDBOld: Boolean;
+    procedure SetCCDisc(const Value: Double);
+    procedure SetCCDiscNominal(const Value: Currency);
+    procedure ShowCashBack;
     procedure ShowInfo(AInfo: String; ALabelColor: TColor = clRed;
         ABackgroundColor: TColor = clYellow);
-		procedure ShowTotalBayar;
-    procedure UpdateDataLokal(ATotalBelanja, ATotalBarangAMC: Currency;
-        ADiscAMCPersen: Double; ATotalBarangCC: Currency; ATotalBarangPPN:
-        Currency);
+    procedure ShowTotalBayar;
     property CardID: string read FCardID write FCardID;
-    property TipeIDConcession: Integer read FTipeIDConcession write
-        FTipeIDConcession;
-		property CashBackNilai: Currency read FCashBackNilai write FCashBackNilai;
-		property CashNilai: Currency read FCashNilai write FCashNilai;
-		property CCCharge: Currency read FCCCharge write FCCCharge;
+    property CashBackNilai: Currency read FCashBackNilai write FCashBackNilai;
+    property CashNilai: Currency read FCashNilai write FCashNilai;
+    property CCCharge: Currency read FCCCharge write FCCCharge;
     property CCChargePersen: Currency read FCCChargePersen write FCCChargePersen;
     property CCLimit: Currency read FCCLimit write FCCLimit;
-		property CCNilai: Currency read FCCNilai write FCCNilai;
+    property CCNilai: Currency read FCCNilai write FCCNilai;
     property CC_Minimum: Currency read FCC_Minimum write FCC_Minimum;
     property Cashback_Minimum: Currency read FCashback_Minimum write
         FCashback_Minimum;
@@ -240,39 +227,40 @@ type
     property CCBayar: Currency read FCCBayar write FCCBayar;
     property CCDisc: Double read FCCDisc write SetCCDisc;
     property CCDiscNominal: Currency read FCCDiscNominal write SetCCDiscNominal;
-    property SisaUang_Maksimum: Currency read FSisaUang_Maksimum write
-        FSisaUang_Maksimum;
-		property DiscAMCPersen: Double read FDiscAMCPersen write FDiscAMCPersen;
-		property DiscAMCRupiah: Currency read GetDiscAMCRupiah write FDiscAMCRupiah;
     property IsCashbackCard: Boolean read FIsCashbackCard write FIsCashbackCard;
-    property IsCreditCard: Boolean read FIsCreditCard write FIsCreditCard;
     property IsConcession: Boolean read FIsConcession write FIsConcession;
+    property IsCreditCard: Boolean read FIsCreditCard write FIsCreditCard;
+    property IsSaved: Boolean read FIsSaved write FIsSaved;
     property KonstantaPembulatan: Currency read FKonstantaPembulatan write
         FKonstantaPembulatan;
+    property ModTransaksi: TModTransaksi read FModTransaksi write FModTransaksi;
     property NewBarang: TNewBarang read GetNewBarang write FNewBarang;
-		property Pembulatan: Currency read GetPembulatan write FPembulatan;
+    property Pembulatan: Currency read GetPembulatan write FPembulatan;
     property ShowFooterKembalian: Integer read FShowFooterKembalian write
         FShowFooterKembalian;
-		property SisaUang: Currency read FSisaUang write FSisaUang;
-		property TotalBarangAMC: Currency read FTotalBarangAMC write FTotalBarangAMC;
-    property TotalBarangPPN: Currency read FTotalBarangPPN write FTotalBarangPPN;
+    property SisaUang: Currency read FSisaUang write FSisaUang;
+    property SisaUang_Maksimum: Currency read FSisaUang_Maksimum write
+        FSisaUang_Maksimum;
+    property TipeIDConcession: Integer read FTipeIDConcession write
+        FTipeIDConcession;
     property TotalBarangCC: Currency read FTotalBarangCC write FTotalBarangCC;
-		property TotalBayar: Currency read GetTotalBayar write FTotalBayar;
-		property TotalBelanja: Currency read FTotalBelanja write FTotalBelanja;
-    property VoucherLainJumlah: TStrings read GetVoucherLainJumlah write
-        FVoucherLainJumlah;
-    property VoucherLainNilai: TStrings read GetVoucherLainNilai write
-        FVoucherLainNilai;
-    property VoucherAssalaamNomor: TStrings read GetVoucherAssalaamNomor write
-        FVoucherAssalaamNomor;
     property VoucherAssalaamJumlah: TStrings read GetVoucherAssalaamJumlah write
         FVoucherAssalaamJumlah;
     property VoucherAssalaamNilai: TStrings read GetVoucherAssalaamNilai write
         FVoucherAssalaamNilai;
+    property VoucherAssalaamNomor: TStrings read GetVoucherAssalaamNomor write
+        FVoucherAssalaamNomor;
+    property VoucherLainJumlah: TStrings read GetVoucherLainJumlah write
+        FVoucherLainJumlah;
     property VoucherLainJumlahTotal: Double read FVoucherLainJumlahTotal write
         FVoucherLainJumlahTotal;
+    property VoucherLainNilai: TStrings read GetVoucherLainNilai write
+        FVoucherLainNilai;
     property VoucherLainNilaiTotal: Double read FVoucherLainNilaiTotal write
         FVoucherLainNilaiTotal;
+  public
+    class function CreateAt(aParent: TForm): TfrmPayment;
+    procedure LoadData(aModTransaksi: TModTransaksi);
   end;
 
 var
@@ -340,23 +328,23 @@ begin
   edtCashBack.Value := 0;
 end;
 
+class function TfrmPayment.CreateAt(aParent: TForm): TfrmPayment;
+begin
+  Result              := TfrmPayment.Create(Application);
+  Result.BoundsRect   := aParent.ClientRect;
+  Result.Left         := aParent.ClientToScreen(Point(0,0)).X;
+  Result.Top          := aParent.ClientToScreen(Point(0,0)).Y;
+  Result.BorderIcons  := [];
+  Result.BorderStyle  := bsNone;
+end;
+
 procedure TfrmPayment.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   //frmTransaksi.edNoPelanggan.Text := '';
   //frmTransaksi.edNoPelanggan.Text := '0';
-  if not assigned(frmTransaksi) then
-    frmTransaksi.FormShow(frmTransaksi);
-  Action := caFree;  
-end;
-
-function TfrmPayment.GetDiscAMCRupiah: Currency;
-begin
-  FDiscAMCRupiah := 0;
-  try
-	  FDiscAMCRupiah := (TotalBarangAMC * DiscAMCPersen) / 100;
-  except
-  end;
-	Result := FDiscAMCRupiah;
+//  if not assigned(frmTransaksi) then
+//    frmTransaksi.FormShow(frmTransaksi);
+//  Action := caFree;
 end;
 
 function TfrmPayment.GetKonstantaPembulatan: Currency;
@@ -382,40 +370,10 @@ begin
 	Result := FPembulatan;
 end;
 
-function TfrmPayment.GetTotalBayar: Currency;
-var
-	dTemp: Currency;
-begin
-  FTotalBayar := 0;
-  try
-    FTotalBayar := (TotalBelanja + CCCharge)
-    	- (DiscAMCRupiah + edtBotolValue.Value + edtGoroValue.Value + VoucherLainNilaiTotal )
-  except
-  end;
-
-  FTotalBayar := Ceil(FTotalBayar);
-  Pembulatan := 0;
-  try
-    if edtJenisKartuName.Text = '' then
-    begin
-      dTemp := FTotalBayar / GetKonstantaPembulatan;
-//      dTemp := dTemp + 0.5;
-//      dTemp := RoundTo(dTemp);
-      dTemp := Ceil(dTemp);
-      dTemp := dTemp * GetKonstantaPembulatan;
-      Pembulatan := dTemp - FTotalBayar;
-      FTotalBayar := dTemp;
-    end;
-  except
-  end;
-
-	Result := FTotalBayar;
-end;
-
 procedure TfrmPayment.HitungSisaUang;
 begin
-	SisaUang := (edtNilaiTunai.Value + edtBayarCC.Value)-(edtNilaiBayar.Value);
-  if SisaUang < 0 then
+  edtSisaUang.Value := (edtNilaiTunai.Value + edtBayarCC.Value)-(edtNilaiBayar.Value);
+  if edtSisaUang.Value  < 0 then
   begin
     edtSisaUang.Style.Color := clRed;
     edtSisaUang.Style.Font.Color := clBlue;
@@ -426,90 +384,43 @@ begin
     edtSisaUang.Style.Font.Color := clYellow;
   end;
 
-  //edtSisaUang.Value := SisaUang;
-  edtSisaUang.Text := FormatFloat('#,##0.00',SisaUang);
 end;
 
 procedure TfrmPayment.ResetAll;
 begin
-	TotalBelanja := 0;
-  TotalBarangAMC := 0;
-  TotalBarangPPN := 0;
-  DiscAMCPersen := 0;
-  CashNilai := 0;
-  CCNilai := 0;
-  CCCharge := 0;
-  CashBackNilai := 0;
-  SisaUang := 0;
-  Pembulatan := 0;
-  CashBackNilai := 0;
-  TotalBayar := 0;
-
-  edtTotalBelanja.Value := RoundTo(TotalBelanja, 0);
-  edtBrgDiscGMC.Value := TotalBarangAMC;
-  edtDiscGMCPersen.Value := DiscAMCPersen;
-  edtDiscGMCNominal.Value := DiscAMCRupiah;
-  
-
-  edtNilaiTunai.Value := CashNilai;
+  edtTotalBelanja.Value     := Ceil(ModTransaksi.TRANS_TOTAL_TRANSACTION);
+  edtBrgDiscGMC.Value       := ModTransaksi.GetTotalBarangAMC;
+  edtDiscGMCPersen.Value    := ModTransaksi.TRANS_DISC_GMC_PERSEN;
+  edtDiscGMCNominal.Value   := Floor(ModTransaksi.TRANS_DISC_GMC_NOMINAL);
+  edtNilaiTunai.Value       := 0;
 
   edtJenisKartuCode.Clear;
   edtJenisKartuName.Clear;
   edtChargeCreditCard.Value := CCCharge;
-  edtNilaiCC.Value := CCNilai;
+  edtNilaiCC.Value          := CCNilai;
   edtNomorCC.Clear;
   edtNoOtorisasiCC.Clear;
-  edtCashBack.Value := CashBackNilai;
-
+  edtCashBack.Value         := CashBackNilai;
   edtNoTransBotol.Clear;
   edtNoTransBotolExit(edtNoTransBotol);
+
   ResetVoucher;
-  
   ShowTotalBayar;
-end;
-
-procedure TfrmPayment.UpdateDataLokal(ATotalBelanja, ATotalBarangAMC: Currency;
-    ADiscAMCPersen: Double; ATotalBarangCC: Currency; ATotalBarangPPN:
-    Currency);
-begin
-  ResetAll;
-
-  TotalBelanja      := ATotalBelanja;
-  TotalBarangAMC    := ATotalBarangAMC;
-  TotalBarangCC     := ATotalBarangCC;
-  DiscAMCPersen     := ADiscAMCPersen;
-  TotalBarangPPN    := ATotalBarangPPN;
-
-	edtTotalBelanja.Value   := Ceil(TotalBelanja);
-  edtBrgDiscGMC.Value     := TotalBarangAMC;
-  edtDiscGMCPersen.Value  := DiscAMCPersen;
-  edtDiscGMCNominal.Value := Floor(DiscAMCRupiah);
-
-//  if DiscAMCRupiah < edtDiscGMCNominal.Value then
-//  edtDiscGMCNominal.Value := edtDiscGMCNominal.Value-1;
-
-  ShowTotalBayar;
-  HitungSisaUang;
-
-  edtPilihan.SetFocus;
-  edtPilihan.SelectAll;
 end;
 
 procedure TfrmPayment.ShowTotalBayar;
 var
   sPrec: string;
 begin
-  sPrec       := '';
-	edtNilaiBayar.Value := TotalBayar;
-
-  pnlPembulatan.Visible := False;
-  LblPembulatan.Caption := FormatCurr('#,##0' + sPrec,0);
+  sPrec                   := '';
+	edtNilaiBayar.Value     := ModTransaksi.TRANS_TOTAL_BAYAR;
+  pnlPembulatan.Visible   := False;
+  LblPembulatan.Caption   := FormatCurr('#,##0' + sPrec,0);
   if Pembulatan > 0 then
   begin
     pnlPembulatan.Visible := True;
     LblPembulatan.Caption := FormatCurr('#,##0' + sPrec,Pembulatan);
   end;
-
   HitungSisaUang;
 end;
 
@@ -625,7 +536,7 @@ begin
           IsCreditCard := False;     
         edtChargeCreditCard.Value := HitungCCCharge;
 
-        CCBayar               := TotalBayar-edtNilaiTunai.Value;
+        CCBayar               := ModTransaksi.TRANS_TOTAL_BAYAR-edtNilaiTunai.Value;
         edtBayarCC.Text       := FormatFloat('#,##0',CCBayar);
         if CCDisc <> 0 then
         begin
@@ -735,20 +646,21 @@ begin
           TAppUtils.cShowWaitWindow('Mencetak Struk');
           Application.ProcessMessages;
           try
-            if SaveToDB then
+            if SaveToDBOld then
             begin
 
               ParsingPrintStrukTrans;
-
-              frmTransaksi.Transaksi_ID := '';
-              {$IFDEF TSN}
-              if IsConcession then
-                 ParsingPrintConsValidasi;
-              {$ENDIF}
-              frmTransaksi.ResetTransaction;
-              frmTransaksi.edNoPelanggan.Text := frmTransaksi.GetDefaultMember;
-
-              Self.Close;
+              Self.ModalResult := mrOK;
+//
+//              frmTransaksi.Transaksi_ID := '';
+//              {$IFDEF TSN}
+//              if IsConcession then
+//                 ParsingPrintConsValidasi;
+//              {$ENDIF}
+//              frmTransaksi.ResetTransaction;
+//              frmTransaksi.edNoPelanggan.Text := frmTransaksi.GetDefaultMember;
+//
+//              Self.Close;
             end;
           finally
             TAppUtils.cCloseWaitWindow;
@@ -778,15 +690,16 @@ begin
 //          cShowWaitWindow('Bayar tanpa cetak Struk');
           Application.ProcessMessages;
           try
-            if SaveToDB then
+            if SaveToDBOld then
             begin
-              frmTransaksi.Transaksi_ID := '';
-              frmTransaksi.ResetTransaction;
-
-              frmTransaksi.edNoPelanggan.Text := '';
-              frmTransaksi.edNoPelanggan.Text := '0';
-
-              Self.Close;
+              Self.ModalResult := mrOk;
+//              frmTransaksi.Transaksi_ID := '';
+//              frmTransaksi.ResetTransaction;
+//
+//              frmTransaksi.edNoPelanggan.Text := '';
+//              frmTransaksi.edNoPelanggan.Text := '0';
+//
+//              Self.Close;
             end;
           finally
 //            cCloseWaitWindow;
@@ -1131,16 +1044,16 @@ begin
 
   mmoFooterStruk.Lines.Add(TAppUtils.StrPadRight('',27,' ') + TAppUtils.StrPadRight('',13,'-'));
 
-  mmoFooterStruk.Lines.Add('Colie' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0', frmTransaksi.TotalColie),9,' ')
+  mmoFooterStruk.Lines.Add('Colie' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0', ModTransaksi.GetTotalColie),9,' ')
     + TAppUtils.StrPadLeftCut('Kembali:',13,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtSisaUang.Value),13,' '));
   mmoFooterStruk.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
 
   //Mencoba disini PAJAK !!!!
-  mmoFooterStruk.Lines.Add('BKP :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',frmTransaksi.TotalRupiahBarangBKP),7,' ')
-    + TAppUtils.StrPadLeftCut('DISC :',21,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',frmTransaksi.TotalRupiahBarangDiscount),7,' '));
-  mmoFooterStruk.Lines.Add('DPP :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',frmTransaksi.TotalRupiahBarangDPP),7,' ')
-    + TAppUtils.StrPadLeftCut('PPN :',21,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',frmTransaksi.TotalRupiahBarangPPN),7,' '));
-  mmoFooterStruk.Lines.Add('Bebas PPN :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',frmTransaksi.TotalRupiahBarangBebasPPN),7,' '));
+  mmoFooterStruk.Lines.Add('BKP :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetSubTotal),7,' ')
+    + TAppUtils.StrPadLeftCut('DISC :',21,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetDiscount),7,' '));
+  mmoFooterStruk.Lines.Add('DPP :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetDPP),7,' ')
+    + TAppUtils.StrPadLeftCut('PPN :',21,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetPPN),7,' '));
+  mmoFooterStruk.Lines.Add('Bebas PPN :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetNonBKP),7,' '));
 
   mmoFooterStruk.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
 
@@ -1195,15 +1108,16 @@ begin
       //outFile := sReportPath + 'utils\' + 'POS_STRUK.TXT';
       //mmoBackup.Lines.SaveToFile(outFile);
 
-      lPosTrans := TPOSTransaction.Create(Self);
-      Try
-        Try
-          lPosTrans.UpdateTransStruk(mmoBackup.Lines, frmTransaksi.Transaksi_ID);
-        except
-        end;
-      Finally
-        lPosTrans.Free;
-      end;
+      //simpan struk ke blob
+//      lPosTrans := TPOSTransaction.Create(Self);
+//      Try
+//        Try
+//          lPosTrans.UpdateTransStruk(mmoBackup.Lines, frmTransaksi.Transaksi_ID);
+//        except
+//        end;
+//      Finally
+//        lPosTrans.Free;
+//      end;
 
 //      mmoBackup.Lines.SaveToFile(sReportPath + 'utils\' + 'POS_STRUK.TXT');
 //      PrintFile(sReportPath + 'utils\' + 'POS_STRUK.TXT');
@@ -1299,197 +1213,197 @@ begin
   }
 end;
 
-function TfrmPayment.SaveToDB: Boolean;
-var
-  dItemsDiscCard: Double;
-  dtTransaksi: TDateTime;
-  lBarangStokSirkulasi: TBarangStockSirkulasiItems;
-	bIsBKP: Boolean;
-	bIsDiscAMC: Boolean;
-  i: Integer;
-  lDecimalSeparator: Char;
-  ssSQL: TStrings;
+function TfrmPayment.SaveToDBOld: Boolean;
+//var
+//  dItemsDiscCard: Double;
+//  dtTransaksi: TDateTime;
+//  lBarangStokSirkulasi: TBarangStockSirkulasiItems;
+//	bIsBKP: Boolean;
+//	bIsDiscAMC: Boolean;
+//  i: Integer;
+//  lDecimalSeparator: Char;
+//  ssSQL: TStrings;
 begin
   //Tambahan agar tidak menyimpan berulang-ulang jika gagal print;
-  if IsSaved then
-  begin
-    Result := True;
-    Exit;
-  end;
-
-  Result := False;
-
-  lDecimalSeparator := FormatSettings.DecimalSeparator;
-  FormatSettings.DecimalSeparator := '.';
-
-  ssSQL := TStringList.Create;
-  try
-    with frmTransaksi do
-    begin
-      if GetKuponBotolStatus(edtNoTransBotol.Text) = 1 then
-      begin
-        ShowInfo('Kupon botol sudah pernah digunakan');
-        edtNoTransBotol.SetFocus;
-        Exit;
-      end;
-
-      for i := 0 to VoucherAssalaamNomor.Count - 1 do    // Iterate
-      begin
-        if GetVoucherStatus(VoucherAssalaamNomor[i]) = 1 then
-        begin
-          ShowInfo('Voucher berikut sudah pernah digunakan: ' + VoucherAssalaamNomor[i]);
-          edtPilihan.SetFocus;
-          Exit;
-        end;
-      end;    // for
-                 
-      dtTransaksi := cGetServerDateTime;
-      with TPOSTransaction.Create(Self) do
-      begin
-      	try
-          If Trim(frmTransaksi.edNoTrnTerakhir.Text) = '' then
-            frmTransaksi.edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, cGetServerDateTime);
-
-        	UpdateData(edtNilaiCC.Value,edtNilaiTunai.Value,frmMain.FBeginningBalanceID,edtDiscGMCNominal.Value,
-          	edtDiscGMCPersen.Value,frmTransaksi.Transaksi_ID,True,frmTransaksi.TrMemberID,frmMain.UnitID,
-            frmTransaksi.edNoTrnTerakhir.Text,Self.Pembulatan,dtTransaksi,Self.TotalBayar,
-            edtBrgDiscGMC.Value, Self.TotalBarangPPN,Self.TotalBelanja,edtNoTransBotol.Text,VoucherAssalaamNomor, frmMain.UserID,CCDiscNominal);
-
-          if CCNilai > 0 then
-          begin
-            TransactionCard.UpdateData(
-              CardID,
-              0,
-              edtCashBack.Value,
-              edtChargeCreditCard.Value,
-              '',
-              True,
-              frmMain.UnitID,
-              edtNilaiCC.Value,
-              edtNomorCC.Text,
-              edtNoOtorisasiCC.Text,
-              frmTransaksi.edNoTrnTerakhir.Text);
-          end;
-
-          for i := 0 to Self.VoucherLainJumlah.Count - 1 do    // Iterate
-          begin
-            with VoucherLains.Add.VoucherLain do
-            begin
-              UpdateData(
-                '', True, frmMain.UnitID,
-                StrToInt(Self.VoucherLainJumlah[i]),
-                (StrToInt(Self.VoucherLainJumlah[i]) * StrToFloat(Self.VoucherLainNilai[i])),
-                frmTransaksi.edNoTrnTerakhir.Text,
-                StrToFloat(Self.VoucherLainNilai[i]));
-            end;
-          end;    // for
-
-          //new simpan ke stock sirkulasi
-          lBarangStokSirkulasi := TBarangStockSirkulasiItems.Create(TBarangStockSirkulasiItem);
-
-          //ShowMessage(IntToStr(frmTransaksi.sgTransaksi.RowCount));
-          with frmTransaksi.sgTransaksi.DataController do
-          begin
-            POSTransactionItems.Clear;
-            for i := 0 to RecordCount - 1 do
-            begin
-              if Values[i, _KolPLU] = '' then Continue;
-
-              bIsBKP := False;
-              if Values[i, _KolIsBKP] = '1' then
-                bIsBKP := True;
-
-              bIsDiscAMC := False;
-              if Values[i, _KolIsDiscGMC] = '1' then
-                bIsDiscAMC := True;
-
-              if edtJenisKartuName.Text <> '' then
-              begin
-                dItemsDiscCard := (CCDisc/100)* (Values[i, _KolHarga] - Values[i, _KolDisc]);
-              end
-              else
-              begin
-                dItemsDiscCard := 0;
-              end;
-
-              UpdatePOSTransactionItems(Values[i, _KolBHJID], //Barang harga jual ID
-                Values[i, _KolCOGS], //COGS
-                Values[i, _KolDetailID], //ID
-                bIsBKP, bIsDiscAMC, //ID, IsBKP, IsDiscAMC
-                Values[i, _KolLastCost], //last cost
-                Values[i, _KolPPN], //PPN
-                Values[i, _KolPPNBM], //PPNBM
-                Values[i, _KolJumlah], //QTY
-                Values[i, _KolHarga], //SellPrice
-                Values[i, _KolHarga] - Values[i, _KolDisc], //SellPriceDisc
-                Values[i, _KolTotal], //Total
-                Values[i, _KolJumlah] * Values[i, _KolHargaExcPajak], //totalb4tax
-                (Values[i, _KolTotal]), //total ceil
-                frmTransaksi.edNoTrnTerakhir.Text,
-                frmMain.UnitID,
-                Values[i, _KolPLU],  //BrgCode
-                Values[i, _KolTipeBarang], // Tipe Barang
-                GetDiscItemAMCRp(i),
-                Values[i, _KolUOM],
-                dItemsDiscCard, //disc Card
-                Values[i, _KolDiscMan],
-                Values[i, _Koldiscoto]);
-
-              with lBarangStokSirkulasi do
-              begin
-                with Add do
-                begin
-                  UpdateData(TPOSTransaction.GetHeaderFlag,
-                    0,0,0,
-                    'POS Transaction',
-                    Values[i, _KolPLU],
-                    frmMain.UnitID,
-                    Values[i, _KolUom],
-                    frmTransaksi.edNoTrnTerakhir.Text,
-                    0 - Values[i, _KolJumlah],
-                    dtTransaksi,
-                    'POS',
-                    0);
-                  HargaTransaksi := Values[i, _KolHargaAvg];
-                end;
-              end;    // with
-            end;
-          end;    // with
-
-
-          Try
-            if SaveAllToDB then
-            begin
-            //  if lBarangStokSirkulasi.SaveToDatabase(frmTransaksi.edNoTrnTerakhir.Text,frmMain.UnitID) then
-           //   begin
-
-                cCommitTrans;
-                Result := True;
-                IsSaved := True;
-
-         //     end
-          //    else
-           //   begin
-          //      cRollbackTrans;
-          //    end;
-              //CommonDlg.ShowMessage('Sukses menyimpan ke database');
-            end
-          finally
-            cRollbackTrans;
-          end;
-
-          frmTransaksi.Transaksi_ID := ID;
-        finally
-        	Free;
-        end;
-      end;
-
-    end;    // with
-
-  finally
-    FormatSettings.DecimalSeparator := lDecimalSeparator;
-    FreeAndNil(ssSQL);
-  end;
+//  if IsSaved then
+//  begin
+//    Result := True;
+//    Exit;
+//  end;
+//
+//  Result := False;
+//
+//  lDecimalSeparator := FormatSettings.DecimalSeparator;
+//  FormatSettings.DecimalSeparator := '.';
+//
+//  ssSQL := TStringList.Create;
+//  try
+//    with frmTransaksi do
+//    begin
+//      if GetKuponBotolStatus(edtNoTransBotol.Text) = 1 then
+//      begin
+//        ShowInfo('Kupon botol sudah pernah digunakan');
+//        edtNoTransBotol.SetFocus;
+//        Exit;
+//      end;
+//
+//      for i := 0 to VoucherAssalaamNomor.Count - 1 do    // Iterate
+//      begin
+//        if GetVoucherStatus(VoucherAssalaamNomor[i]) = 1 then
+//        begin
+//          ShowInfo('Voucher berikut sudah pernah digunakan: ' + VoucherAssalaamNomor[i]);
+//          edtPilihan.SetFocus;
+//          Exit;
+//        end;
+//      end;    // for
+//
+//      dtTransaksi := cGetServerDateTime;
+//      with TPOSTransaction.Create(Self) do
+//      begin
+//      	try
+//          If Trim(frmTransaksi.edNoTrnTerakhir.Text) = '' then
+//            frmTransaksi.edNoTrnTerakhir.Text := frmMain.GetTransactionNo(frmMain.FPOSCode, cGetServerDateTime);
+//
+//        	UpdateData(edtNilaiCC.Value,edtNilaiTunai.Value,frmMain.FBeginningBalanceID,edtDiscGMCNominal.Value,
+//          	edtDiscGMCPersen.Value,frmTransaksi.Transaksi_ID,True,frmTransaksi.TrMemberID,frmMain.UnitID,
+//            frmTransaksi.edNoTrnTerakhir.Text,Self.Pembulatan,dtTransaksi,Self.TotalBayar,
+//            edtBrgDiscGMC.Value, Self.TotalBarangPPN,Self.TotalBelanja,edtNoTransBotol.Text,VoucherAssalaamNomor, frmMain.UserID,CCDiscNominal);
+//
+//          if CCNilai > 0 then
+//          begin
+//            TransactionCard.UpdateData(
+//              CardID,
+//              0,
+//              edtCashBack.Value,
+//              edtChargeCreditCard.Value,
+//              '',
+//              True,
+//              frmMain.UnitID,
+//              edtNilaiCC.Value,
+//              edtNomorCC.Text,
+//              edtNoOtorisasiCC.Text,
+//              frmTransaksi.edNoTrnTerakhir.Text);
+//          end;
+//
+//          for i := 0 to Self.VoucherLainJumlah.Count - 1 do    // Iterate
+//          begin
+//            with VoucherLains.Add.VoucherLain do
+//            begin
+//              UpdateData(
+//                '', True, frmMain.UnitID,
+//                StrToInt(Self.VoucherLainJumlah[i]),
+//                (StrToInt(Self.VoucherLainJumlah[i]) * StrToFloat(Self.VoucherLainNilai[i])),
+//                frmTransaksi.edNoTrnTerakhir.Text,
+//                StrToFloat(Self.VoucherLainNilai[i]));
+//            end;
+//          end;    // for
+//
+//          //new simpan ke stock sirkulasi
+//          lBarangStokSirkulasi := TBarangStockSirkulasiItems.Create(TBarangStockSirkulasiItem);
+//
+//          //ShowMessage(IntToStr(frmTransaksi.sgTransaksi.RowCount));
+//          with frmTransaksi.sgTransaksi.DataController do
+//          begin
+//            POSTransactionItems.Clear;
+//            for i := 0 to RecordCount - 1 do
+//            begin
+//              if Values[i, _KolPLU] = '' then Continue;
+//
+//              bIsBKP := False;
+//              if Values[i, _KolIsBKP] = '1' then
+//                bIsBKP := True;
+//
+//              bIsDiscAMC := False;
+//              if Values[i, _KolIsDiscGMC] = '1' then
+//                bIsDiscAMC := True;
+//
+//              if edtJenisKartuName.Text <> '' then
+//              begin
+//                dItemsDiscCard := (CCDisc/100)* (Values[i, _KolHarga] - Values[i, _KolDisc]);
+//              end
+//              else
+//              begin
+//                dItemsDiscCard := 0;
+//              end;
+//
+//              UpdatePOSTransactionItems(Values[i, _KolBHJID], //Barang harga jual ID
+//                Values[i, _KolCOGS], //COGS
+//                Values[i, _KolDetailID], //ID
+//                bIsBKP, bIsDiscAMC, //ID, IsBKP, IsDiscAMC
+//                Values[i, _KolLastCost], //last cost
+//                Values[i, _KolPPN], //PPN
+//                Values[i, _KolPPNBM], //PPNBM
+//                Values[i, _KolJumlah], //QTY
+//                Values[i, _KolHarga], //SellPrice
+//                Values[i, _KolHarga] - Values[i, _KolDisc], //SellPriceDisc
+//                Values[i, _KolTotal], //Total
+//                Values[i, _KolJumlah] * Values[i, _KolHargaExcPajak], //totalb4tax
+//                (Values[i, _KolTotal]), //total ceil
+//                frmTransaksi.edNoTrnTerakhir.Text,
+//                frmMain.UnitID,
+//                Values[i, _KolPLU],  //BrgCode
+//                Values[i, _KolTipeBarang], // Tipe Barang
+//                GetDiscItemAMCRp(i),
+//                Values[i, _KolUOM],
+//                dItemsDiscCard, //disc Card
+//                Values[i, _KolDiscMan],
+//                Values[i, _Koldiscoto]);
+//
+//              with lBarangStokSirkulasi do
+//              begin
+//                with Add do
+//                begin
+//                  UpdateData(TPOSTransaction.GetHeaderFlag,
+//                    0,0,0,
+//                    'POS Transaction',
+//                    Values[i, _KolPLU],
+//                    frmMain.UnitID,
+//                    Values[i, _KolUom],
+//                    frmTransaksi.edNoTrnTerakhir.Text,
+//                    0 - Values[i, _KolJumlah],
+//                    dtTransaksi,
+//                    'POS',
+//                    0);
+//                  HargaTransaksi := Values[i, _KolHargaAvg];
+//                end;
+//              end;    // with
+//            end;
+//          end;    // with
+//
+//
+//          Try
+//            if SaveAllToDB then
+//            begin
+//            //  if lBarangStokSirkulasi.SaveToDatabase(frmTransaksi.edNoTrnTerakhir.Text,frmMain.UnitID) then
+//           //   begin
+//
+//                cCommitTrans;
+//                Result := True;
+//                IsSaved := True;
+//
+//         //     end
+//          //    else
+//           //   begin
+//          //      cRollbackTrans;
+//          //    end;
+//              //CommonDlg.ShowMessage('Sukses menyimpan ke database');
+//            end
+//          finally
+//            cRollbackTrans;
+//          end;
+//
+//          frmTransaksi.Transaksi_ID := ID;
+//        finally
+//        	Free;
+//        end;
+//      end;
+//
+//    end;    // with
+//
+//  finally
+//    FormatSettings.DecimalSeparator := lDecimalSeparator;
+//    FreeAndNil(ssSQL);
+//  end;
 end;
 
 procedure TfrmPayment.edtNilaiCCExit(Sender: TObject);
@@ -1719,9 +1633,9 @@ end;
 function TfrmPayment.GetSisaBayar(AExclude: Double = 0): Currency;
 begin
   if (edtNilaiCC.Value <> 0) or (edtNilaiCC.Text <> '') then
-  Result := (TotalBayar)
-    - (edtNilaiTunai.Value + edtNilaiCC.Value + edtCCDiscNominal.Value)
-    + AExclude
+    Result := (ModTransaksi.TRANS_TOTAL_TRANSACTION)
+      - (edtNilaiTunai.Value + edtNilaiCC.Value + edtCCDiscNominal.Value)
+      + AExclude
   else
   Result := (edtNilaiBayar.Value)
     - (edtNilaiTunai.Value + edtNilaiCC.Value + edtCCDiscNominal.Value)
@@ -2105,6 +2019,10 @@ procedure TfrmPayment.FormShow(Sender: TObject);
 begin
   ResetVoucher;
   ShowTotalBayar;
+
+  edtPilihan.SetFocus;
+  edtPilihan.SelectAll;
+
   IsConcession := False;
   IsSaved := False;
 end;
@@ -2332,6 +2250,19 @@ begin
     FNewBarang := TNewBarang.Create(Self);
 
   Result := FNewBarang;
+end;
+
+procedure TfrmPayment.LoadData(aModTransaksi: TModTransaksi);
+begin
+  Self.ModTransaksi := aModTransaksi;
+  ResetAll;
+//  edtTotalBelanja.Value   := Ceil(ModTransaksi.TRANS_TOTAL_TRANSACTION);
+//  edtBrgDiscGMC.Value     := ModTransaksi.GetTotalBarangAMC;
+//  edtDiscGMCPersen.Value  := ModTransaksi.TRANS_DISC_GMC_PERSEN;
+//  edtDiscGMCNominal.Value := Floor(ModTransaksi.TRANS_DISC_GMC_NOMINAL);
+  ShowTotalBayar;
+  HitungSisaUang;
+
 end;
 
 procedure TfrmPayment.ParsingPrintCardValidasi;
