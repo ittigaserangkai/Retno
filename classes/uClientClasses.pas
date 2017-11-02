@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 10/31/2017 8:06:19 AM
+// 11/1/2017 9:27:00 AM
 //
 
 unit uClientClasses;
@@ -143,6 +143,8 @@ type
     FBarang_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarang_GetDSOverviewCommand: TDSRestCommand;
     FBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBarang_HargaJualOverviewCommand: TDSRestCommand;
+    FBarang_HargaJualOverviewCommand_Cache: TDSRestCommand;
     FBeginningBalance_GetDSOverviewCommand: TDSRestCommand;
     FBeginningBalance_GetDSOverviewCommand_Cache: TDSRestCommand;
     FClaim_GetDSOverviewCommand: TDSRestCommand;
@@ -408,6 +410,8 @@ type
     function Barang_GetDSLookup_Cache(aMerchanGroupID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string = ''): TDataSet;
     function Barang_GetDSOverview_Cache(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Barang_HargaJualOverview(AProductCode: string; const ARequestFilter: string = ''): TDataSet;
+    function Barang_HargaJualOverview_Cache(AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
     function BeginningBalance_GetDSOverview_Cache(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Claim_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
@@ -1739,6 +1743,8 @@ type
 
   TCrudBarangClient = class(TDSAdminRestClient)
   private
+    FRetrieveByCodeBHJUOMCommand: TDSRestCommand;
+    FRetrieveByCodeBHJUOMCommand_Cache: TDSRestCommand;
     FRetrievePOSCommand: TDSRestCommand;
     FRetrievePOSCommand_Cache: TDSRestCommand;
     FCreateTableSQLCommand: TDSRestCommand;
@@ -1767,6 +1773,8 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function RetrieveByCodeBHJUOM(ModClassName: string; aCode: string; const ARequestFilter: string = ''): TModBarang;
+    function RetrieveByCodeBHJUOM_Cache(ModClassName: string; aCode: string; const ARequestFilter: string = ''): IDSRestCachedTModBarang;
     function RetrievePOS(sPLUBarCode: string; const ARequestFilter: string = ''): TModBarang;
     function RetrievePOS_Cache(sPLUBarCode: string; const ARequestFilter: string = ''): IDSRestCachedTModBarang;
     function CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string = ''): string;
@@ -2250,6 +2258,18 @@ const
   TDSProvider_Barang_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aMerchanGroupID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AProductCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Barang_HargaJualOverview: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AProductCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Barang_HargaJualOverview_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
     (Name: 'AProductCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -6372,6 +6392,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCrudBarang_RetrieveByCodeBHJUOM: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModBarang')
+  );
+
+  TCrudBarang_RetrieveByCodeBHJUOM_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TCrudBarang_RetrievePOS: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'sPLUBarCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -7822,6 +7856,37 @@ begin
   FBarang_GetDSOverviewCommand_Cache.Parameters[1].Value.SetWideString(AProductCode);
   FBarang_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FBarang_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TDSProviderClient.Barang_HargaJualOverview(AProductCode: string; const ARequestFilter: string): TDataSet;
+begin
+  if FBarang_HargaJualOverviewCommand = nil then
+  begin
+    FBarang_HargaJualOverviewCommand := FConnection.CreateCommand;
+    FBarang_HargaJualOverviewCommand.RequestType := 'GET';
+    FBarang_HargaJualOverviewCommand.Text := 'TDSProvider.Barang_HargaJualOverview';
+    FBarang_HargaJualOverviewCommand.Prepare(TDSProvider_Barang_HargaJualOverview);
+  end;
+  FBarang_HargaJualOverviewCommand.Parameters[0].Value.SetWideString(AProductCode);
+  FBarang_HargaJualOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarang_HargaJualOverviewCommand.Parameters[1].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarang_HargaJualOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Barang_HargaJualOverview_Cache(AProductCode: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarang_HargaJualOverviewCommand_Cache = nil then
+  begin
+    FBarang_HargaJualOverviewCommand_Cache := FConnection.CreateCommand;
+    FBarang_HargaJualOverviewCommand_Cache.RequestType := 'GET';
+    FBarang_HargaJualOverviewCommand_Cache.Text := 'TDSProvider.Barang_HargaJualOverview';
+    FBarang_HargaJualOverviewCommand_Cache.Prepare(TDSProvider_Barang_HargaJualOverview_Cache);
+  end;
+  FBarang_HargaJualOverviewCommand_Cache.Parameters[0].Value.SetWideString(AProductCode);
+  FBarang_HargaJualOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarang_HargaJualOverviewCommand_Cache.Parameters[1].Value.GetString);
 end;
 
 function TDSProviderClient.BeginningBalance_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string): TDataSet;
@@ -11349,6 +11414,8 @@ begin
   FBarang_GetDSLookupCommand_Cache.DisposeOf;
   FBarang_GetDSOverviewCommand.DisposeOf;
   FBarang_GetDSOverviewCommand_Cache.DisposeOf;
+  FBarang_HargaJualOverviewCommand.DisposeOf;
+  FBarang_HargaJualOverviewCommand_Cache.DisposeOf;
   FBeginningBalance_GetDSOverviewCommand.DisposeOf;
   FBeginningBalance_GetDSOverviewCommand_Cache.DisposeOf;
   FClaim_GetDSOverviewCommand.DisposeOf;
@@ -22485,6 +22552,48 @@ begin
   inherited;
 end;
 
+function TCrudBarangClient.RetrieveByCodeBHJUOM(ModClassName: string; aCode: string; const ARequestFilter: string): TModBarang;
+begin
+  if FRetrieveByCodeBHJUOMCommand = nil then
+  begin
+    FRetrieveByCodeBHJUOMCommand := FConnection.CreateCommand;
+    FRetrieveByCodeBHJUOMCommand.RequestType := 'GET';
+    FRetrieveByCodeBHJUOMCommand.Text := 'TCrudBarang.RetrieveByCodeBHJUOM';
+    FRetrieveByCodeBHJUOMCommand.Prepare(TCrudBarang_RetrieveByCodeBHJUOM);
+  end;
+  FRetrieveByCodeBHJUOMCommand.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeBHJUOMCommand.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeBHJUOMCommand.Execute(ARequestFilter);
+  if not FRetrieveByCodeBHJUOMCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FRetrieveByCodeBHJUOMCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModBarang(FUnMarshal.UnMarshal(FRetrieveByCodeBHJUOMCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FRetrieveByCodeBHJUOMCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TCrudBarangClient.RetrieveByCodeBHJUOM_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModBarang;
+begin
+  if FRetrieveByCodeBHJUOMCommand_Cache = nil then
+  begin
+    FRetrieveByCodeBHJUOMCommand_Cache := FConnection.CreateCommand;
+    FRetrieveByCodeBHJUOMCommand_Cache.RequestType := 'GET';
+    FRetrieveByCodeBHJUOMCommand_Cache.Text := 'TCrudBarang.RetrieveByCodeBHJUOM';
+    FRetrieveByCodeBHJUOMCommand_Cache.Prepare(TCrudBarang_RetrieveByCodeBHJUOM_Cache);
+  end;
+  FRetrieveByCodeBHJUOMCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
+  FRetrieveByCodeBHJUOMCommand_Cache.Parameters[1].Value.SetWideString(aCode);
+  FRetrieveByCodeBHJUOMCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModBarang.Create(FRetrieveByCodeBHJUOMCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TCrudBarangClient.RetrievePOS(sPLUBarCode: string; const ARequestFilter: string): TModBarang;
 begin
   if FRetrievePOSCommand = nil then
@@ -23021,6 +23130,8 @@ end;
 
 destructor TCrudBarangClient.Destroy;
 begin
+  FRetrieveByCodeBHJUOMCommand.DisposeOf;
+  FRetrieveByCodeBHJUOMCommand_Cache.DisposeOf;
   FRetrievePOSCommand.DisposeOf;
   FRetrievePOSCommand_Cache.DisposeOf;
   FCreateTableSQLCommand.DisposeOf;
