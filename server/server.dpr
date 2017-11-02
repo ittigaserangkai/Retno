@@ -76,8 +76,8 @@ uses
   uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
   uModCustomer in '..\model\uModCustomer.pas',
   uModAgreement in '..\model\uModAgreement.pas',
-  uModElectric in '..\model\uModElectric.pas',
-  uModProdukJasa in '..\model\uModProdukJasa.pas';
+  uModProdukJasa in '..\model\uModProdukJasa.pas',
+  uModElectric in '..\model\uModElectric.pas';
 
 {$R *.res}
 
