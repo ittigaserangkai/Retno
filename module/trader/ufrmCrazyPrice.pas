@@ -13,12 +13,27 @@ uses
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ActnList, uDBUtils, uDXUtils,
   Datasnap.DBClient, uDMClient, System.DateUtils, ufrmDialogCrazyPrice,
-  cxCheckBox;
+  cxCheckBox, cxCurrencyEdit;
 
 type
   TfrmCrazyPrice = class(TfrmMasterBrowse)
     chkPilih: TcxCheckBox;
     cxGridColCPPilih: TcxGridDBColumn;
+    cxGridColTanggal: TcxGridDBColumn;
+    cxGridColKode: TcxGridDBColumn;
+    cxGridColNama: TcxGridDBColumn;
+    cxGridColCOGS: TcxGridDBColumn;
+    cxGridColDiskon: TcxGridDBColumn;
+    cxGridColMarkUp: TcxGridDBColumn;
+    cxGridColHargaJualPPN: TcxGridDBColumn;
+    cxGridColAwal: TcxGridDBColumn;
+    cxGridColAkhir: TcxGridDBColumn;
+    cxGridColCreated: TcxGridDBColumn;
+    cxGridColModified: TcxGridDBColumn;
+    cxGridColSatuan: TcxGridDBColumn;
+    cxGridColPPN: TcxGridDBColumn;
+    cxGridColOrgCode: TcxGridDBColumn;
+    cxGridColOrgName: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure chkPilihClick(Sender: TObject);
@@ -132,7 +147,17 @@ begin
   chkPilih.Checked := False;
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.CrazyPrice_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['CRAZY_BARANG_ID','CRAZY_KONVERSI', 'CRAZY_SATUAN_ID','CRAZY_ORGANIZATION_ID','CRAZYPRICE_ID'],False);
+
+  cxGridView.SetVisibleColumns(['CRAZY_DISC_NOMINAL',
+                                'CRAZY_ORGANIZATION_ID',
+                                'CRAZY_SELLPRICE_DISC',
+                                'CRAZY_BARANG_ID',
+                                'CRAZY_KONVERSI',
+                                'CRAZY_SATUAN_ID',
+                                'CRAZY_ORGANIZATION_ID',
+                                'DATE_CREATE',
+                                'DATE_MODIFY',
+                                'CRAZYPRICE_ID'],False);
 
   cxGridView.Columns[0].Width := 100;
 end;

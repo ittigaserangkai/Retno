@@ -113,6 +113,7 @@ type
     FKonversi: TObjectList<TModKonversi>;
     FHargaJual: TObjectList<TModBarangHargaJual>;
     FTipeBarang: TModTipeBarang;
+    FUntaianUOMBHJ: string;
     function GetSuppliers: TObjectList<TModBarangSupplier>;
     function GetKonversi: TObjectList<TModKonversi>;
     function GetHargaJual: TObjectList<TModBarangHargaJual>; overload;
@@ -130,6 +131,7 @@ type
     property Konversi: TObjectList<TModKonversi> read GetKonversi write FKonversi;
     property HargaJual: TObjectList<TModBarangHargaJual> read GetHargaJual write
         FHargaJual;
+    property UntaianUOMBHJ: string read FUntaianUOMBHJ write FUntaianUOMBHJ;
   published
     [AttributeOfCode]
     property BRG_CODE: String read FBRG_CODE write FBRG_CODE;

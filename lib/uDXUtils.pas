@@ -190,12 +190,17 @@ type
   end;
 
   TcxGridTableViewHelper = class helper for TcxGridTableView
-  private
   public
+    procedure FilterData(AColumn : TcxGridColumn; AOperatorKind:
+        TcxFilterOperatorKind; const AValues : TStringArray; const ADisplayValues:
+        TStringArray);
     procedure ClearRows;
     procedure SetValue(ARec, ACol : Integer; AValue : Variant);
     function Double(ARec, ACol : Integer): Double;
     function Date(ARec, ACol : Integer): TDatetime;
+    procedure FilterDataLookUp(AColumn : TcxGridColumn; AFilterColumnCaption :
+        String; AOperatorKind: TcxFilterOperatorKind; const AValues : TStringArray;
+        const ADisplayValues: TStringArray);
     function GetFooterSummary(aColumn: TcxGridColumn): Variant; overload;
     function GetLevel: TcxGridLevel;
     function Int(ARec, ACol : Integer): Integer;
@@ -1668,6 +1673,50 @@ end;
 function TcxGridTableViewHelper.Date(ARec, ACol : Integer): TDatetime;
 begin
   Result := VarToDateTime(Self.DataController.Values[ARec, ACol]);
+end;
+
+procedure TcxGridTableViewHelper.FilterData(AColumn : TcxGridColumn;
+    AOperatorKind: TcxFilterOperatorKind; const AValues : TStringArray; const
+    ADisplayValues: TStringArray);
+var
+  i: Integer;
+  lItemList: TcxFilterCriteriaItemList;
+begin
+  if High(AValues) <> High(ADisplayValues) then
+    raise Exception.Create('Count Of Value is different from Count Of Display Value');
+
+  Self.DataController.Filter.BeginUpdate;
+  try
+    Self.DataController.Filter.Root.Clear;
+    lItemList := Self.DataController.Filter.Root.AddItemList(fboOr);
+
+    for I := Low(AValues) to High(AValues) do
+    begin
+      lItemList.AddItem(AColumn, AOperatorKind, AValues[i], ADisplayValues[i]);
+//      Self.DataController.Filter.Root.AddItem(AColumn, AOperatorKind, AValues[i], ADisplayValues[i]);
+    end;
+  finally
+    Self.DataController.Filter.EndUpdate;
+    Self.DataController.Filter.Active := true;
+  end;
+end;
+
+procedure TcxGridTableViewHelper.FilterDataLookUp(AColumn : TcxGridColumn;
+    AFilterColumnCaption : String; AOperatorKind: TcxFilterOperatorKind; const
+    AValues : TStringArray; const ADisplayValues: TStringArray);
+var
+  i: Integer;
+  lColumn: TcxGridColumn;
+  lCXGrid: TcxGridDBTableView;
+begin
+  if High(AValues) <> High(ADisplayValues) then
+    raise Exception.Create('Count Of Value is different from Count Of Display Value');
+
+  lCXGrid := TcxExtLookupComboBoxProperties(AColumn.Properties).View as TcxGridDBTableView;
+  lColumn := lCXGrid.GetColumnByFieldName(AFilterColumnCaption);
+
+  lCXGrid.FilterData(lColumn,AOperatorKind, AValues, ADisplayValues);
+
 end;
 
 function TcxGridTableViewHelper.GetFooterSummary(aColumn: TcxGridColumn):

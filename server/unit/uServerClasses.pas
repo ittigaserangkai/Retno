@@ -200,6 +200,8 @@ type
 
   TCrudBarang = class(TCrud)
   public
+    function RetrieveByCodeBHJUOM(ModClassName, aCode: string): TModBarang;
+        overload;
     function RetrievePOS(sPLUBarCode: string): TModBarang;
   end;
 
@@ -1652,6 +1654,37 @@ begin
   AfterExecuteMethod;
 end;
 
+function TCrudBarang.RetrieveByCodeBHJUOM(ModClassName, aCode: string):
+    TModBarang;
+var
+  Q: TClientDataset;
+  sSQL: string;
+begin
+  Result := inherited RetrieveByCode(ModClassName, aCode) as TModBarang;
+
+  sSQL   := 'select distinct SAT_CODE from V_BARANG_HARGA_JUAL ' +
+            ' where BRG_CODE = ' + QuotedStr(aCode);
+
+  Result.UntaianUOMBHJ := '';
+
+  Q := TDBUtils.OpenDataset(sSQL);
+  try
+    while not Q.Eof do
+    begin
+      if Result.UntaianUOMBHJ = '' then
+        Result.UntaianUOMBHJ := Q.FieldByName('SAT_CODE').AsString
+      else
+        Result.UntaianUOMBHJ := Result.UntaianUOMBHJ + ',' + Q.FieldByName('SAT_CODE').AsString;
+
+      Q.Next;
+    end;
+  finally
+    Q.Free;
+  end;
+
+
+end;
+
 function TCrudBarang.RetrievePOS(sPLUBarCode: string): TModBarang;
 var
   Q: TFDQuery;
@@ -1663,8 +1696,7 @@ begin
   Q := TDBUtils.OpenQuery(S);
   Try
     if Q.Eof then
-      Result := inherited
-        RetrieveByCode(TModBarang.ClassName, sPLUBarCode) as TModBarang
+      Result := inherited RetrieveByCode(TModBarang.ClassName, sPLUBarCode) as TModBarang
     else
     begin
       Result := TModBarang.Create;

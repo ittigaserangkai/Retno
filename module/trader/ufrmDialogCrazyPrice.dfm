@@ -1,25 +1,24 @@
 inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   Caption = 'Dialog Crazy Price'
   ClientHeight = 479
-  ClientWidth = 721
-  ExplicitWidth = 737
+  ClientWidth = 728
+  ExplicitWidth = 744
   ExplicitHeight = 518
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 721
+    Width = 728
     Height = 423
-    ExplicitWidth = 960
+    ExplicitWidth = 728
     ExplicitHeight = 423
     object cxgrdCP: TcxGrid
       AlignWithMargins = True
       Left = 5
       Top = 5
-      Width = 711
+      Width = 718
       Height = 303
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 950
       object cxGridTableCP: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridTableCPEditing
@@ -27,6 +26,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnBeforeDelete = cxGridTableCPDataControllerBeforeDelete
         DataController.OnNewRecord = cxGridTableCPDataControllerNewRecord
         OptionsBehavior.FocusCellOnTab = True
         OptionsBehavior.FocusFirstCellOnNewRecord = True
@@ -81,6 +81,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Caption = 'UOM'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           Properties.ImmediatePost = True
+          Properties.OnInitPopup = cxGridColCPSatuanPropertiesInitPopup
           Properties.OnValidate = cxGridColCPSatuanPropertiesValidate
           HeaderAlignmentHorz = taCenter
           Width = 51
@@ -183,6 +184,9 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           HeaderAlignmentHorz = taCenter
           Width = 87
         end
+        object cxGridColCPUOMBHJ: TcxGridColumn
+          Caption = 'UOMBHJs'
+        end
       end
       object cxgrdlvlCP: TcxGridLevel
         GridView = cxGridTableCP
@@ -192,11 +196,10 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       AlignWithMargins = True
       Left = 5
       Top = 314
-      Width = 711
+      Width = 718
       Height = 104
       Align = alBottom
       TabOrder = 1
-      ExplicitWidth = 950
       object lblSebelumDisc: TLabel
         Left = 22
         Top = 28
@@ -350,51 +353,51 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 423
-    Width = 721
+    Width = 728
     ExplicitTop = 423
-    ExplicitWidth = 960
+    ExplicitWidth = 728
     inherited pnlFooter: TPanel
-      Width = 721
-      ExplicitWidth = 960
+      Width = 728
+      ExplicitWidth = 728
       inherited btnClose: TcxButton
-        Left = 644
+        Left = 651
         Action = actCancel
-        ExplicitLeft = 883
+        ExplicitLeft = 651
       end
       inherited btnSave: TcxButton
-        Left = 551
+        Left = 558
         Action = actSave
-        ExplicitLeft = 790
+        ExplicitLeft = 558
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 474
+        Left = 481
         Action = actPrint
-        ExplicitLeft = 713
+        ExplicitLeft = 481
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 721
-      ExplicitWidth = 960
+      Width = 728
+      ExplicitWidth = 728
       inherited lbCTRLEnter: TLabel
-        Left = 546
+        Left = 553
         Height = 15
-        ExplicitLeft = 785
+        ExplicitLeft = 553
       end
       inherited lbEscape: TLabel
-        Left = 637
+        Left = 644
         Height = 15
-        ExplicitLeft = 876
+        ExplicitLeft = 644
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 470
+        Left = 477
         Height = 15
-        ExplicitLeft = 709
+        ExplicitLeft = 477
       end
     end
   end
