@@ -1,7 +1,5 @@
 inherited frmLookupOrganization: TfrmLookupOrganization
   Caption = 'Lookup Organization'
-  ExplicitWidth = 700
-  ExplicitHeight = 450
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlHeader: TPanel
@@ -75,16 +73,7 @@ inherited frmLookupOrganization: TfrmLookupOrganization
   end
   inherited Panel1: TPanel
     inherited lbBenchmark: TLabel
-      Height = 29
       Visible = False
-    end
-  end
-  inherited Panel2: TPanel
-    inherited lbEscape: TLabel
-      Height = 17
-    end
-    inherited Label1: TLabel
-      Height = 17
     end
   end
   inherited cxGrid: TcxGrid

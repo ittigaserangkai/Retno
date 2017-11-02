@@ -347,6 +347,7 @@ begin
   else
   if (Key in [Ord('P'), Ord('p')]) and (ssShift in Shift) and (ssCtrl in Shift)then
   begin
+    if sgTransaksi.DataController.RecordCount = 0 then exit;
     if sgTransaksi.DataController.Values[0, _KolPLU] = '' then Exit;
     if not SaveToDBPending then
     begin
