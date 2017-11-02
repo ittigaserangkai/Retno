@@ -3,7 +3,7 @@ unit ufrmPayment;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, System.Types,
   Dialogs, ExtCtrls, StdCtrls, Mask, ufraLookUpCC, uSpell, uNewPosTransaction,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
   cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids, FireDAC.Comp.Client,
@@ -139,12 +139,10 @@ type
   private
     FCardID: string;
 		FCashBackNilai: Currency;
-		FCashNilai: Currency;
 		FCCCharge: Currency;
     FCCChargePersen: Currency;
     FCCLimit: Currency;
 		FCCNilai: Currency;
-    FCC_Minimum: Currency;
     FCashback_Minimum: Currency;
     FCashback_Kelipatan: Currency;
     FCashback_Maximum: Currency;
@@ -177,8 +175,6 @@ type
     procedure ClearCCForm;
     function GetAmountNonJB(aRow: Integer): Double;
     function GetCCChargePersen: Double;
-    function GetKonstantaPembulatan: Currency;
-    function GetKuponBotolStatus(ANoTransaksi: String): Integer;
     function GetNewBarang: TNewBarang;
 		function GetPembulatan: Currency;
     function GetSisaBayar(AExclude: Double = 0): Currency;
@@ -187,17 +183,12 @@ type
     function GetVoucherAssalaamNomor: TStrings;
     function GetVoucherAssalaamJumlah: TStrings;
     function GetVoucherAssalaamNilai: TStrings;
-    function GetVoucherStatus(ANoVoucher: String): Integer;
     function Get_Qty_Precision: string;
     procedure HideCashBack;
     procedure HideInfo;
     function HitungCCCharge: Currency;
     procedure HitungSisaUang;
     procedure LoadCreditCard(ACode: String);
-    //procedure LineReceived(Sender : TLineSocketBase; const line : string;
-    //          complete : Boolean);
-    procedure ParsingPrintCardValidasi;
-    procedure ParsingPrintConsValidasi;
     //procedure LineReceived(Sender : TLineSocketBase; const line : string;
     //          complete : Boolean);
     procedure ParsingPrintStrukTrans;
@@ -212,12 +203,10 @@ type
     procedure ShowTotalBayar;
     property CardID: string read FCardID write FCardID;
     property CashBackNilai: Currency read FCashBackNilai write FCashBackNilai;
-    property CashNilai: Currency read FCashNilai write FCashNilai;
     property CCCharge: Currency read FCCCharge write FCCCharge;
     property CCChargePersen: Currency read FCCChargePersen write FCCChargePersen;
     property CCLimit: Currency read FCCLimit write FCCLimit;
     property CCNilai: Currency read FCCNilai write FCCNilai;
-    property CC_Minimum: Currency read FCC_Minimum write FCC_Minimum;
     property Cashback_Minimum: Currency read FCashback_Minimum write
         FCashback_Minimum;
     property Cashback_Kelipatan: Currency read FCashback_Kelipatan write
@@ -260,6 +249,7 @@ type
         FVoucherLainNilaiTotal;
   public
     class function CreateAt(aParent: TForm): TfrmPayment;
+    function GetKuponBotolStatus(ANoTransaksi: String): Integer;
     procedure LoadData(aModTransaksi: TModTransaksi);
   end;
 
@@ -347,11 +337,6 @@ begin
 //  Action := caFree;
 end;
 
-function TfrmPayment.GetKonstantaPembulatan: Currency;
-begin
-	Result := KonstantaPembulatan;
-end;
-
 function TfrmPayment.GetPembulatan: Currency;
 begin
   {
@@ -413,7 +398,7 @@ var
   sPrec: string;
 begin
   sPrec                   := '';
-	edtNilaiBayar.Value     := ModTransaksi.TRANS_TOTAL_BAYAR;
+	edtNilaiBayar.Value     := ModTransaksi.TRANS_TOTAL_TRANSACTION;
   pnlPembulatan.Visible   := False;
   LblPembulatan.Caption   := FormatCurr('#,##0' + sPrec,0);
   if Pembulatan > 0 then
@@ -1224,6 +1209,7 @@ function TfrmPayment.SaveToDBOld: Boolean;
 //  lDecimalSeparator: Char;
 //  ssSQL: TStrings;
 begin
+  Result := False;
   //Tambahan agar tidak menyimpan berulang-ulang jika gagal print;
 //  if IsSaved then
 //  begin
@@ -1601,33 +1587,33 @@ begin
 end;
 
 function TfrmPayment.GetKuponBotolStatus(ANoTransaksi: String): Integer;
-var
-  sSQL: string;
+//var
+//  sSQL: string;
 begin
-  Result := -1;
-  sSQL := 'select a.tkb_status, sum(b.tkbd_qty) as qty, '
-    + 'sum(b.tkbd_total_sell_price_disc) as harga '
-    + 'from trans_kupon_botol a '
-    + 'inner join trans_kupon_botol_detil b on a.trans_kupon_botol_id = b.trans_kupon_botol_id '
-//    + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
-//    + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
-    + '  and a.tkb_no = ' + QuotedStr(ANoTransaksi)
-    + ' group by a.tkb_status';
-
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      if not eof then
-      begin
-        if UpperCase(Fields[0].AsString) = 'CLOSE' then
-          Result := 1
-        else if UpperCase(Fields[0].AsString) = 'OPEN' then
-          Result := 0;
-      end;
-    finally
-      Free;
-    end;   
-  end;
+  Result := -1;   //pindah ke Server
+//  sSQL := 'select a.tkb_status, sum(b.tkbd_qty) as qty, '
+//    + 'sum(b.tkbd_total_sell_price_disc) as harga '
+//    + 'from trans_kupon_botol a '
+//    + 'inner join trans_kupon_botol_detil b on a.trans_kupon_botol_id = b.trans_kupon_botol_id '
+////    + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
+////    + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
+//    + '  and a.tkb_no = ' + QuotedStr(ANoTransaksi)
+//    + ' group by a.tkb_status';
+//
+//  with cOpenQuery(sSQL) do
+//  begin
+//    try
+//      if not eof then
+//      begin
+//        if UpperCase(Fields[0].AsString) = 'CLOSE' then
+//          Result := 1
+//        else if UpperCase(Fields[0].AsString) = 'OPEN' then
+//          Result := 0;
+//      end;
+//    finally
+//      Free;
+//    end;
+//  end;
 end;
 
 function TfrmPayment.GetSisaBayar(AExclude: Double = 0): Currency;
@@ -2027,35 +2013,6 @@ begin
   IsSaved := False;
 end;
 
-function TfrmPayment.GetVoucherStatus(ANoVoucher: String): Integer;
-var
-  sSQL: string;
-begin
-  Result := -1;
-  sSQL := 'select b.vcrd_status '
-    + 'from voucher a '
-    + 'inner join voucher_detil b on a.voucher_id = b.voucher_id '
-//    + 'inner join voucher_detil b on a.vcr_id = b.vcrd_vcr_id '
-//    + '  and a.vcr_unt_id = b.vcrd_vcr_unt_id '
-//    + '  and a.vcr_unt_id = ' + IntToStr(frmMain.UnitID)
-    + '  and b.vcrd_no = ' + QuotedStr(ANoVoucher);
-
-  with cOpenQuery(sSQL) do
-  begin
-    try
-      if not eof then
-      begin
-        if UpperCase(Fields[0].AsString) = 'CLOSE' then
-          Result := 1
-        else if UpperCase(Fields[0].AsString) = 'OPEN' then
-          Result := 0;
-      end;
-    finally
-      Free;
-    end;   
-  end;
-end;
-
 procedure TfrmPayment.edtNoTransBotolKeyPress(Sender: TObject;
   var Key: Char);
 begin
@@ -2207,7 +2164,6 @@ end;
 
 procedure TfrmPayment.edtNilaiTunaiPropertiesChange(Sender: TObject);
 begin
-  CashNilai := edtNilaiTunai.Value;
   HitungSisaUang;
 end;
 
@@ -2262,129 +2218,6 @@ begin
 //  edtDiscGMCNominal.Value := Floor(ModTransaksi.TRANS_DISC_GMC_NOMINAL);
   ShowTotalBayar;
   HitungSisaUang;
-
-end;
-
-procedure TfrmPayment.ParsingPrintCardValidasi;
-var
-  outFile: string;
-  aSpell: TSpell;
-begin
-  HideInfo;
-  mmoBackup.Clear;
-  mmoTemp.Clear;
-//  if edtNilaiCC.Value <> 0 then //Validasi apabila ada pembayaran pakai CARD
-  if CommonDlg.ShowMessage(2, 'Cetak Validasi', 'Transaksi Kartu ' + #13#10 +
-                          'Tekan Enter/Yes untuk mencetak validasi Kartu !', mtConfirmation) = mrYes then
-  begin
-    aSpell := TSpell.Create;
-
-    outFile := TAppUtils.GetAppPath + 'utils\' + FILE_VALIDASI;
-    if (FileExists(outFile)) then
-       DeleteFile(PChar(outFile));
-
-    mmoIsiCB.Clear;
-    mmoIsiCB.Lines.Add('Tanggal / Jam : ' + FormatDateTime('dd/mm/yyyy',Now) + '  ' + FormatDateTime('HH:nn:ss',Now));
-    mmoIsiCB.Lines.Add('No.Transaksi  : ' + frmTransaksi.edNoTrnTerakhir.Text);
-    mmoIsiCB.Lines.Add('POS / Kasir   : ' + frmMain.FPOSCode + ' / ' + frmMain.FCashierCode + ' ' + frmMain.FCashierName);
-    mmoIsiCB.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-    mmoIsiCB.Lines.Add('Kode/Nama Kartu : ' + TAppUtils.StrPadRight(edtJenisKartuCode.Text,4,' ') + ' ' +
-                         TAppUtils.StrPadRight(edtJenisKartuName.Text,16,' '));
-    mmoIsiCB.Lines.Add('No. Kartu       : ' + TAppUtils.StrPadRight(edtNomorCC.Text,20,' '));
-    mmoIsiCB.Lines.Add('No. Otorisasi   : ' + TAppUtils.StrPadRight(edtNoOtorisasiCC.Text,16,' '));
-    mmoIsiCB.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-
-    mmoIsiCB.Lines.SaveToFile(outFile);
-    PrintFile(outFile);
-    Application.ProcessMessages;
-
-    aSpell.Destroy;
-  end;
-  //----------------------- end print validasi  ---------------------------
-
-end;
-
-procedure TfrmPayment.ParsingPrintConsValidasi;
-var
-  i: Integer;
-  outFile, sTemp: string;
-  iRow: integer;
-  aSpell: TSpell;
-begin
-  HideInfo;
-  mmoBackup.Clear;
-  mmoTemp.Clear;
-
-  if CommonDlg.ShowMessage(2, 'Cetak Validasi', 'Transaksi Concession ' + #13#10 +
-                          'Tekan Enter/Yes untuk mencetak validasi struk !', mtConfirmation) = mrYes then
-  begin
-    aSpell := TSpell.Create;
-
-    outFile := TAppUtils.GetAppPath + 'utils\' + FILE_VALIDASI;
-    if (FileExists(outFile)) then
-       DeleteFile(PChar(outFile));
-
-    mmoIsiCB.Clear;
-    mmoIsiCB.Lines.Add('Tanggal / Jam : ' + FormatDateTime('dd/mm/yyyy',Now) + '  ' + FormatDateTime('HH:nn:ss',Now));
-    mmoIsiCB.Lines.Add('No.Transaksi  : ' + frmTransaksi.edNoTrnTerakhir.Text);
-    mmoIsiCB.Lines.Add('POS / Kasir   : ' + frmMain.FPOSCode + ' / ' + frmMain.FCashierCode + ' ' + frmMain.FCashierName);
-    mmoIsiCB.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-
-    mmoIsiCB.Lines.SaveToFile(outFile);
-    Application.ProcessMessages;
-
-    aSpell.Destroy;
-
-    mmoIsiCB.Lines.SaveToFile(outFile);
-
-    outFile := TAppUtils.GetAppPath + 'utils\' + FILE_ISI_STRUK;
-    if (FileExists(outFile)) then
-       DeleteFile(PChar(outFile));
-
-    mmoIsiStruk.Clear;
-    iRow := frmTransaksi.sgTransaksi.DataController.RecordCount - 1;
-    with frmTransaksi.sgTransaksi.DataController do
-    begin
-    for i := 0 to iRow do
-    begin
-      if (Values[i, _KolPLU] <> '') and (Values[i, _KolTipeBarang] = TipeIDConcession)  then //kalo barang jenis JB
-      begin
-        sTemp := '&';
-        mmoIsiStruk.Lines.Add(Values[i, _KolPLU] + sTemp + Values[i, _KolNamaBarang]);
-        sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,Values[i, _KolJumlah]),8,' ') + ' '
-          + TAppUtils.StrPadRight(Values[i, _KolUOM],5,' ') + 'x'
-          + IfThen(Values[i, _KolDisc]>0,
-            TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolHarga]) + '-'+FormatFloat('#,#0',Values[i, _KolDiscP])+'%',12,' '),
-            TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolHarga]-Values[i, _KolDisc]),12,' '))
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Values[i, _KolTotal]),13,' ');
-        mmoIsiStruk.Lines.Add(sTemp);
-      end;
-    end;
-    end;
-
-    sTemp := '';
-    mmoIsiStruk.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-    mmoIsiStruk.Lines.SaveToFile(outFile);
-
-    mmoBackup.Lines.AddStrings(mmoIsiCB.Lines);
-    mmoBackup.Lines.AddStrings(mmoIsiStruk.Lines);
-    Application.ProcessMessages;
-
-    mmoBackup.Lines.Add('');
-
-    Application.ProcessMessages;
-
-    outFile := TAppUtils.GetAppPath + 'utils\' + 'POS_VALID.TXT';
-    mmoBackup.Lines.SaveToFile(outFile);
-    try
-      begin
-      PrintFile(outFile);
-      end;
-    except
-      //CommonDlg.ShowError('Gagal mencetak struk');
-      ShowInfo('Gagal mencetak struk');
-    end;
-  end;
 
 end;
 

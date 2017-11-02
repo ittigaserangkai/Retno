@@ -105,7 +105,7 @@ object frmLookupBarang: TfrmLookupBarang
       Left = 4
       Top = 7
       Width = 88
-      Height = 23
+      Height = 15
       Margins.Top = 6
       Align = alLeft
       Caption = 'Warning !!!'
@@ -115,7 +115,6 @@ object frmLookupBarang: TfrmLookupBarang
       Font.Name = 'Fixedsys'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 15
     end
   end
   object cxGrid: TcxGrid

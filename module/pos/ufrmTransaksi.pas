@@ -91,20 +91,9 @@ type
     Brs: Integer;
     DiscOto: double;
     FCCUoMs: TStrings;
-		FDiscAMCPersen: Double;
     FIsEditMode: Boolean;
     FModTransaksi: TModTransaksi;
-    FProductCount: Double;
-    FTipeMemberID: string;
-    FTotalColie: Integer;
-    FTotalRupiah: Currency;
-    FTotalRupiahBarangCC: Currency;
     FModTipeHarga: TModTipeHarga;
-    FTotalRupiahBarangBKP: Currency;
-    FTotalRupiahBarangDPP: Currency;
-    FTotalRupiahBarangBebasPPN: Currency;
-    FTotalRupiahBarangDiscount: Currency;
-    sDiscManBefore: String;
     sValueBefore: string;
     Transaksi_ID: string;
     procedure ActiveGrid;
@@ -113,7 +102,6 @@ type
     procedure CalculateManualDisc(var Value: Variant; var Error: Boolean; Row:
         Integer);
     function GetCCUoMs: TStrings;
-		function GetDiscAMCPersen: Double;
     procedure SaveTransactionToCSV(ASaveDetail: Boolean = true; ASaveHeader:
         Boolean = true);
     procedure SavePendingToCSV(AMemberCode: String);
@@ -128,48 +116,27 @@ type
     function GetModTransaksi: TModTransaksi;
     function GetModTipeHarga: TModTipeHarga;
     procedure LoadMember(AMemberNo: String);
-    procedure ResetTransaction;
     function SaveToDBPending: Boolean;
     procedure SetGridFormat_Column(aColIndex: Integer; aIsCurrency: Boolean = True;
         aEditing: Boolean = True);
     procedure SetGridHeader_Transaksi;
     function SetProductToGrid(aBarang: TModBarang; aBHJ: TModBarangHargaJual; aQTY:
         Double): Integer;
-    procedure SetVisibleContrabon(IsVisible: Boolean);
-    function FindInGridOld(aPLU: String; aProductCount: Double; aUoM: String):
-        Integer;
     procedure FocusToPLUEdit;
     function GetDefaultMember: String;
     function GetTotalHarga(ARow: Integer): Double;
-    function GetSellPriceWithTax(ARow: Integer): Double;
-    function GetDiscItemAMCRp(ARow: Integer): Double;
     function HitungTotalRupiah: Currency;
     procedure HideInfo;
-    function HitungTotalRupiahBarangBKP: Currency;
-    function HitungTotalRupiahBarangDiscount: Currency;
-    function IsCCUoM(AUoM: String): Boolean;
     function LoadByPLU(aPLU_Qty: String; aUoM: String = ''; aIsLookupActive:
         Boolean = False): Integer;
     procedure UpdateData;
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
     property DCItem: TcxGridDataController read GetDCItem;
-    property DiscAMCPersen: Double read GetDiscAMCPersen write FDiscAMCPersen;
     property ModTipeHarga: TModTipeHarga read GetModTipeHarga write FModTipeHarga;
     property ModTransaksi: TModTransaksi read GetModTransaksi write FModTransaksi;
-    property TotalColie: Integer read FTotalColie write FTotalColie;
-    property TotalRupiah: Currency read FTotalRupiah write FTotalRupiah;
-    property TotalRupiahBarangBebasPPN: Currency read FTotalRupiahBarangBebasPPN
-        write FTotalRupiahBarangBebasPPN;
-    property TotalRupiahBarangBKP: Currency read FTotalRupiahBarangBKP write
-        FTotalRupiahBarangBKP;
-    property TotalRupiahBarangCC: Currency read FTotalRupiahBarangCC write
-        FTotalRupiahBarangCC;
-    property TotalRupiahBarangDiscount: Currency read FTotalRupiahBarangDiscount
-        write FTotalRupiahBarangDiscount;
-    property TotalRupiahBarangDPP: Currency read FTotalRupiahBarangDPP write
-        FTotalRupiahBarangDPP;
 //    procedure LoadPendingFromCSV(AMemberCode: String);
   public
+    function IsCCUoM(AUoM: String): Boolean;
     procedure LoadData(aID: string = '');
     procedure ShowInfo(AInfo: String);
     procedure ShowPayment;
@@ -349,9 +316,9 @@ var
   i: Integer;
 begin
   Result               := 0;
-  TotalRupiahBarangCC  := 0;
-  TotalColie           := 0;
-  TotalRupiah          := 0;
+//  TotalRupiahBarangCC  := 0;
+//  TotalColie           := 0;
+//  TotalRupiah          := 0;
 
   with sgTransaksi.DataController do
   begin
@@ -360,7 +327,7 @@ begin
       if Values[i, _KolPLU] = '' then Continue;
 
       Result := Result + Values[i, _KolTotal]; //Ceil
-      TotalColie := TotalColie + Round(Values[i, _KolJumlah]);
+//      TotalColie := TotalColie + Round(Values[i, _KolJumlah]);
 
 //      if (Values[i, _KolIsDiscGMC] = '1')
 //        and (Values[i, _KolJumlah] <= Values[i, _KolMaxDiscQTY]) then
@@ -374,7 +341,7 @@ begin
     end;
   end;
 
-  TotalRupiah := Result;
+//  TotalRupiah := Result;
   sPrec       :=  IfThen(igPrice_Precision<0, '.' + StringOfChar('0', Abs(igPrice_Precision)), '');
   lblTotal.Caption := 'Rp. ' + FormatCurr('#,##0'+sPrec, Result) + ' ';
 end;
@@ -475,27 +442,6 @@ begin
   edPLU.Color := clWindow;
 end;
 
-function TfrmTransaksi.FindInGridOld(aPLU: String; aProductCount: Double; aUoM:
-    String): Integer;
-var
-	i: Integer;
-begin
-	Result := -1;
-
-  for i := 0 to sgTransaksi.DataController.RecordCount - 1 do
-  begin
-    if (sgTransaksi.DataController.Values[i, _KolPLU] = aPLU)
-    and (sgTransaksi.DataController.Values[i, _KolUOM] = aUoM) then
-    begin
-      sgTransaksi.DataController.Values[i, _KolJumlah] := sgTransaksi.DataController.Values[i, _KolJumlah] + AProductCount;
-      sgTransaksi.DataController.Values[i, _KolTotal] := GetTotalHarga(i);
-      HitungTotalRupiah;
-      Result := i;
-      Break;
-    end;
-  end;
-end;
-
 procedure TfrmTransaksi.FocusToPLUEdit;
 begin
   if edPLU.Enabled then
@@ -527,19 +473,6 @@ begin
     	((dTotalHargaGross * Values[ARow, _KolPPNBM]) / 100);
      }
 	  end;
-end;
-
-function TfrmTransaksi.GetSellPriceWithTax(ARow: Integer): Double;
-var
-  dTotalHargaGross: Double;
-begin
-//  Result := 0;
-  with sgTransaksi.DataController do
-  begin
-    dTotalHargaGross := (Values[ARow, _KolHargaExcPajak]);
-    Result := RoundTo(dTotalHargaGross + (((dTotalHargaGross * Values[ARow, _KolPPN]) / 100) +
-      ((dTotalHargaGross * Values[ARow, _KolPPNBM]) / 100)), igPrice_Precision);
-  end;
 end;
 
 procedure TfrmTransaksi.edNoPelangganKeyDown(Sender: TObject;
@@ -648,8 +581,8 @@ begin
 end;
 
 function TfrmTransaksi.GetCCUoMs: TStrings;
-var
-  sSQL: string;
+//var
+//  sSQL: string;
 begin
 //  Result := nil;
   FCCUoMs := TStringList.Create;
@@ -680,48 +613,6 @@ begin
   Result := FCCUoMs;
 end;
 
-function TfrmTransaksi.GetDiscAMCPersen: Double;
-var
-	lDecimalSeparator: Char;
-	sSQL: string;
-begin
-	FDiscAMCPersen := 0;
-//  sSQL := 'select tpmember_name '
-//		+ 'from ref$tipe_member '
-//		+ 'where ref$tipe_member_id = ' + QuotedStr(FTipeMemberID);
-//
-//  with cOpenQuery(sSQL) do
-//  begin
-//    try
-//      if not eof then
-//      begin
-//        lDecimalSeparator := FormatSettings.DecimalSeparator;
-//        FormatSettings.DecimalSeparator := '.';
-//      	sSQL := 'select tpmember_discount '
-//          + 'from ref$tipe_member '
-//          + 'where tpmember_name = ' + QuotedStr(Fields[0].AsString)
-//          + ' and tpmember_begin_value <= ' + CurrToStr(TotalRupiah)
-//          + ' and tpmember_end_value >= ' + CurrToStr(TotalRupiah);
-//        FormatSettings.DecimalSeparator := lDecimalSeparator;
-//        with cOpenQuery(sSQL) do
-//        begin
-//          try
-//            if not eof then
-//            begin
-//              FDiscAMCPersen := Fields[0].AsFloat;
-//            end;
-//          finally
-//            Free;
-//          end;
-//        end;
-//      end;
-//    finally
-//      Free;
-//    end;
-//  end;
-	Result := FDiscAMCPersen;
-end;
-
 function TfrmTransaksi.IsCCUoM(AUoM: String): Boolean;
 var
   i: Integer;
@@ -736,22 +627,6 @@ begin
       Exit;
     end;
   end;    // for
-end;
-
-procedure TfrmTransaksi.ResetTransaction;
-begin
-  //cClearGrid(sgTransaksi,False);
-//  sgTransaksi.ClearRows(1,sgTransaksi.RowCount-2);
-//  sgTransaksi.RowCount := 2;
-  //edNoPelanggan.Text := GetDefaultMember;
-  //edNoPelangganExit(edNoPelanggan);
-  sgTransaksi.ClearRows;
-
-  Transaksi_ID         := '';
-  edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
-  HitungTotalRupiah;
-  edPLU.SetFocus;
-  SaveTransactionToCSV;
 end;
 
 procedure TfrmTransaksi.SavePendingToCSV(AMemberCode: String);
@@ -790,7 +665,7 @@ end;
 
 function TfrmTransaksi.SaveToDBPending: Boolean;
 begin
-  Result            := False;
+//  Result            := False;
 //  if not ValidateData then exit;
   UpdateData;
   ModTransaksi.TRANS_IS_PENDING := 1;
@@ -898,20 +773,6 @@ begin
     end
     else
        Close;
-  end;
-end;
-
-function TfrmTransaksi.GetDiscItemAMCRp(ARow: Integer): Double;
-var
-   aDiscAMCPersen : Double;
-begin
-	Result := 0;
-  aDiscAMCPersen := GetDiscAMCPersen;
-  with sgTransaksi.DataController do
-  begin
-    if (Values[ARow, _KolIsDiscGMC] = '1')
-      and (Values[ARow, _KolJumlah] <= Values[ARow, _KolMaxDiscQTY]) then
-      Result := (Values[ARow, _KolHarga]-Values[ARow, _KolDisc]) * (aDiscAMCPersen/100);
   end;
 end;
 
@@ -1102,57 +963,6 @@ begin
   edNoPelanggan.Style.Color := clYellow;
 end;
 
-function TfrmTransaksi.HitungTotalRupiahBarangBKP: Currency;
-var
-  i: Integer;
-begin
-  Result := 0;
-  with sgTransaksi.DataController do
-  begin
-    for i := 0 to RecordCount - 1 do
-    begin
-      if Values[i, _KolIsBKP] = '1' then
-      begin
-        Result := Result + RoundTo(Values[i, _KolTotal], igPrice_Precision);
-      end;
-    end;
-  end;
-  TotalRupiahBarangBKP := Result;
-end;
-
-function TfrmTransaksi.HitungTotalRupiahBarangDiscount: Currency;
-var
-  i: Integer;
-  ValueDM: String;
-  dValue: Double;
-  DiscMstrValue: String;
-begin
-  Result := 0;
-  with sgTransaksi.DataController do
-  begin
-    for i := 0 to RecordCount - 1 do
-    begin
-      if Values[i, _KolPLU] <> '' then
-      begin
-        ValueDM := Values[i, _KolDiscManForm];
-        DiscMstrValue := StringReplace(ValueDM, '*', '%', [rfReplaceAll]);
-
-        if TryStrToFloat(DiscMstrValue,dValue) then
-        begin
-          Result := Result + RoundTo(Values[i, _KolJumlah] * (Values[i, _KolDisc]+
-            Values[i, _KolDiscManForm]), igPrice_Precision);
-        end
-        else
-        begin
-          Result := Result + RoundTo(Values[i, _KolJumlah] * (Values[i, _KolDisc]+
-            ((Values[i, _KolDiscManForm]/100)*Values[i, _KolHarga])), igPrice_Precision);
-        end;
-      end;
-    end;
-  end;
-  TotalRupiahBarangDiscount := Result;
-end;
-
 procedure TfrmTransaksi.SetGridFormat_Column(aColIndex: Integer; aIsCurrency:
     Boolean = True; aEditing: Boolean = True);
 begin
@@ -1335,14 +1145,9 @@ function TfrmTransaksi.LoadByPLU(aPLU_Qty: String; aUoM: String = '';
     aIsLookupActive: Boolean = False): Integer;
 var
   BHJ: TModBarangHargaJual;
-  IsNewRecord: Boolean;
   lModBarang: TModBarang;
-  lModTipeHarga: TModTipeHarga;
-  lModSatuan: TModSatuan;
   lPLU: string;
   lQTY: Double;
-  UOMID: string;
-
   function ValidatePLU: Boolean;
   begin
     Result := False;
@@ -1593,16 +1398,6 @@ begin
   DCItem.Values[Result, _KolDetailID]       := '';
 end;
 
-
-procedure TfrmTransaksi.SetVisibleContrabon(IsVisible: Boolean);
-begin
-  lblHargaKontrabon.Visible  := IsVisible;
-  edHargaKontrabon.Visible   := IsVisible;
-  edPLU.Enabled              := not IsVisible;
-  cxTransaksi.Enabled        := not IsVisible;
-  edHargaKontrabon.SetFocus;
-  edHargaKontrabon.SelectAll;
-end;
 
 procedure TfrmTransaksi.UpdateData;
 var
