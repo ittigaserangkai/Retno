@@ -30,6 +30,7 @@ type
   protected
   public
     procedure Reload(LoadObjectList: Boolean = False);
+    function ReloadByCode(aCode: String): Boolean;
   end;
 
 function GetModAppRestID(aObject: TModApp): String;
@@ -132,6 +133,19 @@ begin
   except
     ShowMessage(Self.ClassName  + '.' + Prop.Name);
     raise;
+  End;
+end;
+
+function TModAppHelper.ReloadByCode(aCode: String): Boolean;
+var
+  lModApp: TModApp;
+begin
+  lModApp := DMClient.CrudClient.RetrieveByCode(Self.ClassName, aCode);
+  Try
+    Self.CopyFrom(lModApp);
+    Result := Self.ID <> ''; //not found
+  Finally
+    lModApp.Free;
   End;
 end;
 

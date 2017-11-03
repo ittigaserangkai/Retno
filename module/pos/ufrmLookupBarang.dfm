@@ -57,7 +57,6 @@ object frmLookupBarang: TfrmLookupBarang
       TabOrder = 0
       OnChange = edNamaBarangChange
       OnKeyDown = edNamaBarangKeyDown
-      ExplicitWidth = 430
     end
     object rbDepan: TRadioButton
       Left = 132
@@ -101,15 +100,12 @@ object frmLookupBarang: TfrmLookupBarang
     ParentBackground = False
     TabOrder = 1
     Visible = False
-    ExplicitLeft = -25
-    ExplicitTop = 260
-    ExplicitWidth = 569
     object lblInfo: TLabel
       AlignWithMargins = True
       Left = 4
       Top = 7
       Width = 88
-      Height = 23
+      Height = 15
       Margins.Top = 6
       Align = alLeft
       Caption = 'Warning !!!'
@@ -119,7 +115,6 @@ object frmLookupBarang: TfrmLookupBarang
       Font.Name = 'Fixedsys'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 15
     end
   end
   object cxGrid: TcxGrid
@@ -131,13 +126,7 @@ object frmLookupBarang: TfrmLookupBarang
     TabOrder = 2
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitLeft = -25
-    ExplicitTop = 52
-    ExplicitWidth = 569
-    ExplicitHeight = 208
     object sgBarang: TcxGridTableView
-      OnDblClick = sgBarangDblClick
-      OnKeyDown = sgBarangKeyDown
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -269,14 +258,7 @@ object frmLookupBarang: TfrmLookupBarang
     Align = alBottom
     TabOrder = 3
     Visible = False
-    ExplicitLeft = -25
-    ExplicitTop = 294
-    ExplicitWidth = 569
     Width = 544
-  end
-  object pmLookup: TPopupMenu
-    Left = 89
-    Top = 195
   end
   object tmrInfo: TTimer
     Enabled = False

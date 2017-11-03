@@ -92,6 +92,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -116,7 +117,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbMarketing: TdxRibbonTab
-      Active = True
       Caption = 'Marketing'
       Groups = <
         item

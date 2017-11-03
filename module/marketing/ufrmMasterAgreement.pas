@@ -724,7 +724,7 @@ begin
   frmDialogMasterAgreement.CustCode                   := tempCustCode;
   frmDialogMasterAgreement.SupCode                    := tempSupCode;
   frmDialogMasterAgreement.PerName                    := tempPerName;
-  frmDialogMasterAgreement.cbPeriode.Text            := lblPeriode1.Caption;
+//  frmDialogMasterAgreement.cbPeriode.Text            := lblPeriode1.Caption;
   frmDialogMasterAgreement.OldTermPeriode             := Round(intedtPeriode.Value);
   frmDialogMasterAgreement.OldPeriode                 := tempPerName;
   frmDialogMasterAgreement.OldNoOfInvoice             := Round(intedtInvoice.Value);

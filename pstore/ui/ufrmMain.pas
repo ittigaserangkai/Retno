@@ -395,8 +395,7 @@ uses
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
   ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
-  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement,
-  ufrmMasterAgreement;
+  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement;
 
 
 
@@ -600,7 +599,7 @@ end;
 
 procedure TfrmMain.actMasterAgreementExecute(Sender: TObject);
 begin
-    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
+//    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMemberActivationExecute(Sender: TObject);

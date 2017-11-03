@@ -20,7 +20,6 @@ type
 
   TfrmDialogMasterAgreement = class(TfrmMasterDialog)
     pnl1: TPanel;
-    lblInput: TLabel;
     lblComboGrid: TLabel;
     lbl9: TLabel;
     lbl3: TLabel;
@@ -33,7 +32,6 @@ type
     lbl12: TLabel;
     lbl6: TLabel;
     lbl13: TLabel;
-    edtSupName: TEdit;
     edtCustName: TEdit;
     edtNoAgreement: TEdit;
     dtStart: TcxDateEdit;
@@ -41,46 +39,34 @@ type
     edtDesc: TEdit;
     cbbPKP: TComboBox;
     cbbPPH: TComboBox;
-    pnl2: TPanel;
-    lbl5: TLabel;
-    lbl14: TLabel;
-    edtUnitPrice: TEdit;
-    lblNewRow: TLabel;
-    lblRemoveRow: TLabel;
-    lblSearchProduct: TLabel;
     intedtInvoice: TcxCurrencyEdit;
     intedtPeriode: TcxCurrencyEdit;
-    lblStaPro: TLabel;
     lblTipeBayar: TLabel;
-    curredtTotal: TcxCurrencyEdit;
     cbCustCode: TcxLookupComboBox;
-    cbSupCode: TcxLookupComboBox;
-    pcDialogAgreement: TcxPageControl;
-    tsKontrak: TcxTabSheet;
     cxGrid: TcxGrid;
-    grdGridView: TcxGridDBTableView;
+    grdGridDetail: TcxGridDBTableView;
     cxcolGridViewColumn2: TcxGridDBColumn;
     cxcolGridViewColumn3: TcxGridDBColumn;
     cxcolGridViewColumn4: TcxGridDBColumn;
     cxcolGridViewColumn5: TcxGridDBColumn;
-    grdlvlMaster: TcxGridLevel;
-    tsJadwalInvoice: TcxTabSheet;
-    cxgrd1: TcxGrid;
-    grdInvoice: TcxGridDBTableView;
-    cxcol1: TcxGridDBColumn;
-    cxcol2: TcxGridDBColumn;
-    cxcol3: TcxGridDBColumn;
-    cxcol4: TcxGridDBColumn;
-    cxcol5: TcxGridDBColumn;
-    cxcol6: TcxGridDBColumn;
-    cxcol7: TcxGridDBColumn;
-    grdlvlMaster1: TcxGridLevel;
+    grdlvlDetail: TcxGridLevel;
     cxcolDetilUnitPrice: TcxGridDBColumn;
     cxcolDetilSubTotal: TcxGridDBColumn;
-    cbPeriode: TcxLookupComboBox;
     cbbTipeBayar: TComboBox;
     cbPajak: TComboBox;
-    cbbStaPro: TComboBox;
+    Label1: TLabel;
+    cxDateEdit1: TcxDateEdit;
+    lbl14: TLabel;
+    curredtTotal: TcxCurrencyEdit;
+    grdlvlInvoice: TcxGridLevel;
+    grdGridInvoice: TcxGridDBTableView;
+    grdGridInvoiceColumn1: TcxGridDBColumn;
+    grdGridInvoiceColumn2: TcxGridDBColumn;
+    grdGridInvoiceColumn3: TcxGridDBColumn;
+    grdGridInvoiceColumn4: TcxGridDBColumn;
+    grdGridInvoiceColumn5: TcxGridDBColumn;
+    grdGridInvoiceColumn6: TcxGridDBColumn;
+    grdGridInvoiceColumn7: TcxGridDBColumn;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -360,9 +346,9 @@ begin
   Result := False;
 //  if AgreementID>0 then
 //     FNewMasterAgreement.LoadByID(aAgreementID, DialogUnit);
-  if Trim(cbSupCode.Text)='' then
-     iSup_Unt_ID := 0
-  else iSup_Unt_ID := DialogUnit;
+//  if Trim(cbSupCode.Text)='' then
+//     iSup_Unt_ID := 0
+//  else iSup_Unt_ID := DialogUnit;
 
 //  FNewMasterAgreement.UpdateData(CustCode, DialogUnit, dtEnd.Date,
 //             dtStart.Date, aAgreementID, intedtInvoice.Value,
@@ -406,96 +392,96 @@ begin
 end;
 
 function TfrmDialogMasterAgreement.checkEmpty(): Boolean;
-var countChk: Integer;
-    projasCode: string;
-    errorField: string;
+//var countChk: Integer;
+//    projasCode: string;
+//    errorField: string;
 begin
   //init
-  Result := True;
-  errorField := ' ';
-  //checking for empty field
-  //agreement
-  if cbCustCode.Text = '' then
-  begin
-    errorField := 'CUSTOMER CODE, ';
-    cbCustCode.SetFocus;
-    Result:= False;
-  end;
-  if edtNoAgreement.Text = '' then
-  begin
-    errorField := errorField + 'NO. AGREEMENT, ';
-    edtNoAgreement.SetFocus;
-    Result:= False;
-  end;
-  if (cbPeriode.Text = '') or (PerID = 0) then
-  begin
-    errorField := errorField + 'PERIODE, ';
-    cbPeriode.SetFocus;
-    Result:= False;
-  end;
-
-  if Result = False then
-  begin
-    SetLength(errorField,Length(errorField)-2);
-    CommonDlg.ShowErrorEmpty(errorField);
-    Exit;
-  end;
-
-  //detil agreement
-//  if strgGrid.RowCount > 1 then
+//  Result := True;
+//  errorField := ' ';
+//  //checking for empty field
+//  //agreement
+//  if cbCustCode.Text = '' then
 //  begin
-//    for countChk := 2 to strgGrid.RowCount do
-//    begin
-//      projasCode := strgGrid.Cells[_KolCODE,countChk-1];
-//      if countChk = 2 then
-//      begin
-//        if projasCode = '' then
-//        begin
-//          strgGrid.SelectRows(1,1);
-//          strgGrid.RemoveSelectedRows;
-//        end
-//        else
-//        begin
-//          with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
-//          begin
-//            try
-//              Last;
-//              if RecordCount < 1 then
-//              begin
-//                CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
-//                Result := False;
-//                Exit;
-//              end;
+//    errorField := 'CUSTOMER CODE, ';
+//    cbCustCode.SetFocus;
+//    Result:= False;
+//  end;
+//  if edtNoAgreement.Text = '' then
+//  begin
+//    errorField := errorField + 'NO. AGREEMENT, ';
+//    edtNoAgreement.SetFocus;
+//    Result:= False;
+//  end;
+//  if (cbPeriode.Text = '') or (PerID = 0) then
+//  begin
+//    errorField := errorField + 'PERIODE, ';
+//    cbPeriode.SetFocus;
+//    Result:= False;
+//  end;
 //
-//            finally
-//              Free;
-//            end;
-//          end;
-//        end; //else '' projas
-//      end
-//      else
-//      begin
-//        with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
-//        begin
-//          try
-//            Last;
-//            if RecordCount < 1 then
-//            begin
-//              CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
-//              Result := False;
-//              Exit;
-//            end;
+//  if Result = False then
+//  begin
+//    SetLength(errorField,Length(errorField)-2);
+//    CommonDlg.ShowErrorEmpty(errorField);
+//    Exit;
+//  end;
 //
-//          finally
-//            Free;
-//          end;
-//        end;
-//      end;
-//    end; // for to do
+//  //detil agreement
+////  if strgGrid.RowCount > 1 then
+////  begin
+////    for countChk := 2 to strgGrid.RowCount do
+////    begin
+////      projasCode := strgGrid.Cells[_KolCODE,countChk-1];
+////      if countChk = 2 then
+////      begin
+////        if projasCode = '' then
+////        begin
+////          strgGrid.SelectRows(1,1);
+////          strgGrid.RemoveSelectedRows;
+////        end
+////        else
+////        begin
+////          with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
+////          begin
+////            try
+////              Last;
+////              if RecordCount < 1 then
+////              begin
+////                CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
+////                Result := False;
+////                Exit;
+////              end;
+////
+////            finally
+////              Free;
+////            end;
+////          end;
+////        end; //else '' projas
+////      end
+////      else
+////      begin
+////        with cOpenQuery(GetSQLsearchProjasByCode(projasCode), False) do
+////        begin
+////          try
+////            Last;
+////            if RecordCount < 1 then
+////            begin
+////              CommonDlg.ShowError(' PRODUCT '+ projasCode +' IS NOT LISTED ');
+////              Result := False;
+////              Exit;
+////            end;
+////
+////          finally
+////            Free;
+////          end;
+////        end;
+////      end;
+////    end; // for to do
+////
+////  end; //f strgrid.rowcnt
 //
-//  end; //f strgrid.rowcnt
-
-  //jadwal agreement
+//  //jadwal agreement
 end;
 
 procedure TfrmDialogMasterAgreement.footerDialogMasterbtnSaveClick(
@@ -656,7 +642,7 @@ begin
   if FormMode = fmEdit then
     showDataEdit();
 
-  tsKontrak.Show;
+  //tsKontrak.Show;
   CountEndEffectiveDate;
 
   CurrTipeProdukId := '';
@@ -893,12 +879,12 @@ end;
 
 procedure TfrmDialogMasterAgreement.cbpSupCodeCloseUp(Sender: TObject);
 begin
-  if cbSupCode.ItemIndex>1 then
-  begin
+//  if cbSupCode.ItemIndex>1 then
+//  begin
 //    SupCode         := cbSupCode.Cells[1, cbpSupCode.Row];
 //    cbSupCode.Text := SupCode;
 //    edtSupName.Text := cbSupCode.Cells[2, cbpSupCode.Row];
-  end;
+//  end;
 end;
 
 procedure TfrmDialogMasterAgreement.strgGridCellValidate(Sender: TObject;
@@ -1032,11 +1018,11 @@ procedure TfrmDialogMasterAgreement.cbpSupCodeKeyUp(Sender: TObject;
 //var arrParam: TArr;
 begin
   inherited;
-  if Length(cbSupCode.Text) = 1 then
-  begin
-    supCode   := UpperCase(cbSupCode.Text);
+//  if Length(cbSupCode.Text) = 1 then
+//  begin
+//    supCode   := UpperCase(cbSupCode.Text);
 //    LoadDropDownData(cbSupCode, GetListSuplierByUnitId(DialogUnit, supCode + '%'));
-  end;
+//  end;
 
   if (Key = Word(Ord(VK_F5))) then
   begin
@@ -1174,71 +1160,71 @@ begin
 end;
 
 procedure TfrmDialogMasterAgreement.CountEndEffectiveDate;
-var {tempHariPer,} countI, tempPeriode: Integer;
-    tempSubTotal{, tempQTY}: Currency;
+//var {tempHariPer,} countI, tempPeriode: Integer;
+//    tempSubTotal{, tempQTY}: Currency;
 //    tempDate: TDateTime;
-    tempDay, tempMonth, tempYear: Word;
+//    tempDay, tempMonth, tempYear: Word;
 begin
-  if (PerID = 0) then
-    Exit;
-
-  tempPeriode:= Round(intedtPeriode.Value);
-
-  tempDay   := DayOf(dtStart.Date);
-  tempMonth := MonthOf(dtStart.Date);
-  tempYear  := YearOf(dtStart.Date);
-
-
-  if cbPeriode.Text = 'BULAN' then
-  begin
-    tempMonth := tempMonth + tempPeriode;
-    if tempMonth > 12 then
-    begin
-      tempYear  := tempYear + 1;
-      tempMonth := tempMonth - 12;
-    end;
-
-
-    if IsValidDate(tempYear, tempMonth, tempDay) then
-      dtEnd.Date := EncodeDate(tempYear, tempMonth, tempDay)
-    else
-      dtEnd.Date := EncodeDate(tempYear, tempMonth + 1, tempDay - 1 - DaysInMonth(EncodeDate(tempYear, tempMonth, 1)));
-  end
-  else
-  begin
-    dtEnd.Date := dtStart.Date + intedtPeriode.Value;
-  end;
-
-
-  hariPeriode := DaysBetween(dtEnd.Date, dtStart.Date);
-
-//  if (strgGrid.RowCount >= 2) and (strgGrid.Cells[_KolCODE, 1] <> '') then
-//  for countI := 1 to strgGrid.RowCount-1  do
+//  if (PerID = 0) then
+//    Exit;
+//
+//  tempPeriode:= Round(intedtPeriode.Value);
+//
+//  tempDay   := DayOf(dtStart.Date);
+//  tempMonth := MonthOf(dtStart.Date);
+//  tempYear  := YearOf(dtStart.Date);
+//
+//
+//  if cbPeriode.Text = 'BULAN' then
 //  begin
-//    try
-//      tempSubTotal := (strgGrid.Floats[_KolSUB_TOTAL,countI]);
-//    except
-//      tempSubTotal := 0;
+//    tempMonth := tempMonth + tempPeriode;
+//    if tempMonth > 12 then
+//    begin
+//      tempYear  := tempYear + 1;
+//      tempMonth := tempMonth - 12;
 //    end;
 //
-//      dayScale := intedtPeriode.Value;
 //
-//    strgGrid.Cells[_KolTOTAL_AMOUNT,countI] := CurrToStr(dayScale * tempSubTotal);
-//  end;// end for count to rowcount
-  curredtTotal.Text := FormatCurr('##,##0.00',CountTotal);
+//    if IsValidDate(tempYear, tempMonth, tempDay) then
+//      dtEnd.Date := EncodeDate(tempYear, tempMonth, tempDay)
+//    else
+//      dtEnd.Date := EncodeDate(tempYear, tempMonth + 1, tempDay - 1 - DaysInMonth(EncodeDate(tempYear, tempMonth, 1)));
+//  end
+//  else
+//  begin
+//    dtEnd.Date := dtStart.Date + intedtPeriode.Value;
+//  end;
+//
+//
+//  hariPeriode := DaysBetween(dtEnd.Date, dtStart.Date);
+//
+////  if (strgGrid.RowCount >= 2) and (strgGrid.Cells[_KolCODE, 1] <> '') then
+////  for countI := 1 to strgGrid.RowCount-1  do
+////  begin
+////    try
+////      tempSubTotal := (strgGrid.Floats[_KolSUB_TOTAL,countI]);
+////    except
+////      tempSubTotal := 0;
+////    end;
+////
+////      dayScale := intedtPeriode.Value;
+////
+////    strgGrid.Cells[_KolTOTAL_AMOUNT,countI] := CurrToStr(dayScale * tempSubTotal);
+////  end;// end for count to rowcount
+//  curredtTotal.Text := FormatCurr('##,##0.00',CountTotal);
 end;
 
 procedure TfrmDialogMasterAgreement.intedtPeriodeKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if Key = VK_RETURN then
-  begin
-    if (PerID = 0) then
-      cbPeriode.SetFocus
-    else
-      CountEndEffectiveDate;
-  end;
+//  if Key = VK_RETURN then
+//  begin
+//    if (PerID = 0) then
+//      cbPeriode.SetFocus
+//    else
+//      CountEndEffectiveDate;
+//  end;
 end;
 
 procedure TfrmDialogMasterAgreement.SetIsPajak(const Value: Boolean);
@@ -1470,8 +1456,8 @@ end;
 procedure TfrmDialogMasterAgreement.cbCustCodeChange(Sender: TObject);
 begin
   inherited;
-    cbSupCode.Text  := '';
-    edtSupName.Text := '';
+//    cbSupCode.Text  := '';
+//    edtSupName.Text := '';
 end;
 
 procedure TfrmDialogMasterAgreement.lblNewRowClick(Sender: TObject);
@@ -1520,7 +1506,7 @@ procedure TfrmDialogMasterAgreement.footerDialogMasterbtnCloseClick(
 begin
   inherited;
   Self.ModalResult := mrCancel;
-  if grdGridView.DataController.RecordCount > 0then
+  if grdGridDetail.DataController.RecordCount > 0then
   if CommonDlg.Confirm('Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrNo then
   begin
     Self.ModalResult := mrNone;

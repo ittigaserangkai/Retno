@@ -59,6 +59,7 @@ type
     [AttributeOfForeign('REF$GRUP_MEMBER_ID')]
     property RefGrupMember: TModRefGrupMember read FRefGrupMember write
         FRefGrupMember;
+    [AttributeOfCode]
     property MEMBER_CARD_NO: String read FMEMBER_CARD_NO write FMEMBER_CARD_NO;
     [AttributeOfForeign('REF$AGAMA_ID')]
     property MEMBER_AGAMA: TModRefAgama read FMEMBER_AGAMA write FMEMBER_AGAMA;

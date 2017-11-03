@@ -4,17 +4,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  Grids, BaseGrid, AdvGrid, AdvObj;
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
+  System.Actions, Vcl.ActnList, ufraFooterDialog3Button, ufrmMasterDialogBrowse,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB,
+  cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
-  TfrmPopupDetailVoucher = class(TfrmMasterDialog)
-    strgGrid: TAdvStringGrid;
+  TfrmPopupDetailVoucher = class(TfrmMasterDialogBrowse)
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure strgGridGetAlignment(Sender: TObject; ARow, ACol: Integer;
-      var HAlign: TAlignment; var VAlign: TVAlignment);
   private
     FVoucherId: Integer;
     procedure SetVoucherId(const value: Integer);
@@ -28,9 +29,6 @@ var
   frmPopupDetailVoucher: TfrmPopupDetailVoucher;
 
 implementation
-
-uses uGenerateVoucher, uConn, DB;
-
 {$R *.dfm}
 
 procedure TfrmPopupDetailVoucher.SetVoucherId(const value: Integer);
@@ -40,47 +38,48 @@ end;
 
 procedure TfrmPopupDetailVoucher.ParseHeaderGrid;
 begin
-  with strgGrid do
-  begin
-    Clear;
-    RowCount:= 2;
-    ColCount:= 3;
-    Cells[0,0]:= 'NO';
-    Cells[1,0]:= 'NOMINAL';
-    Cells[2,0]:= 'STATUS';
-    AutoSize:= True;
-  end;
+//  with strgGrid do
+//  begin
+//    Clear;
+//    RowCount:= 2;
+//    ColCount:= 3;
+//    Cells[0,0]:= 'NO';
+//    Cells[1,0]:= 'NOMINAL';
+//    Cells[2,0]:= 'STATUS';
+//    AutoSize:= True;
+//  end;
 end;
 
 procedure TfrmPopupDetailVoucher.ParseDataGrid;
-var data: TResultDataSet;
+var
     i: Integer;
-    AParam: TArr;
 begin
   ParseHeaderGrid;
-  SetLength(AParam,1);
-  AParam[0].tipe:= ptInteger;
-  AParam[0].data:= FVoucherId;
-  if not assigned(GenerateVoucher) then
-    GenerateVoucher := TGenerateVoucher.Create;
-  data:= GenerateVoucher.GetListVoucherDetil(AParam);
-  with strgGrid, data do
-  begin
-    if not IsEmpty then
-    begin
-      RowCount:= RecordCount+1;
-      i:=0;
-      while not Eof do
-      begin
-        Inc(i);
-        Cells[0,i]:= fieldbyname('VCRD_NO').AsString;
-        Cells[1,i]:= FormatFloat('#,##0.00',fieldbyname('VCRD_NOMINAL').AsFloat);
-        Cells[2,i]:= fieldbyname('VCRD_STATUS').AsString;
-        Next;
-      end;
-      AutoSize:= True;
-    end;
-  end;
+  {
+  'SELECT * FROM VOUCHER_DETIL ' +
+    'WHERE VCRD_VCR_ID=:P_ID AND VCRD_VCR_UNT_ID = :P_VCRD_VCR_UNT_ID ' +
+    'ORDER BY VCRD_NO ';
+    }
+//  with TVoucher.Create(Self) do
+//  try
+//  with strgGrid,VoucherDetils do
+//  begin
+//    LoadByID(FVoucherId,DialogUnit);
+//    for i:=0 to Count-1 do
+//    begin
+//        if i>0 then
+//          AddRow;
+//        Cells[0,i+1]:=VoucherDetil[i].NO;
+//        Cells[1,i+1]:= FormatFloat('#,##0.00',VoucherDetil[i].Nominal);
+//        Cells[2,i+1]:=VoucherDetil[i].Status;
+//    end;
+//    AutoSize:= True;
+//  end;
+//  finally
+//    free;
+//  end;
+
+ 
 end;
 
 procedure TfrmPopupDetailVoucher.FormClose(Sender: TObject;
@@ -100,14 +99,6 @@ procedure TfrmPopupDetailVoucher.FormShow(Sender: TObject);
 begin
   inherited;
   ParseDataGrid;
-end;
-
-procedure TfrmPopupDetailVoucher.strgGridGetAlignment(Sender: TObject;
-  ARow, ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
-begin
-  inherited;
-  if(ARow=0)or(ACol=2)then HAlign:= taCenter;
-  if(ACol=1)and(ARow<>0)then HAlign:= taRightJustify;
 end;
 
 end.

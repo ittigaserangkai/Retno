@@ -75,7 +75,9 @@ uses
   uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
   uDMReport in '..\system\uDMReport.pas' {DMReport},
-  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang};
+  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
+  uModelHelper in '..\model\uModelHelper.pas',
+  ufrmLookupMember in '..\module\pos\ufrmLookupMember.pas' {frmLookupMember};
 
 {$R *.res}
 
@@ -84,7 +86,6 @@ begin
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TfrmLookupBarang, frmLookupBarang);
   frmMain.DoLogin();
   Application.CreateForm(TDMReport, DMReport);
   Application.Run;

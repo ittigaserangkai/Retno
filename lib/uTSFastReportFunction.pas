@@ -167,7 +167,7 @@ Begin
   While (i >= 1) do
   Begin
     X := '';
-    While not ((strN[i] in [',', '.'])) and (i>=1) do
+    While not (CharInSet(strN[i] , [',', '.'])) and (i>=1) do
     Begin
       X := strN[i]+X;
       dec(i);
@@ -210,7 +210,7 @@ Begin
   While (i >= 1) do
   Begin
     X := '';
-    While not ((strN[i] in [',', '.'])) and (i>=1) do
+    While not (CharInSet(strN[i] , [',', '.'])) and (i>=1) do
     Begin
       X := strN[i]+X;
       dec(i);

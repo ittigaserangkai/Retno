@@ -15,6 +15,8 @@ type
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
+    function CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataSet;
     function AP_GetDSLookUp: TDataSet;
     function AP_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
     function AR_GetDSLookUpPerOrganization(AOrgID : String): TDataSet;
@@ -34,6 +36,7 @@ type
     function Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
     function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode : String):
         TDataSet;
+    function Barang_HargaJualOverview(AProductCode : String): TDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
         string): TDataSet;
     function Claim_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
@@ -242,6 +245,19 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
+function TDSProvider.CrazyPrice_GetDSOverview(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataSet;
+var
+  S: string;
+begin
+  S := ' SELECT * FROM V_CRAZYPRICE ' +
+       ' where CRAZY_DATE between ' + TDBUtils.QuotDt(APeriodeAwal) +
+       ' and ' + TDBUtils.QuotDt(APeriodeAkhir) +
+       ' order by CRAZY_DATE desc, ORG_Code, ORG_Name';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.AP_GetDSLookUp: TDataSet;
 var
   S: string;
@@ -438,6 +454,19 @@ begin
 
   if (AProductCode <> '') and (AProductCode <> 'XXX') then
     S := S + ' and A.BRG_CODE like ' + QuotedStr('%' + AProductCode + '%');
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Barang_HargaJualOverview(AProductCode : String): TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_BARANG_HARGA_JUAL ' +
+       ' where 1 = 1 ';
+
+  if (AProductCode <> '') and (AProductCode <> 'XXX') then
+    S := S + ' and BRG_CODE like ' + QuotedStr('%' + AProductCode + '%');
 
   Result := TDBUtils.OpenQuery(S);
 end;

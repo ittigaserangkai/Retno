@@ -4,7 +4,7 @@ interface
 
 uses
   uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang,
-  System.Generics.Collections, uModCreditCard;
+  System.Generics.Collections, uModCreditCard, uModAuthUser, System.SysUtils;
 
 type
   TModTransaksiDetil = class;
@@ -25,6 +25,7 @@ type
     FTRANS_IS_JURNAL: Integer;
     FTRANS_IS_PENDING: Integer;
     FTRANS_NO: string;
+    FOP_CREATE: TModAuthUser;
     FTRANS_PEMBULAT: Integer;
     FTRANS_TOTAL_BAYAR: Double;
     FTRANS_TOTAL_DISC_GMC: Double;
@@ -32,6 +33,14 @@ type
     FTRANS_TOTAL_TRANSACTION: Double;
     function GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
   public
+    destructor Destroy; override;
+    function GetTotalBarangAMC: Double;
+    function GetTotalColie: Double;
+    function GetSubTotal: Double;
+    function GetDPP: Double;
+    function GetDiscount: Double;
+    function GetNonBKP: Double;
+    function GetPPN: Double;
     property TransaksiDetils: TobjectList<TModTransaksiDetil> read
         GetTransaksiDetils write FTransaksiDetils;
   published
@@ -56,6 +65,8 @@ type
     property TRANS_IS_PENDING: Integer read FTRANS_IS_PENDING write
         FTRANS_IS_PENDING;
     property TRANS_NO: string read FTRANS_NO write FTRANS_NO;
+    [AttributeOfForeign('OP_CREATE')]
+    property OP_CREATE: TModAuthUser read FOP_CREATE write FOP_CREATE;
     property TRANS_PEMBULAT: Integer read FTRANS_PEMBULAT write FTRANS_PEMBULAT;
     property TRANS_TOTAL_BAYAR: Double read FTRANS_TOTAL_BAYAR write
         FTRANS_TOTAL_BAYAR;
@@ -79,6 +90,7 @@ type
     FTRANSD_DISC_CARD: Double;
     FTRANSD_DISC_GMC_NOMINAL: Double;
     FTRANSD_DISC_MAN: Double;
+    FTRANSD_DISCOUNT: Double;
     FTRANSD_IS_BKP: Integer;
     FTRANSD_LAST_COST: Double;
     FTRANSD_PPN: Double;
@@ -92,7 +104,13 @@ type
     FTRANSD_TOTAL_CEIL: Integer;
     FTRANSD_TRANS_NO: string;
   public
+    destructor Destroy; override;
     class function GetTableName: String; override;
+    function GetDPP: Double;
+    function GetNonBKP: Double;
+    function GetSubTotal: Double;
+    function GetPPN: Double;
+    property TRANSD_DISCOUNT: Double read FTRANSD_DISCOUNT write FTRANSD_DISCOUNT;
   published
     property BARANG_HARGA_JUAL: TModBarangHargaJual read FBARANG_HARGA_JUAL write
         FBARANG_HARGA_JUAL;
@@ -166,6 +184,86 @@ type
 
 implementation
 
+destructor TModTransaksi.Destroy;
+begin
+  inherited;
+  if Assigned(FMEMBER) then
+    FreeAndNil(FMember);
+  //jangan destroy AUTUNIT karena diset dari luar
+end;
+
+function TModTransaksi.GetTotalBarangAMC: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    if lItem.TRANSD_BRG_IS_GMC <> 1 then continue;
+    Result := Result + lItem.TRANSD_TOTAL;
+  end;
+end;
+
+function TModTransaksi.GetTotalColie: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.TRANSD_QTY;
+  end;
+end;
+
+function TModTransaksi.GetSubTotal: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.GetSubTotal;
+  end;
+end;
+
+function TModTransaksi.GetDPP: Double;
+begin
+  Result := Self.GetSubTotal - Self.GetDiscount;
+end;
+
+function TModTransaksi.GetDiscount: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.TRANSD_DISCOUNT;
+  end;
+end;
+
+function TModTransaksi.GetNonBKP: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.GetNonBKP;
+  end;
+end;
+
+function TModTransaksi.GetPPN: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.GetPPN;
+  end;
+end;
+
 function TModTransaksi.GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
 begin
   if FTransaksiDetils = nil then
@@ -174,9 +272,43 @@ begin
   Result := FTransaksiDetils;
 end;
 
+destructor TModTransaksiDetil.Destroy;
+begin
+  inherited;
+  if Assigned(FBARANG_HARGA_JUAL) then FreeAndNil(FBARANG_HARGA_JUAL);
+  //jangan destroy AUTUNIT karena diset dari luar
+end;
+
 class function TModTransaksiDetil.GetTableName: String;
 begin
   Result := 'TRANSAKSI_DETIL';
+end;
+
+function TModTransaksiDetil.GetDPP: Double;
+begin
+  Result := Self.TRANSD_TOTAL;
+  if Self.TRANSD_PPN <> 0 then
+    Result := Result / ((100+Self.TRANSD_PPN)/100);
+end;
+
+function TModTransaksiDetil.GetNonBKP: Double;
+begin
+  if Self.TRANSD_PPN = 0 then
+    Result := Self.TRANSD_QTY * Self.TRANSD_SELL_PRICE
+  else
+    Result := 0;
+end;
+
+function TModTransaksiDetil.GetSubTotal: Double;
+begin
+  Result := Self.TRANSD_QTY * Self.TRANSD_SELL_PRICE;
+  if Self.TRANSD_PPN <> 0 then
+    Result := Result / ((100+Self.TRANSD_PPN)/100);
+end;
+
+function TModTransaksiDetil.GetPPN: Double;
+begin
+  Result := Self.TRANSD_TOTAL - Self.GetDPP;
 end;
 
 class function TModTransaksiCard.GetTableName: String;

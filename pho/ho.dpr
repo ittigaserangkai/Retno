@@ -234,7 +234,6 @@ uses
   ufrmDialogContrabonSales in '..\module\finance\ufrmDialogContrabonSales.pas' {frmDialogContrabonSales},
   uModContrabonSales in '..\model\uModContrabonSales.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModJurnal in '..\model\uModJurnal.pas',
   ufrmCustomerInvoice in '..\module\finance\ufrmCustomerInvoice.pas' {frmCustomerInvoice},
   ufrmDialogCustomerInvoice in '..\module\finance\ufrmDialogCustomerInvoice.pas' {frmDialogCustomerInvoice},
@@ -251,12 +250,26 @@ uses
   ufrmSearchDataCustomer in '..\module\customer_support\ufrmSearchDataCustomer.pas' {frmSearchDataCustomer},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
-  ufrmMasterAgreement in '..\module\marketing\ufrmMasterAgreement.pas' {frmMasterAgreement},
   ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement},
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
   ufrmFakturPajakAgreement in '..\module\finance\ufrmFakturPajakAgreement.pas' {frmFakturPajakAgreement},
-  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice};
+  ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
+  ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
+  ufrmListAgreementDetil in '..\module\marketing\ufrmListAgreementDetil.pas' {frmListAgreementDetil},
+  ufrmAgreementVoucher in '..\module\customer_support\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
+  ufrmGenerateVoucher in '..\module\customer_support\ufrmGenerateVoucher.pas' {frmGenerateVoucher},
+  ufrmCustomerVoucher in '..\module\customer_support\ufrmCustomerVoucher.pas' {frmCustomerVoucher},
+  ufrmDialogAgreementVoucher in '..\module\customer_support\ufrmDialogAgreementVoucher.pas' {frmDialogAgreementVoucher},
+  ufrmDialogCustomerVoucher in '..\module\customer_support\ufrmDialogCustomerVoucher.pas' {frmDialogCostumerVoucher},
+  ufrmPopupDetailVoucher in '..\module\customer_support\ufrmPopupDetailVoucher.pas' {frmPopupDetailVoucher},
+  ufrmDialogGenerateVoucher in '..\module\customer_support\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
+  ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
+  ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
+  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

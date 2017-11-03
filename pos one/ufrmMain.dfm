@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Top = 216
   Caption = 'frmMain'
   ClientHeight = 421
-  ClientWidth = 584
+  ClientWidth = 609
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object frmMain: TfrmMain
   object sbMain: TStatusBar
     Left = 0
     Top = 402
-    Width = 584
+    Width = 609
     Height = 19
     Panels = <
       item
@@ -55,9 +55,10 @@ object frmMain: TfrmMain
       item
         Width = 50
       end>
+    ExplicitWidth = 584
   end
   object mmoHelp: TMemo
-    Left = 263
+    Left = 288
     Top = 5
     Width = 321
     Height = 397
@@ -88,14 +89,16 @@ object frmMain: TfrmMain
     ReadOnly = True
     TabOrder = 1
     Visible = False
+    ExplicitLeft = 263
   end
   object pnlHeader: TPanel
     Left = 0
     Top = 0
-    Width = 584
+    Width = 609
     Height = 5
     Align = alTop
     TabOrder = 2
+    ExplicitWidth = 584
   end
   object mnMain: TMainMenu
     Left = 12
@@ -362,7 +365,7 @@ object frmMain: TfrmMain
     Left = 15
     Top = 19
     Bitmap = {
-      494C010103000400840010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101030004008C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

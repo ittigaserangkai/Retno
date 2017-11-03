@@ -27,8 +27,10 @@ type
   private
     FCrudAdjFakClient: TCrudAdjFakturClient;
     FCrudBankCashOutClient: TCrudBankCashOutClient;
+    FCRUDPOSClient: TCRUDPosClient;
     FCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     FCrudClaimFakturClient: TCRUDClaimFakturClient;
+    FCrudBarangClient: TCrudBarangClient;
     FCrudClient: TCrudClient;
     FCrudCNClient: TCrudCNRecvClient;
     FCrudContrabonSalesClient: TCrudContrabonSalesClient;
@@ -44,10 +46,13 @@ type
     FCrudUpdatePOSClient: TCrudUpdatePOSClient;
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
+    FCrudCrazyPriceClient: TCrudCrazyPriceClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
+    function GetCRUDPOSClient: TCRUDPosClient;
     function GetCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     function GetCrudClaimFakturClient: TCRUDClaimFakturClient;
+    function GetCrudBarangClient: TCrudBarangClient;
     function GetCrudClient: TCrudClient;
     function GetCrudCNClient: TCrudCNRecvClient;
     function GetCrudContrabonSalesClient: TCrudContrabonSalesClient;
@@ -63,16 +68,21 @@ type
     function GetCrudUpdatePOSClient: TCrudUpdatePOSClient;
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
+    function GetCrudCrazyPriceClient: TCrudCrazyPriceClient;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
   public
     property CrudAdjFakClient: TCrudAdjFakturClient read GetCrudAdjFakClient write
         FCrudAdjFakClient;
     property CrudBankCashOutClient: TCrudBankCashOutClient read
         GetCrudBankCashOutClient write FCrudBankCashOutClient;
+    property CRUDPOSClient: TCRUDPosClient read GetCRUDPOSClient write
+        FCRUDPOSClient;
     property CrudBarangHargaJualClient: TCrudBarangHargaJualClient read
         GetCrudBarangHargaJualClient write FCrudBarangHargaJualClient;
     property CrudClaimFakturClient: TCRUDClaimFakturClient read
         GetCrudClaimFakturClient write FCrudClaimFakturClient;
+    property CrudBarangClient: TCrudBarangClient read GetCrudBarangClient write
+        FCrudBarangClient;
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
     property CrudCNClient: TCrudCNRecvClient read GetCrudCNClient write
         FCrudCNClient;
@@ -97,6 +107,8 @@ type
         write FCrudUpdatePOSClient;
     property DSProviderClient: TDSProviderClient read GetDSProviderClient write
         FDSProviderClient;
+    property CrudCrazyPriceClient: TCrudCrazyPriceClient read
+        GetCrudCrazyPriceClient write FCrudCrazyPriceClient;
   end;
 
   ERestClientError = class(Exception)
@@ -179,6 +191,15 @@ begin
   Result := FCrudBankCashOutClient;
 end;
 
+function TDMClient.GetCRUDPOSClient: TCRUDPosClient;
+begin
+  if FCRUDPOSClient <> nil then
+    FreeAndNil(FCRUDPOSClient);
+
+  FCRUDPOSClient := TCRUDPosClient.Create(RestConn, InstanceOwner);
+  Result := FCRUDPOSClient;
+end;
+
 function TDMClient.GetCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
 begin
   if FCrudBarangHargaJualClient <> nil then
@@ -195,6 +216,15 @@ begin
 
   FCrudClaimFakturClient := TCRUDClaimFakturClient.Create(DMClient.RestConn,InstanceOwner);
   Result        := FCrudClaimFakturClient;
+end;
+
+function TDMClient.GetCrudBarangClient: TCrudBarangClient;
+begin
+  if FCrudBarangClient <> nil then
+    FreeAndNil(FCrudBarangClient);
+
+  FCrudBarangClient := TCrudBarangClient.Create(DMClient.RestConn,InstanceOwner);
+  Result        := FCrudBarangClient;
 end;
 
 function TDMClient.GetCrudClient: TCrudClient;
@@ -327,6 +357,15 @@ function TDMClient.GetInstanceOwner: Boolean;
 begin
   FInstanceOwner := False;
   Result := FInstanceOwner;
+end;
+
+function TDMClient.GetCrudCrazyPriceClient: TCrudCrazyPriceClient;
+begin
+  if FCrudCrazyPriceClient <> nil then
+    FreeAndNil(FCrudCrazyPriceClient);
+
+  FCrudCrazyPriceClient := TCrudCrazyPriceClient.Create(RestConn, InstanceOwner);
+  Result := FCrudCrazyPriceClient;
 end;
 
 end.

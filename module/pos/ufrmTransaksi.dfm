@@ -32,7 +32,7 @@ object frmTransaksi: TfrmTransaksi
     Height = 410
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 5
+    TabOrder = 3
     object cxTransaksi: TcxGrid
       Left = 0
       Top = 0
@@ -48,7 +48,6 @@ object frmTransaksi: TfrmTransaksi
       TabOrder = 0
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
-      ExplicitHeight = 273
       object sgTransaksi: TcxGridTableView
         OnKeyDown = sgTransaksiKeyDown
         Navigator.Buttons.CustomButtons = <>
@@ -83,7 +82,6 @@ object frmTransaksi: TfrmTransaksi
       BevelOuter = bvLowered
       Color = 13303754
       TabOrder = 1
-      ExplicitTop = 491
       DesignSize = (
         888
         38)
@@ -170,8 +168,6 @@ object frmTransaksi: TfrmTransaksi
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = -8
-      ExplicitTop = 288
       object lbl1: TLabel
         AlignWithMargins = True
         Left = 3
@@ -187,8 +183,6 @@ object frmTransaksi: TfrmTransaksi
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitLeft = 5
-        ExplicitTop = 27
         ExplicitHeight = 23
       end
       object lblHargaKontrabon: TLabel
@@ -207,8 +201,6 @@ object frmTransaksi: TfrmTransaksi
         Font.Style = [fsBold]
         ParentFont = False
         Visible = False
-        ExplicitLeft = 361
-        ExplicitTop = 27
         ExplicitHeight = 23
       end
       object edPLU: TEdit
@@ -233,8 +225,6 @@ object frmTransaksi: TfrmTransaksi
         OnEnter = edPLUEnter
         OnExit = edPLUExit
         OnKeyDown = edPLUKeyDown
-        ExplicitLeft = 156
-        ExplicitTop = 21
         ExplicitHeight = 29
       end
       object edHargaKontrabon: TcxCurrencyEdit
@@ -255,9 +245,6 @@ object frmTransaksi: TfrmTransaksi
         TabOrder = 1
         Visible = False
         OnKeyDown = edHargaKontrabonKeyDown
-        ExplicitLeft = 435
-        ExplicitTop = 29
-        ExplicitHeight = 31
         Width = 169
       end
     end
@@ -380,7 +367,7 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      Transparent = False
+      Transparent = True
       ExplicitLeft = 694
       ExplicitWidth = 193
       ExplicitHeight = 55
@@ -401,79 +388,8 @@ object frmTransaksi: TfrmTransaksi
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      Transparent = False
+      Transparent = True
       ExplicitHeight = 55
-    end
-  end
-  inline fraLookupBarang: TfraLookupBarang
-    Left = 246
-    Top = 192
-    Width = 300
-    Height = 150
-    TabOrder = 2
-    Visible = False
-    ExplicitLeft = 246
-    ExplicitTop = 192
-    ExplicitWidth = 300
-    ExplicitHeight = 150
-    inherited pnlHeader: TPanel
-      Width = 300
-      ParentColor = True
-      ExplicitWidth = 300
-      inherited edNamaBarang: TEdit
-        Width = 480
-        ExplicitWidth = 480
-      end
-    end
-    inherited pnlInfo: TPanel
-      Top = 116
-      Width = 300
-      ExplicitTop = 116
-      ExplicitWidth = 300
-    end
-    inherited cxGrid: TcxGrid
-      Width = 300
-      Height = 43
-      ExplicitWidth = 300
-      ExplicitHeight = 43
-    end
-    inherited pbBarang: TcxProgressBar
-      Top = 95
-      ExplicitTop = 95
-      ExplicitWidth = 300
-      Width = 300
-    end
-  end
-  inline fraMember: TfraMember
-    Left = 71
-    Top = 227
-    Width = 281
-    Height = 146
-    TabOrder = 3
-    Visible = False
-    ExplicitLeft = 71
-    ExplicitTop = 227
-    ExplicitWidth = 281
-    ExplicitHeight = 146
-    inherited cxGrid: TcxGrid
-      Width = 281
-      Height = 67
-      ExplicitWidth = 281
-      ExplicitHeight = 67
-    end
-    inherited pbLookup: TcxProgressBar
-      Top = 125
-      ExplicitTop = 121
-      ExplicitWidth = 281
-      Width = 281
-    end
-    inherited pnlHeader: TPanel
-      Width = 281
-      ExplicitWidth = 281
-      inherited edNama: TEdit
-        Width = 142
-        ExplicitWidth = 142
-      end
     end
   end
   object pnlotorisasi: TPanel
@@ -486,7 +402,7 @@ object frmTransaksi: TfrmTransaksi
     BevelOuter = bvLowered
     Color = clGray
     ParentBackground = False
-    TabOrder = 4
+    TabOrder = 2
     Visible = False
     object lbl4: TLabel
       Left = 9
@@ -567,16 +483,16 @@ object frmTransaksi: TfrmTransaksi
     Enabled = False
     Interval = 500
     OnTimer = tmrInfoTimer
-    Left = 440
-    Top = 386
+    Left = 48
+    Top = 370
   end
   object ActionList1: TActionList
-    Left = 208
-    Top = 151
+    Left = 88
+    Top = 271
   end
   object cxStyleRepository1: TcxStyleRepository
-    Left = 240
-    Top = 80
+    Left = 32
+    Top = 184
     PixelsPerInch = 96
     object cxStyleGreen: TcxStyle
       AssignedValues = [svColor]
