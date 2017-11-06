@@ -440,7 +440,7 @@ end;
 
 class function TAppUtils.DateToInt(ADate : TDateTime): Integer;
 begin
-  Result := StrToInt(FormatDateTime('yyyymmdd', Date));
+  Result := StrToInt(FormatDateTime('yyyymmdd', ADate));
 end;
 
 class function TAppUtils.DateToTiseraDate(aTanggal: TDateTime; aSeparator:

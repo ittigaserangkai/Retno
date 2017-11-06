@@ -123,24 +123,14 @@ var
   lObjectCPs: tobjectList<TModApp>;
 begin
   inherited;
-  if not IsBisaHapus then
-    Exit;
-
   lObjectCPs := TObjectList<TModApp>.Create();
-  if Sender = footerDialogMaster.btnDelete then
+  for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
   begin
-    for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
+    if cxGridTableCP.Text(I, cxGridColCPCrazyPrice_ID.Index) <> '' then
     begin
       lCP := TModCrazyPrice.CreateID(cxGridTableCP.Text(I, cxGridColCPCrazyPrice_ID.Index));
       lObjectCPs.Add(lCP);
     end;
-  end else
-  begin
-    if cxGridTableCP.RecordIndex< 0 then
-      raise Exception.Create('Tidak Ada Baris Yang Akan Dihapus');
-
-    lCP := TModCrazyPrice.CreateID(cxGridTableCP.Text(cxGridTableCP.RecordIndex ,cxGridColCPCrazyPrice_ID.Index));
-    lObjectCPs.Add(lCP);
   end;
 
   if DMClient.CrudCrazyPriceClient.DeleteBatch(lObjectCPs) then
@@ -197,7 +187,7 @@ end;
 procedure TfrmDialogCrazyPrice.FormCreate(Sender: TObject);
 begin
   inherited;
-  TcxExtLookupComboBoxProperties(cxGridTableCP.Columns[cxGridColCPSatuan.Index].Properties).LoadFromCDS(CDSSatuan,'ref$satuan_id', 'sat_code',['SAT_NAME','SAT_GROUP', 'SAT_URUTAN','OPC_UNIT', 'OPM_UNIT', 'SAT_HO_AUTHORIZE', 'REF$SATUAN_ID'],Self);
+  TcxExtLookupComboBoxProperties(cxGridTableCP.Columns[cxGridColCPSatuan.Index].Properties).LoadFromCDS(CDSSatuan,'ref$satuan_id', 'sat_code',['sat_name', 'SAT_GROUP', 'SAT_URUTAN','OPC_UNIT', 'OPM_UNIT', 'SAT_HO_AUTHORIZE', 'REF$SATUAN_ID'],Self);
   TcxExtLookupComboBoxProperties(cxGridTableCP.Columns[cxGridColCPSatuan.Index].Properties).SetMultiPurposeLookup;
 
 end;
@@ -363,9 +353,25 @@ end;
 
 procedure TfrmDialogCrazyPrice.cxGridTableCPDataControllerBeforeDelete(
   ADataController: TcxCustomDataController; ARecordIndex: Integer);
+var
+  I: Integer;
+  lCP: TModCrazyPrice;
+  lObjectCPs: tobjectList<TModApp>;
 begin
   inherited;
-  actDeleteExecute(cxGridTableCP);
+  if cxGridTableCP.RecordIndex < 0 then
+    raise Exception.Create('Tidak Ada Baris Yang Akan Dihapus');
+
+  if cxGridTableCP.Text(I, cxGridColCPCrazyPrice_ID.Index) = '' then
+    Exit;
+
+  if not TAppUtils.Confirm('Data akan terhapus dari database. Anda akan melanjutkan ?') then
+    Abort;
+
+  lObjectCPs := TObjectList<TModApp>.Create;
+  lCP := TModCrazyPrice.CreateID(cxGridTableCP.Text(cxGridTableCP.RecordIndex ,cxGridColCPCrazyPrice_ID.Index));
+  lObjectCPs.Add(lCP);
+  DMClient.CrudCrazyPriceClient.DeleteBatch(lObjectCPs);
 end;
 
 procedure TfrmDialogCrazyPrice.cxGridTableCPDataControllerNewRecord(
@@ -410,8 +416,6 @@ begin
   inherited;
   if AFocusedRecord = nil then
     Exit;
-
-
 
   if VarIsNull(AFocusedRecord.Values[cxGridColCPNamaBarang.Index]) then
   begin
@@ -479,6 +483,7 @@ end;
 function TfrmDialogCrazyPrice.IsDetailValid: Boolean;
 var
   I: Integer;
+  sPrefix: string;
 begin
   Result := False;
 
@@ -490,29 +495,28 @@ begin
 
   for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
   begin
+    sPrefix := 'Baris ke ' + IntToStr(i+1);
+
     if (TAppUtils.DateToInt(cxGridTableCP.Date(i, cxGridColCPPeriodeMulai.index)) > TAppUtils.DateToInt(cxGridTableCP.Date(i, cxGridColCPPeriodeAkhir.Index))) then
     begin
-      TAppUtils.Warning('Tanggal Mulai > Tanggal Akhir');
+      TAppUtils.Warning(sPrefix + ' Tanggal Mulai > Tanggal Akhir');
       Exit;
     end;
 
     if  cxGridTableCP.Double(i, cxGridColCPSellPriceDiscPPN.Index) <= 0 then
     begin
-      TAppUtils.Warning('Harga Jual Belum Diset Dengan Benar');
+      TAppUtils.Warning(sPrefix + ' Harga Jual Belum Diset Dengan Benar');
       Exit;
     end;
-
-
   end;
 
-
   Result := True;
-
 end;
 
 procedure TfrmDialogCrazyPrice.LoadDataBarang(ARecordIndex : Integer; AKode :
     String);
 var
+  i: Integer;
   lBarang: TModBarang;
   lBHJ: TModBarangHargaJual;
 begin
@@ -525,6 +529,14 @@ begin
       cxGridTableCP.SetValue(ARecordIndex, cxGridColCPPLUID.Index, lBarang.ID);
       cxGridTableCP.SetValue(ARecordIndex, cxGridColCPSatuan.Index, null);
       cxGridTableCP.SetValue(ARecordIndex, cxGridColCPUOMBHJ.Index, lBarang.UntaianUOMBHJ);
+      cxGridTableCP.SetValue(ARecordIndex, cxGridColCPPPN.Index, 0);
+
+      for i := 0 to  lBarang.Suppliers.Count - 1 do
+      begin
+        if lBarang.Suppliers[i].BRGSUP_IS_PRIMARY = 1 then
+          if lBarang.Suppliers[i].BRGSUP_IS_BKP = 1 then
+            cxGridTableCP.SetValue(ARecordIndex, cxGridColCPPPN.Index, 10);
+      end;
 
       lBHJ := TModBarangHargaJual.Create;
       try
@@ -580,8 +592,10 @@ end;
 procedure TfrmDialogCrazyPrice.LoadDataBHJ(ARecordIndex : Integer; ABHJ :
     TModBarangHargaJual);
 begin
-  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPCOGS.Index, ABHJ.BHJ_PURCHASE_PRICE);
-  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPPPN.Index, ABHJ.BHJ_PPN);
+  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPCOGS.Index, ABHJ.BHJ_PURCHASE_PRICE_PPN);
+
+
+//  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPPPN.Index, ABHJ.BHJ_PPN);
   cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJMarkUp.Index, ABHJ.BHJ_MARK_UP);
   cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJSellpriceDiscPPN.Index, ABHJ.BHJ_SELL_PRICE);
   cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJSellpriceDisc.Index, ABHJ.BHJ_SELL_PRICE_EX_PPN);

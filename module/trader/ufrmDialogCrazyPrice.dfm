@@ -1,13 +1,13 @@
 inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   Caption = 'Dialog Crazy Price'
   ClientHeight = 479
-  ClientWidth = 728
-  ExplicitWidth = 744
+  ClientWidth = 731
+  ExplicitWidth = 747
   ExplicitHeight = 518
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 728
+    Width = 731
     Height = 423
     ExplicitWidth = 728
     ExplicitHeight = 423
@@ -15,10 +15,11 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       AlignWithMargins = True
       Left = 5
       Top = 5
-      Width = 718
+      Width = 721
       Height = 303
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 718
       object cxGridTableCP: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridTableCPEditing
@@ -33,6 +34,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True
         OptionsData.Appending = True
+        OptionsData.DeletingConfirmation = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColCPCrazyPrice_ID: TcxGridColumn
@@ -94,15 +96,6 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Properties.DisplayFormat = ',0.00;(,0.00)'
           HeaderAlignmentHorz = taCenter
         end
-        object cxGridColCPPPN: TcxGridColumn
-          AlternateCaption = 'CRAZY_PPN'
-          Caption = 'PPN'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          Visible = False
-          HeaderAlignmentHorz = taCenter
-        end
         object cxGridColCPDisc: TcxGridColumn
           AlternateCaption = 'CRAZY_DISC_PERSEN'
           Caption = 'Disc %'
@@ -130,6 +123,14 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 71
+        end
+        object cxGridColCPPPN: TcxGridColumn
+          AlternateCaption = 'CRAZY_PPN'
+          Caption = 'PPN'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          HeaderAlignmentHorz = taCenter
         end
         object cxGridColCPSellPriceDiscPPN: TcxGridColumn
           AlternateCaption = 'CRAZY_SELLPRICE_PPN'
@@ -196,10 +197,11 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       AlignWithMargins = True
       Left = 5
       Top = 314
-      Width = 718
+      Width = 721
       Height = 104
       Align = alBottom
       TabOrder = 1
+      ExplicitWidth = 718
       object lblSebelumDisc: TLabel
         Left = 22
         Top = 28
@@ -353,19 +355,19 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 423
-    Width = 728
+    Width = 731
     ExplicitTop = 423
     ExplicitWidth = 728
     inherited pnlFooter: TPanel
-      Width = 728
+      Width = 731
       ExplicitWidth = 728
       inherited btnClose: TcxButton
-        Left = 651
+        Left = 654
         Action = actCancel
         ExplicitLeft = 651
       end
       inherited btnSave: TcxButton
-        Left = 558
+        Left = 561
         Action = actSave
         ExplicitLeft = 558
       end
@@ -373,21 +375,21 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 481
+        Left = 484
         Action = actPrint
         ExplicitLeft = 481
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 728
+      Width = 731
       ExplicitWidth = 728
       inherited lbCTRLEnter: TLabel
-        Left = 553
+        Left = 556
         Height = 15
         ExplicitLeft = 553
       end
       inherited lbEscape: TLabel
-        Left = 644
+        Left = 647
         Height = 15
         ExplicitLeft = 644
       end
@@ -395,7 +397,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 477
+        Left = 480
         Height = 15
         ExplicitLeft = 477
       end

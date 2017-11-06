@@ -335,12 +335,14 @@ type
     FTipeHarga: TModTipeHarga;
     function GetBHJ_PURCHASE_PRICE: Double;
     function GetBHJ_PPN: Double;
+    function GetBHJ_PURCHASE_PRICE_PPN: Double;
     function GetBHJ_SELL_PRICE_EX_PPN: Double;
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
     property BHJ_PURCHASE_PRICE: Double read GetBHJ_PURCHASE_PRICE;
     property BHJ_PPN: Double read GetBHJ_PPN;
+    property BHJ_PURCHASE_PRICE_PPN: Double read GetBHJ_PURCHASE_PRICE_PPN;
     property BHJ_SELL_PRICE_EX_PPN: Double read GetBHJ_SELL_PRICE_EX_PPN;
   published
     [AttributeOfHeader]
@@ -567,7 +569,7 @@ end;
 
 function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE: Double;
 begin
-  Result := BHJ_SELL_PRICE / 1.1 * (100 / (100 + BHJ_MARK_UP));
+  Result := BHJ_PURCHASE_PRICE_PPN / 1.1;
 end;
 
 function TModBarangHargaJual.GetBHJ_PPN: Double;
@@ -575,9 +577,14 @@ begin
   Result := 10;
 end;
 
+function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE_PPN: Double;
+begin
+  Result := BHJ_SELL_PRICE / ((100 + BHJ_MARK_UP)/100);
+end;
+
 function TModBarangHargaJual.GetBHJ_SELL_PRICE_EX_PPN: Double;
 begin
-  Result := BHJ_SELL_PRICE / (100 + BHJ_PPN)/100;
+  Result := BHJ_SELL_PRICE / ((100 + BHJ_PPN)/100);
 end;
 
 class function TModBarangHargaJual.GetTableName: string;

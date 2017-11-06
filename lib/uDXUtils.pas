@@ -1693,11 +1693,11 @@ begin
     for I := Low(AValues) to High(AValues) do
     begin
       lItemList.AddItem(AColumn, AOperatorKind, AValues[i], ADisplayValues[i]);
-//      Self.DataController.Filter.Root.AddItem(AColumn, AOperatorKind, AValues[i], ADisplayValues[i]);
     end;
   finally
     Self.DataController.Filter.EndUpdate;
     Self.DataController.Filter.Active := true;
+    Self.FilterRow.Visible            := False;
   end;
 end;
 

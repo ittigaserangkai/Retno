@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   ActiveControl = cbbCompCode
-  Caption = 'Head Office :: ASSALAAM HYPERMARKET'
+  Caption = '.'
   ClientHeight = 527
   ClientWidth = 869
   Color = clBtnFace
@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -193,6 +192,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
