@@ -10,10 +10,9 @@ object frmPayment: TfrmPayment
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  FormStyle = fsMDIChild
+  FormStyle = fsMDIForm
   OldCreateOrder = False
   Position = poDefault
-  Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -84,7 +83,7 @@ object frmPayment: TfrmPayment
     end
     object Label9: TLabel
       Left = 9
-      Top = 60
+      Top = 58
       Width = 63
       Height = 14
       Caption = 'Disc. AMC'
@@ -603,7 +602,7 @@ object frmPayment: TfrmPayment
     end
     object edtNilaiTunai: TcxCurrencyEdit
       Left = 147
-      Top = 9
+      Top = 11
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0;(,0)'

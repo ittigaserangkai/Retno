@@ -34,6 +34,13 @@ type
     function GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
   public
     destructor Destroy; override;
+    function GetTotalBarangAMC: Double;
+    function GetTotalColie: Double;
+    function GetSubTotal: Double;
+    function GetDPP: Double;
+    function GetDiscount: Double;
+    function GetNonBKP: Double;
+    function GetPPN: Double;
     property TransaksiDetils: TobjectList<TModTransaksiDetil> read
         GetTransaksiDetils write FTransaksiDetils;
   published
@@ -83,6 +90,7 @@ type
     FTRANSD_DISC_CARD: Double;
     FTRANSD_DISC_GMC_NOMINAL: Double;
     FTRANSD_DISC_MAN: Double;
+    FTRANSD_DISCOUNT: Double;
     FTRANSD_IS_BKP: Integer;
     FTRANSD_LAST_COST: Double;
     FTRANSD_PPN: Double;
@@ -98,7 +106,11 @@ type
   public
     destructor Destroy; override;
     class function GetTableName: String; override;
-    function GetTotalExclTax: Double;
+    function GetDPP: Double;
+    function GetNonBKP: Double;
+    function GetSubTotal: Double;
+    function GetPPN: Double;
+    property TRANSD_DISCOUNT: Double read FTRANSD_DISCOUNT write FTRANSD_DISCOUNT;
   published
     property BARANG_HARGA_JUAL: TModBarangHargaJual read FBARANG_HARGA_JUAL write
         FBARANG_HARGA_JUAL;
@@ -180,6 +192,78 @@ begin
   //jangan destroy AUTUNIT karena diset dari luar
 end;
 
+function TModTransaksi.GetTotalBarangAMC: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    if lItem.TRANSD_BRG_IS_GMC <> 1 then continue;
+    Result := Result + lItem.TRANSD_TOTAL;
+  end;
+end;
+
+function TModTransaksi.GetTotalColie: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.TRANSD_QTY;
+  end;
+end;
+
+function TModTransaksi.GetSubTotal: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.GetSubTotal;
+  end;
+end;
+
+function TModTransaksi.GetDPP: Double;
+begin
+  Result := Self.GetSubTotal - Self.GetDiscount;
+end;
+
+function TModTransaksi.GetDiscount: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.TRANSD_DISCOUNT;
+  end;
+end;
+
+function TModTransaksi.GetNonBKP: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.GetNonBKP;
+  end;
+end;
+
+function TModTransaksi.GetPPN: Double;
+var
+  lItem: TModTransaksiDetil;
+begin
+  Result := 0;
+  for lItem in Self.TransaksiDetils do
+  begin
+    Result := Result + lItem.GetPPN;
+  end;
+end;
+
 function TModTransaksi.GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
 begin
   if FTransaksiDetils = nil then
@@ -200,11 +284,31 @@ begin
   Result := 'TRANSAKSI_DETIL';
 end;
 
-function TModTransaksiDetil.GetTotalExclTax: Double;
+function TModTransaksiDetil.GetDPP: Double;
 begin
   Result := Self.TRANSD_TOTAL;
   if Self.TRANSD_PPN <> 0 then
     Result := Result / ((100+Self.TRANSD_PPN)/100);
+end;
+
+function TModTransaksiDetil.GetNonBKP: Double;
+begin
+  if Self.TRANSD_PPN = 0 then
+    Result := Self.TRANSD_QTY * Self.TRANSD_SELL_PRICE
+  else
+    Result := 0;
+end;
+
+function TModTransaksiDetil.GetSubTotal: Double;
+begin
+  Result := Self.TRANSD_QTY * Self.TRANSD_SELL_PRICE;
+  if Self.TRANSD_PPN <> 0 then
+    Result := Result / ((100+Self.TRANSD_PPN)/100);
+end;
+
+function TModTransaksiDetil.GetPPN: Double;
+begin
+  Result := Self.TRANSD_TOTAL - Self.GetDPP;
 end;
 
 class function TModTransaksiCard.GetTableName: String;

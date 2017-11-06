@@ -116,7 +116,6 @@ object frmLookupMember: TfrmLookupMember
     TabOrder = 1
     Visible = False
     ExplicitTop = 173
-    ExplicitWidth = 428
     Width = 828
   end
   object pnlHeader: TPanel

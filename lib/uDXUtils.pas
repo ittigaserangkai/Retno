@@ -1705,7 +1705,7 @@ procedure TcxGridTableViewHelper.FilterDataLookUp(AColumn : TcxGridColumn;
     AFilterColumnCaption : String; AOperatorKind: TcxFilterOperatorKind; const
     AValues : TStringArray; const ADisplayValues: TStringArray);
 var
-  i: Integer;
+//  i: Integer;
   lColumn: TcxGridColumn;
   lCXGrid: TcxGridDBTableView;
 begin

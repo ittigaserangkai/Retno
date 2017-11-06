@@ -3,7 +3,8 @@ unit ufrmLookupBarang;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Types, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, cxNavigator, cxTextEdit, cxCurrencyEdit, cxContainer,
@@ -48,8 +49,6 @@ type
     procedure edNamaBarangKeyDown(Sender: TObject; var Key: Word; Shift:
         TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure sgBarangDblClick(Sender: TObject);
-    procedure sgBarangKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tmrInfoTimer(Sender: TObject);
   private
     FBarangHargaJualID: string;
@@ -193,74 +192,6 @@ begin
   edNamaBarang.Enabled    := aIsEnable;
   rbDepan.Enabled         := aIsEnable;
   rbSemua.Enabled         := aIsEnable;
-end;
-
-procedure TfrmLookupBarang.sgBarangDblClick(Sender: TObject);
-begin
-  PLU := '';
-  UOM := '';
-//	if sgBarang.Controller.FocusedRowIndex = 0 then Exit;
-//  if pbBarang.Position < 100 then Exit;
-
-  PLU          := sgBarang.DataController.Values[sgBarang.Controller.FocusedRowIndex, _KolPLU];
-  UOM          := sgBarang.DataController.Values[sgBarang.Controller.FocusedRowIndex, _KolSatuan];
-  Self.Visible := False;
-
-  with (Self.Parent as TfrmTransaksi) do
-  begin
-    cxTransaksi.Visible := True;
-    pnlFooter.Visible   := True;
-    edPLU.Text          := Copy(edPLU.Text, 1, Pos('*', edPLU.Text)) + PLU;
-    LoadByPLU(edPLU.Text, UOM, True);
-  end;    // with
-  SetPanelHeaderEnable(True);
-end;
-
-procedure TfrmLookupBarang.sgBarangKeyDown(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
-begin
-  if ((Key = VK_UP) or (Key = 33)) and (sgBarang.Controller.FocusedRowIndex = 0) and edNamaBarang.Enabled then
-  begin
-    edNamaBarang.SetFocus;
-    edNamaBarang.SelectAll;
-    Exit;
-  end
-  else
-  if ((Key = VK_UP) or (Key = 33)) and (sgBarang.Controller.FocusedRowIndex = 0) then
-  begin
-    frmTransaksi.cxTransaksi.SetFocus;
-    Exit;
-  end
-  else
-  if ((Key = VK_DOWN) or (Key = 34)) and (sgBarang.Controller.FocusedRowIndex = (sgBarang.DataController.RowCount-1))
-  and edNamaBarang.Enabled then
-  begin
-    edNamaBarang.SetFocus;
-    edNamaBarang.SelectAll;
-    Exit;
-  end
-  else
-  if (Key = VK_F5) and edNamaBarang.Enabled then
-  begin
-    edNamaBarang.SetFocus;
-    edNamaBarang.SelectAll;
-  end
-  else if (Key in [VK_ESCAPE])  then
-  begin
-    PLU := '';
-    UOM := '';
-    Self.ModalResult := mrCancel;
-  end
-  else if Key = VK_RETURN then
-  begin
-    IsStop := True;
-    sgBarangDblClick(sgBarang);
-  end
-  else if Key in [VK_MULTIPLY,Ord('*')] then
-  begin
-    //IsStop := True;
-  end;
-
 end;
 
 procedure TfrmLookupBarang.ShowInfo(AInfo: String);

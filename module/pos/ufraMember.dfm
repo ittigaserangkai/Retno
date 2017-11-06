@@ -14,8 +14,6 @@ object fraMember: TfraMember
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
     object sgLookup: TcxGridTableView
-      OnDblClick = sgLookupDblClick
-      OnKeyDown = sgLookupKeyDown
       Navigator.Buttons.CustomButtons = <>
       FindPanel.DisplayMode = fpdmManual
       FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -110,8 +108,6 @@ object fraMember: TfraMember
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 0
-      OnChange = edNamaChange
-      OnKeyDown = edNamaKeyDown
     end
     object rbDepan: TRadioButton
       Left = 132
