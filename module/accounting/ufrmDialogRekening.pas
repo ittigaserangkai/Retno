@@ -17,7 +17,6 @@ type
   TfrmDialogRekening = class(TfrmMasterDialog, iCrudable)
     lbl1: TLabel;
     lbl2: TLabel;
-    lbl3: TLabel;
     lbl4: TLabel;
     lbl5: TLabel;
     chkIsDebet: TCheckBox;
@@ -30,7 +29,6 @@ type
     chkbs: TRadioButton;
     chkpl: TRadioButton;
     dbParentCode: TcxExtLookupComboBox;
-    intedtLevel: TcxSpinEdit;
     dbAccountGroup: TcxExtLookupComboBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -263,7 +261,7 @@ procedure TfrmDialogRekening.edtRekCodeKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if (Key = VK_RETURN) then
+  if (Key = VK_RETURN) and (edtRekCode.Text <> '') then
     edtRekName.SetFocus;
 end;
 
@@ -271,8 +269,8 @@ procedure TfrmDialogRekening.edtRekNameKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if (Key = VK_RETURN) then
-    intedtLevel.SetFocus;
+  if (Key = VK_RETURN) and (edtRekName.Text <> '') then
+    edtDescription.SetFocus;
 end;
 
 procedure TfrmDialogRekening.intedtLevelKeyUp(Sender: TObject;
@@ -296,17 +294,13 @@ begin
 
   lDS := dbParentCode.CDS;
   if not Assigned(lDS) then exit;
-
-  lDS.Filtered := True;
-  lDS.Filter := 'REK_LEVEL < ' + inttostr(intedtLevel.Value);
-
 end;
 
 procedure TfrmDialogRekening.edtDescriptionKeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  if (Key = VK_RETURN) then
+  if (Key = VK_RETURN) and (edtDescription.Text <> '') then
     dbAccountGroup.SetFocus;
 end;
 
@@ -400,28 +394,26 @@ begin
 end;
 
 procedure TfrmDialogRekening.edbParentCodeClickBtn(Sender: TObject);
-var
-  s: string;
 begin
   inherited;
-  if intedtLevel.Value = 0 then exit;
-//  KodeGrupRekId := cGetIDfromCombo(cmbAccountType, cmbAccountType.ItemIndex);
-
-  s := 'SELECT REK_CODE as KODE, REK_NAME as NAMAREKENING FROM REKENING'
-     + ' WHERE REK_LEVEL < ' + VarToStr(intedtLevel.EditValue)
-     + ' AND REK_IS_LEAF = 0'
-     + ' AND REK_COMP_ID = ' + IntToStr(DialogCompany)
-     + ' AND REK_GROREK_ID = ' + IntToStr(KodeGrupRekId);
-//  with clookup('Daftar Rekening', s) do
-//  begin
-//    Try
-//      if Strings[0] = '' then Exit;
-//      edbParentCode.Text := Strings[0];
+//  if intedtLevel.Value = 0 then exit;
+////  KodeGrupRekId := cGetIDfromCombo(cmbAccountType, cmbAccountType.ItemIndex);
 //
-//    Finally
-//      Free;
-//    End;
-//  end;
+//  s := 'SELECT REK_CODE as KODE, REK_NAME as NAMAREKENING FROM REKENING'
+//     + ' WHERE REK_LEVEL < ' + VarToStr(intedtLevel.EditValue)
+//     + ' AND REK_IS_LEAF = 0'
+//     + ' AND REK_COMP_ID = ' + IntToStr(DialogCompany)
+//     + ' AND REK_GROREK_ID = ' + IntToStr(KodeGrupRekId);
+////  with clookup('Daftar Rekening', s) do
+////  begin
+////    Try
+////      if Strings[0] = '' then Exit;
+////      edbParentCode.Text := Strings[0];
+////
+////    Finally
+////      Free;
+////    End;
+////  end;
 end;
 
 function TfrmDialogRekening.GetCDSRekening: tclientDataset;
@@ -466,7 +458,6 @@ begin
 
   edtRekCode.Text := ModRekening.REK_CODE;
   edtRekName.Text := ModRekening.REK_NAME;
-  intedtLevel.Value := ModRekening.REK_LEVEL;
   edtDescription.Text := ModRekening.REK_DESCRIPTION;
   if Assigned(ModRekening.RekeningGroup) then
     dbAccountGroup.EditValue := ModRekening.RekeningGroup.ID;
@@ -512,7 +503,6 @@ begin
   end;
   ModRekening.REK_CODE := edtRekCode.Text;
   ModRekening.REK_NAME := edtRekName.Text;
-  ModRekening.REK_LEVEL := intedtLevel.Value;
   ModRekening.REK_DESCRIPTION := edtDescription.Text;
   ModRekening.RekeningGroup := TModRekeningGroup.CreateID(dbAccountGroup.EditValue);
   ModRekening.REK_PARENT := TModRekening.CreateID(dbParentCode.EditValue);

@@ -118,20 +118,14 @@ inherited frmDialogBeginBalancePOS: TfrmDialogBeginBalancePOS
       ExplicitWidth = 506
       inherited lbCTRLEnter: TLabel
         Left = 331
-        Height = 15
         ExplicitLeft = 331
       end
       inherited lbEscape: TLabel
         Left = 422
-        Height = 15
         ExplicitLeft = 422
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 255
-        Height = 15
         ExplicitLeft = 255
       end
     end

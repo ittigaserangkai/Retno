@@ -157,6 +157,17 @@ procedure TfrmDialogPersonalMember.cbpMemberPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
+  if Assigned(ModMember) then
+  begin
+    if (Assigned(ModMember.RefTipeMember)) and (not VarIsNull(cbpMember.EditValue)) then
+    begin
+      if (ModMember.RefTipeMember.ID = cbpMember.EditValue) then
+      begin
+        edtCardNo.Text := ModMember.MEMBER_CARD_NO;
+        exit;
+      end;
+    end;
+  end;
   Generate_NOMOR;
 end;
 
@@ -171,7 +182,8 @@ end;
 
 procedure TfrmDialogPersonalMember.Generate_NOMOR;
 begin
-  if ModMember.ID = '' then edtCardNo.Text := DMClient.DSProviderClient.GET_MEMBER_PAS_NO(cbpMember.Text);
+//  if ModMember.ID = '' then
+    edtCardNo.Text := DMClient.DSProviderClient.GET_MEMBER_PAS_NO(cbpMember.Text);
 end;
 
 function TfrmDialogPersonalMember.GetCDSAgama: tclientDataset;
@@ -221,35 +233,44 @@ begin
 end;
 
 procedure TfrmDialogPersonalMember.LoadData(AID: String);
+var lEvent : TNotifyEvent;
 begin
-  if Assigned(FModMember) then FreeAndNil(FModMember);
-  FModMember := Crud.Retrieve(TModMember.ClassName, AID) as TModMember;
+  lEvent := cbpMember.Properties.OnEditValueChanged;
+  try
+    cbpMember.Properties.OnEditValueChanged := nil;
 
-  edtName.Text                 := ModMember.MEMBER_NAME;
-  edtCardNo.Text               := ModMember.MEMBER_CARD_NO;
-  cbbWarganegara.ItemIndex     := ModMember.MEMBER_IS_WNI;
-  edtTempatLhr.Text            := ModMember.MEMBER_PLACE_OF_BIRTH;
-  dtLahir.Date                 := ModMember.MEMBER_DATE_OF_BIRTH;
-  edtNoIdentts.Text            := ModMember.MEMBER_KTP_NO;
-  cbbGender.ItemIndex          := ModMember.MEMBER_SEX;
-  cbpAgama.EditValue           := ModMember.MEMBER_AGAMA.ID;
-  edtAlamat.Text               := ModMember.MEMBER_ADDRESS;
-  edtRt.Text                   := ModMember.MEMBER_RT;
-  edtRw.Text                   := ModMember.MEMBER_RW;
-  cbpKelurahan.Text            := ModMember.MEMBER_KELURAHAN;
-  edtKecamatan.Text            := ModMember.MEMBER_KECAMATAN;
-  edtKota.Text                 := ModMember.MEMBER_KOTA;
-  edtPostCode.Text             := ModMember.MEMBER_POST_CODE;
-  edtTelp.Text                 := ModMember.MEMBER_TELP;
-  cbbStatus.ItemIndex          := ModMember.MEMBER_IS_MARRIED;
-  edtJmlTanggungan.Value       := ModMember.MEMBER_JML_TANGGUNGAN;
-  edtPndptn.Value              := ModMember.MEMBER_PENDAPATAN;
-  cbpKelompok.ItemIndex        := ModMember.IS_TRADER;
-  cbpMember.EditValue          := ModMember.RefTipeMember.ID;
-  cbpTipeBayar.EditValue       := ModMember.MEMBER_TIPE_BAYAR.ID;
-  edtTOP.Value                 := ModMember.MEMBER_TOP;
-  edtLeadTime.Value            := ModMember.MEMBER_LEAD_TIME;
-  edtPlafon.Value              := ModMember.MEMBER_PLAFON;
+    if Assigned(FModMember) then FreeAndNil(FModMember);
+    FModMember := Crud.Retrieve(TModMember.ClassName, AID) as TModMember;
+
+
+    edtName.Text                 := ModMember.MEMBER_NAME;
+    edtCardNo.Text               := ModMember.MEMBER_CARD_NO;
+    cbbWarganegara.ItemIndex     := ModMember.MEMBER_IS_WNI;
+    edtTempatLhr.Text            := ModMember.MEMBER_PLACE_OF_BIRTH;
+    dtLahir.Date                 := ModMember.MEMBER_DATE_OF_BIRTH;
+    edtNoIdentts.Text            := ModMember.MEMBER_KTP_NO;
+    cbbGender.ItemIndex          := ModMember.MEMBER_SEX;
+    cbpAgama.EditValue           := ModMember.MEMBER_AGAMA.ID;
+    edtAlamat.Text               := ModMember.MEMBER_ADDRESS;
+    edtRt.Text                   := ModMember.MEMBER_RT;
+    edtRw.Text                   := ModMember.MEMBER_RW;
+    cbpKelurahan.Text            := ModMember.MEMBER_KELURAHAN;
+    edtKecamatan.Text            := ModMember.MEMBER_KECAMATAN;
+    edtKota.Text                 := ModMember.MEMBER_KOTA;
+    edtPostCode.Text             := ModMember.MEMBER_POST_CODE;
+    edtTelp.Text                 := ModMember.MEMBER_TELP;
+    cbbStatus.ItemIndex          := ModMember.MEMBER_IS_MARRIED;
+    edtJmlTanggungan.Value       := ModMember.MEMBER_JML_TANGGUNGAN;
+    edtPndptn.Value              := ModMember.MEMBER_PENDAPATAN;
+    cbpKelompok.ItemIndex        := ModMember.IS_TRADER;
+    cbpMember.EditValue          := ModMember.RefTipeMember.ID;
+    cbpTipeBayar.EditValue       := ModMember.MEMBER_TIPE_BAYAR.ID;
+    edtTOP.Value                 := ModMember.MEMBER_TOP;
+    edtLeadTime.Value            := ModMember.MEMBER_LEAD_TIME;
+    edtPlafon.Value              := ModMember.MEMBER_PLAFON;
+  finally
+    cbpMember.Properties.OnEditValueChanged := lEvent;
+  end;
 end;
 
 function TfrmDialogPersonalMember.ChekEmptyValue: Boolean;
