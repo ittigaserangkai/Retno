@@ -113,7 +113,7 @@ inherited frmAbout: TfrmAbout
       Width = 272
       ExplicitWidth = 272
       inherited btnClose: TcxButton
-        Left = 190
+        Left = 119
         Action = actCancel
         Caption = 'Close'
         OptionsImage.Glyph.Data = {
@@ -167,25 +167,42 @@ inherited frmAbout: TfrmAbout
           FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000990000990000990000
           99001950FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00FF}
-        OnEnter = footerDialogMasterbtnCloseEnter
-        OnExit = footerDialogMasterbtnCloseExit
-        ExplicitLeft = 190
+        ExplicitLeft = 119
       end
       inherited btnSave: TcxButton
-        Left = 103
+        Left = 26
         Action = actSave
         Enabled = False
         Visible = False
-        ExplicitLeft = 103
+        ExplicitLeft = 26
       end
       inherited btnDelete: TcxButton
         Action = actDelete
         Visible = False
       end
+      inherited btnPrint: TcxButton
+        Left = 196
+        Action = actPrint
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 272
       ExplicitWidth = 272
+      inherited lbCTRLEnter: TLabel
+        Left = 182
+        Height = 15
+      end
+      inherited lbEscape: TLabel
+        Left = 97
+        Height = 15
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 21
+        Height = 15
+      end
     end
   end
 end

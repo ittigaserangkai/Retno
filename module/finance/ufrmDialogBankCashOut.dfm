@@ -1,26 +1,28 @@
 inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   Caption = 'Bank Cash Out'
   ClientHeight = 536
-  ClientWidth = 885
+  ClientWidth = 897
   OnDestroy = FormDestroy
-  ExplicitWidth = 901
+  ExplicitTop = -97
+  ExplicitWidth = 913
   ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 885
+    Width = 897
     Height = 480
-    ExplicitWidth = 799
-    ExplicitHeight = 426
+    ExplicitWidth = 885
+    ExplicitHeight = 480
     object pnlBCOHeader: TPanel
       Left = 2
       Top = 2
-      Width = 881
+      Width = 893
       Height = 130
       Align = alTop
       BevelKind = bkFlat
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitWidth = 881
       object lblNoBukti: TLabel
         Left = 22
         Top = 7
@@ -241,13 +243,12 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
     object cxgrdDetail: TcxGrid
       Left = 2
       Top = 132
-      Width = 881
+      Width = 893
       Height = 346
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitLeft = 4
-      ExplicitTop = 133
+      ExplicitWidth = 881
       object cxGridTableAPList: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -305,15 +306,18 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         end
         object cxGridColAPRekeningID: TcxGridColumn
           AlternateCaption = 'BCOAP_Rekening'
-          Caption = 'RekeningID'
-          Visible = False
-          Width = 78
+          Caption = 'Kode Rek.'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+          Width = 90
         end
         object cxGridColAPRekening: TcxGridColumn
           Caption = 'Rekening'
-          PropertiesClassName = 'TcxTextEditProperties'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 88
+          Width = 150
         end
         object cxGridColAPKeterangan: TcxGridColumn
           AlternateCaption = 'BCOAP_Keterangan'
@@ -520,11 +524,18 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           HeaderAlignmentHorz = taCenter
           Width = 86
         end
+        object cxGridColPotagRekeningID: TcxGridColumn
+          AlternateCaption = 'BCOAR_Rekening'
+          Caption = 'Kode Rek.'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 79
+        end
         object cxGridColPotagRekening: TcxGridColumn
           Caption = 'Rekening'
-          PropertiesClassName = 'TcxTextEditProperties'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 115
+          Width = 124
         end
         object cxGridColPotagKeterangan: TcxGridColumn
           AlternateCaption = 'BCOAR_Keterangan'
@@ -560,11 +571,6 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
           HeaderAlignmentHorz = taCenter
           Width = 105
         end
-        object cxGridColPotagRekeningID: TcxGridColumn
-          AlternateCaption = 'BCOAR_Rekening'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Visible = False
-        end
       end
       object cxgrdlvlAPList: TcxGridLevel
         Caption = 'Klaim'
@@ -586,57 +592,57 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 480
-    Width = 885
-    ExplicitTop = 426
-    ExplicitWidth = 799
+    Width = 897
+    ExplicitTop = 480
+    ExplicitWidth = 885
     inherited pnlFooter: TPanel
-      Width = 885
-      ExplicitWidth = 799
+      Width = 897
+      ExplicitWidth = 885
       inherited btnClose: TcxButton
-        Left = 808
+        Left = 820
         Action = actCancel
-        ExplicitLeft = 722
+        ExplicitLeft = 808
       end
       inherited btnSave: TcxButton
-        Left = 715
+        Left = 727
         Action = actSave
-        ExplicitLeft = 629
+        ExplicitLeft = 715
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 638
+        Left = 650
         Action = actPrint
-        ExplicitLeft = 552
+        ExplicitLeft = 638
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 885
-      ExplicitWidth = 799
+      Width = 897
+      ExplicitWidth = 885
       inherited lbCTRLEnter: TLabel
-        Left = 710
+        Left = 722
         Height = 15
-        ExplicitLeft = 624
+        ExplicitLeft = 710
       end
       inherited lbEscape: TLabel
-        Left = 801
+        Left = 813
         Height = 15
-        ExplicitLeft = 715
+        ExplicitLeft = 801
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 634
+        Left = 646
         Height = 15
-        ExplicitLeft = 548
+        ExplicitLeft = 634
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 424
-    Top = 40
+    Top = 208
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
     end

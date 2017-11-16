@@ -4,22 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, SUIForm,
-  StdCtrls, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, Mask,
-  JvToolEdit, JvEdit, JvExStdCtrls, JvValidateEdit,
-  JvExMask;
-
+  Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls, uInterface,
+  StdCtrls, Mask, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxContainer, cxEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxCurrencyEdit,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, System.Actions,
+  Vcl.ActnList, ufraFooterDialog3Button;
+ 
 type
   TFormMode = (fmAdd, fmEdit);
-  TfrmDialogCustomerAgreement = class(TfrmMasterDialog)
+  TfrmDialogCustomerAgreement = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
     lbl4: TLabel;
     edtNo: TEdit;
-    dtDate: TJvDateEdit;
-    dtDueDate: TJvDateEdit;
-    jvcuredtTotal: TJvValidateEdit;
+    dtDate: TcxDateEdit;
+    dtDueDate: TcxDateEdit;
+    jvcuredtTotal: TcxCurrencyEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -37,6 +38,7 @@ type
     function  SaveData: boolean;
     function  UpdateData: boolean;
   public
+    procedure LoadData(AID : String);
     { Public declarations }
   published
     property FormMode: TFormMode read FFormMode write SetFormMode;
@@ -49,8 +51,7 @@ var
 
 implementation
 
-uses uGTSUICommonDlg, uConn,  uCustomerAgreement,
-  ufrmCustomerAgreement, DB;
+uses uTSCommonDlg, uConn, ufrmCustomerAgreement, DB;
 
 {$R *.dfm}
 
@@ -92,15 +93,15 @@ begin
 end;
 
 procedure TfrmDialogCustomerAgreement.showDataEdit(Id: Integer);
-var data: TResultDataSet;
+var data: TDataSet;
     arr: TArr;
 begin
   SetLength(arr,1);
   arr[0].tipe:= ptInteger;
   arr[0].data:= Id;
-  if not assigned(CustomerAgreement) then
-    CustomerAgreement := TCustomerAgreement.Create;
-  data:= CustomerAgreement.GetListCustomerAgreement(arr);
+//  if not assigned(CustomerAgreement) then
+//    CustomerAgreement := TCustomerAgreement.Create;
+//  data:= CustomerAgreement.GetListCustomerAgreement(arr);
   edtNo.Text:= data.fieldbyname('AGRV_NO').AsString;
   dtDate.Date:= data.fieldbyname('AGRV_DATE').AsDateTime;
   jvcuredtTotal.Value:= data.fieldbyname('AGRV_TOTAL').AsCurrency;
@@ -126,10 +127,10 @@ begin
     if(Sender.ClassType=TEdit)and((Sender as TEdit).Name='edtNo') then
       dtDate.SetFocus
     else
-    if(Sender.ClassType=TJvDateEdit)and((Sender as TJvDateEdit).Name='dtDate')then
+    if(Sender.ClassType=TcxDateEdit)and((Sender as TcxDateEdit).Name='dtDate')then
       jvcuredtTotal.SetFocus
     else
-    if(Sender.ClassType=TJvValidateEdit)and((Sender as TJvValidateEdit).Name='edtTotal')then
+    if(Sender.ClassType=TcxCurrencyEdit)and((Sender as TcxCurrencyEdit).Name='edtTotal')then
       dtDueDate.SetFocus
     else
       footerDialogMaster.btnSave.SetFocus;
@@ -139,8 +140,8 @@ end;
 function TfrmDialogCustomerAgreement.SaveData: boolean;
 var arrParam: TArr;
 begin
-  if not assigned(CustomerAgreement) then
-    CustomerAgreement := TCustomerAgreement.Create;
+//  if not assigned(CustomerAgreement) then
+//    CustomerAgreement := TCustomerAgreement.Create;
   SetLength(arrParam,7);
   arrParam[0].tipe := ptString;
   arrParam[0].data := edtNo.Text;
@@ -157,7 +158,7 @@ begin
   arrParam[6].tipe := ptInteger;
   arrParam[6].data := FLoginId;
   try
-    Result:= CustomerAgreement.InputCustomerAgreement(arrParam);
+//    Result:= CustomerAgreement.InputCustomerAgreement(arrParam);
   except
     Result:= False;
   end;
@@ -166,8 +167,8 @@ end;
 function TfrmDialogCustomerAgreement.UpdateData: boolean;
 var arrParam: TArr;
 begin
-  if not assigned(CustomerAgreement) then
-    CustomerAgreement := TCustomerAgreement.Create;
+//  if not assigned(CustomerAgreement) then
+//    CustomerAgreement := TCustomerAgreement.Create;
   SetLength(arrParam,6);
   arrParam[0].tipe := ptString;
   arrParam[0].data := edtNo.Text;
@@ -182,7 +183,7 @@ begin
   arrParam[5].tipe := ptInteger;
   arrParam[5].data := CustAgreementId;
   try
-    Result:= CustomerAgreement.UpdateCustomerAgreement(arrParam);
+//    Result:= CustomerAgreement.UpdateCustomerAgreement(arrParam);
   except
     Result:= False;
   end;
@@ -210,6 +211,21 @@ begin
     if FIsProcessSuccessfull then
       Close;
   end; // end if
+end;
+
+procedure TfrmDialogCustomerAgreement.LoadData(AID : String);
+begin
+//  ClearByTag([0,1]);
+//  edNoBukti.Text := 'Otomatis';
+//  FreeAndNil(FCI);
+
+//  if AID = '' then
+//    Exit;
+//
+//  FCI := TModCustomerInvoice(DMClient.CrudCustomerInvoiceClient.Retrieve(TModCustomerInvoice.ClassName, AID));
+//  if FCI = nil then
+//    Exit;
+
 end;
 
 end.

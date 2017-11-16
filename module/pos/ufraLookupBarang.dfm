@@ -42,8 +42,6 @@ object fraLookupBarang: TfraLookupBarang
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 0
-      OnChange = edNamaBarangChange
-      OnKeyDown = edNamaBarangKeyDown
     end
     object rbDepan: TRadioButton
       Left = 132
@@ -103,8 +101,6 @@ object fraLookupBarang: TfraLookupBarang
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
     object sgBarang: TcxGridTableView
-      OnDblClick = sgBarangDblClick
-      OnKeyDown = sgBarangKeyDown
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -184,14 +180,13 @@ object fraLookupBarang: TfraLookupBarang
     Width = 569
   end
   object pmLookup: TPopupMenu
-    Left = 105
-    Top = 51
+    Left = 169
+    Top = 155
   end
   object tmrInfo: TTimer
     Enabled = False
     Interval = 500
-    OnTimer = tmrInfoTimer
-    Left = 72
+    Left = 240
     Top = 104
   end
 end

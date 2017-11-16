@@ -7,7 +7,8 @@ uses
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
-  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO;
+  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,
+  uModSatuan;
 
 type
   {$METHODINFO ON}
@@ -42,9 +43,11 @@ type
     function GenerateNo(aClassName: string): String; overload;
     function OpenQuery(S: string): TDataSet;
     function Retrieve(ModClassName, AID: string): TModApp; overload;
+    function RetrieveBatch(ModClassName, AIDs: string): TModApps; overload;
     function RetrieveByCode(ModClassName, aCode: string): TModApp; overload;
     function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
+    function DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
     function SaveToDB(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function SaveToDBLog(AObject: TModApp): Boolean;
@@ -64,6 +67,8 @@ type
   end;
 
   TCrudSupplier = class(TCrud)
+  private
+    function ValidateCodeOnObject(AObject: TModApp): Boolean;
   public
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
@@ -173,12 +178,31 @@ type
   TCrudBarangHargaJual = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
+  public
+    function RetrieveByPLU(AModBarang : TModBarang; AModUOM : TModSatuan):
+        TModBarangHargaJual;
   end;
 
   TCrudKuponBotol = class(TCrud)
   protected
     function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
         = 11): String; override;
+  end;
+
+  TCRUDJurnal = class(TCrud)
+  protected
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; override;
+  public
+  end;
+  TCrudCrazyPrice = class(TCrud)
+  end;
+
+  TCrudBarang = class(TCrud)
+  public
+    function RetrieveByCodeBHJUOM(ModClassName, aCode: string): TModBarang;
+        overload;
+    function RetrievePOS(sPLUBarCode: string): TModBarang;
   end;
 
 {$METHODINFO OFF}
@@ -190,7 +214,7 @@ implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
-  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils;
+  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -336,6 +360,30 @@ begin
   TDBUtils.LoadFromDB(Result, AID, LoadObjectList);
 end;
 
+function TCrud.RetrieveBatch(ModClassName, AIDs: string): TModApps;
+var
+  IDs: TStrings;
+//  lClass: TModAppClass;
+  I: Integer;
+  lModApp: TModApp;
+begin
+  Result := TModApps.Create;
+
+  IDs := TStringList.Create;
+  try
+    IDs.CommaText := AIDs;
+
+    for I := 0 to IDs.Count - 1 do
+    begin
+      lModApp := Retrieve(ModClassName, IDs[i]);
+      if lModApp.ID <> '' then
+        Result.APPs.Add(lModApp);
+    end;
+  finally
+    IDs.Free;
+  end;
+end;
+
 function TCrud.RetrieveByCode(ModClassName, aCode: string): TModApp;
 var
   lClass: TModAppClass;
@@ -371,6 +419,26 @@ begin
     for I := 0 to AObjectList.Count - 1 do
     begin
       SaveToDBTrans(AObjectList[i], False);
+    end;
+
+    TDBUtils.Commit;
+    Result := True;
+  except
+    raise;
+  end;
+
+end;
+
+function TCrud.DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
+var
+  I: Integer;
+begin
+//  Result := False;
+
+  try
+    for I := 0 to AObjectList.Count - 1 do
+    begin
+      DeleteFromDBTrans(AObjectList[i], False);
     end;
 
     TDBUtils.Commit;
@@ -514,8 +582,7 @@ var
   sFilter: string;
 begin
   Result  := True;
-  if AObject.PropFromAttr(AttributeOfCode, False) = nil then
-    exit;
+  if AObject.PropFromAttr(AttributeOfCode, False) = nil then exit;
   sFilter := AOBject.GetCodeField + ' = ' + QuotedStr(AObject.GetCodeValue);
   if AOBject.ID <> '' then
     sFilter := sFilter + ' And ' + AOBject.GetPrimaryField + ' <> ' + QuotedStr(AOBject.ID);
@@ -583,14 +650,19 @@ end;
 function TCrudSupplier.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lModSupplier: TModSuplier;
-//  lSS: TStrings;
   I: Integer;
 begin
-  Result := True;
+  Result := False;
+
+  if not ValidateCodeOnObject(AObject) then
+    Exit;
 
   lModSupplier := TModSuplier(AObject);
   for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
   begin
+    if not ValidateCode(lModSupplier.SuplierMerchanGroups[i]) then
+    Exit;
+
     if lModSupplier.SuplierMerchanGroups[i].SUPMG_IS_DIF_CONTACT = 0 then
     begin
       lModSupplier.SuplierMerchanGroups[i].SUPMG_ADDRESS := lModSupplier.SUP_ADDRESS;
@@ -610,6 +682,27 @@ begin
 
   end;
 
+end;
+
+function TCrudSupplier.ValidateCodeOnObject(AObject: TModApp): Boolean;
+var
+  lModSupplier: TModSuplier;
+  I: Integer;
+  j: Integer;
+begin
+  lModSupplier := TModSuplier(AObject);
+  for I := 0 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+  begin
+    for j := i + 1 to lModSupplier.SuplierMerchanGroups.Count - 1 do
+    begin
+      if lModSupplier.SuplierMerchanGroups[i].SUPMG_SUB_CODE = lModSupplier.SuplierMerchanGroups[j].SUPMG_SUB_CODE then
+      begin
+        raise Exception.Create('Kode Supplier Merchandise Group Double : ' + lModSupplier.SuplierMerchanGroups[i].SUPMG_SUB_CODE);
+      end;
+    end;
+  end;
+
+  Result := True;
 end;
 
 procedure TBaseServerClass.AfterExecuteMethod;
@@ -1462,6 +1555,40 @@ begin
   end;
 end;
 
+function TCrudBarangHargaJual.RetrieveByPLU(AModBarang : TModBarang; AModUOM :
+    TModSatuan): TModBarangHargaJual;
+var
+  sSQL: string;
+begin
+  Result := TModBarangHargaJual.Create;
+
+  if (AModUOM = nil) or (AModBarang = nil) then
+    Exit;
+
+  if (AModUOM.ID = '') or (AModBarang.ID = '') then
+    Exit;
+
+
+  sSQL := 'select BARANG_HARGA_JUAL_ID from BARANG_HARGA_JUAL  ' +
+          ' where BARANG_ID = ' + QuotedStr(AModBarang.ID) +
+          ' and REF$SATUAN_ID =  ' + QuotedStr(AModUOM.ID);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        Result.Free;
+
+        Result := TModBarangHargaJual(Retrieve(TModBarangHargaJual, FieldByName('BARANG_HARGA_JUAL_ID').AsString));
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
+end;
+
 function TCrudKuponBotol.GenerateCustomNo(aTableName, aFieldName: string;
     aCountDigit: Integer = 11): String;
 var
@@ -1488,6 +1615,96 @@ begin
   Result := 'RB' + FormatDateTime('yyMMdd',Now) + RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
+end;
+
+function TCRUDJurnal.GenerateCustomNo(aTableName, aFieldName: string;
+    aCountDigit: Integer = 11): String;
+var
+  i: Integer;
+  lMonth: string;
+  lNum: Integer;
+  lPrefix: string;
+  lTahun: string;
+  S: string;
+begin
+  aCountDigit := 4;
+  lNum := 0;
+  lTahun := FormatDateTime('YYYY', Now());
+  lMonth := FormatDateTime('MM', Now());
+  lPrefix := 'JM.' + lTahun + '.' + lMonth + '.' ;
+
+  S := 'select max(' + aFieldName + ') from ' + aTableName
+      + ' where ' + aFieldName + ' like '+  QuotedStr(lPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt( RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      free;
+    End;
+  end;
+  inc(lNum);
+
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := lPrefix +  RightStr(Result, aCountDigit);
+
+  AfterExecuteMethod;
+end;
+
+function TCrudBarang.RetrieveByCodeBHJUOM(ModClassName, aCode: string):
+    TModBarang;
+var
+  Q: TClientDataset;
+  sSQL: string;
+begin
+  Result := inherited RetrieveByCode(ModClassName, aCode) as TModBarang;
+
+  sSQL   := 'select distinct SAT_CODE from V_BARANG_HARGA_JUAL ' +
+            ' where BRG_CODE = ' + QuotedStr(aCode);
+
+  Result.UntaianUOMBHJ := '';
+
+  Q := TDBUtils.OpenDataset(sSQL);
+  try
+    while not Q.Eof do
+    begin
+      if Result.UntaianUOMBHJ = '' then
+        Result.UntaianUOMBHJ := Q.FieldByName('SAT_CODE').AsString
+      else
+        Result.UntaianUOMBHJ := Result.UntaianUOMBHJ + ',' + Q.FieldByName('SAT_CODE').AsString;
+
+      Q.Next;
+    end;
+  finally
+    Q.Free;
+  end;
+
+
+end;
+
+function TCrudBarang.RetrievePOS(sPLUBarCode: string): TModBarang;
+var
+  Q: TFDQuery;
+  S: string;
+begin
+  S := 'select A.* from BARANG A '
+      +' INNER JOIN REF$KONVERSI_SATUAN B ON A.BARANG_ID=B.BARANG_ID'
+      +' WHERE B.KONVSAT_BARCODE = ' + QuotedStr(sPLUBarCode);
+  Q := TDBUtils.OpenQuery(S);
+  Try
+    if Q.Eof then
+      Result := inherited RetrieveByCode(TModBarang.ClassName, sPLUBarCode) as TModBarang
+    else
+    begin
+      Result := TModBarang.Create;
+      TDBUtils.LoadFromDataset(Result, Q);
+    end;
+  Finally
+    Q.Free;
+  End;
 end;
 
 end.

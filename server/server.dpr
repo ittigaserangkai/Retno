@@ -49,7 +49,6 @@ uses
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
-  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
   uModClaimFaktur in '..\model\uModClaimFaktur.pas',
   uModAP in '..\model\uModAP.pas',
   uModOrganization in '..\model\uModOrganization.pas',
@@ -71,7 +70,15 @@ uses
   uJSONUtils in '..\lib\uJSONUtils.pas',
   uModPOTrader in '..\model\uModPOTrader.pas',
   uModFinalPayment in '..\model\uModFinalPayment.pas',
-  uModDOTrader in '..\model\uModDOTrader.pas';
+  uModDOTrader in '..\model\uModDOTrader.pas',
+  uServerPOS in 'unit\uServerPOS.pas',
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas',
+  uModAdjustmentFaktur in '..\model\uModAdjustmentFaktur.pas',
+  uModCustomer in '..\model\uModCustomer.pas',
+  uModAgreement in '..\model\uModAgreement.pas',
+  uModProdukJasa in '..\model\uModProdukJasa.pas',
+  uModElectric in '..\model\uModElectric.pas',
+  uModReceipt in '..\model\uModReceipt.pas';
 
 {$R *.res}
 

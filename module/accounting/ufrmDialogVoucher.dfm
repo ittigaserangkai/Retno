@@ -5,7 +5,6 @@ inherited frmDialogVoucher: TfrmDialogVoucher
   ClientHeight = 371
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 570
   ExplicitHeight = 410
   PixelsPerInch = 96
   TextHeight = 16
@@ -14,11 +13,9 @@ inherited frmDialogVoucher: TfrmDialogVoucher
     ExplicitHeight = 315
     inherited cxGrid: TcxGrid
       Top = 150
-      Width = 550
       Height = 163
       TabOrder = 1
       ExplicitTop = 150
-      ExplicitWidth = 550
       ExplicitHeight = 163
       inherited cxGridView: TcxGridDBTableView
         object cxcolGridViewColumn1: TcxGridDBColumn
@@ -29,6 +26,7 @@ inherited frmDialogVoucher: TfrmDialogVoucher
         end
         object cxcolGridViewColumn3: TcxGridDBColumn
           Caption = 'EXPIRE DATE'
+          Width = 113
         end
         object cxcolGridViewColumn4: TcxGridDBColumn
           Caption = 'IS VALID'
@@ -152,6 +150,9 @@ inherited frmDialogVoucher: TfrmDialogVoucher
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
     end
     inherited pnlSortCut: TPanel
       inherited lbCTRLEnter: TLabel
@@ -161,6 +162,9 @@ inherited frmDialogVoucher: TfrmDialogVoucher
         Height = 15
       end
       inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
         Height = 15
       end
     end

@@ -80,3 +80,30 @@ __recovery/
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
+*.otares
+
+*.log
+
+Docs/~\$S\.SI\.AMS\.SPL - CN Receiving\.docx
+
+Docs/~\$S\.SI\.AMS\.SPL - Claim Faktur\.docx
+
+Docs/~\$S\.SI\.AMS\.SPL - Adjustment Faktur\.docx
+
+db/POS\.sdb
+
+classes/uClientClasses_REMOTE_5324\.pas
+
+classes/uClientClasses_LOCAL_5324\.pas
+
+classes/uClientClasses_BASE_5324\.pas
+
+classes/uClientClasses_BACKUP_5324\.pas
+
+backup/ufrmDialogClaim\.pas
+
+backup/ufrmDialogClaim\.dfm
+
+\.merge_file_a04576
+
+Retno\.groupproj

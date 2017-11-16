@@ -1,4 +1,5 @@
-unit ufrmMain;
+ï»¿unit ufrmMain;
+//testsfasdf
 
 interface
 
@@ -10,7 +11,10 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, Vcl.Menus,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Samples.Spin,
   uModDO, uServerClasses, uModOrganization, uModAP, uModBankCashOut,
-  uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry;
+  uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice;
 
 type
   TfrmMain = class(TForm)
@@ -52,6 +56,7 @@ type
     btnTest: TButton;
     lblGenerateSQL: TLabel;
     bGenerateSQLCreateTable: TcxButton;
+    FDConnection1: TFDConnection;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
@@ -131,7 +136,7 @@ begin
   Registry:=TRegistry.Create;
 
   Registry.RootKey := HKEY_CURRENT_USER;
-  {False because we do not want to create it if it doesn’t exist}
+  {False because we do not want to create it if it doesnï¿½t exist}
   if Trim(aPath) = '' then
     Registry.OpenKey('\Software\' + Application.Title, False)
   else
@@ -179,17 +184,18 @@ begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModCustomerInvoice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCustomerInvoice do
+      with Retrieve(TModCrazyPrice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCrazyPrice do
+//      with TModCrazyPrice.Create do
       begin
         try
-          ShowMessage(CreateTableSQLByClassName('uModCustomerInvoice.TModCustomerInvoice'));
-          ShowMessage(CI_NOBUKTI);
-          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
-          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
-          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
-          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
-          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
-          ShowMessage(DateTimeToStr(CI_TRANSDATE));
+          ShowMessage(CreateTableSQLByClassName('uModCrazyPrice.TModCrazyPrice'));
+//          ShowMessage(crCI_NOBUKTI);
+//          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+//          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
+//          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
+//          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
+//          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
+//          ShowMessage(DateTimeToStr(CI_TRANSDATE));
 //          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
 //          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));
 

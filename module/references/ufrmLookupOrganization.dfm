@@ -6,22 +6,22 @@ inherited frmLookupOrganization: TfrmLookupOrganization
     Height = 48
     ExplicitHeight = 48
     inherited lblHeader: TLabel
-      Width = 18
       Height = 36
       Visible = False
-      ExplicitWidth = 18
-      ExplicitHeight = 672
     end
     inherited lblFilterData: TcxLabel
       Visible = False
+      ExplicitHeight = 46
       Height = 46
       AnchorY = 23
     end
     inherited StartDate: TcxDateEdit
       Visible = False
+      ExplicitHeight = 38
     end
     inherited EndDate: TcxDateEdit
       Visible = False
+      ExplicitHeight = 38
     end
     inherited btnRefresh: TcxButton
       Top = 3
@@ -29,17 +29,18 @@ inherited frmLookupOrganization: TfrmLookupOrganization
       Margins.Top = 3
       Margins.Bottom = 3
       Visible = False
-      ExplicitTop = 0
+      ExplicitTop = 3
       ExplicitHeight = 40
     end
     inherited lblsdFilter: TcxLabel
       Visible = False
+      ExplicitHeight = 40
       Height = 40
       AnchorY = 23
     end
     object rbOrgType: TcxRadioGroup
       AlignWithMargins = True
-      Left = 29
+      Left = 157
       Top = 0
       Margins.Top = 0
       Align = alClient
@@ -66,12 +67,8 @@ inherited frmLookupOrganization: TfrmLookupOrganization
       StyleHot.LookAndFeel.Kind = lfFlat
       TabOrder = 5
       Transparent = True
-      ExplicitLeft = 3
-      ExplicitTop = -14
-      ExplicitWidth = 674
-      ExplicitHeight = 45
       Height = 43
-      Width = 295
+      Width = 167
     end
   end
   inherited Panel1: TPanel
@@ -82,5 +79,7 @@ inherited frmLookupOrganization: TfrmLookupOrganization
   inherited cxGrid: TcxGrid
     Top = 48
     Height = 307
+    ExplicitTop = 48
+    ExplicitHeight = 307
   end
 end

@@ -4,9 +4,10 @@ interface
 uses
   System.Classes, System.SysUtils, Graphics, Registry, StrUtils,
   ComCtrls,Math,DB, ExtCtrls, Variants, Forms, Dialogs, Controls,
-  Windows,  SqlExpr, System.UITypes;
+  Windows,  SqlExpr, System.UITypes, System.DateUtils;
 
 type
+  TStringArray = Array of string;
   TEXEVersionData = record
     CompanyName,
     FileDescription,
@@ -23,6 +24,7 @@ type
   end;
 
   TAppUtils = class(TObject)
+  private
   protected
   public
     class function BacaRegistry(aNama: String; aPath : String = ''): string;
@@ -41,6 +43,7 @@ type
         'dd MMM YYYY'): String;
     class procedure cShowWaitWindow(aCaption : String = 'Mohon Ditunggu ...';
         aPicture : TPicture = nil);
+    class function DateToInt(ADate : TDateTime): Integer;
     class function DateToTiseraDate(aTanggal: TDateTime; aSeparator: string = ' '):
         string;
     class function DecPeriode(APeriode : Integer): Integer;
@@ -91,6 +94,9 @@ type
 
     class procedure SetRegionalSetting_ID;
     class procedure NotifException(E: Exception);
+    class function SplitLeftStr(S: String; Separator: Char): String;
+    class function SplitRightStr(S: String; Separator: Char): String;
+    class function StringToArrayOfString(AString : String): TStringArray;
     class function TulisRegistry(aName, aValue: String; sAppName : String = ''):
         Boolean;
     class procedure Warning(const Text: string);
@@ -430,6 +436,11 @@ begin
     end;
     FWaitForm.Show;
     screen.Cursor := crDefault;
+end;
+
+class function TAppUtils.DateToInt(ADate : TDateTime): Integer;
+begin
+  Result := StrToInt(FormatDateTime('yyyymmdd', ADate));
 end;
 
 class function TAppUtils.DateToTiseraDate(aTanggal: TDateTime; aSeparator:
@@ -1237,6 +1248,42 @@ begin
   end else
     Msg := E.Message;
   CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
+end;
+
+class function TAppUtils.SplitLeftStr(S: String; Separator: Char): String;
+begin
+  if Pos(Separator, S) <> 0 then
+    Result := LeftStr(S, Pos(Separator, S)-1)
+  else
+    Result := '';
+end;
+
+class function TAppUtils.SplitRightStr(S: String; Separator: Char): String;
+begin
+  if Pos(Separator, S) <> 0 then
+    Result := RightStr(S, Length(S) - Pos(Separator, S))
+  else
+    Result := '';
+end;
+
+class function TAppUtils.StringToArrayOfString(AString : String): TStringArray;
+var
+  lStrings: TStrings;
+  I: Integer;
+begin
+  lStrings := TStringList.Create;
+  try
+    lStrings.CommaText := AString;
+    SetLength(Result,lStrings.Count);
+    for I := 0 to lStrings.Count - 1 do
+    begin
+      Result[i] := Trim(lStrings[i]);
+    end;
+  finally
+    lStrings.Free;
+  end;
+
+
 end;
 
 class function TAppUtils.VarAsRestParam(Value: Variant): String;

@@ -14,8 +14,6 @@ object fraMember: TfraMember
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
     object sgLookup: TcxGridTableView
-      OnDblClick = sgLookupDblClick
-      OnKeyDown = sgLookupKeyDown
       Navigator.Buttons.CustomButtons = <>
       FindPanel.DisplayMode = fpdmManual
       FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -110,8 +108,6 @@ object fraMember: TfraMember
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 0
-      OnChange = edNamaChange
-      OnKeyDown = edNamaKeyDown
     end
     object rbDepan: TRadioButton
       Left = 132
@@ -132,19 +128,5 @@ object fraMember: TfraMember
       TabOrder = 2
       TabStop = True
     end
-  end
-  object pmLookup: TPopupMenu
-    Left = 105
-    Top = 51
-    object ExporttoCSV1: TMenuItem
-      Caption = 'Export to CSV'
-      OnClick = ExporttoCSV1Click
-    end
-  end
-  object dlgSaveLookup: TSaveDialog
-    DefaultExt = 'CSV'
-    Filter = 'Comma Separated Value (*.CSV)|*.CSV|Any File (*.*)|*.*'
-    Left = 147
-    Top = 18
   end
 end

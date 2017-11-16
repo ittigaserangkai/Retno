@@ -3,78 +3,22 @@ inherited frmElectricCustomer: TfrmElectricCustomer
   Top = 97
   Caption = 'Electric Customer'
   ClientHeight = 473
-  ClientWidth = 702
+  ClientWidth = 722
   OldCreateOrder = True
-  ExplicitWidth = 718
+  ExplicitWidth = 738
   ExplicitHeight = 512
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 702
+    Width = 722
     Height = 384
     ExplicitWidth = 702
     ExplicitHeight = 384
-    inherited pgcBrowse: TcxPageControl
-      Top = 79
-      Width = 700
-      Height = 304
-      TabOrder = 1
-      ExplicitTop = 79
-      ExplicitWidth = 700
-      ExplicitHeight = 304
-      ClientRectBottom = 303
-      ClientRectRight = 699
-      inherited tsBrowse: TcxTabSheet
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 698
-        ExplicitHeight = 302
-        inherited cxGrid: TcxGrid
-          Width = 698
-          Height = 302
-          ExplicitWidth = 698
-          ExplicitHeight = 302
-          inherited cxGridView: TcxGridDBTableView
-            object cxcolGridViewColumn1: TcxGridDBColumn
-              Caption = 'No.'
-            end
-            object cxcolGridViewColumn2: TcxGridDBColumn
-              Caption = 'Customer Code'
-            end
-            object cxcolGridViewColumn3: TcxGridDBColumn
-              Caption = 'Customer Name'
-            end
-            object cxcolGridViewColumn4: TcxGridDBColumn
-              Caption = 'Kavling'
-            end
-            object cxcolGridViewColumn5: TcxGridDBColumn
-              Caption = 'Begin Periode'
-            end
-            object cxcolGridViewColumn6: TcxGridDBColumn
-              Caption = 'Group'
-            end
-            object cxcolGridViewColumn7: TcxGridDBColumn
-              Caption = 'Power'
-            end
-            object cxcolGridViewColumn8: TcxGridDBColumn
-              Caption = 'Charge'
-            end
-            object cxcolGridViewColumn9: TcxGridDBColumn
-              Caption = 'Last Process'
-            end
-            object cxcolGridViewColumn10: TcxGridDBColumn
-              Caption = 'Active'
-            end
-          end
-        end
-      end
-    end
-    object pnl1: TPanel
+    object pnl1: TPanel [0]
       Left = 1
       Top = 1
       Width = 700
       Height = 78
-      Align = alTop
       ParentColor = True
       TabOrder = 0
       object lblComboGrid: TLabel
@@ -176,42 +120,111 @@ inherited frmElectricCustomer: TfrmElectricCustomer
         OnClick = btnShowClick
       end
     end
+    inherited pgcBrowse: TcxPageControl
+      Width = 720
+      Height = 382
+      TabOrder = 1
+      ExplicitTop = 79
+      ExplicitWidth = 700
+      ExplicitHeight = 304
+      ClientRectBottom = 381
+      ClientRectRight = 719
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 698
+        ExplicitHeight = 302
+        inherited cxGrid: TcxGrid
+          Width = 718
+          Height = 380
+          ExplicitWidth = 698
+          ExplicitHeight = 302
+          inherited cxGridView: TcxGridDBTableView
+            object cxcolGridViewColumn1: TcxGridDBColumn
+              Caption = 'No.'
+              HeaderAlignmentHorz = taCenter
+              Width = 53
+            end
+            object cxcolGridViewColumn2: TcxGridDBColumn
+              Caption = 'Customer Code'
+              HeaderAlignmentHorz = taCenter
+              Width = 87
+            end
+            object cxcolGridViewColumn3: TcxGridDBColumn
+              Caption = 'Customer Name'
+              HeaderAlignmentHorz = taCenter
+              Width = 88
+            end
+            object cxcolGridViewColumn4: TcxGridDBColumn
+              Caption = 'Kavling'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxcolGridViewColumn5: TcxGridDBColumn
+              Caption = 'Begin Periode'
+              HeaderAlignmentHorz = taCenter
+              Width = 79
+            end
+            object cxcolGridViewColumn6: TcxGridDBColumn
+              Caption = 'Group'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxcolGridViewColumn7: TcxGridDBColumn
+              Caption = 'Power'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxcolGridViewColumn8: TcxGridDBColumn
+              Caption = 'Charge'
+              HeaderAlignmentHorz = taCenter
+            end
+            object cxcolGridViewColumn9: TcxGridDBColumn
+              Caption = 'Last Process'
+              HeaderAlignmentHorz = taCenter
+              Width = 71
+            end
+            object cxcolGridViewColumn10: TcxGridDBColumn
+              Caption = 'Active'
+              HeaderAlignmentHorz = taCenter
+            end
+          end
+        end
+      end
+    end
   end
   inherited pnlHeader: TPanel
-    Width = 702
+    Width = 722
     ExplicitWidth = 702
     inherited lblFilterData: TcxLabel
-      Left = 348
+      Left = 368
       ExplicitLeft = 348
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 409
+      Left = 429
       ExplicitLeft = 409
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 525
+      Left = 545
       ExplicitLeft = 525
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 620
+      Left = 640
       ExplicitLeft = 620
     end
     inherited lblsdFilter: TcxLabel
-      Left = 501
+      Left = 521
       ExplicitLeft = 501
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 417
-    Width = 702
+    Width = 722
     ExplicitTop = 417
     ExplicitWidth = 702
     inherited pnlFooter: TPanel
-      Width = 702
+      Width = 722
       ExplicitWidth = 702
       inherited btnAdd: TcxButton
         Action = actAdd
@@ -223,7 +236,7 @@ inherited frmElectricCustomer: TfrmElectricCustomer
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 625
+        Left = 645
         Action = actClose
         ExplicitLeft = 625
       end
@@ -232,10 +245,10 @@ inherited frmElectricCustomer: TfrmElectricCustomer
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 702
+      Width = 722
       ExplicitWidth = 702
       inherited lbEscape: TLabel
-        Left = 628
+        Left = 648
         Height = 17
         ExplicitLeft = 628
       end

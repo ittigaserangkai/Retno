@@ -3,9 +3,10 @@ unit ufrmMain;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ImgList, StrUtils, uTSCommonDlg,
-  uTSINIFile, ExtCtrls, StdCtrls, uFormProperty, System.ImageList;
+  uTSINIFile, ExtCtrls, StdCtrls, uFormProperty, System.ImageList,
+  uModAuthUser, System.SysUtils, Vcl.AppEvnts, uModBeginningBalance, uDMClient;
 
 type
   TfrmMain = class(TForm)
@@ -90,10 +91,11 @@ type
     ExportDataToMDB: TMenuItem;
     miMaintenanceBarcode: TMenuItem;
     miSalesReport: TMenuItem;
+    AppEvents: TApplicationEvents;
+    procedure AppEventsException(Sender: TObject; E: Exception);
     procedure miActivatePOSClick(Sender: TObject);
     procedure miAdjustmentCashbackClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure miExitClick(Sender: TObject);
     procedure miTransactionEndUserClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -107,6 +109,7 @@ type
     procedure Bantuan1Click(Sender: TObject);
     procedure ExportDataPOS1Click(Sender: TObject);
     procedure ExportDataToMDBClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure ImportDataStore1Click(Sender: TObject);
     procedure ImportDataFromMDBClick(Sender: TObject);
     procedure miMasterSellingProductClick(Sender: TObject);
@@ -114,19 +117,20 @@ type
     procedure miServerConnectionClick(Sender: TObject);
     procedure UpdateMaster1Click(Sender: TObject);
   private
-    FLoginUsername: string;
     FLoginUnitId: Integer;
     FTransNo: String;
     FUnitID: string;
-    FUserID: string;
     FFormProperty : TFormProperty;
     FPageLogin: string;
+    FAuthUser: TModAuthUser;
+    FBeginningBalance: TModBeginningBalance;
     IsPOSConnected: Boolean;
     function Initialize: Boolean;
-    procedure SetLoginUsername(const Value: string);
     procedure SetLoginUnitId(const Value: Integer);
     { Private declarations }
     procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
+    function GetLoginUsername: string;
+    function GetUserID: string;
   public
     { Public declarations }
     Host, IP: string;
@@ -146,21 +150,25 @@ type
     FDBUserPOS: String;
     FDBPasswordPOS: String;
 
-    //POS & Cashier
+    //POS & Cashier    --> nanti dihapus, sudah ditampung di auth$user
     FPOSCode: String;
     FCashierCode: String;
     FCashierName: String;
 
     procedure EnableMenu;
     procedure DisableMenu;
+    procedure DoLogin;
     function GetTransactionNo(APOSCode: String; aActiveDate : TDateTime): String;
     procedure MDIChildCreated(const childHandle : THandle);
     procedure MDIChildDestroyed(const childHandle : THandle);
-    property LoginUsername: string read FLoginUsername write SetLoginUsername;
+    property LoginUsername: string read GetLoginUsername;
     property LoginUnitId: Integer read FLoginUnitId write SetLoginUnitId;
     property TransNo: String read FTransNo write FTransNo;
     property UnitID: string read FUnitID write FUnitID;
-    property UserID: string read FUserID write FUserID;
+    property UserID: string read GetUserID;
+    property AuthUser: TModAuthUser read FAuthUser write FAuthUser;
+    property BeginningBalance: TModBeginningBalance read FBeginningBalance write
+        FBeginningBalance;
   end;
 
 function GetFormByClass(AFormClass: TClass): TForm;
@@ -205,13 +213,17 @@ begin
   lForm := GetFormByClass(AFormClass);
 
   if lForm = nil then
-  begin
     lForm := AFormClass.Create(Application);
-  end;
+
   lForm.Show;
   lForm.WindowState := AWindowState;
 
   Result := lForm;
+end;
+
+procedure TfrmMain.AppEventsException(Sender: TObject; E: Exception);
+begin
+  TAppUtils.ShowException(E);
 end;
 
 procedure TfrmMain.miActivatePOSClick(Sender: TObject);
@@ -309,15 +321,8 @@ begin
 
   Initialize;
 
-  //CommonDlg.ShowMessage(DM.dbPOS.DatabaseName);
-end;
 
-procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  CommonDlg.ShowMessage('Aplikasi akan ditutup.');
-  begin
-    Action := caFree;
-  end
+  //CommonDlg.ShowMessage(DM.dbPOS.DatabaseName);
 end;
 
 procedure TfrmMain.miExitClick(Sender: TObject);
@@ -341,23 +346,22 @@ end;
 function TfrmMain.GetTransactionNo(APOSCode: String; aActiveDate : TDateTime):
     String;
 begin
-  Result := '';
+  Result := DMClient.POSClient.GetTransactionNo(APosCode, UnitID);
 
-  if IsPOSConnected then
-  begin
-    with TPOS.Create(Self) do
-    begin
-      try
-        if LoadByCode(APOSCode, UnitID, aActiveDate) then
-        begin
-          Result := Copy(TransactionNo,1,8) + FormatFloat('0000',CounterNo+1);
-        end;
-      finally
-        Free;
-      end;
-    end;    // with
-  end;
-
+//  if IsPOSConnected then
+//  begin
+//    with TPOS.Create(Self) do
+//    begin
+//      try
+//        if LoadByCode(APOSCode, UnitID, aActiveDate) then
+//        begin
+//          Result := Copy(TransactionNo,1,8) + FormatFloat('0000',CounterNo+1);
+//        end;
+//      finally
+//        Free;
+//      end;
+//    end;    // with
+//  end;
 end;
 
 function TfrmMain.Initialize: Boolean;
@@ -366,21 +370,21 @@ begin
 
   //sementara manual dulu
   Try
-      UnitID       := _INIReadString(CONFIG_FILE,DB_POS,'UnitID');
-      FPOSCode     := _INIReadString(CONFIG_FILE,DB_POS,'POSCode');
-      FCashierCode := '';
-      FCashierName := '';
-      FBeginningBalanceID := ''; //95;
+    UnitID       := _INIReadString(CONFIG_FILE,DB_POS,'UnitID');
+    FPOSCode     := _INIReadString(CONFIG_FILE,DB_POS,'POSCode');
+    FCashierCode := '';
+    FCashierName := '';
+    FBeginningBalanceID := ''; //95;
 
-      TransNo := '';
+    TransNo := '';
 
-      with sbMain do
-      begin
-        Panels[0].Text := 'Store DB : ' + FDBServerStore;  //IfThen(IsStoreConnected,'','Not') + ' Connected';
-        Panels[1].Text := 'POS DB : ' + FDBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
-        Panels[2].Text := 'POS Code : ' + FPOSCode;
-        Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
-      end;    // with
+    with sbMain do
+    begin
+      Panels[0].Text := 'Store DB : ' + FDBServerStore;  //IfThen(IsStoreConnected,'','Not') + ' Connected';
+      Panels[1].Text := 'POS DB : ' + FDBServerPOS;  //IfThen(IsPOSConnected,'','Not') + ' Connected';
+      Panels[2].Text := 'POS Code : ' + FPOSCode;
+      Panels[3].Text := 'Cashier : ' + FCashierCode + ' - ' + FCashierName;
+    end;    // with
 
     {
     Cnn := TConnection.create(frmMain.FIBServerStore,frmMain.FIBUserStore,
@@ -399,6 +403,7 @@ begin
       TransNo := GetTransactionNo(FPOSCode, cGetServerDateTime);
       Result := True;
       }
+
   except
       Result := False;
   end;
@@ -506,8 +511,7 @@ begin
     MDIChildren[i].Close;
   DisableMenu;
   Initialize;
-  if not assigned(frmLogin) then
-    frmLogin := TfrmLogin.Create(Application);
+  DoLogin;
 end;
 
 procedure TfrmMain.miTransactionPending1Click(Sender: TObject);
@@ -517,7 +521,8 @@ end;
 
 procedure TfrmMain.miLoginClick(Sender: TObject);
 begin
-  frmLogin := (ShowForm(TfrmLogin,wsNormal)) as TfrmLogin;
+  frmLogin := TfrmLogin.Create(Self);
+  frmLogin.ShowModal;
   {
   FFormProperty.FLoginId        := FUserID;
   FFormProperty.FLoginUnitId    := FLoginUnitId;
@@ -539,6 +544,29 @@ end;
 procedure TfrmMain.Bantuan1Click(Sender: TObject);
 begin
   mmoHelp.Visible := not mmoHelp.Visible;
+end;
+
+procedure TfrmMain.DoLogin;
+var
+  lfrm: TfrmLogin;
+begin
+  lfrm := TfrmLogin.Create(Self);
+  try
+    if lfrm.ShowModal = mrOK then
+    begin
+      AuthUser            := lfrm.AuthUser;
+      BeginningBalance    := lfrm.BeginningBalance;
+      FCashierCode        := AuthUser.USR_USERNAME;
+      FCashierName        := AuthUser.USR_FULLNAME;
+      FBeginningBalanceID := BeginningBalance.ID;
+      EnableMenu;
+      miTransactionPending1.Click;
+      sbMain.Panels[3].Text := 'Cashier : ' + AuthUser.USR_USERNAME
+        + ' - ' + AuthUser.USR_FULLNAME;
+    end;
+  finally
+    FreeAndNil(lfrm);
+  end;
 end;
 
 procedure TfrmMain.ExportDataPOS1Click(Sender: TObject);
@@ -566,14 +594,6 @@ end;
 procedure TfrmMain.MDIChildDestroyed(const childHandle : THandle);
 begin
 // nothing
-end;
-
-procedure TfrmMain.SetLoginUsername(const Value: string);
-begin
-  if FLoginUsername <> Value then
-  begin
-    FLoginUsername := Value;
-  end;
 end;
 
 procedure TfrmMain.SetLoginUnitId(const Value: Integer);
@@ -604,6 +624,30 @@ begin
   frmExportToMDB.CompID   := FFormProperty.FSelfCompanyID;
   frmExportToMDB.PosCode  := FPOSCode;
   }
+end;
+
+procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  if CommonDlg.Confirm('Anda yakin keluar dari aplikasi ?') = mrYes then
+    CanClose := True
+  else
+    CanClose := False;
+end;
+
+function TfrmMain.GetLoginUsername: string;
+begin
+  if Assigned(AuthUser) then
+    Result := AuthUser.USR_FULLNAME
+  else
+    Result := '';
+end;
+
+function TfrmMain.GetUserID: string;
+begin
+  if Assigned(AuthUser) then
+    Result := AuthUser.ID
+  else
+    Result := '';
 end;
 
 procedure TfrmMain.ImportDataFromMDBClick(Sender: TObject);
@@ -639,3 +683,4 @@ begin
 end;
 
 end.
+

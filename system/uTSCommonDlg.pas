@@ -55,7 +55,6 @@ uses uConstanta {$IFDEF POS};{$ELSE}, uDMClient;{$ENDIF}
 
   @param msg, caption: string
   @return TModalResult mbYes, or mbNo
-  @version 12-04-2006 didit (change to use TsuiMessageDialog)
 *}
 function TCommonDlg.Confirm(msg: string; noOfButton: integer): TModalResult;
 begin
@@ -70,8 +69,7 @@ end;
 
   @param msg: string
   @return None
-  @version 12-04-2006 didit (change to use TsuiMessageDialog)
-  @version 12-02-2017 didit (change to use TMessageDialog- NativeDelphi)
+  @version 12-02-2017 tsic (change to use TMessageDialog- NativeDelphi)
 *}
 procedure TCommonDlg.ShowError(msg: string);
 begin

@@ -3,7 +3,6 @@ program POSOne;
 uses
   Forms,
   ufrmTransaksi in '..\module\pos\ufrmTransaksi.pas' {frmTransaksi},
-  udmReport in '..\module\pos\udmReport.pas' {dmReport: TDataModule},
   ufrmPayment in '..\module\pos\ufrmPayment.pas' {frmPayment},
   ufraLookupBarang in '..\module\pos\ufraLookupBarang.pas' {fraLookupBarang: TFrame},
   ufrmTransaksiPending in '..\module\pos\ufrmTransaksiPending.pas' {frmTransaksiPending},
@@ -13,7 +12,6 @@ uses
   ufrmPaymentKring in '..\module\pos\ufrmPaymentKring.pas' {frmPaymentKring},
   ufraDOKring in '..\module\pos\ufraDOKring.pas' {fraDOKring: TFrame},
   ufrmLogin in '..\module\pos\ufrmLogin.pas' {frmLogin},
-  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
   ufrmMaster in '..\system\ufrmMaster.pas' {frmMaster},
   ufrmPosDownlink in '..\module\pos\ufrmPosDownlink.pas' {frmPosDownlink},
   ufrmImportFromStore in '..\module\pos\ufrmImportFromStore.pas' {frmImportFromStore},
@@ -64,15 +62,31 @@ uses
   ufrmMain in 'ufrmMain.pas' {frmMain},
   uModSetupPOS in '..\model\uModSetupPOS.pas',
   uModAuthUser in '..\model\uModAuthUser.pas',
-  uModShift in '..\model\uModShift.pas';
+  uModShift in '..\model\uModShift.pas',
+  uModContrabonSales in '..\model\uModContrabonSales.pas',
+  uModOrganization in '..\model\uModOrganization.pas',
+  uModMember in '..\model\uModMember.pas',
+  uModRefAgama in '..\model\uModRefAgama.pas',
+  uModBeginningBalance in '..\model\uModBeginningBalance.pas',
+  uModCreditCard in '..\model\uModCreditCard.pas',
+  uModVoucher in '..\model\uModVoucher.pas',
+  uModAgreementVoucher in '..\model\uModAgreementVoucher.pas',
+  uModCustomerVoucher in '..\model\uModCustomerVoucher.pas',
+  uModVoucherLainLain in '..\model\uModVoucherLainLain.pas',
+  uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
+  uDMReport in '..\system\uDMReport.pas' {DMReport},
+  ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
+  uModelHelper in '..\model\uModelHelper.pas',
+  ufrmLookupMember in '..\module\pos\ufrmLookupMember.pas' {frmLookupMember};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TdmMain, dmMain);
-  Application.CreateForm(TdmReport, dmReport);
   Application.CreateForm(TDMClient, DMClient);
   Application.CreateForm(TfrmMain, frmMain);
+  frmMain.DoLogin();
+  Application.CreateForm(TDMReport, DMReport);
   Application.Run;
 end.

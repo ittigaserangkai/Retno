@@ -12,19 +12,45 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 636
-    Height = 373
-    ExplicitWidth = 120
-    ExplicitHeight = 378
+    Height = 370
+    ExplicitWidth = 636
+    ExplicitHeight = 370
+    inherited pgcBrowse: TcxPageControl
+      Top = 151
+      Width = 634
+      Height = 218
+      TabOrder = 1
+      ExplicitTop = 151
+      ExplicitWidth = 634
+      ExplicitHeight = 134
+      ClientRectBottom = 217
+      ClientRectRight = 633
+      inherited tsBrowse: TcxTabSheet
+        ExplicitWidth = 632
+        ExplicitHeight = 132
+        inherited cxGrid: TcxGrid
+          Width = 632
+          Height = 216
+          ExplicitWidth = 632
+          ExplicitHeight = 132
+          inherited cxGridView: TcxGridDBTableView
+            OnEditing = cxGridViewEditing
+          end
+        end
+      end
+    end
     object pnl1: TPanel
-      Left = 11
-      Top = 11
-      Width = 614
+      Left = 1
+      Top = 1
+      Width = 634
       Height = 150
       Align = alTop
       BevelOuter = bvNone
       ParentColor = True
       TabOrder = 0
-      ExplicitWidth = 98
+      DesignSize = (
+        634
+        150)
       object lbl1: TLabel
         Left = 13
         Top = 37
@@ -53,11 +79,18 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
         Height = 16
         Caption = 'Address'
       end
-      object lblSearchCompany: TJvLabel
+      object Label1: TLabel
+        Left = 13
+        Top = 10
+        Width = 76
+        Height = 16
+        Caption = 'Customer Code'
+      end
+      object lblSearchCompany: TLinkLabel
         Left = 283
         Top = 9
-        Width = 116
-        Height = 16
+        Width = 118
+        Height = 20
         Cursor = crHandPoint
         Caption = 'F5 to Search Customer'
         Font.Charset = DEFAULT_CHARSET
@@ -66,20 +99,7 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
         Font.Name = 'Trebuchet MS'
         Font.Style = [fsUnderline]
         ParentFont = False
-        Transparent = True
-        HotTrack = True
-        HotTrackFont.Charset = DEFAULT_CHARSET
-        HotTrackFont.Color = clMenuHighlight
-        HotTrackFont.Height = -11
-        HotTrackFont.Name = 'Trebuchet MS'
-        HotTrackFont.Style = [fsBold, fsUnderline]
-      end
-      object Label1: TLabel
-        Left = 13
-        Top = 10
-        Width = 76
-        Height = 16
-        Caption = 'Customer Code'
+        TabOrder = 5
       end
       object edtName: TEdit
         Left = 105
@@ -117,83 +137,6 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
         TabOrder = 4
         Text = 'edtAddress'
       end
-      object btnSearch: TsuiButton
-        Left = 197
-        Top = 4
-        Width = 77
-        Height = 27
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        Caption = 'Search'
-        AutoSize = False
-        ParentFont = False
-        OnEnter = btnSearchEnter
-        OnExit = btnSearchExit
-        UIStyle = BlueGlass
-        TabOrder = 5
-        Transparent = True
-        ModalResult = 0
-        FocusedRectMargin = 2
-        Glyph.Data = {
-          36060000424D3606000000000000360000002800000020000000100000000100
-          18000000000000060000C40E0000C40E000000000000000000007F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFF00FFFF00
-          FF003250003250FF00FFBFBFBFFFFFFFBFBFBF7F7F7F9F9F9F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7FFFFFFFFF00FF7F7F7F7F7F7FFF00FFBFBFBFDCDCDC
-          BFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FFF00FF003D
-          B90033FF0099CC003250BFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFF7F7F7FFFFFFF7F7F7FFFFFFFFF00FF7F7F7FBFBFBFFFFFFF
-          DCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBFBFBFBF606060003DB90033
-          FFB1C7FF0055FF0032507F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FF7F7F7FBFBFBFFFFFFF
-          BFBFBFDCDCDCBFBFBFDCDCDCBFBFBFDCDCDCBFBFBFBFBFBF003DB90033FFB1C7
-          FF0055FF0033FF0032509F9F9FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FBFBFBFFFFFFF
-          DCDCDCDCDCDCDCDCDCBFBFBFBFBFBFBFBFBFBFBFBF003DB90033FFB1C7FF0055
-          FF0033FF003250FF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFFFFFFFF
-          FFFFFFFFFF7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFFBFBFBFFFFFFF
-          DCDCDCDCDCDCBFBFBFFF9900CC6600CC6600CC6600BFBFBFBFBFBF0055FF0033
-          FF003250FF00FFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F
-          7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFBFBFBFFFFFFF
-          DCDCDCBFBFBFFF9900DE9A3EDE9A3EDE9A3ED78300CC66009F9F9F7F7F7F0032
-          50FF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF
-          00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFFFFFFFF00FFFF00FFBFBFBFFFFFFF
-          FFFFFFFF9900DE9A3EFFCC99FFCC99FFCC99DE9A3ED78300663333003250FF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7F7F7F7FFFFFFFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          DCDCDCFF9900FFE2B4FFE2B4FFE2B4FFCC99FFCC99DE9A3E663333FF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          FFFFFFFF9900FFE2B4FFFFDEFFFFFFFFE2B4FFCC99DE9A3E663333FF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF9F9F9FFFFFFFFF00FFFF00FFFF
-          00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          DCDCDCFF9900DE9A3EFFFFFFFFFFDEFFE2B4FFCC99DE9A3E663333FF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FF9F9F9FDCDCDCFF00FFFF00FFFF
-          00FFBFBFBFBFBFBF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          FFFFFFDCDCDCCC6600DE9A3EFFE2B4FFE2B4DE9A3E6633337F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FF9F9F9FDCDCDCFFFFFFFF
-          FFFFFFFFFF7F7F7FBFBFBFFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          FFFFFFFFFFFFDCDCDCCC6600663333663333663333BFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FF9F9F9F9F9F9F7F
-          7F7F7F7F7FFF00FFBFBFBFFFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFFFFFFF
-          FFFFFFFFFFFFFFFFFFDCDCDCFFFFFFDCDCDCDCDCDCDCDCDC7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7FFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFC0C0C0FFFFFFFF00FFFF00FFFF00FFFF00FFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FFF00FFFF00
-          FFFF00FFFF00FFFF00FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F9F
-          9F9F7F7F7F9F9F9FBFBFBFFFFFFFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFF00FFFF00FFFF00FF}
-        Layout = blGlyphLeft
-        Spacing = 4
-        MouseContinuouslyDownInterval = 100
-        OnClick = btnSearchClick
-        ResHandle = 0
-      end
       object edtCode: TEdit
         Left = 105
         Top = 8
@@ -206,138 +149,14 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
         OnKeyDown = edtCodeKeyDown
         OnKeyPress = edtCodeKeyPress
       end
-    end
-    object strgGrid: TAdvStringGrid
-      Left = 11
-      Top = 161
-      Width = 614
-      Height = 173
-      Cursor = crDefault
-      Align = alClient
-      Ctl3D = True
-      DefaultRowHeight = 21
-      DrawingStyle = gdsClassic
-      FixedCols = 0
-      RowCount = 2
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSelect]
-      ParentCtl3D = False
-      ParentFont = False
-      ScrollBars = ssBoth
-      TabOrder = 1
-      OnGetAlignment = strgGridGetAlignment
-      OnCanEditCell = strgGridCanEditCell
-      OnCheckBoxClick = strgGridCheckBoxClick
-      ActiveCellFont.Charset = DEFAULT_CHARSET
-      ActiveCellFont.Color = clWindowText
-      ActiveCellFont.Height = -11
-      ActiveCellFont.Name = 'Tahoma'
-      ActiveCellFont.Style = [fsBold]
-      Bands.Active = True
-      Bands.PrimaryColor = 14935011
-      CellNode.TreeColor = clSilver
-      ControlLook.FixedGradientHoverFrom = clGray
-      ControlLook.FixedGradientHoverTo = clWhite
-      ControlLook.FixedGradientDownFrom = clGray
-      ControlLook.FixedGradientDownTo = clSilver
-      ControlLook.ControlStyle = csWinXP
-      ControlLook.DropDownHeader.Font.Charset = DEFAULT_CHARSET
-      ControlLook.DropDownHeader.Font.Color = clWindowText
-      ControlLook.DropDownHeader.Font.Height = -11
-      ControlLook.DropDownHeader.Font.Name = 'Tahoma'
-      ControlLook.DropDownHeader.Font.Style = []
-      ControlLook.DropDownHeader.Visible = True
-      ControlLook.DropDownHeader.Buttons = <>
-      ControlLook.DropDownFooter.Font.Charset = DEFAULT_CHARSET
-      ControlLook.DropDownFooter.Font.Color = clWindowText
-      ControlLook.DropDownFooter.Font.Height = -11
-      ControlLook.DropDownFooter.Font.Name = 'Tahoma'
-      ControlLook.DropDownFooter.Font.Style = []
-      ControlLook.DropDownFooter.Visible = True
-      ControlLook.DropDownFooter.Buttons = <>
-      Filter = <>
-      FilterDropDown.Font.Charset = DEFAULT_CHARSET
-      FilterDropDown.Font.Color = clWindowText
-      FilterDropDown.Font.Height = -11
-      FilterDropDown.Font.Name = 'Tahoma'
-      FilterDropDown.Font.Style = []
-      FilterDropDownClear = '(All)'
-      FixedFont.Charset = DEFAULT_CHARSET
-      FixedFont.Color = clWindowText
-      FixedFont.Height = -11
-      FixedFont.Name = 'Tahoma'
-      FixedFont.Style = [fsBold]
-      FloatFormat = '%.2f'
-      PrintSettings.DateFormat = 'dd/mm/yyyy'
-      PrintSettings.Font.Charset = DEFAULT_CHARSET
-      PrintSettings.Font.Color = clWindowText
-      PrintSettings.Font.Height = -11
-      PrintSettings.Font.Name = 'MS Sans Serif'
-      PrintSettings.Font.Style = []
-      PrintSettings.FixedFont.Charset = DEFAULT_CHARSET
-      PrintSettings.FixedFont.Color = clWindowText
-      PrintSettings.FixedFont.Height = -11
-      PrintSettings.FixedFont.Name = 'MS Sans Serif'
-      PrintSettings.FixedFont.Style = []
-      PrintSettings.HeaderFont.Charset = DEFAULT_CHARSET
-      PrintSettings.HeaderFont.Color = clWindowText
-      PrintSettings.HeaderFont.Height = -11
-      PrintSettings.HeaderFont.Name = 'MS Sans Serif'
-      PrintSettings.HeaderFont.Style = []
-      PrintSettings.FooterFont.Charset = DEFAULT_CHARSET
-      PrintSettings.FooterFont.Color = clWindowText
-      PrintSettings.FooterFont.Height = -11
-      PrintSettings.FooterFont.Name = 'MS Sans Serif'
-      PrintSettings.FooterFont.Style = []
-      PrintSettings.PageNumSep = '/'
-      ScrollWidth = 16
-      SearchFooter.Font.Charset = DEFAULT_CHARSET
-      SearchFooter.Font.Color = clWindowText
-      SearchFooter.Font.Height = -11
-      SearchFooter.Font.Name = 'Tahoma'
-      SearchFooter.Font.Style = []
-      SortSettings.Column = 0
-      Version = '5.8.0.2'
-      ExplicitWidth = 595
-    end
-    object pnl2: TPanel
-      Left = 11
-      Top = 334
-      Width = 614
-      Height = 28
-      Align = alBottom
-      BevelOuter = bvNone
-      ParentColor = True
-      TabOrder = 2
-      ExplicitTop = 339
-      ExplicitWidth = 98
-      DesignSize = (
-        614
-        28)
-      object btnValidate: TsuiButton
-        Left = 525
-        Top = 0
+      object btnValidate: TcxButton
+        Left = 541
+        Top = 120
         Width = 87
         Height = 29
         Anchors = [akRight, akBottom]
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
         Caption = '&Validate'
-        AutoSize = False
-        ParentFont = False
-        UIStyle = BlueGlass
-        TabOrder = 0
-        Transparent = True
-        ModalResult = 0
-        FocusedRectMargin = 2
-        Glyph.Data = {
+        OptionsImage.Glyph.Data = {
           36060000424D3606000000000000360000002800000020000000100000000100
           18000000000000060000C40E0000C40E00000000000000000000FF00FFFF00FF
           FF00FFFF00FFFF00FFFF00FF005019FF00FFFF00FFFF00FFFF00FFFF00FFFF00
@@ -388,84 +207,78 @@ inherited frmCustomerAgreement: TfrmCustomerAgreement
           FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
           FFFF00FF005019FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7F7F7FFFFFFF}
-        Layout = blGlyphLeft
-        Spacing = 4
-        MouseContinuouslyDownInterval = 100
+        TabOrder = 6
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         OnClick = btnValidateClick
-        ResHandle = 0
-        ExplicitLeft = 9
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 636
-    ExplicitWidth = 120
+    ExplicitWidth = 636
+    inherited lblFilterData: TcxLabel
+      Left = 282
+      ExplicitLeft = 282
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 343
+      ExplicitLeft = 343
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 459
+      ExplicitLeft = 459
+    end
+    inherited btnSearch: TcxButton
+      Left = 554
+      ExplicitLeft = 554
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 435
+      ExplicitLeft = 435
+      AnchorY = 17
+    end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
+  inherited fraFooter4Button1: TfraFooter4Button
     Top = 403
     Width = 636
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 403
+    ExplicitWidth = 636
     inherited pnlFooter: TPanel
       Width = 636
-      ExplicitWidth = 120
-      inherited btnClose: TsuiButton
-        Left = 554
-        ExplicitLeft = 38
+      ExplicitWidth = 636
+      inherited btnAdd: TcxButton
+        Action = actAdd
+        OnClick = btnAddClick
       end
-      inherited btnAdd: TsuiButton
-        Caption = 'Add'
-        Action = actAddCustomerAgreement
+      inherited btnUpdate: TcxButton
+        Action = actEdit
+        OnClick = btnUpdateClick
       end
-      inherited btnUpdate: TsuiButton
-        Caption = 'Edit'
-        Action = actEditCustomerAgreement
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnDelete: TsuiButton
-        Action = actDeleteCustomerAgreement
+      inherited btnClose: TcxButton
+        Left = 559
+        Action = actClose
+        ExplicitLeft = 559
       end
-      inherited btnRefresh: TsuiButton
-        ParentColor = False
-        Action = actRefreshCustomerAgreement
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
+    inherited pnlShortCut: TPanel
       Width = 636
-      ExplicitWidth = 120
-      inherited lbl5: TLabel
-        Left = 546
-        ExplicitLeft = 535
+      ExplicitWidth = 636
+      inherited lbEscape: TLabel
+        Left = 562
+        ExplicitLeft = 562
       end
-    end
-  end
-  object actlstInputSupplierForNotSO: TActionList
-    Left = 560
-    Top = 54
-    object actAddCustomerAgreement: TAction
-      Caption = 'Add'
-      OnExecute = actAddCustomerAgreementExecute
-    end
-    object actEditCustomerAgreement: TAction
-      Caption = 'Edit'
-      OnExecute = actEditCustomerAgreementExecute
-    end
-    object actDeleteCustomerAgreement: TAction
-      Caption = 'Delete'
-      OnExecute = actDeleteCustomerAgreementExecute
-    end
-    object actRefreshCustomerAgreement: TAction
-      Caption = 'Refresh'
-      OnExecute = actRefreshCustomerAgreementExecute
     end
   end
 end

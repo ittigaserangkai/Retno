@@ -11,7 +11,8 @@ uses
   ufrmCompany, ufrmUnit, ufrmSupplier, ufrmSupplierGroup, ufrmTipeBonus,
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
-  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice;
+  ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
+  ufrmCrazyPrice, dxRibbonColorGallery;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -383,6 +384,31 @@ type
     actCustomerInvoice: TAction;
     dxbrmngrHOBar3: TdxBar;
     dxbrbtnGenerateVoucher: TdxBarButton;
+    dxbrAgreement: TdxBar;
+    dxrbntbMarketing: TdxRibbonTab;
+    dxbrVoucher: TdxBar;
+    dxRibbonColorGalleryItem1: TdxRibbonColorGalleryItem;
+    actCustomerAgreement: TAction;
+    actScheduleAgreement: TAction;
+    actFakturPajakAgreement: TAction;
+    dxbrbtnCrazy: TdxBarButton;
+    actCrazyPrice: TAction;
+    dxbrbAgCustomer: TdxBarButton;
+    dxbAgMaster: TdxBarButton;
+    dxbrbAgListDetil: TdxBarButton;
+    dxbrbAgSchedule: TdxBarButton;
+    dxbrbAgFakturPajak: TdxBarButton;
+    dxbrbVouCustomer: TdxBarButton;
+    dxbrbVouAgreement: TdxBarButton;
+    dxbrbVouGenerate: TdxBarButton;
+    dxbrb4: TdxBarButton;
+    dxbrbVoucher: TdxBarButton;
+    dxbrbElectricCustomer: TdxBarButton;
+    dxbrElectric: TdxBar;
+    dxbrbElectricCustomerMar: TdxBarButton;
+    dxbrbElectricInvoice: TdxBarButton;
+    dxbrbElectricTransaction: TdxBarButton;
+    dxbrbElectricPayment: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -399,11 +425,14 @@ type
     procedure actCompanyTypeExecute(Sender: TObject);
     procedure actContrabonSalesExecute(Sender: TObject);
     procedure actCostCenterExecute(Sender: TObject);
+    procedure actCrazyPriceExecute(Sender: TObject);
     procedure actCreditCardExecute(Sender: TObject);
+    procedure actCustomerAgreementExecute(Sender: TObject);
     procedure actCustomerInvoiceExecute(Sender: TObject);
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
+    procedure actFakturPajakAgreementExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
     procedure actHistoryPOExecute(Sender: TObject);
@@ -422,7 +451,9 @@ type
     procedure actListingPObyMGExecute(Sender: TObject);
     procedure actListingQuotationHargaBeliExecute(Sender: TObject);
     procedure actListingQuotationMailerExecute(Sender: TObject);
+    procedure actListScheduleAgreementExecute(Sender: TObject);
     procedure actLokasiExecute(Sender: TObject);
+    procedure actMasterAgreementExecute(Sender: TObject);
     procedure actMasterCustomerExecute(Sender: TObject);
     procedure actMasterProductNBDExecute(Sender: TObject);
     procedure actMembershipExecute(Sender: TObject);
@@ -443,6 +474,7 @@ type
     procedure actQuotationPromoExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesOutletExecute(Sender: TObject);
+    procedure actScheduleAgreementExecute(Sender: TObject);
     procedure actSetKoneksiExecute(Sender: TObject);
     procedure actSettingAplikasiExecute(Sender: TObject);
     procedure actSubGroupExecute(Sender: TObject);
@@ -470,6 +502,13 @@ type
     procedure DialogBarang1Click(Sender: TObject);
     procedure est2Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
+    procedure dxbrbAgListDetilClick(Sender: TObject);
+    procedure dxbrbVouCustomerClick(Sender: TObject);
+    procedure dxbrbVouAgreementClick(Sender: TObject);
+    procedure dxbrbVouGenerateClick(Sender: TObject);
+    procedure dxbrbElectricInvoiceClick(Sender: TObject);
+    procedure dxbrbElectricTransactionClick(Sender: TObject);
+    procedure dxbrbElectricPaymentClick(Sender: TObject);
   private
     FPanelLoading: TPanel;
     FFormProperty: TFormProperty;
@@ -518,7 +557,10 @@ uses
   ufrmLaporanRetur, ufrmGudang, ufrmMataUang, ufrmCXLookup, uDMClient,
   ufrmSettingKoneksi, ufrmCreditCard, ufrmDaftarCompetitor,ufrmElectricCustomer,
   ufrmPemakaianBarcode, ufrmAdjustmentFaktur, ufrmBrowseQuotation, ufrmShift,
-  uModSettingApp, uTSCommonDlg;
+  uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
+  ufrmFakturPajakAgreement, ufrmListAgreementDetil,
+  ufrmAgreementVoucher, ufrmCustomerVoucher, ufrmGenerateVoucher,
+  ufrmElectricInvoice, ufrmElectricTransaction, ufrmElectricPayment;
 
 {$R *.dfm}
 
@@ -689,9 +731,19 @@ begin
   frmCostCenter := TfrmCostCenter.Create(Application);
 end;
 
+procedure TfrmMain.actCrazyPriceExecute(Sender: TObject);
+begin
+  frmCrazyPrice := TfrmCrazyPrice.Create(Application);
+end;
+
 procedure TfrmMain.actCreditCardExecute(Sender: TObject);
 begin
   frmCreditCard := TfrmCreditCard.Create(Application);
+end;
+
+procedure TfrmMain.actCustomerAgreementExecute(Sender: TObject);
+begin
+  frmCustomerAgreement := TfrmCustomerAgreement.CreateWithUser(Self, FFormProperty);
 end;
 
 procedure TfrmMain.actCustomerInvoiceExecute(Sender: TObject);
@@ -712,6 +764,11 @@ end;
 procedure TfrmMain.actElectricCustomerExecute(Sender: TObject);
 begin
   frmElectricCustomer := TfrmElectricCustomer.Create(Self);
+end;
+
+procedure TfrmMain.actFakturPajakAgreementExecute(Sender: TObject);
+begin
+  frmFakturPajakAgreement := TfrmFakturPajakAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actGenPOExecute(Sender: TObject);
@@ -797,6 +854,16 @@ end;
 procedure TfrmMain.actListingQuotationMailerExecute(Sender: TObject);
 begin
   frmListQuotMailer := TfrmListQuotMailer.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actListScheduleAgreementExecute(Sender: TObject);
+begin
+  frmScheduleAgreement := TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actMasterAgreementExecute(Sender: TObject);
+begin
+//    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMembershipExecute(Sender: TObject);
@@ -1020,6 +1087,11 @@ begin
   frmOutlet := TfrmOutlet.Create(Application);
 end;
 
+procedure TfrmMain.actScheduleAgreementExecute(Sender: TObject);
+begin
+  frmScheduleAgreement:= TfrmScheduleAgreement.CreateWithUser(Application, FFormProperty);
+end;
+
 procedure TfrmMain.actSetKoneksiExecute(Sender: TObject);
 begin
   With TfrmSettingKoneksi.Create(Self) do
@@ -1151,6 +1223,41 @@ begin
     ShowModal;
     Free;
   end;
+end;
+
+procedure TfrmMain.dxbrbAgListDetilClick(Sender: TObject);
+begin
+  frmListAgreementDetil := TfrmListAgreementDetil.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbElectricInvoiceClick(Sender: TObject);
+begin
+  frmElectricInvoice := TfrmElectricInvoice.Create(Self);
+end;
+
+procedure TfrmMain.dxbrbElectricPaymentClick(Sender: TObject);
+begin
+  frmElectricPayment := TfrmElectricPayment.Create(Self);
+end;
+
+procedure TfrmMain.dxbrbElectricTransactionClick(Sender: TObject);
+begin
+  frmElectricTransaction := TfrmElectricTransaction.Create(Self);
+end;
+
+procedure TfrmMain.dxbrbVouAgreementClick(Sender: TObject);
+begin
+  frmAgreementVoucher := TfrmAgreementVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouCustomerClick(Sender: TObject);
+begin
+  frmCustomerVoucher := TfrmCustomerVoucher.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.dxbrbVouGenerateClick(Sender: TObject);
+begin
+  frmGenerateVoucher := TfrmGenerateVoucher.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);

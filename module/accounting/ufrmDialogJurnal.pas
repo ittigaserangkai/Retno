@@ -35,6 +35,7 @@ type
     memDesc: TcxMemo;
     edReference: TcxTextEdit;
     edNo: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure cxGridColJurKodePropertiesEditValueChanged(Sender: TObject);
@@ -42,6 +43,7 @@ type
     FCDSAccount: TClientDataSet;
     FModJurnal: TModJurnal;
     FCDSCostCenter: TClientDataSet;
+    procedure DeleteData;
     function GetModJurnal: TModJurnal;
     procedure initView;
     procedure SimpanData;
@@ -65,6 +67,12 @@ uses
   uModelHelper;
 
 {$R *.dfm}
+
+procedure TfrmDialogJurnal.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if TAppUtils.Confirm('Anda Yakin Menghapus Data') then DeleteData;
+end;
 
 procedure TfrmDialogJurnal.cxGridColJurKodePropertiesEditValueChanged(
   Sender: TObject);
@@ -96,6 +104,27 @@ begin
   if not ValidateData then exit;
   UpdateData;
   SimpanData;
+end;
+
+procedure TfrmDialogJurnal.DeleteData;
+begin
+  if not Assigned(ModJurnal) then
+    Raise Exception.Create('Data not Loaded');
+
+  if ModJurnal.ID = '' then
+  begin
+    TAppUtils.Error('Tidak ada data yang dihapus');
+    exit;
+  end;
+
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModJurnal);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
 end;
 
 function TfrmDialogJurnal.GetModJurnal: TModJurnal;
@@ -138,6 +167,8 @@ begin
   begin
     FModJurnal            := TModJurnal.Create;
     FModJurnal.JUR_DATE   := Now();
+//    FModJurnal.JUR_NO     := 'Otomatis';
+    FModJurnal.JUR_NO     := DMClient.CRUDJurnalClient.GenerateNo(ModJurnal.ClassName);
   end;
 
   //isi dari modjurnal
@@ -159,6 +190,7 @@ begin
     lItem.JURD_REKENING.Reload();
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurNama.Index] := lItem.JURD_REKENING.REK_NAME;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCostCenter.Index] := lItem.JURD_COCENTER.ID;
+    cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDescription.Index] := lItem.JURD_DESCRIPTION;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurDebet.Index] := lItem.JURD_DEBET;
     cxGridTableJurnal.DataController.Values[iRec,cxGridColJurCredit.Index] := lItem.JURD_CREDIT;
   end;
@@ -167,7 +199,7 @@ end;
 procedure TfrmDialogJurnal.SimpanData;
 begin
   try
-    DMClient.CrudClient.SaveToDB(ModJurnal);
+    DMClient.CRUDJurnalClient.SaveToDB(ModJurnal);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     self.ModalResult:=mrOk;
   except
@@ -184,14 +216,22 @@ var
 
 begin
   Result := False;
-  if not ValidateEmptyCtrl([0,1]) then exit;
+  cxGridTableJurnal.DataController.Post();
 
+  if not ValidateEmptyCtrl([0,1]) then exit;
   // validasi total debet = total credit
   lTotalDebet := cxGridTableJurnal.GetFooterSummary(cxGridColJurDebet);
   lTotalCredit:= cxGridTableJurnal.GetFooterSummary(cxGridColJurCredit);
   if not (lTotalDebet = lTotalCredit) then
   begin
     TAppUtils.Warning('Total debet dan kredit tidak sama');
+    exit;
+  end;
+
+  //validasi antara total D dan K tidak boleh 0
+  if (lTotalDebet = 0) or (lTotalCredit = 0) then
+  begin
+    TAppUtils.Warning('Total Debet atau Kredit tidak boleh 0');
     exit;
   end;
 
@@ -223,6 +263,9 @@ var
   lItem: TModJurnalItem;  //var nama bebas
 begin
 //header
+  if ModJurnal.ID = '' then
+    edNo.Text := DMClient.CRUDJurnalClient.GenerateNo(ModJurnal.ClassName);
+
   ModJurnal.JUR_NO          := edNo.Text;
   ModJurnal.JUR_DATE        := dtTanggal.Date;
   ModJurnal.JUR_REF_NO      := edReference.Text;
