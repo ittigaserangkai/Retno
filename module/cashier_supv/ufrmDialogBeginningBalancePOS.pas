@@ -77,6 +77,7 @@ begin
   ClearForm;
   InitLookUp;
   Self.AssignKeyDownEvent;
+  curredtBeginBalance.EditValue := 200000;
 end;
 
 procedure TfrmDialogBeginBalancePOS.actDeleteExecute(Sender: TObject);

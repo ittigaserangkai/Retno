@@ -77,8 +77,7 @@ uses
   uModCustomer in '..\model\uModCustomer.pas',
   uModAgreement in '..\model\uModAgreement.pas',
   uModProdukJasa in '..\model\uModProdukJasa.pas',
-  uModElectric in '..\model\uModElectric.pas',
-  uModReceipt in '..\model\uModReceipt.pas';
+  uModElectric in '..\model\uModElectric.pas';
 
 {$R *.res}
 
