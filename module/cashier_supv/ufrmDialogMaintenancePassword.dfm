@@ -1,7 +1,7 @@
 inherited frmDialogMaintenancePassword: TfrmDialogMaintenancePassword
   Left = 249
   Top = 151
-  Caption = 'frmDialogMaintenancePassword'
+  Caption = 'Update Maintenance Password'
   ClientHeight = 222
   ClientWidth = 316
   Constraints.MinHeight = 32
@@ -52,7 +52,6 @@ inherited frmDialogMaintenancePassword: TfrmDialogMaintenancePassword
       MaxLength = 4
       ParentCtl3D = False
       TabOrder = 0
-      OnKeyPress = edtUserNameKeyPress
     end
     object edtFullname: TEdit
       Left = 112
@@ -114,15 +113,15 @@ inherited frmDialogMaintenancePassword: TfrmDialogMaintenancePassword
       inherited btnSave: TcxButton
         Left = 70
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 70
       end
       inherited btnDelete: TcxButton
         Action = actDelete
-        OnClick = btnDeleteClick
       end
       inherited btnPrint: TcxButton
         Left = 162
+        Action = actPrint
+        ExplicitLeft = 162
       end
     end
     inherited pnlSortCut: TPanel
@@ -131,6 +130,7 @@ inherited frmDialogMaintenancePassword: TfrmDialogMaintenancePassword
       inherited lbCTRLEnter: TLabel
         Left = -42
         Height = 15
+        Visible = False
         ExplicitLeft = -42
       end
       inherited lbEscape: TLabel
@@ -139,10 +139,17 @@ inherited frmDialogMaintenancePassword: TfrmDialogMaintenancePassword
         ExplicitLeft = 232
       end
       inherited lbCTRLDel: TLabel
+        Width = 72
         Height = 15
+        Visible = False
+        ExplicitLeft = 20
+        ExplicitTop = 2
+        ExplicitWidth = 72
+        ExplicitHeight = 15
       end
       inherited lblCTRLP: TLabel
         Left = 156
+        Height = 15
         ExplicitLeft = 156
       end
     end

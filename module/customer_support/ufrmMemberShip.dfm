@@ -354,8 +354,6 @@ inherited frmMemberShip: TfrmMemberShip
           BevelOuter = bvLowered
           Color = 15198183
           TabOrder = 1
-          ExplicitTop = 321
-          ExplicitWidth = 749
           object lbl5: TLabel
             Left = 8
             Top = 36
