@@ -41,19 +41,8 @@ inherited frmMasterDialogBrowse: TfrmMasterDialogBrowse
       inherited btnDelete: TcxButton
         Action = actDelete
       end
-    end
-    inherited pnlSortCut: TPanel
-      inherited lbCTRLEnter: TLabel
-        Height = 15
-      end
-      inherited lbEscape: TLabel
-        Height = 15
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
-      end
-      inherited lblCTRLP: TLabel
-        Height = 15
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
     end
   end

@@ -258,6 +258,7 @@ type
     dxbrbtn3: TdxBarButton;
     actFakturPajakAgreement: TAction;
     dxbrbtn4: TdxBarButton;
+    dxBarButton2: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -395,7 +396,7 @@ uses
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
   ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
-  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement;
+  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement, ufrmUser;
 
 
 
@@ -599,7 +600,7 @@ end;
 
 procedure TfrmMain.actMasterAgreementExecute(Sender: TObject);
 begin
-//    frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
+  //frmMasterAgreement := TfrmMasterAgreement.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actMemberActivationExecute(Sender: TObject);
