@@ -115,7 +115,6 @@ inherited frmMasterCustomer: TfrmMasterCustomer
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 0
-        Text = 'MARKETING'
       end
       object edtPostCode: TEdit
         Left = 381
@@ -788,10 +787,6 @@ inherited frmMasterCustomer: TfrmMasterCustomer
         Height = 128
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 256
-        ExplicitTop = 64
-        ExplicitWidth = 250
-        ExplicitHeight = 200
         object cxGridDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -807,6 +802,12 @@ inherited frmMasterCustomer: TfrmMasterCustomer
   inherited pnlHeader: TPanel
     Width = 711
     ExplicitWidth = 711
+    inherited lblHeader: TLabel
+      Width = 108
+      Height = 18
+      Caption = 'MASTER CUSTOMER'
+      ExplicitWidth = 108
+    end
   end
   inline fraFooter5Button1: TfraFooter5Button
     Left = 0
@@ -854,8 +855,8 @@ inherited frmMasterCustomer: TfrmMasterCustomer
     end
   end
   object actlst1: TActionList
-    Left = 504
-    Top = 8
+    Left = 512
+    Top = 216
     object actAddMasterCustomer: TAction
       Caption = 'Add'
       OnExecute = actAddMasterCustomerExecute

@@ -50,6 +50,7 @@ type
         TModUnit = nil): TDataSet;
     function Company_GetDSLookup: TDataSet;
     function Company_GetDSOverview: TDataSet;
+    function Customer_GetDSOverview: TDataSet;
     function Contrabon_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function CostCenter_GetDSLookup: TDataSet;
     function CostCenter_GetDSOverview: TDataSet;
@@ -588,6 +589,14 @@ var
   S: string;
 begin
   S := 'select COMP_CODE, COMP_NAME, COMPANY_ID from COMPANY';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Customer_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from CUSTOMER';
   Result := TDBUtils.OpenQuery(S);
 end;
 

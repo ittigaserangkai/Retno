@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 18/10/2017 08:37:55
+// 19/11/2017 10:32:17
 //
 
 unit uClientClasses;
@@ -167,6 +167,8 @@ type
     FCompany_GetDSLookupCommand_Cache: TDSRestCommand;
     FCompany_GetDSOverviewCommand: TDSRestCommand;
     FCompany_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FCustomer_GetDSOverviewCommand: TDSRestCommand;
+    FCustomer_GetDSOverviewCommand_Cache: TDSRestCommand;
     FContrabon_GetDSOverviewCommand: TDSRestCommand;
     FContrabon_GetDSOverviewCommand_Cache: TDSRestCommand;
     FCostCenter_GetDSLookupCommand: TDSRestCommand;
@@ -434,6 +436,8 @@ type
     function Company_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Company_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Company_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function Customer_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function Customer_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Contrabon_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function Contrabon_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function CostCenter_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -2408,6 +2412,16 @@ const
   );
 
   TDSProvider_Company_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_Customer_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_Customer_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -8260,6 +8274,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FCompany_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.Customer_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FCustomer_GetDSOverviewCommand = nil then
+  begin
+    FCustomer_GetDSOverviewCommand := FConnection.CreateCommand;
+    FCustomer_GetDSOverviewCommand.RequestType := 'GET';
+    FCustomer_GetDSOverviewCommand.Text := 'TDSProvider.Customer_GetDSOverview';
+    FCustomer_GetDSOverviewCommand.Prepare(TDSProvider_Customer_GetDSOverview);
+  end;
+  FCustomer_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FCustomer_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FCustomer_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.Customer_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FCustomer_GetDSOverviewCommand_Cache = nil then
+  begin
+    FCustomer_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FCustomer_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FCustomer_GetDSOverviewCommand_Cache.Text := 'TDSProvider.Customer_GetDSOverview';
+    FCustomer_GetDSOverviewCommand_Cache.Prepare(TDSProvider_Customer_GetDSOverview_Cache);
+  end;
+  FCustomer_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FCustomer_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.Contrabon_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string): TDataSet;
 begin
   if FContrabon_GetDSOverviewCommand = nil then
@@ -11438,6 +11481,8 @@ begin
   FCompany_GetDSLookupCommand_Cache.DisposeOf;
   FCompany_GetDSOverviewCommand.DisposeOf;
   FCompany_GetDSOverviewCommand_Cache.DisposeOf;
+  FCustomer_GetDSOverviewCommand.DisposeOf;
+  FCustomer_GetDSOverviewCommand_Cache.DisposeOf;
   FContrabon_GetDSOverviewCommand.DisposeOf;
   FContrabon_GetDSOverviewCommand_Cache.DisposeOf;
   FCostCenter_GetDSLookupCommand.DisposeOf;
