@@ -15,8 +15,8 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
     Width = 914
     Height = 444
     BorderWidth = 10
-    ExplicitWidth = 760
-    ExplicitHeight = 416
+    ExplicitWidth = 914
+    ExplicitHeight = 444
     object pnl1: TPanel
       Left = 12
       Top = 12
@@ -25,7 +25,6 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       Align = alTop
       ParentColor = True
       TabOrder = 0
-      ExplicitWidth = 736
       object lblInput: TLabel
         Left = 24
         Top = 33
@@ -308,8 +307,6 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       BevelOuter = bvLowered
       Color = 15198183
       TabOrder = 1
-      ExplicitTop = 346
-      ExplicitWidth = 736
       object lbl5: TLabel
         Left = 60
         Top = 8
@@ -397,18 +394,12 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       TabOrder = 2
       Properties.ActivePage = tsKontrak
       Properties.CustomButtons.Buttons = <>
-      ExplicitLeft = 11
-      ExplicitTop = 209
-      ExplicitWidth = 736
-      ExplicitHeight = 150
       ClientRectBottom = 155
       ClientRectRight = 890
       ClientRectTop = 27
       object tsKontrak: TcxTabSheet
         Caption = 'F2 - Detil Agreement'
         ImageIndex = 0
-        ExplicitWidth = 736
-        ExplicitHeight = 123
         object cxGrid: TcxGrid
           Left = 0
           Top = 0
@@ -418,8 +409,6 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
           TabOrder = 0
           LockedStateImageOptions.Text = 'Mohon ditunggu...'
           LookAndFeel.NativeStyle = False
-          ExplicitWidth = 736
-          ExplicitHeight = 123
           object grdGridView: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             FindPanel.DisplayMode = fpdmManual
@@ -472,6 +461,8 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       object tsJadwalInvoice: TcxTabSheet
         Caption = 'F3 - Invoice Schedule'
         ImageIndex = 1
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 42
         object cxgrd1: TcxGrid
           Left = 0
@@ -539,21 +530,21 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 444
     Width = 914
-    ExplicitTop = 416
-    ExplicitWidth = 760
+    ExplicitTop = 444
+    ExplicitWidth = 914
     inherited pnlFooter: TPanel
       Width = 914
-      ExplicitWidth = 760
+      ExplicitWidth = 914
       inherited btnClose: TcxButton
         Left = 837
         Action = actCancel
-        ExplicitLeft = 683
+        ExplicitLeft = 837
       end
       inherited btnSave: TcxButton
         Left = 744
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 590
+        ExplicitLeft = 744
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -561,21 +552,21 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       inherited btnPrint: TcxButton
         Left = 667
         Action = actPrint
-        ExplicitLeft = 513
+        ExplicitLeft = 667
       end
     end
     inherited pnlSortCut: TPanel
       Width = 914
-      ExplicitWidth = 760
+      ExplicitWidth = 914
       inherited lbCTRLEnter: TLabel
         Left = 739
         Height = 15
-        ExplicitLeft = 585
+        ExplicitLeft = 739
       end
       inherited lbEscape: TLabel
         Left = 830
         Height = 15
-        ExplicitLeft = 676
+        ExplicitLeft = 830
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -583,7 +574,7 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       inherited lblCTRLP: TLabel
         Left = 663
         Height = 15
-        ExplicitLeft = 509
+        ExplicitLeft = 663
       end
     end
   end

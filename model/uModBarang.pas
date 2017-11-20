@@ -330,18 +330,17 @@ type
     FBHJ_LAST_SELL_PRICE: Double;
     FBHJ_LAST_DISC: Double;
     FBHJ_LAST_DISC_PERSEN: Double;
+    FBHJ_PPN: Double;
     FBHJ_REMARK: string;
     FSatuan: TModSatuan;
     FTipeHarga: TModTipeHarga;
     function GetBHJ_PURCHASE_PRICE: Double;
-    function GetBHJ_PPN: Double;
     function GetBHJ_PURCHASE_PRICE_PPN: Double;
     function GetBHJ_SELL_PRICE_EX_PPN: Double;
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
     property BHJ_PURCHASE_PRICE: Double read GetBHJ_PURCHASE_PRICE;
-    property BHJ_PPN: Double read GetBHJ_PPN;
     property BHJ_PURCHASE_PRICE_PPN: Double read GetBHJ_PURCHASE_PRICE_PPN;
     property BHJ_SELL_PRICE_EX_PPN: Double read GetBHJ_SELL_PRICE_EX_PPN;
   published
@@ -377,6 +376,7 @@ type
     property BHJ_LAST_DISC: Double read FBHJ_LAST_DISC write FBHJ_LAST_DISC;
     property BHJ_LAST_DISC_PERSEN: Double read FBHJ_LAST_DISC_PERSEN write
         FBHJ_LAST_DISC_PERSEN;
+    property BHJ_PPN: Double read FBHJ_PPN write FBHJ_PPN;
     property BHJ_REMARK: string read FBHJ_REMARK write FBHJ_REMARK;
     [AttributeOfForeign('Ref$Satuan_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
@@ -570,11 +570,6 @@ end;
 function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE: Double;
 begin
   Result := BHJ_PURCHASE_PRICE_PPN / 1.1;
-end;
-
-function TModBarangHargaJual.GetBHJ_PPN: Double;
-begin
-  Result := 10;
 end;
 
 function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE_PPN: Double;

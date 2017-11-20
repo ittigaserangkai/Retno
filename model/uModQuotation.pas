@@ -139,6 +139,12 @@ begin
   aBarangHrgJual.BHJ_CONV_VALUE     := Self.Konversi;
   aBarangHrgJual.TipeHarga          := TModTipeHarga.CreateID(Self.TipeHarga.ID);
   aBarangHrgJual.Satuan             := TModSatuan.CreateID(Self.Satuan.ID);
+
+  if Self.IsBKP = 1 then
+    aBarangHrgJual.BHJ_PPN          := Self.Tax
+  else
+    aBarangHrgJual.BHJ_PPN          := 0;
+
 end;
 
 initialization

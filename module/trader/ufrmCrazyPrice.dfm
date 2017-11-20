@@ -33,101 +33,9 @@ inherited frmCrazyPrice: TfrmCrazyPrice
           ExplicitWidth = 804
           ExplicitHeight = 419
           inherited cxGridView: TcxGridDBTableView
-            OnEditing = cxGridViewEditing
-            OptionsData.Editing = True
-            object cxGridColCPPilih: TcxGridDBColumn
-              DataBinding.FieldName = 'pilih'
-              HeaderAlignmentHorz = taCenter
-              Width = 95
-              IsCaptionAssigned = True
-            end
-            object cxGridColTanggal: TcxGridDBColumn
-              Caption = 'TANGGAL'
-              DataBinding.FieldName = 'CRAZY_DATE'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColOrgCode: TcxGridDBColumn
-              Caption = 'KODE SUPPLIER'
-              DataBinding.FieldName = 'ORG_CODE'
-            end
-            object cxGridColOrgName: TcxGridDBColumn
-              Caption = 'NAMA SUPPLIER'
-              DataBinding.FieldName = 'ORG_NAME'
-            end
-            object cxGridColKode: TcxGridDBColumn
-              Caption = 'KODE'
-              DataBinding.FieldName = 'BRG_CODE'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColNama: TcxGridDBColumn
-              Caption = 'NAMA'
-              DataBinding.FieldName = 'BRG_NAME'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColSatuan: TcxGridDBColumn
-              Caption = 'SATUAN'
-              DataBinding.FieldName = 'SAT_CODE'
-            end
-            object cxGridColCOGS: TcxGridDBColumn
-              Caption = 'COGS'
-              DataBinding.FieldName = 'CRAZY_COGS'
-              PropertiesClassName = 'TcxCurrencyEditProperties'
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0.00;(,0.00)'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColDiskon: TcxGridDBColumn
-              Caption = 'DISKON'
-              DataBinding.FieldName = 'CRAZY_DISC_PERSEN'
-              PropertiesClassName = 'TcxCurrencyEditProperties'
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0.00;(,0.00)'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColMarkUp: TcxGridDBColumn
-              Caption = 'MARK UP'
-              DataBinding.FieldName = 'CRAZY_MARKUP'
-              PropertiesClassName = 'TcxCurrencyEditProperties'
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0.00;(,0.00)'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColPPN: TcxGridDBColumn
-              Caption = 'PPN'
-              DataBinding.FieldName = 'CRAZY_PPN'
-              PropertiesClassName = 'TcxCurrencyEditProperties'
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0.00;(,0.00)'
-            end
-            object cxGridColHargaJualPPN: TcxGridDBColumn
-              Caption = 'HARGA + PPN'
-              DataBinding.FieldName = 'CRAZY_SELLPRICE_PPN'
-              PropertiesClassName = 'TcxCurrencyEditProperties'
-              Properties.Alignment.Horz = taRightJustify
-              Properties.DisplayFormat = ',0.00;(,0.00)'
-              HeaderAlignmentHorz = taCenter
-              Width = 85
-            end
-            object cxGridColAwal: TcxGridDBColumn
-              Caption = 'AWAL'
-              DataBinding.FieldName = 'CRAZY_START_DATE'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColAkhir: TcxGridDBColumn
-              Caption = 'AKHIR'
-              DataBinding.FieldName = 'CRAZY_END_DATE'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColCreated: TcxGridDBColumn
-              Caption = 'CREATED'
-              DataBinding.FieldName = 'DATE_CREATE'
-              HeaderAlignmentHorz = taCenter
-            end
-            object cxGridColModified: TcxGridDBColumn
-              Caption = 'MODIFIED'
-              DataBinding.FieldName = 'DATE_MODIFY'
-              HeaderAlignmentHorz = taCenter
-            end
+            OnCellClick = cxGridViewCellClick
+            DataController.DataModeController.GridMode = True
+            OptionsCustomize.ColumnMoving = False
           end
         end
       end
@@ -209,14 +117,10 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   object chkPilih: TcxCheckBox [3]
     Left = 8
     Top = 35
-    AutoSize = False
-    Caption = 'PILIH SEMUA'
     Style.TextStyle = [fsBold]
     TabOrder = 3
     Transparent = True
     OnClick = chkPilihClick
-    Height = 24
-    Width = 92
   end
   inherited actlstBrowse: TActionList
     inherited actAdd: TAction
