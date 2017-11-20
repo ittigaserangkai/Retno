@@ -5,7 +5,6 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   ClientHeight = 512
   ClientWidth = 808
   OldCreateOrder = True
-  ExplicitTop = -172
   ExplicitWidth = 824
   ExplicitHeight = 551
   PixelsPerInch = 96

@@ -109,21 +109,40 @@ end;
 procedure TfrmCrazyPrice.cxGridViewCellClick(Sender: TcxCustomGridTableView;
     ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
     TShiftState; var AHandled: Boolean);
+var
+  iIDs: string;
 begin
   inherited;
-//  cxGridView.OptionsData.Editing := False;
-
   if ACellViewInfo.Item.Index = 0 then
   begin
-    cxGridView.OptionsData.Editing := True;
-    try
-      if VarIsNull(cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0]) then
-        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := False
-      else
-        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := not cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0];
-    finally
-      cxGridView.OptionsData.Editing := False;
+    iIDs := cxGridView.Values(cxGridView.DataController.FocusedRecordIndex, 'CRAZYPRICE ID');
+
+    FCDS.First;
+    while not FCDS.Eof do
+    begin
+      if iIDs = FCDS.FieldByName('CRAZYPRICE_ID').AsString then
+      begin
+        FCDS.Edit;
+        FCDS.FieldByName('pilih').AsBoolean := not FCDS.FieldByName('pilih').AsBoolean;
+        FCDS.Post;
+      end;
+
+      FCDS.Next;
     end;
+
+//    cxGridView.OptionsData.Editing := True;
+//    try
+//      if VarIsNull(cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0]) then
+//        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := False
+//      else if cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] then
+//        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := True
+//      else
+//        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := False;
+//
+//    finally
+//      cxGridView.OptionsData.Editing := False;
+//    end;
+
   end;
 end;
 
