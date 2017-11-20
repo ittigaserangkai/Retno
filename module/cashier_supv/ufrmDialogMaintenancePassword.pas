@@ -5,12 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
-  StdCtrls, System.Actions, Vcl.ActnList, ufraFooterDialog3Button;
+  StdCtrls, System.Actions, Vcl.ActnList, ufraFooterDialog3Button,
+  ufrmMasterDialogBrowse, uDXUtils, uInterface, uDBUtils, uClientClasses,
+  uDMClient, uModAuthUser, uAppUtils;
 
 type                         
-  TFormMode = (fmAdd, fmEdit);
-  
-  TfrmDialogMaintenancePassword = class(TfrmMasterDialog)
+  TfrmDialogMaintenancePassword = class(TfrmMasterDialog, iCrudable)
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
@@ -21,22 +21,18 @@ type
     edtPasswd: TEdit;
     chkStatus: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
-    procedure edtUserNameKeyPress(Sender: TObject; var Key: Char);
-    procedure btnDeleteClick(Sender: TObject);
   private
-    FIsProcessSuccessfull: boolean;
-    FFormMode: TFormMode;
-    procedure SetFormMode(const Value: TFormMode);
-    procedure SetIsProcessSuccessfull(const Value: boolean);
+    FCrud: TCrudClient;
+    FModAuthUser: TModAuthUser;
+    function GetCrud: TCrudClient;
+    function GetModAuthUser: TModAuthUser;
+    procedure SimpanData;
+    property Crud: TCrudClient read GetCrud write FCrud;
+    property ModAuthUser: TModAuthUser read GetModAuthUser write FModAuthUser;
     { Private declarations }
   public
-    { Public declarations }
-    User_ID: Integer;             
+    procedure LoadData(AID: String);
   published
-    property FormMode: TFormMode read FFormMode write SetFormMode;
-    property IsProcessSuccessfull: boolean read FIsProcessSuccessfull write SetIsProcessSuccessfull;
   end;
 
 var
@@ -55,96 +51,41 @@ begin
   Action := caFree;
 end;
 
-procedure TfrmDialogMaintenancePassword.FormDestroy(Sender: TObject);
+function TfrmDialogMaintenancePassword.GetCrud: TCrudClient;
 begin
-  inherited;
-  frmDialogMaintenancePassword := nil;
+  if not Assigned(FCrud) then
+    fCrud := TCrudClient.Create(DMClient.RestConn, FALSE);
+  Result := FCrud;
 end;
 
-procedure TfrmDialogMaintenancePassword.SetFormMode(
-  const Value: TFormMode);
+function TfrmDialogMaintenancePassword.GetModAuthUser: TModAuthUser;
 begin
-  FFormMode := Value;
+  if not Assigned(FModAuthUser) then FModAuthUser := TModAuthUser.Create;
+
+  Result := FModAuthUser;
 end;
 
-procedure TfrmDialogMaintenancePassword.SetIsProcessSuccessfull(
-  const Value: boolean);
+procedure TfrmDialogMaintenancePassword.LoadData(AID: String);
+var lEvent : TNotifyEvent;
 begin
-  FIsProcessSuccessfull := Value;
-end;
+  try
+    
+  finally
 
-procedure TfrmDialogMaintenancePassword.footerDialogMasterbtnSaveClick(
-  Sender: TObject);
-var intStatus: SmallInt;
-    levelID: Integer;
-begin
-  inherited;
-  IsProcessSuccessfull := False;
-
-  if edtUserName.Text = '' then
-  begin
-    CommonDlg.ShowErrorEmpty('Cashier ID');
-    edtUserName.SetFocus;
-    Exit;
-  end
-  else
-  begin
-    if chkStatus.Checked then
-      intStatus := 1
-    else
-      intStatus := 0;
-
-    {levelID mengacu pada table aut$grup idgrup supervisorPos & operatorPos }
-
-    If cbbLevel.ItemIndex = 0 then
-      levelID := 10
-    else
-      levelID := 11;
-
-    {
-    if not Assigned(MaintenancePasswd) then MaintenancePasswd := TMaintenancePasswd.Create;
-
-    if FormMode = fmAdd then
-    begin
-       IsProcessSuccessfull := MaintenancePasswd.InputDataMaintenancePasswd(edtUserName.Text, edtFullname.Text, edtPasswd.Text,
-                                                                            intStatus, levelID);
-    end // end fmadd
-    else
-    begin
-       IsProcessSuccessfull := MaintenancePasswd.UpdateDataMaintenancePasswd(edtUserName.Text, edtFullname.Text, edtPasswd.Text,
-                                                                             intStatus, User_ID);
-    end; //end fmedit
-    }
-  end; //end = ''
-  Close;
-end;
-
-procedure TfrmDialogMaintenancePassword.btnDeleteClick(Sender: TObject);
-var delStatue: Boolean;
-begin
-  inherited;
-  {if strgGrid.Cells[5,strgGrid.Row] = '0' then Exit;
-
-  if (CommonDlg.Confirm('Are you sure you wish to delete Cashier (Cashier Id: '+ strgGrid.Cells[1,strgGrid.Row] +')?') = mrYes) then
-  begin
-    if not Assigned(MaintenancePasswd) then MaintenancePasswd := TMaintenancePasswd.Create;
-
-    delStatue := MaintenancePasswd.DeleteDataMaintenancePasswd(StrToInt(strgGrid.Cells[6,strgGrid.Row]), masternewunit.id);
-    if delStatue then
-    begin
-      actRefreshMaintenancePasswdExecute(Self);
-      CommonDlg.ShowConfirmSuccessfull(atDelete);
-    end;
   end;
-  }
 end;
 
-procedure TfrmDialogMaintenancePassword.edtUserNameKeyPress(
-  Sender: TObject; var Key: Char);
+procedure TfrmDialogMaintenancePassword.SimpanData;
 begin
-  //if not (Key in ['0'..'9', Chr(VK_RETURN), Chr(VK_DELETE), Chr(VK_BACK)]) then
-   //Key := #0;
-
+  //ModAuthUser.MEMBER_IS_VALID                 := 0;
+  try
+    Crud.SaveToDB(ModAuthUser);
+    TAppUtils.Information('Simpan Berhasil.');
+    Self.ModalResult := mrOK;
+  except
+    TAppUtils.Error('Gagal Menyimpan Data.');
+    Raise
+  end;
 end;
 
 end.

@@ -15,23 +15,23 @@ inherited frmMemberShip: TfrmMemberShip
     ExplicitWidth = 773
     ExplicitHeight = 433
     inherited pgcBrowse: TcxPageControl
-      Width = 751
-      Height = 411
+      Width = 771
+      Height = 431
       Properties.HideTabs = False
-      ExplicitWidth = 751
-      ExplicitHeight = 411
-      ClientRectBottom = 410
-      ClientRectRight = 750
+      ExplicitWidth = 771
+      ExplicitHeight = 431
+      ClientRectBottom = 430
+      ClientRectRight = 770
       ClientRectTop = 24
       inherited tsBrowse: TcxTabSheet
         ExplicitTop = 24
-        ExplicitWidth = 749
-        ExplicitHeight = 386
+        ExplicitWidth = 769
+        ExplicitHeight = 406
         inherited cxGrid: TcxGrid
-          Width = 749
-          Height = 386
-          ExplicitWidth = 749
-          ExplicitHeight = 386
+          Width = 769
+          Height = 406
+          ExplicitWidth = 769
+          ExplicitHeight = 406
         end
       end
       object cxTabSheet1: TcxTabSheet
@@ -41,7 +41,7 @@ inherited frmMemberShip: TfrmMemberShip
         object pnl1: TPanel
           Left = 0
           Top = 0
-          Width = 749
+          Width = 769
           Height = 174
           Align = alTop
           ParentColor = True
@@ -346,8 +346,8 @@ inherited frmMemberShip: TfrmMemberShip
         end
         object pnl2: TPanel
           Left = 0
-          Top = 321
-          Width = 749
+          Top = 341
+          Width = 769
           Height = 65
           Align = alBottom
           BevelInner = bvRaised

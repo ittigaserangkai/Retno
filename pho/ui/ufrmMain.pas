@@ -409,6 +409,7 @@ type
     dxbrbElectricInvoice: TdxBarButton;
     dxbrbElectricTransaction: TdxBarButton;
     dxbrbElectricPayment: TdxBarButton;
+    dxBarButton6: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);

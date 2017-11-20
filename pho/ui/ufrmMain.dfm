@@ -192,7 +192,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
-      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -222,6 +221,7 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
+      Active = True
       Caption = 'Marketing'
       Groups = <
         item
@@ -1980,6 +1980,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbAgFakturPajak'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton6'
         end>
       OneOnRow = False
       Row = 0
@@ -2355,6 +2359,10 @@ object frmMain: TfrmMain
     end
     object dxbrbElectricPayment: TdxBarButton
       Action = actElectricPayment
+      Category = 0
+    end
+    object dxBarButton6: TdxBarButton
+      Action = actMasterCustomer
       Category = 0
     end
   end

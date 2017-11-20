@@ -2,17 +2,17 @@ inherited frmDialogRekening: TfrmDialogRekening
   Left = 532
   Top = 170
   Caption = 'UPDATE REKENING'
-  ClientHeight = 313
+  ClientHeight = 296
   ClientWidth = 476
   Constraints.MinHeight = 32
   OldCreateOrder = True
   ExplicitWidth = 492
-  ExplicitHeight = 352
+  ExplicitHeight = 335
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 476
-    Height = 257
+    Height = 240
     ExplicitWidth = 476
     ExplicitHeight = 257
     object lbl1: TLabel
@@ -29,57 +29,50 @@ inherited frmDialogRekening: TfrmDialogRekening
       Height = 16
       Caption = 'Account Name'
     end
-    object lbl3: TLabel
-      Left = 16
-      Top = 64
-      Width = 70
-      Height = 16
-      Caption = 'Account Level'
-    end
     object lbl4: TLabel
       Left = 16
-      Top = 88
+      Top = 64
       Width = 102
       Height = 16
       Caption = 'Account Description'
     end
     object lbl5: TLabel
       Left = 16
-      Top = 139
+      Top = 115
       Width = 105
       Height = 16
       Caption = 'Account Parent Code'
     end
     object lbl6: TLabel
       Left = 16
-      Top = 112
+      Top = 88
       Width = 74
       Height = 16
       Caption = 'Account Group'
     end
     object lblGroup: TLabel
       Left = 16
-      Top = 171
+      Top = 147
       Width = 74
       Height = 16
       Caption = 'Account Group'
     end
     object chkIsDebet: TCheckBox
       Left = 16
-      Top = 196
+      Top = 172
       Width = 145
       Height = 17
       Caption = 'Normal Balance Is Debet'
-      TabOrder = 8
+      TabOrder = 7
       OnKeyUp = chkIsDebetKeyUp
     end
     object chkIsLeaf: TCheckBox
       Left = 16
-      Top = 220
+      Top = 196
       Width = 97
       Height = 17
       Caption = 'Is Detail'
-      TabOrder = 9
+      TabOrder = 8
     end
     object edtRekCode: TEdit
       Left = 144
@@ -106,60 +99,52 @@ inherited frmDialogRekening: TfrmDialogRekening
     end
     object edtDescription: TEdit
       Left = 144
-      Top = 88
+      Top = 64
       Width = 313
       Height = 22
       CharCase = ecUpperCase
       Ctl3D = False
       ParentCtl3D = False
-      TabOrder = 3
+      TabOrder = 2
       OnKeyUp = edtDescriptionKeyUp
     end
     object chkbs: TRadioButton
       Left = 144
-      Top = 168
+      Top = 144
       Width = 113
       Height = 25
       Caption = 'Balance sheet'
       Checked = True
-      TabOrder = 6
+      TabOrder = 5
       TabStop = True
       OnKeyUp = chkbsKeyUp
     end
     object chkpl: TRadioButton
       Left = 275
-      Top = 172
+      Top = 148
       Width = 113
       Height = 17
       Caption = 'Profit Loss'
-      TabOrder = 7
+      TabOrder = 6
       OnKeyUp = chkplKeyUp
     end
     object dbParentCode: TcxExtLookupComboBox
       Left = 144
-      Top = 138
-      TabOrder = 5
+      Top = 114
+      TabOrder = 4
       OnKeyUp = dbParentCodeKeyUp
       Width = 145
     end
-    object intedtLevel: TcxSpinEdit
-      Left = 144
-      Top = 63
-      Properties.OnEditValueChanged = intedtLevelPropertiesEditValueChanged
-      TabOrder = 2
-      OnKeyUp = intedtLevelKeyUp
-      Width = 52
-    end
     object dbAccountGroup: TcxExtLookupComboBox
       Left = 144
-      Top = 112
-      TabOrder = 4
+      Top = 88
+      TabOrder = 3
       OnKeyUp = dbAccountGroupKeyUp
       Width = 145
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 257
+    Top = 240
     Width = 476
     ExplicitTop = 257
     ExplicitWidth = 476

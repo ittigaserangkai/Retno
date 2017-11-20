@@ -13,7 +13,7 @@ uses
   cxDateUtils, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, uInterface, uModPO, uDMClient,
   dxBarBuiltInMenu, cxPC, uDXUtils, Datasnap.DBClient, uDBUtils, uModelHelper,
-  cxCalc;
+  cxCalc, uAppUtils;
 
 type
   TfrmPORevision = class(TfrmMasterDialog,ICRUDAble)
@@ -68,20 +68,28 @@ type
     procedure cxgrdclmnPODJumlahPropertiesEditValueChanged(Sender: TObject);
     procedure cxGridTablePODetilEditing(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; var AAllow: Boolean);
+    procedure cxGridTablePODetilDataControllerAfterPost(
+      ADataController: TcxCustomDataController);
   private
     FCDS: TClientDataSet;
     FCDSSO: TClientDataSet;
     FCDSSupMG: TClientDataSet;
     FPOLama: TModPO;
+    FPORev: TModPO;
     function GetDCItem: TcxGridDataController;
+    function GetPORev: TModPO;
     procedure InisialisasiCBBSO;
     procedure InisialisasiCBBSupMG;
     procedure InisialisasiCBBSupplier;
+    procedure UpdateData;
     procedure UpdateEditData;
     property DCItem: TcxGridDataController read GetDCItem;
+    property PORev: TModPO read GetPORev write FPORev;
     { Private declarations }
   public
     procedure LoadData(AID : String);
+    procedure SimpanData;
+    function ValidateData: Boolean;
     { Public declarations }
   end;
 
@@ -100,6 +108,13 @@ procedure TfrmPORevision.cxgrdclmnPODJumlahPropertiesEditValueChanged(
 begin
   inherited;
   UpdateEditData;
+end;
+
+procedure TfrmPORevision.cxGridTablePODetilDataControllerAfterPost(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  cxGridTablePODetil.ApplyBestFit;
 end;
 
 procedure TfrmPORevision.cxGridTablePODetilEditing(Sender:
@@ -121,6 +136,13 @@ function TfrmPORevision.GetDCItem: TcxGridDataController;
 begin
   // TODO -cMM: TfrmPORevision.GetDCItem default body inserted
   Result := cxGridTablePODetil.DataController;
+end;
+
+function TfrmPORevision.GetPORev: TModPO;
+begin
+  if not Assigned(FPORev) then
+    FPORev := TModPO.Create;
+  Result := FPORev;
 end;
 
 procedure TfrmPORevision.InisialisasiCBBSO;
@@ -208,34 +230,74 @@ begin
         End;
         Post;
       End;
-    edSubTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal);
-    edDisc1.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc);
-    edPPN.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax);
-    edTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal);
   end;
+  edSubTotal.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal));
+  edDisc1.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc));
+  edPPN.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax));
+  edTotal.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal));
+end;
+
+procedure TfrmPORevision.SimpanData;
+begin
+  if not ValidateData then exit; //validasi
+  UpdateData;
+
+  Try
+    PORev.ID := DMClient.CrudPOClient.SaveToDBID(PORev);
+    TAppUtils.Information(_MSG_BERHASIL_SIMPAN);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(_MSG_GAGAL_SIMPAN);
+    raise;
+  End;
+
+end;
+
+procedure TfrmPORevision.UpdateData;
+begin
+  //isi form ke object PORev;
+
+
 end;
 
 procedure TfrmPORevision.UpdateEditData;
 var
-  SubTotal : Double;
+  Disc1,Disc2,HargaStlDisc, SubTotal,TotalDisc : Double;
 begin
-//   with cxGridTablePODetil.DataController DO
-//      Begin
-//        SubTotal := values[FocusedRecordIndex, cxgrdclmnPODJumlah.Index] * values[FocusedRecordIndex, cxgrdclmnPODHarga.Index];
-//        values[FocusedRecordIndex, cxgrdclmnPODSubTotal.Index] := SubTotal;
-//      End;
-//  edSubTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal);
-//  edDisc1.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc);
-//  edPPN.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax);
-//  edTotal.Value := cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal);
   DCItem.Post;
   SubTotal := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index] * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index];
+  Disc1 := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index] *
+    (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc1.Index] / 100 * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index]);
+  Disc2 := (SubTotal - Disc1) * (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc2.Index] / 100 * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index]);
+  TotalDisc := Disc1 + Disc2 + (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc3.Index] * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index]);
+  HargaStlDisc := (SubTotal - TotalDisc) / DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index];
   DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODSubTotal.Index] := SubTotal;
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODTotalDisc.Index] := TotalDisc;
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODIsBKP.Index] := TotalDisc;
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODTotal.Index] := SubTotal;
+
 
   edSubTotal.Value := DCItem.GetFooterSummary(cxgrdclmnPODSubTotal);
   edDisc1.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotalDisc);
   edPPN.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotalTax);
   edTotal.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotal);
+end;
+
+function TfrmPORevision.ValidateData: Boolean;
+begin
+  Result := False;
+
+
+  if edsubtotal.value <= 0 then
+  begin
+    TAppUtils.Error('Subtotal <= 0');
+    exit;
+  end;
+
+  If not TAppUtils.Confirm('Anda yakin..?') then
+    exit;
+
+  Result := True;
 end;
 
 end.
