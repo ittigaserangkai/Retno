@@ -1219,38 +1219,41 @@ var
   end;
 
 begin
-  edPLU.Enabled := False;
   Result  := -1;
-  lPLU    := TAppUtils.SplitLeftStr(aPLU_Qty, '*');
-  if lPLU = '' then lPLU := aPLU_QTY;
-  lQTY    := 1;
-  TryStrToFloat(TAppUtils.SplitRightStr(aPLU_Qty, '*'), lQTY);
-  lModBarang := DMClient.CRUDBarangClient.RetrievePOS(lPLU) ;
+  edPLU.Enabled := False;
   try
-    BHJ     := GetHargaJual;
-    if not ValidatePLU then exit;
+    lPLU    := TAppUtils.SplitLeftStr(aPLU_Qty, '*');
+    if lPLU = '' then lPLU := aPLU_QTY;
+    lQTY    := 1;
+    TryStrToFloat(TAppUtils.SplitRightStr(aPLU_Qty, '*'), lQTY);
+    lModBarang := DMClient.CRUDBarangClient.RetrievePOS(lPLU) ;
+    try
+      BHJ     := GetHargaJual;
+      if not ValidatePLU then exit;
 
-    Result  := SetProductToGrid(lModBarang, BHJ, lQTY);
-    if (BHJ.BHJ_SELL_PRICE = 0) and (aIsLookupActive) then
-    begin
-      lblHargaKontrabon.Visible  := True;
-      edHargaKontrabon.Visible   := True;
-      edPLU.Enabled              := False;
-      cxTransaksi.Enabled        := False;
-      edHargaKontrabon.SetFocus;
-      edHargaKontrabon.SelectAll;
-    end else  begin
-      HitungTotalRupiah;
-      edPLU.Clear;
-      FocusToPLUEdit;
-      SaveTransactionToCSV;
-      edPLU.Enabled := True;
+      Result  := SetProductToGrid(lModBarang, BHJ, lQTY);
+      if (BHJ.BHJ_SELL_PRICE = 0) and (aIsLookupActive) then
+      begin
+        lblHargaKontrabon.Visible  := True;
+        edHargaKontrabon.Visible   := True;
+        edPLU.Enabled              := False;
+        cxTransaksi.Enabled        := False;
+        edHargaKontrabon.SetFocus;
+        edHargaKontrabon.SelectAll;
+      end else  begin
+        HitungTotalRupiah;
+        edPLU.Clear;
+        FocusToPLUEdit;
+        SaveTransactionToCSV;
+        edPLU.Enabled := True;
+      end;
+      if lModBarang.BRG_GALON_CODE <> '' then
+        LoadByPLU(lModBarang.BRG_GALON_CODE);
+    finally
+      FreeAndNil(lModBarang);
     end;
-    if lModBarang.BRG_GALON_CODE <> '' then
-      LoadByPLU(lModBarang.BRG_GALON_CODE);
   finally
     edPLU.Enabled := True;
-    FreeAndNil(lModBarang);
   end;
 end;
 
