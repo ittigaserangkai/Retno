@@ -49,51 +49,6 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
             end
           end
         end
-        object gbCetak: TcxGroupBox
-          Left = 608
-          Top = 34
-          Caption = 'Opsi Cetak'
-          TabOrder = 1
-          Visible = False
-          Height = 110
-          Width = 278
-          object rbPrintDlg: TcxRadioGroup
-            Left = 2
-            Top = 21
-            Align = alTop
-            Properties.Columns = 2
-            Properties.Items = <
-              item
-                Caption = 'By Nomor SO'
-              end
-              item
-                Caption = 'By Range Date'
-              end>
-            ItemIndex = 0
-            Style.BorderStyle = ebsNone
-            TabOrder = 0
-            Height = 42
-            Width = 274
-          end
-          object btnPrint: TcxButton
-            AlignWithMargins = True
-            Left = 4
-            Top = 65
-            Width = 270
-            Height = 41
-            Cursor = crHandPoint
-            Margins.Left = 2
-            Margins.Top = 2
-            Margins.Right = 2
-            Margins.Bottom = 2
-            Align = alClient
-            Caption = 'Cetak'
-            OptionsImage.ImageIndex = 28
-            OptionsImage.Images = DMClient.imgListButton
-            TabOrder = 1
-            OnClick = btnPrintClick
-          end
-        end
       end
     end
   end
@@ -284,6 +239,20 @@ inherited frmPurchaseOrder: TfrmPurchaseOrder
     object mnClosePO: TMenuItem
       Caption = 'Closed'
       OnClick = mnClosePOClick
+    end
+  end
+  object pmPrint: TPopupMenu
+    Alignment = paCenter
+    OwnerDraw = True
+    Left = 202
+    Top = 155
+    object CetakBatch1: TMenuItem
+      Caption = 'Cetak Slip Transaksi'
+      OnClick = CetakBatch1Click
+    end
+    object CetakBatch2: TMenuItem
+      Caption = 'Cetak Slip Batch'
+      OnClick = CetakBatch2Click
     end
   end
 end
