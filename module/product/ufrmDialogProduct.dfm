@@ -33,7 +33,7 @@ inherited frmDialogProduct: TfrmDialogProduct
       ParentColor = False
       ParentFont = False
       TabOrder = 0
-      Properties.ActivePage = tsSupplier
+      Properties.ActivePage = tsInfo
       Properties.CustomButtons.Buttons = <>
       Properties.Images = DMClient.imgListButton
       Properties.Rotate = True
@@ -621,12 +621,12 @@ inherited frmDialogProduct: TfrmDialogProduct
           Style.BorderStyle = ebsFlat
           TabOrder = 17
           Transparent = True
-          Height = 198
+          Height = 221
           Width = 130
           object cbTurunan: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 146
+            Top = 170
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -668,7 +668,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbIsTaxInclude: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 74
+            Top = 98
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -682,7 +682,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 122
+            Top = 146
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -696,7 +696,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 98
+            Top = 122
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -723,7 +723,7 @@ inherited frmDialogProduct: TfrmDialogProduct
           object chkIsGalon: TcxCheckBox
             AlignWithMargins = True
             Left = 5
-            Top = 170
+            Top = 194
             Margins.Top = 0
             Margins.Right = 0
             Margins.Bottom = 0
@@ -733,6 +733,21 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
+            ExplicitLeft = 7
+            ExplicitTop = 170
+          end
+          object chkPOSLookup: TcxCheckBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 74
+            Margins.Top = 0
+            Margins.Right = 0
+            Margins.Bottom = 0
+            Align = alTop
+            Caption = 'Lookup POS'
+            Properties.ImmediatePost = True
+            TabOrder = 8
+            Transparent = True
           end
         end
         object gbPurchase: TcxGroupBox
@@ -1273,7 +1288,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Style.BorderStyle = ebsNone
             TabOrder = 14
             Transparent = True
-            Height = 122
+            Height = 148
             Width = 132
             object ckActive: TcxCheckBox
               AlignWithMargins = True
@@ -1333,8 +1348,8 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 3
               Transparent = True
-              OnKeyDown = ckEnableCNKeyDown
-              ExplicitTop = 95
+              ExplicitLeft = 3
+              ExplicitTop = 138
             end
             object ckIsSOBlacklist: TcxCheckBox
               AlignWithMargins = True

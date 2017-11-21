@@ -194,7 +194,6 @@ uses
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   uModPO in '..\model\uModPO.pas',
-  uModelHelper in '..\model\uModelHelper.pas',
   uModSO in '..\model\uModSO.pas',
   uModDO in '..\model\uModDO.pas',
   ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
@@ -269,7 +268,8 @@ uses
   ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
   ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModelHelper in '..\model\uModelHelper.pas';
 
 {$R *.res}
 
