@@ -38,6 +38,9 @@ type
 
 implementation
 
+uses
+  uServerModelHelper;
+
 function TPOS.GetBeginningBalance(UserID: string): TModBeginningBalance;
 var
   S: string;
