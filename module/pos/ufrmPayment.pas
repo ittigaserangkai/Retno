@@ -8,7 +8,7 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
   cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids, FireDAC.Comp.Client,
   uNewBarangStockSirkulasi, uNewBarang, uModBarang, uModTransaksi,
-  Vcl.Controls, Vcl.Forms, uModelHelper;
+  Vcl.Controls, Vcl.Forms, uModelHelper, uModCreditCard;
 
 type
   VoucherDetail = record
@@ -69,7 +69,6 @@ type
     edtJenisKartuName: TcxCurrencyEdit;
     edtNoOtorisasiCC: TcxCurrencyEdit;
     edtCashBack: TcxCurrencyEdit;
-    fraLookUpCC: TfraLookUpCC;
     edtPilihan: TcxCurrencyEdit;
     mmoBackup: TMemo;
     mmoTemp: TMemo;
@@ -95,8 +94,6 @@ type
     procedure edtJenisKartuCodeKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
-    procedure fraLookUpCCedNamaKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure edtJenisKartuCodeExit(Sender: TObject);
     procedure edtPilihanKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -134,8 +131,7 @@ type
     procedure edtNilaiTunaiPropertiesChange(Sender: TObject);
     procedure edtNilaiCCPropertiesChange(Sender: TObject);
     procedure edtBayarCCPropertiesChange(Sender: TObject);
-    procedure fraLookUpCCcxGridViewKeyDown(Sender: TObject; var Key: Word; Shift:
-        TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FCardID: string;
 		FCashBackNilai: Currency;
@@ -165,6 +161,7 @@ type
     FTipeIDConcession: Integer;
     FIsConcession: Boolean;
     FIsSaved: Boolean;
+    FModCreditCard: TModCreditCard;
     FModTransaksi: TModTransaksi;
     FNewBarang: TNewBarang;
     FSisaUang: Currency;
@@ -189,6 +186,8 @@ type
     function HitungCCCharge: Currency;
     procedure HitungSisaUang;
     procedure LoadCreditCard(ACode: String);
+    procedure LoadCreditCardOld(ACode: String);
+    procedure LookupCreditCard;
     //procedure LineReceived(Sender : TLineSocketBase; const line : string;
     //          complete : Boolean);
     procedure ParsingPrintStrukTrans;
@@ -229,6 +228,7 @@ type
     property IsSaved: Boolean read FIsSaved write FIsSaved;
     property KonstantaPembulatan: Currency read FKonstantaPembulatan write
         FKonstantaPembulatan;
+    property ModCreditCard: TModCreditCard read FModCreditCard write FModCreditCard;
     property ModTransaksi: TModTransaksi read FModTransaksi write FModTransaksi;
     property NewBarang: TNewBarang read GetNewBarang write FNewBarang;
     property Pembulatan: Currency read GetPembulatan write FPembulatan;
@@ -255,6 +255,7 @@ type
     property VoucherLainNilaiTotal: Double read FVoucherLainNilaiTotal write
         FVoucherLainNilaiTotal;
   public
+    destructor Destroy; override;
     class function CreateAt(aParent: TForm): TfrmPayment;
     function GetKuponBotolStatus(ANoTransaksi: String): Integer;
     procedure LoadData(aModTransaksi: TModTransaksi);
@@ -268,9 +269,15 @@ implementation
 
 uses
   uTSCommonDlg, Math, ufrmMain, DB, ufrmTransaksi, StrUtils, uConstanta,
-  HPHELP, DateUtils, uAppUtils , udmMain, uDMClient;
+  HPHELP, DateUtils, uAppUtils , udmMain, uDMClient, ufrmCXLookup;
 
 {$R *.dfm}
+
+destructor TfrmPayment.Destroy;
+begin
+  inherited;
+
+end;
 
 procedure TfrmPayment.AddVoucherAssalaam(AVoucherNo: String; AVoucherNilai:
     Double);
@@ -375,7 +382,6 @@ begin
     edtSisaUang.Style.Color := clGreen;
     edtSisaUang.Style.Font.Color := clYellow;
   end;
-
 end;
 
 procedure TfrmPayment.ResetAll;
@@ -445,33 +451,18 @@ begin
   end
   else if Key in [VK_F5] then
   begin
-    fraLookUpCC.Visible := True;
-//    fraLookUpCC.edNama.SetFocus;
-//    fraLookUpCC.cxGridView.Columns[1].Focused := True;
-    fraLookUpCC.SetFocus;
-    fraLookUpCC.cxGrid.SetFocus;
-    fraLookUpCC.cxGridView.Focused := True;
-    fraLookUpCC.cxGridView.Controller.FocusedRow := fraLookUpCC.cxGridView.ViewData.FilterRow;
-    fraLookUpCC.cxGridView.Controller.FocusedColumnIndex := 1;
+    LookupCreditCard;
   end
   else if Key in [VK_RETURN] then
   begin
 //    edtBayarCC.SetFocus;
     LoadCreditCard(edtJenisKartuCode.Text);
-    if edtJenisKartuName.Text = '' then
-    begin
-      edtPilihan.SetFocus;
-    end
-    else
-    begin
-      edtBayarCC.SetFocus; 
-    end;
   end;
 end;
 
 procedure TfrmPayment.FormCreate(Sender: TObject);
 begin
-  fraLookUpCC.LoadData(0);
+//  fraLookUpCC.LoadData(0);
   try
     //CC_Minimum := StrToCurr(getGlobalVar('POS_CC_MIN'));
     Cashback_Minimum    := StrToCurr(dmMain.getGlobalVar('POS_CASHBACK_MIN'));
@@ -485,82 +476,43 @@ begin
   end;
 end;
 
-procedure TfrmPayment.fraLookUpCCedNamaKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  fraLookUpCC.edNamaKeyDown(Sender,Key,Shift);
-  if Key in [VK_ESCAPE] then
-  begin
-    fraLookUpCC.Visible := False;
-    edtJenisKartuCode.SetFocus;
-    edtJenisKartuCode.SelectAll;
-  end;
-end;
-
 procedure TfrmPayment.LoadCreditCard(ACode: String);
-var
-  sSQL: string;
 begin
-  sSQL := 'select card_code, card_name, card_limit, card_charge, '
-        + ' card_is_cashback, card_is_credit, ref$credit_card_id, CARD_DISCOUNT '
-        + ' from ref$credit_card '
-//        + ' where card_unt_id = ' + IntToStr(frmMain.UnitID)
-        + ' where CARD_IS_ACTIVE = 1' // BP Was Here
-        + ' and (CARD_IS_KRING = 0 or CARD_IS_KRING is null)'
-        + ' and card_code = ' + QuotedStr(ACode)
-        + ' order by card_code';
-
-  ClearCCForm;
-
-  with cOpenQuery(sSQL) do
+  if Assigned(FModCreditCard) then FreeAndNil(FModCreditCard);
+  FModCreditCard := TCRUDObj.RetrieveCode<TModCreditCard>(ACode);
+  if ModCreditCard.ID <> '' then
   begin
-    try
-      if not eof then
-      begin
-        HideCashBack;
-        CardID                 := FieldByName('ref$credit_card_id').AsString;
-        edtJenisKartuCode.Text := FieldByName('card_code').AsString;
-        edtJenisKartuName.Text := FieldByName('card_name').AsString;
-        CCChargePersen         := FieldByName('card_charge').AsCurrency;
-        CCLimit                := FieldByName('card_limit').AsCurrency;
-        CCDisc                 := FieldByName('CARD_DISCOUNT').AsFloat;
-        edtCCDisc.Value   := CCDisc;
-        edtNilaiCC.Value  := 0;
-
-        if Fields[5].AsInteger = 1 then
-          IsCreditCard := True
-        else
-          IsCreditCard := False;     
-        edtChargeCreditCard.Value := HitungCCCharge;
-
-        CCBayar               := ModTransaksi.TRANS_TOTAL_BAYAR-edtNilaiTunai.Value;
-        edtBayarCC.Text       := FormatFloat('#,##0',CCBayar);
-        if CCDisc <> 0 then
-        begin
-//          CCBayar               := TotalBayar-edtNilaiTunai.Value;
-//          edtBayarCC.Text       := FormatFloat('#,##0',CCBayar);
-          CCDiscNominal         := (CCDisc/100)*(CCBayar);
-          CCDiscNominal         := Floor(CCDiscNominal);
-          edtCCDiscNominal.Text := FormatFloat('#,##0',CCDiscNominal);
-          iEdit                 := 0;
-        end
-        else
-        CCDiscNominal := 0;
-
-        HitungSisaUang;
-
-        if Fields[4].AsInteger = 1 then
-        begin
-          IsCashbackCard := True;
-          ShowCashBack;
-        end;
-      end;// else
-      //  ClearCCForm;
-    finally
-      Free;
+    HideCashBack;
+    CardID                    := ModCreditCard.ID;
+    edtJenisKartuCode.Text    := ModCreditCard.CARD_CODE;
+    edtJenisKartuName.Text    := ModCreditCard.CARD_NAME;
+    CCChargePersen            := ModCreditCard.CARD_CHARGE;
+    CCLimit                   := ModCreditCard.CARD_LIMIT;
+    CCDisc                    := ModCreditCard.CARD_DISCOUNT;
+    edtCCDisc.Value           := CCDisc;
+    edtNilaiCC.Value          := 0;
+    IsCreditCard              := ModCreditCard.CARD_IS_CREDIT = 1;
+    edtChargeCreditCard.Value := HitungCCCharge;
+    CCBayar                   := ModTransaksi.TRANS_TOTAL_BAYAR-edtNilaiTunai.Value;
+    edtBayarCC.Text           := FormatFloat('#,##0',CCBayar);
+    CCDiscNominal             := 0;
+    if CCDisc <> 0 then
+    begin
+      CCDiscNominal           := (CCDisc/100)*(CCBayar);
+      CCDiscNominal           := Floor(CCDiscNominal);
+      edtCCDiscNominal.Text   := FormatFloat('#,##0',CCDiscNominal);
+      iEdit                   := 0;
     end;
+    HitungSisaUang;
+    IsCashbackCard            := ModCreditCard.CARD_IS_CASHBACK = 1;
+    if IsCashbackCard then ShowCashBack;
   end;
-  ShowTotalBayar;
+
+  if edtJenisKartuName.Text = '' then
+    edtPilihan.SetFocus
+  else
+    edtBayarCC.SetFocus;
+
 end;
 
 procedure TfrmPayment.ShowCashBack;
@@ -640,7 +592,7 @@ begin
     end;
     VK_ESCAPE:
     begin
-      Self.Close;
+      Self.ModalResult := mrCancel;
     end;
   end;    // case
 end;
@@ -769,7 +721,7 @@ begin
       if lDetail.TRANSD_BRG_CODE = '' then continue;
       lModBarang.ReloadByCode(lDetail.TRANSD_BRG_CODE);
 
-      mmoIsiStruk.Lines.Add(lModBarang.BRG_CODE + LeftStr(lModBarang.BRG_NAME,40));
+      mmoIsiStruk.Lines.Add(lModBarang.BRG_CODE + ' ' + LeftStr(lModBarang.BRG_NAME,40));
       sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,lDetail.TRANSD_QTY),10,' ') + ' '
           + TAppUtils.StrPadRight(lDetail.TRANSD_SAT_CODE,5,' ') + 'x'
           + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.TRANSD_SELL_PRICE_DISC),10,' ')
@@ -921,6 +873,10 @@ begin
   for i := mmoTemp.Lines.Count + 1 to 4 do mmoBackup.Lines.Add('');
 
   //mmoBackup.Lines.Delete(mmoBackup.Lines.Count-1);
+  try
+    mmoBackup.Lines.SaveToFile(cGetAppPath + ModTransaksi.TRANS_NO + '.txt');
+  except
+  end;
   Application.ProcessMessages;
   try
     PrintStrings(mmoBackup.Lines);
@@ -1899,26 +1855,11 @@ begin
   HitungSisaUang;
 end;
 
-procedure TfrmPayment.fraLookUpCCcxGridViewKeyDown(Sender: TObject; var Key:
-    Word; Shift: TShiftState);
+procedure TfrmPayment.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
 begin
-  fraLookUpCC.cxGridViewKeyDown(Sender, Key, Shift);
-  if Key in [VK_ESCAPE] then
-  begin
-    fraLookUpCC.Visible := False;
-    edtJenisKartuCode.SetFocus;
-    edtJenisKartuCode.SelectAll;
-  end
-  else if Key in [VK_RETURN] then
-  begin
-    fraLookUpCC.Visible := False;
-    edtJenisKartuCode.Text := fraLookUpCC.CC_Code;
-
-    edtJenisKartuCodeExit(edtJenisKartuCode);
-    edtBayarCC.SetFocus;
-    edtBayarCC.SelectAll;
-    iEdit := 0;
-  end;
+  if Key = VK_ESCAPE then
+    Self.ModalResult := mrCancel;
 end;
 
 function TfrmPayment.GetAmountNonJB(aRow: Integer): Double;
@@ -1940,6 +1881,72 @@ begin
   Result := FNewBarang;
 end;
 
+procedure TfrmPayment.LoadCreditCardOld(ACode: String);
+var
+  sSQL: string;
+begin
+  sSQL := 'select card_code, card_name, card_limit, card_charge, '
+        + ' card_is_cashback, card_is_credit, ref$credit_card_id, CARD_DISCOUNT '
+        + ' from ref$credit_card '
+//        + ' where card_unt_id = ' + IntToStr(frmMain.UnitID)
+        + ' where CARD_IS_ACTIVE = 1' // BP Was Here
+        + ' and (CARD_IS_KRING = 0 or CARD_IS_KRING is null)'
+        + ' and card_code = ' + QuotedStr(ACode)
+        + ' order by card_code';
+
+  ClearCCForm;
+
+  with cOpenQuery(sSQL) do
+  begin
+    try
+      if not eof then
+      begin
+        HideCashBack;
+        CardID                 := FieldByName('ref$credit_card_id').AsString;
+        edtJenisKartuCode.Text := FieldByName('card_code').AsString;
+        edtJenisKartuName.Text := FieldByName('card_name').AsString;
+        CCChargePersen         := FieldByName('card_charge').AsCurrency;
+        CCLimit                := FieldByName('card_limit').AsCurrency;
+        CCDisc                 := FieldByName('CARD_DISCOUNT').AsFloat;
+        edtCCDisc.Value   := CCDisc;
+        edtNilaiCC.Value  := 0;
+
+        if Fields[5].AsInteger = 1 then
+          IsCreditCard := True
+        else
+          IsCreditCard := False;
+        edtChargeCreditCard.Value := HitungCCCharge;
+
+        CCBayar               := ModTransaksi.TRANS_TOTAL_BAYAR-edtNilaiTunai.Value;
+        edtBayarCC.Text       := FormatFloat('#,##0',CCBayar);
+        if CCDisc <> 0 then
+        begin
+//          CCBayar               := TotalBayar-edtNilaiTunai.Value;
+//          edtBayarCC.Text       := FormatFloat('#,##0',CCBayar);
+          CCDiscNominal         := (CCDisc/100)*(CCBayar);
+          CCDiscNominal         := Floor(CCDiscNominal);
+          edtCCDiscNominal.Text := FormatFloat('#,##0',CCDiscNominal);
+          iEdit                 := 0;
+        end
+        else
+        CCDiscNominal := 0;
+
+        HitungSisaUang;
+
+        if Fields[4].AsInteger = 1 then
+        begin
+          IsCashbackCard := True;
+          ShowCashBack;
+        end;
+      end;// else
+      //  ClearCCForm;
+    finally
+      Free;
+    end;
+  end;
+  ShowTotalBayar;
+end;
+
 procedure TfrmPayment.LoadData(aModTransaksi: TModTransaksi);
 begin
   Self.ModTransaksi := aModTransaksi;
@@ -1951,6 +1958,23 @@ begin
   ShowTotalBayar;
   HitungSisaUang;
 
+end;
+
+procedure TfrmPayment.LookupCreditCard;
+var
+  lfrm: TfrmCXLookup;
+begin
+  lfrm := TfrmCXLookup.Execute('Pilih Credit Card', 'TDSProvider.CreditCard_GetDSLookup' );
+  try
+    if lfrm.ShowModal = mrOK then
+    begin
+      if lfrm.Data.eof then exit;
+      LoadCreditCard(lfrm.Data.FieldByName('CARD_CODE').AsString);
+    end;
+
+  finally
+    lfrm.Free;
+  end;
 end;
 
 procedure TfrmPayment.ParsingPrintStrukTransOld;
@@ -2388,9 +2412,9 @@ end;
 
 procedure TfrmPayment.ProcessPayment(DoPrintStruk: Boolean = True);
 begin
-  if SisaUang >= 0 then
+  if edtSisaUang.Value >= 0 then
     begin
-      if SisaUang <= SisaUang_Maksimum then
+      if edtSisaUang.Value <= SisaUang_Maksimum then
       begin
         TAppUtils.cShowWaitWindow('Mencetak Struk');
         Application.ProcessMessages;
@@ -2444,8 +2468,9 @@ begin
   UpdateData;
   ModTransaksi.TRANS_IS_PENDING := 0;
   Try
-    ModTransaksi.ID := DMClient.CrudPOClient.SaveToDBID(ModTransaksi);
-    Result          := True;
+    ModTransaksi.ID           := DMClient.CRUDPOSClient.SaveToDBID(ModTransaksi);
+    ModTransaksi.ObjectState  := 3;
+    Result                    := True;
   except
     on E:Exception do
     begin

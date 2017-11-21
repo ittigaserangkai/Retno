@@ -183,7 +183,7 @@ uses
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
-  uModelHelper in '..\model\uModelHelper.pas',
+  uServerModelHelper in '..\model\uServerModelHelper.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',

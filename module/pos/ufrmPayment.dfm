@@ -15,6 +15,7 @@ object frmPayment: TfrmPayment
   Position = poDefault
   OnClose = FormClose
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -35,7 +36,7 @@ object frmPayment: TfrmPayment
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
-    Transparent = False
+    Transparent = True
     ExplicitLeft = 8
     ExplicitTop = -5
   end
@@ -516,7 +517,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 28
+      TabOrder = 27
       OnExit = edtBayarCCExit
       OnKeyDown = edtBayarCCKeyDown
       Width = 181
@@ -535,7 +536,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 27
+      TabOrder = 26
       Width = 181
     end
     object strgTmpVoucher: TStringGrid
@@ -803,34 +804,6 @@ object frmPayment: TfrmPayment
       OnKeyDown = edtCashBackKeyDown
       Width = 298
     end
-    inline fraLookUpCC: TfraLookUpCC
-      Left = 175
-      Top = 54
-      Width = 244
-      Height = 150
-      TabOrder = 18
-      Visible = False
-      ExplicitLeft = 175
-      ExplicitTop = 54
-      inherited Panel1: TPanel
-        inherited pnlHeader: TPanel
-          inherited edNama: TEdit
-            OnKeyDown = fraLookUpCCedNamaKeyDown
-          end
-        end
-        inherited cxGrid: TcxGrid
-          ExplicitTop = 1
-          ExplicitHeight = 148
-          inherited cxGridView: TcxGridDBTableView
-            OnKeyDown = fraLookUpCCcxGridViewKeyDown
-            OptionsData.Deleting = False
-            OptionsData.DeletingConfirmation = False
-            OptionsData.Editing = False
-            OptionsData.Inserting = False
-          end
-        end
-      end
-    end
     object mmoBackup: TMemo
       Left = 663
       Top = 102
@@ -838,7 +811,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoBackup')
-      TabOrder = 19
+      TabOrder = 18
       Visible = False
       WordWrap = False
     end
@@ -849,7 +822,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoTemp')
-      TabOrder = 20
+      TabOrder = 19
       Visible = False
       WordWrap = False
     end
@@ -860,7 +833,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoHeadStruk')
-      TabOrder = 21
+      TabOrder = 20
       Visible = False
       WordWrap = False
     end
@@ -878,7 +851,7 @@ object frmPayment: TfrmPayment
       Lines.Strings = (
         'mmoIsiStruk')
       ParentFont = False
-      TabOrder = 22
+      TabOrder = 21
       Visible = False
       WordWrap = False
     end
@@ -889,7 +862,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoFooterStruk')
-      TabOrder = 23
+      TabOrder = 22
       Visible = False
       WordWrap = False
     end
@@ -919,7 +892,7 @@ object frmPayment: TfrmPayment
       Height = 89
       Lines.Strings = (
         'mmoFooterStruk')
-      TabOrder = 24
+      TabOrder = 23
       Visible = False
       WordWrap = False
     end
@@ -985,7 +958,7 @@ object frmPayment: TfrmPayment
       Align = alBottom
       Color = clYellow
       ParentBackground = False
-      TabOrder = 25
+      TabOrder = 24
       Visible = False
       DesignSize = (
         750
@@ -1006,10 +979,10 @@ object frmPayment: TfrmPayment
       end
     end
     object edtCCDisc: TcxCurrencyEdit
-      Left = 27
-      Top = 334
+      Left = 0
+      Top = 316
       ParentFont = False
-      TabOrder = 26
+      TabOrder = 25
       Visible = False
       Width = 30
     end
@@ -1024,7 +997,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 29
+      TabOrder = 28
       OnExit = edtNoTransBotolExit
       OnKeyDown = edtNoTransBotolKeyDown
       OnKeyPress = edtNoTransBotolKeyPress
@@ -1041,7 +1014,7 @@ object frmPayment: TfrmPayment
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       StyleFocused.Color = clYellow
-      TabOrder = 30
+      TabOrder = 29
       OnExit = edtNoVoucherExit
       OnKeyDown = edtNoVoucherKeyDown
       Width = 166
@@ -1077,7 +1050,7 @@ object frmPayment: TfrmPayment
       Text = '[1]Tunai  [2]Kartu  [3]Kupon  [C]Cetak'
     end
     object edtPilihan: TcxCurrencyEdit
-      Left = 363
+      Left = 365
       Top = 7
       ParentFont = False
       TabOrder = 1
