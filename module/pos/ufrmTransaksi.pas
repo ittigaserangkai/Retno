@@ -207,11 +207,8 @@ begin
     Columns[_Koldiscoto].Caption      := 'Otorisasi';
     Columns[_KolIsKontrabon].Caption  := 'IsKontrabon';
 
-    {$IFDEF TSN}
-    Columns[_KolDiscP].Caption      := 'Disc %';
-    {$ENDIF}
-
-//    FixedRows := 1;
+    Columns[_KolDiscManForm].Visible  := False;
+    Columns[_KolDiscMan].Visible      := False;
 
     Columns[0].Width              := 32;
     Columns[_KolPLU].Width        := 10 + (10 * igProd_Code_Length);
@@ -243,7 +240,7 @@ begin
 
     SetGridFormat_Column(_KolJumlah, False);
     SetGridFormat_Column(_KolHarga, True);
-    SetGridFormat_Column(_KolDisc, False);
+    SetGridFormat_Column(_KolDisc, True);
     SetGridFormat_Column(_KolDiscMan, False);
     SetGridFormat_Column(_KolDiscManForm, False);
     SetGridFormat_Column(_KolTotal, True);
@@ -294,6 +291,9 @@ begin
   else
   if(Key = VK_RETURN)and(edPLU.Text <> '') then
   begin
+    if Length(edPLU.Text) < 6 then
+      edPLU.Text := TAppUtils.StrPadLeft(edPLU.Text, 6 , '0');
+
     LoadByPLU(edPLU.Text);
     if (not edHargaKontrabon.Focused) then edPLU.SetFocus;
   end
