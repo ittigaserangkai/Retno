@@ -5,6 +5,7 @@ inherited frmCrazyPrice: TfrmCrazyPrice
   ClientHeight = 512
   ClientWidth = 808
   OldCreateOrder = True
+  ExplicitTop = -172
   ExplicitWidth = 824
   ExplicitHeight = 551
   PixelsPerInch = 96
@@ -29,12 +30,8 @@ inherited frmCrazyPrice: TfrmCrazyPrice
         inherited cxGrid: TcxGrid
           Width = 804
           Height = 419
-          ExplicitWidth = 804
-          ExplicitHeight = 419
           inherited cxGridView: TcxGridDBTableView
             OnCellClick = cxGridViewCellClick
-            DataController.DataModeController.GridMode = True
-            OptionsCustomize.ColumnMoving = False
           end
         end
       end

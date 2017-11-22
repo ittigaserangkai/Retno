@@ -113,7 +113,14 @@ var
   iIDs: string;
 begin
   inherited;
-  if ACellViewInfo.Item.Index = 0 then
+  if cxGridView.DataController.RecordCount = 1 then
+  begin
+    iIDs := cxGridView.Values(cxGridView.DataController.FocusedRecordIndex, 'CRAZYPRICE ID');
+
+    FCDS.Edit;
+    FCDS.FieldByName('pilih').AsBoolean := not FCDS.FieldByName('pilih').AsBoolean;
+    FCDS.Post;
+  end else if ACellViewInfo.Item.Index = 0 then
   begin
     iIDs := cxGridView.Values(cxGridView.DataController.FocusedRecordIndex, 'CRAZYPRICE ID');
 
@@ -129,20 +136,6 @@ begin
 
       FCDS.Next;
     end;
-
-//    cxGridView.OptionsData.Editing := True;
-//    try
-//      if VarIsNull(cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0]) then
-//        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := False
-//      else if cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] then
-//        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := True
-//      else
-//        cxGridView.DataController.Values[cxGridView.DataController.FocusedRecordIndex, 0] := False;
-//
-//    finally
-//      cxGridView.OptionsData.Editing := False;
-//    end;
-
   end;
 end;
 
