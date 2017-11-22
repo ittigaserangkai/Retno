@@ -5,14 +5,14 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uTSCommonDlg, ufraLookupBarang, ufraMember,
-  ufrmPayment, Menus, Buttons, ActnList, DB, cxGraphics, cxControls,
+  ufrmPayment, Menus, Buttons, ActnList, Data.DB, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, System.Actions,
   cxTextEdit, cxCurrencyEdit, cxGridCustomTableView, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid,
   uNewBarang, uNewBarangHargaJual, uNewPosTransaction, cxSpinEdit,
   ufrmLookupBarang, uAppUtils, uModBarang, uModelHelper, uModMember,
-  ufrmLookupMember, uModTransaksi, uModUnit;
+  ufrmLookupMember, uModTransaksi, uModUnit, uDBUtils;
 
 type
   TfrmTransaksi = class(TForm)
@@ -132,6 +132,8 @@ type
         Boolean = False): Integer;
     procedure ResetTransaction(WithWarning: Boolean = False);
     function GetPLUAndQty(aPLUQTY: String; var aPLU, aQTY: string): TModBarang;
+    procedure LoadDataForm;
+    procedure LoadPendingTransactionByMember(aMember: TModMember);
     procedure UpdateData;
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
     property DCItem: TcxGridDataController read GetDCItem;
@@ -154,7 +156,7 @@ implementation
 
 uses
   ufrmMain, Math, uConstanta, StrUtils, udmMain, uDXUtils, uDMClient,
-  uModSatuan;
+  uModSatuan, Datasnap.DBClient;
 
 {$R *.dfm}
 
@@ -207,11 +209,8 @@ begin
     Columns[_Koldiscoto].Caption      := 'Otorisasi';
     Columns[_KolIsKontrabon].Caption  := 'IsKontrabon';
 
-    {$IFDEF TSN}
-    Columns[_KolDiscP].Caption      := 'Disc %';
-    {$ENDIF}
-
-//    FixedRows := 1;
+    Columns[_KolDiscManForm].Visible  := False;
+    Columns[_KolDiscMan].Visible      := False;
 
     Columns[0].Width              := 32;
     Columns[_KolPLU].Width        := 10 + (10 * igProd_Code_Length);
@@ -243,7 +242,7 @@ begin
 
     SetGridFormat_Column(_KolJumlah, False);
     SetGridFormat_Column(_KolHarga, True);
-    SetGridFormat_Column(_KolDisc, False);
+    SetGridFormat_Column(_KolDisc, True);
     SetGridFormat_Column(_KolDiscMan, False);
     SetGridFormat_Column(_KolDiscManForm, False);
     SetGridFormat_Column(_KolTotal, True);
@@ -294,6 +293,9 @@ begin
   else
   if(Key = VK_RETURN)and(edPLU.Text <> '') then
   begin
+    if Length(edPLU.Text) < 6 then
+      edPLU.Text := TAppUtils.StrPadLeft(edPLU.Text, 6 , '0');
+
     LoadByPLU(edPLU.Text);
     if (not edHargaKontrabon.Focused) then edPLU.SetFocus;
   end
@@ -458,7 +460,6 @@ end;
 
 function TfrmTransaksi.GetDefaultMember: String;
 begin
-  Result := '';
   Result := dmMain.getGlobalVar('POS_DEF_CUST');
 end;
 
@@ -530,6 +531,8 @@ begin
     edNoPelanggan.Text                  := ModTransaksi.Member.MEMBER_CARD_NO;
     edNamaPelanggan.Text                := ModTransaksi.Member.MEMBER_NAME;
     sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
+    if UpperCase(AMemberNo) <> UpperCase(GetDefaultMember) then
+      LoadPendingTransactionByMember(ModTransaksi.Member);
     SaveTransactionToCSV(False);
   Finally
     edNoPelanggan.OnExit := lEvent;
@@ -648,9 +651,20 @@ end;
 //end;
 
 function TfrmTransaksi.SaveToDBPending: Boolean;
+var
+  lCDS: TClientDataSet;
 begin
 //  Result            := False;
 //  if not ValidateData then exit;
+  lCDS := TDBUtils.DSToCDS(DMCLient.POSClient.GetListPendingTransAll(), Self, True);
+  if lCDS.RecordCount >= 4 then
+  begin
+    TAppUtils.Warning('Jumlah Pending Transaksi sudah mencapai batas >= 4'
+      +#13 + 'Pending Transaksi tidak bisa dilakukan lagi');
+    Result := False;
+    exit;
+  end;
+
   UpdateData;
   ModTransaksi.TRANS_IS_PENDING := 1;
   Try
@@ -661,7 +675,7 @@ begin
     on E:Exception do
     begin
       TAppUtils.ShowException(E);
-      Result          := False;
+      Result                  := False;
     end;
   End;
 end;
@@ -722,10 +736,10 @@ begin
 
     if not SaveToDBPending then
     begin
-         if CommonDlg.Confirm('Gagal menyimpan Transaksi Pending !, ' + #13#10
-            + 'Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrNo
-         then     CanClose := False;
-
+       if CommonDlg.Confirm('Gagal menyimpan Transaksi Pending !, ' + #13#10
+          + 'Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrNo
+       then
+        CanClose := False;
     end;
   end
   else
@@ -1439,12 +1453,7 @@ begin
 end;
 
 procedure TfrmTransaksi.LoadData(aID: string = '');
-var
-  i: Integer;
-  lItem: TModTransaksiDetil;
-  lModBarang: TModBarang;
 begin
-
   if aID <> '' then
   begin
     ModTransaksi := DMClient.CRUDPOSClient.Retrieve(TModTransaksi.ClassName, aID) as TModTransaksi;
@@ -1455,59 +1464,7 @@ begin
     ModTransaksi.TRANS_NO := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
     ModTransaksi.MEMBER.ReloadByCode(GetDefaultMember);
   end;
-
-  edNoTrnTerakhir.Text                := ModTransaksi.TRANS_NO;
-  edNoPelanggan.Text                  := ModTransaksi.Member.MEMBER_CARD_NO;
-  edNamaPelanggan.Text                := ModTransaksi.Member.MEMBER_NAME;
-  sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
-
-  lModBarang := TModBarang.Create;
-  Try
-
-    for lItem in ModTransaksi.TransaksiDetils do
-    begin
-      i := DCItem.AppendRecord;
-      lModBarang.ReloadByCode(lItem.TRANSD_BRG_CODE);
-      lModBarang.RefPajak.Reload();
-      lItem.BARANG_HARGA_JUAL.Reload(False);
-      DCItem.Values[i, _KolBHJID]         := lItem.BARANG_HARGA_JUAL.ID;
-      DCItem.Values[i, _KolNamaBarang]    := lModBarang.BRG_NAME;
-      DCItem.Values[i, _KolTipeBarang]    := Self.ModTipeHarga.ID;
-      DCItem.Values[i, _KolPLU]           := lItem.TRANSD_BRG_CODE;
-      DCItem.Values[i, _KolCOGS]          := lItem.TRANSD_COGS;
-      DCItem.Values[i, _KolHargaAvg]      := lItem.TRANSD_COGS;
-      DCItem.Values[i, _KolUOM]           := lItem.TRANSD_SAT_CODE;
-      DCItem.Values[i, _KolHarga]         := lItem.TRANSD_SELL_PRICE;
-      DCItem.Values[i, _KolDisc]          := lItem.TRANSD_SELL_PRICE - lItem.TRANSD_SELL_PRICE_DISC;
-      DCItem.Values[i, _KolPPN]           := lItem.TRANSD_PPN;
-      DCItem.Values[i, _KolPPNBM]         := lItem.TRANSD_PPNBM;
-//      DCItem.Values[i, _KolTotal]         := lItem.TRANSD_TOTAL;
-      DCItem.Values[i, _KolLastCost]      := lItem.TRANSD_LAST_COST;
-      DCItem.Values[i, _KolJumlah]        := lItem.TRANSD_QTY;
-      DCItem.Values[i, _KolIsBKP]         := lItem.TRANSD_IS_BKP;
-      DCItem.Values[i, _KolMaxDiscQTY]    := lItem.BARANG_HARGA_JUAL.BHJ_MAX_QTY_DISC;
-      DCItem.Values[i, _KolIsBKP]         := 0;
-      if lModBarang.RefPajak.PJK_PPN <> 0 then DCItem.Values[i, _KolIsBKP] := 1;
-      DCItem.Values[i, _KolHargaExcPajak]
-        := RoundTo(lItem.BARANG_HARGA_JUAL.BHJ_SELL_PRICE /
-          ((lModBarang.RefPajak.PJK_PPN + 100) / 100), igPrice_Precision);
-      DCItem.Values[i, _KolDiscMan]        := 0; //tidak dipakai di goro
-      DCItem.Values[i, _KolDiscManForm]    := 0; //tidak dipakai di goro
-      DCItem.Values[i, _Koldiscoto]        := ''; //aDiscOto;
-      if lItem.BARANG_HARGA_JUAL.BHJ_SELL_PRICE = 0 then
-        DCItem.Values[i, _KolIsKontrabon]  := 1
-      else
-        DCItem.Values[i, _KolIsKontrabon]  := 0;
-      DCItem.Values[i, _KolTotal]          := GetTotalHarga(i);
-      DCItem.Values[i, _KolPairCode]       := lModBarang.BRG_GALON_CODE;
-      DCItem.Values[i, _KolIsGalon]        := lModBarang.BRG_IS_GALON;
-      DCItem.Values[i, _KolDetailID]       := '';
-
-    end;
-    HitungTotalRupiah;
-  Finally
-    FreeAndNil(lModBarang);
-  End;
+  LoadDataForm;
 end;
 
 procedure TfrmTransaksi.ResetTransaction(WithWarning: Boolean = False);
@@ -1554,6 +1511,87 @@ begin
       if Copy(aQTY,3,3) <> '' then
         aQTY := LeftStr(aQTY, 2) + '.' + Copy(aQTY,3,3);
     end;
+  end;
+end;
+
+procedure TfrmTransaksi.LoadDataForm;
+var
+  i: Integer;
+  lItem: TModTransaksiDetil;
+  lModBarang: TModBarang;
+begin
+  edNoTrnTerakhir.Text                := ModTransaksi.TRANS_NO;
+  edNoPelanggan.Text                  := ModTransaksi.Member.MEMBER_CARD_NO;
+  edNamaPelanggan.Text                := ModTransaksi.Member.MEMBER_NAME;
+  sgHeader.Values[edNoPelanggan.Text] := edNamaPelanggan.Text;
+  lModBarang := TModBarang.Create;
+  Try
+    for lItem in ModTransaksi.TransaksiDetils do
+    begin
+      i := DCItem.AppendRecord;
+      lModBarang.ReloadByCode(lItem.TRANSD_BRG_CODE);
+      lModBarang.RefPajak.Reload();
+      lItem.BARANG_HARGA_JUAL.Reload(False);
+      DCItem.Values[i, _KolBHJID]         := lItem.BARANG_HARGA_JUAL.ID;
+      DCItem.Values[i, _KolNamaBarang]    := lModBarang.BRG_NAME;
+      DCItem.Values[i, _KolTipeBarang]    := Self.ModTipeHarga.ID;
+      DCItem.Values[i, _KolPLU]           := lItem.TRANSD_BRG_CODE;
+      DCItem.Values[i, _KolCOGS]          := lItem.TRANSD_COGS;
+      DCItem.Values[i, _KolHargaAvg]      := lItem.TRANSD_COGS;
+      DCItem.Values[i, _KolUOM]           := lItem.TRANSD_SAT_CODE;
+      DCItem.Values[i, _KolHarga]         := lItem.TRANSD_SELL_PRICE;
+      DCItem.Values[i, _KolDisc]          := lItem.TRANSD_SELL_PRICE - lItem.TRANSD_SELL_PRICE_DISC;
+      DCItem.Values[i, _KolPPN]           := lItem.TRANSD_PPN;
+      DCItem.Values[i, _KolPPNBM]         := lItem.TRANSD_PPNBM;
+//      DCItem.Values[i, _KolTotal]         := lItem.TRANSD_TOTAL;
+      DCItem.Values[i, _KolLastCost]      := lItem.TRANSD_LAST_COST;
+      DCItem.Values[i, _KolJumlah]        := lItem.TRANSD_QTY;
+      DCItem.Values[i, _KolIsBKP]         := lItem.TRANSD_IS_BKP;
+      DCItem.Values[i, _KolMaxDiscQTY]    := lItem.BARANG_HARGA_JUAL.BHJ_MAX_QTY_DISC;
+      DCItem.Values[i, _KolIsBKP]         := 0;
+      if lModBarang.RefPajak.PJK_PPN <> 0 then DCItem.Values[i, _KolIsBKP] := 1;
+      DCItem.Values[i, _KolHargaExcPajak]
+        := RoundTo(lItem.BARANG_HARGA_JUAL.BHJ_SELL_PRICE /
+          ((lModBarang.RefPajak.PJK_PPN + 100) / 100), igPrice_Precision);
+      DCItem.Values[i, _KolDiscMan]        := 0; //tidak dipakai di goro
+      DCItem.Values[i, _KolDiscManForm]    := 0; //tidak dipakai di goro
+      DCItem.Values[i, _Koldiscoto]        := ''; //aDiscOto;
+      if lItem.BARANG_HARGA_JUAL.BHJ_SELL_PRICE = 0 then
+        DCItem.Values[i, _KolIsKontrabon]  := 1
+      else
+        DCItem.Values[i, _KolIsKontrabon]  := 0;
+      DCItem.Values[i, _KolTotal]          := GetTotalHarga(i);
+      DCItem.Values[i, _KolPairCode]       := lModBarang.BRG_GALON_CODE;
+      DCItem.Values[i, _KolIsGalon]        := lModBarang.BRG_IS_GALON;
+      DCItem.Values[i, _KolDetailID]       := '';
+
+    end;
+    HitungTotalRupiah;
+  Finally
+    FreeAndNil(lModBarang);
+  End;
+end;
+
+procedure TfrmTransaksi.LoadPendingTransactionByMember(aMember: TModMember);
+var
+  lDate: TDateTime;
+  lDS: TDataset;
+begin
+  lDate := DMClient.POSClient.GetServerDate();
+  lDS   := DMClient.POSClient.GetPendingTransByMember(aMember.ID, lDate);
+  try
+    if not lDS.Eof then
+    begin
+      If Assigned(FModTransaksi) then FreeAndNil(FModTransaksi);
+      FModTransaksi := DMClient.CRUDPOSClient.Retrieve(TModTransaksi.ClassName,
+          lDS.FieldByName('TRANSAKSI_ID').AsString
+        ) as TModTransaksi;
+
+      ModTransaksi.MEMBER.Reload();
+      LoadDataForm;
+    end;
+  finally
+    FreeAndNil(lDS);
   end;
 end;
 

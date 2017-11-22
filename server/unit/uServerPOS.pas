@@ -20,6 +20,7 @@ type
     function GetListPendingTransByUserID(aUserID: string): TDataset;
     function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime):
         TDataset;
+    function GetPendingTransByMember(aMemberID: string; aDate: TDateTime): TDataset;
     function GetListPendingTransDetailByHeaderID(aHeaderID: string): TDataset;
     function GetServerDate: TDatetime;
     function GetTransactionNo(aPOSCODE, aUNITID: string): string;
@@ -88,10 +89,11 @@ begin
     + '  T.TRANS_IS_ACTIVE, '
     + '  T.TRANSAKSI_ID, '
     + '  T.MEMBER_ID '
-    + ' FROM MEMBER M '
-    + ' INNER JOIN TRANSAKSI T ON (M.MEMBER_ID = T.MEMBER_ID) '
+    + ' FROM TRANSAKSI T '
+    + ' INNER JOIN MEMBER M ON (M.MEMBER_ID = T.MEMBER_ID) '
     + ' WHERE (T.TRANS_IS_PENDING = 1) '
-    + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
+    + ' AND cast(T.TRANS_DATE as date) = ' + TDBUtils.QuotD(Now());
+//    + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -135,6 +137,21 @@ begin
     + '  AND T.OP_CREATE = ' + QuotedStr(aUserID)
     + '  AND cast(T.TRANS_DATE as date) = ' + TDBUtils.QuotD(aDate)
     + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TPOS.GetPendingTransByMember(aMemberID: string; aDate: TDateTime):
+    TDataset;
+var
+  S: string;
+begin
+  S := 'SELECT A.TRANSAKSI_ID, A.TRANS_NO, A.TRANS_DATE,'
+      +' A.TRANS_TOTAL_TRANSACTION, B.MEMBER_CARD_NO, B.MEMBER_NAME'
+      +' FROM TRANSAKSI A'
+      +' INNER JOIN MEMBER B ON A.MEMBER_ID = B.MEMBER_ID'
+      +' WHERE A.TRANS_IS_PENDING = 1'
+      +' AND A.MEMBER_ID = ' + QuotedStr(aMemberID)
+      +' AND cast(A.TRANS_DATE as date) = ' + TDBUtils.QuotD(aDate);
   Result := TDBUtils.OpenQuery(S);
 end;
 

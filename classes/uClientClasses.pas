@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 11/21/2017 2:50:43 PM
+// 11/22/2017 8:33:35 AM
 //
 
 unit uClientClasses;
@@ -737,6 +737,8 @@ type
     FGetListPendingTransByUserIDCommand_Cache: TDSRestCommand;
     FGetListPendingTransByUserIDAndDateCommand: TDSRestCommand;
     FGetListPendingTransByUserIDAndDateCommand_Cache: TDSRestCommand;
+    FGetPendingTransByMemberCommand: TDSRestCommand;
+    FGetPendingTransByMemberCommand_Cache: TDSRestCommand;
     FGetListPendingTransDetailByHeaderIDCommand: TDSRestCommand;
     FGetListPendingTransDetailByHeaderIDCommand_Cache: TDSRestCommand;
     FGetServerDateCommand: TDSRestCommand;
@@ -759,6 +761,8 @@ type
     function GetListPendingTransByUserID_Cache(aUserID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function GetListPendingTransByUserIDAndDate_Cache(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetPendingTransByMember(aMemberID: string; aDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function GetPendingTransByMember_Cache(aMemberID: string; aDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetListPendingTransDetailByHeaderID(aHeaderID: string; const ARequestFilter: string = ''): TDataSet;
     function GetListPendingTransDetailByHeaderID_Cache(aHeaderID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetServerDate(const ARequestFilter: string = ''): TDateTime;
@@ -3846,6 +3850,20 @@ const
   TPOS_GetListPendingTransByUserIDAndDate_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'aUserID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetPendingTransByMember: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMemberID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetPendingTransByMember_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMemberID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -12663,6 +12681,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FGetListPendingTransByUserIDAndDateCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TPOSClient.GetPendingTransByMember(aMemberID: string; aDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FGetPendingTransByMemberCommand = nil then
+  begin
+    FGetPendingTransByMemberCommand := FConnection.CreateCommand;
+    FGetPendingTransByMemberCommand.RequestType := 'GET';
+    FGetPendingTransByMemberCommand.Text := 'TPOS.GetPendingTransByMember';
+    FGetPendingTransByMemberCommand.Prepare(TPOS_GetPendingTransByMember);
+  end;
+  FGetPendingTransByMemberCommand.Parameters[0].Value.SetWideString(aMemberID);
+  FGetPendingTransByMemberCommand.Parameters[1].Value.AsDateTime := aDate;
+  FGetPendingTransByMemberCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetPendingTransByMemberCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetPendingTransByMemberCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetPendingTransByMember_Cache(aMemberID: string; aDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetPendingTransByMemberCommand_Cache = nil then
+  begin
+    FGetPendingTransByMemberCommand_Cache := FConnection.CreateCommand;
+    FGetPendingTransByMemberCommand_Cache.RequestType := 'GET';
+    FGetPendingTransByMemberCommand_Cache.Text := 'TPOS.GetPendingTransByMember';
+    FGetPendingTransByMemberCommand_Cache.Prepare(TPOS_GetPendingTransByMember_Cache);
+  end;
+  FGetPendingTransByMemberCommand_Cache.Parameters[0].Value.SetWideString(aMemberID);
+  FGetPendingTransByMemberCommand_Cache.Parameters[1].Value.AsDateTime := aDate;
+  FGetPendingTransByMemberCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetPendingTransByMemberCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TPOSClient.GetListPendingTransDetailByHeaderID(aHeaderID: string; const ARequestFilter: string): TDataSet;
 begin
   if FGetListPendingTransDetailByHeaderIDCommand = nil then
@@ -12829,6 +12880,8 @@ begin
   FGetListPendingTransByUserIDCommand_Cache.DisposeOf;
   FGetListPendingTransByUserIDAndDateCommand.DisposeOf;
   FGetListPendingTransByUserIDAndDateCommand_Cache.DisposeOf;
+  FGetPendingTransByMemberCommand.DisposeOf;
+  FGetPendingTransByMemberCommand_Cache.DisposeOf;
   FGetListPendingTransDetailByHeaderIDCommand.DisposeOf;
   FGetListPendingTransDetailByHeaderIDCommand_Cache.DisposeOf;
   FGetServerDateCommand.DisposeOf;
