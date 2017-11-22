@@ -6,20 +6,21 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxGroupBox,
-  dxGDIPlusClasses, uModAuthUser, uDMClient, uModBeginningBalance, cxLabel;
+  dxGDIPlusClasses, uModAuthUser, uDMClient, uModBeginningBalance, cxLabel,
+  uModelHelper;
 
 type
   TfrmLogin = class(TForm)
     sbLogin: TStatusBar;
     tmrLogin: TTimer;
     cxGroupBox1: TcxGroupBox;
-    Label1: TLabel;
+    lblUser: TLabel;
     edCashierID: TcxTextEdit;
     edNama: TcxTextEdit;
     edPassword: TcxTextEdit;
     Label2: TLabel;
     Image1: TImage;
-    cxLabel1: TcxLabel;
+    lblLogin: TcxLabel;
     procedure tmrLoginTimer(Sender: TObject);
     procedure edCashierIDKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -27,13 +28,17 @@ type
       Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
   private
+    FIsAuthSupervisor: Boolean;
     FAuthUser: TModAuthUser;
     FBeginningBalance: TModBeginningBalance;
     FBalanceID: string;
     function SetAuthUser(UserID: string): TModAuthUser;
+    function SetAuthSupervisor(UserID: string): TModAuthUser;
+    procedure SetIsAuthSupervisor(const Value: Boolean);
   public
+    property IsAuthSupervisor: Boolean read FIsAuthSupervisor write
+        SetIsAuthSupervisor;
     property AuthUser: TModAuthUser read FAuthUser write FAuthUser;
     property BalanceID: string read FBalanceID write FBalanceID;
     property BeginningBalance: TModBeginningBalance read FBeginningBalance write
@@ -62,10 +67,16 @@ var
   sSQL: string;
   dServerDate : TDateTime;
 begin
+  if Key = VK_ESCAPE then
+  begin
+    Self.ModalResult := mrCancel;
+  end;
   if Key = VK_RETURN then
   begin
-    edCashierID.Text := TAppUtils.StrPadRight('',4 - Length(edCashierID.Text),'0') + edCashierID.Text;
-    SetAuthUser(edCashierID.Text);
+    if IsAuthSupervisor then
+      SetAuthSupervisor(edCashierID.Text)
+    else
+      SetAuthUser(edCashierID.Text);
   end;
 
 //  dServerDate := cGetServerDateTime;
@@ -137,16 +148,31 @@ end;
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   sbLogin.Panels[2].Text := 'POS Code: ' + frmMain.FPOSCode;
-  frmLogin.Caption := 'Selamat Datang di Assaalaam POS System';
+  Self.Caption := 'Selamat Datang di Assaalaam POS System';
+  Self.IsAuthSupervisor := False;
 end;
 
-procedure TfrmLogin.FormDestroy(Sender: TObject);
+procedure TfrmLogin.SetIsAuthSupervisor(const Value: Boolean);
 begin
-  frmLogin := nil;
+  if not Value then
+  begin
+    lblLogin.Caption  := 'Please Login';
+    lblUser.Caption   := 'Cashier ID';
+    Self.Caption      := 'Selamat Datang';
+  end else
+  begin
+    lblLogin.Caption  := 'Login Supervisor';
+    lblUser.Caption   := 'Supervisor ID';
+    Self.Caption      := 'Otorisasi Supervisor';
+  end;
+  FIsAuthSupervisor := Value;
 end;
+
 
 function TfrmLogin.SetAuthUser(UserID: string): TModAuthUser;
 begin
+  edCashierID.Text := TAppUtils.StrPadRight('',4 - Length(edCashierID.Text),'0') + edCashierID.Text;
+
   FreeAndNil(FAuthUser);
   FAuthUser := DMClient.CrudClient.RetrieveByCode(TModAuthUser.ClassName, UserID) as TModAuthUser;
   if FAuthUser.ID = '' then
@@ -165,6 +191,44 @@ begin
     exit;
   end;
 
+  edPassword.SetFocus;
+end;
+
+function TfrmLogin.SetAuthSupervisor(UserID: string): TModAuthUser;
+var
+  lUG: TModAuthUserGroup;
+  IsSpv: Boolean;
+begin
+
+  FreeAndNil(FAuthUser);
+  FAuthUser := DMClient.CrudClient.RetrieveByCode(TModAuthUser.ClassName, UserID) as TModAuthUser;
+  if FAuthUser.ID = '' then
+  begin
+    CommonDlg.ShowError('User ' + UserID + ' tidak ditemukan di database');
+    exit;
+  end;
+
+  if AuthUser.Groups.Count = 0 then
+  begin
+    CommonDlg.ShowError('User ' + UserID + ' belum disetting group nya');
+    exit;
+  end;
+
+  IsSpv := False;
+  for lUG in AuthUser.Groups do
+  begin
+    lUG.GROUP.Reload(False);
+    IsSpv := Uppercase(lUG.GROUP.GRO_NAME) = 'SPV';
+    if IsSpv then break;
+  end;
+
+  if not IsSpv then
+  begin
+    CommonDlg.ShowError('User ' + UserID + ' bukan supervisor');
+    exit;
+  end;
+
+  edNama.Text := AuthUser.USR_FULLNAME;
   edPassword.SetFocus;
 end;
 

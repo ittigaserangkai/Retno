@@ -522,7 +522,11 @@ end;
 procedure TfrmMain.miLoginClick(Sender: TObject);
 begin
   frmLogin := TfrmLogin.Create(Self);
-  frmLogin.ShowModal;
+  try
+    frmLogin.ShowModal;
+  finally
+    frmLogin.Free;
+  end;
   {
   FFormProperty.FLoginId        := FUserID;
   FFormProperty.FLoginUnitId    := FLoginUnitId;
