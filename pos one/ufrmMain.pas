@@ -606,17 +606,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
-var
-  i: integer;
-begin
-  for i:=0 to AMenu.Count-1 do
-    AMenu.Items[i].Enabled := AValue;
-
-  // set invisible to menu
-  AMenu.Visible := AValue;
-end;
-
 procedure TfrmMain.ExportDataToMDBClick(Sender: TObject);
 begin
   frmExportToMDB := TfrmExportToMDB.CreateWithUser(Application, FFormProperty);

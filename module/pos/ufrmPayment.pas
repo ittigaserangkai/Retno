@@ -164,7 +164,6 @@ type
     FModCreditCard: TModCreditCard;
     FModTransaksi: TModTransaksi;
     FNewBarang: TNewBarang;
-    FSisaUang: Currency;
     FSisaUang_Maksimum: Currency;
     procedure AddVoucherAssalaam(AVoucherNo: String; AVoucherNilai: Double);
     procedure AddVoucherLain(AVoucherQty, AVoucherNilai: Double);
@@ -234,7 +233,6 @@ type
     property Pembulatan: Currency read GetPembulatan write FPembulatan;
     property ShowFooterKembalian: Integer read FShowFooterKembalian write
         FShowFooterKembalian;
-    property SisaUang: Currency read FSisaUang write FSisaUang;
     property SisaUang_Maksimum: Currency read FSisaUang_Maksimum write
         FSisaUang_Maksimum;
     property TipeIDConcession: Integer read FTipeIDConcession write
