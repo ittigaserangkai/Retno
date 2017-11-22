@@ -524,7 +524,6 @@ object frmLogin: TfrmLogin
       StyleFocused.LookAndFeel.NativeStyle = False
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 1
-      ExplicitTop = 57
       Width = 305
     end
     object edPassword: TcxTextEdit
@@ -550,7 +549,6 @@ object frmLogin: TfrmLogin
       TabOrder = 2
       Text = '0001'
       OnKeyDown = edPasswordKeyDown
-      ExplicitTop = 110
       Width = 305
     end
   end
