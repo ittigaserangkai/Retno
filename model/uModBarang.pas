@@ -94,6 +94,7 @@ type
     FBRG_NAME_PURCHASE: String;
     FBRG_NILAI_RAFAKSI: Double;
     FBRG_PKM_AVERAGE: String;
+    FBRG_POS_LOOKUP: Integer;
     FBRG_QTY_RAFAKSI: Double;
     FSATUAN_STOCK: TModSatuan;
     FBRG_UOM_DIAMETER: string;
@@ -168,6 +169,7 @@ type
     property BRG_NILAI_RAFAKSI: Double read FBRG_NILAI_RAFAKSI write
         FBRG_NILAI_RAFAKSI;
     property BRG_PKM_AVERAGE: String read FBRG_PKM_AVERAGE write FBRG_PKM_AVERAGE;
+    property BRG_POS_LOOKUP: Integer read FBRG_POS_LOOKUP write FBRG_POS_LOOKUP;
     property BRG_QTY_RAFAKSI: Double read FBRG_QTY_RAFAKSI write FBRG_QTY_RAFAKSI;
     [AttributeOfForeign('REF$SATUAN_STOCK')]
     property SATUAN_STOCK: TModSatuan read FSATUAN_STOCK write FSATUAN_STOCK;

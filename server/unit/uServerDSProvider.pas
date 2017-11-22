@@ -53,6 +53,7 @@ type
     function Customer_GetDSOverview: TDataSet;
     function Contrabon_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function CostCenter_GetDSLookup: TDataSet;
+    function CreditCard_GetDSLookup: TDataSet;
     function CostCenter_GetDSOverview: TDataSet;
     function CustomerInvoice_Overview(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
@@ -617,6 +618,15 @@ var
   S: string;
 begin
   S := 'select * from V_COST_CENTER';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.CreditCard_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select CARD_CODE, CARD_NAME, CARD_LIMIT from REF$CREDIT_CARD';
 
   Result := TDBUtils.OpenQuery(S);
 end;

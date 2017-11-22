@@ -91,6 +91,7 @@ type
     Brs: Integer;
     DiscOto: double;
     FCCUoMs: TStrings;
+    FDisableEvent: Boolean;
     FIsEditMode: Boolean;
     FModTransaksi: TModTransaksi;
     FModTipeHarga: TModTipeHarga;
@@ -129,9 +130,12 @@ type
     procedure HideInfo;
     function LoadByPLU(aPLU_Qty: String; aUoM: String = ''; aIsLookupActive:
         Boolean = False): Integer;
+    procedure ResetTransaction(WithWarning: Boolean = False);
+    function GetPLUAndQty(aPLUQTY: String; var aPLU, aQTY: string): TModBarang;
     procedure UpdateData;
     property CCUoMs: TStrings read GetCCUoMs write FCCUoMs;
     property DCItem: TcxGridDataController read GetDCItem;
+    property DisableEvent: Boolean read FDisableEvent write FDisableEvent;
     property ModTipeHarga: TModTipeHarga read GetModTipeHarga write FModTipeHarga;
     property ModTransaksi: TModTransaksi read GetModTransaksi write FModTransaksi;
 //    procedure LoadPendingFromCSV(AMemberCode: String);
@@ -203,11 +207,8 @@ begin
     Columns[_Koldiscoto].Caption      := 'Otorisasi';
     Columns[_KolIsKontrabon].Caption  := 'IsKontrabon';
 
-    {$IFDEF TSN}
-    Columns[_KolDiscP].Caption      := 'Disc %';
-    {$ENDIF}
-
-//    FixedRows := 1;
+    Columns[_KolDiscManForm].Visible  := False;
+    Columns[_KolDiscMan].Visible      := False;
 
     Columns[0].Width              := 32;
     Columns[_KolPLU].Width        := 10 + (10 * igProd_Code_Length);
@@ -239,7 +240,7 @@ begin
 
     SetGridFormat_Column(_KolJumlah, False);
     SetGridFormat_Column(_KolHarga, True);
-    SetGridFormat_Column(_KolDisc, False);
+    SetGridFormat_Column(_KolDisc, True);
     SetGridFormat_Column(_KolDiscMan, False);
     SetGridFormat_Column(_KolDiscManForm, False);
     SetGridFormat_Column(_KolTotal, True);
@@ -251,6 +252,7 @@ end;
 
 procedure TfrmTransaksi.FormCreate(Sender: TObject);
 begin
+  DisableEvent := False;
   try
     sgHeader := TStringList.Create;
     LoadData();
@@ -289,6 +291,9 @@ begin
   else
   if(Key = VK_RETURN)and(edPLU.Text <> '') then
   begin
+    if Length(edPLU.Text) < 6 then
+      edPLU.Text := TAppUtils.StrPadLeft(edPLU.Text, 6 , '0');
+
     LoadByPLU(edPLU.Text);
     if (not edHargaKontrabon.Focused) then edPLU.SetFocus;
   end
@@ -551,28 +556,7 @@ end;
 
 procedure TfrmTransaksi.btnResetClick(Sender: TObject);
 begin
-  if CommonDlg.Confirm('Apakah Anda yakin akan me-RESET transaksi? '
-    + 'Data di tabel akan dibersihkan.') = mrNo then
-  begin
-    Exit;
-  end;
-
-  //edNoPelanggan.Clear;
-  //edNoPelangganExit(edNoPelanggan);
-  with sgTransaksi do
-  begin
-    ClearRows;//ClearFields(1,DataController.RecordCount-1);
-//    RowCount := 2;
-//    AutoNumberCol(0);
-  end;    // with
-  sgTransaksi.ClearRows;
-  Transaksi_ID := '';
-  edPLU.Clear;
-  edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
-  HitungTotalRupiah;
-  SaveTransactionToCSV;
-  SavePendingToCSV(ModTransaksi.Member.MEMBER_CARD_NO);
-  FocusToPLUEdit;
+  ResetTransaction(True);
 end;
 
 procedure TfrmTransaksi.btnBayarClick(Sender: TObject);
@@ -670,8 +654,9 @@ begin
   UpdateData;
   ModTransaksi.TRANS_IS_PENDING := 1;
   Try
-    ModTransaksi.ID := DMClient.CrudPOClient.SaveToDBID(ModTransaksi);
-    Result          := True;
+    ModTransaksi.ID           := DMClient.CRUDPOSClient.SaveToDBID(ModTransaksi);
+    ModTransaksi.ObjectState  := 3;
+    Result                    := True;
   except
     on E:Exception do
     begin
@@ -686,14 +671,17 @@ var
   lfrm: TfrmPayment;
 begin
   lfrm := TfrmPayment.CreateAt(Self);
+  DisableEvent := True;
   Try
+    UpdateData();
     lfrm.LoadData(Self.ModTransaksi);
     if lfrm.ShowModal = mrOK then //done safe
     begin
-
+      ResetTransaction();
     end;
 
   Finally
+    DisableEvent := False;
     lFrm.Free;
   End;
 
@@ -722,6 +710,7 @@ end;
 procedure TfrmTransaksi.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
+  if DisableEvent then exit;
   if CommonDlg.Confirm('Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrYes then
   begin
     CanClose := True;
@@ -979,13 +968,13 @@ begin
         ValidationOptions := [];
         if aIsCurrency then
         begin
-          DecimalPlaces := igQty_Precision;
-          DisplayFormat := ',0.###';
+//          DecimalPlaces := igQty_Precision;
+          DisplayFormat := ',0.00';
         end
         else
         begin
-          DecimalPlaces := igPrice_Precision;
-          DisplayFormat := ',0.00';
+//          DecimalPlaces := igPrice_Precision;
+          DisplayFormat := ',0.###';
         end;
       end;
     end;
@@ -1148,6 +1137,7 @@ var
   lModBarang: TModBarang;
   lPLU: string;
   lQTY: Double;
+  strQTY: string;
   function ValidatePLU: Boolean;
   begin
     Result := False;
@@ -1164,10 +1154,10 @@ var
       begin
         ShowInfo('Barang tidak aktif');
         exit;
-      end else if lModBarang.BRG_IS_VALIDATE <> 1 then
-      begin
-        ShowInfo('Barang tidak valid');
-        exit;
+//      end else if lModBarang.BRG_IS_VALIDATE <> 1 then
+//      begin
+//        ShowInfo('Barang tidak valid');
+//        exit;
       end else if BHJ = nil then
       begin
         ShowInfo('Harga Jual Barcode belum ditemukan');
@@ -1219,38 +1209,39 @@ var
   end;
 
 begin
-  edPLU.Enabled := False;
   Result  := -1;
-  lPLU    := TAppUtils.SplitLeftStr(aPLU_Qty, '*');
-  if lPLU = '' then lPLU := aPLU_QTY;
-  lQTY    := 1;
-  TryStrToFloat(TAppUtils.SplitRightStr(aPLU_Qty, '*'), lQTY);
-  lModBarang := DMClient.CRUDBarangClient.RetrievePOS(lPLU) ;
+  edPLU.Enabled := False;
   try
-    BHJ     := GetHargaJual;
-    if not ValidatePLU then exit;
+    lModBarang := GetPLUAndQty(aPLU_QTY, lPLU, strQTY);
+    lQTY := 1;
+    if strQTY <> '' then TryStrToFloat(strQTY, lQTY);
+    try
+      BHJ     := GetHargaJual;
+      if not ValidatePLU then exit;
 
-    Result  := SetProductToGrid(lModBarang, BHJ, lQTY);
-    if (BHJ.BHJ_SELL_PRICE = 0) and (aIsLookupActive) then
-    begin
-      lblHargaKontrabon.Visible  := True;
-      edHargaKontrabon.Visible   := True;
-      edPLU.Enabled              := False;
-      cxTransaksi.Enabled        := False;
-      edHargaKontrabon.SetFocus;
-      edHargaKontrabon.SelectAll;
-    end else  begin
-      HitungTotalRupiah;
-      edPLU.Clear;
-      FocusToPLUEdit;
-      SaveTransactionToCSV;
-      edPLU.Enabled := True;
+      Result  := SetProductToGrid(lModBarang, BHJ, lQTY);
+      if (BHJ.BHJ_SELL_PRICE = 0) and (aIsLookupActive) then
+      begin
+        lblHargaKontrabon.Visible  := True;
+        edHargaKontrabon.Visible   := True;
+        edPLU.Enabled              := False;
+        cxTransaksi.Enabled        := False;
+        edHargaKontrabon.SetFocus;
+        edHargaKontrabon.SelectAll;
+      end else  begin
+        HitungTotalRupiah;
+        edPLU.Clear;
+        FocusToPLUEdit;
+        SaveTransactionToCSV;
+        edPLU.Enabled := True;
+      end;
+      if lModBarang.BRG_GALON_CODE <> '' then
+        LoadByPLU(lModBarang.BRG_GALON_CODE);
+    finally
+      FreeAndNil(lModBarang);
     end;
-    if lModBarang.BRG_GALON_CODE <> '' then
-      LoadByPLU(lModBarang.BRG_GALON_CODE);
   finally
     edPLU.Enabled := True;
-    FreeAndNil(lModBarang);
   end;
 end;
 
@@ -1517,6 +1508,53 @@ begin
   Finally
     FreeAndNil(lModBarang);
   End;
+end;
+
+procedure TfrmTransaksi.ResetTransaction(WithWarning: Boolean = False);
+begin
+  if WithWarning then
+    if CommonDlg.Confirm('Apakah Anda yakin akan me-RESET transaksi? '
+      + 'Data di tabel akan dibersihkan.') = mrNo then
+    begin
+      Exit;
+    end;
+
+  If Assigned(FModTransaksi) then FreeAndNil(FModTransaksi);
+  sgTransaksi.ClearRows;
+  Transaksi_ID := '';
+  edPLU.Clear;
+  edNoTrnTerakhir.Text := DMClient.POSClient.GetTransactionNo(frmMain.FPOSCode, frmMain.UnitID);
+  HitungTotalRupiah;
+  SaveTransactionToCSV;
+  SavePendingToCSV(ModTransaksi.Member.MEMBER_CARD_NO);
+  FocusToPLUEdit;
+end;
+
+function TfrmTransaksi.GetPLUAndQty(aPLUQTY: String; var aPLU, aQTY: string):
+    TModBarang;
+begin
+  if Pos('*', aPLUQTY) > 0 then //via PLU
+  begin
+    aPLU    := TAppUtils.SplitLeftStr(aPLUQTY, '*');
+    Result  := DMClient.CRUDBarangClient.RetrievePOS(aPLU);
+    aQTY    := TAppUtils.SplitRightStr(aPLUQTY, '*');
+  end else if DMClient.POSClient.HasBarcode(aPLUQTY) then //has barcode
+  begin
+    aPLU := aPLUQTY;
+    Result    := DMClient.CRUDBarangClient.RetrievePOS(aPLU);
+  end else //PLU
+  begin
+    aPLU    := LeftStr(aPLUQTY, 6);
+    Result  := DMClient.CRUDBarangClient.RetrievePOS(aPLU);
+    aQTY    := StringReplace(aPLUQTY, aPLU,'',[]);
+
+    //PLU has decimal
+    if (aQTY <> '') and (Result.BRG_IS_DECIMAL = 1) then
+    begin
+      if Copy(aQTY,3,3) <> '' then
+        aQTY := LeftStr(aQTY, 2) + '.' + Copy(aQTY,3,3);
+    end;
+  end;
 end;
 
 end.

@@ -76,8 +76,8 @@ uses
   uModTransKuponBotol in '..\model\uModTransKuponBotol.pas',
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
-  uModelHelper in '..\model\uModelHelper.pas',
-  ufrmLookupMember in '..\module\pos\ufrmLookupMember.pas' {frmLookupMember};
+  ufrmLookupMember in '..\module\pos\ufrmLookupMember.pas' {frmLookupMember},
+  uModelHelper in '..\model\uModelHelper.pas';
 
 {$R *.res}
 

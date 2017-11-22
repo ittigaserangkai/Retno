@@ -6,7 +6,7 @@ uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils, uModSO,
   uModSuplier, Datasnap.DBClient, System.Generics.Collections,
   System.DateUtils, System.JSON, System.JSON.Types, uServerClasses,
-  uModBeginningBalance, uModSetupPOS;
+  uModBeginningBalance, uModSetupPOS, uModTransaksi;
 
 type
   TPOS = class(TBaseServerClass)
@@ -23,14 +23,23 @@ type
     function GetListPendingTransDetailByHeaderID(aHeaderID: string): TDataset;
     function GetServerDate: TDatetime;
     function GetTransactionNo(aPOSCODE, aUNITID: string): string;
+    function HasBarcode(aBarCode: string): Boolean;
     function LookupBarang(sFilter: string): TDataset;
     function LookupMember(sFilter: string): TDataset;
   end;
 
   TCRUDPos = class(TCRUD)
+  private
+    function GenerateSQLCounter(AObject: TModTransaksi): string;
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+  public
   end;
 
 implementation
+
+uses
+  uServerModelHelper;
 
 function TPOS.GetBeginningBalance(UserID: string): TModBeginningBalance;
 var
@@ -183,6 +192,27 @@ begin
   end;
 end;
 
+function TPOS.HasBarcode(aBarCode: string): Boolean;
+var
+  s: string;
+begin
+  s := 'select * from BARANG_HARGA_JUAL A'
+      +' inner join REF$KONVERSI_SATUAN B ON A.BARANG_ID = B.BARANG_ID'
+      +' AND A.REF$SATUAN_ID = B.REF$SATUAN_ID'
+      +' WHERE B.KONVSAT_BARCODE = ' + QuotedStr(aBarCode);
+  with TDBUtils.OpenQuery(s) do
+  begin
+    try
+      if not eof then
+        Result := True
+      else
+        Result := False;
+    finally
+      free;
+    end;
+  end;
+end;
+
 function TPOS.LookupBarang(sFilter: string): TDataset;
 var
   S: string;
@@ -196,7 +226,8 @@ begin
       +' left join REF$TIPE_HARGA th on th.REF$TIPE_HARGA_ID = b.REF$TIPE_HARGA_ID'
 //      +' and a.brg_is_active = 1
       +' where th.TPHRG_CODE = ''H004'' '
-      +' and a.brg_is_validate = 1'
+      +' and a.brg_is_active = 1'
+      +' and a.brg_pos_lookup = 1'
       +' and upper(a.brg_name) like ' + QuotedStr(sFilter)
       +' order by a.brg_name';
   Result := TDBUtils.OpenQuery(s);
@@ -212,6 +243,33 @@ begin
       +' order by MEMBER_NAME';
 
   Result := TDBUtils.OpenQuery(s);
+end;
+
+function TCRUDPos.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  s: string;
+begin
+  Result := False;
+  if AObject is TModTransaksi then
+  begin
+    if AObject.ObjectState = 1 then
+    begin
+      s := GenerateSQLCounter(TModTransaksi(AObject));
+      TDBUtils.ExecuteSQL(S, False);
+    end;
+  end;
+  Result := True;
+end;
+
+function TCRUDPos.GenerateSQLCounter(AObject: TModTransaksi): string;
+var
+  lSetupPOS: TModSetupPOS;
+begin
+  AObject.BALANCE.Reload(False);
+  Result := 'update setuppos '
+    + ' set setuppos_counter_no = setuppos_counter_no + 1'
+    + ' where setuppos_id = ' + QuotedStr(AObject.BALANCE.SETUPPOS.ID)
+    + ' and AUT$UNIT_ID = ' + QuotedStr(AObject.AUTUNIT.ID) + ';';
 end;
 
 end.

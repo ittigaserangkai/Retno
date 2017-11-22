@@ -18,6 +18,7 @@ uses
   frxUtils;
 
 type
+  TStringArray = array of string;
   TDMReport = class(TForm)
     TePanel1: TcxGroupBox;
     bCetak: TcxButton;
@@ -106,7 +107,7 @@ type
   public
     procedure AddReportVariable(AVariableName: String; AVariableValue: String);
     procedure ExecuteReport(aReportName: String; aListDataset: TFDJSONDataSets;
-        ANamaQuery : Array of string); overload;
+        ANamaQuery: Array Of String); overload;
     function IsBisaDesignReport: Boolean;
     property BisaDesignReport: Boolean read FBisaDesignReport write
         FBisaDesignReport;
@@ -228,7 +229,7 @@ begin
 end;
 
 procedure TDMReport.ExecuteReport(aReportName: String; aListDataset:
-    TFDJSONDataSets; ANamaQuery : Array of string);
+    TFDJSONDataSets; ANamaQuery: Array Of String);
 var
   sTextReportFile: string;
 //  sSQL: string;
@@ -267,29 +268,29 @@ begin
 
   if Length(ANamaQuery) = 0 then
   begin
-    ANamaQuery[0] := 'IBQ1';
-    ANamaQuery[1] := 'IBQ2';
-    ANamaQuery[2] := 'IBQ3';
+    IBQ1.UserName := 'IBQ1';
+    IBQ2.UserName := 'IBQ2';
+    IBQ3.UserName := 'IBQ3';
+  end else begin
+    IBQ1.UserName := ANamaQuery[0];
+    IBQ2.UserName := ANamaQuery[1];
+    IBQ3.UserName := ANamaQuery[2];
   end;
+//    ANamaQuery := TStringArray.Create('IBQ1', 'IBQ2', 'IBQ3');
 
   FDMemTable1.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 0));
   FDMemTable1.Open;
-  IBQ1.UserName := ANamaQuery[0];
 
   if dsCount > 1 then   //sementara 3 dataset dulu gan..
   begin
     FDMemTable2.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 1));
     FDMemTable2.Open;
-
-    IBQ2.UserName := ANamaQuery[1];
   end;
 
   if dsCount > 2 then   //sementara 3 dataset dulu gan..
   begin
     FDMemTable3.AppendData(TFDJSONDataSetsReader.GetListValue(aListDataSet, 2));
     FDMemTable3.Open;
-
-    IBQ3.UserName := ANamaQuery[2];
   end;
 
   frxReport1.FileName := sReportFile;

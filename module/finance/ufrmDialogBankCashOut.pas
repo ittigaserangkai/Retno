@@ -107,6 +107,7 @@ type
       ADataController: TcxCustomDataController);
     procedure cxGridTablePotongTagihanDataControllerAfterDelete(
       ADataController: TcxCustomDataController);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FBCO: TModBankCashOut;
     FCDSAP: TClientDataset;
@@ -417,6 +418,30 @@ begin
   inherited;
   FreeAndNil(FOrganization);
   LoadDataOrganization(VarToStr(DisplayValue), True);
+end;
+
+procedure TfrmDialogBankCashOut.FormKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+  inherited;
+  if Key in [VK_F1, VK_F2, VK_F3, VK_F4] then
+    cxgrdDetail.SetFocus;
+
+  case Key of
+    VK_F1 : cxgrdDetail.FocusedView := cxGridTableAPList;
+    VK_F2 : cxgrdDetail.FocusedView := cxGridTablePotongTagihan;
+    VK_F3 : cxgrdDetail.FocusedView := cxGridTableOther;
+    VK_F4 : cxgrdDetail.FocusedView := cxGridTableCheque;
+  end;
+//  if ssAlt in Shift then
+//  begin
+//    case Key of
+//      Ord('G') : LookupDO;
+//      Ord('C') : LookupCN;
+//      Ord('D') : LookupDN;
+//      Ord('K') : LookupCS;
+//    end;
+//  end;
 end;
 
 function TfrmDialogBankCashOut.GetBCO: TModBankCashOut;
@@ -803,10 +828,23 @@ begin
     Exit;
   end;
 
-  if (cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar) = 0)
-    and (edSummaryAll.Value <= 0) then
+//  if (cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar) = 0)
+//    and (edSummaryAll.Value <= 0) then
+//  begin
+//    TAppUtils.Error('Total Pembayaran Harus > 0');
+//    Exit;
+//  end;
+
+  if (cxGridTablePotongTagihan.DataController.GetFooterSummaryFloat(cxGridColPotagBayar) > 0)  then
   begin
-    TAppUtils.Error('Total Pembayaran Harus > 0');
+    if (edSummaryAll.Value < 0) then
+    begin
+      TAppUtils.Error('Total Pembayaran tidak boleh < 0');
+      Exit;
+    end;
+  end else if (edSummaryAll.Value <= 0) then
+  begin
+    TAppUtils.Error('Total Pembayaran tidak boleh <= 0');
     Exit;
   end;
 
@@ -869,7 +907,7 @@ begin
   begin
     if VarToFLoat(DCCheque.Values[i, cxGridColChequeBayar.Index]) <= 0 then
     begin
-      TAppUtils.Error('Nominal bayar lain-lain tidak boleh <= 0, baris : ' + inttostr(i+1));
+      TAppUtils.Error('Nominal cheque tidak boleh <= 0, baris : ' + inttostr(i+1));
       exit;
     end;
   end;
