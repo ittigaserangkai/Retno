@@ -55,7 +55,6 @@ object frmMain: TfrmMain
       item
         Width = 50
       end>
-    ExplicitWidth = 584
   end
   object mmoHelp: TMemo
     Left = 288
@@ -89,7 +88,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     TabOrder = 1
     Visible = False
-    ExplicitLeft = 263
   end
   object pnlHeader: TPanel
     Left = 0
@@ -98,7 +96,6 @@ object frmMain: TfrmMain
     Height = 5
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 584
   end
   object mnMain: TMainMenu
     Left = 12
@@ -365,7 +362,7 @@ object frmMain: TfrmMain
     Left = 15
     Top = 19
     Bitmap = {
-      494C0101030004008C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000400940010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

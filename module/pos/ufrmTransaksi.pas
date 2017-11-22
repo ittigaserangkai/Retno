@@ -110,6 +110,7 @@ type
         ErrorText: TCaption; var Error: Boolean);
     procedure colDiscManualValidate(Sender: TObject; var DisplayValue: Variant; var
         ErrorText: TCaption; var Error: Boolean);
+    function DoAuthSupervisor: Boolean;
     procedure DoLookupBarang(aPLU: string = '');
     procedure DoLookupMember;
     function FindInGrid(BHJ: TModBarangHargaJual): Integer;
@@ -130,7 +131,7 @@ type
     procedure HideInfo;
     function LoadByPLU(aPLU_Qty: String; aUoM: String = ''; aIsLookupActive:
         Boolean = False): Integer;
-    procedure ResetTransaction(WithWarning: Boolean = False);
+    procedure ResetTransaction(TriggerOperator: Boolean = False);
     function GetPLUAndQty(aPLUQTY: String; var aPLU, aQTY: string): TModBarang;
     procedure LoadDataForm;
     procedure LoadPendingTransactionByMember(aMember: TModMember);
@@ -156,7 +157,7 @@ implementation
 
 uses
   ufrmMain, Math, uConstanta, StrUtils, udmMain, uDXUtils, uDMClient,
-  uModSatuan, Datasnap.DBClient;
+  uModSatuan, Datasnap.DBClient, ufrmLogin;
 
 {$R *.dfm}
 
@@ -1009,8 +1010,10 @@ procedure TfrmTransaksi.colJumlahValidate(Sender: TObject; var DisplayValue:
     Variant; var ErrorText: TCaption; var Error: Boolean);
 var
   ARow: Integer;
+  OldValue: Double;
 begin
   ARow := sgTransaksi.DataController.FocusedRecordIndex;
+  OldValue := VarToFloat(sgTransaksi.DataController.Values[ARow, _KolJumlah]);
 
   HideInfo;
   FIsEditMode := True;
@@ -1029,6 +1032,16 @@ begin
     if (DisplayValue - Floor(DisplayValue)) > 0 then
     begin
       Error := True;
+    end;
+  end;
+
+  if DisplayValue < OldValue then
+  begin
+    if not DoAuthSupervisor then
+    begin
+      DisplayValue := OldValue;
+      ShowInfo('Mengurangi jumlah barang harus dengan authorisasi Supervisor');
+      Exit;
     end;
   end;
 
@@ -1070,6 +1083,19 @@ begin
   end else
   begin
     CalculateManualDisc(DisplayValue, Error, ARow)
+  end;
+end;
+
+function TfrmTransaksi.DoAuthSupervisor: Boolean;
+var
+  lfrm: TfrmLogin;
+begin
+  lfrm := TfrmLogin.Create(Self);
+  try
+    lfrm.IsAuthSupervisor := True;
+    Result := lfrm.ShowModal = mrOK;
+  finally
+    FreeAndNil(lfrm);
   end;
 end;
 
@@ -1467,14 +1493,17 @@ begin
   LoadDataForm;
 end;
 
-procedure TfrmTransaksi.ResetTransaction(WithWarning: Boolean = False);
+procedure TfrmTransaksi.ResetTransaction(TriggerOperator: Boolean = False);
 begin
-  if WithWarning then
-    if CommonDlg.Confirm('Apakah Anda yakin akan me-RESET transaksi? '
-      + 'Data di tabel akan dibersihkan.') = mrNo then
-    begin
-      Exit;
-    end;
+  if TriggerOperator then
+  begin
+    if not DoAuthSupervisor then exit;
+//    if CommonDlg.Confirm('Apakah Anda yakin akan me-RESET transaksi? '
+//      + 'Data di tabel akan dibersihkan.') = mrNo then
+//    begin
+//      Exit;
+//    end;
+  end;
 
   If Assigned(FModTransaksi) then FreeAndNil(FModTransaksi);
   sgTransaksi.ClearRows;
