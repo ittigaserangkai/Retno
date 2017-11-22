@@ -13,27 +13,27 @@ inherited frmVoucher: TfrmVoucher
     Width = 631
     Height = 325
     ExplicitWidth = 631
-    ExplicitHeight = 269
+    ExplicitHeight = 325
     inherited pgcBrowse: TcxPageControl
-      Top = 89
-      Width = 609
-      Height = 225
+      Top = 73
+      Width = 629
+      Height = 251
       TabOrder = 1
-      ExplicitTop = 89
-      ExplicitWidth = 609
-      ExplicitHeight = 169
-      ClientRectBottom = 224
-      ClientRectRight = 608
+      ExplicitTop = 79
+      ExplicitWidth = 629
+      ExplicitHeight = 245
+      ClientRectBottom = 250
+      ClientRectRight = 628
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 607
-        ExplicitHeight = 167
+        ExplicitWidth = 627
+        ExplicitHeight = 243
         inherited cxGrid: TcxGrid
-          Width = 607
-          Height = 223
-          ExplicitWidth = 607
-          ExplicitHeight = 167
+          Width = 627
+          Height = 249
+          ExplicitWidth = 627
+          ExplicitHeight = 243
           inherited cxGridView: TcxGridDBTableView
             object cxcolGridViewColumn1: TcxGridDBColumn
               Caption = 'Pemilik'
@@ -56,10 +56,10 @@ inherited frmVoucher: TfrmVoucher
       end
     end
     object Panel1: TPanel
-      Left = 11
-      Top = 11
-      Width = 609
-      Height = 78
+      Left = 1
+      Top = 1
+      Width = 629
+      Height = 72
       Align = alTop
       ParentColor = True
       TabOrder = 0
@@ -144,7 +144,7 @@ inherited frmVoucher: TfrmVoucher
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 358
     Width = 631
-    ExplicitTop = 302
+    ExplicitTop = 358
     ExplicitWidth = 631
     inherited pnlFooter: TPanel
       Width = 631
@@ -172,6 +172,7 @@ inherited frmVoucher: TfrmVoucher
       ExplicitWidth = 631
       inherited lbEscape: TLabel
         Left = 557
+        Height = 17
         ExplicitLeft = 557
       end
     end
