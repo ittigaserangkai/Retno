@@ -60,7 +60,6 @@ uses
   ufrmModule in '..\module\management user\ufrmModule.pas' {frmModule},
   ufrmDialogModule in '..\module\management user\ufrmDialogModule.pas' {frmDialogModule},
   ufrmDialogAddNewMenu in '..\module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
-  ufrmMasterCustomer in '..\module\references\ufrmMasterCustomer.pas' {frmMasterCustomer},
   ufrmDialogMasterCustomer in '..\module\references\ufrmDialogMasterCustomer.pas' {frmDialogMasterCustomer},
   ufraAlokasiStock in '..\module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
   ufraBonusProduct in '..\module\product\ufraBonusProduct.pas' {fraBonusProduct: TFrame},
@@ -269,7 +268,8 @@ uses
   ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
   ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmMasterCustomer in '..\module\references\ufrmMasterCustomer.pas' {frmMasterCustomer};
 
 {$R *.res}
 
