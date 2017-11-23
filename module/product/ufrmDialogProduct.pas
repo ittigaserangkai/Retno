@@ -231,6 +231,7 @@ type
     cxLookupSatPurchase: TcxExtLookupComboBox;
     ckFilterSupMG: TcxCheckBox;
     ckIsSOBlacklist: TcxCheckBox;
+    chkPOSLookup: TcxCheckBox;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -242,7 +243,6 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnUpdateSuppClick(Sender: TObject);
     procedure btnDelSuppClick(Sender: TObject);
-    procedure ckEnableCNKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnAddSuppClick(Sender: TObject);
     procedure cxGrdDBSupplierCellClick(Sender: TcxCustomGridTableView;
         ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
@@ -577,14 +577,6 @@ begin
   inherited;
 //  showmessage(BoolToStr(CheckControlParent(cxLookupSupplier, tsSupplier)));
   AddSupplier;
-end;
-
-procedure TfrmDialogProduct.ckEnableCNKeyDown(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
-begin
-  inherited;
-  If Key = VK_RETURN then
-    btnUpdateSupp.SetFocus;
 end;
 
 procedure TfrmDialogProduct.ClearSupplier;
@@ -1080,7 +1072,7 @@ begin
   ModBarang.BRG_IS_DISC_GMC     := TAppUtils.BoolToInt(chkIsDiscAMC.Checked);
   ModBarang.BRG_IS_GALON        := TAppUtils.BoolToInt(chkIsGalon.Checked);
 //  ModBarang.BRG_IS_VALIDATE     := TAppUtils.BoolToInt(chkIsBasic.Checked);
-
+  ModBarang.BRG_POS_LOOKUP      := TAppUtils.BoolToInt(chkPOSLookup.Checked);
 
   UpdateDataItem;
 end;
@@ -1126,6 +1118,7 @@ begin
   cbisDeposit.Checked             := ModBarang.BRG_IS_DEPOSIT = 1;
   chkIsDiscAMC.Checked            := ModBarang.BRG_IS_DISC_GMC = 1;
   chkIsGalon.Checked              := ModBarang.BRG_IS_GALON = 1;
+  chkPOSLookup.Checked            := ModBarang.BRG_POS_LOOKUP = 1;
 
   LoadItems;
 end;
@@ -1523,6 +1516,11 @@ begin
     exit;
   end;
 
+  if Length(edtProductCode.Text) > 6 then
+  begin
+    TAppUtils.Warning('Digit PLU / Product Code maksimal 6 digit');
+    exit;
+  end;
 
 
   if not TAppUtils.Confirm(CONF_VALIDATE_FOR_SAVE) then exit;

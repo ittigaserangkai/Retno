@@ -121,14 +121,14 @@ type
     FTransNo: String;
     FUnitID: string;
     FFormProperty : TFormProperty;
-    FPageLogin: string;
+//    FPageLogin: string;
     FAuthUser: TModAuthUser;
     FBeginningBalance: TModBeginningBalance;
     IsPOSConnected: Boolean;
     function Initialize: Boolean;
     procedure SetLoginUnitId(const Value: Integer);
     { Private declarations }
-    procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
+//    procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
     function GetLoginUsername: string;
     function GetUserID: string;
   public
@@ -366,7 +366,7 @@ end;
 
 function TfrmMain.Initialize: Boolean;
 begin
-//  Result := False;
+  Result := True;
 
   //sementara manual dulu
   Try
@@ -477,8 +477,6 @@ begin
 end;
 
 procedure TfrmMain.PrintHeader1Click(Sender: TObject);
-var
-  SS : TStrings;
 begin
   {SS := TStringList.Create;
   Try
@@ -522,7 +520,11 @@ end;
 procedure TfrmMain.miLoginClick(Sender: TObject);
 begin
   frmLogin := TfrmLogin.Create(Self);
-  frmLogin.ShowModal;
+  try
+    frmLogin.ShowModal;
+  finally
+    frmLogin.Free;
+  end;
   {
   FFormProperty.FLoginId        := FUserID;
   FFormProperty.FLoginUnitId    := FLoginUnitId;
@@ -602,17 +604,6 @@ begin
   begin
     FLoginUnitId := Value;
   end;
-end;
-
-procedure TfrmMain.EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
-var
-  i: integer;
-begin
-  for i:=0 to AMenu.Count-1 do
-    AMenu.Items[i].Enabled := AValue;
-
-  // set invisible to menu
-  AMenu.Visible := AValue;
 end;
 
 procedure TfrmMain.ExportDataToMDBClick(Sender: TObject);

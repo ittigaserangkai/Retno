@@ -168,7 +168,7 @@ end;
 procedure TfrmLookupBarang.LoadBarang(ANamaBarang: String = ''; AIsDepan:
     Boolean = True);
 var
-  iRecordCOunt: Integer;
+//  iRecordCOunt: Integer;
   sFilter: string;
 begin
   IsProcessing := True;

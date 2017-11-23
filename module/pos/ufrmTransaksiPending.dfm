@@ -38,8 +38,6 @@ object frmTransaksiPending: TfrmTransaksiPending
     ParentFont = False
     TabOrder = 0
     OnClick = btnCloseClick
-    ExplicitLeft = 409
-    ExplicitTop = 268
   end
   object btnRefresh: TButton
     AlignWithMargins = True
@@ -58,8 +56,6 @@ object frmTransaksiPending: TfrmTransaksiPending
     ParentFont = False
     TabOrder = 1
     OnClick = btnRefreshClick
-    ExplicitLeft = 306
-    ExplicitTop = 268
   end
   object cxTransaksi: TcxGrid
     Left = 0
@@ -68,17 +64,15 @@ object frmTransaksiPending: TfrmTransaksiPending
     Height = 307
     Align = alTop
     Anchors = [akLeft, akTop, akRight, akBottom]
-    Font.Charset = ANSI_CHARSET
+    Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -11
     Font.Name = 'Trebuchet MS'
     Font.Style = []
     ParentFont = False
     TabOrder = 2
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitWidth = 509
-    ExplicitHeight = 265
     object sgTransaksi: TcxGridDBTableView
       OnDblClick = sgTransaksiDblClick
       OnKeyDown = sgTransaksiKeyDown

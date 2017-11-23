@@ -183,7 +183,6 @@ uses
   ufrmListingReceivingProduct in '..\module\inventory\ufrmListingReceivingProduct.pas' {frmListingReceivingProduct},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   ufrmPORevision in '..\module\po\ufrmPORevision.pas' {frmPORevision},
-  uModelHelper in '..\model\uModelHelper.pas',
   uModCreditCard in '..\model\uModCreditCard.pas',
   uModDNRecv in '..\model\uModDNRecv.pas',
   uModCNRecv in '..\model\uModCNRecv.pas',
@@ -234,7 +233,8 @@ uses
   ufrmDialogViewInvoice in '..\module\finance\ufrmDialogViewInvoice.pas' {frmDialogViewInvoice},
   uUnit in '..\classes\uUnit.pas',
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
-  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization};
+  ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
+  uModelHelper in '..\model\uModelHelper.pas';
 
 {$R *.res}
 

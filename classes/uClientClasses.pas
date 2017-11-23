@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 19/11/2017 10:32:17
+// 11/22/2017 8:33:35 AM
 //
 
 unit uClientClasses;
@@ -173,6 +173,8 @@ type
     FContrabon_GetDSOverviewCommand_Cache: TDSRestCommand;
     FCostCenter_GetDSLookupCommand: TDSRestCommand;
     FCostCenter_GetDSLookupCommand_Cache: TDSRestCommand;
+    FCreditCard_GetDSLookupCommand: TDSRestCommand;
+    FCreditCard_GetDSLookupCommand_Cache: TDSRestCommand;
     FCostCenter_GetDSOverviewCommand: TDSRestCommand;
     FCostCenter_GetDSOverviewCommand_Cache: TDSRestCommand;
     FCustomerInvoice_OverviewCommand: TDSRestCommand;
@@ -442,6 +444,8 @@ type
     function Contrabon_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function CostCenter_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function CostCenter_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function CreditCard_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function CreditCard_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function CostCenter_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function CostCenter_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function CustomerInvoice_Overview(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
@@ -733,10 +737,13 @@ type
     FGetListPendingTransByUserIDCommand_Cache: TDSRestCommand;
     FGetListPendingTransByUserIDAndDateCommand: TDSRestCommand;
     FGetListPendingTransByUserIDAndDateCommand_Cache: TDSRestCommand;
+    FGetPendingTransByMemberCommand: TDSRestCommand;
+    FGetPendingTransByMemberCommand_Cache: TDSRestCommand;
     FGetListPendingTransDetailByHeaderIDCommand: TDSRestCommand;
     FGetListPendingTransDetailByHeaderIDCommand_Cache: TDSRestCommand;
     FGetServerDateCommand: TDSRestCommand;
     FGetTransactionNoCommand: TDSRestCommand;
+    FHasBarcodeCommand: TDSRestCommand;
     FLookupBarangCommand: TDSRestCommand;
     FLookupBarangCommand_Cache: TDSRestCommand;
     FLookupMemberCommand: TDSRestCommand;
@@ -754,10 +761,13 @@ type
     function GetListPendingTransByUserID_Cache(aUserID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function GetListPendingTransByUserIDAndDate_Cache(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetPendingTransByMember(aMemberID: string; aDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function GetPendingTransByMember_Cache(aMemberID: string; aDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetListPendingTransDetailByHeaderID(aHeaderID: string; const ARequestFilter: string = ''): TDataSet;
     function GetListPendingTransDetailByHeaderID_Cache(aHeaderID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetServerDate(const ARequestFilter: string = ''): TDateTime;
     function GetTransactionNo(aPOSCODE: string; aUNITID: string; const ARequestFilter: string = ''): string;
+    function HasBarcode(aBarCode: string; const ARequestFilter: string = ''): Boolean;
     function LookupBarang(sFilter: string; const ARequestFilter: string = ''): TDataSet;
     function LookupBarang_Cache(sFilter: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function LookupMember(sFilter: string; const ARequestFilter: string = ''): TDataSet;
@@ -2450,6 +2460,16 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_CreditCard_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_CreditCard_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_CostCenter_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -3834,6 +3854,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TPOS_GetPendingTransByMember: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMemberID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetPendingTransByMember_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'aMemberID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'aDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TPOS_GetListPendingTransDetailByHeaderID: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'aHeaderID'; Direction: 1; DBXType: 26; TypeName: 'string'),
@@ -3856,6 +3890,12 @@ const
     (Name: 'aPOSCODE'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aUNITID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TPOS_HasBarcode: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aBarCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
   TPOS_LookupBarang: array [0..1] of TDSRestParameterMetaData =
@@ -8365,6 +8405,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FCostCenter_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.CreditCard_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FCreditCard_GetDSLookupCommand = nil then
+  begin
+    FCreditCard_GetDSLookupCommand := FConnection.CreateCommand;
+    FCreditCard_GetDSLookupCommand.RequestType := 'GET';
+    FCreditCard_GetDSLookupCommand.Text := 'TDSProvider.CreditCard_GetDSLookup';
+    FCreditCard_GetDSLookupCommand.Prepare(TDSProvider_CreditCard_GetDSLookup);
+  end;
+  FCreditCard_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FCreditCard_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FCreditCard_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.CreditCard_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FCreditCard_GetDSLookupCommand_Cache = nil then
+  begin
+    FCreditCard_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FCreditCard_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FCreditCard_GetDSLookupCommand_Cache.Text := 'TDSProvider.CreditCard_GetDSLookup';
+    FCreditCard_GetDSLookupCommand_Cache.Prepare(TDSProvider_CreditCard_GetDSLookup_Cache);
+  end;
+  FCreditCard_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FCreditCard_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.CostCenter_GetDSOverview(const ARequestFilter: string): TDataSet;
 begin
   if FCostCenter_GetDSOverviewCommand = nil then
@@ -11487,6 +11556,8 @@ begin
   FContrabon_GetDSOverviewCommand_Cache.DisposeOf;
   FCostCenter_GetDSLookupCommand.DisposeOf;
   FCostCenter_GetDSLookupCommand_Cache.DisposeOf;
+  FCreditCard_GetDSLookupCommand.DisposeOf;
+  FCreditCard_GetDSLookupCommand_Cache.DisposeOf;
   FCostCenter_GetDSOverviewCommand.DisposeOf;
   FCostCenter_GetDSOverviewCommand_Cache.DisposeOf;
   FCustomerInvoice_OverviewCommand.DisposeOf;
@@ -12610,6 +12681,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FGetListPendingTransByUserIDAndDateCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TPOSClient.GetPendingTransByMember(aMemberID: string; aDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FGetPendingTransByMemberCommand = nil then
+  begin
+    FGetPendingTransByMemberCommand := FConnection.CreateCommand;
+    FGetPendingTransByMemberCommand.RequestType := 'GET';
+    FGetPendingTransByMemberCommand.Text := 'TPOS.GetPendingTransByMember';
+    FGetPendingTransByMemberCommand.Prepare(TPOS_GetPendingTransByMember);
+  end;
+  FGetPendingTransByMemberCommand.Parameters[0].Value.SetWideString(aMemberID);
+  FGetPendingTransByMemberCommand.Parameters[1].Value.AsDateTime := aDate;
+  FGetPendingTransByMemberCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetPendingTransByMemberCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetPendingTransByMemberCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetPendingTransByMember_Cache(aMemberID: string; aDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetPendingTransByMemberCommand_Cache = nil then
+  begin
+    FGetPendingTransByMemberCommand_Cache := FConnection.CreateCommand;
+    FGetPendingTransByMemberCommand_Cache.RequestType := 'GET';
+    FGetPendingTransByMemberCommand_Cache.Text := 'TPOS.GetPendingTransByMember';
+    FGetPendingTransByMemberCommand_Cache.Prepare(TPOS_GetPendingTransByMember_Cache);
+  end;
+  FGetPendingTransByMemberCommand_Cache.Parameters[0].Value.SetWideString(aMemberID);
+  FGetPendingTransByMemberCommand_Cache.Parameters[1].Value.AsDateTime := aDate;
+  FGetPendingTransByMemberCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetPendingTransByMemberCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TPOSClient.GetListPendingTransDetailByHeaderID(aHeaderID: string; const ARequestFilter: string): TDataSet;
 begin
   if FGetListPendingTransDetailByHeaderIDCommand = nil then
@@ -12667,6 +12771,20 @@ begin
   FGetTransactionNoCommand.Parameters[1].Value.SetWideString(aUNITID);
   FGetTransactionNoCommand.Execute(ARequestFilter);
   Result := FGetTransactionNoCommand.Parameters[2].Value.GetWideString;
+end;
+
+function TPOSClient.HasBarcode(aBarCode: string; const ARequestFilter: string): Boolean;
+begin
+  if FHasBarcodeCommand = nil then
+  begin
+    FHasBarcodeCommand := FConnection.CreateCommand;
+    FHasBarcodeCommand.RequestType := 'GET';
+    FHasBarcodeCommand.Text := 'TPOS.HasBarcode';
+    FHasBarcodeCommand.Prepare(TPOS_HasBarcode);
+  end;
+  FHasBarcodeCommand.Parameters[0].Value.SetWideString(aBarCode);
+  FHasBarcodeCommand.Execute(ARequestFilter);
+  Result := FHasBarcodeCommand.Parameters[1].Value.GetBoolean;
 end;
 
 function TPOSClient.LookupBarang(sFilter: string; const ARequestFilter: string): TDataSet;
@@ -12762,10 +12880,13 @@ begin
   FGetListPendingTransByUserIDCommand_Cache.DisposeOf;
   FGetListPendingTransByUserIDAndDateCommand.DisposeOf;
   FGetListPendingTransByUserIDAndDateCommand_Cache.DisposeOf;
+  FGetPendingTransByMemberCommand.DisposeOf;
+  FGetPendingTransByMemberCommand_Cache.DisposeOf;
   FGetListPendingTransDetailByHeaderIDCommand.DisposeOf;
   FGetListPendingTransDetailByHeaderIDCommand_Cache.DisposeOf;
   FGetServerDateCommand.DisposeOf;
   FGetTransactionNoCommand.DisposeOf;
+  FHasBarcodeCommand.DisposeOf;
   FLookupBarangCommand.DisposeOf;
   FLookupBarangCommand_Cache.DisposeOf;
   FLookupMemberCommand.DisposeOf;

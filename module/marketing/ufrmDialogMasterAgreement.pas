@@ -44,29 +44,16 @@ type
     lblTipeBayar: TLabel;
     cbCustCode: TcxLookupComboBox;
     cxGrid: TcxGrid;
-    grdGridDetail: TcxGridDBTableView;
     cxcolGridViewColumn2: TcxGridDBColumn;
     cxcolGridViewColumn3: TcxGridDBColumn;
     cxcolGridViewColumn4: TcxGridDBColumn;
     cxcolGridViewColumn5: TcxGridDBColumn;
-    grdlvlDetail: TcxGridLevel;
     cxcolDetilUnitPrice: TcxGridDBColumn;
     cxcolDetilSubTotal: TcxGridDBColumn;
     cbbTipeBayar: TComboBox;
     cbPajak: TComboBox;
-    Label1: TLabel;
-    cxDateEdit1: TcxDateEdit;
     lbl14: TLabel;
     curredtTotal: TcxCurrencyEdit;
-    grdlvlInvoice: TcxGridLevel;
-    grdGridInvoice: TcxGridDBTableView;
-    grdGridInvoiceColumn1: TcxGridDBColumn;
-    grdGridInvoiceColumn2: TcxGridDBColumn;
-    grdGridInvoiceColumn3: TcxGridDBColumn;
-    grdGridInvoiceColumn4: TcxGridDBColumn;
-    grdGridInvoiceColumn5: TcxGridDBColumn;
-    grdGridInvoiceColumn6: TcxGridDBColumn;
-    grdGridInvoiceColumn7: TcxGridDBColumn;
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -1506,7 +1493,7 @@ procedure TfrmDialogMasterAgreement.footerDialogMasterbtnCloseClick(
 begin
   inherited;
   Self.ModalResult := mrCancel;
-  if grdGridDetail.DataController.RecordCount > 0then
+//  if grdGridDetail.DataController.RecordCount > 0then
   if CommonDlg.Confirm('Apakah Anda ingin menutup form ' + Self.Caption + '?') = mrNo then
   begin
     Self.ModalResult := mrNone;

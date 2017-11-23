@@ -26,13 +26,13 @@ type
     lblStatus: TcxLabel;
     cbbStatusPO: TcxExtLookupComboBox;
     lblTo: TcxLabel;
-    gbCetak: TcxGroupBox;
-    rbPrintDlg: TcxRadioGroup;
-    btnPrint: TcxButton;
     pmPO: TPopupMenu;
     mnGeneratedPO: TMenuItem;
     mnCancelPO: TMenuItem;
     mnClosePO: TMenuItem;
+    pmPrint: TPopupMenu;
+    CetakBatch1: TMenuItem;
+    CetakBatch2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
@@ -40,7 +40,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure btnPrintClick(Sender: TObject);
+    procedure CetakBatch1Click(Sender: TObject);
+    procedure CetakBatch2Click(Sender: TObject);
     procedure mnCancelPOClick(Sender: TObject);
     procedure mnClosePOClick(Sender: TObject);
     procedure mnGeneratedPOClick(Sender: TObject);
@@ -52,7 +53,6 @@ type
     procedure InisialisasiDBBStatusPO;
     procedure InisialisasiCBBSupMGAkhir; overload;
     procedure InisialisasiCBBSupMGAwal;
-    procedure PrintDialog;
     procedure RefreshDataPO;
     procedure RefreshDataPODetil;
     procedure UpdateStatusPO(AStatus: string);
@@ -99,28 +99,48 @@ end;
 
 procedure TfrmPurchaseOrder.actPrintExecute(Sender: TObject);
 var
-  iPOUnitID: Integer;
-  strDtFrst     : string;
-  strDtNext     : string;
-  sStapo_ID,
-  sTmp          : string;
-
-
+  lSize: Integer;
+  pnt: TPoint;
 begin
   inherited;
-  PrintDialog;
+  lSize := Screen.MenuFont.Size;
+  try
+    Screen.MenuFont.Size := 12;
+    pnt := Self.fraFooter4Button1.btnPrint.ClientToScreen(Point(0,0));
+    pmPrint.Popup(pnt.X + 100,pnt.Y - 50);
+  finally
+    Screen.MenuFont.Size := lSize;
+  end;
+//  PrintDialog;
 end;
 
-procedure TfrmPurchaseOrder.btnPrintClick(Sender: TObject);
-  var
+procedure TfrmPurchaseOrder.CetakBatch1Click(Sender: TObject);
+var
   FilterPeriode: string;
   sNomorPO: string;
 begin
   inherited;
-  if rbPrintDlg.ItemIndex = 0 then
-    sNomorPO := FCDS.FieldByName('PO_NO').AsString
-  else
-    sNomorPO := '';
+  sNomorPO := FCDS.FieldByName('PO_NO').AsString;
+  FilterPeriode := dtAwalFilter.Text + ' s/d ' + dtAkhirFilter.Text;
+  dmReport.AddReportVariable('FilterPeriode', FilterPeriode );
+  dmReport.AddReportVariable('UserCetak', 'Baskoro');
+  dmReport.ExecuteReport( 'Reports/Slip_PO' ,
+    dmReport.ReportClient.PO_SLIP_ByDateNoBukti(
+      dtAwalFilter.Date,
+      dtAkhirFilter.Date,
+      sNomorPO,
+      sNomorPO
+    ),[]
+  );
+end;
+
+procedure TfrmPurchaseOrder.CetakBatch2Click(Sender: TObject);
+var
+  FilterPeriode: string;
+  sNomorPO: string;
+begin
+  inherited;
+  sNomorPO := '';
   with dmReport do
   begin
     FilterPeriode := dtAwalFilter.Text + ' s/d ' + dtAkhirFilter.Text;
@@ -137,7 +157,6 @@ begin
       ),[]
     );
   end;
-  gbCetak.Visible := False;
 end;
 
 procedure TfrmPurchaseOrder.FormClose(Sender: TObject;
@@ -261,20 +280,13 @@ begin
   end;
 end;
 
-procedure TfrmPurchaseOrder.PrintDialog;
-begin
-  gbCetak.Visible := True;
-end;
-
 procedure TfrmPurchaseOrder.RefreshData;
 begin
   inherited;
   try
     TAppUtils.cShowWaitWindow('Mohon Ditunggu');
-
     RefreshDataPO;
     RefreshDataPODetil;
-
     cxGridDBTableSODetail.SetMasterKeyField('PO_ID');
     cxGridDBTableSODetail.SetDetailKeyField('PO_ID');
   finally

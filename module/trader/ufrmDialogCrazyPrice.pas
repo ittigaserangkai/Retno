@@ -232,26 +232,26 @@ var
 begin
   inherited;
   dPPN              := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPPPN.Index);
-  dMU               := 0;
+
+  dMU               := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPMarkUp.Index);
   dCOGS             := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPCOGS.Index);
+  dDisc             := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPDisc.Index);
+
   dSellpriceDiscPPN := 0;
-  dDisc             := 0;
+
 
   if ACol = cxGridColCPDisc.Index then
   begin
     dDisc             := ANominal;
-    dSellpriceDiscPPN := dCOGS * (100 - dDisc)/100;
-    dMU               := (dSellpriceDiscPPN - dCOGS) / dCOGS * 100;
+    dSellpriceDiscPPN := (dCOGS * (100 - dDisc)/100) * (100 + dMU) / 100;
   end else if ACol = cxGridColCPMarkUp.Index then
   begin
     dMU               := ANominal;
-    dDisc             := 0;
-    dSellpriceDiscPPN := dCOGS * (100 + dMU)/100;
+    dSellpriceDiscPPN := (dCOGS * (100 - dDisc)/100) * (100 + dMU) / 100;
   end else if ACol = cxGridColCPSellPriceDiscPPN.Index then
   begin
-    dDisc             := 0;
     dSellpriceDiscPPN := ANominal;
-    dMU               := (dSellpriceDiscPPN - dCOGS) / dCOGS * 100;
+    dMU               := ((dSellpriceDiscPPN * 100 * 100) / (dCOGS * (100 - dDisc))) - 100;
   end;
 
   dSellpriceDisc    := dSellpriceDiscPPN / ((dPPN + 100) / 100);
@@ -496,6 +496,17 @@ begin
   for I := 0 to cxGridTableCP.DataController.RecordCount - 1 do
   begin
     sPrefix := 'Baris ke ' + IntToStr(i+1);
+    if  cxGridTableCP.Text(i, cxGridColCPOrgID.Index) = '' then
+    begin
+      TAppUtils.Warning(sPrefix + ' Trader Belum diisi dengan benar');
+      Exit;
+    end;
+
+    if  cxGridTableCP.Text(i, cxGridColCPPLUID.Index) = '' then
+    begin
+      TAppUtils.Warning(sPrefix + ' PLU Belum diisi dengan benar');
+      Exit;
+    end;
 
     if (TAppUtils.DateToInt(cxGridTableCP.Date(i, cxGridColCPPeriodeMulai.index)) > TAppUtils.DateToInt(cxGridTableCP.Date(i, cxGridColCPPeriodeAkhir.Index))) then
     begin

@@ -3,7 +3,7 @@ unit uModelHelper;
 interface
 uses
   uModApp, uModPO, uModSO,uModSuplier,uModBarang, uModSatuan,
-  System.SysUtils, uDMClient, uModDO;
+  System.SysUtils, uDMClient, uModDO, uClientClasses;
 
 type
   TModPOItemHelper = class helper for  TModPOItem
@@ -31,6 +31,14 @@ type
   public
     procedure Reload(LoadObjectList: Boolean = False);
     function ReloadByCode(aCode: String): Boolean;
+  end;
+
+  TCRUDObj = class
+  private
+  public
+    class function RetrieveCode<T: class>(aCode: string): T;
+    class function Retrieve<T: class>(aID: string; LoadObjectList: Boolean =
+        True): T;
   end;
 
 function GetModAppRestID(aObject: TModApp): String;
@@ -147,6 +155,40 @@ begin
   Finally
     lModApp.Free;
   End;
+end;
+
+class function TCRUDObj.RetrieveCode<T>(aCode: string): T;
+var
+  sClass: string;
+begin
+  if (T = nil) then
+    Raise Exception.Create('Type can''t be nil')
+  else if not TClass(T).InheritsFrom(TModApp) then
+    Raise Exception.Create('Type must inherti from TObjectModel')
+  else
+  begin
+    sClass := T.ClassName;
+    Result := T(DMClient.CrudClient.RetrieveByCode(sClass, aCode))
+  end;
+end;
+
+class function TCRUDObj.Retrieve<T>(aID: string; LoadObjectList: Boolean =
+    True): T;
+var
+  sClass: string;
+begin
+  if (T = nil) then
+    Raise Exception.Create('Type can''t be nil')
+  else if not TClass(T).InheritsFrom(TModApp) then
+    Raise Exception.Create('Type must inherti from TObjectModel')
+  else
+  begin
+    sClass := T.ClassName;
+    if LoadObjectList then
+      Result := T(DMClient.CrudClient.Retrieve(sClass, aID))
+    else
+      Result := T(DMClient.CrudClient.RetrieveSingle(sClass, aID));
+  end;
 end;
 
 

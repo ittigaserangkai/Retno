@@ -12,27 +12,29 @@ inherited frmDialogVoucher: TfrmDialogVoucher
     Height = 315
     ExplicitHeight = 315
     inherited cxGrid: TcxGrid
-      Top = 150
-      Height = 163
+      Top = 187
+      Height = 126
       TabOrder = 1
-      ExplicitTop = 150
-      ExplicitHeight = 163
+      ExplicitTop = 188
+      ExplicitHeight = 126
       inherited cxGridView: TcxGridDBTableView
+        object cxGridViewColumn1: TcxGridDBColumn
+          Caption = 'CUSTOMER'
+        end
         object cxcolGridViewColumn1: TcxGridDBColumn
           Caption = 'NO VOUCHER'
+          Width = 93
         end
         object cxcolGridViewColumn2: TcxGridDBColumn
           Caption = 'NOMINAL'
-        end
-        object cxcolGridViewColumn3: TcxGridDBColumn
-          Caption = 'EXPIRE DATE'
-          Width = 113
-        end
-        object cxcolGridViewColumn4: TcxGridDBColumn
-          Caption = 'IS VALID'
+          Width = 87
         end
         object cxcolGridViewColumn5: TcxGridDBColumn
           Caption = 'STATUS'
+        end
+        object cxcolGridViewColumn3: TcxGridDBColumn
+          Caption = 'NO TRANSAKSI'
+          Width = 79
         end
       end
     end
@@ -40,100 +42,120 @@ inherited frmDialogVoucher: TfrmDialogVoucher
       Left = 2
       Top = 2
       Width = 550
-      Height = 148
+      Height = 185
       Align = alTop
       ParentColor = True
       TabOrder = 0
       object lblComboGrid: TLabel
         Left = 16
-        Top = 14
+        Top = 30
         Width = 77
         Height = 16
         Caption = 'Owner Voucher'
       end
       object Label1: TLabel
         Left = 16
-        Top = 41
+        Top = 55
         Width = 50
         Height = 16
         Caption = 'Tgl Dibuat'
       end
       object lblInput: TLabel
         Left = 16
-        Top = 66
-        Width = 38
+        Top = 105
+        Width = 19
         Height = 16
-        Caption = 'Nominal'
+        Caption = 'Qty'
       end
       object Label2: TLabel
         Left = 16
-        Top = 92
-        Width = 82
+        Top = 80
+        Width = 54
         Height = 16
-        Caption = 'Tgl Mulai Berlaku'
+        Caption = 'Tgl Berlaku'
       end
       object Label3: TLabel
-        Left = 16
-        Top = 118
-        Width = 49
+        Left = 238
+        Top = 80
+        Width = 17
         Height = 16
-        Caption = 'Tgl Expire'
+        Caption = 's/d'
+      end
+      object Label4: TLabel
+        Left = 16
+        Top = 130
+        Width = 82
+        Height = 16
+        Caption = 'Nominal Voucher'
+      end
+      object Label5: TLabel
+        Left = 199
+        Top = 107
+        Width = 33
+        Height = 16
+        Caption = 'lembar'
+      end
+      object Label6: TLabel
+        Left = 16
+        Top = 5
+        Width = 76
+        Height = 16
+        Caption = 'Nomor Voucher'
+      end
+      object Label7: TLabel
+        Left = 18
+        Top = 157
+        Width = 70
+        Height = 16
+        Caption = 'Nominal Bayar'
       end
       object cbpDataCombo: TcxExtLookupComboBox
         Left = 104
-        Top = 11
+        Top = 27
         TabOrder = 0
         Width = 89
       end
       object dtTgl: TcxDateEdit
         Left = 104
-        Top = 40
+        Top = 52
         TabOrder = 1
-        Width = 161
-      end
-      object edtInput: TEdit
-        Left = 200
-        Top = 11
-        Width = 217
-        Height = 22
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 2
-      end
-      object Edit1: TEdit
-        Left = 104
-        Top = 66
-        Width = 161
-        Height = 22
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 3
+        Width = 128
       end
       object JvDateEdit1: TcxDateEdit
         Left = 104
-        Top = 91
-        TabOrder = 4
-        Width = 161
+        Top = 77
+        TabOrder = 2
+        Width = 128
       end
       object JvDateEdit2: TcxDateEdit
-        Left = 104
-        Top = 116
-        TabOrder = 5
-        Width = 161
+        Left = 261
+        Top = 77
+        TabOrder = 3
+        Width = 128
       end
-      object btnGenerate: TcxButton
-        AlignWithMargins = True
-        Left = 280
-        Top = 108
-        Width = 137
-        Height = 27
-        Cursor = crHandPoint
-        Margins.Top = 2
-        Margins.Right = 10
-        Margins.Bottom = 2
-        Action = actGenerateVouchers
-        OptionsImage.Images = DMClient.imgListButton
+      object cxTextEdit1: TcxTextEdit
+        Left = 199
+        Top = 27
+        TabOrder = 4
+        Width = 194
+      end
+      object cxTextEdit2: TcxTextEdit
+        Left = 104
+        Top = 102
+        TabOrder = 5
+        Width = 89
+      end
+      object cxTextEdit3: TcxTextEdit
+        Left = 104
+        Top = 127
         TabOrder = 6
+        Width = 128
+      end
+      object cxTextEdit4: TcxTextEdit
+        Left = 104
+        Top = 2
+        TabOrder = 7
+        Width = 128
       end
     end
   end
@@ -169,10 +191,21 @@ inherited frmDialogVoucher: TfrmDialogVoucher
       end
     end
   end
+  object cxTextEdit5: TcxTextEdit [2]
+    Left = 106
+    Top = 154
+    TabOrder = 2
+    Width = 128
+  end
   inherited actlstMasterDialog: TActionList
     object actGenerateVouchers: TAction
       Caption = 'Generate Vouchers'
       ImageIndex = 14
     end
+  end
+  object ActionManager1: TActionManager
+    Left = 498
+    Top = 122
+    StyleName = 'Platform Default'
   end
 end

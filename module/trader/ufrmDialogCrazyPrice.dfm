@@ -9,7 +9,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   inherited pnlBody: TPanel
     Width = 731
     Height = 423
-    ExplicitWidth = 728
+    ExplicitWidth = 731
     ExplicitHeight = 423
     object cxgrdCP: TcxGrid
       AlignWithMargins = True
@@ -19,7 +19,6 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       Height = 303
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 718
       object cxGridTableCP: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridTableCPEditing
@@ -201,7 +200,6 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       Height = 104
       Align = alBottom
       TabOrder = 1
-      ExplicitWidth = 718
       object lblSebelumDisc: TLabel
         Left = 22
         Top = 28
@@ -357,19 +355,19 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
     Top = 423
     Width = 731
     ExplicitTop = 423
-    ExplicitWidth = 728
+    ExplicitWidth = 731
     inherited pnlFooter: TPanel
       Width = 731
-      ExplicitWidth = 728
+      ExplicitWidth = 731
       inherited btnClose: TcxButton
         Left = 654
         Action = actCancel
-        ExplicitLeft = 651
+        ExplicitLeft = 654
       end
       inherited btnSave: TcxButton
         Left = 561
         Action = actSave
-        ExplicitLeft = 558
+        ExplicitLeft = 561
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -377,21 +375,21 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       inherited btnPrint: TcxButton
         Left = 484
         Action = actPrint
-        ExplicitLeft = 481
+        ExplicitLeft = 484
       end
     end
     inherited pnlSortCut: TPanel
       Width = 731
-      ExplicitWidth = 728
+      ExplicitWidth = 731
       inherited lbCTRLEnter: TLabel
         Left = 556
         Height = 15
-        ExplicitLeft = 553
+        ExplicitLeft = 556
       end
       inherited lbEscape: TLabel
         Left = 647
         Height = 15
-        ExplicitLeft = 644
+        ExplicitLeft = 647
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -399,7 +397,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       inherited lblCTRLP: TLabel
         Left = 480
         Height = 15
-        ExplicitLeft = 477
+        ExplicitLeft = 480
       end
     end
   end

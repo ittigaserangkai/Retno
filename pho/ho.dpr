@@ -60,6 +60,7 @@ uses
   ufrmModule in '..\module\management user\ufrmModule.pas' {frmModule},
   ufrmDialogModule in '..\module\management user\ufrmDialogModule.pas' {frmDialogModule},
   ufrmDialogAddNewMenu in '..\module\management user\ufrmDialogAddNewMenu.pas' {frmDialogAddNewMenu},
+  ufrmMasterCustomer in '..\module\references\ufrmMasterCustomer.pas' {frmMasterCustomer},
   ufrmDialogMasterCustomer in '..\module\references\ufrmDialogMasterCustomer.pas' {frmDialogMasterCustomer},
   ufraAlokasiStock in '..\module\product\ufraAlokasiStock.pas' {fraAlokasiStock: TFrame},
   ufraBonusProduct in '..\module\product\ufraBonusProduct.pas' {fraBonusProduct: TFrame},
@@ -193,7 +194,6 @@ uses
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   uModPO in '..\model\uModPO.pas',
-  uModelHelper in '..\model\uModelHelper.pas',
   uModSO in '..\model\uModSO.pas',
   uModDO in '..\model\uModDO.pas',
   ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
@@ -269,7 +269,7 @@ uses
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
   ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmMasterCustomer in '..\module\references\ufrmMasterCustomer.pas' {frmMasterCustomer};
+  uModelHelper in '..\model\uModelHelper.pas';
 
 {$R *.res}
 

@@ -3,7 +3,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   ClientHeight = 536
   ClientWidth = 897
   OnDestroy = FormDestroy
-  ExplicitTop = -97
+  ExplicitTop = -36
   ExplicitWidth = 913
   ExplicitHeight = 575
   PixelsPerInch = 96
@@ -11,7 +11,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
   inherited pnlBody: TPanel
     Width = 897
     Height = 480
-    ExplicitWidth = 885
+    ExplicitWidth = 897
     ExplicitHeight = 480
     object pnlBCOHeader: TPanel
       Left = 2
@@ -22,7 +22,6 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       BevelKind = bkFlat
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitWidth = 881
       object lblNoBukti: TLabel
         Left = 22
         Top = 7
@@ -247,8 +246,12 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       Height = 346
       Align = alClient
       TabOrder = 1
+      LevelTabs.CaptionAlignment = taLeftJustify
+      LevelTabs.ImageBorder = 3
+      LevelTabs.Images = DMClient.imgListButton
+      LookAndFeel.NativeStyle = False
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitWidth = 881
+      ExplicitTop = 133
       object cxGridTableAPList: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -573,20 +576,24 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
         end
       end
       object cxgrdlvlAPList: TcxGridLevel
-        Caption = 'Klaim'
+        Caption = 'Klaim [F1] '
         GridView = cxGridTableAPList
+        ImageIndex = 39
       end
       object cxgrdlvlPotongTagihan: TcxGridLevel
-        Caption = 'Potong Tagihan'
+        Caption = 'Potong Tagihan [F2] '
         GridView = cxGridTablePotongTagihan
+        ImageIndex = 13
       end
       object cxgrdlvlOther: TcxGridLevel
-        Caption = 'Lain-Lain'
+        Caption = 'Lain-Lain [F3] '
         GridView = cxGridTableOther
+        ImageIndex = 51
       end
       object cxgrdlvlCheque: TcxGridLevel
-        Caption = 'Cheque'
+        Caption = 'Cheque [F4] '
         GridView = cxGridTableCheque
+        ImageIndex = 10
       end
     end
   end
@@ -594,19 +601,19 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
     Top = 480
     Width = 897
     ExplicitTop = 480
-    ExplicitWidth = 885
+    ExplicitWidth = 897
     inherited pnlFooter: TPanel
       Width = 897
-      ExplicitWidth = 885
+      ExplicitWidth = 897
       inherited btnClose: TcxButton
         Left = 820
         Action = actCancel
-        ExplicitLeft = 808
+        ExplicitLeft = 820
       end
       inherited btnSave: TcxButton
         Left = 727
         Action = actSave
-        ExplicitLeft = 715
+        ExplicitLeft = 727
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -614,21 +621,21 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       inherited btnPrint: TcxButton
         Left = 650
         Action = actPrint
-        ExplicitLeft = 638
+        ExplicitLeft = 650
       end
     end
     inherited pnlSortCut: TPanel
       Width = 897
-      ExplicitWidth = 885
+      ExplicitWidth = 897
       inherited lbCTRLEnter: TLabel
         Left = 722
         Height = 15
-        ExplicitLeft = 710
+        ExplicitLeft = 722
       end
       inherited lbEscape: TLabel
         Left = 813
         Height = 15
-        ExplicitLeft = 801
+        ExplicitLeft = 813
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -636,7 +643,7 @@ inherited frmDialogBankCashOut: TfrmDialogBankCashOut
       inherited lblCTRLP: TLabel
         Left = 646
         Height = 15
-        ExplicitLeft = 634
+        ExplicitLeft = 646
       end
     end
   end

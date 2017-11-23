@@ -329,7 +329,7 @@ object frmTransaksi: TfrmTransaksi
     end
     object edNamaPelanggan: TcxTextEdit
       Left = 120
-      Top = 32
+      Top = 29
       Properties.ReadOnly = True
       Style.Color = 11796403
       TabOrder = 1
@@ -337,7 +337,7 @@ object frmTransaksi: TfrmTransaksi
     end
     object edNoTrnTerakhir: TcxTextEdit
       Left = 528
-      Top = 32
+      Top = 29
       Properties.ReadOnly = True
       Style.Color = 11796403
       TabOrder = 2

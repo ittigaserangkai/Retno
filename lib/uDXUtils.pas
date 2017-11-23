@@ -212,6 +212,7 @@ type
         overload;
     function Validate: Boolean;
     function Values(ARec, ACol : Integer): Variant; overload;
+    function Values(ARec : Integer; AColumnCaption : String): Variant; overload;
   end;
 
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
@@ -1954,6 +1955,27 @@ begin
   Result := Null;
 
   Result := Self.DataController.Values[ARec,ACol];
+end;
+
+function TcxGridTableViewHelper.Values(ARec : Integer; AColumnCaption :
+    String): Variant;
+var
+  iCol: Integer;
+  I: Integer;
+begin
+  Result := Null;
+
+  iCol := -1;
+  for I := 0 to Self.ColumnCount - 1 do
+  begin
+    if Self.Columns[i].Caption = AColumnCaption then
+    begin
+      iCol := i;
+    end;
+  end;
+
+  if iCol <> -1 then
+    Result := Self.DataController.Values[ARec,iCol];
 end;
 
 function TcxExtLookupComboHelper.EditValueRest: String;

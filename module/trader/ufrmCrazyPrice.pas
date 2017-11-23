@@ -18,27 +18,15 @@ uses
 type
   TfrmCrazyPrice = class(TfrmMasterBrowse)
     chkPilih: TcxCheckBox;
-    cxGridColCPPilih: TcxGridDBColumn;
-    cxGridColTanggal: TcxGridDBColumn;
-    cxGridColKode: TcxGridDBColumn;
-    cxGridColNama: TcxGridDBColumn;
-    cxGridColCOGS: TcxGridDBColumn;
-    cxGridColDiskon: TcxGridDBColumn;
-    cxGridColMarkUp: TcxGridDBColumn;
-    cxGridColHargaJualPPN: TcxGridDBColumn;
-    cxGridColAwal: TcxGridDBColumn;
-    cxGridColAkhir: TcxGridDBColumn;
-    cxGridColCreated: TcxGridDBColumn;
-    cxGridColModified: TcxGridDBColumn;
-    cxGridColSatuan: TcxGridDBColumn;
-    cxGridColPPN: TcxGridDBColumn;
-    cxGridColOrgCode: TcxGridDBColumn;
-    cxGridColOrgName: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure chkPilihClick(Sender: TObject);
-    procedure cxGridViewEditing(Sender: TcxCustomGridTableView; AItem:
-        TcxCustomGridTableItem; var AAllow: Boolean);
+    procedure cxGridViewCellClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
+    procedure cxGridViewCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
   private
@@ -118,11 +106,44 @@ begin
 
 end;
 
-procedure TfrmCrazyPrice.cxGridViewEditing(Sender: TcxCustomGridTableView;
-    AItem: TcxCustomGridTableItem; var AAllow: Boolean);
+procedure TfrmCrazyPrice.cxGridViewCellClick(Sender: TcxCustomGridTableView;
+    ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
+    TShiftState; var AHandled: Boolean);
+var
+  iIDs: string;
 begin
   inherited;
-  AAllow := AItem.Index = 0;
+  if cxGridView.DataController.RecordCount = 1 then
+  begin
+    iIDs := cxGridView.Values(cxGridView.DataController.FocusedRecordIndex, 'CRAZYPRICE ID');
+
+    FCDS.Edit;
+    FCDS.FieldByName('pilih').AsBoolean := not FCDS.FieldByName('pilih').AsBoolean;
+    FCDS.Post;
+  end else if ACellViewInfo.Item.Index = 0 then
+  begin
+    iIDs := cxGridView.Values(cxGridView.DataController.FocusedRecordIndex, 'CRAZYPRICE ID');
+
+    FCDS.First;
+    while not FCDS.Eof do
+    begin
+      if iIDs = FCDS.FieldByName('CRAZYPRICE_ID').AsString then
+      begin
+        FCDS.Edit;
+        FCDS.FieldByName('pilih').AsBoolean := not FCDS.FieldByName('pilih').AsBoolean;
+        FCDS.Post;
+      end;
+
+      FCDS.Next;
+    end;
+  end;
+end;
+
+procedure TfrmCrazyPrice.cxGridViewCellDblClick(Sender: TcxCustomGridTableView;
+    ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
+    TShiftState; var AHandled: Boolean);
+begin
+//  inherited;
 end;
 
 procedure TfrmCrazyPrice.FormClose(Sender: TObject;

@@ -94,6 +94,7 @@ type
     FBRG_NAME_PURCHASE: String;
     FBRG_NILAI_RAFAKSI: Double;
     FBRG_PKM_AVERAGE: String;
+    FBRG_POS_LOOKUP: Integer;
     FBRG_QTY_RAFAKSI: Double;
     FSATUAN_STOCK: TModSatuan;
     FBRG_UOM_DIAMETER: string;
@@ -168,6 +169,7 @@ type
     property BRG_NILAI_RAFAKSI: Double read FBRG_NILAI_RAFAKSI write
         FBRG_NILAI_RAFAKSI;
     property BRG_PKM_AVERAGE: String read FBRG_PKM_AVERAGE write FBRG_PKM_AVERAGE;
+    property BRG_POS_LOOKUP: Integer read FBRG_POS_LOOKUP write FBRG_POS_LOOKUP;
     property BRG_QTY_RAFAKSI: Double read FBRG_QTY_RAFAKSI write FBRG_QTY_RAFAKSI;
     [AttributeOfForeign('REF$SATUAN_STOCK')]
     property SATUAN_STOCK: TModSatuan read FSATUAN_STOCK write FSATUAN_STOCK;
@@ -330,18 +332,17 @@ type
     FBHJ_LAST_SELL_PRICE: Double;
     FBHJ_LAST_DISC: Double;
     FBHJ_LAST_DISC_PERSEN: Double;
+    FBHJ_PPN: Double;
     FBHJ_REMARK: string;
     FSatuan: TModSatuan;
     FTipeHarga: TModTipeHarga;
     function GetBHJ_PURCHASE_PRICE: Double;
-    function GetBHJ_PPN: Double;
     function GetBHJ_PURCHASE_PRICE_PPN: Double;
     function GetBHJ_SELL_PRICE_EX_PPN: Double;
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
     property BHJ_PURCHASE_PRICE: Double read GetBHJ_PURCHASE_PRICE;
-    property BHJ_PPN: Double read GetBHJ_PPN;
     property BHJ_PURCHASE_PRICE_PPN: Double read GetBHJ_PURCHASE_PRICE_PPN;
     property BHJ_SELL_PRICE_EX_PPN: Double read GetBHJ_SELL_PRICE_EX_PPN;
   published
@@ -377,6 +378,7 @@ type
     property BHJ_LAST_DISC: Double read FBHJ_LAST_DISC write FBHJ_LAST_DISC;
     property BHJ_LAST_DISC_PERSEN: Double read FBHJ_LAST_DISC_PERSEN write
         FBHJ_LAST_DISC_PERSEN;
+    property BHJ_PPN: Double read FBHJ_PPN write FBHJ_PPN;
     property BHJ_REMARK: string read FBHJ_REMARK write FBHJ_REMARK;
     [AttributeOfForeign('Ref$Satuan_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
@@ -570,11 +572,6 @@ end;
 function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE: Double;
 begin
   Result := BHJ_PURCHASE_PRICE_PPN / 1.1;
-end;
-
-function TModBarangHargaJual.GetBHJ_PPN: Double;
-begin
-  Result := 10;
 end;
 
 function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE_PPN: Double;
