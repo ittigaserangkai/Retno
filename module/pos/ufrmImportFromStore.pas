@@ -8,7 +8,8 @@ uses
   cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
   cxButtonEdit, Vcl.ComCtrls, uModBeginningBalance, uModApp, uModBarang,
   uModSatuan, uModUnit, uModAuthApp, uModSetupPOS, uModAuthUser, uModShift,
-  uModMember, uModRefPajak, uModCreditCard, uModTransKuponBotol, uModVoucher;
+  uModMember, uModRefPajak, uModCreditCard, uModTransKuponBotol, uModVoucher,
+  uModTransaksi;
 
 type
   TfrmImportFromStore = class(TForm)

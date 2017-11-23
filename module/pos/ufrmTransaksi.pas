@@ -31,15 +31,6 @@ type
     lblInfo: TLabel;
     tmrInfo: TTimer;
     lbl3: TLabel;
-    pnlotorisasi: TPanel;
-    lbl4: TLabel;
-    lbl5: TLabel;
-    bvl1: TBevel;
-    lbl6: TLabel;
-    edtUsername: TEdit;
-    edtPassword: TEdit;
-    btnOk: TButton;
-    btnCancel: TButton;
     ActionList1: TActionList;
     cxTransaksi: TcxGrid;
     grdlvlTransaksi: TcxGridLevel;
@@ -75,12 +66,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure btnOkClick(Sender: TObject);
-    procedure edtUsernameKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure edtPasswordKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure btnCancelClick(Sender: TObject);
     procedure edNoPelangganEnter(Sender: TObject);
     procedure sgTransaksiEditing(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; var AAllow: Boolean);
@@ -694,32 +679,10 @@ begin
     begin
       ResetTransaction();
     end;
-
   Finally
     DisableEvent := False;
     lFrm.Free;
   End;
-
-  //frmTransaksi := GetFormByClass(TfrmTransaksi) as TfrmTransaksi;
-//  if frmTransaksi <> nil then
-//  begin
-//    frmTransaksi.HitungTotalRupiah;
-//    if (frmTransaksi.TotalRupiah > 0) and (not frmTransaksi.edHargaKontrabon.Visible) then
-//    begin
-//      frmTransaksi.TotalRupiahBarangAMC      := frmTransaksi.HitungTotalRupiahBarangAMC;
-//      frmTransaksi.TotalRupiahBarangPPN      := frmTransaksi.HitungTotalRupiahBarangPPN;
-//      frmTransaksi.TotalRupiahBarangBKP      := frmTransaksi.HitungTotalRupiahBarangBKP;
-//      frmTransaksi.TotalRupiahBarangDPP      := frmTransaksi.HitungTotalRupiahBarangDPP;
-//      frmTransaksi.TotalRupiahBarangBebasPPN := frmTransaksi.HitungTotalRupiahBarangBebasPPN;
-//      frmTransaksi.TotalRupiahBarangDiscount := frmTransaksi.HitungTotalRupiahBarangDiscount;
-//      //DISINI
-//      frmPayment := (ShowForm(TfrmPayment,wsMaximized)) as TfrmPayment;
-//			frmPayment.UpdateDataLokal(frmTransaksi.TotalRupiah,frmTransaksi.TotalRupiahBarangAMC,
-//      	frmTransaksi.DiscAMCPersen,frmTransaksi.TotalRupiahBarangCC, frmTransaksi.TotalRupiahBarangPPN);
-//      frmPayment.ResetVoucher;
-//      frmPayment.ShowTotalBayar;
-//    end;
-//  end;
 end;
 
 procedure TfrmTransaksi.FormCloseQuery(Sender: TObject;
@@ -780,132 +743,11 @@ begin
   end;
 end;
 
-procedure TfrmTransaksi.btnOkClick(Sender: TObject);
-var
-  sSql : string;
-  i : Integer;
-  sDiscount : String;
-  sValue : String;
-  dValue : Double;
-//  DiscStrValue : String;
-  IsPercent : Boolean;
-begin
-  sSql :='select a.* from aut$user a, aut$user_group b '
-       + ' where a.usr_id = b.ug_usr_id and ug_gro_id=11'
-       + ' and a.usr_unt_id = ' + QuotedStr(frmMain.UnitID)
-       + ' and usr_username =' + QuotedStr(edtUsername.Text);
-
-  with cOpenQuery(sSql) do
-  begin
-    try
-      if not Eof then
-      begin
-        if edtPassword.Text <> FieldByName('USR_PASSWD').AsString then
-        begin
-          CommonDlg.ShowMessage('Password salah');
-          sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
-          sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
-          sgTransaksi.DataController.Values[brs, _KolTotal]       := GetTotalHarga(brs);
-          ActiveGrid;
-          Exit;
-        end;
-      end
-      else
-      begin
-        CommonDlg.ShowMessage('User ini tidak berhak melakukan discount manual');
-        sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
-        sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
-        sgTransaksi.DataController.Values[brs, _KolTotal]       := GetTotalHarga(brs);
-        ActiveGrid;
-        Exit;
-      end;
-    finally
-      Free;
-    end;
-  end;
-  pnlotorisasi.Visible := False;
-
-  if (Application.MessageBox( 'Apakah Discount untuk seluruh barang ?',
-                              'Options',
-                              MB_YesNo Or MB_ICONQUESTION Or MB_DEFBUTTON2)=ID_Yes) then
-  begin
-    sDiscount := sgTransaksi.DataController.Values[brs, _KolDiscManForm];
-    for i := 1 to sgTransaksi.DataController.RecordCount - 1 do
-    begin
-      if sgTransaksi.DataController.Values[i, _KolPLU] <> '' then
-      begin
-        if (sgTransaksi.DataController.Values[i, _KolDisc] = 0) and (sgTransaksi.DataController.Values[i, _KolIsKontrabon] = 0) then
-        begin
-          sValue    := StringReplace(sDiscount, '*', '%', [rfReplaceAll]);
-          IsPercent := Pos('%', sValue) > 0;
-          sValue    := StringReplace(sValue, '%', '', [rfReplaceAll]);
-          if not TryStrToFloat(sValue,dValue) then
-            dValue  := 0;
-          If IsPercent then
-            dValue  := dValue/100 * sgTransaksi.DataController.Values[i, _KolHarga];
-
-          sgTransaksi.DataController.Values[i, _KolDiscManForm] := sDiscount;
-          sgTransaksi.DataController.Values[i, _KolDiscMan]    := dValue;
-          sgTransaksi.DataController.Values[i, _KolTotal]      := GetTotalHarga(i);
-          sgTransaksi.DataController.Values[i, _Koldiscoto]     := edtUsername.Text;
-        end;
-      end;
-    end;
-  end
-  else
-  begin
-    sgTransaksi.DataController.Values[brs, _Koldiscoto]  := edtUsername.Text;
-    sgTransaksi.DataController.Values[brs, _KolDiscMan] := DiscOto;
-    sgTransaksi.DataController.Values[brs, _KolTotal]   := GetTotalHarga(brs);
-  end;
-  ActiveGrid;
-
-  with sgTransaksi do
-  begin
-    HitungTotalRupiah;
-    Controller.FocusedColumnIndex := _KolPLU;
-    Controller.FocusedRecordIndex    := sgTransaksi.DataController.RecordCount - 1;
-    FocusToPLUEdit;
-
-    SaveTransactionToCSV;
-  end;
-end;
-
-
 procedure TfrmTransaksi.ActiveGrid;
 begin
-  edtUsername.Text      := '';
-  edtPassword.Text      := '';
-  pnlotorisasi.Visible  := False;
   pnlFooter.Enabled     := True;
   cxTransaksi.Enabled   := True;
   cxTransaksi.SetFocus;
-end;
-
-procedure TfrmTransaksi.edtUsernameKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if(Key = VK_RETURN)and(edtUsername.Text <> '') then
-  begin
-    edtPassword.SetFocus;
-  end;
-end;
-
-procedure TfrmTransaksi.edtPasswordKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = VK_RETURN then
-  begin
-    btnOk.SetFocus;
-  end;
-end;
-
-procedure TfrmTransaksi.btnCancelClick(Sender: TObject);
-begin
-  sgTransaksi.DataController.Values[brs, _KolDiscManForm] := sValueBefore;
-  sgTransaksi.DataController.Values[brs, _KolDiscMan]     := sValueBefore;
-  sgTransaksi.DataController.Values[brs, _KolTotal]      := GetTotalHarga(brs);
-  ActiveGrid;
 end;
 
 procedure TfrmTransaksi.CalculateManualDisc(var Value: Variant; var Error:
@@ -944,7 +786,7 @@ begin
   begin
     if dValue < 0 then
     begin
-      pnlotorisasi.Visible := False;
+//      pnlotorisasi.Visible := False;
     end
     else
     begin
@@ -954,10 +796,10 @@ begin
       DiscOto     := dValue;
       FIsEditMode := True;
 
-      pnlotorisasi.Left      := (Screen.ActiveForm.Width div 2)-(pnlotorisasi.Width div 2);
-      pnlotorisasi.Visible   := True;
-      edtUsername.SetFocus;
-      Brs                    := Row;
+//      pnlotorisasi.Left      := (Screen.ActiveForm.Width div 2)-(pnlotorisasi.Width div 2);
+//      pnlotorisasi.Visible   := True;
+//      edtUsername.SetFocus;
+//      Brs                    := Row;
     end;
   end;
 end;
@@ -1325,10 +1167,10 @@ begin
   }
   if ACol = _KolDiscManForm then
   begin
-    if not pnlotorisasi.Visible then
-    begin
-      sValueBefore := (Sender as TcxGridTableView).DataController.Values[Arow,ACol];
-    end;
+//    if not pnlotorisasi.Visible then
+//    begin
+//      sValueBefore := (Sender as TcxGridTableView).DataController.Values[Arow,ACol];
+//    end;
   end;
 end;
 

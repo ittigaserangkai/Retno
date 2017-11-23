@@ -12,7 +12,7 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, cxCurrencyEdit, cxButtonEdit,
-  Datasnap.DBClient, uModTransKuponBotol, cxSpinEdit;
+  Datasnap.DBClient, uModTransKuponBotol, cxSpinEdit, uModTransaksi;
 
 type
   TfrmKuponBotol = class(TfrmMasterBrowse)

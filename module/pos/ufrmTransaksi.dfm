@@ -32,7 +32,7 @@ object frmTransaksi: TfrmTransaksi
     Height = 410
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 3
+    TabOrder = 2
     object cxTransaksi: TcxGrid
       Left = 0
       Top = 0
@@ -390,93 +390,6 @@ object frmTransaksi: TfrmTransaksi
       ParentFont = False
       Transparent = True
       ExplicitHeight = 55
-    end
-  end
-  object pnlotorisasi: TPanel
-    Left = 601
-    Top = 222
-    Width = 281
-    Height = 128
-    Align = alCustom
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    Color = clGray
-    ParentBackground = False
-    TabOrder = 2
-    Visible = False
-    object lbl4: TLabel
-      Left = 9
-      Top = 30
-      Width = 22
-      Height = 13
-      Caption = 'User'
-    end
-    object lbl5: TLabel
-      Left = 10
-      Top = 58
-      Width = 46
-      Height = 13
-      Caption = 'Password'
-    end
-    object bvl1: TBevel
-      Left = 2
-      Top = 2
-      Width = 277
-      Height = 9
-      Align = alTop
-      Shape = bsTopLine
-    end
-    object lbl6: TLabel
-      Left = 58
-      Top = 4
-      Width = 161
-      Height = 22
-      Caption = 'OTORISASI PASSWORD'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Trebuchet MS'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object edtUsername: TEdit
-      Left = 96
-      Top = 30
-      Width = 153
-      Height = 19
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 0
-      OnKeyDown = edtUsernameKeyDown
-    end
-    object edtPassword: TEdit
-      Left = 96
-      Top = 58
-      Width = 153
-      Height = 19
-      Ctl3D = False
-      ParentCtl3D = False
-      PasswordChar = '*'
-      TabOrder = 1
-      OnKeyDown = edtPasswordKeyDown
-    end
-    object btnOk: TButton
-      Left = 96
-      Top = 93
-      Width = 75
-      Height = 25
-      Caption = '&Ok'
-      TabOrder = 2
-      OnClick = btnOkClick
-    end
-    object btnCancel: TButton
-      Left = 184
-      Top = 94
-      Width = 75
-      Height = 25
-      Caption = '&Cancel'
-      TabOrder = 3
-      OnClick = btnCancelClick
     end
   end
   object tmrInfo: TTimer

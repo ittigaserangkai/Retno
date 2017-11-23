@@ -4,11 +4,15 @@ interface
 
 uses
   uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang,
-  System.Generics.Collections, uModCreditCard, uModAuthUser, System.SysUtils;
+  System.Generics.Collections, uModCreditCard, uModAuthUser, System.SysUtils,
+  uModTransKuponBotol, uModSatuan;
 
 type
   TModTransaksiDetil = class;
   TModTransaksiCard = class;
+  TModTransKuponBotol = class;
+  TModTransKuponBotolDetil = class;
+
   TModTransaksi = class(TModApp)
   private
     FAUTUNIT: TModUnit;
@@ -26,12 +30,14 @@ type
     FTRANS_IS_PENDING: Integer;
     FTRANS_NO: string;
     FOP_CREATE: TModAuthUser;
+    FKuponBotols: TobjectList<TModTransKuponBotol>;
     FTRANS_PEMBULAT: Integer;
     FTRANS_TOTAL_BAYAR: Double;
     FTRANS_TOTAL_DISC_GMC: Double;
     FTRANS_TOTAL_PPN: Double;
     FTRANS_TOTAL_TRANSACTION: Double;
     function GetTransaksiDetils: TobjectList<TModTransaksiDetil>;
+    function GetKuponBotols: TobjectList<TModTransKuponBotol>;
   public
     destructor Destroy; override;
     function GetTotalBarangAMC: Double;
@@ -43,6 +49,8 @@ type
     function GetPPN: Double;
     property TransaksiDetils: TobjectList<TModTransaksiDetil> read
         GetTransaksiDetils write FTransaksiDetils;
+    property KuponBotols: TobjectList<TModTransKuponBotol> read GetKuponBotols
+        write FKuponBotols;
   published
     [AttributeOfForeign('AUT$UNIT_ID')]
     property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
@@ -182,6 +190,83 @@ type
     property TRANSC_TRANS_NO: string read FTRANSC_TRANS_NO write FTRANSC_TRANS_NO;
   end;
 
+  [AttrUpdateDetails]
+  TModTransKuponBotol = class(TModApp)
+  private
+    FAUTUNIT: TModUnit;
+    FKuponBotolDetils: TobjectList<TModTransKuponBotolDetil>;
+    FMEMBER: TModMember;
+    FTKB_DATE: TDateTime;
+    FTRANSAKSI: TModTransaksi;
+    FTKB_DESCRIPTION: string;
+    FTKB_INC: Integer;
+    FTKB_IS_JURNAL: Integer;
+    FTKB_IS_PRINTED: Integer;
+    FTKB_NO: string;
+    FTKB_POS_TRANS_NO: string;
+    FTKB_QTY: Double;
+    FTKB_SELL_PRICE_DISC: Double;
+    FTKB_STATUS: string;
+    function GetKuponBotolDetils: TobjectList<TModTransKuponBotolDetil>;
+  public
+    class function GetTableName: String; override;
+    function GetTotalQTY: Double;
+    function GetTotal: Double;
+    function HasValidItem(aModTransaksi: TModTransaksi): Boolean;
+    function IsClosed: Boolean;
+    property KuponBotolDetils: TobjectList<TModTransKuponBotolDetil> read
+        GetKuponBotolDetils write FKuponBotolDetils;
+  published
+    [AttributeOfForeign('AUT$UNIT_ID')]
+    property AUTUNIT: TModUnit read FAUTUNIT write FAUTUNIT;
+    [AttributeOfForeign('MEMBER_ID')]
+    property MEMBER: TModMember read FMEMBER write FMEMBER;
+    property TKB_DATE: TDateTime read FTKB_DATE write FTKB_DATE;
+    [AttributeOfHeader]
+    property TRANSAKSI: TModTransaksi read FTRANSAKSI write FTRANSAKSI;
+    property TKB_DESCRIPTION: string read FTKB_DESCRIPTION write FTKB_DESCRIPTION;
+    property TKB_INC: Integer read FTKB_INC write FTKB_INC;
+    property TKB_IS_JURNAL: Integer read FTKB_IS_JURNAL write FTKB_IS_JURNAL;
+    property TKB_IS_PRINTED: Integer read FTKB_IS_PRINTED write FTKB_IS_PRINTED;
+    [AttributeOfCode]
+    property TKB_NO: string read FTKB_NO write FTKB_NO;
+    property TKB_POS_TRANS_NO: string read FTKB_POS_TRANS_NO write
+        FTKB_POS_TRANS_NO;
+    property TKB_QTY: Double read FTKB_QTY write FTKB_QTY;
+    property TKB_SELL_PRICE_DISC: Double read FTKB_SELL_PRICE_DISC write
+        FTKB_SELL_PRICE_DISC;
+    property TKB_STATUS: string read FTKB_STATUS write FTKB_STATUS;
+  end;
+
+  TModTransKuponBotolDetil = class(TModApp)
+  private
+    FBARANG: TModBarang;
+    FSATUAN: TModSatuan;
+    FTKBD_DISC: Double;
+    FTKBD_QTY: Double;
+    FTKBD_SELL_PRICE: Double;
+    FTKBD_SELL_PRICE_DISC: Double;
+    FTKBD_TOTAL_SELL_PRICE_DISC: Double;
+    FTransKuponBotol: TModTransKuponBotol;
+  public
+    class function GetTableName: String; override;
+  published
+    [AttributeOfForeign('BARANG_ID')]
+    property BARANG: TModBarang read FBARANG write FBARANG;
+    [AttributeOfForeign('REF$SATUAN_ID')]
+    property SATUAN: TModSatuan read FSATUAN write FSATUAN;
+    property TKBD_DISC: Double read FTKBD_DISC write FTKBD_DISC;
+    property TKBD_QTY: Double read FTKBD_QTY write FTKBD_QTY;
+    property TKBD_SELL_PRICE: Double read FTKBD_SELL_PRICE write FTKBD_SELL_PRICE;
+    property TKBD_SELL_PRICE_DISC: Double read FTKBD_SELL_PRICE_DISC write
+        FTKBD_SELL_PRICE_DISC;
+    property TKBD_TOTAL_SELL_PRICE_DISC: Double read FTKBD_TOTAL_SELL_PRICE_DISC
+        write FTKBD_TOTAL_SELL_PRICE_DISC;
+    [AttributeOfHeader('TRANS_KUPON_BOTOL_ID')]
+    property TransKuponBotol: TModTransKuponBotol read FTransKuponBotol write
+        FTransKuponBotol;
+  end;
+
 implementation
 
 destructor TModTransaksi.Destroy;
@@ -272,6 +357,14 @@ begin
   Result := FTransaksiDetils;
 end;
 
+function TModTransaksi.GetKuponBotols: TobjectList<TModTransKuponBotol>;
+begin
+  if FKuponBotols = nil then
+    FKuponBotols := TObjectList<TModTransKuponBotol>.Create();
+
+  Result := FKuponBotols;
+end;
+
 destructor TModTransaksiDetil.Destroy;
 begin
   inherited;
@@ -316,9 +409,73 @@ begin
   Result := 'TRANSAKSI_CARD';
 end;
 
+function TModTransKuponBotol.GetKuponBotolDetils:
+    TobjectList<TModTransKuponBotolDetil>;
+begin
+  if FKuponBotolDetils = nil then
+    FKuponBotolDetils := TObjectList<TModTransKuponBotolDetil>.Create();
+
+  Result := FKuponBotolDetils;
+end;
+
+class function TModTransKuponBotol.GetTableName: String;
+begin
+  Result := 'TRANS_KUPON_BOTOL';
+end;
+
+function TModTransKuponBotol.GetTotalQTY: Double;
+var
+  lDetail: TModTransKuponBotolDetil;
+begin
+  Result := 0;
+  for lDetail in Self.KuponBotolDetils do
+    Result := Result + lDetail.TKBD_QTY;
+end;
+
+function TModTransKuponBotol.GetTotal: Double;
+var
+  lDetail: TModTransKuponBotolDetil;
+begin
+  Result := 0;
+  for lDetail in Self.KuponBotolDetils do
+    Result := Result + lDetail.TKBD_TOTAL_SELL_PRICE_DISC;
+end;
+
+function TModTransKuponBotol.HasValidItem(aModTransaksi: TModTransaksi):
+    Boolean;
+var
+  lDetail: TModTransKuponBotolDetil;
+  lItem: TModTransaksiDetil;
+begin
+  for lDetail in Self.KuponBotolDetils do
+  begin
+    Result := False;
+    for lItem in aModTransaksi.TransaksiDetils do
+    begin
+      if lDetail.BARANG.BRG_CODE = lItem.TRANSD_BRG_CODE then
+        Result := True;
+    end;
+
+    if not Result then exit; //semua item di kupon wajib ada di transaksi
+    //jika salah 1 tidak ditemukan maka tidak valid
+  end;
+end;
+
+function TModTransKuponBotol.IsClosed: Boolean;
+begin
+  Result := UpperCase(Self.TKB_STATUS) = 'CLOSE'
+end;
+
+class function TModTransKuponBotolDetil.GetTableName: String;
+begin
+  Result := 'TRANS_KUPON_BOTOL_DETIL';
+end;
+
 initialization
   TModTransaksi.RegisterRTTI;
   TModTransaksiDetil.RegisterRTTI;
   TModTransaksiCard.RegisterRTTI;
+  TModTransKuponBotol.RegisterRTTI;
+  TModTransKuponBotolDetil.RegisterRTTI;
 
 end.

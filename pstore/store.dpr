@@ -234,7 +234,8 @@ uses
   uUnit in '..\classes\uUnit.pas',
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
-  uModelHelper in '..\model\uModelHelper.pas';
+  uModelHelper in '..\model\uModelHelper.pas',
+  uModTransaksi in '..\model\uModTransaksi.pas';
 
 {$R *.res}
 

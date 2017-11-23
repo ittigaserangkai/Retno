@@ -13,7 +13,8 @@ uses
   cxGroupBox, cxCurrencyEdit, cxTextEdit, cxButtonEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  cxSpinEdit, uModTransKuponBotol, cxDBExtLookupComboBox, Datasnap.DBClient;
+  cxSpinEdit, uModTransKuponBotol, cxDBExtLookupComboBox, Datasnap.DBClient,
+  uModTransaksi;
 
 type
   TfrmDialogKuponBotol = class(TfrmMasterDialog, ICRUDAble)

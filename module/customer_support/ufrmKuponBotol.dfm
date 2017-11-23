@@ -220,7 +220,6 @@ inherited frmKuponBotol: TfrmKuponBotol
       ExplicitWidth = 709
       inherited lbEscape: TLabel
         Left = 635
-        Height = 17
         ExplicitLeft = 635
       end
     end

@@ -160,20 +160,14 @@ inherited frmDialogKuponBotol: TfrmDialogKuponBotol
       ExplicitWidth = 634
       inherited lbCTRLEnter: TLabel
         Left = 459
-        Height = 15
         ExplicitLeft = 459
       end
       inherited lbEscape: TLabel
         Left = 550
-        Height = 15
         ExplicitLeft = 550
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 383
-        Height = 15
         ExplicitLeft = 383
       end
     end
