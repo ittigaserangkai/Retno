@@ -2330,6 +2330,7 @@ object frmMain: TfrmMain
     object dxbrbVouGenerate: TdxBarButton
       Action = actGenerateVoucher
       Category = 0
+      OnClick = dxbrbVouGenerateClick
     end
     object dxbrb4: TdxBarButton
       Caption = #208#194#189#168#176#180#197#165
