@@ -186,6 +186,7 @@ type
     procedure HitungSisaUang;
     procedure LoadCreditCard(ACode: String);
     procedure LoadCreditCardOld(ACode: String);
+    procedure LoadKuponBotol(aNo: string);
     procedure LookupCreditCard;
     //procedure LineReceived(Sender : TLineSocketBase; const line : string;
     //          complete : Boolean);
@@ -254,7 +255,8 @@ type
         FVoucherLainNilaiTotal;
   public
     destructor Destroy; override;
-    class function CreateAt(aParent: TForm): TfrmPayment;
+    class function CreateAt(aParent: TForm; WithBorder: Boolean = False):
+        TfrmPayment;
     function GetKuponBotolStatus(ANoTransaksi: String): Integer;
     procedure LoadData(aModTransaksi: TModTransaksi);
   end;
@@ -330,14 +332,18 @@ begin
   edtCashBack.Value := 0;
 end;
 
-class function TfrmPayment.CreateAt(aParent: TForm): TfrmPayment;
+class function TfrmPayment.CreateAt(aParent: TForm; WithBorder: Boolean =
+    False): TfrmPayment;
 begin
   Result              := TfrmPayment.Create(Application);
   Result.BoundsRect   := aParent.ClientRect;
   Result.Left         := aParent.ClientToScreen(Point(0,0)).X;
   Result.Top          := aParent.ClientToScreen(Point(0,0)).Y;
-  Result.BorderIcons  := [];
-  Result.BorderStyle  := bsNone;
+  if not WithBorder then
+  begin
+    Result.BorderIcons  := [];
+    Result.BorderStyle  := bsNone;
+  end;
 end;
 
 procedure TfrmPayment.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -408,9 +414,8 @@ procedure TfrmPayment.ShowTotalBayar;
 var
   sPrec: string;
 begin
+  if ModTransaksi = nil then exit;
   sPrec                   := '';
-//	edtNilaiBayar.Value     := ModTransaksi.TRANS_TOTAL_TRANSACTION;
-
   edtNilaiBayar.Value := ModTransaksi.TRANS_TOTAL_TRANSACTION
     + CCCharge - (edtCCDiscNominal.Value + edtDiscGMCNominal.Value + edtBotolValue.Value
     + edtGoroValue.Value + edtVoucherValue.Value);
@@ -1172,104 +1177,103 @@ begin
 end;
 
 procedure TfrmPayment.edtNoTransBotolExit(Sender: TObject);
-var
-  sSQL: string;
 begin
   HideInfo;
   //cari di trans botol
   edtBotolQty.Value := 0;
   edtBotolValue.Value := 0;
   ShowTotalBayar;
+  LoadKuponBotol(edtNoTransBotol.Text);
 
-  if Trim(edtNoTransBotol.Text) <> '' then
-  begin
-    sSQL := 'select a.tkb_status, '
-          + ' sum(b.tkbd_qty) as qty, '
-          + ' sum(b.tkbd_total_sell_price_disc) as harga '
-          + 'from trans_kupon_botol a '
-          + 'inner join trans_kupon_botol_detil b on a.TRANS_KUPON_BOTOL_ID = b.TRANS_KUPON_BOTOL_ID '
-//          + ' and a.tkb_unt_id = b.tkbd_tkb_unt_id '
-//          + ' and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
-          + ' and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text)
-          + ' group by a.tkb_status';
-
-    with cOpenQuery(sSQL) do
-    begin
-      try
-        if not eof then
-        begin
-          if UpperCase(FieldByName('tkb_status').AsString) = 'CLOSE' then
-          begin
-            ShowInfo('No voucher botol tersebut sudah pernah digunakan');
-            edtNoTransBotol.SetFocus;
-            edtNoTransBotol.SelectAll;
-            Exit;
-          end
-          else if UpperCase(FieldByName('tkb_status').AsString) = 'PENDING' then
-          begin
-            ShowInfo('No voucher botol tersebut status pending');
-            edtNoTransBotol.SetFocus;
-            edtNoTransBotol.SelectAll;
-            Exit;
-          end
-          else
-          begin
-            if FieldByName('harga').AsFloat > edtNilaiBayar.Value then
-            begin
-              ShowInfo('Nilai voucher tidak boleh melebihi total belanja');
-              edtNoTransBotol.SetFocus;
-              edtNoTransBotol.SelectAll;
-              Exit;
-            end
-            else
-            begin
-              //cek di kupon botol
-              //semua PLU di kupon botol harus ada di transaksi POS dan PLU transaksi POS harus >= kupon
-              sSQL := 'select c.brg_code, b.tkbd_qty '
-                + 'from trans_kupon_botol a '
-                + 'inner join trans_kupon_botol_detil b on a.TRANS_KUPON_BOTOL_ID = b.TRANS_KUPON_BOTOL_ID '
-                + 'inner join barang c on c.barang_id = b.barang_id '
-//                + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
-//                + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
-                + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text);
-
-              with cOpenQuery(sSQL) do
-              begin
-                try
-                  while not eof do
-                  begin
-                    if not CekPLUQtyInGrid(Fields[0].AsString,Fields[1].AsInteger) then
-                    begin
-                      ShowInfo('PLU : ' + Fields[0].AsString
-                        + ' tidak ada atau QTY dalam transaksi < ' + FormatFloat('#,##0',Fields[1].AsInteger));
-                      edtNoTransBotol.SetFocus;
-                      edtNoTransBotol.SelectAll;
-                      Exit;
-                    end;
-                    Next;
-                  end;
-                finally
-                  Free;
-                end;
-              end;
-
-              edtBotolQty.Value := Fields[1].AsInteger;
-              edtBotolValue.Value := Fields[2].AsFloat;
-              ShowTotalBayar;
-            end;
-          end;
-        end
-        else
-        begin
-          ShowInfo('No voucher botol tersebut tidak ditemukan');
-          edtNoTransBotol.SetFocus;
-          edtNoTransBotol.SelectAll;
-        end;  
-      finally
-        Free;
-      end;   
-    end;
-  end;
+//  if Trim(edtNoTransBotol.Text) <> '' then
+//  begin
+//    sSQL := 'select a.tkb_status, '
+//          + ' sum(b.tkbd_qty) as qty, '
+//          + ' sum(b.tkbd_total_sell_price_disc) as harga '
+//          + 'from trans_kupon_botol a '
+//          + 'inner join trans_kupon_botol_detil b on a.TRANS_KUPON_BOTOL_ID = b.TRANS_KUPON_BOTOL_ID '
+////          + ' and a.tkb_unt_id = b.tkbd_tkb_unt_id '
+////          + ' and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
+//          + ' and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text)
+//          + ' group by a.tkb_status';
+//
+//    with cOpenQuery(sSQL) do
+//    begin
+//      try
+//        if not eof then
+//        begin
+//          if UpperCase(FieldByName('tkb_status').AsString) = 'CLOSE' then
+//          begin
+//            ShowInfo('No voucher botol tersebut sudah pernah digunakan');
+//            edtNoTransBotol.SetFocus;
+//            edtNoTransBotol.SelectAll;
+//            Exit;
+//          end
+//          else if UpperCase(FieldByName('tkb_status').AsString) = 'PENDING' then
+//          begin
+//            ShowInfo('No voucher botol tersebut status pending');
+//            edtNoTransBotol.SetFocus;
+//            edtNoTransBotol.SelectAll;
+//            Exit;
+//          end
+//          else
+//          begin
+//            if FieldByName('harga').AsFloat > edtNilaiBayar.Value then
+//            begin
+//              ShowInfo('Nilai voucher tidak boleh melebihi total belanja');
+//              edtNoTransBotol.SetFocus;
+//              edtNoTransBotol.SelectAll;
+//              Exit;
+//            end
+//            else
+//            begin
+//              //cek di kupon botol
+//              //semua PLU di kupon botol harus ada di transaksi POS dan PLU transaksi POS harus >= kupon
+//              sSQL := 'select c.brg_code, b.tkbd_qty '
+//                + 'from trans_kupon_botol a '
+//                + 'inner join trans_kupon_botol_detil b on a.TRANS_KUPON_BOTOL_ID = b.TRANS_KUPON_BOTOL_ID '
+//                + 'inner join barang c on c.barang_id = b.barang_id '
+////                + '  and a.tkb_unt_id = b.tkbd_tkb_unt_id '
+////                + '  and a.tkb_unt_id = ' + IntToStr(frmMain.UnitID)
+//                + '  and a.tkb_no = ' + QuotedStr(edtNoTransBotol.Text);
+//
+//              with cOpenQuery(sSQL) do
+//              begin
+//                try
+//                  while not eof do
+//                  begin
+//                    if not CekPLUQtyInGrid(Fields[0].AsString,Fields[1].AsInteger) then
+//                    begin
+//                      ShowInfo('PLU : ' + Fields[0].AsString
+//                        + ' tidak ada atau QTY dalam transaksi < ' + FormatFloat('#,##0',Fields[1].AsInteger));
+//                      edtNoTransBotol.SetFocus;
+//                      edtNoTransBotol.SelectAll;
+//                      Exit;
+//                    end;
+//                    Next;
+//                  end;
+//                finally
+//                  Free;
+//                end;
+//              end;
+//
+//              edtBotolQty.Value := Fields[1].AsInteger;
+//              edtBotolValue.Value := Fields[2].AsFloat;
+//              ShowTotalBayar;
+//            end;
+//          end;
+//        end
+//        else
+//        begin
+//          ShowInfo('No voucher botol tersebut tidak ditemukan');
+//          edtNoTransBotol.SetFocus;
+//          edtNoTransBotol.SelectAll;
+//        end;
+//      finally
+//        Free;
+//      end;
+//    end;
+//  end;
 end;
 
 function TfrmPayment.GetKuponBotolStatus(ANoTransaksi: String): Integer;
@@ -1955,6 +1959,65 @@ begin
 //  edtDiscGMCNominal.Value := Floor(ModTransaksi.TRANS_DISC_GMC_NOMINAL);
   ShowTotalBayar;
   HitungSisaUang;
+
+end;
+
+procedure TfrmPayment.LoadKuponBotol(aNo: string);
+var
+  lDetail: TModTransKuponBotolDetil;
+  lKuponBotol: TModTransKuponBotol;
+begin
+  edtBotolQty.Value   := 0;
+  edtBotolValue.Value := 0;
+  ShowTotalBayar;
+
+
+  lKuponBotol := TCRUDObj.RetrieveCode<TModTransKuponBotol>(aNO);
+  if lKuponBotol.ID = '' then
+  begin
+    ShowInfo('Kupon Botol tidak ditemukan');
+    FreeAndNil(lKuponBotol);
+    exit;
+  end;
+
+  if not Assigned(ModTransaksi.MEMBER) then
+  begin
+    ShowInfo('Member Transaksi belum diset');
+    FreeAndNil(lKuponBotol);
+    exit;
+  end;
+
+  if lKuponBotol.MEMBER.ID <> ModTransaksi.MEMBER.ID then
+  begin
+    ShowInfo('Kupon Botol bukan untuk member ini');
+    FreeAndNil(lKuponBotol);
+    exit;
+  end;
+
+  if lKuponBotol.IsClosed then
+  begin
+    ShowInfo('Status Kupon sudah CLOSE');
+    FreeAndNil(lKuponBotol);
+    exit;
+  end;
+
+  //reload all barang
+  for lDetail in lKuponBotol.KuponBotolDetils do
+    lDetail.BARANG.Reload();
+
+  if not lKuponBotol.HasValidItem(ModTransaksi) then
+  begin
+    ShowInfo('Barang Kupon Botol tidak ditemukan di transaksi');
+    FreeAndNil(lKuponBotol);
+    exit;
+  end;
+
+  ModTransaksi.KuponBotols.Clear;
+  ModTransaksi.KuponBotols.Add(lKuponBotol);
+
+  edtBotolQty.Value   := lKuponBotol.GetTotalQTY;
+  edtBotolValue.Value := lKuponBotol.GetTotal;
+  ShowTotalBayar;
 
 end;
 

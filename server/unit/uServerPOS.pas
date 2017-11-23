@@ -34,6 +34,7 @@ type
     function GenerateSQLCounter(AObject: TModTransaksi): string;
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
   end;
 
@@ -266,13 +267,28 @@ function TCRUDPos.AfterSaveToDB(AObject: TModApp): Boolean;
 var
   s: string;
 begin
-  Result := False;
   if AObject is TModTransaksi then
   begin
     if AObject.ObjectState = 1 then
     begin
       s := GenerateSQLCounter(TModTransaksi(AObject));
       TDBUtils.ExecuteSQL(S, False);
+    end;
+  end;
+  Result := True;
+end;
+
+function TCRUDPos.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lKuponBotol: TModTransKuponBotol;
+  s: string;
+begin
+  if AObject is TModTransaksi then
+  begin
+    for lKuponBotol in TModTransaksi(AObject).KuponBotols do
+    begin
+      lKuponBotol.TKB_POS_TRANS_NO  := TModTransaksi(AObject).TRANS_NO;
+      lKuponBotol.TKB_STATUS        := 'CLOSE';
     end;
   end;
   Result := True;

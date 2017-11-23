@@ -10,7 +10,6 @@ object frmPayment: TfrmPayment
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  FormStyle = fsMDIForm
   OldCreateOrder = False
   Position = poDefault
   OnClose = FormClose
