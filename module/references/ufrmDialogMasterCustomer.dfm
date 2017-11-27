@@ -13,8 +13,8 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   inherited pnlBody: TPanel
     Width = 534
     Height = 380
-    ExplicitWidth = 536
-    ExplicitHeight = 406
+    ExplicitWidth = 534
+    ExplicitHeight = 380
     object Panel1: TPanel
       Left = 2
       Top = 2
@@ -22,7 +22,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       Height = 86
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 532
       object lbl5: TLabel
         Left = 16
         Top = 9
@@ -107,7 +106,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       Height = 86
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 532
       object lbl2: TLabel
         Left = 20
         Top = 9
@@ -213,7 +211,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       Height = 91
       Align = alTop
       TabOrder = 2
-      ExplicitWidth = 532
       object lbl13: TLabel
         Left = 227
         Top = 7
@@ -356,8 +353,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       Height = 113
       Align = alClient
       TabOrder = 3
-      ExplicitWidth = 532
-      ExplicitHeight = 139
       object lbl10: TLabel
         Left = 20
         Top = 6
@@ -393,7 +388,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Height = 17
         Caption = 'Is Principal'
         TabOrder = 1
-        OnClick = chkPrincipalClick
       end
       object edtSupName: TEdit
         Left = 197
@@ -417,11 +411,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
             Default = True
             Kind = bkEllipsis
           end>
-        Properties.OnButtonClick = edtSupMGCodePropertiesButtonClick
         TabOrder = 3
-        OnExit = edtSupMGCodeExit
-        OnKeyPress = edtSupMGCodeKeyPress
-        OnKeyUp = edtSupMGCodeKeyUp
         Width = 81
       end
     end
@@ -429,39 +419,55 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 380
     Width = 534
-    ExplicitTop = 406
-    ExplicitWidth = 536
+    ExplicitTop = 380
+    ExplicitWidth = 534
     inherited pnlFooter: TPanel
       Width = 534
-      ExplicitWidth = 536
+      ExplicitWidth = 534
       inherited btnClose: TcxButton
-        Left = 452
-        ExplicitLeft = 454
+        Left = 457
+        Action = actCancel
+        ExplicitLeft = 457
       end
       inherited btnSave: TcxButton
-        Left = 365
+        Left = 364
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 367
+        ExplicitLeft = 364
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Left = 287
+        Action = actPrint
+        ExplicitLeft = 287
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 534
-      ExplicitWidth = 536
+      ExplicitWidth = 534
       inherited lbCTRLEnter: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Left = 359
+        Height = 15
+        ExplicitLeft = 359
       end
       inherited lbEscape: TLabel
-        Height = 16
+        Left = 450
+        Height = 15
+        ExplicitLeft = 450
       end
       inherited lbCTRLDel: TLabel
-        Height = 16
-        ExplicitHeight = 16
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 283
+        Height = 15
+        ExplicitLeft = 283
       end
     end
+  end
+  inherited actlstMasterDialog: TActionList
+    Left = 472
+    Top = 184
   end
 end

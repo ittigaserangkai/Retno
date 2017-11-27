@@ -10,21 +10,22 @@ inherited frmMasterCustomer: TfrmMasterCustomer
     Width = 708
     Height = 325
     ExplicitWidth = 708
+    ExplicitHeight = 325
     inherited pgcBrowse: TcxPageControl
       Width = 706
       Height = 323
       ExplicitWidth = 706
+      ExplicitHeight = 323
       ClientRectBottom = 322
       ClientRectRight = 705
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 704
-        ExplicitHeight = 310
+        ExplicitHeight = 321
         inherited cxGrid: TcxGrid
           Width = 704
           Height = 321
-          ExplicitTop = 1
           ExplicitWidth = 704
           ExplicitHeight = 321
           inherited cxGridView: TcxGridDBTableView
@@ -89,7 +90,7 @@ inherited frmMasterCustomer: TfrmMasterCustomer
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 358
     Width = 708
-    ExplicitTop = -56
+    ExplicitTop = 358
     ExplicitWidth = 708
     inherited pnlFooter: TPanel
       Width = 708
@@ -117,9 +118,13 @@ inherited frmMasterCustomer: TfrmMasterCustomer
       ExplicitWidth = 708
       inherited lbEscape: TLabel
         Left = 634
-        Height = 17
         ExplicitLeft = 634
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
     end
   end
 end

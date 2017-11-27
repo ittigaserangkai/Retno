@@ -12,7 +12,7 @@ uses
   Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDXUtils,
-  uDBUtils;
+  uDBUtils, ufrmDialogMasterCustomer;
 
 type
   TfrmMasterCustomer = class(TfrmMasterBrowse)
@@ -21,6 +21,7 @@ type
     cxGridViewColumn3: TcxGridDBColumn;
     cxGridViewColumn4: TcxGridDBColumn;
     cxGridViewColumn5: TcxGridDBColumn;
+    procedure actAddExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,6 +35,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmMasterCustomer.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogMasterCustomer);
+end;
 
 procedure TfrmMasterCustomer.RefreshData;
 begin
