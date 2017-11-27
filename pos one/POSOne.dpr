@@ -77,7 +77,8 @@ uses
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
   ufrmLookupMember in '..\module\pos\ufrmLookupMember.pas' {frmLookupMember},
-  uModelHelper in '..\model\uModelHelper.pas';
+  uModelHelper in '..\model\uModelHelper.pas',
+  uPrintStruk in '..\classes\uPrintStruk.pas';
 
 {$R *.res}
 

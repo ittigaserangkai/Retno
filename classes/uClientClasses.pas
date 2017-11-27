@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 11/22/2017 8:33:35 AM
+// 11/27/2017 8:51:27 AM
 //
 
 unit uClientClasses;
@@ -733,6 +733,8 @@ type
     FGetBeginningBalanceCommand_Cache: TDSRestCommand;
     FGetListPendingTransAllCommand: TDSRestCommand;
     FGetListPendingTransAllCommand_Cache: TDSRestCommand;
+    FGetListTransaksiCommand: TDSRestCommand;
+    FGetListTransaksiCommand_Cache: TDSRestCommand;
     FGetListPendingTransByUserIDCommand: TDSRestCommand;
     FGetListPendingTransByUserIDCommand_Cache: TDSRestCommand;
     FGetListPendingTransByUserIDAndDateCommand: TDSRestCommand;
@@ -757,6 +759,8 @@ type
     function GetBeginningBalance_Cache(UserID: string; const ARequestFilter: string = ''): IDSRestCachedTModBeginningBalance;
     function GetListPendingTransAll(const ARequestFilter: string = ''): TDataSet;
     function GetListPendingTransAll_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function GetListTransaksi(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function GetListTransaksi_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetListPendingTransByUserID(aUserID: string; const ARequestFilter: string = ''): TDataSet;
     function GetListPendingTransByUserID_Cache(aUserID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
@@ -3825,6 +3829,20 @@ const
 
   TPOS_GetListPendingTransAll_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TPOS_GetListTransaksi: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TPOS_GetListTransaksi_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'StartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -12617,6 +12635,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FGetListPendingTransAllCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TPOSClient.GetListTransaksi(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FGetListTransaksiCommand = nil then
+  begin
+    FGetListTransaksiCommand := FConnection.CreateCommand;
+    FGetListTransaksiCommand.RequestType := 'GET';
+    FGetListTransaksiCommand.Text := 'TPOS.GetListTransaksi';
+    FGetListTransaksiCommand.Prepare(TPOS_GetListTransaksi);
+  end;
+  FGetListTransaksiCommand.Parameters[0].Value.AsDateTime := StartDate;
+  FGetListTransaksiCommand.Parameters[1].Value.AsDateTime := EndDate;
+  FGetListTransaksiCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FGetListTransaksiCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FGetListTransaksiCommand.FreeOnExecute(Result);
+end;
+
+function TPOSClient.GetListTransaksi_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FGetListTransaksiCommand_Cache = nil then
+  begin
+    FGetListTransaksiCommand_Cache := FConnection.CreateCommand;
+    FGetListTransaksiCommand_Cache.RequestType := 'GET';
+    FGetListTransaksiCommand_Cache.Text := 'TPOS.GetListTransaksi';
+    FGetListTransaksiCommand_Cache.Prepare(TPOS_GetListTransaksi_Cache);
+  end;
+  FGetListTransaksiCommand_Cache.Parameters[0].Value.AsDateTime := StartDate;
+  FGetListTransaksiCommand_Cache.Parameters[1].Value.AsDateTime := EndDate;
+  FGetListTransaksiCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FGetListTransaksiCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TPOSClient.GetListPendingTransByUserID(aUserID: string; const ARequestFilter: string): TDataSet;
 begin
   if FGetListPendingTransByUserIDCommand = nil then
@@ -12876,6 +12927,8 @@ begin
   FGetBeginningBalanceCommand_Cache.DisposeOf;
   FGetListPendingTransAllCommand.DisposeOf;
   FGetListPendingTransAllCommand_Cache.DisposeOf;
+  FGetListTransaksiCommand.DisposeOf;
+  FGetListTransaksiCommand_Cache.DisposeOf;
   FGetListPendingTransByUserIDCommand.DisposeOf;
   FGetListPendingTransByUserIDCommand_Cache.DisposeOf;
   FGetListPendingTransByUserIDAndDateCommand.DisposeOf;

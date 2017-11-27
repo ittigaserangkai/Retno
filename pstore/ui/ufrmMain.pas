@@ -259,6 +259,9 @@ type
     actFakturPajakAgreement: TAction;
     dxbrbtn4: TdxBarButton;
     dxBarButton2: TdxBarButton;
+    dxBarSubItem1: TdxBarSubItem;
+    dxBarLargeButton2: TdxBarLargeButton;
+    dxBarButton3: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -803,12 +806,12 @@ end;
 
 procedure TfrmMain.actReprintNotaExecute(Sender: TObject);
 begin
-    frmReprintNota := TfrmReprintNota.CreateWithUser(Application, FFormProperty);
+  frmReprintNota := TfrmReprintNota.Create(Self);
 end;
 
 procedure TfrmMain.actReprintNPExecute(Sender: TObject);
 begin
-    frmReprintNP := TfrmReprintNP.CreateWithUser(Application, FFormProperty);
+  frmReprintNP := TfrmReprintNP.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actResetCashierExecute(Sender: TObject);

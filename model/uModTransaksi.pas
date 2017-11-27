@@ -5,7 +5,7 @@ interface
 uses
   uModApp, uModUnit, uModMember, uModBeginningBalance, uModBarang,
   System.Generics.Collections, uModCreditCard, uModAuthUser, System.SysUtils,
-  uModTransKuponBotol, uModSatuan;
+  uModTransKuponBotol, uModSatuan, System.Classes;
 
 type
   TModTransaksiDetil = class;
@@ -45,6 +45,8 @@ type
     function GetSubTotal: Double;
     function GetDPP: Double;
     function GetDiscount: Double;
+    function GetKuponBotol: Double;
+    function GetKuponBotolQty: Double;
     function GetNonBKP: Double;
     function GetPPN: Double;
     property TransaksiDetils: TobjectList<TModTransaksiDetil> read
@@ -325,6 +327,24 @@ begin
   begin
     Result := Result + lItem.TRANSD_DISCOUNT;
   end;
+end;
+
+function TModTransaksi.GetKuponBotol: Double;
+var
+  lKupon: TModTransKuponBotol;
+begin
+  Result := 0;
+  for lKupon in Self.KuponBotols do
+    Result := Result + lKupon.GetTotal;
+end;
+
+function TModTransaksi.GetKuponBotolQty: Double;
+var
+  lKupon: TModTransKuponBotol;
+begin
+  Result := 0;
+  for lKupon in Self.KuponBotols do
+    Result := Result + lKupon.GetTotalQTY;
 end;
 
 function TModTransaksi.GetNonBKP: Double;

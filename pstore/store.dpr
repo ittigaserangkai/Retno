@@ -91,7 +91,6 @@ uses
   ufraHistoriPOByProduct in '..\module\merchandise\ufraHistoriPOByProduct.pas' {fraHistoriPOByProduct: TFrame},
   ufrmDialogPrintPreview in '..\system\ufrmDialogPrintPreview.pas' {frmDialogPrintPreview},
   uDMReport in '..\system\uDMReport.pas' {DMReport},
-  HPHELP in '..\lib\HPHELP.PAS',
   ufrmGoodsReceiving in '..\module\inventory\ufrmGoodsReceiving.pas' {frmGoodsReceiving},
   ufrmDisplayPO in '..\module\merchandise\ufrmDisplayPO.pas' {frmDisplayPO},
   ufrmMain in 'ui\ufrmMain.pas' {frmMain},
@@ -235,7 +234,9 @@ uses
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmLookupOrganization in '..\module\references\ufrmLookupOrganization.pas' {frmLookupOrganization},
   uModelHelper in '..\model\uModelHelper.pas',
-  uModTransaksi in '..\model\uModTransaksi.pas';
+  uModTransaksi in '..\model\uModTransaksi.pas',
+  uPrintStruk in '..\classes\uPrintStruk.pas',
+  HPHELP in '..\lib\HPHELP.PAS';
 
 {$R *.res}
 

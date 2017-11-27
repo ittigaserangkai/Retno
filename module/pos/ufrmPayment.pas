@@ -8,7 +8,7 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
   cxEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, Vcl.Grids, FireDAC.Comp.Client,
   uNewBarangStockSirkulasi, uNewBarang, uModBarang, uModTransaksi,
-  Vcl.Controls, Vcl.Forms, uModelHelper, uModCreditCard;
+  Vcl.Controls, Vcl.Forms, uModelHelper, uModCreditCard, uPrintStruk;
 
 type
   VoucherDetail = record
@@ -190,11 +190,10 @@ type
     procedure LookupCreditCard;
     //procedure LineReceived(Sender : TLineSocketBase; const line : string;
     //          complete : Boolean);
-    procedure ParsingPrintStrukTrans;
+    procedure PrintStruk;
     //procedure LineReceived(Sender : TLineSocketBase; const line : string;
     //          complete : Boolean);
     procedure ParsingPrintStrukTransOld;
-    procedure PrintCashBack;
     procedure ProcessPayment(DoPrintStruk: Boolean = True);
     procedure ResetAll;
     procedure ResetVoucher;
@@ -691,201 +690,31 @@ begin
   end;
 end;
 
-procedure TfrmPayment.ParsingPrintStrukTrans;
+procedure TfrmPayment.PrintStruk;
 var
-  i: Integer;
-  isShowTotal: Boolean;
-  lDetail: TModTransaksiDetil;
-  lModBarang: TModBarang;
-  sReportPath: string;
-  sTemp: string;
+  lPrint: TPrintStruk;
 begin
   HideInfo;
-  mmoBackup.Clear;
-  mmoTemp.Clear;
-  sReportPath := TAppUtils.GetAppPath;
-
-  mmoHeadStruk.Clear;
-  mmoHeadStruk.Lines.Add('POS / Kasir : ' + frmMain.FPOSCode + '/' + frmMain.FCashierCode + ' ' + frmMain.FCashierName);
-  mmoHeadStruk.Lines.Add('No Trans    : ' + TAppUtils.StrPadRight(ModTransaksi.TRANS_NO,18,' ') + FormatDateTime('dd/MM/yy',Now));
-  if Assigned(ModTransaksi.MEMBER) then
-    mmoHeadStruk.Lines.Add('No Member   : ' + TAppUtils.StrPadRight(ModTransaksi.MEMBER.MEMBER_CARD_NO,18,' ') + FormatDateTime('HH:nn:ss',Now));
-
-  mmoBackup.Lines.AddStrings(mmoHeadStruk.Lines);
-  Application.ProcessMessages;
-
-  mmoIsiStruk.Clear;
-  mmoIsiStruk.Lines.Add(TAppUtils.StrPadRight('',41,'-'));
-
-  lModBarang := TModBarang.Create;
-  Try
-    for lDetail in ModTransaksi.TransaksiDetils do
-    begin
-      if lDetail.TRANSD_BRG_CODE = '' then continue;
-      lModBarang.ReloadByCode(lDetail.TRANSD_BRG_CODE);
-
-      mmoIsiStruk.Lines.Add(lModBarang.BRG_CODE + ' ' + LeftStr(lModBarang.BRG_NAME,40));
-      sTemp := TAppUtils.StrPadLeftCut(FormatFloat('#,##'+Get_Qty_Precision,lDetail.TRANSD_QTY),10,' ') + ' '
-          + TAppUtils.StrPadRight(lDetail.TRANSD_SAT_CODE,5,' ') + 'x'
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.TRANSD_SELL_PRICE_DISC),10,' ')
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.TRANSD_TOTAL),13,' ');
-      mmoIsiStruk.Lines.Add(sTemp);
-    end;
-  Finally
-    lModBarang.Free;
-  End;
-  sTemp := '';
-  mmoIsiStruk.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-  mmoBackup.Lines.AddStrings(mmoIsiStruk.Lines);
-  Application.ProcessMessages;
-
-  mmoFooterStruk.Clear;
-  mmoFooterStruk.Lines.Add(TAppUtils.StrPadLeftCut('TOTAL BELANJA:',27,' ')
-    + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.TRANS_TOTAL_TRANSACTION),13,' '));
-
-  isShowTotal := False;
-
-  //besok tambahkan param disini, jika 0 mau ditampilkan atau tidak terserah admin
-  if (ModTransaksi.TRANS_DISC_GMC_NOMINAL <> 0) then
-  begin
-    mmoFooterStruk.Lines.Add('*Brg Disc AMC'
-      + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetTotalBarangAMC),14,' '));
-
-    mmoFooterStruk.Lines.Add(' Disc'
-      + TAppUtils.StrPadLeftCut(FormatFloat('#,##0.00%',ModTransaksi.TRANS_DISC_GMC_PERSEN),22,' ')
-      + TAppUtils.StrPadLeftCut(FormatFloat('-#,##0',ModTransaksi.TRANS_DISC_GMC_NOMINAL),13,' '));
-
-    isShowTotal := True;
-  end;
-
-  if (edtNilaiCC.Value > 0)
-    and (edtChargeCreditCard.Value > 0) then //apabila ada barang yg kena charge card
-  begin
-    mmoFooterStruk.Lines.Add('@Card Charge'
-      + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtChargeCreditCard.Value),28,' '));
-
-    isShowTotal := True;
-  end else begin
-  end;
-
-  //voucher
-  if (edtBotolValue.Value > 0) then
-  begin
-    mmoFooterStruk.Lines.Add('VCR [B]' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtBotolValue.Value),9,' '));
-    if (edtGoroValue.Value = 0)
-      and (edtVoucherValue.Value = 0) then
-    begin
-      mmoFooterStruk.Lines[mmoFooterStruk.Lines.Count-1] := mmoFooterStruk.Lines[mmoFooterStruk.Lines.Count-1]
-        + TAppUtils.StrPadLeftCut('TOT VCR:',11,' ')
-        + TAppUtils.StrPadLeftCut(FormatFloat('-#,##0',(edtBotolValue.Value + edtGoroValue.Value + edtVoucherValue.Value)),13,' ');
-    end;
-    isShowTotal := True;
-  end;
-  if (edtGoroValue.Value > 0) then
-  begin
-    if (edtBotolValue.Value > 0) then
-      mmoFooterStruk.Lines.Add('    [A]' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtGoroValue.Value),9,' '))
-    else
-      mmoFooterStruk.Lines.Add('VCR [A]' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtGoroValue.Value),9,' '));
-
-    if (edtVoucherValue.Value = 0) then
-    begin
-      mmoFooterStruk.Lines[mmoFooterStruk.Lines.Count-1] := mmoFooterStruk.Lines[mmoFooterStruk.Lines.Count-1]
-        + TAppUtils.StrPadLeftCut('TOT VCR:',11,' ')
-        + TAppUtils.StrPadLeftCut(FormatFloat('-#,##0',(edtBotolValue.Value + edtGoroValue.Value + edtVoucherValue.Value)),13,' ');
-    end;
-    isShowTotal := True;
-  end;
-  if (edtVoucherValue.Value > 0) then
-  begin
-    if (edtBotolValue.Value > 0)
-      or (edtGoroValue.Value > 0) then
-      mmoFooterStruk.Lines.Add('    [L]' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtVoucherValue.Value),9,' '))
-    else
-      mmoFooterStruk.Lines.Add('VCR [L]' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtVoucherValue.Value),9,' '));
-
-    mmoFooterStruk.Lines[mmoFooterStruk.Lines.Count-1] := mmoFooterStruk.Lines[mmoFooterStruk.Lines.Count-1]
-      + TAppUtils.StrPadLeftCut('TOT VCR:',11,' ')
-      + TAppUtils.StrPadLeftCut(FormatFloat('-#,##0',(edtBotolValue.Value + edtGoroValue.Value + edtVoucherValue.Value)),13,' ');
-
-    isShowTotal := True;
-  end;
-
-  if isShowTotal then
-  begin
-    mmoFooterStruk.Lines.Add(TAppUtils.StrPadLeftCut('TOTAL:',27,' ')
-      + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtNilaiBayar.Value),13,' '));
-      //+ TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtTotalBelanja.Value - edtDiscGMCNominal.Value + edtChargeCreditCard.Value),13,' '));
-  end;
-
-  if edtNilaiCC.Value <> 0 then //apabila ada pembayaran pakai CARD
-  begin
-    sTemp := TAppUtils.StrRemoveChar(edtNomorCC.Text, ' ');
-    sTemp := TAppUtils.StrRemoveChar(sTemp,'-');
-    sTemp := TAppUtils.StrRemoveChar(sTemp,'*');
-
-    mmoFooterStruk.Lines.Add('Jns Kartu: ' + TAppUtils.StrPadRight(edtJenisKartuName.Text,15,' '));
-    mmoFooterStruk.Lines.Add('No. Kartu: ' + TAppUtils.StrPadRight(sTemp,16,' '));
-    mmoFooterStruk.Lines.Add('Otorisasi: ' + TAppUtils.StrPadRight(edtNoOtorisasiCC.Text,11,' ')
-      + 'CARD:' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtNilaiCC.Value),13,' '));
-    mmoFooterStruk.Lines.Add(TAppUtils.StrPadLeftCut('DISC CARD:',27,' ')
-    + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtCCDiscNominal.Value),13,' '));
-
-  end else begin
-  end;
-
-  if edtNilaiTunai.Value <> 0 then
-  begin
-    mmoFooterStruk.Lines.Add(TAppUtils.StrPadLeftCut('CASH:',27,' ')
-      + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtNilaiTunai.Value),13,' '));
-  end;
-
-  mmoFooterStruk.Lines.Add(TAppUtils.StrPadRight('',27,' ') + TAppUtils.StrPadRight('',13,'-'));
-
-  mmoFooterStruk.Lines.Add('Colie' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0', ModTransaksi.GetTotalColie),9,' ')
-    + TAppUtils.StrPadLeftCut('Kembali:',13,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',edtSisaUang.Value),13,' '));
-  mmoFooterStruk.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-
-  //Mencoba disini PAJAK !!!!
-  mmoFooterStruk.Lines.Add('BKP :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetSubTotal),7,' ')
-    + TAppUtils.StrPadLeftCut('DISC :',21,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetDiscount),7,' '));
-  mmoFooterStruk.Lines.Add('DPP :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetDPP),7,' ')
-    + TAppUtils.StrPadLeftCut('PPN :',21,' ') + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetPPN),7,' '));
-  mmoFooterStruk.Lines.Add('Bebas PPN :' + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ModTransaksi.GetNonBKP),7,' '));
-
-  mmoFooterStruk.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-
-  //sisa kembalian
-  if ShowFooterKembalian = 1 then
-  begin
-    sTemp := 'Sisa Kembalian: ' + FormatFloat('#,##0',Pembulatan);
-    mmoFooterStruk.Lines.Add(TAppUtils.StrPadLeftCut(sTemp,Length(sTemp) + ((40 - Length(sTemp)) div 2),' '));
-    mmoTemp.Clear;
-    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER_SISA);
-    mmoFooterStruk.Lines.AddStrings(mmoTemp.Lines);
-  end;
-
-  mmoBackup.Lines.AddStrings(mmoFooterStruk.Lines);
-  Application.ProcessMessages;
-  if (edtCashBack.Visible) and (edtCashBack.Value > 0) then
-    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_HEADER_CASHBACK)
-  else
-    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_HEADER);
-
-  mmoBackup.Lines.AddStrings(mmoTemp.Lines);
-  for i := mmoTemp.Lines.Count + 1 to 4 do mmoBackup.Lines.Add('');
-
-  //mmoBackup.Lines.Delete(mmoBackup.Lines.Count-1);
+  lPrint := TPrintStruk.Create;
   try
-    mmoBackup.Lines.SaveToFile(cGetAppPath + ModTransaksi.TRANS_NO + '.txt');
-  except
-  end;
-  Application.ProcessMessages;
-  try
-    PrintStrings(mmoBackup.Lines);
-    PrintCashBack;
-  except
-    ShowInfo('Gagal mencetak struk');
+    lPrint.ModTransaksi         := ModTransaksi;
+    lPrint.POSCode              := frmMain.FPOSCode;
+    lPrint.CashierCode          := frmMain.FCashierCode;
+    lPrint.CashierName          := frmMain.FCashierName;
+    lPrint.CashBackVal          := edtCashBack.Value;
+    lPrint.IsCashBack           := edtCashBack.Value > 0;
+    lPrint.CreditCardAuthNo     := FloatToStr(edtNoOtorisasiCC.Value);
+    lPrint.PaymentVal           := edtNilaiBayar.Value;
+    lPrint.KuponBotolVal        := edtBotolValue.Value;
+    lPrint.KuponBotolQty        := edtBotolQty.Value;
+    lPrint.CreditCardCharge     := edtChargeCreditCard.Value;
+    lPrint.CreditCardDisc       := edtCCDisc.Value;
+    lPrint.CreditCardNo         := edtNomorCC.Text;
+    lPrint.VoucherVal           := edtVoucherValue.Value;
+    lPrint.ShowFooterKembalian  := ShowFooterKembalian = 1;
+    lPrint.PrintStruk;
+  finally
+    lPrint.Free;
   end;
 end;
 
@@ -2433,44 +2262,6 @@ begin
   }
 end;
 
-procedure TfrmPayment.PrintCashBack;
-var
-  aSpell: TSpell;
-  sReportPath: string;
-  sTerbilang: string;
-begin
-  if (edtCashBack.Visible) and (edtCashBack.Value > 0) then
-  begin
-    sReportPath := TAppUtils.GetAppPath;
-
-    CommonDlg.ShowMessage('Tekan OK untuk mulai mencetak struk cashback');
-    aSpell := TSpell.Create;
-
-    mmoIsiCB.Clear;
-    mmoIsiCB.Lines.Add('Tanggal / Jam : ' + FormatDateTime('dd/mm/yyyy',Now) + '  ' + FormatDateTime('HH:nn:ss',Now));
-    mmoIsiCB.Lines.Add('No.Transaksi  : ' + frmTransaksi.edNoTrnTerakhir.Text);
-    mmoIsiCB.Lines.Add('POS / Kasir   : ' + frmMain.FPOSCode + ' / ' + frmMain.FCashierCode + ' ' + frmMain.FCashierName);
-    mmoIsiCB.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-    mmoIsiCB.Lines.Add('Kode/Nama Kartu : ' + TAppUtils.StrPadRight(edtJenisKartuCode.Text,4,' ') + ' ' +
-                         TAppUtils.StrPadRight(edtJenisKartuName.Text,16,' '));
-    mmoIsiCB.Lines.Add('No. Kartu       : ' + TAppUtils.StrPadRight(edtNomorCC.Text,20,' '));
-    mmoIsiCB.Lines.Add('No. Otorisasi   : ' + TAppUtils.StrPadRight(edtNoOtorisasiCC.Text,16,' '));
-    mmoIsiCB.Lines.Add(TAppUtils.StrPadRight('',40,'-'));
-    mmoIsiCB.Lines.Add('Tot Pengambilan : ' + TAppUtils.StrPadRight(edtCashBack.Text,20,' '));
-    mmoIsiCB.Lines.Add('Terbilang       : ');
-    sTerbilang := aSpell.Spell(edtCashBack.Text);
-    mmoIsiCB.Lines.Add('[' + sTerbilang + ']');
-    mmoBackup.Lines.AddStrings(mmoIsiCB.Lines);
-    Application.ProcessMessages;
-    PrintFile(sReportPath + 'utils\' + FILE_FOOTER_CASHBACK);
-    mmoTemp.Clear;
-    mmoTemp.Lines.LoadFromFile(sReportPath + 'utils\' + FILE_FOOTER_CASHBACK);
-    mmoBackup.Lines.AddStrings(mmoTemp.Lines);
-    Application.ProcessMessages;
-    aSpell.Destroy;
-  end;
-end;
-
 procedure TfrmPayment.ProcessPayment(DoPrintStruk: Boolean = True);
 begin
   if edtSisaUang.Value >= 0 then
@@ -2483,7 +2274,7 @@ begin
           if SaveToDB then
           begin
             if DoPrintStruk then
-              ParsingPrintStrukTrans;
+              PrintStruk;
             Self.ModalResult := mrOK;
           end;
         finally

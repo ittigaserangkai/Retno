@@ -182,6 +182,30 @@ const
 
   //Product
   PROD_CODE_LENGTH = 6; //maximum 9 digit ya, integer safe
+
+  FILE_HEADER : string        = 'header.txt';
+  FILE_HEAD_STRUK             = '_headstruk.txt';
+  FILE_ISI_STRUK              = '_isistruk.txt';
+  FILE_FOOTER_STRUK           = '_footstruk.txt';
+  FILE_FOOTER                 = 'footer.txt';
+  FILE_FOOTER_SISA            = 'footersisa.txt';
+  FILE_HEADER_CASHBACK        = 'headcb.txt';
+  FILE_FOOTER_CASHBACK        = 'footcb.txt';
+  FILE_ISI_CASHBACK           = '_isicb.txt';
+  FILE_VALIDASI               = '_valid.txt';
+
+
+
+var
+  //dibawah ini dipindah ke variabel global database saja ya..
+  //Product  ig=integer global
+  igProd_Code_Length : Integer = 6;  // max 9 ya. integer safe , def = 6
+  //Precision Harga di Transaksi End user dan Kring , def = -2
+  igPrice_Precision  : Integer = -2;
+  //Precision Qty di Transaksi End user dan Kring , def = -3
+  igQty_Precision    : Integer = -3;
+
+
 implementation
 
 end.

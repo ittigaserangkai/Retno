@@ -1294,6 +1294,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton3'
         end>
       OneOnRow = True
       Row = 0
@@ -1510,6 +1514,23 @@ object frmMain: TfrmMain
     end
     object dxBarButton2: TdxBarButton
       Action = actMaintenancePassword
+      Category = 0
+    end
+    object dxBarSubItem1: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarLargeButton2: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton3: TdxBarButton
+      Action = actReprintNota
+      Caption = 'Reprint Nota'
       Category = 0
     end
   end

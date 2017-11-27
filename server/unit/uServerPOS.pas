@@ -17,6 +17,7 @@ type
   public
     function GetBeginningBalance(UserID: string): TModBeginningBalance;
     function GetListPendingTransAll: TDataset;
+    function GetListTransaksi(StartDate, EndDate: TDatetime): TDataset;
     function GetListPendingTransByUserID(aUserID: string): TDataset;
     function GetListPendingTransByUserIDAndDate(aUserID: string; aDate: TDateTime):
         TDataset;
@@ -94,6 +95,26 @@ begin
     + ' INNER JOIN MEMBER M ON (M.MEMBER_ID = T.MEMBER_ID) '
     + ' WHERE (T.TRANS_IS_PENDING = 1) '
     + ' AND cast(T.TRANS_DATE as date) = ' + TDBUtils.QuotD(Now());
+//    + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TPOS.GetListTransaksi(StartDate, EndDate: TDatetime): TDataset;
+var
+  S: string;
+begin
+  S := 'SELECT T.TRANS_NO as "No Transaksi", '
+    + '  M.MEMBER_CARD_NO as "No Kartu", '
+    + '  M.MEMBER_NAME as "Nama Member", '
+    + '  T.TRANS_DATE as "Tanggal Trans",  '
+    + '  T.TRANS_TOTAL_TRANSACTION as "Total", '
+    + '  T.TRANS_IS_ACTIVE, '
+    + '  T.TRANSAKSI_ID, '
+    + '  T.MEMBER_ID '
+    + ' FROM TRANSAKSI T '
+    + ' INNER JOIN MEMBER M ON (M.MEMBER_ID = T.MEMBER_ID) '
+    + ' WHERE cast(T.TRANS_DATE as date) between ' + TDBUtils.QuotD(StartDate)
+    + ' and ' + TDBUtils.QuotD(EndDate);
 //    + ' ORDER BY M.MEMBER_CARD_NO, T.TRANS_NO';
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -281,7 +302,6 @@ end;
 function TCRUDPos.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lKuponBotol: TModTransKuponBotol;
-  s: string;
 begin
   if AObject is TModTransaksi then
   begin
@@ -295,8 +315,6 @@ begin
 end;
 
 function TCRUDPos.GenerateSQLCounter(AObject: TModTransaksi): string;
-var
-  lSetupPOS: TModSetupPOS;
 begin
   AObject.BALANCE.Reload(False);
   Result := 'update setuppos '
