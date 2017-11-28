@@ -15,6 +15,69 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
     Height = 380
     ExplicitWidth = 534
     ExplicitHeight = 380
+    object Panel4: TPanel
+      Left = 2
+      Top = 265
+      Width = 530
+      Height = 113
+      Align = alClient
+      TabOrder = 3
+      ExplicitTop = 266
+      object lbl10: TLabel
+        Left = 20
+        Top = 6
+        Width = 87
+        Height = 16
+        AutoSize = False
+        Caption = 'Customer Desc'
+      end
+      object lblSubCode: TLabel
+        Left = 20
+        Top = 60
+        Width = 87
+        Height = 16
+        AutoSize = False
+        Caption = 'Supplier Code'
+      end
+      object edtCustDesc: TEdit
+        Left = 110
+        Top = 3
+        Width = 389
+        Height = 22
+        CharCase = ecUpperCase
+        Ctl3D = False
+        MaxLength = 512
+        ParentCtl3D = False
+        TabOrder = 0
+      end
+      object chkPrincipal: TCheckBox
+        Left = 110
+        Top = 31
+        Width = 81
+        Height = 17
+        Caption = 'Is Principal'
+        TabOrder = 1
+      end
+      object cxLookUpSupCode: TcxExtLookupComboBox
+        Left = 110
+        Top = 56
+        TabOrder = 3
+        Width = 115
+      end
+      object edtSupName: TEdit
+        Left = 231
+        Top = 57
+        Width = 268
+        Height = 22
+        TabStop = False
+        CharCase = ecUpperCase
+        Ctl3D = False
+        MaxLength = 20
+        ParentCtl3D = False
+        ReadOnly = True
+        TabOrder = 2
+      end
+    end
     object Panel1: TPanel
       Left = 2
       Top = 2
@@ -344,75 +407,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Items.Strings = (
           'NON PPH'
           'PPH')
-      end
-    end
-    object Panel4: TPanel
-      Left = 2
-      Top = 265
-      Width = 530
-      Height = 113
-      Align = alClient
-      TabOrder = 3
-      object lbl10: TLabel
-        Left = 20
-        Top = 6
-        Width = 87
-        Height = 16
-        AutoSize = False
-        Caption = 'Customer Desc'
-      end
-      object lblSubCode: TLabel
-        Left = 20
-        Top = 60
-        Width = 87
-        Height = 16
-        AutoSize = False
-        Caption = 'Supplier Code'
-        Visible = False
-      end
-      object edtCustDesc: TEdit
-        Left = 110
-        Top = 3
-        Width = 389
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        MaxLength = 512
-        ParentCtl3D = False
-        TabOrder = 0
-      end
-      object chkPrincipal: TCheckBox
-        Left = 110
-        Top = 31
-        Width = 81
-        Height = 17
-        Caption = 'Is Principal'
-        TabOrder = 1
-      end
-      object edtSupName: TEdit
-        Left = 197
-        Top = 57
-        Width = 302
-        Height = 22
-        TabStop = False
-        CharCase = ecUpperCase
-        Ctl3D = False
-        MaxLength = 20
-        ParentCtl3D = False
-        ReadOnly = True
-        TabOrder = 2
-        Visible = False
-      end
-      object edtSupMGCode: TcxButtonEdit
-        Left = 112
-        Top = 56
-        Properties.Buttons = <
-          item
-            Default = True
-            Kind = bkEllipsis
-          end>
-        TabOrder = 3
-        Width = 81
       end
     end
   end

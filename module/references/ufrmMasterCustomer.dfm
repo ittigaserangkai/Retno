@@ -118,6 +118,7 @@ inherited frmMasterCustomer: TfrmMasterCustomer
       ExplicitWidth = 708
       inherited lbEscape: TLabel
         Left = 634
+        Height = 17
         ExplicitLeft = 634
       end
     end

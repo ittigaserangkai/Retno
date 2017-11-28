@@ -7,7 +7,8 @@ uses
   Dialogs, ufrmMasterDialog, StdCtrls, ufraFooterDialog2Button, ExtCtrls,
   uConn, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions,
-  Vcl.ActnList, ufraFooterDialog3Button;
+  Vcl.ActnList, ufraFooterDialog3Button, uDXUtils, uModCustomer, uModSuplier,
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -53,8 +54,12 @@ type
     chkPrincipal: TCheckBox;
     lblSubCode: TLabel;
     edtSupName: TEdit;
-    edtSupMGCode: TcxButtonEdit;
+    cxLookUpSupCode: TcxExtLookupComboBox;
   private
+    FModCustomer: TModCustomer;
+    function GetModCustomer: TModCustomer;
+    procedure SimpanData;
+    property ModCustomer: TModCustomer read GetModCustomer write FModCustomer;
   public
     { Public declarations }
   published
@@ -68,5 +73,48 @@ implementation
 uses uTSCommonDlg, uRetnoUnit, ufrmSearchRekening;
 
 {$R *.dfm}    
+
+function TfrmDialogMasterCustomer.GetModCustomer: TModCustomer;
+begin
+  if not Assigned(FModCustomer) then
+    FModCustomer := TModCustomer.Create;
+  Result := FModCustomer;
+end;
+
+procedure TfrmDialogMasterCustomer.SimpanData;
+begin
+  if not ValidateEmptyCtrl([1], True) then exit;
+
+  // 1
+  ModCustomer.CUST_CODE           := edtCustCode.Text;
+  ModCustomer.CUST_NAME           := edtCustName.Text;
+  ModCustomer.CUST_CONTACT_PERSON := edtContactPerson.Text;
+  ModCustomer.CUST_TITLE          := edtTitle.Text;
+
+  //2
+  ModCustomer.CUST_ADDRESS    := edtAddress.Text;
+  ModCustomer.CUST_CITY       :=  edtCity.Text;
+  ModCustomer.CUST_POST_CODE  := edtPostCode.Text;
+  ModCustomer.CUST_TELP       :=  edtTelephone.Text;
+  ModCustomer.CUST_FAX        := edtFaxNo.Text;
+
+  //3
+//  ModCustomer.CUST_IS_PKP   :=
+  ModCustomer.CUST_LR_TAX   := edtTaxNo.Text;
+//  ModCustomer.CUST_IS_PPH23 :=
+  ModCustomer.CUST_NPWP     := edtNPWP.Text;
+//  ModCustomer.CUST_TOP      :=
+//  isih kurang 1 ngkas
+
+  //4
+  ModCustomer.CUST_DESCRIPTION := edtCustDesc.Text;
+//  ModCustomer.CUST_IS_PRINCIPAL := chkPrincipal;   isih rung bener yaa...
+//  if not VarIsNull(cxLookUpSupCode.EditValue) then
+//    ModCustomer.SUPLIER_MERCHAN_GRUP_ID :=
+
+
+
+
+end;
 
 end.

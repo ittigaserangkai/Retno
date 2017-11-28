@@ -269,7 +269,8 @@ uses
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
   ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
   uClientClasses in '..\classes\uClientClasses.pas',
-  uModelHelper in '..\model\uModelHelper.pas';
+  uModelHelper in '..\model\uModelHelper.pas',
+  uModCustomer in '..\model\uModCustomer.pas';
 
 {$R *.res}
 

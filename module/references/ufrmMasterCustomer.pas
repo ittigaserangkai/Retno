@@ -12,7 +12,7 @@ uses
   Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDXUtils,
-  uDBUtils, ufrmDialogMasterCustomer;
+  uDBUtils, ufrmDialogMasterCustomer, uModCustomer;
 
 type
   TfrmMasterCustomer = class(TfrmMasterBrowse)
