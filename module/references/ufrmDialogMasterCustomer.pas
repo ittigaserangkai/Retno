@@ -8,7 +8,8 @@ uses
   uConn, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, uDXUtils, uModCustomer, uModSuplier,
-  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
+  uDMClient;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -36,18 +37,13 @@ type
     edtFaxNo: TEdit;
     Panel3: TPanel;
     lbl13: TLabel;
-    lbl15: TLabel;
-    cbbPKP: TComboBox;
     edtTaxNo: TEdit;
-    lbl14: TLabel;
     lbl16: TLabel;
-    cbbPPH: TComboBox;
     edtNPWP: TEdit;
     lbl23: TLabel;
     lbl24: TLabel;
     lbl27: TLabel;
     edtTermOP: TEdit;
-    cbpTypeOfPay: TComboBox;
     Panel4: TPanel;
     lbl10: TLabel;
     edtCustDesc: TEdit;
@@ -55,9 +51,15 @@ type
     lblSubCode: TLabel;
     edtSupName: TEdit;
     cxLookUpSupCode: TcxExtLookupComboBox;
+    chkPKP: TCheckBox;
+    chkPPH: TCheckBox;
+    cxLookUpTipeBayar: TcxExtLookupComboBox;
+    procedure FormCreate(Sender: TObject);
+    procedure cxLookUpSupCodePropertiesEditValueChanged(Sender: TObject);
   private
     FModCustomer: TModCustomer;
     function GetModCustomer: TModCustomer;
+    procedure InitLookup;
     procedure SimpanData;
     property ModCustomer: TModCustomer read GetModCustomer write FModCustomer;
   public
@@ -74,11 +76,41 @@ uses uTSCommonDlg, uRetnoUnit, ufrmSearchRekening;
 
 {$R *.dfm}    
 
+procedure TfrmDialogMasterCustomer.cxLookUpSupCodePropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  edtSupName.Text := cxLookUpSupCode.DS.FieldByName('SUP_NAME').AsString;
+end;
+
+procedure TfrmDialogMasterCustomer.FormCreate(Sender: TObject);
+begin
+  inherited;
+  InitLookup;
+end;
+
 function TfrmDialogMasterCustomer.GetModCustomer: TModCustomer;
 begin
   if not Assigned(FModCustomer) then
     FModCustomer := TModCustomer.Create;
   Result := FModCustomer;
+end;
+
+procedure TfrmDialogMasterCustomer.InitLookup;
+begin
+  cxLookUpTipeBayar.LoadFromDS(
+    DMClient.DSProviderClient.TipePembayaran_GetDSLookUp,
+    'REF$TIPE_PEMBAYARAN_ID','TPBYR_NAME',
+    ['REF$TIPE_PEMBAYARAN_ID','REF$TIPE_PEMBAYARAN_ID'],self
+  );
+
+  cxLookUpSupCode.LoadFromDS(
+    DMClient.DSProviderClient.Suplier_GetDSLookup,
+      'SUPLIER_ID','SUP_CODE',
+      ['SUPLIER_ID','SUPLIER_MERCHAN_GRUP_ID'],self
+    );
+  cxLookUpSupCode.SetMultiPurposeLookup;
+
 end;
 
 procedure TfrmDialogMasterCustomer.SimpanData;
@@ -111,9 +143,6 @@ begin
 //  ModCustomer.CUST_IS_PRINCIPAL := chkPrincipal;   isih rung bener yaa...
 //  if not VarIsNull(cxLookUpSupCode.EditValue) then
 //    ModCustomer.SUPLIER_MERCHAN_GRUP_ID :=
-
-
-
 
 end;
 

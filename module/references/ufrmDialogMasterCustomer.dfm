@@ -22,7 +22,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       Height = 113
       Align = alClient
       TabOrder = 3
-      ExplicitTop = 266
       object lbl10: TLabel
         Left = 20
         Top = 6
@@ -60,7 +59,8 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       end
       object cxLookUpSupCode: TcxExtLookupComboBox
         Left = 110
-        Top = 56
+        Top = 54
+        Properties.OnEditValueChanged = cxLookUpSupCodePropertiesEditValueChanged
         TabOrder = 3
         Width = 115
       end
@@ -282,22 +282,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         AutoSize = False
         Caption = 'Tax No.'
       end
-      object lbl15: TLabel
-        Left = 20
-        Top = 7
-        Width = 87
-        Height = 16
-        AutoSize = False
-        Caption = 'PKP/NON PKP'
-      end
-      object lbl14: TLabel
-        Left = 20
-        Top = 34
-        Width = 87
-        Height = 16
-        AutoSize = False
-        Caption = 'PPH/NON PPH'
-      end
       object lbl16: TLabel
         Left = 227
         Top = 34
@@ -327,22 +311,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Height = 16
         Caption = 'Days'
       end
-      object cbbPKP: TComboBox
-        Left = 110
-        Top = 3
-        Width = 98
-        Height = 24
-        BevelKind = bkSoft
-        Style = csDropDownList
-        Ctl3D = False
-        ItemIndex = 1
-        ParentCtl3D = False
-        TabOrder = 0
-        Text = 'PKP'
-        Items.Strings = (
-          'NON PKP'
-          'PKP')
-      end
       object edtTaxNo: TEdit
         Left = 269
         Top = 4
@@ -352,23 +320,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Ctl3D = False
         MaxLength = 64
         ParentCtl3D = False
-        TabOrder = 1
-      end
-      object cbbPPH: TComboBox
-        Left = 110
-        Top = 30
-        Width = 98
-        Height = 24
-        BevelKind = bkSoft
-        Style = csDropDownList
-        Ctl3D = False
-        ItemIndex = 1
-        ParentCtl3D = False
-        TabOrder = 2
-        Text = 'PPH'
-        Items.Strings = (
-          'NON PPH'
-          'PPH')
+        TabOrder = 0
       end
       object edtNPWP: TEdit
         Left = 269
@@ -379,7 +331,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Ctl3D = False
         MaxLength = 32
         ParentCtl3D = False
-        TabOrder = 3
+        TabOrder = 1
       end
       object edtTermOP: TEdit
         Left = 317
@@ -389,24 +341,30 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         CharCase = ecUpperCase
         Ctl3D = False
         ParentCtl3D = False
-        TabOrder = 5
+        TabOrder = 2
         Text = '0'
       end
-      object cbpTypeOfPay: TComboBox
-        Left = 110
-        Top = 57
-        Width = 98
-        Height = 24
-        BevelKind = bkSoft
-        Style = csDropDownList
-        Ctl3D = False
-        ItemIndex = 1
-        ParentCtl3D = False
+      object chkPKP: TCheckBox
+        Left = 113
+        Top = 6
+        Width = 49
+        Height = 17
+        Caption = 'PKP'
+        TabOrder = 3
+      end
+      object chkPPH: TCheckBox
+        Left = 113
+        Top = 34
+        Width = 49
+        Height = 17
+        Caption = 'PPH'
         TabOrder = 4
-        Text = 'PPH'
-        Items.Strings = (
-          'NON PPH'
-          'PPH')
+      end
+      object cxLookUpTipeBayar: TcxExtLookupComboBox
+        Left = 107
+        Top = 56
+        TabOrder = 5
+        Width = 65
       end
     end
   end
@@ -462,6 +420,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   end
   inherited actlstMasterDialog: TActionList
     Left = 472
-    Top = 184
+    Top = 216
   end
 end
