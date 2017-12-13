@@ -164,6 +164,7 @@ type
     function DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataSet;
     function Organization_Trader_GetDSLookup: TDataSet;
+    function TipePembayaran_GetDSLookUp: TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -1656,6 +1657,14 @@ begin
   S := 'select * from V_ORGANIZATION ' +
        ' where ORG_IsMember = 1';
 
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipePembayaran_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_PEMBAYARAN_ID, TPBYR_CODE, TPBYR_NAME from REF$TIPE_PEMBAYARAN';
   Result := TDBUtils.OpenQuery(S);
 end;
 
