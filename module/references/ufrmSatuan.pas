@@ -9,31 +9,29 @@ uses
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, Datasnap.DBClient, uDMClient;
+  cxGridTableView, cxGridDBTableView, cxGrid, Datasnap.DBClient, uDMClient, ufrmMasterBrowse,
+  dxBarBuiltInMenu, cxContainer, Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
+  ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxLabel, cxPC;
 
 type
-  TfrmSatuan = class(TfrmMaster)
-    fraFooter5Button1: TfraFooter5Button;
+  TfrmSatuan = class(TfrmMasterBrowse)
     actlstSatuan: TActionList;
     actAddSatuan: TAction;
     actEditSatuan: TAction;
     actDeleteSatuan: TAction;
     actRefreshSatuan: TAction;
-    cxGrid: TcxGrid;
-    cxGrdBrowse: TcxGridDBTableView;
-    cxGrdDetail: TcxGridDBTableView;
-    lvMaster: TcxGridLevel;
-    lvDetail: TcxGridLevel;
 
     procedure FormShow(Sender: TObject);
     procedure actAddSatuanExecute(Sender: TObject);
     procedure actEditSatuanExecute(Sender: TObject);
     procedure actDeleteSatuanExecute(Sender: TObject);
-    procedure actRefreshSatuanExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure fraFooter5Button1btnCloseClick(Sender: TObject);
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -41,6 +39,7 @@ type
 //    FNewUOM : TNewUOM;
   public
     { Public declarations }
+    procedure RefreshData; override;
   end;
 
 var
@@ -56,13 +55,38 @@ procedure TfrmSatuan.FormShow(Sender: TObject);
 begin
   inherited;
   lblHeader.Caption := 'UNIT OF MEASURE (UOM)';
-  actRefreshSatuanExecute(Self);
+//  actRefreshSatuanExecute(Self);
 end;
 
 procedure TfrmSatuan.fraFooter5Button1btnCloseClick(Sender: TObject);
 begin
   inherited;
   Self.Close;
+end;
+
+procedure TfrmSatuan.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogSatuan);
+
+  Exit;
+
+  if not Assigned(frmDialogSatuan) then
+      Application.CreateForm(TfrmDialogSatuan, frmDialogSatuan);
+
+    frmDialogSatuan.Caption := 'Add Unit Of Measure (UOM)';
+    frmDialogSatuan.FormMode := fmAdd;
+    SetFormPropertyAndShowDialog(frmDialogSatuan);
+
+    if (frmDialogSatuan.IsProcessSuccessfull) then
+    begin
+//      actRefreshSatuanExecute(Self);
+//      CommonDlg.ShowConfirm(atAdd);
+    end;
+
+
+  FreeAndNil(frmDialogSatuan);
+
 end;
 
 procedure TfrmSatuan.actAddSatuanExecute(Sender: TObject);
@@ -78,12 +102,33 @@ begin
 
     if (frmDialogSatuan.IsProcessSuccessfull) then
     begin
-      actRefreshSatuanExecute(Self);
+//      actRefreshSatuanExecute(Self);
 //      CommonDlg.ShowConfirm(atAdd);
     end;
 
 
   FreeAndNil(frmDialogSatuan);
+end;
+
+procedure TfrmSatuan.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogSatuan, CDS.FieldByName('REF$SATUAN_ID').AsString);
+  Exit;
+
+  if not Assigned(frmDialogSatuan) then
+      Application.CreateForm(TfrmDialogSatuan, frmDialogSatuan);
+
+    frmDialogSatuan.Caption  := 'Edit Unit Of Measure (UOM)';
+    frmDialogSatuan.FormMode := fmEdit;
+    frmDialogSatuan.LoadData(CDS.FieldByName('REF$SATUAN_ID').AsString);
+
+    SetFormPropertyAndShowDialog(frmDialogSatuan);
+//  if (frmDialogSatuan.IsProcessSuccessfull) then
+//    actRefreshSatuanExecute(Self);
+
+  FreeAndNil(frmDialogSatuan);
+
 end;
 
 procedure TfrmSatuan.actEditSatuanExecute(Sender: TObject);
@@ -98,8 +143,8 @@ begin
     frmDialogSatuan.LoadData(CDS.FieldByName('REF$SATUAN_ID').AsString);
 
     SetFormPropertyAndShowDialog(frmDialogSatuan);
-  if (frmDialogSatuan.IsProcessSuccessfull) then
-    actRefreshSatuanExecute(Self);
+//  if (frmDialogSatuan.IsProcessSuccessfull) then
+//    actRefreshSatuanExecute(Self);
 
   FreeAndNil(frmDialogSatuan);
 end;
@@ -109,7 +154,7 @@ procedure TfrmSatuan.actDeleteSatuanExecute(Sender: TObject);
 //  aUOM: string;
 begin
   inherited;
-  cxGrdBrowse.ExportToXLS();
+  cxGridView.ExportToXLS();
 // frmDialogSatuan.LoadData(cxgrid);
  {
   aUOM := strgGrid.Cells[_kolKode,strgGrid.Row];
@@ -135,13 +180,14 @@ begin
    }
 end;
 
-procedure TfrmSatuan.actRefreshSatuanExecute(Sender: TObject);
+
+procedure TfrmSatuan.RefreshData;
 begin
   if Assigned(FCDS) then FCDS.Free;
 
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Satuan_GetDSOverview ,Self );
-  cxGrdBrowse.LoadFromCDS(CDS);
-  cxGrdBrowse.SetVisibleColumns(['REF$SATUAN_ID'],False);
+  cxGridView.LoadFromCDS(CDS);
+  cxGridView.SetVisibleColumns(['REF$SATUAN_ID'],False);
 end;
 
 procedure TfrmSatuan.FormDestroy(Sender: TObject);

@@ -107,6 +107,7 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       end
       inherited btnPrint: TcxButton
         Left = 126
+        Action = actPrint
         Visible = False
         ExplicitLeft = 126
       end
@@ -129,6 +130,7 @@ inherited frmDialogSatuan: TfrmDialogSatuan
       end
       inherited lblCTRLP: TLabel
         Left = 122
+        Height = 15
         ExplicitLeft = 122
       end
     end

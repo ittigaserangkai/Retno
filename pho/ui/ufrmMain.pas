@@ -891,7 +891,7 @@ procedure TfrmMain.actOnCreateFormExecute(Sender: TObject);
 var
   iTemp: Integer;
   erMsg: string;
-  Msg: string;
+//  Msg: string;
   sIDUnit: string;
 begin
   FFormProperty   := TFormProperty.Create;

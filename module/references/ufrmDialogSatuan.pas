@@ -6,12 +6,12 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterDialog, ufraFooterDialog2Button, ExtCtrls,
   StdCtrls, uRetnoUnit, ufraFooterDialog3Button, uModSatuan,
-  uDMClient, uAppUtils, System.Actions, Vcl.ActnList, uDXUtils;
+  uDMClient, uAppUtils, System.Actions, Vcl.ActnList, uDXUtils, uInterface;
 
 type
   TFormMode = (fmAdd, fmEdit);
 
-  TfrmDialogSatuan = class(TfrmMasterDialog)
+  TfrmDialogSatuan = class(TfrmMasterDialog, ICRUDAble)
     lbl1: TLabel;
     edtCode: TEdit;
     Lbl2: TLabel;

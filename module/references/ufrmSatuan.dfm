@@ -2,127 +2,110 @@ inherited frmSatuan: TfrmSatuan
   Left = 223
   Top = 160
   Caption = 'Unit Of Measure'
-  ClientHeight = 334
-  ClientWidth = 542
+  ClientHeight = 422
+  ClientWidth = 760
   OldCreateOrder = True
-  ExplicitWidth = 558
-  ExplicitHeight = 373
+  ExplicitTop = -82
+  ExplicitWidth = 776
+  ExplicitHeight = 461
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 542
-    Height = 248
-    ExplicitWidth = 542
-    ExplicitHeight = 248
-    object cxGrid: TcxGrid
-      Left = 11
-      Top = 11
-      Width = 520
-      Height = 226
-      Align = alClient
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      LookAndFeel.Kind = lfUltraFlat
-      LookAndFeel.NativeStyle = False
-      object cxGrdBrowse: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Filter.Options = [fcoCaseInsensitive]
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <
-          item
-          end>
-        DataController.Summary.SummaryGroups = <>
-        FilterRow.Visible = True
-        FilterRow.ApplyChanges = fracImmediately
-        OptionsCustomize.ColumnHiding = True
-        OptionsCustomize.ColumnsQuickCustomization = True
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
-        OptionsView.GroupByBox = False
-      end
-      object cxGrdDetail: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
-        DataController.Summary.SummaryGroups = <>
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
-        OptionsView.GroupByBox = False
-      end
-      object lvMaster: TcxGridLevel
-        Caption = 'Master Data'
-        GridView = cxGrdBrowse
-        object lvDetail: TcxGridLevel
-          Caption = 'Detail Data'
-          Visible = False
+    Width = 760
+    Height = 333
+    ExplicitWidth = 760
+    ExplicitHeight = 333
+    inherited pgcBrowse: TcxPageControl
+      Width = 758
+      Height = 331
+      ExplicitWidth = 758
+      ExplicitHeight = 331
+      ClientRectBottom = 330
+      ClientRectRight = 757
+      inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 756
+        ExplicitHeight = 329
+        inherited cxGrid: TcxGrid
+          Width = 756
+          Height = 329
+          ExplicitWidth = 756
+          ExplicitHeight = 329
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 542
-    ExplicitWidth = 542
-    inherited lblHeader: TLabel
-      Height = 18
+    Width = 760
+    ExplicitWidth = 760
+    inherited lblFilterData: TcxLabel
+      Left = 406
+      ExplicitLeft = 406
+      AnchorY = 17
+    end
+    inherited dtAwalFilter: TcxDateEdit
+      Left = 467
+      ExplicitLeft = 467
+      ExplicitHeight = 23
+    end
+    inherited dtAkhirFilter: TcxDateEdit
+      Left = 583
+      ExplicitLeft = 583
+      ExplicitHeight = 23
+    end
+    inherited btnSearch: TcxButton
+      Left = 678
+      ExplicitLeft = 678
+    end
+    inherited lblsdFilter: TcxLabel
+      Left = 559
+      ExplicitLeft = 559
+      AnchorY = 17
     end
   end
-  inline fraFooter5Button1: TfraFooter5Button
-    Left = 0
-    Top = 278
-    Width = 542
-    Height = 56
-    Align = alBottom
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    ExplicitTop = 278
-    ExplicitWidth = 542
+  inherited fraFooter4Button1: TfraFooter4Button
+    Top = 366
+    Width = 760
+    ExplicitTop = 366
+    ExplicitWidth = 760
     inherited pnlFooter: TPanel
-      Width = 542
-      ExplicitWidth = 542
-      inherited btnClose: TcxButton
-        Left = 460
-        ModalResult = 8
-        OnClick = fraFooter5Button1btnCloseClick
-        ExplicitLeft = 460
-      end
+      Width = 760
+      ExplicitWidth = 760
       inherited btnAdd: TcxButton
-        Action = actAddSatuan
+        Action = actAdd
       end
       inherited btnUpdate: TcxButton
-        Action = actEditSatuan
+        Action = actEdit
       end
-      inherited btnDelete: TcxButton
-        Action = actDeleteSatuan
-        Caption = 'Export'
-        OptionsImage.ImageIndex = 34
+      inherited btnPrint: TcxButton
+        Action = actPrint
       end
-      inherited btnRefresh: TcxButton
-        Action = actRefreshSatuan
+      inherited btnClose: TcxButton
+        Left = 683
+        Action = actClose
+        ExplicitLeft = 683
+      end
+      inherited cxButton1: TcxButton
+        Action = actExport
       end
     end
-    inherited pnlSortCut: TPanel
-      Width = 542
-      ExplicitWidth = 542
-      inherited lbl5: TLabel
-        Left = 452
-        ExplicitLeft = 452
+    inherited pnlShortCut: TPanel
+      Width = 760
+      ExplicitWidth = 760
+      inherited lbEscape: TLabel
+        Left = 686
+        Height = 17
+        ExplicitLeft = 686
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
   object actlstSatuan: TActionList
@@ -142,7 +125,6 @@ inherited frmSatuan: TfrmSatuan
     end
     object actRefreshSatuan: TAction
       Caption = 'Refresh'
-      OnExecute = actRefreshSatuanExecute
     end
   end
 end

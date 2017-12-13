@@ -5,7 +5,6 @@ inherited frmBank: TfrmBank
   ClientHeight = 438
   ClientWidth = 623
   OldCreateOrder = True
-  ExplicitTop = -227
   ExplicitWidth = 639
   ExplicitHeight = 477
   PixelsPerInch = 96
@@ -16,20 +15,20 @@ inherited frmBank: TfrmBank
     ExplicitWidth = 623
     ExplicitHeight = 349
     inherited pgcBrowse: TcxPageControl
-      Width = 601
-      Height = 327
-      ExplicitWidth = 601
-      ExplicitHeight = 327
-      ClientRectBottom = 326
-      ClientRectRight = 600
+      Width = 621
+      Height = 347
+      ExplicitWidth = 621
+      ExplicitHeight = 347
+      ClientRectBottom = 346
+      ClientRectRight = 620
       inherited tsBrowse: TcxTabSheet
-        ExplicitWidth = 599
-        ExplicitHeight = 325
+        ExplicitWidth = 619
+        ExplicitHeight = 345
         inherited cxGrid: TcxGrid
-          Width = 599
-          Height = 325
-          ExplicitWidth = 599
-          ExplicitHeight = 325
+          Width = 619
+          Height = 345
+          ExplicitWidth = 619
+          ExplicitHeight = 345
         end
       end
     end
@@ -87,9 +86,18 @@ inherited frmBank: TfrmBank
         Action = actClose
         ExplicitLeft = 546
       end
+      inherited cxButton1: TcxButton
+        Action = actExport
+      end
     end
     inherited pnlShortCut: TPanel
       Width = 623
+      ExplicitWidth = 623
+      inherited lbEscape: TLabel
+        Left = 549
+        Height = 17
+        ExplicitLeft = 549
+      end
     end
   end
   inherited actlstBrowse: TActionList
