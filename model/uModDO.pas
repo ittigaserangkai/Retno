@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs, uModApp,
   System.Generics.Collections, uModSuplier, uModPO, uModSO,uModUnit,
-  uModBarang,uModSatuan;
+  uModBarang,uModSatuan, uModGudang;
 
 type
   TModDOItem = class;
@@ -38,6 +38,7 @@ type
     FMERCHANDISE: TModMerchandise;
     FPO: TModPO;
     FDO_UNIT: TModUnit;
+    FDO_Gudang: TModGudang;
     FSO: TModSO;
     FSUPLIER_MERCHAN_GRUP: TModSuplierMerchanGroup;
     FUNITSTORE: TModUnit;
@@ -88,6 +89,7 @@ type
 
     [AttributeOfForeign('AUT$UNIT_ID')]
     property DO_UNIT: TModUnit read FDO_UNIT write FDO_UNIT;
+    property DO_Gudang: TModGudang read FDO_Gudang write FDO_Gudang;
     property SO: TModSO read FSO write FSO;
 
     [AttributeOfForeign('SUPLIER_MERCHAN_GRUP_ID')]
