@@ -113,7 +113,7 @@ var
   iIDs: string;
 begin
   inherited;
-  if cxGridView.DataController.RecordCount = 1 then
+  {if cxGridView.DataController.RecordCount = 1 then
   begin
     iIDs := cxGridView.Values(cxGridView.DataController.FocusedRecordIndex, 'CRAZYPRICE ID');
 
@@ -137,6 +137,7 @@ begin
       FCDS.Next;
     end;
   end;
+  }
 end;
 
 procedure TfrmCrazyPrice.cxGridViewCellDblClick(Sender: TcxCustomGridTableView;
