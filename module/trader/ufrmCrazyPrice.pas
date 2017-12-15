@@ -181,7 +181,8 @@ begin
                                 'DATE_MODIFY',
                                 'CRAZYPRICE_ID'],False);
 
-  cxGridView.Columns[0].Width := 100;
+  if cxGridView.ColumnCount > 0 then
+    cxGridView.Columns[0].Width := 100;
 end;
 
 end.

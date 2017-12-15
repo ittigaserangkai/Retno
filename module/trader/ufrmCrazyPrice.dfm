@@ -29,6 +29,8 @@ inherited frmCrazyPrice: TfrmCrazyPrice
         inherited cxGrid: TcxGrid
           Width = 804
           Height = 419
+          ExplicitWidth = 804
+          ExplicitHeight = 419
           inherited cxGridView: TcxGridDBTableView
             OptionsData.Editing = True
           end
