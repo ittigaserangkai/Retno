@@ -9,7 +9,7 @@ uses
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, uDXUtils, uModCustomer, uModSuplier,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  uDMClient;
+  uDMClient, uModTipePembayaran, uAppUtils, uConstanta;
 
 type
   TFormMode = (fmAdd, fmEdit);
@@ -54,12 +54,17 @@ type
     chkPKP: TCheckBox;
     chkPPH: TCheckBox;
     cxLookUpTipeBayar: TcxExtLookupComboBox;
+    procedure actSaveExecute(Sender: TObject);
+    procedure chkPKPClick(Sender: TObject);
+    procedure chkPPHClick(Sender: TObject);
+    procedure chkPrincipalClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLookUpSupCodePropertiesEditValueChanged(Sender: TObject);
   private
     FModCustomer: TModCustomer;
     function GetModCustomer: TModCustomer;
     procedure InitLookup;
+    procedure InitDefault(aState: Boolean);
     procedure SimpanData;
     property ModCustomer: TModCustomer read GetModCustomer write FModCustomer;
   public
@@ -76,6 +81,34 @@ uses uTSCommonDlg, uRetnoUnit, ufrmSearchRekening;
 
 {$R *.dfm}    
 
+procedure TfrmDialogMasterCustomer.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  SimpanData;
+end;
+
+procedure TfrmDialogMasterCustomer.chkPKPClick(Sender: TObject);
+begin
+  inherited;
+  lbl13.Visible := chkPKP.Checked;
+  edtTaxNo.Visible := chkPKP.Checked;
+end;
+
+procedure TfrmDialogMasterCustomer.chkPPHClick(Sender: TObject);
+begin
+  inherited;
+  lbl16.Visible := chkPPH.Checked;
+  edtNPWP.Visible := chkPPH.Checked;
+end;
+
+procedure TfrmDialogMasterCustomer.chkPrincipalClick(Sender: TObject);
+begin
+  inherited;
+  lblSubCode.Visible := chkPrincipal.Checked;
+  cxLookUpSupCode.Visible := chkPrincipal.Checked;
+  edtSupName.Visible := chkPrincipal.Checked;
+end;
+
 procedure TfrmDialogMasterCustomer.cxLookUpSupCodePropertiesEditValueChanged(
   Sender: TObject);
 begin
@@ -87,6 +120,7 @@ procedure TfrmDialogMasterCustomer.FormCreate(Sender: TObject);
 begin
   inherited;
   InitLookup;
+  InitDefault(True);
 end;
 
 function TfrmDialogMasterCustomer.GetModCustomer: TModCustomer;
@@ -107,10 +141,26 @@ begin
   cxLookUpSupCode.LoadFromDS(
     DMClient.DSProviderClient.Suplier_GetDSLookup,
       'SUPLIER_ID','SUP_CODE',
-      ['SUPLIER_ID','SUPLIER_MERCHAN_GRUP_ID'],self
+      ['SUPLIER_ID','SUPLIER_ID'],self
     );
   cxLookUpSupCode.SetMultiPurposeLookup;
 
+end;
+
+procedure TfrmDialogMasterCustomer.InitDefault;
+begin
+  Self.EnableDisableControl(Panel3, aState);
+  Self.EnableDisableControl(Panel4, aState);
+
+  lbl13.Visible := not aState;
+  edtTaxNo.Visible := not aState;
+
+  lbl16.Visible := not aState;
+  edtNPWP.Visible := not aState;
+
+  lblSubCode.Visible := not aState;
+  cxLookUpSupCode.Visible := not aState;
+  edtSupName.Visible := not aState;
 end;
 
 procedure TfrmDialogMasterCustomer.SimpanData;
@@ -131,18 +181,41 @@ begin
   ModCustomer.CUST_FAX        := edtFaxNo.Text;
 
   //3
-//  ModCustomer.CUST_IS_PKP   :=
+  if chkPKP.Checked then
+    ModCustomer.CUST_IS_PKP   := 1
+  else
+    ModCustomer.CUST_IS_PKP   := 0;
+
+  if chkPPH.Checked then
+    ModCustomer.CUST_IS_PPH23 := 1
+  else
+    ModCustomer.CUST_IS_PPH23 := 0;
+
   ModCustomer.CUST_LR_TAX   := edtTaxNo.Text;
-//  ModCustomer.CUST_IS_PPH23 :=
   ModCustomer.CUST_NPWP     := edtNPWP.Text;
-//  ModCustomer.CUST_TOP      :=
-//  isih kurang 1 ngkas
+
+  if not VarIsNull(cxLookUpTipeBayar.EditValue) then
+    ModCustomer.TIPE_PEMBAYARAN  := TModTipePembayaran.CreateID(cxLookUpTipeBayar.EditValue);
+
+  ModCustomer.CUST_TOP := edtTermOP.text;
 
   //4
   ModCustomer.CUST_DESCRIPTION := edtCustDesc.Text;
-//  ModCustomer.CUST_IS_PRINCIPAL := chkPrincipal;   isih rung bener yaa...
-//  if not VarIsNull(cxLookUpSupCode.EditValue) then
-//    ModCustomer.SUPLIER_MERCHAN_GRUP_ID :=
+  if chkPrincipal.Checked then
+    ModCustomer.CUST_IS_PRINCIPAL := 1
+  else
+    ModCustomer.CUST_IS_PRINCIPAL := 0;
+  if not VarIsNull(cxLookUpSupCode.EditValue) then
+    ModCustomer.SUPLIER_MERCHAN_GRUP := TModSuplier.CreateID(cxLookUpSupCode.EditValue);
+
+  try
+    DMClient.CrudClient.SaveToDB(ModCustomer);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    self.ModalResult:=mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
+  end;
 
 end;
 

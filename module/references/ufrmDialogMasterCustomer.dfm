@@ -56,17 +56,18 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Height = 17
         Caption = 'Is Principal'
         TabOrder = 1
+        OnClick = chkPrincipalClick
       end
       object cxLookUpSupCode: TcxExtLookupComboBox
         Left = 110
-        Top = 54
+        Top = 55
         Properties.OnEditValueChanged = cxLookUpSupCodePropertiesEditValueChanged
         TabOrder = 3
         Width = 115
       end
       object edtSupName: TEdit
         Left = 231
-        Top = 57
+        Top = 56
         Width = 268
         Height = 22
         TabStop = False
@@ -351,6 +352,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Height = 17
         Caption = 'PKP'
         TabOrder = 3
+        OnClick = chkPKPClick
       end
       object chkPPH: TCheckBox
         Left = 113
@@ -359,6 +361,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Height = 17
         Caption = 'PPH'
         TabOrder = 4
+        OnClick = chkPPHClick
       end
       object cxLookUpTipeBayar: TcxExtLookupComboBox
         Left = 107
@@ -400,20 +403,14 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       ExplicitWidth = 534
       inherited lbCTRLEnter: TLabel
         Left = 359
-        Height = 15
         ExplicitLeft = 359
       end
       inherited lbEscape: TLabel
         Left = 450
-        Height = 15
         ExplicitLeft = 450
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 283
-        Height = 15
         ExplicitLeft = 283
       end
     end
@@ -421,5 +418,8 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   inherited actlstMasterDialog: TActionList
     Left = 472
     Top = 216
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end
