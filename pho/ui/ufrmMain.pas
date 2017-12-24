@@ -410,6 +410,9 @@ type
     dxbrbElectricTransaction: TdxBarButton;
     dxbrbElectricPayment: TdxBarButton;
     dxBarButton6: TdxBarButton;
+    actProdukJasa: TAction;
+    dxBarSubItem1: TdxBarSubItem;
+    dxbrbtnProdukJasa: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -469,6 +472,7 @@ type
     procedure actPrintPOExecute(Sender: TObject);
     procedure actProductTypeExecute(Sender: TObject);
     procedure actProductTypeNBDExecute(Sender: TObject);
+    procedure actProdukJasaExecute(Sender: TObject);
     procedure actQuotationExecute(Sender: TObject);
     procedure actQuotationHargaBeliExecute(Sender: TObject);
     procedure actQuotationMailerExecute(Sender: TObject);
@@ -561,7 +565,8 @@ uses
   uModSettingApp, uTSCommonDlg, ufrmScheduleAgreement, ufrmCustomerAgreement,
   ufrmFakturPajakAgreement, ufrmListAgreementDetil,
   ufrmAgreementVoucher, ufrmCustomerVoucher, ufrmGenerateVoucher,
-  ufrmElectricInvoice, ufrmElectricTransaction, ufrmElectricPayment;
+  ufrmElectricInvoice, ufrmElectricTransaction, ufrmElectricPayment,
+  ufrmProdukJasa;
 
 {$R *.dfm}
 
@@ -1056,6 +1061,11 @@ end;
 procedure TfrmMain.actProductTypeNBDExecute(Sender: TObject);
 begin
     frmProductTypeNBD := TfrmProductTypeNBD.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actProdukJasaExecute(Sender: TObject);
+begin
+  frmProdukJasa := TfrmProdukJasa.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actQuotationExecute(Sender: TObject);

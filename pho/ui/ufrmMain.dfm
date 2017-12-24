@@ -143,6 +143,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbReference: TdxRibbonTab
+      Active = True
       Caption = 'Reference'
       Groups = <
         item
@@ -221,7 +222,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
-      Active = True
       Caption = 'Marketing'
       Groups = <
         item
@@ -426,7 +426,7 @@ object frmMain: TfrmMain
   object actlstMain: TActionList
     Images = DMClient.imgListButton
     Left = 85
-    Top = 186
+    Top = 194
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
@@ -1474,6 +1474,11 @@ object frmMain: TfrmMain
       ImageIndex = 47
       OnExecute = actCrazyPriceExecute
     end
+    object actProdukJasa: TAction
+      Category = 'References'
+      Caption = 'actProdukJasa'
+      OnExecute = actProdukJasaExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1604,6 +1609,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnUnitStore'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnProdukJasa'
         end>
       OneOnRow = False
       Row = 0
@@ -2363,6 +2372,17 @@ object frmMain: TfrmMain
     end
     object dxBarButton6: TdxBarButton
       Action = actMasterCustomer
+      Category = 0
+    end
+    object dxBarSubItem1: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxbrbtnProdukJasa: TdxBarButton
+      Action = actProdukJasa
+      Caption = 'Produk Jasa'
       Category = 0
     end
   end

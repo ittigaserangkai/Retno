@@ -270,7 +270,10 @@ uses
   ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
   uClientClasses in '..\classes\uClientClasses.pas',
   uModelHelper in '..\model\uModelHelper.pas',
-  uModCustomer in '..\model\uModCustomer.pas';
+  uModCustomer in '..\model\uModCustomer.pas',
+  ufrmProdukJasa in '..\module\references\ufrmProdukJasa.pas' {frmProdukJasa},
+  uModProdukJasa in '..\model\uModProdukJasa.pas',
+  ufrmDialogProdukJasa in '..\module\references\ufrmDialogProdukJasa.pas' {frmDialogProdukJasa};
 
 {$R *.res}
 
@@ -281,5 +284,9 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmProdukJasa, frmProdukJasa);
+  Application.CreateForm(TfrmProdukJasa, frmProdukJasa);
+  Application.CreateForm(TfrmDialogProdukJasa, frmDialogProdukJasa);
+//  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
   Application.Run;
 end.
