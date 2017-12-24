@@ -127,5 +127,8 @@ inherited frmMasterCustomer: TfrmMasterCustomer
     inherited actAdd: TAction
       OnExecute = actAddExecute
     end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
+    end
   end
 end

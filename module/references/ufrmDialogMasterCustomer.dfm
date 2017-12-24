@@ -6,6 +6,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   ClientWidth = 534
   Constraints.MinHeight = 32
   OldCreateOrder = True
+  ExplicitTop = -13
   ExplicitWidth = 550
   ExplicitHeight = 475
   PixelsPerInch = 96
@@ -39,6 +40,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Caption = 'Supplier Code'
       end
       object edtCustDesc: TEdit
+        Tag = 1
         Left = 110
         Top = 3
         Width = 389
@@ -62,7 +64,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Left = 110
         Top = 55
         Properties.OnEditValueChanged = cxLookUpSupCodePropertiesEditValueChanged
-        TabOrder = 3
+        TabOrder = 2
         Width = 115
       end
       object edtSupName: TEdit
@@ -76,7 +78,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         MaxLength = 20
         ParentCtl3D = False
         ReadOnly = True
-        TabOrder = 2
+        TabOrder = 3
       end
     end
     object Panel1: TPanel
@@ -119,6 +121,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Caption = 'Title'
       end
       object edtCustCode: TEdit
+        Tag = 1
         Left = 110
         Top = 7
         Width = 77
@@ -130,6 +133,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         TabOrder = 0
       end
       object edtCustName: TEdit
+        Tag = 1
         Left = 110
         Top = 32
         Width = 389
@@ -141,6 +145,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         TabOrder = 1
       end
       object edtContactPerson: TEdit
+        Tag = 1
         Left = 110
         Top = 57
         Width = 196
@@ -213,6 +218,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Caption = 'Fax No.'
       end
       object edtAddress: TEdit
+        Tag = 1
         Left = 110
         Top = 6
         Width = 389
@@ -224,6 +230,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         TabOrder = 0
       end
       object edtCity: TEdit
+        Tag = 1
         Left = 110
         Top = 31
         Width = 196
@@ -235,6 +242,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         TabOrder = 1
       end
       object edtTelephone: TEdit
+        Tag = 1
         Left = 110
         Top = 56
         Width = 195
@@ -244,6 +252,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         MaxLength = 16
         ParentCtl3D = False
         TabOrder = 2
+        OnKeyPress = edtTelephoneKeyPress
       end
       object edtPostCode: TEdit
         Left = 385
@@ -255,6 +264,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         MaxLength = 8
         ParentCtl3D = False
         TabOrder = 3
+        OnKeyPress = edtPostCodeKeyPress
       end
       object edtFaxNo: TEdit
         Left = 385
@@ -266,6 +276,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         MaxLength = 16
         ParentCtl3D = False
         TabOrder = 4
+        OnKeyPress = edtFaxNoKeyPress
       end
     end
     object Panel3: TPanel
@@ -313,7 +324,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Caption = 'Days'
       end
       object edtTaxNo: TEdit
-        Left = 269
+        Left = 274
         Top = 4
         Width = 139
         Height = 22
@@ -321,18 +332,8 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Ctl3D = False
         MaxLength = 64
         ParentCtl3D = False
-        TabOrder = 0
-      end
-      object edtNPWP: TEdit
-        Left = 269
-        Top = 31
-        Width = 139
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        MaxLength = 32
-        ParentCtl3D = False
         TabOrder = 1
+        OnKeyPress = edtTaxNoKeyPress
       end
       object edtTermOP: TEdit
         Left = 317
@@ -341,9 +342,11 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Height = 22
         CharCase = ecUpperCase
         Ctl3D = False
+        MaxLength = 2
         ParentCtl3D = False
-        TabOrder = 2
+        TabOrder = 5
         Text = '0'
+        OnKeyPress = edtTermOPKeyPress
       end
       object chkPKP: TCheckBox
         Left = 113
@@ -351,7 +354,7 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Width = 49
         Height = 17
         Caption = 'PKP'
-        TabOrder = 3
+        TabOrder = 0
         OnClick = chkPKPClick
       end
       object chkPPH: TCheckBox
@@ -360,14 +363,25 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
         Width = 49
         Height = 17
         Caption = 'PPH'
-        TabOrder = 4
+        TabOrder = 2
         OnClick = chkPPHClick
       end
       object cxLookUpTipeBayar: TcxExtLookupComboBox
         Left = 107
         Top = 56
-        TabOrder = 5
+        TabOrder = 4
         Width = 65
+      end
+      object medtNPWP: TMaskEdit
+        Left = 274
+        Top = 30
+        Width = 120
+        Height = 22
+        EditMask = '999.999-99.99999999;0; '
+        MaxLength = 19
+        TabOrder = 3
+        Text = ''
+        OnKeyPress = medtNPWPKeyPress
       end
     end
   end
@@ -403,14 +417,20 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
       ExplicitWidth = 534
       inherited lbCTRLEnter: TLabel
         Left = 359
+        Height = 15
         ExplicitLeft = 359
       end
       inherited lbEscape: TLabel
         Left = 450
+        Height = 15
         ExplicitLeft = 450
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 283
+        Height = 15
         ExplicitLeft = 283
       end
     end
@@ -418,6 +438,9 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   inherited actlstMasterDialog: TActionList
     Left = 472
     Top = 216
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end
