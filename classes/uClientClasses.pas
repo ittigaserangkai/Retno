@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 12/12/2017 11:01:41
+// 24/12/2017 11:25:19
 //
 
 unit uClientClasses;
@@ -129,6 +129,8 @@ type
     FBank_GetDSLookupCommand_Cache: TDSRestCommand;
     FBank_GetDSOverviewCommand: TDSRestCommand;
     FBank_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FProdukJasa_GetDSOverviewCommand: TDSRestCommand;
+    FProdukJasa_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarangGalon_GetDSLookupCommand: TDSRestCommand;
     FBarangGalon_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangQuotation_GetDSLookupCommand: TDSRestCommand;
@@ -402,6 +404,8 @@ type
     function Bank_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Bank_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Bank_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function ProdukJasa_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function ProdukJasa_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangGalon_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function BarangGalon_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2196,6 +2200,16 @@ const
   );
 
   TDSProvider_Bank_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_ProdukJasa_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_ProdukJasa_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -7718,6 +7732,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FBank_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.ProdukJasa_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FProdukJasa_GetDSOverviewCommand = nil then
+  begin
+    FProdukJasa_GetDSOverviewCommand := FConnection.CreateCommand;
+    FProdukJasa_GetDSOverviewCommand.RequestType := 'GET';
+    FProdukJasa_GetDSOverviewCommand.Text := 'TDSProvider.ProdukJasa_GetDSOverview';
+    FProdukJasa_GetDSOverviewCommand.Prepare(TDSProvider_ProdukJasa_GetDSOverview);
+  end;
+  FProdukJasa_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FProdukJasa_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FProdukJasa_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.ProdukJasa_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FProdukJasa_GetDSOverviewCommand_Cache = nil then
+  begin
+    FProdukJasa_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FProdukJasa_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FProdukJasa_GetDSOverviewCommand_Cache.Text := 'TDSProvider.ProdukJasa_GetDSOverview';
+    FProdukJasa_GetDSOverviewCommand_Cache.Prepare(TDSProvider_ProdukJasa_GetDSOverview_Cache);
+  end;
+  FProdukJasa_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FProdukJasa_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.BarangGalon_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FBarangGalon_GetDSLookupCommand = nil then
@@ -11573,6 +11616,8 @@ begin
   FBank_GetDSLookupCommand_Cache.DisposeOf;
   FBank_GetDSOverviewCommand.DisposeOf;
   FBank_GetDSOverviewCommand_Cache.DisposeOf;
+  FProdukJasa_GetDSOverviewCommand.DisposeOf;
+  FProdukJasa_GetDSOverviewCommand_Cache.DisposeOf;
   FBarangGalon_GetDSLookupCommand.DisposeOf;
   FBarangGalon_GetDSLookupCommand_Cache.DisposeOf;
   FBarangQuotation_GetDSLookupCommand.DisposeOf;

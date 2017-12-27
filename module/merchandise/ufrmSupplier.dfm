@@ -17,7 +17,6 @@ inherited frmSupplier: TfrmSupplier
     inherited pgcBrowse: TcxPageControl
       Width = 801
       Height = 395
-      Properties.ActivePage = cxTSSupplier
       Properties.HideTabs = False
       ExplicitWidth = 801
       ExplicitHeight = 395

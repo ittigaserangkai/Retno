@@ -19,13 +19,13 @@ type
     FCUST_TITLE: String;
     FCUST_IS_PRINCIPAL: Integer;
     FCUST_DESCRIPTION: String;
-    FCUST_TOP: Integer;
+    FCUST_TOP: String;
     FCUST_NPWP: String;
     FCUST_IS_PPH23: Integer;
     FCUST_LR_TAX: String;
     FCUST_IS_PKP: Integer;
-    FSUPLIER_MERCHAN_GRUP_ID: String;
-    FTIPE_PEMBAYARAN: String;
+    FSUPLIER_ID: TModSuplier;
+    FTIPE_PEMBAYARAN: TModTipePembayaran;
   public
     class function GetTableName: String; override;
   published
@@ -44,15 +44,15 @@ type
         FCUST_IS_PRINCIPAL;
     property CUST_DESCRIPTION: String read FCUST_DESCRIPTION write
         FCUST_DESCRIPTION;
-    property CUST_TOP: Integer read FCUST_TOP write FCUST_TOP;
+    property CUST_TOP: String read FCUST_TOP write FCUST_TOP;
     property CUST_NPWP: String read FCUST_NPWP write FCUST_NPWP;
     property CUST_IS_PPH23: Integer read FCUST_IS_PPH23 write FCUST_IS_PPH23;
     property CUST_LR_TAX: String read FCUST_LR_TAX write FCUST_LR_TAX;
     property CUST_IS_PKP: Integer read FCUST_IS_PKP write FCUST_IS_PKP;
-    property SUPLIER_MERCHAN_GRUP_ID: String read FSUPLIER_MERCHAN_GRUP_ID write
-        FSUPLIER_MERCHAN_GRUP_ID;
+    property SUPLIER_MERCHAN_GRUP: TModSuplier read FSUPLIER_ID write FSUPLIER_ID;
     [AttributeOfForeign('REF$TIPE_PEMBAYARAN_ID')]    //relasi dg tabel lain yg butuh karakter unik
-    property TIPE_PEMBAYARAN: String read FTIPE_PEMBAYARAN write FTIPE_PEMBAYARAN;
+    property TIPE_PEMBAYARAN: TModTipePembayaran read FTIPE_PEMBAYARAN write
+        FTIPE_PEMBAYARAN;
   end;
 
 implementation

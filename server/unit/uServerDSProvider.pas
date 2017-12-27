@@ -28,6 +28,7 @@ type
         TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
+    function ProdukJasa_GetDSOverview: TDataSet;
     function BarangGalon_GetDSLookup: TDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: String): TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
@@ -353,6 +354,15 @@ var
   S: string;
 begin
   S := 'SELECT * FROM V_BANK order by bank_code';
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.ProdukJasa_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM PRODUK_JASA';
 
   Result := TDBUtils.OpenQuery(S);
 end;
