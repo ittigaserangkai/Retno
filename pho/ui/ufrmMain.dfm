@@ -143,6 +143,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbReference: TdxRibbonTab
+      Active = True
       Caption = 'Reference'
       Groups = <
         item
@@ -221,7 +222,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbMarketing: TdxRibbonTab
-      Active = True
       Caption = 'Marketing'
       Groups = <
         item
