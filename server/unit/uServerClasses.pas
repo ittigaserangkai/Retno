@@ -7,7 +7,7 @@ uses
   uModSuplier, Datasnap.DBClient, uModUnit, uModBarang, uModDO, uModSettingApp,
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
-  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,
+  uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,uModBankCashIn,
   uModSatuan, System.TypInfo;
 
 type

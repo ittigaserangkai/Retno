@@ -13,7 +13,7 @@ type
     FPROJAS_OWNER: String;
     FPROJAS_IS_BKP: Integer;
     FPROJAS_DEFAULT_PRICE: Double;
-    FSUPLIER_ID: TModSuplier;
+//    FSUPLIER_ID: TModSuplier;
     FTIPE_BARANG: TModTipeBarang;
     FPAJAK: TModRefPajak;
     FREKENING_ID_DEBET: TModRekening;

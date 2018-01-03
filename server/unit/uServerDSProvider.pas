@@ -166,6 +166,7 @@ type
         TDataSet;
     function Organization_Trader_GetDSLookup: TDataSet;
     function TipePembayaran_GetDSLookUp: TDataSet;
+    function CashIn_GetDSOverview(ATglAwal , ATglAkhir : TDateTime): TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -1675,6 +1676,18 @@ var
   S: string;
 begin
   S := 'select REF$TIPE_PEMBAYARAN_ID, TPBYR_CODE, TPBYR_NAME from REF$TIPE_PEMBAYARAN';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.CashIn_GetDSOverview(ATglAwal , ATglAkhir : TDateTime):
+    TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_CASHIN ' +
+       ' where BCI_TANGGAL between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+       ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
   Result := TDBUtils.OpenQuery(S);
 end;
 

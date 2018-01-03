@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 24/12/2017 11:25:19
+// 1/3/2018 11:25:31 AM
 //
 
 unit uClientClasses;
@@ -368,6 +368,8 @@ type
     FOrganization_Trader_GetDSLookupCommand_Cache: TDSRestCommand;
     FTipePembayaran_GetDSLookUpCommand: TDSRestCommand;
     FTipePembayaran_GetDSLookUpCommand_Cache: TDSRestCommand;
+    FCashIn_GetDSOverviewCommand: TDSRestCommand;
+    FCashIn_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -643,6 +645,8 @@ type
     function Organization_Trader_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TipePembayaran_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
     function TipePembayaran_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function CashIn_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function CashIn_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -3571,6 +3575,20 @@ const
 
   TDSProvider_TipePembayaran_GetDSLookUp_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_CashIn_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_CashIn_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -11572,6 +11590,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FTipePembayaran_GetDSLookUpCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSProviderClient.CashIn_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FCashIn_GetDSOverviewCommand = nil then
+  begin
+    FCashIn_GetDSOverviewCommand := FConnection.CreateCommand;
+    FCashIn_GetDSOverviewCommand.RequestType := 'GET';
+    FCashIn_GetDSOverviewCommand.Text := 'TDSProvider.CashIn_GetDSOverview';
+    FCashIn_GetDSOverviewCommand.Prepare(TDSProvider_CashIn_GetDSOverview);
+  end;
+  FCashIn_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FCashIn_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  FCashIn_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FCashIn_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FCashIn_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.CashIn_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FCashIn_GetDSOverviewCommand_Cache = nil then
+  begin
+    FCashIn_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FCashIn_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FCashIn_GetDSOverviewCommand_Cache.Text := 'TDSProvider.CashIn_GetDSOverview';
+    FCashIn_GetDSOverviewCommand_Cache.Prepare(TDSProvider_CashIn_GetDSOverview_Cache);
+  end;
+  FCashIn_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FCashIn_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  FCashIn_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FCashIn_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -11855,6 +11906,8 @@ begin
   FOrganization_Trader_GetDSLookupCommand_Cache.DisposeOf;
   FTipePembayaran_GetDSLookUpCommand.DisposeOf;
   FTipePembayaran_GetDSLookUpCommand_Cache.DisposeOf;
+  FCashIn_GetDSOverviewCommand.DisposeOf;
+  FCashIn_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

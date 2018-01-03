@@ -78,7 +78,8 @@ uses
   uModAgreement in '..\model\uModAgreement.pas',
   uModProdukJasa in '..\model\uModProdukJasa.pas',
   uModElectric in '..\model\uModElectric.pas',
-  uServerModelHelper in '..\model\uServerModelHelper.pas';
+  uServerModelHelper in '..\model\uServerModelHelper.pas',
+  uModBankCashIn in '..\model\uModBankCashIn.pas';
 
 {$R *.res}
 

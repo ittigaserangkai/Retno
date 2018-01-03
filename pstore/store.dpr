@@ -236,7 +236,8 @@ uses
   uModelHelper in '..\model\uModelHelper.pas',
   uModTransaksi in '..\model\uModTransaksi.pas',
   uPrintStruk in '..\classes\uPrintStruk.pas',
-  HPHELP in '..\lib\HPHELP.PAS';
+  HPHELP in '..\lib\HPHELP.PAS',
+  uModBankCashIn in '..\model\uModBankCashIn.pas';
 
 {$R *.res}
 

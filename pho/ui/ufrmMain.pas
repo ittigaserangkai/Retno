@@ -12,7 +12,7 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
-  ufrmCrazyPrice, dxRibbonColorGallery;
+  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -413,12 +413,15 @@ type
     actProdukJasa: TAction;
     dxBarSubItem1: TdxBarSubItem;
     dxbrbtnProdukJasa: TdxBarButton;
+    dxbrbtnCashIn: TdxBarButton;
+    actCashIn: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
+    procedure actCashInExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
     procedure actClaimFakturExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -633,6 +636,11 @@ end;
 procedure TfrmMain.actCancPOExecute(Sender: TObject);
 begin
     frmCancellationPO := TfrmCancellationPO.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actCashInExecute(Sender: TObject);
+begin
+  frmCashIn := TfrmCashIn.Create(Self);
 end;
 
 procedure TfrmMain.actChangeStatPOExecute(Sender: TObject);

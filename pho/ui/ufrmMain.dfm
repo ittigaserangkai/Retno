@@ -143,7 +143,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbReference: TdxRibbonTab
-      Active = True
       Caption = 'Reference'
       Groups = <
         item
@@ -170,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -1479,6 +1479,11 @@ object frmMain: TfrmMain
       Caption = 'actProdukJasa'
       OnExecute = actProdukJasaExecute
     end
+    object actCashIn: TAction
+      Category = 'Finance'
+      Caption = 'Cash In'
+      OnExecute = actCashInExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1951,6 +1956,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnCustomerInvoice'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnCashIn'
         end>
       OneOnRow = False
       Row = 0
@@ -2384,6 +2393,12 @@ object frmMain: TfrmMain
       Action = actProdukJasa
       Caption = 'Produk Jasa'
       Category = 0
+    end
+    object dxbrbtnCashIn: TdxBarButton
+      Action = actCashIn
+      Category = 0
+      ImageIndex = 47
+      PaintStyle = psCaptionGlyph
     end
   end
 end

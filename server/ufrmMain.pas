@@ -152,12 +152,14 @@ var
   sClassName: string;
 begin
   sClassName := InputBox('Nama Kelas','Nama Kelas', TfrmMain.BacaRegistry('last_sql_create_table'));
+  TfrmMain.TulisRegistry('last_sql_create_table',sClassName);
   try
 
     HTTPMemo.Lines.Add(TCrud.Create(Self).CreateTableSQLByClassName(sClassName));
-    TfrmMain.TulisRegistry('last_sql_create_table',sClassName)
+
   except
-    ShowMessage('Error generate SQL');
+    on E : Exception do
+    ShowMessage('Error generate SQL ' + E.Message);
   end;
 end;
 

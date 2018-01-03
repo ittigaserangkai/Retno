@@ -273,7 +273,10 @@ uses
   uModCustomer in '..\model\uModCustomer.pas',
   ufrmProdukJasa in '..\module\references\ufrmProdukJasa.pas' {frmProdukJasa},
   uModProdukJasa in '..\model\uModProdukJasa.pas',
-  ufrmDialogProdukJasa in '..\module\references\ufrmDialogProdukJasa.pas' {frmDialogProdukJasa};
+  ufrmDialogProdukJasa in '..\module\references\ufrmDialogProdukJasa.pas' {frmDialogProdukJasa},
+  uModBankCashIn in '..\model\uModBankCashIn.pas',
+  ufrmCashIn in '..\module\finance\ufrmCashIn.pas' {frmCashIn},
+  ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn};
 
 {$R *.res}
 
@@ -284,9 +287,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmProdukJasa, frmProdukJasa);
-  Application.CreateForm(TfrmProdukJasa, frmProdukJasa);
-  Application.CreateForm(TfrmDialogProdukJasa, frmDialogProdukJasa);
-//  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
+  //  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
   Application.Run;
 end.
