@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement, ufrmDOForTrader;
+  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -65,7 +65,7 @@ type
     actAdjustProductTurunan: TAction;
     actAdjustProductKemasan: TAction;
     actMutasiStok: TAction;
-    actBonusForSales: TAction;
+    actGoodsReceivingBonus: TAction;
     actReprintNP: TAction;
     actCNReceiving: TAction;
     actDNReceiving: TAction;
@@ -262,6 +262,7 @@ type
     dxBarSubItem1: TdxBarSubItem;
     dxBarLargeButton2: TdxBarLargeButton;
     dxBarButton3: TdxBarButton;
+    dxbrbtnDOBonus: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -329,6 +330,7 @@ type
     procedure actDailySalesAnalysisExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
     procedure actDOForTraderExecute(Sender: TObject);
+    procedure actGoodsReceivingBonusExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
     procedure actInvMovementExecute(Sender: TObject);
@@ -539,6 +541,11 @@ end;
 procedure TfrmMain.actGeneratePOForAllExecute(Sender: TObject);
 begin
 //  frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
+end;
+
+procedure TfrmMain.actGoodsReceivingBonusExecute(Sender: TObject);
+begin
+  frmDOBonus := TfrmDOBonus.Create(Self);
 end;
 
 procedure TfrmMain.actGoodsReceivingExecute(Sender: TObject);

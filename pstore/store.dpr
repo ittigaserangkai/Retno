@@ -237,7 +237,14 @@ uses
   uModTransaksi in '..\model\uModTransaksi.pas',
   uPrintStruk in '..\classes\uPrintStruk.pas',
   HPHELP in '..\lib\HPHELP.PAS',
-  uModBankCashIn in '..\model\uModBankCashIn.pas';
+  uModBankCashIn in '..\model\uModBankCashIn.pas',
+  uModAP in '..\model\uModAP.pas',
+  uModAR in '..\model\uModAR.pas',
+  uModCostCenter in '..\model\uModCostCenter.pas',
+  uModDOBonus in '..\model\uModDOBonus.pas',
+  uModTipeBonus in '..\model\uModTipeBonus.pas',
+  ufrmDOBonus in '..\module\inventory\ufrmDOBonus.pas' {frmDOBonus},
+  ufrmDialogDoBonus in '..\module\inventory\ufrmDialogDoBonus.pas' {frmDialogDoBonus};
 
 {$R *.res}
 
@@ -248,6 +255,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmLookupOrganization, frmLookupOrganization);
   Application.Run;
 end.

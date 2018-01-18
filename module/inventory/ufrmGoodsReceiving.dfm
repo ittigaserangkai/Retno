@@ -487,6 +487,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
       Height = 217
       Align = alClient
       TabOrder = 2
+      RootLevelOptions.DetailTabsPosition = dtpTop
       object cxGridTableGR: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnCellClick = cxGridTableGRCellClick
@@ -657,6 +658,7 @@ inherited frmGoodsReceiving: TfrmGoodsReceiving
         end
       end
       object cxgrdlvlGR: TcxGridLevel
+        Caption = 'Item Receiving'
         GridView = cxGridTableGR
       end
     end

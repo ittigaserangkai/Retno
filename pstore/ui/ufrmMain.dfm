@@ -403,10 +403,10 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = '&Mutasi Alokasi Stok'
     end
-    object actBonusForSales: TAction
+    object actGoodsReceivingBonus: TAction
       Category = 'Inventory'
-      Caption = '&Bonus For Sales'
-      Visible = False
+      Caption = '&Goods Receiving Bonus'
+      OnExecute = actGoodsReceivingBonusExecute
     end
     object actReprintNP: TAction
       Category = 'Inventory'
@@ -1052,6 +1052,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnDNRecv'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDOBonus'
         end>
       OneOnRow = False
       Row = 0
@@ -1062,7 +1066,7 @@ object frmMain: TfrmMain
     object dxbrProcureToPayReport: TdxBar
       Caption = 'Procure To Pay Report'
       CaptionButtons = <>
-      DockedLeft = 302
+      DockedLeft = 367
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
@@ -1532,6 +1536,11 @@ object frmMain: TfrmMain
       Action = actReprintNota
       Caption = 'Reprint Nota'
       Category = 0
+    end
+    object dxbrbtnDOBonus: TdxBarButton
+      Action = actGoodsReceivingBonus
+      Category = 0
+      ImageIndex = 40
     end
   end
 end

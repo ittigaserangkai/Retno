@@ -276,7 +276,8 @@ uses
   ufrmDialogProdukJasa in '..\module\references\ufrmDialogProdukJasa.pas' {frmDialogProdukJasa},
   uModBankCashIn in '..\model\uModBankCashIn.pas',
   ufrmCashIn in '..\module\finance\ufrmCashIn.pas' {frmCashIn},
-  ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn};
+  ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
+  uModDOBonus in '..\model\uModDOBonus.pas';
 
 {$R *.res}
 

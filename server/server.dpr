@@ -79,7 +79,8 @@ uses
   uModProdukJasa in '..\model\uModProdukJasa.pas',
   uModElectric in '..\model\uModElectric.pas',
   uServerModelHelper in '..\model\uServerModelHelper.pas',
-  uModBankCashIn in '..\model\uModBankCashIn.pas';
+  uModBankCashIn in '..\model\uModBankCashIn.pas',
+  uModDOBonus in '..\model\uModDOBonus.pas';
 
 {$R *.res}
 
