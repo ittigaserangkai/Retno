@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 1/18/2018 1:55:36 PM
+// 1/19/2018 10:59:20 AM
 //
 
 unit uClientClasses;
@@ -374,6 +374,8 @@ type
     FCashIn_GetDSOverviewCommand_Cache: TDSRestCommand;
     FDOBonus_GetDSOverviewCommand: TDSRestCommand;
     FDOBonus_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FTransferBarang_GetDSOverviewCommand: TDSRestCommand;
+    FTransferBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -655,6 +657,8 @@ type
     function CashIn_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DOBonus_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function DOBonus_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function TransferBarang_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -3619,6 +3623,22 @@ const
   );
 
   TDSProvider_DOBonus_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_TransferBarang_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_TransferBarang_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -11745,6 +11765,65 @@ begin
   Result := TDSRestCachedDataSet.Create(FDOBonus_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.TransferBarang_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FTransferBarang_GetDSOverviewCommand = nil then
+  begin
+    FTransferBarang_GetDSOverviewCommand := FConnection.CreateCommand;
+    FTransferBarang_GetDSOverviewCommand.RequestType := 'POST';
+    FTransferBarang_GetDSOverviewCommand.Text := 'TDSProvider."TransferBarang_GetDSOverview"';
+    FTransferBarang_GetDSOverviewCommand.Prepare(TDSProvider_TransferBarang_GetDSOverview);
+  end;
+  FTransferBarang_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FTransferBarang_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FTransferBarang_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTransferBarang_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTransferBarang_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTransferBarang_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FTransferBarang_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FTransferBarang_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FTransferBarang_GetDSOverviewCommand_Cache = nil then
+  begin
+    FTransferBarang_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FTransferBarang_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FTransferBarang_GetDSOverviewCommand_Cache.Text := 'TDSProvider."TransferBarang_GetDSOverview"';
+    FTransferBarang_GetDSOverviewCommand_Cache.Prepare(TDSProvider_TransferBarang_GetDSOverview_Cache);
+  end;
+  FTransferBarang_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FTransferBarang_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FTransferBarang_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FTransferBarang_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FTransferBarang_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FTransferBarang_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FTransferBarang_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -12034,6 +12113,8 @@ begin
   FCashIn_GetDSOverviewCommand_Cache.DisposeOf;
   FDOBonus_GetDSOverviewCommand.DisposeOf;
   FDOBonus_GetDSOverviewCommand_Cache.DisposeOf;
+  FTransferBarang_GetDSOverviewCommand.DisposeOf;
+  FTransferBarang_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

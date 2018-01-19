@@ -244,7 +244,10 @@ uses
   uModDOBonus in '..\model\uModDOBonus.pas',
   uModTipeBonus in '..\model\uModTipeBonus.pas',
   ufrmDOBonus in '..\module\inventory\ufrmDOBonus.pas' {frmDOBonus},
-  ufrmDialogDoBonus in '..\module\inventory\ufrmDialogDoBonus.pas' {frmDialogDoBonus};
+  ufrmDialogDoBonus in '..\module\inventory\ufrmDialogDoBonus.pas' {frmDialogDoBonus},
+  ufrmTransferBarang in '..\module\inventory\ufrmTransferBarang.pas' {frmTransferBarang},
+  uModTransferBarang in '..\model\uModTransferBarang.pas',
+  ufrmDialogTransferBarang in '..\module\inventory\ufrmDialogTransferBarang.pas' {frmDialogTransferBarang};
 
 {$R *.res}
 

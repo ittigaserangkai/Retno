@@ -80,7 +80,8 @@ uses
   uModElectric in '..\model\uModElectric.pas',
   uServerModelHelper in '..\model\uServerModelHelper.pas',
   uModBankCashIn in '..\model\uModBankCashIn.pas',
-  uModDOBonus in '..\model\uModDOBonus.pas';
+  uModDOBonus in '..\model\uModDOBonus.pas',
+  uModTransferBarang in '..\model\uModTransferBarang.pas';
 
 {$R *.res}
 

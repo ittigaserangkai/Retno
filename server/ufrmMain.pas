@@ -14,7 +14,8 @@ uses
   uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
-  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice, uModDOBonus;
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice,
+  uModDOBonus, uModTransferBarang;
 
 type
   TfrmMain = class(TForm)
@@ -183,17 +184,17 @@ end;
 
 procedure TfrmMain.btnTestClick(Sender: TObject);
 var
-  lDOB: TModDOBonus;
+  lDOB: TModTransferBarang;
   sID: string;
 begin
   with TCrud.Create(nil) do
   begin
     try
-      lDOB := TModDOBonus.CreateDefault;
+      lDOB := TModTransferBarang.CreateDefault;
       sID := SaveToDBID(lDOB);
       lDOB.Free;
 
-      with Retrieve(TModDOBonus.ClassName, InputBox('ID','ID',sID))do
+      with Retrieve(TModTransferBarang.ClassName, InputBox('ID','ID',sID))do
       begin
         ShowMessage(ToString);
         Free;
