@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus;
+  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -149,7 +149,7 @@ type
     actSettingJurnal: TAction;
     actretursupplier: TAction;
     actGenerateJurnal: TAction;
-    actTransferBarangBonus: TAction;
+    actTransferBarang: TAction;
     actLaporanWastage: TAction;
     actUbahQtyPO: TAction;
     actStockProduct: TAction;
@@ -263,6 +263,7 @@ type
     dxBarLargeButton2: TdxBarLargeButton;
     dxBarButton3: TdxBarButton;
     dxbrbtnDOBonus: TdxBarButton;
+    dxbrbtnTrfAntarGudang: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -341,6 +342,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
     procedure actStockProductExecute(Sender: TObject);
+    procedure actTransferBarangExecute(Sender: TObject);
     procedure actVoucherBotolExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
@@ -887,6 +889,11 @@ procedure TfrmMain.actTileExecute(Sender: TObject);
 begin
   TileMode := tbVertical;
   Tile;
+end;
+
+procedure TfrmMain.actTransferBarangExecute(Sender: TObject);
+begin
+  frmTransferBarang := TfrmTransferBarang.Create(Application);
 end;
 
 procedure TfrmMain.actUbahQtyPOExecute(Sender: TObject);

@@ -92,7 +92,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
-      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -125,6 +124,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbInventory: TdxRibbonTab
+      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -779,9 +779,10 @@ object frmMain: TfrmMain
       Category = 'EOD'
       Caption = 'actGenerateJurnal'
     end
-    object actTransferBarangBonus: TAction
+    object actTransferBarang: TAction
       Category = 'Inventory'
-      Caption = 'actTransferBarangBonus'
+      Caption = 'Transfer Barang'
+      OnExecute = actTransferBarangExecute
     end
     object actLaporanWastage: TAction
       Category = 'Inventory'
@@ -1240,7 +1241,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1258,6 +1259,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnWastageReal'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTrfAntarGudang'
         end>
       OneOnRow = True
       Row = 0
@@ -1541,6 +1546,11 @@ object frmMain: TfrmMain
       Action = actGoodsReceivingBonus
       Category = 0
       ImageIndex = 40
+    end
+    object dxbrbtnTrfAntarGudang: TdxBarButton
+      Action = actTransferBarang
+      Category = 0
+      ImageIndex = 39
     end
   end
 end

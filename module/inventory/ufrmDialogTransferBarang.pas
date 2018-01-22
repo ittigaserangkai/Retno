@@ -8,11 +8,13 @@ uses
   Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls,
   dxCore, cxDateUtils, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, Vcl.StdCtrls,
-  cxMemo;
+  cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, Vcl.StdCtrls,uInterface,
+  cxMemo, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
+  cxButtonEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
+  cxGridTableView, cxClasses, cxGridCustomView, cxGrid;
 
 type
-  TfrmDialogTransferBarang = class(TfrmMasterDialog)
+  TfrmDialogTransferBarang = class(TfrmMasterDialog, ICRUDAble)
     pnlHeader: TPanel;
     lblNO: TLabel;
     edNO: TcxTextEdit;
@@ -24,9 +26,20 @@ type
     lblGudangTujuan: TLabel;
     lblKeteranan: TLabel;
     memDesc: TcxMemo;
+    cxgrdTransfer: TcxGrid;
+    cxGridTableGR: TcxGridTableView;
+    cxGridColPLU: TcxGridColumn;
+    cxGridColNama: TcxGridColumn;
+    cxGridColPLU_ID: TcxGridColumn;
+    cxGridColQty: TcxGridColumn;
+    cxGridColUOM: TcxGridColumn;
+    cxgrdlvlTransfer: TcxGridLevel;
+    lblNoRef: TLabel;
+    edReferensi: TcxTextEdit;
   private
     { Private declarations }
   public
+    procedure LoadData(AID : String);
     { Public declarations }
   end;
 
@@ -36,5 +49,10 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmDialogTransferBarang.LoadData(AID : String);
+begin
+  // TODO -cMM: TfrmMasterDialog1.LoadData default body inserted
+end;
 
 end.

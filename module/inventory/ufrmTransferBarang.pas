@@ -13,10 +13,12 @@ uses
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDBUtils, uModTransferBarang,
   uDXUtils, Datasnap.DBClient, uDMClient, uAppUtils, uModBarang, uModSatuan,
-  uModGudang, System.DateUtils, System.StrUtils;
+  uModGudang, System.DateUtils, System.StrUtils, ufrmDialogTransferBarang;
 
 type
   TfrmTransferBarang = class(TfrmMasterBrowse)
+    procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     FCDS: TClientDataset;
     { Private declarations }
@@ -31,6 +33,18 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmTransferBarang.actAddExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogTransferBarang);
+end;
+
+procedure TfrmTransferBarang.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogTransferBarang, FCDS.FieldByName('TRANSFERBARANG_ID').AsString);
+end;
 
 procedure TfrmTransferBarang.RefreshData;
 begin

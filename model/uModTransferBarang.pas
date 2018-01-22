@@ -16,7 +16,8 @@ type
     FTB_GUDANG_TUJUAN: TModGudang;
     FTB_Keterangan: string;
     FTB_NO: string;
-    FTB_TANGGAL: TDATEtime;
+    FTB_REFERENSI: string;
+    FTB_TANGGAL: TDateTime;
     FTB_TransferBarangItems: TOBjectList<TModTransferBarangItem>;
     FTB_Unit: TModUnit;
     function GetTB_TransferBarangItems: TOBjectList<TModTransferBarangItem>;
@@ -33,6 +34,7 @@ type
 
     [AttributeOfCode]
     property TB_NO: string read FTB_NO write FTB_NO;
+    property TB_REFERENSI: string read FTB_REFERENSI write FTB_REFERENSI;
     property TB_TANGGAL: TDATEtime read FTB_TANGGAL write FTB_TANGGAL;
     property TB_Unit: TModUnit read FTB_Unit write FTB_Unit;
   end;
@@ -42,7 +44,7 @@ type
     FTBI_Barang: TModBarang;
     FTBI_TransferBarang: TModTransferBarang;
     FTBI_UOM: TModSatuan;
-    FTB_Qty: Double;
+    FTBI_Qty: Double;
   published
     property TBI_Barang: TModBarang read FTBI_Barang write FTBI_Barang;
 
@@ -50,7 +52,7 @@ type
     property TBI_TransferBarang: TModTransferBarang read FTBI_TransferBarang
         write FTBI_TransferBarang;
     property TBI_UOM: TModSatuan read FTBI_UOM write FTBI_UOM;
-    property TB_Qty: Double read FTB_Qty write FTB_Qty;
+    property TBI_Qty: Double read FTBI_Qty write FTBI_Qty;
   end;
 
 
