@@ -485,6 +485,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       end
       inherited btnPrint: TcxButton
         Left = 425
+        Action = actPrint
         ExplicitLeft = 425
       end
     end
@@ -493,14 +494,20 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       ExplicitWidth = 672
       inherited lbCTRLEnter: TLabel
         Left = 497
+        Height = 15
         ExplicitLeft = 497
       end
       inherited lbEscape: TLabel
         Left = 588
+        Height = 15
         ExplicitLeft = 588
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 421
+        Height = 15
         ExplicitLeft = 421
       end
     end
