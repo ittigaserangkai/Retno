@@ -9,7 +9,7 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxLabel,
   cxTextEdit, cxGroupBox, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  cxSpinEdit;
+  cxSpinEdit, uRetnoUnit, uModUnit;
 
 type
   TfrmSettingKoneksi = class(TfrmMasterDialog)
@@ -76,14 +76,28 @@ end;
 procedure TfrmSettingKoneksi.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  UpdateConn;
-  TAppUtils.TulisRegistry('server', edServer.Text );
-  TAppUtils.TulisRegistry('port', edPort.Text );
-  TAppUtils.TulisRegistry('user', edUser.Text );
-  TAppUtils.TulisRegistry('password', edPassword.Text );
-  TAppUtils.TulisRegistry('UnitStore', VarToStr(cxLookupCabang.EditValue) );
+  try
+    if not TAppUtils.Confirm('Sebelum menyimpan setting koneksi'
+                          + #13 + 'semua form akan ditutup terlebih dahulu.'
+                          + #13 + 'Transaksi dilanjutkan ?') then
+      Exit;
 
-  TAppUtils.Information('Koneksi Berhasil di update');
+    TRetno.CloseAllMDIChildForms;
+
+    UpdateConn;
+    TAppUtils.TulisRegistry('server', edServer.Text );
+    TAppUtils.TulisRegistry('port', edPort.Text );
+    TAppUtils.TulisRegistry('user', edUser.Text );
+    TAppUtils.TulisRegistry('password', edPassword.Text );
+
+    TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, VarToStr(cxLookupCabang.EditValue)));
+    TAppUtils.TulisRegistry('UnitStore', TRetno.UnitStore.ID);
+
+    TAppUtils.Information('Koneksi Berhasil di update');
+  except
+    on E : Exception do
+      TAppUtils.Error(E.Message);
+  end;
 
 end;
 

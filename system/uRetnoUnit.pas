@@ -19,17 +19,17 @@ type
     FUnitStore: TModUnit;
     FSettingApp: TModSettingApp;
     class function GetUnitStore: TModUnit; static;
-    class function GetSettingApp: TModSettingApp; static;
     class procedure SetUnitStore(const Value: TModUnit); static;
-    class procedure SetSettingApp(const Value: TModSettingApp); static;
   protected
   public
+    class procedure CloseAllMDIChildForms;
     class procedure KartuAP(AOrgID : String; APeriodeAwal, APreiodeAkhir :
         TDatetime);
     class procedure LapHistoryAP(ANoAP : String);
+    class procedure SetFormMain(AForm : TForm);
+    class procedure SetSettingApp(AModSettingApp : TModSettingApp);
     class property UnitStore: TModUnit read GetUnitStore write SetUnitStore;
-    class property SettingApp: TModSettingApp read GetSettingApp write
-        SetSettingApp;
+    class property SettingApp: TModSettingApp read FSettingApp write FSettingApp;
   end;
 
 function getGlobalVar(aVarString : string): string;
@@ -78,6 +78,10 @@ var
   igQty_Precision    : Integer = -3;
 
 implementation
+
+
+var
+  FormMain : TForm;
 
 function getGlobalVar(aVarString : string): string;
 //var
@@ -236,20 +240,16 @@ begin
 }
 end;
 
+class procedure TRetno.CloseAllMDIChildForms;
+begin
+  TAppUtils.CloseAllMDIChildForms(FormMain);
+end;
+
 class function TRetno.GetUnitStore: TModUnit;
 begin
   if (FUnitStore)=nil then
     FUnitStore := TModUnit.Create;
   Result := FUnitStore;
-end;
-
-class function TRetno.GetSettingApp: TModSettingApp;
-begin
-  if (FSettingApp)=nil then
-  begin
-    FSettingApp := TModSettingApp.Create;
-  end;
-  Result := FSettingApp;
 end;
 
 class procedure TRetno.KartuAP(AOrgID : String; APeriodeAwal, APreiodeAkhir :
@@ -277,16 +277,26 @@ begin
   end;
 end;
 
+class procedure TRetno.SetFormMain(AForm : TForm);
+begin
+  FormMain := AForm;
+end;
+
 class procedure TRetno.SetUnitStore(const Value: TModUnit);
 begin
   FreeAndNil(FUnitStore);
   FUnitStore := Value;
+
+  FormMain.Caption := 'ASSALAAM HYPERMARKET : ' + FUnitStore.UNT_NAME;
+  TRetno.SetSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(FUnitStore));
 end;
 
-class procedure TRetno.SetSettingApp(const Value: TModSettingApp);
+class procedure TRetno.SetSettingApp(AModSettingApp : TModSettingApp);
 begin
-  FreeAndNil(FSettingApp);
-  FSettingApp := Value;
+  if FSettingApp <> nil then
+    FreeAndNil(FSettingApp);
+
+  FSettingApp := AModSettingApp;
 end;
 
 end.

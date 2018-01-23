@@ -15,7 +15,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice,
-  uModDOBonus, uModTransferBarang;
+  uModDOBonus, uModTransferBarang, uModBarcodeRequest;
 
 type
   TfrmMain = class(TForm)
@@ -184,17 +184,17 @@ end;
 
 procedure TfrmMain.btnTestClick(Sender: TObject);
 var
-  lDOB: TModTransferBarang;
+  lDOB: TModBarcodeRequest;
   sID: string;
 begin
   with TCrud.Create(nil) do
   begin
     try
-      lDOB := TModTransferBarang.CreateDefault;
+      lDOB := TModBarcodeRequest.CreateDefault;
       sID := SaveToDBID(lDOB);
       lDOB.Free;
 
-      with Retrieve(TModTransferBarang.ClassName, InputBox('ID','ID',sID))do
+      with Retrieve(TModBarcodeRequest.ClassName, InputBox('ID','ID',sID))do
       begin
         ShowMessage(ToString);
         Free;

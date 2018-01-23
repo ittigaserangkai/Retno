@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -193,6 +192,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -848,11 +848,11 @@ object frmMain: TfrmMain
       Category = 'Accounting'
       Caption = 'actOpeningFiscalYear'
     end
-    object actBarcodeUsage: TAction
+    object actBarcodeRequest: TAction
       Category = 'Finance'
-      Caption = 'Barcode Usage'
+      Caption = 'Barcode Request'
       ImageIndex = 62
-      OnExecute = actBarcodeUsageExecute
+      OnExecute = actBarcodeRequestExecute
     end
     object actListPemakaianBarcode: TAction
       Category = 'Finance'
@@ -2236,7 +2236,7 @@ object frmMain: TfrmMain
       Visible = ivAlways
     end
     object dxbrbtnBarcodeUsage: TdxBarButton
-      Action = actBarcodeUsage
+      Action = actBarcodeRequest
       Category = 0
     end
     object dxbrbtnElectricCustomer: TdxBarButton
@@ -2399,6 +2399,10 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 47
       PaintStyle = psCaptionGlyph
+    end
+    object dxbrbtnBarcodeReq: TdxBarButton
+      Action = actBarcodeRequest
+      Category = 0
     end
   end
 end

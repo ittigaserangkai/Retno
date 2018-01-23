@@ -247,7 +247,8 @@ uses
   ufrmDialogDoBonus in '..\module\inventory\ufrmDialogDoBonus.pas' {frmDialogDoBonus},
   ufrmTransferBarang in '..\module\inventory\ufrmTransferBarang.pas' {frmTransferBarang},
   uModTransferBarang in '..\model\uModTransferBarang.pas',
-  ufrmDialogTransferBarang in '..\module\inventory\ufrmDialogTransferBarang.pas' {frmDialogTransferBarang};
+  ufrmDialogTransferBarang in '..\module\inventory\ufrmDialogTransferBarang.pas' {frmDialogTransferBarang},
+  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas';
 
 {$R *.res}
 

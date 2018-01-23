@@ -34,6 +34,7 @@ type
     class function BytesToStr(const Bytes: TBytes): string;
     class procedure cCloseWaitWindow;
     class procedure CheckDataNumeric(AKey : Char);
+    class procedure CloseAllMDIChildForms(AMainForm : TForm);
     class function Confirm(const Text: string): Boolean;
 
     class function ConfirmBerhasilSimpanCetakReport(ANamaLaporan : String): Boolean;
@@ -358,6 +359,14 @@ begin
     TAppUtils.Warning('Data Yang Anda Masukkan Salah, Data Harus Numeric');
     Abort;
   end;
+end;
+
+class procedure TAppUtils.CloseAllMDIChildForms(AMainForm : TForm);
+var
+  i: Integer;
+begin
+  for i := 0 to AMainForm.MDIChildCount - 1 do
+    AMainForm.MDIChildren[i].Close;
 end;
 
 class function TAppUtils.Confirm(const Text: string): Boolean;

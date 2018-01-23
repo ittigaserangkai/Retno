@@ -264,6 +264,7 @@ type
     dxBarButton3: TdxBarButton;
     dxbrbtnDOBonus: TdxBarButton;
     dxbrbtnTrfAntarGudang: TdxBarButton;
+    dxbrbtnBarcodeRequest: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -429,7 +430,7 @@ end;
 
 procedure TfrmMain.actBarcodeRequestExecute(Sender: TObject);
 begin
-    frmBarcodeRequest:= TfrmBarcodeRequest.CreateWithUser(Application, FFormProperty);
+  frmBarcodeRequest:= TfrmBarcodeRequest.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
@@ -635,11 +636,15 @@ var
   sIDUnit: string;
 begin
   //setting unit toko
+
+  TRetno.SetFormMain(Self);
   sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
   if sIDUnit <> '' then
     TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
 
-  Caption := 'ASSALAAM HYPERMARKET : ' + TRetno.UnitStore.UNT_NAME;
+//  TRetno.SetSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(TModUnit.CreateID(TRetno.UnitStore.ID)));
+
+
 
   IsTesting := False;
   if ParamStr(1) = 'TESTING' then

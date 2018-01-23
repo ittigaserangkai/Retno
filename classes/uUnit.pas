@@ -93,8 +93,8 @@ type
     FPropId         : integer;
     FKabID          : string;
     FRegionID       : string;
-    FDATE_CREATE    : TDateTime;
-    FDATE_MODIFY    : TDateTime;
+//    FDATE_CREATE    : TDateTime;
+//    FDATE_MODIFY    : TDateTime;
     FApp            : integer;//TApp;
     FIsActive: Integer;
     FIsGRAllowed: Integer;
@@ -109,7 +109,7 @@ type
 
     function FLoadFromDB( aSQL : String ): Boolean;
     function GetCompany: TCompany;
-    function GetApp: integer;//TApp;
+//    function GetApp: integer;//TApp;
     function GetKab: integer;//TKabupaten;
     function GetProp: integer;//TPropinsi;
     function GetRegn: integer;//TRegion;
@@ -500,15 +500,15 @@ begin
   Result := FCompany;
 end;
 
-function TUnit.GetApp: integer;//TApp;
-begin
+//function TUnit.GetApp: integer;//TApp;
+//begin
 //  if FApp = nil then
-  begin
+//  begin
 //    FApp  := TApp.Create(nil);
 //    FApp.LoadByID(FAppID);
-  end;
-  Result := FApp;
-end;
+//  end;
+//  Result := FApp;
+//end;
 
 function TUnit.GetFieldNameFor_AllowPo: string;
 begin

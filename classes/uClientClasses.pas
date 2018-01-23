@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 1/19/2018 10:59:20 AM
+// 1/23/2018 8:49:36 AM
 //
 
 unit uClientClasses;
@@ -376,6 +376,8 @@ type
     FDOBonus_GetDSOverviewCommand_Cache: TDSRestCommand;
     FTransferBarang_GetDSOverviewCommand: TDSRestCommand;
     FTransferBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBarcodeRequest_GetDSOverviewCommand: TDSRestCommand;
+    FBarcodeRequest_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -659,6 +661,8 @@ type
     function DOBonus_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TransferBarang_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -3639,6 +3643,22 @@ const
   );
 
   TDSProvider_TransferBarang_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_BarcodeRequest_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_BarcodeRequest_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -11824,6 +11844,65 @@ begin
   Result := TDSRestCachedDataSet.Create(FTransferBarang_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FBarcodeRequest_GetDSOverviewCommand = nil then
+  begin
+    FBarcodeRequest_GetDSOverviewCommand := FConnection.CreateCommand;
+    FBarcodeRequest_GetDSOverviewCommand.RequestType := 'POST';
+    FBarcodeRequest_GetDSOverviewCommand.Text := 'TDSProvider."BarcodeRequest_GetDSOverview"';
+    FBarcodeRequest_GetDSOverviewCommand.Prepare(TDSProvider_BarcodeRequest_GetDSOverview);
+  end;
+  FBarcodeRequest_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FBarcodeRequest_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FBarcodeRequest_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FBarcodeRequest_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FBarcodeRequest_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FBarcodeRequest_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarcodeRequest_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarcodeRequest_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarcodeRequest_GetDSOverviewCommand_Cache = nil then
+  begin
+    FBarcodeRequest_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FBarcodeRequest_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FBarcodeRequest_GetDSOverviewCommand_Cache.Text := 'TDSProvider."BarcodeRequest_GetDSOverview"';
+    FBarcodeRequest_GetDSOverviewCommand_Cache.Prepare(TDSProvider_BarcodeRequest_GetDSOverview_Cache);
+  end;
+  FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FBarcodeRequest_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -12115,6 +12194,8 @@ begin
   FDOBonus_GetDSOverviewCommand_Cache.DisposeOf;
   FTransferBarang_GetDSOverviewCommand.DisposeOf;
   FTransferBarang_GetDSOverviewCommand_Cache.DisposeOf;
+  FBarcodeRequest_GetDSOverviewCommand.DisposeOf;
+  FBarcodeRequest_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

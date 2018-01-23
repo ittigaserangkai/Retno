@@ -94,7 +94,7 @@ begin
         Prop.SetValue(Self, Prop.GetValue(aModApp));
     end;
   except
-    ShowMessage(Self.ClassName  + '.' + Prop.Name);
+//    ShowMessage(Self.ClassName  + '.' + Prop.Name);
     raise;
   End;
 end;

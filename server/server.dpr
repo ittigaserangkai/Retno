@@ -81,7 +81,8 @@ uses
   uServerModelHelper in '..\model\uServerModelHelper.pas',
   uModBankCashIn in '..\model\uModBankCashIn.pas',
   uModDOBonus in '..\model\uModDOBonus.pas',
-  uModTransferBarang in '..\model\uModTransferBarang.pas';
+  uModTransferBarang in '..\model\uModTransferBarang.pas',
+  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas';
 
 {$R *.res}
 

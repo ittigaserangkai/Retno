@@ -172,6 +172,8 @@ type
         TModUnit = nil): TDataset;
     function TransferBarang_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
   end;
 
   TDSReport = class(TComponent)
@@ -1733,6 +1735,21 @@ begin
 
   if AUnit <> nil then
     sSQL := sSQL + ' and TB_UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir :
+    TDateTime; AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BARCODE_REQUEST' +
+          ' WHERE TANGGAL BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;

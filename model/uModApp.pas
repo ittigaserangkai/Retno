@@ -142,7 +142,7 @@ var
   lAppObjectItem : TModApp;
   lAppClass : TModAppClass;
   sGenericItemClassName: string;
-  sSQL: string;
+//  sSQL: string;
 begin
   Self := inherited Create;
 
@@ -513,9 +513,9 @@ var
   lDate: TDateTime;
   meth : TRttiMethod;
   lObjectList: TObject;
-  lAppObjectItem : TModApp;
-  lAppClass : TModAppClass;
-  lAppClassItem: TModAppClass;
+//  lAppObjectItem : TModApp;
+//  lAppClass : TModAppClass;
+//  lAppClassItem: TModAppClass;
   lModItem: TModApp;
   lObj: tobject;
   sGenericItemClassName: string;
@@ -562,8 +562,8 @@ begin
             //sayangny utk akses rtti object harus ada dulu, jadi create dulu
             if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
 
-            lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
-            lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
+//            lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
+//            lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
             value  := meth.Invoke(prop.GetValue(Self), []);
             Assert(value.IsArray);
 

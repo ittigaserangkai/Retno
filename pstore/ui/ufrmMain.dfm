@@ -92,6 +92,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -124,7 +125,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -725,7 +725,7 @@ object frmMain: TfrmMain
     end
     object actBarcodeRequest: TAction
       Category = 'Merchandise'
-      Caption = 'actBarcodeRequest'
+      Caption = 'Barcode Request'
       OnExecute = actBarcodeRequestExecute
     end
     object actListWastage: TAction
@@ -1057,6 +1057,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnDOBonus'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBarcodeRequest'
         end>
       OneOnRow = False
       Row = 0
@@ -1067,7 +1071,7 @@ object frmMain: TfrmMain
     object dxbrProcureToPayReport: TdxBar
       Caption = 'Procure To Pay Report'
       CaptionButtons = <>
-      DockedLeft = 367
+      DockedLeft = 501
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
@@ -1241,7 +1245,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = True
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1551,6 +1555,11 @@ object frmMain: TfrmMain
       Action = actTransferBarang
       Category = 0
       ImageIndex = 39
+    end
+    object dxbrbtnBarcodeRequest: TdxBarButton
+      Action = actBarcodeRequest
+      Category = 0
+      ImageIndex = 62
     end
   end
 end
