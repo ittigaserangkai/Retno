@@ -7,6 +7,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
+  ExplicitTop = -1
   ExplicitWidth = 877
   ExplicitHeight = 526
   PixelsPerInch = 96
@@ -14,16 +15,16 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
   inherited pnlBody: TPanel
     Width = 861
     Height = 431
-    ExplicitWidth = 672
+    ExplicitWidth = 861
     ExplicitHeight = 431
     inherited cxGrid: TcxGrid
       Top = 91
       Width = 857
-      Height = 297
-      TabOrder = 2
-      ExplicitTop = 233
-      ExplicitWidth = 668
-      ExplicitHeight = 155
+      Height = 338
+      TabOrder = 1
+      ExplicitTop = 91
+      ExplicitWidth = 857
+      ExplicitHeight = 297
       inherited cxGridView: TcxGridDBTableView
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
@@ -104,8 +105,8 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         Width = 217
         Height = 22
         TabStop = False
-        Color = 15066597
         Ctl3D = False
+        Enabled = False
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 2
@@ -117,6 +118,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         Height = 22
         TabStop = False
         Ctl3D = False
+        Enabled = False
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 0
@@ -138,13 +140,13 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
             Kind = bkEllipsis
           end>
         TabOrder = 3
-        Text = 'edbSupplierCode'
         Width = 121
       end
       object curredtUnitPrice: TcxCurrencyEdit
         Left = 77
         Top = 60
         EditValue = 0.000000000000000000
+        Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 4
         OnExit = IntEdtQtyExit
         OnKeyDown = IntEdtQtyKeyDown
@@ -187,48 +189,8 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
               Kind = bkEllipsis
             end>
           TabOrder = 0
-          Text = 'edPO'
           Width = 121
         end
-      end
-    end
-    object Panel2: TPanel
-      Left = 2
-      Top = 388
-      Width = 857
-      Height = 41
-      Align = alBottom
-      Color = 15198183
-      TabOrder = 1
-      ExplicitWidth = 668
-      DesignSize = (
-        857
-        41)
-      object Label1: TLabel
-        Left = 15
-        Top = 13
-        Width = 98
-        Height = 16
-        Caption = 'GRAND TOTAL PRICE'
-      end
-      object lblDelete: TcxLabel
-        Left = 728
-        Top = 17
-        Anchors = [akRight, akBottom]
-        Caption = 'Remove Row (Ctrl + R)'
-        ParentFont = False
-        OnClick = lblDeleteClick
-        ExplicitLeft = 539
-      end
-      object curreditTotalPrice: TcxCurrencyEdit
-        Left = 122
-        Top = 10
-        EditValue = 0.000000000000000000
-        TabOrder = 1
-        OnExit = IntEdtQtyExit
-        OnKeyDown = IntEdtQtyKeyDown
-        OnKeyPress = IntEdtQtyKeyPress
-        Width = 110
       end
     end
   end
@@ -236,20 +198,20 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
     Top = 431
     Width = 861
     ExplicitTop = 431
-    ExplicitWidth = 672
+    ExplicitWidth = 861
     inherited pnlFooter: TPanel
       Width = 861
-      ExplicitWidth = 672
+      ExplicitWidth = 861
       inherited btnClose: TcxButton
         Left = 784
         Action = actCancel
-        ExplicitLeft = 595
+        ExplicitLeft = 784
       end
       inherited btnSave: TcxButton
         Left = 691
         Action = actSave
         OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 502
+        ExplicitLeft = 691
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -257,21 +219,21 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       inherited btnPrint: TcxButton
         Left = 614
         Action = actPrint
-        ExplicitLeft = 425
+        ExplicitLeft = 614
       end
     end
     inherited pnlSortCut: TPanel
       Width = 861
-      ExplicitWidth = 672
+      ExplicitWidth = 861
       inherited lbCTRLEnter: TLabel
         Left = 686
         Height = 15
-        ExplicitLeft = 497
+        ExplicitLeft = 686
       end
       inherited lbEscape: TLabel
         Left = 777
         Height = 15
-        ExplicitLeft = 588
+        ExplicitLeft = 777
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -279,7 +241,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       inherited lblCTRLP: TLabel
         Left = 610
         Height = 15
-        ExplicitLeft = 421
+        ExplicitLeft = 610
       end
     end
   end

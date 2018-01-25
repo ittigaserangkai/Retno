@@ -22,14 +22,10 @@ type
     lbl6: TLabel;
     edtSupplierName: TEdit;
     edtBarNo: TEdit;
-    Panel2: TPanel;
-    Label1: TLabel;
-    lblDelete: TcxLabel;
     Label2: TLabel;
     dtTgl: TcxDateEdit;
     edbSupplierCode: TcxButtonEdit;
     curredtUnitPrice: TcxCurrencyEdit;
-    curreditTotalPrice: TcxCurrencyEdit;
     cxGridColKode: TcxGridDBColumn;
     cxGridColNama: TcxGridDBColumn;
     cxGridColUOM: TcxGridDBColumn;
@@ -952,8 +948,8 @@ begin
      Exit;
   end;
 
-  lblStatusPO.Caption := '';
-  lblStatusPO.Tag     := 0;
+//  lblStatusPO.Caption := '';
+//  lblStatusPO.Tag     := 0;
   sSQL := ' select a.po_no as"NO PO", a.PO_date as "TGL PO", d.merchan_name AS "MERCHANDISE",f.stapo_name AS "STATUS",'
           + ' e.sup_code AS "KODE SUPLIER", e.sup_name AS "NAMA SUPLIER" '
           + ' from PO a, suplier_merchan_grup b, ref$merchandise_grup c, '
@@ -993,7 +989,7 @@ begin
   inherited;
   if Key=#13 then
   begin
-  	LoadDataPOToForm(edtPONo.Text);
+//  	LoadDataPOToForm(edtPONo.Text);
   end else if(not(Key in['0'..'9',Chr(VK_BACK)]))then
     Key:=#0;
 end;
