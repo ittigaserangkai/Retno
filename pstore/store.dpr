@@ -237,7 +237,10 @@ uses
   uModTransaksi in '..\model\uModTransaksi.pas',
   uPrintStruk in '..\classes\uPrintStruk.pas',
   HPHELP in '..\lib\HPHELP.PAS',
-  uModBankCashIn in '..\model\uModBankCashIn.pas';
+  uModBankCashIn in '..\model\uModBankCashIn.pas',
+  uModAP in '..\model\uModAP.pas',
+  uModCostCenter in '..\model\uModCostCenter.pas',
+  uModAR in '..\model\uModAR.pas';
 
 {$R *.res}
 

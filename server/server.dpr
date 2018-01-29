@@ -50,7 +50,6 @@ uses
   uModCNRecv in '..\model\uModCNRecv.pas',
   uModSettingApp in '..\model\uModSettingApp.pas',
   uModClaimFaktur in '..\model\uModClaimFaktur.pas',
-  uModAP in '..\model\uModAP.pas',
   uModOrganization in '..\model\uModOrganization.pas',
   uModBankCashOut in '..\model\uModBankCashOut.pas',
   uModTransaksi in '..\model\uModTransaksi.pas',
@@ -79,7 +78,8 @@ uses
   uModProdukJasa in '..\model\uModProdukJasa.pas',
   uModElectric in '..\model\uModElectric.pas',
   uServerModelHelper in '..\model\uServerModelHelper.pas',
-  uModBankCashIn in '..\model\uModBankCashIn.pas';
+  uModBankCashIn in '..\model\uModBankCashIn.pas',
+  uModAP in '..\model\uModAP.pas';
 
 {$R *.res}
 
