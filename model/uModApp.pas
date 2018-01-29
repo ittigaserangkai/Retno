@@ -46,6 +46,7 @@ type
     procedure SetCrudFilterKind(const Value: TFilterClassKind);
   public
     constructor Create; reintroduce; virtual;
+    constructor CreateDefault;
     constructor CreateID(AID : String);
     destructor Destroy; override;
     procedure AddFilterCrud(aModClass: TModAppClass);
@@ -65,6 +66,7 @@ type
     class procedure RegisterRTTI;
     function RemoveBracket(cValue: string): string;
     procedure SetFromDataset(ADataSet: TDataset);
+    function ToString: string; override;
     procedure UpdateToDataset(ADataSet: TDataset);
     property CrudFilterKind: TFilterClassKind read FCrudFilterKind write
         SetCrudFilterKind;
@@ -125,6 +127,91 @@ begin
   ObjectState := 1;
   Date_Create := Now();
   Date_Modify := Now();
+end;
+
+constructor TModApp.CreateDefault;
+var
+  ctx : TRttiContext;
+  rt,rtItem : TRttiType;
+  prop : TRttiProperty;
+  FieldValues : string;
+  FieldNames: String;
+  lAppObject: TModApp;
+  meth : TRttiMethod;
+  lObjectList: TObject;
+  lAppObjectItem : TModApp;
+  lAppClass : TModAppClass;
+  sGenericItemClassName: string;
+//  sSQL: string;
+begin
+  Self := inherited Create;
+
+  FieldValues := '';
+  FieldNames  := '';
+
+  Self.Date_Create := Now;
+
+  rt := ctx.GetType(Self.ClassType);
+  for prop in rt.GetProperties() do
+  begin
+    if (not prop.IsWritable) then Continue;
+    if Prop.Name = 'ID' then Continue;
+
+    if prop.Visibility = mvPublished then
+    begin
+      Randomize;
+
+      if LowerCase(Prop.PropertyType.Name) = LowerCase('TDateTime') then
+      begin
+        prop.SetValue(Self,TValue.From<TDateTime>(Now));
+      end else
+      begin
+        case prop.PropertyType.TypeKind of
+          tkInteger : prop.SetValue(Self, Random(1000));
+          tkFloat   : prop.SetValue(Self, Random(1000000));
+          tkUString : prop.SetValue(Self, FormatDateTime('yyyyNNddhhmmdd', Now + Random(1000)));
+          tkClass   :
+          begin
+            meth := prop.PropertyType.GetMethod('ToArray');
+            if not Assigned(meth) then //bukan obj list
+            begin
+              if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+              meth            := prop.PropertyType.GetMethod('Create');
+              lAppObject      := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+
+              lAppObject.ID          := TDBUtils.GetNextIDGUIDToString;
+              prop.SetValue(Self, lAppObject);
+            end;
+          end;
+        end;
+      end;
+    end else
+    begin
+      if prop.PropertyType.TypeKind = tkClass then
+      begin
+        meth := prop.PropertyType.GetMethod('ToArray');
+        if Assigned(meth) then
+        begin
+          lObjectList := prop.GetValue(Self).AsObject;
+          if lObjectList = nil then continue;
+
+          sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+          sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+          rtItem := ctx.FindType(sGenericItemClassName);
+
+          meth := prop.PropertyType.GetMethod('Add');
+          if Assigned(meth) and Assigned(rtItem) then
+          begin
+            //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+            if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+            lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
+            lAppObjectItem  := lAppClass.CreateDefault;
+            meth.Invoke(lObjectList,[lAppObjectItem]);
+          end;
+        end;
+      end;  //object list assignment
+    end;  //prop.visibility check
+  end;
 end;
 
 constructor TModApp.CreateID(AID: String);
@@ -413,6 +500,88 @@ begin
         end;
       end;
     end;
+  end;
+
+end;
+
+function TModApp.ToString: string;
+var
+  rt,rtItem : TRttiType;
+  prop : TRttiProperty;
+  ctx : TRttiContext;
+  i: Integer;
+  lDate: TDateTime;
+  meth : TRttiMethod;
+  lObjectList: TObject;
+//  lAppObjectItem : TModApp;
+//  lAppClass : TModAppClass;
+//  lAppClassItem: TModAppClass;
+  lModItem: TModApp;
+  lObj: tobject;
+  sGenericItemClassName: string;
+  value : TValue;
+begin
+  inherited;
+  Result := '';
+
+  rt := ctx.GetType(Self.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    if (not prop.IsWritable) then Continue;
+    if Prop.Name = 'ID' then Continue;
+    If LowerCase(Prop.Name) = LowerCase('objectstate') then
+      Continue;
+
+    if prop.Visibility = mvPublished then
+    begin
+      If LowerCase(Prop.PropertyType.Name) = LowerCase('TDateTime') then
+      begin
+        lDate  := prop.GetValue(Self).AsExtended;
+        Result := Result + QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',lDate));
+      end else begin
+        case prop.PropertyType.TypeKind of
+          tkUString         : Result := Result + prop.GetValue(Self).AsString;
+          tkInteger,tkFloat : Result := Result + FloatToStr(prop.GetValue(Self).AsExtended);
+    //      tkClass   :
+        end;
+      end;
+    end else if prop.PropertyType.TypeKind = tkClass then
+      begin
+        meth := prop.PropertyType.GetMethod('ToArray');
+        if Assigned(meth) then
+        begin
+          lObjectList := prop.GetValue(Self).AsObject;
+          if lObjectList = nil then continue;
+
+          sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+          sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+          rtItem := ctx.FindType(sGenericItemClassName);
+
+          if Assigned(meth) and Assigned(rtItem) then
+          begin
+            //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+            if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+
+//            lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
+//            lAppClassItem := TModAppClass( rtItem.AsInstance.MetaclassType );
+            value  := meth.Invoke(prop.GetValue(Self), []);
+            Assert(value.IsArray);
+
+            Try
+              for i := 0 to value.GetArrayLength - 1 do
+              begin
+                lObj := value.GetArrayElement(i).AsObject;
+                If not lObj.ClassType.InheritsFrom(TModApp) then continue;  //bila ada generic selain class ini
+                lModItem := TModApp(lObj);
+                Result := Result + ';' + lModItem.ToString;
+              end;
+            Finally
+
+            End;
+          end;
+        end;
+      end;
+
   end;
 
 end;

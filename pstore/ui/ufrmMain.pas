@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement, ufrmDOForTrader;
+  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -65,7 +65,7 @@ type
     actAdjustProductTurunan: TAction;
     actAdjustProductKemasan: TAction;
     actMutasiStok: TAction;
-    actBonusForSales: TAction;
+    actGoodsReceivingBonus: TAction;
     actReprintNP: TAction;
     actCNReceiving: TAction;
     actDNReceiving: TAction;
@@ -149,7 +149,7 @@ type
     actSettingJurnal: TAction;
     actretursupplier: TAction;
     actGenerateJurnal: TAction;
-    actTransferBarangBonus: TAction;
+    actTransferBarang: TAction;
     actLaporanWastage: TAction;
     actUbahQtyPO: TAction;
     actStockProduct: TAction;
@@ -262,6 +262,9 @@ type
     dxBarSubItem1: TdxBarSubItem;
     dxBarLargeButton2: TdxBarLargeButton;
     dxBarButton3: TdxBarButton;
+    dxbrbtnDOBonus: TdxBarButton;
+    dxbrbtnTrfAntarGudang: TdxBarButton;
+    dxbrbtnBarcodeRequest: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -329,6 +332,7 @@ type
     procedure actDailySalesAnalysisExecute(Sender: TObject);
     procedure actDNReceivingExecute(Sender: TObject);
     procedure actDOForTraderExecute(Sender: TObject);
+    procedure actGoodsReceivingBonusExecute(Sender: TObject);
     procedure actOnExitExecute(Sender: TObject);
     procedure actPOFromTraderExecute(Sender: TObject);
     procedure actInvMovementExecute(Sender: TObject);
@@ -339,6 +343,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actStockCardExecute(Sender: TObject);
     procedure actStockProductExecute(Sender: TObject);
+    procedure actTransferBarangExecute(Sender: TObject);
     procedure actVoucherBotolExecute(Sender: TObject);
   private
 //    FNewUnit: TUnit;
@@ -425,7 +430,7 @@ end;
 
 procedure TfrmMain.actBarcodeRequestExecute(Sender: TObject);
 begin
-    frmBarcodeRequest:= TfrmBarcodeRequest.CreateWithUser(Application, FFormProperty);
+  frmBarcodeRequest:= TfrmBarcodeRequest.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
@@ -541,6 +546,11 @@ begin
 //  frmGeneratePOforAll := TfrmGeneratePOforAll.CreateWithUser(Application,FFormProperty)
 end;
 
+procedure TfrmMain.actGoodsReceivingBonusExecute(Sender: TObject);
+begin
+  frmDOBonus := TfrmDOBonus.Create(Self);
+end;
+
 procedure TfrmMain.actGoodsReceivingExecute(Sender: TObject);
 begin
   frmListingReceivingProduct := TfrmListingReceivingProduct.CreateWithUser(Application, FFormProperty);
@@ -626,11 +636,15 @@ var
   sIDUnit: string;
 begin
   //setting unit toko
+
+  TRetno.SetFormMain(Self);
   sIDUnit   := TAppUtils.BacaRegistry('UnitStore');
   if sIDUnit <> '' then
     TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
 
-  Caption := 'ASSALAAM HYPERMARKET : ' + TRetno.UnitStore.UNT_NAME;
+//  TRetno.SetSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(TModUnit.CreateID(TRetno.UnitStore.ID)));
+
+
 
   IsTesting := False;
   if ParamStr(1) = 'TESTING' then
@@ -880,6 +894,11 @@ procedure TfrmMain.actTileExecute(Sender: TObject);
 begin
   TileMode := tbVertical;
   Tile;
+end;
+
+procedure TfrmMain.actTransferBarangExecute(Sender: TObject);
+begin
+  frmTransferBarang := TfrmTransferBarang.Create(Application);
 end;
 
 procedure TfrmMain.actUbahQtyPOExecute(Sender: TObject);

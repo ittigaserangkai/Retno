@@ -11,46 +11,33 @@ uses
   cxButtons, cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   System.Actions, Vcl.ActnList, ufraFooterDialog3Button, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid;
+  cxGrid, uAppUtils, uDMClient;
 
 type
   TProcessType = (ptAdd, ptEdit, ptNone);
   TfrmDialogBarcodeRequest = class(TfrmMasterDialogBrowse)
     Panel1: TPanel;
     lbl1: TLabel;
-    lbl2: TLabel;
     lbl3: TLabel;
-    lbl4: TLabel;
-    lbl5: TLabel;
     lbl6: TLabel;
-    bvl1: TBevel;
     edtSupplierName: TEdit;
-    edtProductName: TEdit;
-    btnAddRow: TcxButton;
     edtBarNo: TEdit;
-    Panel2: TPanel;
-    Label1: TLabel;
-    IntEdtQty: TcxCurrencyEdit;
-    lblDelete: TcxLabel;
     Label2: TLabel;
     dtTgl: TcxDateEdit;
-    Label3: TLabel;
-    cbUOM: TComboBox;
-    grpProduct: TGroupBox;
-    grpPurchaseOrder: TGroupBox;
-    lbl7: TLabel;
-    edtPONo: TEdit;
-    bSearchPO: TcxButton;
-    edtDatePO: TcxDateEdit;
-    lbl8: TLabel;
-    lblStatusPO: TLabel;
-    lbl9: TLabel;
     edbSupplierCode: TcxButtonEdit;
     curredtUnitPrice: TcxCurrencyEdit;
-    edbProductCode: TcxButtonEdit;
-    curredtTotal: TcxCurrencyEdit;
-    edbUOM: TcxButtonEdit;
-    curreditTotalPrice: TcxCurrencyEdit;
+    cxGridColKode: TcxGridDBColumn;
+    cxGridColNama: TcxGridDBColumn;
+    cxGridColUOM: TcxGridDBColumn;
+    cxGridColQty: TcxGridDBColumn;
+    cxGridColHarga: TcxGridDBColumn;
+    cxGridColTotal: TcxGridDBColumn;
+    cxGridColBarcode: TcxGridDBColumn;
+    grpPurchaseOrder: TGroupBox;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    edtDatePO: TcxDateEdit;
+    edPO: TcxButtonEdit;
     procedure actDeleteExecute(Sender: TObject);
     procedure btnAddRowClick(Sender: TObject);
     procedure footerDialogMasterbtnSaveClick(Sender: TObject);
@@ -184,7 +171,7 @@ procedure TfrmDialogBarcodeRequest.btnAddRowClick(Sender: TObject);
 
   procedure AddNewDetil();
   begin
-    if edbProductCode.Text = '' then exit;
+//    if edbProductCode.Text = '' then exit;
     {
     if strgGrid.Cells[_KolNo, strgGrid.RowCount - 1] <> '' then
       strgGrid.AddRow;
@@ -204,33 +191,33 @@ procedure TfrmDialogBarcodeRequest.btnAddRowClick(Sender: TObject);
   end;
 
 begin
-  if edbProductCode.Text ='' then
-  begin
-    CommonDlg.ShowError('Kode Product masih kosong !');
-    edbProductCode.SetFocus;
-    Exit;
-  end;
-
-  if edbSupplierCode.Text ='' then
-  begin
-    CommonDlg.ShowError('Kode Supplier masih kosong !');
-    edbSupplierCode.SetFocus;
-    Exit;
-  end;
-
-  if cbUOM.Text ='' then
-  begin
-    CommonDlg.ShowError('UOM belum dipilih !');
-    cbUOM.SetFocus;
-    Exit;
-  end;
-
-  if IntEdtQty.Value <= 0 then
-  begin
-    CommonDlg.ShowError('Qty Harus > 0. Tolong Dicek Lagi');
-    IntEdtQty.SetFocus;
-    Exit;
-  end;
+//  if edbProductCode.Text ='' then
+//  begin
+//    CommonDlg.ShowError('Kode Product masih kosong !');
+//    edbProductCode.SetFocus;
+//    Exit;
+//  end;
+//
+//  if edbSupplierCode.Text ='' then
+//  begin
+//    CommonDlg.ShowError('Kode Supplier masih kosong !');
+//    edbSupplierCode.SetFocus;
+//    Exit;
+//  end;
+//
+//  if cbUOM.Text ='' then
+//  begin
+//    CommonDlg.ShowError('UOM belum dipilih !');
+//    cbUOM.SetFocus;
+//    Exit;
+//  end;
+//
+//  if IntEdtQty.Value <= 0 then
+//  begin
+//    CommonDlg.ShowError('Qty Harus > 0. Tolong Dicek Lagi');
+//    IntEdtQty.SetFocus;
+//    Exit;
+//  end;
   {
   if (not FindOnGrid(edbProductCode.Text, cbUOM.Text)) then
   begin
@@ -297,27 +284,29 @@ var
   iTemp: Double;
 begin
   inherited;
-  if not TryStrToFloat(getGlobalVar('PRICE_BARCODE_REQ'), iTemp) then
+  iTemp := TRetno.SettingApp.PRICE_BARCODE_REQ;
+  if iTemp <= 0 then
   begin
-     CommonDlg.ShowMessage('Harga default per unit Barcode belum didaftarkan dalam SYS$PARAMETER.'+#13#10
-                           + 'Menggunakan nilai default [PRICE_BARCODE_REQ] = Rp.100,-');
+     TAppUtils.Warning('Harga default per unit Barcode belum didaftarkan dalam Setting Application'+#13#10
+                           + 'Menggunakan nilai default = Rp.100,-');
      iTemp := 100;
   end;
-    curredtUnitPrice.Value    := iTemp;
-    IntEdtQty.Value           := 0;
-    curredtTotal.Value        := 0;
-    dtTgl.Date                := now;
-    curreditTotalPrice.Value  := 0;
-    if Process = ptEdit then
-    begin
-      GetBarcodeRequest;
-      GetDetilBarcodeRequest;
-      edbSupplierCode.Properties.ReadOnly := True;
-      edtSupplierName.ReadOnly:= True;
-      edbProductCode.SetFocus;
-    end else
-    if Process = ptAdd then
-      edtBarNo.Text :=  GenerateNoBarcodeRequest;
+
+//    curredtUnitPrice.Value    := iTemp;
+//    IntEdtQty.Value           := 0;
+//    curredtTotal.Value        := 0;
+//    dtTgl.Date                := now;
+//    curreditTotalPrice.Value  := 0;
+//    if Process = ptEdit then
+//    begin
+//      GetBarcodeRequest;
+//      GetDetilBarcodeRequest;
+//      edbSupplierCode.Properties.ReadOnly := True;
+//      edtSupplierName.ReadOnly:= True;
+//      edbProductCode.SetFocus;
+//    end else
+//    if Process = ptAdd then
+//      edtBarNo.Text :=  GenerateNoBarcodeRequest;
 end;
 
 procedure TfrmDialogBarcodeRequest.FormClose(Sender: TObject;
@@ -367,7 +356,7 @@ end;
 
 procedure TfrmDialogBarcodeRequest.IntEdtQtyExit(Sender: TObject);
 begin
-  curredtTotal.Value := curredtUnitPrice.Value * IntEdtQty.Value;
+//  curredtTotal.Value := curredtUnitPrice.Value * IntEdtQty.Value;
 end;
 
 procedure TfrmDialogBarcodeRequest.GetBarcodeRequest;
@@ -722,20 +711,20 @@ begin
   inherited;
   if Key = vk_return then
   begin
-    curredtTotal.Value := IntEdtQty.Value * curredtUnitPrice.Value;
-    btnAddRow.SetFocus;
+//    curredtTotal.Value := IntEdtQty.Value * curredtUnitPrice.Value;
+//    btnAddRow.SetFocus;
   end;
 end;
 
 procedure TfrmDialogBarcodeRequest.edbUOMButtonClick(Sender: TObject);
-var
-  sSQL: String;
+//var
+//  sSQL: String;
 begin
   inherited;
-  sSQL := 'select a.konvsat_sat_code_from as "Kode Satuan"'
-         + ' from ref$konversi_satuan a'
-         + ' where a.konvsat_scf_unt_id = ' + IntToStr(dialogunit)
-         + ' and a.konvsat_brg_code = ' + QuotedStr(edbProductCode.Text);
+//  sSQL := 'select a.konvsat_sat_code_from as "Kode Satuan"'
+//         + ' from ref$konversi_satuan a'
+//         + ' where a.konvsat_scf_unt_id = ' + IntToStr(dialogunit)
+//         + ' and a.konvsat_brg_code = ' + QuotedStr(edbProductCode.Text);
   {
 
   with clookup('Daftar UOM', sSQL) do
@@ -754,17 +743,17 @@ begin
 end;
 
 procedure TfrmDialogBarcodeRequest.edbProductCodeExit(Sender: TObject);
-var
-  sSQL: String;
+//var
+//  sSQL: String;
 begin
   inherited;
-  sSQL := 'select b.Brg_Code, b.Brg_Alias '
-      + ' from barang_suplier a, barang  b '
-      + ' where a.brgsup_brg_code = b.brg_code '
-      + ' and a.brgsup_brg_unt_id = b.brg_unt_id '
-      + ' and a.brgsup_sup_code = ' + QuotedStr(edbSupplierCode.Text)
-      + ' and a.brgsup_brg_unt_id = ' + IntToStr(dialogunit)
-      + ' and b.brg_code = ' + QuotedStr(edbProductCode.Text) ;
+//  sSQL := 'select b.Brg_Code, b.Brg_Alias '
+//      + ' from barang_suplier a, barang  b '
+//      + ' where a.brgsup_brg_code = b.brg_code '
+//      + ' and a.brgsup_brg_unt_id = b.brg_unt_id '
+//      + ' and a.brgsup_sup_code = ' + QuotedStr(edbSupplierCode.Text)
+//      + ' and a.brgsup_brg_unt_id = ' + IntToStr(dialogunit)
+//      + ' and b.brg_code = ' + QuotedStr(edbProductCode.Text) ;
   {
   with cOpenQuery(sSQL) do
   Begin
@@ -792,13 +781,13 @@ end;
 
 procedure TfrmDialogBarcodeRequest.FillComboUOM(aBrgCode : String ;  aUnitID :
     Integer);
-var
-  sSQL: String;
+//var
+//  sSQL: String;
 begin
-  sSQL := 'select a.konvsat_sat_code_from as "Kode Satuan"'
-         + ' from ref$konversi_satuan a'
-         + ' where a.konvsat_scf_unt_id = ' + IntToStr(dialogunit)
-         + ' and a.konvsat_brg_code = ' + QuotedStr(edbProductCode.Text);
+//  sSQL := 'select a.konvsat_sat_code_from as "Kode Satuan"'
+//         + ' from ref$konversi_satuan a'
+//         + ' where a.konvsat_scf_unt_id = ' + IntToStr(dialogunit)
+//         + ' and a.konvsat_brg_code = ' + QuotedStr(edbProductCode.Text);
   {
   with cOpenQuery(sSQL) do
    begin
@@ -923,11 +912,11 @@ end;
 
 procedure TfrmDialogBarcodeRequest.ClearAtributPLU;
 begin
-  edbProductCode.Clear;
-  edtProductName.Clear;
-  cbUOM.Clear;
-  IntEdtQty.Clear;
-  curredtTotal.Clear;
+//  edbProductCode.Clear;
+//  edtProductName.Clear;
+//  cbUOM.Clear;
+//  IntEdtQty.Clear;
+//  curredtTotal.Clear;
 end;
 
 procedure TfrmDialogBarcodeRequest.ParseHeader;
@@ -959,8 +948,8 @@ begin
      Exit;
   end;
 
-  lblStatusPO.Caption := '';
-  lblStatusPO.Tag     := 0;
+//  lblStatusPO.Caption := '';
+//  lblStatusPO.Tag     := 0;
   sSQL := ' select a.po_no as"NO PO", a.PO_date as "TGL PO", d.merchan_name AS "MERCHANDISE",f.stapo_name AS "STATUS",'
           + ' e.sup_code AS "KODE SUPLIER", e.sup_name AS "NAMA SUPLIER" '
           + ' from PO a, suplier_merchan_grup b, ref$merchandise_grup c, '
@@ -1000,7 +989,7 @@ begin
   inherited;
   if Key=#13 then
   begin
-  	LoadDataPOToForm(edtPONo.Text);
+//  	LoadDataPOToForm(edtPONo.Text);
   end else if(not(Key in['0'..'9',Chr(VK_BACK)]))then
     Key:=#0;
 end;

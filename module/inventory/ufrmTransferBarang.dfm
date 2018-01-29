@@ -1,86 +1,79 @@
-inherited frmBarcodeRequest: TfrmBarcodeRequest
-  Left = 240
-  Top = 165
-  Caption = 'Barcode Label Requestition'
-  ClientHeight = 405
-  ClientWidth = 874
-  OldCreateOrder = True
-  ExplicitWidth = 890
-  ExplicitHeight = 444
+inherited frmTransferBarang: TfrmTransferBarang
+  Caption = 'Transfer Barang'
+  ClientHeight = 323
+  ClientWidth = 647
+  ExplicitWidth = 663
+  ExplicitHeight = 362
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 874
-    Height = 316
-    ExplicitWidth = 612
-    ExplicitHeight = 316
+    Width = 647
+    Height = 234
+    ExplicitWidth = 120
     inherited pgcBrowse: TcxPageControl
-      Width = 872
-      Height = 314
-      ExplicitTop = 126
-      ExplicitWidth = 610
-      ExplicitHeight = 189
-      ClientRectBottom = 313
-      ClientRectRight = 871
+      Width = 645
+      Height = 232
+      ExplicitWidth = 118
+      ClientRectBottom = 231
+      ClientRectRight = 644
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 608
-        ExplicitHeight = 187
+        ExplicitWidth = 116
+        ExplicitHeight = 310
         inherited cxGrid: TcxGrid
-          Width = 870
-          Height = 312
-          ExplicitWidth = 608
-          ExplicitHeight = 187
+          Width = 643
+          Height = 230
+          ExplicitWidth = 116
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 874
-    ExplicitWidth = 612
+    Width = 647
+    ExplicitWidth = 120
     inherited lblHeader: TLabel
-      Width = 102
-      Caption = 'BARCODE REQUEST'
-      ExplicitWidth = 102
+      Width = 88
+      Caption = 'Transfer Barang'
+      ExplicitWidth = 88
     end
     inherited lblFilterData: TcxLabel
-      Left = 520
+      Left = 293
       Visible = True
-      ExplicitLeft = 258
+      ExplicitLeft = -234
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 581
+      Left = 354
       Visible = True
-      ExplicitLeft = 319
+      ExplicitLeft = -173
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 697
+      Left = 470
       Visible = True
-      ExplicitLeft = 435
+      ExplicitLeft = -57
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 792
-      ExplicitLeft = 530
+      Left = 565
+      ExplicitLeft = 38
     end
     inherited lblsdFilter: TcxLabel
-      Left = 673
+      Left = 446
       Visible = True
-      ExplicitLeft = 411
+      ExplicitLeft = -81
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 349
-    Width = 874
-    ExplicitTop = 349
-    ExplicitWidth = 612
+    Top = 267
+    Width = 647
+    ExplicitTop = -56
+    ExplicitWidth = 120
     inherited pnlFooter: TPanel
-      Width = 874
-      ExplicitWidth = 612
+      Width = 647
+      ExplicitWidth = 120
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -91,21 +84,20 @@ inherited frmBarcodeRequest: TfrmBarcodeRequest
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 797
+        Left = 570
         Action = actClose
-        ExplicitLeft = 535
+        ExplicitLeft = 43
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 874
-      ExplicitWidth = 612
+      Width = 647
+      ExplicitWidth = 120
       inherited lbEscape: TLabel
-        Left = 800
+        Left = 573
         Height = 17
-        ExplicitLeft = 538
       end
     end
   end
@@ -115,10 +107,6 @@ inherited frmBarcodeRequest: TfrmBarcodeRequest
     end
     inherited actEdit: TAction
       OnExecute = actEditExecute
-    end
-    object actAddRow: TAction
-      Caption = '&Show'
-      ImageIndex = 18
     end
   end
 end

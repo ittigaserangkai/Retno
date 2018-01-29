@@ -9,29 +9,37 @@ uses
   cxInplaceContainer, cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit,
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, Vcl.StdCtrls,
   Vcl.ExtCtrls, cxClasses, uModApp,uModSettingApp,uDXUtils, uDMClient,
-  uDBUtils, Datasnap.DBClient, uModUnit, uModGudang, Vcl.Menus, cxButtons;
+  uDBUtils, Datasnap.DBClient, uModUnit, uModGudang, Vcl.Menus, cxButtons,
+  cxCurrencyEdit, uRetnoUnit;
 
 type
   TfrmSettingApp = class(TfrmMaster)
+    cxStyleRepository1: TcxStyleRepository;
+    cxstylSettingAppHeader: TcxStyle;
+    grpPilihToko: TGroupBox;
+    grpSettingParameter: TGroupBox;
     pnlHeaderCabang: TPanel;
     cbbUnit: TcxExtLookupComboBox;
     lblCabang: TcxLabel;
-    pnlButton: TPanel;
+    btnClear: TcxButton;
     cxVerticalGridSettingApp: TcxVerticalGrid;
     cxGridRowGudangDO: TcxEditorRow;
     cxGridRowRekeningHutang: TcxEditorRow;
     cxGridRowDEFAULT_BANK_BCO: TcxEditorRow;
     cxGridRowrEKENING_PIUTANG_LAIN: TcxEditorRow;
     cxGridRowREKENING_PENDAPATAN_LAIN: TcxEditorRow;
-    cxStyleRepository1: TcxStyleRepository;
-    cxstylSettingAppHeader: TcxStyle;
+    cxGridRowPRICE_BARCODE_REQ: TcxEditorRow;
+    lblToko: TLabel;
     btnSimpan: TcxButton;
-    btnClear: TcxButton;
+    cbbPilihCabang: TcxExtLookupComboBox;
+    bPilih: TcxButton;
+    bLoad: TcxButton;
     procedure btnClearClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
-    procedure cbbUnitPropertiesEditValueChanged(Sender: TObject);
+    procedure bLoadClick(Sender: TObject);
+    procedure bPilihClick(Sender: TObject);
   private
     FCDSBANK: tclientDataSet;
     FCDSGUDANG: tclientDataSet;
@@ -59,14 +67,33 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmSettingApp.bLoadClick(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(FSettingApp);
+  FSettingApp := DMClient.CrudSettingAppClient.RetrieveByCabang(TModUnit.CreateID(cbbUnit.EditValue));
+
+  LoadSettingApp;
+end;
+
+procedure TfrmSettingApp.bPilihClick(Sender: TObject);
+begin
+  inherited;
+  TRetno.SetSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(TModUnit.CreateID(cbbPilihCabang.EditValue)));
+  cbbUnit.EditValue := cbbPilihCabang.EditValue;
+
+  bLoadClick(Sender);
+end;
+
 procedure TfrmSettingApp.btnClearClick(Sender: TObject);
 begin
   inherited;
-  cxGridRowGudangDO.Properties.Value := null;
-  cxGridRowRekeningHutang.Properties.Value := null;
-  cxGridRowDEFAULT_BANK_BCO.Properties.Value := null;
-  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value := null;
-  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value := null;
+  cxGridRowGudangDO.Properties.Value                    := null;
+  cxGridRowRekeningHutang.Properties.Value              := null;
+  cxGridRowDEFAULT_BANK_BCO.Properties.Value            := null;
+  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value       := null;
+  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value    := null;
+  cxGridRowPRICE_BARCODE_REQ.Properties.Value           := null;
 end;
 
 procedure TfrmSettingApp.FormDestroy(Sender: TObject);
@@ -85,6 +112,7 @@ begin
   SettingApp.REKENING_HUTANG := VarToStr(cxGridRowRekeningHutang.Properties.Value);
   SettingApp.REKENING_PENDAPATAN_LAIN := VarToStr(cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value);
   SettingApp.REKENING_PIUTANG_LAIN := VarToStr(cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value);
+  SettingApp.PRICE_BARCODE_REQ := VarToFloat(cxGridRowPRICE_BARCODE_REQ.Properties.Value);
 
   if not VarIsNull(cxGridRowDEFAULT_BANK_BCO.Properties.Value) then
     SettingApp.DEFAULT_BANK_BCO  := TModBank.CreateID(cxGridRowDEFAULT_BANK_BCO.Properties.Value);
@@ -94,17 +122,9 @@ begin
 
   if SettingApp.ID <>'' then
   begin
+
     btnClearClick(nil);
   end;
-end;
-
-procedure TfrmSettingApp.cbbUnitPropertiesEditValueChanged(Sender: TObject);
-begin
-  inherited;
-  FreeAndNil(FSettingApp);
-  FSettingApp := DMClient.CrudSettingAppClient.RetrieveByCabang(TModUnit.CreateID(cbbUnit.EditValue));
-
-  LoadSettingApp;
 end;
 
 procedure TfrmSettingApp.FormCreate(Sender: TObject);
@@ -144,6 +164,26 @@ begin
 
     cbbUnit.Properties.LoadFromCDS(FCDSUNIT,'AUT$UNIT_ID','UNT_NAME',['AUT$UNIT_ID','UNT_CODE'],Self);
     cbbUnit.Properties.SetMultiPurposeLookup;
+
+    cbbPilihCabang.Properties.LoadFromCDS(FCDSUNIT,'AUT$UNIT_ID','UNT_NAME',['AUT$UNIT_ID','UNT_CODE'],Self);
+    cbbPilihCabang.Properties.SetMultiPurposeLookup;
+
+    if TRetno.UnitStore = nil then
+      Exit;
+
+    if TRetno.UnitStore.ID = '' then
+      Exit;
+
+    if TRetno.UnitStore.UNT_IS_HO <> 1 then
+    begin
+      FCDSUNIT.Filtered := False;
+      FCDSUNIT.Filter   := ' [AUT$UNIT_ID] =  ' + QuotedStr(TRetno.UnitStore.ID);
+      FCDSUNIT.Filtered := True;
+    end else
+      FCDSUNIT.Filtered := False;
+
+    cbbUnit.EditValue         := TRetno.UnitStore.ID;
+    cbbPilihCabang.EditValue  := TRetno.UnitStore.ID;
   except
     raise
   end;
@@ -158,9 +198,10 @@ begin
   if SettingApp.DEFAULT_BANK_BCO <> nil then
     cxGridRowDEFAULT_BANK_BCO.Properties.Value := FSettingApp.DEFAULT_BANK_BCO.ID;
 
-  cxGridRowRekeningHutang.Properties.Value := SettingApp.REKENING_HUTANG;
-  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value := SettingApp.REKENING_PIUTANG_LAIN;
-  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value := SettingApp.REKENING_PENDAPATAN_LAIN;
+  cxGridRowRekeningHutang.Properties.Value            := SettingApp.REKENING_HUTANG;
+  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value     := SettingApp.REKENING_PIUTANG_LAIN;
+  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value  := SettingApp.REKENING_PENDAPATAN_LAIN;
+  cxGridRowPRICE_BARCODE_REQ.Properties.Value         := SettingApp.PRICE_BARCODE_REQ;
 end;
 
 end.

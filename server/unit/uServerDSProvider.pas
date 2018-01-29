@@ -12,6 +12,7 @@ type
   public
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function Agama_GetDSLookup: TDataSet;
+    function TipeBonus_GetDSLookup: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
@@ -167,6 +168,12 @@ type
     function Organization_Trader_GetDSLookup: TDataSet;
     function TipePembayaran_GetDSLookUp: TDataSet;
     function CashIn_GetDSOverview(ATglAwal , ATglAkhir : TDateTime): TDataSet;
+    function DOBonus_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
+    function TransferBarang_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
+    function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
   end;
 
   TDSReport = class(TComponent)
@@ -221,6 +228,17 @@ var
   S: string;
 begin
   S := 'select REF$AGAMA_ID, AGAMA_NAME from REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.TipeBonus_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select REF$TIPE_BONUS_ID, TPBNS_CODE, TPBNS_NAME'
+        + ' from'
+        + ' REF$TIPE_BONUS';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1689,6 +1707,51 @@ begin
        ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.DOBonus_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;
+    AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * from V_DOBONUS ' +
+          ' WHERE DOB_DATE BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and dob_unit_id = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.TransferBarang_GetDSOverview(ATglAwal , ATglAkhir :
+    TDateTime; AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_TRANSFER_BARANG' +
+          ' WHERE TANGGAL BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and TB_UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir :
+    TDateTime; AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BARCODE_REQUEST' +
+          ' WHERE TANGGAL BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:

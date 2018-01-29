@@ -11,6 +11,7 @@ type
     FAUTUNIT: TModUnit;
     FDEFAULT_BANK_BCO: TModBank;
     FGUDANG_DO: TModGudang;
+    FPRICE_BARCODE_REQ: Double;
     FREKENING_HUTANG: string;
     FREKENING_PENDAPATAN_LAIN: string;
     FREKENING_PIUTANG_LAIN: string;
@@ -23,6 +24,8 @@ type
         FDEFAULT_BANK_BCO;
     [AttributeOfForeign('GUDANG_DO')]
     property GUDANG_DO: TModGudang read FGUDANG_DO write FGUDANG_DO;
+    property PRICE_BARCODE_REQ: Double read FPRICE_BARCODE_REQ write
+        FPRICE_BARCODE_REQ;
     property REKENING_HUTANG: string read FREKENING_HUTANG write FREKENING_HUTANG;
     property REKENING_PENDAPATAN_LAIN: string read FREKENING_PENDAPATAN_LAIN write
         FREKENING_PENDAPATAN_LAIN;

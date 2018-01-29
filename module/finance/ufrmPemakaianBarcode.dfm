@@ -148,6 +148,7 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
         OptionsImage.ImageIndex = 2
         OptionsImage.Images = DMClient.imgListButton
         TabOrder = 4
+        OnClick = btnSaveClick
       end
     end
     object pnlBottom: TPanel
@@ -278,6 +279,7 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
       ExplicitWidth = 677
       inherited lbEscape: TLabel
         Left = 603
+        Height = 17
         ExplicitLeft = 603
       end
     end

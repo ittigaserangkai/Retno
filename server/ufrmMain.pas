@@ -14,7 +14,8 @@ uses
   uModJurnal, uModContrabonSales, uModCustomerInvoice, cxButtons,System.Win.Registry,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
-  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice;
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice,
+  uModDOBonus, uModTransferBarang, uModBarcodeRequest;
 
 type
   TfrmMain = class(TForm)
@@ -182,30 +183,21 @@ begin
 end;
 
 procedure TfrmMain.btnTestClick(Sender: TObject);
+var
+  lDOB: TModBarcodeRequest;
+  sID: string;
 begin
   with TCrud.Create(nil) do
   begin
     try
-      with Retrieve(TModCrazyPrice.ClassName, InputBox('ID','ID','BD8CF8B0-4415-4822-8706-3AE1AA59A8A9')) as TModCrazyPrice do
-//      with TModCrazyPrice.Create do
+      lDOB := TModBarcodeRequest.CreateDefault;
+      sID := SaveToDBID(lDOB);
+      lDOB.Free;
+
+      with Retrieve(TModBarcodeRequest.ClassName, InputBox('ID','ID',sID))do
       begin
-        try
-          ShowMessage(CreateTableSQLByClassName('uModCrazyPrice.TModCrazyPrice'));
-//          ShowMessage(crCI_NOBUKTI);
-//          ShowMessage('Jml ARNew : ' + IntToStr(CustomerInvoiceARNewItems.Count));
-//          ShowMessage('Jml CustomerInvoiceAPMinus : ' + IntToStr(CustomerInvoiceAPMinusItems.Count));
-//          ShowMessage('Jml CustomerInvoiceARNewItems : ' + IntToStr(CustomerInvoiceARNewItems.Count));
-//          ShowMessage('Jml CustomerInvoiceDOTraderItems : ' + IntToStr(CustomerInvoiceDOTraderItems.Count));
-//          ShowMessage('Jml CustomerInvoicePotongAPItems : ' + IntToStr(CustomerInvoicePotongAPItems.Count));
-//          ShowMessage(DateTimeToStr(CI_TRANSDATE));
-//          ShowMessage(DateTimeToStr(JUR_POSTED_DATE));
-//          ShowMessage(IntToStr(JUR_JURNALITEMS.Count));
-
-
-
-        finally
-          Free;
-        end;
+        ShowMessage(ToString);
+        Free;
       end;
     finally
       Free;

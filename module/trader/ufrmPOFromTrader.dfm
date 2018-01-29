@@ -17,21 +17,20 @@ inherited frmPOFromTrader: TfrmPOFromTrader
     inherited pgcBrowse: TcxPageControl
       Width = 903
       Height = 336
-      ExplicitTop = 111
       ExplicitWidth = 903
-      ExplicitHeight = 226
+      ExplicitHeight = 336
       ClientRectBottom = 335
       ClientRectRight = 902
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 901
-        ExplicitHeight = 224
+        ExplicitHeight = 334
         inherited cxGrid: TcxGrid
           Width = 901
           Height = 334
           ExplicitWidth = 901
-          ExplicitHeight = 224
+          ExplicitHeight = 334
         end
       end
     end

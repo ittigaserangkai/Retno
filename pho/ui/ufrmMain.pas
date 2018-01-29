@@ -1,5 +1,4 @@
 unit ufrmMain;
-
 interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
@@ -108,7 +107,7 @@ type
     actClosingFiscalYear: TAction;
     actJurnalEntry: TAction;
     actOpeningFiscalYear: TAction;
-    actBarcodeUsage: TAction;
+    actBarcodeRequest: TAction;
     actListPemakaianBarcode: TAction;
     actPostingJournal: TAction;
     actUnpostingJournal: TAction;
@@ -415,11 +414,12 @@ type
     dxbrbtnProdukJasa: TdxBarButton;
     dxbrbtnCashIn: TdxBarButton;
     actCashIn: TAction;
+    dxbrbtnBarcodeReq: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
-    procedure actBarcodeUsageExecute(Sender: TObject);
+    procedure actBarcodeRequestExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
     procedure actCashInExecute(Sender: TObject);
     procedure actChangeStatPOExecute(Sender: TObject);
@@ -628,7 +628,7 @@ begin
   frmBank := tfrmBank.Create(Self);
 end;
 
-procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
+procedure TfrmMain.actBarcodeRequestExecute(Sender: TObject);
 begin
   frmPemakaianBarcode := tfrmPemakaianBarcode.Create(Self);
 end;

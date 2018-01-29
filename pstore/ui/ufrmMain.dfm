@@ -403,10 +403,10 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = '&Mutasi Alokasi Stok'
     end
-    object actBonusForSales: TAction
+    object actGoodsReceivingBonus: TAction
       Category = 'Inventory'
-      Caption = '&Bonus For Sales'
-      Visible = False
+      Caption = '&Goods Receiving Bonus'
+      OnExecute = actGoodsReceivingBonusExecute
     end
     object actReprintNP: TAction
       Category = 'Inventory'
@@ -725,7 +725,7 @@ object frmMain: TfrmMain
     end
     object actBarcodeRequest: TAction
       Category = 'Merchandise'
-      Caption = 'actBarcodeRequest'
+      Caption = 'Barcode Request'
       OnExecute = actBarcodeRequestExecute
     end
     object actListWastage: TAction
@@ -779,9 +779,10 @@ object frmMain: TfrmMain
       Category = 'EOD'
       Caption = 'actGenerateJurnal'
     end
-    object actTransferBarangBonus: TAction
+    object actTransferBarang: TAction
       Category = 'Inventory'
-      Caption = 'actTransferBarangBonus'
+      Caption = 'Transfer Barang'
+      OnExecute = actTransferBarangExecute
     end
     object actLaporanWastage: TAction
       Category = 'Inventory'
@@ -1052,6 +1053,14 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnDNRecv'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnDOBonus'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBarcodeRequest'
         end>
       OneOnRow = False
       Row = 0
@@ -1062,7 +1071,7 @@ object frmMain: TfrmMain
     object dxbrProcureToPayReport: TdxBar
       Caption = 'Procure To Pay Report'
       CaptionButtons = <>
-      DockedLeft = 302
+      DockedLeft = 501
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
@@ -1254,6 +1263,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnWastageReal'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnTrfAntarGudang'
         end>
       OneOnRow = True
       Row = 0
@@ -1532,6 +1545,21 @@ object frmMain: TfrmMain
       Action = actReprintNota
       Caption = 'Reprint Nota'
       Category = 0
+    end
+    object dxbrbtnDOBonus: TdxBarButton
+      Action = actGoodsReceivingBonus
+      Category = 0
+      ImageIndex = 40
+    end
+    object dxbrbtnTrfAntarGudang: TdxBarButton
+      Action = actTransferBarang
+      Category = 0
+      ImageIndex = 39
+    end
+    object dxbrbtnBarcodeRequest: TdxBarButton
+      Action = actBarcodeRequest
+      Category = 0
+      ImageIndex = 62
     end
   end
 end

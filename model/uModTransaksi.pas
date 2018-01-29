@@ -467,6 +467,8 @@ var
   lDetail: TModTransKuponBotolDetil;
   lItem: TModTransaksiDetil;
 begin
+  Result := False;
+
   for lDetail in Self.KuponBotolDetils do
   begin
     Result := False;
