@@ -15,7 +15,8 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice,
-  uModDOBonus, uModTransferBarang, uModBarcodeRequest;
+  uModDOBonus, uModTransferBarang, uModBarcodeRequest, System.Rtti,
+  uServerDatabase, uModReturTrader;
 
 type
   TfrmMain = class(TForm)
@@ -150,18 +151,46 @@ end;
 
 procedure TfrmMain.bGenerateSQLCreateTableClick(Sender: TObject);
 var
-  sClassName: string;
+  sUnitName: string;
+  Context: TRttiContext;
+  t: TRttiType;
+  DeclaringUnitName: string;
+  ServerDatabase: TServerDatabaseSQLServer;
 begin
-  sClassName := InputBox('Nama Kelas','Nama Kelas', TfrmMain.BacaRegistry('last_sql_create_table'));
-  TfrmMain.TulisRegistry('last_sql_create_table',sClassName);
-  try
 
-    HTTPMemo.Lines.Add(TCrud.Create(Self).CreateTableSQLByClassName(sClassName));
 
-  except
-    on E : Exception do
-    ShowMessage('Error generate SQL ' + E.Message);
-  end;
+  sUnitName := InputBox('Nama Unit','Nama Unit', TfrmMain.BacaRegistry('last_sql_create_table'));
+  TfrmMain.TulisRegistry('last_sql_create_table',sUnitName);
+  ServerDatabase := TServerDatabaseSQLServer.Create;
+  HTTPMemo.Lines.LineBreak := ';';
+  HTTPMemo.Lines.Text := ServerDatabase.CreateTableSQLByUnitName(sUnitName);
+
+//  try
+//    Context := TRttiContext.Create;
+//    ServerDatabase := TServerDatabase.Create;
+//    try
+//      for t in Context.GetTypes do
+//      begin
+//        if t.IsInstance then
+//        begin
+//          DeclaringUnitName := t.AsInstance.DeclaringUnitName;
+//          if SameText(DeclaringUnitName, sClassName) then
+//          begin
+//
+//          end;
+//            HTTPMemo.Lines.Add(TCrud.Create(Self).CreateTableSQLByClassName(sClassName + '.' + t.ToString));
+//        end;
+//      end;
+//    finally
+//      ServerDatabase.Free;
+//    end;
+//
+//
+//
+//  except
+//    on E : Exception do
+//    ShowMessage('Error generate SQL ' + E.Message);
+//  end;
 end;
 
 procedure TfrmMain.btnKonekDBClick(Sender: TObject);
@@ -184,17 +213,17 @@ end;
 
 procedure TfrmMain.btnTestClick(Sender: TObject);
 var
-  lDOB: TModBarcodeRequest;
+  lDOB: TModReturTrader;
   sID: string;
 begin
   with TCrud.Create(nil) do
   begin
     try
-      lDOB := TModBarcodeRequest.CreateDefault;
+      lDOB := TModReturTrader.CreateDefault;
       sID := SaveToDBID(lDOB);
       lDOB.Free;
 
-      with Retrieve(TModBarcodeRequest.ClassName, InputBox('ID','ID',sID))do
+      with Retrieve(TModReturTrader.ClassName, InputBox('ID','ID',sID))do
       begin
         ShowMessage(ToString);
         Free;

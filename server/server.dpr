@@ -82,7 +82,10 @@ uses
   uModBankCashIn in '..\model\uModBankCashIn.pas',
   uModDOBonus in '..\model\uModDOBonus.pas',
   uModTransferBarang in '..\model\uModTransferBarang.pas',
-  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas';
+  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas',
+  uModReturTrader in '..\model\uModReturTrader.pas',
+  uModDatabase in '..\model\uModDatabase.pas',
+  uServerDatabase in 'unit\uServerDatabase.pas';
 
 {$R *.res}
 

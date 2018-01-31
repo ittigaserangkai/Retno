@@ -9,6 +9,7 @@ uses
 type
 
   TAttributeClass = class of TCustomAttribute;
+  AttributeOfSizeCustom = class(TCustomAttribute);
   AttributeOfCustom = class(TCustomAttribute)
   private
     FCustomField: String;
@@ -17,6 +18,14 @@ type
     property CustomField: String read FCustomField write FCustomField;
   end;
   AttributeOfCode = class(AttributeOfCustom)
+  end;
+  AttributeOfSize = class(AttributeOfSizeCustom)
+  private
+    FSize: string;
+  public
+    constructor Create(AFieldSize : string);
+    property Size: string read FSize write FSize;
+  published
   end;
   AttributeOfForeign = class(AttributeOfCustom)
   end;
@@ -51,6 +60,7 @@ type
     destructor Destroy; override;
     procedure AddFilterCrud(aModClass: TModAppClass);
     function FieldNameOf(aprop: TRttiProperty): String;
+    function FieldSizeOf(AProp: TRttiProperty): String;
     function GetCodeField: String;
     function GetCodeValue: String;
     function GetHeaderField: String;
@@ -258,6 +268,27 @@ begin
   end;
 end;
 
+function TModApp.FieldSizeOf(AProp: TRttiProperty): String;
+var
+  a: TCustomAttribute;
+begin
+  Result := '';
+
+  for a in aprop.GetAttributes do
+  begin
+    if a.InheritsFrom(AttributeOfSize) then
+    begin
+//      if AttributeOfSize(a).CustomField <> '' then
+//        Result := AttributeOfCustom(a).CustomField;
+      Break;
+    end;
+  end;
+
+  if (Result = '') and (aProp.PropertyType.TypeKind = tkClass) then
+    Result := aProp.Name + '_ID';
+  if Result = '' then Result := aProp.Name;
+end;
+
 function TModApp.GetCodeField: String;
 begin
   Result := FieldNameOf( PropFromAttr(AttributeOfCode) );
@@ -364,6 +395,8 @@ begin
 end;
 
 function TModApp.GetSQLServerFieldType(AProp: TRttiProperty): String;
+var
+  a: TCustomAttribute;
 begin
   if AProp.Name = 'ID' then
     Result := ' uniqueidentifier primary key nonclustered '
@@ -377,7 +410,17 @@ begin
       tkFloat:
         Result := ' double precision ';
       tkString, tkLString, tkUString, tkChar, tkWString, tkVariant:
+      begin
         Result := ' varchar(20) ';
+
+        for a in aprop.GetAttributes do
+        begin
+          if a.InheritsFrom(AttributeOfSizeCustom) then
+          begin
+            Result := ' varchar( ' + AttributeOfSize(a).Size + ') ';
+          end;
+        end;
+      end;
       tkEnumeration:
         Result := ' ineter ';
       tkClass:
@@ -647,6 +690,11 @@ begin
     FAPPs := TObjectList<TModApp>.Create();
 
   Result := FAPPs;
+end;
+
+constructor AttributeOfSize.Create(AFieldSize : string);
+begin
+  Self.Size := AFieldSize;
 end;
 
 initialization

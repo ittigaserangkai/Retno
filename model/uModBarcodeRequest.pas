@@ -25,6 +25,8 @@ type
         GetBarcodeRequestItems write FBarcodeRequestItems;
   published
     property BR_COLIE: Integer read FBR_COLIE write FBR_COLIE;
+
+    [AttributeOfSize('120')]
     property BR_DESCRIPTION: string read FBR_DESCRIPTION write FBR_DESCRIPTION;
 
     [AttributeOfCode]

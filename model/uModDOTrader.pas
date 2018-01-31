@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModAPP, uModPOTrader, uModBarang, uModSatuan, uModOrganization,
-  System.Generics.Collections, uModUnit;
+  System.Generics.Collections, uModUnit, uModGudang;
 
 type
   TModDOTraderItem = class;
@@ -16,6 +16,7 @@ type
     FDOT_DESCRIPTION: string;
     FDOT_DISC: Double;
     FDOT_DISC_MEMBER: Double;
+    FDOT_GUDANG: TModGudang;
     FDOT_LEAD_TIME: Double;
     FDOT_NO: string;
     FDOT_Organization: TModOrganization;
@@ -38,6 +39,7 @@ type
     property DOT_DISC: Double read FDOT_DISC write FDOT_DISC;
     property DOT_DISC_MEMBER: Double read FDOT_DISC_MEMBER write
         FDOT_DISC_MEMBER;
+    property DOT_GUDANG: TModGudang read FDOT_GUDANG write FDOT_GUDANG;
     property DOT_LEAD_TIME: Double read FDOT_LEAD_TIME write FDOT_LEAD_TIME;
     property DOT_NO: string read FDOT_NO write FDOT_NO;
     property DOT_Organization: TModOrganization read FDOT_Organization write
@@ -90,6 +92,8 @@ type
 
 implementation
 
+initialization
+  TModDOTrader.RegisterRTTI;
 
 
 

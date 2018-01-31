@@ -92,6 +92,7 @@ const
   SQL_Delete  : String = 'Delete From %s where %s;';
   SQL_Select  : String = 'Select %s from %s where %s';
   SQL_Create  : String = 'create table %s ( %s );';
+  SQL_Alter   : String = 'alter table %s add %s ;';
 
 implementation
 
