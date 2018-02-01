@@ -325,7 +325,11 @@ begin
     ModCustomer.CUST_IS_PRINCIPAL := 0;
 
   if not VarIsNull(cxLookUpSupCode.EditValue) then
-    ModCustomer.SUPLIER_MERCHAN_GRUP := TModSuplier.CreateID(cxLookUpSupCode.EditValue);
+    ModCustomer.SUPLIER_MERCHAN_GRUP := TModSuplier.CreateID(cxLookUpSupCode.EditValue)
+    // ini kl isi
+  else
+    ModCustomer.SUPLIER_MERCHAN_GRUP := nil;
+    // ini kl kosong
 
   try
     DMClient.CrudClient.SaveToDB(ModCustomer);
