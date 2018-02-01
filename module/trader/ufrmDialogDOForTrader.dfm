@@ -9,11 +9,13 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   inherited pnlBody: TPanel
     Width = 792
     Height = 395
+    ExplicitWidth = 792
+    ExplicitHeight = 395
     object pnl1: TPanel
       Left = 2
       Top = 2
       Width = 788
-      Height = 119
+      Height = 145
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
@@ -44,7 +46,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       end
       object lblDesc: TLabel
         Left = 260
-        Top = 65
+        Top = 93
         Width = 58
         Height = 16
         Caption = 'Keterangan'
@@ -91,6 +93,13 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Height = 16
         Caption = 'Total'
       end
+      object lblGudang: TLabel
+        Left = 281
+        Top = 65
+        Width = 37
+        Height = 16
+        Caption = 'Gudang'
+      end
       object dtTgl: TcxDateEdit
         Left = 336
         Top = 5
@@ -136,10 +145,10 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       end
       object memDescription: TcxMemo
         Left = 336
-        Top = 63
+        Top = 89
         TabOrder = 4
         Height = 50
-        Width = 146
+        Width = 193
       end
       object edPONo: TcxButtonEdit
         Tag = 1
@@ -195,19 +204,24 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         TabOrder = 10
         Width = 180
       end
+      object cbbGudang: TcxExtLookupComboBox
+        Left = 336
+        Top = 61
+        TabOrder = 11
+        Width = 145
+      end
     end
     object cxGrid: TcxGrid
       Left = 2
-      Top = 121
+      Top = 147
       Width = 788
-      Height = 272
+      Height = 246
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 120
-      ExplicitWidth = 770
-      ExplicitHeight = 320
+      ExplicitTop = 121
+      ExplicitHeight = 272
       object cxGridDBTableDOTrader: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -268,15 +282,20 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 395
     Width = 792
+    ExplicitTop = 395
+    ExplicitWidth = 792
     inherited pnlFooter: TPanel
       Width = 792
+      ExplicitWidth = 792
       inherited btnClose: TcxButton
         Left = 715
         Action = actCancel
+        ExplicitLeft = 715
       end
       inherited btnSave: TcxButton
         Left = 622
         Action = actSave
+        ExplicitLeft = 622
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -284,17 +303,21 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       inherited btnPrint: TcxButton
         Left = 545
         Action = actPrint
+        ExplicitLeft = 545
       end
     end
     inherited pnlSortCut: TPanel
       Width = 792
+      ExplicitWidth = 792
       inherited lbCTRLEnter: TLabel
         Left = 617
         Height = 15
+        ExplicitLeft = 617
       end
       inherited lbEscape: TLabel
         Left = 708
         Height = 15
+        ExplicitLeft = 708
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -302,11 +325,12 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       inherited lblCTRLP: TLabel
         Left = 541
         Height = 15
+        ExplicitLeft = 541
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 400
-    Top = 72
+    Left = 408
+    Top = 104
   end
 end
