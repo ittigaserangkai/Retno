@@ -7,9 +7,10 @@ inherited frmProdukJasa: TfrmProdukJasa
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 120
+        ExplicitWidth = 116
         ExplicitHeight = 310
         inherited cxGrid: TcxGrid
+          ExplicitLeft = 2
           ExplicitTop = -2
           inherited cxGridView: TcxGridDBTableView
             object cxGridViewColumn1: TcxGridDBColumn
@@ -56,6 +57,7 @@ inherited frmProdukJasa: TfrmProdukJasa
       end
       inherited btnUpdate: TcxButton
         Action = actEdit
+        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Action = actPrint
@@ -76,6 +78,9 @@ inherited frmProdukJasa: TfrmProdukJasa
   inherited actlstBrowse: TActionList
     inherited actAdd: TAction
       OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

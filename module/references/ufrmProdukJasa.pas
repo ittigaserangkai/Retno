@@ -21,6 +21,7 @@ type
     cxGridViewColumn3: TcxGridDBColumn;
     cxGridViewColumn4: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,6 +40,13 @@ procedure TfrmProdukJasa.actAddExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogProdukJasa);
+end;
+
+procedure TfrmProdukJasa.actEditExecute(Sender: TObject);
+begin
+  inherited;
+  ShowDialogForm(TfrmDialogProdukJasa,
+  cxGridView.DS.FieldByName('PRODUK_JASA_ID').AsString);
 end;
 
 procedure TfrmProdukJasa.RefreshData;
