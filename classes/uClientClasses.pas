@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/1/2018 2:04:31 PM
+// 2/1/2018 3:04:42 PM
 //
 
 unit uClientClasses;
@@ -669,8 +669,8 @@ type
     function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function ReturTrader_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
     function ReturTrader_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function ReturTrader_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
-    function ReturTrader_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function ReturTrader_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function ReturTrader_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -3684,13 +3684,19 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_ReturTrader_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  TDSProvider_ReturTrader_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
   (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_ReturTrader_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  TDSProvider_ReturTrader_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
   (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -11960,33 +11966,63 @@ begin
   Result := TDSRestCachedDataSet.Create(FReturTrader_GetDSLookUpCommand_Cache.Parameters[0].Value.GetString);
 end;
 
-function TDSProviderClient.ReturTrader_GetDSOverview(const ARequestFilter: string): TDataSet;
+function TDSProviderClient.ReturTrader_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
 begin
   if FReturTrader_GetDSOverviewCommand = nil then
   begin
     FReturTrader_GetDSOverviewCommand := FConnection.CreateCommand;
-    FReturTrader_GetDSOverviewCommand.RequestType := 'GET';
-    FReturTrader_GetDSOverviewCommand.Text := 'TDSProvider.ReturTrader_GetDSOverview';
+    FReturTrader_GetDSOverviewCommand.RequestType := 'POST';
+    FReturTrader_GetDSOverviewCommand.Text := 'TDSProvider."ReturTrader_GetDSOverview"';
     FReturTrader_GetDSOverviewCommand.Prepare(TDSProvider_ReturTrader_GetDSOverview);
   end;
+  FReturTrader_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FReturTrader_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FReturTrader_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FReturTrader_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FReturTrader_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
   FReturTrader_GetDSOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FReturTrader_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result := TCustomSQLDataSet.Create(nil, FReturTrader_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
     FReturTrader_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.ReturTrader_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.ReturTrader_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FReturTrader_GetDSOverviewCommand_Cache = nil then
   begin
     FReturTrader_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
-    FReturTrader_GetDSOverviewCommand_Cache.RequestType := 'GET';
-    FReturTrader_GetDSOverviewCommand_Cache.Text := 'TDSProvider.ReturTrader_GetDSOverview';
+    FReturTrader_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FReturTrader_GetDSOverviewCommand_Cache.Text := 'TDSProvider."ReturTrader_GetDSOverview"';
     FReturTrader_GetDSOverviewCommand_Cache.Prepare(TDSProvider_ReturTrader_GetDSOverview_Cache);
   end;
+  FReturTrader_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FReturTrader_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FReturTrader_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FReturTrader_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FReturTrader_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
   FReturTrader_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FReturTrader_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+  Result := TDSRestCachedDataSet.Create(FReturTrader_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);

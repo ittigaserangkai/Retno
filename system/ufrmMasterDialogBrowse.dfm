@@ -1,7 +1,5 @@
 inherited frmMasterDialogBrowse: TfrmMasterDialogBrowse
   Caption = 'frmMasterDialogBrowse'
-  ExplicitWidth = 570
-  ExplicitHeight = 371
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
