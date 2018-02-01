@@ -152,9 +152,9 @@ end;
 procedure TfrmMain.bGenerateSQLCreateTableClick(Sender: TObject);
 var
   sUnitName: string;
-  Context: TRttiContext;
-  t: TRttiType;
-  DeclaringUnitName: string;
+//  Context: TRttiContext;
+//  t: TRttiType;
+//  DeclaringUnitName: string;
   ServerDatabase: TServerDatabaseSQLServer;
 begin
 

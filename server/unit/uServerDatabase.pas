@@ -38,7 +38,6 @@ var
   prop : TRttiProperty;
   UpdateVal : string;
   FieldName : String;
-  sFilter : String;
 begin
   UpdateVal := '';
 
