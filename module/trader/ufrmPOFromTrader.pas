@@ -19,13 +19,11 @@ type
   TfrmPOFromTrader = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormCreate(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
     FCDS: TClientDataset;
   public
     procedure RefreshData; override;
-    { Public declarations }
   end;
 
 var
@@ -67,29 +65,21 @@ begin
   Action := caFree;
 end;
 
-procedure TfrmPOFromTrader.FormCreate(Sender: TObject);
-begin
-  inherited;
-  lblHeader.Caption := 'PO From Trader';
-
-end;
-
 procedure TfrmPOFromTrader.actEditExecute(Sender: TObject);
 begin
   inherited;
   if FCDS = nil  then
     Exit;
-  ShowDialogForm(TfrmDialogPOFromTrader, FCDS.FieldByName('pot_no').AsString)
+  ShowDialogForm(TfrmDialogPOFromTrader, FCDS.FieldByName('POTRADER_ID').AsString)
 end;
 
 procedure TfrmPOFromTrader.RefreshData;
 begin
   inherited;
   if Assigned(FCDS) then FreeAndNil(FCDS);
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.POTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.POTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)), Self);
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['AUT$UNIT_ID', 'V_ORGANIZATION_ID', 'POTRADER_ID'],False);
-
+  cxGridView.SetVisibleColumns(['POT_UNIT_ID', 'POT_ORGANIZATION_ID', 'POTRADER_ID'],False);
 end;
 
 end.

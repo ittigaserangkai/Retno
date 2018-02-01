@@ -8,7 +8,7 @@ uses
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
   uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,uModBankCashIn,
-  uModSatuan, System.TypInfo;
+  uModSatuan, System.TypInfo, uModCrazyPrice;
 
 type
   {$METHODINFO ON}
@@ -173,12 +173,15 @@ type
   end;
 
   TCrudPOTrader = class(TCrud)
+  public
+    function HasBarcode(aBarCode: string): Boolean;
   end;
 
   TCrudBarangHargaJual = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
   public
+    function RetrieveByBarcode(aBarcode, aUoM: string): TModBarangHargaJual;
     function RetrieveByPLU(AModBarang : TModBarang; AModUOM : TModSatuan):
         TModBarangHargaJual;
   end;
@@ -196,6 +199,9 @@ type
   public
   end;
   TCrudCrazyPrice = class(TCrud)
+  public
+    function RetrieveByBarcode(aBarcode: string): TModCrazyPrice;
+    function RetrieveByPLU(aPLU: string): TModCrazyPrice;
   end;
 
   TCrudBarang = class(TCrud)
@@ -205,7 +211,6 @@ type
     function RetrievePOS(sPLUBarCode: string): TModBarang;
   end;
 
-type
   TCRUDObj = class
   private
   public
@@ -214,7 +219,11 @@ type
         True): T;
   end;
 
-type
+  TCrudKonversi = class(TCrud)
+  public
+    function RetrieveByBarcode(aBarcode: string): TModKonversi;
+  end;
+
   TServerModAppHelper = class helper for TModApp
   private
     procedure CopyFrom(aModApp : TModApp);
@@ -1573,6 +1582,44 @@ begin
   end;
 end;
 
+function TCrudBarangHargaJual.RetrieveByBarcode(aBarcode, aUoM: string):
+    TModBarangHargaJual;
+var
+  sSQL: string;
+begin
+  Result := TModBarangHargaJual.Create;
+
+  if aUoM = '' then
+  begin
+    sSQL := 'select A.BARANG_HARGA_JUAL_ID ID ' +
+            ' from BARANG_HARGA_JUAL A INNER JOIN REF$KONVERSI_SATUAN B ' +
+            ' on A.BARANG_ID = B.BARANG_ID AND A.REF$SATUAN_ID = A.REF$SATUAN_ID ' +
+            ' where B.KONVSAT_BARCODE = ' + QuotedStr(aBarcode);
+  end else
+  begin
+    sSQL := 'select A.BARANG_HARGA_JUAL_ID ID ' +
+            ' from BARANG_HARGA_JUAL A INNER JOIN BARANG B' +
+            ' on A.BARANG_ID = B.BARANG_ID' +
+            ' where B.BRG_CODE = ' + QuotedStr(aBarcode) +
+            ' and A.REF$SATUAN_ID =  ' + QuotedStr(aUoM);
+  end;
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        Result.Free;
+
+        Result := TModBarangHargaJual(Retrieve(TModBarangHargaJual, FieldByName('ID').AsString));
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
+end;
+
 function TCrudBarangHargaJual.RetrieveByPLU(AModBarang : TModBarang; AModUOM :
     TModSatuan): TModBarangHargaJual;
 var
@@ -1585,7 +1632,6 @@ begin
 
   if (AModUOM.ID = '') or (AModBarang.ID = '') then
     Exit;
-
 
   sSQL := 'select BARANG_HARGA_JUAL_ID from BARANG_HARGA_JUAL  ' +
           ' where BARANG_ID = ' + QuotedStr(AModBarang.ID) +
@@ -1709,7 +1755,7 @@ var
   S: string;
 begin
   S := 'select A.* from BARANG A '
-      +' INNER JOIN REF$KONVERSI_SATUAN B ON A.BARANG_ID=B.BARANG_ID'
+      +' INNER JOIN REF$KONVERSI_SATUAN B ON A.BARANG_ID = B.BARANG_ID'
       +' WHERE B.KONVSAT_BARCODE = ' + QuotedStr(sPLUBarCode);
   Q := TDBUtils.OpenQuery(S);
   Try
@@ -1832,6 +1878,102 @@ begin
 //    ShowMessage(Self.ClassName  + '.' + Prop.Name);
     raise;
   End;
+end;
+
+function TCrudPOTrader.HasBarcode(aBarCode: string): Boolean;
+var
+  s: string;
+begin
+  s := 'select * from REF$KONVERSI_SATUAN '
+      +' WHERE KONVSAT_BARCODE = ' + QuotedStr(aBarCode);
+  with TDBUtils.OpenQuery(s) do
+  begin
+    try
+      if not eof then
+        Result := True
+      else
+        Result := False;
+    finally
+      Free;
+    end;
+  end;
+end;
+
+function TCrudCrazyPrice.RetrieveByBarcode(aBarcode: string): TModCrazyPrice;
+var
+  sSQL: string;
+begin
+  Result := TModCrazyPrice.Create;
+
+  sSQL := 'select A.CRAZYPRICE_ID ID ' +
+          ' from CRAZYPRICE A INNER JOIN REF$KONVERSI_SATUAN B ' +
+          ' on A.CRAZY_BARANG_ID = B.BARANG_ID AND A.CRAZY_SATUAN_ID = B.REF$SATUAN_ID ' +
+          ' where B.KONVSAT_BARCODE = ' + QuotedStr(aBarcode);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        Result.Free;
+
+        Result := TModCrazyPrice(Retrieve(TModCrazyPrice, FieldByName('ID').AsString));
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
+end;
+
+function TCrudCrazyPrice.RetrieveByPLU(aPLU: string): TModCrazyPrice;
+var
+  sSQL: string;
+begin
+  Result := TModCrazyPrice.Create;
+
+  sSQL := 'select A.CRAZYPRICE_ID ID ' +
+          ' from CRAZYPRICE A INNER JOIN REF$KONVERSI_SATUAN B ' +
+          ' on A.CRAZY_BARANG_ID = B.BARANG_ID AND A.CRAZY_SATUAN_ID = B.REF$SATUAN_ID ' +
+          ' where B.BARANG_ID = ' + QuotedStr(aPLU);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        Result.Free;
+
+        Result := TModCrazyPrice(Retrieve(TModCrazyPrice, FieldByName('ID').AsString));
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
+end;
+
+function TCrudKonversi.RetrieveByBarcode(aBarcode: string): TModKonversi;
+var
+  sSQL: string;
+begin
+  Result := TModKonversi.Create;
+
+  sSQL := 'select REF$KONVERSI_SATUAN_ID from REF$KONVERSI_SATUAN ' +
+          ' where KONVSAT_BARCODE = ' + QuotedStr(aBarcode);
+
+  with TDBUtils.OpenDataset(sSQL) do
+  begin
+    try
+      if not Eof then
+      begin
+        Result.Free;
+        Result := TModKonversi(Retrieve(TModKonversi, FieldByName('REF$KONVERSI_SATUAN_ID').AsString));
+      end;
+    finally
+      Free;
+    end;
+  end;
 end;
 
 end.

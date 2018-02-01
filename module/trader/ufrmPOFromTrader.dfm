@@ -1,7 +1,7 @@
 inherited frmPOFromTrader: TfrmPOFromTrader
   Left = 287
   Top = 181
-  Caption = 'PO From Trader/Assgros'
+  Caption = 'PO From Trader'
   ClientHeight = 427
   ClientWidth = 905
   OldCreateOrder = True
@@ -98,7 +98,6 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       ExplicitWidth = 905
       inherited lbEscape: TLabel
         Left = 831
-        Height = 17
         ExplicitLeft = 831
       end
     end
