@@ -162,8 +162,11 @@ begin
   sUnitName := InputBox('Nama Unit','Nama Unit', TfrmMain.BacaRegistry('last_sql_create_table'));
   TfrmMain.TulisRegistry('last_sql_create_table',sUnitName);
   ServerDatabase := TServerDatabaseSQLServer.Create;
-  HTTPMemo.Lines.LineBreak := ';';
-  HTTPMemo.Lines.Text := ServerDatabase.CreateTableSQLByUnitName(sUnitName);
+
+  HTTPMemo.Lines.StrictDelimiter  := True;
+  HTTPMemo.Lines.Delimiter        := ';';
+  HTTPMemo.Lines.DelimitedText    := ServerDatabase.CreateTableSQLByUnitName(sUnitName);
+//  HTTPMemo.Lines.Text := ServerDatabase.CreateTableSQLByUnitName(sUnitName);
 
 //  try
 //    Context := TRttiContext.Create;
