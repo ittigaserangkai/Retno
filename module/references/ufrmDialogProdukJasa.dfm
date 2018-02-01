@@ -1,15 +1,16 @@
 inherited frmDialogProdukJasa: TfrmDialogProdukJasa
   Caption = 'frmDialogProdukJasa'
-  ClientHeight = 283
+  ClientHeight = 309
   ClientWidth = 524
   ExplicitWidth = 540
-  ExplicitHeight = 322
+  ExplicitHeight = 348
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 524
-    Height = 227
-    ExplicitHeight = 348
+    Height = 253
+    ExplicitWidth = 524
+    ExplicitHeight = 227
     object Panel1: TPanel
       Left = 2
       Top = 2
@@ -17,7 +18,6 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       Height = 86
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 530
       object lblCode: TLabel
         Left = 16
         Top = 9
@@ -86,7 +86,6 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       Height = 97
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 550
       object lblDefaultPrice: TLabel
         Left = 16
         Top = 34
@@ -104,24 +103,12 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
         Caption = 'Tipe Barang'
       end
       object lblPajak: TLabel
-        Left = 276
+        Left = 288
         Top = 59
-        Width = 87
+        Width = 53
         Height = 16
         AutoSize = False
         Caption = 'Pajak'
-      end
-      object edtDefaultPrice: TEdit
-        Tag = 1
-        Left = 110
-        Top = 31
-        Width = 196
-        Height = 22
-        CharCase = ecUpperCase
-        Ctl3D = False
-        MaxLength = 64
-        ParentCtl3D = False
-        TabOrder = 0
       end
       object chkBKP: TCheckBox
         Left = 110
@@ -129,7 +116,7 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
         Width = 97
         Height = 17
         Caption = 'BKP'
-        TabOrder = 1
+        TabOrder = 0
       end
       object cxLookUpTipeBarang: TcxExtLookupComboBox
         Left = 109
@@ -138,9 +125,16 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
         Width = 145
       end
       object cxLookUpPajak: TcxExtLookupComboBox
-        Left = 365
+        Left = 347
         Top = 56
         TabOrder = 3
+        Width = 163
+      end
+      object crDefaultPrice: TcxCurrencyEdit
+        Left = 109
+        Top = 29
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        TabOrder = 1
         Width = 145
       end
     end
@@ -148,13 +142,12 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       Left = 2
       Top = 185
       Width = 520
-      Height = 40
+      Height = 66
       Align = alTop
       TabOrder = 2
-      ExplicitWidth = 550
       object lblRekCredit: TLabel
-        Left = 276
-        Top = 9
+        Left = 16
+        Top = 39
         Width = 87
         Height = 16
         AutoSize = False
@@ -169,31 +162,36 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
         Caption = 'Rek Debet'
       end
       object cxLookupRekCredit: TcxExtLookupComboBox
-        Left = 365
-        Top = 6
-        TabOrder = 0
-        Width = 145
+        Left = 109
+        Top = 36
+        TabOrder = 1
+        Width = 401
       end
       object cxLookupRekDebet: TcxExtLookupComboBox
         Left = 109
         Top = 6
-        TabOrder = 1
-        Width = 145
+        TabOrder = 0
+        Width = 401
       end
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 227
+    Top = 253
     Width = 524
+    ExplicitTop = 227
+    ExplicitWidth = 524
     inherited pnlFooter: TPanel
       Width = 524
+      ExplicitWidth = 524
       inherited btnClose: TcxButton
         Left = 447
         Action = actCancel
+        ExplicitLeft = 447
       end
       inherited btnSave: TcxButton
         Left = 354
         Action = actSave
+        ExplicitLeft = 354
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -201,17 +199,21 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       inherited btnPrint: TcxButton
         Left = 277
         Action = actPrint
+        ExplicitLeft = 277
       end
     end
     inherited pnlSortCut: TPanel
       Width = 524
+      ExplicitWidth = 524
       inherited lbCTRLEnter: TLabel
         Left = 349
         Height = 15
+        ExplicitLeft = 349
       end
       inherited lbEscape: TLabel
         Left = 440
         Height = 15
+        ExplicitLeft = 440
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -219,11 +221,18 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       inherited lblCTRLP: TLabel
         Left = 273
         Height = 15
+        ExplicitLeft = 273
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 440
     Top = 96
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

@@ -21,16 +21,21 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property PROJAS_CODE: String read FPROJAS_CODE write FPROJAS_CODE;
     property PROJAS_NAME: String read FPROJAS_NAME write FPROJAS_NAME;
     property PROJAS_OWNER: String read FPROJAS_OWNER write FPROJAS_OWNER;
     property PROJAS_IS_BKP: Integer read FPROJAS_IS_BKP write FPROJAS_IS_BKP;
     property PROJAS_DEFAULT_PRICE: Double read FPROJAS_DEFAULT_PRICE write
         FPROJAS_DEFAULT_PRICE;
+    [AttributeOfForeign('REF$TIPE_BARANG_ID')]
     property TIPE_BARANG: TModTipeBarang read FTIPE_BARANG write FTIPE_BARANG;
+    [AttributeOfForeign('REF$PAJAK_ID')]
     property PAJAK: TModRefPajak read FPAJAK write FPAJAK;
+    [AttributeOfForeign('REKENING_ID_DEBET')]
     property REKENING_ID_DEBET: TModRekening read FREKENING_ID_DEBET write
         FREKENING_ID_DEBET;
+    [AttributeOfCustom('REKENING_ID_CREDIT')]
     property REKENING_ID_CREDIT: TModRekening read FREKENING_ID_CREDIT write
         FREKENING_ID_CREDIT;
   end;
