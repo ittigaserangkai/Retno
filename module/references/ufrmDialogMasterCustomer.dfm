@@ -6,7 +6,6 @@ inherited frmDialogMasterCustomer: TfrmDialogMasterCustomer
   ClientWidth = 534
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitTop = -13
   ExplicitWidth = 550
   ExplicitHeight = 475
   PixelsPerInch = 96
