@@ -11,7 +11,7 @@ uses
   cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
   cxMemo, cxButtonEdit, cxTextEdit, cxCurrencyEdit, cxMaskEdit, cxDropDownEdit,
-  cxCalendar, Vcl.StdCtrls;
+  cxCalendar, Vcl.StdCtrls, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmDialogDOForTrader = class(TfrmMasterDialog)
@@ -49,6 +49,8 @@ type
     edPPN: TcxCurrencyEdit;
     edTotal: TcxCurrencyEdit;
     cxGridColPODQtyDO: TcxGridDBColumn;
+    lblGudang: TLabel;
+    cbbGudang: TcxExtLookupComboBox;
   private
     { Private declarations }
   public
