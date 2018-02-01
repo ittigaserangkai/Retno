@@ -25,7 +25,6 @@ type
   public
     constructor Create(AFieldSize : string);
     property Size: string read FSize write FSize;
-  published
   end;
   AttributeOfForeign = class(AttributeOfCustom)
   end;

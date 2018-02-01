@@ -174,6 +174,8 @@ type
         TModUnit = nil): TDataset;
     function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function ReturTrader_GetDSLookUp: TDataSet;
+    function ReturTrader_GetDSOverview: TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -1752,6 +1754,22 @@ begin
     sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.ReturTrader_GetDSLookUp: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_RETUR_TRADER';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.ReturTrader_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_RETUR_TRADER';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:

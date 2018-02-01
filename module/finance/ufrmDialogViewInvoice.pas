@@ -58,7 +58,7 @@ type
   private
     FAgreementId: string;
     FAgreementJadwalId: string;
-    function GetSQLUpDown(aKey: Word; aAgrJdlID: string): string;
+//    function GetSQLUpDown(aKey: Word; aAgrJdlID: string): string;
     procedure ParseDataHeader;
     procedure ParseDataHeaderUpDown(Key: Word);
     procedure ParseDataAgreementDetil;
@@ -93,7 +93,7 @@ end;
 
 procedure TfrmDialogViewInvoice.ParseDataHeader;
 var
-  isPPH23: Boolean;
+//  isPPH23: Boolean;
   s: string;
 begin
   s:= 'SELECT CUST.CUST_CODE || '' | '' || CUST.CUST_NAME AS CUST_NAME,'
@@ -191,8 +191,8 @@ begin
 end;
 
 procedure TfrmDialogViewInvoice.ParseDataHeaderUpDown(Key: Word);
-var
-  isPPH23: Boolean;
+//var
+//  isPPH23: Boolean;
 begin
 
 //  with cOpenQuery(GetSQLUpDown(Key, AgreementJadwalId)) do
@@ -250,7 +250,7 @@ end;
 
 procedure TfrmDialogViewInvoice.ParseDataAgreementDetil;
 var
-  i: Integer;
+//  i: Integer;
   s: string;
 begin
   s:= 'SELECT AGRD.AGRD_PROJAS_CODE, PROJAS.PROJAS_NAME, AGRD.AGRD_QTY,'
@@ -331,50 +331,50 @@ begin
 //  frmDialogSearchInvoice.Free;
 end;
 
-function TfrmDialogViewInvoice.GetSQLUpDown(aKey: Word; aAgrJdlID: string):
-    string;
-var
-  s: string;
-  sOrder: string;
-begin
-  s:= 'SELECT AJ.AGRJDWL_INV_NO, CUST.CUST_CODE || '' | '' || CUST.CUST_NAME AS CUST_NAME,'
-    + ' A.AGR_NO, SUM(AD.AGRD_TOTAL) AS TOTAL_AGREEMENT,'
-    + ' AJ.AGRJDWL_INV_TERM_NO, AJ.AGRJDWL_INV_DATE,'
-    + ' AJ.AGRJDWL_INV_DESCRIPTION, A.AGR_IS_PPH23, AJ.AGRJDWL_ID,'
-    + ' P.PJK_PPN, SP.STAPRO_NAME, A.AGR_ID, AJ.AGRJDWL_INV_TOTAL FROM AGREEMENT_JADWAL AJ'
-    + ' LEFT JOIN AGREEMENT A ON A.AGR_ID = AJ.AGRJDWL_AGR_ID'
-    + '     AND A.AGR_UNT_ID = AJ.AGRJDWL_AGR_UNT_ID'
-    + ' LEFT JOIN AGREEMENT_DETIL AD ON AD.AGRD_AGR_ID = A.AGR_ID'
-    + '     AND AD.AGRD_AGR_UNT_ID = A.AGR_UNT_ID'
-    + ' LEFT JOIN CUSTOMER CUST ON CUST.CUST_CODE = A.AGR_CUST_CODE'
-    + '     AND CUST.CUST_UNT_ID = A.AGR_CUST_UNT_ID'
-    + ' LEFT JOIN REF$PAJAK P ON P.PJK_ID = A.AGR_PJK_ID'
-    + '     AND P.PJK_UNT_ID = A.AGR_PJK_UNT_ID'
-    + ' LEFT JOIN REF$STATUS_PROSES SP ON SP.STAPRO_ID = AJ.AGRJDWL_STAPRO_ID_INV'
-    + '     AND SP.STAPRO_UNT_ID = AJ.AGRJDWL_STAPRO_UNT_ID_INV';
-
-  if aKey = VK_PRIOR then
-  begin
-    s:= s
-      + ' WHERE AJ.AGRJDWL_ID < '+ aAgrJdlID;
-
-    sOrder:= ' ORDER BY AJ.AGRJDWL_ID DESC ROWS 1 TO 1 ';
-  end
-  else if aKey = VK_NEXT then
-  begin
-    s:= s
-      + ' WHERE AJ.AGRJDWL_ID > '+ aAgrJdlID;
-
-    sOrder:=  'ORDER BY AJ.AGRJDWL_ID ASC ROWS 1 TO 1 ';
-  end;
-
-  Result:= s
-          + ' AND AJ.AGRJDWL_UNT_ID = '+ IntToStr(DialogUnit)
-          + ' GROUP BY A.AGR_ID, A.AGR_NO, CUST.CUST_CODE, CUST.CUST_NAME,'
-          + ' AJ.AGRJDWL_INV_TERM_NO, AJ.AGRJDWL_INV_DATE,'
-          + ' AJ.AGRJDWL_INV_DESCRIPTION, A.AGR_IS_PPH23, AJ.AGRJDWL_ID,'
-          + ' P.PJK_PPN, SP.STAPRO_NAME, AJ.AGRJDWL_INV_NO, AJ.AGRJDWL_INV_TOTAL'
-          + sOrder;
-end;
+//function TfrmDialogViewInvoice.GetSQLUpDown(aKey: Word; aAgrJdlID: string):
+//    string;
+//var
+//  s: string;
+//  sOrder: string;
+//begin
+//  s:= 'SELECT AJ.AGRJDWL_INV_NO, CUST.CUST_CODE || '' | '' || CUST.CUST_NAME AS CUST_NAME,'
+//    + ' A.AGR_NO, SUM(AD.AGRD_TOTAL) AS TOTAL_AGREEMENT,'
+//    + ' AJ.AGRJDWL_INV_TERM_NO, AJ.AGRJDWL_INV_DATE,'
+//    + ' AJ.AGRJDWL_INV_DESCRIPTION, A.AGR_IS_PPH23, AJ.AGRJDWL_ID,'
+//    + ' P.PJK_PPN, SP.STAPRO_NAME, A.AGR_ID, AJ.AGRJDWL_INV_TOTAL FROM AGREEMENT_JADWAL AJ'
+//    + ' LEFT JOIN AGREEMENT A ON A.AGR_ID = AJ.AGRJDWL_AGR_ID'
+//    + '     AND A.AGR_UNT_ID = AJ.AGRJDWL_AGR_UNT_ID'
+//    + ' LEFT JOIN AGREEMENT_DETIL AD ON AD.AGRD_AGR_ID = A.AGR_ID'
+//    + '     AND AD.AGRD_AGR_UNT_ID = A.AGR_UNT_ID'
+//    + ' LEFT JOIN CUSTOMER CUST ON CUST.CUST_CODE = A.AGR_CUST_CODE'
+//    + '     AND CUST.CUST_UNT_ID = A.AGR_CUST_UNT_ID'
+//    + ' LEFT JOIN REF$PAJAK P ON P.PJK_ID = A.AGR_PJK_ID'
+//    + '     AND P.PJK_UNT_ID = A.AGR_PJK_UNT_ID'
+//    + ' LEFT JOIN REF$STATUS_PROSES SP ON SP.STAPRO_ID = AJ.AGRJDWL_STAPRO_ID_INV'
+//    + '     AND SP.STAPRO_UNT_ID = AJ.AGRJDWL_STAPRO_UNT_ID_INV';
+//
+//  if aKey = VK_PRIOR then
+//  begin
+//    s:= s
+//      + ' WHERE AJ.AGRJDWL_ID < '+ aAgrJdlID;
+//
+//    sOrder:= ' ORDER BY AJ.AGRJDWL_ID DESC ROWS 1 TO 1 ';
+//  end
+//  else if aKey = VK_NEXT then
+//  begin
+//    s:= s
+//      + ' WHERE AJ.AGRJDWL_ID > '+ aAgrJdlID;
+//
+//    sOrder:=  'ORDER BY AJ.AGRJDWL_ID ASC ROWS 1 TO 1 ';
+//  end;
+//
+//  Result:= s
+//          + ' AND AJ.AGRJDWL_UNT_ID = '+ IntToStr(DialogUnit)
+//          + ' GROUP BY A.AGR_ID, A.AGR_NO, CUST.CUST_CODE, CUST.CUST_NAME,'
+//          + ' AJ.AGRJDWL_INV_TERM_NO, AJ.AGRJDWL_INV_DATE,'
+//          + ' AJ.AGRJDWL_INV_DESCRIPTION, A.AGR_IS_PPH23, AJ.AGRJDWL_ID,'
+//          + ' P.PJK_PPN, SP.STAPRO_NAME, AJ.AGRJDWL_INV_NO, AJ.AGRJDWL_INV_TOTAL'
+//          + sOrder;
+//end;
 
 end.

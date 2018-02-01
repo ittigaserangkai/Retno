@@ -95,7 +95,7 @@ type
     FRegionID       : string;
 //    FDATE_CREATE    : TDateTime;
 //    FDATE_MODIFY    : TDateTime;
-    FApp            : integer;//TApp;
+//    FApp            : integer;//TApp;
     FIsActive: Integer;
     FIsGRAllowed: Integer;
     FIsHO: Integer;

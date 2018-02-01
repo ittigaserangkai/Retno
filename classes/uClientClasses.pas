@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 1/23/2018 8:49:36 AM
+// 2/1/2018 2:04:31 PM
 //
 
 unit uClientClasses;
@@ -378,6 +378,10 @@ type
     FTransferBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FReturTrader_GetDSLookUpCommand: TDSRestCommand;
+    FReturTrader_GetDSLookUpCommand_Cache: TDSRestCommand;
+    FReturTrader_GetDSOverviewCommand: TDSRestCommand;
+    FReturTrader_GetDSOverviewCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -663,6 +667,10 @@ type
     function TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function ReturTrader_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
+    function ReturTrader_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function ReturTrader_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
+    function ReturTrader_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -3663,6 +3671,26 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_ReturTrader_GetDSLookUp: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_ReturTrader_GetDSLookUp_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_ReturTrader_GetDSOverview: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_ReturTrader_GetDSOverview_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -11903,6 +11931,64 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.ReturTrader_GetDSLookUp(const ARequestFilter: string): TDataSet;
+begin
+  if FReturTrader_GetDSLookUpCommand = nil then
+  begin
+    FReturTrader_GetDSLookUpCommand := FConnection.CreateCommand;
+    FReturTrader_GetDSLookUpCommand.RequestType := 'GET';
+    FReturTrader_GetDSLookUpCommand.Text := 'TDSProvider.ReturTrader_GetDSLookUp';
+    FReturTrader_GetDSLookUpCommand.Prepare(TDSProvider_ReturTrader_GetDSLookUp);
+  end;
+  FReturTrader_GetDSLookUpCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FReturTrader_GetDSLookUpCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FReturTrader_GetDSLookUpCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.ReturTrader_GetDSLookUp_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FReturTrader_GetDSLookUpCommand_Cache = nil then
+  begin
+    FReturTrader_GetDSLookUpCommand_Cache := FConnection.CreateCommand;
+    FReturTrader_GetDSLookUpCommand_Cache.RequestType := 'GET';
+    FReturTrader_GetDSLookUpCommand_Cache.Text := 'TDSProvider.ReturTrader_GetDSLookUp';
+    FReturTrader_GetDSLookUpCommand_Cache.Prepare(TDSProvider_ReturTrader_GetDSLookUp_Cache);
+  end;
+  FReturTrader_GetDSLookUpCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FReturTrader_GetDSLookUpCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.ReturTrader_GetDSOverview(const ARequestFilter: string): TDataSet;
+begin
+  if FReturTrader_GetDSOverviewCommand = nil then
+  begin
+    FReturTrader_GetDSOverviewCommand := FConnection.CreateCommand;
+    FReturTrader_GetDSOverviewCommand.RequestType := 'GET';
+    FReturTrader_GetDSOverviewCommand.Text := 'TDSProvider.ReturTrader_GetDSOverview';
+    FReturTrader_GetDSOverviewCommand.Prepare(TDSProvider_ReturTrader_GetDSOverview);
+  end;
+  FReturTrader_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FReturTrader_GetDSOverviewCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FReturTrader_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.ReturTrader_GetDSOverview_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FReturTrader_GetDSOverviewCommand_Cache = nil then
+  begin
+    FReturTrader_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FReturTrader_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FReturTrader_GetDSOverviewCommand_Cache.Text := 'TDSProvider.ReturTrader_GetDSOverview';
+    FReturTrader_GetDSOverviewCommand_Cache.Prepare(TDSProvider_ReturTrader_GetDSOverview_Cache);
+  end;
+  FReturTrader_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FReturTrader_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -12196,6 +12282,10 @@ begin
   FTransferBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand_Cache.DisposeOf;
+  FReturTrader_GetDSLookUpCommand.DisposeOf;
+  FReturTrader_GetDSLookUpCommand_Cache.DisposeOf;
+  FReturTrader_GetDSOverviewCommand.DisposeOf;
+  FReturTrader_GetDSOverviewCommand_Cache.DisposeOf;
   inherited;
 end;
 

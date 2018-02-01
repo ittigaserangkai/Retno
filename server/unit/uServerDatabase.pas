@@ -38,7 +38,6 @@ var
   prop : TRttiProperty;
   UpdateVal : string;
   FieldName : String;
-  sFilter : String;
 begin
   UpdateVal := '';
 
@@ -164,7 +163,7 @@ begin
         if Result = '' then
           Result := GenerateSQLCreateTable(TModApp(AObject))
         else
-          Result := #13 + Result + GenerateSQLCreateTable(TModApp(AObject));
+          Result := Result + GenerateSQLCreateTable(TModApp(AObject));
       end;
     end;
   end;
