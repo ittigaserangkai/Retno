@@ -11,7 +11,7 @@ uses
   cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, Vcl.StdCtrls,uInterface,
   cxMemo, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   cxButtonEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
-  cxGridTableView, cxClasses, cxGridCustomView, cxGrid;
+  cxGridTableView, cxClasses, cxGridCustomView, cxGrid, uDXUtils, uDMClient;
 
 type
   TfrmDialogTransferBarang = class(TfrmMasterDialog, ICRUDAble)
@@ -20,9 +20,9 @@ type
     edNO: TcxTextEdit;
     lblTanggal: TLabel;
     dtTanggal: TcxDateEdit;
-    cbbGudang: TcxExtLookupComboBox;
+    cxLookUpGudangAsal: TcxExtLookupComboBox;
     lblGudang: TLabel;
-    cbbGudangTujuan: TcxExtLookupComboBox;
+    cxLookUpGudangTujuan: TcxExtLookupComboBox;
     lblGudangTujuan: TLabel;
     lblKeteranan: TLabel;
     memDesc: TcxMemo;
@@ -36,7 +36,9 @@ type
     cxgrdlvlTransfer: TcxGridLevel;
     lblNoRef: TLabel;
     edReferensi: TcxTextEdit;
+    procedure FormCreate(Sender: TObject);
   private
+    procedure InitLookup;
     { Private declarations }
   public
     procedure LoadData(AID : String);
@@ -49,6 +51,29 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmDialogTransferBarang.FormCreate(Sender: TObject);
+begin
+  inherited;
+  InitLookup;
+end;
+
+procedure TfrmDialogTransferBarang.InitLookup;
+begin
+  cxLookUpGudangAsal.LoadFromDS(
+    DMClient.DSProviderClient.Gudang_GetDSLookUp,
+    {id field} 'GUDANG_ID', {display field} 'GUD_NAME',
+    ['GUDANG_ID'] {hidden field},self
+  );
+  cxLookUpGudangAsal.SetMultiPurposeLookup;    //biar bisa filter manual
+
+  cxLookUpGudangTujuan.LoadFromDS(
+    DMClient.DSProviderClient.Gudang_GetDSLookUp,
+    {id field} 'GUDANG_ID', {display field} 'GUD_NAME',
+    ['GUDANG_ID'] {hidden field},self
+  );
+
+end;
 
 procedure TfrmDialogTransferBarang.LoadData(AID : String);
 begin

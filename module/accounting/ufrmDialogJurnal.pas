@@ -265,6 +265,22 @@ begin
 //header
   if ModJurnal.ID = '' then
     edNo.Text := DMClient.CRUDJurnalClient.GenerateNo(ModJurnal.ClassName);
+    //generate nomor otomatis,
+    {
+      mau tau detailnya? coba ctrl+klik 'GenerateNo' yg di situ.
+      Kl udah kebuka balik sini lagi, lanjut baca.
+
+      Udah kebuka kan tadi? Kliatan kan tulisan 'TCRUDJurnal.GenerateNo'?
+      Itu lokasinya ada di server. uServerClases.TCRUDJurnal.GenerateNo
+      TCRUDJurnal itu inherit dari TCRUD yang di-'overide' di bagian  TCRUD.
+      Jangan tanya gimana! Aku yo ra mudeng. wkwkwk
+      Nah, kl mau bikin custom no yg serupa copy aja, trus rename, isinya disesuaikan.
+      Abis itu daftarkan di uDMClient, metodenya sama copy-paste.
+      Jalankan server, generate data snap clientclasses.
+
+      Sementara ini dulu, besok dilanjut.
+
+    }
 
   ModJurnal.JUR_NO          := edNo.Text;
   ModJurnal.JUR_DATE        := dtTanggal.Date;
