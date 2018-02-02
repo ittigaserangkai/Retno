@@ -4,7 +4,6 @@ inherited frmReturTrader: TfrmReturTrader
   Caption = 'Retur Assgros'
   ClientHeight = 455
   ClientWidth = 759
-  ExplicitTop = -184
   ExplicitWidth = 775
   ExplicitHeight = 494
   PixelsPerInch = 96
@@ -39,9 +38,9 @@ inherited frmReturTrader: TfrmReturTrader
     Width = 759
     ExplicitWidth = 759
     inherited lblHeader: TLabel
-      Width = 89
-      Caption = 'RETUR ASSGROS'
-      ExplicitWidth = 89
+      Width = 79
+      Caption = 'RETUR TRADER'
+      ExplicitWidth = 79
     end
     inherited lblFilterData: TcxLabel
       Left = 405
