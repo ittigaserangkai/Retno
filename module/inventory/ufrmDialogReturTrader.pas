@@ -33,7 +33,7 @@ type
     edOrganization: TcxButtonEdit;
     edOrganizationName: TcxButtonEdit;
     memDescription: TcxMemo;
-    edPONo: TcxButtonEdit;
+    edDONo: TcxButtonEdit;
     dtDODate: TcxDateEdit;
     edSubTotal: TcxCurrencyEdit;
     edDisc: TcxCurrencyEdit;
