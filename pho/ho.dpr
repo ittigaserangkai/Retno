@@ -268,7 +268,6 @@ uses
   ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
   ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModelHelper in '..\model\uModelHelper.pas',
   uModCustomer in '..\model\uModCustomer.pas',
   ufrmProdukJasa in '..\module\references\ufrmProdukJasa.pas' {frmProdukJasa},
@@ -277,7 +276,8 @@ uses
   uModBankCashIn in '..\model\uModBankCashIn.pas',
   ufrmCashIn in '..\module\finance\ufrmCashIn.pas' {frmCashIn},
   ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
-  uModDOBonus in '..\model\uModDOBonus.pas';
+  uModDOBonus in '..\model\uModDOBonus.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 
