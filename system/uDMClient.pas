@@ -47,6 +47,7 @@ type
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
     FCrudCrazyPriceClient: TCrudCrazyPriceClient;
+    FCrudPOTraderClient: TCrudPOTraderClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
     function GetCRUDPOSClient: TCRUDPosClient;
@@ -69,6 +70,7 @@ type
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
     function GetCrudCrazyPriceClient: TCrudCrazyPriceClient;
+    function GetCrudPOTraderClient: TCrudPOTraderClient;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
   public
     property CrudAdjFakClient: TCrudAdjFakturClient read GetCrudAdjFakClient write
@@ -109,6 +111,8 @@ type
         FDSProviderClient;
     property CrudCrazyPriceClient: TCrudCrazyPriceClient read
         GetCrudCrazyPriceClient write FCrudCrazyPriceClient;
+    property CrudPOTraderClient: TCrudPOTraderClient read GetCrudPOTraderClient
+        write FCrudPOTraderClient;
   end;
 
   ERestClientError = class(Exception)
@@ -366,6 +370,15 @@ begin
 
   FCrudCrazyPriceClient := TCrudCrazyPriceClient.Create(RestConn, InstanceOwner);
   Result := FCrudCrazyPriceClient;
+end;
+
+function TDMClient.GetCrudPOTraderClient: TCrudPOTraderClient;
+begin
+  if FCrudPOTraderClient <> nil then
+    FreeAndNil(FCrudPOTraderClient);
+
+  FCrudPOTraderClient := TCrudPOTraderClient.Create(RestConn, InstanceOwner);
+  Result := FCrudPOTraderClient;
 end;
 
 end.
