@@ -90,7 +90,7 @@ begin
 
 //  With DMClient.DSProviderClient do
 //  begin
-//    CDSItems := TDBUtils.DSToCDS(Barang_GetDSLookup, self);
+//    CDSItems := TDBUtils.DSToCDS(Barang_GetDSLookup(''), self);
 //    // PARAMETER YG DIMAKSUD KI PY YA..?
 //    TcxExtLookup(cxGridColPLU.Properties).LoadFromCDS(
 //      CDSItems, 'BARANG_ID', 'BRG_CODE', self
