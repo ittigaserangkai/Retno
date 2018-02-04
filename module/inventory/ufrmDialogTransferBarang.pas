@@ -11,7 +11,8 @@ uses
   cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, Vcl.StdCtrls,uInterface,
   cxMemo, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   cxButtonEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
-  cxGridTableView, cxClasses, cxGridCustomView, cxGrid, uDXUtils, uDMClient;
+  cxGridTableView, cxClasses, cxGridCustomView, cxGrid, uDXUtils, uDMClient,
+  uModTransferBarang, Datasnap.DBClient, uDBUtils;
 
 type
   TfrmDialogTransferBarang = class(TfrmMasterDialog, ICRUDAble)
@@ -38,7 +39,13 @@ type
     edReferensi: TcxTextEdit;
     procedure FormCreate(Sender: TObject);
   private
+    FCDSItems: TClientDataSet;
+    FModTransferBarang: TModTransferBarang;
+    function GetModTransferBarang: TModTransferBarang;
     procedure InitLookup;
+    property CDSItems: TClientDataSet read FCDSItems write FCDSItems;
+    property ModTransferBarang: TModTransferBarang read GetModTransferBarang write
+        FModTransferBarang;
     { Private declarations }
   public
     procedure LoadData(AID : String);
@@ -58,6 +65,14 @@ begin
   InitLookup;
 end;
 
+function TfrmDialogTransferBarang.GetModTransferBarang: TModTransferBarang;
+begin
+  if FModTransferBarang = nil then
+    FModTransferBarang := TModTransferBarang.Create;
+  Result := FModTransferBarang;
+
+end;
+
 procedure TfrmDialogTransferBarang.InitLookup;
 begin
   cxLookUpGudangAsal.LoadFromDS(
@@ -72,6 +87,17 @@ begin
     {id field} 'GUDANG_ID', {display field} 'GUD_NAME',
     ['GUDANG_ID'] {hidden field},self
   );
+
+//  With DMClient.DSProviderClient do
+//  begin
+//    CDSItems := TDBUtils.DSToCDS(Barang_GetDSLookup, self);
+//    // PARAMETER YG DIMAKSUD KI PY YA..?
+//    TcxExtLookup(cxGridColPLU.Properties).LoadFromCDS(
+//      CDSItems, 'BARANG_ID', 'BRG_CODE', self
+//    );
+//    TcxExtLookup(cxGridColPLU.Properties).SetMultiPurposeLookup;
+//  end;
+// CEK MOD JURNAL, TAKOKKE PY CRITANE. WKWKWKWKWK
 
 end;
 
