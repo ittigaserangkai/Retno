@@ -62,8 +62,9 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
       end
       object edNO: TcxTextEdit
         Tag = 1
-        Left = 90
+        Left = 92
         Top = 4
+        Enabled = False
         TabOrder = 0
         Width = 183
       end
@@ -73,13 +74,13 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         TabOrder = 1
         Width = 106
       end
-      object cbbGudang: TcxExtLookupComboBox
+      object cxLookUpGudangAsal: TcxExtLookupComboBox
         Left = 90
         Top = 64
         TabOrder = 2
         Width = 183
       end
-      object cbbGudangTujuan: TcxExtLookupComboBox
+      object cxLookUpGudangTujuan: TcxExtLookupComboBox
         Left = 90
         Top = 94
         TabOrder = 3

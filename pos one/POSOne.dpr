@@ -78,7 +78,8 @@ uses
   ufrmLookupBarang in '..\module\pos\ufrmLookupBarang.pas' {frmLookupBarang},
   ufrmLookupMember in '..\module\pos\ufrmLookupMember.pas' {frmLookupMember},
   uModelHelper in '..\model\uModelHelper.pas',
-  uPrintStruk in '..\classes\uPrintStruk.pas';
+  uPrintStruk in '..\classes\uPrintStruk.pas',
+  uModCrazyPrice in '..\model\uModCrazyPrice.pas';
 
 {$R *.res}
 
