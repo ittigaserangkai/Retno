@@ -140,12 +140,15 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.OnButtonClick = cxGridColPLUPropertiesButtonClick
+          Properties.OnEditValueChanged = cxGridColPLUPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
           Width = 106
         end
         object cxGridColNama: TcxGridColumn
           Caption = 'Nama'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 252
         end
@@ -165,9 +168,18 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         object cxGridColUOM: TcxGridColumn
           AlternateCaption = 'SATUAN'
           Caption = 'UOM'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
+          Properties.OnButtonClick = cxGridColUOMPropertiesButtonClick
           HeaderAlignmentHorz = taCenter
           Width = 92
+        end
+        object cxGridColUOMid: TcxGridColumn
+          Caption = 'UOM ID'
         end
       end
       object cxgrdlvlTransfer: TcxGridLevel

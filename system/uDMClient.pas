@@ -47,6 +47,7 @@ type
     FDSProviderClient: TDSProviderClient;
     FInstanceOwner: Boolean;
     FCrudCrazyPriceClient: TCrudCrazyPriceClient;
+    FCRUDTransferBarangClient: TCRUDTransferBarangClient;
     FCrudPOTraderClient: TCrudPOTraderClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
@@ -70,6 +71,7 @@ type
     function GetDSProviderClient: TDSProviderClient;
     function GetInstanceOwner: Boolean;
     function GetCrudCrazyPriceClient: TCrudCrazyPriceClient;
+    function GetCRUDTransferBarangClient: TCRUDTransferBarangClient;
     function GetCrudPOTraderClient: TCrudPOTraderClient;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
   public
@@ -111,6 +113,8 @@ type
         FDSProviderClient;
     property CrudCrazyPriceClient: TCrudCrazyPriceClient read
         GetCrudCrazyPriceClient write FCrudCrazyPriceClient;
+    property CRUDTransferBarangClient: TCRUDTransferBarangClient read
+        GetCRUDTransferBarangClient write FCRUDTransferBarangClient;
     property CrudPOTraderClient: TCrudPOTraderClient read GetCrudPOTraderClient
         write FCrudPOTraderClient;
   end;
@@ -370,6 +374,15 @@ begin
 
   FCrudCrazyPriceClient := TCrudCrazyPriceClient.Create(RestConn, InstanceOwner);
   Result := FCrudCrazyPriceClient;
+end;
+
+function TDMClient.GetCRUDTransferBarangClient: TCRUDTransferBarangClient;
+begin
+  if FCRUDTransferBarangClient <> nil then
+    FreeAndNil(FCRUDTransferBarangClient);
+
+  FCRUDTransferBarangClient := TCRUDTransferBarangClient.Create(RestConn, InstanceOwner);
+  Result := FCRUDTransferBarangClient;
 end;
 
 function TDMClient.GetCrudPOTraderClient: TCrudPOTraderClient;
