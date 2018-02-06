@@ -27,6 +27,8 @@ type
     function AutUser_GetDSOverview: TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
+    function BankCashIn_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
     function ProdukJasa_GetDSOverview: TDataSet;
@@ -356,6 +358,19 @@ begin
     + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
     + ' order by Tanggal, NoBukti';
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.BankCashIn_GetDSByPeriod(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BANKCASHIN'
+  + ' WHERE'
+  + ' BCI_TANGGAL BETWEEN ' + TDBUtils.QuotDt(APeriodeAwal)
+  + ' AND '+ TDBUtils.QuotDt(APeriodeAkhir);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -1705,7 +1720,7 @@ function TDSProvider.CashIn_GetDSOverview(ATglAwal , ATglAkhir : TDateTime):
 var
   S: string;
 begin
-  S := 'select * from V_CASHIN ' +
+  S := 'select * from V_BANKCASHIN ' +
        ' where BCI_TANGGAL between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
        ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 

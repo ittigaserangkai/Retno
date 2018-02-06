@@ -64,6 +64,7 @@ type
     FBCIAPNEW_Rekening: TModRekening;
   published
     property BCIAOBEW_AP: TModAP read FBCIAOBEW_AP write FBCIAOBEW_AP;
+    [AttributeOfHeader]
     property BCIAPNEW_BankCashIn: TModBankCashIn read FBCIAPNEW_BankCashIn
         write FBCIAPNEW_BankCashIn;
     property BCIAPNEW_Keterangan: string read FBCIAPNEW_Keterangan write
@@ -83,6 +84,7 @@ type
     FBCIAR_Rekening: TModRekening;
   published
     property BCIAR_AR: TModAR read FBCIAR_AR write FBCIAR_AR;
+    [AttributeOfHeader]
     property BCIAR_BankCashIn: TModBankCashIn read FBCIAR_BankCashIn write
         FBCIAR_BankCashIn;
     property BCIAR_Keterangan: string read FBCIAR_Keterangan write
@@ -101,6 +103,7 @@ type
     FBCICHE_Nominal: Double;
   public
   published
+    [AttributeOfHeader]
     property BCICHE_BankCashIn: TModBankCashIn read FBCICHE_BankCashIn write
         FBCICHE_BankCashIn;
     property BCICHE_JatuhTempo: TDatetime read FBCICHE_JatuhTempo write
@@ -119,6 +122,7 @@ type
     FBCIOI_Nominal: Double;
     FBCIOI_Rekening: TModRekening;
   published
+    [AttributeOfHeader]
     property BCIOI_BankCashIn: TModBankCashIn read FBCIOI_BankCashIn write
         FBCIOI_BankCashIn;
     property BCIOI_CostCenter: TModCostCenter read FBCIOI_CostCenter write

@@ -16,7 +16,7 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice,
   uModDOBonus, uModTransferBarang, uModBarcodeRequest, System.Rtti,
-  uServerDatabase, uModReturTrader;
+  uServerDatabase, uModReturTrader, uModBankCashIn;
 
 type
   TfrmMain = class(TForm)
