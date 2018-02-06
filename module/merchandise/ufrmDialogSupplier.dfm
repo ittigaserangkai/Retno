@@ -23,7 +23,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
     Width = 757
     Height = 463
     ExplicitWidth = 757
-    ExplicitHeight = 455
+    ExplicitHeight = 463
     object pc1: TcxPageControl
       Left = 2
       Top = 2
@@ -40,7 +40,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       Properties.ActivePage = tsMerchandiseGroup
       Properties.CustomButtons.Buttons = <>
       OnChange = pc1Change
-      ExplicitHeight = 451
       ClientRectBottom = 459
       ClientRectRight = 753
       ClientRectTop = 27
@@ -446,7 +445,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
       end
       object tsMerchandiseGroup: TcxTabSheet
         Caption = '&Category'
-        ExplicitHeight = 424
         object gbSupplierGrid: TcxGroupBox
           Left = 0
           Top = 0
@@ -454,7 +452,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           PanelStyle.Active = True
           Style.BorderStyle = ebsNone
           TabOrder = 0
-          ExplicitHeight = 151
           Height = 130
           Width = 753
           object pnlGridSupplierBtn: TcxGroupBox
@@ -465,7 +462,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Style.BorderStyle = ebsNone
             Style.Edges = [bRight, bBottom]
             TabOrder = 0
-            ExplicitTop = 122
             Height = 27
             Width = 749
             object btnDelSupp: TcxButton
@@ -595,7 +591,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
             Align = alClient
             TabOrder = 1
             TabStop = False
-            ExplicitHeight = 120
             object cxGrdDBSupplierMerchan: TcxGridDBTableView
               PopupMenu = PopupMenu1
               Navigator.Buttons.CustomButtons = <>
@@ -646,7 +641,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsMG: TcxTabSheet
             Caption = 'M&erchandise Group'
             ImageIndex = 0
-            ExplicitHeight = 246
             object pnlMG: TPanel
               Left = 0
               Top = 0
@@ -654,8 +648,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Height = 275
               Align = alClient
               TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 1
               object Label11: TLabel
                 Left = 605
                 Top = 61
@@ -1099,7 +1091,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
           object tsA: TcxTabSheet
             Caption = '&Addreses'
             ImageIndex = 1
-            ExplicitHeight = 246
             object pnlAddress: TPanel
               Left = 0
               Top = 0
@@ -1108,7 +1099,6 @@ inherited frmDialogSupplier: TfrmDialogSupplier
               Align = alClient
               Color = clWhite
               TabOrder = 0
-              ExplicitHeight = 246
               object lbl30: TLabel
                 Left = 52
                 Top = 28
@@ -1314,7 +1304,7 @@ inherited frmDialogSupplier: TfrmDialogSupplier
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 463
     Width = 757
-    ExplicitTop = 455
+    ExplicitTop = 463
     ExplicitWidth = 757
     inherited pnlFooter: TPanel
       Width = 757

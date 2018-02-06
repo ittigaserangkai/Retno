@@ -831,6 +831,9 @@ begin
     CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger := TAppUtils.BoolToInt(chkSat.Checked);
     CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger := TAppUtils.BoolToInt(chkSun.Checked);
     CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger := TAppUtils.BoolToInt(chkPKP.Checked);
+    CDSItems.FieldByName('SUPMG_REKENING_HUTANG').AsString    :=  cbbAPAccount.EditValue;
+    CDSItems.FieldByName('SUPMG_REKENING_PIUTANG').AsString   :=  cbbARAccount.EditValue;
+
     if not VarIsNull(cxLookupPPN.EditValue) then
       CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
 
@@ -850,9 +853,6 @@ begin
         CDSItems.FieldByName('BANK').AsString                     := cxLookUpBankMer.EditValue;
       CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString  := edtAccountNameMer.Text;
       CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString    :=  edtAccountNoMer.Text;
-
-      CDSItems.FieldByName('SUPMG_REKENING_HUTANG').AsString    :=  cbbAPAccount.EditValue;
-      CDSItems.FieldByName('SUPMG_REKENING_PIUTANG').AsString   :=  cbbARAccount.EditValue;
     end;
 
     CDSItems.Post;
