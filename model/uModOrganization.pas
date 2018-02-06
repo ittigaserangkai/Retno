@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
-  uModApp, uModMember,  uModSuplier;
+  uModApp, uModMember,  uModSuplier, uModRekening;
 
 type
   TModOrganization = class(TModApp)
@@ -22,6 +22,8 @@ type
     FORG_PostCode: string;
     FORG_PPN: Double;
     FORG_Telp: string;
+    FOrg_Rekening_Hutang: TModRekening;
+    FOrg_Rekening_Piutang: TModRekening;
   public
     class function GetTableName: string; override;
   published
@@ -42,6 +44,10 @@ type
     property ORG_PostCode: string read FORG_PostCode write FORG_PostCode;
     property ORG_PPN: Double read FORG_PPN write FORG_PPN;
     property ORG_Telp: string read FORG_Telp write FORG_Telp;
+    property Org_Rekening_Hutang: TModRekening read FOrg_Rekening_Hutang write
+        FOrg_Rekening_Hutang;
+    property Org_Rekening_Piutang: TModRekening read FOrg_Rekening_Piutang write
+        FOrg_Rekening_Piutang;
   end;
 
 

@@ -62,7 +62,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
       end
       object edNO: TcxTextEdit
         Tag = 1
-        Left = 92
+        Left = 90
         Top = 4
         Enabled = False
         TabOrder = 0
@@ -75,7 +75,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         Width = 106
       end
       object cxLookUpGudangAsal: TcxExtLookupComboBox
-        Left = 90
+        Left = 92
         Top = 64
         TabOrder = 2
         Width = 183
@@ -117,7 +117,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         DataController.Summary.FooterSummaryItems = <
           item
             Format = ',0.0#;(,0.0#)'
-            Kind = skMax
+            Kind = skSum
             Column = cxGridColQty
           end>
         DataController.Summary.SummaryGroups = <>
@@ -140,12 +140,15 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.OnButtonClick = cxGridColPLUPropertiesButtonClick
+          Properties.OnEditValueChanged = cxGridColPLUPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
           Width = 106
         end
         object cxGridColNama: TcxGridColumn
           Caption = 'Nama'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 252
         end
@@ -156,6 +159,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         object cxGridColQty: TcxGridColumn
           AlternateCaption = 'DOD_QTY_ORDER'
           Caption = 'Qty Order'
+          DataBinding.ValueType = 'Float'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.0#;(,0.0#)'
@@ -165,9 +169,20 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         object cxGridColUOM: TcxGridColumn
           AlternateCaption = 'SATUAN'
           Caption = 'UOM'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
+          Properties.ReadOnly = True
+          Properties.OnButtonClick = cxGridColUOMPropertiesButtonClick
           HeaderAlignmentHorz = taCenter
           Width = 92
+        end
+        object cxGridColUOMid: TcxGridColumn
+          Caption = 'UOM ID'
+          Visible = False
         end
       end
       object cxgrdlvlTransfer: TcxGridLevel
@@ -229,5 +244,8 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
   inherited actlstMasterDialog: TActionList
     Left = 680
     Top = 184
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

@@ -106,11 +106,11 @@ begin
 end;
 
 function TfrmDialogScheduleAgreement.UpdateScheduleAgreement: Boolean;
-var countI: Integer;
-    tempInvNo, tempACCRU_NO, tempACCRU_Status: String;
-    InvoiceDate, tempDate, tempAccrDate: TDateTime;
-    AGRJDWL_ID, StaProID: Integer;
-    tempTotal, tempACCRU_TOTAL: Currency;
+//var countI: Integer;
+//    tempInvNo, tempACCRU_NO, tempACCRU_Status: String;
+//    InvoiceDate, tempDate, tempAccrDate: TDateTime;
+//    AGRJDWL_ID, StaProID: Integer;
+//    tempTotal: Currency;
 begin
   //init
 //  Result := false;

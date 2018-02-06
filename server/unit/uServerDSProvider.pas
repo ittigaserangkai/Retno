@@ -27,6 +27,8 @@ type
     function AutUser_GetDSOverview: TDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
         TDataset;
+    function BankCashIn_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
     function ProdukJasa_GetDSOverview: TDataSet;
@@ -174,9 +176,12 @@ type
         TModUnit = nil): TDataset;
     function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function RekeningHutang_GetDSLookup: TDataSet;
+    function RekeningPiutang_GetDSLookup: TDataSet;
     function ReturTrader_GetDSLookUp: TDataSet;
     function ReturTrader_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function KonversiSatuan_GetDS(ABarangID: String): TDataSet;
   end;
 
   TDSReport = class(TComponent)
@@ -356,6 +361,19 @@ begin
     + ' where Tanggal between ' + TDBUtils.QuotDt(APeriodeAwal)
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
     + ' order by Tanggal, NoBukti';
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.BankCashIn_GetDSByPeriod(APeriodeAwal, APeriodeAkhir:
+    TDatetime): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BANKCASHIN'
+  + ' WHERE'
+  + ' BCI_TANGGAL BETWEEN ' + TDBUtils.QuotDt(APeriodeAwal)
+  + ' AND '+ TDBUtils.QuotDt(APeriodeAkhir);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -1705,7 +1723,7 @@ function TDSProvider.CashIn_GetDSOverview(ATglAwal , ATglAkhir : TDateTime):
 var
   S: string;
 begin
-  S := 'select * from V_CASHIN ' +
+  S := 'select * from V_BANKCASHIN ' +
        ' where BCI_TANGGAL between ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
        ' and ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
@@ -1757,6 +1775,22 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.RekeningHutang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_HUTANG ORDER BY rek_code';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RekeningPiutang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_PIUTANG ORDER BY rek_code';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.ReturTrader_GetDSLookUp: TDataSet;
 var
   S: string;
@@ -1778,6 +1812,17 @@ begin
     sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.KonversiSatuan_GetDS(ABarangID: String): TDataSet;
+var
+  S: string;
+begin
+  // query ambil dari view filter by barang_id
+  S :=  'SELECT * FROM V_KONVERSISATUANBARANG' +
+        ' WHERE BARANG_ID = ' + QuotedStr(ABarangID);
+  Result := TDBUtils.OpenQuery(S);
+
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:
