@@ -72,12 +72,17 @@ inherited frmDialogScheduleAgreement: TfrmDialogScheduleAgreement
       ExplicitTop = 209
       ExplicitWidth = 736
       ExplicitHeight = 150
-      ClientRectBottom = 213
-      ClientRectRight = 673
+      ClientRectBottom = 209
+      ClientRectLeft = 4
+      ClientRectRight = 669
       ClientRectTop = 27
       object tsJadwalInvoice: TcxTabSheet
         Caption = 'F3 - Invoice Schedule'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxgrd1: TcxGrid
           Left = 0
           Top = 0
@@ -231,18 +236,15 @@ inherited frmDialogScheduleAgreement: TfrmDialogScheduleAgreement
       ExplicitWidth = 679
       inherited lbCTRLEnter: TLabel
         Left = 502
-        Height = 15
+        ExplicitLeft = 502
       end
       inherited lbEscape: TLabel
         Left = 593
-        Height = 15
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+        ExplicitLeft = 593
       end
       inherited lblCTRLP: TLabel
         Left = 426
-        Height = 15
+        ExplicitLeft = 426
       end
     end
   end
