@@ -27,20 +27,19 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 0
-      ExplicitWidth = 788
       object lbl1: TLabel
-        Left = 30
+        Left = 21
         Top = 37
-        Width = 31
+        Width = 44
         Height = 16
-        Caption = 'DO No'
+        Caption = 'Retur No'
       end
       object lbl2: TLabel
-        Left = 277
-        Top = 9
-        Width = 41
+        Left = 263
+        Top = 37
+        Width = 55
         Height = 16
-        Caption = 'PO Date'
+        Caption = 'Retur Date'
       end
       object lblOrganizasi: TLabel
         Left = 11
@@ -59,13 +58,13 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       object lblDONo: TLabel
         Left = 34
         Top = 9
-        Width = 30
+        Width = 31
         Height = 16
-        Caption = 'PO No'
+        Caption = 'DO No'
       end
       object lblDODate: TLabel
         Left = 276
-        Top = 37
+        Top = 9
         Width = 42
         Height = 16
         Caption = 'DO Date'
@@ -107,15 +106,15 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       end
       object dtTgl: TcxDateEdit
         Left = 336
-        Top = 5
-        TabOrder = 1
+        Top = 33
+        TabOrder = 5
         Width = 146
       end
       object edNoBukti: TcxTextEdit
         Left = 71
         Top = 33
         Enabled = False
-        TabOrder = 0
+        TabOrder = 1
         Width = 146
       end
       object edOrganization: TcxButtonEdit
@@ -151,11 +150,11 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       object memDescription: TcxMemo
         Left = 336
         Top = 89
-        TabOrder = 4
+        TabOrder = 7
         Height = 50
         Width = 193
       end
-      object edPONo: TcxButtonEdit
+      object edDONo: TcxButtonEdit
         Tag = 1
         Left = 71
         Top = 5
@@ -168,13 +167,14 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           end>
         Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
-        TabOrder = 5
+        TabOrder = 0
         Width = 146
       end
       object dtDODate: TcxDateEdit
         Left = 336
-        Top = 33
-        TabOrder = 6
+        Top = 5
+        Enabled = False
+        TabOrder = 4
         Width = 146
       end
       object edSubTotal: TcxCurrencyEdit
@@ -182,7 +182,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         Top = 5
         Enabled = False
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 7
+        TabOrder = 8
         Width = 180
       end
       object edDisc: TcxCurrencyEdit
@@ -190,7 +190,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         Top = 33
         Enabled = False
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 8
+        TabOrder = 9
         Width = 180
       end
       object edPPN: TcxCurrencyEdit
@@ -198,7 +198,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         Top = 61
         Enabled = False
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 9
+        TabOrder = 10
         Width = 180
       end
       object edTotal: TcxCurrencyEdit
@@ -206,13 +206,13 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         Top = 89
         Enabled = False
         Properties.DisplayFormat = ',0.00;(,0.00)'
-        TabOrder = 10
+        TabOrder = 11
         Width = 180
       end
       object cbbGudang: TcxExtLookupComboBox
         Left = 336
         Top = 61
-        TabOrder = 11
+        TabOrder = 6
         Width = 145
       end
     end
@@ -225,8 +225,6 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitWidth = 788
-      ExplicitHeight = 246
       object cxGridDBTableDOTrader: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -279,7 +277,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         end
       end
       object cxgrdlvlDOTrader: TcxGridLevel
-        Caption = 'DO Trader Item'
+        Caption = 'Retur Trader Item'
         GridView = cxGridDBTableDOTrader
       end
     end
@@ -316,14 +314,20 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       ExplicitWidth = 797
       inherited lbCTRLEnter: TLabel
         Left = 622
+        Height = 15
         ExplicitLeft = 622
       end
       inherited lbEscape: TLabel
         Left = 713
+        Height = 15
         ExplicitLeft = 713
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 546
+        Height = 15
         ExplicitLeft = 546
       end
     end

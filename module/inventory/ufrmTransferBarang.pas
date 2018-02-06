@@ -13,10 +13,14 @@ uses
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDBUtils, uModTransferBarang,
   uDXUtils, Datasnap.DBClient, uDMClient, uAppUtils, uModBarang, uModSatuan,
-  uModGudang, System.DateUtils, System.StrUtils, ufrmDialogTransferBarang;
+  uModGudang, System.DateUtils, System.StrUtils, ufrmDialogTransferBarang,
+  uRetnoUnit;
 
 type
   TfrmTransferBarang = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
@@ -43,16 +47,21 @@ end;
 procedure TfrmTransferBarang.actEditExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogTransferBarang, FCDS.FieldByName('TRANSFERBARANG_ID').AsString);
+  ShowDialogForm(TfrmDialogTransferBarang,
+    FCDS.FieldByName('TRANSFERBARANG_ID').AsString
+  );
 end;
 
 procedure TfrmTransferBarang.RefreshData;
 begin
   inherited;
-  if Assigned(FCDS) then FreeAndNil(FCDS);
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.TransferBarang_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date), nil) ,Self );
-  cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['TRANSFERBARANG_ID','TB_UNIT_ID'],False);
+  cxGridView.PrepareFromCDS(
+    TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.TransferBarang_GetDSOverview(
+        dtAwalFilter.Date, dtAkhirFilter.Date, TRetno.UnitStore
+      ), Self
+    )
+  );
 end;
 
 end.

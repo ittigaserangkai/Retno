@@ -62,8 +62,9 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
       end
       object edNO: TcxTextEdit
         Tag = 1
-        Left = 90
+        Left = 92
         Top = 4
+        Enabled = False
         TabOrder = 0
         Width = 183
       end
@@ -73,13 +74,13 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         TabOrder = 1
         Width = 106
       end
-      object cbbGudang: TcxExtLookupComboBox
+      object cxLookUpGudangAsal: TcxExtLookupComboBox
         Left = 90
         Top = 64
         TabOrder = 2
         Width = 183
       end
-      object cbbGudangTujuan: TcxExtLookupComboBox
+      object cxLookUpGudangTujuan: TcxExtLookupComboBox
         Left = 90
         Top = 94
         TabOrder = 3
@@ -139,12 +140,15 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.OnButtonClick = cxGridColPLUPropertiesButtonClick
+          Properties.OnEditValueChanged = cxGridColPLUPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
           Width = 106
         end
         object cxGridColNama: TcxGridColumn
           Caption = 'Nama'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 252
         end
@@ -164,9 +168,18 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         object cxGridColUOM: TcxGridColumn
           AlternateCaption = 'SATUAN'
           Caption = 'UOM'
-          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
+          Properties.OnButtonClick = cxGridColUOMPropertiesButtonClick
           HeaderAlignmentHorz = taCenter
           Width = 92
+        end
+        object cxGridColUOMid: TcxGridColumn
+          Caption = 'UOM ID'
         end
       end
       object cxgrdlvlTransfer: TcxGridLevel
