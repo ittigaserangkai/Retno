@@ -276,6 +276,7 @@ begin
       Jangan tanya gimana! Aku yo ra mudeng. wkwkwk
       Nah, kl mau bikin custom no yg serupa copy aja, trus rename, isinya disesuaikan.
       Abis itu daftarkan di uDMClient, metodenya sama copy-paste.
+      Buka ServerContainerUnit, register di method RegisterServerClases.
       Jalankan server, generate data snap clientclasses.
 
       Sementara ini dulu, besok dilanjut.
