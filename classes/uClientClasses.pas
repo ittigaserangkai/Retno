@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/5/2018 2:47:16 PM
+// 2/6/2018 2:55:20 PM
 //
 
 unit uClientClasses;
@@ -128,6 +128,8 @@ type
     FAutUser_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBankCashOut_GetDSByPeriodCommand: TDSRestCommand;
     FBankCashOut_GetDSByPeriodCommand_Cache: TDSRestCommand;
+    FBankCashIn_GetDSByPeriodCommand: TDSRestCommand;
+    FBankCashIn_GetDSByPeriodCommand_Cache: TDSRestCommand;
     FBank_GetDSLookupCommand: TDSRestCommand;
     FBank_GetDSLookupCommand_Cache: TDSRestCommand;
     FBank_GetDSOverviewCommand: TDSRestCommand;
@@ -379,6 +381,10 @@ type
     FTransferBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FRekeningHutang_GetDSLookupCommand: TDSRestCommand;
+    FRekeningHutang_GetDSLookupCommand_Cache: TDSRestCommand;
+    FRekeningPiutang_GetDSLookupCommand: TDSRestCommand;
+    FRekeningPiutang_GetDSLookupCommand_Cache: TDSRestCommand;
     FReturTrader_GetDSLookUpCommand: TDSRestCommand;
     FReturTrader_GetDSLookUpCommand_Cache: TDSRestCommand;
     FReturTrader_GetDSOverviewCommand: TDSRestCommand;
@@ -419,6 +425,8 @@ type
     function AutUser_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BankCashOut_GetDSByPeriod(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function BankCashOut_GetDSByPeriod_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BankCashIn_GetDSByPeriod(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function BankCashIn_GetDSByPeriod_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Bank_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Bank_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Bank_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -670,6 +678,10 @@ type
     function TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RekeningHutang_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function RekeningHutang_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function RekeningPiutang_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
+    function RekeningPiutang_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function ReturTrader_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
     function ReturTrader_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function ReturTrader_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
@@ -2350,6 +2362,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_BankCashIn_GetDSByPeriod: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_BankCashIn_GetDSByPeriod_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_Bank_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -3799,6 +3825,26 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RekeningHutang_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RekeningHutang_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_RekeningPiutang_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_RekeningPiutang_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -8281,6 +8327,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FBankCashOut_GetDSByPeriodCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.BankCashIn_GetDSByPeriod(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FBankCashIn_GetDSByPeriodCommand = nil then
+  begin
+    FBankCashIn_GetDSByPeriodCommand := FConnection.CreateCommand;
+    FBankCashIn_GetDSByPeriodCommand.RequestType := 'GET';
+    FBankCashIn_GetDSByPeriodCommand.Text := 'TDSProvider.BankCashIn_GetDSByPeriod';
+    FBankCashIn_GetDSByPeriodCommand.Prepare(TDSProvider_BankCashIn_GetDSByPeriod);
+  end;
+  FBankCashIn_GetDSByPeriodCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FBankCashIn_GetDSByPeriodCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FBankCashIn_GetDSByPeriodCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBankCashIn_GetDSByPeriodCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBankCashIn_GetDSByPeriodCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.BankCashIn_GetDSByPeriod_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBankCashIn_GetDSByPeriodCommand_Cache = nil then
+  begin
+    FBankCashIn_GetDSByPeriodCommand_Cache := FConnection.CreateCommand;
+    FBankCashIn_GetDSByPeriodCommand_Cache.RequestType := 'GET';
+    FBankCashIn_GetDSByPeriodCommand_Cache.Text := 'TDSProvider.BankCashIn_GetDSByPeriod';
+    FBankCashIn_GetDSByPeriodCommand_Cache.Prepare(TDSProvider_BankCashIn_GetDSByPeriod_Cache);
+  end;
+  FBankCashIn_GetDSByPeriodCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FBankCashIn_GetDSByPeriodCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FBankCashIn_GetDSByPeriodCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBankCashIn_GetDSByPeriodCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSProviderClient.Bank_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FBank_GetDSLookupCommand = nil then
@@ -12389,6 +12468,64 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.RekeningHutang_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FRekeningHutang_GetDSLookupCommand = nil then
+  begin
+    FRekeningHutang_GetDSLookupCommand := FConnection.CreateCommand;
+    FRekeningHutang_GetDSLookupCommand.RequestType := 'GET';
+    FRekeningHutang_GetDSLookupCommand.Text := 'TDSProvider.RekeningHutang_GetDSLookup';
+    FRekeningHutang_GetDSLookupCommand.Prepare(TDSProvider_RekeningHutang_GetDSLookup);
+  end;
+  FRekeningHutang_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekeningHutang_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekeningHutang_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RekeningHutang_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekeningHutang_GetDSLookupCommand_Cache = nil then
+  begin
+    FRekeningHutang_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FRekeningHutang_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FRekeningHutang_GetDSLookupCommand_Cache.Text := 'TDSProvider.RekeningHutang_GetDSLookup';
+    FRekeningHutang_GetDSLookupCommand_Cache.Prepare(TDSProvider_RekeningHutang_GetDSLookup_Cache);
+  end;
+  FRekeningHutang_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekeningHutang_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDSProviderClient.RekeningPiutang_GetDSLookup(const ARequestFilter: string): TDataSet;
+begin
+  if FRekeningPiutang_GetDSLookupCommand = nil then
+  begin
+    FRekeningPiutang_GetDSLookupCommand := FConnection.CreateCommand;
+    FRekeningPiutang_GetDSLookupCommand.RequestType := 'GET';
+    FRekeningPiutang_GetDSLookupCommand.Text := 'TDSProvider.RekeningPiutang_GetDSLookup';
+    FRekeningPiutang_GetDSLookupCommand.Prepare(TDSProvider_RekeningPiutang_GetDSLookup);
+  end;
+  FRekeningPiutang_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FRekeningPiutang_GetDSLookupCommand.Parameters[0].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FRekeningPiutang_GetDSLookupCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.RekeningPiutang_GetDSLookup_Cache(const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FRekeningPiutang_GetDSLookupCommand_Cache = nil then
+  begin
+    FRekeningPiutang_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FRekeningPiutang_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FRekeningPiutang_GetDSLookupCommand_Cache.Text := 'TDSProvider.RekeningPiutang_GetDSLookup';
+    FRekeningPiutang_GetDSLookupCommand_Cache.Prepare(TDSProvider_RekeningPiutang_GetDSLookup_Cache);
+  end;
+  FRekeningPiutang_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FRekeningPiutang_GetDSLookupCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSProviderClient.ReturTrader_GetDSLookUp(const ARequestFilter: string): TDataSet;
 begin
   if FReturTrader_GetDSLookUpCommand = nil then
@@ -12550,6 +12687,8 @@ begin
   FAutUser_GetDSOverviewCommand_Cache.DisposeOf;
   FBankCashOut_GetDSByPeriodCommand.DisposeOf;
   FBankCashOut_GetDSByPeriodCommand_Cache.DisposeOf;
+  FBankCashIn_GetDSByPeriodCommand.DisposeOf;
+  FBankCashIn_GetDSByPeriodCommand_Cache.DisposeOf;
   FBank_GetDSLookupCommand.DisposeOf;
   FBank_GetDSLookupCommand_Cache.DisposeOf;
   FBank_GetDSOverviewCommand.DisposeOf;
@@ -12801,6 +12940,10 @@ begin
   FTransferBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand_Cache.DisposeOf;
+  FRekeningHutang_GetDSLookupCommand.DisposeOf;
+  FRekeningHutang_GetDSLookupCommand_Cache.DisposeOf;
+  FRekeningPiutang_GetDSLookupCommand.DisposeOf;
+  FRekeningPiutang_GetDSLookupCommand_Cache.DisposeOf;
   FReturTrader_GetDSLookUpCommand.DisposeOf;
   FReturTrader_GetDSLookUpCommand_Cache.DisposeOf;
   FReturTrader_GetDSOverviewCommand.DisposeOf;

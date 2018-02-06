@@ -2,7 +2,6 @@ inherited frmBankCashOut: TfrmBankCashOut
   Caption = 'Bank Cash Out'
   ClientHeight = 429
   ClientWidth = 857
-  ExplicitTop = 2
   ExplicitWidth = 873
   ExplicitHeight = 468
   PixelsPerInch = 96
