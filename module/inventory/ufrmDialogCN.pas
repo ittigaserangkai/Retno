@@ -13,7 +13,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxDBExtLookupComboBox, uDXUtils, uModCNRecv, uModelHelper,
   uModDO, uModPO, uModUnit, uRetnoUnit, uDMClient, System.StrUtils, Datasnap.DBClient,
-  cxButtonEdit, Vcl.Menus, cxButtons, cxGroupBox, uInterface, uModApp;
+  cxButtonEdit, Vcl.Menus, cxButtons, cxGroupBox, uInterface, uModApp, uModGudang;
 
 type
   TfrmDialogCN = class(TfrmMasterDialog, ICRUDAble)
@@ -500,6 +500,7 @@ begin
   CNRecv.CNR_TOTAL      := edTotal.Value;
   CNRecv.CNR_UNT        := TModUnit.CreateID(TRetno.UnitStore.ID);
   CNRecv.CNR_DO         := TModDO.CreateID(FDO.ID);
+  CNRecv.CNR_GUDANG     := TModGudang.CreateID(TRetno.SettingApp.GUDANG_DO.ID);
   CNRecv.CNR_TOTAL_DISC := 0;
 
   CNRecv.CNR_CNRDITEMS.Clear;
