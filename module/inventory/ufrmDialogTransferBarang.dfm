@@ -61,7 +61,6 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         Caption = 'Referensi'
       end
       object edNO: TcxTextEdit
-        Tag = 1
         Left = 90
         Top = 4
         Enabled = False
@@ -69,18 +68,22 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         Width = 183
       end
       object dtTanggal: TcxDateEdit
+        Tag = 1
         Left = 90
         Top = 34
+        Properties.ShowTime = False
         TabOrder = 1
         Width = 106
       end
       object cxLookUpGudangAsal: TcxExtLookupComboBox
-        Left = 92
+        Tag = 1
+        Left = 90
         Top = 64
         TabOrder = 2
         Width = 183
       end
       object cxLookUpGudangTujuan: TcxExtLookupComboBox
+        Tag = 1
         Left = 90
         Top = 94
         TabOrder = 3
@@ -96,7 +99,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         Width = 317
       end
       object edReferensi: TcxTextEdit
-        Tag = 1
+        Tag = -1
         Left = 380
         Top = 4
         TabOrder = 4
@@ -184,6 +187,10 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
           Caption = 'UOM ID'
           Visible = False
         end
+        object cxGridColIsDecimal: TcxGridColumn
+          Caption = 'Boleh Desimal?'
+          Visible = False
+        end
       end
       object cxgrdlvlTransfer: TcxGridLevel
         Caption = 'Item Receiving'
@@ -244,6 +251,9 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
   inherited actlstMasterDialog: TActionList
     Left = 680
     Top = 184
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end
