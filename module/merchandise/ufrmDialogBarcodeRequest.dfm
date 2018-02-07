@@ -7,7 +7,6 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
   Constraints.MinHeight = 32
   OldCreateOrder = True
   OnShow = FormShow
-  ExplicitTop = -1
   ExplicitWidth = 877
   ExplicitHeight = 526
   PixelsPerInch = 96
@@ -24,7 +23,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       TabOrder = 1
       ExplicitTop = 91
       ExplicitWidth = 857
-      ExplicitHeight = 297
+      ExplicitHeight = 338
       inherited cxGridView: TcxGridDBTableView
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
