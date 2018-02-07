@@ -14,7 +14,7 @@ uses
   cxGrid, cxDBExtLookupComboBox, uDXUtils, uModelHelper,
   uModDO, uModPO, uModUnit, uRetnoUnit, uDMClient, System.StrUtils, Datasnap.DBClient,
   cxButtonEdit, Vcl.Menus, cxButtons, cxGroupBox, uInterface, uModApp,
-  uModDNRecv;
+  uModDNRecv, uModGudang;
 
 type
   TfrmDialogDN = class(TfrmMasterDialog, ICRUDAble)
@@ -494,6 +494,8 @@ begin
   DNRecv.DNR_UNT          := TModUnit.CreateID(TRetno.UnitStore.ID);
   DNRecv.DNR_DO           := TModDO.CreateID(FDO.ID);
   DNRecv.DNR_TOTAL_DISC   := 0;
+  DNRecv.DNR_Gudang       := TModGudang.CreateID(TRetno.SettingApp.GUDANG_DO.ID);
+
 
   DNRecv.DNR_DNRDITEMS.Clear;
   for i := 0 to DCItem.RecordCount-1 do
