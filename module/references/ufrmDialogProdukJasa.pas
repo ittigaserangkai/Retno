@@ -41,6 +41,7 @@ type
     function GetModProdukJasa: TModProdukJasa;
     procedure InitLookup;
     procedure SimpanData;
+    function ValidateData: Boolean;
     property ModProdukJasa: TModProdukJasa read GetModProdukJasa write
         FModProdukJasa;
     { Private declarations }
@@ -73,7 +74,7 @@ end;
 procedure TfrmDialogProdukJasa.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  SimpanData
+  if ValidateData then SimpanData;
 end;
 
 procedure TfrmDialogProdukJasa.FormCreate(Sender: TObject);
@@ -173,6 +174,41 @@ begin
     raise;
   end;
 
+end;
+
+function TfrmDialogProdukJasa.ValidateData: Boolean;
+begin
+  Result := False;
+
+  //validasi tipe barang
+  if VarIsNull(cxLookUpTipeBarang.EditValue) then
+  begin
+    TAppUtils.Warning('Tipe barang harus diisi');
+    exit;
+  end;
+
+    //validasi pajak
+  if VarIsNull(cxLookUpPajak.EditValue) then
+  begin
+    TAppUtils.Warning('Pajak harus diisi');
+    exit;
+  end;
+
+    //validasi akun debet
+  if VarIsNull(cxLookupRekDebet.EditValue) then
+  begin
+    TAppUtils.Warning('Rek Debet harus diisi');
+    exit;
+  end;
+
+    //validasi akun kredit
+  if VarIsNull(cxLookupRekCredit.EditValue) then
+  begin
+    TAppUtils.Warning('Rek Credit harus diisi');
+    exit;
+  end;
+
+  Result := True;
 end;
 
 end.
