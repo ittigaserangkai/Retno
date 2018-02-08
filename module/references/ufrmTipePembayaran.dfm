@@ -95,6 +95,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
         Action = actClose
         TabOrder = 0
         OnClick = actEditExecute
+        ExplicitTop = 5
       end
       inherited btnPrint: TcxButton
         Width = 74
@@ -118,6 +119,7 @@ inherited frmTipePembayaran: TfrmTipePembayaran
       inherited lbEscape: TLabel
         Left = 544
         Height = 17
+        ExplicitLeft = 544
       end
     end
   end

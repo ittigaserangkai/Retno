@@ -15,10 +15,10 @@ uses
   cxButtons, cxGridLevel, cxPC, ComCtrls, cxMemo, cxCurrencyEdit, cxButtonEdit,
   cxListView, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
   cxSpinEdit, dxCore, cxDateUtils, dxBarBuiltInMenu, cxNavigator, uDMClient,
-  uModBankCashIn, uModOrganization;
+  uModBankCashIn, uModOrganization, uInterface;
 
 type
-  TfrmDialogCashIn = class(TfrmMasterDialog)
+  TfrmDialogCashIn = class(TfrmMasterDialog, ICRUDAble)
     pnlDetail2: TPanel;
     cbBank: TcxExtLookupComboBox;
     lvSumary: TcxListView;
@@ -89,6 +89,7 @@ type
         FModOrganization;
     { Private declarations }
   public
+    procedure LoadData(aID: String);
     { Public declarations }
   end;
 
@@ -133,7 +134,7 @@ begin
 
   UpdateData;
 
-  if DMClient.CrudClient.SaveToDB(ModCashIn) Then
+  if DMClient.CrudBankCashInClient.SaveToDB(ModCashIn) Then
     TAppUtils.Information('Berhasil Simpan');
 
 end;
@@ -154,8 +155,8 @@ end;
 
 function TfrmDialogCashIn.GetModCashIn: TModBankCashIn;
 begin
-if not assigned (fModCashIn) then
-  fModCashIn := TModBankCashIn.create;
+  if not assigned (fModCashIn) then
+    fModCashIn := TModBankCashIn.create;
   Result := FModCashIn;
 end;
 
@@ -165,6 +166,20 @@ var
 begin
    LCDSBank := DMClient.DSProviderClient.Bank_GetDSLookup();
    cbBank.Properties.LoadFromDS(LCDSBank, 'BANK_ID', 'BANK_NAME',['BANK_ID'], self);
+end;
+
+procedure TfrmDialogCashIn.LoadData(aID: String);
+begin
+  FModCashIN := TCrudObj.Retrieve<TModBankCashIn>(aID);
+  edReceiveNum.Text := ModCashIn.BCI_NoBukti;
+  memDesc.Text := ModCashIn.BCI_Keterangan;
+  //TModBank.CreateID(vartostr(cbBank.EditValue)) := ModCashIn.BCI_Bank ;  (Masih Eror)
+  edReceiveNum.Text := ModCashIn.BCI_NoBukti;
+  ModOrganization := ModCashIn.BCI_Organization;
+  edRefNum.Text := ModCashIn.BCI_Ref;
+  deReceiveDate.Date := ModCashIn.BCI_Tanggal;
+  ceNominal.Value := ModCashIn.BCI_Total;
+  //lanjutkan
 end;
 
 procedure TfrmDialogCashIn.LookUpOrganization;
@@ -184,13 +199,16 @@ end;
 
 procedure TfrmDialogCashIn.UpdateData;
 begin
-ModCashIn.BCI_Keterangan := memDesc.Text;
-ModCashIn.BCI_Bank := TModBank.CreateID(vartostr(cbBank.EditValue));
-ModCashIn.BCI_NoBukti := edReceiveNum.Text;
-ModCashIn.BCI_Organization := ModOrganization;
-ModCashIn.BCI_Ref := edRefNum.Text;
-ModCashIn.BCI_Tanggal := deReceiveDate.Date;
-ModCashIn.BCI_Total := ceNominal.Value;
+  if ModCashIn.ID = '' then
+    edReceiveNum.Text := DMClient.CrudBankCashInClient.GenerateNoBukti();
+
+  ModCashIn.BCI_Keterangan := memDesc.Text;
+  ModCashIn.BCI_Bank := TModBank.CreateID(vartostr(cbBank.EditValue));
+  ModCashIn.BCI_NoBukti := edReceiveNum.Text;
+  ModCashIn.BCI_Organization := ModOrganization;
+  ModCashIn.BCI_Ref := edRefNum.Text;
+  ModCashIn.BCI_Tanggal := deReceiveDate.Date;
+  ModCashIn.BCI_Total := ceNominal.Value;
 //ModCashIn.BCI_Total_APNEW :=
 //ModCashIn.BCI_Total_AR := lvSumary.Items[0] ;
 

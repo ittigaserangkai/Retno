@@ -17,6 +17,7 @@ uses
 type
   TfrmCashIn = class(TfrmMasterBrowse)
     procedure actAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -37,6 +38,15 @@ procedure TfrmCashIn.actAddExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogCashIn);
+end;
+
+procedure TfrmCashIn.actEditExecute(Sender: TObject);
+var
+  AID: String;
+begin
+  inherited;
+  AID := CDS.FieldByName('BANKCASHIN_ID').AsString;
+  ShowDialogForm(TfrmDialogCashIn, AID);
 end;
 
 procedure TfrmCashIn.RefreshData;

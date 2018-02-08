@@ -40,6 +40,8 @@ uses uTSCommonDlg, ufrmDialogTipePembayaran,  uConstanta;
 procedure TfrmTipePembayaran.actAddExecute(Sender: TObject);
 begin
   inherited;
+  ShowDialogForm(TfrmDialogTipePembayaran);
+
   if not Assigned(frmDialogTipePembayaran) then
     Application.CreateForm(TfrmDialogTipePembayaran, frmDialogTipePembayaran);
 
