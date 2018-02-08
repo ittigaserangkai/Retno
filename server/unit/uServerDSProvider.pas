@@ -176,6 +176,8 @@ type
         TModUnit = nil): TDataset;
     function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function RekeningHutang_GetDSLookup: TDataSet;
+    function RekeningPiutang_GetDSLookup: TDataSet;
     function ReturTrader_GetDSLookUp: TDataSet;
     function ReturTrader_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
@@ -1771,6 +1773,22 @@ begin
     sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.RekeningHutang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_HUTANG ORDER BY rek_code';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RekeningPiutang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_PIUTANG ORDER BY rek_code';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 function TDSProvider.ReturTrader_GetDSLookUp: TDataSet;

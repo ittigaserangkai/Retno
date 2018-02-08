@@ -168,6 +168,12 @@ type
     Label15: TLabel;
     edSubMgKode: TcxTextEdit;
     lblKode: TLabel;
+    lblARAccount: TLabel;
+    lblAPAccount: TLabel;
+    cbbAPAccount: TcxExtLookupComboBox;
+    cbbARAccount: TcxExtLookupComboBox;
+    edNamaARAccount: TcxTextEdit;
+    edNamaAPAccount: TcxTextEdit;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -192,13 +198,19 @@ type
     procedure btnCancelSuppClick(Sender: TObject);
     procedure btnEditSuppClick(Sender: TObject);
     procedure btnUpdateSuppClick(Sender: TObject);
+    procedure cbbAPAccountExit(Sender: TObject);
+    procedure cbbARAccountExit(Sender: TObject);
 
 
   private
+    FCDSAPAccount: TClientDataset;
+    FCDSARAccount: TClientDataset;
     FCDSItems: TClientDataSet;
     FDisableUpdateDetail: Boolean;
     FIsUpdateSupplier: Boolean;
     FModSupplier: TModSuplier;
+    function GetCDSAPAccount: TClientDataset;
+    function GetCDSARAccount: TClientDataset;
     procedure InitCategory(aState: Boolean);
     function GetCDSItems: TClientDataSet;
     function GetModSupplier: TModSuplier;
@@ -218,6 +230,8 @@ type
   public
     procedure LoadData(ID: String);
   published
+    property CDSAPAccount: TClientDataset read GetCDSAPAccount write FCDSAPAccount;
+    property CDSARAccount: TClientDataset read GetCDSARAccount write FCDSARAccount;
   end;
 
 var
@@ -286,12 +300,31 @@ begin
   UpdateDetail;
 end;
 
+procedure TfrmDialogSupplier.cbbAPAccountExit(Sender: TObject);
+begin
+  inherited;
+  if cbbAPAccount.EditValueText = '' then
+    edNamaAPAccount.Text := ''
+  else
+    edNamaAPAccount.Text := CDSAPAccount.FieldByName('REK_NAME').AsString;
+end;
+
+procedure TfrmDialogSupplier.cbbARAccountExit(Sender: TObject);
+begin
+  inherited;
+  if cbbARAccount.EditValueText = '' then
+    edNamaARAccount.Text := ''
+  else
+    edNamaARAccount.Text := CDSARAccount.FieldByName('REK_NAME').AsString;
+end;
+
 procedure TfrmDialogSupplier.InitCategory(aState: Boolean);
 begin
   Self.EnableDisableControl(pnlMg, aState);
   Self.EnableDisableControl(pnlAddress, aState);
   if aState then
     chkIsDifClick(self);
+
   btnUpdateSupp.Visible := aState;
   btnCancelSupp.Visible := aState;
   cxGridSupplier.Enabled := not aState;
@@ -409,6 +442,22 @@ begin
   edtSupCode.SetFocus;
 end;
 
+function TfrmDialogSupplier.GetCDSAPAccount: TClientDataset;
+begin
+  if FCDSAPAccount = nil then
+    FCDSAPAccount := TDBUtils.DSToCDS(DMClient.DSProviderClient.RekeningHutang_GetDSLookup, Self);
+
+  Result := FCDSAPAccount;
+end;
+
+function TfrmDialogSupplier.GetCDSARAccount: TClientDataset;
+begin
+  if FCDSARAccount = nil then
+    FCDSARAccount := TDBUtils.DSToCDS(DMClient.DSProviderClient.RekeningpIUTANG_GetDSLookup, Self);
+
+  Result := FCDSARAccount;
+end;
+
 function TfrmDialogSupplier.GetCDSItems: TClientDataSet;
 begin
   if not assigned(FCDSItems) then
@@ -426,6 +475,13 @@ end;
 
 procedure TfrmDialogSupplier.InitLookup;
 begin
+  cbbAPAccount.LoadFromCDS(CDSAPAccount,'REKENING_ID', 'REK_CODE',['REKENING_ID','GROREK_NAME'],self);
+  cbbAPAccount.SetMultiPurposeLookup;
+
+  cbbARAccount.LoadFromCDS(CDSARAccount,'REKENING_ID', 'REK_CODE',['REKENING_ID','GROREK_NAME'],self);
+  cbbArAccount.SetMultiPurposeLookup;
+
+
   cxLookupMerchGroup.LoadFromDS(
     DMClient.DSProviderClient.MerchandiseGroup_GetDSLookup,
     'REF$MERCHANDISE_GRUP_ID','MERCHANGRUP_NAME',
@@ -607,6 +663,12 @@ begin
     edtAccountNameMer.Text    := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NAME').AsString;
     edtAccountNoMer.Text      := CDSItems.FieldByName('SUPMG_BANK_ACCOUNT_NO').AsString;
 
+    cbbAPAccount.EditValue    := CDSItems.FieldByName('SUPMG_REKENING_HUTANG').AsString;
+    cbbAPAccountExit(nil);
+
+    cbbARAccount.EditValue    := CDSItems.FieldByName('SUPMG_REKENING_PIUTANG').AsString;
+    cbbARAccountExit(nil);
+
     IsUpdateSupplier := True;
   Finally
     chkIsDif.OnClick := lEvent;
@@ -769,6 +831,9 @@ begin
     CDSItems.FieldByName('SUPMG_IS_SAT').AsInteger := TAppUtils.BoolToInt(chkSat.Checked);
     CDSItems.FieldByName('SUPMG_IS_SUN').AsInteger := TAppUtils.BoolToInt(chkSun.Checked);
     CDSItems.FieldByName('SUPMG_IS_PKP').AsInteger := TAppUtils.BoolToInt(chkPKP.Checked);
+    CDSItems.FieldByName('SUPMG_REKENING_HUTANG').AsString    :=  cbbAPAccount.EditValue;
+    CDSItems.FieldByName('SUPMG_REKENING_PIUTANG').AsString   :=  cbbARAccount.EditValue;
+
     if not VarIsNull(cxLookupPPN.EditValue) then
       CDSItems.FieldByName('SUPMG_PAJAK').AsString := cxLookupPPN.EditValue;
 

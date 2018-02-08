@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModApp, System.Generics.Collections,
-  uModBarang, uModSatuan, uModDO, uModPO, uModUnit, uModSuplier;
+  uModBarang, uModSatuan, uModDO, uModPO, uModUnit, uModSuplier, uModGudang;
 
 type
   TModCNRecvItem = class;
@@ -15,6 +15,7 @@ type
     FCNR_DATE: TDatetime;
     FCNR_DESCRIPTION: Double;
     FCNR_DO: TModDO;
+    FCNR_GUDANG: TModGudang;
     FCNR_INV_NO: string;
     FCNR_IS_CLAIM: Integer;
     FCNR_NO: string;
@@ -37,6 +38,7 @@ type
 
     [AttributeOfForeign('DO_ID')]
     property CNR_DO: TModDO read FCNR_DO write FCNR_DO;
+    property CNR_GUDANG: TModGudang read FCNR_GUDANG write FCNR_GUDANG;
     property CNR_INV_NO: string read FCNR_INV_NO write FCNR_INV_NO;
     property CNR_IS_CLAIM: Integer read FCNR_IS_CLAIM write FCNR_IS_CLAIM;
 

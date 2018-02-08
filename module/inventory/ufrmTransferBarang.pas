@@ -48,7 +48,7 @@ procedure TfrmTransferBarang.actEditExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogTransferBarang,
-    FCDS.FieldByName('TRANSFERBARANG_ID').AsString
+    cxGridView.DS.FieldByName('TRANSFERBARANG_ID').AsString
   );
 end;
 

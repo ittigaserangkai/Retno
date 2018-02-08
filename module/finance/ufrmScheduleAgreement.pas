@@ -49,7 +49,7 @@ type
     procedure ParseHeaderGrid;
     procedure ParseDataGrid;
     procedure GetStatus;
-    function GetSQLDataInvoice: string;
+//    function GetSQLDataInvoice: string;
     function GetDataInvoiceSQL: string;
   public
     { Public declarations }
@@ -92,6 +92,7 @@ begin
     printScheduleAgree;
 end;
 
+{
 function TfrmScheduleAgreement.GetSQLDataInvoice: string;
 var
   aJenisSewa, aStatus: String;
@@ -120,6 +121,7 @@ begin
 //  Result:= GeSQLtDataReportSchedulAgreement(MasterNewUnit.ID, aJenisSewa, aStatus,
 //           dtawalfilter.Date, dtakhirfilter.Date, TypeOfSchedule);
 end;
+}
 
 procedure TfrmScheduleAgreement.printScheduleAgree;
 var

@@ -61,26 +61,29 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         Caption = 'Referensi'
       end
       object edNO: TcxTextEdit
-        Tag = 1
-        Left = 92
+        Left = 90
         Top = 4
         Enabled = False
         TabOrder = 0
         Width = 183
       end
       object dtTanggal: TcxDateEdit
+        Tag = 1
         Left = 90
         Top = 34
+        Properties.ShowTime = False
         TabOrder = 1
         Width = 106
       end
       object cxLookUpGudangAsal: TcxExtLookupComboBox
+        Tag = 1
         Left = 90
         Top = 64
         TabOrder = 2
         Width = 183
       end
       object cxLookUpGudangTujuan: TcxExtLookupComboBox
+        Tag = 1
         Left = 90
         Top = 94
         TabOrder = 3
@@ -96,7 +99,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         Width = 317
       end
       object edReferensi: TcxTextEdit
-        Tag = 1
+        Tag = -1
         Left = 380
         Top = 4
         TabOrder = 4
@@ -117,7 +120,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         DataController.Summary.FooterSummaryItems = <
           item
             Format = ',0.0#;(,0.0#)'
-            Kind = skMax
+            Kind = skSum
             Column = cxGridColQty
           end>
         DataController.Summary.SummaryGroups = <>
@@ -159,6 +162,7 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
         object cxGridColQty: TcxGridColumn
           AlternateCaption = 'DOD_QTY_ORDER'
           Caption = 'Qty Order'
+          DataBinding.ValueType = 'Float'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.0#;(,0.0#)'
@@ -174,12 +178,18 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.ReadOnly = True
           Properties.OnButtonClick = cxGridColUOMPropertiesButtonClick
           HeaderAlignmentHorz = taCenter
           Width = 92
         end
         object cxGridColUOMid: TcxGridColumn
           Caption = 'UOM ID'
+          Visible = False
+        end
+        object cxGridColIsDecimal: TcxGridColumn
+          Caption = 'Boleh Desimal?'
+          Visible = False
         end
       end
       object cxgrdlvlTransfer: TcxGridLevel
@@ -241,5 +251,11 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
   inherited actlstMasterDialog: TActionList
     Left = 680
     Top = 184
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end
