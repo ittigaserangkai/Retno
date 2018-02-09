@@ -101,7 +101,6 @@ inherited frmClaim: TfrmClaim
       ExplicitWidth = 762
       inherited lbEscape: TLabel
         Left = 688
-        Height = 17
         ExplicitLeft = 688
       end
     end

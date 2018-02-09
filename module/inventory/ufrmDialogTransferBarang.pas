@@ -159,8 +159,14 @@ procedure TfrmDialogTransferBarang.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+  //biar kl 'enter' langsung turun ke bawahnya
+  //jangan lupa uDXUtils di-'uses'
   InitLookup;
+  //untuk komponen yg di kanannya ada segitiga yg kl diklik muncul daftar pilihan
   LoadData('');
+  //biasanya ini jarang dipanggil untuk form create, tapi ini digunakan untuk
+  //generate tanggal hari ini yg ada di 'LoadData'
+  //karena 'LoadData' harusnya dengan parameter, maka parameternya dikosongi.
 end;
 
 function TfrmDialogTransferBarang.GetModTransferBarang: TModTransferBarang;
@@ -168,7 +174,6 @@ begin
   if FModTransferBarang = nil then
     FModTransferBarang := TModTransferBarang.Create;
   Result := FModTransferBarang;
-
 end;
 
 procedure TfrmDialogTransferBarang.InitLookup;
@@ -178,7 +183,8 @@ begin
     {id field} 'GUDANG_ID', {display field} 'GUD_NAME',
     ['GUDANG_ID'] {hidden field},self
   );
-  cxLookUpGudangAsal.SetMultiPurposeLookup;    //biar bisa filter manual
+  cxLookUpGudangAsal.SetMultiPurposeLookup;
+  //biar bisa filter manual, ga dipake juga gpp sih, buat pengetahuan aja
 
   cxLookUpGudangTujuan.LoadFromDS(
     DMClient.DSProviderClient.Gudang_GetDSLookUp,
@@ -194,15 +200,18 @@ var
   iRec: Integer;
   lItem: TModTransferBarangItem;
 begin
-  if AID <> '' then //berarti lihat/edit
+  if AID <> '' then
+  //untuk identifikasi parameter AID kosong atau isi
   begin
     FModTransferbarang            := DMclient.CrudClient.Retrieve(TModTransferbarang.ClassName, AID) as TModTransferBarang;
+    // dijalankan kl parameter AID terisi
   end else
   begin
     FModTransferBarang            := TModTransferBarang.Create;
     FModTransferBarang.TB_TANGGAL := Now();
-//    Tanggal Otomatis
+    //Tanggal Otomatis
     FModTransferBarang.TB_NO      := DMClient.CRUDTransferBarangClient.GenerateNo(ModTransferBarang.ClassName);
+    //dijalankan kl parameter AID kosong
   end;
 
   //header
@@ -248,7 +257,6 @@ begin
     cxLookup.HideFields(['BARANG_ID']);
     if cxLookup.ShowModal = mrOK then
     begin
-//      ShowMessage(cxLookup.Data.Fields[1].AsString);
       SetBarangToGrid(cxLookup.Data.FieldByname('BRG_CODE').AsString);
     end;
   Finally
@@ -279,10 +287,6 @@ begin
     cxLookup.Free;
     LCDSUOM.Free;
   End;
-
-
-  //isi barang by sat_code
-  //buat method SetSatuanToGrid(parameter SatCode);
 end;
 
 procedure TfrmDialogTransferBarang.SetBarangToGrid(APLU: String);
@@ -290,14 +294,18 @@ var
   iCurrentRow: Integer;
   lModBarang: TModBarang;
 begin
-  lModBarang := TCRUDObj.RetrieveCode<TModBarang>(APLU);   //cara retrieve yg lebih simpel
+  lModBarang := TCRUDObj.RetrieveCode<TModBarang>(APLU);
+  //Jare Manda, cara retrieve yg lebih simpel. Tur aku ra paham. wkwkwk
   Try
-    iCurrentRow := cxGridTableGR.DataController.FocusedRecordIndex; //mendapatkan baris grid yg sedang fokus;
+    iCurrentRow := cxGridTableGR.DataController.FocusedRecordIndex;
+    //mendapatkan baris grid yg sedang fokus;
 
     if lModBarang.ID = '' then
       TAppUtils.Warning('PLU Tidak Ditemukan!');
+    //diwoco kudune ngerti, soale jelaske kangelan. wkwkwk
+
     //cara mengisi grid, format :
-    //namaGrid.DataController.Values[ index baris, index kolom] = xxx
+    //'namaGrid'.DataController.Values[ 'index baris', 'index kolom'] = xxx
     cxGridTableGR.DataController.Values[iCurrentRow, cxGridColPLU.Index]      := lModBarang.BRG_CODE;
     cxGridTableGR.DataController.Values[iCurrentRow, cxGridColNama.Index]     := lModBarang.BRG_NAME;
     cxGridTableGR.DataController.Values[iCurrentRow, cxGridColPLU_ID.Index]   := lModBarang.ID;
@@ -405,14 +413,14 @@ begin
   //validasi harus ada minim 1 baris
   if cxGridTableGR.DataController.RecordCount < 1 then
   begin
-    TAppUtils.Warning('Jurnal minimal 1 baris');
+    TAppUtils.Warning('Item minimal 1 baris');
     exit;
   end;
 
   //validasi qty harus lebih dari 0
   if cxGridTableGR.GetFooterSummary(cxGridColQty) <= 0 then
   begin
-    TAppUtils.Warning('Quantity salah');
+    TAppUtils.Warning('Quantity pada baris ke-'+IntToStr(i+1)+' salah');
     exit;
   end;
 
@@ -422,25 +430,25 @@ begin
     lQty := VarToFloat(cxGridTableGR.Values(i,cxGridColQty.Index));
     if (Frac(lQTY) <> 0) and (cxGridTableGR.Values(i,cxGridColIsDecimal.Index) = 0) then
     begin
-       TAppUtils.Warning('Quantity tidak boleh desimal pada baris ke-'+IntToStr(i+1));
+       TAppUtils.Warning('Quantity pada baris ke-'+IntToStr(i+1)+' tidak boleh desimal. Hubungi bagian buyer untuk mengubah deskripsi barang.');
       exit;
     end;
 
     if varisnull (cxGridTableGR.Values(i,cxGridColPLU_ID.Index)) then
     begin
-      TAppUtils.Warning('PLU belum diisi pada baris ke-'+IntToStr(i+1));
+      TAppUtils.Warning('PLU pada baris ke-'+IntToStr(i+1)+' belum diisi.');
       exit;
     end;
 
     if varisnull (cxGridTableGR.Values(i,cxGridColUOMid.Index)) then
     begin
-      TAppUtils.Warning('UOM belum diisi pada baris ke-'+IntToStr(i+1));
+      TAppUtils.Warning('UOM pada baris ke-'+IntToStr(i+1)+' belum diisi.');
       exit;
     end;
 
     if varisnull (cxGridTableGR.Values(i,cxGridColQty.Index)) then
     begin
-      TAppUtils.Warning('Quantity belum diisi pada baris ke-'+IntToStr(i+1));
+      TAppUtils.Warning('Quantity pada baris ke-'+IntToStr(i+1)+' belum diisi.');
       exit;
     end;
   end;

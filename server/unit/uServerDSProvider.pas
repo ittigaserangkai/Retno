@@ -208,6 +208,7 @@ type
         aGudang_ID: string): TDataSet;
     function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
         string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -2107,6 +2108,19 @@ begin
         + QuotedStr(aNoBuktiAkhir);
 
   S := S + ' order by PO_NO';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_TRANSFERBARANGREPORT WHERE TRANSFERBARANG_ID = '
+      + QuotedStr(aID);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 

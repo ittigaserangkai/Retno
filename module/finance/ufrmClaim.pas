@@ -60,9 +60,9 @@ begin
   inherited;
   id:= CDS.FieldByName('claimfaktur_id').AsString;
   DmReport.ExecuteReport(
-  'reports/Slip_Claim' ,
-  DMReport.ReportClient.Claim_by_Id(id) ,
-  []
+    'reports/Slip_Claim' ,
+    DMReport.ReportClient.Claim_by_Id(id) ,
+    []
   );
 end;
 
