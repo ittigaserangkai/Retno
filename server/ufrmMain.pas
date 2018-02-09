@@ -16,7 +16,7 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, uModCrazyPrice,
   uModDOBonus, uModTransferBarang, uModBarcodeRequest, System.Rtti,
-  uServerDatabase, uModReturTrader, uModBankCashIn;
+  uServerDatabase, uModReturTrader, uModBankCashIn, uModBarcodeUsage;
 
 type
   TfrmMain = class(TForm)
@@ -216,17 +216,17 @@ end;
 
 procedure TfrmMain.btnTestClick(Sender: TObject);
 var
-  lDOB: TModReturTrader;
+  lDOB: TModBarcodeUsage;
   sID: string;
 begin
   with TCrud.Create(nil) do
   begin
     try
-      lDOB := TModReturTrader.CreateDefault;
+      lDOB := TModBarcodeUsage.CreateDefault;
       sID := SaveToDBID(lDOB);
       lDOB.Free;
 
-      with Retrieve(TModReturTrader.ClassName, InputBox('ID','ID',sID))do
+      with Retrieve(TModBarcodeUsage.ClassName, InputBox('ID','ID',sID))do
       begin
         ShowMessage(ToString);
         Free;

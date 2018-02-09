@@ -825,8 +825,9 @@ object frmMain: TfrmMain
     object actAdjustmentStockList: TAction
       Caption = 'actAdjustmentStockList'
     end
-    object actBarcodeRequestSlip: TAction
-      Caption = 'actBarcodeRequestSlip'
+    object actBarcodeUsage: TAction
+      Caption = 'Barcode Usage'
+      OnExecute = actBarcodeUsageExecute
     end
     object actWastageRealList: TAction
       Caption = 'actWastageRealList'
@@ -1061,6 +1062,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnBarcodeRequest'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnBarcodeUsage'
         end>
       OneOnRow = False
       Row = 0
@@ -1560,6 +1565,12 @@ object frmMain: TfrmMain
       Action = actBarcodeRequest
       Category = 0
       ImageIndex = 62
+    end
+    object dxbrbtnBarcodeUsage: TdxBarButton
+      Action = actBarcodeUsage
+      Category = 0
+      LargeImageIndex = 46
+      PaintStyle = psCaptionGlyph
     end
   end
 end

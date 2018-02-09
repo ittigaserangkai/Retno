@@ -9,7 +9,7 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang;
+  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang, ufrmBarcodeUsage;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -161,7 +161,7 @@ type
     actAdjustmentStock: TAction;
     actListBarcodeRequest: TAction;
     actAdjustmentStockList: TAction;
-    actBarcodeRequestSlip: TAction;
+    actBarcodeUsage: TAction;
     actWastageRealList: TAction;
     actDiscMember: TAction;
     actChangeStatusPOS: TAction;
@@ -265,11 +265,13 @@ type
     dxbrbtnDOBonus: TdxBarButton;
     dxbrbtnTrfAntarGudang: TdxBarButton;
     dxbrbtnBarcodeRequest: TdxBarButton;
+    dxbrbtnBarcodeUsage: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
     procedure actArrangeExecute(Sender: TObject);
     procedure actBarcodeRequestExecute(Sender: TObject);
+    procedure actBarcodeUsageExecute(Sender: TObject);
     procedure actBeginBalancePOSExecute(Sender: TObject);
     procedure actCancellingPOExecute(Sender: TObject);
     procedure actCascadeExecute(Sender: TObject);
@@ -431,6 +433,11 @@ end;
 procedure TfrmMain.actBarcodeRequestExecute(Sender: TObject);
 begin
   frmBarcodeRequest:= TfrmBarcodeRequest.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
+begin
+  frmBarcodeUsage := TfrmBarcodeUsage.Create(Self);
 end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
