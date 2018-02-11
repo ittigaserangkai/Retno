@@ -4,7 +4,7 @@ interface
 
 uses
   uModApp, uModTipePerusahaan, uModBank, uModTipePembayaran,  uModTipeKirimPO,
-  System.Generics.Collections, uModRefPajak;
+  System.Generics.Collections, uModRefPajak, uModRekening;
 
 type
   TModSuplierGroup = class;
@@ -218,6 +218,8 @@ type
     FSUPMG_DISC: Double;
     FSUPMG_NAME: string;
     FSUPMG_IS_DIF_CONTACT: Integer;
+    FSUPMG_Rekening_Hutang: TModRekening;
+    FSUPMG_Rekening_Piutang: TModRekening;
   public
     class function GetTableName: String; override;
   published
@@ -289,6 +291,10 @@ type
     property SUPMG_NAME: string read FSUPMG_NAME write FSUPMG_NAME;
     property SUPMG_IS_DIF_CONTACT: Integer read FSUPMG_IS_DIF_CONTACT write
         FSUPMG_IS_DIF_CONTACT;
+    property SUPMG_Rekening_Hutang: TModRekening read FSUPMG_Rekening_Hutang write
+        FSUPMG_Rekening_Hutang;
+    property SUPMG_Rekening_Piutang: TModRekening read FSUPMG_Rekening_Piutang
+        write FSUPMG_Rekening_Piutang;
   end;
 
 

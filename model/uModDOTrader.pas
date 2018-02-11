@@ -29,8 +29,9 @@ type
     FDOT_TOTAL: Double;
     FDOT_UNIT: TModUnit;
     FDOT_VALID_DATE: TDatetime;
+    function GetDOTraderItems: TObjectList<TModDOTraderItem>;
   public
-    property DOTraderItems: TObjectList<TModDOTraderItem> read FDOTraderItems
+    property DOTraderItems: TObjectList<TModDOTraderItem> read GetDOTraderItems
         write FDOTraderItems;
   published
     property DOT_DATE: TDatetime read FDOT_DATE write FDOT_DATE;
@@ -79,6 +80,7 @@ type
     property DOTITEM_COGS: Double read FDOTITEM_COGS write FDOTITEM_COGS;
     property DOTITEM_DISC: Double read FDOTITEM_DISC write FDOTITEM_DISC;
     property DOTITEM_DISCRP: Double read FDOTITEM_DISCRP write FDOTITEM_DISCRP;
+    [AttributeOfHeader]
     property DOTITEM_DOTRADER: TModDOTrader read FDOTITEM_DOTRADER write
         FDOTITEM_DOTRADER;
     property DOTITEM_NETSALE: Double read FDOTITEM_NETSALE write
@@ -102,6 +104,13 @@ begin
     FreeAndNil(FDOTITEM_BARANG);
   if FDOTITEM_SATUAN <> nil then
     FreeAndNil(FDOTITEM_SATUAN);
+end;
+
+function TModDOTrader.GetDOTraderItems: TObjectList<TModDOTraderItem>;
+begin
+  if not Assigned(FDOTraderItems) then
+    FDOTraderItems := TObjectList<TModDOTraderItem>.Create;
+  Result := FDOTraderItems;
 end;
 
 initialization

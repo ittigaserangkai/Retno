@@ -86,6 +86,7 @@ uses
   uModReturTrader in '..\model\uModReturTrader.pas',
   uModDatabase in '..\model\uModDatabase.pas',
   uServerDatabase in 'unit\uServerDatabase.pas';
+//  uModBarcodeUsage in '..\model\uModBarcodeUsage.pas';
 
 {$R *.res}
 

@@ -14,7 +14,7 @@ uses
   cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDBUtils, uModTransferBarang,
   uDXUtils, Datasnap.DBClient, uDMClient, uAppUtils, uModBarang, uModSatuan,
   uModGudang, System.DateUtils, System.StrUtils, ufrmDialogTransferBarang,
-  uRetnoUnit;
+  uRetnoUnit, uDMReport;
 
 type
   TfrmTransferBarang = class(TfrmMasterBrowse)
@@ -23,6 +23,7 @@ type
     cxGridViewColumn3: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
   private
     FCDS: TClientDataset;
     { Private declarations }
@@ -48,8 +49,32 @@ procedure TfrmTransferBarang.actEditExecute(Sender: TObject);
 begin
   inherited;
   ShowDialogForm(TfrmDialogTransferBarang,
-    FCDS.FieldByName('TRANSFERBARANG_ID').AsString
+    cxGridView.DS.FieldByName('TRANSFERBARANG_ID').AsString
   );
+end;
+
+procedure TfrmTransferBarang.actPrintExecute(Sender: TObject);
+{
+sebelum masuk ke coding di sini, ini dulu:
+Bikin view utk report
+Tambahkan method di TDSReport
+Jalankan server, generate Client Classes
+baru mulai coding di bawah ini
+}
+var
+  id: string;
+begin
+  inherited;
+  id:= cxGridView.DataController.DataSet.FieldByName('transferbarang_id').AsString;
+  DmReport.ExecuteReport(
+    'reports\TransferBarang_Slip' ,
+    DMReport.ReportClient.TransferBarang_SlipByID(id) ,
+    []
+  );
+{
+Ambil parameter yg dibutuhkan,
+DMReport.ExecuteReport(NamaSlip, MethodReport, [])
+}
 end;
 
 procedure TfrmTransferBarang.RefreshData;

@@ -2,6 +2,7 @@ inherited frmDialogCN: TfrmDialogCN
   Caption = 'CN Receiving'
   ClientHeight = 511
   ClientWidth = 889
+  ExplicitTop = -105
   ExplicitWidth = 905
   ExplicitHeight = 550
   PixelsPerInch = 96
@@ -465,14 +466,20 @@ inherited frmDialogCN: TfrmDialogCN
       ExplicitWidth = 889
       inherited lbCTRLEnter: TLabel
         Left = 714
+        Height = 15
         ExplicitLeft = 714
       end
       inherited lbEscape: TLabel
         Left = 805
+        Height = 15
         ExplicitLeft = 805
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 638
+        Height = 15
         ExplicitLeft = 638
       end
     end

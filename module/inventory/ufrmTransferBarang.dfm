@@ -117,11 +117,16 @@ inherited frmTransferBarang: TfrmTransferBarang
     end
   end
   inherited actlstBrowse: TActionList
+    Left = 577
+    Top = 71
     inherited actAdd: TAction
       OnExecute = actAddExecute
     end
     inherited actEdit: TAction
       OnExecute = actEditExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

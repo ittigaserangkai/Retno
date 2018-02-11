@@ -10,7 +10,7 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
     Width = 524
     Height = 253
     ExplicitWidth = 524
-    ExplicitHeight = 227
+    ExplicitHeight = 253
     object Panel1: TPanel
       Left = 2
       Top = 2
@@ -86,6 +86,7 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       Height = 97
       Align = alTop
       TabOrder = 1
+      ExplicitLeft = 4
       object lblDefaultPrice: TLabel
         Left = 16
         Top = 34
@@ -120,7 +121,7 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
       end
       object cxLookUpTipeBarang: TcxExtLookupComboBox
         Left = 109
-        Top = 56
+        Top = 59
         TabOrder = 2
         Width = 145
       end
@@ -178,7 +179,7 @@ inherited frmDialogProdukJasa: TfrmDialogProdukJasa
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 253
     Width = 524
-    ExplicitTop = 227
+    ExplicitTop = 253
     ExplicitWidth = 524
     inherited pnlFooter: TPanel
       Width = 524

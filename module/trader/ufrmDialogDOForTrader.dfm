@@ -2,7 +2,8 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   Caption = 'Dialog DO For Trader'
   ClientHeight = 561
   ClientWidth = 858
-  ExplicitTop = -155
+  ExplicitLeft = -85
+  ExplicitTop = -184
   ExplicitWidth = 874
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -10,8 +11,8 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   inherited pnlBody: TPanel
     Width = 858
     Height = 505
-    ExplicitWidth = 792
-    ExplicitHeight = 395
+    ExplicitWidth = 858
+    ExplicitHeight = 505
     object pnl1: TPanel
       Left = 2
       Top = 2
@@ -24,7 +25,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       ParentBackground = False
       ParentCtl3D = False
       TabOrder = 0
-      ExplicitWidth = 788
       DesignSize = (
         854
         133)
@@ -205,7 +205,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Style.Font.Style = [fsBold]
         Style.IsFontAssigned = True
         TabOrder = 7
-        ExplicitLeft = 674
         Width = 180
       end
       object edDisc: TcxCurrencyEdit
@@ -225,7 +224,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Style.Font.Style = [fsBold]
         Style.IsFontAssigned = True
         TabOrder = 8
-        ExplicitLeft = 674
         Width = 180
       end
       object edPPN: TcxCurrencyEdit
@@ -245,7 +243,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Style.Font.Style = [fsBold]
         Style.IsFontAssigned = True
         TabOrder = 9
-        ExplicitLeft = 674
         Width = 180
       end
       object edTotal: TcxCurrencyEdit
@@ -265,7 +262,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Style.Font.Style = [fsBold]
         Style.IsFontAssigned = True
         TabOrder = 10
-        ExplicitLeft = 674
         Width = 180
       end
       object cbbGudang: TcxExtLookupComboBox
@@ -285,9 +281,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
       ExplicitLeft = 4
-      ExplicitTop = 147
-      ExplicitWidth = 788
-      ExplicitHeight = 317
+      ExplicitTop = 175
       object cxGridDBTableDOTrader: TcxGridDBTableView
         PopupMenu = pmItem
         Navigator.Buttons.CustomButtons = <>
@@ -305,6 +299,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridEven
         object cxGridColPODKode: TcxGridDBColumn
           Caption = 'Kode'
           DataBinding.FieldName = 'PLU'
@@ -358,6 +353,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           Properties.DisplayFormat = ',0.##;(,0.##)'
           Properties.OnEditValueChanged = cxGridColPODQtyDOPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
+          Styles.Content = DMClient.cxStyleMoneyGreen
           Width = 70
         end
         object cxGridColPODDisc: TcxGridDBColumn
@@ -392,13 +388,12 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       Top = 135
       Align = alTop
       PanelStyle.Active = True
+      ParentBackground = False
       ParentColor = False
       Style.BorderStyle = ebsNone
       Style.Color = clInfoBk
       TabOrder = 2
       Transparent = True
-      ExplicitTop = 464
-      ExplicitWidth = 788
       Height = 39
       Width = 854
       object cxLabel1: TcxLabel
@@ -440,20 +435,20 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 505
     Width = 858
-    ExplicitTop = 395
-    ExplicitWidth = 792
+    ExplicitTop = 505
+    ExplicitWidth = 858
     inherited pnlFooter: TPanel
       Width = 858
-      ExplicitWidth = 792
+      ExplicitWidth = 858
       inherited btnClose: TcxButton
         Left = 781
         Action = actCancel
-        ExplicitLeft = 715
+        ExplicitLeft = 781
       end
       inherited btnSave: TcxButton
         Left = 688
         Action = actSave
-        ExplicitLeft = 622
+        ExplicitLeft = 688
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -461,21 +456,21 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       inherited btnPrint: TcxButton
         Left = 611
         Action = actPrint
-        ExplicitLeft = 545
+        ExplicitLeft = 611
       end
     end
     inherited pnlSortCut: TPanel
       Width = 858
-      ExplicitWidth = 792
+      ExplicitWidth = 858
       inherited lbCTRLEnter: TLabel
         Left = 683
         Height = 15
-        ExplicitLeft = 617
+        ExplicitLeft = 683
       end
       inherited lbEscape: TLabel
         Left = 774
         Height = 15
-        ExplicitLeft = 708
+        ExplicitLeft = 774
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -483,7 +478,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       inherited lblCTRLP: TLabel
         Left = 607
         Height = 15
-        ExplicitLeft = 541
+        ExplicitLeft = 607
       end
     end
   end

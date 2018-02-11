@@ -30,13 +30,10 @@ type
         FTB_GUDANG_ASAL;
     property TB_GUDANG_TUJUAN: TModGudang read FTB_GUDANG_TUJUAN write
         FTB_GUDANG_TUJUAN;
-
     [AttributeOfSize('120')]
     property TB_Keterangan: string read FTB_Keterangan write FTB_Keterangan;
-
     [AttributeOfCode]
     property TB_NO: string read FTB_NO write FTB_NO;
-
     [AttributeOfSize('60')]
     property TB_REFERENSI: string read FTB_REFERENSI write FTB_REFERENSI;
     property TB_TANGGAL: TDATEtime read FTB_TANGGAL write FTB_TANGGAL;
@@ -46,17 +43,18 @@ type
   TModTransferBarangItem = class(TModApp)
   private
     FTBI_Barang: TModBarang;
+    FTBI_Qty: Double;
     FTBI_TransferBarang: TModTransferBarang;
     FTBI_UOM: TModSatuan;
-    FTBI_Qty: Double;
   published
+    [AttributeofForeign]
     property TBI_Barang: TModBarang read FTBI_Barang write FTBI_Barang;
-
+    property TBI_Qty: Double read FTBI_Qty write FTBI_Qty;
     [AttributeOfHeader]
     property TBI_TransferBarang: TModTransferBarang read FTBI_TransferBarang
         write FTBI_TransferBarang;
+    [AttributeofForeign]
     property TBI_UOM: TModSatuan read FTBI_UOM write FTBI_UOM;
-    property TBI_Qty: Double read FTBI_Qty write FTBI_Qty;
   end;
 
 

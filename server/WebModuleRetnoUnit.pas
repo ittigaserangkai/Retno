@@ -105,9 +105,9 @@ begin
 
   Response.SetCustomHeader('Access-Control-Allow-Origin','*');
 
-  if Trim(Request.GetFieldByName('Access-Control-Request-Headers')) <> '' then
+  if Request.GetFieldByName('Access-Control-Request-Headers') <> '' then
   begin
-    Response.SetCustomHeader('Access-Control-Allow-Headers', Request.GetFieldByName('Access-Control-Request-Headers'));
+    Response.SetCustomHeader('Access-Control-Allow-Headers', Trim(string(Request.GetFieldByName('Access-Control-Request-Headers'))));
     Handled := True;
   end;
 
@@ -190,4 +190,3 @@ finalization
   Web.WebReq.FreeWebModules;
 
 end.
-

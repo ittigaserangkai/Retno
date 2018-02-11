@@ -14,7 +14,7 @@ uses
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, uDBUtils,
   uDXUtils, uDMClient, uRetnoUnit, Datasnap.DBClient, uAppUtils,
   System.StrUtils, uModPO, uModelHelper, ufrmMasterDialog,
-  uModDO, uModSuplier, uModSO, uModUnit,uInterface, uDMReport;
+  uModDO, uModSuplier, uModSO, uModUnit,uInterface, uDMReport, uModGudang;
 
 type
   TfrmGoodsReceiving = class(TfrmMasterDialog, ICRUDAble)
@@ -492,6 +492,7 @@ begin
   ModDO.SO := TModSO.CreateID(FPO.PO_SO.ID);
   ModDO.MERCHANDISE := TModMerchandise.CreateID(FPO.PO_SO.Merchandise.ID);
   ModDO.DO_UNIT := TModUnit.CreateID(FPO.PO_UNIT.ID);
+  ModDO.DO_Gudang := TModGudang.CreateID(TRetno.SettingApp.GUDANG_DO.ID);
 
   UpdateDOItems;
 

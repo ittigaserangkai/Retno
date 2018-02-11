@@ -114,7 +114,7 @@ begin
   UpdateData;
 
   Try
-//    ModDOTrader.ID := DMClient.CRUDDOTraderClient.SaveToDBID(ModDOTrader);
+    ModDOTrader.ID := DMClient.CRUDDOTraderClient.SaveToDBID(ModDOTrader);
     TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
     Self.ModalResult := mrOk;
   except
@@ -354,6 +354,7 @@ begin
       lDOItem.DOTITEM_BARANG.Reload();
       CDS.FieldByName('PLU').AsString         := lDOItem.DOTITEM_BARANG.BRG_CODE;
       CDS.FieldByName('NamaBarang').AsString  := lDOItem.DOTITEM_BARANG.BRG_NAME;
+      CDS.FieldByName('POTITEM_QTY').AsFloat  := lPOItem.POTITEM_QTY;
       CDS.Post;
     Finally
       lDOItem.Free;
@@ -562,7 +563,7 @@ begin
   if not TAppUtils.Confirm(CONF_VALIDATE_FOR_SAVE) then
     exit;
 
-  if not Result then exit;
+  if not Result then Result := True;
 end;
 
 end.

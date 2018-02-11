@@ -176,6 +176,10 @@ type
         TModUnit = nil): TDataset;
     function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function BarcodeUsage_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
+    function RekeningHutang_GetDSLookup: TDataSet;
+    function RekeningPiutang_GetDSLookup: TDataSet;
     function ReturTrader_GetDSLookUp: TDataSet;
     function ReturTrader_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
@@ -206,6 +210,7 @@ type
         aGudang_ID: string): TDataSet;
     function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
         string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -1775,6 +1780,37 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.BarcodeUsage_GetDSOverview(ATglAwal , ATglAkhir :
+    TDateTime; AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BARCODE_REQUEST' +
+          ' WHERE TANGGAL BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.RekeningHutang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_HUTANG ORDER BY rek_code';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.RekeningPiutang_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from V_REKENING_PIUTANG ORDER BY rek_code';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
 function TDSProvider.ReturTrader_GetDSLookUp: TDataSet;
 var
   S: string;
@@ -2096,6 +2132,19 @@ begin
         + QuotedStr(aNoBuktiAkhir);
 
   S := S + ' order by PO_NO';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_TRANSFERBARANGREPORT WHERE TRANSFERBARANG_ID = '
+      + QuotedStr(aID);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 
