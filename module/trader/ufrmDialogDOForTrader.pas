@@ -14,7 +14,8 @@ uses
   cxCalendar, Vcl.StdCtrls, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, uRetnoUnit, uModPOTrader, uModelHelper, DateUtils,
   uDXUtils, uDMClient, Datasnap.DBClient, uModDOTrader, uDBUtils, Vcl.Menus,
-  uModDNRecv, uAppUtils, uModSatuan, cxLabel, cxGroupBox, cxCalc, uModGudang;
+  uModDNRecv, uAppUtils, uModSatuan, cxLabel, cxGroupBox, cxCalc, uModGudang,
+  uModOrganization;
 
 type
   TfrmDialogDOForTrader = class(TfrmMasterDialog)
@@ -483,15 +484,16 @@ begin
   if ModDOTrader.ID = '' then
     edNoBukti.Text := DMClient.CrudClient.GenerateNo(TModDOTrader.ClassName);
 
-  ModDOTrader.DOT_NO          := edNoBukti.Text;
-  ModDOTrader.DOT_POTrader    := TModPOTrader.CreateID(ModPOTrader.ID);
-  ModDOTrader.DOT_GUDANG      := TModGudang.CreateID(cbbGudang.EditValue);
-  ModDOTrader.DOT_DATE        := dtDODate.Date;
-  ModDOTrader.DOT_DESCRIPTION := memDescription.Text;
-  ModDOTrader.DOT_SUBTOTAL    := edSubTotal.Value;
-  ModDOTrader.DOT_DISC        := edDisc.Value;
-  ModDOTrader.DOT_PPN         := edPPN.Value;
-  ModDOTrader.DOT_TOTAL       := edTotal.Value;
+  ModDOTrader.DOT_NO            := edNoBukti.Text;
+  ModDOTrader.DOT_POTrader      := TModPOTrader.CreateID(ModPOTrader.ID);
+  ModDOTrader.DOT_GUDANG        := TModGudang.CreateID(cbbGudang.EditValue);
+  ModDOTrader.DOT_DATE          := dtDODate.Date;
+  ModDOTrader.DOT_DESCRIPTION   := memDescription.Text;
+  ModDOTrader.DOT_SUBTOTAL      := edSubTotal.Value;
+  ModDOTrader.DOT_DISC          := edDisc.Value;
+  ModDOTrader.DOT_PPN           := edPPN.Value;
+  ModDOTrader.DOT_TOTAL         := edTotal.Value;
+  ModDOTrader.DOT_Organization  := TModOrganization.CreateID(ModPOTrader.POT_Organization.ID);
 
   ModDOTrader.DOTraderItems.Clear;
   lCDS.Filtered := False;

@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModAPP, uModPOTrader, uModBarang, uModSatuan, uModOrganization,
-  System.Generics.Collections, uModUnit, uModGudang;
+  System.Generics.Collections, uModUnit, uModGudang, uModAR;
 
 type
   TModDOTraderItem = class;
@@ -28,6 +28,7 @@ type
     FDOT_TOP: Integer;
     FDOT_TOTAL: Double;
     FDOT_UNIT: TModUnit;
+    FDOT_AR: TModAR;
     FDOT_VALID_DATE: TDatetime;
     function GetDOTraderItems: TObjectList<TModDOTraderItem>;
   public
@@ -54,6 +55,7 @@ type
     property DOT_TOP: Integer read FDOT_TOP write FDOT_TOP;
     property DOT_TOTAL: Double read FDOT_TOTAL write FDOT_TOTAL;
     property DOT_UNIT: TModUnit read FDOT_UNIT write FDOT_UNIT;
+    property DOT_AR: TModAR read FDOT_AR write FDOT_AR;
     property DOT_VALID_DATE: TDatetime read FDOT_VALID_DATE write
         FDOT_VALID_DATE;
   end;

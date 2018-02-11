@@ -25,6 +25,8 @@ type
     FOrg_Rekening_Hutang: TModRekening;
     FOrg_Rekening_Piutang: TModRekening;
   public
+    function GetARAccount: TModRekening;
+    function GetAPAccount: TModRekening;
     class function GetTableName: string; override;
   published
     property ORG_Address: string read FORG_Address write FORG_Address;
@@ -52,6 +54,24 @@ type
 
 
 implementation
+
+function TModOrganization.GetARAccount: TModRekening;
+begin
+  Result := Self.Org_Rekening_Piutang;
+  if Result = nil then
+    Raise Exception.Create('Organization ' + Self.ORG_Name + ' tidak memiki rekening piutang');
+  if Result.ID = '' then
+    Raise Exception.Create('Organization ' + Self.ORG_Name + ' tidak memiki rekening piutang');
+end;
+
+function TModOrganization.GetAPAccount: TModRekening;
+begin
+  Result := Self.Org_Rekening_Hutang;
+  if Result = nil then
+    Raise Exception.Create('Organization ' + Self.ORG_Name + ' tidak memiki rekening hutang');
+  if Result.ID = '' then
+    Raise Exception.Create('Organization ' + Self.ORG_Name + ' tidak memiki rekening hutang');
+end;
 
 {
 ******************************* TModOrganization *******************************
