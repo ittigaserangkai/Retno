@@ -124,6 +124,8 @@ type
     function GetLastCost(aUOMID: String): Double;
     function GetHargaJual(sBarCode, TipeHargaID: String; UOMID: String = ''):
         TModBarangHargaJual; overload;
+    function GetKonversiFromBarcode(ABarCode: string): TModKonversi;
+    function GetKonversiFromUOM(AUOMID: string): TModKonversi;
     function GetKonversiUOM(aUOMID: string): Double;
     function HasBarCode(sBarCode: String): Boolean;
     class function GetTableName: string; override;
@@ -416,10 +418,8 @@ begin
   if Assigned(FOutlet) then FreeAndNil(FOutlet);
   if Assigned(FLokasi) then FreeAndNil(FLokasi);
   if Assigned(FRefPajak) then FreeAndNil(FRefPajak);
-  if Assigned(FKonversi) then FreeAndNil(FKonversi);
   if Assigned(FSuppliers) then FreeAndNil(FSuppliers);
   if Assigned(FTipeBarang) then FreeAndNil(FTipeBarang);
-
   //obj list
   if Assigned(FHargaJual) then FreeAndNil(FHargaJual);
   if Assigned(FKonversi) then FreeAndNil(FKonversi);
@@ -510,6 +510,32 @@ begin
   If not Assigned(FHargaJual) then
     FHargaJual := TObjectList<TModBarangHargaJual>.Create;
   Result := FHargaJual;
+end;
+
+function TModBarang.GetKonversiFromBarcode(ABarCode: string): TModKonversi;
+var
+  lKonv: TModKonversi;
+begin
+  Result := nil;
+  for lKonv in Self.Konversi do
+  begin
+    if UpperCase(lKonv.KONVSAT_BARCODE) = UpperCase(ABarcode) then
+      Result := lKonv;
+  end;
+end;
+
+function TModBarang.GetKonversiFromUOM(AUOMID: string): TModKonversi;
+var
+  lKonv: TModKonversi;
+begin
+  Result := nil;
+  for lKonv in Self.Konversi do
+  begin
+    if lKonv.Satuan = nil then continue;
+    if lKonv.Satuan.ID = '' then continue;
+    if lKonv.Satuan.ID = AUOMID then
+      Result := lKonv;
+  end;
 end;
 
 function TModBarang.GetKonversiUOM(aUOMID: string): Double;

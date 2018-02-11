@@ -1,28 +1,33 @@
 inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   Caption = 'Dialog DO For Trader'
-  ClientHeight = 451
-  ClientWidth = 792
-  ExplicitWidth = 808
-  ExplicitHeight = 490
+  ClientHeight = 561
+  ClientWidth = 858
+  ExplicitTop = -155
+  ExplicitWidth = 874
+  ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 792
-    Height = 395
+    Width = 858
+    Height = 505
     ExplicitWidth = 792
     ExplicitHeight = 395
     object pnl1: TPanel
       Left = 2
       Top = 2
-      Width = 788
-      Height = 145
+      Width = 854
+      Height = 133
       Align = alTop
-      BevelInner = bvRaised
-      BevelOuter = bvLowered
-      Color = 15198183
+      BevelOuter = bvNone
+      Color = clWhite
       Ctl3D = False
+      ParentBackground = False
       ParentCtl3D = False
       TabOrder = 0
+      ExplicitWidth = 788
+      DesignSize = (
+        854
+        133)
       object lbl1: TLabel
         Left = 30
         Top = 37
@@ -31,7 +36,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Caption = 'DO No'
       end
       object lbl2: TLabel
-        Left = 277
+        Left = 302
         Top = 9
         Width = 41
         Height = 16
@@ -45,7 +50,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Caption = 'Organisasi'
       end
       object lblDesc: TLabel
-        Left = 260
+        Left = 285
         Top = 93
         Width = 58
         Height = 16
@@ -59,49 +64,57 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Caption = 'PO No'
       end
       object lblDODate: TLabel
-        Left = 276
+        Left = 301
         Top = 37
         Width = 42
         Height = 16
         Caption = 'DO Date'
       end
       object lblSubTotal: TLabel
-        Left = 540
+        Left = 603
         Top = 9
         Width = 44
         Height = 16
+        Anchors = [akTop, akRight]
         Caption = 'Sub Total'
+        ExplicitLeft = 617
       end
       object lblDisc: TLabel
-        Left = 551
+        Left = 614
         Top = 37
         Width = 33
         Height = 16
+        Anchors = [akTop, akRight]
         Caption = 'Diskon'
+        ExplicitLeft = 628
       end
       object lblPPN: TLabel
-        Left = 565
+        Left = 628
         Top = 65
         Width = 19
         Height = 16
+        Anchors = [akTop, akRight]
         Caption = 'PPN'
+        ExplicitLeft = 642
       end
       object lblTotal: TLabel
-        Left = 560
+        Left = 623
         Top = 93
         Width = 24
         Height = 16
+        Anchors = [akTop, akRight]
         Caption = 'Total'
+        ExplicitLeft = 637
       end
       object lblGudang: TLabel
-        Left = 281
+        Left = 306
         Top = 65
         Width = 37
         Height = 16
         Caption = 'Gudang'
       end
-      object dtTgl: TcxDateEdit
-        Left = 336
+      object dtPODate: TcxDateEdit
+        Left = 361
         Top = 5
         TabOrder = 1
         Width = 146
@@ -111,7 +124,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Top = 33
         Enabled = False
         TabOrder = 0
-        Width = 146
+        Width = 170
       end
       object edOrganization: TcxButtonEdit
         Tag = 1
@@ -126,8 +139,9 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           end>
         Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
+        Properties.ReadOnly = True
         TabOrder = 2
-        Width = 146
+        Width = 170
       end
       object edOrganizationName: TcxButtonEdit
         Left = 71
@@ -141,13 +155,13 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           end>
         Properties.MaxLength = 0
         TabOrder = 3
-        Width = 146
+        Width = 170
       end
       object memDescription: TcxMemo
-        Left = 336
+        Left = 361
         Top = 89
         TabOrder = 4
-        Height = 50
+        Height = 40
         Width = 193
       end
       object edPONo: TcxButtonEdit
@@ -163,49 +177,99 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           end>
         Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
+        Properties.OnButtonClick = edPONoPropertiesButtonClick
         TabOrder = 5
-        Width = 146
+        OnExit = edPONoExit
+        Width = 170
       end
       object dtDODate: TcxDateEdit
-        Left = 336
+        Left = 361
         Top = 33
         TabOrder = 6
         Width = 146
       end
       object edSubTotal: TcxCurrencyEdit
-        Left = 597
+        Left = 660
         Top = 5
-        Enabled = False
+        Anchors = [akTop, akRight]
+        EditValue = 0.000000000000000000
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Style.BorderStyle = ebsUltraFlat
+        Style.Color = clBtnFace
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -13
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 7
+        ExplicitLeft = 674
         Width = 180
       end
       object edDisc: TcxCurrencyEdit
-        Left = 597
+        Left = 660
         Top = 33
-        Enabled = False
+        Anchors = [akTop, akRight]
+        EditValue = 0.000000000000000000
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Style.BorderStyle = ebsUltraFlat
+        Style.Color = clBtnFace
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -13
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 8
+        ExplicitLeft = 674
         Width = 180
       end
       object edPPN: TcxCurrencyEdit
-        Left = 597
+        Left = 660
         Top = 61
-        Enabled = False
+        Anchors = [akTop, akRight]
+        EditValue = 0.000000000000000000
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Style.BorderStyle = ebsUltraFlat
+        Style.Color = clBtnFace
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -13
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 9
+        ExplicitLeft = 674
         Width = 180
       end
       object edTotal: TcxCurrencyEdit
-        Left = 597
+        Left = 660
         Top = 89
-        Enabled = False
+        Anchors = [akTop, akRight]
+        EditValue = 0.000000000000000000
+        ParentFont = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Style.BorderStyle = ebsUltraFlat
+        Style.Color = clBtnFace
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -13
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
         TabOrder = 10
+        ExplicitLeft = 674
         Width = 180
       end
       object cbbGudang: TcxExtLookupComboBox
-        Left = 336
+        Left = 361
         Top = 61
         TabOrder = 11
         Width = 145
@@ -213,62 +277,107 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
     end
     object cxGrid: TcxGrid
       Left = 2
-      Top = 147
-      Width = 788
-      Height = 246
+      Top = 174
+      Width = 854
+      Height = 329
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 121
-      ExplicitHeight = 272
+      ExplicitLeft = 4
+      ExplicitTop = 147
+      ExplicitWidth = 788
+      ExplicitHeight = 317
       object cxGridDBTableDOTrader: TcxGridDBTableView
+        PopupMenu = pmItem
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPODTotal
+          end>
         DataController.Summary.SummaryGroups = <>
         FilterRow.InfoText = 'klik untuk memfilter data'
         NewItemRow.InfoText = 'Baris baru'
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
         object cxGridColPODKode: TcxGridDBColumn
           Caption = 'Kode'
+          DataBinding.FieldName = 'PLU'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
           HeaderAlignmentHorz = taCenter
-          Width = 91
+          Width = 107
         end
         object cxGridColPODNama: TcxGridDBColumn
           Caption = 'Nama'
+          DataBinding.FieldName = 'NamaBarang'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 209
+          Width = 200
         end
         object cxGridColPODUOM: TcxGridDBColumn
           Caption = 'UOM'
+          DataBinding.FieldName = 'DOTITEM_SATUAN'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
+          Width = 60
         end
         object cxGridColPODHarga: TcxGridDBColumn
           Caption = 'Harga'
+          DataBinding.FieldName = 'DOTITEM_SELLPRICE'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;($,0.00)'
           HeaderAlignmentHorz = taCenter
           Width = 88
         end
         object cxGridColPODQtyPO: TcxGridDBColumn
           Caption = 'Qty PO'
+          DataBinding.FieldName = 'POTITEM_QTY'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
           HeaderAlignmentHorz = taCenter
+          Width = 70
         end
         object cxGridColPODQtyDO: TcxGridDBColumn
           Caption = 'Qty DO'
+          DataBinding.FieldName = 'DOTITEM_QTY'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.OnEditValueChanged = cxGridColPODQtyDOPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
+          Width = 70
         end
         object cxGridColPODDisc: TcxGridDBColumn
-          Caption = 'Disc'
+          Caption = 'Disc %'
+          DataBinding.FieldName = 'DOTITEM_DISC'
           HeaderAlignmentHorz = taCenter
+          Width = 60
         end
         object cxGridColPODPPN: TcxGridDBColumn
-          Caption = 'PPN'
+          Caption = 'PPN %'
+          DataBinding.FieldName = 'DOTITEM_PPN'
           HeaderAlignmentHorz = taCenter
+          Width = 60
         end
         object cxGridColPODTotal: TcxGridDBColumn
           Caption = 'Total'
+          DataBinding.FieldName = 'DOTITEM_TOTAL'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
           HeaderAlignmentHorz = taCenter
           Width = 131
         end
@@ -278,22 +387,71 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         GridView = cxGridDBTableDOTrader
       end
     end
+    object cxGroupBox1: TcxGroupBox
+      Left = 2
+      Top = 135
+      Align = alTop
+      PanelStyle.Active = True
+      ParentColor = False
+      Style.BorderStyle = ebsNone
+      Style.Color = clInfoBk
+      TabOrder = 2
+      Transparent = True
+      ExplicitTop = 464
+      ExplicitWidth = 788
+      Height = 39
+      Width = 854
+      object cxLabel1: TcxLabel
+        AlignWithMargins = True
+        Left = 5
+        Top = 5
+        Align = alLeft
+        Caption = 'Kode / Barcode Barang : '
+        ParentFont = False
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowFrame
+        Style.Font.Height = -13
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
+        Properties.Alignment.Vert = taVCenter
+        Transparent = True
+        AnchorY = 20
+      end
+      object txtBarCode: TcxTextEdit
+        AlignWithMargins = True
+        Left = 168
+        Top = 5
+        Align = alLeft
+        ParentFont = False
+        Style.Color = clInfoBk
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -13
+        Style.Font.Name = 'Trebuchet MS'
+        Style.Font.Style = [fsBold]
+        Style.IsFontAssigned = True
+        TabOrder = 1
+        OnKeyDown = txtBarCodeKeyDown
+        Width = 386
+      end
+    end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 395
-    Width = 792
+    Top = 505
+    Width = 858
     ExplicitTop = 395
     ExplicitWidth = 792
     inherited pnlFooter: TPanel
-      Width = 792
+      Width = 858
       ExplicitWidth = 792
       inherited btnClose: TcxButton
-        Left = 715
+        Left = 781
         Action = actCancel
         ExplicitLeft = 715
       end
       inherited btnSave: TcxButton
-        Left = 622
+        Left = 688
         Action = actSave
         ExplicitLeft = 622
       end
@@ -301,21 +459,21 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 545
+        Left = 611
         Action = actPrint
         ExplicitLeft = 545
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 792
+      Width = 858
       ExplicitWidth = 792
       inherited lbCTRLEnter: TLabel
-        Left = 617
+        Left = 683
         Height = 15
         ExplicitLeft = 617
       end
       inherited lbEscape: TLabel
-        Left = 708
+        Left = 774
         Height = 15
         ExplicitLeft = 708
       end
@@ -323,14 +481,29 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 541
+        Left = 607
         Height = 15
         ExplicitLeft = 541
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 408
-    Top = 104
+    Left = 656
+    Top = 344
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
+  end
+  object pmItem: TPopupMenu
+    Left = 416
+    Top = 384
+    object LoadAllItemFromPO1: TMenuItem
+      Caption = 'Load All Item From PO'
+      OnClick = LoadAllItemFromPO1Click
+    end
+    object ClearAllItems1: TMenuItem
+      Caption = 'Clear All Items'
+      OnClick = ClearAllItems1Click
+    end
   end
 end

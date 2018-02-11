@@ -41,6 +41,7 @@ type
         FDOT_DISC_MEMBER;
     property DOT_GUDANG: TModGudang read FDOT_GUDANG write FDOT_GUDANG;
     property DOT_LEAD_TIME: Double read FDOT_LEAD_TIME write FDOT_LEAD_TIME;
+    [AttributeOfCode]
     property DOT_NO: string read FDOT_NO write FDOT_NO;
     property DOT_Organization: TModOrganization read FDOT_Organization write
         FDOT_Organization;
@@ -70,6 +71,8 @@ type
     FDOTITEM_SATUAN: TModSatuan;
     FDOTITEM_SELLPRICE: Double;
     FDOTITEM_TOTAL: Double;
+  public
+    destructor Destroy; override;
   published
     property DOTITEM_BARANG: TModBarang read FDOTITEM_BARANG write
         FDOTITEM_BARANG;
@@ -91,6 +94,15 @@ type
   end;
 
 implementation
+
+destructor TModDOTraderItem.Destroy;
+begin
+  inherited;
+  if FDOTITEM_BARANG <> nil then
+    FreeAndNil(FDOTITEM_BARANG);
+  if FDOTITEM_SATUAN <> nil then
+    FreeAndNil(FDOTITEM_SATUAN);
+end;
 
 initialization
   TModDOTrader.RegisterRTTI;

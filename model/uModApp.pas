@@ -58,6 +58,8 @@ type
     constructor CreateID(AID : String);
     destructor Destroy; override;
     procedure AddFilterCrud(aModClass: TModAppClass);
+    class function CreateDataSet(aOwner: TComponent; CreateNow: Boolean = True):
+        TClientDataSet;
     function FieldNameOf(aprop: TRttiProperty): String;
     function FieldSizeOf(AProp: TRttiProperty): String;
     function GetCodeField: String;
@@ -242,6 +244,37 @@ begin
     Raise Exception.Create('Can''t set filter when CrudFilterKind = fckNone');
 
   Self.FilterClasses.Add( TFilterClass.Create(aModClass) );
+end;
+
+class function TModApp.CreateDataSet(aOwner: TComponent; CreateNow: Boolean =
+    True): TClientDataSet;
+var
+  aFieldType: TFieldType;
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+begin
+  Result := TClientDataSet.Create(aOwner);
+  rt := ctx.GetType(Self);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+    case prop.PropertyType.TypeKind of
+      tkInteger : aFieldType := ftInteger;
+      tkFloat :
+      begin
+        if CompareText('TDateTime',prop.PropertyType.Name)=0 then
+          aFieldType := ftDateTime
+        else
+          aFieldType := ftFloat;
+      end;
+      tkUString, tkString, tkWideString, tkClass : aFieldType := ftString;
+    else
+      aFieldType := ftString;
+    end;
+    Result.AddField(prop.Name, aFieldType );
+  end;
+  if CreateNow then Result.CreateDataSet;
 end;
 
 function TModApp.FieldNameOf(aprop: TRttiProperty): String;

@@ -40,14 +40,14 @@ type
   private
     FCDS: TClientDataSet;
     function GetFilterPOSCode: string;
-    function IsBisaSimpan: Boolean;
-    //dataActivePOS: TResultDataSet;
-    procedure ParseHeaderGrid(jmlData: Integer);
-    procedure ParseDataGrid();
-    procedure prepareEdit();
     property CDS: TClientDataSet read FCDS write FCDS;
   public
     function IsBelumResetBB: Boolean;
+    function IsBisaSimpan: Boolean;
+    procedure ParseDataGrid;
+    //dataActivePOS: TResultDataSet;
+    procedure ParseHeaderGrid(jmlData: Integer);
+    procedure prepareEdit;
     procedure RefreshData; override;
   end;
 

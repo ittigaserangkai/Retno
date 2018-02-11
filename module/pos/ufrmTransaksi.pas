@@ -1368,8 +1368,8 @@ begin
     aQTY    := TAppUtils.SplitRightStr(aPLUQTY, '*');
   end else if DMClient.POSClient.HasBarcode(aPLUQTY) then //has barcode
   begin
-    aPLU := aPLUQTY;
-    Result    := DMClient.CRUDBarangClient.RetrievePOS(aPLU);
+    aPLU    := aPLUQTY;
+    Result  := DMClient.CRUDBarangClient.RetrievePOS(aPLU);
   end else //PLU
   begin
     aPLU    := LeftStr(aPLUQTY, 6);

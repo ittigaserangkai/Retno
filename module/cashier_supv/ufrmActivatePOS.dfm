@@ -91,8 +91,7 @@ inherited frmActivatePOS: TfrmActivatePOS
             OnClick = lblCheckAllClick
             OnMouseEnter = lblCheckAllMouseEnter
             OnMouseLeave = lblCheckAllMouseLeave
-            ExplicitLeft = 287
-            ExplicitTop = 4
+            ExplicitLeft = 162
             AnchorY = 17
           end
           object lblClearAll: TcxLabel
@@ -117,9 +116,7 @@ inherited frmActivatePOS: TfrmActivatePOS
             OnClick = lblClearAllClick
             OnMouseEnter = lblClearAllMouseEnter
             OnMouseLeave = lblClearAllMouseLeave
-            ExplicitLeft = 313
-            ExplicitTop = 7
-            ExplicitHeight = 17
+            ExplicitLeft = 289
             AnchorY = 17
           end
         end

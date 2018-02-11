@@ -23,6 +23,8 @@ inherited frmFinalPayment: TfrmFinalPayment
       ClientRectBottom = 320
       ClientRectRight = 676
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 675
         ExplicitHeight = 319
         inherited cxGrid: TcxGrid
@@ -207,6 +209,7 @@ inherited frmFinalPayment: TfrmFinalPayment
       ExplicitWidth = 679
       inherited lbEscape: TLabel
         Left = 605
+        Height = 17
         ExplicitLeft = 605
       end
     end

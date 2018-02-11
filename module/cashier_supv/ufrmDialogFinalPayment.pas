@@ -30,16 +30,16 @@ type
   private
 //    dataBeginningBlnc: TDataSet;
     FCDS: TClientDataSet;
-    FDSClient: TDSProviderClient;
+//    FDSClient: TDSProviderClient;
     FModBeginningBalance: TModBeginningBalance;
     FModFinalPayment: TModFinalPayment;
-    function GetDSClient: TDSProviderClient;
+//    function GetDSClient: TDSProviderClient;
     function GetModBeginningBalance: TModBeginningBalance;
     function GetModFinalPayment: TModFinalPayment;
     function IsValidate: Boolean;
     procedure SavingData;
     property CDS: TClientDataSet read FCDS write FCDS;
-    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
+//    property DSClient: TDSProviderClient read GetDSClient write FDSClient;
     property ModBeginningBalance: TModBeginningBalance read GetModBeginningBalance
         write FModBeginningBalance;
     property ModFinalPayment: TModFinalPayment read GetModFinalPayment write
@@ -79,12 +79,12 @@ begin
   frmDialogFinalPayment := nil;
 end;
 
-function TfrmDialogFinalPayment.GetDSClient: TDSProviderClient;
-begin
-  if not Assigned(FDSClient) then
-    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
-  Result := FDSClient;
-end;
+//function TfrmDialogFinalPayment.GetDSClient: TDSProviderClient;
+//begin
+//  if not Assigned(FDSClient) then
+//    FDSClient := TDSProviderClient.Create(DMClient.RestConn);
+//  Result := FDSClient;
+//end;
 
 function TfrmDialogFinalPayment.GetModBeginningBalance: TModBeginningBalance;
 begin

@@ -211,7 +211,6 @@ uses
   ufrmDialogActivatePOS in '..\module\cashier_supv\ufrmDialogActivatePOS.pas' {frmDialogActivePOS},
   uModSetupPOS in '..\model\uModSetupPOS.pas',
   uModBeginningBalance in '..\model\uModBeginningBalance.pas',
-  uClientClasses in '..\classes\uClientClasses.pas',
   uModFinalPayment in '..\model\uModFinalPayment.pas',
   ufrmKuponBotol in '..\module\customer_support\ufrmKuponBotol.pas' {frmKuponBotol},
   ufrmDialogKuponBotol in '..\module\customer_support\ufrmDialogKuponBotol.pas' {frmDialogKuponBotol},
@@ -248,7 +247,8 @@ uses
   ufrmTransferBarang in '..\module\inventory\ufrmTransferBarang.pas' {frmTransferBarang},
   uModTransferBarang in '..\model\uModTransferBarang.pas',
   ufrmDialogTransferBarang in '..\module\inventory\ufrmDialogTransferBarang.pas' {frmDialogTransferBarang},
-  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas';
+  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

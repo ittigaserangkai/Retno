@@ -240,6 +240,11 @@ type
   public
   end;
 
+  TCRUDDOTrader = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -249,7 +254,8 @@ implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
-  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client;
+  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client,
+  uModDOTrader;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -2019,6 +2025,19 @@ begin
   Result := lPrefix +  RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
+end;
+
+function TCRUDDOTrader.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  lDOTrader: TModDOTrader;
+  S: string;
+begin
+  lDOTrader := TModDOTrader(AObject);
+  if lDOTrader.DOT_POTrader = nil then
+    Raise Exception.Create('lDOTrader.DOT_POTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lDOTrader.DOT_POTrader, 'POT_STATUS = ''DELIVERED'' ');
+  TDBUtils.ExecuteSQL(S, False);
+  Result := True;
 end;
 
 end.

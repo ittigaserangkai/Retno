@@ -119,21 +119,17 @@ inherited frmDialogFinalPayment: TfrmDialogFinalPayment
       TabOrder = 0
       ExplicitWidth = 344
       inherited lbCTRLDel: TLabel [0]
-        Height = 15
       end
       inherited lbCTRLEnter: TLabel [1]
         Left = 169
-        Height = 15
         ExplicitLeft = 169
       end
       inherited lbEscape: TLabel [2]
         Left = 260
-        Height = 15
         ExplicitLeft = 260
       end
       inherited lblCTRLP: TLabel
         Left = 93
-        Height = 15
         ExplicitLeft = 93
       end
     end
