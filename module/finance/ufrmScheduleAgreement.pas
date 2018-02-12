@@ -126,8 +126,8 @@ end;
 procedure TfrmScheduleAgreement.printScheduleAgree;
 var
   sSQL: string;
-  ACol,
-  ARow: Integer;
+//  ACol,
+//  ARow: Integer;
 begin
   inherited;
   sSQL := GetDataInvoiceSQL;
@@ -212,8 +212,8 @@ begin
 end;
 
 procedure TfrmScheduleAgreement.ParseDataGrid;
-var
-  i     : Integer;
+//var
+//  i     : Integer;
 begin
 //  strgGridJournalList.Clear;
 //  ParseHeaderGrid;
@@ -347,8 +347,8 @@ begin
 end;
 
 procedure TfrmScheduleAgreement.edbProductCodeClickBtn(Sender: TObject);
-var
-  s: string;
+//var
+//  s: string;
 begin
   inherited;
 //  s := GetSQLProductAgreement(MasterNewUnit.ID);

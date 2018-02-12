@@ -1569,7 +1569,7 @@ object frmMain: TfrmMain
     object dxbrbtnBarcodeUsage: TdxBarButton
       Action = actBarcodeUsage
       Category = 0
-      LargeImageIndex = 46
+      ImageIndex = 59
       PaintStyle = psCaptionGlyph
     end
   end

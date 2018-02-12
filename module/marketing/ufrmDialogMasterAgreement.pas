@@ -118,7 +118,7 @@ type
     function CountTotal(): Currency;
 //    procedure LoadDataPajak;
     procedure CountEndEffectiveDate();
-    function GetSQLsearchProjasByCode(AprojasCode: string): string;
+//    function GetSQLsearchProjasByCode(AprojasCode: string): string;
     procedure SetIsPajak(const Value: Boolean);
     procedure SetPajakId(const Value: string);
     procedure SetPajakName(const Value: string);
@@ -1565,17 +1565,17 @@ begin
 
 end;
 
-function TfrmDialogMasterAgreement.GetSQLsearchProjasByCode(AprojasCode:
-    string): string;
-begin
-  Result :=  'SELECT PJ.*, PER.PER_NAME, PER.PER_DAYS, PJK.PJK_PPN'
-        + ' FROM PRODUK_JASA PJ'
-        + ' LEFT JOIN REF$PERIODE PER ON PER.PER_ID = PJ.PROJAS_PER_ID'
-        + ' LEFT JOIN REF$PAJAK PJK ON PJK.PJK_ID = PJ.PROJAS_PJK_ID'
-        + ' WHERE PJ.PROJAS_UNT_ID = '+ IntToStr(DialogUnit)
-        + ' AND PJ.PROJAS_CODE = '+ QuotedStr(AprojasCode)
-        + ' ORDER BY PJ.PROJAS_CODE';
-end;
+//function TfrmDialogMasterAgreement.GetSQLsearchProjasByCode(AprojasCode:
+//    string): string;
+//begin
+//  Result :=  'SELECT PJ.*, PER.PER_NAME, PER.PER_DAYS, PJK.PJK_PPN'
+//        + ' FROM PRODUK_JASA PJ'
+//        + ' LEFT JOIN REF$PERIODE PER ON PER.PER_ID = PJ.PROJAS_PER_ID'
+//        + ' LEFT JOIN REF$PAJAK PJK ON PJK.PJK_ID = PJ.PROJAS_PJK_ID'
+//        + ' WHERE PJ.PROJAS_UNT_ID = '+ IntToStr(DialogUnit)
+//        + ' AND PJ.PROJAS_CODE = '+ QuotedStr(AprojasCode)
+//        + ' ORDER BY PJ.PROJAS_CODE';
+//end;
 
 procedure TfrmDialogMasterAgreement.strgGrid2GetFloatFormat(
   Sender: TObject; ACol, ARow: Integer; var IsFloat: Boolean;
