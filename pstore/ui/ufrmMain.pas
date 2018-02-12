@@ -407,7 +407,8 @@ uses
   ufrmSupplier, ufrmUbahQTYPO, ufrmWastageReal, ufrmPurchaseOrder,
   Datasnap.DSHTTPClient, ufrmMouselessMenu, ufrmSettingKoneksi, ufrmDN,
   ufrmKartuStock, ufrmPreference, ufrmStockProduct, ufrmPOFromTrader,
-  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement, ufrmUser;
+  ufrmDailySalesAnalysis, ufrmKuponBotol, ufrmCustomerAgreement, ufrmUser,
+  ufrmBarcodeUsage;
 
 
 
@@ -438,7 +439,7 @@ end;
 
 procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
 begin
-//  frmBarcodeUsage := TfrmBarcodeUsage.Create(Self);
+  frmBarcodeUsage := TfrmBarcodeUsage.Create(Self);
 end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);
