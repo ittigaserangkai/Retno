@@ -98,7 +98,7 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
       Tag = 1
       Left = 337
       Visible = True
-      ExplicitLeft = 337
+      ExplicitLeft = 343
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
@@ -136,6 +136,7 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
       Properties.Alignment.Horz = taCenter
       TabOrder = 5
       OnKeyPress = edtShiftKeyPress
+      ExplicitHeight = 21
       Width = 35
     end
   end
@@ -170,7 +171,6 @@ inherited frmBeginningBalancePOS: TfrmBeginningBalancePOS
       ExplicitWidth = 643
       inherited lbEscape: TLabel
         Left = 569
-        Height = 17
         ExplicitLeft = 569
       end
     end

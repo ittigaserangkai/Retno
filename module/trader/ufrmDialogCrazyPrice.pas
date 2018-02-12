@@ -92,7 +92,6 @@ type
     FCDSSatuan: TClientDataset;
     function GetCDSBarang: TClientDataset;
     function GetCDSSatuan: TClientDataset;
-    function IsBisaHapus: Boolean;
     procedure LoadDataBHJ(ARecordIndex : Integer; ABHJ : TModBarangHargaJual);
     procedure LoadDataOrg(ARecordIndex : Integer; AOrg : TModOrganization);
     function IsBisaSimpan: Boolean;
@@ -105,6 +104,7 @@ type
     property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
     { Private declarations }
   public
+    function IsBisaHapus: Boolean;
     procedure LoadData(AID : String);
     { Public declarations }
   end;
@@ -359,6 +359,7 @@ var
   lObjectCPs: tobjectList<TModApp>;
 begin
   inherited;
+  I := cxGridTableCP.DataController.FocusedRecordIndex;
   if cxGridTableCP.RecordIndex < 0 then
     raise Exception.Create('Tidak Ada Baris Yang Akan Dihapus');
 

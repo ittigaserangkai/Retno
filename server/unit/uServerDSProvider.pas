@@ -184,6 +184,8 @@ type
     function ReturTrader_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function KonversiSatuan_GetDS(ABarangID: String): TDataSet;
+    function POTrader_GetLookupForDO(ATglAwal, ATglAkhir: TDateTime; AUnitID:
+        String): TDataset;
   end;
 
   TDSReport = class(TComponent)
@@ -1841,6 +1843,28 @@ begin
         ' WHERE BARANG_ID = ' + QuotedStr(ABarangID);
   Result := TDBUtils.OpenQuery(S);
 
+end;
+
+function TDSProvider.POTrader_GetLookupForDO(ATglAwal, ATglAkhir: TDateTime;
+    AUnitID: String): TDataset;
+var
+  sSQL: string;
+begin
+  ATglAwal  := StartOfTheDay(ATglAwal);
+  ATglAkhir := EndOfTheDay(ATglAkhir);
+
+  sSQL := 'select * from V_POTRADER where IsNull(POT_STATUS,'''') <> ''DELIVERED'' ';
+
+  sSQL := sSQL + ' and POT_DATE between ' + TDBUtils.QuotDt(ATglAwal)
+        +' and ' + TDBUtils.QuotDt(ATglAkhir);
+
+  if AUnitID <> '' then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  sSQL := sSQL + ' order by POT_NO';
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:

@@ -383,20 +383,14 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       ExplicitWidth = 731
       inherited lbCTRLEnter: TLabel
         Left = 556
-        Height = 15
         ExplicitLeft = 556
       end
       inherited lbEscape: TLabel
         Left = 647
-        Height = 15
         ExplicitLeft = 647
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 480
-        Height = 15
         ExplicitLeft = 480
       end
     end

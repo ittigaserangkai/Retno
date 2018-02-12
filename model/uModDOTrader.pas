@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModAPP, uModPOTrader, uModBarang, uModSatuan, uModOrganization,
-  System.Generics.Collections, uModUnit, uModGudang;
+  System.Generics.Collections, uModUnit, uModGudang, uModAR;
 
 type
   TModDOTraderItem = class;
@@ -28,9 +28,11 @@ type
     FDOT_TOP: Integer;
     FDOT_TOTAL: Double;
     FDOT_UNIT: TModUnit;
+    FDOT_AR: TModAR;
     FDOT_VALID_DATE: TDatetime;
+    function GetDOTraderItems: TObjectList<TModDOTraderItem>;
   public
-    property DOTraderItems: TObjectList<TModDOTraderItem> read FDOTraderItems
+    property DOTraderItems: TObjectList<TModDOTraderItem> read GetDOTraderItems
         write FDOTraderItems;
   published
     property DOT_DATE: TDatetime read FDOT_DATE write FDOT_DATE;
@@ -41,6 +43,7 @@ type
         FDOT_DISC_MEMBER;
     property DOT_GUDANG: TModGudang read FDOT_GUDANG write FDOT_GUDANG;
     property DOT_LEAD_TIME: Double read FDOT_LEAD_TIME write FDOT_LEAD_TIME;
+    [AttributeOfCode]
     property DOT_NO: string read FDOT_NO write FDOT_NO;
     property DOT_Organization: TModOrganization read FDOT_Organization write
         FDOT_Organization;
@@ -52,6 +55,7 @@ type
     property DOT_TOP: Integer read FDOT_TOP write FDOT_TOP;
     property DOT_TOTAL: Double read FDOT_TOTAL write FDOT_TOTAL;
     property DOT_UNIT: TModUnit read FDOT_UNIT write FDOT_UNIT;
+    property DOT_AR: TModAR read FDOT_AR write FDOT_AR;
     property DOT_VALID_DATE: TDatetime read FDOT_VALID_DATE write
         FDOT_VALID_DATE;
   end;
@@ -70,12 +74,15 @@ type
     FDOTITEM_SATUAN: TModSatuan;
     FDOTITEM_SELLPRICE: Double;
     FDOTITEM_TOTAL: Double;
+  public
+    destructor Destroy; override;
   published
     property DOTITEM_BARANG: TModBarang read FDOTITEM_BARANG write
         FDOTITEM_BARANG;
     property DOTITEM_COGS: Double read FDOTITEM_COGS write FDOTITEM_COGS;
     property DOTITEM_DISC: Double read FDOTITEM_DISC write FDOTITEM_DISC;
     property DOTITEM_DISCRP: Double read FDOTITEM_DISCRP write FDOTITEM_DISCRP;
+    [AttributeOfHeader]
     property DOTITEM_DOTRADER: TModDOTrader read FDOTITEM_DOTRADER write
         FDOTITEM_DOTRADER;
     property DOTITEM_NETSALE: Double read FDOTITEM_NETSALE write
@@ -91,6 +98,22 @@ type
   end;
 
 implementation
+
+destructor TModDOTraderItem.Destroy;
+begin
+  inherited;
+  if FDOTITEM_BARANG <> nil then
+    FreeAndNil(FDOTITEM_BARANG);
+  if FDOTITEM_SATUAN <> nil then
+    FreeAndNil(FDOTITEM_SATUAN);
+end;
+
+function TModDOTrader.GetDOTraderItems: TObjectList<TModDOTraderItem>;
+begin
+  if not Assigned(FDOTraderItems) then
+    FDOTraderItems := TObjectList<TModDOTraderItem>.Create;
+  Result := FDOTraderItems;
+end;
 
 initialization
   TModDOTrader.RegisterRTTI;

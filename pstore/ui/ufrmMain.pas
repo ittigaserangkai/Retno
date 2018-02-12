@@ -9,7 +9,8 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang, ufrmBarcodeUsage;
+  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang;
+  //, ufrmBarcodeUsage;
 
 type
   TRole = (rNobody, rAdmin, rStoreManager, rSO, rPO, rIGRA, rSupvCashier);
@@ -437,7 +438,7 @@ end;
 
 procedure TfrmMain.actBarcodeUsageExecute(Sender: TObject);
 begin
-  frmBarcodeUsage := TfrmBarcodeUsage.Create(Self);
+//  frmBarcodeUsage := TfrmBarcodeUsage.Create(Self);
 end;
 
 procedure TfrmMain.actBeginBalancePOSExecute(Sender: TObject);

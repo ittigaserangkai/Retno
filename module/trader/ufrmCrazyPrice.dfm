@@ -106,7 +106,6 @@ inherited frmCrazyPrice: TfrmCrazyPrice
       ExplicitWidth = 808
       inherited lbEscape: TLabel
         Left = 734
-        Height = 17
         ExplicitLeft = 734
       end
     end

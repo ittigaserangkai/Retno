@@ -129,7 +129,6 @@ type
 //    FHargaDisc: Real;
     FModDO: TModDO;
     FPO: TModPO;
-    procedure SetHeaderGrid;
     procedure SetClearValue;
     function GetModDO: TModDO;
     procedure HitungSummary(ABaris : Integer; AValue : Double);
@@ -145,6 +144,7 @@ type
         Boolean): Boolean;
     procedure UpdateDOItems;
   public
+    procedure SetHeaderGrid;
     destructor Destroy; override;
     property ModDO: TModDO read GetModDO write FModDO;
     { Public declarations }
@@ -744,7 +744,7 @@ function TfrmGoodsReceiving.LoadPOItemToGrid(APO : TModPO;
 var
   I: Integer;
 begin
-  Result := False;
+//  Result := False;
 
   for I := 0 to APO.POItems.Count - 1 do
   begin

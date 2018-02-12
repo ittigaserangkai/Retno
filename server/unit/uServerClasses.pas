@@ -240,6 +240,13 @@ type
   public
   end;
 
+  TCRUDDOTrader = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -249,7 +256,8 @@ implementation
 
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
-  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client;
+  uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client,
+  uModDOTrader;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -532,6 +540,7 @@ begin
       TDBUtils.RollBack;
       raise;
     End;
+
   Finally
 //    AObject.Free;
     lSS.Free;
@@ -2019,6 +2028,82 @@ begin
   Result := lPrefix +  RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
+end;
+
+function TCRUDDOTrader.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  lDOTrader: TModDOTrader;
+  S: string;
+begin
+  lDOTrader := TModDOTrader(AObject);
+  if lDOTrader.DOT_POTrader = nil then
+    Raise Exception.Create('lDOTrader.DOT_POTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lDOTrader.DOT_POTrader, 'POT_STATUS = ''DELIVERED'' ');
+  TDBUtils.ExecuteSQL(S, False);
+  Result := True;
+end;
+
+function TCRUDDOTrader.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+var
+  lCRUD: TCrud;
+  lDOTrader: TModDOTrader;
+begin
+  Result := False;
+  lDOTrader := TModDOTrader(AObject);
+
+  lCRUD := TCrud.Create(nil);
+  try
+    if not lCRUD.DeleteFromDBTrans(lDOTrader.DOT_AR, False) then
+      Exit;
+  finally
+    lCRUD.Free;
+  end;
+
+  Result := True;
+end;
+
+function TCRUDDOTrader.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lcrud: TCrud;
+  lDOTrader: TModDOTrader;
+  lOrg: TModOrganization;
+begin
+  Result := False;
+  lDOTrader := TModDOTrader(AObject);
+
+  if lDOTrader = nil then
+    Raise Exception.Create('DoTrader = nil at AfterSaveToDB ');
+  if lDOTrader.DOT_Organization = nil then
+    Raise Exception.Create('DO Trader Organization not definend');
+
+  if lDOTrader.DOT_AR = nil then
+    lDOTrader.DOT_AR := TModAR.Create;
+
+  lcrud := TCrud.Create(nil);
+  lOrg  := TModOrganization.CreateID(lDOTrader.DOT_Organization.ID);
+  try
+
+    lDOTrader.DOT_AR.AR_ClassRef     := lDOTrader.ClassName;
+    lDOTrader.DOT_AR.AR_Description  := lDOTrader.DOT_DESCRIPTION;
+    lDOTrader.DOT_AR.AR_DueDate      := lDOTrader.DOT_DATE + 7;   //???
+    lDOTrader.DOT_AR.AR_ORGANIZATION := TModOrganization.CreateID(lOrg.ID);
+    lDOTrader.DOT_AR.AR_REFNUM       := lDOTrader.DOT_NO;
+    lDOTrader.DOT_AR.AR_TRANSDATE    := lDOTrader.DOT_DATE;
+    lDOTrader.DOT_AR.AR_TOTAL        := lDOTrader.DOT_TOTAL;
+
+    lOrg.Reload(False);
+
+    lDOTrader.DOT_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount.ID);
+
+    if lDOTrader.DOT_AR.AR_PAID > 0then
+      raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');
+
+    if lcrud.SaveToDBTrans(lDOTrader.DOT_AR, False) then
+      Result := True;
+  finally
+    lOrg.Free;
+    lcrud.Free;
+  end;
 end;
 
 end.
