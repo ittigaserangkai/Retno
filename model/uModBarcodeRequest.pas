@@ -17,6 +17,7 @@ type
     FBR_NO: string;
     FBR_SUPMG: TModSuplierMerchanGroup;
     FBR_DATE: tdatetime;
+    FBR_IS_INVOICED: Integer;
     FBR_TOTAL: Double;
     FBR_UNIT: TModUnit;
     function GetBarcodeRequestItems: TOBjectList<TModBarcodeRequestItem>;
@@ -33,6 +34,7 @@ type
     property BR_NO: string read FBR_NO write FBR_NO;
     property BR_SUPMG: TModSuplierMerchanGroup read FBR_SUPMG write FBR_SUPMG;
     property BR_DATE: tdatetime read FBR_DATE write FBR_DATE;
+    property BR_IS_INVOICED: Integer read FBR_IS_INVOICED write FBR_IS_INVOICED;
     property BR_TOTAL: Double read FBR_TOTAL write FBR_TOTAL;
     property BR_UNIT: TModUnit read FBR_UNIT write FBR_UNIT;
   end;

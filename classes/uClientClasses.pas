@@ -1,10 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-<<<<<<< HEAD
-// 2/9/2018 9:40:17 AM
-=======
-// 2/11/2018 1:07:35 PM
->>>>>>> 636e9ef51e23b5d778f0c13882634b0dbbdb3684
+// 2/12/2018 8:17:41 AM
 //
 
 unit uClientClasses;
