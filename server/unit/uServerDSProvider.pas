@@ -1783,12 +1783,12 @@ function TDSProvider.BarcodeUsage_GetDSOverview(ATglAwal , ATglAkhir :
 var
   sSQL: string;
 begin
-  sSQL := 'SELECT * FROM V_BARCODE_REQUEST' +
+  sSQL := 'SELECT * FROM V_BARCODE_USAGE' +
           ' WHERE TANGGAL BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
           ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
 
   if AUnit <> nil then
-    sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
+    sSQL := sSQL + ' and BU_UNIT_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
