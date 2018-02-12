@@ -20,6 +20,7 @@ type
     FModTipePembayaran: TModTipePembayaran;
     function GetModTipePembayaran: TModTipePembayaran;
     procedure SimpanData;
+    function ValidateData: boolean;
     property ModTipePembayaran: TModTipePembayaran read GetModTipePembayaran write
         FModTipePembayaran;
   public
@@ -56,19 +57,7 @@ end;
 procedure TfrmDialogTipePembayaran.actSaveExecute(Sender: TObject);
 begin
   inherited;
-  if edtKodeTipePembayaran.Text = '' then
-  begin
-    TAppUtils.Error('Kode Belum diisi');
-    edtKodeTipePembayaran.SetFocus;
-    Exit;
-  end;
-
-  if edtTipePembayaran.Text = '' then
-  begin
-    TAppUtils.Error('Tipe Pembayaran Belum diisi');
-    edtTipePembayaran.SetFocus;
-    Exit;
-  end;
+  if not ValidateData then  exit;
   SimpanData;
 end;
 
@@ -99,6 +88,23 @@ begin
     TAppUtils.Error('Gagal Simpan Data');
     raise
   end;
+end;
+
+function TfrmDialogTipePembayaran.ValidateData: boolean;
+begin
+  Result := False;
+  if edtKodeTipePembayaran.Text ='' then
+  begin TAppUtils.Warning('Kode Tidak Boleh Kosong');
+  exit;
+  end;
+
+  if edtTipePembayaran.Text ='' then
+  begin TAppUtils.Warning('Nama Tidak Boleh Kosong');
+  exit;
+  end;
+
+Result := True;
+  // TODO -cMM: TfrmDialogTipePembayaran.ValidateData default body inserted
 end;
 
 end.
