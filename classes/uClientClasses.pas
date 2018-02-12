@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/8/2018 1:45:02 PM
+// 2/9/2018 9:40:17 AM
 //
 
 unit uClientClasses;
@@ -381,6 +381,8 @@ type
     FTransferBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBarcodeUsage_GetDSOverviewCommand: TDSRestCommand;
+    FBarcodeUsage_GetDSOverviewCommand_Cache: TDSRestCommand;
     FRekeningHutang_GetDSLookupCommand: TDSRestCommand;
     FRekeningHutang_GetDSLookupCommand_Cache: TDSRestCommand;
     FRekeningPiutang_GetDSLookupCommand: TDSRestCommand;
@@ -678,6 +680,8 @@ type
     function TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function BarcodeUsage_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningHutang_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function RekeningHutang_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningPiutang_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -3825,6 +3829,22 @@ const
   );
 
   TDSProvider_BarcodeRequest_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_BarcodeUsage_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_BarcodeUsage_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -12484,6 +12504,65 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FBarcodeUsage_GetDSOverviewCommand = nil then
+  begin
+    FBarcodeUsage_GetDSOverviewCommand := FConnection.CreateCommand;
+    FBarcodeUsage_GetDSOverviewCommand.RequestType := 'POST';
+    FBarcodeUsage_GetDSOverviewCommand.Text := 'TDSProvider."BarcodeUsage_GetDSOverview"';
+    FBarcodeUsage_GetDSOverviewCommand.Prepare(TDSProvider_BarcodeUsage_GetDSOverview);
+  end;
+  FBarcodeUsage_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FBarcodeUsage_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FBarcodeUsage_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FBarcodeUsage_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FBarcodeUsage_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FBarcodeUsage_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarcodeUsage_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarcodeUsage_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.BarcodeUsage_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarcodeUsage_GetDSOverviewCommand_Cache = nil then
+  begin
+    FBarcodeUsage_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FBarcodeUsage_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FBarcodeUsage_GetDSOverviewCommand_Cache.Text := 'TDSProvider."BarcodeUsage_GetDSOverview"';
+    FBarcodeUsage_GetDSOverviewCommand_Cache.Prepare(TDSProvider_BarcodeUsage_GetDSOverview_Cache);
+  end;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 function TDSProviderClient.RekeningHutang_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FRekeningHutang_GetDSLookupCommand = nil then
@@ -12956,6 +13035,8 @@ begin
   FTransferBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand_Cache.DisposeOf;
+  FBarcodeUsage_GetDSOverviewCommand.DisposeOf;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.DisposeOf;
   FRekeningHutang_GetDSLookupCommand.DisposeOf;
   FRekeningHutang_GetDSLookupCommand_Cache.DisposeOf;
   FRekeningPiutang_GetDSLookupCommand.DisposeOf;
