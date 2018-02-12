@@ -100,20 +100,14 @@ inherited frmDialogShift: TfrmDialogShift
       ExplicitWidth = 423
       inherited lbCTRLEnter: TLabel
         Left = 65
-        Height = 15
         ExplicitLeft = 65
       end
       inherited lbEscape: TLabel
         Left = 339
-        Height = 15
         ExplicitLeft = 339
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 263
-        Height = 15
         ExplicitLeft = 263
       end
     end

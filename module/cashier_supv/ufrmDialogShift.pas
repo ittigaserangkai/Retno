@@ -80,8 +80,8 @@ begin
 end;
 
 procedure TfrmDialogShift.SimpanData;
-var
-  lModSuppGroup: TModSuplierMerchanGroup;
+//var
+//  lModSuppGroup: TModSuplierMerchanGroup;
 begin
   if not ValidateEmptyCtrl([1], True, pnlBody) then exit;
 

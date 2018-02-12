@@ -99,14 +99,14 @@ type
       var IsFloat: Boolean; var FloatFormat: String);
   private
     { Private declarations }
-    hariPeriode: Integer;
+//    hariPeriode: Integer;
     isPKP,isPPN,isPPH: SmallInt;
-    TOP: Integer;
+//    TOP: Integer;
     FIsPajak: Boolean;
     FPajakId: string;
     FPajakName: string;
     FCurrTipeProdukId: string;
-    StaProID: Integer;
+//    StaProID: Integer;
 
     procedure LoadDropDownData(ACombo: TcxLookupComboBox; aSQL: string);
     procedure showDataEdit();
@@ -1085,10 +1085,10 @@ end;
 
 procedure TfrmDialogMasterAgreement.strgGridCheckBoxClick(Sender: TObject;
   ACol, ARow: Integer; State: Boolean);
-var staCek: Boolean;
-    tempPrice,tempSubTotal,tempTotal: Currency;
-    tempPPN, tempQTY: Real;
-    countVal: Integer;
+//var staCek: Boolean;
+//    tempPrice,tempSubTotal,tempTotal: Currency;
+//    tempPPN, tempQTY: Real;
+//    countVal: Integer;
 begin
   if ACol = _KolPRICE_PPN then //qry total
   begin
@@ -1262,7 +1262,7 @@ end;
 
 function TfrmDialogMasterAgreement.CountTotal: Currency;
 var cTemp: Currency;
-    i: Integer;
+//    i: Integer;
 begin
   cTemp := 0;
 
@@ -1287,8 +1287,8 @@ begin
 end;
 
 procedure TfrmDialogMasterAgreement.cbCustCodeCloseUp(Sender: TObject);
-var
-  aMasterCustomerId: Integer;
+//var
+//  aMasterCustomerId: Integer;
 begin
   inherited;
 //    if (cbCustCode.Text = '') or (cbCustCode.Value = ' ') then exit;
@@ -1380,8 +1380,8 @@ begin
 end;
 
 procedure TfrmDialogMasterAgreement.lblSearchProductClick(Sender: TObject);
-var
-  tempProjasCode: string;
+//var
+//  tempProjasCode: string;
 begin
   inherited;
 //    if not Assigned(frmDialogSearchProductNBD) then
@@ -1456,8 +1456,8 @@ begin
 end;
 
 procedure TfrmDialogMasterAgreement.lblRemoveRowClick(Sender: TObject);
-var
-  iBaris: Integer;
+//var
+//  iBaris: Integer;
 begin
   inherited;
 //    if strgGrid.RowCount <= 2 then
@@ -1506,12 +1506,12 @@ var
   sSQL, aFormat : String;
   iLastNo, iLengthFormat : integer;
 begin
-  iLastNo := 0;
+//  iLastNo := 0;
 //  aFormat := getGlobalVar('MAGM_NO');
   if aFormat='' then
      aFormat := '"AGM"YYMM';
   aFormat := FormatDateTime(aFormat, dtStart.Date);
-  iLengthFormat := Length(aFormat);
+//  iLengthFormat := Length(aFormat);
   sSQL    := 'Select AGR_NO from AGREEMENT '
           +  ' where AGR_NO like ' + QuotedStr('%'+aFormat+'%')
           +  ' order by AGR_NO Desc';  //tak mengenal Company
@@ -1538,7 +1538,7 @@ end;
 
 procedure TfrmDialogMasterAgreement.cbpPajakChange(Sender: TObject);
 var
-  i : integer;
+//  i : integer;
   sPajakCode : String;
 begin
   inherited;

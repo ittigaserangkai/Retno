@@ -26,56 +26,56 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
       Color = 15198183
       TabOrder = 1
       object lbl1: TLabel
-        Left = 22
+        Left = 20
         Top = 13
         Width = 90
         Height = 16
         Caption = 'Kewarganegaraan'
       end
       object lbl2: TLabel
-        Left = 22
+        Left = 25
         Top = 37
         Width = 85
         Height = 16
         Caption = 'Tempat/Tgl Lahir'
       end
       object lbl3: TLabel
-        Left = 22
+        Left = 45
         Top = 85
         Width = 65
         Height = 16
         Caption = 'Jenis Kelamin'
       end
       object lbl6: TLabel
-        Left = 22
+        Left = 44
         Top = 61
         Width = 66
         Height = 16
         Caption = 'No. Identitas'
       end
       object lbl7: TLabel
-        Left = 22
+        Left = 78
         Top = 109
         Width = 32
         Height = 16
         Caption = 'Agama'
       end
       object lbl8: TLabel
-        Left = 22
+        Left = 77
         Top = 133
         Width = 33
         Height = 16
         Caption = 'Alamat'
       end
       object lbl9: TLabel
-        Left = 22
+        Left = 71
         Top = 158
         Width = 39
         Height = 16
         Caption = 'RT / RW'
       end
       object lbl10: TLabel
-        Left = 22
+        Left = 55
         Top = 182
         Width = 55
         Height = 16
@@ -96,7 +96,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Caption = 'Kota'
       end
       object lbl13: TLabel
-        Left = 22
+        Left = 61
         Top = 206
         Width = 49
         Height = 16
@@ -110,7 +110,7 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Caption = 'Telp.'
       end
       object lbl15: TLabel
-        Left = 22
+        Left = 78
         Top = 230
         Width = 32
         Height = 16
@@ -131,46 +131,53 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Caption = 'Pendptn. per Bulan'
       end
       object Label1: TLabel
-        Left = 501
+        Left = 547
         Top = 12
         Width = 46
         Height = 16
         Caption = 'Kelompok'
       end
       object Label2: TLabel
-        Left = 501
+        Left = 509
         Top = 61
         Width = 84
         Height = 16
         Caption = 'Tipe Pembayaran'
       end
       object Label3: TLabel
-        Left = 501
+        Left = 509
         Top = 85
         Width = 84
         Height = 16
         Caption = 'Term Of Payment'
       end
       object Label4: TLabel
-        Left = 501
+        Left = 543
         Top = 109
         Width = 50
         Height = 16
         Caption = 'Lead Time'
       end
       object Label5: TLabel
-        Left = 501
+        Left = 563
         Top = 133
         Width = 30
         Height = 16
         Caption = 'Plafon'
       end
       object Label6: TLabel
-        Left = 501
+        Left = 530
         Top = 37
         Width = 63
         Height = 16
         Caption = 'Tipe Member'
+      end
+      object lblRekPiutang: TLabel
+        Left = 535
+        Top = 158
+        Width = 58
+        Height = 16
+        Caption = 'Rek Piutang'
       end
       object dtLahir: TcxDateEdit
         Tag = 1
@@ -411,6 +418,25 @@ inherited frmDialogPersonalMember: TfrmDialogPersonalMember
         Properties.OnEditValueChanged = cbpKelurahanPropertiesEditValueChanged
         TabOrder = 9
         Width = 149
+      end
+      object cbbRekPiutang: TcxExtLookupComboBox
+        Left = 604
+        Top = 154
+        TabOrder = 23
+        OnExit = cbbRekPiutangExit
+        Width = 132
+      end
+      object edtNamaRekPiutang: TEdit
+        Tag = 1
+        Left = 604
+        Top = 179
+        Width = 132
+        Height = 22
+        CharCase = ecUpperCase
+        Ctl3D = False
+        ParentCtl3D = False
+        ReadOnly = True
+        TabOrder = 24
       end
     end
     object pnl3: TPanel
