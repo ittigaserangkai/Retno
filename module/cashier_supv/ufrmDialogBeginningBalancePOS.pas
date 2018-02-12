@@ -34,15 +34,13 @@ type
     procedure curredtBeginBalanceEnter(Sender: TObject);
     procedure cbpCashierIDPropertiesEditValueChanged(Sender: TObject);
   private
-    FKasirUsrNm : string;
-    dataUser,dataSetupPos: TDataSet;
+//    FKasirUsrNm : string;
+//    dataUser,dataSetupPos: TDataSet;
     FCDSSetupPOS: TClientDataSet;
     FCDSUser: TClientDataSet;
     procedure ClearForm;
     procedure InitLookUp;
     function IsValidate: Boolean;
-    procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer; aTgl :
-        TDateTime);
     procedure SavingData;
   public
     Balance_ID: Integer;
@@ -54,6 +52,8 @@ type
     FModBalance: TModBeginningBalance;
     function GetModBalance: TModBeginningBalance;
     procedure LoadData(AID: string);
+    procedure LoadDropDownData(ACombo: TcxExtLookupComboBox; AColsOfData: Integer;
+        aTgl : TDateTime);
     property ModBalance: TModBeginningBalance read GetModBalance write FModBalance;
 //    FTgl: TDateTime;
   published
@@ -254,10 +254,10 @@ begin
    }
 end;
 
-procedure TfrmDialogBeginBalancePOS.LoadDropDownData(ACombo: TcxExtLookupComboBox;
-    AColsOfData: Integer; aTgl : TDateTime);
-var
-  sSQL: string;
+procedure TfrmDialogBeginBalancePOS.LoadDropDownData(ACombo:
+    TcxExtLookupComboBox; AColsOfData: Integer; aTgl : TDateTime);
+//var
+//  sSQL: string;
 begin
   {ACombo.ClearGridData;
 

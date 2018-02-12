@@ -1,88 +1,79 @@
-inherited frmCrazyPrice: TfrmCrazyPrice
-  Left = 247
-  Top = 117
-  Caption = 'Crazy Price'
-  ClientHeight = 512
-  ClientWidth = 808
-  OldCreateOrder = True
-  ExplicitWidth = 824
-  ExplicitHeight = 551
+inherited frmBarcodeUsage: TfrmBarcodeUsage
+  Caption = 'Barcode Usage'
+  ClientHeight = 334
+  ClientWidth = 654
+  ExplicitWidth = 670
+  ExplicitHeight = 373
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 808
-    Height = 423
-    ExplicitWidth = 808
-    ExplicitHeight = 423
+    Width = 654
+    Height = 245
+    ExplicitWidth = 120
     inherited pgcBrowse: TcxPageControl
-      Width = 806
-      Height = 421
-      ExplicitWidth = 806
-      ExplicitHeight = 421
-      ClientRectBottom = 420
-      ClientRectRight = 805
+      Width = 652
+      Height = 243
+      ExplicitWidth = 118
+      ClientRectBottom = 242
+      ClientRectRight = 651
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 804
-        ExplicitHeight = 419
+        ExplicitWidth = 116
+        ExplicitHeight = 310
         inherited cxGrid: TcxGrid
-          Width = 804
-          Height = 419
-          ExplicitWidth = 804
-          ExplicitHeight = 419
-          inherited cxGridView: TcxGridDBTableView
-            OptionsData.Editing = True
-          end
+          Width = 650
+          Height = 241
+          ExplicitWidth = 116
         end
       end
     end
   end
   inherited pnlHeader: TPanel
-    Width = 808
-    ExplicitWidth = 808
+    Width = 654
+    ExplicitWidth = 120
     inherited lblHeader: TLabel
-      Width = 74
-      Caption = 'CRAZY PRICE '
-      ExplicitWidth = 74
+      Width = 90
+      Caption = 'BARCODE USAGE'
+      ExplicitWidth = 90
     end
     inherited lblFilterData: TcxLabel
-      Left = 454
+      Left = 300
       Visible = True
-      ExplicitLeft = 454
+      ExplicitLeft = -234
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
-      Left = 515
+      Left = 361
       Visible = True
-      ExplicitLeft = 515
+      ExplicitLeft = -173
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
-      Left = 631
+      Left = 477
       Visible = True
-      ExplicitLeft = 631
+      ExplicitLeft = -57
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
-      Left = 726
-      ExplicitLeft = 726
+      Left = 572
+      ExplicitLeft = 38
     end
     inherited lblsdFilter: TcxLabel
-      Left = 607
+      Left = 453
       Visible = True
-      ExplicitLeft = 607
+      ExplicitLeft = -81
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
-    Top = 456
-    Width = 808
-    ExplicitTop = 456
-    ExplicitWidth = 808
+    Top = 278
+    Width = 654
+    ExplicitTop = -56
+    ExplicitWidth = 120
     inherited pnlFooter: TPanel
-      Width = 808
-      ExplicitWidth = 808
+      Width = 654
+      ExplicitWidth = 120
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -93,30 +84,22 @@ inherited frmCrazyPrice: TfrmCrazyPrice
         Action = actPrint
       end
       inherited btnClose: TcxButton
-        Left = 731
+        Left = 577
         Action = actClose
-        ExplicitLeft = 731
+        ExplicitLeft = 43
       end
       inherited cxButton1: TcxButton
         Action = actExport
       end
     end
     inherited pnlShortCut: TPanel
-      Width = 808
-      ExplicitWidth = 808
+      Width = 654
+      ExplicitWidth = 120
       inherited lbEscape: TLabel
-        Left = 734
-        ExplicitLeft = 734
+        Left = 580
+        Height = 17
       end
     end
-  end
-  object chkPilih: TcxCheckBox [3]
-    Left = 8
-    Top = 35
-    Style.TextStyle = [fsBold]
-    TabOrder = 3
-    Transparent = True
-    OnClick = chkPilihClick
   end
   inherited actlstBrowse: TActionList
     inherited actAdd: TAction

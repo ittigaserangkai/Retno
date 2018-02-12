@@ -58,8 +58,10 @@ type
     class function GetNextIDGUIDToString: string;
     class function GetSQLDelete(AObject: TModApp): String; overload;
     class function GetSQLInsert(AObject: TModApp): String;
-    class function GetSQLUpdate(AObject: TModApp): String;
+    class function GetSQLUpdate(AObject: TModApp): String; overload;
     class function GetSQLCreate(AObject: TModApp): String;
+    class function GetSQLUpdate(AObject: TModApp; UpdatedValue: String): String;
+        overload;
     class procedure LoadFromDB(AOBject: TModApp; AID: String; LoadObjectList:
         Boolean = True);
     class procedure LoadByCode(AOBject: TModApp; aCode: String);
@@ -755,7 +757,7 @@ begin
     UpdateVal := UpdateVal + FieldName + ' = ' + AObject.QuotValue(prop)
   end;
 
-  sFilter   := '';
+//  sFilter   := '';
 
   sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
   Result := Format(SQL_Update,[AObject.GetTableName,UpdateVal,sFilter]);
@@ -796,6 +798,16 @@ begin
 
   Result := Format(SQL_Create,[AObject.GetTableName,UpdateVal]);
   Result := UpperCase(Result);
+end;
+
+class function TDBUtils.GetSQLUpdate(AObject: TModApp; UpdatedValue: String):
+    String;
+var
+  sFilter : String;
+begin
+  //utk generate sql update status, semi hardcoded, ex updatedvalue => status = delivered
+  sFilter := AObject.GetPrimaryField + ' = ' + QuotedStr(AObject.ID);
+  Result := Format(SQL_Update,[AObject.GetTableName,UpdatedValue,sFilter]);
 end;
 
 class procedure TDBUtils.LoadFromDB(AOBject: TModApp; AID: String;

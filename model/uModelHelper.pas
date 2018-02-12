@@ -3,7 +3,8 @@ unit uModelHelper;
 interface
 uses
   uModApp, uModPO, uModSO,uModSuplier,uModBarang, uModSatuan,
-  System.SysUtils, uDMClient, uModDO, uClientClasses;
+  System.SysUtils, uDMClient, uModDO, uClientClasses, Datasnap.DBClient,
+  uDBUtils, System.Classes;
 
 type
   TModPOItemHelper = class helper for  TModPOItem

@@ -37,15 +37,15 @@ type
   private
 //    dataBeginningBlnc: TDataSet;
     FCDS: TClientDataSet;
-    function IsBeginningBalanceUsed(aBalance_ID, aUnitID: Integer): Boolean;
     function IsShiftExist: Boolean;
-    procedure ParseHeaderGrid(jmlData: Integer);
-    procedure ParseDataGrid();
-    procedure prepareAdd();
-    procedure prepareEdit();
     property CDS: TClientDataSet read FCDS write FCDS;
   public
     FShiftID: string;
+    function IsBeginningBalanceUsed(aBalance_ID, aUnitID: Integer): Boolean;
+    procedure ParseDataGrid;
+    procedure ParseHeaderGrid(jmlData: Integer);
+    procedure prepareAdd;
+    procedure prepareEdit;
     procedure RefreshData; override;
   end;
 
@@ -217,7 +217,7 @@ begin
   edtShift.SetFocus;
 end;
 
-procedure TfrmBeginningBalancePOS.prepareAdd();
+procedure TfrmBeginningBalancePOS.prepareAdd;
 begin
   {
   if not assigned(frmDialogBeginBalancePOS) then
@@ -236,7 +236,7 @@ begin
   }
 end;
 
-procedure TfrmBeginningBalancePOS.prepareEdit();
+procedure TfrmBeginningBalancePOS.prepareEdit;
 begin
   {
     if not assigned(frmDialogBeginBalancePOS) then
@@ -272,14 +272,14 @@ begin
 end;
 
 procedure TfrmBeginningBalancePOS.actPrintExecute(Sender: TObject);
-var
-  sSQL    : String;
-  SS      : TStrings;
-  _HeaderFlag : integer;
-  sTemp : string;
+//var
+//  sSQL    : String;
+//  SS      : TStrings;
+//  _HeaderFlag : integer;
+//  sTemp : string;
 begin
   inherited;
-  _HeaderFlag := 4705;
+//  _HeaderFlag := 4705;
   {
   sSQL := ' delete from TEMP_LAPORAN '
         + ' WHERE laporan_id = ' + IntToStr(_HeaderFlag)
@@ -372,6 +372,7 @@ end;
 function TfrmBeginningBalancePOS.IsBeginningBalanceUsed(aBalance_ID, aUnitID:
     Integer): Boolean;
 begin
+  Result := False;
   {with TPOSTransaction.Create(Self) do
   begin
     try

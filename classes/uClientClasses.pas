@@ -1,6 +1,10 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/8/2018 3:23:20 PM
+<<<<<<< HEAD
+// 2/9/2018 9:40:17 AM
+=======
+// 2/11/2018 1:07:35 PM
+>>>>>>> 636e9ef51e23b5d778f0c13882634b0dbbdb3684
 //
 
 unit uClientClasses;
@@ -381,6 +385,8 @@ type
     FTransferBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand: TDSRestCommand;
     FBarcodeRequest_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FBarcodeUsage_GetDSOverviewCommand: TDSRestCommand;
+    FBarcodeUsage_GetDSOverviewCommand_Cache: TDSRestCommand;
     FRekeningHutang_GetDSLookupCommand: TDSRestCommand;
     FRekeningHutang_GetDSLookupCommand_Cache: TDSRestCommand;
     FRekeningPiutang_GetDSLookupCommand: TDSRestCommand;
@@ -391,6 +397,8 @@ type
     FReturTrader_GetDSOverviewCommand_Cache: TDSRestCommand;
     FKonversiSatuan_GetDSCommand: TDSRestCommand;
     FKonversiSatuan_GetDSCommand_Cache: TDSRestCommand;
+    FPOTrader_GetLookupForDOCommand: TDSRestCommand;
+    FPOTrader_GetLookupForDOCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -678,6 +686,8 @@ type
     function TransferBarang_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
+    function BarcodeUsage_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningHutang_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function RekeningHutang_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function RekeningPiutang_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
@@ -688,6 +698,8 @@ type
     function ReturTrader_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function KonversiSatuan_GetDS(ABarangID: string; const ARequestFilter: string = ''): TDataSet;
     function KonversiSatuan_GetDS_Cache(ABarangID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function POTrader_GetLookupForDO(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
+    function POTrader_GetLookupForDO_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
   end;
 
   TDSReportClient = class(TDSAdminRestClient)
@@ -718,6 +730,8 @@ type
     FKartuStock_GetDSCommand_Cache: TDSRestCommand;
     FPO_SLIP_ByDateNoBuktiCommand: TDSRestCommand;
     FPO_SLIP_ByDateNoBuktiCommand_Cache: TDSRestCommand;
+    FTransferBarang_SlipByIDCommand: TDSRestCommand;
+    FTransferBarang_SlipByIDCommand_Cache: TDSRestCommand;
     FSO_ByDateCommand: TDSRestCommand;
     FSO_ByDateCommand_Cache: TDSRestCommand;
     FSO_ByDateNoBuktiCommand: TDSRestCommand;
@@ -756,6 +770,8 @@ type
     function KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_SLIP_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function PO_SLIP_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function TransferBarang_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function TransferBarang_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
     function SO_ByDate_Cache(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -1990,9 +2006,8 @@ type
     procedure AfterExecuteMethod;
   end;
 
-  TCrudBankCashInClient = class(TDSAdminRestClient)
+  TCRUDDOTraderClient = class(TDSAdminRestClient)
   private
-    FGenerateNoBuktiCommand: TDSRestCommand;
     FCreateTableSQLCommand: TDSRestCommand;
     FCreateTableSQLByClassNameCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
@@ -2019,7 +2034,6 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function GenerateNoBukti(const ARequestFilter: string = ''): string;
     function CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string = ''): string;
     function CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string = ''): string;
     function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -3882,6 +3896,22 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSProvider_BarcodeUsage_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_BarcodeUsage_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSProvider_RekeningHutang_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
@@ -3937,6 +3967,22 @@ const
   TDSProvider_KonversiSatuan_GetDS_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ABarangID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_POTrader_GetLookupForDO: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_POTrader_GetLookupForDO_Cache: array [0..3] of TDSRestParameterMetaData =
+  (
+    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4131,6 +4177,18 @@ const
     (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_TransferBarang_SlipByID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_TransferBarang_SlipByID_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -7330,140 +7388,135 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrudBankCashIn_GenerateNoBukti: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
-  );
-
-  TCrudBankCashIn_CreateTableSQL: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_CreateTableSQL: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AModAPP'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TCrudBankCashIn_CreateTableSQLByClassName: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_CreateTableSQLByClassName: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TCrudBankCashIn_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_DeleteFromDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TCrudBankCashIn_GenerateNo: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_GenerateNo: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'aClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TCrudBankCashIn_OpenQuery: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_OpenQuery: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TCrudBankCashIn_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_OpenQuery_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'S'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrudBankCashIn_Retrieve: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_Retrieve: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
   );
 
-  TCrudBankCashIn_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrudBankCashIn_RetrieveBatch: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_RetrieveBatch: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AIDs'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApps')
   );
 
-  TCrudBankCashIn_RetrieveBatch_Cache: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_RetrieveBatch_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AIDs'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrudBankCashIn_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_RetrieveByCode: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
   );
 
-  TCrudBankCashIn_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_RetrieveByCode_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aCode'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrudBankCashIn_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_RetrieveSingle: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
   );
 
-  TCrudBankCashIn_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
+  TCRUDDOTrader_RetrieveSingle_Cache: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ModClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TCrudBankCashIn_SaveBatch: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_SaveBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TCrudBankCashIn_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TCrudBankCashIn_SaveToDB: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TCrudBankCashIn_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_SaveToDBID: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TCrudBankCashIn_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_SaveToDBLog: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TCrudBankCashIn_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_TestGenerateSQL: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TStrings')
   );
 
-  TCrudBankCashIn_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
+  TCRUDDOTrader_TestGenerateSQL_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -12661,6 +12714,65 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
 end;
 
+function TDSProviderClient.BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+begin
+  if FBarcodeUsage_GetDSOverviewCommand = nil then
+  begin
+    FBarcodeUsage_GetDSOverviewCommand := FConnection.CreateCommand;
+    FBarcodeUsage_GetDSOverviewCommand.RequestType := 'POST';
+    FBarcodeUsage_GetDSOverviewCommand.Text := 'TDSProvider."BarcodeUsage_GetDSOverview"';
+    FBarcodeUsage_GetDSOverviewCommand.Prepare(TDSProvider_BarcodeUsage_GetDSOverview);
+  end;
+  FBarcodeUsage_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FBarcodeUsage_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FBarcodeUsage_GetDSOverviewCommand.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FBarcodeUsage_GetDSOverviewCommand.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FBarcodeUsage_GetDSOverviewCommand.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FBarcodeUsage_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarcodeUsage_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FBarcodeUsage_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.BarcodeUsage_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FBarcodeUsage_GetDSOverviewCommand_Cache = nil then
+  begin
+    FBarcodeUsage_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FBarcodeUsage_GetDSOverviewCommand_Cache.RequestType := 'POST';
+    FBarcodeUsage_GetDSOverviewCommand_Cache.Text := 'TDSProvider."BarcodeUsage_GetDSOverview"';
+    FBarcodeUsage_GetDSOverviewCommand_Cache.Prepare(TDSProvider_BarcodeUsage_GetDSOverview_Cache);
+  end;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  if not Assigned(AUnit) then
+    FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[2].Value.SetNull
+  else
+  begin
+    FMarshal := TDSRestCommand(FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[2].ConnectionHandler).GetJSONMarshaler;
+    try
+      FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[2].Value.SetJSONValue(FMarshal.Marshal(AUnit), True);
+      if FInstanceOwner then
+        AUnit.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+    end;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarcodeUsage_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+end;
+
 function TDSProviderClient.RekeningHutang_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FRekeningHutang_GetDSLookupCommand = nil then
@@ -12836,6 +12948,41 @@ begin
   FKonversiSatuan_GetDSCommand_Cache.Parameters[0].Value.SetWideString(ABarangID);
   FKonversiSatuan_GetDSCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FKonversiSatuan_GetDSCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDSProviderClient.POTrader_GetLookupForDO(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; const ARequestFilter: string): TDataSet;
+begin
+  if FPOTrader_GetLookupForDOCommand = nil then
+  begin
+    FPOTrader_GetLookupForDOCommand := FConnection.CreateCommand;
+    FPOTrader_GetLookupForDOCommand.RequestType := 'GET';
+    FPOTrader_GetLookupForDOCommand.Text := 'TDSProvider.POTrader_GetLookupForDO';
+    FPOTrader_GetLookupForDOCommand.Prepare(TDSProvider_POTrader_GetLookupForDO);
+  end;
+  FPOTrader_GetLookupForDOCommand.Parameters[0].Value.AsDateTime := ATglAwal;
+  FPOTrader_GetLookupForDOCommand.Parameters[1].Value.AsDateTime := ATglAkhir;
+  FPOTrader_GetLookupForDOCommand.Parameters[2].Value.SetWideString(AUnitID);
+  FPOTrader_GetLookupForDOCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FPOTrader_GetLookupForDOCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FPOTrader_GetLookupForDOCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.POTrader_GetLookupForDO_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FPOTrader_GetLookupForDOCommand_Cache = nil then
+  begin
+    FPOTrader_GetLookupForDOCommand_Cache := FConnection.CreateCommand;
+    FPOTrader_GetLookupForDOCommand_Cache.RequestType := 'GET';
+    FPOTrader_GetLookupForDOCommand_Cache.Text := 'TDSProvider.POTrader_GetLookupForDO';
+    FPOTrader_GetLookupForDOCommand_Cache.Prepare(TDSProvider_POTrader_GetLookupForDO_Cache);
+  end;
+  FPOTrader_GetLookupForDOCommand_Cache.Parameters[0].Value.AsDateTime := ATglAwal;
+  FPOTrader_GetLookupForDOCommand_Cache.Parameters[1].Value.AsDateTime := ATglAkhir;
+  FPOTrader_GetLookupForDOCommand_Cache.Parameters[2].Value.SetWideString(AUnitID);
+  FPOTrader_GetLookupForDOCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FPOTrader_GetLookupForDOCommand_Cache.Parameters[3].Value.GetString);
 end;
 
 constructor TDSProviderClient.Create(ARestConnection: TDSRestConnection);
@@ -13133,6 +13280,8 @@ begin
   FTransferBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand.DisposeOf;
   FBarcodeRequest_GetDSOverviewCommand_Cache.DisposeOf;
+  FBarcodeUsage_GetDSOverviewCommand.DisposeOf;
+  FBarcodeUsage_GetDSOverviewCommand_Cache.DisposeOf;
   FRekeningHutang_GetDSLookupCommand.DisposeOf;
   FRekeningHutang_GetDSLookupCommand_Cache.DisposeOf;
   FRekeningPiutang_GetDSLookupCommand.DisposeOf;
@@ -13143,6 +13292,8 @@ begin
   FReturTrader_GetDSOverviewCommand_Cache.DisposeOf;
   FKonversiSatuan_GetDSCommand.DisposeOf;
   FKonversiSatuan_GetDSCommand_Cache.DisposeOf;
+  FPOTrader_GetLookupForDOCommand.DisposeOf;
+  FPOTrader_GetLookupForDOCommand_Cache.DisposeOf;
   inherited;
 end;
 
@@ -13677,6 +13828,46 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSReportClient.TransferBarang_SlipByID(aID: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FTransferBarang_SlipByIDCommand = nil then
+  begin
+    FTransferBarang_SlipByIDCommand := FConnection.CreateCommand;
+    FTransferBarang_SlipByIDCommand.RequestType := 'GET';
+    FTransferBarang_SlipByIDCommand.Text := 'TDSReport.TransferBarang_SlipByID';
+    FTransferBarang_SlipByIDCommand.Prepare(TDSReport_TransferBarang_SlipByID);
+  end;
+  FTransferBarang_SlipByIDCommand.Parameters[0].Value.SetWideString(aID);
+  FTransferBarang_SlipByIDCommand.Execute(ARequestFilter);
+  if not FTransferBarang_SlipByIDCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTransferBarang_SlipByIDCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FTransferBarang_SlipByIDCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTransferBarang_SlipByIDCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.TransferBarang_SlipByID_Cache(aID: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FTransferBarang_SlipByIDCommand_Cache = nil then
+  begin
+    FTransferBarang_SlipByIDCommand_Cache := FConnection.CreateCommand;
+    FTransferBarang_SlipByIDCommand_Cache.RequestType := 'GET';
+    FTransferBarang_SlipByIDCommand_Cache.Text := 'TDSReport.TransferBarang_SlipByID';
+    FTransferBarang_SlipByIDCommand_Cache.Prepare(TDSReport_TransferBarang_SlipByID_Cache);
+  end;
+  FTransferBarang_SlipByIDCommand_Cache.Parameters[0].Value.SetWideString(aID);
+  FTransferBarang_SlipByIDCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FTransferBarang_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSReportClient.SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FSO_ByDateCommand = nil then
@@ -13878,6 +14069,8 @@ begin
   FKartuStock_GetDSCommand_Cache.DisposeOf;
   FPO_SLIP_ByDateNoBuktiCommand.DisposeOf;
   FPO_SLIP_ByDateNoBuktiCommand_Cache.DisposeOf;
+  FTransferBarang_SlipByIDCommand.DisposeOf;
+  FTransferBarang_SlipByIDCommand_Cache.DisposeOf;
   FSO_ByDateCommand.DisposeOf;
   FSO_ByDateCommand_Cache.DisposeOf;
   FSO_ByDateNoBuktiCommand.DisposeOf;
@@ -25941,27 +26134,14 @@ begin
   inherited;
 end;
 
-function TCrudBankCashInClient.GenerateNoBukti(const ARequestFilter: string): string;
-begin
-  if FGenerateNoBuktiCommand = nil then
-  begin
-    FGenerateNoBuktiCommand := FConnection.CreateCommand;
-    FGenerateNoBuktiCommand.RequestType := 'GET';
-    FGenerateNoBuktiCommand.Text := 'TCrudBankCashIn.GenerateNoBukti';
-    FGenerateNoBuktiCommand.Prepare(TCrudBankCashIn_GenerateNoBukti);
-  end;
-  FGenerateNoBuktiCommand.Execute(ARequestFilter);
-  Result := FGenerateNoBuktiCommand.Parameters[0].Value.GetWideString;
-end;
-
-function TCrudBankCashInClient.CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string): string;
+function TCRUDDOTraderClient.CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string): string;
 begin
   if FCreateTableSQLCommand = nil then
   begin
     FCreateTableSQLCommand := FConnection.CreateCommand;
     FCreateTableSQLCommand.RequestType := 'POST';
-    FCreateTableSQLCommand.Text := 'TCrudBankCashIn."CreateTableSQL"';
-    FCreateTableSQLCommand.Prepare(TCrudBankCashIn_CreateTableSQL);
+    FCreateTableSQLCommand.Text := 'TCRUDDOTrader."CreateTableSQL"';
+    FCreateTableSQLCommand.Prepare(TCRUDDOTrader_CreateTableSQL);
   end;
   if not Assigned(AModAPP) then
     FCreateTableSQLCommand.Parameters[0].Value.SetNull
@@ -25980,28 +26160,28 @@ begin
   Result := FCreateTableSQLCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TCrudBankCashInClient.CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string): string;
+function TCRUDDOTraderClient.CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string): string;
 begin
   if FCreateTableSQLByClassNameCommand = nil then
   begin
     FCreateTableSQLByClassNameCommand := FConnection.CreateCommand;
     FCreateTableSQLByClassNameCommand.RequestType := 'GET';
-    FCreateTableSQLByClassNameCommand.Text := 'TCrudBankCashIn.CreateTableSQLByClassName';
-    FCreateTableSQLByClassNameCommand.Prepare(TCrudBankCashIn_CreateTableSQLByClassName);
+    FCreateTableSQLByClassNameCommand.Text := 'TCRUDDOTrader.CreateTableSQLByClassName';
+    FCreateTableSQLByClassNameCommand.Prepare(TCRUDDOTrader_CreateTableSQLByClassName);
   end;
   FCreateTableSQLByClassNameCommand.Parameters[0].Value.SetWideString(AClassName);
   FCreateTableSQLByClassNameCommand.Execute(ARequestFilter);
   Result := FCreateTableSQLByClassNameCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TCrudBankCashInClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+function TCRUDDOTraderClient.DeleteFromDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FDeleteFromDBCommand = nil then
   begin
     FDeleteFromDBCommand := FConnection.CreateCommand;
     FDeleteFromDBCommand.RequestType := 'POST';
-    FDeleteFromDBCommand.Text := 'TCrudBankCashIn."DeleteFromDB"';
-    FDeleteFromDBCommand.Prepare(TCrudBankCashIn_DeleteFromDB);
+    FDeleteFromDBCommand.Text := 'TCRUDDOTrader."DeleteFromDB"';
+    FDeleteFromDBCommand.Prepare(TCRUDDOTrader_DeleteFromDB);
   end;
   if not Assigned(AObject) then
     FDeleteFromDBCommand.Parameters[0].Value.SetNull
@@ -26020,28 +26200,28 @@ begin
   Result := FDeleteFromDBCommand.Parameters[1].Value.GetBoolean;
 end;
 
-function TCrudBankCashInClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
+function TCRUDDOTraderClient.GenerateNo(aClassName: string; const ARequestFilter: string): string;
 begin
   if FGenerateNoCommand = nil then
   begin
     FGenerateNoCommand := FConnection.CreateCommand;
     FGenerateNoCommand.RequestType := 'GET';
-    FGenerateNoCommand.Text := 'TCrudBankCashIn.GenerateNo';
-    FGenerateNoCommand.Prepare(TCrudBankCashIn_GenerateNo);
+    FGenerateNoCommand.Text := 'TCRUDDOTrader.GenerateNo';
+    FGenerateNoCommand.Prepare(TCRUDDOTrader_GenerateNo);
   end;
   FGenerateNoCommand.Parameters[0].Value.SetWideString(aClassName);
   FGenerateNoCommand.Execute(ARequestFilter);
   Result := FGenerateNoCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TCrudBankCashInClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
+function TCRUDDOTraderClient.OpenQuery(S: string; const ARequestFilter: string): TDataSet;
 begin
   if FOpenQueryCommand = nil then
   begin
     FOpenQueryCommand := FConnection.CreateCommand;
     FOpenQueryCommand.RequestType := 'GET';
-    FOpenQueryCommand.Text := 'TCrudBankCashIn.OpenQuery';
-    FOpenQueryCommand.Prepare(TCrudBankCashIn_OpenQuery);
+    FOpenQueryCommand.Text := 'TCRUDDOTrader.OpenQuery';
+    FOpenQueryCommand.Prepare(TCRUDDOTrader_OpenQuery);
   end;
   FOpenQueryCommand.Parameters[0].Value.SetWideString(S);
   FOpenQueryCommand.Execute(ARequestFilter);
@@ -26051,28 +26231,28 @@ begin
     FOpenQueryCommand.FreeOnExecute(Result);
 end;
 
-function TCrudBankCashInClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
+function TCRUDDOTraderClient.OpenQuery_Cache(S: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FOpenQueryCommand_Cache = nil then
   begin
     FOpenQueryCommand_Cache := FConnection.CreateCommand;
     FOpenQueryCommand_Cache.RequestType := 'GET';
-    FOpenQueryCommand_Cache.Text := 'TCrudBankCashIn.OpenQuery';
-    FOpenQueryCommand_Cache.Prepare(TCrudBankCashIn_OpenQuery_Cache);
+    FOpenQueryCommand_Cache.Text := 'TCRUDDOTrader.OpenQuery';
+    FOpenQueryCommand_Cache.Prepare(TCRUDDOTrader_OpenQuery_Cache);
   end;
   FOpenQueryCommand_Cache.Parameters[0].Value.SetWideString(S);
   FOpenQueryCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedDataSet.Create(FOpenQueryCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-function TCrudBankCashInClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+function TCRUDDOTraderClient.Retrieve(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
 begin
   if FRetrieveCommand = nil then
   begin
     FRetrieveCommand := FConnection.CreateCommand;
     FRetrieveCommand.RequestType := 'GET';
-    FRetrieveCommand.Text := 'TCrudBankCashIn.Retrieve';
-    FRetrieveCommand.Prepare(TCrudBankCashIn_Retrieve);
+    FRetrieveCommand.Text := 'TCRUDDOTrader.Retrieve';
+    FRetrieveCommand.Prepare(TCRUDDOTrader_Retrieve);
   end;
   FRetrieveCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
@@ -26092,14 +26272,14 @@ begin
     Result := nil;
 end;
 
-function TCrudBankCashInClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+function TCRUDDOTraderClient.Retrieve_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
 begin
   if FRetrieveCommand_Cache = nil then
   begin
     FRetrieveCommand_Cache := FConnection.CreateCommand;
     FRetrieveCommand_Cache.RequestType := 'GET';
-    FRetrieveCommand_Cache.Text := 'TCrudBankCashIn.Retrieve';
-    FRetrieveCommand_Cache.Prepare(TCrudBankCashIn_Retrieve_Cache);
+    FRetrieveCommand_Cache.Text := 'TCRUDDOTrader.Retrieve';
+    FRetrieveCommand_Cache.Prepare(TCRUDDOTrader_Retrieve_Cache);
   end;
   FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
@@ -26107,14 +26287,14 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-function TCrudBankCashInClient.RetrieveBatch(ModClassName: string; AIDs: string; const ARequestFilter: string): TModApps;
+function TCRUDDOTraderClient.RetrieveBatch(ModClassName: string; AIDs: string; const ARequestFilter: string): TModApps;
 begin
   if FRetrieveBatchCommand = nil then
   begin
     FRetrieveBatchCommand := FConnection.CreateCommand;
     FRetrieveBatchCommand.RequestType := 'GET';
-    FRetrieveBatchCommand.Text := 'TCrudBankCashIn.RetrieveBatch';
-    FRetrieveBatchCommand.Prepare(TCrudBankCashIn_RetrieveBatch);
+    FRetrieveBatchCommand.Text := 'TCRUDDOTrader.RetrieveBatch';
+    FRetrieveBatchCommand.Prepare(TCRUDDOTrader_RetrieveBatch);
   end;
   FRetrieveBatchCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveBatchCommand.Parameters[1].Value.SetWideString(AIDs);
@@ -26134,14 +26314,14 @@ begin
     Result := nil;
 end;
 
-function TCrudBankCashInClient.RetrieveBatch_Cache(ModClassName: string; AIDs: string; const ARequestFilter: string): IDSRestCachedTModApps;
+function TCRUDDOTraderClient.RetrieveBatch_Cache(ModClassName: string; AIDs: string; const ARequestFilter: string): IDSRestCachedTModApps;
 begin
   if FRetrieveBatchCommand_Cache = nil then
   begin
     FRetrieveBatchCommand_Cache := FConnection.CreateCommand;
     FRetrieveBatchCommand_Cache.RequestType := 'GET';
-    FRetrieveBatchCommand_Cache.Text := 'TCrudBankCashIn.RetrieveBatch';
-    FRetrieveBatchCommand_Cache.Prepare(TCrudBankCashIn_RetrieveBatch_Cache);
+    FRetrieveBatchCommand_Cache.Text := 'TCRUDDOTrader.RetrieveBatch';
+    FRetrieveBatchCommand_Cache.Prepare(TCRUDDOTrader_RetrieveBatch_Cache);
   end;
   FRetrieveBatchCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveBatchCommand_Cache.Parameters[1].Value.SetWideString(AIDs);
@@ -26149,14 +26329,14 @@ begin
   Result := TDSRestCachedTModApps.Create(FRetrieveBatchCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-function TCrudBankCashInClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
+function TCRUDDOTraderClient.RetrieveByCode(ModClassName: string; aCode: string; const ARequestFilter: string): TModApp;
 begin
   if FRetrieveByCodeCommand = nil then
   begin
     FRetrieveByCodeCommand := FConnection.CreateCommand;
     FRetrieveByCodeCommand.RequestType := 'GET';
-    FRetrieveByCodeCommand.Text := 'TCrudBankCashIn.RetrieveByCode';
-    FRetrieveByCodeCommand.Prepare(TCrudBankCashIn_RetrieveByCode);
+    FRetrieveByCodeCommand.Text := 'TCRUDDOTrader.RetrieveByCode';
+    FRetrieveByCodeCommand.Prepare(TCRUDDOTrader_RetrieveByCode);
   end;
   FRetrieveByCodeCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveByCodeCommand.Parameters[1].Value.SetWideString(aCode);
@@ -26176,14 +26356,14 @@ begin
     Result := nil;
 end;
 
-function TCrudBankCashInClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
+function TCRUDDOTraderClient.RetrieveByCode_Cache(ModClassName: string; aCode: string; const ARequestFilter: string): IDSRestCachedTModApp;
 begin
   if FRetrieveByCodeCommand_Cache = nil then
   begin
     FRetrieveByCodeCommand_Cache := FConnection.CreateCommand;
     FRetrieveByCodeCommand_Cache.RequestType := 'GET';
-    FRetrieveByCodeCommand_Cache.Text := 'TCrudBankCashIn.RetrieveByCode';
-    FRetrieveByCodeCommand_Cache.Prepare(TCrudBankCashIn_RetrieveByCode_Cache);
+    FRetrieveByCodeCommand_Cache.Text := 'TCRUDDOTrader.RetrieveByCode';
+    FRetrieveByCodeCommand_Cache.Prepare(TCRUDDOTrader_RetrieveByCode_Cache);
   end;
   FRetrieveByCodeCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveByCodeCommand_Cache.Parameters[1].Value.SetWideString(aCode);
@@ -26191,14 +26371,14 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveByCodeCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-function TCrudBankCashInClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
+function TCRUDDOTraderClient.RetrieveSingle(ModClassName: string; AID: string; const ARequestFilter: string): TModApp;
 begin
   if FRetrieveSingleCommand = nil then
   begin
     FRetrieveSingleCommand := FConnection.CreateCommand;
     FRetrieveSingleCommand.RequestType := 'GET';
-    FRetrieveSingleCommand.Text := 'TCrudBankCashIn.RetrieveSingle';
-    FRetrieveSingleCommand.Prepare(TCrudBankCashIn_RetrieveSingle);
+    FRetrieveSingleCommand.Text := 'TCRUDDOTrader.RetrieveSingle';
+    FRetrieveSingleCommand.Prepare(TCRUDDOTrader_RetrieveSingle);
   end;
   FRetrieveSingleCommand.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveSingleCommand.Parameters[1].Value.SetWideString(AID);
@@ -26218,14 +26398,14 @@ begin
     Result := nil;
 end;
 
-function TCrudBankCashInClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
+function TCRUDDOTraderClient.RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedTModApp;
 begin
   if FRetrieveSingleCommand_Cache = nil then
   begin
     FRetrieveSingleCommand_Cache := FConnection.CreateCommand;
     FRetrieveSingleCommand_Cache.RequestType := 'GET';
-    FRetrieveSingleCommand_Cache.Text := 'TCrudBankCashIn.RetrieveSingle';
-    FRetrieveSingleCommand_Cache.Prepare(TCrudBankCashIn_RetrieveSingle_Cache);
+    FRetrieveSingleCommand_Cache.Text := 'TCRUDDOTrader.RetrieveSingle';
+    FRetrieveSingleCommand_Cache.Prepare(TCRUDDOTrader_RetrieveSingle_Cache);
   end;
   FRetrieveSingleCommand_Cache.Parameters[0].Value.SetWideString(ModClassName);
   FRetrieveSingleCommand_Cache.Parameters[1].Value.SetWideString(AID);
@@ -26233,14 +26413,14 @@ begin
   Result := TDSRestCachedTModApp.Create(FRetrieveSingleCommand_Cache.Parameters[2].Value.GetString);
 end;
 
-function TCrudBankCashInClient.SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string): Boolean;
+function TCRUDDOTraderClient.SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string): Boolean;
 begin
   if FSaveBatchCommand = nil then
   begin
     FSaveBatchCommand := FConnection.CreateCommand;
     FSaveBatchCommand.RequestType := 'POST';
-    FSaveBatchCommand.Text := 'TCrudBankCashIn."SaveBatch"';
-    FSaveBatchCommand.Prepare(TCrudBankCashIn_SaveBatch);
+    FSaveBatchCommand.Text := 'TCRUDDOTrader."SaveBatch"';
+    FSaveBatchCommand.Prepare(TCRUDDOTrader_SaveBatch);
   end;
   if not Assigned(AObjectList) then
     FSaveBatchCommand.Parameters[0].Value.SetNull
@@ -26259,14 +26439,14 @@ begin
   Result := FSaveBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
-function TCrudBankCashInClient.DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string): Boolean;
+function TCRUDDOTraderClient.DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string): Boolean;
 begin
   if FDeleteBatchCommand = nil then
   begin
     FDeleteBatchCommand := FConnection.CreateCommand;
     FDeleteBatchCommand.RequestType := 'POST';
-    FDeleteBatchCommand.Text := 'TCrudBankCashIn."DeleteBatch"';
-    FDeleteBatchCommand.Prepare(TCrudBankCashIn_DeleteBatch);
+    FDeleteBatchCommand.Text := 'TCRUDDOTrader."DeleteBatch"';
+    FDeleteBatchCommand.Prepare(TCRUDDOTrader_DeleteBatch);
   end;
   if not Assigned(AObjectList) then
     FDeleteBatchCommand.Parameters[0].Value.SetNull
@@ -26285,14 +26465,14 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
-function TCrudBankCashInClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
+function TCRUDDOTraderClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
   begin
     FSaveToDBCommand := FConnection.CreateCommand;
     FSaveToDBCommand.RequestType := 'POST';
-    FSaveToDBCommand.Text := 'TCrudBankCashIn."SaveToDB"';
-    FSaveToDBCommand.Prepare(TCrudBankCashIn_SaveToDB);
+    FSaveToDBCommand.Text := 'TCRUDDOTrader."SaveToDB"';
+    FSaveToDBCommand.Prepare(TCRUDDOTrader_SaveToDB);
   end;
   if not Assigned(AObject) then
     FSaveToDBCommand.Parameters[0].Value.SetNull
@@ -26311,14 +26491,14 @@ begin
   Result := FSaveToDBCommand.Parameters[1].Value.GetBoolean;
 end;
 
-function TCrudBankCashInClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
+function TCRUDDOTraderClient.SaveToDBID(AObject: TModApp; const ARequestFilter: string): string;
 begin
   if FSaveToDBIDCommand = nil then
   begin
     FSaveToDBIDCommand := FConnection.CreateCommand;
     FSaveToDBIDCommand.RequestType := 'POST';
-    FSaveToDBIDCommand.Text := 'TCrudBankCashIn."SaveToDBID"';
-    FSaveToDBIDCommand.Prepare(TCrudBankCashIn_SaveToDBID);
+    FSaveToDBIDCommand.Text := 'TCRUDDOTrader."SaveToDBID"';
+    FSaveToDBIDCommand.Prepare(TCRUDDOTrader_SaveToDBID);
   end;
   if not Assigned(AObject) then
     FSaveToDBIDCommand.Parameters[0].Value.SetNull
@@ -26337,14 +26517,14 @@ begin
   Result := FSaveToDBIDCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TCrudBankCashInClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
+function TCRUDDOTraderClient.SaveToDBLog(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBLogCommand = nil then
   begin
     FSaveToDBLogCommand := FConnection.CreateCommand;
     FSaveToDBLogCommand.RequestType := 'POST';
-    FSaveToDBLogCommand.Text := 'TCrudBankCashIn."SaveToDBLog"';
-    FSaveToDBLogCommand.Prepare(TCrudBankCashIn_SaveToDBLog);
+    FSaveToDBLogCommand.Text := 'TCRUDDOTrader."SaveToDBLog"';
+    FSaveToDBLogCommand.Prepare(TCRUDDOTrader_SaveToDBLog);
   end;
   if not Assigned(AObject) then
     FSaveToDBLogCommand.Parameters[0].Value.SetNull
@@ -26363,14 +26543,14 @@ begin
   Result := FSaveToDBLogCommand.Parameters[1].Value.GetBoolean;
 end;
 
-function TCrudBankCashInClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
+function TCRUDDOTraderClient.TestGenerateSQL(AObject: TModApp; const ARequestFilter: string): TStrings;
 begin
   if FTestGenerateSQLCommand = nil then
   begin
     FTestGenerateSQLCommand := FConnection.CreateCommand;
     FTestGenerateSQLCommand.RequestType := 'POST';
-    FTestGenerateSQLCommand.Text := 'TCrudBankCashIn."TestGenerateSQL"';
-    FTestGenerateSQLCommand.Prepare(TCrudBankCashIn_TestGenerateSQL);
+    FTestGenerateSQLCommand.Text := 'TCRUDDOTrader."TestGenerateSQL"';
+    FTestGenerateSQLCommand.Prepare(TCRUDDOTrader_TestGenerateSQL);
   end;
   if not Assigned(AObject) then
     FTestGenerateSQLCommand.Parameters[0].Value.SetNull
@@ -26401,14 +26581,14 @@ begin
     Result := nil;
 end;
 
-function TCrudBankCashInClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
+function TCRUDDOTraderClient.TestGenerateSQL_Cache(AObject: TModApp; const ARequestFilter: string): IDSRestCachedTStrings;
 begin
   if FTestGenerateSQLCommand_Cache = nil then
   begin
     FTestGenerateSQLCommand_Cache := FConnection.CreateCommand;
     FTestGenerateSQLCommand_Cache.RequestType := 'POST';
-    FTestGenerateSQLCommand_Cache.Text := 'TCrudBankCashIn."TestGenerateSQL"';
-    FTestGenerateSQLCommand_Cache.Prepare(TCrudBankCashIn_TestGenerateSQL_Cache);
+    FTestGenerateSQLCommand_Cache.Text := 'TCRUDDOTrader."TestGenerateSQL"';
+    FTestGenerateSQLCommand_Cache.Prepare(TCRUDDOTrader_TestGenerateSQL_Cache);
   end;
   if not Assigned(AObject) then
     FTestGenerateSQLCommand_Cache.Parameters[0].Value.SetNull
@@ -26427,30 +26607,29 @@ begin
   Result := TDSRestCachedTStrings.Create(FTestGenerateSQLCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-procedure TCrudBankCashInClient.AfterExecuteMethod;
+procedure TCRUDDOTraderClient.AfterExecuteMethod;
 begin
   if FAfterExecuteMethodCommand = nil then
   begin
     FAfterExecuteMethodCommand := FConnection.CreateCommand;
     FAfterExecuteMethodCommand.RequestType := 'GET';
-    FAfterExecuteMethodCommand.Text := 'TCrudBankCashIn.AfterExecuteMethod';
+    FAfterExecuteMethodCommand.Text := 'TCRUDDOTrader.AfterExecuteMethod';
   end;
   FAfterExecuteMethodCommand.Execute;
 end;
 
-constructor TCrudBankCashInClient.Create(ARestConnection: TDSRestConnection);
+constructor TCRUDDOTraderClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
 end;
 
-constructor TCrudBankCashInClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+constructor TCRUDDOTraderClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
 begin
   inherited Create(ARestConnection, AInstanceOwner);
 end;
 
-destructor TCrudBankCashInClient.Destroy;
+destructor TCRUDDOTraderClient.Destroy;
 begin
-  FGenerateNoBuktiCommand.DisposeOf;
   FCreateTableSQLCommand.DisposeOf;
   FCreateTableSQLByClassNameCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;

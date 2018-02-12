@@ -27,7 +27,7 @@ type
   private
     FCrudAdjFakClient: TCrudAdjFakturClient;
     FCrudBankCashOutClient: TCrudBankCashOutClient;
-    FCrudBankCashInClient: TCrudBankCashInClient;
+    FCrudDOTraderClient: TCRUDDOTraderClient;
     FCRUDPOSClient: TCRUDPosClient;
     FCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     FCrudClaimFakturClient: TCRUDClaimFakturClient;
@@ -52,7 +52,7 @@ type
     FCrudPOTraderClient: TCrudPOTraderClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
-    function GetCrudBankCashInClient: TCrudBankCashInClient;
+    function GetCrudDOTraderClient: TCRUDDOTraderClient;
     function GetCRUDPOSClient: TCRUDPosClient;
     function GetCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     function GetCrudClaimFakturClient: TCRUDClaimFakturClient;
@@ -81,8 +81,8 @@ type
         FCrudAdjFakClient;
     property CrudBankCashOutClient: TCrudBankCashOutClient read
         GetCrudBankCashOutClient write FCrudBankCashOutClient;
-    property CrudBankCashInClient: TCrudBankCashInClient read
-        GetCrudBankCashInClient write FCrudBankCashInClient;
+    property CrudDOTraderClient: TCRUDDOTraderClient read GetCrudDOTraderClient
+        write FCrudDOTraderClient;
     property CRUDPOSClient: TCRUDPosClient read GetCRUDPOSClient write
         FCRUDPOSClient;
     property CrudBarangHargaJualClient: TCrudBarangHargaJualClient read
@@ -203,13 +203,13 @@ begin
   Result := FCrudBankCashOutClient;
 end;
 
-function TDMClient.GetCrudBankCashInClient: TCrudBankCashInClient;
+function TDMClient.GetCrudDOTraderClient: TCRUDDOTraderClient;
 begin
-  if FCrudBankCashInClient <> nil then
-    FreeAndNil(FCrudBankCashInClient);
+  if FCrudDOTraderClient <> nil then
+    FreeAndNil(FCrudDOTraderClient);
 
-  FCrudBankCashInClient := TCrudBankCashInClient.Create(RestConn, InstanceOwner);
-  Result := FCrudBankCashInClient;
+  FCrudDOTraderClient := TCRUDDOTraderClient.Create(RestConn, InstanceOwner);
+  Result := FCrudDOTraderClient;
 end;
 
 function TDMClient.GetCRUDPOSClient: TCRUDPosClient;

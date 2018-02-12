@@ -37,18 +37,23 @@ inherited frmPemakaianBarcode: TfrmPemakaianBarcode
           inherited cxGridView: TcxGridDBTableView
             object cxcolGridViewColumn1: TcxGridDBColumn
               Caption = 'SUPPLIER CODE'
+              Width = 112
             end
             object cxcolGridViewColumn2: TcxGridDBColumn
               Caption = 'SUPPLIER NAME'
+              Width = 132
             end
             object cxcolGridViewColumn3: TcxGridDBColumn
               Caption = 'QTY'
+              Width = 108
             end
             object cxcolGridViewColumn4: TcxGridDBColumn
               Caption = 'TOTAL PRICE PER SUPPLIER'
+              Width = 128
             end
             object cxcolGridViewColumn5: TcxGridDBColumn
               Caption = 'NO POTONGAN'
+              Width = 179
             end
             object cxcolGridViewColumn6: TcxGridDBColumn
               Caption = 'ID'

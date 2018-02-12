@@ -109,8 +109,8 @@ end;
 procedure TfrmCrazyPrice.cxGridViewCellClick(Sender: TcxCustomGridTableView;
     ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
     TShiftState; var AHandled: Boolean);
-var
-  iIDs: string;
+//var
+//  iIDs: string;
 begin
   inherited;
   {if cxGridView.DataController.RecordCount = 1 then

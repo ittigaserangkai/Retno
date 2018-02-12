@@ -74,6 +74,8 @@ type
     FPOTITEM_SATUAN: TModSatuan;
     FPOTITEM_SELLPRICE: Double;
     FPOTITEM_TOTAL: Double;
+  public
+    destructor Destroy; override;
   published
     [AttributeOfForeign]
     property POTITEM_BARANG: TModBarang read FPOTITEM_BARANG write
@@ -106,6 +108,15 @@ begin
     FPOTraderItems := TObjectList<TModPOTraderItem>.Create();
 
   Result := FPOTraderItems;
+end;
+
+destructor TModPOTraderItem.Destroy;
+begin
+  inherited;
+  if FPOTITEM_BARANG <> nil then
+    FreeAndNil(FPOTITEM_BARANG);
+  if FPOTITEM_SATUAN <> nil then
+    FreeAndNil(FPOTITEM_SATUAN);
 end;
 
 Initialization

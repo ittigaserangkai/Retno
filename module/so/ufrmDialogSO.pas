@@ -97,7 +97,6 @@ type
     procedure UpdateData;
     function ValidateGenerate: Boolean;
     property CDS: TClientDataSet read GetCDS write FCDS;
-    property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
     property CDSSuplierMerchan: TClientDataSet read GetCDSSuplierMerchan write
         FCDSSuplierMerchan;
     property ModSO: TModSO read GetModSO write FModSO;
@@ -106,6 +105,7 @@ type
   public
     procedure DoCheckGrid(State: Boolean);
     procedure LoadData(AID: String);
+    property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
     { Public declarations }
   end;
 
@@ -208,7 +208,7 @@ procedure TfrmDialogSO.AddOtherProduct;
 var
   frm: TfrmCXLookup;
   lCDS: TClientDataSet;
-  lMem: TFDMemTable;
+//  lMem: TFDMemTable;
   lStart: TDateTime;
 begin
   inherited;
@@ -547,11 +547,11 @@ end;
 
 procedure TfrmDialogSO.LoadData(AID: String);
 var
-  i: Integer;
-  lBrg: TModBarang;
+//  i: Integer;
+//  lBrg: TModBarang;
   lCDS: TDataSet;
-  lDetail: TModSODetail;
-  lDisc: Double;
+//  lDetail: TModSODetail;
+//  lDisc: Double;
   lSO: TSuggestionOrderClient;
 begin
   If Assigned(FModSO) then FModSO.Free;

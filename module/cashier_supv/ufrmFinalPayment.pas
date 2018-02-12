@@ -54,19 +54,18 @@ type
   private
 //    dataBeginningBlnc: TDataSet;
     FCDS: TClientDataSet;
-    function GetAddedValue(BalanceID, BalanceUnitID: Integer): TStrings;
     function IsShiftExist: Boolean;
 //    dataFinPay: TResultDataSet;
-
-    procedure ParseHeaderGrid(jmlData: Integer);
-    procedure ParseDataGrid();
-    procedure ParseFooterGrid;
-    procedure PrintFinalPayment(BalanceID, BalanceUnitID: Integer);
     procedure ShowPopUpHistoryCashDropFinalPay();
     property CDS: TClientDataSet read FCDS write FCDS;
   public
     FShiftID: string;
     procedure RefreshData; override;
+     function GetAddedValue(BalanceID, BalanceUnitID: Integer): TStrings;
+    procedure ParseHeaderGrid(jmlData: Integer);
+    procedure ParseDataGrid();
+    procedure ParseFooterGrid;
+    procedure PrintFinalPayment(BalanceID, BalanceUnitID: Integer);
   end;
 
 var
@@ -114,7 +113,7 @@ LAST FINAL PAY.
 
 
 procedure TfrmFinalPayment.actAddExecute(Sender: TObject);
-var BalanceID ,BalanceUntID : Integer;
+//var BalanceID ,BalanceUntID : Integer;
 begin
   inherited;
   {TryStrToInt(strgGrid.cells[_KolBegBalance,strgGrid.Row], BalanceID);
@@ -209,9 +208,9 @@ begin
 end;
 
 procedure TfrmFinalPayment.ParseDataGrid;
-var
-  i: Integer;
-    tempBool: Boolean;
+//var
+//  i: Integer;
+//    tempBool: Boolean;
 begin
   {with TNewFinalPayment.Create(Self) do
   begin
@@ -425,18 +424,18 @@ begin
 end;
 
 procedure TfrmFinalPayment.fraFooter5Button1btnPrintClick(Sender: TObject);
-  var BalanceID,BalanceUntID : Integer;
+//  var BalanceID,BalanceUntID : Integer;
 begin
   inherited;
 //  TryStrToInt(strgGrid.cells[_KolBegBalance,strgGrid.Row], BalanceID);
 //  TryStrToInt(strgGrid.cells[_KolBegBalanceUnt,strgGrid.Row], BalanceUntID);
-  PrintFinalPayment(BalanceID, BalanceUntID);
+//  PrintFinalPayment(BalanceID, BalanceUntID);
 end;
 
 function TfrmFinalPayment.GetAddedValue(BalanceID, BalanceUnitID: Integer):
     TStrings;
-var i, RecNO:Integer;
-    CurrDropping,CashBack,Payment,Physical,Voucher,OtherVoucher,Card,DiscCard : Double;
+//var i, RecNO:Integer;
+//    CurrDropping,CashBack,Payment,Physical,Voucher,OtherVoucher,Card,DiscCard : Double;
 begin
   {Result := TStringList.Create;
   RecNo := 0;
@@ -468,6 +467,7 @@ begin
   Result.Append(FloatToStr(DiscCard) + ' as  DiscCard ,');
   Result.Append(QuotedStr(FLoginUsername) + ' as  LoginUserName ,');
   }
+  Result := nil;
 end;
 
 function TfrmFinalPayment.IsShiftExist: Boolean;

@@ -97,7 +97,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCRUDBarang, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudPOTrader, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudTransferBarang, DSServerClass.LifeCycle);
-  TCustServerClass.Create(Self, DSServer, TCrudBankCashIn, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCRUDDOTrader, DSServerClass.LifeCycle);
 
 end;
 

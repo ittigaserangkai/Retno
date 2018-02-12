@@ -176,12 +176,16 @@ type
         TModUnit = nil): TDataset;
     function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
+    function BarcodeUsage_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
+        TModUnit = nil): TDataset;
     function RekeningHutang_GetDSLookup: TDataSet;
     function RekeningPiutang_GetDSLookup: TDataSet;
     function ReturTrader_GetDSLookUp: TDataSet;
     function ReturTrader_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function KonversiSatuan_GetDS(ABarangID: String): TDataSet;
+    function POTrader_GetLookupForDO(ATglAwal, ATglAkhir: TDateTime; AUnitID:
+        String): TDataset;
   end;
 
   TDSReport = class(TComponent)
@@ -206,6 +210,7 @@ type
         aGudang_ID: string): TDataSet;
     function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
         string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
         ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
@@ -1775,6 +1780,21 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.BarcodeUsage_GetDSOverview(ATglAwal , ATglAkhir :
+    TDateTime; AUnit : TModUnit = nil): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT * FROM V_BARCODE_USAGE' +
+          ' WHERE TANGGAL BETWEEN ' + TDBUtils.QuotDt(StartOfTheDay(ATglAwal)) +
+          ' AND ' + TDBUtils.QuotDt(EndOfTheDay(ATglAkhir));
+
+  if AUnit <> nil then
+    sSQL := sSQL + ' and BU_UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSProvider.RekeningHutang_GetDSLookup: TDataSet;
 var
   S: string;
@@ -1823,6 +1843,28 @@ begin
         ' WHERE BARANG_ID = ' + QuotedStr(ABarangID);
   Result := TDBUtils.OpenQuery(S);
 
+end;
+
+function TDSProvider.POTrader_GetLookupForDO(ATglAwal, ATglAkhir: TDateTime;
+    AUnitID: String): TDataset;
+var
+  sSQL: string;
+begin
+  ATglAwal  := StartOfTheDay(ATglAwal);
+  ATglAkhir := EndOfTheDay(ATglAkhir);
+
+  sSQL := 'select * from V_POTRADER where IsNull(POT_STATUS,'''') <> ''DELIVERED'' ';
+
+  sSQL := sSQL + ' and POT_DATE between ' + TDBUtils.QuotDt(ATglAwal)
+        +' and ' + TDBUtils.QuotDt(ATglAkhir);
+
+  if AUnitID <> '' then
+    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+
+  sSQL := sSQL + ' order by POT_NO';
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:
@@ -2090,6 +2132,19 @@ begin
         + QuotedStr(aNoBuktiAkhir);
 
   S := S + ' order by PO_NO';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  S := 'SELECT * FROM V_TRANSFERBARANGREPORT WHERE TRANSFERBARANG_ID = '
+      + QuotedStr(aID);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 

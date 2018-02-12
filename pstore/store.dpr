@@ -248,7 +248,10 @@ uses
   ufrmTransferBarang in '..\module\inventory\ufrmTransferBarang.pas' {frmTransferBarang},
   uModTransferBarang in '..\model\uModTransferBarang.pas',
   ufrmDialogTransferBarang in '..\module\inventory\ufrmDialogTransferBarang.pas' {frmDialogTransferBarang},
-  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas';
+  uModBarcodeRequest in '..\model\uModBarcodeRequest.pas',
+  ufrmDialogBarcodeUsage in '..\module\inventory\ufrmDialogBarcodeUsage.pas' {frmDialogBarcodeUsage},
+  ufrmBarcodeUsage in '..\module\inventory\ufrmBarcodeUsage.pas' {frmBarcodeUsage},
+  uModBarcodeUsage in '..\model\uModBarcodeUsage.pas';
 
 {$R *.res}
 

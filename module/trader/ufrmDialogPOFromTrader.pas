@@ -472,7 +472,7 @@ begin
   ModPOTrader.POT_Organization  := FOrganization;
   ModPOTrader.POT_PPNBM         := 0;
   ModPOTrader.POT_TOP           := 0;//edTOP.EditValue;
-  ModPOTrader.POT_UNIT          := TModUnit.CreateID(TRetno.UnitStore.ID);;
+  ModPOTrader.POT_UNIT          := TModUnit.CreateID(TRetno.UnitStore.ID);
   ModPOTrader.POT_VALID_DATE    := IncDay(ModPOTrader.POT_DATE,7);
 
   ModPOTrader.POTraderItems.Clear;
