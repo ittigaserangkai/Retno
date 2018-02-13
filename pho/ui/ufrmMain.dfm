@@ -730,7 +730,7 @@ object frmMain: TfrmMain
     end
     object actAPPayment: TAction
       Category = 'Finance'
-      Caption = '&Payment'
+      Caption = 'Cash Out'
       ImageIndex = 47
       OnExecute = actAPPaymentExecute
     end
