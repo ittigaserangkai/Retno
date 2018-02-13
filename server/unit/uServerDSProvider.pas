@@ -4,7 +4,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils,
   uModUnit, Data.FireDACJSONReflect, FireDAC.Stan.StorageBin, uServerClasses,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, Datasnap.DBClient;
 
 type
   {$METHODINFO ON}
@@ -190,6 +190,7 @@ type
 
   TDSReport = class(TComponent)
   public
+    function AgingPiutang: TFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir: TDatetime;
         ANoBukti : String): TFDJSONDataSets;
     function Claim_by_Id(id: string): TFDJSONDataSets;
@@ -1865,6 +1866,15 @@ begin
 
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSReport.AgingPiutang: TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  sSQL := 'select * from V_AGING_AR order by org_code';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:

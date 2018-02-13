@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/12/2018 8:37:18 AM
+// 2/12/2018 4:00:00 PM
 //
 
 unit uClientClasses;
@@ -700,6 +700,8 @@ type
 
   TDSReportClient = class(TDSAdminRestClient)
   private
+    FAgingPiutangCommand: TDSRestCommand;
+    FAgingPiutangCommand_Cache: TDSRestCommand;
     FBankCashOut_GetDS_SlipCommand: TDSRestCommand;
     FBankCashOut_GetDS_SlipCommand_Cache: TDSRestCommand;
     FClaim_by_IdCommand: TDSRestCommand;
@@ -740,6 +742,8 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function AgingPiutang(const ARequestFilter: string = ''): TFDJSONDataSets;
+    function AgingPiutang_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function BankCashOut_GetDS_Slip_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function Claim_by_Id(id: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -4033,6 +4037,16 @@ const
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_AgingPiutang: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_AgingPiutang_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -13486,6 +13500,44 @@ begin
   inherited;
 end;
 
+function TDSReportClient.AgingPiutang(const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FAgingPiutangCommand = nil then
+  begin
+    FAgingPiutangCommand := FConnection.CreateCommand;
+    FAgingPiutangCommand.RequestType := 'GET';
+    FAgingPiutangCommand.Text := 'TDSReport.AgingPiutang';
+    FAgingPiutangCommand.Prepare(TDSReport_AgingPiutang);
+  end;
+  FAgingPiutangCommand.Execute(ARequestFilter);
+  if not FAgingPiutangCommand.Parameters[0].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FAgingPiutangCommand.Parameters[0].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FAgingPiutangCommand.Parameters[0].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FAgingPiutangCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.AgingPiutang_Cache(const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FAgingPiutangCommand_Cache = nil then
+  begin
+    FAgingPiutangCommand_Cache := FConnection.CreateCommand;
+    FAgingPiutangCommand_Cache.RequestType := 'GET';
+    FAgingPiutangCommand_Cache.Text := 'TDSReport.AgingPiutang';
+    FAgingPiutangCommand_Cache.Prepare(TDSReport_AgingPiutang_Cache);
+  end;
+  FAgingPiutangCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FAgingPiutangCommand_Cache.Parameters[0].Value.GetString);
+end;
+
 function TDSReportClient.BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FBankCashOut_GetDS_SlipCommand = nil then
@@ -14232,6 +14284,8 @@ end;
 
 destructor TDSReportClient.Destroy;
 begin
+  FAgingPiutangCommand.DisposeOf;
+  FAgingPiutangCommand_Cache.DisposeOf;
   FBankCashOut_GetDS_SlipCommand.DisposeOf;
   FBankCashOut_GetDS_SlipCommand_Cache.DisposeOf;
   FClaim_by_IdCommand.DisposeOf;

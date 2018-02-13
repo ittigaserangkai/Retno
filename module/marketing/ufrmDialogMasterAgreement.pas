@@ -108,14 +108,14 @@ type
     FCurrTipeProdukId: string;
 //    StaProID: Integer;
 
-    procedure LoadDropDownData(ACombo: TcxLookupComboBox; aSQL: string);
+//    procedure LoadDropDownData(ACombo: TcxLookupComboBox; aSQL: string);
     procedure showDataEdit();
-    function checkEmpty(): Boolean;
-    function SaveAgreement(aAgreementID: Integer=0): Boolean;
-    function AddDetilAgreement(AGR_ID: Integer): Boolean;
-    function AddJadwalAgreement(AGR_ID: Integer): Boolean;
+//    function checkEmpty(): Boolean;
+//    function SaveAgreement(aAgreementID: Integer=0): Boolean;
+//    function AddDetilAgreement(AGR_ID: Integer): Boolean;
+//    function AddJadwalAgreement(AGR_ID: Integer): Boolean;
 //    function UpdateAgreement(): Boolean;
-    function CountTotal(): Currency;
+//    function CountTotal(): Currency;
 //    procedure LoadDataPajak;
     procedure CountEndEffectiveDate();
 //    function GetSQLsearchProjasByCode(AprojasCode: string): string;
@@ -179,149 +179,150 @@ const
 
 
 
-function TfrmDialogMasterAgreement.AddJadwalAgreement(AGR_ID: Integer): Boolean;
-var
-    countI: Integer;
-    tempDate: TDateTime;
-    {tempJmlPer,}tempJmlInv: Integer;
-    tempInvNo: string;
-    tempTotal: Currency;
-    myDate: TDateTime;
-    AGRJDWL_ID: Integer;
-begin
-  //init
-//  Result := False;
 
-  tempJmlInv := Round(intedtInvoice.Value);
-
-  tempTotal := CountTotal / intedtInvoice.Value;
-
-  tempDate := dtStart.Date;
-  myDate   := dtStart.Date;
-
-  if tempJmlInv > 0 then
-  for countI := 1 to tempJmlInv do
-  begin
-    if IsValidDate(YearOf(myDate),MonthOf(myDate) + 1,DayOf(dtEnd.Date)) then
-    begin
-      myDate := EncodeDate(YearOf(myDate),MonthOf(myDate) + 1,DayOf(dtEnd.Date));
-    end
-    else
-    begin
-      if MonthOf(myDate) + 1 > 12 then
-        myDate := EncodeDate(YearOf(myDate) + 1,1,DayOf(dtEnd.Date))
-      else
-        myDate := EncodeDate(YearOf(myDate),MonthOf(myDate) + 1,
-                              DaysInAMonth(YearOf(myDate),MonthOf(myDate) + 1));
-    end;
-
-//    if (strgGrid2.Ints[_Kol2ID_JDWL_AGREEMENT, countI]=0) or (AGR_ID=0) then
+//function TfrmDialogMasterAgreement.AddJadwalAgreement(AGR_ID: Integer): Boolean;
+//var
+//    countI: Integer;
+//    tempDate: TDateTime;
+//    {tempJmlPer,}tempJmlInv: Integer;
+//    tempInvNo: string;
+//    tempTotal: Currency;
+//    myDate: TDateTime;
+//    AGRJDWL_ID: Integer;
+//begin
+//  //init
+////  Result := False;
+//
+//  tempJmlInv := Round(intedtInvoice.Value);
+//
+//  tempTotal := CountTotal / intedtInvoice.Value;
+//
+//  tempDate := dtStart.Date;
+//  myDate   := dtStart.Date;
+//
+//  if tempJmlInv > 0 then
+//  for countI := 1 to tempJmlInv do
+//  begin
+//    if IsValidDate(YearOf(myDate),MonthOf(myDate) + 1,DayOf(dtEnd.Date)) then
 //    begin
-//        AGRJDWL_ID := 0;
-//        tempInvNo  := GetInvoiceNumber(DialogUnit, tempDate);
+//      myDate := EncodeDate(YearOf(myDate),MonthOf(myDate) + 1,DayOf(dtEnd.Date));
 //    end
 //    else
 //    begin
-//        AGRJDWL_ID := strgGrid2.Ints[_Kol2ID_JDWL_AGREEMENT, countI];
-//        tempInvNo  := strgGrid2.Cells[_Kol2INVOICE_NO, countI];
+//      if MonthOf(myDate) + 1 > 12 then
+//        myDate := EncodeDate(YearOf(myDate) + 1,1,DayOf(dtEnd.Date))
+//      else
+//        myDate := EncodeDate(YearOf(myDate),MonthOf(myDate) + 1,
+//                              DaysInAMonth(YearOf(myDate),MonthOf(myDate) + 1));
 //    end;
 //
-//    FNewMasterAgreement.UpdateNewAgreementJadwals(myDate, '',
-//                 '', '', tempTotal, AGRJDWL_ID, tempDate, edtDesc.Text, tempDate + TOP,
-//                 0, 0, tempInvNo, 0, (countI), tempTotal, DialogUnit,
-//                 StaProID, DialogUnit);
-
-    if IsValidDate(YearOf(tempDate),MonthOf(tempDate) + 1,DayOf(tempDate)) then
-    begin
-      tempDate := EncodeDate(YearOf(tempDate),MonthOf(tempDate) + 1,DayOf(dtStart.Date));
-    end
-    else
-    begin
-      if MonthOf(tempDate) + 1 > 12 then
-        tempDate := EncodeDate(YearOf(tempDate) + 1,1,DayOf(dtStart.Date))
-      else
-        tempDate := EncodeDate(YearOf(tempDate),MonthOf(tempDate) + 1,
-                                DaysInAMonth(YearOf(tempDate),MonthOf(tempDate) + 1));
-    end;
-  end;
-   
-  Result := True;
-end;
-
-function TfrmDialogMasterAgreement.AddDetilAgreement(AGR_ID: Integer): Boolean;
-var AGRD_ID: Integer;
-    intI: Integer;
-    QTY_ORDER: Double;
-    UNIT_PRICE, UNIT_PRICE_PPN, SUBTOTAL,TOTAL: Currency;
-    PROJAS_CODE: string;
-    staCek: Boolean;
-begin
-  //init
-  Result := False;
-//  if strgGrid.RowCount = 1 then
-//  begin
-//    Result := True;
-//  end
-//  else
-//  for intI := 1 to strgGrid.RowCount-1 do //dimulai dari row k2 [setelah header]
-//  begin
-//    if Trim(strgGrid.Cells[_KolCODE, intI]) = '' then
+////    if (strgGrid2.Ints[_Kol2ID_JDWL_AGREEMENT, countI]=0) or (AGR_ID=0) then
+////    begin
+////        AGRJDWL_ID := 0;
+////        tempInvNo  := GetInvoiceNumber(DialogUnit, tempDate);
+////    end
+////    else
+////    begin
+////        AGRJDWL_ID := strgGrid2.Ints[_Kol2ID_JDWL_AGREEMENT, countI];
+////        tempInvNo  := strgGrid2.Cells[_Kol2INVOICE_NO, countI];
+////    end;
+////
+////    FNewMasterAgreement.UpdateNewAgreementJadwals(myDate, '',
+////                 '', '', tempTotal, AGRJDWL_ID, tempDate, edtDesc.Text, tempDate + TOP,
+////                 0, 0, tempInvNo, 0, (countI), tempTotal, DialogUnit,
+////                 StaProID, DialogUnit);
+//
+//    if IsValidDate(YearOf(tempDate),MonthOf(tempDate) + 1,DayOf(tempDate)) then
 //    begin
-//      Continue;
-//    end;
-//    PROJAS_CODE := strgGrid.Cells[_KolCODE,intI];
-//    try
-//      QTY_ORDER := (strgGrid.Floats[_KolQTY_ORDER,intI]);
-//    except
-//      QTY_ORDER := 0;
-//    end;
-//    try
-//      UNIT_PRICE := (strgGrid.Floats[_KolPROJAS_PRICE,intI]);
-//    except
-//      UNIT_PRICE := 0;
-//    end;
-//    try
-//      SUBTOTAL := (strgGrid.Floats[_KolSUB_TOTAL,intI]);
-//    except
-//      SUBTOTAL := 0;
-//    end;
-//    try
-//      TOTAL := (strgGrid.Floats[_KolTOTAL_AMOUNT,intI]);
-//    except
-//      TOTAL := 0;
-//    end;
-//    try
-//      if (strgGrid.Ints[_KolID_DETIL_AGREEMENT,intI] = 0) or (AGR_ID=0) then
-//         AGRD_ID := 0
+//      tempDate := EncodeDate(YearOf(tempDate),MonthOf(tempDate) + 1,DayOf(dtStart.Date));
+//    end
+//    else
+//    begin
+//      if MonthOf(tempDate) + 1 > 12 then
+//        tempDate := EncodeDate(YearOf(tempDate) + 1,1,DayOf(dtStart.Date))
 //      else
-//         AGRD_ID := StrToInt(strgGrid.Cells[_KolID_DETIL_AGREEMENT,intI]);
-//    except
-//      AGRD_ID := 0;
+//        tempDate := EncodeDate(YearOf(tempDate),MonthOf(tempDate) + 1,
+//                                DaysInAMonth(YearOf(tempDate),MonthOf(tempDate) + 1));
 //    end;
-//    strgGrid.GetCheckBoxState(_KolPRICE_PPN,intI,staCek);
-//    try
-//      if staCek then
-//         UNIT_PRICE_PPN := (strgGrid.Floats[_KolPJK_PPN,intI])
-//      else
-//         UNIT_PRICE_PPN := 0;
-//    except
-//      UNIT_PRICE_PPN := 10; //change with search to default
-//    end;
-//
-//    FNewMasterAgreement.UpdateNewMasterAgreementItems(
-//                  AGRD_ID, DialogUnit, UNIT_PRICE,UNIT_PRICE_PPN,
-//                  PROJAS_CODE, DialogUnit, QTY_ORDER,SUBTOTAL,TOTAL
-//      );
-//    Result := True;
 //  end;
+//
+//  Result := True;
+//end;
 
-end;
+//function TfrmDialogMasterAgreement.AddDetilAgreement(AGR_ID: Integer): Boolean;
+//var AGRD_ID: Integer;
+//    intI: Integer;
+//    QTY_ORDER: Double;
+//    UNIT_PRICE, UNIT_PRICE_PPN, SUBTOTAL,TOTAL: Currency;
+//    PROJAS_CODE: string;
+//    staCek: Boolean;
+//begin
+//  //init
+//  Result := False;
+////  if strgGrid.RowCount = 1 then
+////  begin
+////    Result := True;
+////  end
+////  else
+////  for intI := 1 to strgGrid.RowCount-1 do //dimulai dari row k2 [setelah header]
+////  begin
+////    if Trim(strgGrid.Cells[_KolCODE, intI]) = '' then
+////    begin
+////      Continue;
+////    end;
+////    PROJAS_CODE := strgGrid.Cells[_KolCODE,intI];
+////    try
+////      QTY_ORDER := (strgGrid.Floats[_KolQTY_ORDER,intI]);
+////    except
+////      QTY_ORDER := 0;
+////    end;
+////    try
+////      UNIT_PRICE := (strgGrid.Floats[_KolPROJAS_PRICE,intI]);
+////    except
+////      UNIT_PRICE := 0;
+////    end;
+////    try
+////      SUBTOTAL := (strgGrid.Floats[_KolSUB_TOTAL,intI]);
+////    except
+////      SUBTOTAL := 0;
+////    end;
+////    try
+////      TOTAL := (strgGrid.Floats[_KolTOTAL_AMOUNT,intI]);
+////    except
+////      TOTAL := 0;
+////    end;
+////    try
+////      if (strgGrid.Ints[_KolID_DETIL_AGREEMENT,intI] = 0) or (AGR_ID=0) then
+////         AGRD_ID := 0
+////      else
+////         AGRD_ID := StrToInt(strgGrid.Cells[_KolID_DETIL_AGREEMENT,intI]);
+////    except
+////      AGRD_ID := 0;
+////    end;
+////    strgGrid.GetCheckBoxState(_KolPRICE_PPN,intI,staCek);
+////    try
+////      if staCek then
+////         UNIT_PRICE_PPN := (strgGrid.Floats[_KolPJK_PPN,intI])
+////      else
+////         UNIT_PRICE_PPN := 0;
+////    except
+////      UNIT_PRICE_PPN := 10; //change with search to default
+////    end;
+////
+////    FNewMasterAgreement.UpdateNewMasterAgreementItems(
+////                  AGRD_ID, DialogUnit, UNIT_PRICE,UNIT_PRICE_PPN,
+////                  PROJAS_CODE, DialogUnit, QTY_ORDER,SUBTOTAL,TOTAL
+////      );
+////    Result := True;
+////  end;
+//
+//end;
 
-function TfrmDialogMasterAgreement.SaveAgreement(aAgreementID: Integer=0):
-    Boolean;
-var {tempResult1,}tempResult2,tempResult3: Boolean;
-    iSup_Unt_ID: Integer;
-begin
+//function TfrmDialogMasterAgreement.SaveAgreement(aAgreementID: Integer=0):
+//    Boolean;
+//var {tempResult1,}tempResult2,tempResult3: Boolean;
+//    iSup_Unt_ID: Integer;
+//begin
 //  if not Assigned(MasterAgreement) then MasterAgreement := TMasterAgreement.Create;
 
 //  AGR_ID := MasterAgreement.GetLastIDAgreement;
@@ -330,7 +331,7 @@ begin
    PerID,intedtInvoice.Value,
    isPKP,isPPN,isPPH,edtDesc.Text,CustCode,FLoginId, PajakId, DialogUnit);
 }
-  Result := False;
+//  Result := False;
 //  if AgreementID>0 then
 //     FNewMasterAgreement.LoadByID(aAgreementID, DialogUnit);
 //  if Trim(cbSupCode.Text)='' then
@@ -344,12 +345,12 @@ begin
 //             DialogUnit, intedtPeriode.Value, DialogUnit, DialogUnit,
 //             isPPN, isPPH, edtDesc.Text);
 
-  tempResult2 := AddDetilAgreement(aAgreementID);
+//  tempResult2 := AddDetilAgreement(aAgreementID);
 //  if (OldTermPeriode=intedtPeriode.Value)And(OldPeriode=cbpPeriode.Value)
 //  And(OldNoOfInvoice=intedtInvoice.Value)And(OldInvoiceTotal=curredtTotal.Value) then
 //     tempResult3 := True
 //  else
-     tempResult3 := AddJadwalAgreement(aAgreementID);
+//     tempResult3 := AddJadwalAgreement(aAgreementID);
 
 //  try
 //  if tempResult2 and tempResult3 then
@@ -376,13 +377,13 @@ begin
 //    Close;
 //  end;
 
-end;
+//end;
 
-function TfrmDialogMasterAgreement.checkEmpty(): Boolean;
+//function TfrmDialogMasterAgreement.checkEmpty(): Boolean;
 //var countChk: Integer;
 //    projasCode: string;
 //    errorField: string;
-begin
+//begin
   //init
 //  Result := True;
 //  errorField := ' ';
@@ -469,7 +470,7 @@ begin
 ////  end; //f strgrid.rowcnt
 //
 //  //jadwal agreement
-end;
+//end;
 
 procedure TfrmDialogMasterAgreement.footerDialogMasterbtnSaveClick(
   Sender: TObject);
@@ -477,6 +478,7 @@ procedure TfrmDialogMasterAgreement.footerDialogMasterbtnSaveClick(
 //  IDLokal: Integer;
 
 begin
+  {
   if not (checkEmpty) then Exit;
 
   if cbbPKP.Text = 'PKP' then
@@ -505,6 +507,7 @@ begin
 
   if IsProcessSuccessfull then
     Close;
+  }
 end;
 
 procedure TfrmDialogMasterAgreement.FormKeyUp(Sender: TObject;
@@ -641,9 +644,9 @@ begin
   frmDialogMasterAgreement := nil;
 end;
 
-procedure TfrmDialogMasterAgreement.LoadDropDownData(ACombo: TcxLookupComboBox;
-    aSQL: string);
-begin
+//procedure TfrmDialogMasterAgreement.LoadDropDownData(ACombo: TcxLookupComboBox;
+//    aSQL: string);
+//begin
 //  {Flush the old data}
 //  ACombo.ClearGridData;
 //
@@ -862,7 +865,7 @@ begin
 //  ACombo.SizeGridToData;
 //  //trik to activate acombo
 //  ACombo.FixedRows := 1;
-end;
+//end;
 
 procedure TfrmDialogMasterAgreement.cbpSupCodeCloseUp(Sender: TObject);
 begin
@@ -876,13 +879,13 @@ end;
 
 procedure TfrmDialogMasterAgreement.strgGridCellValidate(Sender: TObject;
   ACol, ARow: Integer; var Value: String; var Valid: Boolean);
-var
-    tempProjasCode: string;
-    tempTotal: Currency;
+//var
+//    tempProjasCode: string;
+//    tempTotal: Currency;
 //    countVal: Integer;
-    staCek: Boolean;
-    tempPrice, tempPricePPN: Currency;
-    tempPPN: Real;
+//    staCek: Boolean;
+//    tempPrice, tempPricePPN: Currency;
+//    tempPPN: Real;
 begin
 //  if ACol = _KolCODE then
 //  begin
@@ -1260,20 +1263,20 @@ begin
   Key := UpCase(Key);
 end;
 
-function TfrmDialogMasterAgreement.CountTotal: Currency;
-var cTemp: Currency;
-//    i: Integer;
-begin
-  cTemp := 0;
-
-//  for i := 1 to strgGrid.RowCount - 1 do
-//  begin
-//    if strgGrid.Cells[_KolTOTAL_AMOUNT, i] <> '' then
-//      cTemp := cTemp + (strgGrid.Floats[_KolTOTAL_AMOUNT, i]);
-//  end;
-
-  Result := cTemp;
-end;
+//function TfrmDialogMasterAgreement.CountTotal: Currency;
+//var cTemp: Currency;
+////    i: Integer;
+//begin
+//  cTemp := 0;
+//
+////  for i := 1 to strgGrid.RowCount - 1 do
+////  begin
+////    if strgGrid.Cells[_KolTOTAL_AMOUNT, i] <> '' then
+////      cTemp := cTemp + (strgGrid.Floats[_KolTOTAL_AMOUNT, i]);
+////  end;
+//
+//  Result := cTemp;
+//end;
 
 procedure TfrmDialogMasterAgreement.intedtInvoiceExit(Sender: TObject);
 begin
@@ -1502,19 +1505,19 @@ begin
 end;
 
 function TfrmDialogMasterAgreement.getNewAgreementNo: string;
-var
-  sSQL, aFormat : String;
-  iLastNo, iLengthFormat : integer;
+//var
+//  sSQL, aFormat : String;
+//  iLastNo, iLengthFormat : integer;
 begin
 //  iLastNo := 0;
 //  aFormat := getGlobalVar('MAGM_NO');
-  if aFormat='' then
-     aFormat := '"AGM"YYMM';
-  aFormat := FormatDateTime(aFormat, dtStart.Date);
+//  if aFormat='' then
+//     aFormat := '"AGM"YYMM';
+//  aFormat := FormatDateTime(aFormat, dtStart.Date);
 //  iLengthFormat := Length(aFormat);
-  sSQL    := 'Select AGR_NO from AGREEMENT '
-          +  ' where AGR_NO like ' + QuotedStr('%'+aFormat+'%')
-          +  ' order by AGR_NO Desc';  //tak mengenal Company
+//  sSQL    := 'Select AGR_NO from AGREEMENT '
+//          +  ' where AGR_NO like ' + QuotedStr('%'+aFormat+'%')
+//          +  ' order by AGR_NO Desc';  //tak mengenal Company
 //  with cOpenQuery(sSQL) do
 //  begin
 //    try

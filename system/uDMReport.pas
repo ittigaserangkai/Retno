@@ -1,4 +1,4 @@
-unit udmReport;
+﻿unit udmReport;
 
 interface
 
@@ -272,9 +272,19 @@ begin
     IBQ2.UserName := 'IBQ2';
     IBQ3.UserName := 'IBQ3';
   end else begin
-    IBQ1.UserName := ANamaQuery[0];
-    IBQ2.UserName := ANamaQuery[1];
-    IBQ3.UserName := ANamaQuery[2];
+    if Length(ANamaQuery) = 3 then
+    begin
+      IBQ1.UserName := ANamaQuery[0];
+      IBQ2.UserName := ANamaQuery[1];
+      IBQ3.UserName := ANamaQuery[2];
+    end else if Length(ANamaQuery) = 2 then
+    begin
+      IBQ1.UserName := ANamaQuery[0];
+      IBQ2.UserName := ANamaQuery[1];
+    end  else if Length(ANamaQuery) = 1 then
+    begin
+      IBQ1.UserName := ANamaQuery[0];
+    end;
   end;
 //    ANamaQuery := TStringArray.Create('IBQ1', 'IBQ2', 'IBQ3');
 

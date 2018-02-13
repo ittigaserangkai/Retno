@@ -160,7 +160,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbMembership: TdxRibbonTab
-      Active = True
       Caption = 'Membership'
       Groups = <
         item
@@ -170,6 +169,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
+      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -1484,6 +1484,12 @@ object frmMain: TfrmMain
       Caption = 'Cash In'
       OnExecute = actCashInExecute
     end
+    object actLaporanAgingAR: TAction
+      Category = 'Accounting'
+      Caption = 'Aging Piutang'
+      ImageIndex = 55
+      OnExecute = actLaporanAgingARExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1960,6 +1966,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnCashIn'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnARAging'
         end>
       OneOnRow = False
       Row = 0
@@ -2402,6 +2412,10 @@ object frmMain: TfrmMain
     end
     object dxbrbtnBarcodeReq: TdxBarButton
       Action = actBarcodeRequest
+      Category = 0
+    end
+    object dxbrbtnARAging: TdxBarButton
+      Action = actLaporanAgingAR
       Category = 0
     end
   end

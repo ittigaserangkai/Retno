@@ -35,12 +35,14 @@ type
     class function GenerateSQLUpdate(AObject : TModApp): string; overload;
   public
     class procedure Commit;
+    class function CopyDataset(Source: TClientDataSet): TClientDataSet;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
     class function CreateObjectDataSet(aObjectClass: TModAppClass; aOwner:
         TComponent; CreateDataSet: Boolean = True): TClientDataSet;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
+
     class procedure TemporaryForHideWarning;
     class function ExecuteSQL(ASQL: String; DoCommit: Boolean = True): LongInt;
         overload;
@@ -1197,6 +1199,47 @@ begin
   Self.FieldValues[DestFieldName] := SourceDataSet.FieldValues[SourceField];
 end;
 
+class function TDBUtils.CopyDataset(Source: TClientDataSet): TClientDataSet;
+var
+  i: Integer;
+  lFieldName: string;
+  lRecNo: Integer;
+begin
+  Result := TClientDataSet.Create(nil);
+  Result.FieldDefs.Assign(Source.FieldDefs);
+  for i := 0 to Result.FieldDefs.Count-1 do
+  begin
+    Result.FieldDefs[i].Required := False;
+    If Result.FieldDefs[i].DataType = ftAutoInc then
+      Result.FieldDefs[i].DataType := ftInteger;
+  end;
+  Result.CreateDataSet;
+  for i := 0 to Result.Fields.Count-1 do
+  begin
+    Result.Fields[i].ReadOnly := False;
+  end;
+  lRecNo := Source.RecNo;
+  Source.DisableControls;
+  Try
+    Source.First;
+    While not Source.Eof do
+    begin
+      Result.Append;
+      for i:=0 to Source.FieldCount-1 do
+      begin
+        lFieldName := Source.Fields[i].FieldName;
+        Result.FieldByName(lFieldName).Value := Source.FieldByName(lFieldName).Value;
+      end;
+      Result.Post;
+
+      Source.Next;
+    end;
+    Result.First;
+  Finally
+    Source.RecNo := lRecNo;
+    Source.EnableControls;
+  end;
+end;
 initialization
   DebugSS := TStringList.Create;
 

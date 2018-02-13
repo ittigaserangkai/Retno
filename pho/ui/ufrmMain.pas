@@ -11,7 +11,7 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
-  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn;
+  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn, ufrmAgingPiutang;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -415,6 +415,8 @@ type
     dxbrbtnCashIn: TdxBarButton;
     actCashIn: TAction;
     dxbrbtnBarcodeReq: TdxBarButton;
+    dxbrbtnARAging: TdxBarButton;
+    actLaporanAgingAR: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -453,6 +455,7 @@ type
     procedure actKategoriExecute(Sender: TObject);
     procedure actKompetitorExecute(Sender: TObject);
     procedure actLapInvMovementQtyExecute(Sender: TObject);
+    procedure actLaporanAgingARExecute(Sender: TObject);
     procedure actLaporanStokExecute(Sender: TObject);
     procedure actLapReturSupExecute(Sender: TObject);
     procedure actListingPObyMGExecute(Sender: TObject);
@@ -843,6 +846,11 @@ end;
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
 begin
   frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+end;
+
+procedure TfrmMain.actLaporanAgingARExecute(Sender: TObject);
+begin
+  frmAgingPiutang := TfrmAgingPiutang.Create(nil);
 end;
 
 procedure TfrmMain.actLaporanStokExecute(Sender: TObject);
