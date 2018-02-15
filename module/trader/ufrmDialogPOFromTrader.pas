@@ -117,8 +117,8 @@ procedure TfrmDialogPOFromTrader.actPrintExecute(Sender: TObject);
 begin
   inherited;
   DmReport.ExecuteReport(
-    'reports\POTrader_Slip' ,
-    DMReport.ReportClient.TransferBarang_SlipByID(id) ,
+    'reports\POTrader_Slip',
+    DMReport.ReportClient.POTrader_SlipByID(ModPOTrader.ID),
     []
   );
 end;

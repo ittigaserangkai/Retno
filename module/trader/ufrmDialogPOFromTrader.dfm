@@ -341,20 +341,14 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       ExplicitWidth = 787
       inherited lbCTRLEnter: TLabel
         Left = 612
-        Height = 15
         ExplicitLeft = 612
       end
       inherited lbEscape: TLabel
         Left = 703
-        Height = 15
         ExplicitLeft = 703
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 536
-        Height = 15
         ExplicitLeft = 536
       end
     end
