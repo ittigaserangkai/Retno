@@ -1071,9 +1071,9 @@ var
   sSQL: string;
 begin
   sSQL := 'select * from V_POTRADER '
-    + ' where POT_DATE between ' + TDBUtils.QuotDt(APeriodeAwal)
+    + ' where TANGGAL between ' + TDBUtils.QuotDt(APeriodeAwal)
     + ' and ' + TDBUtils.QuotDt(APeriodeAkhir)
-    + ' order by POT_DATE desc, POT_NO desc';
+    + ' order by TANGGAL desc, NOMOR desc';
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -1856,13 +1856,13 @@ begin
 
   sSQL := 'select * from V_POTRADER where IsNull(POT_STATUS,'''') <> ''DELIVERED'' ';
 
-  sSQL := sSQL + ' and POT_DATE between ' + TDBUtils.QuotDt(ATglAwal)
+  sSQL := sSQL + ' and TANGGAL between ' + TDBUtils.QuotDt(ATglAwal)
         +' and ' + TDBUtils.QuotDt(ATglAkhir);
 
   if AUnitID <> '' then
     sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
 
-  sSQL := sSQL + ' order by POT_NO';
+  sSQL := sSQL + ' order by NOMOR';
 
 
   Result := TDBUtils.OpenQuery(sSQL);
