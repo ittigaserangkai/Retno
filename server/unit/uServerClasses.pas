@@ -2093,7 +2093,7 @@ begin
 
     lOrg.Reload(False);
 
-    lDOTrader.DOT_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount.ID);
+    lDOTrader.DOT_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount(False).ID);
 
     if lDOTrader.DOT_AR.AR_PAID > 0then
       raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');

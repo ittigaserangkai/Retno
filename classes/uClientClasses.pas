@@ -1,10 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-<<<<<<< HEAD
-// 2/9/2018 9:40:17 AM
-=======
-// 2/11/2018 1:07:35 PM
->>>>>>> 636e9ef51e23b5d778f0c13882634b0dbbdb3684
+// 2/15/2018 2:12:42 PM
 //
 
 unit uClientClasses;
@@ -730,6 +726,8 @@ type
     FKartuStock_GetDSCommand_Cache: TDSRestCommand;
     FPO_SLIP_ByDateNoBuktiCommand: TDSRestCommand;
     FPO_SLIP_ByDateNoBuktiCommand_Cache: TDSRestCommand;
+    FDOTrader_SlipByIDCommand: TDSRestCommand;
+    FDOTrader_SlipByIDCommand_Cache: TDSRestCommand;
     FTransferBarang_SlipByIDCommand: TDSRestCommand;
     FTransferBarang_SlipByIDCommand_Cache: TDSRestCommand;
     FSO_ByDateCommand: TDSRestCommand;
@@ -770,6 +768,8 @@ type
     function KartuStock_GetDS_Cache(aBarang_ID: string; aStartDate: TDateTime; aEndDate: TDateTime; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function PO_SLIP_ByDateNoBukti(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function PO_SLIP_ByDateNoBukti_Cache(StartDate: TDateTime; EndDate: TDateTime; aNoBuktiAwal: string; aNoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function DOTrader_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function DOTrader_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function TransferBarang_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function TransferBarang_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function SO_ByDate(StartDate: TDateTime; EndDate: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -4177,6 +4177,18 @@ const
     (Name: 'EndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aNoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'aNoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_DOTrader_SlipByID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_DOTrader_SlipByID_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -13828,6 +13840,46 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FPO_SLIP_ByDateNoBuktiCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSReportClient.DOTrader_SlipByID(aID: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FDOTrader_SlipByIDCommand = nil then
+  begin
+    FDOTrader_SlipByIDCommand := FConnection.CreateCommand;
+    FDOTrader_SlipByIDCommand.RequestType := 'GET';
+    FDOTrader_SlipByIDCommand.Text := 'TDSReport.DOTrader_SlipByID';
+    FDOTrader_SlipByIDCommand.Prepare(TDSReport_DOTrader_SlipByID);
+  end;
+  FDOTrader_SlipByIDCommand.Parameters[0].Value.SetWideString(aID);
+  FDOTrader_SlipByIDCommand.Execute(ARequestFilter);
+  if not FDOTrader_SlipByIDCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FDOTrader_SlipByIDCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FDOTrader_SlipByIDCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FDOTrader_SlipByIDCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.DOTrader_SlipByID_Cache(aID: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FDOTrader_SlipByIDCommand_Cache = nil then
+  begin
+    FDOTrader_SlipByIDCommand_Cache := FConnection.CreateCommand;
+    FDOTrader_SlipByIDCommand_Cache.RequestType := 'GET';
+    FDOTrader_SlipByIDCommand_Cache.Text := 'TDSReport.DOTrader_SlipByID';
+    FDOTrader_SlipByIDCommand_Cache.Prepare(TDSReport_DOTrader_SlipByID_Cache);
+  end;
+  FDOTrader_SlipByIDCommand_Cache.Parameters[0].Value.SetWideString(aID);
+  FDOTrader_SlipByIDCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FDOTrader_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSReportClient.TransferBarang_SlipByID(aID: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FTransferBarang_SlipByIDCommand = nil then
@@ -14069,6 +14121,8 @@ begin
   FKartuStock_GetDSCommand_Cache.DisposeOf;
   FPO_SLIP_ByDateNoBuktiCommand.DisposeOf;
   FPO_SLIP_ByDateNoBuktiCommand_Cache.DisposeOf;
+  FDOTrader_SlipByIDCommand.DisposeOf;
+  FDOTrader_SlipByIDCommand_Cache.DisposeOf;
   FTransferBarang_SlipByIDCommand.DisposeOf;
   FTransferBarang_SlipByIDCommand_Cache.DisposeOf;
   FSO_ByDateCommand.DisposeOf;
