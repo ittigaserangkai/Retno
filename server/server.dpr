@@ -85,7 +85,9 @@ uses
   uModBarcodeRequest in '..\model\uModBarcodeRequest.pas',
   uModReturTrader in '..\model\uModReturTrader.pas',
   uModDatabase in '..\model\uModDatabase.pas',
-  uServerDatabase in 'unit\uServerDatabase.pas';
+  uServerDatabase in 'unit\uServerDatabase.pas',
+  uModBarcodeUsage in '..\model\uModBarcodeUsage.pas';
+
 //  uModBarcodeUsage in '..\model\uModBarcodeUsage.pas';
 
 {$R *.res}

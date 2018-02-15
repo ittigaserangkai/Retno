@@ -8,9 +8,9 @@ inherited frmStockProduct: TfrmStockProduct
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 698
-    Height = 343
+    Height = 373
     ExplicitWidth = 698
-    ExplicitHeight = 343
+    ExplicitHeight = 373
     object Panel2: TPanel
       Left = 3
       Top = 3
@@ -128,7 +128,7 @@ inherited frmStockProduct: TfrmStockProduct
       Left = 6
       Top = 92
       Width = 686
-      Height = 245
+      Height = 275
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
@@ -163,7 +163,6 @@ inherited frmStockProduct: TfrmStockProduct
     ExplicitWidth = 698
     inherited lblHeader: TLabel
       Width = 85
-      Height = 18
       Caption = 'STOCK BARANG'
       ExplicitWidth = 85
     end

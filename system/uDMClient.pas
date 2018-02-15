@@ -32,6 +32,7 @@ type
     FCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     FCrudClaimFakturClient: TCRUDClaimFakturClient;
     FCrudBarangClient: TCrudBarangClient;
+    FCrudBankCashInClient: TCrudBankCashInClient;
     FCrudClient: TCrudClient;
     FCrudCNClient: TCrudCNRecvClient;
     FCrudContrabonSalesClient: TCrudContrabonSalesClient;
@@ -58,6 +59,7 @@ type
     function GetCrudBarangHargaJualClient: TCrudBarangHargaJualClient;
     function GetCrudClaimFakturClient: TCRUDClaimFakturClient;
     function GetCrudBarangClient: TCrudBarangClient;
+    function GetCrudBankCashInClient: TCrudBankCashInClient;
     function GetCrudClient: TCrudClient;
     function GetCrudCNClient: TCrudCNRecvClient;
     function GetCrudContrabonSalesClient: TCrudContrabonSalesClient;
@@ -93,6 +95,8 @@ type
         GetCrudClaimFakturClient write FCrudClaimFakturClient;
     property CrudBarangClient: TCrudBarangClient read GetCrudBarangClient write
         FCrudBarangClient;
+    property CrudBankCashInClient: TCrudBankCashInClient read
+        GetCrudBankCashInClient write FCrudBankCashInClient;
     property CrudClient: TCrudClient read GetCrudClient write FCrudClient;
     property CrudCNClient: TCrudCNRecvClient read GetCrudCNClient write
         FCrudCNClient;
@@ -250,6 +254,15 @@ begin
 
   FCrudBarangClient := TCrudBarangClient.Create(DMClient.RestConn,InstanceOwner);
   Result        := FCrudBarangClient;
+end;
+
+function TDMClient.GetCrudBankCashInClient: TCrudBankCashInClient;
+begin
+  if FCrudBankCashInClient <> nil then
+    FreeAndNil(FCrudBankCashInClient);
+
+  FCrudBankCashInClient := TCrudBankCashInClient.Create(DMClient.RestConn,InstanceOwner);
+  Result        := FCrudBankCashInClient;
 end;
 
 function TDMClient.GetCrudClient: TCrudClient;

@@ -277,7 +277,8 @@ uses
   ufrmCashIn in '..\module\finance\ufrmCashIn.pas' {frmCashIn},
   ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
   uModDOBonus in '..\model\uModDOBonus.pas',
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang};
 
 {$R *.res}
 

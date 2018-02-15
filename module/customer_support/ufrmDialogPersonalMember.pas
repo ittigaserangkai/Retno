@@ -10,7 +10,7 @@ uses
   cxCalendar, ufraFooterDialog3Button, DB, System.Actions, Vcl.ActnList,
   uClientClasses, uModMember, uDBUtils, uDMClient, uInterface, uAppUtils,
   cxSpinEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  Datasnap.DBClient, uDXUtils;
+  Datasnap.DBClient, uDXUtils, uModRekening;
 
 type
   TModul = (mPopUpPersonalMember, mDialogMemberShip);
@@ -66,15 +66,20 @@ type
     Label6: TLabel;
     cbpMember: TcxExtLookupComboBox;
     cbpKelurahan: TcxExtLookupComboBox;
+    lblRekPiutang: TLabel;
+    cbbRekPiutang: TcxExtLookupComboBox;
+    edtNamaRekPiutang: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
+    procedure cbbRekPiutangExit(Sender: TObject);
     procedure cbpKelurahanPropertiesEditValueChanged(Sender: TObject);
     procedure cbpMemberPropertiesEditValueChanged(Sender: TObject);
   private
     FCrud: TCrudClient;
     FModMember: TModMember;
     FCDSAgama: tclientDataset;
+    FCDSRekPiutang: TClientDataset;
     FCDSTipeBayar: tclientDataset;
     FCDSTipeMember: tclientDataset;
     FDsProvider: TDSProviderClient;
@@ -111,7 +116,7 @@ uses uTSCommonDlg, uConstanta, ufrmDialogMemberShip, uRetnoUnit,
 {$R *.dfm}
 
 procedure TfrmDialogPersonalMember.FormCreate(Sender: TObject);
-var dsAgama : TDataSet;
+//var dsAgama : TDataSet;
 begin
   inherited;
   cbpAgama.Properties.LoadFromCDS(CDSAgama,'REF$AGAMA_ID', 'AGAMA_NAME', ['REF$AGAMA_ID'] , self);
@@ -120,6 +125,11 @@ begin
   cbpKelurahan.LoadFromDS(DMClient.DSProviderClient.RefWilayah_GetDSLookup,
     'REF$WILAYAH_ID','KELURAHAN',['REF$WILAYAH_ID'], SELF);
   cbpKelurahan.SetMultiPurposeLookup;
+
+  FCDSRekPiutang := TDBUtils.DSToCDS(DMClient.DSProviderClient.RekeningPiutang_GetDSLookup(),Self);
+  cbbRekPiutang.Properties.LoadFromCDS(FCDSRekPiutang, 'REKENING_ID', 'REK_CODE',['REKENING_ID'], self);
+  cbbRekPiutang.Properties.SetMultiPurposeLookup;
+
   ClearForm;
   Self.AssignKeyDownEvent;
 end;
@@ -142,6 +152,12 @@ procedure TfrmDialogPersonalMember.actSaveExecute(Sender: TObject);
 begin
   inherited;
   SimpanData;
+end;
+
+procedure TfrmDialogPersonalMember.cbbRekPiutangExit(Sender: TObject);
+begin
+  inherited;
+  edtNamaRekPiutang.Text := FCDSRekPiutang.FieldByName('REK_NAME').AsString;
 end;
 
 procedure TfrmDialogPersonalMember.cbpKelurahanPropertiesEditValueChanged(
@@ -268,6 +284,9 @@ begin
     edtTOP.Value                 := ModMember.MEMBER_TOP;
     edtLeadTime.Value            := ModMember.MEMBER_LEAD_TIME;
     edtPlafon.Value              := ModMember.MEMBER_PLAFON;
+
+    cbbRekPiutang.EditValue      := ModMember.MEMBER_REK_PIUTANG.ID;
+    cbbRekPiutangExit(nil)
   finally
     cbpMember.Properties.OnEditValueChanged := lEvent;
   end;
@@ -347,6 +366,7 @@ begin
   ModMember.MEMBER_PLAFON                   := edtPlafon.Value;
   ModMember.MEMBER_IS_ACTIVE                := 0;
   ModMember.MEMBER_IS_VALID                 := 0;
+  ModMember.MEMBER_REK_PIUTANG              := TModRekening.CreateID(cbbRekPiutang.EditValue);
 
   try
     Crud.SaveToDB(ModMember);

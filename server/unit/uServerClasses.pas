@@ -255,6 +255,14 @@ type
   public
   end;
 
+type
+  TCrudBankCashIN = class(TCrud)
+  private
+  protected
+  public
+    function GenerateNoBukti: String;
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -2149,6 +2157,11 @@ begin
   Result := lPrefix +  RightStr(Result, aCountDigit);
 
   AfterExecuteMethod;
+end;
+
+function TCrudBankCashIN.GenerateNoBukti: String;
+begin
+  Result := 'BKM' + Self.GenerateNo(TModBankCashIn.ClassName);
 end;
 
 end.

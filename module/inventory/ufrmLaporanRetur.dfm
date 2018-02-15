@@ -14,32 +14,32 @@ inherited frmLaporanRetur: TfrmLaporanRetur
     ExplicitWidth = 832
     ExplicitHeight = 377
     inherited pgcBrowse: TcxPageControl
-      Top = 81
-      Width = 810
-      Height = 285
+      Top = 71
+      Width = 830
+      Height = 305
       TabOrder = 1
-      ExplicitTop = 81
-      ExplicitWidth = 810
-      ExplicitHeight = 285
-      ClientRectBottom = 284
-      ClientRectRight = 809
+      ExplicitTop = 71
+      ExplicitWidth = 830
+      ExplicitHeight = 305
+      ClientRectBottom = 304
+      ClientRectRight = 829
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 808
-        ExplicitHeight = 283
+        ExplicitWidth = 828
+        ExplicitHeight = 303
         inherited cxGrid: TcxGrid
-          Width = 808
-          Height = 283
-          ExplicitWidth = 808
-          ExplicitHeight = 283
+          Width = 828
+          Height = 303
+          ExplicitWidth = 828
+          ExplicitHeight = 303
         end
       end
     end
     object pnltengah: TPanel
-      Left = 11
-      Top = 11
-      Width = 810
+      Left = 1
+      Top = 1
+      Width = 830
       Height = 70
       Align = alTop
       Color = 15198183
