@@ -2,7 +2,7 @@ inherited frmDialogCN: TfrmDialogCN
   Caption = 'CN Receiving'
   ClientHeight = 511
   ClientWidth = 889
-  ExplicitTop = -105
+  ExplicitTop = -114
   ExplicitWidth = 905
   ExplicitHeight = 550
   PixelsPerInch = 96

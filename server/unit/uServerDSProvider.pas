@@ -38,6 +38,7 @@ type
     function BarangSupp_GetDSLookup2(aMerchandise: String): TFDJSONDataSets;
     function Barang_ByPOLookUp(APONO : String): TDataset;
     function Barang_GetDSLookup(aMerchanGroupID: string): TDataSet;
+    function BarangBySUPMG_GetDSLookup(ASupMG: String): TDataSet;
     function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode : String):
         TDataSet;
     function Barang_HargaJualOverview(AProductCode : String): TDataSet;
@@ -186,6 +187,7 @@ type
     function KonversiSatuan_GetDS(ABarangID: String): TDataSet;
     function POTrader_GetLookupForDO(ATglAwal, ATglAkhir: TDateTime; AUnitID:
         String): TDataset;
+    function PObySUPMGCODE_GetDSOLookUp(Kode: String): TDataset;
   end;
 
   TDSReport = class(TComponent)
@@ -211,6 +213,7 @@ type
         aGudang_ID: string): TDataSet;
     function PO_SLIP_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal:
         string = ''; aNoBuktiAkhir: string = ''): TFDJSONDataSets;
+    function DOTrader_SlipByID(aID: string): TFDJSONDataSets;
     function TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
     function SO_ByDate(StartDate, EndDate: TDateTime): TFDJSONDataSets;
     function SO_ByDateNoBukti(StartDate, EndDate: TDateTime; aNoBuktiAwal: string =
@@ -484,6 +487,27 @@ begin
 
   if aMerchanGroupID <> '' then
     S := S + ' WHERE A.REF$MERCHANDISE_GRUP_ID = ' + QuotedStr(aMerchanGroupID);
+
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.BarangBySUPMG_GetDSLookup(ASupMG: String): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT A.BARANG_ID,'
+      +' A.BRG_CODE, A.BRG_CATALOG,'
+      +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
+      +' E.SUBGRUP_NAME'
+      +' FROM BARANG A'
+      +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
+      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
+      +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
+      +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
+      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID'
+      +' INNER JOIN SUPLIER_MERCHAN_GRUP J on J.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID';
+  if ASupMG <> '' then
+    S := S + ' WHERE J.SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMG);
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -1868,6 +1892,21 @@ begin
   Result := TDBUtils.OpenQuery(sSQL);
 end;
 
+function TDSProvider.PObySUPMGCODE_GetDSOLookUp(Kode: String): TDataset;
+var
+  sSQL: string;
+begin
+  sSQL := 'SELECT PO_ID, PO_NO, PO_DATE, SUPLIER_ID, SUPLIER_MERCHAN_GRUP_ID ' +
+          ' FROM PO ' +
+          ' where SUPLIER_MERCHAN_GRUP_ID = ' + TDBUtils.Quot(Kode);
+
+
+  sSQL :=sSQL + ' order by PO_NO';
+
+
+  Result := TDBUtils.OpenQuery(sSQL);
+end;
+
 function TDSReport.AgingPiutang: TFDJSONDataSets;
 var
   sSQL: string;
@@ -2145,6 +2184,15 @@ begin
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 
+end;
+
+function TDSReport.DOTrader_SlipByID(aID: string): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  S := 'select * from V_DOTRADER_SLIP where DOTRADER_ID = ' + QuotedStr(aID);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 
 function TDSReport.TransferBarang_SlipByID(aID: String): TFDJSONDataSets;

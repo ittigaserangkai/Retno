@@ -29,7 +29,6 @@ type
     procedure edOrganizationPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
-    FCDSOrg: TClientDataset;
     FCDSOrganisasi: tclientDataSet;
     FOrganization: TModOrganization;
     function GetCDSOrganisasi: tclientDataSet;

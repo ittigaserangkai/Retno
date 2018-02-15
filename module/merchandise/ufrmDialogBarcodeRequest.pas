@@ -11,11 +11,14 @@ uses
   cxButtons, cxCurrencyEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   System.Actions, Vcl.ActnList, ufraFooterDialog3Button, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, uAppUtils, uDMClient;
+  cxGrid, uAppUtils, uDMClient, ufrmCXLookup, uDBUtils, Datasnap.DBClient,
+  uModTransferBarang, uModBarcodeRequest, uModSuplier, uModelHelper,
+  ufrmMasterDialog, uModBarang, System.Variants, uDXUtils, uConstanta,
+  uInterface, uModSatuan;
 
 type
   TProcessType = (ptAdd, ptEdit, ptNone);
-  TfrmDialogBarcodeRequest = class(TfrmMasterDialogBrowse)
+  TfrmDialogBarcodeRequest = class(TfrmMasterDialog, ICRUDAble)
     Panel1: TPanel;
     lbl1: TLabel;
     lbl3: TLabel;
@@ -26,77 +29,69 @@ type
     dtTgl: TcxDateEdit;
     edbSupplierCode: TcxButtonEdit;
     curredtUnitPrice: TcxCurrencyEdit;
-    cxGridColKode: TcxGridDBColumn;
-    cxGridColNama: TcxGridDBColumn;
-    cxGridColUOM: TcxGridDBColumn;
-    cxGridColQty: TcxGridDBColumn;
-    cxGridColHarga: TcxGridDBColumn;
-    cxGridColTotal: TcxGridDBColumn;
-    cxGridColBarcode: TcxGridDBColumn;
     grpPurchaseOrder: TGroupBox;
     lbl7: TLabel;
     lbl8: TLabel;
     edtDatePO: TcxDateEdit;
     edPO: TcxButtonEdit;
+    cxgrdBR: TcxGrid;
+    cxGridTableBR: TcxGridTableView;
+    cxgrdlBR: TcxGridLevel;
+    cxGridTableColCode: TcxGridColumn;
+    cxGridTableColNama: TcxGridColumn;
+    cxGridTableColUOM: TcxGridColumn;
+    cxGridTableColBarcode: TcxGridColumn;
+    cxGridTableColQTY: TcxGridColumn;
+    cxGridTableColHarga: TcxGridColumn;
+    cxGridTableColTotal: TcxGridColumn;
+    cxGridTableColPLU_ID: TcxGridColumn;
+    cxGridTableColUOMid: TcxGridColumn;
     procedure actDeleteExecute(Sender: TObject);
-    procedure btnAddRowClick(Sender: TObject);
-    procedure footerDialogMasterbtnSaveClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
-    procedure IntEdtQtyExit(Sender: TObject);
-    procedure FormKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure strgGridRowChanging(Sender: TObject; OldRow, NewRow: Integer;
-      var Allow: Boolean);
-    procedure lblDeleteClick(Sender: TObject);
-    procedure strgGridSelectCell(Sender: TObject; ACol, ARow: Integer;
-      var CanSelect: Boolean);
-    procedure FormCreate(Sender: TObject);
-    procedure edbSupplierCodeButtonClick(Sender: TObject);
-    procedure edbSupplierCodeKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure edbProductCodeButtonClick(Sender: TObject);
-    procedure edbProductCodeKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure footerDialogMasterbtnCloseClick(Sender: TObject);
-    procedure IntEdtQtyKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure edbUOMButtonClick(Sender: TObject);
-    procedure edbProductCodeExit(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
+    procedure curredtUnitPriceExit(Sender: TObject);
     procedure edbSupplierCodeExit(Sender: TObject);
-    procedure edbSupplierCodeKeyPress(Sender: TObject; var Key: Char);
-    procedure edbProductCodeKeyPress(Sender: TObject; var Key: Char);
-    procedure edtBarNoKeyPress(Sender: TObject; var Key: Char);
-    procedure dtTglKeyPress(Sender: TObject; var Key: Char);
-    procedure cbUOMKeyPress(Sender: TObject; var Key: Char);
-    procedure IntEdtQtyKeyPress(Sender: TObject; var Key: Char);
-    procedure bSearchPOClick(Sender: TObject);
-    procedure edtPONoKeyPress(Sender: TObject; var Key: Char);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure edbSupplierCodePropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure edPOKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edPOPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+    procedure edtDatePOPropertiesInitPopup(Sender: TObject);
+    procedure cxGridTableColCodePropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure cxGridTableColCodePropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridTableColUOMPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure cxGridTableBRDataControllerNewRecord(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
+    procedure cxGridTableColQTYPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridTableColHargaPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGridTableColCodePropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
-    { Private declarations }
-    FBarcodeList : TStringList;
-    FProcessType : TProcessType;
-    procedure ClearAtributPLU;
-//    procedure PrintReport;
-    procedure GetBarcodeRequest;
-    procedure GetDetilBarcodeRequest;
-    procedure RefreshDetilNo;
-    function FindOnGrid(aProductCode: String; aUOM:String): Boolean;
-    procedure ParseHeader;
-    procedure SetProcessType(const Value: TProcessType);
+    FCDSBarang: TClientDataset;
+    FModbarcodeRequest: TModBarcodeRequest;
+    procedure DeleteData;
+    function GetModbarcodeRequest: TModBarcodeRequest;
+    procedure LookupSuplier;
+    procedure LookupNoPO;
+    procedure LoadDetailPO(AID: String);
+    procedure LookupBarang;
+    procedure LookupUOM(ABarangID: String);
+    procedure SetBarangToGrid(APLU: String);
+    procedure SetSUPMG(ASupMG: String);
+    procedure SimpanData;
+    procedure UpdateBarcodePrice;
+    procedure UpdateData;
+    procedure UpdateTotalBarcodePrice;
+    function ValidateData: Boolean;
+    function ValidateSUPMG: Boolean;
+    property CDSBarang: TClientDataset read FCDSBarang write FCDSBarang;
+    property ModbarcodeRequest: TModBarcodeRequest read GetModbarcodeRequest write
+        FModbarcodeRequest;
   public
-    RowID : Integer;
-    procedure FillComboUOM(aBrgCode : String ;  aUnitID : Integer);
-    function GenerateNoBarcodeRequest: string;
-    function GetGeneratorName: string;
-    procedure LoadDataPOToForm(aPONo : string);
-    function SaveDataBarcodeRequest: Boolean;
+    procedure LoadData(AID : String);
     { Public declarations }
   published
-    property Process: TProcessType read FProcessType write SetProcessType;
   end;
 
 var
@@ -108,953 +103,590 @@ implementation
 
 uses  
   
-  uTSCommonDlg, uRetnoUnit;
+  uTSCommonDlg, uRetnoUnit, uModPO;
 
 {$R *.dfm}
-const
-{
-NO
-PLU
-PRODUCT NAME
-QTY LABEL
-UNIT PRICE
-TOTAL PRICE
-UOM
-}
-  _KolNo      : Integer = 0;
-  _KolKode    : Integer = 1;
-  _KolNama    : Integer = 2;
-  _KolQTY     : Integer = 3;
-  _KolPrice   : Integer = 4;
-  _KolTotal   : Integer = 5;
-  _KolStatus  : Integer = 7;
-  _kolUOM     : Integer = 6;
-  _RowCount   : Integer = 2;
-  _ColCount   : Integer = 7;
 
 procedure TfrmDialogBarcodeRequest.actDeleteExecute(Sender: TObject);
 begin
   inherited;
-  {
-  if not IsValidDateKarenaEOD(masternewunit.id,cGetServerTime,FMasterIsStore) then
-    Exit;
-
-  if CommonDlg.Confirm('Are you wish to delete barcode request ' + strgGrid.Cells[1, strgGrid.Row]) = mrYes then
-  begin
-    FBarcodeRequest := TBARCODEREQUEST.Create(nil);
-    try
-      if FBarcodeRequest.LoadByBAR_NO(strgGrid.Cells[1, strgGrid.Row], masternewunit.id) then
-      begin
-        if FBarcodeRequest.RemoveFromDB then
-        begin
-          cCommitTrans;
-          FetchDataBarcodeRequest;
-          CommonDlg.ShowConfirmSuccessfull(atDelete);
-        end
-        else
-        begin
-          cRollbackTrans;
-          CommonDlg.ShowMessage('Gagal Hapus Barcode Request');
-        end;
-      end;
-
-    finally
-      cRollbackTrans;
-      if FBarcodeRequest <> nil then FreeAndNil(FBarcodeRequest);
-    end;
-
-  end;
-  }
+  if TAppUtils.Confirm('Anda Yakin Menghapus Data') then DeleteData;
 end;
 
-procedure TfrmDialogBarcodeRequest.btnAddRowClick(Sender: TObject);
-
-  procedure AddNewDetil();
-  begin
-//    if edbProductCode.Text = '' then exit;
-    {
-    if strgGrid.Cells[_KolNo, strgGrid.RowCount - 1] <> '' then
-      strgGrid.AddRow;
-
-    curreditTotalPrice.Value  := curreditTotalPrice.Value + curredtTotal.Value;
-
-    strgGrid.Cells[_KolNo, strgGrid.RowCount - 1]     := IntToStr(strgGrid.RowCount - 1) + '.';
-    strgGrid.Cells[_KolKode, strgGrid.RowCount - 1]   := edbProductCode.Text;
-    strgGrid.Cells[_KolNama, strgGrid.RowCount - 1]   := edtProductName.Text;
-    strgGrid.Cells[_KolQTY, strgGrid.RowCount - 1]    := FloatToStr(IntEdtQty.Value);
-    strgGrid.Cells[_KolPrice, strgGrid.RowCount - 1]  := CurrToStr(curredtUnitPrice.Value);
-    strgGrid.Cells[_KolTotal, strgGrid.RowCount - 1]  := CurrToStr(curredtTotal.Value);
-    strgGrid.Cells[_KolStatus, strgGrid.RowCount - 1] := 'NEW';
-    strgGrid.Cells[_kolUOM, strgGrid.RowCount - 1]    := Trim(cbUOM.Text) ;
-    strgGrid.AutoSize := True;
-    }
-  end;
-
+procedure TfrmDialogBarcodeRequest.actSaveExecute(Sender: TObject);
 begin
-//  if edbProductCode.Text ='' then
-//  begin
-//    CommonDlg.ShowError('Kode Product masih kosong !');
-//    edbProductCode.SetFocus;
-//    Exit;
-//  end;
-//
-//  if edbSupplierCode.Text ='' then
-//  begin
-//    CommonDlg.ShowError('Kode Supplier masih kosong !');
-//    edbSupplierCode.SetFocus;
-//    Exit;
-//  end;
-//
-//  if cbUOM.Text ='' then
-//  begin
-//    CommonDlg.ShowError('UOM belum dipilih !');
-//    cbUOM.SetFocus;
-//    Exit;
-//  end;
-//
-//  if IntEdtQty.Value <= 0 then
-//  begin
-//    CommonDlg.ShowError('Qty Harus > 0. Tolong Dicek Lagi');
-//    IntEdtQty.SetFocus;
-//    Exit;
-//  end;
-  {
-  if (not FindOnGrid(edbProductCode.Text, cbUOM.Text)) then
-  begin
-    if strgGrid.RowCount > 1 then
-      AddNewDetil
-  end else
-  begin
-    curreditTotalPrice.Value                 := (curreditTotalPrice.Value - StrToCurr(strgGrid.Cells[5, strgGrid.Row]) + curredtTotal.Value);
-    strgGrid.Cells[_KolQTY, RowID]    := IntToStr(IntEdtQty.EditValue);
-    strgGrid.Cells[_KolTotal, RowID]  := CurrToStr(curredtTotal.Value);
-    strgGrid.Cells[_KolStatus, RowID] := 'UPDATE';  end;
-  edbProductCode.Text := '';
-  edbUOM.Text         := '';
-  edtProductName.Text := '';
-  IntEdtQty.Value     := 0;
-  curredtTotal.Value  := 0;
-  cbUOM.Items.Clear;
-  edbProductCode.SetFocus;
-  }
+  inherited;
+  if not ValidateData then exit;
+  UpdateData;
+  SimpanData;
 end;
 
-procedure TfrmDialogBarcodeRequest.SetProcessType(
-  const Value: TProcessType);
+procedure TfrmDialogBarcodeRequest.curredtUnitPriceExit(Sender: TObject);
 begin
-  FProcessType := Value;
+  inherited;
+  UpdateBarcodePrice;
+  UpdateTotalBarcodePrice;
 end;
 
-procedure TfrmDialogBarcodeRequest.footerDialogMasterbtnSaveClick(
+procedure TfrmDialogBarcodeRequest.cxGridTableBRDataControllerNewRecord(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+begin
+  inherited;
+  cxGridTableBR.DataController.Values[ARecordIndex, cxGridTableColHarga.Index] := curredtUnitPrice.Value;
+end;
+
+procedure TfrmDialogBarcodeRequest.cxGridTableColCodePropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+begin
+  inherited;
+  if not ValidateSUPMG then exit;
+  LookupBarang;
+end;
+
+procedure TfrmDialogBarcodeRequest.cxGridTableColCodePropertiesEditValueChanged(
+  Sender: TObject);
+var
+  iCurrentRow: Integer;
+  sPLU: String;
+begin
+  inherited;
+//  if not ValidateSUPMG then exit;
+//  cxGridTableBR.DataController.Post();
+//  iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+//  sPLU        := vartostr(cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index]);
+//  SetBarangToGrid(sPLU);
+end;
+
+procedure TfrmDialogBarcodeRequest.cxGridTableColCodePropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+var
+  iCurrentRow: Integer;
+  sPLU: String;
+begin
+  inherited;
+  if ValidateSUPMG then
+  begin
+//    cxGridTableBR.DataController.Post();
+//    iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+//    sPLU        := vartostr(cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index]);
+    SetBarangToGrid(DisplayValue);
+  end
+  else
+  begin
+    ErrorText := '';
+    Error := True;
+  end;
+end;
+
+procedure TfrmDialogBarcodeRequest.cxGridTableColHargaPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  {
-  if  not (Process = ptEdit) and not IsValidDateKarenaEOD(dialogunit,dtTgl.Date,FMasterIsStore) then
-    Exit;
+  UpdateTotalBarcodePrice;
+end;
 
-  try
-    Self.Enabled  := False;
-    IsSuccessfull := False;
+procedure TfrmDialogBarcodeRequest.cxGridTableColQTYPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  UpdateTotalBarcodePrice;
+end;
 
-    if ((strgGrid.RowCount = 2) and (strgGrid.Cells[0, strgGrid.RowCount - 1] = '')) then
+procedure TfrmDialogBarcodeRequest.cxGridTableColUOMPropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+var
+  iCurrentRow: Integer;
+  LBarangID: string;
+begin
+  inherited;
+  iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+  LBarangID := VarToStr(cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColPLU_ID.Index]);
+  if LBarangID = '' then
     begin
-      CommonDlg.ShowMessage('Product Belum Dipilih');
-      Exit;
+      TAppUtils.Warning('PLU belum dipilih');
+      exit;
     end;
 
-    IsSuccessfull := SaveDataBarcodeRequest;
-
-    if IsSuccessfull then
-    begin
-      if CommonDlg.Confirm('Anda Akan Mencetak Slip Barcode Request ?') = mrYes then
-         DoSlipBarcodeReq(edtBarNo.Text,dialogunit,FLoginFullname,FDialogUnitName);
-    end;
-
-  finally
-    Self.Enabled := True;
-    if IsSuccessfull then Close;
-  end;
-  }
+  LookupUOM(LBarangID);
 end;
 
+procedure TfrmDialogBarcodeRequest.DeleteData;
+begin
+  if not Assigned(ModbarcodeRequest) then
+    Raise Exception.Create('Data not Loaded');
 
-procedure TfrmDialogBarcodeRequest.FormShow(Sender: TObject);
-var
-  iTemp: Double;
+  if ModbarcodeRequest.ID = '' then
+  begin
+    TAppUtils.Error('Tidak ada data yang dihapus');
+    exit;
+  end;
+
+  Try
+    DMClient.CrudClient.DeleteFromDB(ModbarcodeRequest);
+    TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
+
+procedure TfrmDialogBarcodeRequest.edbSupplierCodeExit(Sender: TObject);
 begin
   inherited;
-  iTemp := TRetno.SettingApp.PRICE_BARCODE_REQ;
-  if iTemp <= 0 then
-  begin
-     TAppUtils.Warning('Harga default per unit Barcode belum didaftarkan dalam Setting Application'+#13#10
-                           + 'Menggunakan nilai default = Rp.100,-');
-     iTemp := 100;
-  end;
-
-//    curredtUnitPrice.Value    := iTemp;
-//    IntEdtQty.Value           := 0;
-//    curredtTotal.Value        := 0;
-//    dtTgl.Date                := now;
-//    curreditTotalPrice.Value  := 0;
-//    if Process = ptEdit then
-//    begin
-//      GetBarcodeRequest;
-//      GetDetilBarcodeRequest;
-//      edbSupplierCode.Properties.ReadOnly := True;
-//      edtSupplierName.ReadOnly:= True;
-//      edbProductCode.SetFocus;
-//    end else
-//    if Process = ptAdd then
-//      edtBarNo.Text :=  GenerateNoBarcodeRequest;
-end;
-
-procedure TfrmDialogBarcodeRequest.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  inherited;
-  action := caFree;
-end;
-
-procedure TfrmDialogBarcodeRequest.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  frmDialogBarcodeRequest := nil;
-end;
-
-function TfrmDialogBarcodeRequest.FindOnGrid(aProductCode: String;
-    aUOM:String): Boolean;
-var
-  sCellUOM: string;
-  sCellKode: string;
-  iRowCount: Integer;
-  iInitRow: Integer;
-  i: Integer;
-begin
-  Result := False;
-  if (aProductCode <> '') and (aUOM <> '') then
-  begin
-    {
-    iInitRow  := strgGrid.FixedRows;
-    iRowCount := strgGrid.RowCount;
-    for i := iInitRow to iRowCount - 1 do
-    begin
-      result := False;
-      sCellKode := strgGrid.Cells[_KolKode,i];
-      sCellUOM  := strgGrid.Cells[_kolUOM,i];
-      if (scellKode = aProductCode) and
-         (scelluom = auom) then
-      begin
-        Result := True;
-        RowID  := i;
-        Exit;
-      end;
-    end;
-    }
-  end;
-end;
-
-procedure TfrmDialogBarcodeRequest.IntEdtQtyExit(Sender: TObject);
-begin
-//  curredtTotal.Value := curredtUnitPrice.Value * IntEdtQty.Value;
-end;
-
-procedure TfrmDialogBarcodeRequest.GetBarcodeRequest;
-var
-  s: string;
-begin
-  s := 'SELECT DISTINCT a.*, b.SUP_CODE, b.SUP_NAME, a.BAR_TOTAL_PRICE'
-     + ' FROM BARCODE_REQUEST a'
-     + ' LEFT JOIN SUPLIER b ON a.BAR_SUP_CODE = b.SUP_CODE'
-     + ' AND a.BAR_SUP_UNT_ID = b.SUP_UNT_ID'
-     + ' LEFT JOIN BARCODE_REQUEST_DETIL c ON a.BAR_NO = c.BARD_BAR_NO'
-     + ' AND a.BAR_UNT_ID = c.BARD_BAR_UNT_ID'
-     + ' WHERE a.BAR_NO = ' + QuotedStr(edtBarNo.Text)
-     + ' AND a.BAR_UNT_ID = ' + IntToStr(dialogunit)
-     + ' ORDER BY a.BAR_NO, a.BAR_DATE, b.SUP_CODE, b.SUP_NAME';
-  {
-  with cOpenQuery(s) do
-  begin
-    try
-      if not Eof then
-      begin
-        edbSupplierCode.Text      := FieldByName('SUP_CODE').AsString;
-        edtSupplierName.Text      := FieldByName('SUP_NAME').AsString;
-        curreditTotalPrice.Value  := FieldByName('BAR_TOTAL_PRICE').AsCurrency;
-      end;
-
-    finally
-      Free;
-    end;
-  end;
-  }
-end;
-
-procedure TfrmDialogBarcodeRequest.GetDetilBarcodeRequest;
-var
-  s: string;
-  I: Integer;
-begin
-  s := 'SELECT b.*, c.BRG_NAME, c.BRG_MERK'
-     + ' FROM BARCODE_REQUEST a'
-     + ' LEFT JOIN BARCODE_REQUEST_DETIL b ON a.BAR_NO = b.BARD_BAR_NO'
-     + ' AND a.BAR_UNT_ID = b.BARD_BAR_UNT_ID'
-     + ' LEFT JOIN BARANG c ON b.BARD_BRG_CODE = c.BRG_CODE'
-     + ' AND b.BARD_BRG_UNT_ID = c.BRG_UNT_ID'
-     + ' WHERE a.BAR_NO = ' + QuotedStr(edtBarNo.Text)
-     + ' AND b.BARD_BRG_UNT_ID = ' + IntToStr(dialogunit)
-     + ' ORDER BY b.BARD_BRG_CODE';
-  {
-  with copenquery(s, False) do
-  begin
-    Try
-      I := 1;
-      Last;
-      First;
-      strgGrid.RowCount := RecordCount + I;
-      while not eof do
-      begin
-        strgGrid.Cells[_KolNo, I]     := IntToStr(I) + '.';
-        strgGrid.Cells[_KolKode, I]   := FieldByName('BARD_BRG_CODE').AsString;
-        strgGrid.Cells[_KolNama, I]   := FieldByName('BRG_NAME').AsString +
-                                         FieldByName('BRG_MERK').AsString;
-        strgGrid.Cells[_KolQTY, I]    := FieldByName('BARD_QTY').AsString;
-        strgGrid.Cells[_KolPrice, I]  := FieldByName('BARD_SAT_PRICE').AsString;
-        strgGrid.Cells[_KolTotal, I]  := FieldByName('BARD_TOTAL_PRICE').AsString;
-        strgGrid.Cells[_kolUOM, I]  := FieldByName('BARD_UOM').AsString;
-        strgGrid.Cells[_KolStatus, I] := 'OLD';
-        Inc(I);
-
-        Next;
-      end;
-      strgGrid.AutoSize:= True;
-    Finally
-      Free;
-    End
-  end;
-  }
-end;
-
-procedure TfrmDialogBarcodeRequest.FormKeyUp(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-  if (Key = Ord('R')) and (ssCtrl in Shift) then
-    lblDeleteClick(Self)
-
-end;
-
-procedure TfrmDialogBarcodeRequest.RefreshDetilNo;
-var
-  I: Integer;
-begin
-  {
-  if strgGrid.Cells[1, 1] <> '' then
-    for I := 1 to strgGrid.RowCount-1 do
-      strgGrid.Cells[0, I] := IntToStr(I) + '.';
-      }
-end;
-
-procedure TfrmDialogBarcodeRequest.strgGridRowChanging(Sender: TObject;
-  OldRow, NewRow: Integer; var Allow: Boolean);
-begin
-  inherited;
-  if Process = ptEdit then
-  begin
-    {
-    Allow:= True;
-    edbProductCode.Text := strgGrid.Cells[1, NewRow];
-
-    FillComboUOM(edbProductCode.Text,dialogunit);
-    cbUOM.ItemIndex := cbUOM.Items.IndexOf(strgGrid.Cells[6, NewRow]);
-
-    edtProductName.Text := strgGrid.Cells[2, NewRow];
-    IntEdtQty.Value     := StrToInt(strgGrid.Cells[3, NewRow]);
-    curredtTotal.Value  := StrToCurr(strgGrid.Cells[5, NewRow]);
-    btnAddRow.Caption   := 'Update';
-    }
-  end;
-end;
-
-procedure TfrmDialogBarcodeRequest.lblDeleteClick(Sender: TObject);
-var
-  AValue : Double;
-begin
-  inherited;
-  {
-  if (strgGrid.Cells[1, strgGrid.Row] <> '') then
-  begin
-    if CommonDlg.Confirm('Anda Yakin Akan Menghapus Data') = mrNo then
-      Exit
-    else
-    begin
-      AValue := strgGrid.Floats[5, strgGrid.Row];
-
-      if strgGrid.RowCount = 2 then
-      begin
-        strgGrid.Cells[_KolKode, strgGrid.Row] := '';
-        HapusBarisKosong(strgGrid, _KolKode);
-      end
-      else strgGrid.RemoveRows(strgGrid.Row, 1);
-
-      curreditTotalPrice.Value := curreditTotalPrice.Value - AValue;
-      RefreshDetilNo;
-    end;
-  end;
-  }
-end;
-
-procedure TfrmDialogBarcodeRequest.strgGridSelectCell(Sender: TObject;
-  ACol, ARow: Integer; var CanSelect: Boolean);
-begin
-  inherited;
-  {if strgGrid.Cells[1, Arow] <> '' then
-  begin
-    edbProductCode.Text := strgGrid.Cells[1, Arow];
-    edtProductName.Text := strgGrid.Cells[2, Arow];
-
-    FillComboUOM(edbProductCode.Text,dialogunit);
-    cbUOM.ItemIndex := cbUOM.Items.IndexOf(strgGrid.Cells[6, Arow]);
-    
-    IntEdtQty.Value     := StrToInt(strgGrid.Cells[3, Arow]);
-    curredtTotal.Value  := StrToCurr(strgGrid.Cells[5, Arow]);
-    btnAddRow.Caption   := 'Update';
-  end;
-  }
+  SetSUPMG(edbSupplierCode.Text);
 end;
 
 procedure TfrmDialogBarcodeRequest.FormCreate(Sender: TObject);
 begin
   inherited;
-  FBarcodeList := TStringList.Create;
+  LoadData('');
+  //biasanya ini jarang dipanggil untuk form create, tapi ini digunakan untuk
+  //generate tanggal hari ini yg ada di 'LoadData'
+  //karena 'LoadData' harusnya dengan parameter, maka parameternya dikosongi.
 end;
 
-procedure TfrmDialogBarcodeRequest.edbSupplierCodeButtonClick(
+procedure TfrmDialogBarcodeRequest.edbSupplierCodePropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+begin
+  inherited;
+  LookupSuplier;
+end;
+
+procedure TfrmDialogBarcodeRequest.edPOKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+  inherited;
+  if KEY =VK_F5 then LookupNoPO;
+end;
+
+procedure TfrmDialogBarcodeRequest.edPOPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupNoPO;
+end;
+
+procedure TfrmDialogBarcodeRequest.edtDatePOPropertiesInitPopup(
   Sender: TObject);
-var
-  s: string;
 begin
   inherited;
-  if Process = ptEdit then
-    Exit;
-
-  s := 'SELECT SUP_CODE as KODESUPLIER, SUP_NAME as NAMASUPLIER, SUP_ADDRESS as ALAMATSUPLIER'
-     + ' FROM SUPLIER'
-     + ' WHERE SUP_UNT_ID = ' + IntToStr(dialogunit);
-  {
-  with clookup('Daftar Supplier', s) do
-   begin
-     Try
-       if Strings[0] = '' then Exit;
-       ClearAtributPLU;
-       ParseHeader;
-       edbSupplierCode.Text := Strings[0];
-       edtSupplierName.Text := Strings[1];
-       curredtUnitPrice.SetFocus;
-
-     Finally
-       Free;
-     End;
-   end;
-   }
+  Abort;
+  //tanggal PO udah read only, biat ga perlu klik pilih tanggal lagi
 end;
 
-procedure TfrmDialogBarcodeRequest.edbSupplierCodeKeyUp(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
+function TfrmDialogBarcodeRequest.GetModbarcodeRequest: TModBarcodeRequest;
 begin
-  inherited;
-  if (key = VK_F5) Or (key = VK_DOWN) then
-  begin
-    edbSupplierCodeButtonClick(Self);
-  end;
-//  Key := UpCase(Ord(Key));
-
+  if FModbarcodeRequest = nil then
+    FModbarcodeRequest := TModbarcodeRequest.Create;
+  Result := FModbarcodeRequest;
 end;
 
-procedure TfrmDialogBarcodeRequest.edbProductCodeButtonClick(
-  Sender: TObject);
-var
-  sSQL: String;
-begin
-  inherited;
-
-  if edbSupplierCode.Text = '' then
-  begin
-    CommonDlg.ShowMessage('Supliernya belum dipilih');
-    Exit;
-  end;
-
-  sSQL := 'select b.Brg_Code, b.Brg_Alias '
-      + ' from barang_suplier a, barang  b '
-      + ' where a.brgsup_brg_code = b.brg_code '
-      + ' and a.brgsup_brg_unt_id = b.brg_unt_id '
-      + ' and a.brgsup_sup_code = ' + QuotedStr(edbSupplierCode.Text)
-      + ' and a.brgsup_brg_unt_id = ' + IntToStr(dialogunit) ;
-  {
-  with clookup('Daftar Product', sSQL) do
-   begin
-     Try
-       if Strings[0] = '' then Exit;
-       edbProductCode.Text := Strings[0];
-       edtProductName.Text:= Strings[1];
-
-       if FindOnGrid(edbProductCode.Text,cbUOM.Text) then
-         btnAddRow.Caption:= 'Update'
-       else btnAddRow.Caption:= 'Add';
-
-       cbUOM.SetFocus;
-
-     Finally
-       Free;
-     End;
-   end;
-   }
-end;
-
-procedure TfrmDialogBarcodeRequest.edbProductCodeKeyUp(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-  if(key = VK_F5) Or (key = VK_DOWN) then edbProductCodeButtonClick(Self);
-end;
-
-function TfrmDialogBarcodeRequest.GetGeneratorName: string;
-begin
-  Result := 'GEN_BARCODE_REQ';
-end;
-
-function TfrmDialogBarcodeRequest.SaveDataBarcodeRequest: Boolean;
+procedure TfrmDialogBarcodeRequest.LoadData(AID : String);
 var
   i: Integer;
-  sBarNo: string;
-//  FBarcodeRequest: TBARCODEREQUEST;
+  iRec: Integer;
+  lItem: TModBarcodeRequestItem;
 begin
-  Result := False;
-  {
-  FBarcodeRequest := TBARCODEREQUEST.Create(Self);
+  if AID <> '' then
+  //untuk identifikasi parameter AID kosong atau isi
+  begin
+    FModBarcodeRequest          := DMclient.CrudClient.Retrieve(TModBarcodeRequest.ClassName, AID) as TModBarcodeRequest;
+    curredtUnitPrice.EditValue  := ModBarcodeRequest.BR_HARGA;
+    // dijalankan kl parameter AID terisi
+  end else
+  begin
+    FModBarcodeRequest            := TModBarcodeRequest.Create;
+    FModBarcodeRequest.BR_DATE    := Now();
+    curredtUnitPrice.EditValue    := TRetno.SettingApp.PRICE_BARCODE_REQ;
+    //Tanggal Otomatis
+
+    FModbarcodeRequest.BR_NO      := DMClient.CRUDBarcodeRequest.GenerateNo(ModBarcodeRequest.ClassName);
+    //dijalankan kl parameter AID kosong
+  end;
+
+  //header
+  edtbarNO.Text               := ModBarcodeRequest.BR_NO;
+  dtTgl.Date                  := ModBarcodeRequest.BR_DATE;
+
+  if ModbarcodeRequest.BR_SUPMG <> nil then
+  BEGIN
+    ModbarcodeRequest.BR_SUPMG.Reload();
+    edbSupplierCode.Text := ModbarcodeRequest.BR_SUPMG.SUPMG_SUB_CODE;
+    edtSupplierName.Text := ModbarcodeRequest.BR_SUPMG.SUPMG_NAME;
+  END;
+
+//  //detail lanjut sesuk
+  cxGridTablebR.ClearRows;
+  for i := 0 to ModbarcodeRequest.BarcodeRequestItems.Count-1 do
+  begin
+    lItem := ModbarcodeRequest.BarcodeRequestItems[i];
+    iRec  := cxGridTableBR.DataController.AppendRecord;
+    //persingkat dengan buat variabel lokal
+    lItem.BRI_BARANG.Reload();
+    lItem.BRI_SATUAN.Reload();
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColPLU_ID.Index]  := litem.BRI_BARANG.ID;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColCode.Index]    := lItem.BRI_BARANG.BRG_CODE;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColNama.Index]    := lItem.BRI_BARANG.BRG_NAME;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColQTY.Index]     := lItem.BRI_QTY;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColUOM.Index]     := lItem.BRI_SATUAN.SAT_CODE;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColUOMid.Index]   := lItem.BRI_SATUAN.ID;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColBarcode.Index] := lItem.BRI_BARANG.BRG_CATALOG;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColHarga.Index]   := lItem.BRI_HARGA;
+    cxGridTableBR.DataController.Values[iRec,cxGridTableColTotal.Index]   := lItem.BRI_TOTAL;
+
+  end;
+end;
+
+procedure TfrmDialogBarcodeRequest.LookupSuplier;
+var
+  cxLookupMG: TfrmCXLookup;
+  LCDSSupMG: TClientDataset;
+begin
+  LCDSSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
+  cxLookupMG := TfrmCXLookup.Execute(LCDSSupMG);
+  Try
+    cxLookupMG.HideFields(['suplier_merchan_grup_id']);
+    if cxLookupMG.ShowModal = mrOK then
+    begin
+      SetSUPMG(cxLookupMG.Data.FieldByName('SUPMG_SUB_CODE').AsString);
+    end;
+  Finally
+    cxLookupMG.Free;
+    LCDSSupMG.Free;
+    //jangan lupa free biar RAM ga tambah beban
+  End;
+end;
+
+procedure TfrmDialogBarcodeRequest.LookupNoPO;
+var
+  cxLookup: TfrmCXLookup;
+  LCDSPO: TClientDataset;
+begin
+  LCDSPO := TDBUtils.DSToCDS(DMClient.DSProviderClient.PObySUPMGCODE_GetDSOLookUp(ModbarcodeRequest.BR_SUPMG.ID), Self);
+  cxLookup := TfrmCXLookup.Execute(LCDSPO);
+  Try
+    cxLookup.HideFields(['PO_ID', 'SUPLIER_MERCHAN_GRUP_ID', 'SUPLIER_ID']);
+    if cxLookup.ShowModal = mrOK then
+    begin
+      //ambil data dari cxLookup :
+      //cxLookup.Data.FieldByName(namafield).Axxxx
+      LoadDetailPO(cxLookup.Data.FieldByName('PO_ID').AsString);
+
+      //isi data dari lookup form
+    end;
+  Finally
+    cxLookup.Free;
+    LCDSPO.Free;
+    //jangan lupa free biar RAM ga tambah beban
+  End;
+end;
+
+procedure TfrmDialogBarcodeRequest.LoadDetailPO(AID: String);
+var
+  i: Integer;
+  iRow: Integer;
+  lPO: TModPO;
+  lPOItem: TModPOItem;
+begin
+  lPO := TCRUDObj.Retrieve<TModPO>(AID);
   try
-    sBarNo := '';
-    if FBarcodeRequest.LoadByBAR_NO(edtBarNo.Text, dialogunit)
-      then sBarNo := FBarcodeRequest.BAR_NO;
+    edPO.Text       := lPO.PO_NO;
+    edtDatePO.Date  := lPO.PO_DATE;
 
-    if sBarNo = '' then
+//    cxGridTableBR.DataController.RecordCount:=0;
+
+    for i := 0 to lPO.POItems.Count-1 do
     begin
-      sBarNo := GenerateNoBarcodeRequest;
-      if sBarNo <> edtBarNo.Text then
-      begin
-        edtBarNo.Text := sBarNo;
-      end;
-      sBarNo := '';
+      lPOItem := lPO.POItems[i];
+      iRow  :=  cxGridTableBR.DataController.AppendRecord;
+      lPOItem.POD_BARANG.Reload();
+      lPOItem.POD_UOM.Reload();
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColPLU_ID.Index]   := lPOItem.POD_BARANG.ID;
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColCode.Index]     := lPOItem.POD_BARANG.BRG_CODE;
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColNama.Index]     := lPOItem.POD_BARANG.BRG_NAME;
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColUOM.Index]      := lPOItem.POD_UOM.SAT_CODE;
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColUOMid.Index]    := lPOItem.POD_UOM.ID;
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColBarcode.Index]  := lPOItem.POD_BARANG.BRG_CATALOG;
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColQTY.Index]      := lPOItem.POD_QTY_ORDER;
+      UpdateBarcodePrice;
+      UpdateTotalBarcodePrice;
     end;
-
-    FBarcodeRequest.UpdateData(dtTgl.Date,
-                               edtBarNo.Text,
-                               edbSupplierCode.Text,
-                               dialogunit,
-                               curreditTotalPrice.Value,
-                               dialogunit);
-
-    FBarcodeRequest.BARCODEREQUESTDETILS.Clear;
-    for i := strgGrid.FixedRows to strgGrid.RowCount - 1 do
-    begin
-      FBarcodeRequest.UpdateBARCODEREQUESTDETILS(edtBarNo.Text,
-                                                 dialogunit,
-                                                 strgGrid.Cells[_KolKode, i],
-                                                 dialogunit,
-                                                 0,
-                                                 strgGrid.Ints[_KolQTY, i],
-                                                 strgGrid.Floats[_KolPrice, i],
-                                                 strgGrid.Floats[_KolTotal, i],
-                                                 dialogunit,
-                                                 strgGrid.Cells[_kolUOM,i],
-                                                 dialogunit
-                                                 );
-    end;
-
-    if not FBarcodeRequest.SaveToDB(sBarNo) then
-    begin
-      cRollbackTrans;
-      Exit;
-    end;
-
-    cCommitTrans;
-    Result := True;
 
   finally
-    cRollbackTrans;
-    FreeAndNil(FBarcodeRequest);
+    lPO.Free;
   end;
-  }
 end;
 
-procedure TfrmDialogBarcodeRequest.footerDialogMasterbtnCloseClick(
-  Sender: TObject);
-begin
-  IsSuccessfull := False;
-  Close;
-  inherited;
-end;
-
-function TfrmDialogBarcodeRequest.GenerateNoBarcodeRequest: string;
+procedure TfrmDialogBarcodeRequest.LookupBarang;
 var
-  iCounter: Integer;
-  //s: string;
+  cxLookup: TfrmCXLookup;
+//  lCDS: tclientDataset;
 begin
-  // TODO -cMM: TfrmDialogBarcodeRequest.GenerateNoBarcodeRequest default body inserted
-//  iCounter := GetCounterNoBukti('BARCODE_REQUEST', 'BAR_NO', 'BAR_DATE', dtTgl.Date, 'BAR_UNT_ID', dialogunit, 'BR');
-//  Result := 'BR/' + FormatDateTime('YY', dtTgl.Date) + '/' + StrPadLeft(IntToStr(iCounter), _DigitNoBukti, '0');
-end;
-
-procedure TfrmDialogBarcodeRequest.IntEdtQtyKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-  if Key = vk_return then
-  begin
-//    curredtTotal.Value := IntEdtQty.Value * curredtUnitPrice.Value;
-//    btnAddRow.SetFocus;
-  end;
-end;
-
-procedure TfrmDialogBarcodeRequest.edbUOMButtonClick(Sender: TObject);
-//var
-//  sSQL: String;
-begin
-  inherited;
-//  sSQL := 'select a.konvsat_sat_code_from as "Kode Satuan"'
-//         + ' from ref$konversi_satuan a'
-//         + ' where a.konvsat_scf_unt_id = ' + IntToStr(dialogunit)
-//         + ' and a.konvsat_brg_code = ' + QuotedStr(edbProductCode.Text);
-  {
-
-  with clookup('Daftar UOM', sSQL) do
-   begin
-     Try
-       if Strings[0] = '' then Exit;
-       edbUOM.Text := Strings[0];
-
-       edbUOM.SetFocus;
-
-     Finally
-       Free;
-     End;
-   end;
-   }
-end;
-
-procedure TfrmDialogBarcodeRequest.edbProductCodeExit(Sender: TObject);
-//var
-//  sSQL: String;
-begin
-  inherited;
-//  sSQL := 'select b.Brg_Code, b.Brg_Alias '
-//      + ' from barang_suplier a, barang  b '
-//      + ' where a.brgsup_brg_code = b.brg_code '
-//      + ' and a.brgsup_brg_unt_id = b.brg_unt_id '
-//      + ' and a.brgsup_sup_code = ' + QuotedStr(edbSupplierCode.Text)
-//      + ' and a.brgsup_brg_unt_id = ' + IntToStr(dialogunit)
-//      + ' and b.brg_code = ' + QuotedStr(edbProductCode.Text) ;
-  {
-  with cOpenQuery(sSQL) do
-  Begin
-    Try
-      if Fields[0].AsString = '' then
-      Begin
-        edbProductCode.Text := '';
-        edtProductName.Text := 'Kode Barang Salah !';
-        Exit;
-      End Else
-      Begin
-        edbProductCode.Text := Fields[0].Text;
-        edtProductName.Text := Fields[1].AsString;
-        FillComboUOM(edbProductCode.Text,dialogunit);
-
-        if cbUOM.Items.Count > 0 then
-          cbUOM.ItemIndex := 0;
-      End;
-    Finally
-      Free;
-    End;
-  End;
-  }
-end;
-
-procedure TfrmDialogBarcodeRequest.FillComboUOM(aBrgCode : String ;  aUnitID :
-    Integer);
-//var
-//  sSQL: String;
-begin
-//  sSQL := 'select a.konvsat_sat_code_from as "Kode Satuan"'
-//         + ' from ref$konversi_satuan a'
-//         + ' where a.konvsat_scf_unt_id = ' + IntToStr(dialogunit)
-//         + ' and a.konvsat_brg_code = ' + QuotedStr(edbProductCode.Text);
-  {
-  with cOpenQuery(sSQL) do
-   begin
-     Try
-
-       if Fields[0].AsString = '' then
-       Begin
-         Exit;
-       End;
-       cbUOM.Clear;
-       while not Eof do
-       Begin
-         cbUOM.Items.Add(Fields[0].AsString);
-         Next;
-       end;
-
-     Finally
-       Free;
-     End;
-   end;
-    }
-end;
-
-procedure TfrmDialogBarcodeRequest.edbSupplierCodeExit(Sender: TObject);
-var
-  sSQL: String;
-begin
-  inherited;
-
-  sSQL := 'SELECT SUP_NAME'
-     + ' FROM SUPLIER'
-     + ' WHERE SUP_UNT_ID = ' + IntToStr(dialogunit)
-     + ' and sup_code=' + QuotedStr(edbSupplierCode.Text);
- {
-  with cOpenQuery(sSQL) do
-   begin
-     Try
-       if Fields[0].AsString = '' then
-       Begin
-       edbSupplierCode.Text := '';
-       edtSupplierName.Text := 'Kode Supplier Salah !';
-       Exit;
-       End Else
-       Begin
-       edtSupplierName.Text := Fields[0].AsString;
-       edbProductCode.SetFocus;
-       End;
-     Finally
-       Free;
-     End;
-   end;
-   }
-end;
-
-procedure TfrmDialogBarcodeRequest.edbSupplierCodeKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-  Begin
-    Perform(WM_NEXTDLGCTL,0,0);
-    Key := #0;
-  End;
-  Key := UpCase(Key);
-end;
-
-procedure TfrmDialogBarcodeRequest.edbProductCodeKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-  Begin
-    Perform(WM_NEXTDLGCTL,0,0);
-    Key := #0;
-  End;
-  Key := UpCase(Key);
-end;
-
-procedure TfrmDialogBarcodeRequest.edtBarNoKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-  Begin
-    Perform(WM_NEXTDLGCTL,0,0);
-    Key := #0;
-  End;
-end;
-
-procedure TfrmDialogBarcodeRequest.dtTglKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-  Begin
-    Perform(WM_NEXTDLGCTL,0,0);
-    Key := #0;
-  End;
-end;
-
-procedure TfrmDialogBarcodeRequest.cbUOMKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-  Begin
-    Perform(WM_NEXTDLGCTL,0,0);
-    Key := #0;
-  End;
-end;
-
-procedure TfrmDialogBarcodeRequest.IntEdtQtyKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key = #13 then
-  Begin
-    Perform(WM_NEXTDLGCTL,0,0);
-    Key := #0;
-  End;
-end;
-
-procedure TfrmDialogBarcodeRequest.ClearAtributPLU;
-begin
-//  edbProductCode.Clear;
-//  edtProductName.Clear;
-//  cbUOM.Clear;
-//  IntEdtQty.Clear;
-//  curredtTotal.Clear;
-end;
-
-procedure TfrmDialogBarcodeRequest.ParseHeader;
-begin
-  {with strgGrid do
-  begin
-    Clear;
-    RowCount  := _RowCount;
-    ColCount  := _ColCount;
-
-    Cells[_KolNo, 0]    := 'NO';
-    Cells[_KolKode, 0]  := 'PLU';
-    Cells[_KolNama, 0]  := 'PRODUCT NAME';
-    Cells[_KolQTY, 0]   := 'QTY LABEL';
-    Cells[_KolPrice, 0] := 'UNIT PRICE';
-    Cells[_KolTotal, 0] := 'TOTAL PRICE';
-    Cells[_kolUOM, 0]   := 'UOM';
-  end;
-  }
-end;
-
-procedure TfrmDialogBarcodeRequest.bSearchPOClick(Sender: TObject);
-var
-  sSQL: string;
-begin
-  if edbSupplierCode.Text = ''  then
-  begin
-     CommonDlg.ShowMessage('Kode suplier belum di isi ');
-     Exit;
-  end;
-
-//  lblStatusPO.Caption := '';
-//  lblStatusPO.Tag     := 0;
-  sSQL := ' select a.po_no as"NO PO", a.PO_date as "TGL PO", d.merchan_name AS "MERCHANDISE",f.stapo_name AS "STATUS",'
-          + ' e.sup_code AS "KODE SUPLIER", e.sup_name AS "NAMA SUPLIER" '
-          + ' from PO a, suplier_merchan_grup b, ref$merchandise_grup c, '
-          + ' ref$merchandise d, suplier e, ref$Status_po f '
-          + ' where a.IS_PO_BONUS = 0 and b.supmg_sub_code = a.po_supmg_sub_code '
-          + ' and b.supmg_unt_id = a.po_supmg_unt_id '
-          + ' and c.merchangrup_id = b.supmg_merchangrup_id '
-          + ' and c.merchangrup_unt_id = b.supmg_unt_id '
-          + ' and d.merchan_id = c.merchangrup_merchan_id '
-          + ' and d.merchan_unt_id = c.merchangrup_merchan_unt_id '
-          + ' and e.sup_code = b.supmg_code '
-          + ' and e.sup_unt_id = b.supmg_unt_id '
-          + ' and f.stapo_id = a.po_stapo_id '
-          + ' and f.stapo_unt_id = a.po_stapo_unt_id '
-          + ' and a.po_stapo_id in (5)';
-  if (edbSupplierCode.Text<>'') then
-    sSQL := sSQL + ' and e.sup_code = ' + QuotedStr(edbSupplierCode.Text);
-  {
-  with cLookUp('Daftar PO Yang Sudah Diterima',sSQL,200,1,True) do
-  begin
-    try
-      edtPONo.Text := Strings[0];
-      ClearAtributPLU;
-      edtSupplierName.Text := Strings[5];
-      curredtUnitPrice.SetFocus;
-      LoadDataPOToForm(edtPONo.Text);
-    finally
-      Free;
-    end;
-  end;
-  }
-end;
-
-procedure TfrmDialogBarcodeRequest.edtPONoKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if Key=#13 then
-  begin
-//  	LoadDataPOToForm(edtPONo.Text);
-  end else if(not(Key in['0'..'9',Chr(VK_BACK)]))then
-    Key:=#0;
-end;
-
-procedure TfrmDialogBarcodeRequest.LoadDataPOToForm(aPONo : string);
-var
-//  FPO: TPO;
-  i: Integer;
-  dQty : Double;
-begin
-	{
-  FPO := TPO.Create(Self);
-  FPO.LoadByNoBukti(aPONo, dialogunit);
-
-  edtPONo.Text := FPO.NoBukti;
-  lblStatusPO.Caption := FPO.StatusPO.Nama;
-  lblStatusPO.Tag     := FPO.StatusPO.ID;
-
-  edtDatePO.Date := FPO.TglBukti;
-  with strgGrid do
-  begin
-    // ini yg PO Biasa
-    if FPO.POItems.Count > 0 then
+  if not Assigned(CDSBarang) then
+    CDSBarang := TDBUtils.DSToCDS(DMClient.DSProviderClient.BarangBySUPMG_GetDSLookup(ModbarcodeRequest.BR_SUPMG.ID), Self);
+  cxLookup := TfrmCXLookup.Execute(CDSBarang);
+  Try
+    cxLookup.HideFields(['BARANG_ID']);
+    if cxLookup.ShowModal = mrOK then
     begin
-      for i := 0 to FPO.POItems.Count - 1 do
-      begin
-        if strgGrid.Cells[_KolNo, strgGrid.RowCount - 1] <> '' then
-          strgGrid.AddRow;
-        Cells[_KolNo, strgGrid.RowCount - 1]     := IntToStr(i + 1);
-        Cells[_KolKode, strgGrid.RowCount - 1]   := FPO.POItems[i].Barang.Kode;
-        Cells[_KolNama, strgGrid.RowCount - 1]   := FPO.POItems[i].Barang.Alias;
-        if FPO.StatusPO.ID = 5 then
-        begin
-          dQty := FPO.POItems[i].GetQtyReceive
-        end else
-          dQty := FPO.POItems[i].QtyOrder;
-
-        Cells[_KolQTY, strgGrid.RowCount - 1]    := FloatToStr(dQty);
-        Cells[_KolPrice, strgGrid.RowCount - 1]  := CurrToStr(curredtUnitPrice.Value);
-        Cells[_KolTotal, strgGrid.RowCount - 1]  := CurrToStr(dQty * curredtUnitPrice.Value);
-        Cells[_KolStatus, strgGrid.RowCount - 1] := 'NEW';
-        Cells[_kolUOM, strgGrid.RowCount - 1]    := FPO.POItems[i].SatCodeOrder.UOM;
-        curreditTotalPrice.Value := curreditTotalPrice.Value + dQty * curredtUnitPrice.Value;
-      end;
+      SetBarangToGrid(cxLookup.Data.FieldByname('BRG_CODE').AsString);
     end;
-    AutoSize := True;
-  end;
-  }
+  Finally
+    cxLookup.Free;
+  End;
 end;
 
-procedure TfrmDialogBarcodeRequest.FormKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
+procedure TfrmDialogBarcodeRequest.LookupUOM(ABarangID: String);
+var
+  cxLookup: TfrmCXLookup;
+  iCurrentRow: Integer;
+  LCDSuom: TClientDataset;
 begin
-  inherited;
-  if(Key = VK_F2) then
-    bSearchPOClick(Sender)
+  LCDSuom := TDBUtils.DSToCDS(DMClient.DSProviderClient.KonversiSatuan_GetDS(ABarangID), Self);
+  cxLookup := TfrmCXLookup.Execute(LCDSuom);
+  Try
+    cxLookup.HideFields(['REF$SATUAN_ID', 'BARANG_ID', 'BRG_NAME', 'KONVSAT_SCALE']);
+    if cxLookup.ShowModal = mrOK then
+    begin
+      //ambil data dari cxLookup :
+      //cxLookup.Data.FieldByName(namafield).Axxxx
+      iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index]  :=  cxLookup.Data.FieldByName('Ref$Satuan_ID').AsString;
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOM.Index]    :=  cxLookup.Data.FieldByName('SAT_CODE').AsString;
+      //isi data dari lookup ke grid
+    end;
+  Finally
+    cxLookup.Free;
+    LCDSUOM.Free;
+  End;
 end;
 
-initialization
-  IsSuccessfull := False;
-  
+procedure TfrmDialogBarcodeRequest.SetBarangToGrid(APLU: String);
+var
+  iCurrentRow: Integer;
+  lModBarang: TModBarang;
+begin
+  lModBarang := TCRUDObj.RetrieveCode<TModBarang>(APLU);
+  //Jare Manda, cara retrieve yg lebih simpel. Tur aku ra paham. wkwkwk
+  Try
+    iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+    //mendapatkan baris grid yg sedang fokus;
+
+    if lModBarang.ID = '' then
+      TAppUtils.Warning('PLU Tidak Ditemukan!');
+    //diwoco kudune ngerti, soale jelaske kangelan. wkwkwk
+
+    //cara mengisi grid, format :
+    //'namaGrid'.DataController.Values[ 'index baris', 'index kolom'] = xxx
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index]     := lModBarang.BRG_CODE;
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColNama.Index]     := lModBarang.BRG_NAME;
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColPLU_ID.Index]   := lModBarang.ID;
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColBarcode.Index]  := lModBarang.BRG_CATALOG;
+
+    //Set UOM Default
+    if lModBarang.SATUAN_STOCK <> nil then
+    begin
+      lModBarang.SATUAN_STOCK.Reload();
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index] := lModBarang.SATUAN_STOCK.ID;
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOM.Index]   := lModBarang.SATUAN_STOCK.SAT_CODE;
+    end;
+//    cxGridTableBR.DataController.Post();
+    cxGridTableBR.DataController.PostEditingData();
+  Finally
+    lModBarang.Free;
+  End;
+
+end;
+
+procedure TfrmDialogBarcodeRequest.SetSUPMG(ASupMG: String);
+var
+  lModSUPMG: TModSuplierMerchanGroup;
+begin
+  lModSUPMG := TCRUDObj.RetrieveCode<TModSuplierMerchanGroup>(ASupMG);
+  //Jare Manda, cara retrieve yg lebih simpel. Tur aku ra paham. wkwkwk
+  Try
+    if lModSUPMG.ID = '' then
+      TAppUtils.Warning('Suplier Merchan Grup Tidak Ditemukan!');
+    //diwoco kudune ngerti, soale jelaske kangelan. wkwkwk
+
+    //cara mengisi grid, format :
+    //LOKASI = xxx
+    edbSupplierCode.Text := lModSUPMG.SUPMG_SUB_CODE;
+    edtSupplierName.Text := lModSUPMG.SUPMG_NAME;
+
+    ModbarcodeRequest.BR_SUPMG := TModSuplierMerchanGroup.CreateID(lModSUPMG.ID);
+
+  Finally
+    lModSUPMG.Free;
+  End;
+
+end;
+
+procedure TfrmDialogBarcodeRequest.SimpanData;
+begin
+  try
+    DMClient.CRUDJurnalClient.SaveToDB(ModbarcodeRequest);
+    TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+    self.ModalResult:=mrOk;
+  except
+    TAppUtils.Error(ER_INSERT_FAILED);
+    raise;
+  end;
+end;
+
+procedure TfrmDialogBarcodeRequest.UpdateBarcodePrice;
+var
+  i: Integer;
+begin
+  for i := 0 to cxGridTableBR.DataController.RecordCount-1 do
+  begin
+    cxGridTableBR.DataController.Values[i, cxGridTableColHarga.index] := curredtUnitPrice.value;
+  end;
+//
+end;
+
+procedure TfrmDialogBarcodeRequest.UpdateData;
+var
+  i: Integer;
+  lItem: TModBarcodeRequestItem;  //var nama bebas untuk detail
+begin
+//header
+  if ModbarcodeRequest.ID = '' then
+    edtBarNo.Text := DMClient.CRUDBarcodeRequest.GenerateNo(ModbarcodeRequest.ClassName);
+    //generate nomor otomatis,
+    {
+      mau tau detailnya? coba ctrl+klik 'GenerateNo' yg di situ.
+      Kl udah kebuka balik sini lagi, lanjut baca.
+
+      Udah kebuka kan tadi? Kliatan kan tulisan 'TCRUDTransferBarang.GenerateNo'?
+      Itu lokasinya ada di server. uServerClases.TCRUDTransferBarang.GenerateNo
+      TCRUDTCRUDTransferBarang itu inherit dari TCRUD yang di-'overide' di bagian  TCRUD.
+      Jangan tanya gimana! Aku yo ra isoh jelaske. wkwkwk
+      Nah, kl mau bikin custom no yg serupa copy aja, trus rename, isinya disesuaikan.
+      Abis itu daftarkan di uDMClient, metodenya sama copy-paste.
+      Buka ServerContainerUnit, register di method RegisterServerClases.
+      Jalankan server, generate data snap clientclasses.
+
+      Sementara ini dulu, besok dilanjut.
+
+    }
+
+  ModbarcodeRequest.BR_NO     := edtBarNo.Text;
+  ModbarcodeRequest.BR_DATE   := dtTgl.Date;
+  ModbarcodeRequest.BR_HARGA  := curredtUnitPrice.EditValue;
+  ModbarcodeRequest.BR_TOTAL  := vartofloat(cxGridTableBR.GetFooterSummary(cxGridTableColTotal));
+  ModbarcodeRequest.BR_UNIT   := TRetno.UnitStore;
+  ModbarcodeRequest.BR_COLIE  := cxGridTableBR.GetFooterSummary(cxGridTableColQTY);
+
+//detail
+  ModbarcodeRequest.BarcodeRequestItems.Clear; //hapus yg sudah ada, biasanya kl edit, biar ga dobel.
+
+  for i := 0 to cxGridTableBR.DataController.RecordCount-1 do
+    begin
+      lItem := TModBarcodeRequestItem.Create;
+      lItem.BRI_BARANG  := TModBarang.CreateID(cxGridTableBR.Values(i,cxGridTableColPLU_ID.Index));
+      lItem.BRI_SATUAN  := TModSatuan.CreateID(cxGridTableBR.Values(i,cxGridTableColUOMid.Index));
+      //                     Mod Asal             tabel                kolom
+      lItem.BRI_QTY     := VarToFloat(cxGridTableBR.Values(i,cxGridTableColQTY.Index));
+      lItem.BRI_HARGA   := cxGridTableBR.Values(i,cxGridTableColHarga.Index);
+      lItem.BRI_TOTAL   := cxGridTableBR.Values(i,cxGridTableColTotal.Index);
+      //                    Konversi Varchar ke Double
+
+      ModbarcodeRequest.BarcodeRequestItems.Add(lItem)
+    end;
+
+
+end;
+
+procedure TfrmDialogBarcodeRequest.UpdateTotalBarcodePrice;
+var
+  i: Integer;
+begin
+    cxGridTableBR.DataController.Post;
+  for i := 0 to cxGridTableBR.DataController.RecordCount-1 do
+  begin
+    cxGridTableBR.DataController.Values[i, cxGridTableColTotal.Index] :=
+      cxGridTableBR.DataController.Values[i, cxGridTableColHarga.index] * cxGridTableBR.DataController.Values[i, cxGridTableColQTY.index];
+  end;
+//
+end;
+
+function TfrmDialogBarcodeRequest.ValidateData: Boolean;
+var
+  i: Integer;
+  lQty: Double;
+
+begin
+  Result := False;
+  cxGridTableBR.DataController.Post();
+
+  if not ValidateEmptyCtrl([0,1]) then exit;
+
+  //validasi harus ada minim 1 baris
+  if cxGridTableBR.DataController.RecordCount < 1 then
+  begin
+    TAppUtils.Warning('Item minimal 1 baris');
+    exit;
+  end;
+
+  //validasi qty harus lebih dari 0
+  if cxGridTableBR.GetFooterSummary(cxGridTableColQTY) <= 0 then
+  begin
+    TAppUtils.Warning('Quantity pada baris ke-'+IntToStr(i+1)+' salah');
+    exit;
+  end;
+
+  //validasi harus terisi: PLU, UOM, qty, harga
+  for i := 0 to cxGridTableBR.DataController.RecordCount-1 do
+  begin
+      //validasi harga ga boleh kurang dari 0
+    if cxGridTableBR.Values(i,cxGridTableColHarga.Index) <=0 then
+    begin
+      TAppUtils.Warning('Harga pada baris ke-'+IntToStr(i+1)+' Salah.');
+      exit;
+    end;
+
+    if varisnull (cxGridTableBR.Values(i,cxGridTableColPLU_ID.Index)) then
+    begin
+      TAppUtils.Warning('PLU pada baris ke-'+IntToStr(i+1)+' belum diisi.');
+      exit;
+    end;
+
+    if varisnull (cxGridTableBR.Values(i,cxGridTableColUOMid.Index)) then
+    begin
+      TAppUtils.Warning('UOM pada baris ke-'+IntToStr(i+1)+' belum diisi.');
+      exit;
+    end;
+
+    if varisnull (cxGridTableBR.Values(i,cxGridTableColQTY.Index)) then
+    begin
+      TAppUtils.Warning('Quantity pada baris ke-'+IntToStr(i+1)+' belum diisi.');
+      exit;
+    end;
+  end;
+
+  Result := True;
+end;
+
+function TfrmDialogBarcodeRequest.ValidateSUPMG: Boolean;
+var
+  i: Integer;
+  lQty: Double;
+
+begin
+  Result := False;
+//  cxGridTableBR.DataController.Post();
+
+  //validasi SUPMG harus terisi
+  if ModbarcodeRequest.BR_SUPMG = nil then
+  begin
+    TAppUtils.Warning('Suplier Merchan Grup harus diisi.');
+    exit;
+  end;
+
+  Result := True;
+end;
+
 end.
-
-
-
-
-
-

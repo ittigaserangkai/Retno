@@ -50,7 +50,7 @@ begin
   if FCDS = nil  then
     Exit;
 
-  ShowDialogForm(TfrmDialogDOForTrader, FCDS.FieldByName('DOTTRADER_ID').AsString);
+  ShowDialogForm(TfrmDialogDOForTrader, FCDS.FieldByName('DOTRADER_ID').AsString);
 end;
 
 procedure TfrmDOForTrader.FormClose(Sender: TObject;

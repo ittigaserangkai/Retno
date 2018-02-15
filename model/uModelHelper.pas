@@ -108,34 +108,74 @@ end;
 procedure TModAppHelper.CopyFrom(aModApp : TModApp);
 var
   ctx: TRttiContext;
-  lNewObj: TModApp;
-  lSrcObj: TObject;
+  i: Integer;
+  lAppClass: TModAppClass;
+  lNewItem: TModApp;
+  lNewObjList: TObject;
+  lSrcItem: TModApp;
+  lSrcObjList: TObject;
   meth: TRttiMethod;
   RttiType: TRttiType;
   Prop: TRttiProperty;
+  rtItem: TRttiType;
+  sGenericItemClassName: string;
+  value: TValue;
+
+  function SetPropertyFrom(AProp: TRttiProperty; ASource: TModApp): TModApp;
+  var
+    lSrcObj: TObject;
+  begin
+    Result := nil;
+    lSrcObj := Prop.GetValue(ASource).AsObject;
+    if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then exit;;
+    meth    := prop.PropertyType.GetMethod('Create');
+    Result  := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+    if lSrcObj <> nil then
+      TModApp(Result).CopyFrom(TModApp(lSrcObj));
+  end;
+
 begin
   RttiType := ctx.GetType(Self.ClassType);
   Try
     for Prop in RttiType.GetProperties do
     begin
       if not (Prop.IsReadable and Prop.IsWritable) then continue;
-
-      //revisi : published saja
-      if prop.Visibility <> mvPublished then continue;
+//      if prop.Visibility <> mvPublished then continue;
 
       If prop.PropertyType.TypeKind = tkClass then
       begin
-        lSrcObj := Prop.GetValue(aModApp).AsObject;
+        meth := prop.PropertyType.GetMethod('ToArray');
+        if Assigned(meth) then  //object list
+        begin
+          lSrcObjList := prop.GetValue(aModApp).AsObject;
+          lNewObjList := prop.GetValue(Self).AsObject;
+          if lSrcObjList = nil then continue;
 
+          value  := meth.Invoke(prop.GetValue(aModApp), []);
+          Assert(value.IsArray);
+          sGenericItemClassName := StringReplace(lSrcObjList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+          sGenericItemClassName := StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+          rtItem := ctx.FindType(sGenericItemClassName);
 
-        if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
-        meth    := prop.PropertyType.GetMethod('Create');
-        lNewObj := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-
-        if lSrcObj <> nil then
-          TModApp(lNewObj).CopyFrom(TModApp(lSrcObj));
-
-        prop.SetValue(Self, lNewObj);
+          meth := prop.PropertyType.GetMethod('Add');
+          if Assigned(meth) and Assigned(rtItem) then
+          begin
+            if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+            lAppClass := TModAppClass( rtItem.AsInstance.MetaclassType );
+            for i := 0 to value.GetArrayLength - 1 do
+            begin
+              lSrcItem := TModApp(value.GetArrayElement(i).AsObject);
+              lNewItem := lAppClass.Create;
+              lNewItem.CopyFrom(lSrcItem);
+              meth.Invoke(lNewObjList,[lNewItem]);
+            end;
+          end;
+          prop.SetValue(Self, lNewObjList);
+        end
+        else
+        begin
+          prop.SetValue(Self, SetPropertyFrom(prop, aModApp));
+        end;
       end else
         Prop.SetValue(Self, Prop.GetValue(aModApp));
     end;
