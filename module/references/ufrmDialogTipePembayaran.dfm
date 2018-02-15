@@ -20,16 +20,16 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
     object lbl1: TLabel
       Left = 40
       Top = 13
-      Width = 25
+      Width = 24
       Height = 16
-      Caption = 'Code'
+      Caption = 'Kode'
     end
     object lbl2: TLabel
-      Left = 40
-      Top = 38
-      Width = 23
+      Left = 38
+      Top = 43
+      Width = 27
       Height = 16
-      Caption = 'Type'
+      Caption = 'Nama'
     end
     object edtKodeTipePembayaran: TEdit
       Left = 74
@@ -57,33 +57,50 @@ inherited frmDialogTipePembayaran: TfrmDialogTipePembayaran
   inherited footerDialogMaster: TfraFooterDialog3Button
     Top = 298
     Width = 667
-    ExplicitTop = 82
-    ExplicitWidth = 353
+    ExplicitTop = 298
+    ExplicitWidth = 667
     inherited pnlFooter: TPanel
       Width = 667
-      ExplicitWidth = 353
+      ExplicitWidth = 667
       inherited btnClose: TcxButton
         Left = 590
-        ExplicitLeft = 276
+        Action = actCancel
+        ExplicitLeft = 590
       end
       inherited btnSave: TcxButton
         Left = 497
         Action = nil
-        OptionsImage.ImageIndex = 32
-        ExplicitLeft = 183
+        OnClick = actSaveExecute
+        ExplicitLeft = 497
+        ExplicitTop = 5
       end
       inherited btnDelete: TcxButton
         Action = nil
       end
+      inherited btnPrint: TcxButton
+        Left = 420
+        Action = actPrint
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 667
-      ExplicitWidth = 353
+      ExplicitWidth = 667
       inherited lbCTRLEnter: TLabel
         Left = 492
+        Height = 15
+        ExplicitLeft = 492
       end
       inherited lbEscape: TLabel
         Left = 583
+        Height = 15
+        ExplicitLeft = 583
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
+      end
+      inherited lblCTRLP: TLabel
+        Left = 416
+        Height = 15
       end
     end
   end

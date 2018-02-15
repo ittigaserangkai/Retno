@@ -1,4 +1,4 @@
-unit ufrmCashIn;
+unit ufrmBankCashIn;
 
 interface
 
@@ -11,13 +11,10 @@ uses
   System.Actions, Vcl.ActnList, ufraFooter4Button, Vcl.StdCtrls, cxButtons,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, uDBUtils, uDMClient,
-  Datasnap.DBClient, uDXUtils, ufrmDialogCashIn;
+  cxGridDBTableView, cxGrid, cxPC, Vcl.ExtCtrls, Datasnap.DBClient;
 
 type
-  TfrmCashIn = class(TfrmMasterBrowse)
-    procedure actAddExecute(Sender: TObject);
-    procedure actEditExecute(Sender: TObject);
+  TfrmBankCashIn = class(TfrmMasterBrowse)
   private
     FCDS: TClientDataSet;
     property CDS: TClientDataSet read FCDS write FCDS;
@@ -28,33 +25,23 @@ type
   end;
 
 var
-  frmCashIn: TfrmCashIn;
+  frmBankCashIn: TfrmBankCashIn;
 
 implementation
 
 {$R *.dfm}
 
-procedure TfrmCashIn.actAddExecute(Sender: TObject);
+uses uDMClient, uDBUtils, uDXUtils, System.DateUtils;
+
+procedure TfrmBankCashIn.RefreshData;
 begin
   inherited;
-  ShowDialogForm(TfrmDialogCashIn);
-end;
 
-procedure TfrmCashIn.actEditExecute(Sender: TObject);
-var
-  AID: String;
-begin
-  inherited;
-  AID := CDS.FieldByName('BANKCASHIN_ID').AsString;
-  ShowDialogForm(TfrmDialogCashIn, AID);
-end;
-
-procedure TfrmCashIn.RefreshData;
-begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.CashIn_GetDSOverview(dtAwalFilter.Date, dtAkhirFilter.Date),Self );
-  cxGridView.LoadFromCDS(CDS);
-  cxGridView.SetVisibleColumns(['BANKCASHIN_ID'],False);
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.BankCashIn_GetDSByPeriod(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  cxGridView.LoadFromCDS(FCDS);
+  cxGridView.SetVisibleColumns(['BANKCASHIN_ID','BCI_Bank_ID','BCI_Organization_ID',''],False);
+
 end;
 
 end.

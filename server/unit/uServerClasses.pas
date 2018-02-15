@@ -247,6 +247,14 @@ type
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
+type
+  TCrudBankCashIN = class(TCrud)
+  private
+  protected
+  public
+    function GenerateNoBukti: String;
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -2104,6 +2112,11 @@ begin
     lOrg.Free;
     lcrud.Free;
   end;
+end;
+
+function TCrudBankCashIN.GenerateNoBukti: String;
+begin
+  Result := 'BKM' + Self.GenerateNo(TModBankCashIn.ClassName);
 end;
 
 end.

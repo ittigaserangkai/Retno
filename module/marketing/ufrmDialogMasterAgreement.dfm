@@ -419,21 +419,15 @@ inherited frmDialogMasterAgreement: TfrmDialogMasterAgreement
       ExplicitWidth = 914
       inherited lbCTRLEnter: TLabel
         Left = 570
-        Height = 15
-        ExplicitLeft = 739
+        ExplicitLeft = 570
       end
       inherited lbEscape: TLabel
         Left = 661
-        Height = 15
-        ExplicitLeft = 830
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
+        ExplicitLeft = 661
       end
       inherited lblCTRLP: TLabel
         Left = 494
-        Height = 15
-        ExplicitLeft = 663
+        ExplicitLeft = 494
       end
     end
   end

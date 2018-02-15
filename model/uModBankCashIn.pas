@@ -43,6 +43,7 @@ type
   published
     property BCI_Keterangan: string read FBCI_Keterangan write FBCI_Keterangan;
     property BCI_Bank: TModBank read FBCI_Bank write FBCI_Bank;
+    [AttributeOfCode]
     property BCI_NoBukti: string read FBCI_NoBukti write FBCI_NoBukti;
     property BCI_Organization: TModOrganization read FBCI_Organization write
         FBCI_Organization;

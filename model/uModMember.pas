@@ -1,7 +1,7 @@
 unit uModMember;
 
 interface
-uses uModApp, uModTipePerusahaan, uModRefAgama, uModTipePembayaran;
+uses uModApp, uModTipePerusahaan, uModRefAgama, uModTipePembayaran, uModRekening;
 type
   TModMemberActivasi = class;
   TModMemberKeluarga = Class;
@@ -44,6 +44,7 @@ type
     FMEMBER_RW: String;
     FMEMBER_PLAFON: Double;
     FMEMBER_LEAD_TIME: Integer;
+    FMEMBER_REK_PIUTANG: TModRekening;
     FMEMBER_TOP: Integer;
     FRefTipeMember: TModRefTipeMember;
   public
@@ -106,6 +107,8 @@ type
     property MEMBER_PLAFON: Double read FMEMBER_PLAFON write FMEMBER_PLAFON;
     property MEMBER_LEAD_TIME: Integer read FMEMBER_LEAD_TIME write
         FMEMBER_LEAD_TIME;
+    property MEMBER_REK_PIUTANG: TModRekening read FMEMBER_REK_PIUTANG write
+        FMEMBER_REK_PIUTANG;
     property MEMBER_TOP: Integer read FMEMBER_TOP write FMEMBER_TOP;
     [AttributeOfForeign('REF$TIPE_MEMBER_ID')]
     property RefTipeMember: TModRefTipeMember read FRefTipeMember write

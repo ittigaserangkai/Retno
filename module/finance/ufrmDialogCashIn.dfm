@@ -2,7 +2,6 @@ inherited frmDialogCashIn: TfrmDialogCashIn
   Caption = 'Dialog Cash In'
   ClientHeight = 474
   ClientWidth = 840
-  ExplicitTop = -79
   ExplicitWidth = 856
   ExplicitHeight = 513
   PixelsPerInch = 96
@@ -32,8 +31,8 @@ inherited frmDialogCashIn: TfrmDialogCashIn
         Width = 223
       end
       object lvSumary: TcxListView
-        Left = 605
-        Top = 27
+        Left = 603
+        Top = 23
         Width = 210
         Height = 58
         Columns = <
@@ -177,7 +176,10 @@ inherited frmDialogCashIn: TfrmDialogCashIn
             Kind = bkEllipsis
           end>
         Properties.MaxLength = 0
+        Properties.OnButtonClick = beBusinessPartnerPropertiesButtonClick
+        Properties.OnEditValueChanged = beBusinessPartnerPropertiesEditValueChanged
         TabOrder = 3
+        OnExit = beBusinessPartnerExit
         Width = 199
       end
       object deReceiveDate: TcxDateEdit
@@ -267,8 +269,6 @@ inherited frmDialogCashIn: TfrmDialogCashIn
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 128
-      ExplicitHeight = 288
       object cxGridTableAR: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -482,5 +482,8 @@ inherited frmDialogCashIn: TfrmDialogCashIn
   inherited actlstMasterDialog: TActionList
     Left = 176
     Top = 248
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end
