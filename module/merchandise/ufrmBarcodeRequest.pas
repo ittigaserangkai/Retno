@@ -12,11 +12,17 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxPC, Datasnap.DBClient, uAppUtils, uDXUtils, uModBarang, uModSatuan,
-  uModBarcodeRequest, uDBUtils, uDMClient, System.DateUtils;
+  uModBarcodeRequest, uDBUtils, uDMClient, System.DateUtils, uRetnoUnit;
 
 type
   TfrmBarcodeRequest = class(TfrmMasterBrowse)
     actAddRow: TAction;
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -75,16 +81,25 @@ end;
 procedure TfrmBarcodeRequest.actEditExecute(Sender: TObject);
 begin
   inherited;
-  ShowDialogForm(TfrmDialogBarcodeRequest, FCDS.FieldByName('BARCODEREQUEST_ID').AsString);
+  ShowDialogForm(TfrmDialogBarcodeRequest,
+    cxGridView.DS.FieldByName('BARCODEREQUEST_ID').AsString);
 end;
 
 procedure TfrmBarcodeRequest.RefreshData;
 begin
   inherited;
-  if Assigned(FCDS) then FreeAndNil(FCDS);
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.BarcodeRequest_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date), nil) ,Self );
-  cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['BR_UNIT_ID','BR_ORGANIZATION_ID','BARCODEREQUEST_ID'],False);
+  cxGridView.PrepareFromCDS(
+    TDBUtils.DSToCDS(
+      DMClient.DSProviderClient.BarcodeRequest_GetDSOverview(
+        dtAwalFilter.Date, dtAkhirFilter.Date, TRetno.UnitStore
+      ), Self
+    )
+  );
+
+//  if Assigned(FCDS) then FreeAndNil(FCDS);
+//  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.BarcodeRequest_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date), nil) ,Self );
+//  cxGridView.LoadFromCDS(FCDS);
+//  cxGridView.SetVisibleColumns(['BR_UNIT_ID','BR_ORGANIZATION_ID','BARCODEREQUEST_ID'],False);
 end;
 
 end.
