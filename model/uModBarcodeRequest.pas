@@ -19,6 +19,7 @@ type
     FBR_DATE: tdatetime;
     FBR_IS_INVOICED: Integer;
     FBR_TOTAL: Double;
+    FBR_HARGA: Double;
     FBR_UNIT: TModUnit;
     function GetBarcodeRequestItems: TOBjectList<TModBarcodeRequestItem>;
   public
@@ -36,6 +37,7 @@ type
     property BR_DATE: tdatetime read FBR_DATE write FBR_DATE;
     property BR_IS_INVOICED: Integer read FBR_IS_INVOICED write FBR_IS_INVOICED;
     property BR_TOTAL: Double read FBR_TOTAL write FBR_TOTAL;
+    property BR_HARGA: Double read FBR_HARGA write FBR_HARGA;
     property BR_UNIT: TModUnit read FBR_UNIT write FBR_UNIT;
   end;
 

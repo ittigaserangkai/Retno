@@ -6,7 +6,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
   ClientWidth = 861
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  OnShow = FormShow
+  ExplicitTop = 4
   ExplicitWidth = 877
   ExplicitHeight = 526
   PixelsPerInch = 96
@@ -16,52 +16,6 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
     Height = 431
     ExplicitWidth = 861
     ExplicitHeight = 431
-    inherited cxGrid: TcxGrid
-      Top = 91
-      Width = 857
-      Height = 338
-      TabOrder = 1
-      ExplicitTop = 91
-      ExplicitWidth = 857
-      ExplicitHeight = 338
-      inherited cxGridView: TcxGridDBTableView
-        Styles.ContentEven = DMClient.cxStyleGridEven
-        Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColKode: TcxGridDBColumn
-          Caption = 'Kode'
-          HeaderAlignmentHorz = taCenter
-          Width = 84
-        end
-        object cxGridColNama: TcxGridDBColumn
-          Caption = 'Nama'
-          HeaderAlignmentHorz = taCenter
-          Width = 139
-        end
-        object cxGridColUOM: TcxGridDBColumn
-          Caption = 'UOM'
-          HeaderAlignmentHorz = taCenter
-          Width = 83
-        end
-        object cxGridColBarcode: TcxGridDBColumn
-          Caption = 'Barcode'
-          HeaderAlignmentHorz = taCenter
-          Width = 92
-        end
-        object cxGridColQty: TcxGridDBColumn
-          Caption = 'Qty'
-          HeaderAlignmentHorz = taCenter
-        end
-        object cxGridColHarga: TcxGridDBColumn
-          Caption = 'Harga'
-          HeaderAlignmentHorz = taCenter
-          Width = 77
-        end
-        object cxGridColTotal: TcxGridDBColumn
-          Caption = 'Total'
-          HeaderAlignmentHorz = taCenter
-        end
-      end
-    end
     object Panel1: TPanel
       Left = 2
       Top = 2
@@ -99,9 +53,9 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         Caption = 'TANGGAL'
       end
       object edtSupplierName: TEdit
-        Left = 201
+        Left = 202
         Top = 35
-        Width = 217
+        Width = 216
         Height = 22
         TabStop = False
         Ctl3D = False
@@ -111,7 +65,8 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         TabOrder = 2
       end
       object edtBarNo: TEdit
-        Left = 77
+        Tag = 3
+        Left = 75
         Top = 10
         Width = 121
         Height = 22
@@ -121,35 +76,35 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         ParentCtl3D = False
         ReadOnly = True
         TabOrder = 0
-        OnKeyPress = edtBarNoKeyPress
       end
       object dtTgl: TcxDateEdit
+        Tag = 3
         Left = 288
         Top = 9
+        Properties.ShowTime = False
         TabOrder = 1
-        OnKeyPress = dtTglKeyPress
         Width = 130
       end
       object edbSupplierCode: TcxButtonEdit
-        Left = 77
+        Left = 75
         Top = 34
         Properties.Buttons = <
           item
             Default = True
             Kind = bkEllipsis
           end>
+        Properties.OnButtonClick = edbSupplierCodePropertiesButtonClick
         TabOrder = 3
+        OnExit = edbSupplierCodeExit
         Width = 121
       end
       object curredtUnitPrice: TcxCurrencyEdit
-        Left = 77
-        Top = 60
+        Left = 75
+        Top = 59
         EditValue = 0.000000000000000000
         Properties.DisplayFormat = ',0.00;(,0.00)'
         TabOrder = 4
-        OnExit = IntEdtQtyExit
-        OnKeyDown = IntEdtQtyKeyDown
-        OnKeyPress = IntEdtQtyKeyPress
+        OnExit = curredtUnitPriceExit
         Width = 121
       end
       object grpPurchaseOrder: TGroupBox
@@ -174,12 +129,17 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
           Caption = 'PO Date'
         end
         object edtDatePO: TcxDateEdit
+          Tag = 3
           Left = 55
           Top = 46
+          Properties.ReadOnly = True
+          Properties.ShowTime = False
+          Properties.OnInitPopup = edtDatePOPropertiesInitPopup
           TabOrder = 1
           Width = 121
         end
         object edPO: TcxButtonEdit
+          Tag = 3
           Left = 55
           Top = 19
           Properties.Buttons = <
@@ -187,9 +147,128 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.ReadOnly = True
+          Properties.OnButtonClick = edPOPropertiesButtonClick
           TabOrder = 0
+          OnKeyDown = edPOKeyDown
           Width = 121
         end
+      end
+    end
+    object cxgrdBR: TcxGrid
+      Left = 2
+      Top = 91
+      Width = 857
+      Height = 338
+      Align = alClient
+      TabOrder = 1
+      RootLevelOptions.DetailTabsPosition = dtpTop
+      object cxGridTableBR: TcxGridTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.0#;(,0.0#)'
+            Kind = skSum
+          end
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridTableColTotal
+          end
+          item
+            Format = ',0.##;(,0.##)'
+            Kind = skSum
+            Column = cxGridTableColQTY
+          end>
+        DataController.Summary.SummaryGroups = <>
+        DataController.OnNewRecord = cxGridTableBRDataControllerNewRecord
+        OptionsBehavior.FocusCellOnTab = True
+        OptionsBehavior.FocusFirstCellOnNewRecord = True
+        OptionsBehavior.GoToNextCellOnEnter = True
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsCustomize.ColumnSorting = False
+        OptionsData.Appending = True
+        OptionsView.Footer = True
+        OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridEven
+        Styles.Header = DMClient.cxStyleGridHeader
+        object cxGridTableColCode: TcxGridColumn
+          Caption = 'Kode'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
+          Properties.OnButtonClick = cxGridTableColCodePropertiesButtonClick
+          Properties.OnEditValueChanged = cxGridTableColCodePropertiesEditValueChanged
+          Properties.OnValidate = cxGridTableColCodePropertiesValidate
+          Width = 75
+        end
+        object cxGridTableColNama: TcxGridColumn
+          Caption = 'Nama'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 198
+        end
+        object cxGridTableColUOM: TcxGridColumn
+          Caption = 'UOM'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
+          Properties.OnButtonClick = cxGridTableColUOMPropertiesButtonClick
+          Width = 71
+        end
+        object cxGridTableColBarcode: TcxGridColumn
+          Caption = 'Barcode'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 114
+        end
+        object cxGridTableColQTY: TcxGridColumn
+          Caption = 'QTY'
+          DataBinding.ValueType = 'Integer'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.OnEditValueChanged = cxGridTableColQTYPropertiesEditValueChanged
+          Width = 89
+        end
+        object cxGridTableColHarga: TcxGridColumn
+          Caption = 'Harga'
+          DataBinding.ValueType = 'Currency'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.OnEditValueChanged = cxGridTableColHargaPropertiesEditValueChanged
+          Width = 105
+        end
+        object cxGridTableColTotal: TcxGridColumn
+          Caption = 'Total'
+          DataBinding.ValueType = 'Currency'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
+          Width = 116
+        end
+        object cxGridTableColPLU_ID: TcxGridColumn
+          Caption = 'PLU ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
+        end
+        object cxGridTableColUOMid: TcxGridColumn
+          Caption = 'UOM ID'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
+        end
+      end
+      object cxgrdlBR: TcxGridLevel
+        Caption = 'Item Barcode Request'
+        GridView = cxGridTableBR
       end
     end
   end
@@ -209,7 +288,6 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       inherited btnSave: TcxButton
         Left = 691
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
         ExplicitLeft = 691
       end
       inherited btnDelete: TcxButton
@@ -249,6 +327,9 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
     Top = 296
     inherited actDelete: TAction
       OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
