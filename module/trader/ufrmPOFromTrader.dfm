@@ -98,6 +98,7 @@ inherited frmPOFromTrader: TfrmPOFromTrader
       ExplicitWidth = 905
       inherited lbEscape: TLabel
         Left = 831
+        Height = 17
         ExplicitLeft = 831
       end
     end

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/16/2018 3:42:07 PM
+// 2/16/2018 3:51:00 PM
 //
 
 unit uClientClasses;
@@ -455,8 +455,8 @@ type
     function Barang_GetDSOverview_Cache(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Barang_HargaJualOverview(AProductCode: string; const ARequestFilter: string = ''): TDataSet;
     function Barang_HargaJualOverview_Cache(AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
-    function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string = ''): TDataSet;
+    function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function BarcodeUsage_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2730,19 +2730,21 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_BarcodeRequest_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  TDSProvider_BarcodeRequest_GetDSOverview: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: 'AModSuplierMerchanGroup'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_BarcodeRequest_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  TDSProvider_BarcodeRequest_GetDSOverview_Cache: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: 'AModSuplierMerchanGroup'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -9563,7 +9565,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarang_HargaJualOverviewCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-function TDSProviderClient.BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string): TDataSet;
 begin
   if FBarcodeRequest_GetDSOverviewCommand = nil then
   begin
@@ -9587,14 +9589,15 @@ begin
       FreeAndNil(FMarshal)
     end
     end;
+  FBarcodeRequest_GetDSOverviewCommand.Parameters[3].Value.SetWideString(AModSuplierMerchanGroup);
   FBarcodeRequest_GetDSOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FBarcodeRequest_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result := TCustomSQLDataSet.Create(nil, FBarcodeRequest_GetDSOverviewCommand.Parameters[4].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
     FBarcodeRequest_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FBarcodeRequest_GetDSOverviewCommand_Cache = nil then
   begin
@@ -9618,8 +9621,9 @@ begin
       FreeAndNil(FMarshal)
     end
     end;
+  FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.SetWideString(AModSuplierMerchanGroup);
   FBarcodeRequest_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+  Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[4].Value.GetString);
 end;
 
 function TDSProviderClient.BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;

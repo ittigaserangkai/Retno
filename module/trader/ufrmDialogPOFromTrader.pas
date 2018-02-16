@@ -259,7 +259,7 @@ end;
 function TfrmDialogPOFromTrader.GetCDSOrganisasi: TClientDataset;
 begin
   if FCDSOrganisasi = nil then
-    FCDSOrganisasi := TDBUtils.DSToCDS(DMClient.DSProviderClient.Organization_Trader_GetDSLookup(), Self);
+    FCDSOrganisasi := TDBUtils.DSToCDS(DMClient.DSProviderClient.Organization_Lookup(2), Self);
 
   Result := FCDSOrganisasi;
 end;
@@ -434,7 +434,6 @@ begin
   edNoBukti.EditValue       := ModPOTrader.POT_NO;
   dtTgl.EditValue           := ModPOTrader.POT_DATE;
   LoadDataOrganization(ModPOTrader.POT_Organization.ID, False);
-  edTipeMember.EditValue    := '';
   edLeadTime.EditValue      := ModPOTrader.POT_LEAD_TIME;
   edTOP.EditValue           := ModPOTrader.POT_TOP;
   edTotal.EditValue         := ModPOTrader.POT_TOTAL;

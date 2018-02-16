@@ -125,7 +125,6 @@ inherited frmBarcodeRequest: TfrmBarcodeRequest
       ExplicitWidth = 874
       inherited lbEscape: TLabel
         Left = 800
-        Height = 17
         ExplicitLeft = 800
       end
     end

@@ -91,7 +91,7 @@ begin
   cxGridView.PrepareFromCDS(
     TDBUtils.DSToCDS(
       DMClient.DSProviderClient.BarcodeRequest_GetDSOverview(
-        dtAwalFilter.Date, dtAkhirFilter.Date, TRetno.UnitStore
+        dtAwalFilter.Date, dtAkhirFilter.Date, TRetno.UnitStore, ''
       ), Self
     )
   );
