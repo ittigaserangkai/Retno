@@ -441,7 +441,6 @@ function TDMClient.GetCrudReturTraderClient: TCRUDReturTraderClient;
 begin
   if FCrudReturTraderClient <> nil then
     FreeAndNil(FCrudReturTraderClient);
-
   FCrudReturTraderClient := TCRUDReturTraderClient.Create(RestConn, InstanceOwner);
   Result := FCrudReturTraderClient;
 end;

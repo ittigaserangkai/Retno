@@ -547,6 +547,7 @@ begin
   ModDOTrader.DOT_DISC          := edDisc.Value;
   ModDOTrader.DOT_PPN           := edPPN.Value;
   ModDOTrader.DOT_TOTAL         := edTotal.Value;
+  ModDOTrader.DOT_UNIT          := TRetno.UnitStore;
   ModDOTrader.DOT_Organization  := TModOrganization.CreateID(ModPOTrader.POT_Organization.ID);
 
   ModDOTrader.DOTraderItems.Clear;
