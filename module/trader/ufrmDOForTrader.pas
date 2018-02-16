@@ -72,7 +72,7 @@ begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.DOTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
   cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['DOTRADER_ID','DOT_ORGANIZATION_ID','DOT_POTRADER_ID'],False);
+  cxGridView.SetVisibleColumns(['DOTRADER_ID','DOT_ORGANIZATION_ID','DOT_POTRADER_ID','DOT_GUDANG_ID'],False);
 
 end;
 

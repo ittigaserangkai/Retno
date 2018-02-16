@@ -45,6 +45,7 @@ type
     property RET_DOTrader: TModDOTrader read FRET_DOTrader write FRET_DOTrader;
     property RET_GUDANG: TModGudang read FRET_GUDANG write FRET_GUDANG;
     property RET_LEAD_TIME: Double read FRET_LEAD_TIME write FRET_LEAD_TIME;
+    [AttributeofCode]
     property RET_NO: string read FRET_NO write FRET_NO;
     property RET_Organization: TModOrganization read FRET_Organization write
         FRET_Organization;
