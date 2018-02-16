@@ -536,7 +536,7 @@ var
   lDOItem: TModDOTraderItem;
 begin
   if ModDOTrader.ID = '' then
-    edNoBukti.Text := DMClient.CrudClient.GenerateNo(TModDOTrader.ClassName);
+    edNoBukti.Text := DMClient.CrudDOTraderClient.GenerateNo(TModDOTrader.ClassName);
 
   ModDOTrader.DOT_NO            := edNoBukti.Text;
   ModDOTrader.DOT_POTrader      := TModPOTrader.CreateID(ModPOTrader.ID);

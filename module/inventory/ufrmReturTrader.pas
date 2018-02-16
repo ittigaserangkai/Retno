@@ -16,6 +16,12 @@ uses
 
 type
   TfrmReturTrader = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
@@ -53,8 +59,7 @@ begin
   if Assigned(FCDS) then FreeAndNil(FCDS);
 
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.ReturTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date), nil) ,Self );
-  cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['RETURTRADER_ID','RET_DOTRADER_ID','RET_GUDANG_ID','RET_UNIT_ID'],False);
+  cxGridView.LoadFromCDS(FCDS, False);
 end;
 
 end.

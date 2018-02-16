@@ -245,6 +245,8 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
+    function GenerateNoBukti: String;
   end;
 
 type
@@ -269,6 +271,8 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
+    function GenerateNoBukti: String;
   end;
 
 {$METHODINFO OFF}
@@ -2182,6 +2186,11 @@ begin
   end;
 end;
 
+function TCRUDDOTrader.GenerateNoBukti: String;
+begin
+  Result  := 'DT-' + Self.GenerateNo(TModDOTrader.ClassName);
+end;
+
 function TCRUDBarcodeRequest.GenerateCustomNo(aTableName, aFieldName: string;
     aCountDigit: Integer = 11): String;
 var
@@ -2311,6 +2320,11 @@ begin
     lOrg.Free;
     lcrud.Free;
   end;
+end;
+
+function TCRUDReturTrader.GenerateNoBukti: String;
+begin
+  Result  := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
 end.

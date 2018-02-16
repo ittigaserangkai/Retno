@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/16/2018 2:50:32 PM
+// 2/16/2018 3:42:07 PM
 //
 
 unit uClientClasses;
@@ -2028,6 +2028,7 @@ type
 
   TCRUDDOTraderClient = class(TDSAdminRestClient)
   private
+    FGenerateNoBuktiCommand: TDSRestCommand;
     FCreateTableSQLCommand: TDSRestCommand;
     FCreateTableSQLByClassNameCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
@@ -2054,6 +2055,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function GenerateNoBukti(const ARequestFilter: string = ''): string;
     function CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string = ''): string;
     function CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string = ''): string;
     function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2186,6 +2188,7 @@ type
 
   TCRUDReturTraderClient = class(TDSAdminRestClient)
   private
+    FGenerateNoBuktiCommand: TDSRestCommand;
     FCreateTableSQLCommand: TDSRestCommand;
     FCreateTableSQLByClassNameCommand: TDSRestCommand;
     FDeleteFromDBCommand: TDSRestCommand;
@@ -2212,6 +2215,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function GenerateNoBukti(const ARequestFilter: string = ''): string;
     function CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string = ''): string;
     function CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string = ''): string;
     function DeleteFromDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -7640,6 +7644,11 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TCRUDDOTrader_GenerateNoBukti: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
   TCRUDDOTrader_CreateTableSQL: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AModAPP'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -8045,6 +8054,11 @@ const
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCRUDReturTrader_GenerateNoBukti: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
   TCRUDReturTrader_CreateTableSQL: array [0..1] of TDSRestParameterMetaData =
@@ -27020,6 +27034,19 @@ begin
   inherited;
 end;
 
+function TCRUDDOTraderClient.GenerateNoBukti(const ARequestFilter: string): string;
+begin
+  if FGenerateNoBuktiCommand = nil then
+  begin
+    FGenerateNoBuktiCommand := FConnection.CreateCommand;
+    FGenerateNoBuktiCommand.RequestType := 'GET';
+    FGenerateNoBuktiCommand.Text := 'TCRUDDOTrader.GenerateNoBukti';
+    FGenerateNoBuktiCommand.Prepare(TCRUDDOTrader_GenerateNoBukti);
+  end;
+  FGenerateNoBuktiCommand.Execute(ARequestFilter);
+  Result := FGenerateNoBuktiCommand.Parameters[0].Value.GetWideString;
+end;
+
 function TCRUDDOTraderClient.CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string): string;
 begin
   if FCreateTableSQLCommand = nil then
@@ -27516,6 +27543,7 @@ end;
 
 destructor TCRUDDOTraderClient.Destroy;
 begin
+  FGenerateNoBuktiCommand.DisposeOf;
   FCreateTableSQLCommand.DisposeOf;
   FCreateTableSQLByClassNameCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;
@@ -28597,6 +28625,19 @@ begin
   inherited;
 end;
 
+function TCRUDReturTraderClient.GenerateNoBukti(const ARequestFilter: string): string;
+begin
+  if FGenerateNoBuktiCommand = nil then
+  begin
+    FGenerateNoBuktiCommand := FConnection.CreateCommand;
+    FGenerateNoBuktiCommand.RequestType := 'GET';
+    FGenerateNoBuktiCommand.Text := 'TCRUDReturTrader.GenerateNoBukti';
+    FGenerateNoBuktiCommand.Prepare(TCRUDReturTrader_GenerateNoBukti);
+  end;
+  FGenerateNoBuktiCommand.Execute(ARequestFilter);
+  Result := FGenerateNoBuktiCommand.Parameters[0].Value.GetWideString;
+end;
+
 function TCRUDReturTraderClient.CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string): string;
 begin
   if FCreateTableSQLCommand = nil then
@@ -29093,6 +29134,7 @@ end;
 
 destructor TCRUDReturTraderClient.Destroy;
 begin
+  FGenerateNoBuktiCommand.DisposeOf;
   FCreateTableSQLCommand.DisposeOf;
   FCreateTableSQLByClassNameCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;

@@ -371,7 +371,7 @@ var
   lRetItem: TModReturTraderItem;
 begin
   if ModReturTrader.ID = '' then
-    edNoBukti.Text := DMClient.CrudClient.GenerateNo(TModReturTrader.ClassName);
+    edNoBukti.Text := DMClient.CrudReturTraderClient.GenerateNoBukti;
 
   ModReturTrader.RET_NO            := edNoBukti.Text;
   ModReturTrader.RET_DOTrader      := TModDOTrader.CreateID(ModDOTrader.ID);
@@ -382,7 +382,7 @@ begin
   ModReturTrader.RET_DISC          := edDisc.Value;
   ModReturTrader.RET_PPN           := edPPN.Value;
   ModReturTrader.RET_TOTAL         := edTotal.Value;
-  ModReturTrader.RET_Organization  := TModOrganization.CreateID(ModReturTrader.RET_Organization.ID);
+  ModReturTrader.RET_Organization  := TModOrganization.CreateID(ModDOTrader.DOT_Organization.ID);
 
   ModReturTrader.ReturTraderItems.Clear;
   lCDS.Filtered := False;

@@ -30,9 +30,10 @@ type
     FRET_TOTAL: Double;
     FRET_UNIT: TModUnit;
     FRET_VALID_DATE: TDatetime;
+    function GetReturTraderItems: TObjectList<TModReturTraderItem>;
   public
     property ReturTraderItems: TObjectList<TModReturTraderItem> read
-        FReturTraderItems write FReturTraderItems;
+        GetReturTraderItems write FReturTraderItems;
   published
     property RET_DATE: TDatetime read FRET_DATE write FRET_DATE;
     [AttributeofSize('120')]
@@ -96,6 +97,13 @@ type
   end;
 
 implementation
+
+function TModReturTrader.GetReturTraderItems: TObjectList<TModReturTraderItem>;
+begin
+  if not Assigned(FReturTraderItems) then
+    FReturTraderItems := TObjectList<TModReturTraderItem>.Create;
+  Result := FReturTraderItems;
+end;
 
 initialization
 
