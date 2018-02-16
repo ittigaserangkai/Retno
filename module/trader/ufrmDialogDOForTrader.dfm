@@ -2,7 +2,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   Caption = 'Dialog DO For Trader'
   ClientHeight = 561
   ClientWidth = 858
-  ExplicitLeft = 6
+  ExplicitTop = -160
   ExplicitWidth = 874
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -486,6 +486,9 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   inherited actlstMasterDialog: TActionList
     Left = 656
     Top = 344
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

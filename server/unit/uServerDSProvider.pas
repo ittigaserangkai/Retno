@@ -1878,15 +1878,15 @@ begin
   ATglAwal  := StartOfTheDay(ATglAwal);
   ATglAkhir := EndOfTheDay(ATglAkhir);
 
-  sSQL := 'select * from V_POTRADER where IsNull(POT_STATUS,'''') <> ''DELIVERED'' ';
+  sSQL := 'select * from V_POTRADER where IsNull(STATUS,'''') <> ''DELIVERED'' ';
 
-  sSQL := sSQL + ' and POT_DATE between ' + TDBUtils.QuotDt(ATglAwal)
+  sSQL := sSQL + ' and TANGGAL between ' + TDBUtils.QuotDt(ATglAwal)
         +' and ' + TDBUtils.QuotDt(ATglAkhir);
 
   if AUnitID <> '' then
-    sSQL := sSQL + ' and AUT$UNIT_ID = ' + QuotedStr(AUnitID);
+    sSQL := sSQL + ' and POT_UNIT_ID = ' + QuotedStr(AUnitID);
 
-  sSQL := sSQL + ' order by POT_NO';
+  sSQL := sSQL + ' order by NOMOR';
 
 
   Result := TDBUtils.OpenQuery(sSQL);

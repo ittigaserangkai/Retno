@@ -15,7 +15,7 @@ uses
   cxDBExtLookupComboBox, uRetnoUnit, uModPOTrader, uModelHelper, DateUtils,
   uDXUtils, uDMClient, Datasnap.DBClient, uModDOTrader, uDBUtils, Vcl.Menus,
   uModDNRecv, uAppUtils, uModSatuan, cxLabel, cxGroupBox, cxCalc, uModGudang,
-  uModOrganization, uInterface, uDMReport;
+  uModOrganization, uInterface, uDMReport, uConstanta;
 
 type
   TfrmDialogDOForTrader = class(TfrmMasterDialog, ICRUDAble)
@@ -61,6 +61,7 @@ type
     cxGroupBox1: TcxGroupBox;
     cxLabel1: TcxLabel;
     txtBarCode: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure ClearAllItems1Click(Sender: TObject);
@@ -106,9 +107,17 @@ var
 implementation
 
 uses
-  ufrmCXLookup, uModBarang, uConstanta;
+  ufrmCXLookup, uModBarang;
 
 {$R *.dfm}
+
+procedure TfrmDialogDOForTrader.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  if DMClient.CrudDOTraderClient.DeleteFromDB(ModDOTrader) then
+    Self.ModalResult := mrOk;
+end;
 
 procedure TfrmDialogDOForTrader.actPrintExecute(Sender: TObject);
 begin
@@ -318,11 +327,12 @@ begin
       edOrganization.Text       := ModDOTrader.DOT_Organization.ORG_Code;
       edOrganizationName.Text   := ModDOTrader.DOT_Organization.ORG_Name;
     end;
-    edNoBukti.Text            := ModDOTrader.DOT_NO;
-    dtDODate.Date             := ModDOTrader.DOT_DATE;
+    edNoBukti.Text              := ModDOTrader.DOT_NO;
+    dtDODate.Date               := ModDOTrader.DOT_DATE;
     if Assigned(ModDOTrader.DOT_GUDANG) then
-      cbbGudang.EditValue     := ModDOTrader.DOT_GUDANG.ID;
-    memDescription.Text       := ModDOTrader.DOT_DESCRIPTION;
+      cbbGudang.EditValue       := ModDOTrader.DOT_GUDANG.ID;
+
+    memDescription.Text         := ModDOTrader.DOT_DESCRIPTION;
 
     CDS.EmptyDataSet;
     for lItem in ModDOTrader.DOTraderItems do

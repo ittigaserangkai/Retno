@@ -225,59 +225,109 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
+      ExplicitTop = 174
+      ExplicitWidth = 854
+      ExplicitHeight = 329
       object cxGridDBTableDOTrader: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPODTotal
+          end>
         DataController.Summary.SummaryGroups = <>
         FilterRow.InfoText = 'klik untuk memfilter data'
         NewItemRow.InfoText = 'Baris baru'
+        OptionsData.CancelOnExit = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridEven
         object cxGridColPODKode: TcxGridDBColumn
           Caption = 'Kode'
+          DataBinding.FieldName = 'PLU'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Default = True
+              Kind = bkEllipsis
+            end>
           HeaderAlignmentHorz = taCenter
-          Width = 91
+          Width = 107
         end
         object cxGridColPODNama: TcxGridDBColumn
           Caption = 'Nama'
+          DataBinding.FieldName = 'NamaBarang'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 209
+          Width = 200
         end
         object cxGridColPODUOM: TcxGridDBColumn
           Caption = 'UOM'
+          DataBinding.FieldName = 'DOTITEM_SATUAN'
+          PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
+          Width = 60
         end
         object cxGridColPODHarga: TcxGridDBColumn
           Caption = 'Harga'
+          DataBinding.FieldName = 'DOTITEM_SELLPRICE'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;($,0.00)'
           HeaderAlignmentHorz = taCenter
           Width = 88
         end
         object cxGridColPODQtyPO: TcxGridDBColumn
           Caption = 'Qty PO'
+          DataBinding.FieldName = 'POTITEM_QTY'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
           HeaderAlignmentHorz = taCenter
+          Width = 70
         end
         object cxGridColPODQtyDO: TcxGridDBColumn
           Caption = 'Qty DO'
+          DataBinding.FieldName = 'DOTITEM_QTY'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
           HeaderAlignmentHorz = taCenter
+          Styles.Content = DMClient.cxStyleMoneyGreen
+          Width = 70
         end
         object cxGridColPODDisc: TcxGridDBColumn
-          Caption = 'Disc'
+          Caption = 'Disc %'
+          DataBinding.FieldName = 'DOTITEM_DISC'
           HeaderAlignmentHorz = taCenter
+          Width = 60
         end
         object cxGridColPODPPN: TcxGridDBColumn
-          Caption = 'PPN'
+          Caption = 'PPN %'
+          DataBinding.FieldName = 'DOTITEM_PPN'
           HeaderAlignmentHorz = taCenter
+          Width = 60
         end
         object cxGridColPODTotal: TcxGridDBColumn
           Caption = 'Total'
+          DataBinding.FieldName = 'DOTITEM_TOTAL'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
           HeaderAlignmentHorz = taCenter
           Width = 131
         end
       end
       object cxgrdlvlDOTrader: TcxGridLevel
-        Caption = 'Retur Trader Item'
+        Caption = 'DO Trader Item'
         GridView = cxGridDBTableDOTrader
       end
     end

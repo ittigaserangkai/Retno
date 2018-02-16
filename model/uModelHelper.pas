@@ -27,9 +27,9 @@ type
 
   TModAppHelper = class helper for TModApp
   private
-    procedure CopyFrom(aModApp : TModApp);
   protected
   public
+    procedure CopyFrom(aModApp : TModApp);
     procedure Reload(LoadObjectList: Boolean = False);
     function ReloadByCode(aCode: String): Boolean;
   end;
