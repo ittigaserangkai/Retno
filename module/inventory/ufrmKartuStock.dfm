@@ -8,7 +8,7 @@ inherited frmKartuStock: TfrmKartuStock
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 685
-    Height = 475
+    Height = 505
     ExplicitWidth = 685
     ExplicitHeight = 475
     object Panel2: TPanel
@@ -299,7 +299,6 @@ inherited frmKartuStock: TfrmKartuStock
     ExplicitWidth = 685
     inherited lblHeader: TLabel
       Width = 104
-      Height = 18
       Caption = 'Kartu Stock Barang'
       ExplicitWidth = 104
     end
@@ -321,7 +320,6 @@ inherited frmKartuStock: TfrmKartuStock
     ExplicitWidth = 685
     inherited lbEscape: TLabel
       Left = 611
-      Height = 17
       ExplicitLeft = 611
     end
   end

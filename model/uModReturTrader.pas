@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModAPP, uModPOTrader, uModBarang, uModSatuan, uModOrganization,
-  System.Generics.Collections, uModUnit, uModGudang, uModDOTrader;
+  System.Generics.Collections, uModUnit, uModGudang, uModDOTrader, uModAR;
 
 type
   TModReturTraderItem = class;
@@ -15,6 +15,7 @@ type
     FRET_DATE: TDatetime;
     FRET_DESCRIPTION: string;
     FRET_DISC: Double;
+    FRET_AR: TModAR;
     FRET_DISC_MEMBER: Double;
     FRET_DOTrader: TModDOTrader;
     FRET_GUDANG: TModGudang;
@@ -38,6 +39,7 @@ type
     property RET_DESCRIPTION: string read FRET_DESCRIPTION write
         FRET_DESCRIPTION;
     property RET_DISC: Double read FRET_DISC write FRET_DISC;
+    property RET_AR: TModAR read FRET_AR write FRET_AR;
     property RET_DISC_MEMBER: Double read FRET_DISC_MEMBER write
         FRET_DISC_MEMBER;
     property RET_DOTrader: TModDOTrader read FRET_DOTrader write FRET_DOTrader;
@@ -82,6 +84,7 @@ type
     property RETITEM_PPN: Double read FRETITEM_PPN write FRETITEM_PPN;
     property RETITEM_PPNRP: Double read FRETITEM_PPNRP write FRETITEM_PPNRP;
     property RETITEM_QTY: Double read FRETITEM_QTY write FRETITEM_QTY;
+    [AttributeOfHeader]
     property RETITEM_RETURTRADER: TModReturTrader read FRETITEM_RETURTRADER
         write FRETITEM_RETURTRADER;
     property RETITEM_SATUAN: TModSatuan read FRETITEM_SATUAN write
@@ -96,6 +99,7 @@ implementation
 initialization
 
   TModReturTrader.RegisterRTTI;
+  TModReturTraderItem.RegisterRTTI;
 
 
 

@@ -64,10 +64,10 @@ type
     property Barang: TModBarang read FBarang write FBarang;
     property CDS: TClientDataSet read GetCDS write FCDS;
     property CDSUOMKonv: TClientDataSet read GetCDSUOMKonv write FCDSUOMKonv;
-    property CDSBarang: TClientDataSet read FCDSBarang write FCDSBarang;
     property CDSSatuan: TClientDataSet read GetCDSSatuan write FCDSSatuan;
     { Private declarations }
   public
+    property CDSBarang: TClientDataSet read FCDSBarang write FCDSBarang;
     { Public declarations }
   end;
 

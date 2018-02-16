@@ -14,7 +14,7 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, System.Actions,
   Vcl.ActnList, ufraFooterDialog3Button, Vcl.ExtCtrls, uDXUtils,
   uModelHelper, uInterface, Datasnap.DBClient, ufrmCXLookup, uDBUtils,
-  uDMClient, uModOrganization, uModPOTrader, Vcl.Menus, cxButtons, cxGroupBox,
+  uDMClient, uModOrganization, uModPOTrader, Vcl.Menus,
   uModBarang;
 
 type
@@ -53,6 +53,7 @@ type
     Label1: TLabel;
     edPLU: TcxTextEdit;
     procedure actDeleteExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure edOrganizationPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
@@ -66,7 +67,7 @@ type
     FCDSBarang: TClientDataset;
     FModPOTrader: TModPOTrader;
     FOrganization: TModOrganization;
-    procedure Calculate(Sender: TObject);
+    procedure Calculate;
     function GetCDSDetail: TClientDataset;
     function GetCDSOrganisasi: TClientDataset;
     function GetCDSBarang: TClientDataset;
@@ -92,7 +93,7 @@ implementation
 
 uses
   uAppUtils, uConstanta, DateUtils, uModUnit, uRetnoUnit, uModSatuan, StrUtils,
-  cxGridDBDataDefinitions, uModCrazyPrice;
+  cxGridDBDataDefinitions, uModCrazyPrice, udmReport;
 
 {$R *.dfm}
 
@@ -112,6 +113,16 @@ begin
   end;
 end;
 
+procedure TfrmDialogPOFromTrader.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  DmReport.ExecuteReport(
+    'reports\POTrader_Slip',
+    DMReport.ReportClient.POTrader_SlipByID(ModPOTrader.ID),
+    []
+  );
+end;
+
 procedure TfrmDialogPOFromTrader.actSaveExecute(Sender: TObject);
 begin
   inherited;
@@ -129,7 +140,7 @@ begin
   end;
 end;
 
-procedure TfrmDialogPOFromTrader.Calculate(Sender: TObject);
+procedure TfrmDialogPOFromTrader.Calculate;
 var
   dDisc: Double;
   dDiscRp: Double;
@@ -158,20 +169,22 @@ begin
   CDSDetail.FieldByName('POTITEM_PPNRP').AsFloat    := dPPNRp;
   CDSDetail.FieldByName('POTITEM_TOTAL').AsFloat    := dTotal;
   CDSDetail.Post;
+
+  edTotal.EditValue := cxGridDBTablePOTrader.DataController.GetFooterSummary(2);
 end;
 
 procedure TfrmDialogPOFromTrader.cxGridColPODKodePropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  Calculate(Sender);
+  Calculate;
 end;
 
 procedure TfrmDialogPOFromTrader.cxGridColPODQtyPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  Calculate(Sender);
+  Calculate;
 end;
 
 procedure TfrmDialogPOFromTrader.edOrganizationPropertiesButtonClick(
@@ -226,6 +239,7 @@ begin
   ClearByTag([0,1]);
   dtTgl.Date := Now;
   cxGridDBTablePOTrader.PrepareFromCDS(CDSDetail);
+  cxGridDBTablePOTrader.ApplyBestFit();
 end;
 
 function TfrmDialogPOFromTrader.GetCDSDetail: TClientDataset;
@@ -346,16 +360,16 @@ begin
         lQty := 0
       end;
 
-      CDSDetail.FieldByName('POTITEM_BARANG').Value := lCrazyPrice.CRAZY_BARANG.ID;
-      CDSDetail.FieldByName('BRG_KODE').Value := lCrazyPrice.CRAZY_BARANG.BRG_CODE;
-      CDSDetail.FieldByName('BRG_NAMA').Value := lCrazyPrice.CRAZY_BARANG.BRG_NAME;
-      CDSDetail.FieldByName('BRG_UOM').Value := lCrazyPrice.CRAZY_SATUAN.SAT_CODE;
-      CDSDetail.FieldByName('POTITEM_SATUAN').Value := lCrazyPrice.CRAZY_SATUAN.ID;
-      CDSDetail.FieldByName('POTITEM_QTY').Value := lQty + dQty;
-      CDSDetail.FieldByName('POTITEM_SELLPRICE').Value := lCrazyPrice.CRAZY_SELLPRICE_DISC;
-      CDSDetail.FieldByName('POTITEM_COGS').Value := lCrazyPrice.CRAZY_COGS;
-      CDSDetail.FieldByName('POTITEM_DISC').Value := lCrazyPrice.CRAZY_DISC_PERSEN;
-      CDSDetail.FieldByName('POTITEM_PPN').Value := lCrazyPrice.CRAZY_SELLPRICE_PPN;
+      CDSDetail.FieldByName('POTITEM_BARANG').Value     := lCrazyPrice.CRAZY_BARANG.ID;
+      CDSDetail.FieldByName('BRG_KODE').Value           := lCrazyPrice.CRAZY_BARANG.BRG_CODE;
+      CDSDetail.FieldByName('BRG_NAMA').Value           := lCrazyPrice.CRAZY_BARANG.BRG_NAME;
+      CDSDetail.FieldByName('BRG_UOM').Value            := lCrazyPrice.CRAZY_SATUAN.SAT_CODE;
+      CDSDetail.FieldByName('POTITEM_SATUAN').Value     := lCrazyPrice.CRAZY_SATUAN.ID;
+      CDSDetail.FieldByName('POTITEM_QTY').Value        := lQty + dQty;
+      CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lCrazyPrice.CRAZY_SELLPRICE_DISC;
+      CDSDetail.FieldByName('POTITEM_COGS').Value       := lCrazyPrice.CRAZY_COGS;
+      CDSDetail.FieldByName('POTITEM_DISC').Value       := lCrazyPrice.CRAZY_DISC_PERSEN;
+      CDSDetail.FieldByName('POTITEM_PPN').Value        := lCrazyPrice.CRAZY_PPN;
 
       CDSDetail.Post;
       edPLU.Clear;
@@ -379,16 +393,17 @@ begin
           lQty := 0
         end;
 
-        CDSDetail.FieldByName('POTITEM_BARANG').Value := lBHJ.Barang.ID;
-        CDSDetail.FieldByName('BRG_KODE').Value := lBHJ.Barang.BRG_CODE;
-        CDSDetail.FieldByName('BRG_NAMA').Value := lBHJ.Barang.BRG_NAME;
-        CDSDetail.FieldByName('BRG_UOM').Value := lBHJ.Satuan.SAT_CODE;
-        CDSDetail.FieldByName('POTITEM_SATUAN').Value := lBHJ.Satuan.ID;
-        CDSDetail.FieldByName('POTITEM_QTY').Value := lQty + dQty;
-        CDSDetail.FieldByName('POTITEM_SELLPRICE').Value := lBHJ.BHJ_SELL_PRICE_EX_PPN;
-        CDSDetail.FieldByName('POTITEM_COGS').Value := lBHJ.BHJ_PURCHASE_PRICE;
-        CDSDetail.FieldByName('POTITEM_DISC').Value := lBHJ.BHJ_DISC_PERSEN;
-        CDSDetail.FieldByName('POTITEM_PPN').Value := lBHJ.BHJ_SELL_PRICE_EX_PPN - lBHJ.BHJ_SELL_PRICE_DISC;
+        CDSDetail.FieldByName('POTITEM_BARANG').Value     := lBHJ.Barang.ID;
+        CDSDetail.FieldByName('BRG_KODE').Value           := lBHJ.Barang.BRG_CODE;
+        CDSDetail.FieldByName('BRG_NAMA').Value           := lBHJ.Barang.BRG_NAME;
+        CDSDetail.FieldByName('BRG_UOM').Value            := lBHJ.Satuan.SAT_CODE;
+        CDSDetail.FieldByName('POTITEM_SATUAN').Value     := lBHJ.Satuan.ID;
+        CDSDetail.FieldByName('POTITEM_QTY').Value        := lQty + dQty;
+        CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  :=
+        lBHJ.BHJ_PURCHASE_PRICE * (100 + FOrganization.ORG_Member.RefDiscMember.DISCMEMBER_DISCOUNT) / 100;
+        CDSDetail.FieldByName('POTITEM_COGS').Value       := lBHJ.BHJ_PURCHASE_PRICE;
+        CDSDetail.FieldByName('POTITEM_DISC').Value       := lBHJ.BHJ_DISC_PERSEN;
+        CDSDetail.FieldByName('POTITEM_PPN').Value        := lBHJ.BHJ_PPN;
 
         CDSDetail.Post;
         edPLU.Clear;
@@ -396,6 +411,7 @@ begin
     end;
   finally
     FreeAndNil(lModBarang);
+    Calculate;
     cxGridDBTablePOTrader.ApplyBestFit();
     edPLU.Enabled := True;
     edPLU.SetFocus;
@@ -434,7 +450,7 @@ begin
     lItem.UpdateToDataset(CDSDetail);
     CDSDetail.FieldByName('BRG_KODE').Value := lItem.POTITEM_BARANG.BRG_CODE;
     CDSDetail.FieldByName('BRG_NAMA').Value := lItem.POTITEM_BARANG.BRG_NAME;
-    CDSDetail.FieldByName('BRG_NAMA').Value := lItem.POTITEM_SATUAN.SAT_CODE;
+    CDSDetail.FieldByName('BRG_UOM').Value  := lItem.POTITEM_SATUAN.SAT_CODE;
     CDSDetail.Post;
   end;
 end;
@@ -454,7 +470,12 @@ begin
   end;
 
   if FOrganization <> nil then
+  begin
     edOrganizationName.Text := FOrganization.ORG_Name;
+    FOrganization.ORG_Member.Reload();
+    FOrganization.ORG_Member.RefTipeMember.Reload();
+    edTipeMember.EditValue := FOrganization.ORG_Member.RefTipeMember.TPMEMBER_NAME;
+  end;
 end;
 
 procedure TfrmDialogPOFromTrader.UpdateData;
@@ -462,13 +483,14 @@ var
   lItem: TModPOTraderItem;
 begin
   if ModPOTrader.ID = '' then
-    ModPOTrader.POT_NO := DMClient.CrudClient.GenerateNo(TModPOTrader.ClassName);
-
+  begin
+    ModPOTrader.POT_NO      := DMClient.CrudClient.GenerateNo(TModPOTrader.ClassName);
+    ModPOTrader.POT_STATUS  := 'CREATED';
+  end;
   ModPOTrader.POT_DATE          := dtTgl.EditValue;
-  ModPOTrader.POT_DESCRIPTION   := memDescription.EditValue;
+  ModPOTrader.POT_DESCRIPTION   := VarToStr(memDescription.EditValue);
   ModPOTrader.POT_DISC_MEMBER   := 0;
   ModPOTrader.POT_LEAD_TIME     := 0; //edLeadTime.EditValue;
-  ModPOTrader.POT_NO            := VarToStr(edNoBukti.EditValue);
   ModPOTrader.POT_Organization  := FOrganization;
   ModPOTrader.POT_PPNBM         := 0;
   ModPOTrader.POT_TOP           := 0;//edTOP.EditValue;

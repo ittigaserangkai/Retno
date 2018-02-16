@@ -8,7 +8,7 @@ uses
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
   uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,uModBankCashIn,
-  uModSatuan, System.TypInfo, uModCrazyPrice;
+  uModSatuan, System.TypInfo, uModCrazyPrice, uModReturTrader;
 
 type
   {$METHODINFO ON}
@@ -261,6 +261,14 @@ type
   protected
   public
     function GenerateNoBukti: String;
+  end;
+
+type
+  TCRUDReturTrader = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   end;
 
 {$METHODINFO OFF}
@@ -2109,7 +2117,7 @@ begin
 
   if lDOTrader.DOT_AR <> nil then
   begin
-    lDOTrader.Reload();
+    lDOTrader.DOT_AR.Reload();
     if lDOTrader.DOT_AR.AR_PAID <> 0 then
       Raise Exception.Create('AR sudah dibayar , DO Trader tidak bisa dihapus');
   end;
@@ -2214,6 +2222,95 @@ end;
 function TCrudBankCashIN.GenerateNoBukti: String;
 begin
   Result := 'BKM' + Self.GenerateNo(TModBankCashIn.ClassName);
+end;
+
+function TCRUDReturTrader.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  lRetTrader: TModReturTrader;
+  S: string;
+begin
+  lRetTrader := TModReturTrader(AObject);
+  if lRetTrader.RET_DOTrader = nil then
+    Raise Exception.Create('lRetTrader.RET_DOTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lRetTrader.RET_DOTrader, 'DOT_STATUS = ''RETURNED'' ');
+  TDBUtils.ExecuteSQL(S, False);
+  Result := True;
+end;
+
+function TCRUDReturTrader.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+var
+  lCRUD: TCrud;
+  lRetTrader: TModReturTrader;
+  S: string;
+begin
+  Result := False;
+  lRetTrader := TModReturTrader(AObject);
+
+  if lRetTrader.RET_AR <> nil then
+  begin
+    lRetTrader.RET_AR.Reload();
+    if lRetTrader.RET_AR.AR_PAID <> 0 then
+      Raise Exception.Create('AR sudah dibayar , DO Trader tidak bisa dihapus');
+  end;
+
+  if lRetTrader.RET_DOTrader = nil then
+    Raise Exception.Create('lRetTrader.RET_DOTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lRetTrader.RET_DOTrader, 'DOT_STATUS = '''' ');
+  TDBUtils.ExecuteSQL(S, False);
+
+  lCRUD := TCrud.Create(nil);
+  try
+    if not lCRUD.DeleteFromDBTrans(lRetTrader.RET_AR, False) then
+      Exit;
+  finally
+    lCRUD.Free;
+  end;
+
+  Result := True;
+end;
+
+function TCRUDReturTrader.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lcrud: TCrud;
+  lRetTrader: TModReturTrader;
+  lOrg: TModOrganization;
+begin
+  Result := False;
+  lRetTrader := TModReturTrader(AObject);
+
+  if lRetTrader = nil then
+    Raise Exception.Create('DoTrader = nil at AfterSaveToDB ');
+  if lRetTrader.RET_Organization = nil then
+    Raise Exception.Create('DO Trader Organization not definend');
+
+  if lRetTrader.RET_AR = nil then
+    lRetTrader.RET_AR := TModAR.Create;
+
+  lcrud := TCrud.Create(nil);
+  lOrg  := TModOrganization.CreateID(lRetTrader.RET_Organization.ID);
+  try
+
+    lRetTrader.RET_AR.AR_ClassRef     := lRetTrader.ClassName;
+    lRetTrader.RET_AR.AR_Description  := lRetTrader.RET_DESCRIPTION;
+    lRetTrader.RET_AR.AR_DueDate      := lRetTrader.RET_DATE + 7;   //???
+    lRetTrader.RET_AR.AR_ORGANIZATION := TModOrganization.CreateID(lOrg.ID);
+    lRetTrader.RET_AR.AR_REFNUM       := lRetTrader.RET_NO;
+    lRetTrader.RET_AR.AR_TRANSDATE    := lRetTrader.RET_DATE;
+    lRetTrader.RET_AR.AR_TOTAL        := lRetTrader.RET_TOTAL;
+
+    lOrg.Reload(False);
+
+    lRetTrader.RET_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount(False).ID);
+
+    if lRetTrader.RET_AR.AR_PAID > 0then
+      raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');
+
+    if lcrud.SaveToDBTrans(lRetTrader.RET_AR, False) then
+      Result := True;
+  finally
+    lOrg.Free;
+    lcrud.Free;
+  end;
 end;
 
 end.

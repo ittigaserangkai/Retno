@@ -1,7 +1,7 @@
 inherited frmReturTrader: TfrmReturTrader
   Left = 307
   Top = 94
-  Caption = 'Retur Assgros'
+  Caption = 'Retur Trader'
   ClientHeight = 455
   ClientWidth = 759
   ExplicitWidth = 775

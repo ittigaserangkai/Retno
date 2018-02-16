@@ -130,6 +130,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           end>
         Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
+        Properties.ReadOnly = True
         TabOrder = 2
         Width = 146
       end
@@ -167,6 +168,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           end>
         Properties.CharCase = ecUpperCase
         Properties.MaxLength = 0
+        Properties.OnButtonClick = edDONoPropertiesButtonClick
         TabOrder = 0
         Width = 146
       end
@@ -225,9 +227,6 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitTop = 174
-      ExplicitWidth = 854
-      ExplicitHeight = 329
       object cxGridDBTableDOTrader: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
@@ -271,14 +270,14 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         end
         object cxGridColPODUOM: TcxGridDBColumn
           Caption = 'UOM'
-          DataBinding.FieldName = 'DOTITEM_SATUAN'
+          DataBinding.FieldName = 'RETITEM_SATUAN'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
         object cxGridColPODHarga: TcxGridDBColumn
           Caption = 'Harga'
-          DataBinding.FieldName = 'DOTITEM_SELLPRICE'
+          DataBinding.FieldName = 'RETITEM_SELLPRICE'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;($,0.00)'
@@ -286,8 +285,8 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           Width = 88
         end
         object cxGridColPODQtyPO: TcxGridDBColumn
-          Caption = 'Qty PO'
-          DataBinding.FieldName = 'POTITEM_QTY'
+          Caption = 'Qty DO'
+          DataBinding.FieldName = 'RETITEM_QTY'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.##;(,0.##)'
@@ -295,30 +294,31 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           Width = 70
         end
         object cxGridColPODQtyDO: TcxGridDBColumn
-          Caption = 'Qty DO'
-          DataBinding.FieldName = 'DOTITEM_QTY'
+          Caption = 'Qty Retur'
+          DataBinding.FieldName = 'RETITEM_QTY'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.OnEditValueChanged = cxGridColPODQtyDOPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
           Styles.Content = DMClient.cxStyleMoneyGreen
           Width = 70
         end
         object cxGridColPODDisc: TcxGridDBColumn
           Caption = 'Disc %'
-          DataBinding.FieldName = 'DOTITEM_DISC'
+          DataBinding.FieldName = 'RETITEM_DISC'
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
         object cxGridColPODPPN: TcxGridDBColumn
           Caption = 'PPN %'
-          DataBinding.FieldName = 'DOTITEM_PPN'
+          DataBinding.FieldName = 'RETITEM_PPN'
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
         object cxGridColPODTotal: TcxGridDBColumn
           Caption = 'Total'
-          DataBinding.FieldName = 'DOTITEM_TOTAL'
+          DataBinding.FieldName = 'RETITEM_TOTAL'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -380,6 +380,13 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         Height = 15
         ExplicitLeft = 546
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    Left = 384
+    Top = 216
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end

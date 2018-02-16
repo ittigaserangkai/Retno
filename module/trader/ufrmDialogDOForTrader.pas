@@ -609,7 +609,7 @@ begin
     end;
     if lCDS.FieldByName('DOTITEM_QTY').AsFloat > lCDS.FieldByName('POTITEM_QTY').AsFloat then
     begin
-      TAppUtils.Warning('Baris ' + inttostr(i) + ' Qty tidak melebihi QTY DO');
+      TAppUtils.Warning('Baris ' + inttostr(i) + ' Qty tidak melebihi QTY PO');
       exit;
     end;
 

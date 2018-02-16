@@ -52,6 +52,7 @@ type
     FCRUDTransferBarangClient: TCRUDTransferBarangClient;
     FCrudPOTraderClient: TCrudPOTraderClient;
     FCRUDBarcodeRequest: TCRUDBarcodeRequestClient;
+    FCrudReturTraderClient: TCRUDReturTraderClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
     function GetCrudDOTraderClient: TCRUDDOTraderClient;
@@ -79,6 +80,7 @@ type
     function GetCRUDTransferBarangClient: TCRUDTransferBarangClient;
     function GetCrudPOTraderClient: TCrudPOTraderClient;
     function GetCRUDBarcodeRequest: TCRUDBarcodeRequestClient;
+    function GetCrudReturTraderClient: TCRUDReturTraderClient;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
   public
     property CrudAdjFakClient: TCrudAdjFakturClient read GetCrudAdjFakClient write
@@ -129,6 +131,8 @@ type
         write FCrudPOTraderClient;
     property CRUDBarcodeRequest: TCRUDBarcodeRequestClient read
         GetCRUDBarcodeRequest write FCRUDBarcodeRequest;
+    property CrudReturTraderClient: TCRUDReturTraderClient read
+        GetCrudReturTraderClient write FCrudReturTraderClient;
   end;
 
   ERestClientError = class(Exception)
@@ -431,6 +435,15 @@ begin
 
   FCRUDBarcodeRequest := TCRUDBarcodeRequestClient.Create(RestConn, InstanceOwner);
   Result := FCRUDBarcodeRequest;
+end;
+
+function TDMClient.GetCrudReturTraderClient: TCRUDReturTraderClient;
+begin
+  if FCrudReturTraderClient <> nil then
+    FreeAndNil(FCrudReturTraderClient);
+
+  FCrudReturTraderClient := TCRUDReturTraderClient.Create(RestConn, InstanceOwner);
+  Result := FCrudReturTraderClient;
 end;
 
 end.

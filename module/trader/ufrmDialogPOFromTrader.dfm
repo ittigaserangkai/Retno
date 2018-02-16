@@ -82,6 +82,8 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       object dtTgl: TcxDateEdit
         Left = 71
         Top = 31
+        Properties.SaveTime = False
+        Properties.ShowTime = False
         TabOrder = 1
         Width = 146
       end
@@ -149,7 +151,7 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       object memDescription: TcxMemo
         Left = 590
         Top = 5
-        TabOrder = 7
+        TabOrder = 8
         Height = 102
         Width = 185
       end
@@ -157,9 +159,10 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
         Left = 309
         Top = 57
         Enabled = False
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
         Properties.ReadOnly = True
-        TabOrder = 8
+        TabOrder = 7
         Width = 185
       end
     end
@@ -176,14 +179,27 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPODTotal
+          end
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColPODQty
+          end>
         DataController.Summary.SummaryGroups = <>
         FilterRow.InfoText = 'klik untuk memfilter data'
         NewItemRow.InfoText = 'Baris baru'
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
         object cxGridColPODBarang: TcxGridDBColumn
           Visible = False
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODKode: TcxGridDBColumn
           Caption = 'Kode'
@@ -192,7 +208,8 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
           Properties.ReadOnly = True
           Properties.OnEditValueChanged = cxGridColPODKodePropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
-          Width = 65
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODNama: TcxGridDBColumn
           Caption = 'Nama'
@@ -200,22 +217,28 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 125
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODUOM: TcxGridDBColumn
           Caption = 'UOM'
           DataBinding.FieldName = 'BRG_UOM'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.Alignment.Horz = taCenter
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODHarga: TcxGridDBColumn
           Caption = 'Harga'
           DataBinding.FieldName = 'POTITEM_SELLPRICE'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 88
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODQty: TcxGridDBColumn
           Caption = 'Qty'
@@ -224,28 +247,38 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Properties.OnEditValueChanged = cxGridColPODQtyPropertiesEditValueChanged
           HeaderAlignmentHorz = taCenter
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODDisc: TcxGridDBColumn
           Caption = 'Disc'
           DataBinding.FieldName = 'POTITEM_DISC'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODPPN: TcxGridDBColumn
           Caption = 'PPN'
           DataBinding.FieldName = 'POTITEM_PPN'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          MinWidth = 60
+          Width = 70
         end
         object cxGridColPODTotal: TcxGridDBColumn
           Caption = 'Total'
           DataBinding.FieldName = 'POTITEM_TOTAL'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 131
+          MinWidth = 60
+          Width = 70
         end
       end
       object cxgrdlvlPOTrader: TcxGridLevel
@@ -308,20 +341,14 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
       ExplicitWidth = 787
       inherited lbCTRLEnter: TLabel
         Left = 612
-        Height = 15
         ExplicitLeft = 612
       end
       inherited lbEscape: TLabel
         Left = 703
-        Height = 15
         ExplicitLeft = 703
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 536
-        Height = 15
         ExplicitLeft = 536
       end
     end
@@ -334,6 +361,9 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
     end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end
