@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/16/2018 3:42:07 PM
+// 2/19/2018 1:59:18 PM
 //
 
 unit uClientClasses;
@@ -720,6 +720,8 @@ type
     FClaim_by_IdCommand_Cache: TDSRestCommand;
     FDOTrader_SlipByIDCommand: TDSRestCommand;
     FDOTrader_SlipByIDCommand_Cache: TDSRestCommand;
+    FReturTrader_SlipByIDCommand: TDSRestCommand;
+    FReturTrader_SlipByIDCommand_Cache: TDSRestCommand;
     FDO_GetDSNPCommand: TDSRestCommand;
     FDO_GetDSNPCommand_Cache: TDSRestCommand;
     FDO_GetDS_CheckListCommand: TDSRestCommand;
@@ -766,6 +768,8 @@ type
     function Claim_by_Id_Cache(id: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DOTrader_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DOTrader_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function ReturTrader_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function ReturTrader_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDSNP(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -4253,6 +4257,18 @@ const
   );
 
   TDSReport_DOTrader_SlipByID_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_ReturTrader_SlipByID: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_ReturTrader_SlipByID_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -14235,6 +14251,46 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FDOTrader_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSReportClient.ReturTrader_SlipByID(aID: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FReturTrader_SlipByIDCommand = nil then
+  begin
+    FReturTrader_SlipByIDCommand := FConnection.CreateCommand;
+    FReturTrader_SlipByIDCommand.RequestType := 'GET';
+    FReturTrader_SlipByIDCommand.Text := 'TDSReport.ReturTrader_SlipByID';
+    FReturTrader_SlipByIDCommand.Prepare(TDSReport_ReturTrader_SlipByID);
+  end;
+  FReturTrader_SlipByIDCommand.Parameters[0].Value.SetWideString(aID);
+  FReturTrader_SlipByIDCommand.Execute(ARequestFilter);
+  if not FReturTrader_SlipByIDCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FReturTrader_SlipByIDCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FReturTrader_SlipByIDCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FReturTrader_SlipByIDCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.ReturTrader_SlipByID_Cache(aID: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FReturTrader_SlipByIDCommand_Cache = nil then
+  begin
+    FReturTrader_SlipByIDCommand_Cache := FConnection.CreateCommand;
+    FReturTrader_SlipByIDCommand_Cache.RequestType := 'GET';
+    FReturTrader_SlipByIDCommand_Cache.Text := 'TDSReport.ReturTrader_SlipByID';
+    FReturTrader_SlipByIDCommand_Cache.Prepare(TDSReport_ReturTrader_SlipByID_Cache);
+  end;
+  FReturTrader_SlipByIDCommand_Cache.Parameters[0].Value.SetWideString(aID);
+  FReturTrader_SlipByIDCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FReturTrader_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
+end;
+
 function TDSReportClient.DO_GetDSNP(ANONP: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FDO_GetDSNPCommand = nil then
@@ -14945,6 +15001,8 @@ begin
   FClaim_by_IdCommand_Cache.DisposeOf;
   FDOTrader_SlipByIDCommand.DisposeOf;
   FDOTrader_SlipByIDCommand_Cache.DisposeOf;
+  FReturTrader_SlipByIDCommand.DisposeOf;
+  FReturTrader_SlipByIDCommand_Cache.DisposeOf;
   FDO_GetDSNPCommand.DisposeOf;
   FDO_GetDSNPCommand_Cache.DisposeOf;
   FDO_GetDS_CheckListCommand.DisposeOf;

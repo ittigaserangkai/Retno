@@ -2305,7 +2305,7 @@ begin
     lRetTrader.RET_AR.AR_ORGANIZATION := TModOrganization.CreateID(lOrg.ID);
     lRetTrader.RET_AR.AR_REFNUM       := lRetTrader.RET_NO;
     lRetTrader.RET_AR.AR_TRANSDATE    := lRetTrader.RET_DATE;
-    lRetTrader.RET_AR.AR_TOTAL        := lRetTrader.RET_TOTAL;
+    lRetTrader.RET_AR.AR_TOTAL        := -1 * lRetTrader.RET_TOTAL;
 
     lOrg.Reload(False);
 
@@ -2324,7 +2324,7 @@ end;
 
 function TCRUDReturTrader.GenerateNoBukti: String;
 begin
-  Result  := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
+  Result := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
 end.

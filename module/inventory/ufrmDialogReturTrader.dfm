@@ -242,7 +242,6 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         NewItemRow.InfoText = 'Baris baru'
         OptionsData.CancelOnExit = False
         OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.Footer = True
@@ -257,6 +256,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 107
         end
@@ -272,6 +272,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           Caption = 'UOM'
           DataBinding.FieldName = 'RETITEM_SATUAN'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
@@ -281,6 +282,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;($,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 88
         end
@@ -290,6 +292,7 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 70
         end
@@ -307,12 +310,20 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
         object cxGridColPODDisc: TcxGridDBColumn
           Caption = 'Disc %'
           DataBinding.FieldName = 'RETITEM_DISC'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
         object cxGridColPODPPN: TcxGridDBColumn
           Caption = 'PPN %'
           DataBinding.FieldName = 'RETITEM_PPN'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
@@ -321,7 +332,8 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
           DataBinding.FieldName = 'RETITEM_TOTAL'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 131
         end
@@ -385,8 +397,14 @@ inherited frmDialogReturTrader: TfrmDialogReturTrader
   inherited actlstMasterDialog: TActionList
     Left = 384
     Top = 216
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
 end

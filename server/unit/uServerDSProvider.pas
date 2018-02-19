@@ -199,6 +199,7 @@ type
         ANoBukti : String): TFDJSONDataSets;
     function Claim_by_Id(id: string): TFDJSONDataSets;
     function DOTrader_SlipByID(aID: string): TFDJSONDataSets;
+    function ReturTrader_SlipByID(aID: string): TFDJSONDataSets;
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function DSA_GetDS(aStartDate, aEndDate: TDatetime; aGroupField: string):
@@ -2028,6 +2029,15 @@ var
 begin
   Result := TFDJSONDataSets.Create;
   S := 'select * from V_DOTRADER_SLIP where DOTRADER_ID = ' + QuotedStr(aID);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.ReturTrader_SlipByID(aID: string): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  S := 'select * from V_RETURTRADER_SLIP where RETURTRADER_ID = ' + QuotedStr(aID);
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 
