@@ -4,7 +4,7 @@ interface
 uses
   System.Classes, uModApp, uDBUtils, Rtti, Data.DB, SysUtils, StrUtils,
   uModUnit, Data.FireDACJSONReflect, FireDAC.Stan.StorageBin, uServerClasses,
-  FireDAC.Comp.Client, Datasnap.DBClient;
+  FireDAC.Comp.Client, Datasnap.DBClient, uModSuplier;
 
 type
   {$METHODINFO ON}
@@ -38,8 +38,8 @@ type
     function Barang_GetDSOverview(aMerchanGroupID: string; AProductCode : String):
         TDataSet;
     function Barang_HargaJualOverview(AProductCode : String): TDataSet;
-    function BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
-        TModUnit = nil): TDataset;
+    function BarcodeRequest_GetDSOverview(ATglAwal, ATglAkhir: TDateTime; AUnit:
+        TModUnit = nil; AModSuplierMerchanGroup: string = ''): TDataset;
     function BarcodeUsage_GetDSOverview(ATglAwal , ATglAkhir : TDateTime; AUnit :
         TModUnit = nil): TDataset;
     function BeginningBalance_GetDSOverview(aDate: TDatetime; aShiftName, AUnitID:
@@ -195,6 +195,8 @@ type
   TDSReport = class(TComponent)
   public
     function AgingPiutang: TFDJSONDataSets;
+    function Summary_AR_Balance(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir: TDatetime;
         ANoBukti : String): TFDJSONDataSets;
     function Claim_by_Id(id: string): TFDJSONDataSets;
@@ -525,8 +527,9 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.BarcodeRequest_GetDSOverview(ATglAwal , ATglAkhir :
-    TDateTime; AUnit : TModUnit = nil): TDataset;
+function TDSProvider.BarcodeRequest_GetDSOverview(ATglAwal, ATglAkhir:
+    TDateTime; AUnit: TModUnit = nil; AModSuplierMerchanGroup: string = ''):
+    TDataset;
 var
   sSQL: string;
 begin
@@ -536,6 +539,9 @@ begin
 
   if AUnit <> nil then
     sSQL := sSQL + ' and BR_UNIT_ID = ' + QuotedStr(AUnit.ID);
+
+  if AModSuplierMerchanGroup <> '' then
+    sSQL := sSQL + ' and BR_SUPMG_ID = ' + QuotedStr(AUnit.ID);
 
   Result := TDBUtils.OpenQuery(sSQL);
 end;
@@ -1940,6 +1946,17 @@ var
 begin
   Result := TFDJSONDataSets.Create;
   sSQL := 'select * from V_AGING_AR order by org_code';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+end;
+
+function TDSReport.Summary_AR_Balance(APeriodeAwal, APeriodeAkhir: TDatetime):
+    TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  sSQL := 'select * from V_SUMMARY_AR_BALANCE order by org_code, AR_REFNUM, AR_TRANSDATE';
+
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 

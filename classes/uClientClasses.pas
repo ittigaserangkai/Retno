@@ -1,7 +1,7 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/19/2018 1:59:18 PM
-//
+// 2/19/2018 11:03:42 AM
+// 
 
 unit uClientClasses;
 
@@ -455,8 +455,8 @@ type
     function Barang_GetDSOverview_Cache(aMerchanGroupID: string; AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Barang_HargaJualOverview(AProductCode: string; const ARequestFilter: string = ''): TDataSet;
     function Barang_HargaJualOverview_Cache(AProductCode: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
-    function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string = ''): TDataSet;
+    function BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): TDataSet;
     function BarcodeUsage_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BeginningBalance_GetDSOverview(aDate: TDateTime; aShiftName: string; AUnitID: string; const ARequestFilter: string = ''): TDataSet;
@@ -714,14 +714,14 @@ type
   private
     FAgingPiutangCommand: TDSRestCommand;
     FAgingPiutangCommand_Cache: TDSRestCommand;
+    FSummary_AR_BalanceCommand: TDSRestCommand;
+    FSummary_AR_BalanceCommand_Cache: TDSRestCommand;
     FBankCashOut_GetDS_SlipCommand: TDSRestCommand;
     FBankCashOut_GetDS_SlipCommand_Cache: TDSRestCommand;
     FClaim_by_IdCommand: TDSRestCommand;
     FClaim_by_IdCommand_Cache: TDSRestCommand;
     FDOTrader_SlipByIDCommand: TDSRestCommand;
     FDOTrader_SlipByIDCommand_Cache: TDSRestCommand;
-    FReturTrader_SlipByIDCommand: TDSRestCommand;
-    FReturTrader_SlipByIDCommand_Cache: TDSRestCommand;
     FDO_GetDSNPCommand: TDSRestCommand;
     FDO_GetDSNPCommand_Cache: TDSRestCommand;
     FDO_GetDS_CheckListCommand: TDSRestCommand;
@@ -762,14 +762,14 @@ type
     destructor Destroy; override;
     function AgingPiutang(const ARequestFilter: string = ''): TFDJSONDataSets;
     function AgingPiutang_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function Summary_AR_Balance(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function Summary_AR_Balance_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function BankCashOut_GetDS_Slip_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function Claim_by_Id(id: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function Claim_by_Id_Cache(id: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DOTrader_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DOTrader_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
-    function ReturTrader_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
-    function ReturTrader_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDSNP(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DO_GetDSNP_Cache(ANONP: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -2734,19 +2734,21 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_BarcodeRequest_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
+  TDSProvider_BarcodeRequest_GetDSOverview: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: 'AModSuplierMerchanGroup'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_BarcodeRequest_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
+  TDSProvider_BarcodeRequest_GetDSOverview_Cache: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
+    (Name: 'AModSuplierMerchanGroup'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4222,6 +4224,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSReport_Summary_AR_Balance: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_Summary_AR_Balance_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSReport_BankCashOut_GetDS_Slip: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -4257,18 +4273,6 @@ const
   );
 
   TDSReport_DOTrader_SlipByID_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_ReturTrader_SlipByID: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_ReturTrader_SlipByID_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'aID'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -9579,7 +9583,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FBarang_HargaJualOverviewCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-function TDSProviderClient.BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.BarcodeRequest_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string): TDataSet;
 begin
   if FBarcodeRequest_GetDSOverviewCommand = nil then
   begin
@@ -9603,14 +9607,15 @@ begin
       FreeAndNil(FMarshal)
     end
     end;
+  FBarcodeRequest_GetDSOverviewCommand.Parameters[3].Value.SetWideString(AModSuplierMerchanGroup);
   FBarcodeRequest_GetDSOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FBarcodeRequest_GetDSOverviewCommand.Parameters[3].Value.GetDBXReader(False), True);
+  Result := TCustomSQLDataSet.Create(nil, FBarcodeRequest_GetDSOverviewCommand.Parameters[4].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
     FBarcodeRequest_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.BarcodeRequest_GetDSOverview_Cache(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; AModSuplierMerchanGroup: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FBarcodeRequest_GetDSOverviewCommand_Cache = nil then
   begin
@@ -9634,8 +9639,9 @@ begin
       FreeAndNil(FMarshal)
     end
     end;
+  FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.SetWideString(AModSuplierMerchanGroup);
   FBarcodeRequest_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[3].Value.GetString);
+  Result := TDSRestCachedDataSet.Create(FBarcodeRequest_GetDSOverviewCommand_Cache.Parameters[4].Value.GetString);
 end;
 
 function TDSProviderClient.BarcodeUsage_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnit: TModUnit; const ARequestFilter: string): TDataSet;
@@ -14127,6 +14133,48 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FAgingPiutangCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSReportClient.Summary_AR_Balance(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FSummary_AR_BalanceCommand = nil then
+  begin
+    FSummary_AR_BalanceCommand := FConnection.CreateCommand;
+    FSummary_AR_BalanceCommand.RequestType := 'GET';
+    FSummary_AR_BalanceCommand.Text := 'TDSReport.Summary_AR_Balance';
+    FSummary_AR_BalanceCommand.Prepare(TDSReport_Summary_AR_Balance);
+  end;
+  FSummary_AR_BalanceCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FSummary_AR_BalanceCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FSummary_AR_BalanceCommand.Execute(ARequestFilter);
+  if not FSummary_AR_BalanceCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FSummary_AR_BalanceCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSummary_AR_BalanceCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FSummary_AR_BalanceCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.Summary_AR_Balance_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FSummary_AR_BalanceCommand_Cache = nil then
+  begin
+    FSummary_AR_BalanceCommand_Cache := FConnection.CreateCommand;
+    FSummary_AR_BalanceCommand_Cache.RequestType := 'GET';
+    FSummary_AR_BalanceCommand_Cache.Text := 'TDSReport.Summary_AR_Balance';
+    FSummary_AR_BalanceCommand_Cache.Prepare(TDSReport_Summary_AR_Balance_Cache);
+  end;
+  FSummary_AR_BalanceCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FSummary_AR_BalanceCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FSummary_AR_BalanceCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FSummary_AR_BalanceCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSReportClient.BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FBankCashOut_GetDS_SlipCommand = nil then
@@ -14249,46 +14297,6 @@ begin
   FDOTrader_SlipByIDCommand_Cache.Parameters[0].Value.SetWideString(aID);
   FDOTrader_SlipByIDCommand_Cache.ExecuteCache(ARequestFilter);
   Result := TDSRestCachedTFDJSONDataSets.Create(FDOTrader_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
-end;
-
-function TDSReportClient.ReturTrader_SlipByID(aID: string; const ARequestFilter: string): TFDJSONDataSets;
-begin
-  if FReturTrader_SlipByIDCommand = nil then
-  begin
-    FReturTrader_SlipByIDCommand := FConnection.CreateCommand;
-    FReturTrader_SlipByIDCommand.RequestType := 'GET';
-    FReturTrader_SlipByIDCommand.Text := 'TDSReport.ReturTrader_SlipByID';
-    FReturTrader_SlipByIDCommand.Prepare(TDSReport_ReturTrader_SlipByID);
-  end;
-  FReturTrader_SlipByIDCommand.Parameters[0].Value.SetWideString(aID);
-  FReturTrader_SlipByIDCommand.Execute(ARequestFilter);
-  if not FReturTrader_SlipByIDCommand.Parameters[1].Value.IsNull then
-  begin
-    FUnMarshal := TDSRestCommand(FReturTrader_SlipByIDCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
-    try
-      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FReturTrader_SlipByIDCommand.Parameters[1].Value.GetJSONValue(True)));
-      if FInstanceOwner then
-        FReturTrader_SlipByIDCommand.FreeOnExecute(Result);
-    finally
-      FreeAndNil(FUnMarshal)
-    end
-  end
-  else
-    Result := nil;
-end;
-
-function TDSReportClient.ReturTrader_SlipByID_Cache(aID: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
-begin
-  if FReturTrader_SlipByIDCommand_Cache = nil then
-  begin
-    FReturTrader_SlipByIDCommand_Cache := FConnection.CreateCommand;
-    FReturTrader_SlipByIDCommand_Cache.RequestType := 'GET';
-    FReturTrader_SlipByIDCommand_Cache.Text := 'TDSReport.ReturTrader_SlipByID';
-    FReturTrader_SlipByIDCommand_Cache.Prepare(TDSReport_ReturTrader_SlipByID_Cache);
-  end;
-  FReturTrader_SlipByIDCommand_Cache.Parameters[0].Value.SetWideString(aID);
-  FReturTrader_SlipByIDCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedTFDJSONDataSets.Create(FReturTrader_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
 end;
 
 function TDSReportClient.DO_GetDSNP(ANONP: string; const ARequestFilter: string): TFDJSONDataSets;
@@ -14995,14 +15003,14 @@ destructor TDSReportClient.Destroy;
 begin
   FAgingPiutangCommand.DisposeOf;
   FAgingPiutangCommand_Cache.DisposeOf;
+  FSummary_AR_BalanceCommand.DisposeOf;
+  FSummary_AR_BalanceCommand_Cache.DisposeOf;
   FBankCashOut_GetDS_SlipCommand.DisposeOf;
   FBankCashOut_GetDS_SlipCommand_Cache.DisposeOf;
   FClaim_by_IdCommand.DisposeOf;
   FClaim_by_IdCommand_Cache.DisposeOf;
   FDOTrader_SlipByIDCommand.DisposeOf;
   FDOTrader_SlipByIDCommand_Cache.DisposeOf;
-  FReturTrader_SlipByIDCommand.DisposeOf;
-  FReturTrader_SlipByIDCommand_Cache.DisposeOf;
   FDO_GetDSNPCommand.DisposeOf;
   FDO_GetDSNPCommand_Cache.DisposeOf;
   FDO_GetDS_CheckListCommand.DisposeOf;
@@ -29219,4 +29227,3 @@ begin
 end;
 
 end.
-

@@ -1823,22 +1823,20 @@ inherited frmDialogQuotationMailerNeo: TfrmDialogQuotationMailerNeo
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 826
       ExplicitWidth = 826
       inherited lbCTRLEnter: TLabel
         Left = 651
-        Height = 15
         ExplicitLeft = 651
       end
       inherited lbEscape: TLabel
         Left = 742
-        Height = 15
         ExplicitLeft = 742
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
     end
   end

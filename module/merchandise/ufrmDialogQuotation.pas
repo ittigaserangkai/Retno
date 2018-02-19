@@ -147,7 +147,7 @@ var
 
 implementation
 
-uses  uTSCommonDlg, ufrmSearchProduct, DateUtils, Math, uConstanta, uAppUtils,
+uses  uTSCommonDlg,  DateUtils, Math, uConstanta, uAppUtils,
   uDBUtils, uDXUtils, uDMClient, ufrmCXLookup, uModBarang, uModSuplier,
   uClientClasses;
 

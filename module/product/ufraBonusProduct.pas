@@ -95,7 +95,7 @@ var
 
 implementation
 
-uses uTSCommonDlg,uConstanta, ufrmProduct, ufrmMaster, ufrmSearchProduct;
+uses uTSCommonDlg,uConstanta, ufrmProduct, ufrmMaster;
 
 {$R *.dfm}
 
@@ -431,25 +431,25 @@ begin
   inherited;
   if (Key  = VK_F5) then
   begin
-    if not assigned(frmDialogSearchProduct) then
-      frmDialogSearchProduct := TfrmDialogSearchProduct.Create(Application);
+//    if not assigned(frmDialogSearchProduct) then
+//      frmDialogSearchProduct := TfrmDialogSearchProduct.Create(Application);
 
 //    frmDialogSearchProduct.DialogUnit    := frmProduct.MasterNewUnit.ID;
 //    frmDialogSearchProduct.DialogCompany := frmProduct.MasterCompany.ID;
 
-    frmDialogSearchProduct.Modul:= mNone;
+//    frmDialogSearchProduct.Modul:= mNone;
 
-    frmDialogSearchProduct.ShowModal;
+//    frmDialogSearchProduct.ShowModal;
 
-    if frmDialogSearchProduct.IsProcessSuccessfull = True then
-    begin
-      edtProductCodeBNS.Text := frmDialogSearchProduct.ProductCode;
-      edtProductNamebwh.Text := frmDialogSearchProduct.ProductName;
-      edtUOMCS.Text   := frmDialogSearchProduct.ProductSatuan;
-      edtUOMSales.Text:= frmDialogSearchProduct.ProductSatuan;
-    end;
-
-    frmDialogSearchProduct.Free;
+//    if frmDialogSearchProduct.IsProcessSuccessfull = True then
+//    begin
+//      edtProductCodeBNS.Text := frmDialogSearchProduct.ProductCode;
+//      edtProductNamebwh.Text := frmDialogSearchProduct.ProductName;
+//      edtUOMCS.Text   := frmDialogSearchProduct.ProductSatuan;
+//      edtUOMSales.Text:= frmDialogSearchProduct.ProductSatuan;
+//    end;
+//
+//    frmDialogSearchProduct.Free;
 
   end;
 

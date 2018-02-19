@@ -278,6 +278,7 @@ uses
   ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
   uModDOBonus in '..\model\uModDOBonus.pas',
   ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang},
+  ufrmSummaryARBalance in '..\module\finance\ufrmSummaryARBalance.pas' {frmSummaryARBalance},
   uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}

@@ -73,7 +73,6 @@ uses
   ufrmDialogProduct in '..\module\product\ufrmDialogProduct.pas' {frmDialogProduct},
   ufrmProduct in '..\module\product\ufrmProduct.pas' {frmProduct},
   uSpecialKey in '..\classes\uSpecialKey.pas',
-  ufrmSearchProduct in '..\module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
   ufrmSearchSupplier in '..\module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
   uConn in '..\lib\uConn.pas',
   uDBUtils in '..\lib\uDBUtils.pas',
@@ -194,7 +193,6 @@ uses
   uDMReport in '..\system\uDMReport.pas' {DMReport},
   ufrmSettingKoneksi in '..\system\ufrmSettingKoneksi.pas' {frmSettingKoneksi},
   uModPO in '..\model\uModPO.pas',
-  uModelHelper in '..\model\uModelHelper.pas',
   uModSO in '..\model\uModSO.pas',
   uModDO in '..\model\uModDO.pas',
   ufrmCreditCard in '..\module\cashier_supv\ufrmCreditCard.pas' {frmCreditCard},
@@ -250,7 +248,6 @@ uses
   ufrmSearchDataCustomer in '..\module\customer_support\ufrmSearchDataCustomer.pas' {frmSearchDataCustomer},
   ufrmVoucher in '..\module\accounting\ufrmVoucher.pas' {frmVoucher},
   ufrmDialogVoucher in '..\module\accounting\ufrmDialogVoucher.pas' {frmDialogVoucher},
-  ufrmMasterAgreement in '..\module\marketing\ufrmMasterAgreement.pas' {frmMasterAgreement},
   ufrmDialogCustomerAgreement in '..\module\customer_support\ufrmDialogCustomerAgreement.pas' {frmDialogCustomerAgreement},
   ufrmDialogScheduleAgreement in '..\module\marketing\ufrmDialogScheduleAgreement.pas' {frmDialogScheduleAgreement},
   ufrmDialogMasterAgreement in '..\module\marketing\ufrmDialogMasterAgreement.pas' {frmDialogMasterAgreement},
@@ -258,7 +255,6 @@ uses
   ufrmInvoice in '..\module\finance\ufrmInvoice.pas' {frmInvoice},
   uModCrazyPrice in '..\model\uModCrazyPrice.pas',
   ufrmCrazyPrice in '..\module\trader\ufrmCrazyPrice.pas' {frmCrazyPrice},
-  uClientClasses in '..\classes\uClientClasses.pas',
   ufrmDialogCrazyPrice in '..\module\trader\ufrmDialogCrazyPrice.pas' {frmDialogCrazyPrice},
   ufrmListAgreementDetil in '..\module\marketing\ufrmListAgreementDetil.pas' {frmListAgreementDetil},
   ufrmAgreementVoucher in '..\module\customer_support\ufrmAgreementVoucher.pas' {frmAgreementVoucher},
@@ -270,7 +266,24 @@ uses
   ufrmDialogGenerateVoucher in '..\module\customer_support\ufrmDialogGenerateVoucher.pas' {frmDialogGenerateVoucher},
   ufrmElectricInvoice in '..\module\marketing\ufrmElectricInvoice.pas' {frmElectricInvoice},
   ufrmElectricTransaction in '..\module\marketing\ufrmElectricTransaction.pas' {frmElectricTransaction},
-  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment};
+  ufrmElectricPayment in '..\module\finance\ufrmElectricPayment.pas' {frmElectricPayment},
+  uModelHelper in '..\model\uModelHelper.pas',
+  uModCustomer in '..\model\uModCustomer.pas',
+  ufrmProdukJasa in '..\module\references\ufrmProdukJasa.pas' {frmProdukJasa},
+  uModProdukJasa in '..\model\uModProdukJasa.pas',
+  ufrmDialogProdukJasa in '..\module\references\ufrmDialogProdukJasa.pas' {frmDialogProdukJasa},
+  uModBankCashIn in '..\model\uModBankCashIn.pas',
+  ufrmCashIn in '..\module\finance\ufrmCashIn.pas' {frmCashIn},
+  ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
+  uModDOBonus in '..\model\uModDOBonus.pas',
+<<<<<<< HEAD
+  uClientClasses in '..\classes\uClientClasses.pas',
+  ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang},
+  ufrmSummaryARBalance in '..\module\finance\ufrmSummaryARBalance.pas' {frmSummaryARBalance};
+=======
+  ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang},
+  uClientClasses in '..\classes\uClientClasses.pas';
+>>>>>>> 5ef168360d513d4d245e7f05f8af47c4d3b1a606
 
 {$R *.res}
 
@@ -281,9 +294,6 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-<<<<<<< HEAD
-  Application.CreateForm(TfrmCrazyPrice, frmCrazyPrice);
-=======
->>>>>>> 1d991f2e8e5f71afa2e97a969dc5fa948bbc6d34
+  //  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
   Application.Run;
 end.

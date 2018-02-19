@@ -6,14 +6,15 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ufrmMasterBrowse, ActnList, StdCtrls, ExtCtrls,
   cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter,
-  cxData, cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
+  cxLookAndFeelPainters, dxBarBuiltInMenu, cxStyles,
+  cxDataStorage, cxEdit, cxNavigator, Data.DB, cxDBData, cxContainer,
   Vcl.ComCtrls, dxCore, cxDateUtils, Vcl.Menus,
   ufraFooter4Button, cxButtons, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxPC,
-  cxCurrencyEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  System.Actions, uDBUtils, uDMClient, System.DateUtils, uDXUtils, Datasnap.DBClient;
+  cxCurrencyEdit, cxDBExtLookupComboBox,
+  System.Actions, uDBUtils, uDMClient, System.DateUtils, uDXUtils, Datasnap.DBClient,
+  cxCustomData, cxFilter, cxData;
 
 type
   TfrmPOFromTrader = class(TfrmMasterBrowse)
@@ -29,26 +30,10 @@ type
 var
   frmPOFromTrader: TfrmPOFromTrader;
 
-const
-  _KolKode        : Integer = 1;
-  _KolNama        : Integer = 2;
-  _KolUOM         : Integer = 3;
-  _KolBarcode     : Integer = 4;
-  _KolQTY         : Integer = 5;
-  _KolHarga       : Integer = 6;
-  _KolDiscMember  : Integer = 7;
-  _KolSubTotal    : Integer = 8;
-
-  //  _KolPPN         : Integer = 7;
-//  _KolQTY : Integer = 4;
-//  _KolHarga : Integer = 5;
-//  _KolPPN : Integer = 6;
-
-
 implementation
 
-uses ufrmDialogPOFromTrader, uTSCommonDlg,
-  ufrmSearchPO, ufrmDialogPrintKasirPreview;
+uses
+  ufrmDialogPOFromTrader, uTSCommonDlg;
 
 {$R *.dfm}
 
