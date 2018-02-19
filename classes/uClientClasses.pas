@@ -1,11 +1,7 @@
 //
 // Created by the DataSnap proxy generator.
-<<<<<<< HEAD
-// 2/13/2018 3:43:44 PM
-=======
-// 2/16/2018 3:51:00 PM
->>>>>>> 5ef168360d513d4d245e7f05f8af47c4d3b1a606
-//
+// 2/19/2018 11:03:42 AM
+// 
 
 unit uClientClasses;
 
@@ -4228,6 +4224,20 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
+  TDSReport_Summary_AR_Balance: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_Summary_AR_Balance_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
   TDSReport_BankCashOut_GetDS_Slip: array [0..3] of TDSRestParameterMetaData =
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
@@ -4346,218 +4356,6 @@ const
 
   TDSReport_HistoryAP_Cache: array [0..1] of TDSRestParameterMetaData =
   (
-<<<<<<< HEAD
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSProvider_RekeningPiutang_GetDSLookup: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
-  );
-
-  TDSProvider_RekeningPiutang_GetDSLookup_Cache: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSProvider_ReturTrader_GetDSLookUp: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
-  );
-
-  TDSProvider_ReturTrader_GetDSLookUp_Cache: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSProvider_ReturTrader_GetDSOverview: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
-    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
-  );
-
-  TDSProvider_ReturTrader_GetDSOverview_Cache: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'AUnit'; Direction: 1; DBXType: 37; TypeName: 'TModUnit'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSProvider_KonversiSatuan_GetDS: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ABarangID'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
-  );
-
-  TDSProvider_KonversiSatuan_GetDS_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ABarangID'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSProvider_POTrader_GetLookupForDO: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
-  );
-
-  TDSProvider_POTrader_GetLookupForDO_Cache: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'ATglAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ATglAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'AUnitID'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_AgingPiutang: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_AgingPiutang_Cache: array [0..0] of TDSRestParameterMetaData =
-  (
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_Summary_AR_Balance: array [0..2] of TDSRestParameterMetaData =
-  (
-    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_Summary_AR_Balance_Cache: array [0..2] of TDSRestParameterMetaData =
-  (
-    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_BankCashOut_GetDS_Slip: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ANoBukti'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_BankCashOut_GetDS_Slip_Cache: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'ANoBukti'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_Claim_by_Id: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'id'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_Claim_by_Id_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'id'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_DO_GetDSNP: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_DO_GetDSNP_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_DO_GetDS_CheckList: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_DO_GetDS_CheckList_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANONP'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_DSA_GetDS: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aGroupField'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
-  );
-
-  TDSReport_DSA_GetDS_Cache: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aGroupField'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_DSA_GetDSPrint: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aGroupField'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_DSA_GetDSPrint_Cache: array [0..3] of TDSRestParameterMetaData =
-  (
-    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aGroupField'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_DSR_GetDS: array [0..2] of TDSRestParameterMetaData =
-  (
-    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_DSR_GetDS_Cache: array [0..2] of TDSRestParameterMetaData =
-  (
-    (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_KuponBotol_GetDS_Slip: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANomor'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_KuponBotol_GetDS_Slip_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANomor'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
-  );
-
-  TDSReport_HistoryAP: array [0..1] of TDSRestParameterMetaData =
-  (
-    (Name: 'ANoAP'; Direction: 1; DBXType: 26; TypeName: 'string'),
-    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
-  );
-
-  TDSReport_HistoryAP_Cache: array [0..1] of TDSRestParameterMetaData =
-  (
-=======
->>>>>>> 5ef168360d513d4d245e7f05f8af47c4d3b1a606
     (Name: 'ANoAP'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -14335,6 +14133,48 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FAgingPiutangCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSReportClient.Summary_AR_Balance(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FSummary_AR_BalanceCommand = nil then
+  begin
+    FSummary_AR_BalanceCommand := FConnection.CreateCommand;
+    FSummary_AR_BalanceCommand.RequestType := 'GET';
+    FSummary_AR_BalanceCommand.Text := 'TDSReport.Summary_AR_Balance';
+    FSummary_AR_BalanceCommand.Prepare(TDSReport_Summary_AR_Balance);
+  end;
+  FSummary_AR_BalanceCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FSummary_AR_BalanceCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FSummary_AR_BalanceCommand.Execute(ARequestFilter);
+  if not FSummary_AR_BalanceCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FSummary_AR_BalanceCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSummary_AR_BalanceCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FSummary_AR_BalanceCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.Summary_AR_Balance_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FSummary_AR_BalanceCommand_Cache = nil then
+  begin
+    FSummary_AR_BalanceCommand_Cache := FConnection.CreateCommand;
+    FSummary_AR_BalanceCommand_Cache.RequestType := 'GET';
+    FSummary_AR_BalanceCommand_Cache.Text := 'TDSReport.Summary_AR_Balance';
+    FSummary_AR_BalanceCommand_Cache.Prepare(TDSReport_Summary_AR_Balance_Cache);
+  end;
+  FSummary_AR_BalanceCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FSummary_AR_BalanceCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FSummary_AR_BalanceCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FSummary_AR_BalanceCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSReportClient.BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FBankCashOut_GetDS_SlipCommand = nil then
@@ -15163,6 +15003,8 @@ destructor TDSReportClient.Destroy;
 begin
   FAgingPiutangCommand.DisposeOf;
   FAgingPiutangCommand_Cache.DisposeOf;
+  FSummary_AR_BalanceCommand.DisposeOf;
+  FSummary_AR_BalanceCommand_Cache.DisposeOf;
   FBankCashOut_GetDS_SlipCommand.DisposeOf;
   FBankCashOut_GetDS_SlipCommand_Cache.DisposeOf;
   FClaim_by_IdCommand.DisposeOf;
@@ -15491,53 +15333,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FGetListPendingTransDetailByHeaderIDCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-<<<<<<< HEAD
-function TDSReportClient.Summary_AR_Balance(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
-begin
-  if FSummary_AR_BalanceCommand = nil then
-  begin
-    FSummary_AR_BalanceCommand := FConnection.CreateCommand;
-    FSummary_AR_BalanceCommand.RequestType := 'GET';
-    FSummary_AR_BalanceCommand.Text := 'TDSReport.Summary_AR_Balance';
-    FSummary_AR_BalanceCommand.Prepare(TDSReport_Summary_AR_Balance);
-  end;
-  FSummary_AR_BalanceCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
-  FSummary_AR_BalanceCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
-  FSummary_AR_BalanceCommand.Execute(ARequestFilter);
-  if not FSummary_AR_BalanceCommand.Parameters[2].Value.IsNull then
-  begin
-    FUnMarshal := TDSRestCommand(FSummary_AR_BalanceCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
-    try
-      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSummary_AR_BalanceCommand.Parameters[2].Value.GetJSONValue(True)));
-      if FInstanceOwner then
-        FSummary_AR_BalanceCommand.FreeOnExecute(Result);
-    finally
-      FreeAndNil(FUnMarshal)
-    end
-  end
-  else
-    Result := nil;
-end;
-
-function TDSReportClient.Summary_AR_Balance_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
-begin
-  if FSummary_AR_BalanceCommand_Cache = nil then
-  begin
-    FSummary_AR_BalanceCommand_Cache := FConnection.CreateCommand;
-    FSummary_AR_BalanceCommand_Cache.RequestType := 'GET';
-    FSummary_AR_BalanceCommand_Cache.Text := 'TDSReport.Summary_AR_Balance';
-    FSummary_AR_BalanceCommand_Cache.Prepare(TDSReport_Summary_AR_Balance_Cache);
-  end;
-  FSummary_AR_BalanceCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
-  FSummary_AR_BalanceCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
-  FSummary_AR_BalanceCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedTFDJSONDataSets.Create(FSummary_AR_BalanceCommand_Cache.Parameters[2].Value.GetString);
-end;
-
-function TDSReportClient.BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): TFDJSONDataSets;
-=======
 function TPOSClient.GetServerDate(const ARequestFilter: string): TDateTime;
->>>>>>> 5ef168360d513d4d245e7f05f8af47c4d3b1a606
 begin
   if FGetServerDateCommand = nil then
   begin
@@ -16185,48 +15981,6 @@ end;
 
 destructor TCRUDPosClient.Destroy;
 begin
-<<<<<<< HEAD
-  FAgingPiutangCommand.DisposeOf;
-  FAgingPiutangCommand_Cache.DisposeOf;
-  FSummary_AR_BalanceCommand.DisposeOf;
-  FSummary_AR_BalanceCommand_Cache.DisposeOf;
-  FBankCashOut_GetDS_SlipCommand.DisposeOf;
-  FBankCashOut_GetDS_SlipCommand_Cache.DisposeOf;
-  FClaim_by_IdCommand.DisposeOf;
-  FClaim_by_IdCommand_Cache.DisposeOf;
-  FDO_GetDSNPCommand.DisposeOf;
-  FDO_GetDSNPCommand_Cache.DisposeOf;
-  FDO_GetDS_CheckListCommand.DisposeOf;
-  FDO_GetDS_CheckListCommand_Cache.DisposeOf;
-  FDSA_GetDSCommand.DisposeOf;
-  FDSA_GetDSCommand_Cache.DisposeOf;
-  FDSA_GetDSPrintCommand.DisposeOf;
-  FDSA_GetDSPrintCommand_Cache.DisposeOf;
-  FDSR_GetDSCommand.DisposeOf;
-  FDSR_GetDSCommand_Cache.DisposeOf;
-  FKuponBotol_GetDS_SlipCommand.DisposeOf;
-  FKuponBotol_GetDS_SlipCommand_Cache.DisposeOf;
-  FHistoryAPCommand.DisposeOf;
-  FHistoryAPCommand_Cache.DisposeOf;
-  FInvMovement_GetDSCommand.DisposeOf;
-  FInvMovement_GetDSCommand_Cache.DisposeOf;
-  FKartuAPCommand.DisposeOf;
-  FKartuAPCommand_Cache.DisposeOf;
-  FKartuStock_GetDSCommand.DisposeOf;
-  FKartuStock_GetDSCommand_Cache.DisposeOf;
-  FPO_SLIP_ByDateNoBuktiCommand.DisposeOf;
-  FPO_SLIP_ByDateNoBuktiCommand_Cache.DisposeOf;
-  FTransferBarang_SlipByIDCommand.DisposeOf;
-  FTransferBarang_SlipByIDCommand_Cache.DisposeOf;
-  FSO_ByDateCommand.DisposeOf;
-  FSO_ByDateCommand_Cache.DisposeOf;
-  FSO_ByDateNoBuktiCommand.DisposeOf;
-  FSO_ByDateNoBuktiCommand_Cache.DisposeOf;
-  FSO_TestCommand.DisposeOf;
-  FSO_TestCommand_Cache.DisposeOf;
-  FStockProduct_GetDSCommand.DisposeOf;
-  FStockProduct_GetDSCommand_Cache.DisposeOf;
-=======
   FCreateTableSQLCommand.DisposeOf;
   FCreateTableSQLByClassNameCommand.DisposeOf;
   FDeleteFromDBCommand.DisposeOf;
@@ -16249,7 +16003,6 @@ begin
   FTestGenerateSQLCommand.DisposeOf;
   FTestGenerateSQLCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
->>>>>>> 5ef168360d513d4d245e7f05f8af47c4d3b1a606
   inherited;
 end;
 
@@ -29474,4 +29227,3 @@ begin
 end;
 
 end.
-
