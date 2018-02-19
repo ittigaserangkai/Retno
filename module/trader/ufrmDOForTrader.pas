@@ -17,6 +17,12 @@ uses
 
 type
   TfrmDOForTrader = class(TfrmMasterBrowse)
+    cxGridViewColumn1: TcxGridDBColumn;
+    cxGridViewColumn2: TcxGridDBColumn;
+    cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -50,7 +56,7 @@ begin
   if FCDS = nil  then
     Exit;
 
-  ShowDialogForm(TfrmDialogDOForTrader, FCDS.FieldByName('DOTTRADER_ID').AsString);
+  ShowDialogForm(TfrmDialogDOForTrader, FCDS.FieldByName('DOTRADER_ID').AsString);
 end;
 
 procedure TfrmDOForTrader.FormClose(Sender: TObject;
@@ -71,8 +77,7 @@ begin
   inherited;
   if Assigned(FCDS) then FreeAndNil(FCDS);
   FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.DOTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
-  cxGridView.LoadFromCDS(FCDS);
-  cxGridView.SetVisibleColumns(['DOTRADER_ID','DOT_ORGANIZATION_ID','DOT_POTRADER_ID'],False);
+  cxGridView.LoadFromCDS(FCDS, False);
 
 end;
 

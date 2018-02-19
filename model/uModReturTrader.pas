@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs,
   uModAPP, uModPOTrader, uModBarang, uModSatuan, uModOrganization,
-  System.Generics.Collections, uModUnit, uModGudang, uModDOTrader;
+  System.Generics.Collections, uModUnit, uModGudang, uModDOTrader, uModAR;
 
 type
   TModReturTraderItem = class;
@@ -15,6 +15,7 @@ type
     FRET_DATE: TDatetime;
     FRET_DESCRIPTION: string;
     FRET_DISC: Double;
+    FRET_AR: TModAR;
     FRET_DISC_MEMBER: Double;
     FRET_DOTrader: TModDOTrader;
     FRET_GUDANG: TModGudang;
@@ -29,20 +30,23 @@ type
     FRET_TOTAL: Double;
     FRET_UNIT: TModUnit;
     FRET_VALID_DATE: TDatetime;
+    function GetReturTraderItems: TObjectList<TModReturTraderItem>;
   public
     property ReturTraderItems: TObjectList<TModReturTraderItem> read
-        FReturTraderItems write FReturTraderItems;
+        GetReturTraderItems write FReturTraderItems;
   published
     property RET_DATE: TDatetime read FRET_DATE write FRET_DATE;
     [AttributeofSize('120')]
     property RET_DESCRIPTION: string read FRET_DESCRIPTION write
         FRET_DESCRIPTION;
     property RET_DISC: Double read FRET_DISC write FRET_DISC;
+    property RET_AR: TModAR read FRET_AR write FRET_AR;
     property RET_DISC_MEMBER: Double read FRET_DISC_MEMBER write
         FRET_DISC_MEMBER;
     property RET_DOTrader: TModDOTrader read FRET_DOTrader write FRET_DOTrader;
     property RET_GUDANG: TModGudang read FRET_GUDANG write FRET_GUDANG;
     property RET_LEAD_TIME: Double read FRET_LEAD_TIME write FRET_LEAD_TIME;
+    [AttributeofCode]
     property RET_NO: string read FRET_NO write FRET_NO;
     property RET_Organization: TModOrganization read FRET_Organization write
         FRET_Organization;
@@ -82,6 +86,7 @@ type
     property RETITEM_PPN: Double read FRETITEM_PPN write FRETITEM_PPN;
     property RETITEM_PPNRP: Double read FRETITEM_PPNRP write FRETITEM_PPNRP;
     property RETITEM_QTY: Double read FRETITEM_QTY write FRETITEM_QTY;
+    [AttributeOfHeader]
     property RETITEM_RETURTRADER: TModReturTrader read FRETITEM_RETURTRADER
         write FRETITEM_RETURTRADER;
     property RETITEM_SATUAN: TModSatuan read FRETITEM_SATUAN write
@@ -93,9 +98,17 @@ type
 
 implementation
 
+function TModReturTrader.GetReturTraderItems: TObjectList<TModReturTraderItem>;
+begin
+  if not Assigned(FReturTraderItems) then
+    FReturTraderItems := TObjectList<TModReturTraderItem>.Create;
+  Result := FReturTraderItems;
+end;
+
 initialization
 
   TModReturTrader.RegisterRTTI;
+  TModReturTraderItem.RegisterRTTI;
 
 
 

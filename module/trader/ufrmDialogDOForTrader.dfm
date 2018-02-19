@@ -2,8 +2,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   Caption = 'Dialog DO For Trader'
   ClientHeight = 561
   ClientWidth = 858
-  ExplicitLeft = -85
-  ExplicitTop = -184
   ExplicitWidth = 874
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -280,10 +278,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       RootLevelOptions.DetailTabsPosition = dtpTop
-      ExplicitLeft = 4
-      ExplicitTop = 175
       object cxGridDBTableDOTrader: TcxGridDBTableView
-        PopupMenu = pmItem
         Navigator.Buttons.CustomButtons = <>
         FindPanel.InfoText = 'ketik teks yang dicari...'
         DataController.Summary.DefaultGroupSummaryItems = <>
@@ -296,6 +291,10 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         DataController.Summary.SummaryGroups = <>
         FilterRow.InfoText = 'klik untuk memfilter data'
         NewItemRow.InfoText = 'Baris baru'
+        OptionsData.CancelOnExit = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
@@ -394,6 +393,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
       Style.Color = clInfoBk
       TabOrder = 2
       Transparent = True
+      Visible = False
       Height = 39
       Width = 854
       object cxLabel1: TcxLabel
@@ -485,8 +485,14 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   inherited actlstMasterDialog: TActionList
     Left = 656
     Top = 344
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
     inherited actSave: TAction
       OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
     end
   end
   object pmItem: TPopupMenu

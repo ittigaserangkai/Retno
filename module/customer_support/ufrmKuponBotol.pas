@@ -54,10 +54,10 @@ type
     procedure ClearForm;
     function GetModKuponBotol: TModTransKuponBotol;
     procedure ParseDataDetilTransaksiKuponBotol(ATransNo: string);
-    property ModKuponBotol: TModTransKuponBotol read GetModKuponBotol write
-        FModKuponBotol;
   public
     procedure RefreshData; override;
+    property ModKuponBotol: TModTransKuponBotol read GetModKuponBotol write
+        FModKuponBotol;
   end;
 
 var

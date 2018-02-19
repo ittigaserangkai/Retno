@@ -9,29 +9,32 @@ inherited frmBarcodeUsage: TfrmBarcodeUsage
   inherited pnlBody: TPanel
     Width = 654
     Height = 245
-    ExplicitWidth = 120
+    ExplicitWidth = 654
+    ExplicitHeight = 245
     inherited pgcBrowse: TcxPageControl
       Width = 652
       Height = 243
-      ExplicitWidth = 118
+      ExplicitWidth = 652
+      ExplicitHeight = 243
       ClientRectBottom = 242
       ClientRectRight = 651
       inherited tsBrowse: TcxTabSheet
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 116
-        ExplicitHeight = 310
+        ExplicitWidth = 650
+        ExplicitHeight = 241
         inherited cxGrid: TcxGrid
           Width = 650
           Height = 241
-          ExplicitWidth = 116
+          ExplicitWidth = 650
+          ExplicitHeight = 241
         end
       end
     end
   end
   inherited pnlHeader: TPanel
     Width = 654
-    ExplicitWidth = 120
+    ExplicitWidth = 654
     inherited lblHeader: TLabel
       Width = 90
       Caption = 'BARCODE USAGE'
@@ -40,40 +43,40 @@ inherited frmBarcodeUsage: TfrmBarcodeUsage
     inherited lblFilterData: TcxLabel
       Left = 300
       Visible = True
-      ExplicitLeft = -234
+      ExplicitLeft = 300
       AnchorY = 17
     end
     inherited dtAwalFilter: TcxDateEdit
       Left = 361
       Visible = True
-      ExplicitLeft = -173
+      ExplicitLeft = 361
       ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 477
       Visible = True
-      ExplicitLeft = -57
+      ExplicitLeft = 477
       ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 572
-      ExplicitLeft = 38
+      ExplicitLeft = 572
     end
     inherited lblsdFilter: TcxLabel
       Left = 453
       Visible = True
-      ExplicitLeft = -81
+      ExplicitLeft = 453
       AnchorY = 17
     end
   end
   inherited fraFooter4Button1: TfraFooter4Button
     Top = 278
     Width = 654
-    ExplicitTop = -56
-    ExplicitWidth = 120
+    ExplicitTop = 278
+    ExplicitWidth = 654
     inherited pnlFooter: TPanel
       Width = 654
-      ExplicitWidth = 120
+      ExplicitWidth = 654
       inherited btnAdd: TcxButton
         Action = actAdd
       end
@@ -86,7 +89,7 @@ inherited frmBarcodeUsage: TfrmBarcodeUsage
       inherited btnClose: TcxButton
         Left = 577
         Action = actClose
-        ExplicitLeft = 43
+        ExplicitLeft = 577
       end
       inherited cxButton1: TcxButton
         Action = actExport
@@ -94,10 +97,11 @@ inherited frmBarcodeUsage: TfrmBarcodeUsage
     end
     inherited pnlShortCut: TPanel
       Width = 654
-      ExplicitWidth = 120
+      ExplicitWidth = 654
       inherited lbEscape: TLabel
         Left = 580
         Height = 17
+        ExplicitLeft = 580
       end
     end
   end

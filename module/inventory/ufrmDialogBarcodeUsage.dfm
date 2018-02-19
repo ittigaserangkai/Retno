@@ -9,7 +9,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
   inherited pnlBody: TPanel
     Width = 752
     Height = 357
-    ExplicitWidth = 742
+    ExplicitWidth = 752
     ExplicitHeight = 357
     object pnlFilter: TPanel
       Left = 2
@@ -18,7 +18,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       Height = 37
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 738
       object btnSearch: TcxButton
         AlignWithMargins = True
         Left = 289
@@ -83,8 +82,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         OptionsImage.NumGlyphs = 2
         TabOrder = 0
         OnClick = btnSearchClick
-        ExplicitLeft = 38
-        ExplicitHeight = 27
       end
       object dtAkhirFilter: TcxDateEdit
         AlignWithMargins = True
@@ -98,8 +95,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 1
-        ExplicitLeft = -57
-        ExplicitHeight = 24
         Width = 89
       end
       object lblFilterData: TcxLabel
@@ -110,7 +105,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Caption = 'Filter Data'
         Properties.Alignment.Vert = taVCenter
         Transparent = True
-        ExplicitHeight = 39
         Height = 35
         Width = 74
         AnchorY = 19
@@ -127,8 +121,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 3
-        ExplicitLeft = -173
-        ExplicitHeight = 24
         Width = 89
       end
       object lblsdFilter: TcxLabel
@@ -142,70 +134,45 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Caption = 's/d'
         Properties.Alignment.Vert = taVCenter
         Transparent = True
-        ExplicitLeft = -81
-        ExplicitHeight = 33
         Height = 29
         Width = 21
         AnchorY = 19
       end
     end
-    object cxgrdBarcodeReq: TcxGrid
+    object cxgrdBarcodeUsage: TcxGrid
       Left = 265
       Top = 39
       Width = 485
       Height = 316
       Align = alClient
       TabOrder = 1
-      ExplicitLeft = 248
-      ExplicitTop = 80
-      ExplicitWidth = 250
-      ExplicitHeight = 200
-      object cxGridTableBarcodeReq: TcxGridTableView
+      object cxGridDBTableBarcodeUsage: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
-        OnEditing = cxGridTableBarcodeReqEditing
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
-        OptionsView.GroupByBox = False
-        Styles.ContentOdd = DMClient.cxStyleGridEven
-        Styles.Header = DMClient.cxStyleGridHeader
-        object cxGridColSupplier: TcxGridColumn
-          Caption = 'Supplier MG'
-          HeaderAlignmentHorz = taCenter
-          Width = 127
-        end
-        object cxGridColNo: TcxGridColumn
-          Caption = 'No Bukti'
-          HeaderAlignmentHorz = taCenter
-          Width = 96
-        end
-        object cxGridColTanggal: TcxGridColumn
-          Caption = 'Tanggal'
-          PropertiesClassName = 'TcxDateEditProperties'
-          HeaderAlignmentHorz = taCenter
-          Width = 88
-        end
-        object cxGridColNominal: TcxGridColumn
-          Caption = 'Nominal'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.DisplayFormat = ',0.00;(,0.00)'
-          HeaderAlignmentHorz = taCenter
-          Width = 76
-        end
-        object cxGridColProses: TcxGridColumn
-          Caption = 'Proses'
-          PropertiesClassName = 'TcxCheckBoxProperties'
+        object cxGridColSupplier: TcxGridDBColumn
+          Caption = 'NO BUKTI'
+          DataBinding.FieldName = 'NOBUKTI'
           HeaderAlignmentHorz = taCenter
         end
-        object cxGridColID: TcxGridColumn
-          Caption = 'ID'
-          Visible = False
+        object cxGridColNo: TcxGridDBColumn
+          DataBinding.FieldName = 'TANGGAL'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColTgl: TcxGridDBColumn
+          Caption = 'NOMINAL'
+          DataBinding.FieldName = 'BU_NOMINAL'
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColNominal: TcxGridDBColumn
+          DataBinding.FieldName = 'REKENING'
           HeaderAlignmentHorz = taCenter
         end
       end
-      object cxgrdlvlBarcodeReq: TcxGridLevel
+      object cxgrdlvlBarcodeUsage: TcxGridLevel
         Caption = 'Daftar '
-        GridView = cxGridTableBarcodeReq
+        GridView = cxGridDBTableBarcodeUsage
       end
     end
     object pnlHeder: TPanel
@@ -231,10 +198,17 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       end
       object lblKeterangan: TLabel
         Left = 4
-        Top = 89
+        Top = 145
         Width = 58
         Height = 16
         Caption = 'Keterangan'
+      end
+      object lblOrganizasi: TLabel
+        Left = 9
+        Top = 90
+        Width = 53
+        Height = 16
+        Caption = 'Organisasi'
       end
       object pnlCaption: TPanel
         Left = 1
@@ -250,25 +224,50 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 183
       end
       object edNoBukti: TcxTextEdit
         Left = 68
         Top = 31
+        Properties.ReadOnly = True
         TabOrder = 1
         Width = 121
       end
       object dtTanggal: TcxDateEdit
         Left = 68
         Top = 59
+        Properties.ShowTime = False
         TabOrder = 2
         Width = 121
       end
       object memKeterangan: TcxMemo
         Left = 68
-        Top = 87
+        Top = 143
         TabOrder = 3
         Height = 42
+        Width = 189
+      end
+      object edOrganization: TcxButtonEdit
+        Tag = 1
+        Left = 68
+        Top = 87
+        HelpType = htKeyword
+        HelpKeyword = 'Organisasi'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.CharCase = ecUpperCase
+        Properties.MaxLength = 0
+        Properties.OnButtonClick = edOrganizationPropertiesButtonClick
+        TabOrder = 4
+        Width = 146
+      end
+      object edOrganizationName: TcxTextEdit
+        Left = 68
+        Top = 115
+        Properties.ReadOnly = True
+        TabOrder = 5
         Width = 189
       end
     end
@@ -277,19 +276,19 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
     Top = 357
     Width = 752
     ExplicitTop = 357
-    ExplicitWidth = 742
+    ExplicitWidth = 752
     inherited pnlFooter: TPanel
       Width = 752
-      ExplicitWidth = 742
+      ExplicitWidth = 752
       inherited btnClose: TcxButton
         Left = 675
         Action = actCancel
-        ExplicitLeft = 665
+        ExplicitLeft = 675
       end
       inherited btnSave: TcxButton
         Left = 582
         Action = actSave
-        ExplicitLeft = 572
+        ExplicitLeft = 582
       end
       inherited btnDelete: TcxButton
         Action = actDelete
@@ -297,21 +296,21 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       inherited btnPrint: TcxButton
         Left = 505
         Action = actPrint
-        ExplicitLeft = 495
+        ExplicitLeft = 505
       end
     end
     inherited pnlSortCut: TPanel
       Width = 752
-      ExplicitWidth = 742
+      ExplicitWidth = 752
       inherited lbCTRLEnter: TLabel
         Left = 577
         Height = 15
-        ExplicitLeft = 567
+        ExplicitLeft = 577
       end
       inherited lbEscape: TLabel
         Left = 668
         Height = 15
-        ExplicitLeft = 658
+        ExplicitLeft = 668
       end
       inherited lbCTRLDel: TLabel
         Height = 15
@@ -319,12 +318,21 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       inherited lblCTRLP: TLabel
         Left = 501
         Height = 15
-        ExplicitLeft = 491
+        ExplicitLeft = 501
       end
     end
   end
   inherited actlstMasterDialog: TActionList
     Left = 352
     Top = 168
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
+    inherited actPrint: TAction
+      OnExecute = actPrintExecute
+    end
   end
 end

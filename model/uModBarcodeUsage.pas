@@ -15,7 +15,7 @@ type
     FBU_AR: TModAR;
     FBU_KETERANGAN: string;
     FBU_NO: string;
-    FBU_SUPMG: TModSuplierMerchanGroup;
+    FBU_SUPMG_ID: TModOrganization;
     FBU_TANGGAL: tdatetime;
     FBU_TOTAL: Double;
     FBU_UNIT: TModUnit;
@@ -31,7 +31,7 @@ type
 
     [AttributeOfCode]
     property BU_NO: string read FBU_NO write FBU_NO;
-    property BU_SUPMG: TModSuplierMerchanGroup read FBU_SUPMG write FBU_SUPMG;
+    property BU_SUPMG_ID: TModOrganization read FBU_SUPMG_ID write FBU_SUPMG_ID;
     property BU_TANGGAL: tdatetime read FBU_TANGGAL write FBU_TANGGAL;
     property BU_TOTAL: Double read GetBU_TOTAL write FBU_TOTAL;
     property BU_UNIT: TModUnit read FBU_UNIT write FBU_UNIT;
@@ -84,6 +84,9 @@ begin
   Result := FBU_TOTAL;
 end;
 
+Initialization
 
+TModBarcodeUsage.RegisterRTTI;
+TModBarcodeUsageItem.RegisterRTTI;
 
 end.

@@ -15,10 +15,10 @@ uses
   cxDBExtLookupComboBox, uRetnoUnit, uModPOTrader, uModelHelper, DateUtils,
   uDXUtils, uDMClient, Datasnap.DBClient, uModDOTrader, uDBUtils, Vcl.Menus,
   uModDNRecv, uAppUtils, uModSatuan, cxLabel, cxGroupBox, cxCalc, uModGudang,
-  uModOrganization;
+  uModOrganization, uInterface, uDMReport, uConstanta;
 
 type
-  TfrmDialogDOForTrader = class(TfrmMasterDialog)
+  TfrmDialogDOForTrader = class(TfrmMasterDialog, ICRUDAble)
     pnl1: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -61,6 +61,8 @@ type
     cxGroupBox1: TcxGroupBox;
     cxLabel1: TcxLabel;
     txtBarCode: TcxTextEdit;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure ClearAllItems1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -85,7 +87,6 @@ type
     procedure LookupPOTrader;
     procedure LoadPOTrader(APOTrader: TModPOTrader);
     procedure LoadPOTraderItems(APOTrader: TModPoTrader);
-    procedure SetGridByPLU(APLUBarCode: String; AQTY: Double = 1);
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataSet read GetCDS write FCDS;
@@ -93,6 +94,8 @@ type
     property ModPOTrader: TModPOTrader read FModPOTrader write FModPOTrader;
     property ModDOTrader: TModDOTrader read GetModDOTrader write FModDOTrader;
     { Private declarations }
+  protected
+    procedure SetGridByPLU(APLUBarCode: String; AQTY: Double = 1);
   public
     procedure LoadData(AID: String);
     { Public declarations }
@@ -104,9 +107,25 @@ var
 implementation
 
 uses
-  ufrmCXLookup, uModBarang, uConstanta;
+  ufrmCXLookup, uModBarang;
 
 {$R *.dfm}
+
+procedure TfrmDialogDOForTrader.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  if DMClient.CrudDOTraderClient.DeleteFromDB(ModDOTrader) then
+    Self.ModalResult := mrOk;
+end;
+
+procedure TfrmDialogDOForTrader.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  dmReport.ExecuteReport( 'Reports/Slip_DOTrader' ,
+    dmReport.ReportClient.DOTrader_SlipByID(ModDOTrader.ID),[]
+  );
+end;
 
 procedure TfrmDialogDOForTrader.actSaveExecute(Sender: TObject);
 begin
@@ -258,6 +277,25 @@ begin
 end;
 
 procedure TfrmDialogDOForTrader.LoadData(AID: String);
+var
+  lItem: TModDOTraderItem;
+
+  function GetQTYPO(ABarangID, AUOMID: String): Double;
+  var
+    lPOItem: TMOdPOTraderItem;
+  begin
+    Result := 0;
+    if not Assigned(FModPOTrader) then exit;
+    for lPOItem in ModPOTrader.POTraderItems do
+    begin
+      if (lPOItem.POTITEM_BARANG.ID = ABarangID) and (lPOItem.POTITEM_SATUAN.ID = AUOMID) then
+      begin
+        Result := lPOItem.POTITEM_QTY;
+        exit;
+      end;
+    end;
+  end;
+
 begin
   if AID = '' then
   begin
@@ -271,11 +309,11 @@ begin
     dtDODate.Date := Now();
     cbbGudang.Clear;
     memDescription.Clear;
-//
-//    CDS.Append;
-//    CDS.Post;
   end else
   begin
+    if Assigned(FModDOTrader) then FreeAndNil(FModDOTrader);
+    FModDOTrader := TCrudObj.Retrieve<TModDOTrader>(AID);
+
     if ModDOTrader.DOT_POTrader <> nil then
     begin
       ModPOTrader := TModPOTrader.CreateID(ModDOTrader.DOT_POTrader.ID);
@@ -289,10 +327,25 @@ begin
       edOrganization.Text       := ModDOTrader.DOT_Organization.ORG_Code;
       edOrganizationName.Text   := ModDOTrader.DOT_Organization.ORG_Name;
     end;
-    edNoBukti.Text            := ModDOTrader.DOT_NO;
-    dtDODate.Date             := ModDOTrader.DOT_DATE;
-    cbbGudang.EditValue       := ModDOTrader.DOT_GUDANG.ID;
-    memDescription.Text       := ModDOTrader.DOT_DESCRIPTION;
+    edNoBukti.Text              := ModDOTrader.DOT_NO;
+    dtDODate.Date               := ModDOTrader.DOT_DATE;
+    if Assigned(ModDOTrader.DOT_GUDANG) then
+      cbbGudang.EditValue       := ModDOTrader.DOT_GUDANG.ID;
+
+    memDescription.Text         := ModDOTrader.DOT_DESCRIPTION;
+
+    CDS.EmptyDataSet;
+    for lItem in ModDOTrader.DOTraderItems do
+    begin
+      CDS.Append;
+      lItem.UpdateToDataset(CDS);
+      lItem.DOTITEM_BARANG.Reload();
+      CDS.FieldByName('PLU').AsString         := lItem.DOTITEM_BARANG.BRG_CODE;
+      CDS.FieldByName('NamaBarang').AsString  := lItem.DOTITEM_BARANG.BRG_NAME;
+      CDS.FieldByName('POTITEM_QTY').AsFloat  := GetQTYPO(lItem.DOTITEM_BARANG.ID, lItem.DOTITEM_SATUAN.ID);
+      CDS.Post;
+    end;
+    CalculateTotal;
   end;
 end;
 
@@ -327,6 +380,7 @@ begin
     edOrganization.Text := APOTrader.POT_Organization.ORG_Code;
     edOrganizationName.Text := APOTrader.POT_Organization.ORG_Name;
   end;
+  LoadPOTraderItems(APOTrader);
 end;
 
 procedure TfrmDialogDOForTrader.LoadPOTraderItems(APOTrader: TModPoTrader);
@@ -482,7 +536,7 @@ var
   lDOItem: TModDOTraderItem;
 begin
   if ModDOTrader.ID = '' then
-    edNoBukti.Text := DMClient.CrudClient.GenerateNo(TModDOTrader.ClassName);
+    edNoBukti.Text := DMClient.CrudDOTraderClient.GenerateNo(TModDOTrader.ClassName);
 
   ModDOTrader.DOT_NO            := edNoBukti.Text;
   ModDOTrader.DOT_POTrader      := TModPOTrader.CreateID(ModPOTrader.ID);
@@ -493,6 +547,7 @@ begin
   ModDOTrader.DOT_DISC          := edDisc.Value;
   ModDOTrader.DOT_PPN           := edPPN.Value;
   ModDOTrader.DOT_TOTAL         := edTotal.Value;
+  ModDOTrader.DOT_UNIT          := TRetno.UnitStore;
   ModDOTrader.DOT_Organization  := TModOrganization.CreateID(ModPOTrader.POT_Organization.ID);
 
   ModDOTrader.DOTraderItems.Clear;
@@ -555,7 +610,7 @@ begin
     end;
     if lCDS.FieldByName('DOTITEM_QTY').AsFloat > lCDS.FieldByName('POTITEM_QTY').AsFloat then
     begin
-      TAppUtils.Warning('Baris ' + inttostr(i) + ' Qty tidak melebihi QTY DO');
+      TAppUtils.Warning('Baris ' + inttostr(i) + ' Qty tidak melebihi QTY PO');
       exit;
     end;
 

@@ -37,6 +37,44 @@ inherited frmDOForTrader: TfrmDOForTrader
           Height = 356
           ExplicitWidth = 881
           ExplicitHeight = 356
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'Nomor DO'
+              DataBinding.FieldName = 'DOT_NO'
+              HeaderAlignmentHorz = taCenter
+              Width = 71
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'Tgl DO'
+              DataBinding.FieldName = 'ORG_CODE'
+              HeaderAlignmentHorz = taCenter
+              Width = 87
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'Deskripsi'
+              DataBinding.FieldName = 'DOT_DESCRIPTION'
+              HeaderAlignmentHorz = taCenter
+              Width = 176
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'Kode Organisasi'
+              DataBinding.FieldName = 'ORG_CODE'
+              HeaderAlignmentHorz = taCenter
+              Width = 141
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              Caption = 'Nama Organisasi'
+              DataBinding.FieldName = 'ORG_NAME'
+              HeaderAlignmentHorz = taCenter
+              Width = 235
+            end
+            object cxGridViewColumn6: TcxGridDBColumn
+              Caption = 'Total'
+              DataBinding.FieldName = 'DOT_TOTAL'
+              HeaderAlignmentHorz = taCenter
+              Width = 132
+            end
+          end
         end
       end
     end

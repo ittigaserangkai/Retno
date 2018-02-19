@@ -8,7 +8,7 @@ uses
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
   uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,uModBankCashIn,
-  uModSatuan, System.TypInfo, uModCrazyPrice;
+  uModSatuan, System.TypInfo, uModCrazyPrice, uModReturTrader;
 
 type
   {$METHODINFO ON}
@@ -226,9 +226,9 @@ type
 
   TServerModAppHelper = class helper for TModApp
   private
-    procedure CopyFrom(aModApp : TModApp);
   protected
   public
+    procedure CopyFrom(aModApp : TModApp);
     procedure Reload(LoadObjectList: Boolean = False);
   end;
 
@@ -245,12 +245,32 @@ type
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
+    function GenerateNoBukti: String;
+  end;
+
+type
+  TCRUDBarcodeRequest = class(TCrud)
+  protected
+    function GenerateCustomNo(aTableName, aFieldName: string; aCountDigit: Integer
+        = 11): String; override;
+  public
   end;
 
 type
   TCrudBankCashIN = class(TCrud)
   private
   protected
+  public
+    function GenerateNoBukti: String;
+  end;
+
+type
+  TCRUDReturTrader = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
     function GenerateNoBukti: String;
   end;
@@ -1842,6 +1862,85 @@ begin
   End;
 end;
 
+procedure TServerModAppHelper.CopyFrom(aModApp : TModApp);
+var
+  ctx: TRttiContext;
+  i: Integer;
+  lAppClass: TModAppClass;
+  lNewItem: TModApp;
+  lNewObjList: TObject;
+  lSrcItem: TModApp;
+  lSrcObjList: TObject;
+  meth: TRttiMethod;
+  RttiType: TRttiType;
+  Prop: TRttiProperty;
+  rtItem: TRttiType;
+  sGenericItemClassName: string;
+  value: TValue;
+
+  function SetPropertyFrom(AProp: TRttiProperty; ASource: TModApp): TModApp;
+  var
+    lSrcObj: TObject;
+  begin
+    Result := nil;
+    lSrcObj := Prop.GetValue(ASource).AsObject;
+    if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then exit;;
+    meth    := prop.PropertyType.GetMethod('Create');
+    Result  := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
+    if lSrcObj <> nil then
+      TModApp(Result).CopyFrom(TModApp(lSrcObj));
+  end;
+
+begin
+  RttiType := ctx.GetType(Self.ClassType);
+  Try
+    for Prop in RttiType.GetProperties do
+    begin
+      if not (Prop.IsReadable and Prop.IsWritable) then continue;
+//      if prop.Visibility <> mvPublished then continue;
+
+      If prop.PropertyType.TypeKind = tkClass then
+      begin
+        meth := prop.PropertyType.GetMethod('ToArray');
+        if Assigned(meth) then  //object list
+        begin
+          lSrcObjList := prop.GetValue(aModApp).AsObject;
+          lNewObjList := prop.GetValue(Self).AsObject;
+          if lSrcObjList = nil then continue;
+
+          value  := meth.Invoke(prop.GetValue(aModApp), []);
+          Assert(value.IsArray);
+          sGenericItemClassName := StringReplace(lSrcObjList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+          sGenericItemClassName := StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+          rtItem := ctx.FindType(sGenericItemClassName);
+
+          meth := prop.PropertyType.GetMethod('Add');
+          if Assigned(meth) and Assigned(rtItem) then
+          begin
+            if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
+            lAppClass := TModAppClass( rtItem.AsInstance.MetaclassType );
+            for i := 0 to value.GetArrayLength - 1 do
+            begin
+              lSrcItem := TModApp(value.GetArrayElement(i).AsObject);
+              lNewItem := lAppClass.Create;
+              lNewItem.CopyFrom(lSrcItem);
+              meth.Invoke(lNewObjList,[lNewItem]);
+            end;
+          end;
+          prop.SetValue(Self, lNewObjList);
+        end
+        else
+        begin
+          prop.SetValue(Self, SetPropertyFrom(prop, aModApp));
+        end;
+      end else
+        Prop.SetValue(Self, Prop.GetValue(aModApp));
+    end;
+  except
+    raise;
+  End;
+end;
+
 procedure TServerModAppHelper.Reload(LoadObjectList: Boolean = False);
 var
   lCRUD: TCRUD;
@@ -1863,46 +1962,6 @@ begin
   finally
     FreeAndNil(lCRUD);
   end;
-end;
-
-procedure TServerModAppHelper.CopyFrom(aModApp : TModApp);
-var
-  ctx: TRttiContext;
-  lNewObj: TModApp;
-  lSrcObj: TObject;
-  meth: TRttiMethod;
-  RttiType: TRttiType;
-  Prop: TRttiProperty;
-begin
-  RttiType := ctx.GetType(Self.ClassType);
-  Try
-    for Prop in RttiType.GetProperties do
-    begin
-      if not (Prop.IsReadable and Prop.IsWritable) then continue;
-
-      //revisi : published saja
-      if prop.Visibility <> mvPublished then continue;
-
-      If prop.PropertyType.TypeKind = tkClass then
-      begin
-        lSrcObj := Prop.GetValue(aModApp).AsObject;
-
-
-        if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
-        meth    := prop.PropertyType.GetMethod('Create');
-        lNewObj := TModApp(meth.Invoke(prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-
-        if lSrcObj <> nil then
-          TModApp(lNewObj).CopyFrom(TModApp(lSrcObj));
-
-        prop.SetValue(Self, lNewObj);
-      end else
-        Prop.SetValue(Self, Prop.GetValue(aModApp));
-    end;
-  except
-//    ShowMessage(Self.ClassName  + '.' + Prop.Name);
-    raise;
-  End;
 end;
 
 function TCrudPOTrader.HasBarcode(aBarCode: string): Boolean;
@@ -2055,9 +2114,22 @@ function TCRUDDOTrader.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
   lCRUD: TCrud;
   lDOTrader: TModDOTrader;
+  S: string;
 begin
   Result := False;
   lDOTrader := TModDOTrader(AObject);
+
+  if lDOTrader.DOT_AR <> nil then
+  begin
+    lDOTrader.DOT_AR.Reload();
+    if lDOTrader.DOT_AR.AR_PAID <> 0 then
+      Raise Exception.Create('AR sudah dibayar , DO Trader tidak bisa dihapus');
+  end;
+
+  if lDOTrader.DOT_POTrader = nil then
+    Raise Exception.Create('lDOTrader.DOT_POTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lDOTrader.DOT_POTrader, 'POT_STATUS = '''' ');
+  TDBUtils.ExecuteSQL(S, False);
 
   lCRUD := TCrud.Create(nil);
   try
@@ -2101,7 +2173,7 @@ begin
 
     lOrg.Reload(False);
 
-    lDOTrader.DOT_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount.ID);
+    lDOTrader.DOT_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount(False).ID);
 
     if lDOTrader.DOT_AR.AR_PAID > 0then
       raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');
@@ -2114,9 +2186,145 @@ begin
   end;
 end;
 
+function TCRUDDOTrader.GenerateNoBukti: String;
+begin
+  Result  := 'DT-' + Self.GenerateNo(TModDOTrader.ClassName);
+end;
+
+function TCRUDBarcodeRequest.GenerateCustomNo(aTableName, aFieldName: string;
+    aCountDigit: Integer = 11): String;
+var
+  i: Integer;
+  lMonth: string;
+  lNum: Integer;
+  lPrefix: string;
+  lTahun: string;
+  S: string;
+begin
+  aCountDigit := 4;
+  lNum := 0;
+  lTahun := FormatDateTime('YYYY', Now());
+  lMonth := FormatDateTime('MM', Now());
+  lPrefix := 'BR.' + lTahun + '.' + lMonth + '.' ;
+
+  S := 'select max(' + aFieldName + ') from ' + aTableName
+      + ' where ' + aFieldName + ' like '+  QuotedStr(lPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt( RightStr(Fields[0].AsString, aCountDigit), lNum);
+    Finally
+      free;
+    End;
+  end;
+  inc(lNum);
+
+  Result := IntToStr(lNum);
+  for i := 0 to aCountDigit-1 do Result := '0' + Result;
+  Result := lPrefix +  RightStr(Result, aCountDigit);
+
+  AfterExecuteMethod;
+end;
+
 function TCrudBankCashIN.GenerateNoBukti: String;
 begin
   Result := 'BKM' + Self.GenerateNo(TModBankCashIn.ClassName);
+end;
+
+function TCRUDReturTrader.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  lRetTrader: TModReturTrader;
+  S: string;
+begin
+  lRetTrader := TModReturTrader(AObject);
+  if lRetTrader.RET_DOTrader = nil then
+    Raise Exception.Create('lRetTrader.RET_DOTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lRetTrader.RET_DOTrader, 'DOT_STATUS = ''RETURNED'' ');
+  TDBUtils.ExecuteSQL(S, False);
+  Result := True;
+end;
+
+function TCRUDReturTrader.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+var
+  lCRUD: TCrud;
+  lRetTrader: TModReturTrader;
+  S: string;
+begin
+  Result := False;
+  lRetTrader := TModReturTrader(AObject);
+
+  if lRetTrader.RET_AR <> nil then
+  begin
+    lRetTrader.RET_AR.Reload();
+    if lRetTrader.RET_AR.AR_PAID <> 0 then
+      Raise Exception.Create('AR sudah dibayar , DO Trader tidak bisa dihapus');
+  end;
+
+  if lRetTrader.RET_DOTrader = nil then
+    Raise Exception.Create('lRetTrader.RET_DOTrader = nil');
+  S := TDBUtils.GetSQLUpdate(lRetTrader.RET_DOTrader, 'DOT_STATUS = '''' ');
+  TDBUtils.ExecuteSQL(S, False);
+
+  lCRUD := TCrud.Create(nil);
+  try
+    if not lCRUD.DeleteFromDBTrans(lRetTrader.RET_AR, False) then
+      Exit;
+  finally
+    lCRUD.Free;
+  end;
+
+  Result := True;
+end;
+
+function TCRUDReturTrader.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lcrud: TCrud;
+  lRetTrader: TModReturTrader;
+  lOrg: TModOrganization;
+begin
+  Result := False;
+  lRetTrader := TModReturTrader(AObject);
+
+  if lRetTrader = nil then
+    Raise Exception.Create('DoTrader = nil at AfterSaveToDB ');
+  if lRetTrader.RET_Organization = nil then
+    Raise Exception.Create('DO Trader Organization not definend');
+
+  if lRetTrader.RET_AR = nil then
+    lRetTrader.RET_AR := TModAR.Create;
+
+  lcrud := TCrud.Create(nil);
+  lOrg  := TModOrganization.CreateID(lRetTrader.RET_Organization.ID);
+  try
+
+    lRetTrader.RET_AR.AR_ClassRef     := lRetTrader.ClassName;
+    lRetTrader.RET_AR.AR_Description  := lRetTrader.RET_DESCRIPTION;
+    lRetTrader.RET_AR.AR_DueDate      := lRetTrader.RET_DATE + 7;   //???
+    lRetTrader.RET_AR.AR_ORGANIZATION := TModOrganization.CreateID(lOrg.ID);
+    lRetTrader.RET_AR.AR_REFNUM       := lRetTrader.RET_NO;
+    lRetTrader.RET_AR.AR_TRANSDATE    := lRetTrader.RET_DATE;
+    lRetTrader.RET_AR.AR_TOTAL        := lRetTrader.RET_TOTAL;
+
+    lOrg.Reload(False);
+
+    lRetTrader.RET_AR.AR_REKENING     := TModRekening.CreateID(lOrg.GetARAccount(False).ID);
+
+    if lRetTrader.RET_AR.AR_PAID > 0then
+      raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');
+
+    if lcrud.SaveToDBTrans(lRetTrader.RET_AR, False) then
+      Result := True;
+  finally
+    lOrg.Free;
+    lcrud.Free;
+  end;
+end;
+
+function TCRUDReturTrader.GenerateNoBukti: String;
+begin
+  Result  := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
 end.

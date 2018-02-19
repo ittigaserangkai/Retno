@@ -122,7 +122,6 @@ inherited frmAPCard: TfrmAPCard
     ExplicitWidth = 684
     inherited lbEscape: TLabel
       Left = 610
-      Height = 17
       ExplicitLeft = 610
     end
   end

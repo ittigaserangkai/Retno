@@ -1,7 +1,7 @@
 inherited frmReturTrader: TfrmReturTrader
   Left = 307
   Top = 94
-  Caption = 'Retur Assgros'
+  Caption = 'Retur Trader'
   ClientHeight = 455
   ClientWidth = 759
   ExplicitWidth = 775
@@ -16,6 +16,7 @@ inherited frmReturTrader: TfrmReturTrader
     inherited pgcBrowse: TcxPageControl
       Width = 757
       Height = 364
+      ExplicitLeft = -2
       ExplicitWidth = 757
       ExplicitHeight = 364
       ClientRectBottom = 363
@@ -30,6 +31,44 @@ inherited frmReturTrader: TfrmReturTrader
           Height = 362
           ExplicitWidth = 755
           ExplicitHeight = 362
+          inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn1: TcxGridDBColumn
+              Caption = 'Nomor Retur'
+              DataBinding.FieldName = 'RET_NO'
+              HeaderAlignmentHorz = taCenter
+              Width = 74
+            end
+            object cxGridViewColumn2: TcxGridDBColumn
+              Caption = 'Tgl Retur'
+              DataBinding.FieldName = 'RET_DATE'
+              HeaderAlignmentHorz = taCenter
+              Width = 100
+            end
+            object cxGridViewColumn3: TcxGridDBColumn
+              Caption = 'Deskripsi'
+              DataBinding.FieldName = 'RET_DESCRIPTION'
+              HeaderAlignmentHorz = taCenter
+              Width = 159
+            end
+            object cxGridViewColumn4: TcxGridDBColumn
+              Caption = 'Kode Organisasi'
+              DataBinding.FieldName = 'ORG_CODE'
+              HeaderAlignmentHorz = taCenter
+              Width = 127
+            end
+            object cxGridViewColumn5: TcxGridDBColumn
+              Caption = 'Nama Organisasi'
+              DataBinding.FieldName = 'ORG_NAME'
+              HeaderAlignmentHorz = taCenter
+              Width = 183
+            end
+            object cxGridViewColumn6: TcxGridDBColumn
+              Caption = 'Total'
+              DataBinding.FieldName = 'RET_TOTAL'
+              HeaderAlignmentHorz = taCenter
+              Width = 109
+            end
+          end
         end
       end
     end
