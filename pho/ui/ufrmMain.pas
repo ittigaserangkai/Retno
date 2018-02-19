@@ -11,7 +11,7 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
-  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn, ufrmAgingPiutang;
+  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn, ufrmAgingPiutang, ufrmSummaryARBalance;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -417,9 +417,12 @@ type
     dxbrbtnBarcodeReq: TdxBarButton;
     dxbrbtnARAging: TdxBarButton;
     actLaporanAgingAR: TAction;
+    dxbrbtnSummaryARBalance: TdxBarButton;
+    actARBalance: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
+    procedure actARBalanceExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeRequestExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
@@ -624,6 +627,11 @@ end;
 procedure TfrmMain.actAPPaymentExecute(Sender: TObject);
 begin
   frmBankCashOut := TfrmBankCashOut.Create(nil);
+end;
+
+procedure TfrmMain.actARBalanceExecute(Sender: TObject);
+begin
+  frmSummaryARBalance := TfrmSummaryARBalance.Create(nil);
 end;
 
 procedure TfrmMain.actBankExecute(Sender: TObject);

@@ -250,6 +250,11 @@ begin
   sReportFile := Self.ReportPath + '\' + FReportName + '.fr3';
   sTextReportFile := Self.ReportPath + '\' + FReportName + '_txt.fr3';
 
+  sReportFile := StringReplace(sReportFile,'\\','\',[rfReplaceAll]);
+  sTextReportFile := StringReplace(sTextReportFile,'\\','\', [rfReplaceAll]);
+
+
+
   //tambahakan variabel report disini, sementara hardcoded dulu
   frxGlobalVariables['COMP'] := 'Goro Assalaam';
 

@@ -279,7 +279,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 4
       Text = 'PDF'
-      ExplicitHeight = 21
       Width = 78
     end
     object btnPrev: TcxButton
@@ -616,7 +615,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 10
       Text = '100%'
-      ExplicitHeight = 21
       Width = 60
     end
     object btnFastPrint: TcxButton
@@ -872,7 +870,7 @@ object DMReport: TDMReport
         end
         object DMPMemo16: TfrxDMPMemoView
           Left = 1046.400000000000000000
-          Width = 86.400000000000010000
+          Width = 86.400000000000000000
           Height = 17.000000000000000000
           FontStyle = []
           HAlign = haRight
@@ -1060,7 +1058,7 @@ object DMReport: TDMReport
         object DMPMemo17: TfrxDMPMemoView
           Left = 1046.400000000000000000
           Top = 119.000000000000000000
-          Width = 86.400000000000010000
+          Width = 86.400000000000000000
           Height = 17.000000000000000000
           FontStyle = []
           HAlign = haCenter

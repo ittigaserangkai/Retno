@@ -73,7 +73,6 @@ uses
   ufrmDialogProduct in '..\module\product\ufrmDialogProduct.pas' {frmDialogProduct},
   ufrmProduct in '..\module\product\ufrmProduct.pas' {frmProduct},
   uSpecialKey in '..\classes\uSpecialKey.pas',
-  ufrmSearchProduct in '..\module\product\ufrmSearchProduct.pas' {frmDialogSearchProduct},
   ufrmSearchSupplier in '..\module\merchandise\ufrmSearchSupplier.pas' {frmDialogSearchSupplier},
   uConn in '..\lib\uConn.pas',
   uDBUtils in '..\lib\uDBUtils.pas',
@@ -278,7 +277,8 @@ uses
   ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
   uModDOBonus in '..\model\uModDOBonus.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang};
+  ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang},
+  ufrmSummaryARBalance in '..\module\finance\ufrmSummaryARBalance.pas' {frmSummaryARBalance};
 
 {$R *.res}
 

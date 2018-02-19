@@ -194,6 +194,7 @@ inherited frmDialogBarangCompetitor: TfrmDialogBarangCompetitor
       ExplicitWidth = 476
       inherited btnClose: TcxButton
         Left = 397
+        Action = actCancel
         ExplicitLeft = 399
       end
       inherited btnSave: TcxButton
@@ -205,23 +206,13 @@ inherited frmDialogBarangCompetitor: TfrmDialogBarangCompetitor
       inherited btnDelete: TcxButton
         Action = actDelete
       end
+      inherited btnPrint: TcxButton
+        Action = actPrint
+      end
     end
     inherited pnlSortCut: TPanel
       Width = 474
       ExplicitWidth = 476
-      inherited lbl4: TLabel
-        Left = 294
-        Height = 15
-        ExplicitLeft = 291
-      end
-      inherited lbl5: TLabel
-        Left = 393
-        Height = 15
-        ExplicitLeft = 386
-      end
-      inherited lbl3: TLabel
-        Height = 15
-      end
     end
   end
 end

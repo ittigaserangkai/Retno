@@ -172,7 +172,7 @@ var
   frmDialogQuotationMailerNeo: TfrmDialogQuotationMailerNeo;
 
 implementation
-uses uTSCommonDlg, ufrmSearchProduct, uConstanta, uAppUtils;
+uses uTSCommonDlg,  uConstanta, uAppUtils;
 
 {$R *.dfm}
 

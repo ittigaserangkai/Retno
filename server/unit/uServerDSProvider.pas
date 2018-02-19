@@ -191,6 +191,8 @@ type
   TDSReport = class(TComponent)
   public
     function AgingPiutang: TFDJSONDataSets;
+    function Summary_AR_Balance(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir: TDatetime;
         ANoBukti : String): TFDJSONDataSets;
     function Claim_by_Id(id: string): TFDJSONDataSets;
@@ -1874,6 +1876,17 @@ var
 begin
   Result := TFDJSONDataSets.Create;
   sSQL := 'select * from V_AGING_AR order by org_code';
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+end;
+
+function TDSReport.Summary_AR_Balance(APeriodeAwal, APeriodeAkhir: TDatetime):
+    TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  sSQL := 'select * from V_SUMMARY_AR_BALANCE order by org_code, AR_REFNUM, AR_TRANSDATE';
+
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 

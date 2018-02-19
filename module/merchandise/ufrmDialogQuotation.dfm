@@ -204,11 +204,12 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           State = cbsChecked
           TabOrder = 0
           Transparent = True
+          ExplicitWidth = 121
         end
         object chkUpdateSellPrice: TcxCheckBox
           AlignWithMargins = True
           Left = 5
-          Top = 26
+          Top = 23
           Margins.Top = 0
           Margins.Right = 0
           Margins.Bottom = 0
@@ -218,6 +219,8 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           State = cbsChecked
           TabOrder = 1
           Transparent = True
+          ExplicitTop = 26
+          ExplicitWidth = 121
         end
       end
       object btnActivate: TcxButton
@@ -540,6 +543,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       HotZoneClassName = 'TcxXPTaskBarStyle'
       AlignSplitter = salBottom
       Control = pnlDetail
+      ExplicitWidth = 8
     end
     object pnlDetail: TcxGroupBox
       Left = 0
@@ -864,20 +868,14 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       ExplicitWidth = 968
       inherited lbCTRLEnter: TLabel
         Left = 793
-        Height = 15
         ExplicitLeft = 793
       end
       inherited lbEscape: TLabel
         Left = 884
-        Height = 15
         ExplicitLeft = 884
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 717
-        Height = 15
         ExplicitLeft = 717
       end
     end

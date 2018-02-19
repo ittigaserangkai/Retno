@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/12/2018 4:00:00 PM
+// 2/13/2018 3:43:44 PM
 //
 
 unit uClientClasses;
@@ -702,6 +702,8 @@ type
   private
     FAgingPiutangCommand: TDSRestCommand;
     FAgingPiutangCommand_Cache: TDSRestCommand;
+    FSummary_AR_BalanceCommand: TDSRestCommand;
+    FSummary_AR_BalanceCommand_Cache: TDSRestCommand;
     FBankCashOut_GetDS_SlipCommand: TDSRestCommand;
     FBankCashOut_GetDS_SlipCommand_Cache: TDSRestCommand;
     FClaim_by_IdCommand: TDSRestCommand;
@@ -744,6 +746,8 @@ type
     destructor Destroy; override;
     function AgingPiutang(const ARequestFilter: string = ''): TFDJSONDataSets;
     function AgingPiutang_Cache(const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function Summary_AR_Balance(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function Summary_AR_Balance_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function BankCashOut_GetDS_Slip_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function Claim_by_Id(id: string; const ARequestFilter: string = ''): TFDJSONDataSets;
@@ -4047,6 +4051,20 @@ const
 
   TDSReport_AgingPiutang_Cache: array [0..0] of TDSRestParameterMetaData =
   (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_Summary_AR_Balance: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_Summary_AR_Balance_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -13538,6 +13556,48 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FAgingPiutangCommand_Cache.Parameters[0].Value.GetString);
 end;
 
+function TDSReportClient.Summary_AR_Balance(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FSummary_AR_BalanceCommand = nil then
+  begin
+    FSummary_AR_BalanceCommand := FConnection.CreateCommand;
+    FSummary_AR_BalanceCommand.RequestType := 'GET';
+    FSummary_AR_BalanceCommand.Text := 'TDSReport.Summary_AR_Balance';
+    FSummary_AR_BalanceCommand.Prepare(TDSReport_Summary_AR_Balance);
+  end;
+  FSummary_AR_BalanceCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FSummary_AR_BalanceCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FSummary_AR_BalanceCommand.Execute(ARequestFilter);
+  if not FSummary_AR_BalanceCommand.Parameters[2].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FSummary_AR_BalanceCommand.Parameters[2].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FSummary_AR_BalanceCommand.Parameters[2].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FSummary_AR_BalanceCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.Summary_AR_Balance_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FSummary_AR_BalanceCommand_Cache = nil then
+  begin
+    FSummary_AR_BalanceCommand_Cache := FConnection.CreateCommand;
+    FSummary_AR_BalanceCommand_Cache.RequestType := 'GET';
+    FSummary_AR_BalanceCommand_Cache.Text := 'TDSReport.Summary_AR_Balance';
+    FSummary_AR_BalanceCommand_Cache.Prepare(TDSReport_Summary_AR_Balance_Cache);
+  end;
+  FSummary_AR_BalanceCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FSummary_AR_BalanceCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FSummary_AR_BalanceCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FSummary_AR_BalanceCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSReportClient.BankCashOut_GetDS_Slip(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBukti: string; const ARequestFilter: string): TFDJSONDataSets;
 begin
   if FBankCashOut_GetDS_SlipCommand = nil then
@@ -14286,6 +14346,8 @@ destructor TDSReportClient.Destroy;
 begin
   FAgingPiutangCommand.DisposeOf;
   FAgingPiutangCommand_Cache.DisposeOf;
+  FSummary_AR_BalanceCommand.DisposeOf;
+  FSummary_AR_BalanceCommand_Cache.DisposeOf;
   FBankCashOut_GetDS_SlipCommand.DisposeOf;
   FBankCashOut_GetDS_SlipCommand_Cache.DisposeOf;
   FClaim_by_IdCommand.DisposeOf;

@@ -1490,6 +1490,10 @@ object frmMain: TfrmMain
       ImageIndex = 55
       OnExecute = actLaporanAgingARExecute
     end
+    object actARBalance: TAction
+      Caption = 'AR Balance'
+      OnExecute = actARBalanceExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1970,6 +1974,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnARAging'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnSummaryARBalance'
         end>
       OneOnRow = False
       Row = 0
@@ -2417,6 +2425,11 @@ object frmMain: TfrmMain
     object dxbrbtnARAging: TdxBarButton
       Action = actLaporanAgingAR
       Category = 0
+    end
+    object dxbrbtnSummaryARBalance: TdxBarButton
+      Action = actARBalance
+      Category = 0
+      ImageIndex = 55
     end
   end
 end
