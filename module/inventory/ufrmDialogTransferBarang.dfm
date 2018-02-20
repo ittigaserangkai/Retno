@@ -114,6 +114,8 @@ inherited frmDialogTransferBarang: TfrmDialogTransferBarang
       Align = alClient
       TabOrder = 1
       RootLevelOptions.DetailTabsPosition = dtpTop
+      ExplicitLeft = 4
+      ExplicitTop = 130
       object cxGridTableGR: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>

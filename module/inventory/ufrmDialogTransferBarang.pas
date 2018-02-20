@@ -291,18 +291,23 @@ end;
 
 procedure TfrmDialogTransferBarang.SetBarangToGrid(APLU: String);
 var
+  i: Integer;
   iCurrentRow: Integer;
   lModBarang: TModBarang;
 begin
   lModBarang := TCRUDObj.RetrieveCode<TModBarang>(APLU);
   //Jare Manda, cara retrieve yg lebih simpel. Tur aku ra paham. wkwkwk
   Try
+    if lModBarang.ID = '' then
+    begin
+      TAppUtils.Warning('PLU Tidak Ditemukan!');
+      Abort;
+//      exit;
+    end;
+    //diwoco kudune ngerti, soale jelaske kangelan. wkwkwk
+
     iCurrentRow := cxGridTableGR.DataController.FocusedRecordIndex;
     //mendapatkan baris grid yg sedang fokus;
-
-    if lModBarang.ID = '' then
-      TAppUtils.Warning('PLU Tidak Ditemukan!');
-    //diwoco kudune ngerti, soale jelaske kangelan. wkwkwk
 
     //cara mengisi grid, format :
     //'namaGrid'.DataController.Values[ 'index baris', 'index kolom'] = xxx
@@ -392,10 +397,12 @@ end;
 
 function TfrmDialogTransferBarang.ValidateData: Boolean;
 var
+  a: Integer;
   i: Integer;
   lQty: Double;
-  lTotalCredit: Double;
-  lTotalDebet: Double;
+  iCurrentRow: Integer;
+  lModBarang: TModBarang;
+  lModSatuan: TModSatuan;
 
 begin
   Result := False;
@@ -452,6 +459,22 @@ begin
       exit;
     end;
   end;
+
+  for i := 0 to cxGridTableGR.DataController.RecordCount -1 do
+  begin
+    for a := 0 to cxGridTableGR.DataController.RecordCount -1 do
+    begin
+      if i = a then
+      Continue;
+      if (cxGridTableGR.DataController.Values[i,cxGridColPLU_ID.Index] = cxGridTableGR.DataController.Values[a,cxGridColPLU_ID.Index])
+       and (cxGridTableGR.DataController.Values[i,cxGridColUOMid.Index] = cxGridTableGR.DataController.Values[a,cxGridColUOMid.Index]) then
+      begin
+        TAppUtils.Warning('PLU baris ke-'+IntToStr(i+1)+' dan ke-' +IntToStr(a+1)+' tidak boleh dengan UoM yang sama.');
+        exit;
+      end;
+    end;
+  end;
+
 
   Result := True;
 end;

@@ -62,7 +62,9 @@ type
   end;
 
   TCrudPO = class(TCRud)
+  private
   public
+    function CancelPO(AID: String): Boolean;
     function GeneratePO(ASOID : String; ASupMGID : String): Boolean;
   end;
 
@@ -691,6 +693,17 @@ var
 begin
   S := 'select * from V_SO_DETAIL where SO_ID = ' + QuotedStr(Aid);
   Result := TDBUtils.OpenQuery(S);
+end;
+
+function TCrudPO.CancelPO(AID: String): Boolean;
+var
+  S: string;
+begin
+  S := 'UPDATE PO SET REF$STATUS_PO_ID = '
+      +' (select DISTINCT REF$STATUS_PO_ID from REF$STATUS_PO where STAPO_CODE = ''003'')'
+      +' WHERE PO_ID =' + QuotedStr(aID);
+  TDBUtils.ExecuteSQL(S);
+  Result := True;
 end;
 
 function TCrudPO.GeneratePO(ASOID : String; ASupMGID : String): Boolean;

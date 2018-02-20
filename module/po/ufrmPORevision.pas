@@ -13,7 +13,7 @@ uses
   cxDateUtils, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxMaskEdit, cxCalendar, cxTextEdit, uInterface, uModPO, uDMClient,
   dxBarBuiltInMenu, cxPC, uDXUtils, Datasnap.DBClient, uDBUtils, uModelHelper,
-  cxCalc, uAppUtils;
+  cxCalc, uAppUtils, uModSuplier, uModSO, uModSatuan;
 
 type
   TfrmPORevision = class(TfrmMasterDialog,ICRUDAble)
@@ -64,6 +64,7 @@ type
     cxgrdclmnPODTotalTax: TcxGridColumn;
     cxgrdclmnPODIsBKP: TcxGridColumn;
     cxgrdclmnPODSubTotal: TcxGridColumn;
+    procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxgrdclmnPODJumlahPropertiesEditValueChanged(Sender: TObject);
     procedure cxGridTablePODetilEditing(Sender: TcxCustomGridTableView; AItem:
@@ -102,6 +103,12 @@ uses
   uModBarang;
 
 {$R *.dfm}
+
+procedure TfrmPORevision.actSaveExecute(Sender: TObject);
+begin
+  inherited;
+  SimpanData;
+end;
 
 procedure TfrmPORevision.cxgrdclmnPODJumlahPropertiesEditValueChanged(
   Sender: TObject);
@@ -158,7 +165,8 @@ var
   FCDSSupMG: TClientDataSet;
 begin
   FCDSSupMG := TDBUtils.DSToCDS(DMClient.DSProviderClient.SuplierMerchan_GetDSLookup(), Self);
-  cbbSupMGNama.Properties.LoadFromCDS(FCDSSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_SUB_CODE',['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
+  cbbSupMGNama.Properties.LoadFromCDS(FCDSSupMG,'SUPLIER_MERCHAN_GRUP_ID','SUPMG_SUB_CODE',
+    ['SUPLIER_MERCHAN_GRUP_ID','REF$MERCHANDISE_ID', 'REF$MERCHANDISE_GRUP_ID'],Self);
   cbbSupMGNama.Properties.SetMultiPurposeLookup;
 end;
 
@@ -196,11 +204,11 @@ begin
     with cxGridTablePODetil.DataController DO
       Begin
         AppendRecord;
-        Values[i, cxgrdclmnPODID.Index] := FPOLama.POItems[i].POD_BARANG.ID;
-        Values[i, cxgrdclmnPODSKU.Index] := FPOLama.POItems[i].POD_BARANG.BRG_CODE;
-        Values[i, cxgrdclmnPODNama.Index] := FPOLama.POItems[i].POD_BARANG.BRG_NAME;
-        Values[i, cxgrdclmnPODUOMID.Index] := FPOLama.POItems[i].POD_UOM.ID;
-        Values[i, cxgrdclmnPODUOM.Index] := FPOLama.POItems[i].POD_UOM.SAT_NAME;
+        Values[i, cxgrdclmnPODID.Index]     := FPOLama.POItems[i].POD_BARANG.ID;
+        Values[i, cxgrdclmnPODSKU.Index]    := FPOLama.POItems[i].POD_BARANG.BRG_CODE;
+        Values[i, cxgrdclmnPODNama.Index]   := FPOLama.POItems[i].POD_BARANG.BRG_NAME;
+        Values[i, cxgrdclmnPODUOMID.Index]  := FPOLama.POItems[i].POD_UOM.ID;
+        Values[i, cxgrdclmnPODUOM.Index]    := FPOLama.POItems[i].POD_UOM.SAT_NAME;
         Values[i, cxgrdclmnPODJumlah.Index] := FPOLama.POItems[i].POD_QTY_ORDER;
 
         lBS := DMClient.CrudClient.Retrieve(TModBarangSupplier.ClassName,
@@ -208,33 +216,50 @@ begin
         ) as TModBarangSupplier;
         Try
           SubTotal := FPOLama.POItems[i].POD_QTY_ORDER * lBS.BRGSUP_BUY_PRICE;
-          Values[i, cxgrdclmnPODHarga.Index] := lBS.BRGSUP_BUY_PRICE;
+          Values[i, cxgrdclmnPODHarga.Index]    := lBS.BRGSUP_BUY_PRICE;
           Values[i, cxgrdclmnPODSubTotal.Index] := SubTotal;
-          Values[i, cxgrdclmnPODDisc1.Index] := lBS.BRGSUP_DISC1;
-          Values[i, cxgrdclmnPODDisc2.Index] := lBS.BRGSUP_DISC2;
-          Values[i, cxgrdclmnPODDisc3.Index] := lBS.BRGSUP_DISC3;
-          Disc1 := FPOLama.POItems[i].POD_QTY_ORDER * (lBS.BRGSUP_DISC1 / 100 * lBS.BRGSUP_BUY_PRICE);
-          Disc2 := (SubTotal - Disc1) * lBS.BRGSUP_DISC2 / 100 * lBS.BRGSUP_BUY_PRICE;
-          TotalDisc := Disc1 + Disc2 + (lBS.BRGSUP_DISC3 * FPOLama.POItems[i].POD_QTY_ORDER);
-          HargaStlDisc := (SubTotal - TotalDisc) / FPOLama.POItems[i].POD_QTY_ORDER;
-          Values[i, cxgrdclmnPODPPN.Index] := lBS.BRGSUP_IS_BKP * 10 / 100 * HargaStlDisc;
+          Values[i, cxgrdclmnPODDisc1.Index]    := lBS.BRGSUP_DISC1;
+          Values[i, cxgrdclmnPODDisc2.Index]    := lBS.BRGSUP_DISC2;
+          Values[i, cxgrdclmnPODDisc3.Index]    := lBS.BRGSUP_DISC3;
+
+          Disc1 := FPOLama.POItems[i].POD_QTY_ORDER
+              * (lBS.BRGSUP_DISC1 / 100 * lBS.BRGSUP_BUY_PRICE);
+
+          Disc2 := (SubTotal - Disc1)
+              * lBS.BRGSUP_DISC2 / 100
+              * lBS.BRGSUP_BUY_PRICE;
+
+          TotalDisc := Disc1 + Disc2
+              + (lBS.BRGSUP_DISC3
+              * FPOLama.POItems[i].POD_QTY_ORDER);
+
+          HargaStlDisc := (SubTotal - TotalDisc)
+              / FPOLama.POItems[i].POD_QTY_ORDER;
+
+          Values[i, cxgrdclmnPODPPN.Index] := lBS.BRGSUP_IS_BKP
+              * 10 / 100
+              * HargaStlDisc;
+
           Values[i, cxgrdclmnPODPPNBM.Index] := 0;
-          TotalTax := FPOLama.POItems[i].POD_QTY_ORDER * lBS.BRGSUP_IS_BKP * 10 / 100 * HargaStlDisc;
-          Values[i, cxgrdclmnPODTotalDisc.Index] := TotalDisc;
-          Values[i, cxgrdclmnPODTotalTax.Index] := TotalTax;
-          Total := SubTotal - TotalDisc + TotalTax;
-          Values[i, cxgrdclmnPODTotal.Index] := Total;
-          Values[i, cxgrdclmnPODIsBKP.Index] := lBS.BRGSUP_IS_BKP;
+
+          TotalTax := FPOLama.POItems[i].POD_QTY_ORDER
+              * lBS.BRGSUP_IS_BKP * 10 / 100 * HargaStlDisc;
+
+          Values[i, cxgrdclmnPODTotalDisc.Index]  := TotalDisc;
+          Values[i, cxgrdclmnPODTotalTax.Index]   := TotalTax;
+          Total                                   := SubTotal - TotalDisc + TotalTax;
+          Values[i, cxgrdclmnPODTotal.Index]      := Total;
+          Values[i, cxgrdclmnPODIsBKP.Index]      := lBS.BRGSUP_IS_BKP;
         finally
           lBS.Free;
         End;
         Post;
       End;
   end;
-  edSubTotal.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal));
-  edDisc1.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc));
-  edPPN.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax));
-  edTotal.Value := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal));
+  edSubTotal.Value  := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODSubTotal));
+  edDisc1.Value     := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalDisc));
+  edPPN.Value       := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotalTax));
+  edTotal.Value     := vartofloat(cxGridTablePODetil.DataController.GetFooterSummary(cxgrdclmnPODTotal));
 end;
 
 procedure TfrmPORevision.SimpanData;
@@ -243,6 +268,12 @@ begin
   UpdateData;
 
   Try
+    if FPOLama = nil then
+      raise Exception.Create('FPOLama = nil');
+
+//    if not DMCLient.CrudPOClient.CancelPO(FPOLama.ID) then
+//      raise Exception.Create('Gagal Update Status PO Lama');
+
     PORev.ID := DMClient.CrudPOClient.SaveToDBID(PORev);
     TAppUtils.Information(_MSG_BERHASIL_SIMPAN);
     Self.ModalResult := mrOk;
@@ -254,33 +285,104 @@ begin
 end;
 
 procedure TfrmPORevision.UpdateData;
+var
+  i: Integer;
+  lItem: TModPOItem;
 begin
-  //isi form ke object PORev;
+//  PORev.PO_NO   :=  harus otomatis
+  if Assigned(FPORev) then FreeAndNil(FPORev); //mengclear object
 
+  if PORev.ID = '' then
+    PORev.PO_NO := DMClient.CrudPOClient.GenerateNo(TModPO.ClassName);
+
+
+  PORev.PO_DATE                   :=  edPODate.Date;
+  PORev.PO_SO                     :=  TModSO.CreateID(cbbSO.EditValue);
+  PORev.PO_SUPPLIER_MERCHAN_GRUP  :=  TModSuplierMerchanGroup.CreateID(cbbSupplier.EditValue);
+  PORev.PO_SUPPLIER               :=  TModSuplier.CreateID(cbbSupMGNama.EditValue);
+  PORev.PO_TOP                    :=  StrToInt(edtop.Text);
+  PORev.PO_VALID_DATE             :=  edValidUntil.Date;
+  PORev.PO_TOTAL                  :=  edTotal.Value;
+//  PORev.PO_SUBTOTAL               :=  cxGridTablePODetil.GetFooterSummary(cxgrdclmnPODSubTotal);
+  PORev.PO_PPN                    :=  edPPN.Value;
+  PORev.PO_DISC                   :=  edDisc1.Value;
+  //po disc
+  //po ppn
+  //ppnbm
+  //colie
+  //Deskripsi
+  //service level
+  //deskripsi print
+  //is bonus
+  //gr alamat
+  //print count
+  //disk tambahan
+  //disk promo
+  //disk lain
+  //top
+  //poref id
+
+  PORev.POItems.Clear;
+  // lanjutin ngisi detail
+
+
+  for i := 0 to cxGridTablePODetil.DataController.RecordCount-1 do
+    begin
+      lItem := TModPOItem.Create;
+      lItem.POD_BARANG      :=  TModBarang.CreateID(cxGridTablePODetil.Values(i,cxgrdclmnPODSKU.Index));
+      lItem.POD_UOM         :=  TModSatuan.CreateID(cxGridTablePODetil.Values(i,cxgrdclmnPODUOM.Index));
+      //                        Mod Asal              tabel                       kolom
+      lItem.POD_QTY_ORDER   :=  VarToFloat(cxGridTablePODetil.Values(i,cxgrdclmnPODJumlah.Index));
+      //                        Konversi Varchar ke Double
+      lItem.POD_PRICE       :=  cxGridTablePODetil.Values(i,cxgrdclmnPODHarga.Index);
+      lItem.POD_DISC1       :=  cxGridTablePODetil.Values(i,cxgrdclmnPODDisc1.Index);
+      lItem.POD_DISC2       :=  cxGridTablePODetil.Values(i,cxgrdclmnPODDisc2.Index);
+      lItem.POD_DISC3       :=  cxGridTablePODetil.Values(i,cxgrdclmnPODDisc3.Index);
+      lItem.POD_PPN         :=  VarToFloat(cxGridTablePODetil.Values(i,cxgrdclmnPODPPN.Index));
+      lItem.POD_PPNBM       :=  VarToFloat(cxGridTablePODetil.Values(i,cxgrdclmnPODPPNBM.Index));
+      lItem.POD_TOTAL_DISC  :=  VarToFloat(cxGridTablePODetil.Values(i,cxgrdclmnPODTotalDisc.Index));
+      lItem.POD_TOTAL_TAX   :=  VarToFloat(cxGridTablePODetil.Values(i,cxgrdclmnPODTotalTax.Index));
+      lItem.POD_TOTAL       :=  VarToFloat(cxGridTablePODetil.Values(i,cxgrdclmnPODTotal.Index));
+
+      PORev.POItems.Add(lItem);
+    end;
 
 end;
 
 procedure TfrmPORevision.UpdateEditData;
 var
-  Disc1,Disc2,HargaStlDisc, SubTotal,TotalDisc : Double;
+  Disc1, Disc2, HargaStlDisc, SubTotal, Total, TotalDisc : Double;
 begin
   DCItem.Post;
-  SubTotal := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index] * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index];
-  Disc1 := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index] *
-    (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc1.Index] / 100 * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index]);
-  Disc2 := (SubTotal - Disc1) * (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc2.Index] / 100 * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index]);
-  TotalDisc := Disc1 + Disc2 + (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc3.Index] * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index]);
-  HargaStlDisc := (SubTotal - TotalDisc) / DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index];
-  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODSubTotal.Index] := SubTotal;
-  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODTotalDisc.Index] := TotalDisc;
-  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODIsBKP.Index] := TotalDisc;
-  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODTotal.Index] := SubTotal;
+  SubTotal := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index]
+      * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index];
+
+  Disc1 := DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index]
+      * (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc1.Index] / 100
+      * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index]);
+
+  Disc2 := (SubTotal - Disc1)
+      * (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc2.Index] / 100
+      * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODHarga.Index]);
+
+  TotalDisc := Disc1
+      + Disc2
+      + (DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODDisc3.Index]
+      * DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index]);
+
+  HargaStlDisc := (SubTotal - TotalDisc)
+      / DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODJumlah.Index];
+
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODSubTotal.Index]  := SubTotal;
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODTotalDisc.Index] := TotalDisc; //iki py?
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODIsBKP.Index]     := TotalDisc; //iki py?
+  DCItem.values[DCItem.FocusedRecordIndex, cxgrdclmnPODTotal.Index]     := Total;
 
 
-  edSubTotal.Value := DCItem.GetFooterSummary(cxgrdclmnPODSubTotal);
-  edDisc1.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotalDisc);
-  edPPN.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotalTax);
-  edTotal.Value := DCItem.GetFooterSummary(cxgrdclmnPODTotal);
+  edSubTotal.Value  := DCItem.GetFooterSummary(cxgrdclmnPODSubTotal);
+  edDisc1.Value     := DCItem.GetFooterSummary(cxgrdclmnPODTotalDisc);
+  edPPN.Value       := DCItem.GetFooterSummary(cxgrdclmnPODTotalTax);
+  edTotal.Value     := DCItem.GetFooterSummary(cxgrdclmnPODTotal);
 end;
 
 function TfrmPORevision.ValidateData: Boolean;

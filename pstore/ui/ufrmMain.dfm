@@ -92,6 +92,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
+      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -148,7 +149,6 @@ object frmMain: TfrmMain
       Index = 6
     end
     object dxrbntbTrader: TdxRibbonTab
-      Active = True
       Caption = 'Trader'
       Groups = <
         item
@@ -976,6 +976,10 @@ object frmMain: TfrmMain
       Caption = 'Faktur Pajak Agreement'
       ImageIndex = 7
     end
+    object actPORevision: TAction
+      Category = 'PO'
+      Caption = 'Revisi PO'
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1571,6 +1575,16 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 59
       PaintStyle = psCaptionGlyph
+    end
+    object dxBarLargeButton3: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton4: TdxBarButton
+      Action = actActivatePOS
+      Category = 0
     end
   end
 end

@@ -9,7 +9,8 @@ uses
   cxLookAndFeelPainters, dxStatusBar, Vcl.StdCtrls, ufrmSO, ufrmMasterBrowse, uDMClient, uModUnit,
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
-  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang;
+  ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang,
+  ufrmPORevision;
   //, ufrmBarcodeUsage;
 
 type
@@ -267,6 +268,9 @@ type
     dxbrbtnTrfAntarGudang: TdxBarButton;
     dxbrbtnBarcodeRequest: TdxBarButton;
     dxbrbtnBarcodeUsage: TdxBarButton;
+    dxBarLargeButton3: TdxBarLargeButton;
+    dxBarButton4: TdxBarButton;
+    actPORevision: TAction;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -587,7 +591,7 @@ end;
 
 procedure TfrmMain.actLapInvMovementQtyExecute(Sender: TObject);
 begin
-     frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
+    frmInvMovementQTY := TfrmInvMovementQTY.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actLaporanReturSupplierExecute(Sender: TObject);

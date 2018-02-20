@@ -2,7 +2,6 @@ inherited frmPORevision: TfrmPORevision
   Caption = 'PO Revision'
   ClientHeight = 405
   ClientWidth = 934
-  ExplicitLeft = -150
   ExplicitWidth = 950
   ExplicitHeight = 444
   PixelsPerInch = 96
@@ -406,6 +405,7 @@ inherited frmPORevision: TfrmPORevision
         object edPOLama: TcxTextEdit
           Left = 18
           Top = 23
+          Properties.ReadOnly = True
           TabOrder = 0
           Text = 'edPOLama'
           Width = 121
@@ -422,6 +422,7 @@ inherited frmPORevision: TfrmPORevision
           Left = 159
           Top = 23
           Enabled = False
+          Properties.ShowTime = False
           TabOrder = 2
           Width = 121
         end
@@ -441,7 +442,7 @@ inherited frmPORevision: TfrmPORevision
         end
         object edtop: TcxTextEdit
           Left = 465
-          Top = 23
+          Top = 25
           Enabled = False
           TabOrder = 6
           Text = 'edtop'
@@ -451,6 +452,7 @@ inherited frmPORevision: TfrmPORevision
           Left = 465
           Top = 67
           Enabled = False
+          Properties.ShowTime = False
           TabOrder = 7
           Width = 121
         end
@@ -517,5 +519,8 @@ inherited frmPORevision: TfrmPORevision
   inherited actlstMasterDialog: TActionList
     Left = 648
     Top = 200
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
+    end
   end
 end

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/16/2018 3:51:00 PM
+// 2/19/2018 2:17:32 PM
 //
 
 unit uClientClasses;
@@ -994,6 +994,7 @@ type
 
   TCrudPOClient = class(TDSAdminRestClient)
   private
+    FCancelPOCommand: TDSRestCommand;
     FGeneratePOCommand: TDSRestCommand;
     FCreateTableSQLCommand: TDSRestCommand;
     FCreateTableSQLByClassNameCommand: TDSRestCommand;
@@ -1021,6 +1022,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    function CancelPO(AID: string; const ARequestFilter: string = ''): Boolean;
     function GeneratePO(ASOID: string; ASupMGID: string; const ARequestFilter: string = ''): Boolean;
     function CreateTableSQL(AModAPP: TModApp; const ARequestFilter: string = ''): string;
     function CreateTableSQLByClassName(AClassName: string; const ARequestFilter: string = ''): string;
@@ -4950,6 +4952,12 @@ const
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TCrudPO_CancelPO: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
   TCrudPO_GeneratePO: array [0..2] of TDSRestParameterMetaData =
@@ -16589,6 +16597,20 @@ begin
   inherited;
 end;
 
+function TCrudPOClient.CancelPO(AID: string; const ARequestFilter: string): Boolean;
+begin
+  if FCancelPOCommand = nil then
+  begin
+    FCancelPOCommand := FConnection.CreateCommand;
+    FCancelPOCommand.RequestType := 'GET';
+    FCancelPOCommand.Text := 'TCrudPO.CancelPO';
+    FCancelPOCommand.Prepare(TCrudPO_CancelPO);
+  end;
+  FCancelPOCommand.Parameters[0].Value.SetWideString(AID);
+  FCancelPOCommand.Execute(ARequestFilter);
+  Result := FCancelPOCommand.Parameters[1].Value.GetBoolean;
+end;
+
 function TCrudPOClient.GeneratePO(ASOID: string; ASupMGID: string; const ARequestFilter: string): Boolean;
 begin
   if FGeneratePOCommand = nil then
@@ -17100,6 +17122,7 @@ end;
 
 destructor TCrudPOClient.Destroy;
 begin
+  FCancelPOCommand.DisposeOf;
   FGeneratePOCommand.DisposeOf;
   FCreateTableSQLCommand.DisposeOf;
   FCreateTableSQLByClassNameCommand.DisposeOf;

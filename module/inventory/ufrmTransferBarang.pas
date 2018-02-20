@@ -21,6 +21,9 @@ type
     cxGridViewColumn1: TcxGridDBColumn;
     cxGridViewColumn2: TcxGridDBColumn;
     cxGridViewColumn3: TcxGridDBColumn;
+    cxGridViewColumn4: TcxGridDBColumn;
+    cxGridViewColumn5: TcxGridDBColumn;
+    cxGridViewColumn6: TcxGridDBColumn;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
