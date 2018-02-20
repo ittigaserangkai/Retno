@@ -133,6 +133,7 @@ type
     procedure InisialisasiRekeningLain;
     function IsBisaHapus: Boolean;
     procedure IsiDefaultNominalCheque;
+    function IsRekCodeExist(ARekCode: string): Boolean;
     procedure LoadDataOrganization(AKodeAtauID : String; AIsLoadByKode : Boolean);
     procedure UpdateBankCashOutAPItems;
     procedure UpdateBankCashOutOtherItems;
@@ -326,8 +327,16 @@ begin
     FCDSRekeningLain.Filter   := ' Rek_Code = ' + QuotedStr(DisplayValue);
     FCDSRekeningLain.Filtered := True;
 
-    iBaris := cxGridTableOther.RecordIndex;
-    cxGridTableOther.SetValue(iBaris, cxGridColOtherNama.Index, FCDSRekeningLain.FieldByName('Rekening_id').AsString);
+    if not IsRekCodeExist(FCDSRekeningLain.FieldByName('Rekening_id').AsString) then
+    begin
+      iBaris := cxGridTableOther.RecordIndex;
+      cxGridTableOther.SetValue(iBaris, cxGridColOtherNama.Index, FCDSRekeningLain.FieldByName('Rekening_id').AsString);
+    end
+    else
+    begin
+      ErrorText := 'Kode sudah ada';
+      Error := True;
+    end;
   finally
     FCDSRekeningLain.Filtered := False;
   end;
@@ -586,6 +595,21 @@ begin
   dTotalAP     := edSummaryAll.Value;
 
   cxGridTableCheque.SetValue(cxGridTableCheque.RecordIndex, cxGridColChequeBayar.Index,dTotalAP - dTotalCheque);
+end;
+
+function TfrmDialogBankCashOut.IsRekCodeExist(ARekCode: string): Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  for i:=0 to DCOther.RecordCount-1 do
+  begin
+    if VarToStr(DCOther.Values[i, cxGridColOtherNama.Index]) = ARekCode then
+    begin
+      Result := True;
+      Break;
+    end;
+  end;
 end;
 
 procedure TfrmDialogBankCashOut.LoadData(AID : String);
