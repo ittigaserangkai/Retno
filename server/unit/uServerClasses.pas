@@ -48,7 +48,7 @@ type
     function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
     function DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
-    function SaveToDB(AObject: TModApp): Boolean;
+	function SaveToDB(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function SaveToDBLog(AObject: TModApp): Boolean;
     function TestGenerateSQL(AObject: TModApp): TStrings;
@@ -214,9 +214,9 @@ type
   TCRUDObj = class
   private
   public
-    class function RetrieveCode<T: class>(aCode: string): T;
     class function Retrieve<T: class>(aID: string; LoadObjectList: Boolean =
         True): T;
+    class function RetrieveCode<T: class>(aCode: string): T;
   end;
 
   TCrudKonversi = class(TCrud)
@@ -275,6 +275,12 @@ type
     function GenerateNoBukti: String;
   end;
 
+  TCrudBarcodeUsage = class(TCrud)
+  protected
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  published
+  end;
+
   TCrudHistoryBarang = class(TCrud)
   protected
     function AfterSaveToDB(AObject: TModApp): Boolean; override;
@@ -291,7 +297,7 @@ implementation
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
   uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client,
-  uModDOTrader, uModHistoryBarang;
+  uModDOTrader, uModHistoryBarang, uModBarcodeUsage;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -325,6 +331,26 @@ var
 begin
   AObject := (C.FindType(AClassName) as TRttiInstanceType).MetaClassType.Create;
   Result := CreateTableSQL(TModApp(AObject));
+end;
+
+function TCrud.DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
+var
+  I: Integer;
+begin
+//  Result := False;
+
+  try
+    for I := 0 to AObjectList.Count - 1 do
+    begin
+      DeleteFromDBTrans(AObjectList[i], False);
+    end;
+
+    TDBUtils.Commit;
+    Result := True;
+  except
+    raise;
+  end;
+
 end;
 
 function TCrud.DeleteFromDB(AObject: TModApp): Boolean;
@@ -496,26 +522,6 @@ begin
     for I := 0 to AObjectList.Count - 1 do
     begin
       SaveToDBTrans(AObjectList[i], False);
-    end;
-
-    TDBUtils.Commit;
-    Result := True;
-  except
-    raise;
-  end;
-
-end;
-
-function TCrud.DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
-var
-  I: Integer;
-begin
-//  Result := False;
-
-  try
-    for I := 0 to AObjectList.Count - 1 do
-    begin
-      DeleteFromDBTrans(AObjectList[i], False);
     end;
 
     TDBUtils.Commit;
@@ -1822,27 +1828,6 @@ begin
   End;
 end;
 
-class function TCRUDObj.RetrieveCode<T>(aCode: string): T;
-var
-  lCRUD: TCRUD;
-  sClass: string;
-begin
-  lCRUD := TCRUD.Create(nil);
-  Try
-    if (T = nil) then
-      Raise Exception.Create('Type can''t be nil')
-    else if not TClass(T).InheritsFrom(TModApp) then
-      Raise Exception.Create('Type must inherti from TObjectModel')
-    else
-    begin
-      sClass := T.ClassName;
-      Result := T(lCRUD.RetrieveByCode(sClass, aCode))
-    end;
-  Finally
-    FreeAndNil(lCRUD);
-  End;
-end;
-
 class function TCRUDObj.Retrieve<T>(aID: string; LoadObjectList: Boolean =
     True): T;
 var
@@ -1862,6 +1847,27 @@ begin
         Result := T(lCRUD.Retrieve(sClass, aID))
       else
         Result := T(lCRUD.RetrieveSingle(sClass, aID));
+    end;
+  Finally
+    FreeAndNil(lCRUD);
+  End;
+end;
+
+class function TCRUDObj.RetrieveCode<T>(aCode: string): T;
+var
+  lCRUD: TCRUD;
+  sClass: string;
+begin
+  lCRUD := TCRUD.Create(nil);
+  Try
+    if (T = nil) then
+      Raise Exception.Create('Type can''t be nil')
+    else if not TClass(T).InheritsFrom(TModApp) then
+      Raise Exception.Create('Type must inherti from TObjectModel')
+    else
+    begin
+      sClass := T.ClassName;
+      Result := T(lCRUD.RetrieveByCode(sClass, aCode))
     end;
   Finally
     FreeAndNil(lCRUD);
@@ -2311,7 +2317,7 @@ begin
     lRetTrader.RET_AR.AR_ORGANIZATION := TModOrganization.CreateID(lOrg.ID);
     lRetTrader.RET_AR.AR_REFNUM       := lRetTrader.RET_NO;
     lRetTrader.RET_AR.AR_TRANSDATE    := lRetTrader.RET_DATE;
-    lRetTrader.RET_AR.AR_TOTAL        := lRetTrader.RET_TOTAL;
+    lRetTrader.RET_AR.AR_TOTAL        := -1 * lRetTrader.RET_TOTAL;
 
     lOrg.Reload(False);
 
@@ -2330,7 +2336,19 @@ end;
 
 function TCRUDReturTrader.GenerateNoBukti: String;
 begin
-  Result  := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
+  Result := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
+end;
+
+function TCrudBarcodeUsage.BeforeSaveToDB(AObject: TModApp): Boolean;
+var
+  lModBU: TModBarcodeUsage;
+begin
+  lModBU := TModBarcodeUsage(AObject);
+
+  if lModBU.BU_NO = '' then
+    lModBU.BU_NO := GenerateNo(TModBarcodeUsage.ClassName);
+
+  Result := True;
 end;
 
 function TCrudHistoryBarang.AfterSaveToDB(AObject: TModApp): Boolean;

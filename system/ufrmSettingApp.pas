@@ -14,45 +14,44 @@ uses
 
 type
   TfrmSettingApp = class(TfrmMaster)
-    cxStyleRepository1: TcxStyleRepository;
-    cxstylSettingAppHeader: TcxStyle;
-    grpPilihToko: TGroupBox;
-    grpSettingParameter: TGroupBox;
-    pnlHeaderCabang: TPanel;
-    cbbUnit: TcxExtLookupComboBox;
-    lblCabang: TcxLabel;
+    bLoad: TcxButton;
+    bPilih: TcxButton;
     btnClear: TcxButton;
-    cxVerticalGridSettingApp: TcxVerticalGrid;
-    cxGridRowGudangDO: TcxEditorRow;
-    cxGridRowRekeningHutang: TcxEditorRow;
-    cxGridRowDEFAULT_BANK_BCO: TcxEditorRow;
-    cxGridRowrEKENING_PIUTANG_LAIN: TcxEditorRow;
-    cxGridRowREKENING_PENDAPATAN_LAIN: TcxEditorRow;
-    cxGridRowPRICE_BARCODE_REQ: TcxEditorRow;
-    lblToko: TLabel;
     btnSimpan: TcxButton;
     cbbPilihCabang: TcxExtLookupComboBox;
-    bPilih: TcxButton;
-    bLoad: TcxButton;
-    procedure btnClearClick(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure btnSimpanClick(Sender: TObject);
+    cbbUnit: TcxExtLookupComboBox;
+    cxGridRowDEFAULT_BANK_BCO: TcxEditorRow;
+    cxGridRowGudangDO: TcxEditorRow;
+    cxGridRowPRICE_BARCODE_REQ: TcxEditorRow;
+    cxGridRowRekeningHutang: TcxEditorRow;
+    cxGridRowREKENING_PENDAPATAN_LABEL: TcxEditorRow;
+    cxGridRowREKENING_PENDAPATAN_LAIN: TcxEditorRow;
+    cxGridRowREKENING_PIUTANG_LABEL: TcxEditorRow;
+    cxGridRowREKENING_PIUTANG_LAIN: TcxEditorRow;
+    cxStyleRepository1: TcxStyleRepository;
+    cxstylSettingAppHeader: TcxStyle;
+    cxVerticalGridSettingApp: TcxVerticalGrid;
+    grpPilihToko: TGroupBox;
+    grpSettingParameter: TGroupBox;
+    lblCabang: TcxLabel;
+    lblToko: TLabel;
+    pnlHeaderCabang: TPanel;
     procedure bLoadClick(Sender: TObject);
     procedure bPilihClick(Sender: TObject);
+    procedure btnClearClick(Sender: TObject);
+    procedure btnSimpanClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     FCDSBANK: tclientDataSet;
     FCDSGUDANG: tclientDataSet;
     FCDSUNIT: tclientDataSet;
     FSettingApp: TModSettingApp;
     function GetSettingApp: TModSettingApp;
-    procedure InisialisasiGudangDO;
     procedure InisialisasiBank;
+    procedure InisialisasiGudangDO;
     procedure InisialisasiUnit;
     procedure LoadSettingApp;
-    { Private declarations }
-  public
-    { Public declarations }
   published
     property SettingApp: TModSettingApp read GetSettingApp write FSettingApp;
   end;
@@ -88,31 +87,29 @@ end;
 procedure TfrmSettingApp.btnClearClick(Sender: TObject);
 begin
   inherited;
-  cxGridRowGudangDO.Properties.Value                    := null;
-  cxGridRowRekeningHutang.Properties.Value              := null;
-  cxGridRowDEFAULT_BANK_BCO.Properties.Value            := null;
-  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value       := null;
-  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value    := null;
-  cxGridRowPRICE_BARCODE_REQ.Properties.Value           := null;
-end;
-
-procedure TfrmSettingApp.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  FreeAndNil(FSettingApp);
+  cxGridRowGudangDO.Properties.Value                  := null;
+  cxGridRowRekeningHutang.Properties.Value            := null;
+  cxGridRowDEFAULT_BANK_BCO.Properties.Value          := null;
+  cxGridRowREKENING_PIUTANG_LAIN.Properties.Value     := null;
+  cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value  := null;
+  cxGridRowPRICE_BARCODE_REQ.Properties.Value         := null;
+  cxGridRowREKENING_PIUTANG_LABEL.Properties.Value    := null;
+  cxGridRowREKENING_PENDAPATAN_LABEL.Properties.Value := null;
 end;
 
 procedure TfrmSettingApp.btnSimpanClick(Sender: TObject);
 begin
   inherited;
-  SettingApp.AUTUNIT    := TModUnit.CreateID(cbbUnit.EditValue);
+  SettingApp.AUTUNIT      := TModUnit.CreateID(cbbUnit.EditValue);
   if not VarIsNull(cxGridRowGudangDO.Properties.Value) then
     SettingApp.GUDANG_DO  := TModGudang.CreateID(cxGridRowGudangDO.Properties.Value);
 
-  SettingApp.REKENING_HUTANG := VarToStr(cxGridRowRekeningHutang.Properties.Value);
-  SettingApp.REKENING_PENDAPATAN_LAIN := VarToStr(cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value);
-  SettingApp.REKENING_PIUTANG_LAIN := VarToStr(cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value);
-  SettingApp.PRICE_BARCODE_REQ := VarToFloat(cxGridRowPRICE_BARCODE_REQ.Properties.Value);
+  SettingApp.REKENING_HUTANG           := VarToStr(cxGridRowRekeningHutang.Properties.Value);
+  SettingApp.REKENING_PENDAPATAN_LAIN  := VarToStr(cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value);
+  SettingApp.REKENING_PIUTANG_LAIN     := VarToStr(cxGridRowREKENING_PIUTANG_LAIN.Properties.Value);
+  SettingApp.PRICE_BARCODE_REQ         := VarToFloat(cxGridRowPRICE_BARCODE_REQ.Properties.Value);
+  SettingApp.REKENING_PENDAPATAN_LABEL := VarToStr(cxGridRowREKENING_PENDAPATAN_LABEL.Properties.Value);
+  SettingApp.REKENING_PIUTANG_LABEL    := VarToStr(cxGridRowREKENING_PIUTANG_LABEL.Properties.Value);
 
   if not VarIsNull(cxGridRowDEFAULT_BANK_BCO.Properties.Value) then
     SettingApp.DEFAULT_BANK_BCO  := TModBank.CreateID(cxGridRowDEFAULT_BANK_BCO.Properties.Value);
@@ -122,7 +119,6 @@ begin
 
   if SettingApp.ID <>'' then
   begin
-
     btnClearClick(nil);
   end;
 end;
@@ -135,6 +131,12 @@ begin
   InisialisasiBank;
 end;
 
+procedure TfrmSettingApp.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(FSettingApp);
+end;
+
 function TfrmSettingApp.GetSettingApp: TModSettingApp;
 begin
   if FSettingApp = nil then
@@ -143,18 +145,18 @@ begin
   Result := FSettingApp;
 end;
 
-procedure TfrmSettingApp.InisialisasiGudangDO;
-begin
-  FCDSGUDANG := TDBUtils.DSToCDS(DMClient.DSProviderClient.Gudang_GetDSLookUp(), Self);
-  TcxExtLookupComboBoxProperties(cxGridRowGudangDO.Properties.EditProperties).LoadFromCDS(FCDSGUDANG,'gudang_id','GUD_NAME',['gudang_id','gud_code'],Self);
-  TcxExtLookupComboBoxProperties(cxGridRowGudangDO.Properties.EditProperties).SetMultiPurposeLookup;
-end;
-
 procedure TfrmSettingApp.InisialisasiBank;
 begin
   FCDSBANK := TDBUtils.DSToCDS(DMClient.DSProviderClient.Bank_GetDSLookup(), Self);
   TcxExtLookupComboBoxProperties(cxGridRowDEFAULT_BANK_BCO.Properties.EditProperties).LoadFromCDS(FCDSBANK,'bank_id','bank_code',['bank_id'],Self);
   TcxExtLookupComboBoxProperties(cxGridRowDEFAULT_BANK_BCO.Properties.EditProperties).SetMultiPurposeLookup;
+end;
+
+procedure TfrmSettingApp.InisialisasiGudangDO;
+begin
+  FCDSGUDANG := TDBUtils.DSToCDS(DMClient.DSProviderClient.Gudang_GetDSLookUp(), Self);
+  TcxExtLookupComboBoxProperties(cxGridRowGudangDO.Properties.EditProperties).LoadFromCDS(FCDSGUDANG,'gudang_id','GUD_NAME',['gudang_id','gud_code'],Self);
+  TcxExtLookupComboBoxProperties(cxGridRowGudangDO.Properties.EditProperties).SetMultiPurposeLookup;
 end;
 
 procedure TfrmSettingApp.InisialisasiUnit;
@@ -199,9 +201,11 @@ begin
     cxGridRowDEFAULT_BANK_BCO.Properties.Value := FSettingApp.DEFAULT_BANK_BCO.ID;
 
   cxGridRowRekeningHutang.Properties.Value            := SettingApp.REKENING_HUTANG;
-  cxGridRowrEKENING_PIUTANG_LAIN.Properties.Value     := SettingApp.REKENING_PIUTANG_LAIN;
+  cxGridRowREKENING_PIUTANG_LAIN.Properties.Value     := SettingApp.REKENING_PIUTANG_LAIN;
   cxGridRowREKENING_PENDAPATAN_LAIN.Properties.Value  := SettingApp.REKENING_PENDAPATAN_LAIN;
   cxGridRowPRICE_BARCODE_REQ.Properties.Value         := SettingApp.PRICE_BARCODE_REQ;
+  cxGridRowREKENING_PIUTANG_LABEL.Properties.Value    := SettingApp.REKENING_PIUTANG_LABEL;
+  cxGridRowREKENING_PENDAPATAN_LABEL.Properties.Value := SettingApp.REKENING_PENDAPATAN_LABEL;
 end;
 
 end.

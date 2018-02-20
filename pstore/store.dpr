@@ -251,7 +251,8 @@ uses
   ufrmDialogBarcodeUsage in '..\module\inventory\ufrmDialogBarcodeUsage.pas' {frmDialogBarcodeUsage},
   ufrmBarcodeUsage in '..\module\inventory\ufrmBarcodeUsage.pas' {frmBarcodeUsage},
   uModBarcodeUsage in '..\model\uModBarcodeUsage.pas',
-  uModReturTrader in '..\model\uModReturTrader.pas';
+  uModReturTrader in '..\model\uModReturTrader.pas',
+  uClientClasses in '..\classes\uClientClasses.pas';
 
 {$R *.res}
 

@@ -95,6 +95,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 1
+        ExplicitHeight = 21
         Width = 89
       end
       object lblFilterData: TcxLabel
@@ -121,6 +122,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 3
+        ExplicitHeight = 21
         Width = 89
       end
       object lblsdFilter: TcxLabel
@@ -149,25 +151,63 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       object cxGridDBTableBarcodeUsage: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;(,0.00)'
+            Kind = skSum
+            Column = cxGridColNominal
+          end>
         DataController.Summary.SummaryGroups = <>
+        OptionsView.Footer = True
+        OptionsView.GroupByBox = False
+        Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColSupplier: TcxGridDBColumn
-          Caption = 'NO BUKTI'
-          DataBinding.FieldName = 'NOBUKTI'
+          Caption = 'Supplier MG'
+          DataBinding.FieldName = 'SUPPLIER'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          Width = 81
         end
         object cxGridColNo: TcxGridDBColumn
-          DataBinding.FieldName = 'TANGGAL'
+          Caption = 'No Bukti'
+          DataBinding.FieldName = 'NOBUKTI'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.Alignment.Horz = taCenter
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColTgl: TcxGridDBColumn
-          Caption = 'NOMINAL'
-          DataBinding.FieldName = 'BU_NOMINAL'
+          Caption = 'Tanggal'
+          DataBinding.FieldName = 'TANGGAL'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.Alignment.Horz = taCenter
+          Properties.ReadOnly = True
+          Properties.ShowTime = False
           HeaderAlignmentHorz = taCenter
         end
         object cxGridColNominal: TcxGridDBColumn
-          DataBinding.FieldName = 'REKENING'
+          Caption = 'Nominal'
+          DataBinding.FieldName = 'BUI_NOMINAL'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColProses: TcxGridDBColumn
+          Caption = 'Proses'
+          DataBinding.FieldName = 'PROSES'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
+        end
+        object cxGridColKeterangan: TcxGridDBColumn
+          Caption = 'Keterangan'
+          DataBinding.FieldName = 'BUI_KETERANGAN'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = False
+          Width = 80
         end
       end
       object cxgrdlvlBarcodeUsage: TcxGridLevel
@@ -198,17 +238,10 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       end
       object lblKeterangan: TLabel
         Left = 4
-        Top = 145
+        Top = 89
         Width = 58
         Height = 16
         Caption = 'Keterangan'
-      end
-      object lblOrganizasi: TLabel
-        Left = 9
-        Top = 90
-        Width = 53
-        Height = 16
-        Caption = 'Organisasi'
       end
       object pnlCaption: TPanel
         Left = 1
@@ -241,33 +274,9 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       end
       object memKeterangan: TcxMemo
         Left = 68
-        Top = 143
+        Top = 87
         TabOrder = 3
         Height = 42
-        Width = 189
-      end
-      object edOrganization: TcxButtonEdit
-        Tag = 1
-        Left = 68
-        Top = 87
-        HelpType = htKeyword
-        HelpKeyword = 'Organisasi'
-        Properties.Buttons = <
-          item
-            Default = True
-            Kind = bkEllipsis
-          end>
-        Properties.CharCase = ecUpperCase
-        Properties.MaxLength = 0
-        Properties.OnButtonClick = edOrganizationPropertiesButtonClick
-        TabOrder = 4
-        Width = 146
-      end
-      object edOrganizationName: TcxTextEdit
-        Left = 68
-        Top = 115
-        Properties.ReadOnly = True
-        TabOrder = 5
         Width = 189
       end
     end
@@ -304,20 +313,14 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       ExplicitWidth = 752
       inherited lbCTRLEnter: TLabel
         Left = 577
-        Height = 15
         ExplicitLeft = 577
       end
       inherited lbEscape: TLabel
         Left = 668
-        Height = 15
         ExplicitLeft = 668
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 501
-        Height = 15
         ExplicitLeft = 501
       end
     end

@@ -2,6 +2,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   Caption = 'Dialog DO For Trader'
   ClientHeight = 561
   ClientWidth = 858
+  ExplicitTop = -87
   ExplicitWidth = 874
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -293,7 +294,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         NewItemRow.InfoText = 'Baris baru'
         OptionsData.CancelOnExit = False
         OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.Footer = True
@@ -308,6 +308,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
               Default = True
               Kind = bkEllipsis
             end>
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 107
         end
@@ -323,6 +324,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           Caption = 'UOM'
           DataBinding.FieldName = 'DOTITEM_SATUAN'
           PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
@@ -332,6 +334,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;($,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 88
         end
@@ -341,6 +344,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 70
         end
@@ -358,12 +362,20 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
         object cxGridColPODDisc: TcxGridDBColumn
           Caption = 'Disc %'
           DataBinding.FieldName = 'DOTITEM_DISC'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
         object cxGridColPODPPN: TcxGridDBColumn
           Caption = 'PPN %'
           DataBinding.FieldName = 'DOTITEM_PPN'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0.##;(,0.##)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 60
         end
@@ -373,6 +385,7 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 131
         end

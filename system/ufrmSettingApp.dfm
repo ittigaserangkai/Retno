@@ -128,7 +128,7 @@ inherited frmSettingApp: TfrmSettingApp
           Index = 2
           Version = 1
         end
-        object cxGridRowrEKENING_PIUTANG_LAIN: TcxEditorRow
+        object cxGridRowREKENING_PIUTANG_LAIN: TcxEditorRow
           Properties.Caption = 'REKENING_PIUTANG_LAIN'
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
@@ -156,6 +156,24 @@ inherited frmSettingApp: TfrmSettingApp
           ID = 5
           ParentID = -1
           Index = 5
+          Version = 1
+        end
+        object cxGridRowREKENING_PIUTANG_LABEL: TcxEditorRow
+          Properties.Caption = 'REKENING_PIUTANG_LABEL'
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 6
+          ParentID = -1
+          Index = 6
+          Version = 1
+        end
+        object cxGridRowREKENING_PENDAPATAN_LABEL: TcxEditorRow
+          Properties.Caption = 'REKENING_PENDAPATAN_LABEL'
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 7
+          ParentID = -1
+          Index = 7
           Version = 1
         end
       end

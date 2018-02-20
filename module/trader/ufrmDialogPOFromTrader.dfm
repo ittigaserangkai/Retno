@@ -196,6 +196,8 @@ inherited frmDialogPOFromTrader: TfrmDialogPOFromTrader
         OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
+        Styles.ContentEven = DMClient.cxStyleGridEven
+        Styles.Header = DMClient.cxStyleGridHeader
         object cxGridColPODBarang: TcxGridDBColumn
           Visible = False
           MinWidth = 60
