@@ -279,7 +279,10 @@ uses
   uModDOBonus in '..\model\uModDOBonus.pas',
   ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang},
   ufrmSummaryARBalance in '..\module\finance\ufrmSummaryARBalance.pas' {frmSummaryARBalance},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModHistoryBarang in '..\model\uModHistoryBarang.pas',
+  ufrmHistoryBarang in '..\module\merchandise\ufrmHistoryBarang.pas' {frmHistoryBarang},
+  ufrmDialogHistoryBarang in '..\module\merchandise\ufrmDialogHistoryBarang.pas' {frmDialogHistoryBarang};
 
 {$R *.res}
 

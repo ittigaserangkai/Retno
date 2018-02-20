@@ -275,6 +275,12 @@ type
     function GenerateNoBukti: String;
   end;
 
+  TCrudHistoryBarang = class(TCrud)
+  protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  end;
+
 {$METHODINFO OFF}
 
 const
@@ -285,7 +291,7 @@ implementation
 uses
   Datasnap.DSSession, Data.DBXPlatform, uModCNRecv, uModDNRecv,
   uModAdjustmentFaktur, Variants, uModBank, uJSONUtils, FireDAC.Comp.Client,
-  uModDOTrader;
+  uModDOTrader, uModHistoryBarang;
 
 function TTestMethod.Hallo(aTanggal: TDateTime): String;
 begin
@@ -2325,6 +2331,34 @@ end;
 function TCRUDReturTrader.GenerateNoBukti: String;
 begin
   Result  := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
+end;
+
+function TCrudHistoryBarang.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  lHB: TModHistoryBarang;
+  sSQL: string;
+begin
+  Result := False;
+  if AObject = nil then
+    Exit;
+
+  lHB := TModHistoryBarang(AObject);
+  sSQL := 'UPDATE REF$KONVERSI_SATUAN set KONVSAT_BARCODE = ' + QuotedStr(lHB.HB_NEW_CATALOG) +
+          ' WHERE BARANG_ID = ' + QuotedStr(lHB.HB_BARANG.ID) +
+          ' and [REF$SATUAN_ID] = ' + QuotedStr(lHB.HB_UOM.ID);
+
+  try
+    TDBUtils.ExecuteSQL(sSQL,False)
+  except
+    raise Exception.Create('Update Catalog Gagal');
+  end;
+
+
+end;
+
+function TCrudHistoryBarang.BeforeSaveToDB(AObject: TModApp): Boolean;
+begin
+  Result := True;
 end;
 
 end.

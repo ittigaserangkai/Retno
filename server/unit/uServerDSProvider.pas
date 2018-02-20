@@ -11,6 +11,7 @@ type
   TDSProvider = class(TComponent)
   public
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function HistoryBarang_GetDSOverview(AStartDate, AEndDate: TDateTime): TDataSet;
     function Agama_GetDSLookup: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
@@ -242,6 +243,19 @@ var
 begin
   S := 'select * from V_ADJFAKTUR_OVERVIEW where ADJFAK_DATE between '
       + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.HistoryBarang_GetDSOverview(AStartDate, AEndDate:
+    TDateTime): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_HISTORY_BARANG' +
+       ' where TANGGAL between ' +
+       TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate) +
+       ' ORDER BY TANGGAL ';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 

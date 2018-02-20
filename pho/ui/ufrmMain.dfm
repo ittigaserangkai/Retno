@@ -169,7 +169,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxrbntbFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance & Accounting '
       Groups = <
         item
@@ -193,6 +192,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
+      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -1494,6 +1494,11 @@ object frmMain: TfrmMain
       Caption = 'AR Balance'
       OnExecute = actARBalanceExecute
     end
+    object actEntryPLUExternalCode: TAction
+      Category = 'Merchandise'
+      Caption = 'Entry PLU & Scan External Code'
+      OnExecute = actEntryPLUExternalCodeExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1750,6 +1755,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnCrazy'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnHistoryBarang'
         end>
       OneOnRow = True
       Row = 0
@@ -2430,6 +2439,12 @@ object frmMain: TfrmMain
       Action = actARBalance
       Category = 0
       ImageIndex = 55
+    end
+    object dxbrbtnHistoryBarang: TdxBarButton
+      Action = actEntryPLUExternalCode
+      Caption = 'Entry PLU && Scan External Code'
+      Category = 0
+      ImageIndex = 59
     end
   end
 end

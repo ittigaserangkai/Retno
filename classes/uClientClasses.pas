@@ -1,7 +1,7 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/19/2018 11:03:42 AM
-// 
+// 2/19/2018 1:37:34 PM
+//
 
 unit uClientClasses;
 
@@ -100,6 +100,8 @@ type
   private
     FAdjFaktur_GetDSOverviewCommand: TDSRestCommand;
     FAdjFaktur_GetDSOverviewCommand_Cache: TDSRestCommand;
+    FHistoryBarang_GetDSOverviewCommand: TDSRestCommand;
+    FHistoryBarang_GetDSOverviewCommand_Cache: TDSRestCommand;
     FAgama_GetDSLookupCommand: TDSRestCommand;
     FAgama_GetDSLookupCommand_Cache: TDSRestCommand;
     FAgama_GetDSOverviewCommand: TDSRestCommand;
@@ -407,6 +409,8 @@ type
     destructor Destroy; override;
     function AdjFaktur_GetDSOverview(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
     function AdjFaktur_GetDSOverview_Cache(aStartDate: TDateTime; aEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function HistoryBarang_GetDSOverview(AStartDate: TDateTime; AEndDate: TDateTime; const ARequestFilter: string = ''): TDataSet;
+    function HistoryBarang_GetDSOverview_Cache(AStartDate: TDateTime; AEndDate: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Agama_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function Agama_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Agama_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
@@ -2459,6 +2463,20 @@ const
   (
     (Name: 'aStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'aEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSProvider_HistoryBarang_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
+  );
+
+  TDSProvider_HistoryBarang_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AStartDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'AEndDate'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -8846,6 +8864,39 @@ begin
   Result := TDSRestCachedDataSet.Create(FAdjFaktur_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
 end;
 
+function TDSProviderClient.HistoryBarang_GetDSOverview(AStartDate: TDateTime; AEndDate: TDateTime; const ARequestFilter: string): TDataSet;
+begin
+  if FHistoryBarang_GetDSOverviewCommand = nil then
+  begin
+    FHistoryBarang_GetDSOverviewCommand := FConnection.CreateCommand;
+    FHistoryBarang_GetDSOverviewCommand.RequestType := 'GET';
+    FHistoryBarang_GetDSOverviewCommand.Text := 'TDSProvider.HistoryBarang_GetDSOverview';
+    FHistoryBarang_GetDSOverviewCommand.Prepare(TDSProvider_HistoryBarang_GetDSOverview);
+  end;
+  FHistoryBarang_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := AStartDate;
+  FHistoryBarang_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := AEndDate;
+  FHistoryBarang_GetDSOverviewCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FHistoryBarang_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result.Open;
+  if FInstanceOwner then
+    FHistoryBarang_GetDSOverviewCommand.FreeOnExecute(Result);
+end;
+
+function TDSProviderClient.HistoryBarang_GetDSOverview_Cache(AStartDate: TDateTime; AEndDate: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+begin
+  if FHistoryBarang_GetDSOverviewCommand_Cache = nil then
+  begin
+    FHistoryBarang_GetDSOverviewCommand_Cache := FConnection.CreateCommand;
+    FHistoryBarang_GetDSOverviewCommand_Cache.RequestType := 'GET';
+    FHistoryBarang_GetDSOverviewCommand_Cache.Text := 'TDSProvider.HistoryBarang_GetDSOverview';
+    FHistoryBarang_GetDSOverviewCommand_Cache.Prepare(TDSProvider_HistoryBarang_GetDSOverview_Cache);
+  end;
+  FHistoryBarang_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := AStartDate;
+  FHistoryBarang_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := AEndDate;
+  FHistoryBarang_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FHistoryBarang_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
+end;
+
 function TDSProviderClient.Agama_GetDSLookup(const ARequestFilter: string): TDataSet;
 begin
   if FAgama_GetDSLookupCommand = nil then
@@ -13791,6 +13842,8 @@ destructor TDSProviderClient.Destroy;
 begin
   FAdjFaktur_GetDSOverviewCommand.DisposeOf;
   FAdjFaktur_GetDSOverviewCommand_Cache.DisposeOf;
+  FHistoryBarang_GetDSOverviewCommand.DisposeOf;
+  FHistoryBarang_GetDSOverviewCommand_Cache.DisposeOf;
   FAgama_GetDSLookupCommand.DisposeOf;
   FAgama_GetDSLookupCommand_Cache.DisposeOf;
   FAgama_GetDSOverviewCommand.DisposeOf;
@@ -29227,3 +29280,4 @@ begin
 end;
 
 end.
+
