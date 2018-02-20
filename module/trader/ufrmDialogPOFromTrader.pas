@@ -349,7 +349,7 @@ begin
     begin
       lCrazyPrice.CRAZY_BARANG.Reload();
 
-      if CDSDetail.Locate('POTITEM_BARANG',lCrazyPrice.CRAZY_BARANG.ID,[loCaseInsensitive]) then
+      if CDSDetail.Locate('POTITEM_BARANG;POTITEM_SATUAN',VarArrayOf([lCrazyPrice.CRAZY_BARANG.ID, lCrazyPrice.CRAZY_SATUAN.ID]) ,[loCaseInsensitive]) then
       begin
         CDSDetail.Edit;
         lQty := CDSDetail.FieldByName('POTITEM_QTY').Value;
@@ -382,7 +382,7 @@ begin
         lBHJ.Barang.Reload();
         lBHJ.Satuan.Reload();
 
-        if CDSDetail.Locate('POTITEM_BARANG',lBHJ.Barang.ID,[loCaseInsensitive]) then
+        if CDSDetail.Locate('POTITEM_BARANG;POTITEM_SATUAN',VarArrayOf([lBHJ.Barang.ID,lBHJ.Satuan.ID]),[loCaseInsensitive]) then
         begin
           CDSDetail.Edit;
           lQty := CDSDetail.FieldByName('POTITEM_QTY').Value;
@@ -399,8 +399,7 @@ begin
         CDSDetail.FieldByName('BRG_UOM').Value            := lBHJ.Satuan.SAT_CODE;
         CDSDetail.FieldByName('POTITEM_SATUAN').Value     := lBHJ.Satuan.ID;
         CDSDetail.FieldByName('POTITEM_QTY').Value        := lQty + dQty;
-        CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  :=
-        lBHJ.BHJ_PURCHASE_PRICE * (100 + FOrganization.ORG_Member.RefDiscMember.DISCMEMBER_DISCOUNT) / 100;
+        CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lBHJ.BHJ_SELL_PRICE;
         CDSDetail.FieldByName('POTITEM_COGS').Value       := lBHJ.BHJ_PURCHASE_PRICE;
         CDSDetail.FieldByName('POTITEM_DISC').Value       := lBHJ.BHJ_DISC_PERSEN;
         CDSDetail.FieldByName('POTITEM_PPN').Value        := lBHJ.BHJ_PPN;

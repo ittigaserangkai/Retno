@@ -1663,7 +1663,7 @@ begin
   begin
     sSQL := 'select A.BARANG_HARGA_JUAL_ID ID ' +
             ' from BARANG_HARGA_JUAL A INNER JOIN REF$KONVERSI_SATUAN B ' +
-            ' on A.BARANG_ID = B.BARANG_ID AND A.REF$SATUAN_ID = A.REF$SATUAN_ID ' +
+            ' on A.BARANG_ID = B.BARANG_ID AND A.REF$SATUAN_ID = B.REF$SATUAN_ID ' +
             ' where B.KONVSAT_BARCODE = ' + QuotedStr(aBarcode);
   end else
   begin
