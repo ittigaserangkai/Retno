@@ -79,7 +79,7 @@ end;
 procedure TfrmPopupDetailCashback.ParseDataGrid;
 var
   sSQL  : string;
-  i, n  : Integer;
+//  i, n  : Integer;
 begin
   ParseHeaderGrid;
 

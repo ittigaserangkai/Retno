@@ -44,7 +44,7 @@ type
   private
 //    FFpay : TNewFinalPayment;
     procedure ParseHeaderGrid();
-    procedure ParseDataGrid();
+//    procedure ParseDataGrid();
   public
     { Public declarations }
   end;
@@ -111,22 +111,22 @@ begin
   frmDisplayCCAndCashback := nil;
 end;
 
-procedure TfrmDisplayCCAndCashback.ParseDataGrid;
-var
-  i, j  : Integer;
-  m, n  : Integer;
-  iPos1,
-  iPos2 : Integer;
-  iPosT : Integer;
+//procedure TfrmDisplayCCAndCashback.ParseDataGrid;
+//var
+//  i, j  : Integer;
+//  m, n  : Integer;
+//  iPos1,
+//  iPos2 : Integer;
+//  iPosT : Integer;
 
-begin
-  ParseHeaderGrid;
-  try
-    iPos1 := StrToInt(Trim(edtPos1.Text));
-    iPos2 := StrToInt(Trim(edtPos2.Text));
-  except
-    Exit;
-  end;
+//begin
+//  ParseHeaderGrid;
+//  try
+//    iPos1 := StrToInt(Trim(edtPos1.Text));
+//    iPos2 := StrToInt(Trim(edtPos2.Text));
+//  except
+//    Exit;
+//  end;
 
   {
   if strgGrid.FloatingFooter.Visible then
@@ -192,7 +192,7 @@ begin
 
   end;
   }
-end;
+//end;
 
 procedure TfrmDisplayCCAndCashback.ParseHeaderGrid;
 begin
@@ -245,7 +245,7 @@ end;
 procedure TfrmDisplayCCAndCashback.actRefreshExecute(Sender: TObject);
 begin
   inherited;
-  ParseDataGrid;
+//  ParseDataGrid;
 end;
 
 procedure TfrmDisplayCCAndCashback.strgGridCellChanging(Sender: TObject;

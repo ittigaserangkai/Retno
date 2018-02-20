@@ -82,7 +82,7 @@ type
     procedure ParseDetilTransactCardByTransNo;
     procedure SetFormMode(const Value: TFormMode);
     procedure SetIsProcessSuccessfull(const Value: boolean);
-    function SaveAdjustmentCashback: boolean;
+//    function SaveAdjustmentCashback: boolean;
   public
     { Public declarations }
   published
@@ -175,11 +175,11 @@ begin
     exit;
   end;
 
-  if (SaveAdjustmentCashback) then
-  begin
-    IsProcessSuccessfull := true;
-    Close;
-  end;
+//  if (SaveAdjustmentCashback) then
+//  begin
+//    IsProcessSuccessfull := true;
+//    Close;
+//  end;
 end;
 
 procedure TfrmDialogAdjustmentCashback.FormShow(Sender: TObject);
@@ -238,7 +238,7 @@ end;
 procedure TfrmDialogAdjustmentCashback.ParseDetilTransactCardByTransNo;
 var
   sSQL: string;
-  data: TDataSet;
+//  data: TDataSet;
 begin
   sSQL := 'SELECT * '
     + 'FROM TRANSAKSI '
@@ -308,8 +308,8 @@ begin
   end;
 end;
 
-function TfrmDialogAdjustmentCashback.SaveAdjustmentCashback: boolean;
-begin
+//function TfrmDialogAdjustmentCashback.SaveAdjustmentCashback: boolean;
+//begin
 //  Result := false;
   {
   with TAdjustmentCashback.CreateWithUser(Self,FLoginId,dialogunit) do
@@ -336,7 +336,7 @@ begin
     end;
   end;
   }
-end;
+//end;
 
 //procedure TfrmDialogAdjustmentCashback.ClearData;
 //begin

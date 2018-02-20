@@ -66,7 +66,7 @@ type
       Shift: TShiftState);
   private
     FidAdj: Integer;
-    procedure ClearData;
+//    procedure ClearData;
     function GetIDAdj: Integer;
     procedure LookUpData(sender:TObject; Key: Word);
 //    procedure ParseDataTransNoForAdjustCashbakToComboBox;
@@ -212,7 +212,7 @@ end;
 procedure TfrmAdjustmentCashback.ParseDetilTransaksiCard;
 var
   sSQL: string;
-  data: TDataSet;
+//  data: TDataSet;
 begin
   sSQL := 'SELECT * '
     + 'FROM TRANSAKSI '
@@ -280,29 +280,29 @@ begin
   }
 end;
 
-procedure TfrmAdjustmentCashback.ClearData;
-begin
-  edtMemberCode.Clear;
-  edtMemberName.Clear;
-  edtCashierCode.Clear;
-  edtCashierName.Clear;
-  edtPOSCode.Clear;
-  edtShiftCode.Clear;
-
-  edtCardCode.Clear;
-  edtCardNo.Clear;
-  edtCardName.Clear;
-  edtCardAuthorize.Clear;
-
-  dtTransact.Clear;
-  curredtTotalTransact.Clear;
-  curredtPaymentCard.Clear;
-  curredtCashbackBefore.Clear;
-
-  curredtAdjustValue.Clear;
-  edtNote.Clear;
-  curredtCashbackActually.Clear;
-end;
+//procedure TfrmAdjustmentCashback.ClearData;
+//begin
+//  edtMemberCode.Clear;
+//  edtMemberName.Clear;
+//  edtCashierCode.Clear;
+//  edtCashierName.Clear;
+//  edtPOSCode.Clear;
+//  edtShiftCode.Clear;
+//
+//  edtCardCode.Clear;
+//  edtCardNo.Clear;
+//  edtCardName.Clear;
+//  edtCardAuthorize.Clear;
+//
+//  dtTransact.Clear;
+//  curredtTotalTransact.Clear;
+//  curredtPaymentCard.Clear;
+//  curredtCashbackBefore.Clear;
+//
+//  curredtAdjustValue.Clear;
+//  edtNote.Clear;
+//  curredtCashbackActually.Clear;
+//end;
 
 procedure TfrmAdjustmentCashback.FormKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);

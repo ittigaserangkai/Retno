@@ -11,16 +11,13 @@ inherited frmDisplayCCAndCashback: TfrmDisplayCCAndCashback
   inherited pnlBody: TPanel
     Width = 785
     Height = 305
-    BorderWidth = 0
     ExplicitWidth = 785
     ExplicitHeight = 249
     inherited pgcBrowse: TcxPageControl
-      Left = 1
       Top = 42
       Width = 783
       Height = 181
       TabOrder = 1
-      ExplicitLeft = 1
       ExplicitTop = 42
       ExplicitWidth = 783
       ExplicitHeight = 206
