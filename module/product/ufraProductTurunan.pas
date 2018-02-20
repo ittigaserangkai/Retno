@@ -63,7 +63,7 @@ var
 
 implementation
 
-uses ufrmSearchProduct, ufrmProduct;
+uses ufrmProduct;
 
 {$R *.dfm}
 
@@ -159,15 +159,15 @@ procedure TfraProductTurunan.edt1KeyUp(Sender: TObject; var Key: Word;
 begin
   if (Key = VK_F5) then
   begin
-    if not assigned(frmDialogSearchProduct) then
-      frmDialogSearchProduct := TfrmDialogSearchProduct.Create(Application);
+//    if not assigned(frmDialogSearchProduct) then
+//      frmDialogSearchProduct := TfrmDialogSearchProduct.Create(Application);
 
 //    frmDialogSearchProduct.DialogUnit     := frmProduct.MasterNewUnit.ID;
 //    frmDialogSearchProduct.DialogCompany  := frmProduct.MasterCompany.ID;
 
-    frmDialogSearchProduct.ShowModal;
-
-    frmDialogSearchProduct.Free;
+//    frmDialogSearchProduct.ShowModal;
+//
+//    frmDialogSearchProduct.Free;
   end;
 end;
 

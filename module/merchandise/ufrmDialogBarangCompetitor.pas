@@ -47,7 +47,7 @@ type
     procedure fedtConvertChange(Sender: TObject);
   private
     dataSearchNameKomptt: TDataSet;
-    dataSearchCodeKomptt: TDataSet;
+//    dataSearchCodeKomptt: TDataSet;
 
     FIsProcessSuccessfull: boolean;
     FProductId: string;
@@ -56,7 +56,7 @@ type
     procedure SetIsProcessSuccessfull(const Value: boolean);
     procedure SetProductId(const Value: string);
 
-    procedure CheckSellPriceByUOM();
+//    procedure CheckSellPriceByUOM();
     procedure setShow();
     function checkEmptyFields(): Boolean;
     { Private declarations }
@@ -75,7 +75,7 @@ var
 
 implementation
 
-uses ufrmSearchProduct, uTSCommonDlg;
+uses  uTSCommonDlg;
 
 {$R *.dfm}
 
@@ -184,17 +184,17 @@ begin
 //  edtProductName.Text := BarangCompetitor.SearchProductName(edtProductCode.Text);
 end;
 
-procedure TfrmDialogBarangCompetitor.CheckSellPriceByUOM();
-var trueUOM: string;
-    trueSellprice: Currency;
-begin
+//procedure TfrmDialogBarangCompetitor.CheckSellPriceByUOM();
+//var trueUOM: string;
+//    trueSellprice: Currency;
+//begin
 //  if not Assigned(BarangCompetitor) then BarangCompetitor := TBarangCompetitor.Create;
 //  BarangCompetitor.SellPriceAfterCheckUOM(edtProductCode.Text,cbbUOM.Text,DialogUnit,curedtSellPrice.Value,trueUOM,trueSellprice);
 
-  curedtSellPrice.Value := trueSellprice;
-  fedtConvertChange(Self);
-  cbbUOM.Text := trueUOM;
-end;
+//  curedtSellPrice.Value := trueSellprice;
+//  fedtConvertChange(Self);
+//  cbbUOM.Text := trueUOM;
+//end;
 
 procedure TfrmDialogBarangCompetitor.setShow();
 begin
@@ -247,23 +247,23 @@ begin
   inherited;
   if (Key = VK_F5) then
     begin
-      if not assigned(frmDialogSearchProduct) then
-        frmDialogSearchProduct := TfrmDialogSearchProduct.Create(Application);
-
-      frmDialogSearchProduct.DialogUnit := Self.DialogUnit;
-      frmDialogSearchProduct.FLoginId := Self.FLoginId;
-
-      frmDialogSearchProduct.Modul := mNone;
-
-      frmDialogSearchProduct.ShowModal;
-
-      if frmDialogSearchProduct.IsProcessSuccessfull = True then
-      begin
-        edtProductCode.Text := frmDialogSearchProduct.ProductCode;
-        edtProductName.Text := frmDialogSearchProduct.ProductName;
-      end;
-
-      frmDialogSearchProduct.Free;
+//      if not assigned(frmDialogSearchProduct) then
+//        frmDialogSearchProduct := TfrmDialogSearchProduct.Create(Application);
+//
+//      frmDialogSearchProduct.DialogUnit := Self.DialogUnit;
+//      frmDialogSearchProduct.FLoginId := Self.FLoginId;
+//
+//      frmDialogSearchProduct.Modul := mNone;
+//
+//      frmDialogSearchProduct.ShowModal;
+//
+//      if frmDialogSearchProduct.IsProcessSuccessfull = True then
+//      begin
+//        edtProductCode.Text := frmDialogSearchProduct.ProductCode;
+//        edtProductName.Text := frmDialogSearchProduct.ProductName;
+//      end;
+//
+//      frmDialogSearchProduct.Free;
   end;
 end;
 

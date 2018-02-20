@@ -50,7 +50,7 @@ type
     FAgreementId: Integer;
     is_Save : Boolean;
     { Private declarations }
-    function UpdateScheduleAgreement: Boolean;
+//    function UpdateScheduleAgreement: Boolean;
     procedure SetIsProcessSuccessfull(const Value: Boolean);
     procedure SetAgreementId(const Value: Integer);
   public
@@ -105,17 +105,17 @@ begin
   FAgreementId := Value;
 end;
 
-function TfrmDialogScheduleAgreement.UpdateScheduleAgreement: Boolean;
+//function TfrmDialogScheduleAgreement.UpdateScheduleAgreement: Boolean;
 //var countI: Integer;
 //    tempInvNo, tempACCRU_NO, tempACCRU_Status: String;
 //    InvoiceDate, tempDate, tempAccrDate: TDateTime;
 //    AGRJDWL_ID, StaProID: Integer;
 //    tempTotal: Currency;
-begin
+//begin
   //init
 //  Result := false;
 
-  is_Save := False;
+//  is_Save := False;
 //  for countI := 1 to strgGrid2.RowCount-1 do
 //  begin
 //    if (strgGrid2.Cells[_Kol2IS_PRINTED, countI]='1')
@@ -209,7 +209,7 @@ begin
 //  Finally
 //    FNewMasterAgreement.Free;
 //  end;
-end;
+//end;
 
 procedure TfrmDialogScheduleAgreement.FormDestroy(Sender: TObject);
 begin
@@ -221,7 +221,7 @@ procedure TfrmDialogScheduleAgreement.footerDialogMasterbtnSaveClick(Sender: TOb
 begin
   inherited;
 
-  FIsProcessSuccessfull := UpdateScheduleAgreement;
+//  FIsProcessSuccessfull := UpdateScheduleAgreement;
   if FIsProcessSuccessfull then
   begin
 //    cCommitTrans;

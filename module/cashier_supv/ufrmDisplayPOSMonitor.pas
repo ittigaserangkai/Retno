@@ -40,8 +40,8 @@ type
     FUnitId       : Integer;
     iY, FLeftMain : Integer;
     FtopMain      : Integer;
-    procedure ParseHeaderGrid();
-    procedure ParseDataGrid();
+//    procedure ParseHeaderGrid();
+//    procedure ParseDataGrid();
     procedure ShowDetailCashback();
     procedure ShowGrandTotalCashback();
   public
@@ -114,7 +114,7 @@ begin
   lblHeader.Caption := 'DISPLAY POS MONITOR';
 //  FFinalPayment     := TNewFinalPayment.Create(nil);
   dtNow.Date        := now;
-  ParseHeaderGrid;
+//  ParseHeaderGrid;
 
 //  iY  := strgGrid.FixedRows;
 
@@ -130,18 +130,18 @@ end;
 procedure TfrmDisplayPOSMonitor.dtNowKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  if (Key = Chr(VK_RETURN)) and (edtShift.Text <> '' ) then
-  begin
-    ParseDataGrid;
-  end;  
+//  if (Key = Chr(VK_RETURN)) and (edtShift.Text <> '' ) then
+//  begin
+//    ParseDataGrid;
+//  end;
 
 end;
 
-procedure TfrmDisplayPOSMonitor.ParseDataGrid;
-var
-  i : Integer;
-  n : Integer;
-begin
+//procedure TfrmDisplayPOSMonitor.ParseDataGrid;
+//var
+//  i : Integer;
+//  n : Integer;
+//begin
   {
   ParseHeaderGrid;
   FFinalPayment.FinalPaymentPOSItems.Clear;
@@ -186,10 +186,10 @@ begin
   AutoSize := true;
    }
 
-end;
+//end;
 
-procedure TfrmDisplayPOSMonitor.ParseHeaderGrid;
-begin
+//procedure TfrmDisplayPOSMonitor.ParseHeaderGrid;
+//begin
   {
   with strgGrid do
   begin
@@ -251,7 +251,7 @@ begin
 
   end;
   }
-end;
+//end;
 
 procedure TfrmDisplayPOSMonitor.ShowDetailCashback;
 begin
@@ -315,8 +315,8 @@ begin
     edtShift.Enabled := False;
 //    ClearAdvStringGrid(strgGrid);
 //    cClearStringGrid(strgGrid,True);
-    ParseDataGrid;
-    edtShift.Enabled := True;    
+//    ParseDataGrid;
+    edtShift.Enabled := True;
   end;
 end;
 

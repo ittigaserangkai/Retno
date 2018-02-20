@@ -11,7 +11,8 @@ uses
   ufrmTipeCN, ufrmDocument, uModUnit, ufrmSettingApp, dxRibbonSkins,
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
-  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn, ufrmAgingPiutang;
+  ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn, ufrmAgingPiutang, ufrmSummaryARBalance,
+  ufrmHistoryBarang;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -417,9 +418,14 @@ type
     dxbrbtnBarcodeReq: TdxBarButton;
     dxbrbtnARAging: TdxBarButton;
     actLaporanAgingAR: TAction;
+    dxbrbtnSummaryARBalance: TdxBarButton;
+    actARBalance: TAction;
+    dxbrbtnHistoryBarang: TdxBarButton;
+    actEntryPLUExternalCode: TAction;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
+    procedure actARBalanceExecute(Sender: TObject);
     procedure actBankExecute(Sender: TObject);
     procedure actBarcodeRequestExecute(Sender: TObject);
     procedure actCancPOExecute(Sender: TObject);
@@ -441,6 +447,7 @@ type
     procedure actDataProductExecute(Sender: TObject);
     procedure actDocumentExecute(Sender: TObject);
     procedure actElectricCustomerExecute(Sender: TObject);
+    procedure actEntryPLUExternalCodeExecute(Sender: TObject);
     procedure actFakturPajakAgreementExecute(Sender: TObject);
     procedure actGenPOExecute(Sender: TObject);
     procedure actHariLiburExecute(Sender: TObject);
@@ -626,6 +633,11 @@ begin
   frmBankCashOut := TfrmBankCashOut.Create(nil);
 end;
 
+procedure TfrmMain.actARBalanceExecute(Sender: TObject);
+begin
+  frmSummaryARBalance := TfrmSummaryARBalance.Create(nil);
+end;
+
 procedure TfrmMain.actBankExecute(Sender: TObject);
 begin
   frmBank := tfrmBank.Create(Self);
@@ -781,6 +793,11 @@ end;
 procedure TfrmMain.actElectricCustomerExecute(Sender: TObject);
 begin
   frmElectricCustomer := TfrmElectricCustomer.Create(Self);
+end;
+
+procedure TfrmMain.actEntryPLUExternalCodeExecute(Sender: TObject);
+begin
+  frmHistoryBarang := TfrmHistoryBarang.Create(Self);
 end;
 
 procedure TfrmMain.actFakturPajakAgreementExecute(Sender: TObject);

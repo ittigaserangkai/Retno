@@ -52,6 +52,7 @@ type
     FCRUDTransferBarangClient: TCRUDTransferBarangClient;
     FCrudPOTraderClient: TCrudPOTraderClient;
     FCRUDBarcodeRequest: TCRUDBarcodeRequestClient;
+    FCRUDBarcodeUsageClient: TCRUDBarcodeUsageClient;
     FCrudReturTraderClient: TCRUDReturTraderClient;
     function GetCrudAdjFakClient: TCrudAdjFakturClient;
     function GetCrudBankCashOutClient: TCrudBankCashOutClient;
@@ -80,6 +81,7 @@ type
     function GetCRUDTransferBarangClient: TCRUDTransferBarangClient;
     function GetCrudPOTraderClient: TCrudPOTraderClient;
     function GetCRUDBarcodeRequest: TCRUDBarcodeRequestClient;
+    function GetCRUDBarcodeUsageClient: TCRUDBarcodeUsageClient;
     function GetCrudReturTraderClient: TCRUDReturTraderClient;
     property InstanceOwner: Boolean read GetInstanceOwner write FInstanceOwner;
   public
@@ -131,6 +133,8 @@ type
         write FCrudPOTraderClient;
     property CRUDBarcodeRequest: TCRUDBarcodeRequestClient read
         GetCRUDBarcodeRequest write FCRUDBarcodeRequest;
+    property CRUDBarcodeUsageClient: TCRUDBarcodeUsageClient read
+        GetCRUDBarcodeUsageClient write FCRUDBarcodeUsageClient;
     property CrudReturTraderClient: TCRUDReturTraderClient read
         GetCrudReturTraderClient write FCrudReturTraderClient;
   end;
@@ -435,6 +439,15 @@ begin
 
   FCRUDBarcodeRequest := TCRUDBarcodeRequestClient.Create(RestConn, InstanceOwner);
   Result := FCRUDBarcodeRequest;
+end;
+
+function TDMClient.GetCRUDBarcodeUsageClient: TCRUDBarcodeUsageClient;
+begin
+  if FCRUDBarcodeUsageClient <> nil then
+    FreeAndNil(FCRUDBarcodeUsageClient);
+
+  FCRUDBarcodeUsageClient := TCRUDBarcodeUsageClient.Create(RestConn, InstanceOwner);
+  Result := FCRUDBarcodeUsageClient;
 end;
 
 function TDMClient.GetCrudReturTraderClient: TCRUDReturTraderClient;

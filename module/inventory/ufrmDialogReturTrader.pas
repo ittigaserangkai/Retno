@@ -14,10 +14,11 @@ uses
   cxGrid, Vcl.StdCtrls, ufrmMasterDialog, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxCurrencyEdit, cxMemo, Datasnap.DBClient,
   uModDOTrader, uModReturTrader, uModPOTrader, uAppUtils, uConstanta, uDBUtils,
-  uDXUtils, uModBarang, uModSatuan, ufrmCXLookup, uModGudang, uModOrganization;
+  uDXUtils, uModBarang, uModSatuan, ufrmCXLookup, uModGudang, uModOrganization,
+  uInterface;
 
 type
-  TfrmDialogReturTrader = class(TfrmMasterDialog)
+  TfrmDialogReturTrader = class(TfrmMasterDialog, ICRUDAble)
     pnl1: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -54,6 +55,8 @@ type
     cxGridColPODPPN: TcxGridDBColumn;
     cxGridColPODTotal: TcxGridDBColumn;
     cxgrdlvlDOTrader: TcxGridLevel;
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure InitLookup;
@@ -95,6 +98,28 @@ uses udmReport,  uRetnoUnit, Math, uTSCommonDlg, uDMClient, uModelHelper;
 
 
 {$R *.dfm}
+
+procedure TfrmDialogReturTrader.actDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  if not TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then exit;
+  Try
+    if DMClient.CRUDReturTraderClient.DeleteFromDB(ModReturTrader) then
+      TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
+    Self.ModalResult := mrOk;
+  except
+    TAppUtils.Error(ER_DELETE_FAILED);
+    raise;
+  End;
+end;
+
+procedure TfrmDialogReturTrader.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  dmReport.ExecuteReport( 'Reports/Slip_ReturTrader' ,
+    dmReport.ReportClient.ReturTrader_SlipByID(ModReturTrader.ID),[]
+  );
+end;
 
 procedure TfrmDialogReturTrader.actSaveExecute(Sender: TObject);
 begin
@@ -289,7 +314,7 @@ begin
       lItem.RETITEM_BARANG.Reload();
       CDS.FieldByName('PLU').AsString         := lItem.RETITEM_BARANG.BRG_CODE;
       CDS.FieldByName('NamaBarang').AsString  := lItem.RETITEM_BARANG.BRG_NAME;
-      CDS.FieldByName('POTITEM_QTY').AsFloat  := GetQTYDO(lItem.RETITEM_BARANG.ID, lItem.RETITEM_SATUAN.ID);
+      CDS.FieldByName('DOTITEM_QTY').AsFloat  := GetQTYDO(lItem.RETITEM_BARANG.ID, lItem.RETITEM_SATUAN.ID);
       CDS.Post;
     end;
     CalculateTotal;
@@ -354,6 +379,8 @@ var
 begin
   cxLookup := TfrmCXLookup.Execute('Lookup DO Trader', 'TDSProvider.DOTrader_GetLookupForRetur',
     TRetno.UnitStore.ID, StartOfTheMonth(Now()), EndOfTheMonth(Now()) );
+  cxLookup.HideFields(['DOTRADER_ID','DOT_GUDANG_ID','DOT_ORGANIZATION_ID','DOT_POTRADER_ID',
+    'DOT_UNIT_ID','DOT_AR_ID']);
   Try
     if cxLookup.ShowModal = mrOK then
     begin

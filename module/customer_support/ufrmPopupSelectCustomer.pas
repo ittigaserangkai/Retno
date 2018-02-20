@@ -87,7 +87,7 @@ end;
 
 procedure TfrmPopUpSelectCustomer.ParseDataCustomer;
 var
-  i: Integer;
+//  i: Integer;
   s: string;
 begin
   //init

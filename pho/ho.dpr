@@ -278,7 +278,11 @@ uses
   ufrmDialogCashIn in '..\module\finance\ufrmDialogCashIn.pas' {frmDialogCashIn},
   uModDOBonus in '..\model\uModDOBonus.pas',
   ufrmAgingPiutang in '..\module\finance\ufrmAgingPiutang.pas' {frmAgingPiutang},
-  uClientClasses in '..\classes\uClientClasses.pas';
+  ufrmSummaryARBalance in '..\module\finance\ufrmSummaryARBalance.pas' {frmSummaryARBalance},
+  uClientClasses in '..\classes\uClientClasses.pas',
+  uModHistoryBarang in '..\model\uModHistoryBarang.pas',
+  ufrmHistoryBarang in '..\module\merchandise\ufrmHistoryBarang.pas' {frmHistoryBarang},
+  ufrmDialogHistoryBarang in '..\module\merchandise\ufrmDialogHistoryBarang.pas' {frmDialogHistoryBarang};
 
 {$R *.res}
 

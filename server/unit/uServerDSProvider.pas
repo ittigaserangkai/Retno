@@ -11,6 +11,7 @@ type
   TDSProvider = class(TComponent)
   public
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
+    function HistoryBarang_GetDSOverview(AStartDate, AEndDate: TDateTime): TDataSet;
     function Agama_GetDSLookup: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
@@ -195,10 +196,13 @@ type
   TDSReport = class(TComponent)
   public
     function AgingPiutang: TFDJSONDataSets;
+    function Summary_AR_Balance(APeriodeAwal, APeriodeAkhir: TDatetime):
+        TFDJSONDataSets;
     function BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir: TDatetime;
         ANoBukti : String): TFDJSONDataSets;
     function Claim_by_Id(id: string): TFDJSONDataSets;
     function DOTrader_SlipByID(aID: string): TFDJSONDataSets;
+    function ReturTrader_SlipByID(aID: string): TFDJSONDataSets;
     function DO_GetDSNP(ANONP : String): TFDJSONDataSets;
     function DO_GetDS_CheckList(ANONP : String): TFDJSONDataSets;
     function DSA_GetDS(aStartDate, aEndDate: TDatetime; aGroupField: string):
@@ -240,6 +244,19 @@ var
 begin
   S := 'select * from V_ADJFAKTUR_OVERVIEW where ADJFAK_DATE between '
       + TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate);
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.HistoryBarang_GetDSOverview(AStartDate, AEndDate:
+    TDateTime): TDataSet;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM V_HISTORY_BARANG' +
+       ' where TANGGAL between ' +
+       TDBUtils.QuotDt(aStartDate) + ' and ' + TDBUtils.QuotDt(aEndDate) +
+       ' ORDER BY TANGGAL ';
+
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1946,6 +1963,17 @@ begin
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
 end;
 
+function TDSReport.Summary_AR_Balance(APeriodeAwal, APeriodeAkhir: TDatetime):
+    TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  sSQL := 'select * from V_SUMMARY_AR_BALANCE order by org_code, AR_REFNUM, AR_TRANSDATE';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL));
+end;
+
 function TDSReport.BankCashOut_GetDS_Slip(APeriodeAwal, APeriodeAkhir:
     TDatetime; ANoBukti : String): TFDJSONDataSets;
 var
@@ -2032,6 +2060,15 @@ var
 begin
   Result := TFDJSONDataSets.Create;
   S := 'select * from V_DOTRADER_SLIP where DOTRADER_ID = ' + QuotedStr(aID);
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+end;
+
+function TDSReport.ReturTrader_SlipByID(aID: string): TFDJSONDataSets;
+var
+  S: string;
+begin
+  Result := TFDJSONDataSets.Create;
+  S := 'select * from V_RETURTRADER_SLIP where RETURTRADER_ID = ' + QuotedStr(aID);
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
 end;
 

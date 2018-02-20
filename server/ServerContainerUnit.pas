@@ -101,6 +101,7 @@ begin
   TCustServerClass.Create(Self, DSServer, TCrudBarcodeRequest, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudBankCashIN, DSServerClass.LifeCycle);
   TCustServerClass.Create(Self, DSServer, TCrudReturTrader, DSServerClass.LifeCycle);
+  TCustServerClass.Create(Self, DSServer, TCrudBarcodeUsage, DSServerClass.LifeCycle);
 
 end;
 
