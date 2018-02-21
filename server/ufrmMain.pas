@@ -58,7 +58,6 @@ type
     btnTest: TButton;
     lblGenerateSQL: TLabel;
     bGenerateSQLCreateTable: TcxButton;
-    FDConnection1: TFDConnection;
     procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);

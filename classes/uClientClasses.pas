@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/20/2018 10:43:31 AM
+// 2/20/2018 1:47:49 PM
 //
 
 unit uClientClasses;
@@ -19099,6 +19099,7 @@ begin
     FRetrieveByCabangCommand.Text := 'TCrudSettingApp."RetrieveByCabang"';
     FRetrieveByCabangCommand.Prepare(TCrudSettingApp_RetrieveByCabang);
   end;
+
   if not Assigned(ACabang) then
     FRetrieveByCabangCommand.Parameters[0].Value.SetNull
   else

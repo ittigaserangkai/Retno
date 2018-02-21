@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   ActiveControl = cbbCompCode
-  Caption = '.'
+  Caption = 'actOnCreateForm'
   ClientHeight = 527
   ClientWidth = 869
   Color = clBtnFace
@@ -13,6 +13,7 @@ object frmMain: TfrmMain
   Font.Style = []
   FormStyle = fsMDIForm
   OldCreateOrder = False
+  Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -430,7 +431,6 @@ object frmMain: TfrmMain
     object actOnCreateForm: TAction
       Category = 'Sistem'
       Caption = 'actOnCreateForm'
-      OnExecute = actOnCreateFormExecute
     end
     object actOnLogout: TAction
       Category = 'Sistem'
