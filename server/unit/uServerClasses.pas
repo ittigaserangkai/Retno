@@ -1094,7 +1094,7 @@ begin
   sSQL   := 'select SETTINGAPP_ID from SETTINGAPP' +
             ' where AUT$UNIT_ID = ' + QuotedStr(ACabang.ID);
 
-  with TDBUtils.OpenDataset(sSQL) do
+  with TDBUtils.OpenQuery(sSQL) do
   begin
     try
       if Fields[0].AsString <> '' then
