@@ -1,3 +1,5 @@
+//BuyPrice = Exclude, SellPrice = Include PPN
+
 unit uModQuotation;
 
 interface
@@ -42,22 +44,22 @@ type
 
   TModQuotationDetail = class(TModApp)
   private
-    FBuyDisc1: Double;
+    FBUYDISC1: Double;
     FBarang: TModBarang;
     FBarangSupplier: TModBarangSupplier;
-    FBuyNetPrice: Double;
-    FSellDiscPercent: Double;
+    FBUYNETPRICE: Double;
+    FSELLDISCPERCENT: Double;
     FMargin: Double;
-    FSellPrice: Double;
+    FSELLPRICE: Double;
     FQuotation: TModQuotation;
-    FBuyDisc2: Double;
-    FBuyDisc3: Double;
-    FBuyPrice: Double;
+    FBUYDISC2: Double;
+    FBUYDISC3: Double;
+    FBUYPRICE: Double;
     FIsUpdateSellPrice: Integer;
     FSatuan: TModSatuan;
-    FSellDiscRp: Double;
+    FSELLDISCRP: Double;
     FKonversi: Double;
-    FTax: Double;
+    FPPN: Double;
     FIsBKP: Integer;
     FIsSellingPrice: Integer;
     FTipeHarga: TModTipeHarga;
@@ -69,24 +71,24 @@ type
   published
     [AttributeOfHeader]
     property Quotation: TModQuotation read FQuotation write FQuotation;
-    property BuyDisc1: Double read FBuyDisc1 write FBuyDisc1;
+    property BUYDISC1: Double read FBUYDISC1 write FBUYDISC1;
     property Barang: TModBarang read FBarang write FBarang;
     property BarangSupplier: TModBarangSupplier read FBarangSupplier write
         FBarangSupplier;
-    property BuyNetPrice: Double read FBuyNetPrice write FBuyNetPrice;
-    property SellDiscPercent: Double read FSellDiscPercent write FSellDiscPercent;
+    property BUYNETPRICE: Double read FBUYNETPRICE write FBUYNETPRICE;
+    property SELLDISCPERCENT: Double read FSELLDISCPERCENT write FSELLDISCPERCENT;
     property Margin: Double read FMargin write FMargin;
-    property SellPrice: Double read FSellPrice write FSellPrice;
-    property BuyDisc2: Double read FBuyDisc2 write FBuyDisc2;
-    property BuyDisc3: Double read FBuyDisc3 write FBuyDisc3;
-    property BuyPrice: Double read FBuyPrice write FBuyPrice;
+    property SELLPRICE: Double read FSELLPRICE write FSELLPRICE;
+    property BUYDISC2: Double read FBUYDISC2 write FBUYDISC2;
+    property BUYDISC3: Double read FBUYDISC3 write FBUYDISC3;
+    property BUYPRICE: Double read FBUYPRICE write FBUYPRICE;
     property IsUpdateSellPrice: Integer read FIsUpdateSellPrice write
         FIsUpdateSellPrice;
     [AttributeOfForeign('SATUAN_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
-    property SellDiscRp: Double read FSellDiscRp write FSellDiscRp;
+    property SELLDISCRP: Double read FSELLDISCRP write FSELLDISCRP;
     property Konversi: Double read FKonversi write FKonversi;
-    property Tax: Double read FTax write FTax;
+    property PPN: Double read FPPN write FPPN;
     property IsBKP: Integer read FIsBKP write FIsBKP;
     property IsSellingPrice: Integer read FIsSellingPrice write FIsSellingPrice;
     property TipeHarga: TModTipeHarga read FTipeHarga write FTipeHarga;
@@ -122,26 +124,26 @@ procedure TModQuotationDetail.SetBarangSupplier(aBarangSupp:
 begin
   aBarangSupp.BRGSUP_IS_PRIMARY := 1;
   aBarangSupp.BRGSUP_IS_ACTIVE  := 1;
-  aBarangSupp.BRGSUP_BUY_PRICE  := Self.BuyPrice;
-  aBarangSupp.BRGSUP_DISC1      := Self.BuyDisc1;
-  aBarangSupp.BRGSUP_DISC2      := Self.BuyDisc2;
-  aBarangSupp.BRGSUP_DISC3      := Self.BuyDisc3;
+  aBarangSupp.BRGSUP_BUY_PRICE  := Self.BUYPRICE;
+  aBarangSupp.BRGSUP_DISC1      := Self.BUYDISC1;
+  aBarangSupp.BRGSUP_DISC2      := Self.BUYDISC2;
+  aBarangSupp.BRGSUP_DISC3      := Self.BUYDISC3;
 end;
 
 procedure TModQuotationDetail.SetBarangHargaJual(aBarangHrgJual:
     TModBarangHargaJual);
 begin
   aBarangHrgJual.Barang := TModBarang.CreateID(Self.Barang.ID);
-  aBarangHrgJual.BHJ_SELL_PRICE     := Self.SellPrice;
-  aBarangHrgJual.BHJ_DISC_PERSEN    := Self.SellDiscPercent;
-  aBarangHrgJual.BHJ_DISC_NOMINAL   := Self.SellDiscRp;
+  aBarangHrgJual.BHJ_SELL_PRICE     := Self.SELLPRICE;
+  aBarangHrgJual.BHJ_DISC_PERSEN    := Self.SELLDISCPERCENT;
+  aBarangHrgJual.BHJ_DISC_NOMINAL   := Self.SELLDISCRP;
   aBarangHrgJual.BHJ_MARK_UP        := Self.Margin;
   aBarangHrgJual.BHJ_CONV_VALUE     := Self.Konversi;
   aBarangHrgJual.TipeHarga          := TModTipeHarga.CreateID(Self.TipeHarga.ID);
   aBarangHrgJual.Satuan             := TModSatuan.CreateID(Self.Satuan.ID);
 
   if Self.IsBKP = 1 then
-    aBarangHrgJual.BHJ_PPN          := Self.Tax
+    aBarangHrgJual.BHJ_PPN          := Self.PPN
   else
     aBarangHrgJual.BHJ_PPN          := 0;
 

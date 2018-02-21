@@ -562,7 +562,7 @@ begin
   begin
     FCDSDetail := TDBUtils.CreateObjectDataSet(TModQuotationDetail, Self, False);
     FCDSDetail.AddField('SellNetPrice', ftFloat);
-    FCDSDetail.AddField('SellPricePPN', ftFloat);
+//    FCDSDetail.AddField('PPN', ftFloat);
     FCDSDetail.CreateDataSet;
   end;
   Result := FCDSDetail;

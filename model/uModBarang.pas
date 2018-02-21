@@ -335,17 +335,16 @@ type
     FBHJ_LAST_DISC: Double;
     FBHJ_LAST_DISC_PERSEN: Double;
     FBHJ_PPN: Double;
+    FBHJ_PURCHASE_PRICE: Double;
     FBHJ_REMARK: string;
     FSatuan: TModSatuan;
     FTipeHarga: TModTipeHarga;
-    function GetBHJ_PURCHASE_PRICE: Double;
-    function GetBHJ_PURCHASE_PRICE_PPN: Double;
+    function GetBHJ_PURCHASE_PRICE_EX_PPN: Double;
     function GetBHJ_SELL_PRICE_EX_PPN: Double;
   public
     destructor Destroy; override;
     class function GetTableName: string; override;
-    property BHJ_PURCHASE_PRICE: Double read GetBHJ_PURCHASE_PRICE;
-    property BHJ_PURCHASE_PRICE_PPN: Double read GetBHJ_PURCHASE_PRICE_PPN;
+    property BHJ_PURCHASE_PRICE_EX_PPN: Double read GetBHJ_PURCHASE_PRICE_EX_PPN;
     property BHJ_SELL_PRICE_EX_PPN: Double read GetBHJ_SELL_PRICE_EX_PPN;
   published
     [AttributeOfHeader]
@@ -381,6 +380,8 @@ type
     property BHJ_LAST_DISC_PERSEN: Double read FBHJ_LAST_DISC_PERSEN write
         FBHJ_LAST_DISC_PERSEN;
     property BHJ_PPN: Double read FBHJ_PPN write FBHJ_PPN;
+    property BHJ_PURCHASE_PRICE: Double read FBHJ_PURCHASE_PRICE write
+        FBHJ_PURCHASE_PRICE;
     property BHJ_REMARK: string read FBHJ_REMARK write FBHJ_REMARK;
     [AttributeOfForeign('Ref$Satuan_ID')]
     property Satuan: TModSatuan read FSatuan write FSatuan;
@@ -595,14 +596,9 @@ begin
   if Assigned(FTipeHarga) then FreeAndNil(FTipeHarga);
 end;
 
-function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE: Double;
+function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE_EX_PPN: Double;
 begin
-  Result := BHJ_PURCHASE_PRICE_PPN / 1.1;
-end;
-
-function TModBarangHargaJual.GetBHJ_PURCHASE_PRICE_PPN: Double;
-begin
-  Result := BHJ_SELL_PRICE / ((100 + BHJ_MARK_UP)/100);
+  Result := BHJ_PURCHASE_PRICE / ((100 + BHJ_PPN)/100);
 end;
 
 function TModBarangHargaJual.GetBHJ_SELL_PRICE_EX_PPN: Double;
