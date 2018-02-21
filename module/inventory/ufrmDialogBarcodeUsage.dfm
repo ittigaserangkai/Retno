@@ -95,7 +95,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 1
-        ExplicitHeight = 21
         Width = 89
       end
       object lblFilterData: TcxLabel
@@ -122,7 +121,6 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 3
-        ExplicitHeight = 21
         Width = 89
       end
       object lblsdFilter: TcxLabel
@@ -167,7 +165,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Width = 81
+          Width = 135
         end
         object cxGridColNo: TcxGridDBColumn
           Caption = 'No Bukti'
@@ -176,6 +174,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
           Properties.Alignment.Horz = taCenter
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
+          Width = 105
         end
         object cxGridColTgl: TcxGridDBColumn
           Caption = 'Tanggal'
@@ -185,6 +184,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
           Properties.ReadOnly = True
           Properties.ShowTime = False
           HeaderAlignmentHorz = taCenter
+          Width = 106
         end
         object cxGridColNominal: TcxGridDBColumn
           Caption = 'Nominal'
@@ -194,20 +194,7 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-        end
-        object cxGridColProses: TcxGridDBColumn
-          Caption = 'Proses'
-          DataBinding.FieldName = 'PROSES'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.ReadOnly = True
-          HeaderAlignmentHorz = taCenter
-        end
-        object cxGridColKeterangan: TcxGridDBColumn
-          Caption = 'Keterangan'
-          DataBinding.FieldName = 'BUI_KETERANGAN'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.ReadOnly = False
-          Width = 80
+          Width = 96
         end
       end
       object cxgrdlvlBarcodeUsage: TcxGridLevel
@@ -313,14 +300,20 @@ inherited frmDialogBarcodeUsage: TfrmDialogBarcodeUsage
       ExplicitWidth = 752
       inherited lbCTRLEnter: TLabel
         Left = 577
+        Height = 15
         ExplicitLeft = 577
       end
       inherited lbEscape: TLabel
         Left = 668
+        Height = 15
         ExplicitLeft = 668
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 501
+        Height = 15
         ExplicitLeft = 501
       end
     end
