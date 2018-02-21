@@ -980,7 +980,6 @@ begin
     Result.SetProvider(LDSP);
     Result.Open;
   end;
-
 end;
 
 class function TDBUtils.OpenMemTable(ASQL : String): TFDMemTable;

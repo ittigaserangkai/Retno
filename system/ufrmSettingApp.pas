@@ -119,7 +119,7 @@ begin
 
   if SettingApp.ID <>'' then
   begin
-    TAppUtils.Information('Berhasil simpan Data' + #13 + 'Silahkan klik tombol load untuk meelihat perubahannnya');
+    TAppUtils.Information('Berhasil simpan Data' + #13 + 'Silahkan klik tombol untuk melihat perubahannnya');
     btnClearClick(nil);
   end else begin
 
