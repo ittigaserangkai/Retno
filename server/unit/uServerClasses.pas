@@ -279,7 +279,9 @@ type
 
   TCrudBarcodeUsage = class(TCrud)
   protected
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
   published
   end;
 
@@ -518,20 +520,21 @@ function TCrud.SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
 var
   I: Integer;
 begin
-//  Result := False;
+  Result := False;
 
   try
     for I := 0 to AObjectList.Count - 1 do
     begin
-      SaveToDBTrans(AObjectList[i], False);
+      if not SaveToDBTrans(AObjectList[i], False) then
+        Exit;
     end;
 
     TDBUtils.Commit;
     Result := True;
   except
+    TDBUtils.RollBack;
     raise;
   end;
-
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
@@ -2352,16 +2355,79 @@ begin
   Result := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
+function TCrudBarcodeUsage.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+var
+  lCRUD: TCrud;
+  lModBU: TModBarcodeUsage;
+begin
+  Result := False;
+  lModBU := TModBarcodeUsage(AObject);
+
+  if lModBU.BU_AR <> nil then
+  begin
+    lModBU.BU_AR.Reload();
+    if lModBU.BU_AR.AR_PAID <> 0 then
+      Raise Exception.Create('AR telah dibayar, transaksi tidak bisa dihapus');
+
+    lCRUD := TCrud.Create(nil);
+    try
+      if not lCRUD.DeleteFromDBTrans(lModBU.BU_AR, False) then
+        Exit;
+    finally
+      lCRUD.Free;
+    end;
+  end;
+
+  Result := True;
+end;
+
 function TCrudBarcodeUsage.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lModBU: TModBarcodeUsage;
+  lCRUD: TCrud;
+  lCRUDSetApp: TCrudSettingApp;
+  lModRek: TModRekening;
+  lModSetApp: TModSettingApp;
 begin
+  Result := False;
   lModBU := TModBarcodeUsage(AObject);
 
   if lModBU.BU_NO = '' then
-    lModBU.BU_NO := GenerateNo(TModBarcodeUsage.ClassName);
+    lModBU.BU_NO := 'BU-' + GenerateNo(TModBarcodeUsage.ClassName);
 
-  Result := True;
+  if lModBU.BU_SUPMG = nil then
+    Raise Exception.Create('Organization not definend');
+
+  if lModBU.BU_AR = nil then
+    lModBU.BU_AR := TModAR.Create;
+
+  lCRUD       := TCrud.Create(nil);
+  lCRUDSetApp := TCrudSettingApp.Create(nil);
+  lModSetApp  := lCRUDSetApp.RetrieveByCabang(lModBU.BU_UNIT);
+  lModRek     := TModRekening.Create;
+  try
+    lModBU.BU_AR.AR_ClassRef     := lModBU.ClassName;
+    lModBU.BU_AR.AR_Description  := lModBU.BU_KETERANGAN;
+    lModBU.BU_AR.AR_DueDate      := lModBU.BU_TANGGAL + 7;
+    lModBU.BU_AR.AR_ORGANIZATION := lModBU.BU_SUPMG;
+    lModBU.BU_AR.AR_REFNUM       := lModBU.BU_NO;
+    lModBU.BU_AR.AR_TOTAL        := lModBU.BU_TOTAL;
+    lModBU.BU_AR.AR_TRANSDATE    := lModBU.BU_TANGGAL;
+
+    lModRek := lCRUD.RetrieveByCode(TModRekening.ClassName, lModSetApp.REKENING_PIUTANG_LABEL) as TModRekening;
+    lModBU.BU_AR.AR_REKENING     := lModRek;
+
+    if lModBU.BU_AR.AR_PAID > 0then
+      raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');
+
+    if lCRUD.SaveToDBTrans(lModBU.BU_AR, False) then
+      Result := True;
+  finally
+    lModRek.Free;
+    lModSetApp.Free;
+    lCRUDSetApp.Free;
+    lCRUD.Free;
+  end;
 end;
 
 function TCrudHistoryBarang.AfterSaveToDB(AObject: TModApp): Boolean;
