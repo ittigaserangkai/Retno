@@ -47,7 +47,7 @@ type
     FBUYDISC1: Double;
     FBarang: TModBarang;
     FBarangSupplier: TModBarangSupplier;
-    FBUYNETPRICE: Double;
+    FBUYPRICE_INC_PPN: Double;
     FSELLDISCPERCENT: Double;
     FMargin: Double;
     FSELLPRICE: Double;
@@ -55,6 +55,7 @@ type
     FBUYDISC2: Double;
     FBUYDISC3: Double;
     FBUYPRICE: Double;
+    FBUYPRICE_INC_DISC: Double;
     FIsUpdateSellPrice: Integer;
     FSatuan: TModSatuan;
     FSELLDISCRP: Double;
@@ -75,13 +76,16 @@ type
     property Barang: TModBarang read FBarang write FBarang;
     property BarangSupplier: TModBarangSupplier read FBarangSupplier write
         FBarangSupplier;
-    property BUYNETPRICE: Double read FBUYNETPRICE write FBUYNETPRICE;
+    property BUYPRICE_INC_PPN: Double read FBUYPRICE_INC_PPN write
+        FBUYPRICE_INC_PPN;
     property SELLDISCPERCENT: Double read FSELLDISCPERCENT write FSELLDISCPERCENT;
     property Margin: Double read FMargin write FMargin;
     property SELLPRICE: Double read FSELLPRICE write FSELLPRICE;
     property BUYDISC2: Double read FBUYDISC2 write FBUYDISC2;
     property BUYDISC3: Double read FBUYDISC3 write FBUYDISC3;
     property BUYPRICE: Double read FBUYPRICE write FBUYPRICE;
+    property BUYPRICE_INC_DISC: Double read FBUYPRICE_INC_DISC write
+        FBUYPRICE_INC_DISC;
     property IsUpdateSellPrice: Integer read FIsUpdateSellPrice write
         FIsUpdateSellPrice;
     [AttributeOfForeign('SATUAN_ID')]
@@ -133,19 +137,22 @@ end;
 procedure TModQuotationDetail.SetBarangHargaJual(aBarangHrgJual:
     TModBarangHargaJual);
 begin
-  aBarangHrgJual.Barang := TModBarang.CreateID(Self.Barang.ID);
-  aBarangHrgJual.BHJ_SELL_PRICE     := Self.SELLPRICE;
-  aBarangHrgJual.BHJ_DISC_PERSEN    := Self.SELLDISCPERCENT;
-  aBarangHrgJual.BHJ_DISC_NOMINAL   := Self.SELLDISCRP;
-  aBarangHrgJual.BHJ_MARK_UP        := Self.Margin;
-  aBarangHrgJual.BHJ_CONV_VALUE     := Self.Konversi;
-  aBarangHrgJual.TipeHarga          := TModTipeHarga.CreateID(Self.TipeHarga.ID);
-  aBarangHrgJual.Satuan             := TModSatuan.CreateID(Self.Satuan.ID);
+  aBarangHrgJual.Barang               := TModBarang.CreateID(Self.Barang.ID);
+  aBarangHrgJual.BHJ_PURCHASE_PRICE   := Self.BUYPRICE_INC_DISC;
+  aBarangHrgJual.BHJ_PPN              := Self.PPN;
+  aBarangHrgJual.BHJ_SELL_PRICE       := Self.SELLPRICE;
+  aBarangHrgJual.BHJ_DISC_PERSEN      := Self.SELLDISCPERCENT;
+  aBarangHrgJual.BHJ_DISC_NOMINAL     := Self.SELLDISCRP;
+  aBarangHrgJual.BHJ_MARK_UP          := Self.Margin;
+  aBarangHrgJual.BHJ_CONV_VALUE       := Self.Konversi;
+  aBarangHrgJual.BHJ_SELL_PRICE_DISC  := aBarangHrgJual.BHJ_SELL_PRICE - aBarangHrgJual.BHJ_DISC_NOMINAL;
+  aBarangHrgJual.TipeHarga            := TModTipeHarga.CreateID(Self.TipeHarga.ID);
+  aBarangHrgJual.Satuan               := TModSatuan.CreateID(Self.Satuan.ID);
 
   if Self.IsBKP = 1 then
-    aBarangHrgJual.BHJ_PPN          := Self.PPN
+    aBarangHrgJual.BHJ_PPN            := Self.PPN
   else
-    aBarangHrgJual.BHJ_PPN          := 0;
+    aBarangHrgJual.BHJ_PPN            := 0;
 
 end;
 

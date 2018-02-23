@@ -21,7 +21,7 @@ type
     FCRAZY_PPN: Double;
     FCRAZY_SATUAN: TModSatuan;
     FCRAZY_SELLPRICE_DISC: Double;
-    FCRAZY_SELLPRICE_PPN: Double;
+    FCRAZY_SELLPRICE: Double;
     FCRAZY_END_DATE: TDatetime;
     FCRAZY_ORGANIZATION: TModOrganization;
     FCRAZY_START_DATE: TDatetime;
@@ -40,8 +40,7 @@ type
     property CRAZY_SATUAN: TModSatuan read FCRAZY_SATUAN write FCRAZY_SATUAN;
     property CRAZY_SELLPRICE_DISC: Double read FCRAZY_SELLPRICE_DISC write
         FCRAZY_SELLPRICE_DISC;
-    property CRAZY_SELLPRICE_PPN: Double read FCRAZY_SELLPRICE_PPN write
-        FCRAZY_SELLPRICE_PPN;
+    property CRAZY_SELLPRICE: Double read FCRAZY_SELLPRICE write FCRAZY_SELLPRICE;
     property CRAZY_END_DATE: TDatetime read FCRAZY_END_DATE write
         FCRAZY_END_DATE;
     property CRAZY_ORGANIZATION: TModOrganization read FCRAZY_ORGANIZATION

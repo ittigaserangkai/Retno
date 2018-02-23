@@ -1176,7 +1176,6 @@ begin
   AModQuotation.IsProcessed := 1;
   Result.Add(TDBUtils.GetSQLUpdate(AModQuotation));
 
-  Result.SaveToFile('d:\debugquot.txt');
 end;
 
 function TCrudClaimFaktur.AfterSaveToDB(AObject: TModApp): Boolean;

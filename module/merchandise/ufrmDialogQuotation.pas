@@ -15,7 +15,7 @@ uses
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxGroupBox, cxCheckBox,
   Vcl.Menus, cxButtons, cxCurrencyEdit, ufrmMasterDialog, cxGridBandedTableView,
   cxSplitter, cxGridDBBandedTableView, uInterface, Datasnap.DBClient, cxMemo,
-  uModQuotation;
+  uModQuotation, uModelHelper;
 
 type
 
@@ -44,7 +44,6 @@ type
     colHeaderBuyDisc1: TcxGridDBBandedColumn;
     colHeaderBuyDisc2: TcxGridDBBandedColumn;
     colHeaderBuyDisc3: TcxGridDBBandedColumn;
-    colHeaderNetPrice: TcxGridDBBandedColumn;
     colHeaderMargin: TcxGridDBBandedColumn;
     colHeaderSellPrice: TcxGridDBBandedColumn;
     colHeaderSellDiscPerc: TcxGridDBBandedColumn;
@@ -86,6 +85,7 @@ type
     btnAddProd: TcxButton;
     btnDelProd: TcxButton;
     btnActivate: TcxButton;
+    colHeaderBuyNetPrice: TcxGridDBBandedColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -190,6 +190,7 @@ procedure TfrmDialogQuotation.AddProduct;
 var
   frm: TfrmCXLookup;
   lCDS: TClientDataSet;
+  lModBrg: TModBarang;
 begin
   inherited;
   if VarIsNull(cxLookupSupplierMerchan.EditValue) then
@@ -212,29 +213,38 @@ begin
       begin
         if not CDSHeader.Locate('Barang', frm.Data.FieldByName('BARANG_ID').AsString, [loCaseInsensitive]) then
         begin
-          CDSHeader.Append;
-          CDSHeader.SetFieldFrom('BrgCode', frm.Data, 'BRG_CODE');
-          CDSHeader.SetFieldFrom('Satuan', frm.Data, 'REF$SATUAN_PURCHASE');
-          CDSHeader.SetFieldFrom('BrgName', frm.Data, 'BRG_NAME');
-          CDSHeader.SetFieldFrom('BuyPrice', frm.Data, 'BuyPrice');
-          CDSHeader.SetFieldFrom('BuyDisc1', frm.Data, 'Disc1');
-          CDSHeader.SetFieldFrom('BuyDisc2', frm.Data, 'Disc2');
-          CDSHeader.SetFieldFrom('BuyDisc3', frm.Data, 'Disc3');
-          CDSHeader.SetFieldFrom('BuyNetPrice', frm.Data, 'NetPrice');
-          CDSHeader.SetFieldFrom('Konversi', frm.Data, 'Konversi');
-          CDSHeader.SetFieldFrom('Barang', frm.Data, 'BARANG_ID');
-          CDSHeader.SetFieldFrom('IsBKP', frm.Data, 'Is_BKP');
-          CDSHeader.SetFieldFrom('Margin', frm.Data, 'BRGSUP_MARK_UP');
-          CDSHeader.SetFieldFrom('BarangSupplier', frm.Data, 'BARANG_SUPLIER_ID');
-          if chkUpdateSellPrice.Checked then
-            CDSHeader.FieldByName('IsUpdateSellPrice').AsInteger := 1
-          else
-            CDSHeader.FieldByName('IsUpdateSellPrice').AsInteger := 0;
+          lModBrg := TCRUDObj.Retrieve<TModBarang>(frm.Data.FieldByName('BARANG_ID').AsString);
+          Try
+            CDSHeader.Append;
+            CDSHeader.SetFieldFrom('BrgCode', frm.Data, 'BRG_CODE');
+            CDSHeader.SetFieldFrom('Satuan', frm.Data, 'REF$SATUAN_PURCHASE');
+            CDSHeader.SetFieldFrom('BrgName', frm.Data, 'BRG_NAME');
+            CDSHeader.SetFieldFrom('BuyPrice', frm.Data, 'BuyPrice');
+            CDSHeader.SetFieldFrom('BuyDisc1', frm.Data, 'Disc1');
+            CDSHeader.SetFieldFrom('BuyDisc2', frm.Data, 'Disc2');
+            CDSHeader.SetFieldFrom('BuyDisc3', frm.Data, 'Disc3');
+            CDSHeader.SetFieldFrom('Konversi', frm.Data, 'Konversi');
+            CDSHeader.SetFieldFrom('Barang', frm.Data, 'BARANG_ID');
+            CDSHeader.SetFieldFrom('IsBKP', frm.Data, 'Is_BKP');
+            CDSHeader.SetFieldFrom('Margin', frm.Data, 'BRGSUP_MARK_UP');
+            CDSHeader.SetFieldFrom('BarangSupplier', frm.Data, 'BARANG_SUPLIER_ID');
+            if chkUpdateSellPrice.Checked then
+              CDSHeader.FieldByName('IsUpdateSellPrice').AsInteger := 1
+            else
+              CDSHeader.FieldByName('IsUpdateSellPrice').AsInteger := 0;
 
-          CDSHeader.Post;
-          CalculateNetBuyPrice;
+            if lModBrg.RefPajak <> nil then
+            begin
+              lModBrg.RefPajak.Reload;
+              CDSHeader.FieldByName('PPN').AsFloat := lModBrg.RefPajak.PJK_PPN;
+            end;
+            CDSHeader.Post;
+            CalculateNetBuyPrice;
 
-          LoadHargaJual;
+            LoadHargaJual;
+          Finally
+            FreeAndNil(lModBrg);
+          End;
         end;
         frm.Data.Next;
       end;
@@ -248,23 +258,22 @@ end;
 procedure TfrmDialogQuotation.AddSellPrice;
 begin
   CDSDetail.Append;
-  CDSDetail.FieldByName('Barang').AsString          := CDSHeader.FieldByName('Barang').AsString;
-  CDSDetail.FieldByName('BarangSupplier').AsString  := CDSHeader.FieldByName('BarangSupplier').AsString;
+  CDSDetail.FieldByName('Barang').AsString            := CDSHeader.FieldByName('Barang').AsString;
+  CDSDetail.FieldByName('BarangSupplier').AsString    := CDSHeader.FieldByName('BarangSupplier').AsString;
 //  CDSDetail.FieldByName('TipeHarga').AsString       := '';
 //  CDSDetail.FieldByName('Satuan').AsString          := '';
-  CDSDetail.FieldByName('SellPrice').AsFloat        := 0;
-  CDSDetail.FieldByName('SellDiscPercent').AsFloat  := 0;
-  CDSDetail.FieldByName('SellDiscRp').AsFloat       := 0;
-  CDSDetail.FieldByName('Konversi').AsFloat         := 0;
-  CDSDetail.FieldByName('Margin').AsFloat           := 0;
-  CDSDetail.FieldByName('BuyPrice').AsFloat         := 0;
-  CDSDetail.FieldByName('BuyDisc1').AsFloat         := 0;
-  CDSDetail.FieldByName('BuyDisc2').AsFloat         := 0;
-  CDSDetail.FieldByName('BuyDisc3').AsFloat         := 0;
-  CDSDetail.FieldByName('BuyNetPrice').AsFloat      := 0;
-  CDSDetail.FieldByName('IsBKP').AsInteger          := CDSHeader.FieldByName('IsBKP').AsInteger;
-  CDSDetail.FieldByName('IsBKP').AsInteger  := CDSHeader.FieldByName('IsBKP').AsInteger;
-
+  CDSDetail.FieldByName('SellPrice').AsFloat          := 0;
+  CDSDetail.FieldByName('SellDiscPercent').AsFloat    := 0;
+  CDSDetail.FieldByName('SellDiscRp').AsFloat         := 0;
+  CDSDetail.FieldByName('Konversi').AsFloat           := 0;
+  CDSDetail.FieldByName('Margin').AsFloat             := 0;
+  CDSDetail.FieldByName('BuyPrice').AsFloat           := 0;
+  CDSDetail.FieldByName('BuyDisc1').AsFloat           := 0;
+  CDSDetail.FieldByName('BuyDisc2').AsFloat           := 0;
+  CDSDetail.FieldByName('BuyDisc3').AsFloat           := 0;
+  CDSDetail.FieldByName('BUYPRICE_INC_DISC').AsFloat  := 0;
+  CDSDetail.FieldByName('BUYPRICE_INC_PPN').AsFloat   := 0;
+  CDSDetail.FieldByName('IsBKP').AsInteger            := CDSHeader.FieldByName('IsBKP').AsInteger;
   CDSDetail.Post;
 end;
 
@@ -294,10 +303,10 @@ begin
 
 
   CDSHeader.Edit;
-  CDSHeader.FieldByName('BuyNetPrice').AsFloat := dNet;
-  CDSHeader.FieldByName('BuyPricePPN').AsFloat := dNet;
-  if CDSHeader.FieldByName('IsBKP').AsInteger = 1 then
-    CDSHeader.FieldByName('BuyPricePPN').AsFloat := dNet * 1.1;
+  CDSHeader.FieldByName('BUYPRICE_INC_DISC').AsFloat  := dNet;
+  CDSHeader.FieldByName('BUYPRICE_INC_PPN').AsFloat   := dNet;
+  if CDSHeader.FieldByName('ISBKP').AsInteger = 1 then
+    CDSHeader.FieldByName('BUYPRICE_INC_PPN').AsFloat := dNet * 1.1;
   CDSHeader.Post;
 
   UpdateSellingPrice(CDSHeader.FieldByName('IsUpdateSellPrice').AsInteger=1);
@@ -318,7 +327,7 @@ begin
   dDiscRp     := CDSDetail.FieldByName('SellDiscRp').AsFloat;
   dDiscPr     := CDSDetail.FieldByName('SellDiscPercent').AsFloat;
   dPrice      := CDSDetail.FieldByName('SellPrice').AsFloat;
-  dBuyPrice   := CDSDetail.FieldByName('BuyNetPrice').AsFloat;
+  dBuyPrice   := CDSDetail.FieldByName('BUYPRICE_INC_PPN').AsFloat;
 
   if Sender = colDetailMargin then
   begin
@@ -343,8 +352,8 @@ begin
   CDSDetail.FieldByName('SellDiscPercent').AsFloat    := dDiscPr;
   CDSDetail.FieldByName('SellDiscRp').AsFloat         := dDiscRp;
   CDSDetail.FieldByName('SellNetPrice').AsFloat       := dNet;
-  if CDSHeader.FieldByName('IsBKP').AsInteger = 1 then
-    CDSDetail.FieldByName('SellPricePPN').AsFloat := dNet * 1.1;
+//  if CDSHeader.FieldByName('IsBKP').AsInteger = 1 then
+//    CDSDetail.FieldByName('SellPricePPN').AsFloat := dNet * 1.1;
   CDSDetail.Post;
 end;
 
@@ -355,11 +364,13 @@ var
   lBarangID: string;
   lSatCode: string;
   lSatuanID: string;
+
 begin
   if CDSDetail.State in [dsEdit] then CDSDetail.Post;
   lBarangID := CDSHeader.FieldByName('Barang').AsString;
   lSatuanID := CDSDetail.FieldByName('Satuan').AsString;
-  lSatCode  := VarToStr(cxGrdDBDetail.DataController.Values[cxGrdDBDetail.DataController.FocusedRecordIndex, colDetailSatuan.Index]);
+  lSatCode  := VarToStr(cxGrdDBDetail.DataController.DisplayTexts[
+                cxGrdDBDetail.DataController.FocusedRecordIndex, colDetailSatuan.Index]);
   lBarang   := DMClient.CrudClient.Retrieve(TModBarang.ClassName, lBarangID) as TModBarang;
   Try
     CDSDetail.Edit;
@@ -389,7 +400,7 @@ procedure TfrmDialogQuotation.ckShowPPNPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  colDetailSellPricePPN.Visible               := ckShowPPN.Checked;
+//  colDetailSellPricePPN.Visible               := ckShowPPN.Checked;
   colHeaderBuyPricePPN.Position.Band.Visible  := ckShowPPN.Checked;
 end;
 
@@ -550,7 +561,7 @@ begin
     FCDSHeader.AddField('BrgName', ftString);
 //    FCDSHeader.AddField('IsPurchaseUOM', ftBoolean);
 //    FCDSHeader.AddField('SellPricePPN', ftFloat);
-    FCDSHeader.AddField('BuyPricePPN', ftFloat);
+//    FCDSHeader.AddField('BuyNetPrice', ftFloat);
     FCDSHeader.CreateDataSet;
   end;
   Result := FCDSHeader;
@@ -562,7 +573,6 @@ begin
   begin
     FCDSDetail := TDBUtils.CreateObjectDataSet(TModQuotationDetail, Self, False);
     FCDSDetail.AddField('SellNetPrice', ftFloat);
-//    FCDSDetail.AddField('PPN', ftFloat);
     FCDSDetail.CreateDataSet;
   end;
   Result := FCDSDetail;
@@ -656,7 +666,7 @@ var
   lDetail: TModQuotationDetail;
 begin
   if aID <> '' then
-     FModQuotation := DMClient.CrudClient.Retrieve(TModQuotation.ClassName, aID) as TModQuotation
+    FModQuotation := DMClient.CrudClient.Retrieve(TModQuotation.ClassName, aID) as TModQuotation
   else begin
     ModQuotation.RefNo := DMClient.CrudClient.GenerateNo(TModQuotation.ClassName);
     ModQuotation.EffectiveDate := Now();
@@ -694,9 +704,6 @@ begin
       CDSDetail.Append;
       lDetail.UpdateToDataset(CDSDetail);
       CDSDetail.FieldByName('SellNetPrice').AsFloat := lDetail.SellPrice - lDetail.SellDiscRp;
-      CDSDetail.FieldByName('SellPricePPN').AsFloat := CDSDetail.FieldByName('SellNetPrice').AsFloat;
-      if lDetail.IsBKP = 1 then
-        CDSDetail.FieldByName('SellPricePPN').AsFloat := CDSDetail.FieldByName('SellNetPrice').AsFloat * 1.1;
       CDSDetail.Post;
     end else
     begin
@@ -704,9 +711,9 @@ begin
       lDetail.UpdateToDataset(CDSHeader);
       CDSHeader.FieldByName('BrgCode').AsString     := lBarang.BRG_CODE;
       CDSHeader.FieldByName('BrgName').AsString     := lBarang.BRG_NAME;
-      CDSHeader.FieldByName('BuyPricePPN').AsFloat  := lDetail.BuyNetPrice;
+      CDSHeader.FieldByName('BUYPRICE_INC_DISC').AsFloat  := lDetail.BUYPRICE_INC_DISC;
       if lDetail.IsBKP = 1 then
-        CDSHeader.FieldByName('BuyPricePPN').AsFloat := lDetail.BuyNetPrice * 1.1;
+        CDSHeader.FieldByName('BUYPRICE_INC_DISC').AsFloat := lDetail.BUYPRICE_INC_DISC * 1.1;
       CDSHeader.Post;
     end;
   end;
@@ -734,27 +741,29 @@ begin
       for i:=0 to lBarang.HargaJual.Count-1 do
       begin
         CDSDetail.Append;
-        CDSDetail.FieldByName('Barang').AsString          := lBarang.ID;
-        CDSDetail.FieldByName('BarangSupplier').AsString  := CDSHeader.FieldByName('BarangSupplier').AsString;
-        CDSDetail.FieldByName('TipeHarga').AsString       := lBarang.HargaJual[i].TipeHarga.ID;
-        CDSDetail.FieldByName('Satuan').AsString          := lBarang.HargaJual[i].Satuan.ID;
-        CDSDetail.FieldByName('SellPrice').AsFloat        := lBarang.HargaJual[i].BHJ_SELL_PRICE;
-        CDSDetail.FieldByName('SellDiscPercent').AsFloat  := lBarang.HargaJual[i].BHJ_DISC_PERSEN;
-        CDSDetail.FieldByName('SellDiscRp').AsFloat       := lBarang.HargaJual[i].BHJ_DISC_NOMINAL;
-        CDSDetail.FieldByName('Konversi').AsFloat         := lBarang.HargaJual[i].BHJ_CONV_VALUE;
+        CDSDetail.FieldByName('Barang').AsString            := lBarang.ID;
+        CDSDetail.FieldByName('BarangSupplier').AsString    := CDSHeader.FieldByName('BarangSupplier').AsString;
+        CDSDetail.FieldByName('TipeHarga').AsString         := lBarang.HargaJual[i].TipeHarga.ID;
+        CDSDetail.FieldByName('Satuan').AsString            := lBarang.HargaJual[i].Satuan.ID;
+        CDSDetail.FieldByName('SellPrice').AsFloat          := lBarang.HargaJual[i].BHJ_SELL_PRICE;
+        CDSDetail.FieldByName('SellDiscPercent').AsFloat    := lBarang.HargaJual[i].BHJ_DISC_PERSEN;
+        CDSDetail.FieldByName('SellDiscRp').AsFloat         := lBarang.HargaJual[i].BHJ_DISC_NOMINAL;
+        CDSDetail.FieldByName('Konversi').AsFloat           := lBarang.HargaJual[i].BHJ_CONV_VALUE;
 
         //data master produk masih salah
-        CDSDetail.FieldByName('Margin').AsFloat           := lBarang.HargaJual[i].BHJ_MARK_UP;
+        CDSDetail.FieldByName('Margin').AsFloat             := lBarang.HargaJual[i].BHJ_MARK_UP;
         if lBarang.HargaJual[i].BHJ_MARK_UP = 0 then
-          CDSDetail.FieldByName('Margin').AsFloat         := CDSHeader.FieldByName('Margin').AsFloat;
+          CDSDetail.FieldByName('Margin').AsFloat           := CDSHeader.FieldByName('Margin').AsFloat;
         dProportion := lBarang.HargaJual[i].BHJ_CONV_VALUE / CDSHeader.FieldByName('Konversi').AsFloat ;
 
-        CDSDetail.FieldByName('BuyPrice').AsFloat         := dProportion * CDSHeader.FieldByName('BuyPrice').AsFloat;
-        CDSDetail.FieldByName('BuyDisc1').AsFloat         := CDSHeader.FieldByName('BuyDisc1').AsFloat;
-        CDSDetail.FieldByName('BuyDisc2').AsFloat         := CDSHeader.FieldByName('BuyDisc2').AsFloat;
-        CDSDetail.FieldByName('BuyDisc3').AsFloat         := dProportion * CDSHeader.FieldByName('BuyDisc3').AsFloat;
-        CDSDetail.FieldByName('BuyNetPrice').AsFloat      := dProportion * CDSHeader.FieldByName('BuyNetPrice').AsFloat;
-        CDSDetail.FieldByName('IsBKP').AsInteger          := CDSHeader.FieldByName('IsBKP').AsInteger;
+        CDSDetail.FieldByName('BuyPrice').AsFloat           := dProportion * CDSHeader.FieldByName('BuyPrice').AsFloat;
+        CDSDetail.FieldByName('BuyDisc1').AsFloat           := CDSHeader.FieldByName('BuyDisc1').AsFloat;
+        CDSDetail.FieldByName('BuyDisc2').AsFloat           := CDSHeader.FieldByName('BuyDisc2').AsFloat;
+        CDSDetail.FieldByName('BuyDisc3').AsFloat           := dProportion * CDSHeader.FieldByName('BuyDisc3').AsFloat;
+        CDSDetail.FieldByName('BUYPRICE_INC_PPN').AsFloat   := dProportion * CDSHeader.FieldByName('BUYPRICE_INC_PPN').AsFloat;
+        CDSDetail.FieldByName('BUYPRICE_INC_DISC').AsFloat  := dProportion * CDSHeader.FieldByName('BUYPRICE_INC_DISC').AsFloat;
+        CDSDetail.FieldByName('IsBKP').AsInteger            := CDSHeader.FieldByName('IsBKP').AsInteger;
+        CDSDetail.FieldByName('PPN').AsFloat                := CDSHeader.FieldByName('PPN').AsFloat;
 
         CDSDetail.Post;
         CalculateNetSellPrice(nil);
@@ -836,7 +845,6 @@ begin
     lDetail                 := TModQuotationDetail.Create;
     lDetail.SetFromDataset(CDSHeader);
     lDetail.IsSellingPrice  := 0;
-    lDetail.Tax             := 10; //sementara hardcode
     ModQuotation.Details.Add(lDetail);
 
     CDSDetail.First;
@@ -845,7 +853,6 @@ begin
       lDetail                 := TModQuotationDetail.Create;
       lDetail.SetFromDataset(CDSDetail);
       lDetail.IsSellingPrice  := 1;
-      lDetail.Tax             := 10; //sementara hardcode
       ModQuotation.Details.Add(lDetail);
       CDSDetail.Next;
     end;
@@ -876,16 +883,18 @@ begin
       dProportion := 1;
       if CDSHeader.FieldByName('Konversi').AsFloat <> 0 then
         dProportion := CDSDetail.FieldByName('Konversi').AsFloat / CDSHeader.FieldByName('Konversi').AsFloat ;
-      CDSDetail.FieldByName('BuyPrice').AsFloat         := dProportion * CDSHeader.FieldByName('BuyPrice').AsFloat;
-      CDSDetail.FieldByName('BuyDisc1').AsFloat         := CDSHeader.FieldByName('BuyDisc1').AsFloat;
-      CDSDetail.FieldByName('BuyDisc2').AsFloat         := CDSHeader.FieldByName('BuyDisc2').AsFloat;
-      CDSDetail.FieldByName('BuyDisc3').AsFloat         := dProportion * CDSHeader.FieldByName('BuyDisc3').AsFloat;
-      CDSDetail.FieldByName('BuyNetPrice').AsFloat      := dProportion * CDSHeader.FieldByName('BuyNetPrice').AsFloat;
+      CDSDetail.FieldByName('BuyPrice').AsFloat           := dProportion * CDSHeader.FieldByName('BuyPrice').AsFloat;
+      CDSDetail.FieldByName('BuyDisc1').AsFloat           := CDSHeader.FieldByName('BuyDisc1').AsFloat;
+      CDSDetail.FieldByName('BuyDisc2').AsFloat           := CDSHeader.FieldByName('BuyDisc2').AsFloat;
+      CDSDetail.FieldByName('PPN').AsFloat                := CDSHeader.FieldByName('PPN').AsFloat;
+      CDSDetail.FieldByName('BuyDisc3').AsFloat           := dProportion * CDSHeader.FieldByName('BuyDisc3').AsFloat;
+      CDSDetail.FieldByName('BUYPRICE_INC_PPN').AsFloat   := dProportion * CDSHeader.FieldByName('BUYPRICE_INC_PPN').AsFloat;
+      CDSDetail.FieldByName('BUYPRICE_INC_DISC').AsFloat  := dProportion * CDSHeader.FieldByName('BUYPRICE_INC_DISC').AsFloat;
 
       //fixed margin
       dMargin     := CDSDetail.FieldByName('Margin').AsFloat;
       dSellPrice  := CDSDetail.FieldByName('SellPrice').AsFloat;
-      dBuyPrice   := CDSDetail.FieldByName('BuyNetPrice').AsFloat;
+      dBuyPrice   := CDSDetail.FieldByName('BUYPRICE_INC_PPN').AsFloat;
 
       if IsUpdateSellPrice then
         dSellPrice := (100+dMargin)/100 * dBuyPrice
@@ -895,9 +904,6 @@ begin
       CDSDetail.FieldByName('Margin').AsFloat       := dMargin;
       CDSDetail.FieldByName('SellPrice').AsFloat    := dSellPrice;
       CDSDetail.FieldByName('SellNetPrice').AsFloat := dSellPrice - CDSDetail.FieldByName('SellDiscRp').AsFloat;
-      if CDSHeader.FieldByName('IsBKP').AsInteger = 1 then
-        CDSDetail.FieldByName('SellPricePPN').AsFloat := CDSDetail.FieldByName('SellNetPrice').AsFloat * 1.1;
-
       CDSDetail.Post;
       CDSDetail.Next;
     end;

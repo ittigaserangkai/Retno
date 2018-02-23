@@ -26,8 +26,8 @@ type
     cxGridColCPSatuan: TcxGridColumn;
     cxGridColCPCOGS: TcxGridColumn;
     cxGridColCPDisc: TcxGridColumn;
-    cxGridColCPSellpriceDisc: TcxGridColumn;
-    cxGridColCPSellPriceDiscPPN: TcxGridColumn;
+    cxGridColCPSellprice: TcxGridColumn;
+    cxGridColCPSellPriceDisc: TcxGridColumn;
     cxGridColCPMarkUp: TcxGridColumn;
     cxGridColCPBHJMarkUp: TcxGridColumn;
     cxGridColCPPPN: TcxGridColumn;
@@ -49,7 +49,7 @@ type
     edNamaBarang: TcxTextEdit;
     cxGridColCPPLUID: TcxGridColumn;
     cxGridColCPBHJSellpriceDisc: TcxGridColumn;
-    cxGridColCPBHJSellpriceDiscPPN: TcxGridColumn;
+    cxGridColCPBHJSellprice: TcxGridColumn;
     cxGridColCPTglInput: TcxGridColumn;
     cxGridColCPCrazyPrice_ID: TcxGridColumn;
     lblPPN: TLabel;
@@ -99,6 +99,7 @@ type
     procedure LoadDataBarang(ARecordIndex : Integer; AKode : String);
     procedure LookUpBarang;
     procedure LookUpORG;
+    procedure ShowPanelInfo(AFocusedRecord: TcxCustomGridRecord);
 
     property CDSBarang: TClientDataset read GetCDSBarang write FCDSBarang;
     property CDSSatuan: TClientDataset read GetCDSSatuan write FCDSSatuan;
@@ -107,6 +108,7 @@ type
     function IsBisaHapus: Boolean;
     procedure LoadData(AID : String);
     { Public declarations }
+  published
   end;
 
 var
@@ -227,40 +229,42 @@ var
   dDisc: Double;
   dMU: Double;
   dPPN: Double;
+//  dSellprice: Double;
   dSellpriceDisc: Double;
-  dSellpriceDiscPPN: Double;
 begin
   inherited;
   dPPN              := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPPPN.Index);
 
   dMU               := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPMarkUp.Index);
   dCOGS             := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPCOGS.Index);
+  dCOGS             := dCOGS * (100+dPPN)/100;
   dDisc             := cxGridTableCP.Double(cxGridTableCP.RecordIndex, cxGridColCPDisc.Index);
 
-  dSellpriceDiscPPN := 0;
+  dSellpriceDisc    := 0;
 
 
   if ACol = cxGridColCPDisc.Index then
   begin
     dDisc             := ANominal;
-    dSellpriceDiscPPN := (dCOGS * (100 - dDisc)/100) * (100 + dMU) / 100;
+    dSellpriceDisc    := (dCOGS * (100 - dDisc)/100) * (100 + dMU) / 100;
   end else if ACol = cxGridColCPMarkUp.Index then
   begin
     dMU               := ANominal;
-    dSellpriceDiscPPN := (dCOGS * (100 - dDisc)/100) * (100 + dMU) / 100;
-  end else if ACol = cxGridColCPSellPriceDiscPPN.Index then
+    dSellpriceDisc    := (dCOGS * (100 - dDisc)/100) * (100 + dMU) / 100;
+  end else if ACol = cxGridColCPSellPriceDisc.Index then
   begin
-    dSellpriceDiscPPN := ANominal;
-    dMU               := ((dSellpriceDiscPPN * 100 * 100) / (dCOGS * (100 - dDisc))) - 100;
+    dSellpriceDisc    := ANominal;
+    dMU               := ((dSellpriceDisc * 100 * 100) / (dCOGS * (100 - dDisc))) - 100;
   end;
 
-  dSellpriceDisc    := dSellpriceDiscPPN / ((dPPN + 100) / 100);
+//  dSellpriceDisc    := dSellpriceDiscPPN / ((dPPN + 100) / 100);
 
   cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPSellpriceDisc.Index, dSellpriceDisc);
-  cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPSellPriceDiscPPN.Index, dSellpriceDiscPPN);
+//  cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPSellPrice.Index, dSellprice);
   cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPMarkUp.Index, dMU);
   cxGridTableCP.SetValue(cxGridTableCP.RecordIndex, cxGridColCPDisc.Index, dDisc);
 
+  ShowPanelInfo(cxGridTableCP.Controller.FocusedRecord);
 end;
 
 procedure TfrmDialogCrazyPrice.cxGridColCPKodePropertiesButtonClick(
@@ -347,7 +351,7 @@ begin
   if VarIsNull(DisplayValue) then
     Exit;
 
-  HitungNilaiPerBaris(cxGridTableCP.RecordIndex, cxGridColCPSellPriceDiscPPN.Index, DisplayValue);
+  HitungNilaiPerBaris(cxGridTableCP.RecordIndex, cxGridColCPSellPriceDisc.Index, DisplayValue);
 
 end;
 
@@ -406,7 +410,7 @@ begin
                             cxGridColCPPeriodeAkhir.Index,
                             cxGridColCPMarkUp.Index,
                             cxGridColCPSellpriceDisc.Index,
-                            cxGridColCPSellPriceDiscPPN.Index,
+//                            cxGridColCPSellPriceDiscPPN.Index,
                             cxGridColCPNamaBarang.Index];
 end;
 
@@ -415,32 +419,33 @@ procedure TfrmDialogCrazyPrice.cxGridTableCPFocusedRecordChanged(Sender:
     TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  if AFocusedRecord = nil then
-    Exit;
-
-  if VarIsNull(AFocusedRecord.Values[cxGridColCPNamaBarang.Index]) then
-  begin
-    edNamaBarang.Text     := '';
-    edOrganisasi.Text     := '';
-    edMarkUpSebelum.Value := 0;
-    edMarkUpSesudah.Value := 0;
-
-    edHJBelumDisc.Value   := 0;
-    edHJSetelahDisc.Value := 0;
-    edHJPPN.Value         := 0;
-    edPPN.Value           := 0;
-  end else begin
-    edNamaBarang.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNamaBarang.Index);
-    edOrganisasi.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNama.Index);
-    edMarkUpSebelum.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJMarkUp.Index);
-    edMarkUpSesudah.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPMarkUp.Index);
-
-    edHJBelumDisc.Value   := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJSellpriceDisc.Index);
-    edHJSetelahDisc.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPSellpriceDisc.Index);
-
-    edHJPPN.Value         := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPSellPriceDiscPPN.Index);
-    edPPN.Value           := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPPPN.Index);
-  end;
+  ShowPanelInfo(AFocusedRecord);
+//  if AFocusedRecord = nil then
+//    Exit;
+//
+//  if VarIsNull(AFocusedRecord.Values[cxGridColCPNamaBarang.Index]) then
+//  begin
+//    edNamaBarang.Text     := '';
+//    edOrganisasi.Text     := '';
+//    edMarkUpSebelum.Value := 0;
+//    edMarkUpSesudah.Value := 0;
+//
+//    edHJBelumDisc.Value   := 0;
+//    edHJSetelahDisc.Value := 0;
+//    edHJPPN.Value         := 0;
+//    edPPN.Value           := 0;
+//  end else begin
+//    edNamaBarang.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNamaBarang.Index);
+//    edOrganisasi.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNama.Index);
+//    edMarkUpSebelum.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJMarkUp.Index);
+//    edMarkUpSesudah.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPMarkUp.Index);
+//
+//    edHJBelumDisc.Value   := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJSellprice.Index);
+//    edHJSetelahDisc.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJSellpriceDisc.Index);
+//
+//    edHJPPN.Value         := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPSellPriceDisc.Index);
+//    edPPN.Value           := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPPPN.Index);
+//  end;
 end;
 
 function TfrmDialogCrazyPrice.GetCDSBarang: TClientDataset;
@@ -515,7 +520,7 @@ begin
       Exit;
     end;
 
-    if  cxGridTableCP.Double(i, cxGridColCPSellPriceDiscPPN.Index) <= 0 then
+    if  cxGridTableCP.Double(i, cxGridColCPSellPriceDisc.Index) <= 0 then
     begin
       TAppUtils.Warning(sPrefix + ' Harga Jual Belum Diset Dengan Benar');
       Exit;
@@ -608,8 +613,8 @@ begin
 
 //  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPPPN.Index, ABHJ.BHJ_PPN);
   cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJMarkUp.Index, ABHJ.BHJ_MARK_UP);
-  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJSellpriceDiscPPN.Index, ABHJ.BHJ_SELL_PRICE);
-  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJSellpriceDisc.Index, ABHJ.BHJ_SELL_PRICE_EX_PPN);
+  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJSellprice.Index, ABHJ.BHJ_SELL_PRICE);
+  cxGridTableCP.SetValue(ARecordIndex, cxGridColCPBHJSellpriceDisc.Index, ABHJ.BHJ_SELL_PRICE_DISC);
 
 end;
 
@@ -652,6 +657,37 @@ begin
   finally
     if lOrg  = nil then
       lOrg.Free;
+  end;
+end;
+
+procedure TfrmDialogCrazyPrice.ShowPanelInfo(AFocusedRecord:
+    TcxCustomGridRecord);
+begin
+  if AFocusedRecord = nil then
+    Exit;
+
+  if VarIsNull(AFocusedRecord.Values[cxGridColCPNamaBarang.Index]) then
+  begin
+    edNamaBarang.Text     := '';
+    edOrganisasi.Text     := '';
+    edMarkUpSebelum.Value := 0;
+    edMarkUpSesudah.Value := 0;
+
+    edHJBelumDisc.Value   := 0;
+    edHJSetelahDisc.Value := 0;
+    edHJPPN.Value         := 0;
+    edPPN.Value           := 0;
+  end else begin
+    edNamaBarang.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNamaBarang.Index);
+    edOrganisasi.Text     := cxGridTableCP.Text(AFocusedRecord.RecordIndex,cxGridColCPNama.Index);
+    edMarkUpSebelum.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJMarkUp.Index);
+    edMarkUpSesudah.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPMarkUp.Index);
+
+    edHJBelumDisc.Value   := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJSellprice.Index);
+    edHJSetelahDisc.Value := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPBHJSellpriceDisc.Index);
+
+    edHJPPN.Value         := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPSellPriceDisc.Index);
+    edPPN.Value           := cxGridTableCP.Double(AFocusedRecord.RecordIndex,cxGridColCPPPN.Index);
   end;
 end;
 
