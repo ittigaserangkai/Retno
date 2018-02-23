@@ -15,7 +15,7 @@ inherited frmStockProduct: TfrmStockProduct
       Left = 3
       Top = 3
       Width = 692
-      Height = 86
+      Height = 62
       Align = alTop
       TabOrder = 0
       object Label2: TLabel
@@ -42,7 +42,7 @@ inherited frmStockProduct: TfrmStockProduct
       object cxLookupGudang: TcxExtLookupComboBox
         Tag = 1
         Left = 75
-        Top = 53
+        Top = 29
         Hint = 'Klik F5 untuk membuat Master Baru'
         ParentShowHint = False
         Properties.CharCase = ecUpperCase
@@ -57,7 +57,7 @@ inherited frmStockProduct: TfrmStockProduct
       end
       object ckGudang: TCheckBox
         Left = 17
-        Top = 57
+        Top = 33
         Width = 56
         Height = 17
         Caption = 'Gudang'
@@ -66,9 +66,10 @@ inherited frmStockProduct: TfrmStockProduct
       end
       object cxLookupSupplier: TcxExtLookupComboBox
         Tag = 1
-        Left = 75
-        Top = 29
+        Left = 491
+        Top = 4
         Hint = 'Klik F5 untuk membuat Master Baru'
+        TabStop = False
         ParentShowHint = False
         Properties.CharCase = ecUpperCase
         Properties.ImmediatePost = True
@@ -78,6 +79,7 @@ inherited frmStockProduct: TfrmStockProduct
         StyleFocused.LookAndFeel.NativeStyle = False
         StyleHot.LookAndFeel.NativeStyle = False
         TabOrder = 3
+        Visible = False
         Width = 323
       end
       object cxLookupGroup: TcxExtLookupComboBox
@@ -97,17 +99,19 @@ inherited frmStockProduct: TfrmStockProduct
         Width = 171
       end
       object ckSupplier: TCheckBox
-        Left = 17
-        Top = 33
+        Left = 433
+        Top = 8
         Width = 56
         Height = 17
+        TabStop = False
         Caption = 'Supplier'
         TabOrder = 5
+        Visible = False
         OnClick = ckSupplierClick
       end
       object chkSaldoNol: TCheckBox
         Left = 425
-        Top = 57
+        Top = 33
         Width = 104
         Height = 17
         Caption = 'Tampilkan Saldo 0'
@@ -126,13 +130,15 @@ inherited frmStockProduct: TfrmStockProduct
     object cxGrid: TcxGrid
       AlignWithMargins = True
       Left = 6
-      Top = 92
+      Top = 68
       Width = 686
-      Height = 275
+      Height = 299
       Align = alClient
       TabOrder = 1
       LockedStateImageOptions.Text = 'Mohon ditunggu...'
       LookAndFeel.NativeStyle = False
+      ExplicitTop = 92
+      ExplicitHeight = 275
       object cxGridView: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         FindPanel.DisplayMode = fpdmManual

@@ -170,7 +170,7 @@ begin
   CDSDetail.FieldByName('POTITEM_TOTAL').AsFloat    := dTotal;
   CDSDetail.Post;
 
-  edTotal.EditValue := cxGridDBTablePOTrader.DataController.GetFooterSummary(2);
+  edTotal.EditValue := cxGridDBTablePOTrader.GetFooterSummary(cxGridColPODTotal);
 end;
 
 procedure TfrmDialogPOFromTrader.cxGridColPODKodePropertiesEditValueChanged(
@@ -494,6 +494,7 @@ begin
   ModPOTrader.POT_TOP           := 0;//edTOP.EditValue;
   ModPOTrader.POT_UNIT          := TModUnit.CreateID(TRetno.UnitStore.ID);
   ModPOTrader.POT_VALID_DATE    := IncDay(ModPOTrader.POT_DATE,7);
+  ModPOTrader.POT_TOTAL         := cxGridDBTablePOTrader.GetFooterSummary(cxGridColPODTotal);
 
   ModPOTrader.POTraderItems.Clear;
   CDSDetail.First;
@@ -508,7 +509,7 @@ begin
     ModPOTrader.POT_DISC     := ModPOTrader.POT_DISC + CDSDetail.FieldByName('POTITEM_DISCRP').AsFloat;
     ModPOTrader.POT_PPN      := ModPOTrader.POT_PPN + CDSDetail.FieldByName('POTITEM_PPN').AsFloat;
     ModPOTrader.POT_SUBTOTAL := ModPOTrader.POT_SUBTOTAL + CDSDetail.FieldByName('POTITEM_TOTAL').AsFloat;
-    ModPOTrader.POT_TOTAL    := ModPOTrader.POT_SUBTOTAL - ModPOTrader.POT_DISC + ModPOTrader.POT_PPN;
+//    ModPOTrader.POT_TOTAL    := ModPOTrader.POT_TOTAL(ModPOTrader.POT_SUBTOTAL - ModPOTrader.POT_DISC + ModPOTrader.POT_PPN);
     CDSDetail.Next;
   end;
 end;

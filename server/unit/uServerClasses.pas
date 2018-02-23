@@ -279,7 +279,10 @@ type
 
   TCrudBarcodeUsage = class(TCrud)
   protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
+    function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
+  public
   published
   end;
 
@@ -518,20 +521,21 @@ function TCrud.SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
 var
   I: Integer;
 begin
-//  Result := False;
+  Result := False;
 
   try
     for I := 0 to AObjectList.Count - 1 do
     begin
-      SaveToDBTrans(AObjectList[i], False);
+      if not SaveToDBTrans(AObjectList[i], False) then
+        Exit;
     end;
 
     TDBUtils.Commit;
     Result := True;
   except
+    TDBUtils.RollBack;
     raise;
   end;
-
 end;
 
 function TCrud.SaveToDB(AObject: TModApp): Boolean;
@@ -1094,7 +1098,7 @@ begin
   sSQL   := 'select SETTINGAPP_ID from SETTINGAPP' +
             ' where AUT$UNIT_ID = ' + QuotedStr(ACabang.ID);
 
-  with TDBUtils.OpenDataset(sSQL) do
+  with TDBUtils.OpenQuery(sSQL) do
   begin
     try
       if Fields[0].AsString <> '' then
@@ -2351,16 +2355,119 @@ begin
   Result := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
+function TCrudBarcodeUsage.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lModBU: TModBarcodeUsage;
+  lSS: TStrings;
+  S: string;
+begin
+  Result := False;
+  lModBU := TModBarcodeUsage(AObject);
+
+  lSS := TStringList.Create;
+  Try
+    for i := 0 to lModBU.BarcodeUsageItems.Count-1 do
+    begin
+      lSS.Append(
+        TDBUtils.GetSQLUpdate(lModBU.BarcodeUsageItems[i].BUI_BarcodeRequest, ' BR_IS_INVOICED = 1 ')
+      );
+    end;
+    TDBUtils.ExecuteSQL(lSS, False);
+    Result := True;
+  Finally
+    lSS.Free;
+  End;
+end;
+
+function TCrudBarcodeUsage.BeforeDeleteFromDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lCRUD: TCrud;
+  lModBU: TModBarcodeUsage;
+  lSS: TStrings;
+begin
+  Result := False;
+  lModBU := TModBarcodeUsage(AObject);
+
+  if lModBU.BU_AR <> nil then
+  begin
+    lModBU.BU_AR.Reload();
+    if lModBU.BU_AR.AR_PAID <> 0 then
+      Raise Exception.Create('AR telah dibayar, transaksi tidak bisa dihapus');
+
+    lSS := TStringList.Create;
+    Try
+      for i := 0 to lModBU.BarcodeUsageItems.Count-1 do
+      begin
+        lSS.Append(
+          TDBUtils.GetSQLUpdate(lModBU.BarcodeUsageItems[i].BUI_BarcodeRequest, ' BR_IS_INVOICED = 0 ')
+        );
+      end;
+      TDBUtils.ExecuteSQL(lSS, False);
+    Finally
+      lSS.Free;
+    End;
+
+    lCRUD := TCrud.Create(nil);
+    try
+      if not lCRUD.DeleteFromDBTrans(lModBU.BU_AR, False) then
+        Exit;
+    finally
+      lCRUD.Free;
+    end;
+  end;
+
+  Result := True;
+end;
+
 function TCrudBarcodeUsage.BeforeSaveToDB(AObject: TModApp): Boolean;
 var
   lModBU: TModBarcodeUsage;
+  lCRUD: TCrud;
+  lCRUDSetApp: TCrudSettingApp;
+  lModRek: TModRekening;
+  lModSetApp: TModSettingApp;
 begin
+  Result := False;
   lModBU := TModBarcodeUsage(AObject);
 
   if lModBU.BU_NO = '' then
-    lModBU.BU_NO := GenerateNo(TModBarcodeUsage.ClassName);
+    lModBU.BU_NO := 'BU-' + GenerateNo(TModBarcodeUsage.ClassName);
 
-  Result := True;
+  if lModBU.BU_SUPMG = nil then
+    Raise Exception.Create('Organization not definend');
+
+  if lModBU.BU_AR = nil then
+    lModBU.BU_AR := TModAR.Create;
+
+  lCRUD       := TCrud.Create(nil);
+  lCRUDSetApp := TCrudSettingApp.Create(nil);
+  lModSetApp  := lCRUDSetApp.RetrieveByCabang(lModBU.BU_UNIT);
+  lModRek     := TModRekening.Create;
+  try
+    lModBU.BU_AR.AR_ClassRef     := lModBU.ClassName;
+    lModBU.BU_AR.AR_Description  := lModBU.BU_KETERANGAN;
+    lModBU.BU_AR.AR_DueDate      := lModBU.BU_TANGGAL + 7;
+    lModBU.BU_AR.AR_ORGANIZATION := lModBU.BU_SUPMG;
+    lModBU.BU_AR.AR_REFNUM       := lModBU.BU_NO;
+    lModBU.BU_AR.AR_TOTAL        := lModBU.BU_TOTAL;
+    lModBU.BU_AR.AR_TRANSDATE    := lModBU.BU_TANGGAL;
+
+    lModRek := lCRUD.RetrieveByCode(TModRekening.ClassName, lModSetApp.REKENING_PIUTANG_LABEL) as TModRekening;
+    lModBU.BU_AR.AR_REKENING     := lModRek;
+
+    if lModBU.BU_AR.AR_PAID > 0then
+      raise Exception.Create('AR Sudah Terbayar, Tidak Bisa Diedit');
+
+    if lCRUD.SaveToDBTrans(lModBU.BU_AR, False) then
+      Result := True;
+  finally
+    lModRek.Free;
+    lModSetApp.Free;
+    lCRUDSetApp.Free;
+    lCRUD.Free;
+  end;
 end;
 
 function TCrudHistoryBarang.AfterSaveToDB(AObject: TModApp): Boolean;
