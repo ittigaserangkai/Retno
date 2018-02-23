@@ -79,7 +79,7 @@ begin
         lModBarcodeUsage := TModBarcodeUsage.Create;
         try
           lModBarcodeUsage := DMClient.CrudClient.RetrieveByCode(TModBarcodeUsage.ClassName, edNoBukti.EditValue) as TModBarcodeUsage;
-          DMClient.CrudClient.DeleteFromDB(lModBarcodeUsage);
+          DMClient.CRUDBarcodeUsageClient.DeleteFromDB(lModBarcodeUsage);
           TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
           ModalResult := mrOk;
         finally

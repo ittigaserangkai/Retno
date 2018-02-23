@@ -279,6 +279,7 @@ type
 
   TCrudBarcodeUsage = class(TCrud)
   protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
@@ -2355,10 +2356,37 @@ begin
   Result := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
+function TCrudBarcodeUsage.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lModBU: TModBarcodeUsage;
+  lSS: TStrings;
+  S: string;
+begin
+  Result := False;
+  lModBU := TModBarcodeUsage(AObject);
+
+  lSS := TStringList.Create;
+  Try
+    for i := 0 to lModBU.BarcodeUsageItems.Count-1 do
+    begin
+      lSS.Append(
+        TDBUtils.GetSQLUpdate(lModBU.BarcodeUsageItems[i].BUI_BarcodeRequest, ' BR_IS_INVOICED = 1 ')
+      );
+    end;
+    TDBUtils.ExecuteSQL(lSS, False);
+    Result := True;
+  Finally
+    lSS.Free;
+  End;
+end;
+
 function TCrudBarcodeUsage.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
+  i: Integer;
   lCRUD: TCrud;
   lModBU: TModBarcodeUsage;
+  lSS: TStrings;
 begin
   Result := False;
   lModBU := TModBarcodeUsage(AObject);
@@ -2368,6 +2396,19 @@ begin
     lModBU.BU_AR.Reload();
     if lModBU.BU_AR.AR_PAID <> 0 then
       Raise Exception.Create('AR telah dibayar, transaksi tidak bisa dihapus');
+
+    lSS := TStringList.Create;
+    Try
+      for i := 0 to lModBU.BarcodeUsageItems.Count-1 do
+      begin
+        lSS.Append(
+          TDBUtils.GetSQLUpdate(lModBU.BarcodeUsageItems[i].BUI_BarcodeRequest, ' BR_IS_INVOICED = 0 ')
+        );
+      end;
+      TDBUtils.ExecuteSQL(lSS, False);
+    Finally
+      lSS.Free;
+    End;
 
     lCRUD := TCrud.Create(nil);
     try
