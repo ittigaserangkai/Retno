@@ -5,6 +5,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
   ClientHeight = 611
   ClientWidth = 968
   Constraints.MinHeight = 32
+  ExplicitLeft = -242
   ExplicitTop = -205
   ExplicitWidth = 984
   ExplicitHeight = 650
@@ -560,7 +561,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         LookAndFeel.NativeStyle = False
         RootLevelOptions.DetailTabsPosition = dtpTop
         object cxGrdDBDetail: TcxGridDBTableView
-          PopupMenu = pmDetail
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
