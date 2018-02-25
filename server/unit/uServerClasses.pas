@@ -162,10 +162,10 @@ type
     FCRUD: TCrud;
   protected
     function GetCRUD: TCrud;
-    function ModToJSON(aModApp: TModApp): TJSONObject;
     property CRUD: TCrud read GetCRUD write FCRUD;
   public
-    function Test: TJSONObject;
+    function TestGet: TJSONObject;
+    function TestPost: TJSONObject;
   end;
 
   TCrudCustomerInvoice = class(TCrud)
@@ -1554,12 +1554,7 @@ begin
   Result := FCRUD;
 end;
 
-function TJSONCRUD.ModToJSON(aModApp: TModApp): TJSONObject;
-begin
-  Result := TJSONObject.Create;
-end;
-
-function TJSONCRUD.Test: TJSONObject;
+function TJSONCRUD.TestGet: TJSONObject;
 var
   lModCNR : TModCNRecv;
   sID: string;
@@ -1569,6 +1564,27 @@ begin
   try
     Result := TJSONUtils.ModelToJSON(lModCNR);
   finally
+    lModCNR.Free;
+  end;
+end;
+
+function TJSONCRUD.TestPost: TJSONObject;
+var
+  lJSO: TJSONObject;
+  lModCNR : TModCNRecv;
+  lModCNRConvert: TModCNRecv;
+  sID: string;
+begin
+  sID := 'D21144E2-31DF-4995-BECC-4D0E5DD1DB48';
+  lModCNR := Self.CRUD.Retrieve(TModCNRecv.ClassName, sID) as TModCNRecv;
+  lModCNRConvert := nil;
+  try
+    lJSO := TJSONUtils.ModelToJSON(lModCNR);
+    //convert back to Object
+    lModCNRConvert := TJSONUtils.JSONToModel(lJSO, TModCNRecv) as TModCNRecv;
+    Result := TJSONUtils.ModelToJSON(lModCNRConvert);
+  finally
+    FreeAndNil(lModCNRConvert);
     lModCNR.Free;
   end;
 end;
