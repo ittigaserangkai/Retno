@@ -43,6 +43,11 @@ inherited frmPORevision: TfrmPORevision
             Format = ',#.##;(,#.##)'
             Kind = skSum
             Column = cxgrdclmnPODTotal
+          end
+          item
+            Format = ',#;(,#)'
+            Kind = skSum
+            Column = cxgrdclmnPODJumlah
           end>
         DataController.Summary.SummaryGroups = <>
         DataController.OnAfterPost = cxGridTablePODetilDataControllerAfterPost
@@ -174,6 +179,9 @@ inherited frmPORevision: TfrmPORevision
         object cxgrdclmnPODIsBKP: TcxGridColumn
           Visible = False
         end
+        object cxgrdclmnPODBS: TcxGridColumn
+          Visible = False
+        end
       end
       object cxgrdlvlGridPODetil: TcxGridLevel
         GridView = cxGridTablePODetil
@@ -298,6 +306,9 @@ inherited frmPORevision: TfrmPORevision
       object cxTSPOHeader: TcxTabSheet
         Caption = 'Revisi Purchase Order'
         ImageIndex = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lblPOLama: TLabel
           Left = 18
           Top = 5
@@ -498,27 +509,21 @@ inherited frmPORevision: TfrmPORevision
       ExplicitWidth = 934
       inherited lbCTRLEnter: TLabel
         Left = 759
-        Height = 15
         ExplicitLeft = 759
       end
       inherited lbEscape: TLabel
         Left = 850
-        Height = 15
         ExplicitLeft = 850
-      end
-      inherited lbCTRLDel: TLabel
-        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 683
-        Height = 15
         ExplicitLeft = 683
       end
     end
   end
   inherited actlstMasterDialog: TActionList
-    Left = 648
-    Top = 200
+    Left = 624
+    Top = 201
     inherited actSave: TAction
       OnExecute = actSaveExecute
     end

@@ -6,7 +6,6 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
   ClientWidth = 861
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitTop = 4
   ExplicitWidth = 877
   ExplicitHeight = 526
   PixelsPerInch = 96
@@ -25,37 +24,44 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       Color = 15198183
       TabOrder = 0
       object lbl1: TLabel
-        Left = 16
+        Left = 5
         Top = 38
         Width = 49
         Height = 16
         Caption = 'SUPPLIER '
       end
       object lbl3: TLabel
-        Left = 33
+        Left = 19
         Top = 64
         Width = 32
         Height = 16
         Caption = 'HARGA'
       end
       object lbl6: TLabel
-        Left = 50
+        Left = 36
         Top = 13
         Width = 15
         Height = 16
         Caption = 'NO'
       end
       object Label2: TLabel
-        Left = 224
+        Left = 196
         Top = 13
         Width = 44
         Height = 16
         Caption = 'TANGGAL'
       end
+      object Label1: TLabel
+        Left = 404
+        Top = 13
+        Width = 63
+        Height = 16
+        Caption = 'KETERANGAN'
+      end
       object edtSupplierName: TEdit
-        Left = 202
+        Left = 182
         Top = 35
-        Width = 216
+        Width = 203
         Height = 22
         TabStop = False
         Ctl3D = False
@@ -66,7 +72,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       end
       object edtBarNo: TEdit
         Tag = 3
-        Left = 75
+        Left = 59
         Top = 10
         Width = 121
         Height = 22
@@ -79,14 +85,14 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
       end
       object dtTgl: TcxDateEdit
         Tag = 3
-        Left = 288
+        Left = 255
         Top = 9
         Properties.ShowTime = False
         TabOrder = 1
         Width = 130
       end
       object edbSupplierCode: TcxButtonEdit
-        Left = 75
+        Left = 59
         Top = 34
         Properties.Buttons = <
           item
@@ -99,7 +105,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         Width = 121
       end
       object curredtUnitPrice: TcxCurrencyEdit
-        Left = 75
+        Left = 59
         Top = 59
         EditValue = 0.000000000000000000
         Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -108,8 +114,8 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
         Width = 121
       end
       object grpPurchaseOrder: TGroupBox
-        Left = 445
-        Top = 1
+        Left = 674
+        Top = 0
         Width = 180
         Height = 83
         Caption = 'Insert Received PO'
@@ -153,6 +159,13 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
           OnKeyDown = edPOKeyDown
           Width = 121
         end
+      end
+      object memDesc: TcxMemo
+        Left = 479
+        Top = 9
+        TabOrder = 6
+        Height = 74
+        Width = 189
       end
     end
     object cxgrdBR: TcxGrid
@@ -227,6 +240,7 @@ inherited frmDialogBarcodeRequest: TfrmDialogBarcodeRequest
           Caption = 'Barcode'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          Properties.OnValidate = cxGridTableColBarcodePropertiesValidate
           Width = 114
         end
         object cxGridTableColQTY: TcxGridColumn

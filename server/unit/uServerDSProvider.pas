@@ -29,7 +29,7 @@ type
         TDataset;
     function Bank_GetDSLookup: TDataSet;
     function Bank_GetDSOverview: TDataSet;
-    function BarangBySUPMG_GetDSLookup(ASupMG: String): TDataSet;
+    function BarangBarcodeBySupMg_GetDSLookup(ASupMG: String): TDataSet;
     function BarangGalon_GetDSLookup: TDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: String): TDataSet;
     function BarangSupp_GetDSLookup(aMerchandise: String): TDataSet;
@@ -403,23 +403,13 @@ begin
   Result := TDBUtils.OpenQuery(S);
 end;
 
-function TDSProvider.BarangBySUPMG_GetDSLookup(ASupMG: String): TDataSet;
+function TDSProvider.BarangBarcodeBySupMg_GetDSLookup(ASupMG: String): TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT A.BARANG_ID,'
-      +' A.BRG_CODE, A.BRG_CATALOG,'
-      +' I.MERK_NAME, A.BRG_NAME, B.MERCHAN_NAME, C.MERCHANGRUP_NAME,'
-      +' E.SUBGRUP_NAME'
-      +' FROM BARANG A'
-      +' INNER JOIN REF$MERCHANDISE B ON A.REF$MERCHANDISE_ID = B.REF$MERCHANDISE_ID'
-      +' INNER JOIN REF$MERCHANDISE_GRUP C ON C.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID'
-      +' LEFT JOIN REF$KATEGORI D ON D.REF$KATEGORI_ID=A.REF$KATEGORI_ID'
-      +' LEFT JOIN REF$SUB_GRUP E ON E.REF$SUB_GRUP_ID=D.REF$SUB_GRUP_ID'
-      +' INNER JOIN MERK I ON I.MERK_ID = A.MERK_ID'
-      +' INNER JOIN SUPLIER_MERCHAN_GRUP J on J.REF$MERCHANDISE_GRUP_ID = A.REF$MERCHANDISE_GRUP_ID';
+  S := 'SELECT * FROM V_BARANG_BARCODE';
   if ASupMG <> '' then
-    S := S + ' WHERE J.SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMG);
+    S := S + ' WHERE SUPLIER_MERCHAN_GRUP_ID = ' + QuotedStr(ASupMG);
 
   Result := TDBUtils.OpenQuery(S);
 end;

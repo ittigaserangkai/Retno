@@ -32,25 +32,41 @@ inherited frmBarcodeRequest: TfrmBarcodeRequest
           ExplicitWidth = 870
           ExplicitHeight = 312
           inherited cxGridView: TcxGridDBTableView
+            object cxGridViewColumn7: TcxGridDBColumn
+              DataBinding.FieldName = 'UNIT'
+              Width = 111
+            end
             object cxGridViewColumn1: TcxGridDBColumn
               DataBinding.FieldName = 'NO'
+              Width = 117
             end
             object cxGridViewColumn2: TcxGridDBColumn
               DataBinding.FieldName = 'TANGGAL'
               PropertiesClassName = 'TcxDateEditProperties'
               Properties.ShowTime = False
+              Width = 87
             end
             object cxGridViewColumn3: TcxGridDBColumn
               DataBinding.FieldName = 'KODE'
+              Width = 59
             end
             object cxGridViewColumn4: TcxGridDBColumn
               DataBinding.FieldName = 'NAMA'
             end
             object cxGridViewColumn5: TcxGridDBColumn
               DataBinding.FieldName = 'TOTAL'
+              PropertiesClassName = 'TcxCurrencyEditProperties'
+              Properties.DisplayFormat = ',0.00;(,0.00)'
+              Width = 93
             end
             object cxGridViewColumn6: TcxGridDBColumn
               DataBinding.FieldName = 'COLIE'
+              PropertiesClassName = 'TcxCurrencyEditProperties'
+              Properties.DisplayFormat = ',0.00;(,0.00)'
+              Width = 70
+            end
+            object cxGridViewColumn8: TcxGridDBColumn
+              DataBinding.FieldName = 'KETERANGAN'
             end
           end
         end
@@ -125,6 +141,7 @@ inherited frmBarcodeRequest: TfrmBarcodeRequest
       ExplicitWidth = 874
       inherited lbEscape: TLabel
         Left = 800
+        Height = 17
         ExplicitLeft = 800
       end
     end

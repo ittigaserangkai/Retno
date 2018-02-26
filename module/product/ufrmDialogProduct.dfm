@@ -636,7 +636,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 2
             Transparent = True
             Visible = False
-            ExplicitTop = 128
+            ExplicitTop = 149
           end
           object cbActive: TcxCheckBox
             AlignWithMargins = True
@@ -677,7 +677,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 4
             Transparent = True
-            ExplicitTop = 71
+            ExplicitTop = 92
           end
           object cbisDeposit: TcxCheckBox
             AlignWithMargins = True
@@ -691,7 +691,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 6
             Transparent = True
-            ExplicitTop = 116
+            ExplicitTop = 137
           end
           object chkIsDiscAMC: TcxCheckBox
             AlignWithMargins = True
@@ -705,7 +705,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             Properties.ImmediatePost = True
             TabOrder = 5
             Transparent = True
-            ExplicitTop = 95
+            ExplicitTop = 116
           end
           object chkIsBasic: TcxCheckBox
             AlignWithMargins = True
@@ -733,8 +733,7 @@ inherited frmDialogProduct: TfrmDialogProduct
             TabOrder = 7
             Transparent = True
             Visible = False
-            ExplicitLeft = 7
-            ExplicitTop = 170
+            ExplicitTop = 191
           end
           object chkPOSLookup: TcxCheckBox
             AlignWithMargins = True
@@ -1348,8 +1347,7 @@ inherited frmDialogProduct: TfrmDialogProduct
               State = cbsChecked
               TabOrder = 3
               Transparent = True
-              ExplicitLeft = 3
-              ExplicitTop = 138
+              ExplicitTop = 95
             end
             object ckIsSOBlacklist: TcxCheckBox
               AlignWithMargins = True
@@ -2283,14 +2281,23 @@ inherited frmDialogProduct: TfrmDialogProduct
       object cxTabSheet1: TcxTabSheet
         Caption = 'F7 [Alokasi Stock]'
         Enabled = False
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object cxTabSheet2: TcxTabSheet
         Caption = 'F6 [History PO]'
         Enabled = False
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object tsImport: TcxTabSheet
         Caption = 'Import Data'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel1: TPanel
           Left = 0
           Top = 0

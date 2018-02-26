@@ -12,7 +12,8 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxPC, Datasnap.DBClient, uAppUtils, uDXUtils, uModBarang, uModSatuan,
-  uModBarcodeRequest, uDBUtils, uDMClient, System.DateUtils, uRetnoUnit;
+  uModBarcodeRequest, uDBUtils, uDMClient, System.DateUtils, uRetnoUnit,
+  cxCurrencyEdit;
 
 type
   TfrmBarcodeRequest = class(TfrmMasterBrowse)
@@ -23,6 +24,8 @@ type
     cxGridViewColumn4: TcxGridDBColumn;
     cxGridViewColumn5: TcxGridDBColumn;
     cxGridViewColumn6: TcxGridDBColumn;
+    cxGridViewColumn7: TcxGridDBColumn;
+    cxGridViewColumn8: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
