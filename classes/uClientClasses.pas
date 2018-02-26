@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/26/2018 10:11:02 AM
+// 2/26/2018 3:20:22 PM
 //
 
 unit uClientClasses;
@@ -132,8 +132,8 @@ type
     FBank_GetDSLookupCommand_Cache: TDSRestCommand;
     FBank_GetDSOverviewCommand: TDSRestCommand;
     FBank_GetDSOverviewCommand_Cache: TDSRestCommand;
-    FBarangBySUPMG_GetDSLookupCommand: TDSRestCommand;
-    FBarangBySUPMG_GetDSLookupCommand_Cache: TDSRestCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand: TDSRestCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangGalon_GetDSLookupCommand: TDSRestCommand;
     FBarangGalon_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangQuotation_GetDSLookupCommand: TDSRestCommand;
@@ -441,8 +441,8 @@ type
     function Bank_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Bank_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Bank_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function BarangBySUPMG_GetDSLookup(ASupMG: string; const ARequestFilter: string = ''): TDataSet;
-    function BarangBySUPMG_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarangBarcodeBySupMg_GetDSLookup(ASupMG: string; const ARequestFilter: string = ''): TDataSet;
+    function BarangBarcodeBySupMg_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangGalon_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function BarangGalon_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
@@ -2722,13 +2722,13 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_BarangBySUPMG_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
+  TDSProvider_BarangBarcodeBySupMg_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ASupMG'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_BarangBySUPMG_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
+  TDSProvider_BarangBarcodeBySupMg_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ASupMG'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -9632,35 +9632,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FBank_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
-function TDSProviderClient.BarangBySUPMG_GetDSLookup(ASupMG: string; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.BarangBarcodeBySupMg_GetDSLookup(ASupMG: string; const ARequestFilter: string): TDataSet;
 begin
-  if FBarangBySUPMG_GetDSLookupCommand = nil then
+  if FBarangBarcodeBySupMg_GetDSLookupCommand = nil then
   begin
-    FBarangBySUPMG_GetDSLookupCommand := FConnection.CreateCommand;
-    FBarangBySUPMG_GetDSLookupCommand.RequestType := 'GET';
-    FBarangBySUPMG_GetDSLookupCommand.Text := 'TDSProvider.BarangBySUPMG_GetDSLookup';
-    FBarangBySUPMG_GetDSLookupCommand.Prepare(TDSProvider_BarangBySUPMG_GetDSLookup);
+    FBarangBarcodeBySupMg_GetDSLookupCommand := FConnection.CreateCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand.RequestType := 'GET';
+    FBarangBarcodeBySupMg_GetDSLookupCommand.Text := 'TDSProvider.BarangBarcodeBySupMg_GetDSLookup';
+    FBarangBarcodeBySupMg_GetDSLookupCommand.Prepare(TDSProvider_BarangBarcodeBySupMg_GetDSLookup);
   end;
-  FBarangBySUPMG_GetDSLookupCommand.Parameters[0].Value.SetWideString(ASupMG);
-  FBarangBySUPMG_GetDSLookupCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FBarangBySUPMG_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
+  FBarangBarcodeBySupMg_GetDSLookupCommand.Parameters[0].Value.SetWideString(ASupMG);
+  FBarangBarcodeBySupMg_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarangBarcodeBySupMg_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
-    FBarangBySUPMG_GetDSLookupCommand.FreeOnExecute(Result);
+    FBarangBarcodeBySupMg_GetDSLookupCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.BarangBySUPMG_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.BarangBarcodeBySupMg_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
-  if FBarangBySUPMG_GetDSLookupCommand_Cache = nil then
+  if FBarangBarcodeBySupMg_GetDSLookupCommand_Cache = nil then
   begin
-    FBarangBySUPMG_GetDSLookupCommand_Cache := FConnection.CreateCommand;
-    FBarangBySUPMG_GetDSLookupCommand_Cache.RequestType := 'GET';
-    FBarangBySUPMG_GetDSLookupCommand_Cache.Text := 'TDSProvider.BarangBySUPMG_GetDSLookup';
-    FBarangBySUPMG_GetDSLookupCommand_Cache.Prepare(TDSProvider_BarangBySUPMG_GetDSLookup_Cache);
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Text := 'TDSProvider.BarangBarcodeBySupMg_GetDSLookup';
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Prepare(TDSProvider_BarangBarcodeBySupMg_GetDSLookup_Cache);
   end;
-  FBarangBySUPMG_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(ASupMG);
-  FBarangBySUPMG_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FBarangBySUPMG_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
+  FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(ASupMG);
+  FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
 end;
 
 function TDSProviderClient.BarangGalon_GetDSLookup(const ARequestFilter: string): TDataSet;
@@ -14160,8 +14160,8 @@ begin
   FBank_GetDSLookupCommand_Cache.DisposeOf;
   FBank_GetDSOverviewCommand.DisposeOf;
   FBank_GetDSOverviewCommand_Cache.DisposeOf;
-  FBarangBySUPMG_GetDSLookupCommand.DisposeOf;
-  FBarangBySUPMG_GetDSLookupCommand_Cache.DisposeOf;
+  FBarangBarcodeBySupMg_GetDSLookupCommand.DisposeOf;
+  FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.DisposeOf;
   FBarangGalon_GetDSLookupCommand.DisposeOf;
   FBarangGalon_GetDSLookupCommand_Cache.DisposeOf;
   FBarangQuotation_GetDSLookupCommand.DisposeOf;
