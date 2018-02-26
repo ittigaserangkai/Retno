@@ -162,10 +162,15 @@ type
     FCRUD: TCrud;
   protected
     function GetCRUD: TCrud;
+    function StringToClass(ModClassName: string): TModAppClass;
     property CRUD: TCrud read GetCRUD write FCRUD;
   public
     function TestGet: TJSONObject;
     function TestPost: TJSONObject;
+    function TestDataset: TJSONArray;
+    function Retrieve(AClassName, AID: String): TJSONObject;
+    function SaveToDB(AJSON: TJSONObject): TJSONObject;
+    function TestNativeGet: TModApp;
   end;
 
   TCrudCustomerInvoice = class(TCrud)
@@ -1589,6 +1594,78 @@ begin
   end;
 end;
 
+function TJSONCRUD.TestDataset: TJSONArray;
+var
+  lDS: TDataSet;
+  S: string;
+begin
+  S := 'select REF$AGAMA_ID, AGAMA_NAME from REF$AGAMA';
+  lDS := TDBUtils.OpenQuery(S);
+  Result := TJSONUtils.DataSetToJSON(lDS);
+end;
+
+function TJSONCRUD.Retrieve(AClassName, AID: String): TJSONObject;
+var
+  lModApp: TModApp;
+begin
+  lModApp := Self.CRUD.Retrieve(AClassName, AID);
+  try
+    Result := TJSONUtils.ModelToJSON(lModApp);
+  finally
+    lModApp.Free;
+  end;
+end;
+
+function TJSONCRUD.SaveToDB(AJSON: TJSONObject): TJSONObject;
+var
+  AClassName: string;
+  lClass: TModAppClass;
+  LJSVal: TJSONValue;
+  lModApp: TModApp;
+begin
+//  LJSVal  := AJSON.GetValue('ClassName');
+  lJSVal := TJSONUtils.GetValue(AJSON, 'ClassName');
+  if LJSVal = nil then
+    Raise Exception.Create('ClassName can''t be found in JSON Body');
+  AClassName := LJSVal.Value;
+  lClass  := StringToClass(AClassName);
+  lModApp := TJSONUtils.JSONToModel(AJSON, lClass);
+  Self.CRUD.SaveToDB(lModApp);
+  try
+    Result := TJSONUtils.ModelToJSON(lModApp);
+  finally
+    lModApp.Free;
+  end;
+end;
+
+function TJSONCRUD.StringToClass(ModClassName: string): TModAppClass;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  list: TArray<TRttiType>;
+begin
+  Result := nil;
+  ctx := TRttiContext.Create;
+  list := ctx.GetTypes;
+  for typ in list do
+  begin
+    if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
+    begin
+      Result := TModAppClass(typ.AsInstance.MetaClassType);
+      break;
+    end;
+  end;
+  ctx.Free;
+end;
+
+function TJSONCRUD.TestNativeGet: TModApp;
+var
+  sID: string;
+begin
+  sID := 'D21144E2-31DF-4995-BECC-4D0E5DD1DB48';
+  Result := Self.CRUD.Retrieve(TModCNRecv.ClassName, sID);
+end;
+
 function TCrudCustomerInvoice.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
   lCI: TModCustomerInvoice;
@@ -2376,9 +2453,9 @@ var
   i: Integer;
   lModBU: TModBarcodeUsage;
   lSS: TStrings;
-  S: string;
+//  S: string;
 begin
-  Result := False;
+//  Result := False;
   lModBU := TModBarcodeUsage(AObject);
 
   lSS := TStringList.Create;

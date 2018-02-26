@@ -4,7 +4,8 @@ interface
 
 uses
   System.JSON, System.JSON.Builders, System.JSON.Types, System.JSON.Writers,
-  uModApp, System.TypInfo, System.StrUtils, System.SysUtils, System.Rtti;
+  uModApp, System.TypInfo, System.StrUtils, System.SysUtils, System.Rtti,
+  Data.DB;
 
 type
   TJSONUtils = class(TObject)
@@ -17,7 +18,8 @@ type
         String): TJSONObject; overload;
     class function GetProperty(AObject: TModApp; APropName: String; ShowException:
         Boolean = True): TRttiProperty;
-  published
+    class function DataSetToJSON(ADataSet: TDataSet): TJSONArray; overload;
+    class function GetValue(AJSON: TJSONObject; APairName: String): TJSONValue;
   end;
 
 implementation
@@ -38,7 +40,6 @@ var
   LJSONArr: TJSONArray;
   lJSONObj: TJSONObject;
   lJSONVal: TJSONValue;
-  lObj: TObject;
   lObjectList: TObject;
   LPair: TJSONPair;
   prop: TRttiProperty;
@@ -53,22 +54,23 @@ begin
   begin
     Try
       LPair := AJSON.Pairs[i];
+      if UpperCase(LPair.JsonString.Value) = 'CLASSNAME' then continue;
+
       prop := GetProperty(Result, LPair.JsonString.Value);
       if not prop.IsWritable then continue;
 
       case prop.PropertyType.TypeKind of
         tkInteger, tkInt64 :
-        begin
           if LPair.JsonValue.TryGetValue<Integer>(lIntVal) then
             prop.SetValue(Result, lIntVal);
-        end;
+
         tkFloat :
-        begin
           if LPair.JsonValue.TryGetValue<Extended>(lExtVal) then
             prop.SetValue(Result, lExtVal);
-        end;
+
         tkUString, tkString, tkWideString :
           prop.SetValue(Result, LPair.JsonValue.Value);
+
         tkClass :
         begin
           meth := prop.PropertyType.GetMethod('ToArray');
@@ -77,22 +79,18 @@ begin
             lObjectList := prop.GetValue(Result).AsObject;
             if lObjectList = nil then continue;
             LJSONArr := TJSONArray(LPair.JsonValue);
-//            Raise Exception.Create(LJSONArr.ToJSON);
-
             sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
             sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
             rtItem := ctx.FindType(sGenericItemClassName);
 
             meth := prop.PropertyType.GetMethod('Add');
             if Assigned(meth) and Assigned(rtItem) then
-            begin
-              //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+            begin                                                                              //sayangny utk akses rtti object harus ada dulu, jadi create dulu
               if not rtItem.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
               lAppClass       := TModAppClass( rtItem.AsInstance.MetaclassType );
               for lJSONVal in LJSONArr do
               begin
                 lJSONObj := TJSONObject.ParseJSONValue(lJSONVal.ToString) as TJSONObject;
-//                raise Exception.Create(lJSONObj.ToString);
                 lAppObjectItem  := JSONToModel(lJSONObj, lAppClass);
                 meth.Invoke(lObjectList,[lAppObjectItem]);
                 FreeAndNil(LJSONObj);
@@ -101,23 +99,18 @@ begin
           end else
           begin
             if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TModApp) then continue;
-            meth            := prop.PropertyType.GetMethod('Create');
-            lAppObject      := TModApp(meth.Invoke(
-            prop.PropertyType.AsInstance.MetaclassType, []).AsObject);
-
+            lAppClass   := TModAppClass( prop.PropertyType.AsInstance.MetaclassType );
             lJSONObj := TJSONObject.ParseJSONValue(LPair.JSONValue.ToString) as TJSONObject;
-
-            lAppObject.ID          := LPair.JSONValue.value;
+            lAppObject := JSONToModel(lJSONObj, lAppClass);
             lAppObject.ObjectState := 3;
             prop.SetValue(Result, lAppObject);
-
             FreeAndNil(LJSONObj);
           end;
-
         end;
       else
         prop.SetValue(Result, LPair.JsonValue.Value);
       end;
+      Result.ObjectState := 0;
     except
       on E:Exception do
       begin
@@ -168,6 +161,7 @@ var
   end;
 
 begin
+  AObject.ObjectState := 0;
   Result := TJSONObject.Create;
   rt := ctx.GetType(AObject.ClassType);
   for prop in rt.GetProperties do
@@ -259,6 +253,39 @@ begin
     raise Exception.Create(
       'Property : ' + APropName + ' can''t be found in '  + AObject.ClassName
     );
+end;
+
+class function TJSONUtils.DataSetToJSON(ADataSet: TDataSet): TJSONArray;
+var
+  i: Integer;
+//  lJSOArr: TJSONArray;
+  lJSRow: TJSONObject;
+begin
+//  Result  := TJSONObject.Create;
+  Result := TJSONArray.Create;
+//  Result.AddPair('Data', lJSOArr);
+  ADataSet.First;
+  while not ADataSet.Eof do
+  begin
+    lJSRow := TJSONObject.Create;
+    for i := 0 to ADataSet.FieldCount-1 do
+      lJSROw.AddPair(ADataSet.Fields[i].FieldName, ADataSet.Fields[i].Value);
+    Result.AddElement(lJSROw);
+    ADataSet.Next;
+  end;
+end;
+
+class function TJSONUtils.GetValue(AJSON: TJSONObject; APairName: String):
+    TJSONValue;
+var
+  i: Integer;
+begin
+  Result := nil;
+  for i := 0 to AJSON.Count-1 do
+  begin
+    if UpperCase(AJSON.Pairs[i].JsonString.Value) = UpperCase(APairName) then
+      Result := AJSON.Pairs[i].JsonValue;
+  end;
 end;
 
 end.
