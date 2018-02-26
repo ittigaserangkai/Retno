@@ -5,7 +5,8 @@ inherited frmDialogQuotation: TfrmDialogQuotation
   ClientHeight = 611
   ClientWidth = 968
   Constraints.MinHeight = 32
-  ExplicitTop = -230
+  ExplicitLeft = -242
+  ExplicitTop = -205
   ExplicitWidth = 984
   ExplicitHeight = 650
   PixelsPerInch = 96
@@ -176,7 +177,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       end
       object mmRemark: TcxMemo
         Left = 417
-        Top = 27
+        Top = 28
         TabOrder = 6
         Height = 47
         Width = 231
@@ -189,7 +190,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         TabOrder = 7
         Transparent = True
         Height = 49
-        Width = 195
+        Width = 259
         object ckShowPPN: TcxCheckBox
           AlignWithMargins = True
           Left = 5
@@ -198,35 +199,32 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alTop
-          Caption = 'Tampilkan Harga +PPN'
+          Caption = 'Tampilkan Harga Beli +PPN'
           Properties.ImmediatePost = True
           Properties.OnEditValueChanged = ckShowPPNPropertiesEditValueChanged
           State = cbsChecked
           TabOrder = 0
           Transparent = True
-          ExplicitWidth = 121
         end
         object chkUpdateSellPrice: TcxCheckBox
           AlignWithMargins = True
           Left = 5
-          Top = 23
+          Top = 26
           Margins.Top = 0
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alTop
-          Caption = 'Default Update Selling Price'
+          Caption = 'Perubahan Harga Beli Merubah Sell Price'
           Properties.ImmediatePost = True
           State = cbsChecked
           TabOrder = 1
           Transparent = True
-          ExplicitTop = 26
-          ExplicitWidth = 121
         end
       end
       object btnActivate: TcxButton
         AlignWithMargins = True
         Left = 877
-        Top = 48
+        Top = 50
         Width = 86
         Height = 28
         Cursor = crHandPoint
@@ -292,7 +290,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             Width = 444
           end
           item
-            Caption = 'Harga'
+            Caption = 'Harga Ex PPN'
             Position.BandIndex = 3
             Position.ColIndex = 0
             Width = 88
@@ -316,7 +314,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             Width = 68
           end
           item
-            Caption = 'Hrg Beli Net'
+            Caption = 'Harga Net'
             Position.BandIndex = 3
             Position.ColIndex = 4
             Width = 101
@@ -361,7 +359,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             Position.ColIndex = 4
           end
           item
-            Caption = 'Hrg +PPN'
+            Caption = 'Harga Net +PPN'
             Position.BandIndex = 3
             Position.ColIndex = 5
             Width = 95
@@ -438,18 +436,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           Position.ColIndex = 0
           Position.RowIndex = 0
         end
-        object colHeaderNetPrice: TcxGridDBBandedColumn
-          DataBinding.FieldName = 'BuyNetPrice'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.DisplayFormat = ',0.#;(,0.#)'
-          Options.Editing = False
-          Styles.Content = DMClient.cxStyleMoneyGreen
-          Width = 98
-          Position.BandIndex = 8
-          Position.ColIndex = 0
-          Position.RowIndex = 0
-        end
         object colHeaderMargin: TcxGridDBBandedColumn
           DataBinding.FieldName = 'Margin'
           PropertiesClassName = 'TcxCurrencyEditProperties'
@@ -506,7 +492,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           Position.RowIndex = 0
         end
         object colHeaderBuyPricePPN: TcxGridDBBandedColumn
-          DataBinding.FieldName = 'BuyPricePPN'
+          DataBinding.FieldName = 'BUYPRICE_INC_PPN'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.#;(,0.#)'
@@ -530,6 +516,15 @@ inherited frmDialogQuotation: TfrmDialogQuotation
           Position.ColIndex = 0
           Position.RowIndex = 0
         end
+        object colHeaderBuyNetPrice: TcxGridDBBandedColumn
+          DataBinding.FieldName = 'BUYPRICE_INC_DISC'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.DisplayFormat = ',0;(,0)'
+          Position.BandIndex = 8
+          Position.ColIndex = 0
+          Position.RowIndex = 0
+        end
       end
       object cxGridMasterLevel1: TcxGridLevel
         GridView = cxGrdDBHeader
@@ -543,7 +538,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       HotZoneClassName = 'TcxXPTaskBarStyle'
       AlignSplitter = salBottom
       Control = pnlDetail
-      ExplicitWidth = 8
     end
     object pnlDetail: TcxGroupBox
       Left = 0
@@ -567,7 +561,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
         LookAndFeel.NativeStyle = False
         RootLevelOptions.DetailTabsPosition = dtpTop
         object cxGrdDBDetail: TcxGridDBTableView
-          PopupMenu = pmDetail
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
@@ -600,8 +593,8 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             Width = 59
           end
           object cxGrdDBDetailColumn1: TcxGridDBColumn
-            Caption = 'Harga Beli *'
-            DataBinding.FieldName = 'BuyNetPrice'
+            Caption = 'Harga Beli + PPN'
+            DataBinding.FieldName = 'BUYPRICE_INC_PPN'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.#;(,0.#)'
@@ -619,14 +612,26 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             HeaderAlignmentHorz = taCenter
             Styles.Content = DMClient.cxStyleMoneyGreen
           end
+          object colDetailSellPricePPN: TcxGridDBColumn
+            Caption = 'PPN %'
+            DataBinding.FieldName = 'PPN'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
+            Properties.DisplayFormat = ',0.#;(,0.#)'
+            HeaderAlignmentHorz = taCenter
+            Options.Editing = False
+            Styles.Content = DMClient.cxStyleMoneyGreen
+            Width = 58
+          end
           object colDetailSellPrice: TcxGridDBColumn
-            Caption = 'Harga Jual'
+            Caption = 'Harga Jual + PPN'
             DataBinding.FieldName = 'SellPrice'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.#;(,0.#)'
             Properties.OnEditValueChanged = colDetailSellPricePropertiesEditValueChanged
             HeaderAlignmentHorz = taCenter
+            Width = 104
           end
           object colDetailSellDiscPerc: TcxGridDBColumn
             Caption = 'Disc %'
@@ -647,7 +652,7 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             HeaderAlignmentHorz = taCenter
           end
           object colDetailSellNetPrice: TcxGridDBColumn
-            Caption = 'Harga Jual Net'
+            Caption = 'Harga Jual Inc Disc'
             DataBinding.FieldName = 'SellNetPrice'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
@@ -656,17 +661,6 @@ inherited frmDialogQuotation: TfrmDialogQuotation
             Options.Editing = False
             Styles.Content = DMClient.cxStyleMoneyGreen
             Width = 118
-          end
-          object colDetailSellPricePPN: TcxGridDBColumn
-            Caption = 'Harga Jual Inc PPN'
-            DataBinding.FieldName = 'SellPricePPN'
-            PropertiesClassName = 'TcxCurrencyEditProperties'
-            Properties.Alignment.Horz = taRightJustify
-            Properties.DisplayFormat = ',0.#;(,0.#)'
-            HeaderAlignmentHorz = taCenter
-            Options.Editing = False
-            Styles.Content = DMClient.cxStyleMoneyGreen
-            Width = 120
           end
           object cxGrdDBDetailColumn2: TcxGridDBColumn
             DataBinding.FieldName = 'BuyPrice'
@@ -868,14 +862,20 @@ inherited frmDialogQuotation: TfrmDialogQuotation
       ExplicitWidth = 968
       inherited lbCTRLEnter: TLabel
         Left = 793
+        Height = 15
         ExplicitLeft = 793
       end
       inherited lbEscape: TLabel
         Left = 884
+        Height = 15
         ExplicitLeft = 884
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 717
+        Height = 15
         ExplicitLeft = 717
       end
     end
@@ -900,10 +900,10 @@ inherited frmDialogQuotation: TfrmDialogQuotation
     end
   end
   object pmDetail: TPopupMenu
-    Left = 312
-    Top = 485
+    Left = 248
+    Top = 301
     object SetHargaJualiHargaIncludePPN1: TMenuItem
-      Caption = 'Set Harga Juali = Harga Include PPN'
+      Caption = 'Set Harga Jual = Harga Include PPN'
       OnClick = SetHargaJualiHargaIncludePPN1Click
     end
   end

@@ -10,7 +10,7 @@ uses
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, Vcl.StdCtrls,
   Vcl.ExtCtrls, cxClasses, uModApp,uModSettingApp,uDXUtils, uDMClient,
   uDBUtils, Datasnap.DBClient, uModUnit, uModGudang, Vcl.Menus, cxButtons,
-  cxCurrencyEdit, uRetnoUnit;
+  cxCurrencyEdit, uRetnoUnit, uAppUtils;
 
 type
   TfrmSettingApp = class(TfrmMaster)
@@ -119,7 +119,10 @@ begin
 
   if SettingApp.ID <>'' then
   begin
+    TAppUtils.Information('Berhasil simpan Data' + #13 + 'Silahkan klik tombol untuk melihat perubahannnya');
     btnClearClick(nil);
+  end else begin
+
   end;
 end;
 

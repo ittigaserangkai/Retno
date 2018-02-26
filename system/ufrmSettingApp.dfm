@@ -82,9 +82,9 @@ inherited frmSettingApp: TfrmSettingApp
         object bLoad: TcxButton
           Left = 352
           Top = 4
-          Width = 75
+          Width = 203
           Height = 25
-          Caption = 'Load'
+          Caption = 'Click Untuk Menampilkan Data'
           TabOrder = 3
           OnClick = bLoadClick
         end

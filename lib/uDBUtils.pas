@@ -971,13 +971,15 @@ begin
   LSQLQuery   := TFDQuery.Create(LDSP);
   LSQLQuery.FetchOptions.Unidirectional := False;
 
-  LSQLQuery.Connection := FDConnection;
-  LSQLQuery.SQL.Append(ASQL);
+  if FDConnection.Connected then
+  begin
+    LSQLQuery.Connection := FDConnection;
+    LSQLQuery.SQL.Append(ASQL);
 
-  LDSP.DataSet            := LSQLQuery;
-  Result.SetProvider(LDSP);
-  Result.Open;
-
+    LDSP.DataSet            := LSQLQuery;
+    Result.SetProvider(LDSP);
+    Result.Open;
+  end;
 end;
 
 class function TDBUtils.OpenMemTable(ASQL : String): TFDMemTable;

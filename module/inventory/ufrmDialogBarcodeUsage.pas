@@ -39,8 +39,6 @@ type
     cxGridColNo: TcxGridDBColumn;
     cxGridColTgl: TcxGridDBColumn;
     cxGridColNominal: TcxGridDBColumn;
-    cxGridColProses: TcxGridDBColumn;
-    cxGridColKeterangan: TcxGridDBColumn;
     procedure actDeleteExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
@@ -64,7 +62,7 @@ implementation
 
 uses
   uAppUtils, uConstanta, ufrmCXLookUp, udmReport, uRetnoUnit, uModelHelper,
-  uModBarcodeRequest, uModApp;
+  uModBarcodeRequest, uModApp, uModRekening, uModUnit;
 
 {$R *.dfm}
 
@@ -76,18 +74,17 @@ begin
   if TAppUtils.Confirm(CONF_VALIDATE_FOR_DELETE) then
   begin
     try
-      while not CDSDetail.Eof do
+      if VarToStr(edNoBukti.EditValue) <> '' then
       begin
-        if VarToStr(edNoBukti.EditValue) <> '' then
-        begin
-          lModBarcodeUsage := TModBarcodeUsage.Create;
+        lModBarcodeUsage := TModBarcodeUsage.Create;
+        try
           lModBarcodeUsage := DMClient.CrudClient.RetrieveByCode(TModBarcodeUsage.ClassName, edNoBukti.EditValue) as TModBarcodeUsage;
-          DMClient.CrudClient.DeleteFromDB(lModBarcodeUsage);
+          DMClient.CRUDBarcodeUsageClient.DeleteFromDB(lModBarcodeUsage);
           TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
           ModalResult := mrOk;
-          Break;
+        finally
+          lModBarcodeUsage.Free;
         end;
-        CDSDetail.Next;
       end;
     except
       TAppUtils.Error(ER_DELETE_FAILED);
@@ -129,7 +126,7 @@ end;
 
 procedure TfrmDialogBarcodeUsage.btnSearchClick(Sender: TObject);
 var
-  iBaris: Integer;
+  lModRekening: TModRekening;
 begin
   inherited;
   CDSDetail.EmptyDataSet;
@@ -138,23 +135,33 @@ begin
   if FCDSBarcodeReq = nil then
     Exit;
 
-  FCDSBarcodeReq.First;
-  while not FCDSBarcodeReq.Eof do
-  begin
-    CDSDetail.Append;
-    CDSDetail.FieldByName('BU_ID').Value              := '';
-    CDSDetail.FieldByName('BUI_BARCODEREQUEST').Value := FCDSBarcodeReq.FieldByName('BARCODEREQUEST_ID').AsString;
-    CDSDetail.FieldByName('BUI_NOMINAL').Value        := FCDSBarcodeReq.FieldByName('TOTAL').AsFloat;
-    CDSDetail.FieldByName('BUI_KETERANGAN').Value     := FCDSBarcodeReq.FieldByName('KETERANGAN').AsString;
-    CDSDetail.FieldByName('TANGGAL').Value            := FCDSBarcodeReq.FieldByName('TANGGAL').AsDateTime;
-    CDSDetail.FieldByName('SUPPLIERMG').Value         := FCDSBarcodeReq.FieldByName('BR_SUPMG_ID').AsString;
-    CDSDetail.FieldByName('SUPPLIER').Value           := FCDSBarcodeReq.FieldByName('NAMA').AsString;
-    CDSDetail.FieldByName('NOBUKTI').Value            := FCDSBarcodeReq.FieldByName('NO').AsString;
-    CDSDetail.FieldByName('PROSES').Value             := '';
-    CDSDetail.Post;
-    FCDSBarcodeReq.Next;
+  lModRekening := TModRekening.Create;
+  try
+    lModRekening := DMClient.CrudClient.RetrieveByCode(TModRekening.ClassName, TRetno.SettingApp.REKENING_PENDAPATAN_LABEL) as TModRekening;
+
+    FCDSBarcodeReq.First;
+    while not FCDSBarcodeReq.Eof do
+    begin
+      if FCDSBarcodeReq.FieldByName('BR_IS_INVOICED').AsInteger = 0 then
+      begin
+        CDSDetail.Append;
+        CDSDetail.FieldByName('BU_ID').Value              := '';
+        CDSDetail.FieldByName('BUI_BARCODEREQUEST').Value := FCDSBarcodeReq.FieldByName('BARCODEREQUEST_ID').AsString;
+        CDSDetail.FieldByName('BUI_NOMINAL').Value        := FCDSBarcodeReq.FieldByName('TOTAL').AsFloat;
+        CDSDetail.FieldByName('BUI_KETERANGAN').Value     := FCDSBarcodeReq.FieldByName('KETERANGAN').AsString;
+        CDSDetail.FieldByName('BUI_REKENING').Value       := lModRekening.ID;
+        CDSDetail.FieldByName('TANGGAL').Value            := FCDSBarcodeReq.FieldByName('TANGGAL').AsDateTime;
+        CDSDetail.FieldByName('SUPPLIERMG').Value         := FCDSBarcodeReq.FieldByName('BR_SUPMG_ID').AsString;
+        CDSDetail.FieldByName('SUPPLIER').Value           := FCDSBarcodeReq.FieldByName('NAMA').AsString;
+        CDSDetail.FieldByName('NOBUKTI').Value            := FCDSBarcodeReq.FieldByName('NO').AsString;
+        CDSDetail.Post;
+      end;
+      FCDSBarcodeReq.Next;
+    end;
+  finally
+    lModRekening.Free;
+    cxGridDBTableBarcodeUsage.ApplyBestFit();
   end;
-  cxGridDBTableBarcodeUsage.ApplyBestFit();
 end;
 
 function TfrmDialogBarcodeUsage.GetCDSDetail: TClientDataset;
@@ -168,7 +175,6 @@ begin
     FCDSDetail.AddField('SUPPLIER', ftString);
     FCDSDetail.AddField('NOBUKTI', ftString);
     FCDSDetail.AddField('PROSES', ftString);
-    FCDSDetail.AddField('TOTAL', ftFloat);
 
     FCDSDetail.IndexFieldNames := 'SUPPLIERMG';
     FCDSDetail.CreateDataSet;
@@ -217,13 +223,11 @@ begin
 
       CDSDetail.Append;
       lItem.UpdateToDataset(CDSDetail);
-      CDSDetail.FieldByName('ID').Value         := lModBarcodeUsage.ID;
+      CDSDetail.FieldByName('BU_ID').Value         := lModBarcodeUsage.ID;
       CDSDetail.FieldByName('SUPPLIERMG').Value := lItem.BUI_BarcodeRequest.BR_SUPMG.ID;
       CDSDetail.FieldByName('SUPPLIER').Value   := lItem.BUI_BarcodeRequest.BR_SUPMG.SUPMG_NAME;
       CDSDetail.FieldByName('NOBUKTI').Value    := lItem.BUI_BarcodeRequest.BR_NO;
       CDSDetail.FieldByName('TANGGAL').Value    := lItem.BUI_BarcodeRequest.BR_DATE;
-      CDSDetail.FieldByName('TOTAL').Value      := lItem.BUI_BarcodeRequest.BR_TOTAL;
-      CDSDetail.FieldByName('PROSES').Value     := '';
       CDSDetail.Post;
     end;
   finally
@@ -236,52 +240,73 @@ procedure TfrmDialogBarcodeUsage.SavingData;
 var
   listBarcodeUsage: TobjectList<TModApp>;
   lBUItem: TModBarcodeUsageItem;
+  lCDSDetail: TClientDataset;
   lModBarcodeUsage: TModBarcodeUsage;
   sSupMG: string;
 begin
   sSupMG := '';
   listBarcodeUsage := TObjectList<TModApp>.Create();
-  CDSDetail.First;
-  while not CDSDetail.Eof do
-  begin
-    if sSupMG <> CDSDetail.FieldByName('SUPPLIERMG').AsString then
+
+  lCDSDetail := TClientDataSet.Create(Self);
+  try
+    lCDSDetail.CloneCursor(CDSDetail, True);
+
+    CDSDetail.First;
+    while not CDSDetail.Eof do
     begin
-      sSupMG := CDSDetail.FieldByName('SUPPLIERMG').AsString;
-      lModBarcodeUsage := TModBarcodeUsage.Create;
+      if sSupMG <> CDSDetail.FieldByName('SUPPLIERMG').AsString then
+      begin
+        sSupMG := CDSDetail.FieldByName('SUPPLIERMG').AsString;
+        lModBarcodeUsage := TModBarcodeUsage.Create;
 
-      //check new or edit data
-      if CDSDetail.FieldByName('BU_ID').AsString <> '' then
-        lModBarcodeUsage := DMClient.CrudClient.Retrieve(TModBarcodeUsage.ClassName, CDSDetail.FieldByName('BU_ID').AsString) as TModBarcodeUsage;
-//      else
-//        lModBarcodeUsage.BU_NO := DMClient.CrudClient.GenerateNo(TModBarcodeUsage.ClassName);
+        //check new or edit data
+        if CDSDetail.FieldByName('BU_ID').AsString <> '' then
+          lModBarcodeUsage := DMClient.CrudClient.Retrieve(TModBarcodeUsage.ClassName, CDSDetail.FieldByName('BU_ID').AsString) as TModBarcodeUsage
+        else
+          lModBarcodeUsage.BU_NO := '';
 
-      lModBarcodeUsage.BU_SUPMG      := TModOrganization.CreateID(sSupMG);
-      lModBarcodeUsage.BU_KETERANGAN := VarToStr(memKeterangan.EditValue);
-      lModBarcodeUsage.BU_TANGGAL    := dtTanggal.EditValue;
-      lModBarcodeUsage.BU_TOTAL      := CDSDetail.FieldByName('TOTAL').AsFloat;
-      lModBarcodeUsage.BU_UNIT       := TRetno.UnitStore;
+        //set header
+        lModBarcodeUsage.BU_SUPMG      := TModOrganization.CreateID(sSupMG);
+        lModBarcodeUsage.BU_KETERANGAN := VarToStr(memKeterangan.EditValue);
+        lModBarcodeUsage.BU_TANGGAL    := dtTanggal.EditValue;
+        lModBarcodeUsage.BU_TOTAL      := 0;
+        lModBarcodeUsage.BU_UNIT       := TModUnit.CreateID(TRetno.UnitStore.ID);
 
-      lModBarcodeUsage.BarcodeUsageItems.Clear;
-      listBarcodeUsage.Add(lModBarcodeUsage);
+        //set detail
+        lModBarcodeUsage.BarcodeUsageItems.Clear;
+        lCDSDetail.First;
+        while not lCDSDetail.Eof do
+        begin
+          if sSupMG = lCDSDetail.FieldByName('SUPPLIERMG').AsString then
+          begin
+            lBUItem := TModBarcodeUsageItem.Create;
+            lBUItem.SetFromDataset(lCDSDetail);
+            lModBarcodeUsage.BU_TOTAL := lModBarcodeUsage.BU_TOTAL + lCDSDetail.FieldByName('BUI_NOMINAL').AsFloat;
+            lModBarcodeUsage.BarcodeUsageItems.Add(lBUItem);
+          end;
+          lCDSDetail.Next;
+        end;
+
+        listBarcodeUsage.Add(lModBarcodeUsage);
+      end;
+
+      CDSDetail.Next;
     end;
 
-    lBUItem := TModBarcodeUsageItem.Create;
-    lModBarcodeUsage.BarcodeUsageItems.Add(lBUItem);
-    lBUItem.SetFromDataset(CDSDetail);
-    CDSDetail.Next;
+    Try
+      if DMClient.CRUDBarcodeUsageClient.SaveBatch(listBarcodeUsage) then
+      begin
+        FreeAndNil(listBarcodeUsage);
+        TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
+        ModalResult := mrOk;
+      end;
+    except
+      TAppUtils.Error(ER_INSERT_FAILED);
+      Raise;
+    End;
+  finally
+    lCDSDetail.Free;
   end;
-
-  Try
-    if DMClient.CRUDBarcodeUsageClient.SaveBatch(listBarcodeUsage) then
-    begin
-      FreeAndNil(listBarcodeUsage);
-      TAppUtils.Information(CONF_ADD_SUCCESSFULLY);
-      ModalResult := mrOk;
-    end;
-  except
-    TAppUtils.Error(ER_INSERT_FAILED);
-    Raise;
-  End;
 end;
 
 end.

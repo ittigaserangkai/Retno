@@ -116,8 +116,9 @@ var
   lSuppID: string;
 begin
   //debugging
-  lGroupID := cxLookupGroup.EditValueRest;
-  lSuppID := cxLookupSupplier.EditValueRest;
+  lGroupID  := cxLookupGroup.EditValueRest;
+//  lSuppID := cxLookupSupplier.EditValueRest;
+  lSuppID   := 'null';
   lGudangID := cxLookupGudang.EditValueRest;
 
   cxGridView.LoadFromDS(

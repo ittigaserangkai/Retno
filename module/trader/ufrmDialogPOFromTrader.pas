@@ -153,6 +153,7 @@ var
 begin
   if CDSDetail.State in [dsEdit] then CDSDetail.Post;
 
+  //SellPrice include PPN
   dSellPrice := CDSDetail.FieldByName('POTITEM_SELLPRICE').AsFloat;
   dDisc      := CDSDetail.FieldByName('POTITEM_DISC').AsFloat;
   dPPN       := CDSDetail.FieldByName('POTITEM_PPN').AsFloat;
@@ -160,8 +161,8 @@ begin
 
   dDiscRp   := dSellPrice * dDisc / 100;
   dNetSale  := dSellPrice - dDiscRp;
-  dPPNRp    := dNetSale * dPPN / 100;
-  dTotal    := (dNetSale + dPPNRp) * dQty;
+  dPPNRp    := dSellPrice * (dPPN + 100) / 100;
+  dTotal    := dNetSale * dQty;
 
   CDSDetail.Edit;
   CDSDetail.FieldByName('POTITEM_DISCRP').AsFloat   := dDiscRp;
@@ -170,7 +171,7 @@ begin
   CDSDetail.FieldByName('POTITEM_TOTAL').AsFloat    := dTotal;
   CDSDetail.Post;
 
-  edTotal.EditValue := cxGridDBTablePOTrader.DataController.GetFooterSummary(2);
+  edTotal.EditValue := cxGridDBTablePOTrader.GetFooterSummary(cxGridColPODTotal);
 end;
 
 procedure TfrmDialogPOFromTrader.cxGridColPODKodePropertiesEditValueChanged(
@@ -349,7 +350,7 @@ begin
     begin
       lCrazyPrice.CRAZY_BARANG.Reload();
 
-      if CDSDetail.Locate('POTITEM_BARANG',lCrazyPrice.CRAZY_BARANG.ID,[loCaseInsensitive]) then
+      if CDSDetail.Locate('POTITEM_BARANG;POTITEM_SATUAN',VarArrayOf([lCrazyPrice.CRAZY_BARANG.ID, lCrazyPrice.CRAZY_SATUAN.ID]) ,[loCaseInsensitive]) then
       begin
         CDSDetail.Edit;
         lQty := CDSDetail.FieldByName('POTITEM_QTY').Value;
@@ -366,7 +367,7 @@ begin
       CDSDetail.FieldByName('BRG_UOM').Value            := lCrazyPrice.CRAZY_SATUAN.SAT_CODE;
       CDSDetail.FieldByName('POTITEM_SATUAN').Value     := lCrazyPrice.CRAZY_SATUAN.ID;
       CDSDetail.FieldByName('POTITEM_QTY').Value        := lQty + dQty;
-      CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lCrazyPrice.CRAZY_SELLPRICE_DISC;
+      CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lCrazyPrice.CRAZY_SELLPRICE;
       CDSDetail.FieldByName('POTITEM_COGS').Value       := lCrazyPrice.CRAZY_COGS;
       CDSDetail.FieldByName('POTITEM_DISC').Value       := lCrazyPrice.CRAZY_DISC_PERSEN;
       CDSDetail.FieldByName('POTITEM_PPN').Value        := lCrazyPrice.CRAZY_PPN;
@@ -382,7 +383,7 @@ begin
         lBHJ.Barang.Reload();
         lBHJ.Satuan.Reload();
 
-        if CDSDetail.Locate('POTITEM_BARANG',lBHJ.Barang.ID,[loCaseInsensitive]) then
+        if CDSDetail.Locate('POTITEM_BARANG;POTITEM_SATUAN',VarArrayOf([lBHJ.Barang.ID,lBHJ.Satuan.ID]),[loCaseInsensitive]) then
         begin
           CDSDetail.Edit;
           lQty := CDSDetail.FieldByName('POTITEM_QTY').Value;
@@ -399,8 +400,7 @@ begin
         CDSDetail.FieldByName('BRG_UOM').Value            := lBHJ.Satuan.SAT_CODE;
         CDSDetail.FieldByName('POTITEM_SATUAN').Value     := lBHJ.Satuan.ID;
         CDSDetail.FieldByName('POTITEM_QTY').Value        := lQty + dQty;
-        CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  :=
-        lBHJ.BHJ_PURCHASE_PRICE * (100 + FOrganization.ORG_Member.RefDiscMember.DISCMEMBER_DISCOUNT) / 100;
+        CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lBHJ.BHJ_SELL_PRICE;
         CDSDetail.FieldByName('POTITEM_COGS').Value       := lBHJ.BHJ_PURCHASE_PRICE;
         CDSDetail.FieldByName('POTITEM_DISC').Value       := lBHJ.BHJ_DISC_PERSEN;
         CDSDetail.FieldByName('POTITEM_PPN').Value        := lBHJ.BHJ_PPN;
@@ -495,6 +495,7 @@ begin
   ModPOTrader.POT_TOP           := 0;//edTOP.EditValue;
   ModPOTrader.POT_UNIT          := TModUnit.CreateID(TRetno.UnitStore.ID);
   ModPOTrader.POT_VALID_DATE    := IncDay(ModPOTrader.POT_DATE,7);
+  ModPOTrader.POT_TOTAL         := cxGridDBTablePOTrader.GetFooterSummary(cxGridColPODTotal);
 
   ModPOTrader.POTraderItems.Clear;
   CDSDetail.First;
@@ -509,7 +510,7 @@ begin
     ModPOTrader.POT_DISC     := ModPOTrader.POT_DISC + CDSDetail.FieldByName('POTITEM_DISCRP').AsFloat;
     ModPOTrader.POT_PPN      := ModPOTrader.POT_PPN + CDSDetail.FieldByName('POTITEM_PPN').AsFloat;
     ModPOTrader.POT_SUBTOTAL := ModPOTrader.POT_SUBTOTAL + CDSDetail.FieldByName('POTITEM_TOTAL').AsFloat;
-    ModPOTrader.POT_TOTAL    := ModPOTrader.POT_SUBTOTAL - ModPOTrader.POT_DISC + ModPOTrader.POT_PPN;
+//    ModPOTrader.POT_TOTAL    := ModPOTrader.POT_TOTAL(ModPOTrader.POT_SUBTOTAL - ModPOTrader.POT_DISC + ModPOTrader.POT_PPN);
     CDSDetail.Next;
   end;
 end;

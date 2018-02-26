@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 271
   Top = 114
   Caption = 'Retno - Retail And Online System'
-  ClientHeight = 403
-  ClientWidth = 737
+  ClientHeight = 402
+  ClientWidth = 875
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -5218,7 +5218,7 @@ object frmMain: TfrmMain
   object grpDB: TGroupBox
     Left = 0
     Top = 0
-    Width = 737
+    Width = 875
     Height = 152
     Align = alTop
     Caption = 'Koneksi Database'
@@ -5445,8 +5445,8 @@ object frmMain: TfrmMain
   object mmLog: TMemo
     Left = 0
     Top = 152
-    Width = 737
-    Height = 232
+    Width = 875
+    Height = 231
     Align = alClient
     BorderStyle = bsNone
     Color = clBackground
@@ -5466,8 +5466,8 @@ object frmMain: TfrmMain
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 384
-    Width = 737
+    Top = 383
+    Width = 875
     Height = 19
     Panels = <>
   end
@@ -5506,9 +5506,5 @@ object frmMain: TfrmMain
       Caption = 'Generate Model'
       OnExecute = actToolsGenerateModelExecute
     end
-  end
-  object FDConnection1: TFDConnection
-    Left = 272
-    Top = 256
   end
 end
