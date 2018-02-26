@@ -162,10 +162,15 @@ type
     FCRUD: TCrud;
   protected
     function GetCRUD: TCrud;
-    function ModToJSON(aModApp: TModApp): TJSONObject;
+    function StringToClass(ModClassName: string): TModAppClass;
     property CRUD: TCrud read GetCRUD write FCRUD;
   public
-    function Test: TJSONObject;
+    function TestGet: TJSONObject;
+    function TestPost: TJSONObject;
+    function TestDataset: TJSONArray;
+    function Retrieve(AClassName, AID: String): TJSONObject;
+    function SaveToDB(AJSON: TJSONObject): TJSONObject;
+    function TestNativeGet: TModApp;
   end;
 
   TCrudCustomerInvoice = class(TCrud)
@@ -279,6 +284,7 @@ type
 
   TCrudBarcodeUsage = class(TCrud)
   protected
+    function AfterSaveToDB(AObject: TModApp): Boolean; override;
     function BeforeDeleteFromDB(AObject: TModApp): Boolean; override;
     function BeforeSaveToDB(AObject: TModApp): Boolean; override;
   public
@@ -1179,7 +1185,6 @@ begin
   AModQuotation.IsProcessed := 1;
   Result.Add(TDBUtils.GetSQLUpdate(AModQuotation));
 
-  Result.SaveToFile('d:\debugquot.txt');
 end;
 
 function TCrudClaimFaktur.AfterSaveToDB(AObject: TModApp): Boolean;
@@ -1554,12 +1559,7 @@ begin
   Result := FCRUD;
 end;
 
-function TJSONCRUD.ModToJSON(aModApp: TModApp): TJSONObject;
-begin
-  Result := TJSONObject.Create;
-end;
-
-function TJSONCRUD.Test: TJSONObject;
+function TJSONCRUD.TestGet: TJSONObject;
 var
   lModCNR : TModCNRecv;
   sID: string;
@@ -1571,6 +1571,99 @@ begin
   finally
     lModCNR.Free;
   end;
+end;
+
+function TJSONCRUD.TestPost: TJSONObject;
+var
+  lJSO: TJSONObject;
+  lModCNR : TModCNRecv;
+  lModCNRConvert: TModCNRecv;
+  sID: string;
+begin
+  sID := 'D21144E2-31DF-4995-BECC-4D0E5DD1DB48';
+  lModCNR := Self.CRUD.Retrieve(TModCNRecv.ClassName, sID) as TModCNRecv;
+  lModCNRConvert := nil;
+  try
+    lJSO := TJSONUtils.ModelToJSON(lModCNR);
+    //convert back to Object
+    lModCNRConvert := TJSONUtils.JSONToModel(lJSO, TModCNRecv) as TModCNRecv;
+    Result := TJSONUtils.ModelToJSON(lModCNRConvert);
+  finally
+    FreeAndNil(lModCNRConvert);
+    lModCNR.Free;
+  end;
+end;
+
+function TJSONCRUD.TestDataset: TJSONArray;
+var
+  lDS: TDataSet;
+  S: string;
+begin
+  S := 'select REF$AGAMA_ID, AGAMA_NAME from REF$AGAMA';
+  lDS := TDBUtils.OpenQuery(S);
+  Result := TJSONUtils.DataSetToJSON(lDS);
+end;
+
+function TJSONCRUD.Retrieve(AClassName, AID: String): TJSONObject;
+var
+  lModApp: TModApp;
+begin
+  lModApp := Self.CRUD.Retrieve(AClassName, AID);
+  try
+    Result := TJSONUtils.ModelToJSON(lModApp);
+  finally
+    lModApp.Free;
+  end;
+end;
+
+function TJSONCRUD.SaveToDB(AJSON: TJSONObject): TJSONObject;
+var
+  AClassName: string;
+  lClass: TModAppClass;
+  LJSVal: TJSONValue;
+  lModApp: TModApp;
+begin
+//  LJSVal  := AJSON.GetValue('ClassName');
+  lJSVal := TJSONUtils.GetValue(AJSON, 'ClassName');
+  if LJSVal = nil then
+    Raise Exception.Create('ClassName can''t be found in JSON Body');
+  AClassName := LJSVal.Value;
+  lClass  := StringToClass(AClassName);
+  lModApp := TJSONUtils.JSONToModel(AJSON, lClass);
+  Self.CRUD.SaveToDB(lModApp);
+  try
+    Result := TJSONUtils.ModelToJSON(lModApp);
+  finally
+    lModApp.Free;
+  end;
+end;
+
+function TJSONCRUD.StringToClass(ModClassName: string): TModAppClass;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  list: TArray<TRttiType>;
+begin
+  Result := nil;
+  ctx := TRttiContext.Create;
+  list := ctx.GetTypes;
+  for typ in list do
+  begin
+    if typ.IsInstance and (EndsText(ModClassName, typ.Name)) then
+    begin
+      Result := TModAppClass(typ.AsInstance.MetaClassType);
+      break;
+    end;
+  end;
+  ctx.Free;
+end;
+
+function TJSONCRUD.TestNativeGet: TModApp;
+var
+  sID: string;
+begin
+  sID := 'D21144E2-31DF-4995-BECC-4D0E5DD1DB48';
+  Result := Self.CRUD.Retrieve(TModCNRecv.ClassName, sID);
 end;
 
 function TCrudCustomerInvoice.BeforeDeleteFromDB(AObject: TModApp): Boolean;
@@ -2355,10 +2448,37 @@ begin
   Result := 'RT-' + Self.GenerateNo(TModReturTrader.ClassName);
 end;
 
+function TCrudBarcodeUsage.AfterSaveToDB(AObject: TModApp): Boolean;
+var
+  i: Integer;
+  lModBU: TModBarcodeUsage;
+  lSS: TStrings;
+//  S: string;
+begin
+//  Result := False;
+  lModBU := TModBarcodeUsage(AObject);
+
+  lSS := TStringList.Create;
+  Try
+    for i := 0 to lModBU.BarcodeUsageItems.Count-1 do
+    begin
+      lSS.Append(
+        TDBUtils.GetSQLUpdate(lModBU.BarcodeUsageItems[i].BUI_BarcodeRequest, ' BR_IS_INVOICED = 1 ')
+      );
+    end;
+    TDBUtils.ExecuteSQL(lSS, False);
+    Result := True;
+  Finally
+    lSS.Free;
+  End;
+end;
+
 function TCrudBarcodeUsage.BeforeDeleteFromDB(AObject: TModApp): Boolean;
 var
+  i: Integer;
   lCRUD: TCrud;
   lModBU: TModBarcodeUsage;
+  lSS: TStrings;
 begin
   Result := False;
   lModBU := TModBarcodeUsage(AObject);
@@ -2368,6 +2488,19 @@ begin
     lModBU.BU_AR.Reload();
     if lModBU.BU_AR.AR_PAID <> 0 then
       Raise Exception.Create('AR telah dibayar, transaksi tidak bisa dihapus');
+
+    lSS := TStringList.Create;
+    Try
+      for i := 0 to lModBU.BarcodeUsageItems.Count-1 do
+      begin
+        lSS.Append(
+          TDBUtils.GetSQLUpdate(lModBU.BarcodeUsageItems[i].BUI_BarcodeRequest, ' BR_IS_INVOICED = 0 ')
+        );
+      end;
+      TDBUtils.ExecuteSQL(lSS, False);
+    Finally
+      lSS.Free;
+    End;
 
     lCRUD := TCrud.Create(nil);
     try

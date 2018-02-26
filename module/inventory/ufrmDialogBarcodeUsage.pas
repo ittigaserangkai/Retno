@@ -79,7 +79,7 @@ begin
         lModBarcodeUsage := TModBarcodeUsage.Create;
         try
           lModBarcodeUsage := DMClient.CrudClient.RetrieveByCode(TModBarcodeUsage.ClassName, edNoBukti.EditValue) as TModBarcodeUsage;
-          DMClient.CrudClient.DeleteFromDB(lModBarcodeUsage);
+          DMClient.CRUDBarcodeUsageClient.DeleteFromDB(lModBarcodeUsage);
           TAppUtils.Information(CONF_DELETE_SUCCESSFULLY);
           ModalResult := mrOk;
         finally
@@ -223,7 +223,7 @@ begin
 
       CDSDetail.Append;
       lItem.UpdateToDataset(CDSDetail);
-      CDSDetail.FieldByName('ID').Value         := lModBarcodeUsage.ID;
+      CDSDetail.FieldByName('BU_ID').Value         := lModBarcodeUsage.ID;
       CDSDetail.FieldByName('SUPPLIERMG').Value := lItem.BUI_BarcodeRequest.BR_SUPMG.ID;
       CDSDetail.FieldByName('SUPPLIER').Value   := lItem.BUI_BarcodeRequest.BR_SUPMG.SUPMG_NAME;
       CDSDetail.FieldByName('NOBUKTI').Value    := lItem.BUI_BarcodeRequest.BR_NO;

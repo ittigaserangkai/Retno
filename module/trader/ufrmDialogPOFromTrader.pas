@@ -153,6 +153,7 @@ var
 begin
   if CDSDetail.State in [dsEdit] then CDSDetail.Post;
 
+  //SellPrice include PPN
   dSellPrice := CDSDetail.FieldByName('POTITEM_SELLPRICE').AsFloat;
   dDisc      := CDSDetail.FieldByName('POTITEM_DISC').AsFloat;
   dPPN       := CDSDetail.FieldByName('POTITEM_PPN').AsFloat;
@@ -160,8 +161,8 @@ begin
 
   dDiscRp   := dSellPrice * dDisc / 100;
   dNetSale  := dSellPrice - dDiscRp;
-  dPPNRp    := dNetSale * dPPN / 100;
-  dTotal    := (dNetSale + dPPNRp) * dQty;
+  dPPNRp    := dSellPrice * (dPPN + 100) / 100;
+  dTotal    := dNetSale * dQty;
 
   CDSDetail.Edit;
   CDSDetail.FieldByName('POTITEM_DISCRP').AsFloat   := dDiscRp;
@@ -366,7 +367,7 @@ begin
       CDSDetail.FieldByName('BRG_UOM').Value            := lCrazyPrice.CRAZY_SATUAN.SAT_CODE;
       CDSDetail.FieldByName('POTITEM_SATUAN').Value     := lCrazyPrice.CRAZY_SATUAN.ID;
       CDSDetail.FieldByName('POTITEM_QTY').Value        := lQty + dQty;
-      CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lCrazyPrice.CRAZY_SELLPRICE_DISC;
+      CDSDetail.FieldByName('POTITEM_SELLPRICE').Value  := lCrazyPrice.CRAZY_SELLPRICE;
       CDSDetail.FieldByName('POTITEM_COGS').Value       := lCrazyPrice.CRAZY_COGS;
       CDSDetail.FieldByName('POTITEM_DISC').Value       := lCrazyPrice.CRAZY_DISC_PERSEN;
       CDSDetail.FieldByName('POTITEM_PPN').Value        := lCrazyPrice.CRAZY_PPN;

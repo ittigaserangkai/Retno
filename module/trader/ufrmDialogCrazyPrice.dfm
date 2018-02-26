@@ -2,6 +2,7 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
   Caption = 'Dialog Crazy Price'
   ClientHeight = 479
   ClientWidth = 731
+  ExplicitTop = -85
   ExplicitWidth = 747
   ExplicitHeight = 518
   PixelsPerInch = 96
@@ -113,8 +114,8 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Properties.OnValidate = cxGridColCPMarkUpPropertiesValidate
           HeaderAlignmentHorz = taCenter
         end
-        object cxGridColCPSellpriceDisc: TcxGridColumn
-          AlternateCaption = 'CRAZY_SELLPRICE_DISC'
+        object cxGridColCPSellprice: TcxGridColumn
+          AlternateCaption = 'CRAZY_SELLPRICE'
           Caption = 'Setelah Disc'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -131,8 +132,8 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Properties.DisplayFormat = ',0.00;(,0.00)'
           HeaderAlignmentHorz = taCenter
         end
-        object cxGridColCPSellPriceDiscPPN: TcxGridColumn
-          AlternateCaption = 'CRAZY_SELLPRICE_PPN'
+        object cxGridColCPSellPriceDisc: TcxGridColumn
+          AlternateCaption = 'CRAZY_SELLPRICE_DISC'
           Caption = 'Harga Jual'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
@@ -151,14 +152,14 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
           Width = 100
         end
         object cxGridColCPBHJSellpriceDisc: TcxGridColumn
-          Caption = 'BHJ Sellprice'
+          Caption = 'BHJ Sellprice_Disc'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
           Visible = False
         end
-        object cxGridColCPBHJSellpriceDiscPPN: TcxGridColumn
-          Caption = 'BHJ Sellprice PPN'
+        object cxGridColCPBHJSellprice: TcxGridColumn
+          Caption = 'BHJ Sellprice'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.DisplayFormat = ',0.00;(,0.00)'
@@ -383,14 +384,20 @@ inherited frmDialogCrazyPrice: TfrmDialogCrazyPrice
       ExplicitWidth = 731
       inherited lbCTRLEnter: TLabel
         Left = 556
+        Height = 15
         ExplicitLeft = 556
       end
       inherited lbEscape: TLabel
         Left = 647
+        Height = 15
         ExplicitLeft = 647
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 480
+        Height = 15
         ExplicitLeft = 480
       end
     end
