@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/21/2018 12:00:03 PM
+// 2/26/2018 10:11:02 AM
 //
 
 unit uClientClasses;
@@ -816,15 +816,35 @@ type
 
   TJSONCRUDClient = class(TDSAdminRestClient)
   private
-    FTestCommand: TDSRestCommand;
-    FTestCommand_Cache: TDSRestCommand;
+    FTestGetCommand: TDSRestCommand;
+    FTestGetCommand_Cache: TDSRestCommand;
+    FTestPostCommand: TDSRestCommand;
+    FTestPostCommand_Cache: TDSRestCommand;
+    FTestDatasetCommand: TDSRestCommand;
+    FTestDatasetCommand_Cache: TDSRestCommand;
+    FRetrieveCommand: TDSRestCommand;
+    FRetrieveCommand_Cache: TDSRestCommand;
+    FSaveToDBCommand: TDSRestCommand;
+    FSaveToDBCommand_Cache: TDSRestCommand;
+    FTestNativeGetCommand: TDSRestCommand;
+    FTestNativeGetCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function Test(const ARequestFilter: string = ''): TJSONObject;
-    function Test_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestGet(const ARequestFilter: string = ''): TJSONObject;
+    function TestGet_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestPost(const ARequestFilter: string = ''): TJSONObject;
+    function TestPost_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestDataset(const ARequestFilter: string = ''): TJSONArray;
+    function TestDataset_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONArray;
+    function Retrieve(AClassName: string; AID: string; const ARequestFilter: string = ''): TJSONObject;
+    function Retrieve_Cache(AClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function SaveToDB(AJSON: TJSONObject; const ARequestFilter: string = ''): TJSONObject;
+    function SaveToDB_Cache(AJSON: TJSONObject; const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestNativeGet(const ARequestFilter: string = ''): TModApp;
+    function TestNativeGet_Cache(const ARequestFilter: string = ''): IDSRestCachedTModApp;
     procedure AfterExecuteMethod;
   end;
 
@@ -4616,12 +4636,68 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TJSONCRUD_Test: array [0..0] of TDSRestParameterMetaData =
+  TJSONCRUD_TestGet: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
   );
 
-  TJSONCRUD_Test_Cache: array [0..0] of TDSRestParameterMetaData =
+  TJSONCRUD_TestGet_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestPost: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_TestPost_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestDataset: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONArray')
+  );
+
+  TJSONCRUD_TestDataset_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_Retrieve: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_SaveToDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AJSON'; Direction: 1; DBXType: 37; TypeName: 'TJSONObject'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_SaveToDB_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AJSON'; Direction: 1; DBXType: 37; TypeName: 'TJSONObject'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestNativeGet: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TJSONCRUD_TestNativeGet_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -15353,30 +15429,178 @@ begin
   inherited;
 end;
 
-function TJSONCRUDClient.Test(const ARequestFilter: string): TJSONObject;
+function TJSONCRUDClient.TestGet(const ARequestFilter: string): TJSONObject;
 begin
-  if FTestCommand = nil then
+  if FTestGetCommand = nil then
   begin
-    FTestCommand := FConnection.CreateCommand;
-    FTestCommand.RequestType := 'GET';
-    FTestCommand.Text := 'TJSONCRUD.Test';
-    FTestCommand.Prepare(TJSONCRUD_Test);
+    FTestGetCommand := FConnection.CreateCommand;
+    FTestGetCommand.RequestType := 'GET';
+    FTestGetCommand.Text := 'TJSONCRUD.TestGet';
+    FTestGetCommand.Prepare(TJSONCRUD_TestGet);
   end;
-  FTestCommand.Execute(ARequestFilter);
-  Result := TJSONObject(FTestCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+  FTestGetCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FTestGetCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
 end;
 
-function TJSONCRUDClient.Test_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
+function TJSONCRUDClient.TestGet_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
 begin
-  if FTestCommand_Cache = nil then
+  if FTestGetCommand_Cache = nil then
   begin
-    FTestCommand_Cache := FConnection.CreateCommand;
-    FTestCommand_Cache.RequestType := 'GET';
-    FTestCommand_Cache.Text := 'TJSONCRUD.Test';
-    FTestCommand_Cache.Prepare(TJSONCRUD_Test_Cache);
+    FTestGetCommand_Cache := FConnection.CreateCommand;
+    FTestGetCommand_Cache.RequestType := 'GET';
+    FTestGetCommand_Cache.Text := 'TJSONCRUD.TestGet';
+    FTestGetCommand_Cache.Prepare(TJSONCRUD_TestGet_Cache);
   end;
-  FTestCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedJSONObject.Create(FTestCommand_Cache.Parameters[0].Value.GetString);
+  FTestGetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FTestGetCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TJSONCRUDClient.TestPost(const ARequestFilter: string): TJSONObject;
+begin
+  if FTestPostCommand = nil then
+  begin
+    FTestPostCommand := FConnection.CreateCommand;
+    FTestPostCommand.RequestType := 'GET';
+    FTestPostCommand.Text := 'TJSONCRUD.TestPost';
+    FTestPostCommand.Prepare(TJSONCRUD_TestPost);
+  end;
+  FTestPostCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FTestPostCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.TestPost_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FTestPostCommand_Cache = nil then
+  begin
+    FTestPostCommand_Cache := FConnection.CreateCommand;
+    FTestPostCommand_Cache.RequestType := 'GET';
+    FTestPostCommand_Cache.Text := 'TJSONCRUD.TestPost';
+    FTestPostCommand_Cache.Prepare(TJSONCRUD_TestPost_Cache);
+  end;
+  FTestPostCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FTestPostCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TJSONCRUDClient.TestDataset(const ARequestFilter: string): TJSONArray;
+begin
+  if FTestDatasetCommand = nil then
+  begin
+    FTestDatasetCommand := FConnection.CreateCommand;
+    FTestDatasetCommand.RequestType := 'GET';
+    FTestDatasetCommand.Text := 'TJSONCRUD.TestDataset';
+    FTestDatasetCommand.Prepare(TJSONCRUD_TestDataset);
+  end;
+  FTestDatasetCommand.Execute(ARequestFilter);
+  Result := TJSONArray(FTestDatasetCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.TestDataset_Cache(const ARequestFilter: string): IDSRestCachedJSONArray;
+begin
+  if FTestDatasetCommand_Cache = nil then
+  begin
+    FTestDatasetCommand_Cache := FConnection.CreateCommand;
+    FTestDatasetCommand_Cache.RequestType := 'GET';
+    FTestDatasetCommand_Cache.Text := 'TJSONCRUD.TestDataset';
+    FTestDatasetCommand_Cache.Prepare(TJSONCRUD_TestDataset_Cache);
+  end;
+  FTestDatasetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONArray.Create(FTestDatasetCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TJSONCRUDClient.Retrieve(AClassName: string; AID: string; const ARequestFilter: string): TJSONObject;
+begin
+  if FRetrieveCommand = nil then
+  begin
+    FRetrieveCommand := FConnection.CreateCommand;
+    FRetrieveCommand.RequestType := 'GET';
+    FRetrieveCommand.Text := 'TJSONCRUD.Retrieve';
+    FRetrieveCommand.Prepare(TJSONCRUD_Retrieve);
+  end;
+  FRetrieveCommand.Parameters[0].Value.SetWideString(AClassName);
+  FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FRetrieveCommand.Parameters[2].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.Retrieve_Cache(AClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FRetrieveCommand_Cache = nil then
+  begin
+    FRetrieveCommand_Cache := FConnection.CreateCommand;
+    FRetrieveCommand_Cache.RequestType := 'GET';
+    FRetrieveCommand_Cache.Text := 'TJSONCRUD.Retrieve';
+    FRetrieveCommand_Cache.Prepare(TJSONCRUD_Retrieve_Cache);
+  end;
+  FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(AClassName);
+  FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TJSONCRUDClient.SaveToDB(AJSON: TJSONObject; const ARequestFilter: string): TJSONObject;
+begin
+  if FSaveToDBCommand = nil then
+  begin
+    FSaveToDBCommand := FConnection.CreateCommand;
+    FSaveToDBCommand.RequestType := 'POST';
+    FSaveToDBCommand.Text := 'TJSONCRUD."SaveToDB"';
+    FSaveToDBCommand.Prepare(TJSONCRUD_SaveToDB);
+  end;
+  FSaveToDBCommand.Parameters[0].Value.SetJSONValue(AJSON, FInstanceOwner);
+  FSaveToDBCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FSaveToDBCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.SaveToDB_Cache(AJSON: TJSONObject; const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FSaveToDBCommand_Cache = nil then
+  begin
+    FSaveToDBCommand_Cache := FConnection.CreateCommand;
+    FSaveToDBCommand_Cache.RequestType := 'POST';
+    FSaveToDBCommand_Cache.Text := 'TJSONCRUD."SaveToDB"';
+    FSaveToDBCommand_Cache.Prepare(TJSONCRUD_SaveToDB_Cache);
+  end;
+  FSaveToDBCommand_Cache.Parameters[0].Value.SetJSONValue(AJSON, FInstanceOwner);
+  FSaveToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FSaveToDBCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TJSONCRUDClient.TestNativeGet(const ARequestFilter: string): TModApp;
+begin
+  if FTestNativeGetCommand = nil then
+  begin
+    FTestNativeGetCommand := FConnection.CreateCommand;
+    FTestNativeGetCommand.RequestType := 'GET';
+    FTestNativeGetCommand.Text := 'TJSONCRUD.TestNativeGet';
+    FTestNativeGetCommand.Prepare(TJSONCRUD_TestNativeGet);
+  end;
+  FTestNativeGetCommand.Execute(ARequestFilter);
+  if not FTestNativeGetCommand.Parameters[0].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTestNativeGetCommand.Parameters[0].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FTestNativeGetCommand.Parameters[0].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTestNativeGetCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TJSONCRUDClient.TestNativeGet_Cache(const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FTestNativeGetCommand_Cache = nil then
+  begin
+    FTestNativeGetCommand_Cache := FConnection.CreateCommand;
+    FTestNativeGetCommand_Cache.RequestType := 'GET';
+    FTestNativeGetCommand_Cache.Text := 'TJSONCRUD.TestNativeGet';
+    FTestNativeGetCommand_Cache.Prepare(TJSONCRUD_TestNativeGet_Cache);
+  end;
+  FTestNativeGetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FTestNativeGetCommand_Cache.Parameters[0].Value.GetString);
 end;
 
 procedure TJSONCRUDClient.AfterExecuteMethod;
@@ -15402,8 +15626,18 @@ end;
 
 destructor TJSONCRUDClient.Destroy;
 begin
-  FTestCommand.DisposeOf;
-  FTestCommand_Cache.DisposeOf;
+  FTestGetCommand.DisposeOf;
+  FTestGetCommand_Cache.DisposeOf;
+  FTestPostCommand.DisposeOf;
+  FTestPostCommand_Cache.DisposeOf;
+  FTestDatasetCommand.DisposeOf;
+  FTestDatasetCommand_Cache.DisposeOf;
+  FRetrieveCommand.DisposeOf;
+  FRetrieveCommand_Cache.DisposeOf;
+  FSaveToDBCommand.DisposeOf;
+  FSaveToDBCommand_Cache.DisposeOf;
+  FTestNativeGetCommand.DisposeOf;
+  FTestNativeGetCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;
