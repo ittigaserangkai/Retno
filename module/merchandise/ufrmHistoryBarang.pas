@@ -16,6 +16,16 @@ uses
 
 type
   TfrmHistoryBarang = class(TfrmMasterBrowse)
+    cxPCCheckExternalCode: TcxPageControl;
+    cxTSCheckExternalCode: TcxTabSheet;
+    lblExternalCode: TLabel;
+    edExternalCode: TcxTextEdit;
+    lblKodeBarang: TLabel;
+    edKodeBarang: TcxTextEdit;
+    edNamaBarang: TcxTextEdit;
+    lblNamaBarang: TLabel;
+    lblUOM: TLabel;
+    edUOM: TcxTextEdit;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
   private
