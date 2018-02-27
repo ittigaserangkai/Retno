@@ -1,24 +1,25 @@
 inherited frmPORevision: TfrmPORevision
   Caption = 'PO Revision'
-  ClientHeight = 405
+  ClientHeight = 561
   ClientWidth = 934
   ExplicitWidth = 950
-  ExplicitHeight = 444
+  ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
     Width = 934
-    Height = 349
+    Height = 505
     ExplicitWidth = 934
     ExplicitHeight = 349
     object cxGridDBPODetil: TcxGrid
       Left = 2
       Top = 137
       Width = 930
-      Height = 154
+      Height = 310
       Align = alClient
       TabOrder = 0
       LevelTabs.Style = 10
+      ExplicitHeight = 154
       object cxGridTablePODetil: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnEditing = cxGridTablePODetilEditing
@@ -52,6 +53,7 @@ inherited frmPORevision: TfrmPORevision
         DataController.Summary.SummaryGroups = <>
         DataController.OnAfterPost = cxGridTablePODetilDataControllerAfterPost
         OptionsView.Footer = True
+        OptionsView.GroupByBox = False
         Styles.ContentEven = DMClient.cxStyleGridEven
         Styles.Header = DMClient.cxStyleGridHeader
         object cxgrdclmnPODID: TcxGridColumn
@@ -189,11 +191,12 @@ inherited frmPORevision: TfrmPORevision
     end
     object pnlPOFooter: TPanel
       Left = 2
-      Top = 291
+      Top = 447
       Width = 930
       Height = 56
       Align = alBottom
       TabOrder = 1
+      ExplicitTop = 291
       object lblSubTotal: TLabel
         Left = 20
         Top = 4
@@ -306,9 +309,6 @@ inherited frmPORevision: TfrmPORevision
       object cxTSPOHeader: TcxTabSheet
         Caption = 'Revisi Purchase Order'
         ImageIndex = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lblPOLama: TLabel
           Left = 18
           Top = 5
@@ -350,7 +350,7 @@ inherited frmPORevision: TfrmPORevision
         end
         object lblSupMG: TLabel
           Left = 300
-          Top = 3
+          Top = 49
           Width = 145
           Height = 16
           Caption = 'Supplier Merchandise Group :'
@@ -376,7 +376,7 @@ inherited frmPORevision: TfrmPORevision
         end
         object lblSupplier: TLabel
           Left = 300
-          Top = 49
+          Top = 3
           Width = 46
           Height = 16
           Caption = 'Supplier :'
@@ -478,7 +478,7 @@ inherited frmPORevision: TfrmPORevision
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 349
+    Top = 505
     Width = 934
     ExplicitTop = 349
     ExplicitWidth = 934
@@ -509,14 +509,20 @@ inherited frmPORevision: TfrmPORevision
       ExplicitWidth = 934
       inherited lbCTRLEnter: TLabel
         Left = 759
+        Height = 15
         ExplicitLeft = 759
       end
       inherited lbEscape: TLabel
         Left = 850
+        Height = 15
         ExplicitLeft = 850
+      end
+      inherited lbCTRLDel: TLabel
+        Height = 15
       end
       inherited lblCTRLP: TLabel
         Left = 683
+        Height = 15
         ExplicitLeft = 683
       end
     end

@@ -19,6 +19,7 @@ type
   public
     class function GetTableName: String; override;
   published
+    [AttributeOfCode]
     property STAPO_CODE: string read FSTAPO_CODE write FSTAPO_CODE;
     property STAPO_NAME: string read FSTAPO_NAME write FSTAPO_NAME;
   end;
@@ -37,7 +38,7 @@ type
     FPOD_PPN: Double;
     FPOD_PPNBM: Double;
     FPOD_PPNBM_PERSEN: Double;
-    FPOD_PPN_PERSEN: Integer;
+    FPOD_PPN_PERSEN: Double;
     FPOD_PRICE: Double;
     FPOD_QTY_ORDER: Double;
     FPOD_SODetail: TModSODetail;
@@ -71,7 +72,7 @@ type
     property POD_PPNBM: Double read FPOD_PPNBM write FPOD_PPNBM;
     property POD_PPNBM_PERSEN: Double read FPOD_PPNBM_PERSEN write
         FPOD_PPNBM_PERSEN;
-    property POD_PPN_PERSEN: Integer read FPOD_PPN_PERSEN write FPOD_PPN_PERSEN;
+    property POD_PPN_PERSEN: Double read FPOD_PPN_PERSEN write FPOD_PPN_PERSEN;
     property POD_PRICE: Double read FPOD_PRICE write FPOD_PRICE;
     property POD_QTY_ORDER: Double read FPOD_QTY_ORDER write FPOD_QTY_ORDER;
 
