@@ -103,18 +103,18 @@ begin
 end;
 
 procedure TfrmPopupDetailTransaction.ParseDataGrid;
-var
-  sSQL      : string;
-  sTrsctNo  : string;
-  sTrsctTm  : string;
-  dCashP    : Double;
-  dCashB    : Double;
-  dVg, dVb  : Double;
-  dVl, dTot : Double;
-  sCardCode : string;
-  dCardC    : Double;
-  dCardD    : Double;
-  i, n, m   : integer;
+//var
+//  sSQL      : string;
+//  sTrsctNo  : string;
+//  sTrsctTm  : string;
+//  dCashP    : Double;
+//  dCashB    : Double;
+//  dVg, dVb  : Double;
+//  dVl, dTot : Double;
+//  sCardCode : string;
+//  dCardC    : Double;
+//  dCardD    : Double;
+//  i, n, m   : integer;
 
 begin
   {

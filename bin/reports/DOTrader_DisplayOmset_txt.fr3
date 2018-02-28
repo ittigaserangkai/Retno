@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="43159.4779133565" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="421.639727691009" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="0" Font.Color="0" Font.Height="-15" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="221" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" RowCount="0">
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETORG_CODE" Left="67.2" Top="0" Width="124.8" Height="17" DataField="ORG_CODE" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;ORG_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETORG_NAME" Left="201.6" Top="0" Width="374.4" Height="17" DataField="ORG_NAME" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;ORG_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETDOT_SUBTOTAL" Left="950.4" Top="0" Width="144" Height="17" DataField="DOT_SUBTOTAL" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;DOT_SUBTOTAL&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETDOT_DISC" Left="1104" Top="0" Width="144" Height="17" DataField="DOT_DISC" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;DOT_DISC&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETDOT_PPN" Left="1257.6" Top="0" Width="144" Height="17" DataField="DOT_PPN" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;DOT_PPN&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETDOT_TOTAL" Left="1411.2" Top="0" Width="144" Height="17" DataField="DOT_TOTAL" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;DOT_TOTAL&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETDOT_NO" Left="585.6" Top="0" Width="134.4" Height="17" DataField="DOT_NO" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;DOT_NO&#34;]"/>
+      <TfrxDMPMemoView Name="Q_DISPLAYOMSETDOT_DATE" Left="729.6" Top="0" Width="124.8" Height="17" DataField="DOT_DATE" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" TruncOutboundText="False" Text="[Q_DISPLAYOMSET.&#34;DOT_DATE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="9.6" Top="0" Width="48" Height="17" HAlign="haRight" TruncOutboundText="False" Text="[Line#]"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="408" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo81" Left="9.6" Top="17" Width="288" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]"/>
+      <TfrxDMPMemoView Name="DMPMemo82" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo83" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo84" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo85" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+    </TfrxPageFooter>
+    <TfrxReportTitle Name="ReportTitle1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="170" Left="0" Top="17" Width="1574.4">
+      <TfrxDMPMemoView Name="Memo3" Left="9.6" Top="0" Width="403.2" Height="85" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="PT. ASSALAAM NIAGA UTAMA - MG SOLO&#13;&#10;JL. AHMAD YANI NO. 308 PABELAN&#13;&#10;SUKOHARJO 57162&#13;&#10;Telp : 0271-743333, 7330 Fax : 0271-718893&#13;&#10;NPWP : 02.000.274.7-532.000"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="422.4" Top="0" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="## OMSET TRADER ##"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="9.6" Top="119" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="================================================================================================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="9.6" Top="153" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo26" Left="422.4" Top="17" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="Periode : [p1] s.d. [p2]"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="67.2" Top="136" Width="508.8" Height="17" TruncOutboundText="False" Text="TRADER"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="950.4" Top="136" Width="144" Height="17" HAlign="haRight" TruncOutboundText="False" Text="GROSS"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="1104" Top="136" Width="144" Height="17" HAlign="haRight" TruncOutboundText="False" Text="DISKON"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="1257.6" Top="136" Width="144" Height="17" HAlign="haRight" TruncOutboundText="False" Text="PPN"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="1411.2" Top="136" Width="144" Height="17" HAlign="haRight" TruncOutboundText="False" Text="TOTAL"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="585.6" Top="136" Width="134.4" Height="17" TruncOutboundText="False" Text="NO BUKTI"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="729.6" Top="136" Width="124.8" Height="17" TruncOutboundText="False" Text="TANGGAL"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="422.4" Top="34" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="No Bukti: [no1] s.d. [no2]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="9.6" Top="136" Width="48" Height="17" TruncOutboundText="False" Text="NO"/>
+    </TfrxReportTitle>
+    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="119" Left="0" Top="272" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo4" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo11" Left="9.6" Top="17" Width="940.8" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" HAlign="haRight" TruncOutboundText="False" Text="TOTAL  "/>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="950.4" Top="17" Width="144" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;Q_DISPLAYOMSET.&#34;DOT_SUBTOTAL&#34;&#62;,MasterData1,3)]"/>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="1104" Top="17" Width="144" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;Q_DISPLAYOMSET.&#34;DOT_DISC&#34;&#62;,MasterData1,3)]"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="1257.6" Top="17" Width="144" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;Q_DISPLAYOMSET.&#34;DOT_PPN&#34;&#62;,MasterData1,3)]"/>
+      <TfrxDMPMemoView Name="DMPMemo16" Left="1411.2" Top="17" Width="144" Height="17" DataSet="IBQ1" DataSetName="Q_DISPLAYOMSET" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;Q_DISPLAYOMSET.&#34;DOT_TOTAL&#34;&#62;,MasterData1,3)]"/>
+    </TfrxReportSummary>
+  </TfrxDMPPage>
+</TfrxReport>

@@ -73,7 +73,7 @@ var
   i    : Integer;
 begin
   ParseHeaderGrid;
-  i:=0;
+//  i:=0;
    ssql:= ' select setuppos_terminal_code'
         + ' ,trim(substr(setuppos_no_transaksi,1,11)||setuppos_counter_no) notran'
         + ' ,setuppos_counter_no'

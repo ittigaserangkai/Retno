@@ -20,6 +20,12 @@ uses
 type
   TTag = set of byte;
 
+  TcxTextEditHelper = class helper for TcxTextEdit
+  public
+    function TextRest: string;
+
+  end;
+
   DataControllerHelper = class helper for TcxGridDataController
   private
   public
@@ -1993,6 +1999,13 @@ procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
     String; IsVisible: Boolean = True);
 begin
   Self.Properties.SetVisibleColumnsOnly(ColumnSets, IsVisible);
+end;
+
+function TcxTextEditHelper.TextRest: string;
+begin
+  Result := Trim(Self.Text);
+  if Result = '' then
+    Result := 'null';
 end;
 
 end.

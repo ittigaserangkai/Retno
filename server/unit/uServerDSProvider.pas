@@ -74,8 +74,8 @@ type
     function Document_GetDSOverview: TDataSet;
     function DODetail_LookupAdjFak(aDOID: string): TDataset;
     function DODetail_WithAdj(aDOID: string): TDataset;
-    function DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime):
-        TDataSet;
+    function DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir: TDatetime;
+        ANoBuktiAwal : String; ANoBuktiAkhir : String): TDataSet;
     function DO_GetDSLookUp: TDataSet;
     function DO_GetDSOverview(ATglAwal , ATglAkhir : TDateTime;AUnitID,
         ASupMGCodeID : String): TDataSet;
@@ -230,6 +230,8 @@ type
     function Test: Variant;
     function Test2: OleVariant;
     function TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
+    function DOTrader_DisplayOmset(APeriodeAwal, APeriodeAkhir: TDatetime;
+        ANoBuktiAwal : String; ANoBuktiAkhir : String): TFDJSONDataSets;
   end;
 
   {$METHODINFO OFF}
@@ -848,13 +850,23 @@ begin
 end;
 
 function TDSProvider.DOTrader_GetDSOverview(APeriodeAwal, APeriodeAkhir:
-    TDatetime): TDataSet;
+    TDatetime; ANoBuktiAwal : String; ANoBuktiAkhir : String): TDataSet;
 var
   S: string;
 begin
   S := 'SELECT * FROM V_DOTRADER' +
        ' where DOT_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) +
        ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
+
+  if (trim(ANoBuktiAwal) <> '') and (ANoBuktiAwal <> 'null') then
+  begin
+    s := s + ' and DOT_NO >= ' + QuotedStr(trim(ANoBuktiAwal))
+  end;
+
+  if (trim(ANoBuktiakhir) <> '') and (ANoBuktiakhir <> 'null') then
+  begin
+    s := s + ' and DOT_NO <= ' + QuotedStr(trim(ANoBuktiakhir))
+  end;
 
   Result := TDBUtils.OpenQuery(S);
 end;
@@ -2365,6 +2377,22 @@ begin
       + QuotedStr(aID);
 
   TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(S));
+
+end;
+
+function TDSReport.DOTrader_DisplayOmset(APeriodeAwal, APeriodeAkhir:
+    TDatetime; ANoBuktiAwal : String; ANoBuktiAkhir : String): TFDJSONDataSets;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  with TDSProvider.Create(nil) do
+  begin
+    try
+      TFDJSONDataSetsWriter.ListAdd(Result, TFDQuery(DOTrader_GetDSOverview(APeriodeAwal,APeriodeAkhir,ANoBuktiAwal,ANoBuktiAkhir)));
+    finally
+      Free;
+    end;
+  end;
 
 end;
 
