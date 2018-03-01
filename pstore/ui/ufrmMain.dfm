@@ -92,7 +92,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxrbntbProcureToPay: TdxRibbonTab
-      Active = True
       Caption = 'Procure To Pay'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxrbntbOrderToCash: TdxRibbonTab
+      Active = True
       Caption = 'Order To Cash'
       Groups = <
         item
@@ -980,6 +980,11 @@ object frmMain: TfrmMain
       Category = 'PO'
       Caption = 'Revisi PO'
     end
+    object actPODOTraderByStatus: TAction
+      Category = 'Trader'
+      Caption = 'PO Trader By Status'
+      OnExecute = actPODOTraderByStatusExecute
+    end
   end
   object AppEvents: TApplicationEvents
     OnException = AppEventsException
@@ -1228,6 +1233,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnReturTrader'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnPOTraderByStatus'
         end>
       OneOnRow = True
       Row = 0
@@ -1238,7 +1247,7 @@ object frmMain: TfrmMain
     object dxbrOrderToCashReport: TdxBar
       Caption = 'Report'
       CaptionButtons = <>
-      DockedLeft = 133
+      DockedLeft = 286
       DockedTop = 0
       FloatLeft = 957
       FloatTop = 8
@@ -1254,7 +1263,7 @@ object frmMain: TfrmMain
           ItemName = 'dxbrbtnDSA'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1585,6 +1594,11 @@ object frmMain: TfrmMain
     object dxBarButton4: TdxBarButton
       Action = actActivatePOS
       Category = 0
+    end
+    object dxbrbtnPOTraderByStatus: TdxBarButton
+      Action = actPODOTraderByStatus
+      Category = 0
+      ImageIndex = 59
     end
   end
 end
