@@ -2,7 +2,6 @@ inherited frmDialogDOForTrader: TfrmDialogDOForTrader
   Caption = 'Dialog DO For Trader'
   ClientHeight = 561
   ClientWidth = 858
-  ExplicitTop = -87
   ExplicitWidth = 874
   ExplicitHeight = 600
   PixelsPerInch = 96
