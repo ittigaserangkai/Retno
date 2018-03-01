@@ -162,7 +162,7 @@ begin
     while not lCDS.eof do
     begin
       lQTY      := lCDS.FieldByName('DOTITEM_QTY').AsFloat;
-      lDisc     := lCDS.FieldByName('DOTITEM_QTY').AsFloat;
+      lDisc     := lCDS.FieldByName('DOTITEM_DISC').AsFloat;
       lPrice    := lCDS.FieldByName('DOTITEM_SELLPRICE').AsFloat;
       lPPN      := lCDS.FieldByName('DOTITEM_PPN').AsFloat;
 
