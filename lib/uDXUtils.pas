@@ -221,6 +221,20 @@ type
     function Values(ARec : Integer; AColumnCaption : String): Variant; overload;
   end;
 
+type
+  TEditHelper = class helper for TEdit
+  public
+    function TextRest: string;
+
+  end;
+
+type
+  TComboboxHelper = class helper for TCombobox
+  public
+    function TextRest: string;
+
+  end;
+
 function CreateCXDBGrid(ALeft, ATop, AWidth, AHeight : Integer; AParent :
     TWinControl): TcxGrid;
 
@@ -2004,6 +2018,22 @@ end;
 function TcxTextEditHelper.TextRest: string;
 begin
   Result := Trim(Self.Text);
+  if Result = '' then
+    Result := 'null';
+end;
+
+function TEditHelper.TextRest: string;
+begin
+  Result := Trim(Self.Text);
+
+  if Result = '' then
+    Result := 'null';
+end;
+
+function TComboboxHelper.TextRest: string;
+begin
+  Result := Trim(Self.Text);
+
   if Result = '' then
     Result := 'null';
 end;

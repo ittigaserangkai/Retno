@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/28/2018 10:33:41 AM
+// 2/28/2018 4:01:41 PM
 //
 
 unit uClientClasses;
@@ -764,6 +764,8 @@ type
     FTransferBarang_SlipByIDCommand_Cache: TDSRestCommand;
     FDOTrader_DisplayOmsetCommand: TDSRestCommand;
     FDOTrader_DisplayOmsetCommand_Cache: TDSRestCommand;
+    FPODO_TRADER_BY_STATUSCommand: TDSRestCommand;
+    FPODO_TRADER_BY_STATUSCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -816,6 +818,8 @@ type
     function TransferBarang_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
     function DOTrader_DisplayOmset(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function DOTrader_DisplayOmset_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function PODO_TRADER_BY_STATUS(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiPOAwal: string; ANoBuktiPOAkhir: string; AStatus: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function PODO_TRADER_BY_STATUS_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiPOAwal: string; ANoBuktiPOAkhir: string; AStatus: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
   end;
 
   TJSONCRUDClient = class(TDSAdminRestClient)
@@ -4659,6 +4663,26 @@ const
     (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'ANoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: 'ANoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDSReport_PODO_TRADER_BY_STATUS: array [0..5] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBuktiPOAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'ANoBuktiPOAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AStatus'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_PODO_TRADER_BY_STATUS_Cache: array [0..5] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBuktiPOAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'ANoBuktiPOAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AStatus'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -15444,6 +15468,54 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FDOTrader_DisplayOmsetCommand_Cache.Parameters[4].Value.GetString);
 end;
 
+function TDSReportClient.PODO_TRADER_BY_STATUS(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiPOAwal: string; ANoBuktiPOAkhir: string; AStatus: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FPODO_TRADER_BY_STATUSCommand = nil then
+  begin
+    FPODO_TRADER_BY_STATUSCommand := FConnection.CreateCommand;
+    FPODO_TRADER_BY_STATUSCommand.RequestType := 'GET';
+    FPODO_TRADER_BY_STATUSCommand.Text := 'TDSReport.PODO_TRADER_BY_STATUS';
+    FPODO_TRADER_BY_STATUSCommand.Prepare(TDSReport_PODO_TRADER_BY_STATUS);
+  end;
+  FPODO_TRADER_BY_STATUSCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FPODO_TRADER_BY_STATUSCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FPODO_TRADER_BY_STATUSCommand.Parameters[2].Value.SetWideString(ANoBuktiPOAwal);
+  FPODO_TRADER_BY_STATUSCommand.Parameters[3].Value.SetWideString(ANoBuktiPOAkhir);
+  FPODO_TRADER_BY_STATUSCommand.Parameters[4].Value.SetWideString(AStatus);
+  FPODO_TRADER_BY_STATUSCommand.Execute(ARequestFilter);
+  if not FPODO_TRADER_BY_STATUSCommand.Parameters[5].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FPODO_TRADER_BY_STATUSCommand.Parameters[5].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FPODO_TRADER_BY_STATUSCommand.Parameters[5].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FPODO_TRADER_BY_STATUSCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.PODO_TRADER_BY_STATUS_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiPOAwal: string; ANoBuktiPOAkhir: string; AStatus: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FPODO_TRADER_BY_STATUSCommand_Cache = nil then
+  begin
+    FPODO_TRADER_BY_STATUSCommand_Cache := FConnection.CreateCommand;
+    FPODO_TRADER_BY_STATUSCommand_Cache.RequestType := 'GET';
+    FPODO_TRADER_BY_STATUSCommand_Cache.Text := 'TDSReport.PODO_TRADER_BY_STATUS';
+    FPODO_TRADER_BY_STATUSCommand_Cache.Prepare(TDSReport_PODO_TRADER_BY_STATUS_Cache);
+  end;
+  FPODO_TRADER_BY_STATUSCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FPODO_TRADER_BY_STATUSCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FPODO_TRADER_BY_STATUSCommand_Cache.Parameters[2].Value.SetWideString(ANoBuktiPOAwal);
+  FPODO_TRADER_BY_STATUSCommand_Cache.Parameters[3].Value.SetWideString(ANoBuktiPOAkhir);
+  FPODO_TRADER_BY_STATUSCommand_Cache.Parameters[4].Value.SetWideString(AStatus);
+  FPODO_TRADER_BY_STATUSCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FPODO_TRADER_BY_STATUSCommand_Cache.Parameters[5].Value.GetString);
+end;
+
 constructor TDSReportClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -15504,6 +15576,8 @@ begin
   FTransferBarang_SlipByIDCommand_Cache.DisposeOf;
   FDOTrader_DisplayOmsetCommand.DisposeOf;
   FDOTrader_DisplayOmsetCommand_Cache.DisposeOf;
+  FPODO_TRADER_BY_STATUSCommand.DisposeOf;
+  FPODO_TRADER_BY_STATUSCommand_Cache.DisposeOf;
   inherited;
 end;
 

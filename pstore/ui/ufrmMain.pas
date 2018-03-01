@@ -10,7 +10,7 @@ uses
   cxClasses, Vcl.AppEvnts, ufrmCN, dxBar, System.ImageList, Vcl.ImgList,
   dxRibbonSkins, dxRibbonCustomizationForm, dxRibbon, dxRibbonMiniToolbar, ufrmSettingApp,
   ufrmInventoryMovement, ufrmDOForTrader, ufrmDOBonus, ufrmTransferBarang,
-  ufrmPORevision;
+  ufrmPORevision, ufrmPODOListByStatus;
   //, ufrmBarcodeUsage;
 
 type
@@ -271,6 +271,8 @@ type
     dxBarLargeButton3: TdxBarLargeButton;
     dxBarButton4: TdxBarButton;
     actPORevision: TAction;
+    actPODOTraderByStatus: TAction;
+    dxbrbtnPOTraderByStatus: TdxBarButton;
     procedure actActivatePOSExecute(Sender: TObject);
     procedure actactListMemberTransactionExecute(Sender: TObject);
     procedure actAdjustmentCashierExecute(Sender: TObject);
@@ -344,6 +346,7 @@ type
     procedure actPOFromTraderExecute(Sender: TObject);
     procedure actInvMovementExecute(Sender: TObject);
     procedure actMasterAgreementExecute(Sender: TObject);
+    procedure actPODOTraderByStatusExecute(Sender: TObject);
     procedure actPreferenceExecute(Sender: TObject);
     procedure actResetMenuExecute(Sender: TObject);
     procedure actSettingAppExecute(Sender: TObject);
@@ -789,6 +792,11 @@ end;
 procedure TfrmMain.actPOBonusExecute(Sender: TObject);
 begin
   frmGeneratePOBonus := TfrmGeneratePOBonus.Create(Self);
+end;
+
+procedure TfrmMain.actPODOTraderByStatusExecute(Sender: TObject);
+begin
+  frmPODOListByStatus := TfrmPODOListByStatus.Create(Self);
 end;
 
 procedure TfrmMain.actPOFromTraderExecute(Sender: TObject);

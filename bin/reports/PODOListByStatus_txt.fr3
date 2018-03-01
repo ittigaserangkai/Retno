@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.3.16" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="43160.4374007986" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;end.          ">
+  <Datasets>
+    <item DataSet="IBQ1" DataSetName="PODOList"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="421.639727691009" PaperHeight="296.862308276426" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="2.53999835958439" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" LargeDesignHeight="True" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Font.Charset="1" Font.Color="0" Font.Height="17" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="476" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo81" Left="9.6" Top="17" Width="288" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]"/>
+      <TfrxDMPMemoView Name="DMPMemo82" Left="9.6" Top="34" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo83" Left="9.6" Top="51" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo84" Left="9.6" Top="68" Width="96" Height="17" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo85" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+    </TfrxPageFooter>
+    <TfrxReportTitle Name="ReportTitle1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="187" Left="0" Top="17" Width="1574.4">
+      <TfrxDMPMemoView Name="Memo3" Left="9.6" Top="0" Width="403.2" Height="85" DataSet="IBQ1" DataSetName="PODOList" FontStyle="0" ParentFont="False" TruncOutboundText="False" Text="PT. ASSALAAM NIAGA UTAMA - MG SOLO&#13;&#10;JL. AHMAD YANI NO. 308 PABELAN&#13;&#10;SUKOHARJO 57162&#13;&#10;Telp : 0271-743333, 7330 Fax : 0271-718893&#13;&#10;NPWP : 02.000.274.7-532.000"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="422.4" Top="0" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="## PO - DO TRADER BY STATUS ##"/>
+      <TfrxDMPMemoView Name="DMPMemo1" Left="9.6" Top="119" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="================================================================================================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="9.6" Top="170" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo26" Left="422.4" Top="17" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="Periode : [p1] s.d. [p2]"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="9.6" Top="136" Width="288" Height="17" TruncOutboundText="False" Text="NO PO - NO DO"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="835.2" Top="153" Width="76.8" Height="17" HAlign="haRight" TruncOutboundText="False" Text="DISKON"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="921.6" Top="153" Width="76.8" Height="17" HAlign="haRight" TruncOutboundText="False" Text="QTY PO"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="1094.4" Top="153" Width="76.8" Height="17" HAlign="haRight" TruncOutboundText="False" Text="PPN"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="1180.8" Top="153" Width="182.4" Height="17" HAlign="haRight" TruncOutboundText="False" Text="HARGA JUAL (+PPN)"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="307.2" Top="136" Width="432" Height="17" TruncOutboundText="False" Text="KODE DAN NAMA TRADER"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="422.4" Top="34" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="No Bukti: [no1] s.d. [no2]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="422.4" Top="51" Width="1142.4" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="0" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="Status: [STATUS]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="307.2" Top="153" Width="432" Height="17" TruncOutboundText="False" Text="KODE DAN NAMA BARANG"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="748.8" Top="153" Width="76.8" Height="17" TruncOutboundText="False" Text="SATUAN"/>
+      <TfrxDMPMemoView Name="DMPMemo11" Left="1008" Top="153" Width="76.8" Height="17" HAlign="haRight" TruncOutboundText="False" Text="QTY DO"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="1372.8" Top="153" Width="182.4" Height="17" HAlign="haRight" TruncOutboundText="False" Text="HARGA TOTAL"/>
+    </TfrxReportTitle>
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="17" Left="0" Top="289" Width="1574.4" ColumnWidth="0" ColumnGap="0" DataSet="IBQ1" DataSetName="PODOList" RowCount="0">
+      <TfrxDMPMemoView Name="PODOListBRG_CODE" Left="307.2" Top="0" Width="86.4" Height="17" DataField="BRG_CODE" DataSet="IBQ1" DataSetName="PODOList" TruncOutboundText="False" Text="[PODOList.&#34;BRG_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListBRG_NAME" Left="403.2" Top="0" Width="336" Height="17" DataField="BRG_NAME" DataSet="IBQ1" DataSetName="PODOList" TruncOutboundText="False" Text="[PODOList.&#34;BRG_NAME&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListSAT_CODE" Left="748.8" Top="0" Width="76.8" Height="17" DataField="SAT_CODE" DataSet="IBQ1" DataSetName="PODOList" TruncOutboundText="False" Text="[PODOList.&#34;SAT_CODE&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListPOTITEM_DISC" Left="835.2" Top="0" Width="76.8" Height="17" DataField="POTITEM_DISC" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[PODOList.&#34;POTITEM_DISC&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListDOTITEM_QTY" Left="921.6" Top="0" Width="76.8" Height="17" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[PODOList.&#34;POTITEM_QTY&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="1008" Top="0" Width="76.8" Height="17" DataField="DOTITEM_QTY" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[PODOList.&#34;DOTITEM_QTY&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListPOTITEM_PPN" Left="1094.4" Top="0" Width="76.8" Height="17" DataField="POTITEM_PPN" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[PODOList.&#34;POTITEM_PPN&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListsELLPRICEPPN" Left="1180.8" Top="0" Width="182.4" Height="17" DataField="sELLPRICEPPN" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[PODOList.&#34;sELLPRICEPPN&#34;]"/>
+      <TfrxDMPMemoView Name="PODOListDOTITEM_TOTAL" Left="1372.8" Top="0" Width="182.4" Height="17" DataField="DOTITEM_TOTAL" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[PODOList.&#34;DOTITEM_TOTAL&#34;]"/>
+    </TfrxMasterData>
+    <TfrxGroupHeader Name="GroupHeader1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="34" Left="0" Top="238" Width="1574.4" Condition="PODOList.&#34;POT_NO&#34;">
+      <TfrxDMPMemoView Name="PODOListPOT_NO" Left="9.6" Top="0" Width="288" Height="17" DataSet="IBQ1" DataSetName="PODOList" TruncOutboundText="False" Text="[PODOList.&#34;POT_NO&#34;] - [PODOList.&#34;DOT_NO&#34;]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="PODOListORG_Code" Left="307.2" Top="0" Width="432" Height="17" DataSet="IBQ1" DataSetName="PODOList" TruncOutboundText="False" Text="[PODOList.&#34;ORG_Code&#34;] - [PODOList.&#34;ORG_Name&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo23" Left="9.6" Top="17" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="68" Left="0" Top="323" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo16" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="1372.8" Top="17" Width="182.4" Height="17" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;PODOList.&#34;DOTITEM_TOTAL&#34;&#62;,MasterData1)]"/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="9.6" Top="17" Width="1401.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" HAlign="haRight" TruncOutboundText="False" Text="SUB TOTAL   :  "/>
+    </TfrxGroupFooter>
+    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="34" Left="0" Top="425" Width="1574.4">
+      <TfrxDMPMemoView Name="DMPMemo20" Left="9.6" Top="0" Width="1545.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" FontStyle="128" Frame.Style="fsDash" ParentFont="False" WordWrap="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo21" Left="1372.8" Top="17" Width="182.4" Height="17" DataSet="IBQ1" DataSetName="PODOList" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;PODOList.&#34;DOTITEM_TOTAL&#34;&#62;,MasterData1)]"/>
+      <TfrxDMPMemoView Name="DMPMemo22" Left="9.6" Top="17" Width="1401.6" Height="17" DataSet="IBQ1" DataSetName="PODOList" HAlign="haRight" TruncOutboundText="False" Text="GRAND TOTAL   :  "/>
+    </TfrxReportSummary>
+  </TfrxDMPPage>
+</TfrxReport>

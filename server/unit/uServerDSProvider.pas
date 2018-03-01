@@ -232,6 +232,9 @@ type
     function TransferBarang_SlipByID(aID: String): TFDJSONDataSets;
     function DOTrader_DisplayOmset(APeriodeAwal, APeriodeAkhir: TDatetime;
         ANoBuktiAwal : String; ANoBuktiAkhir : String): TFDJSONDataSets;
+    function PODO_TRADER_BY_STATUS(APeriodeAwal, APeriodeAkhir: TDatetime;
+        ANoBuktiPOAwal : String; ANoBuktiPOAkhir : String; AStatus : String):
+        TFDJSONDataSets;
   end;
 
   {$METHODINFO OFF}
@@ -2393,6 +2396,39 @@ begin
       Free;
     end;
   end;
+
+end;
+
+function TDSReport.PODO_TRADER_BY_STATUS(APeriodeAwal, APeriodeAkhir:
+    TDatetime; ANoBuktiPOAwal : String; ANoBuktiPOAkhir : String; AStatus :
+    String): TFDJSONDataSets;
+var
+  sSQL: string;
+begin
+  Result := TFDJSONDataSets.Create;
+
+  sSQL := 'select * from V_PODO_TRADER_BY_STATUS ' +
+          ' where POT_DATE between ' + TDBUtils.QuotDt(StartOfTheDay(APeriodeAwal)) +
+          ' and ' + TDBUtils.QuotDt(EndOfTheDay(APeriodeAkhir));
+
+  if (trim(ANoBuktiPOAwal) <> '') and (ANoBuktiPOAwal <> 'null') then
+  begin
+    sSQL := sSQL + ' and POT_NO >= ' + QuotedStr(trim(ANoBuktiPOAwal))
+  end;
+
+  if (trim(ANoBuktiPOAkhir) <> '') and (ANoBuktiPOAkhir <> 'null') then
+  begin
+    sSQL := sSQL + ' and POT_NO <= ' + QuotedStr(trim(ANoBuktiPOAkhir))
+  end;
+
+  if (trim(AStatus) <> 'SEMUA') then
+  begin
+    sSQL := sSQL + ' and POT_STATUS = ' + QuotedStr(trim(AStatus))
+  end;
+
+  sSQL := sSQL + ' ORDER BY pot_no ';
+
+  TFDJSONDataSetsWriter.ListAdd(Result, TDBUtils.OpenQuery(sSQL) );
 
 end;
 
