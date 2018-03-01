@@ -10,16 +10,11 @@ inherited frmDisplayLastTransactionNo: TfrmDisplayLastTransactionNo
   inherited pnlBody: TPanel
     Width = 535
     Height = 246
-    BorderWidth = 0
     ExplicitWidth = 535
     ExplicitHeight = 190
     inherited pgcBrowse: TcxPageControl
-      Left = 1
-      Top = 1
       Width = 533
       Height = 244
-      ExplicitLeft = 1
-      ExplicitTop = 1
       ExplicitWidth = 533
       ExplicitHeight = 188
       ClientRectBottom = 243
@@ -97,7 +92,7 @@ inherited frmDisplayLastTransactionNo: TfrmDisplayLastTransactionNo
       ExplicitWidth = 535
       inherited lbEscape: TLabel
         Left = 461
-        Height = 17
+        ExplicitLeft = 461
       end
     end
   end

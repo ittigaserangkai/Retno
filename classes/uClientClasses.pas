@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2/21/2018 12:00:03 PM
+// 2/28/2018 10:33:41 AM
 //
 
 unit uClientClasses;
@@ -132,8 +132,8 @@ type
     FBank_GetDSLookupCommand_Cache: TDSRestCommand;
     FBank_GetDSOverviewCommand: TDSRestCommand;
     FBank_GetDSOverviewCommand_Cache: TDSRestCommand;
-    FBarangBySUPMG_GetDSLookupCommand: TDSRestCommand;
-    FBarangBySUPMG_GetDSLookupCommand_Cache: TDSRestCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand: TDSRestCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangGalon_GetDSLookupCommand: TDSRestCommand;
     FBarangGalon_GetDSLookupCommand_Cache: TDSRestCommand;
     FBarangQuotation_GetDSLookupCommand: TDSRestCommand;
@@ -441,8 +441,8 @@ type
     function Bank_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function Bank_GetDSOverview(const ARequestFilter: string = ''): TDataSet;
     function Bank_GetDSOverview_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function BarangBySUPMG_GetDSLookup(ASupMG: string; const ARequestFilter: string = ''): TDataSet;
-    function BarangBySUPMG_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function BarangBarcodeBySupMg_GetDSLookup(ASupMG: string; const ARequestFilter: string = ''): TDataSet;
+    function BarangBarcodeBySupMg_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangGalon_GetDSLookup(const ARequestFilter: string = ''): TDataSet;
     function BarangGalon_GetDSLookup_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function BarangQuotation_GetDSLookup(aSuplierMerchanID: string; const ARequestFilter: string = ''): TDataSet;
@@ -513,8 +513,8 @@ type
     function DODetail_LookupAdjFak_Cache(aDOID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DODetail_WithAdj(aDOID: string; const ARequestFilter: string = ''): TDataSet;
     function DODetail_WithAdj_Cache(aDOID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
-    function DOTrader_GetDSOverview(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): TDataSet;
-    function DOTrader_GetDSOverview_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string = ''): IDSRestCachedDataSet;
+    function DOTrader_GetDSOverview(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string = ''): TDataSet;
+    function DOTrader_GetDSOverview_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DO_GetDSLookUp(const ARequestFilter: string = ''): TDataSet;
     function DO_GetDSLookUp_Cache(const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function DO_GetDSOverview(ATglAwal: TDateTime; ATglAkhir: TDateTime; AUnitID: string; ASupMGCodeID: string; const ARequestFilter: string = ''): TDataSet;
@@ -762,6 +762,8 @@ type
     FStockProduct_GetDSCommand_Cache: TDSRestCommand;
     FTransferBarang_SlipByIDCommand: TDSRestCommand;
     FTransferBarang_SlipByIDCommand_Cache: TDSRestCommand;
+    FDOTrader_DisplayOmsetCommand: TDSRestCommand;
+    FDOTrader_DisplayOmsetCommand_Cache: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
@@ -812,19 +814,41 @@ type
     function StockProduct_GetDS_Cache(aEndDate: TDateTime; aGroup_ID: string; aSupplier_ID: string; aGudang_ID: string; const ARequestFilter: string = ''): IDSRestCachedDataSet;
     function TransferBarang_SlipByID(aID: string; const ARequestFilter: string = ''): TFDJSONDataSets;
     function TransferBarang_SlipByID_Cache(aID: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function DOTrader_DisplayOmset(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function DOTrader_DisplayOmset_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
   end;
 
   TJSONCRUDClient = class(TDSAdminRestClient)
   private
-    FTestCommand: TDSRestCommand;
-    FTestCommand_Cache: TDSRestCommand;
+    FTestGetCommand: TDSRestCommand;
+    FTestGetCommand_Cache: TDSRestCommand;
+    FTestPostCommand: TDSRestCommand;
+    FTestPostCommand_Cache: TDSRestCommand;
+    FTestDatasetCommand: TDSRestCommand;
+    FTestDatasetCommand_Cache: TDSRestCommand;
+    FRetrieveCommand: TDSRestCommand;
+    FRetrieveCommand_Cache: TDSRestCommand;
+    FSaveToDBCommand: TDSRestCommand;
+    FSaveToDBCommand_Cache: TDSRestCommand;
+    FTestNativeGetCommand: TDSRestCommand;
+    FTestNativeGetCommand_Cache: TDSRestCommand;
     FAfterExecuteMethodCommand: TDSRestCommand;
   public
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function Test(const ARequestFilter: string = ''): TJSONObject;
-    function Test_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestGet(const ARequestFilter: string = ''): TJSONObject;
+    function TestGet_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestPost(const ARequestFilter: string = ''): TJSONObject;
+    function TestPost_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestDataset(const ARequestFilter: string = ''): TJSONArray;
+    function TestDataset_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONArray;
+    function Retrieve(AClassName: string; AID: string; const ARequestFilter: string = ''): TJSONObject;
+    function Retrieve_Cache(AClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function SaveToDB(AJSON: TJSONObject; const ARequestFilter: string = ''): TJSONObject;
+    function SaveToDB_Cache(AJSON: TJSONObject; const ARequestFilter: string = ''): IDSRestCachedJSONObject;
+    function TestNativeGet(const ARequestFilter: string = ''): TModApp;
+    function TestNativeGet_Cache(const ARequestFilter: string = ''): IDSRestCachedTModApp;
     procedure AfterExecuteMethod;
   end;
 
@@ -2702,13 +2726,13 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_BarangBySUPMG_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
+  TDSProvider_BarangBarcodeBySupMg_GetDSLookup: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ASupMG'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_BarangBySUPMG_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
+  TDSProvider_BarangBarcodeBySupMg_GetDSLookup_Cache: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'ASupMG'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
@@ -3156,17 +3180,21 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TDSProvider_DOTrader_GetDSOverview: array [0..2] of TDSRestParameterMetaData =
+  TDSProvider_DOTrader_GetDSOverview: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'ANoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 23; TypeName: 'TDataSet')
   );
 
-  TDSProvider_DOTrader_GetDSOverview_Cache: array [0..2] of TDSRestParameterMetaData =
+  TDSProvider_DOTrader_GetDSOverview_Cache: array [0..4] of TDSRestParameterMetaData =
   (
     (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
     (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'ANoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
@@ -4616,12 +4644,86 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
 
-  TJSONCRUD_Test: array [0..0] of TDSRestParameterMetaData =
+  TDSReport_DOTrader_DisplayOmset: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'ANoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDSReport_DOTrader_DisplayOmset_Cache: array [0..4] of TDSRestParameterMetaData =
+  (
+    (Name: 'APeriodeAwal'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'APeriodeAkhir'; Direction: 1; DBXType: 11; TypeName: 'TDateTime'),
+    (Name: 'ANoBuktiAwal'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'ANoBuktiAkhir'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestGet: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
   );
 
-  TJSONCRUD_Test_Cache: array [0..0] of TDSRestParameterMetaData =
+  TJSONCRUD_TestGet_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestPost: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_TestPost_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestDataset: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONArray')
+  );
+
+  TJSONCRUD_TestDataset_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_Retrieve: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_Retrieve_Cache: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AClassName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'AID'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_SaveToDB: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AJSON'; Direction: 1; DBXType: 37; TypeName: 'TJSONObject'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONObject')
+  );
+
+  TJSONCRUD_SaveToDB_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'AJSON'; Direction: 1; DBXType: 37; TypeName: 'TJSONObject'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TJSONCRUD_TestNativeGet: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TModApp')
+  );
+
+  TJSONCRUD_TestNativeGet_Cache: array [0..0] of TDSRestParameterMetaData =
   (
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
   );
@@ -9556,35 +9658,35 @@ begin
   Result := TDSRestCachedDataSet.Create(FBank_GetDSOverviewCommand_Cache.Parameters[0].Value.GetString);
 end;
 
-function TDSProviderClient.BarangBySUPMG_GetDSLookup(ASupMG: string; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.BarangBarcodeBySupMg_GetDSLookup(ASupMG: string; const ARequestFilter: string): TDataSet;
 begin
-  if FBarangBySUPMG_GetDSLookupCommand = nil then
+  if FBarangBarcodeBySupMg_GetDSLookupCommand = nil then
   begin
-    FBarangBySUPMG_GetDSLookupCommand := FConnection.CreateCommand;
-    FBarangBySUPMG_GetDSLookupCommand.RequestType := 'GET';
-    FBarangBySUPMG_GetDSLookupCommand.Text := 'TDSProvider.BarangBySUPMG_GetDSLookup';
-    FBarangBySUPMG_GetDSLookupCommand.Prepare(TDSProvider_BarangBySUPMG_GetDSLookup);
+    FBarangBarcodeBySupMg_GetDSLookupCommand := FConnection.CreateCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand.RequestType := 'GET';
+    FBarangBarcodeBySupMg_GetDSLookupCommand.Text := 'TDSProvider.BarangBarcodeBySupMg_GetDSLookup';
+    FBarangBarcodeBySupMg_GetDSLookupCommand.Prepare(TDSProvider_BarangBarcodeBySupMg_GetDSLookup);
   end;
-  FBarangBySUPMG_GetDSLookupCommand.Parameters[0].Value.SetWideString(ASupMG);
-  FBarangBySUPMG_GetDSLookupCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FBarangBySUPMG_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
+  FBarangBarcodeBySupMg_GetDSLookupCommand.Parameters[0].Value.SetWideString(ASupMG);
+  FBarangBarcodeBySupMg_GetDSLookupCommand.Execute(ARequestFilter);
+  Result := TCustomSQLDataSet.Create(nil, FBarangBarcodeBySupMg_GetDSLookupCommand.Parameters[1].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
-    FBarangBySUPMG_GetDSLookupCommand.FreeOnExecute(Result);
+    FBarangBarcodeBySupMg_GetDSLookupCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.BarangBySUPMG_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.BarangBarcodeBySupMg_GetDSLookup_Cache(ASupMG: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
-  if FBarangBySUPMG_GetDSLookupCommand_Cache = nil then
+  if FBarangBarcodeBySupMg_GetDSLookupCommand_Cache = nil then
   begin
-    FBarangBySUPMG_GetDSLookupCommand_Cache := FConnection.CreateCommand;
-    FBarangBySUPMG_GetDSLookupCommand_Cache.RequestType := 'GET';
-    FBarangBySUPMG_GetDSLookupCommand_Cache.Text := 'TDSProvider.BarangBySUPMG_GetDSLookup';
-    FBarangBySUPMG_GetDSLookupCommand_Cache.Prepare(TDSProvider_BarangBySUPMG_GetDSLookup_Cache);
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache := FConnection.CreateCommand;
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.RequestType := 'GET';
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Text := 'TDSProvider.BarangBarcodeBySupMg_GetDSLookup';
+    FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Prepare(TDSProvider_BarangBarcodeBySupMg_GetDSLookup_Cache);
   end;
-  FBarangBySUPMG_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(ASupMG);
-  FBarangBySUPMG_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FBarangBySUPMG_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
+  FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Parameters[0].Value.SetWideString(ASupMG);
+  FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedDataSet.Create(FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.Parameters[1].Value.GetString);
 end;
 
 function TDSProviderClient.BarangGalon_GetDSLookup(const ARequestFilter: string): TDataSet;
@@ -10823,7 +10925,7 @@ begin
   Result := TDSRestCachedDataSet.Create(FDODetail_WithAdjCommand_Cache.Parameters[1].Value.GetString);
 end;
 
-function TDSProviderClient.DOTrader_GetDSOverview(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): TDataSet;
+function TDSProviderClient.DOTrader_GetDSOverview(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string): TDataSet;
 begin
   if FDOTrader_GetDSOverviewCommand = nil then
   begin
@@ -10834,14 +10936,16 @@ begin
   end;
   FDOTrader_GetDSOverviewCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
   FDOTrader_GetDSOverviewCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FDOTrader_GetDSOverviewCommand.Parameters[2].Value.SetWideString(ANoBuktiAwal);
+  FDOTrader_GetDSOverviewCommand.Parameters[3].Value.SetWideString(ANoBuktiAkhir);
   FDOTrader_GetDSOverviewCommand.Execute(ARequestFilter);
-  Result := TCustomSQLDataSet.Create(nil, FDOTrader_GetDSOverviewCommand.Parameters[2].Value.GetDBXReader(False), True);
+  Result := TCustomSQLDataSet.Create(nil, FDOTrader_GetDSOverviewCommand.Parameters[4].Value.GetDBXReader(False), True);
   Result.Open;
   if FInstanceOwner then
     FDOTrader_GetDSOverviewCommand.FreeOnExecute(Result);
 end;
 
-function TDSProviderClient.DOTrader_GetDSOverview_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; const ARequestFilter: string): IDSRestCachedDataSet;
+function TDSProviderClient.DOTrader_GetDSOverview_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string): IDSRestCachedDataSet;
 begin
   if FDOTrader_GetDSOverviewCommand_Cache = nil then
   begin
@@ -10852,8 +10956,10 @@ begin
   end;
   FDOTrader_GetDSOverviewCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
   FDOTrader_GetDSOverviewCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FDOTrader_GetDSOverviewCommand_Cache.Parameters[2].Value.SetWideString(ANoBuktiAwal);
+  FDOTrader_GetDSOverviewCommand_Cache.Parameters[3].Value.SetWideString(ANoBuktiAkhir);
   FDOTrader_GetDSOverviewCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedDataSet.Create(FDOTrader_GetDSOverviewCommand_Cache.Parameters[2].Value.GetString);
+  Result := TDSRestCachedDataSet.Create(FDOTrader_GetDSOverviewCommand_Cache.Parameters[4].Value.GetString);
 end;
 
 function TDSProviderClient.DO_GetDSLookUp(const ARequestFilter: string): TDataSet;
@@ -14084,8 +14190,8 @@ begin
   FBank_GetDSLookupCommand_Cache.DisposeOf;
   FBank_GetDSOverviewCommand.DisposeOf;
   FBank_GetDSOverviewCommand_Cache.DisposeOf;
-  FBarangBySUPMG_GetDSLookupCommand.DisposeOf;
-  FBarangBySUPMG_GetDSLookupCommand_Cache.DisposeOf;
+  FBarangBarcodeBySupMg_GetDSLookupCommand.DisposeOf;
+  FBarangBarcodeBySupMg_GetDSLookupCommand_Cache.DisposeOf;
   FBarangGalon_GetDSLookupCommand.DisposeOf;
   FBarangGalon_GetDSLookupCommand_Cache.DisposeOf;
   FBarangQuotation_GetDSLookupCommand.DisposeOf;
@@ -15292,6 +15398,52 @@ begin
   Result := TDSRestCachedTFDJSONDataSets.Create(FTransferBarang_SlipByIDCommand_Cache.Parameters[1].Value.GetString);
 end;
 
+function TDSReportClient.DOTrader_DisplayOmset(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string): TFDJSONDataSets;
+begin
+  if FDOTrader_DisplayOmsetCommand = nil then
+  begin
+    FDOTrader_DisplayOmsetCommand := FConnection.CreateCommand;
+    FDOTrader_DisplayOmsetCommand.RequestType := 'GET';
+    FDOTrader_DisplayOmsetCommand.Text := 'TDSReport.DOTrader_DisplayOmset';
+    FDOTrader_DisplayOmsetCommand.Prepare(TDSReport_DOTrader_DisplayOmset);
+  end;
+  FDOTrader_DisplayOmsetCommand.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FDOTrader_DisplayOmsetCommand.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FDOTrader_DisplayOmsetCommand.Parameters[2].Value.SetWideString(ANoBuktiAwal);
+  FDOTrader_DisplayOmsetCommand.Parameters[3].Value.SetWideString(ANoBuktiAkhir);
+  FDOTrader_DisplayOmsetCommand.Execute(ARequestFilter);
+  if not FDOTrader_DisplayOmsetCommand.Parameters[4].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FDOTrader_DisplayOmsetCommand.Parameters[4].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FDOTrader_DisplayOmsetCommand.Parameters[4].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FDOTrader_DisplayOmsetCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDSReportClient.DOTrader_DisplayOmset_Cache(APeriodeAwal: TDateTime; APeriodeAkhir: TDateTime; ANoBuktiAwal: string; ANoBuktiAkhir: string; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FDOTrader_DisplayOmsetCommand_Cache = nil then
+  begin
+    FDOTrader_DisplayOmsetCommand_Cache := FConnection.CreateCommand;
+    FDOTrader_DisplayOmsetCommand_Cache.RequestType := 'GET';
+    FDOTrader_DisplayOmsetCommand_Cache.Text := 'TDSReport.DOTrader_DisplayOmset';
+    FDOTrader_DisplayOmsetCommand_Cache.Prepare(TDSReport_DOTrader_DisplayOmset_Cache);
+  end;
+  FDOTrader_DisplayOmsetCommand_Cache.Parameters[0].Value.AsDateTime := APeriodeAwal;
+  FDOTrader_DisplayOmsetCommand_Cache.Parameters[1].Value.AsDateTime := APeriodeAkhir;
+  FDOTrader_DisplayOmsetCommand_Cache.Parameters[2].Value.SetWideString(ANoBuktiAwal);
+  FDOTrader_DisplayOmsetCommand_Cache.Parameters[3].Value.SetWideString(ANoBuktiAkhir);
+  FDOTrader_DisplayOmsetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FDOTrader_DisplayOmsetCommand_Cache.Parameters[4].Value.GetString);
+end;
+
 constructor TDSReportClient.Create(ARestConnection: TDSRestConnection);
 begin
   inherited Create(ARestConnection);
@@ -15350,33 +15502,183 @@ begin
   FStockProduct_GetDSCommand_Cache.DisposeOf;
   FTransferBarang_SlipByIDCommand.DisposeOf;
   FTransferBarang_SlipByIDCommand_Cache.DisposeOf;
+  FDOTrader_DisplayOmsetCommand.DisposeOf;
+  FDOTrader_DisplayOmsetCommand_Cache.DisposeOf;
   inherited;
 end;
 
-function TJSONCRUDClient.Test(const ARequestFilter: string): TJSONObject;
+function TJSONCRUDClient.TestGet(const ARequestFilter: string): TJSONObject;
 begin
-  if FTestCommand = nil then
+  if FTestGetCommand = nil then
   begin
-    FTestCommand := FConnection.CreateCommand;
-    FTestCommand.RequestType := 'GET';
-    FTestCommand.Text := 'TJSONCRUD.Test';
-    FTestCommand.Prepare(TJSONCRUD_Test);
+    FTestGetCommand := FConnection.CreateCommand;
+    FTestGetCommand.RequestType := 'GET';
+    FTestGetCommand.Text := 'TJSONCRUD.TestGet';
+    FTestGetCommand.Prepare(TJSONCRUD_TestGet);
   end;
-  FTestCommand.Execute(ARequestFilter);
-  Result := TJSONObject(FTestCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+  FTestGetCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FTestGetCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
 end;
 
-function TJSONCRUDClient.Test_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
+function TJSONCRUDClient.TestGet_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
 begin
-  if FTestCommand_Cache = nil then
+  if FTestGetCommand_Cache = nil then
   begin
-    FTestCommand_Cache := FConnection.CreateCommand;
-    FTestCommand_Cache.RequestType := 'GET';
-    FTestCommand_Cache.Text := 'TJSONCRUD.Test';
-    FTestCommand_Cache.Prepare(TJSONCRUD_Test_Cache);
+    FTestGetCommand_Cache := FConnection.CreateCommand;
+    FTestGetCommand_Cache.RequestType := 'GET';
+    FTestGetCommand_Cache.Text := 'TJSONCRUD.TestGet';
+    FTestGetCommand_Cache.Prepare(TJSONCRUD_TestGet_Cache);
   end;
-  FTestCommand_Cache.ExecuteCache(ARequestFilter);
-  Result := TDSRestCachedJSONObject.Create(FTestCommand_Cache.Parameters[0].Value.GetString);
+  FTestGetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FTestGetCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TJSONCRUDClient.TestPost(const ARequestFilter: string): TJSONObject;
+begin
+  if FTestPostCommand = nil then
+  begin
+    FTestPostCommand := FConnection.CreateCommand;
+    FTestPostCommand.RequestType := 'GET';
+    FTestPostCommand.Text := 'TJSONCRUD.TestPost';
+    FTestPostCommand.Prepare(TJSONCRUD_TestPost);
+  end;
+  FTestPostCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FTestPostCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.TestPost_Cache(const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FTestPostCommand_Cache = nil then
+  begin
+    FTestPostCommand_Cache := FConnection.CreateCommand;
+    FTestPostCommand_Cache.RequestType := 'GET';
+    FTestPostCommand_Cache.Text := 'TJSONCRUD.TestPost';
+    FTestPostCommand_Cache.Prepare(TJSONCRUD_TestPost_Cache);
+  end;
+  FTestPostCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FTestPostCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TJSONCRUDClient.TestDataset(const ARequestFilter: string): TJSONArray;
+begin
+  if FTestDatasetCommand = nil then
+  begin
+    FTestDatasetCommand := FConnection.CreateCommand;
+    FTestDatasetCommand.RequestType := 'GET';
+    FTestDatasetCommand.Text := 'TJSONCRUD.TestDataset';
+    FTestDatasetCommand.Prepare(TJSONCRUD_TestDataset);
+  end;
+  FTestDatasetCommand.Execute(ARequestFilter);
+  Result := TJSONArray(FTestDatasetCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.TestDataset_Cache(const ARequestFilter: string): IDSRestCachedJSONArray;
+begin
+  if FTestDatasetCommand_Cache = nil then
+  begin
+    FTestDatasetCommand_Cache := FConnection.CreateCommand;
+    FTestDatasetCommand_Cache.RequestType := 'GET';
+    FTestDatasetCommand_Cache.Text := 'TJSONCRUD.TestDataset';
+    FTestDatasetCommand_Cache.Prepare(TJSONCRUD_TestDataset_Cache);
+  end;
+  FTestDatasetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONArray.Create(FTestDatasetCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TJSONCRUDClient.Retrieve(AClassName: string; AID: string; const ARequestFilter: string): TJSONObject;
+begin
+  if FRetrieveCommand = nil then
+  begin
+    FRetrieveCommand := FConnection.CreateCommand;
+    FRetrieveCommand.RequestType := 'GET';
+    FRetrieveCommand.Text := 'TJSONCRUD.Retrieve';
+    FRetrieveCommand.Prepare(TJSONCRUD_Retrieve);
+  end;
+  FRetrieveCommand.Parameters[0].Value.SetWideString(AClassName);
+  FRetrieveCommand.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FRetrieveCommand.Parameters[2].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.Retrieve_Cache(AClassName: string; AID: string; const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FRetrieveCommand_Cache = nil then
+  begin
+    FRetrieveCommand_Cache := FConnection.CreateCommand;
+    FRetrieveCommand_Cache.RequestType := 'GET';
+    FRetrieveCommand_Cache.Text := 'TJSONCRUD.Retrieve';
+    FRetrieveCommand_Cache.Prepare(TJSONCRUD_Retrieve_Cache);
+  end;
+  FRetrieveCommand_Cache.Parameters[0].Value.SetWideString(AClassName);
+  FRetrieveCommand_Cache.Parameters[1].Value.SetWideString(AID);
+  FRetrieveCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FRetrieveCommand_Cache.Parameters[2].Value.GetString);
+end;
+
+function TJSONCRUDClient.SaveToDB(AJSON: TJSONObject; const ARequestFilter: string): TJSONObject;
+begin
+  if FSaveToDBCommand = nil then
+  begin
+    FSaveToDBCommand := FConnection.CreateCommand;
+    FSaveToDBCommand.RequestType := 'POST';
+    FSaveToDBCommand.Text := 'TJSONCRUD."SaveToDB"';
+    FSaveToDBCommand.Prepare(TJSONCRUD_SaveToDB);
+  end;
+  FSaveToDBCommand.Parameters[0].Value.SetJSONValue(AJSON, FInstanceOwner);
+  FSaveToDBCommand.Execute(ARequestFilter);
+  Result := TJSONObject(FSaveToDBCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TJSONCRUDClient.SaveToDB_Cache(AJSON: TJSONObject; const ARequestFilter: string): IDSRestCachedJSONObject;
+begin
+  if FSaveToDBCommand_Cache = nil then
+  begin
+    FSaveToDBCommand_Cache := FConnection.CreateCommand;
+    FSaveToDBCommand_Cache.RequestType := 'POST';
+    FSaveToDBCommand_Cache.Text := 'TJSONCRUD."SaveToDB"';
+    FSaveToDBCommand_Cache.Prepare(TJSONCRUD_SaveToDB_Cache);
+  end;
+  FSaveToDBCommand_Cache.Parameters[0].Value.SetJSONValue(AJSON, FInstanceOwner);
+  FSaveToDBCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONObject.Create(FSaveToDBCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TJSONCRUDClient.TestNativeGet(const ARequestFilter: string): TModApp;
+begin
+  if FTestNativeGetCommand = nil then
+  begin
+    FTestNativeGetCommand := FConnection.CreateCommand;
+    FTestNativeGetCommand.RequestType := 'GET';
+    FTestNativeGetCommand.Text := 'TJSONCRUD.TestNativeGet';
+    FTestNativeGetCommand.Prepare(TJSONCRUD_TestNativeGet);
+  end;
+  FTestNativeGetCommand.Execute(ARequestFilter);
+  if not FTestNativeGetCommand.Parameters[0].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FTestNativeGetCommand.Parameters[0].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TModApp(FUnMarshal.UnMarshal(FTestNativeGetCommand.Parameters[0].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FTestNativeGetCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TJSONCRUDClient.TestNativeGet_Cache(const ARequestFilter: string): IDSRestCachedTModApp;
+begin
+  if FTestNativeGetCommand_Cache = nil then
+  begin
+    FTestNativeGetCommand_Cache := FConnection.CreateCommand;
+    FTestNativeGetCommand_Cache.RequestType := 'GET';
+    FTestNativeGetCommand_Cache.Text := 'TJSONCRUD.TestNativeGet';
+    FTestNativeGetCommand_Cache.Prepare(TJSONCRUD_TestNativeGet_Cache);
+  end;
+  FTestNativeGetCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTModApp.Create(FTestNativeGetCommand_Cache.Parameters[0].Value.GetString);
 end;
 
 procedure TJSONCRUDClient.AfterExecuteMethod;
@@ -15402,8 +15704,18 @@ end;
 
 destructor TJSONCRUDClient.Destroy;
 begin
-  FTestCommand.DisposeOf;
-  FTestCommand_Cache.DisposeOf;
+  FTestGetCommand.DisposeOf;
+  FTestGetCommand_Cache.DisposeOf;
+  FTestPostCommand.DisposeOf;
+  FTestPostCommand_Cache.DisposeOf;
+  FTestDatasetCommand.DisposeOf;
+  FTestDatasetCommand_Cache.DisposeOf;
+  FRetrieveCommand.DisposeOf;
+  FRetrieveCommand_Cache.DisposeOf;
+  FSaveToDBCommand.DisposeOf;
+  FSaveToDBCommand_Cache.DisposeOf;
+  FTestNativeGetCommand.DisposeOf;
+  FTestNativeGetCommand_Cache.DisposeOf;
   FAfterExecuteMethodCommand.DisposeOf;
   inherited;
 end;

@@ -13,18 +13,28 @@ uses
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxPC, System.Generics.Collections, uDXUtils,
   uModDOTrader, uModOrganization, Datasnap.DBClient, uDBUtils, System.DateUtils,
-  ufrmDialogDOForTrader;
+  ufrmDialogDOForTrader, uAppUtils, uDMReport;
 
 type
   TfrmDOForTrader = class(TfrmMasterBrowse)
-    cxGridViewColumn1: TcxGridDBColumn;
-    cxGridViewColumn2: TcxGridDBColumn;
-    cxGridViewColumn3: TcxGridDBColumn;
-    cxGridViewColumn4: TcxGridDBColumn;
-    cxGridViewColumn5: TcxGridDBColumn;
-    cxGridViewColumn6: TcxGridDBColumn;
+    cxGridColOverviewNo: TcxGridDBColumn;
+    cxGridColOverviewDate: TcxGridDBColumn;
+    cxGridColOverviewDesc: TcxGridDBColumn;
+    cxGridColOverviewOrgCode: TcxGridDBColumn;
+    cxGridColOverviewOrgName: TcxGridDBColumn;
+    cxGridColOverviewTotal: TcxGridDBColumn;
+    cxGridColOverviewSubTotal: TcxGridDBColumn;
+    cxGridColOverViewDisc: TcxGridDBColumn;
+    cxGridColOverviewPPN: TcxGridDBColumn;
+    edNoBuktiDOAkhir: TcxTextEdit;
+    edNoBuktiDoAwal: TcxTextEdit;
+    lblNoBukti: TcxLabel;
+    lblSDNo: TcxLabel;
     procedure actAddExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
+    procedure edNoBuktiDOAkhirExit(Sender: TObject);
+    procedure edNoBuktiDoAwalExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
@@ -39,7 +49,7 @@ var
 implementation
 
 uses
-  uConstanta, udmReport, Math, uDMClient;
+  uConstanta, Math, uDMClient;
 
 {$R *.dfm}
 
@@ -59,6 +69,43 @@ begin
   ShowDialogForm(TfrmDialogDOForTrader, FCDS.FieldByName('DOTRADER_ID').AsString);
 end;
 
+procedure TfrmDOForTrader.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  with DMReport do
+  begin
+    AddReportVariable('P1',FormatDateTime('dd MMM yyyy', dtAwalFilter.Date));
+    AddReportVariable('P2',FormatDateTime('dd MMM yyyy', dtAkhirFilter.Date));
+    AddReportVariable('NO1', edNoBuktiDoAwal.Text);
+    AddReportVariable('NO2', edNoBuktiDOAkhir.Text);
+//    AddReportVariable('USER', UserName);
+
+    DmReport.ExecuteReport(
+    'reports\DOTrader_DisplayOmset',
+    DMReport.ReportClient.DOTrader_DisplayOmset(dtAwalFilter.Date, dtAkhirFilter.Date,edNoBuktiDoAwal.TextRest, edNoBuktiDOAkhir.TextRest),
+    ['Q_DISPLAYOMSET']
+  );
+  end;
+end;
+
+procedure TfrmDOForTrader.edNoBuktiDOAkhirExit(Sender: TObject);
+begin
+  inherited;
+  if edNoBuktiDoakhir.Text = '' then
+    Exit;
+
+  edNoBuktiDoakhir.Text := TAppUtils.StrPadLeft(edNoBuktiDoakhir.Text,11,'0');
+end;
+
+procedure TfrmDOForTrader.edNoBuktiDoAwalExit(Sender: TObject);
+begin
+  inherited;
+  if edNoBuktiDoAwal.Text = '' then
+    Exit;
+
+  edNoBuktiDoAwal.Text := TAppUtils.StrPadLeft(edNoBuktiDoAwal.Text,11,'0');
+end;
+
 procedure TfrmDOForTrader.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
@@ -76,7 +123,7 @@ procedure TfrmDOForTrader.RefreshData;
 begin
   inherited;
   if Assigned(FCDS) then FreeAndNil(FCDS);
-  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.DOTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date)) ,Self );
+  FCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.DOTrader_GetDSOverview(StartOfTheDay(dtAwalFilter.Date), EndOfTheDay(dtAkhirFilter.Date), edNoBuktiDoAwal.TextRest, edNoBuktiDOAkhir.TextRest) ,Self );
   cxGridView.LoadFromCDS(FCDS, False);
 
 end;

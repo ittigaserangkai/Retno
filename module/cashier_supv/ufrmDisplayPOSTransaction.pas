@@ -117,11 +117,11 @@ begin
 end;
 
 procedure TfrmDisplayPOSTransaction.ParseDataGrid;
-var
-    i, j      : Integer;
-    n, m      : Integer;
-    sSQL      : string;
-    sShiftNm  : string;
+//var
+//    i, j      : Integer;
+//    n, m      : Integer;
+//    sSQL      : string;
+//    sShiftNm  : string;
 begin
   {
   cClearStringGrid(strgGrid, False);

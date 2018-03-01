@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Windows, Messages, Classes, Graphics, Controls, Forms, Dialogs, uModApp,
   System.Generics.Collections, uModOrganization, uModUnit, uModBarang,
-  uModSatuan, uModSuplier;
+  uModSatuan, uModSuplier, System.StrUtils;
 
 type
   TModBarcodeRequestItem = class;
@@ -22,6 +22,7 @@ type
     FBR_HARGA: Double;
     FBR_UNIT: TModUnit;
     function GetBarcodeRequestItems: TOBjectList<TModBarcodeRequestItem>;
+    function GetBR_DESCRIPTION: string;
   public
     property BarcodeRequestItems: TOBjectList<TModBarcodeRequestItem> read
         GetBarcodeRequestItems write FBarcodeRequestItems;
@@ -29,7 +30,7 @@ type
     property BR_COLIE: Integer read FBR_COLIE write FBR_COLIE;
 
     [AttributeOfSize('120')]
-    property BR_DESCRIPTION: string read FBR_DESCRIPTION write FBR_DESCRIPTION;
+    property BR_DESCRIPTION: string read GetBR_DESCRIPTION write FBR_DESCRIPTION;
 
     [AttributeOfCode]
     property BR_NO: string read FBR_NO write FBR_NO;
@@ -74,6 +75,11 @@ begin
     FBarcodeRequestItems := TObjectList<TModBarcodeRequestItem>.Create();
 
   Result := FBarcodeRequestItems;
+end;
+
+function TModBarcodeRequest.GetBR_DESCRIPTION: string;
+begin
+  Result := LeftStr(FBR_DESCRIPTION,120);
 end;
 
 Initialization

@@ -14,7 +14,7 @@ uses
   cxGrid, uAppUtils, uDMClient, ufrmCXLookup, uDBUtils, Datasnap.DBClient,
   uModTransferBarang, uModBarcodeRequest, uModSuplier, uModelHelper,
   ufrmMasterDialog, uModBarang, System.Variants, uDXUtils, uConstanta,
-  uInterface, uModSatuan;
+  uInterface, uModSatuan, cxMemo;
 
 type
   TProcessType = (ptAdd, ptEdit, ptNone);
@@ -46,6 +46,8 @@ type
     cxGridTableColTotal: TcxGridColumn;
     cxGridTableColPLU_ID: TcxGridColumn;
     cxGridTableColUOMid: TcxGridColumn;
+    memDesc: TcxMemo;
+    Label1: TLabel;
     procedure actDeleteExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure curredtUnitPriceExit(Sender: TObject);
@@ -67,6 +69,8 @@ type
     procedure cxGridTableColHargaPropertiesEditValueChanged(Sender: TObject);
     procedure cxGridTableColCodePropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGridTableColBarcodePropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FCDSBarang: TClientDataset;
     FModbarcodeRequest: TModBarcodeRequest;
@@ -77,7 +81,7 @@ type
     procedure LoadDetailPO(AID: String);
     procedure LookupBarang;
     procedure LookupUOM(ABarangID: String);
-    procedure SetBarangToGrid(APLU: String);
+    procedure SetBarangToGrid(APLU, ASatuanID: String);
     procedure SetSUPMG(ASupMG: String);
     procedure SimpanData;
     procedure UpdateBarcodePrice;
@@ -135,6 +139,22 @@ begin
   cxGridTableBR.DataController.Values[ARecordIndex, cxGridTableColHarga.Index] := curredtUnitPrice.Value;
 end;
 
+procedure TfrmDialogBarcodeRequest.cxGridTableColBarcodePropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+  var
+  iCurrentRow: Integer;
+  lPLU: string;
+  lUOMID: string;
+  sPLU: String;
+begin
+  inherited;
+  iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+  lPLU := DisplayValue;
+  lUOMID := cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index];
+  SetBarangToGrid(lPLU, lUOMID);
+end;
+
 procedure TfrmDialogBarcodeRequest.cxGridTableColCodePropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
@@ -162,15 +182,28 @@ procedure TfrmDialogBarcodeRequest.cxGridTableColCodePropertiesValidate(
   var Error: Boolean);
 var
   iCurrentRow: Integer;
+  lPLU: string;
+  lUOMID: string;
   sPLU: String;
 begin
   inherited;
   if ValidateSUPMG then
   begin
 //    cxGridTableBR.DataController.Post();
-//    iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
+    iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
 //    sPLU        := vartostr(cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index]);
-    SetBarangToGrid(DisplayValue);
+
+    lPLU := DisplayValue;
+    lUOMID := VarToStr(cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index]);
+
+
+    FreeAndNil(FCDSBarang);
+    CDSBarang := TDBUtils.DSToCDS(DMClient.DSProviderClient.BarangBarcodeBySupMg_GetDSLookup(ModbarcodeRequest.BR_SUPMG.ID), Self);
+
+    if CDSBarang.Locate('BRG_CODE', lPLU, [loCaseInsensitive]) then
+      SetBarangToGrid(lPLU, lUOMID)
+    else
+      TAppUtils.Warning('PLU ' + lPLU + ' tidak ditemukan di barang supplier');
   end
   else
   begin
@@ -251,6 +284,7 @@ procedure TfrmDialogBarcodeRequest.edbSupplierCodePropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
   inherited;
+  cxGridTableBR.DataController.RecordCount:=0;
   LookupSuplier;
 end;
 
@@ -286,8 +320,11 @@ end;
 procedure TfrmDialogBarcodeRequest.LoadData(AID : String);
 var
   i: Integer;
+  iCurrentRow: Integer;
   iRec: Integer;
   lItem: TModBarcodeRequestItem;
+  lKonvSat: TModKonversi;
+//  lModBarang: TModBarang;
 begin
   if AID <> '' then
   //untuk identifikasi parameter AID kosong atau isi
@@ -309,6 +346,7 @@ begin
   //header
   edtbarNO.Text               := ModBarcodeRequest.BR_NO;
   dtTgl.Date                  := ModBarcodeRequest.BR_DATE;
+  memDesc.Text                := ModbarcodeRequest.BR_DESCRIPTION;
 
   if ModbarcodeRequest.BR_SUPMG <> nil then
   BEGIN
@@ -317,14 +355,14 @@ begin
     edtSupplierName.Text := ModbarcodeRequest.BR_SUPMG.SUPMG_NAME;
   END;
 
-//  //detail lanjut sesuk
+//  //detail
   cxGridTablebR.ClearRows;
   for i := 0 to ModbarcodeRequest.BarcodeRequestItems.Count-1 do
   begin
     lItem := ModbarcodeRequest.BarcodeRequestItems[i];
     iRec  := cxGridTableBR.DataController.AppendRecord;
     //persingkat dengan buat variabel lokal
-    lItem.BRI_BARANG.Reload();
+    lItem.BRI_BARANG.Reload(True);
     lItem.BRI_SATUAN.Reload();
     cxGridTableBR.DataController.Values[iRec,cxGridTableColPLU_ID.Index]  := litem.BRI_BARANG.ID;
     cxGridTableBR.DataController.Values[iRec,cxGridTableColCode.Index]    := lItem.BRI_BARANG.BRG_CODE;
@@ -332,7 +370,11 @@ begin
     cxGridTableBR.DataController.Values[iRec,cxGridTableColQTY.Index]     := lItem.BRI_QTY;
     cxGridTableBR.DataController.Values[iRec,cxGridTableColUOM.Index]     := lItem.BRI_SATUAN.SAT_CODE;
     cxGridTableBR.DataController.Values[iRec,cxGridTableColUOMid.Index]   := lItem.BRI_SATUAN.ID;
-    cxGridTableBR.DataController.Values[iRec,cxGridTableColBarcode.Index] := lItem.BRI_BARANG.BRG_CATALOG;
+
+    lKonvSat := lItem.BRI_BARANG.GetKonversiFromUOM(lItem.BRI_SATUAN.ID);
+    if lKonvSat <> nil then
+      cxGridTableBR.DataController.Values[iRec, cxGridTableColBarcode.Index]  := lKonvSat.KONVSAT_BARCODE;
+
     cxGridTableBR.DataController.Values[iRec,cxGridTableColHarga.Index]   := lItem.BRI_HARGA;
     cxGridTableBR.DataController.Values[iRec,cxGridTableColTotal.Index]   := lItem.BRI_TOTAL;
 
@@ -389,6 +431,11 @@ var
   iRow: Integer;
   lPO: TModPO;
   lPOItem: TModPOItem;
+
+  iCurrentRow: Integer;
+  lKonvSat: TModKonversi;
+//  lModBarang: TModBarang;
+
 begin
   lPO := TCRUDObj.Retrieve<TModPO>(AID);
   try
@@ -400,15 +447,20 @@ begin
     for i := 0 to lPO.POItems.Count-1 do
     begin
       lPOItem := lPO.POItems[i];
-      iRow  :=  cxGridTableBR.DataController.AppendRecord;
-      lPOItem.POD_BARANG.Reload();
+      iRow    :=  cxGridTableBR.DataController.AppendRecord;
+      lPOItem.POD_BARANG.Reload(True);
       lPOItem.POD_UOM.Reload();
       cxGridTableBR.DataController.Values[iRow, cxGridTableColPLU_ID.Index]   := lPOItem.POD_BARANG.ID;
       cxGridTableBR.DataController.Values[iRow, cxGridTableColCode.Index]     := lPOItem.POD_BARANG.BRG_CODE;
       cxGridTableBR.DataController.Values[iRow, cxGridTableColNama.Index]     := lPOItem.POD_BARANG.BRG_NAME;
       cxGridTableBR.DataController.Values[iRow, cxGridTableColUOM.Index]      := lPOItem.POD_UOM.SAT_CODE;
       cxGridTableBR.DataController.Values[iRow, cxGridTableColUOMid.Index]    := lPOItem.POD_UOM.ID;
-      cxGridTableBR.DataController.Values[iRow, cxGridTableColBarcode.Index]  := lPOItem.POD_BARANG.BRG_CATALOG;
+//      cxGridTableBR.DataController.Values[iRow, cxGridTableColBarcode.Index]  := lPOItem.POD_BARANG.BRG_CATALOG;
+
+    lKonvSat := lPOItem.POD_BARANG.GetKonversiFromUOM(lPOItem.POD_UOM.ID);
+    if lKonvSat <> nil then
+      cxGridTableBR.DataController.Values[iRow, cxGridTableColBarcode.Index]  := lKonvSat.KONVSAT_BARCODE;
+
       cxGridTableBR.DataController.Values[iRow, cxGridTableColQTY.Index]      := lPOItem.POD_QTY_ORDER;
       UpdateBarcodePrice;
       UpdateTotalBarcodePrice;
@@ -424,14 +476,19 @@ var
   cxLookup: TfrmCXLookup;
 //  lCDS: tclientDataset;
 begin
-  if not Assigned(CDSBarang) then
-    CDSBarang := TDBUtils.DSToCDS(DMClient.DSProviderClient.BarangBySUPMG_GetDSLookup(ModbarcodeRequest.BR_SUPMG.ID), Self);
+//  if not Assigned(CDSBarang) then
+  FreeAndNil(FCDSBarang);
+  CDSBarang := TDBUtils.DSToCDS(DMClient.DSProviderClient.BarangBarcodeBySupMg_GetDSLookup(ModbarcodeRequest.BR_SUPMG.ID), Self);
   cxLookup := TfrmCXLookup.Execute(CDSBarang);
   Try
-    cxLookup.HideFields(['BARANG_ID']);
+    cxLookup.HideFields(
+      ['BARANG_ID','BARANG_SUPLIER_ID','SUPLIER_ID','SUPLIER_MERCHAN_GRUP_ID','REF$SATUAN_ID']
+    );
     if cxLookup.ShowModal = mrOK then
     begin
-      SetBarangToGrid(cxLookup.Data.FieldByname('BRG_CODE').AsString);
+      SetBarangToGrid(cxLookup.Data.FieldByname('BRG_CODE').AsString,
+        cxLookup.Data.FieldByname('REF$SATUAN_ID').AsString
+      );
     end;
   Finally
     cxLookup.Free;
@@ -455,6 +512,9 @@ begin
       iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
       cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index]  :=  cxLookup.Data.FieldByName('Ref$Satuan_ID').AsString;
       cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOM.Index]    :=  cxLookup.Data.FieldByName('SAT_CODE').AsString;
+      SetBarangToGrid( cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index],
+        cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index]);
+
       //isi data dari lookup ke grid
     end;
   Finally
@@ -463,12 +523,14 @@ begin
   End;
 end;
 
-procedure TfrmDialogBarcodeRequest.SetBarangToGrid(APLU: String);
+procedure TfrmDialogBarcodeRequest.SetBarangToGrid(APLU, ASatuanID: String);
 var
   iCurrentRow: Integer;
+  lKonvSat: TModKonversi;
   lModBarang: TModBarang;
 begin
   lModBarang := TCRUDObj.RetrieveCode<TModBarang>(APLU);
+
   //Jare Manda, cara retrieve yg lebih simpel. Tur aku ra paham. wkwkwk
   Try
     iCurrentRow := cxGridTableBR.DataController.FocusedRecordIndex;
@@ -480,18 +542,28 @@ begin
 
     //cara mengisi grid, format :
     //'namaGrid'.DataController.Values[ 'index baris', 'index kolom'] = xxx
-    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index]     := lModBarang.BRG_CODE;
-    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColNama.Index]     := lModBarang.BRG_NAME;
-    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColPLU_ID.Index]   := lModBarang.ID;
-    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColBarcode.Index]  := lModBarang.BRG_CATALOG;
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColCode.Index]      := lModBarang.BRG_CODE;
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColNama.Index]      := lModBarang.BRG_NAME;
+    cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColPLU_ID.Index]    := lModBarang.ID;
+
+    lKonvSat := lModBarang.GetKonversiFromUOM(ASatuanID);
+    if lKonvSat <> nil then
+    begin
+      lKonvSat.Satuan.Reload();
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColBarcode.Index] := lKonvSat.KONVSAT_BARCODE;
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOM.Index]     := lKonvSat.Satuan.SAT_CODE;
+      cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index]   := lKonvSat.Satuan.ID;
+    end;
+
 
     //Set UOM Default
-    if lModBarang.SATUAN_STOCK <> nil then
+    if (ASatuanID = '') and  (lModBarang.SATUAN_STOCK <> nil) then
     begin
       lModBarang.SATUAN_STOCK.Reload();
       cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOMid.Index] := lModBarang.SATUAN_STOCK.ID;
       cxGridTableBR.DataController.Values[iCurrentRow, cxGridTableColUOM.Index]   := lModBarang.SATUAN_STOCK.SAT_CODE;
     end;
+
 //    cxGridTableBR.DataController.Post();
     cxGridTableBR.DataController.PostEditingData();
   Finally
@@ -573,12 +645,13 @@ begin
 
     }
 
-  ModbarcodeRequest.BR_NO     := edtBarNo.Text;
-  ModbarcodeRequest.BR_DATE   := dtTgl.Date;
-  ModbarcodeRequest.BR_HARGA  := curredtUnitPrice.EditValue;
-  ModbarcodeRequest.BR_TOTAL  := vartofloat(cxGridTableBR.GetFooterSummary(cxGridTableColTotal));
-  ModbarcodeRequest.BR_UNIT   := TRetno.UnitStore;
-  ModbarcodeRequest.BR_COLIE  := cxGridTableBR.GetFooterSummary(cxGridTableColQTY);
+  ModbarcodeRequest.BR_NO           := edtBarNo.Text;
+  ModbarcodeRequest.BR_DATE         := dtTgl.Date;
+  ModbarcodeRequest.BR_HARGA        := curredtUnitPrice.EditValue;
+  ModbarcodeRequest.BR_TOTAL        := vartofloat(cxGridTableBR.GetFooterSummary(cxGridTableColTotal));
+  ModbarcodeRequest.BR_UNIT         := TRetno.UnitStore;
+  ModbarcodeRequest.BR_COLIE        := cxGridTableBR.GetFooterSummary(cxGridTableColQTY);
+  ModbarcodeRequest.BR_DESCRIPTION  := memDesc.Text;
 
 //detail
   ModbarcodeRequest.BarcodeRequestItems.Clear; //hapus yg sudah ada, biasanya kl edit, biar ga dobel.
@@ -615,6 +688,7 @@ end;
 
 function TfrmDialogBarcodeRequest.ValidateData: Boolean;
 var
+  a: Integer;
   i: Integer;
   lQty: Double;
 
@@ -664,6 +738,21 @@ begin
     begin
       TAppUtils.Warning('Quantity pada baris ke-'+IntToStr(i+1)+' belum diisi.');
       exit;
+    end;
+  end;
+
+  for i := 0 to cxGridTableBR.DataController.RecordCount -1 do
+  begin
+    for a := 0 to cxGridTableBR.DataController.RecordCount -1 do
+    begin
+      if i = a then
+      Continue;
+      if (cxGridTableBR.DataController.Values[i,cxGridTableColCode.Index] = cxGridTableBR.DataController.Values[a,cxGridTableColCode.Index])
+       and (cxGridTableBR.DataController.Values[i,cxGridTableColUOMid.Index] = cxGridTableBR.DataController.Values[a,cxGridTableColUOMid.Index]) then
+      begin
+        TAppUtils.Warning('PLU baris ke-'+IntToStr(i+1)+' dan ke-' +IntToStr(a+1)+' tidak boleh dengan UoM yang sama.');
+        exit;
+      end;
     end;
   end;
 

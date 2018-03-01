@@ -12,16 +12,13 @@ inherited frmDisplayPOSTransaction: TfrmDisplayPOSTransaction
   inherited pnlBody: TPanel
     Width = 759
     Height = 254
-    BorderWidth = 0
     ExplicitWidth = 759
     ExplicitHeight = 198
     inherited pgcBrowse: TcxPageControl
-      Left = 1
       Top = 40
       Width = 757
       Height = 213
       TabOrder = 1
-      ExplicitLeft = 1
       ExplicitTop = 40
       ExplicitWidth = 757
       ExplicitHeight = 157
@@ -31,7 +28,7 @@ inherited frmDisplayPOSTransaction: TfrmDisplayPOSTransaction
         ExplicitLeft = 1
         ExplicitTop = 1
         ExplicitWidth = 755
-        ExplicitHeight = 155
+        ExplicitHeight = 211
         inherited cxGrid: TcxGrid
           Width = 755
           Height = 192
@@ -46,9 +43,6 @@ inherited frmDisplayPOSTransaction: TfrmDisplayPOSTransaction
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 1
-          ExplicitTop = 178
-          ExplicitWidth = 757
           DesignSize = (
             755
             19)
@@ -168,7 +162,7 @@ inherited frmDisplayPOSTransaction: TfrmDisplayPOSTransaction
       ExplicitWidth = 759
       inherited lbEscape: TLabel
         Left = 685
-        Height = 17
+        ExplicitLeft = 685
       end
     end
   end
