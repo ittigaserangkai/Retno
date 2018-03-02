@@ -216,6 +216,7 @@ begin
     with TfrmCXLookup.Execute(CDSBarang, False, 'Look Up Data') do
     begin
       Try
+        HideFields(['BARANG_ID','REF$SATUAN_ID','REF$TIPE_HARGA_ID','BARANG_HARGA_JUAL_ID']);
         if ShowModal = mrOK then
         begin
           LoadBarangToGrid(Data.FieldByName('BRG_CODE').AsString, Data.FieldByName('REF$SATUAN_ID').AsString);
