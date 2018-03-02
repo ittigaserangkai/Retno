@@ -5504,7 +5504,6 @@ object frmMain: TfrmMain
     end
     object actToolsGenerateModel: TAction
       Caption = 'Generate Model'
-      OnExecute = actToolsGenerateModelExecute
     end
   end
 end

@@ -977,7 +977,8 @@ begin
     try
       TRetno.UnitStore := TModUnit(DMClient.CrudClient.Retrieve(TModUnit.ClassName, sIDUnit));
       TRetno.SettingApp := TModSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(
-        TRetno.UnitStore, TRetno.UnitStore.ID));
+      TRetno.UnitStore, TRetno.UnitStore.ID));
+      TAppUtils.SimpanMenu(actlstMain);
     except
       on E:Exception do TAppUtils.NotifException(E);
     end;

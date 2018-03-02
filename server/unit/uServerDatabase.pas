@@ -22,16 +22,27 @@ type
   TServerDatabaseSQLServer = class(TServerDatabase)
   protected
     function GenerateAlterTable(AModAPP : TModApp): string; override;
+    function AlterAddTable(AModAPP : TModApp): string;
+    function AlterDropColumn(AModAPP: TModApp): string;
     function GenerateCreateTable(AModAPP : TModApp): string; override;
   public
     function IsFieldNameExist(ATableName : String; AFieldName : String): Boolean;
         override;
+    function IsPropertyExist(AFieldName : String; AModApp : TModApp): Boolean;
     function IsTableExist(ATableName : String): Boolean; override;
   end;
 
 implementation
 
 function TServerDatabaseSQLServer.GenerateAlterTable(AModAPP : TModApp): string;
+begin
+  Result := AlterAddTable(AModAPP);
+  Result := Result + AlterDropColumn(AModAPP);
+end;
+
+
+
+function TServerDatabaseSQLServer.AlterAddTable(AModAPP : TModApp): string;
 var
   ctx : TRttiContext;
   rt : TRttiType;
@@ -60,6 +71,40 @@ begin
     Result := Format(SQL_Alter,[AModAPP.GetTableName,UpdateVal]);
     Result := UpperCase(Result);
   end;
+
+
+end;
+
+function TServerDatabaseSQLServer.AlterDropColumn(AModAPP: TModApp): string;
+var
+  sSQL: string;
+begin
+  Result := '';
+
+  sSQL   := 'SELECT col.name ' +
+            ' from sys.tables as tbl ' +
+            ' INNER JOIN sys.columns col ON col.object_id=tbl.object_id ' +
+            ' inner join sys.types typ on col.system_type_id = typ.system_type_id ' +
+            ' WHERE tbl.Name= ' + QuotedStr(AModAPP.GetTableName);
+
+  with TDBUtils.OpenQuery(sSQL) do
+  begin
+    try
+      while not Eof do
+      begin
+        if not IsPropertyExist(FieldByName('name').AsString, AModAPP) then
+        begin
+          Result := Result + 'alter table ' + AModAPP.GetTableName + ' drop column ' + FieldByName('name').AsString + ';';
+        end;
+
+        Next;
+      end;
+    finally
+      Free;
+    end;
+  end;
+
+
 end;
 
 function TServerDatabaseSQLServer.GenerateCreateTable(AModAPP : TModApp):
@@ -110,6 +155,29 @@ begin
     finally
       Free;
     end;
+  end;
+end;
+
+function TServerDatabaseSQLServer.IsPropertyExist(AFieldName : String; AModApp
+    : TModApp): Boolean;
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+begin
+  Result := False;
+
+  rt := ctx.GetType(AModAPP.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+
+    if UpperCase(AModAPP.FieldNameOf(prop)) = UpperCase(AFieldName) then
+    begin
+      Result := True;
+      Exit;
+    end;
+
   end;
 end;
 

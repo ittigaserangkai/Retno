@@ -282,7 +282,8 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   uModHistoryBarang in '..\model\uModHistoryBarang.pas',
   ufrmHistoryBarang in '..\module\merchandise\ufrmHistoryBarang.pas' {frmHistoryBarang},
-  ufrmDialogHistoryBarang in '..\module\merchandise\ufrmDialogHistoryBarang.pas' {frmDialogHistoryBarang};
+  ufrmDialogHistoryBarang in '..\module\merchandise\ufrmDialogHistoryBarang.pas' {frmDialogHistoryBarang},
+  uModUser in '..\model\uModUser.pas';
 
 {$R *.res}
 

@@ -87,7 +87,8 @@ uses
   uModDatabase in '..\model\uModDatabase.pas',
   uServerDatabase in 'unit\uServerDatabase.pas',
   uModBarcodeUsage in '..\model\uModBarcodeUsage.pas',
-  uModHistoryBarang in '..\model\uModHistoryBarang.pas';
+  uModHistoryBarang in '..\model\uModHistoryBarang.pas',
+  uModUser in '..\model\uModUser.pas';
 
 //  uModBarcodeUsage in '..\model\uModBarcodeUsage.pas';
 

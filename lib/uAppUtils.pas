@@ -4,7 +4,8 @@ interface
 uses
   System.Classes, System.SysUtils, Graphics, Registry, StrUtils,
   ComCtrls,Math,DB, ExtCtrls, Variants, Forms, Dialogs, Controls,
-  Windows,  SqlExpr, System.UITypes, System.DateUtils;
+  Windows,  SqlExpr, System.UITypes, System.DateUtils, Vcl.ActnList,
+  uDMClient, Datasnap.DBClient, System.Generics.Collections, uModApp;
 
 type
   TStringArray = Array of string;
@@ -95,6 +96,7 @@ type
 
     class procedure SetRegionalSetting_ID;
     class procedure NotifException(E: Exception);
+    class procedure SimpanMenu(AActionListMenu : TActionList);
     class function SplitLeftStr(S: String; Separator: Char): String;
     class function SplitRightStr(S: String; Separator: Char): String;
     class function StringToArrayOfString(AString : String): TStringArray;
@@ -164,7 +166,7 @@ const
 implementation
 
 uses
-  uTSCommonDlg, Datasnap.DSHTTPClient, REST.Json;
+  uTSCommonDlg, Datasnap.DSHTTPClient, REST.Json, uDBUtils, uModUser;
 
 class function TAppUtils.GetAppVersionStr: string;
 var
@@ -1257,6 +1259,56 @@ begin
   end else
     Msg := E.Message;
   CommonDlg.ShowInformationAlert('Server Error',Msg,mtError);
+end;
+
+class procedure TAppUtils.SimpanMenu(AActionListMenu : TActionList);
+var
+  I: Integer;
+  lCDS: TClientDataset;
+  lIsKetemu: Boolean;
+  lMenu: TModMenu;
+  lMenuList: tobjectList<TModApp>;
+begin
+  lCDS := TDBUtils.DSToCDS(DMClient.DSProviderClient.Menu_GetDSLookup(),nil);
+  try
+    lMenuList := TObjectList<TModApp>.Create();
+    try
+      for I := 0 to AActionListMenu.ActionCount - 1 do
+      begin
+        lIsKetemu := False;
+        if lCDS <> nil then
+        begin
+          lCDS.First;
+          while not lCDS.Eof do
+          begin
+            if lCDS.FieldByName('MenuName').AsString = AActionListMenu.Actions[i].Name then
+            begin
+              lIsKetemu := True;
+              Break;
+            end;
+            lCDS.Next;
+          end;
+        end;
+
+        if not lIsKetemu then
+        begin
+          lMenu := TModMenu.Create;
+          lMenu.MenuCaption := AActionListMenu.Actions[i].Caption;
+          lMenu.MenuName    := AActionListMenu.Actions[i].Name;
+          lMenuList.Add(lMenu);
+        end;
+      end;
+
+      if lMenuList.Count > 0 then
+        DMClient.CrudClient.SaveBatch(lMenuList);
+
+    finally
+      lMenuList.Free;
+    end;
+
+  finally
+    FreeAndNil(lCDS);
+  end;
 end;
 
 class function TAppUtils.SplitLeftStr(S: String; Separator: Char): String;

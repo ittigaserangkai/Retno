@@ -16,11 +16,10 @@ type
     function GetUserMenuItems: TObjectList<TModUserMenuItem>;
   public
     destructor Destroy; override;
+    property UserMenuItems: TObjectList<TModUserMenuItem> read GetUserMenuItems
+        write FUserMenuItems;
   published
     property Password: string read FPassword write FPassword;
-    property UserMenuItems: TObjectList<TModUserMenuItem> read GetUserMenuItems write
-        FUserMenuItems;
-
     [AttributeOfCode]
     property UserName: string read FUserName write FUserName;
   end;

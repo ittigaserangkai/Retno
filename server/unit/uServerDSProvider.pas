@@ -13,6 +13,7 @@ type
     function AdjFaktur_GetDSOverview(aStartDate, aEndDate: TDateTime): TDataSet;
     function HistoryBarang_GetDSOverview(AStartDate, AEndDate: TDateTime): TDataSet;
     function Agama_GetDSLookup: TDataSet;
+    function Menu_GetDSLookup: TDataSet;
     function Agama_GetDSOverview: TDataSet;
     function App_GetDSLookUp: TDataSet;
     function App_GetDSOverview: TDataSet;
@@ -270,6 +271,14 @@ var
   S: string;
 begin
   S := 'select REF$AGAMA_ID, AGAMA_NAME from REF$AGAMA';
+  Result := TDBUtils.OpenQuery(S);
+end;
+
+function TDSProvider.Menu_GetDSLookup: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MENU';
   Result := TDBUtils.OpenQuery(S);
 end;
 

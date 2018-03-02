@@ -253,7 +253,8 @@ uses
   uModBarcodeUsage in '..\model\uModBarcodeUsage.pas',
   uModReturTrader in '..\model\uModReturTrader.pas',
   uClientClasses in '..\classes\uClientClasses.pas',
-  ufrmPODOListByStatus in '..\module\trader\ufrmPODOListByStatus.pas' {frmPODOListByStatus};
+  ufrmPODOListByStatus in '..\module\trader\ufrmPODOListByStatus.pas' {frmPODOListByStatus},
+  uModUser in '..\model\uModUser.pas';
 
 {$R *.res}
 

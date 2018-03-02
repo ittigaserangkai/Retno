@@ -58,7 +58,6 @@ type
     btnTest: TButton;
     lblGenerateSQL: TLabel;
     bGenerateSQLCreateTable: TcxButton;
-    procedure actToolsGenerateModelExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure AEIdle(Sender: TObject; var Done: Boolean);
     procedure btnKonekDBClick(Sender: TObject);
@@ -122,12 +121,6 @@ begin
     TDSSessionManager.Instance.TerminateAllSessions;
 end;
 
-procedure TfrmMain.actToolsGenerateModelExecute(Sender: TObject);
-begin
-//  frmGenerateModel := TfrmGenerateModel.Create(Self);
-//  frmGenerateModel.ShowModal;
-end;
-
 class function TfrmMain.BacaRegistry(aNama: String; aPath : String = ''):
     string;
 var
@@ -151,48 +144,16 @@ end;
 procedure TfrmMain.bGenerateSQLCreateTableClick(Sender: TObject);
 var
   sUnitName: string;
-//  Context: TRttiContext;
-//  t: TRttiType;
-//  DeclaringUnitName: string;
   ServerDatabase: TServerDatabaseSQLServer;
 begin
-
-
   sUnitName := InputBox('Nama Unit','Nama Unit', TfrmMain.BacaRegistry('last_sql_create_table'));
+
   TfrmMain.TulisRegistry('last_sql_create_table',sUnitName);
   ServerDatabase := TServerDatabaseSQLServer.Create;
 
   HTTPMemo.Lines.StrictDelimiter  := True;
   HTTPMemo.Lines.Delimiter        := ';';
   HTTPMemo.Lines.DelimitedText    := ServerDatabase.CreateTableSQLByUnitName(sUnitName);
-//  HTTPMemo.Lines.Text := ServerDatabase.CreateTableSQLByUnitName(sUnitName);
-
-//  try
-//    Context := TRttiContext.Create;
-//    ServerDatabase := TServerDatabase.Create;
-//    try
-//      for t in Context.GetTypes do
-//      begin
-//        if t.IsInstance then
-//        begin
-//          DeclaringUnitName := t.AsInstance.DeclaringUnitName;
-//          if SameText(DeclaringUnitName, sClassName) then
-//          begin
-//
-//          end;
-//            HTTPMemo.Lines.Add(TCrud.Create(Self).CreateTableSQLByClassName(sClassName + '.' + t.ToString));
-//        end;
-//      end;
-//    finally
-//      ServerDatabase.Free;
-//    end;
-//
-//
-//
-//  except
-//    on E : Exception do
-//    ShowMessage('Error generate SQL ' + E.Message);
-//  end;
 end;
 
 procedure TfrmMain.btnKonekDBClick(Sender: TObject);
@@ -203,13 +164,11 @@ begin
     begin
       btnKonekDB.Caption := 'Disconect';
       grpRestServer.Enabled := True;
-//      mmoLogs.Lines.Add('Menambungkan DB ke ' + edServer.Text);
     end;
   end else begin
     FDConnection.Close;
     btnKonekDB.Caption := 'Connect';
     grpRestServer.Enabled := False;
-//    mmoLogs.Lines.Add('Memutus DB dari ' + edServer.Text);
   end;
 end;
 
