@@ -282,8 +282,7 @@ uses
   uClientClasses in '..\classes\uClientClasses.pas',
   uModHistoryBarang in '..\model\uModHistoryBarang.pas',
   ufrmHistoryBarang in '..\module\merchandise\ufrmHistoryBarang.pas' {frmHistoryBarang},
-  ufrmDialogHistoryBarang in '..\module\merchandise\ufrmDialogHistoryBarang.pas' {frmDialogHistoryBarang},
-  uModUser in '..\model\uModUser.pas';
+  ufrmDialogHistoryBarang in '..\module\merchandise\ufrmDialogHistoryBarang.pas' {frmDialogHistoryBarang};
 
 {$R *.res}
 
@@ -294,6 +293,5 @@ begin
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TDMReport, DMReport);
-  //  Application.CreateForm(TfrmMasterDialog1, frmMasterDialog1);
   Application.Run;
 end.

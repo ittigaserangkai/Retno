@@ -3,7 +3,8 @@ unit uRetnoUnit;
 interface
 uses
   ExtCtrls, Controls, Graphics, uConstanta, udmMain, Windows, Classes, SysUtils,
-  Forms, uTSINIFile, uAppUtils, uModUnit, uDMClient, uDMReport, uModSettingApp;
+  Forms, uTSINIFile, uAppUtils, uModUnit, uDMClient, uDMReport, uModSettingApp,
+  uModApp, uModAuthUser;
 
 type
   TTag = set of byte;
@@ -18,8 +19,11 @@ type
   class var
     FUnitStore: TModUnit;
     FSettingApp: TModSettingApp;
+    FUserApp: TModAuthUser;
+  var
     class function GetUnitStore: TModUnit; static;
     class procedure SetUnitStore(const Value: TModUnit); static;
+    class procedure SetUserApp(const Value: TModAuthUser); static;
   protected
   public
     class procedure CloseAllMDIChildForms;
@@ -30,6 +34,7 @@ type
     class procedure SetSettingApp(AModSettingApp : TModSettingApp);
     class property UnitStore: TModUnit read GetUnitStore write SetUnitStore;
     class property SettingApp: TModSettingApp read FSettingApp write FSettingApp;
+    class property UserApp: TModAuthUser read FUserApp write SetUserApp;
   end;
 
 function getGlobalVar(aVarString : string): string;
@@ -297,6 +302,14 @@ begin
     FreeAndNil(FSettingApp);
 
   FSettingApp := AModSettingApp;
+end;
+
+class procedure TRetno.SetUserApp(const Value: TModAuthUser);
+begin
+  if FUserApp <> nil then
+    FreeAndNil(FUserApp);
+
+  FUserApp := Value;
 end;
 
 end.

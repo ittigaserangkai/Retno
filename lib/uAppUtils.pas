@@ -166,7 +166,7 @@ const
 implementation
 
 uses
-  uTSCommonDlg, Datasnap.DSHTTPClient, REST.Json, uDBUtils, uModUser;
+  uTSCommonDlg, Datasnap.DSHTTPClient, REST.Json, uDBUtils, uModAuthUser;
 
 class function TAppUtils.GetAppVersionStr: string;
 var
@@ -1281,7 +1281,8 @@ begin
           lCDS.First;
           while not lCDS.Eof do
           begin
-            if lCDS.FieldByName('MenuName').AsString = AActionListMenu.Actions[i].Name then
+            if (lCDS.FieldByName('MenuName').AsString = AActionListMenu.Actions[i].Name) and
+               (lCDS.FieldByName('Aplikasi').AsString = ExtractFileName(Application.ExeName)) then
             begin
               lIsKetemu := True;
               Break;
@@ -1295,6 +1296,7 @@ begin
           lMenu := TModMenu.Create;
           lMenu.MenuCaption := AActionListMenu.Actions[i].Caption;
           lMenu.MenuName    := AActionListMenu.Actions[i].Name;
+          lMenu.Aplikasi    := ExtractFileName(Application.ExeName);
           lMenuList.Add(lMenu);
         end;
       end;

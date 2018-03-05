@@ -116,6 +116,7 @@ type
         String): TDataset;
     function DOTrader_GetLookupForRetur(ATglAwal, ATglAkhir: TDateTime; AUnitID:
         String): TDataset;
+    function Menu_GetDSOverview: TDataSet;
     function PO_DSLookUpDetail(ANOPO : String): TDataSet;
     function PO_GetDSByPeriod(APeriodeAwal, APeriodeAkhir: TDatetime): TDataset;
     function PO_GetDSOLookUp(AUnitID : String): TDataset;
@@ -367,7 +368,7 @@ function TDSProvider.AutUser_GetDSOverview: TDataSet;
 var
   S: string;
 begin
-  S := 'SELECT * FROM AUT$USER';
+  S := 'SELECT * FROM V_AUTUSER ORDER BY USR_USERNAME';
   Result := TDBUtils.OpenQuery(S);
 end;
 
@@ -1965,6 +1966,14 @@ begin
 
 
   Result := TDBUtils.OpenQuery(sSQL);
+end;
+
+function TDSProvider.Menu_GetDSOverview: TDataSet;
+var
+  S: string;
+begin
+  S := 'select * from MENU';
+  Result := TDBUtils.OpenQuery(S);
 end;
 
 

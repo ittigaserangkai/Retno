@@ -2,7 +2,6 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   ActiveControl = cbbCompCode
-  Caption = 'actOnCreateForm'
   ClientHeight = 527
   ClientWidth = 869
   Color = clBtnFace
@@ -136,6 +135,7 @@ object frmMain: TfrmMain
     TabOrder = 6
     TabStop = False
     object dxrbntbSystem: TdxRibbonTab
+      Active = True
       Caption = 'System'
       Groups = <
         item
@@ -193,7 +193,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxrbntbMerchandize: TdxRibbonTab
-      Active = True
       Caption = 'Merchandize'
       Groups = <
         item
@@ -433,6 +432,7 @@ object frmMain: TfrmMain
       Caption = 'actOnCreateForm'
     end
     object actOnLogout: TAction
+      Tag = 999
       Category = 'Sistem'
       Caption = 'Logout'
       ImageIndex = 68
@@ -440,6 +440,7 @@ object frmMain: TfrmMain
       OnExecute = actOnLogoutExecute
     end
     object actOnLogin: TAction
+      Tag = 999
       Category = 'Sistem'
       Caption = 'Login'
       ImageIndex = 69
@@ -447,6 +448,7 @@ object frmMain: TfrmMain
       OnExecute = actOnLoginExecute
     end
     object actOnExit: TAction
+      Tag = 999
       Category = 'Sistem'
       Caption = 'Exit'
       ImageIndex = 66
@@ -458,11 +460,13 @@ object frmMain: TfrmMain
       Caption = 'Module 1'
     end
     object actCascade: TAction
+      Tag = 999
       Category = 'Window'
       Caption = '&Cascade'
       ImageIndex = 65
     end
     object actTile: TAction
+      Tag = 999
       Category = 'Window'
       Caption = '&Tile'
     end
@@ -471,6 +475,7 @@ object frmMain: TfrmMain
       Caption = '&Arrange'
     end
     object actCloseAll: TAction
+      Tag = 999
       Category = 'Window'
       Caption = 'Clo&se All'
       ImageIndex = 67
@@ -1839,6 +1844,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxbrbtnExit'
+        end
+        item
+          Visible = True
+          ItemName = 'dxbrbtnUser'
         end>
       OneOnRow = True
       Row = 0
@@ -1921,7 +1930,7 @@ object frmMain: TfrmMain
     object dxbrmngrHOBar1: TdxBar
       Caption = 'User Management'
       CaptionButtons = <>
-      DockedLeft = 539
+      DockedLeft = 152
       DockedTop = 0
       FloatLeft = 834
       FloatTop = 8
@@ -2445,6 +2454,10 @@ object frmMain: TfrmMain
       Caption = 'Entry PLU && Scan External Code'
       Category = 0
       ImageIndex = 59
+    end
+    object dxbrbtnUser: TdxBarButton
+      Action = actUser
+      Category = 0
     end
   end
 end

@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 3/1/2018 4:10:02 PM
+// 3/5/2018 9:10:36 AM
 //
 
 unit uClientClasses;
@@ -62,6 +62,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -88,6 +89,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -930,6 +932,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -956,6 +959,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1001,6 +1005,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1028,6 +1033,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1056,6 +1062,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1084,6 +1091,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1112,6 +1120,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1140,6 +1149,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1166,6 +1176,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1192,6 +1203,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1218,6 +1230,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1244,6 +1257,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1272,6 +1286,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1300,6 +1315,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1327,6 +1343,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1354,6 +1371,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1380,6 +1398,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1406,6 +1425,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1432,6 +1452,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1458,6 +1479,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1484,6 +1506,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1510,6 +1533,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1539,6 +1563,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1568,6 +1593,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1595,6 +1621,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1622,6 +1649,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1648,6 +1676,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1674,6 +1703,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1704,6 +1734,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1734,6 +1765,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1760,6 +1792,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1786,6 +1819,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1812,6 +1846,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1838,6 +1873,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1868,6 +1904,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1898,6 +1935,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1928,6 +1966,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -1958,6 +1997,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -1985,6 +2025,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2012,6 +2053,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2038,6 +2080,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2064,6 +2107,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2091,6 +2135,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2118,6 +2163,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2144,6 +2190,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2170,6 +2217,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2197,6 +2245,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2224,6 +2273,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2251,6 +2301,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2278,6 +2329,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2304,6 +2356,7 @@ type
     FRetrieveSingleCommand_Cache: TDSRestCommand;
     FSaveBatchCommand: TDSRestCommand;
     FDeleteBatchCommand: TDSRestCommand;
+    FDoLoginCommand: TDSRestCommand;
     FSaveToDBCommand: TDSRestCommand;
     FSaveToDBIDCommand: TDSRestCommand;
     FSaveToDBLogCommand: TDSRestCommand;
@@ -2330,6 +2383,7 @@ type
     function RetrieveSingle_Cache(ModClassName: string; AID: string; const ARequestFilter: string = ''): IDSRestCachedTModApp;
     function SaveBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
     function DeleteBatch(AObjectList: TObjectList<uModApp.TModApp>; const ARequestFilter: string = ''): Boolean;
+    function DoLogin(AUserName: string; APassword: string; const ARequestFilter: string = ''): Boolean;
     function SaveToDB(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
     function SaveToDBID(AObject: TModApp; const ARequestFilter: string = ''): string;
     function SaveToDBLog(AObject: TModApp; const ARequestFilter: string = ''): Boolean;
@@ -2509,6 +2563,13 @@ const
   TCrud_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrud_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -5000,6 +5061,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCRUDPos_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCRUDPos_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -5168,6 +5236,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudSupplier_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudSupplier_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -5312,6 +5387,13 @@ const
   TCrudPO_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudPO_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -5461,6 +5543,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudDO_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudDO_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -5595,6 +5684,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudCNRecv_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudCNRecv_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -5726,6 +5822,13 @@ const
   TCrudDNRecv_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudDNRecv_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -5875,6 +5978,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudSettingApp_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudSettingApp_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -6015,6 +6125,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudQuotation_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudQuotation_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -6146,6 +6263,13 @@ const
   TCrudAdjFaktur_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudAdjFaktur_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -6283,6 +6407,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudBankCashOut_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudBankCashOut_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -6414,6 +6545,13 @@ const
   TCrudClaimFaktur_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudClaimFaktur_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -6572,6 +6710,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudUpdatePOS_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudUpdatePOS_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -6712,6 +6857,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudContrabonSales_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudContrabonSales_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -6843,6 +6995,13 @@ const
   TCrudCustomerInvoice_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudCustomerInvoice_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -7008,6 +7167,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudBarangHargaJual_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudBarangHargaJual_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -7142,6 +7308,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudKuponBotol_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudKuponBotol_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -7273,6 +7446,13 @@ const
   TCRUDJurnal_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCRUDJurnal_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -7431,6 +7611,13 @@ const
   TCrudCrazyPrice_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudCrazyPrice_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -7594,6 +7781,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudBarang_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudBarang_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -7734,6 +7928,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudPOTrader_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudPOTrader_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -7865,6 +8066,13 @@ const
   TCRUDTransferBarang_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCRUDTransferBarang_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -8007,6 +8215,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCRUDDOTrader_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCRUDDOTrader_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -8138,6 +8353,13 @@ const
   TCRUDBarcodeRequest_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCRUDBarcodeRequest_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -8280,6 +8502,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCrudBankCashIN_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCrudBankCashIN_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -8419,6 +8648,13 @@ const
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
+  TCRUDReturTrader_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
   TCRUDReturTrader_SaveToDB: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObject'; Direction: 1; DBXType: 37; TypeName: 'TModApp'),
@@ -8550,6 +8786,13 @@ const
   TCrudBarcodeUsage_DeleteBatch: array [0..1] of TDSRestParameterMetaData =
   (
     (Name: 'AObjectList'; Direction: 1; DBXType: 37; TypeName: 'TObjectList<uModApp.TModApp>'),
+    (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
+  );
+
+  TCrudBarcodeUsage_DoLogin: array [0..2] of TDSRestParameterMetaData =
+  (
+    (Name: 'AUserName'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'APassword'; Direction: 1; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
@@ -8991,6 +9234,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrud.DoLogin';
+    FDoLoginCommand.Prepare(TCrud_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -9172,6 +9430,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -16552,6 +16811,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCRUDPosClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCRUDPos.DoLogin';
+    FDoLoginCommand.Prepare(TCRUDPos_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCRUDPosClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -16733,6 +17007,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -17196,6 +17471,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudSupplierClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudSupplier.DoLogin';
+    FDoLoginCommand.Prepare(TCrudSupplier_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudSupplierClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -17378,6 +17668,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -17747,6 +18038,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudPOClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudPO.DoLogin';
+    FDoLoginCommand.Prepare(TCrudPO_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudPOClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -17930,6 +18236,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -18310,6 +18617,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudDOClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudDO.DoLogin';
+    FDoLoginCommand.Prepare(TCrudDO_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudDOClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -18493,6 +18815,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -18833,6 +19156,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudCNRecvClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudCNRecv.DoLogin';
+    FDoLoginCommand.Prepare(TCrudCNRecv_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudCNRecvClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -19014,6 +19352,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -19354,6 +19693,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudDNRecvClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudDNRecv.DoLogin';
+    FDoLoginCommand.Prepare(TCrudDNRecv_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudDNRecvClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -19535,6 +19889,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -19939,6 +20294,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudSettingAppClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudSettingApp.DoLogin';
+    FDoLoginCommand.Prepare(TCrudSettingApp_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudSettingAppClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -20122,6 +20492,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -20488,6 +20859,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudQuotationClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudQuotation.DoLogin';
+    FDoLoginCommand.Prepare(TCrudQuotation_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudQuotationClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -20670,6 +21056,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -21010,6 +21397,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudAdjFakturClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudAdjFaktur.DoLogin';
+    FDoLoginCommand.Prepare(TCrudAdjFaktur_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudAdjFakturClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -21191,6 +21593,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -21531,6 +21934,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudBankCashOutClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudBankCashOut.DoLogin';
+    FDoLoginCommand.Prepare(TCrudBankCashOut_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudBankCashOutClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -21712,6 +22130,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -22052,6 +22471,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudClaimFakturClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudClaimFaktur.DoLogin';
+    FDoLoginCommand.Prepare(TCrudClaimFaktur_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudClaimFakturClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -22233,6 +22667,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -22621,6 +23056,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudUpdatePOSClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudUpdatePOS.DoLogin';
+    FDoLoginCommand.Prepare(TCrudUpdatePOS_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudUpdatePOSClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -22805,6 +23255,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -23171,6 +23622,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudContrabonSalesClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudContrabonSales.DoLogin';
+    FDoLoginCommand.Prepare(TCrudContrabonSales_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudContrabonSalesClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -23353,6 +23819,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -23693,6 +24160,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudCustomerInvoiceClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudCustomerInvoice.DoLogin';
+    FDoLoginCommand.Prepare(TCrudCustomerInvoice_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudCustomerInvoiceClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -23874,6 +24356,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -24346,6 +24829,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudBarangHargaJualClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudBarangHargaJual.DoLogin';
+    FDoLoginCommand.Prepare(TCrudBarangHargaJual_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudBarangHargaJualClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -24531,6 +25029,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -24871,6 +25370,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudKuponBotolClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudKuponBotol.DoLogin';
+    FDoLoginCommand.Prepare(TCrudKuponBotol_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudKuponBotolClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -25052,6 +25566,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -25392,6 +25907,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCRUDJurnalClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCRUDJurnal.DoLogin';
+    FDoLoginCommand.Prepare(TCRUDJurnal_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCRUDJurnalClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -25573,6 +26103,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -25993,6 +26524,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudCrazyPriceClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudCrazyPrice.DoLogin';
+    FDoLoginCommand.Prepare(TCrudCrazyPrice_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudCrazyPriceClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -26178,6 +26724,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -26600,6 +27147,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudBarangClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudBarang.DoLogin';
+    FDoLoginCommand.Prepare(TCrudBarang_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudBarangClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -26785,6 +27347,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -27139,6 +27702,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudPOTraderClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudPOTrader.DoLogin';
+    FDoLoginCommand.Prepare(TCrudPOTrader_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudPOTraderClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -27321,6 +27899,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -27661,6 +28240,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCRUDTransferBarangClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCRUDTransferBarang.DoLogin';
+    FDoLoginCommand.Prepare(TCRUDTransferBarang_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCRUDTransferBarangClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -27842,6 +28436,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -28195,6 +28790,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCRUDDOTraderClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCRUDDOTrader.DoLogin';
+    FDoLoginCommand.Prepare(TCRUDDOTrader_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCRUDDOTraderClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -28377,6 +28987,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -28717,6 +29328,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCRUDBarcodeRequestClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCRUDBarcodeRequest.DoLogin';
+    FDoLoginCommand.Prepare(TCRUDBarcodeRequest_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCRUDBarcodeRequestClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -28898,6 +29524,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -29251,6 +29878,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudBankCashINClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudBankCashIN.DoLogin';
+    FDoLoginCommand.Prepare(TCrudBankCashIN_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudBankCashINClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -29433,6 +30075,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -29786,6 +30429,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCRUDReturTraderClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCRUDReturTrader.DoLogin';
+    FDoLoginCommand.Prepare(TCRUDReturTrader_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCRUDReturTraderClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -29968,6 +30626,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;
@@ -30308,6 +30967,21 @@ begin
   Result := FDeleteBatchCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TCrudBarcodeUsageClient.DoLogin(AUserName: string; APassword: string; const ARequestFilter: string): Boolean;
+begin
+  if FDoLoginCommand = nil then
+  begin
+    FDoLoginCommand := FConnection.CreateCommand;
+    FDoLoginCommand.RequestType := 'GET';
+    FDoLoginCommand.Text := 'TCrudBarcodeUsage.DoLogin';
+    FDoLoginCommand.Prepare(TCrudBarcodeUsage_DoLogin);
+  end;
+  FDoLoginCommand.Parameters[0].Value.SetWideString(AUserName);
+  FDoLoginCommand.Parameters[1].Value.SetWideString(APassword);
+  FDoLoginCommand.Execute(ARequestFilter);
+  Result := FDoLoginCommand.Parameters[2].Value.GetBoolean;
+end;
+
 function TCrudBarcodeUsageClient.SaveToDB(AObject: TModApp; const ARequestFilter: string): Boolean;
 begin
   if FSaveToDBCommand = nil then
@@ -30489,6 +31163,7 @@ begin
   FRetrieveSingleCommand_Cache.DisposeOf;
   FSaveBatchCommand.DisposeOf;
   FDeleteBatchCommand.DisposeOf;
+  FDoLoginCommand.DisposeOf;
   FSaveToDBCommand.DisposeOf;
   FSaveToDBIDCommand.DisposeOf;
   FSaveToDBLogCommand.DisposeOf;

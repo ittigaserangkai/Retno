@@ -6,27 +6,28 @@ uses uModApp, System.Generics.Collections;
 
 type
   TModAuthGroup = class;
-  TModAuthUserGroup = class;
+  TModUserMenuItem = class;
 
   TModAuthUser = class(TModApp)
   private
-    FGroups: TObjectList<TModAuthUserGroup>;
-    FMaxUbahPO: Integer;
-    FOTOQTYSO: Integer;
+    FUserMenuItems: TObjectList<TModUserMenuItem>;
+    FUSR_GROUP: TModAuthGroup;
     FUSR_FULLNAME: String;
     FUSR_USERNAME: String;
     FUSR_PASSWD: String;
     FUSR_STATUS: Integer;
     FUSR_DESCRIPTION: String;
-    function GetGroups: TObjectList<TModAuthUserGroup>;
+    function GetUserMenuItems: TObjectList<TModUserMenuItem>;
   public
+    class function GetPrimaryField: String; override;
     class function GetTableName: String; override;
-    property Groups: TObjectList<TModAuthUserGroup> read GetGroups write FGroups;
+    property UserMenuItems: TObjectList<TModUserMenuItem> read GetUserMenuItems
+        write FUserMenuItems;
   published
-    property MaxUbahPO: Integer read FMaxUbahPO write FMaxUbahPO;
-    property OTOQTYSO: Integer read FOTOQTYSO write FOTOQTYSO;
+    property USR_GROUP: TModAuthGroup read FUSR_GROUP write FUSR_GROUP;
     property USR_FULLNAME: String read FUSR_FULLNAME write FUSR_FULLNAME;
-    [AttributeOfCode]
+
+//    [AttributeOfCode]
     property USR_USERNAME: String read FUSR_USERNAME write FUSR_USERNAME;
     property USR_PASSWD: String read FUSR_PASSWD write FUSR_PASSWD;
     property USR_STATUS: Integer read FUSR_STATUS write FUSR_STATUS;
@@ -46,27 +47,40 @@ type
     property GRO_DESCRIPTION: String read FGRO_DESCRIPTION write FGRO_DESCRIPTION;
   end;
 
-  TModAuthUserGroup = class(TModApp)
+  TModMenu = class(TModApp)
   private
-    FGROUP: TModAuthGroup;
-    FUSER: TModAuthUser;
-  public
-    class function GetTableName: String; override;
+    FAplikasi: string;
+    FMenuCaption: string;
+    FMenuName: string;
   published
-    [AttributeOfForeign('AUT$GROUP_ID')]
-    property GROUP: TModAuthGroup read FGROUP write FGROUP;
-    [AttributeOfHeader('AUT$USER_ID')]
-    property USER: TModAuthUser read FUSER write FUSER;
+    [AttributeOfSize('120')]
+    property Aplikasi: string read FAplikasi write FAplikasi;
+
+    [AttributeOfSize('120')]
+    property MenuCaption: string read FMenuCaption write FMenuCaption;
+
+    [AttributeOfCode, AttributeOfSize('120')]
+    property MenuName: string read FMenuName write FMenuName;
+  end;
+
+  TModUserMenuItem = class(TModApp)
+  private
+    FMenu: TModMenu;
+    FAuthUser: TModAuthUser;
+  public
+  published
+    property Menu: TModMenu read FMenu write FMenu;
+
+    [AttributeOfHeader]
+    property AuthUser: TModAuthUser read FAuthUser write FAuthUser;
   end;
 
 
 implementation
 
-function TModAuthUser.GetGroups: TObjectList<TModAuthUserGroup>;
+class function TModAuthUser.GetPrimaryField: String;
 begin
-  if not Assigned(FGroups) then
-    FGroups := TObjectList<TModAuthUserGroup>.Create;
-  Result := FGroups;
+  Result := 'AUT$USER_ID';
 end;
 
 class function TModAuthUser.GetTableName: String;
@@ -74,20 +88,23 @@ begin
   Result := 'AUT$USER';
 end;
 
+function TModAuthUser.GetUserMenuItems: TObjectList<TModUserMenuItem>;
+begin
+  if FUserMenuItems = nil then
+    FUserMenuItems := TObjectList<TModUserMenuItem>.Create;
+
+  Result := FUserMenuItems;
+end;
+
 class function TModAuthGroup.GetTableName: String;
 begin
   Result := 'AUT$GROUP';
 end;
 
-class function TModAuthUserGroup.GetTableName: String;
-begin
-  Result := 'AUT$USER_GROUP';
-end;
-
 initialization
   TModAuthUser.RegisterRTTI;
   TModAuthGroup.RegisterRTTI;
-  TModAuthUserGroup.RegisterRTTI;
+//  TModAuthUserGroup.RegisterRTTI;
 
 
 end.

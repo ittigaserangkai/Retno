@@ -10,18 +10,26 @@ type
 
   TModUserApp = class(TModApp)
   private
-    FPassword: string;
+    FUsr_Description: string;
+    FUsr_Password: string;
+    FUsr_RealName: string;
     FUserMenuItems: TObjectList<TModUserMenuItem>;
-    FUserName: string;
+    FUsr_UserName: string;
     function GetUserMenuItems: TObjectList<TModUserMenuItem>;
   public
     destructor Destroy; override;
     property UserMenuItems: TObjectList<TModUserMenuItem> read GetUserMenuItems
         write FUserMenuItems;
   published
-    property Password: string read FPassword write FPassword;
+    [AttributeOfSize('120')]
+    property Usr_Description: string read FUsr_Description write FUsr_Description;
+    property Usr_Password: string read FUsr_Password write FUsr_Password;
+
+    [AttributeOfSize('60')]
+    property Usr_RealName: string read FUsr_RealName write FUsr_RealName;
+
     [AttributeOfCode]
-    property UserName: string read FUserName write FUserName;
+    property Usr_UserName: string read FUsr_UserName write FUsr_UserName;
   end;
 
   TModMenu = class(TModApp)
@@ -43,6 +51,8 @@ type
   public
   published
     property Menu: TModMenu read FMenu write FMenu;
+
+    [AttributeOfHeader]
     property UseraPP: TModUserApp read FUseraPP write FUseraPP;
   end;
 

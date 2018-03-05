@@ -18,7 +18,10 @@ inherited frmUser: TfrmUser
       ClientRectBottom = 302
       ClientRectRight = 684
       inherited tsBrowse: TcxTabSheet
+        ExplicitLeft = 1
+        ExplicitTop = 1
         ExplicitWidth = 683
+        ExplicitHeight = 301
         inherited cxGrid: TcxGrid
           Width = 683
           Height = 301
@@ -39,10 +42,12 @@ inherited frmUser: TfrmUser
     inherited dtAwalFilter: TcxDateEdit
       Left = 394
       ExplicitLeft = 394
+      ExplicitHeight = 23
     end
     inherited dtAkhirFilter: TcxDateEdit
       Left = 510
       ExplicitLeft = 510
+      ExplicitHeight = 23
     end
     inherited btnSearch: TcxButton
       Left = 605
@@ -88,6 +93,14 @@ inherited frmUser: TfrmUser
         Height = 17
         ExplicitLeft = 613
       end
+    end
+  end
+  inherited actlstBrowse: TActionList
+    inherited actAdd: TAction
+      OnExecute = actAddExecute
+    end
+    inherited actEdit: TAction
+      OnExecute = actEditExecute
     end
   end
 end

@@ -12,7 +12,7 @@ uses
   dxRibbonCustomizationForm, dxRibbon, dxBar, ufrmClaim, ufrmBankCashOut,
   ufrmAPCard, ufrmHistoryAP, ufrmJurnal, ufrmContrabonSales, ufrmCustomerInvoice,
   ufrmCrazyPrice, dxRibbonColorGallery, ufrmCashIn, ufrmAgingPiutang, ufrmSummaryARBalance,
-  ufrmHistoryBarang;
+  ufrmHistoryBarang, uModAuthUser;
 
 type
   TRole = (rNobody, rAdmin, rManager, rAccounting, rMerchandise, rFinance, rCoba);
@@ -422,6 +422,7 @@ type
     actARBalance: TAction;
     dxbrbtnHistoryBarang: TdxBarButton;
     actEntryPLUExternalCode: TAction;
+    dxbrbtnUser: TdxBarButton;
     procedure actAdjustmentFakturExecute(Sender: TObject);
     procedure actAPCARDExecute(Sender: TObject);
     procedure actAPPaymentExecute(Sender: TObject);
@@ -532,7 +533,7 @@ type
     FFormProperty: TFormProperty;
     FGlobalProperty: TGlobalProperty;
     procedure EnableSubMenu(AMenu: TMenuItem; AValue: boolean);
-    procedure SetStatusHOSTORE;
+//    procedure SetStatusHOSTORE;
     //FIsStore: Integer;
     //FLoginFullname: string;
     //FLoginId: Integer;
@@ -542,7 +543,7 @@ type
 //    FLoginUserID : Integer;
 //    FLoginUserUntID : Integer;
 
-    procedure SettingMainMenu(ARole: TRole);
+    procedure SettingMainMenu(AModUserApp : TModAuthUser);
     { Private declarations }
   public
     Host, IP: string;
@@ -650,7 +651,7 @@ end;
 
 procedure TfrmMain.actCancPOExecute(Sender: TObject);
 begin
-    frmCancellationPO := TfrmCancellationPO.CreateWithUser(Application, FFormProperty);
+  frmCancellationPO := TfrmCancellationPO.CreateWithUser(Application, FFormProperty);
 end;
 
 procedure TfrmMain.actCashInExecute(Sender: TObject);
@@ -701,7 +702,7 @@ begin
   // set menu on user nobody
   actOnLogin.Enabled := true;
   actOnLogout.Enabled := false;
-  SettingMainMenu(rNobody);
+
 
   //Get global Variable
   if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
@@ -960,7 +961,7 @@ begin
   // set menu on user nobody
   actOnLogin.Enabled := true;
   actOnLogout.Enabled := false;
-  SettingMainMenu(rNobody);
+  SettingMainMenu(nil);
 
   //Get global Variable
   if TryStrToInt(getGlobalVar('PROD_CODE_LENGTH'), iTemp) then
@@ -979,6 +980,7 @@ begin
       TRetno.SettingApp := TModSettingApp(DMClient.CrudSettingAppClient.RetrieveByCabang(
       TRetno.UnitStore, TRetno.UnitStore.ID));
       TAppUtils.SimpanMenu(actlstMain);
+      SettingMainMenu(nil);
     except
       on E:Exception do TAppUtils.NotifException(E);
     end;
@@ -987,58 +989,16 @@ end;
 
 procedure TfrmMain.actOnExitExecute(Sender: TObject);
 begin
-  Close;
+  Application.Terminate;
 end;
 
 procedure TfrmMain.actOnLoginExecute(Sender: TObject);
-var
-  FdefUnitId: Integer;
 begin
-  // if not assigned(frmLogin) then
+  if not assigned(frmLogin) then
   frmLogin := TfrmLogin.Create(Application);
-  frmLogin.ShowFormLogin(LOGIN_PAGE);
+  frmLogin.ShowModal;
 
-  if (LoginSuccessfull) then
-  begin
-
-//    FdefUnitId  := GetHOUnitID;  //khusus HO, mengakomodir jika DB HO &WH di jadikan 1.
-//    if FdefUnitId = 0 then
-           FdefUnitId  := StrToInt(getGlobalVar('UNITID')); //unit dan db untuk wh dan ho dijadikan 1
-
-    FFormProperty.FMasterIsStore := GetIsStoreUnitID(FdefUnitId);
-
-//    FGlobalProperty.LIstMerID     := GetListMerchanID(frmLogin.LoginID, frmLogin.LoginUntID);
-//    aListMerID                    := FGlobalProperty.LIstMerID;
-    FFormProperty.FLoginId        := frmLogin.LoginID;
-    FFormProperty.FLoginUnitId    := frmLogin.LoginUntID;
-    FFormProperty.FLoginRole      := frmLogin.LoginUserName;
-    FFormProperty.FLoginUsername  := frmLogin.LoginUserName;
-    FFormProperty.FFilePathReport := GetReportPath;
-    FFormProperty.FSelfUnitId     := FdefUnitId;
-    FFormProperty.FIpClient       := IP;
-    FFormProperty.FHostClient     := Host;
-    FFormProperty.FTipeApp        := THO;
-
-//    with cOpenQuery(GetSQLisHOisStore(frmLogin.LoginUntID)) do
-//    begin
-//      try
-//        FFormProperty.FLoginIsStore   := FieldByName('UNT_IS_STORE').AsInteger;
-//      finally
-//        Free;
-//      end;
-//    end;
-
-    SetStatusHOSTORE;
-
-    lUnitId := FFormProperty.FSelfUnitId;
-
-    OpenLoading(USER_LOGIN_LOADING);
-    LoginExecute;
-    CloseLoading;
-  end; // end if
-
-  frmLogin := nil;
-  frmLogin.Free;
+  SettingMainMenu(Tretno.UserApp);
 end;
 
 procedure TfrmMain.actOnLogoutExecute(Sender: TObject);
@@ -1056,7 +1016,7 @@ begin
   except
   end;
 
-  SettingMainMenu(rNobody);
+//  SettingMainMenu(rNobody);
 
   // setting invisible panel unit
   pnlUnit.Visible := false;
@@ -1224,7 +1184,7 @@ end;
 
 procedure TfrmMain.actUserExecute(Sender: TObject);
 begin
-    frmUser := TfrmUser.Create(Self);
+  frmUser := TfrmUser.Create(Self);
 end;
 
 procedure TfrmMain.actUserGroupExecute(Sender: TObject);
@@ -1388,14 +1348,14 @@ end;
 
 procedure TfrmMain.miConnectionDatabaseClick(Sender: TObject);
 begin
-  frmLogin := TfrmLogin.Create(Application);
-  frmLogin.IsForSetting := true;
-  frmLogin.Caption := 'Setting Connection';
-  frmLogin.ShowFormLogin(CONNECTION_PAGE);
+//  frmLogin := TfrmLogin.Create(Application);
+//  frmLogin.IsForSetting := true;
+//  frmLogin.Caption := 'Setting Connection';
+//  frmLogin.ShowFormLogin(CONNECTION_PAGE);
 end;
 
-procedure TfrmMain.SetStatusHOSTORE;
-begin
+//procedure TfrmMain.SetStatusHOSTORE;
+//begin
 //  with cOpenQuery(GetSQLisHOisStore(StrToInt(getGlobalVar('UNITID')))) do
 //  with cOpenQuery(GetSQLisHOisStore(FFormProperty.FSelfUnitId)) do
 //  begin
@@ -1406,19 +1366,34 @@ begin
 //      Free;
 //    end;
 //  end;
-end;
+//end;
 
-procedure TfrmMain.SettingMainMenu(ARole: TRole);
+procedure TfrmMain.SettingMainMenu(AModUserApp : TModAuthUser);
+var
+  I: Integer;
+  j: Integer;
 begin
-  EnableSubMenu(mmWindow, false);
-  EnableSubMenu(miConnectionDatabase, true);
-  EnableSubMenu(miGlobalParameter, true);
-  if ARole = rCoba then
-  Begin
-    EnableSubMenu(mmWindow, false);
-    EnableSubMenu(miConnectionDatabase, true);
-    EnableSubMenu(miGlobalParameter, true);
-  End;
+  if AModUserApp = nil then
+    Exit;
+
+  for I := 0 to actlstMain.ActionCount - 1 do
+  begin
+    begin
+      if AModUserApp.Usr_UserName = 'admin' then
+      begin
+        actlstMain.Actions[i].Enabled := True
+      end else begin
+        for j := 0 to AModUserApp.UserMenuItems.Count - 1 do
+        begin
+          if actlstMain.Actions[i].Name = AModUserApp.UserMenuItems[i].Menu.MenuCaption then
+            actlstMain.Actions[i].Enabled := True;
+
+        end;
+
+      end;
+    end;
+  end;
+
 end;
 
 procedure TfrmMain.test1Click(Sender: TObject);

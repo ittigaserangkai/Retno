@@ -719,6 +719,7 @@ procedure TfrmMain.actOnLoginExecute(Sender: TObject);
 //var
 //  FdefUnitId: Integer;
 begin
+  {
   frmLogin := TfrmLogin.Create(Application);
   frmLogin.ShowFormLogin(LOGIN_PAGE);
 
@@ -749,7 +750,7 @@ begin
         Free;
       end;
     end;
-    }
+
 //    SetStatusHOSTORE;
 
 //    lUnitId := FFormProperty.FSelfUnitId;
@@ -757,10 +758,11 @@ begin
 //    OpenLoading(USER_LOGIN_LOADING);
 //    LoginExecute;
 //    CloseLoading;
-  end; // end if
-
-  frmLogin := nil;
-  frmLogin.Free;
+//  end; // end if
+//
+//  frmLogin := nil;
+//  frmLogin.Free;
+  }
 end;
 
 procedure TfrmMain.actOnLogoutExecute(Sender: TObject);

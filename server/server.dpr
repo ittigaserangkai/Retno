@@ -18,7 +18,6 @@ uses
   uDSUtils in '..\lib\uDSUtils.pas',
   uServerClasses in 'unit\uServerClasses.pas',
   uModAuthApp in '..\model\uModAuthApp.pas',
-  uModAuthUser in '..\model\uModAuthUser.pas',
   uModMember in '..\model\uModMember.pas',
   uModOutlet in '..\model\uModOutlet.pas',
   uModSatuan in '..\model\uModSatuan.pas',
@@ -88,7 +87,7 @@ uses
   uServerDatabase in 'unit\uServerDatabase.pas',
   uModBarcodeUsage in '..\model\uModBarcodeUsage.pas',
   uModHistoryBarang in '..\model\uModHistoryBarang.pas',
-  uModUser in '..\model\uModUser.pas';
+  uModAuthUser in '..\model\uModAuthUser.pas';
 
 //  uModBarcodeUsage in '..\model\uModBarcodeUsage.pas';
 

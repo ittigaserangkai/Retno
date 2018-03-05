@@ -225,6 +225,7 @@ type
   TEditHelper = class helper for TEdit
   public
     function TextRest: string;
+    function TextTrim: string;
 
   end;
 
@@ -2028,6 +2029,11 @@ begin
 
   if Result = '' then
     Result := 'null';
+end;
+
+function TEditHelper.TextTrim: string;
+begin
+  Result := Trim(Self.Text);
 end;
 
 function TComboboxHelper.TextRest: string;

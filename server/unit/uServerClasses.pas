@@ -8,7 +8,7 @@ uses
   uModQuotation, uModBankCashOut, System.Generics.Collections, uModClaimFaktur,
   uModContrabonSales, System.DateUtils, System.JSON, uModAR, uModRekening,
   uModOrganization, System.JSON.Types, uModCustomerInvoice, uModPO,uModBankCashIn,
-  uModSatuan, System.TypInfo, uModCrazyPrice, uModReturTrader;
+  uModSatuan, System.TypInfo, uModCrazyPrice, uModReturTrader, uModAuthUser;
 
 type
   {$METHODINFO ON}
@@ -48,6 +48,7 @@ type
     function RetrieveSingle(ModClassName, AID: string): TModApp; overload;
     function SaveBatch(AObjectList: TObjectList<TModApp>): Boolean;
     function DeleteBatch(AObjectList: TObjectList<TModApp>): Boolean;
+    function DoLogin(AUserName : String; APassword : String): Boolean;
 	function SaveToDB(AObject: TModApp): Boolean;
     function SaveToDBID(AObject: TModApp): String;
     function SaveToDBLog(AObject: TModApp): Boolean;
@@ -405,6 +406,19 @@ begin
     lSS.Free;
     AfterExecuteMethod;
   End;
+end;
+
+function TCrud.DoLogin(AUserName : String; APassword : String): Boolean;
+begin
+  Result := False;
+
+  with TModAuthUser(RetrieveByCode(TModAuthUser.ClassName, AUserName)) do
+  begin
+    if USR_PASSWD = APassword then
+    begin
+      Result := True;
+    end;
+  end;
 end;
 
 function TCrud.GenerateCustomNo(aTableName, aFieldName: string; aCountDigit:

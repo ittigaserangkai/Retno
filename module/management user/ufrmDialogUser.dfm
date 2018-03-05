@@ -1,215 +1,212 @@
 inherited frmDialogUser: TfrmDialogUser
   Left = 385
   Top = 245
-  Caption = 'frmDialogUser'
-  ClientHeight = 356
-  ClientWidth = 317
+  Caption = 'Dialog User'
+  ClientHeight = 418
+  ClientWidth = 677
   Constraints.MinHeight = 32
   OldCreateOrder = True
-  ExplicitWidth = 333
-  ExplicitHeight = 395
+  ExplicitWidth = 693
+  ExplicitHeight = 457
   PixelsPerInch = 96
   TextHeight = 16
   inherited pnlBody: TPanel
-    Width = 317
-    Height = 300
-    ExplicitWidth = 317
-    ExplicitHeight = 300
-    object lbl1: TLabel
-      Left = 31
-      Top = 16
-      Width = 27
-      Height = 16
-      Caption = 'Login'
-    end
-    object lbl2: TLabel
-      Left = 31
-      Top = 47
-      Width = 46
-      Height = 16
-      Caption = 'Password'
-    end
-    object lbl3: TLabel
-      Left = 31
-      Top = 78
-      Width = 39
-      Height = 16
-      Caption = 'Confirm'
-    end
-    object lbl4: TLabel
-      Left = 31
-      Top = 110
-      Width = 46
-      Height = 16
-      Caption = 'Full Name'
-    end
-    object lbl5: TLabel
-      Left = 31
-      Top = 142
-      Width = 32
-      Height = 16
-      Caption = 'Status'
-    end
-    object lbl6: TLabel
-      Left = 31
-      Top = 174
-      Width = 58
-      Height = 16
-      Caption = 'Description'
-    end
-    object lbl7: TLabel
-      Left = 31
-      Top = 206
-      Width = 30
-      Height = 16
-      Caption = 'Group'
-    end
-    object Label1: TLabel
-      Left = 31
-      Top = 238
-      Width = 65
-      Height = 16
-      Caption = 'Max Ubah PO'
-    end
-    object Label2: TLabel
-      Left = 31
-      Top = 270
-      Width = 57
-      Height = 16
-      Caption = 'Oto Qty SO'
-    end
-    object edtLogin: TEdit
-      Left = 98
-      Top = 16
-      Width = 192
-      Height = 22
+    Width = 677
+    Height = 362
+    ExplicitWidth = 373
+    ExplicitHeight = 213
+    object DataUser: TGroupBox
+      Left = 2
+      Top = 2
+      Width = 673
+      Height = 119
+      Align = alTop
+      Caption = 'Data User'
       TabOrder = 0
-      Text = 'edtLogin'
+      object lbl1: TLabel
+        Left = 31
+        Top = 20
+        Width = 27
+        Height = 16
+        Caption = 'Login'
+      end
+      object lbl2: TLabel
+        Left = 31
+        Top = 51
+        Width = 46
+        Height = 16
+        Caption = 'Password'
+      end
+      object lbl3: TLabel
+        Left = 31
+        Top = 82
+        Width = 39
+        Height = 16
+        Caption = 'Confirm'
+      end
+      object lbl4: TLabel
+        Left = 351
+        Top = 20
+        Width = 46
+        Height = 16
+        Caption = 'Full Name'
+      end
+      object lbl5: TLabel
+        Left = 351
+        Top = 52
+        Width = 32
+        Height = 16
+        Caption = 'Status'
+      end
+      object lbl6: TLabel
+        Left = 351
+        Top = 84
+        Width = 58
+        Height = 16
+        Caption = 'Description'
+      end
+      object edtLogin: TEdit
+        Tag = 1
+        Left = 98
+        Top = 20
+        Width = 192
+        Height = 22
+        TabOrder = 0
+        Text = 'edtLogin'
+      end
+      object edtPassword: TEdit
+        Tag = 1
+        Left = 98
+        Top = 48
+        Width = 192
+        Height = 22
+        PasswordChar = '*'
+        TabOrder = 1
+        Text = 'edtPassword'
+      end
+      object edtConfirm: TEdit
+        Tag = 1
+        Left = 98
+        Top = 80
+        Width = 192
+        Height = 22
+        PasswordChar = '*'
+        TabOrder = 2
+        Text = 'edtConfirm'
+      end
+      object edtFullName: TEdit
+        Tag = 1
+        Left = 418
+        Top = 18
+        Width = 192
+        Height = 22
+        TabOrder = 3
+        Text = 'edtFullName'
+      end
+      object cbbStatus: TComboBox
+        Tag = 1
+        Left = 418
+        Top = 49
+        Width = 192
+        Height = 24
+        Style = csDropDownList
+        ItemIndex = 0
+        TabOrder = 4
+        Text = 'Not Active'
+        Items.Strings = (
+          'Not Active'
+          'Active')
+      end
+      object edtDescription: TEdit
+        Left = 418
+        Top = 82
+        Width = 192
+        Height = 22
+        TabOrder = 5
+        Text = 'edtDescription'
+      end
     end
-    object edtPassword: TEdit
-      Left = 98
-      Top = 44
-      Width = 192
-      Height = 22
-      PasswordChar = '*'
+    object cxgrdMenu: TcxGrid
+      Left = 2
+      Top = 121
+      Width = 673
+      Height = 239
+      Align = alClient
       TabOrder = 1
-      Text = 'edtPassword'
-    end
-    object edtConfirm: TEdit
-      Left = 98
-      Top = 76
-      Width = 192
-      Height = 22
-      PasswordChar = '*'
-      TabOrder = 2
-      Text = 'edtConfirm'
-    end
-    object edtFullName: TEdit
-      Left = 98
-      Top = 108
-      Width = 192
-      Height = 22
-      TabOrder = 3
-      Text = 'edtFullName'
-    end
-    object cbbStatus: TComboBox
-      Left = 98
-      Top = 139
-      Width = 192
-      Height = 24
-      Style = csDropDownList
-      ItemIndex = 0
-      TabOrder = 4
-      Text = 'Not Active'
-      Items.Strings = (
-        'Not Active'
-        'Active')
-    end
-    object edtDescription: TEdit
-      Left = 98
-      Top = 172
-      Width = 192
-      Height = 22
-      TabOrder = 5
-      Text = 'edtDescription'
-    end
-    object cbbGroup: TComboBox
-      Left = 98
-      Top = 204
-      Width = 192
-      Height = 24
-      Style = csDropDownList
-      TabOrder = 6
-    end
-    object edtUbahPO: TEdit
-      Left = 98
-      Top = 236
-      Width = 192
-      Height = 22
-      TabOrder = 7
-      Text = 'edtDescription'
-      OnChange = edtUbahPOChange
-      OnKeyPress = edtUbahPOKeyPress
-    end
-    object cbbOtoQtySo: TComboBox
-      Left = 98
-      Top = 265
-      Width = 143
-      Height = 24
-      Style = csDropDownList
-      ItemIndex = 0
-      TabOrder = 8
-      Text = 'Not Active'
-      Items.Strings = (
-        'Not Active'
-        'Active')
+      RootLevelOptions.DetailTabsPosition = dtpTop
+      ExplicitLeft = 216
+      ExplicitTop = 80
+      ExplicitWidth = 250
+      ExplicitHeight = 200
+      object cxGridTableMenu: TcxGridTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsView.GroupByBox = False
+      end
+      object cxgrdlvlMenu: TcxGridLevel
+        Caption = 'Setting Menu'
+        GridView = cxGridTableMenu
+      end
     end
   end
   inherited footerDialogMaster: TfraFooterDialog3Button
-    Top = 300
-    Width = 317
-    ExplicitTop = 300
-    ExplicitWidth = 317
+    Top = 362
+    Width = 677
+    ExplicitTop = 213
+    ExplicitWidth = 373
     inherited pnlFooter: TPanel
-      Width = 317
-      ExplicitWidth = 317
+      Width = 677
+      ExplicitWidth = 373
       inherited btnClose: TcxButton
-        Left = 164
+        Left = 524
         Action = actCancel
-        ExplicitLeft = 164
+        ExplicitLeft = 220
       end
       inherited btnSave: TcxButton
-        Left = 71
+        Left = 431
         Action = actSave
-        OnClick = footerDialogMasterbtnSaveClick
-        ExplicitLeft = 71
+        ExplicitLeft = 127
       end
       inherited btnDelete: TcxButton
         Action = actDelete
       end
       inherited btnPrint: TcxButton
-        Left = 241
+        Left = 601
         Action = actPrint
+        ExplicitLeft = 297
       end
     end
     inherited pnlSortCut: TPanel
-      Width = 317
-      ExplicitWidth = 317
+      Width = 677
+      ExplicitWidth = 373
       inherited lbCTRLEnter: TLabel
-        Left = 227
+        Left = 587
         Height = 15
+        ExplicitLeft = 283
       end
       inherited lbEscape: TLabel
-        Left = 142
+        Left = 502
         Height = 15
+        ExplicitLeft = 198
       end
       inherited lbCTRLDel: TLabel
         Height = 15
       end
       inherited lblCTRLP: TLabel
-        Left = 66
+        Left = 426
         Height = 15
+        ExplicitLeft = 122
       end
+    end
+  end
+  inherited actlstMasterDialog: TActionList
+    inherited actDelete: TAction
+      OnExecute = actDeleteExecute
+    end
+    inherited actSave: TAction
+      OnExecute = actSaveExecute
     end
   end
 end
